@@ -1,5 +1,4 @@
-/* eslint-disable */
-import mergeWith from 'lodash/mergeWith';
+import configMerger from '../util/configMerger';
 
 const CONFIG = process.env.CONFIG || 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
@@ -7,7 +6,7 @@ const APP_DESCRIPTION = '';
 
 const walttiConfig = require('./waltti').default;
 
-export default mergeWith({}, walttiConfig, {
+export default configMerger(walttiConfig, {
   CONFIG,
 
   appBarLink: { name: 'Lappeenranta', href: 'http://www.lappeenranta.fi/' },
@@ -61,21 +60,26 @@ export default mergeWith({}, walttiConfig, {
   },
 
   aboutThisService: {
-    fi: {
-      about: 'Tämän palvelun tarjoaa Lappeenrannan kaupungin joukkoliikenne joukkoliikenteen reittisuunnittelua varten Lappeenrannan paikallisliikenteen alueella. Palvelu perustuu Digitransit palvelualustaan.',
-    },
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: ['Tämän palvelun tarjoaa Lappeenrannan kaupungin joukkoliikenne joukkoliikenteen reittisuunnittelua varten Lappeenrannan paikallisliikenteen alueella. Palvelu perustuu Digitransit palvelualustaan.'],
+      },
+    ],
 
-    sv: {
-      about: 'Den här tjänsten erbjuds av Lappeenrannan kaupungin joukkoliikenne för lokal reseplanering inom Lappeenranta region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-    },
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: ['Den här tjänsten erbjuds av Lappeenrannan kaupungin joukkoliikenne för lokal reseplanering inom Lappeenranta region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+      },
+    ],
 
-    en: {
-      about: 'This service is provided by Lappeenrannan kaupungin joukkoliikenne for local route planning in Lappenranta region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-    },
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: ['This service is provided by Lappeenrannan kaupungin joukkoliikenne for local route planning in Lappenranta region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+      },
+    ],
   },
 
-}, (objValue, srcValue) => {
-  if (Array.isArray(srcValue)) { return srcValue; }
-  if (Array.isArray(objValue)) { return objValue; }
-  return undefined; // default merge
 });

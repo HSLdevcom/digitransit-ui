@@ -1,4 +1,4 @@
-import mergeWith from 'lodash/mergeWith';
+import configMerger from '../util/configMerger';
 
 const CONFIG = process.env.CONFIG || 'joensuu';
 const APP_TITLE = 'Joensuun reittiopas';
@@ -6,7 +6,7 @@ const APP_DESCRIPTION = 'Joensuun uusi reittiopas';
 
 const walttiConfig = require('./waltti').default;
 
-export default mergeWith({}, walttiConfig, {
+export default configMerger(walttiConfig, {
   CONFIG,
 
   feedIds: ['Joensuu', 'JoensuuEly'],
@@ -61,20 +61,26 @@ export default mergeWith({}, walttiConfig, {
   ],
 
   aboutThisService: {
-    fi: {
-      about: 'Tämäm palvelun tarjoaa Joensuun kaupunki joukkoliikenteen reittisuunnittelua varten Joensuun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
-    },
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: ['Tämän palvelun tarjoaa Joensuun kaupunki joukkoliikenteen reittisuunnittelua varten Joensuun alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+      },
+    ],
 
-    sv: {
-      about: 'Den här tjänsten erbjuds av Joensuu för reseplanering inom Joensuu region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-    },
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: ['Den här tjänsten erbjuds av Joensuu för reseplanering inom Joensuu region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+      },
+    ],
 
-    en: {
-      about: 'This service is provided by Joensuu city for local route planning in Joensuu region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-    },
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: ['This service is provided by Joensuu city for local route planning in Joensuu region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+      },
+    ],
   },
-}, (objValue, srcValue) => {
-  if (Array.isArray(srcValue)) { return srcValue; }
-  if (Array.isArray(objValue)) { return objValue; }
-  return undefined; // default merge
+
 });

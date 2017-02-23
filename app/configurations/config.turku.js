@@ -1,4 +1,4 @@
-import mergeWith from 'lodash/mergeWith';
+import configMerger from '../util/configMerger';
 
 const CONFIG = process.env.CONFIG || 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -7,7 +7,7 @@ const APP_DESCRIPTION =
 
 const walttiConfig = require('./waltti').default;
 
-export default mergeWith({}, walttiConfig, {
+export default configMerger(walttiConfig, {
   CONFIG,
 
   feedIds: ['FOLI'],
@@ -76,23 +76,28 @@ export default mergeWith({}, walttiConfig, {
   ],
 
   aboutThisService: {
-    fi: {
-      about: 'Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.',
-    },
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: ['Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.'],
+      },
+    ],
 
-    sv: {
-      about: 'Kollektivtrafiken i Åboregionen inleds den 1 juli 2014 och ordnas samfällt av sex kommuner. Åbo, S:t Karins, Reso, Nådendal, Lundo och Rusko deltar i Föli, dvs. kollektivtrafiken i Åboregionen. När den regionala kollektivtrafiken startar blir det lätt och förmånligt att använda kollektivtrafiken i regionen kring Åbo stad oberoende av kommungränserna.',
-    },
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: ['Kollektivtrafiken i Åboregionen inleds den 1 juli 2014 och ordnas samfällt av sex kommuner. Åbo, S:t Karins, Reso, Nådendal, Lundo och Rusko deltar i Föli, dvs. kollektivtrafiken i Åboregionen. När den regionala kollektivtrafiken startar blir det lätt och förmånligt att använda kollektivtrafiken i regionen kring Åbo stad oberoende av kommungränserna.'],
+      },
+    ],
 
-    en: {
-      about: 'Public transport organised jointly between six municipalities in the Turku region will start on 1 July 2014. Turku region public transport, under the name of Föli, is a collaboration between Turku, Kaarina, Raisio, Naantali, Lieto, and Rusko. With regional public transport, using the public transport system in Turku city region will be easy and inexpensive, regardless of municipal borders. Public transport service points will be introduced in each of the six municipalities. You can use any of the service points.',
-    },
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: ['Public transport organised jointly between six municipalities in the Turku region will start on 1 July 2014. Turku region public transport, under the name of Föli, is a collaboration between Turku, Kaarina, Raisio, Naantali, Lieto, and Rusko. With regional public transport, using the public transport system in Turku city region will be easy and inexpensive, regardless of municipal borders. Public transport service points will be introduced in each of the six municipalities. You can use any of the service points.'],
+      },
+    ],
   },
 
   staticMessages: [],
 
-}, (objValue, srcValue) => {
-  if (Array.isArray(srcValue)) { return srcValue; }
-  if (Array.isArray(objValue)) { return objValue; }
-  return undefined; // default merge
 });

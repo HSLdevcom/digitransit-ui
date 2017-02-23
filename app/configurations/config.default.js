@@ -410,24 +410,50 @@ export default {
   ],
 
   aboutThisService: {
-    fi: {
-      about: 'Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
-      digitransit: 'Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä. Tule mukaan kehittämään palvelusta entistä parempi: digitransit.fi.',
-      datasources: 'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors, ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä, ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan  mm. Liikenneviraston valtakunnallisesta joukkoliikenteen tietokannasta.',
-    },
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: ['Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+      },
+      {
+        header: 'Digitransit palvelualusta',
+        paragraphs: ['Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä. Tule mukaan kehittämään palvelusta entistä parempi: digitransit.fi.'],
+      },
+      {
+        header: 'Tietolähteet',
+        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors, ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä, ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan  mm. Liikenneviraston valtakunnallisesta joukkoliikenteen tietokannasta.'],
+      },
+    ],
 
-    sv: {
-      about: 'Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-      digitransit: 'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna. Du är välkommen att delta i utvecklandet av plattformen. Mer information hittar du på addressen digitransit.fi.',
-      datasources: 'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas bl.a. från Trafikverkets landsomfattande kollektivtrafiksdatabas.',
-    },
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: ['Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+      },
+      {
+        header: 'Digitransit-plattformen',
+        paragraphs: ['Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna. Du är välkommen att delta i utvecklandet av plattformen. Mer information hittar du på addressen digitransit.fi.'],
+      },
+      {
+        header: 'Datakällor',
+        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas bl.a. från Trafikverkets landsomfattande kollektivtrafiksdatabas.'],
+      },
+    ],
 
-    en: {
-      about: 'The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-      digitransit: 'The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency. The source code is available with the EUPL v1.2 and AGPLv3 licenses. Join us to make the service even better: digitransit.fi.',
-      datasources: "Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors and downloaded from Geofabrik. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database.",
-    },
-
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: ['The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+      },
+      {
+        header: 'Digitransit platform',
+        paragraphs: ['The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency. The source code is available with the EUPL v1.2 and AGPLv3 licenses. Join us to make the service even better: digitransit.fi.'],
+      },
+      {
+        header: 'Datasources',
+        paragraphs: ["Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors and downloaded from Geofabrik. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database."],
+      },
+    ],
     nb: {},
     fr: {},
     de: {},

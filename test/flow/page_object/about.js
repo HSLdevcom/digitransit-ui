@@ -8,6 +8,6 @@ module.exports = {
     verifyPage,
   }],
   elements: {
-    aboutHeader: '#about-header',
+    aboutHeader: '.about-header:nth-of-type(1)',
   },
 };
