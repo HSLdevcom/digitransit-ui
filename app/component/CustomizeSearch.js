@@ -254,6 +254,26 @@ class CustomizeSearch extends React.Component {
       />
     </section>);
 
+  getIntermediatePlacesSelector() {
+    return (
+      <section className="offcanvas-section">
+        <FormattedMessage
+          tagName="h4"
+          defaultMessage="Via point"
+          id="via-point"
+        />
+        <button className="noborder cursor-pointer" onClick={this.openSearchModal}>
+          <Icon img="icon-icon_plus" />
+          {'\u00A0\u00A0'}
+          <FormattedMessage
+            id="add-itinerary-via-point"
+            defaultMessage="Add via point for itinerary"
+          />
+        </button>
+      </section>
+    );
+  }
+
   getModes() {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
@@ -264,6 +284,15 @@ class CustomizeSearch extends React.Component {
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());
   }
+
+  openSearchModal = () =>
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        viaPointSearchModalOpen: true,
+      },
+    });
 
   updateSettings(name, value) {
     this.context.executeAction(
@@ -379,6 +408,7 @@ class CustomizeSearch extends React.Component {
           {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
           {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
           {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+          {this.getIntermediatePlacesSelector()}
         </div>
       </div>);
   }

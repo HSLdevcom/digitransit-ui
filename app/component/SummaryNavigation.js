@@ -4,6 +4,7 @@ import cx from 'classnames';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import ViaPointSearchModal from './ViaPointSearchModal';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
 
@@ -110,6 +111,7 @@ class SummaryNavigation extends React.Component {
             </Drawer>
           )}
         </LazilyLoad>
+        <ViaPointSearchModal />
         <OriginDestinationBar
           className={className}
           origin={otpToLocation(this.props.params.from)}

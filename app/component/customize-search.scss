@@ -77,3 +77,11 @@
     outline: none;
   }
 }
+
+.via-point-modal .search-modal-overlay {
+  z-index: 1301;
+}
+
+.via-point-modal div.search-modal {
+  z-index: 1302;
+}
