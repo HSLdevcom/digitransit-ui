@@ -79,7 +79,9 @@ ViaLeg.description = () => {
                         .valueOf();
   return (
     <div>
-      <p>Displays an itinerary walk leg.</p>
+      <p>Displays an itinerary via leg.
+         Note that the times are supposed to go on top of the previous leg.
+      </p>
       <ComponentUsageExample>
         <ViaLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
       </ComponentUsageExample>
