@@ -131,14 +131,6 @@ $itinerary-route-max-width: 500px;
   }
 }
 
-//start of first leg
-div.itinerary-main > div > .row:nth-child(1)  {
-  .itinerary-instruction-column::before {
-    background-color: green;
-    content:"";
-  }
-}
-
 .row.itinerary-row {
   position:relative;
   line-height: 1.1;
@@ -522,11 +514,6 @@ div.itinerary-container-content {
 .row.itinerary-row .itinerary-time-column .itinerary-time-column-time.via-arrival-time {
   margin-bottom: 0;
 }
-
-.row.itinerary-row .itinerary-instruction-column.via::before {
-  content: '';
-}
-
 
 .itinerary-time-column.via-time-column {
   margin-top: -12px;

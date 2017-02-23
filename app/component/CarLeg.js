@@ -11,6 +11,7 @@ import { durationToString } from '../util/timeUtils';
 function CarLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
   const duration = durationToString(props.leg.duration * 1000);
+  const firstLegClassName = props.index === 0 ? 'start' : '';
 
   return (
     <div key={props.index} style={{ width: '100%' }} className="row itinerary-row" >
@@ -22,7 +23,7 @@ function CarLeg(props) {
       </div>
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
+        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           {(props.index === 0) && (
