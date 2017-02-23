@@ -85,7 +85,6 @@ class ViaPointSearchModal extends React.Component {
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
               <SearchInputContainer
                 ref={(c) => { this.searchInputContainer = c; }}
-                useCurrentPosition={false}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={getAllEndpointLayers()}

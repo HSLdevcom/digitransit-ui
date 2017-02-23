@@ -20,7 +20,6 @@ class OneTabSearchModal extends React.Component {
   static propTypes = {
     customOnSuggestionSelected: React.PropTypes.func,
     customTabLabel: React.PropTypes.string,
-    endpoint: React.PropTypes.object,
     target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
     layers: React.PropTypes.array,
     responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
@@ -106,7 +105,6 @@ class OneTabSearchModal extends React.Component {
             <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
               <SearchInputContainer
                 ref={(c) => { this.searchInputContainer = c; }}
-                useCurrentPosition={this.props.endpoint && this.props.endpoint.useCurrentPosition}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}
