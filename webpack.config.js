@@ -304,7 +304,7 @@ function getEntry() {
 
   const directories = getDirectories('./sass/themes');
   directories.forEach((theme) => {
-    if (spriteMap.hasOwnProperty(theme)) {
+    if (theme in spriteMap) {
       const sassEntryPath = './sass/themes/' + theme + '/main.scss';
       entry[theme + '_theme'] = [sassEntryPath];
       const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
