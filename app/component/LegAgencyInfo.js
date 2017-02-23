@@ -2,21 +2,15 @@ import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
-
-import ExternalLink from './ExternalLink';
+import AgencyInfo from './AgencyInfo';
 
 function LegAgencyInfo({ leg }, { config }) {
   const agencyName = get(leg, 'agency.name');
   const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
   const show = get(config, 'agency.show', false);
-  if (show && agencyName && url) {
+  if (show) {
     return (<div className="itinerary-leg-agency">
-      <div className="agency-link-container">
-        <ExternalLink
-          className="itinerary-leg-agency-link"
-          href={url}
-        ><div className="overflow-fade">{agencyName}</div></ExternalLink>
-      </div>
+      <AgencyInfo url={url} agencyName={agencyName} />
     </div>);
   }
   return null;

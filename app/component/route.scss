@@ -363,18 +363,6 @@ $route-schedule-date-height: 36px;
   }
 }
 
-.desktop .route-agency-name {
-    font-size: $font-size-normal;
-    padding-left:24px;
-  }
-
-.route-agency-name {
-  padding-left:14px;
-  padding-bottom: 8px;
-  font-size: $font-size-small;
-  color: $gray;
-}
-
 // Tabs
 div.route-tabs {
 
@@ -503,10 +491,10 @@ div.route-tabs {
 }
 
 .route-pattern-select {
-  padding: 8px 10px;
+  padding: 8px 10px 5px 10px;
   background-color: #eef1f3;
   position: relative;
-  min-height: 53px;
+  min-height: 49px;
 
   select {
     padding:0 35px 0 10px;
@@ -636,5 +624,37 @@ nav.top-bar .title .route-number {
     border-radius: $border-radius;
     height: 26px;
     width: 26px;
+  }
+}
+
+.desktop {
+  .route-agency {
+    padding: 0 0 0 20px;
+  }
+}
+.route-agency {
+  @extend .itinerary-leg-agency;
+  padding: 0 0 0 10px;
+  .agency-link-container {
+    max-width:calc(100% - 1em);
+    white-space: nowrap;
+    padding-top: 0px;
+    padding-bottom: 7px;
+    .agency-link {
+      font-size: 10px;
+      padding: 0;
+      .external-link-container { max-width: calc(100% - 1em);}
+      a {
+        font-weight:$font-weight-bold;
+        color: $primary-color;
+        max-width: 100%;
+      }
+      .icon.external-link-icon-outer {
+        color: white;
+      }
+      .icon.external-link-icon {
+        color: $primary-color;
+      }
+    }
   }
 }
