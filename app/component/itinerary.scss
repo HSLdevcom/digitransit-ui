@@ -233,6 +233,9 @@ div.itinerary-main > div > .row:nth-child(1)  {
   .itinerary-instruction-column.citybike_walk:not(.to)::after{
     border-left-style: dotted;
   }
+  .itinerary-instruction-column.via:not(.to)::after{
+    border-left-style: dotted;
+  }
 
   .itinerary-instruction-column {
     cursor: pointer;
@@ -268,7 +271,7 @@ div.itinerary-main > div > .row:nth-child(1)  {
       color: $gray;
     }
 
-    .itinerary-transit-leg-route {
+    .itinerary-transit-leg-route, .itinerary-via-leg-duration {
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
       overflow: hidden;
@@ -510,4 +513,34 @@ div.itinerary-container-content {
 .itinerary-heading {
   padding-left: 25px;
   padding-top: 12px;
+}
+
+.icon.via {
+  color: $black;
+}
+
+.row.itinerary-row .itinerary-time-column .itinerary-time-column-time.via-arrival-time {
+  margin-bottom: 0;
+}
+
+.row.itinerary-row .itinerary-instruction-column.via::before {
+  content: '';
+}
+
+
+.itinerary-time-column.via-time-column {
+  margin-top: -12px;
+}
+
+.via-divider {
+  text-align: center;
+  overflow: hidden;
+  line-height: 1px;
+}
+
+.via-divider > .via-divider-line {
+  display: inline-block;
+  border-top: 1px solid $gray;
+  width: 2em;
+  height: 1px;
 }

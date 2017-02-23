@@ -219,3 +219,4 @@ testVariation('TramLeg');
 testVariation('RailLeg');
 testVariation('FerryLeg');
 testVariation('CarLeg');
+testVariation('ViaLeg');

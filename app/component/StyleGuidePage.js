@@ -79,6 +79,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
+import ViaLeg from './ViaLeg';
 
 const components = {
   Icon,
@@ -159,6 +160,7 @@ const components = {
   RailLeg,
   FerryLeg,
   CarLeg,
+  ViaLeg,
 };
 
 function getColors() {
