@@ -1,29 +1,21 @@
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import ExternalLink from './ExternalLink';
 
-function LegAgencyInfo({ leg }, { config, intl }) {
+function LegAgencyInfo({ leg }, { config }) {
   const agencyName = get(leg, 'agency.name');
-  const agencyUrl = get(leg, 'agency.url');
-  const fareUrl = get(leg, 'agency.fareUrl');
+  const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
   const show = get(config, 'agency.show', false);
-  if (show && agencyName && (agencyUrl || fareUrl)) {
-    const linkLabel = intl.formatMessage({
-      id: 'ticket-and-price-info',
-      defaultMessage: 'Ticket and price information',
-    });
+  if (show && agencyName && url) {
     return (<div className="itinerary-leg-agency">
-      <FormattedMessage id="agency" defaultMessage="Operator" />:<br />
-      {agencyName}<br />
       <div className="agency-link-container">
         <ExternalLink
           className="itinerary-leg-agency-link"
-          name={linkLabel}
-          href={fareUrl || agencyUrl}
-        />
+          href={url}
+        ><div className="overflow-fade">{agencyName}</div></ExternalLink>
       </div>
     </div>);
   }
