@@ -91,7 +91,7 @@ div.leaflet-marker-icon.place.halo {
     display: none;
 }
 
-div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
+div.leaflet-marker-icon.from, div.leaflet-marker-icon.to, div.leaflet-marker-icon.via {
   > span {
     &::before {
       color: white;
@@ -107,6 +107,10 @@ div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
       stroke-width: 60px;
     }
   }
+}
+
+div.leaflet-marker-icon.via {
+  color: $black;
 }
 
 div.leaflet-marker-icon.from > span::before {
