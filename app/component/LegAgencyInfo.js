@@ -1,32 +1,16 @@
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
+import AgencyInfo from './AgencyInfo';
 
-// import ExternalLink from './ExternalLink';
-
-function LegAgencyInfo({ leg }, context) {
+function LegAgencyInfo({ leg }, { config }) {
   const agencyName = get(leg, 'agency.name');
-  const agencyUrl = get(leg, 'agency.url');
-  const fareUrl = get(leg, 'agency.fareUrl');
-  const show = get(context.config, 'agency.show', false);
-  if (show && agencyName && (agencyUrl || fareUrl)) {
-    // const linkLabel = intl.formatMessage({
-    //   id: 'ticket-and-price-info',
-    //   defaultMessage: 'Ticket and price information',
-    // });
+  const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
+  const show = get(config, 'agency.show', false);
+  if (show) {
     return (<div className="itinerary-leg-agency">
-      <FormattedMessage id="agency" defaultMessage="Operator" />:<br />
-      {agencyName}<br />
-      {/* TODO: Liikennevirasto will notify when this can be enabled
-      <div className="agency-link-container">
-        <ExternalLink
-          className="itinerary-leg-agency-link"
-          name={linkLabel}
-          href={fareUrl || agencyUrl}
-        />
-      </div>
-      */}
+      <AgencyInfo url={url} agencyName={agencyName} />
     </div>);
   }
   return null;
