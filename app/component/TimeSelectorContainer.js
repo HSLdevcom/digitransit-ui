@@ -50,28 +50,39 @@ class TimeSelectorContainer extends Component {
 
   getDates() {
     const dates = [];
-    const date = this.context.getStore('TimeStore').getCurrentTime();
+    const range = this.props.serviceTimeRange.serviceTimeRange;
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const START = now.clone().subtract(MAXRANGE, 'd');
+    const END = now.clone().add(MAXRANGE, 'd');
+    let start = moment.unix(range.start);
+    start = moment.min(moment.max(start, START), now); // always include today!
+    let end = moment.unix(range.end);
+    end = moment.max(moment.min(end, END), now);  // always include today!
+    const dayform = 'YYYY-MM-DD';
+    const today = now.format(dayform);
+    const tomorrow = now.add(1, 'd').format(dayform);
+    const endValue = end.format(dayform);
 
-    dates.push(
-      <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
-        {this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-      </option>,
-    );
-
-    dates.push(
-      <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
-        {this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' })}
-      </option>,
-    );
-
-    for (let i = 0; i < 28; i++) {
+    for (let day = start; ; day.add(1, 'd')) {
+      const value = day.format(dayform);
+      let label;
+      if (value === today) {
+        label = this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' });
+      } else if (value === tomorrow) {
+        label = this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' });
+      } else {
+        label = day.format('dd D.M');
+      }
       dates.push(
-        <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
-          {date.format('dd D.M')}
+        <option value={value} key={value} >
+          {label}
         </option>,
       );
+      if (value === endValue) {
+        break;
+      }
     }
-
     return dates;
   }
 
