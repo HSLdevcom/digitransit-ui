@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
+import Icon from './Icon';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
@@ -14,6 +16,7 @@ class SummaryNavigation extends React.Component {
       from: React.PropTypes.string,
       to: React.PropTypes.string,
     }).isRequired,
+    hasDefaultPreferences: React.PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -116,7 +119,24 @@ class SummaryNavigation extends React.Component {
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
-        <div className="via-point-bar">
+        <div className={cx('via-point-bar', className)}>
+          { this.context.location.query && this.context.location.query.intermediatePlaces && (
+            <div className="via-point">
+              <FormattedMessage
+                id="via-point"
+                defaultMessage="Via point"
+                className="via-point-header"
+              />
+              <button className="noborder link-name" onClick={this.openSearchModal}>
+                <span>
+                  {otpToLocation(this.context.location.query.intermediatePlaces).address}
+                </span>
+              </button>
+              <button className="noborder icon-button" onClick={this.removeViaPoint}>
+                <Icon img="icon-icon_close" />
+              </button>
+            </div>
+          )}
           <ViaPointSearchModal />
         </div>
         <div className={cx('time-selector-settings-row', className)}>
@@ -130,9 +150,5 @@ class SummaryNavigation extends React.Component {
     );
   }
 }
-
-SummaryNavigation.propTypes = {
-  hasDefaultPreferences: React.PropTypes.bool.isRequired,
-};
 
 export default SummaryNavigation;
