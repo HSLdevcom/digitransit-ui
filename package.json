@@ -22,7 +22,7 @@
     "test-visual": "gemini --reporter flat --reporter html test test/visual/",
     "test-visual-update": "gemini update test/visual/",
     "es-lint": "eslint .",
-    "lint": "npm run es-lint",
+    "lint": "npm run es-lint;npm run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
     "build": "NODE_ENV=production webpack --progress --color --display-error-details",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
