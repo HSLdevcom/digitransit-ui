@@ -40,7 +40,7 @@ class ViaPointSearchModal extends React.Component {
         }),
       },
     });
-    this.context.router.go(-2);
+    setTimeout(this.context.router.go, 0, -2);
   };
 
   modalIsOpen = () => (
