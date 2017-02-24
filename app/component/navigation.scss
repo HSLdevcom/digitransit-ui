@@ -84,12 +84,12 @@ $content-background-color: $background-color;
   }
   .navi-logo {
     margin-left: 32px;
-    height: 1.8em;
+    width: $nav-logo-width;
+    height: $nav-logo-height;
     min-width: 130px; //for ff
     background-image: $nav-logo;
     background-position: center;
     background-size: contain;
-    width:170px;
     background-repeat: no-repeat;
     cursor: pointer;
   }

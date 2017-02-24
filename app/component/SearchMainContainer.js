@@ -12,7 +12,7 @@ import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
-import { getAllEndpointLayers } from '../util/searchUtils';
+import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
 
 
 class SearchMainContainer extends React.Component {
@@ -52,17 +52,19 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
+    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
         router: this.context.router,
-        location: this.context.location,
+        location: locationWithTime,
       });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.selectedTab,
         router: this.context.router,
-        location: this.context.location,
+        location: locationWithTime,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],

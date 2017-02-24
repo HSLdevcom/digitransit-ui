@@ -66,7 +66,7 @@ WalkLeg.propTypes = {
   }).isRequired,
   index: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node.isRequired,
+  children: React.PropTypes.node,
 };
 
 export default WalkLeg;

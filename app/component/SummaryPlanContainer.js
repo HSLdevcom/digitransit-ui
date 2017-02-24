@@ -87,7 +87,7 @@ class SummaryPlanContainer extends React.Component {
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
-          open={this.props.params.hash}
+          open={Number(this.props.params.hash)}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
