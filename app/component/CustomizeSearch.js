@@ -276,12 +276,14 @@ class CustomizeSearch extends React.Component {
           </div>
            :
           <button className="noborder cursor-pointer" onClick={this.openSearchModal}>
-            <Icon img="icon-icon_plus" />
-            {'\u00A0\u00A0'}
-            <FormattedMessage
-              id="add-itinerary-via-point"
-              defaultMessage="Add via point for itinerary"
-            />
+            <div>
+              <Icon img="icon-icon_plus" />
+              {'\u00A0\u00A0'}
+              <FormattedMessage
+                id="add-itinerary-via-point"
+                defaultMessage="Add via point for itinerary"
+              />
+            </div>
           </button>
         }
       </section>
