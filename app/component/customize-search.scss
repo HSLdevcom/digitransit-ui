@@ -109,8 +109,10 @@
     padding: 0;
   }
 
-  .icon {
-    margin-left: $padding-medium;
+  .icon-button {
+    margin-left: $padding-large;
+    margin-right: $padding-small;
+    margin-bottom: $padding-xsmall;
   }
 }
 
