@@ -26,7 +26,7 @@ const Leg = ({ routeNumber, leg, large }) => (
 Leg.propTypes = {
   routeNumber: React.PropTypes.node.isRequired,
   leg: React.PropTypes.object.isRequired,
-  large: React.PropTypes.boolean.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
 const RouteLeg = ({ leg, mode, large }) => {
@@ -43,7 +43,7 @@ const RouteLeg = ({ leg, mode, large }) => {
 RouteLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.boolean.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
 const ModeLeg = ({ leg, mode, large }) => {
@@ -61,7 +61,7 @@ const ModeLeg = ({ leg, mode, large }) => {
 ModeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.boolean.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
 const CityBikeLeg = ({ leg, large }) => (
@@ -71,7 +71,7 @@ const CityBikeLeg = ({ leg, large }) => (
 CityBikeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.boolean.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
 const ViaLeg = ({ leg }) => (
