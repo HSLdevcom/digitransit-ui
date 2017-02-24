@@ -78,6 +78,16 @@
   }
 }
 
+.add-via-point-button-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  span:first-child {
+    height: 1em;
+  }
+}
+
 .via-point {
   width: 100%;
   display: flex;

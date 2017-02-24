@@ -276,7 +276,7 @@ class CustomizeSearch extends React.Component {
           </div>
            :
           <button className="noborder cursor-pointer" onClick={this.openSearchModal}>
-            <div>
+            <div className="add-via-point-button-label">
               <Icon img="icon-icon_plus" />
               {'\u00A0\u00A0'}
               <FormattedMessage
