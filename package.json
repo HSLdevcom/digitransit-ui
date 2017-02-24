@@ -131,7 +131,7 @@
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
     "exports-loader": "0.6.3",
-    "extract-text-webpack-plugin": "2.0.0-rc.3",
+    "extract-text-webpack-plugin": "2.0.0",
     "file-loader": "0.10.0",
     "gemini": "4.18.1",
     "gemini-browserstack": "https://github.com/HSLdevcom/gemini-browserstack",
