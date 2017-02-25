@@ -130,7 +130,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
-    "exports-loader": "0.6.3",
+    "exports-loader": "0.6.4",
     "extract-text-webpack-plugin": "2.0.0-rc.3",
     "file-loader": "0.10.0",
     "gemini": "4.18.1",
