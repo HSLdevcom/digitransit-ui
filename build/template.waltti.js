@@ -1,5 +1,5 @@
 /* eslint-disable */
-import mergeWith from 'lodash/mergeWith';
+import configMerger from '../util/configMerger';
 
 const CONFIG = process.env.CONFIG || '__theme__';
 const APP_TITLE = 'Uusi Reittiopas';
@@ -7,7 +7,12 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - __theme__';
 
 const walttiConfig = require('./waltti').default;
 
-export default mergeWith({}, walttiConfig, {
+const minLat = 60;
+const maxLat = 70;
+const minLon = 20;
+const maxLon = 31;
+
+export default configMerger(walttiConfig, {
   CONFIG,
 
   appBarLink: { name: '__Theme__', href: 'http://www.__theme__.fi/' },
@@ -24,6 +29,27 @@ export default mergeWith({}, walttiConfig, {
   title: APP_TITLE,
 
   textLogo: __textlogo__, // title text instead of logo img
+
+  feedIds: ['__Theme__'],
+
+  searchParams: {
+    'boundary.rect.min_lat': minLat,
+    'boundary.rect.max_lat': maxLat,
+    'boundary.rect.min_lon': minLon,
+    'boundary.rect.max_lon': maxLon,
+  },
+
+  areaPolygon: [[minLon, minLat], [minLon, maxLat], [maxLon, maxLat], [maxLon, minLat]],
+
+  defaultEndpoint: {
+    address: '__Theme__',
+    lat: 0.5 * (minLat + maxLat),
+    lon: 0.5 * (minLon + maxLon),
+  },
+
+  defaultOrigins: [
+    { icon: 'icon-icon_bus', label: 'Linja-autoasema, __Theme__', lat: 63, lon: 27 },
+  ],
 
   footer: {
     content: [
@@ -57,8 +83,4 @@ export default mergeWith({}, walttiConfig, {
     ],
   },
 
-}, (objValue, srcValue) => {
-  if (Array.isArray(srcValue)) { return srcValue; }
-  if (Array.isArray(objValue)) { return objValue; }
-  return undefined; // default merge
 });
