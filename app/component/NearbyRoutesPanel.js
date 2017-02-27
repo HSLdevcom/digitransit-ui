@@ -12,7 +12,7 @@ function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
       {context.config.showModeFilter &&
-        (<div className="row">
+        (<div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
