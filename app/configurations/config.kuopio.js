@@ -1,6 +1,6 @@
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || 'kuopio';
+const CONFIG = 'kuopio';
 const APP_TITLE = 'kuopio.digitransit.fi';
 const APP_DESCRIPTION = 'Kuopion uusi reittiopas';
 
