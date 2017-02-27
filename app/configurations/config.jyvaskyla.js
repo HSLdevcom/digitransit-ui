@@ -50,7 +50,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true, // title text instead of logo img
+  textLogo: false,
 
   footer: {
     content: [
