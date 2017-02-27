@@ -24,6 +24,30 @@ export default function ItineraryPageMap(
       className="to"
     />];
 
+  if (location.query && location.query.intermediatePlaces) {
+    if (Array.isArray(location.query.intermediatePlaces)) {
+      location.query.intermediatePlaces.map(otpToLocation).forEach((markerLocation, i) => {
+        leafletObjs.push(
+          <LocationMarker
+            key={`via_${i}`} // eslint-disable-line react/no-array-index-key
+            position={markerLocation}
+            className="via"
+            noText
+          />,
+          );
+      });
+    } else {
+      leafletObjs.push(
+        <LocationMarker
+          key={'via'}
+          position={otpToLocation(location.query.intermediatePlaces)}
+          className="via"
+          noText
+        />,
+        );
+    }
+  }
+
   if (itinerary) {
     leafletObjs.push(
       <ItineraryLine

@@ -129,6 +129,7 @@ class StopMarker extends React.Component {
           route={new StopRoute({
             stopId: this.props.stop.gtfsId,
             date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+            currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
           })}
           renderLoading={() =>
             <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>

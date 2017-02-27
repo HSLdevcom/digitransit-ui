@@ -17,25 +17,106 @@
       }
     }
   }
+}
 
-  .customize-search {
-    background: #333;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    color: $offcanvas-link-color;
-    height:100%;
-    overflow-y: auto;
+.customize-search {
+  background: #333;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  color: $offcanvas-link-color;
+  height:100%;
+  overflow-y: auto;
 
-    h4, .sub-header-h5 {
-      color: $medium-gray;
+  .sub-header-h5 {
+    color: $medium-gray;
+  }
+
+  h4 {
+    color: $medium-gray;
+    font-size: $font-size-small;  // larger than normal
+    margin: 10px 0 5px 0;
+  }
+
+  hr {
+    margin: $padding-medium 0 0 0;
+    height: 2px;
+    border: 0;
+    opacity: 0.1;
+    background-color: #ffffff;
+  }
+
+  select, button {
+    @include font-medium;
+    font-size: $font-size-small;
+    width: 100%;
+    height: auto;
+    background-color: $dark-gray;
+    color:$white;
+    &:hover {
+      background-color: darken($dark-gray, 10%);
     }
+    transition: background-color 300ms ease-out;
+    border-radius: $border-radius;
+    padding: $padding-medium;
+  }
 
-    hr {
-      margin: $padding-medium 0 0 0;
-      height: 2px;
-      border: 0;
-      opacity: 0.1;
-      background-color: #ffffff;
+  input[type="text"] {
+    background-color: transparent;
+    border: 1px solid $dark-gray;
+    border-radius: $border-radius;
+    color: $white;
+    display: block;
+    margin: 0;
+    width: 100%;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+  }
+  input[type="text"]:focus {
+    color: $black;
+    outline: none;
+  }
+}
+
+.via-point {
+  width: 100%;
+  display: flex;
+  color: $light-gray;
+  align-items: flex-end;
+
+ button.link-name {
+    @include font-book;
+    overflow: hidden;
+    flex: 1;
+    border-bottom: solid 1px $gray;
+    padding-bottom: $padding-xsmall;
+    padding-top: $padding-medium;
+    padding-left: 0;
+    padding-right: 0;
+
+    span {
+      @extend .overflow-fade;
+      white-space: nowrap;
+      width: 100%;
+      flex: 1;
     }
   }
+
+  button {
+    background: transparent;
+    width: auto;
+    padding: 0;
+  }
+
+  .icon {
+    margin-left: $padding-medium;
+  }
+}
+
+.via-point-modal .search-modal-overlay {
+  z-index: 1301;
+}
+
+.via-point-modal div.search-modal {
+  z-index: 1302;
 }

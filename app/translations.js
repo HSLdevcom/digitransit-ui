@@ -208,6 +208,7 @@ const translations = {
   'en': {
     'about-this-service': 'About the service',
     'accessibility': 'Accessibility',
+    'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
     'address': 'Address',
@@ -399,6 +400,7 @@ const translations = {
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
     'very-unlikely': 'Very unlikely',
+    'via-point': 'Via point',
     'wait-amount-of-time': 'Wait {duration}',
     'walk-distance-duration': 'Walk {distance} ({duration})',
     'walking': 'Amount of walking',
@@ -412,6 +414,7 @@ const translations = {
   'fi': {
     'about-this-service': 'Tietoja palvelusta',
     'accessibility': 'Esteettömyys',
+    'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location': 'Lisää paikka',
     'add-location-to-favourites': 'Lisää sinulle tärkeä paikka Suosikkisi- välilehdelle',
     'address': 'Osoite',
@@ -608,6 +611,7 @@ const translations = {
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
     'very-unlikely': 'Erittäin epätodennäköistä',
+    'via-point': 'Välipiste',
     'wait-amount-of-time': 'Odota {duration}',
     'walk-distance-duration': 'Kävele {distance} ({duration})',
     'walking': 'Kävelyn määrä',
@@ -1027,6 +1031,7 @@ const translations = {
   'sv': {
     'about-this-service': 'Om tjänsten',
     'accessibility': 'Tillgänglighet',
+    'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location': 'Lägg till en plats',
     'add-location-to-favourites': 'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'address': 'Adress',
@@ -1224,6 +1229,7 @@ const translations = {
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
     'very-unlikely': 'Väldigt osannolikt',
+    'via-point': 'Mellanstopp',
     'wait-amount-of-time': 'Vänta {duration}',
     'walk-distance-duration': 'Gå {distance} ({duration})',
     'walking': 'Gång',
