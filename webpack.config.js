@@ -297,6 +297,17 @@ function getEntry() {
     main: './app/client',
   };
 
+  if (process.env.CONFIG !== '') {
+    const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
+    const addEntry = (theme, sprites) => {
+      entry[theme + '_theme'] = ['./sass/themes/' + theme + '/main.scss'];
+      entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+    };
+    addEntry('default');
+    addEntry(process.env.CONFIG, config.sprites);
+    return entry;
+  }
+
   const spriteMap = {};
   getAllConfigs().forEach((config) => {
     spriteMap[config.CONFIG] = config.sprites; // assign also undefined/null
