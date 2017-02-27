@@ -4,6 +4,7 @@ import cx from 'classnames';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import ViaPointSearchModal from './ViaPointSearchModal';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
 
@@ -115,6 +116,9 @@ class SummaryNavigation extends React.Component {
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
+        <div className="via-point-bar">
+          <ViaPointSearchModal />
+        </div>
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle

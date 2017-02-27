@@ -13,14 +13,14 @@ if (isBrowser) {
 }
 /* eslint-enaable global-require */
 
-export default function LocationMarker({ position, className }) {
+export default function LocationMarker({ position, className, noText }) {
   return (
     <Marker
       zIndexOffset={10}
       position={position}
       keyboard={false}
       icon={L.divIcon({
-        html: Icon.asString('icon-icon_mapMarker-point'),
+        html: Icon.asString(noText ? 'icon-icon_place' : 'icon-icon_mapMarker-point'),
         className,
         iconAnchor: [12, 24],
       })}
@@ -34,4 +34,5 @@ LocationMarker.propTypes = {
     lon: React.PropTypes.number.isRequired,
   }).isRequired,
   className: React.PropTypes.string,
+  noText: React.PropTypes.bool,
 };

@@ -1121,7 +1121,7 @@
                                 "description": "The set of characteristics that the user wants to optimize for -- defaults to QUICK, or optimize for transit time.",
                                 "type": {
                                     "kind": "ENUM",
-                                    "name": "OptimizeTtpe",
+                                    "name": "OptimizeType",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -2890,7 +2890,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
-                                    "name": "String",
+                                    "name": "Long",
                                     "ofType": null
                                 },
                                 "defaultValue": "0"
@@ -2937,7 +2937,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
-                                    "name": "String",
+                                    "name": "Long",
                                     "ofType": null
                                 },
                                 "defaultValue": "0"
@@ -5603,6 +5603,85 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "components",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "fareComponent",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "fareComponent",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "fareId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "currency",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "cents",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "routes",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Route",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -5674,7 +5753,7 @@
             },
             {
                 "kind": "ENUM",
-                "name": "OptimizeTtpe",
+                "name": "OptimizeType",
                 "description": null,
                 "fields": null,
                 "inputFields": null,

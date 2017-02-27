@@ -3,26 +3,19 @@ import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 
+
+import { getAllEndpointLayers } from '../util/searchUtils';
+import { locationToOTP } from '../util/otpStrings';
 import SearchInputContainer from './SearchInputContainer';
-import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 
-class OneTabSearchModal extends React.Component {
+class ViaPointSearchModal extends React.Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: React.PropTypes.object,
     location: React.PropTypes.object,
     breakpoint: React.PropTypes.string.isRequired,
-  };
-
-  static propTypes = {
-    customOnSuggestionSelected: React.PropTypes.func,
-    customTabLabel: React.PropTypes.string,
-    target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
-    layers: React.PropTypes.array,
-    responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
   };
 
   componentDidUpdate() {
@@ -32,38 +25,27 @@ class OneTabSearchModal extends React.Component {
   }
 
   onSuggestionSelected = (name, item) => {
-    const newLocation = {
+    this.context.router.replace({
       ...this.context.location,
       state: {
         ...this.context.location.state,
-        oneTabSearchModalOpen: false,
+        viaPointSearchModalOpen: false,
       },
-    };
-
-    if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, {
-        target: this.props.target,
-        router: this.context.router,
-        location: newLocation,
-      });
-    } else {
-      this.context.executeAction(setEndpoint, {
-        target: this.props.target,
-        endpoint: {
+      query: {
+        ...this.context.location.query,
+        intermediatePlaces: locationToOTP({
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
           address: name,
-        },
-        router: this.context.router,
-        location: newLocation,
-      });
-    }
-    this.context.router.goBack();
+        }),
+      },
+    });
+    this.context.router.go(-2);
   };
 
   modalIsOpen = () => (
     this.context.location.state ?
-      Boolean(this.context.location.state.oneTabSearchModalOpen) : false
+      Boolean(this.context.location.state.viaPointSearchModalOpen) : false
   )
 
   render() {
@@ -71,12 +53,10 @@ class OneTabSearchModal extends React.Component {
       return false;
     }
 
-    let label = (this.props.customTabLabel ?
-      this.props.customTabLabel :
-      this.context.intl.formatMessage({
-        id: this.props.target || 'Origin',
-        defaultMessage: this.props.target || 'Origin',
-      }));
+    let label = this.context.intl.formatMessage({
+      id: 'via-point',
+      defaultMessage: 'Via point',
+    });
 
     label = label.charAt(0).toUpperCase() + label.slice(1);
     let searchTabLabel;
@@ -84,7 +64,7 @@ class OneTabSearchModal extends React.Component {
     let responsiveClass = '';
     let placeholder;
 
-    if (this.context.breakpoint === 'large' && this.props.responsive) {
+    if (this.context.breakpoint === 'large') {
       Component = SearchModalLarge;
       responsiveClass = 'bp-large';
       searchTabLabel = '';
@@ -95,7 +75,7 @@ class OneTabSearchModal extends React.Component {
     }
 
     return (
-      <div className={cx('onetab-search-modal-container', responsiveClass)}>
+      <div className={cx('onetab-search-modal-container', 'via-point-modal', responsiveClass)}>
         <div className={cx('fake-search-container', responsiveClass)}>
           <Component
             selectedTab="tab"
@@ -107,9 +87,8 @@ class OneTabSearchModal extends React.Component {
                 ref={(c) => { this.searchInputContainer = c; }}
                 placeholder={placeholder}
                 type="endpoint"
-                layers={this.props.layers}
-                onSuggestionSelected={
-                  this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+                layers={getAllEndpointLayers()}
+                onSuggestionSelected={this.onSuggestionSelected}
                 close={this.context.router.goBack}
               />
             </Tab>
@@ -120,4 +99,4 @@ class OneTabSearchModal extends React.Component {
   }
 }
 
-export default OneTabSearchModal;
+export default ViaPointSearchModal;
