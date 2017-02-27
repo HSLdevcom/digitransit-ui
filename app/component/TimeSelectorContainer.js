@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
@@ -11,14 +12,17 @@ import TimeSelectors from './TimeSelectors';
 class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    location: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
   };
 
   static propTypes = {
-    serviceTimeRange: React.PropTypes.object.isRequired,
+    serviceTimeRange: React.PropTypes.shape({
+      start: React.PropTypes.number.isRequired,
+      end: React.PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   state = { time: this.context.location.query.time ?
