@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const NextDeparturesListHeader = () => (
-  <div className="next-departures-list-header padding-vertical-small border-top">
+  <div className="next-departures-list-header padding-vertical-small">
     <span className="time-header">
       <FormattedMessage id="next" defaultMessage="Next" />
     </span>

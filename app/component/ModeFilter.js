@@ -46,7 +46,7 @@ class ModeFilter extends React.Component {
     };
 
     // TODO we could build the filter strictly based on config
-    return (<div className="btn-bar mode-filter no-select">
+    return (<div className="btn-bar mode-filter no-select border-bottom">
       <ModeToggleButton type="bus" />
       <ModeToggleButton type="tram" />
       <ModeToggleButton type="rail" />
