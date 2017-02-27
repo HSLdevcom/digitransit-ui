@@ -68,9 +68,11 @@ class TimeSelectorContainer extends Component {
     const tomorrow = now.add(1, 'd').format(dayform);
     const endValue = end.format(dayform);
 
-    for (let day = start; ; day.add(1, 'd')) {
-      const value = day.format(dayform);
+    let value;
+    const day = start;
+    do {
       let label;
+      value = day.format(dayform);
       if (value === today) {
         label = this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' });
       } else if (value === tomorrow) {
@@ -83,10 +85,9 @@ class TimeSelectorContainer extends Component {
           {label}
         </option>,
       );
-      if (value === endValue) {
-        break;
-      }
-    }
+      day.add(1, 'd');
+    } while (value !== endValue);
+
     return dates;
   }
 
