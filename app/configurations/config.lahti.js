@@ -14,8 +14,7 @@ const maxLon = 26.544819;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Lahti', href: 'http://www.lahti.fi/' },
-
+  appBarLink: { name: 'Lahti', href: 'http://www.lsl.fi/' },
   colors: {
     primary: '#0066B3',
   },
