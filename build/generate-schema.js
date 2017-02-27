@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 
 const outputFilename = 'schema.json';
 
-fetch(`${process.env.SERVER_ROOT || 'https://dev-api.digitransit.fi/routing/v1'}/routers/default/index/graphql`, {
+fetch(`${process.env.SERVER_ROOT || 'https://dev-api.digitransit.fi/routing/v1'}/routers/hsl/index/graphql`, {
   method: 'post',
   headers: {
     Accept: 'application/json',

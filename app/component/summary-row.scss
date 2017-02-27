@@ -130,6 +130,19 @@
       justify-content: center;
     }
 
+    .leg.via {
+      flex: 1 1 0;
+      overflow: hidden;
+      justify-content: center;
+      max-width: 16px;
+
+      .itinerary-icon {
+        margin-left: 1px;
+        margin-top: 7px;
+        fill: #000;
+      }
+    }
+
     .departure-stop {
       @include font-narrow-book;
       font-size: 13px;
@@ -220,6 +233,11 @@
     padding-left: 20px;
     padding-top: 0;
 
+    .leg.via {
+      .itinerary-icon {
+        margin-top: 19px;
+      }
+    }
     .itinerary-duration-and-distance {
       width: 75px;
       margin-top: 25px;

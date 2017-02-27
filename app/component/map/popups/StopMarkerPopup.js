@@ -38,7 +38,7 @@ StopMarkerPopup.propTypes = {
   terminal: React.PropTypes.object,
   relay: React.PropTypes.shape({
     variables: React.PropTypes.shape({
-      currentTime: React.PropTypes.string.isRequired,
+      currentTime: React.PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
 };
