@@ -1,6 +1,7 @@
 .desktop .summary {
-  height: 100%;
-  max-height: calc(100% - 164px);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .summary-no-route-found {
@@ -211,7 +212,7 @@
 }
 
 .desktop .summary-list-container {
-  height: calc(100% - 80px);
+  flex: 1 1 auto;
 }
 
 
