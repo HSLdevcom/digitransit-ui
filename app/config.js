@@ -1,6 +1,6 @@
 import htmlParser from 'htm-to-json';
-import mergeWith from 'lodash/mergeWith';
 import defaultConfig from './configurations/config.default';
+import configMerger from './util/configMerger';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
@@ -19,11 +19,6 @@ if (defaultConfig.piwikMap) {
       expr: new RegExp(defaultConfig.piwikMap[i].expr, 'i'),
     });
   }
-}
-
-function customizer(objValue, srcValue) {
-  if (Array.isArray(objValue)) { return srcValue; } // Return only latest if array
-  return undefined; // Otherwise use default customizer
 }
 
 function addMetaData(config) {
@@ -78,7 +73,7 @@ export function getNamedConfiguration(configName, piwikId) {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       additionalConfig = require(`./configurations/config.${configName}`).default;
     }
-    const config = mergeWith({}, defaultConfig, additionalConfig, customizer);
+    const config = configMerger(defaultConfig, additionalConfig);
 
     if (piwikId) {
       config.piwikId = piwikId;

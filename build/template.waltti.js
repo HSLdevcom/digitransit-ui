@@ -1,5 +1,5 @@
 /* eslint-disable */
-import mergeWith from 'lodash/mergeWith';
+import configMerger from '../util/configMerger';
 
 const CONFIG = process.env.CONFIG || '__theme__';
 const APP_TITLE = 'Uusi Reittiopas';
@@ -7,7 +7,12 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - __theme__';
 
 const walttiConfig = require('./waltti').default;
 
-export default mergeWith({}, walttiConfig, {
+const minLat = 60;
+const maxLat = 70;
+const minLon = 20;
+const maxLon = 31;
+
+export default configMerger(walttiConfig, {
   CONFIG,
 
   appBarLink: { name: '__Theme__', href: 'http://www.__theme__.fi/' },
@@ -25,6 +30,27 @@ export default mergeWith({}, walttiConfig, {
 
   textLogo: __textlogo__, // title text instead of logo img
 
+  feedIds: ['__Theme__'],
+
+  searchParams: {
+    'boundary.rect.min_lat': minLat,
+    'boundary.rect.max_lat': maxLat,
+    'boundary.rect.min_lon': minLon,
+    'boundary.rect.max_lon': maxLon,
+  },
+
+  areaPolygon: [[minLon, minLat], [minLon, maxLat], [maxLon, maxLat], [maxLon, minLat]],
+
+  defaultEndpoint: {
+    address: '__Theme__',
+    lat: 0.5 * (minLat + maxLat),
+    lon: 0.5 * (minLon + maxLon),
+  },
+
+  defaultOrigins: [
+    { icon: 'icon-icon_bus', label: 'Linja-autoasema, __Theme__', lat: 63, lon: 27 },
+  ],
+
   footer: {
     content: [
       { label: (function () { return `© __Theme__ ${(1900 + new Date().getYear())}`; }()) },
@@ -35,27 +61,26 @@ export default mergeWith({}, walttiConfig, {
   },
 
   aboutThisService: {
-    fi: {
-      about: 'Tämä on testi uudeksi __Theme__-reittioppaaksi. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
-      digitransit: 'Digitransit palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä.',
-      datasources: 'Kartat, kadut, rakennukset, pysäkkisijainnit ym. tiedot tarjoaa © OpenStreetMap contributors ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan VRK:n rakennustietorekisteristä ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan HSL:n dev.hsl.fi/gtfs palvelimelta.',
-    },
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: ['Tämän palvelun tarjoaa __Theme__ reittisuunnittelua varten __Theme__ alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+      },
+    ],
 
-    sv: {
-      about: 'This is a test service for __Theme__ area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-      digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
-      datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
-    },
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: ['Den här tjänsten erbjuds av __Theme__ för reseplanering inom __Theme__ region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+      },
+    ],
 
-    en: {
-      about: 'This is a test service for __Theme__ area route planning. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
-      digitransit: 'Digitransit service platform is created by HSL Finnish Transport Agency. The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.',
-      datasources: "Maps, streets, buildings, stop locations etc. from © OpenStreetMap contributors downloaded from Geofabrik. Additional address data from Finland's Population Register Centre downloaded from OpenAddresses Public transport routes and timetables from HSL downloaded from dev.hsl.fi/gtfs.",
-    },
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: ['This service is provided by __Theme__ for route planning in __Theme__ region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+      },
+    ],
   },
 
-}, (objValue, srcValue) => {
-  if (Array.isArray(srcValue)) { return srcValue; }
-  if (Array.isArray(objValue)) { return objValue; }
-  return undefined; // default merge
 });
