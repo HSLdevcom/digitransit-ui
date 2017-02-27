@@ -1,12 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 
-import Icon from './Icon';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import ViaPointSearchModal from './ViaPointSearchModal';
+import ViaPointBar from './ViaPointBar';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
 
@@ -33,7 +31,10 @@ class SummaryNavigation extends React.Component {
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
         const newLocation = { ...this.context.location,
-          state: { ...this.context.location.state, customizeSearchOffcanvas: false },
+          state: { ...this.context.location.state,
+            customizeSearchOffcanvas: false,
+            viaPointSearchModalOpen: false,
+          },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);
       } else {
@@ -119,26 +120,7 @@ class SummaryNavigation extends React.Component {
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
-        <div className={cx('via-point-bar', className)}>
-          { this.context.location.query && this.context.location.query.intermediatePlaces && (
-            <div className="via-point">
-              <FormattedMessage
-                id="via-point"
-                defaultMessage="Via point"
-                className="via-point-header"
-              />
-              <button className="noborder link-name" onClick={this.openSearchModal}>
-                <span>
-                  {otpToLocation(this.context.location.query.intermediatePlaces).address}
-                </span>
-              </button>
-              <button className="noborder icon-button" onClick={this.removeViaPoint}>
-                <Icon img="icon-icon_close" />
-              </button>
-            </div>
-          )}
-          <ViaPointSearchModal />
-        </div>
+        <ViaPointBar className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <TimeSelectorContainer />
           <RightOffcanvasToggle

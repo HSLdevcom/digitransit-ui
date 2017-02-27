@@ -41,8 +41,12 @@ class CustomizeSearch extends React.Component {
 
   static propTypes = {
     isOpen: React.PropTypes.bool,
-    onToggleClick: React.PropTypes.func,
+    onToggleClick: React.PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    isOpen: false,
+  }
 
   /*
       This function is used to map our desired min, max, and default values to a standard
@@ -313,7 +317,7 @@ class CustomizeSearch extends React.Component {
       ...this.context.location,
       state: {
         ...this.context.location.state,
-        viaPointSearchModalOpen: true,
+        viaPointSearchModalOpen: 2,
       },
     });
 
