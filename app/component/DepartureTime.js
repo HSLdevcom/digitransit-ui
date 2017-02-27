@@ -14,7 +14,7 @@ function DepartureTime(props) {
   let shownTime;
   const timeDiffInMinutes = Math.floor(((props.departureTime - props.currentTime) / 60));
 
-  if (timeDiffInMinutes < 0 || timeDiffInMinutes > 20) {
+  if (timeDiffInMinutes < 0 || timeDiffInMinutes > 9) {
     const departureTime = moment(props.departureTime * 1000);
     if (props.useUTC) {
       departureTime.utc();
