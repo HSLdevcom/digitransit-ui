@@ -54,7 +54,7 @@ class TimeSelectorContainer extends Component {
 
   getDates() {
     const dates = [];
-    const range = this.props.serviceTimeRange.serviceTimeRange;
+    const range = this.props.serviceTimeRange;
     const now = this.context.getStore('TimeStore').getCurrentTime();
     const MAXRANGE = 30; // limit day selection to sensible range ?
     const START = now.clone().subtract(MAXRANGE, 'd');
@@ -131,17 +131,13 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-export const relayFragment = {
-  serviceTimeRange: () => Relay.QL`
-  fragment on QueryType {
-    serviceTimeRange {
-      start
-      end
-    }
-  }
-  `,
-};
-
 export default Relay.createContainer(TimeSelectorContainer, {
-  fragments: relayFragment,
+  fragments: {
+    serviceTimeRange: () => Relay.QL`
+      fragment on serviceTimeRange {
+        start
+        end
+      }
+    `,
+  },
 });
