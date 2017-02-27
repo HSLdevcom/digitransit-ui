@@ -1,6 +1,6 @@
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || 'joensuu';
+const CONFIG = 'joensuu';
 const APP_TITLE = 'Joensuun reittiopas';
 const APP_DESCRIPTION = 'Joensuun uusi reittiopas';
 

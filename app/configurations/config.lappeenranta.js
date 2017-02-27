@@ -1,6 +1,6 @@
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || 'lappeenranta';
+const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
 const APP_DESCRIPTION = '';
 
