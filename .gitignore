@@ -20,6 +20,7 @@ sass/themes/*
 !sass/themes/default
 !sass/themes/hsl
 !sass/themes/joensuu
+!sass/themes/lahti
 !sass/themes/lappeenranta
 !sass/themes/matka
 !sass/themes/oulu
@@ -29,6 +30,7 @@ app/configurations/config.*.js
 !app/configurations/config.default.js
 !app/configurations/config.hsl.js
 !app/configurations/config.joensuu.js
+!app/configurations/config.lahti.js
 !app/configurations/config.lappeenranta.js
 !app/configurations/config.matka.js
 !app/configurations/config.turku.js
