@@ -1,7 +1,7 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || '__theme__';
+const CONFIG = '__theme__';
 const APP_TITLE = 'Uusi Reittiopas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - __theme__';
 

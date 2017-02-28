@@ -1,6 +1,6 @@
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || 'jyvaskyla';
+const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
 
