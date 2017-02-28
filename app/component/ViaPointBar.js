@@ -41,11 +41,11 @@ ViaPointBar.propTypes = {
   className: React.PropTypes.string,
   openSearchModal: React.PropTypes.func.isRequired,
   removeViaPoint: React.PropTypes.func.isRequired,
-  intermediatePlaces: React.PropTypes.oneOfType(
+  intermediatePlaces: React.PropTypes.oneOfType([
     React.PropTypes.oneOf([false]),
     React.PropTypes.string,
     React.PropTypes.arrayOf(React.PropTypes.string),
-  ).isRequired,
+  ]).isRequired,
 };
 
 ViaPointBar.defaultProps = {
