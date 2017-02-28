@@ -198,3 +198,6 @@ testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
+
+testVariation('ViaPointSelector', 'no-via-point');
+testVariation('ViaPointSelector', 'with-via-point', 2);

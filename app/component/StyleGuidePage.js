@@ -66,6 +66,7 @@ import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
 import DateWarning from './DateWarning';
+import ViaPointSelector from './ViaPointSelector';
 
 const components = {
   Icon,
@@ -133,6 +134,7 @@ const components = {
   PageFooter,
   FooterItem,
   DateWarning,
+  ViaPointSelector,
 };
 
 function getColors() {
