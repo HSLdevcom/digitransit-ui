@@ -61,6 +61,7 @@ $search-header-height: 45px;
     height: $search-form-input-overlay-height;
     padding-left: calc(#{$padding-large} - 10px);
     line-height: $search-form-input-overlay-height;
+    overflow: hidden;
   }
 }
 
