@@ -43,11 +43,11 @@ export default function ViaPointSelector({ intermediatePlaces, openSearchModal, 
 ViaPointSelector.propTypes = {
   openSearchModal: React.PropTypes.func.isRequired,
   removeViaPoint: React.PropTypes.func.isRequired,
-  intermediatePlaces: React.PropTypes.oneOfType(
+  intermediatePlaces: React.PropTypes.oneOfType([
     React.PropTypes.oneOf([false]),
     React.PropTypes.string,
     React.PropTypes.arrayOf(React.PropTypes.string),
-  ).isRequired,
+  ]).isRequired,
 };
 
 const emptyFunction = () => {};
@@ -57,19 +57,21 @@ ViaPointSelector.description = () => (
     <p>
       Via point selector
     </p>
-    <ComponentUsageExample description="empty">
-      <ViaPointSelector
-        openSearchModal={emptyFunction}
-        removeViaPoint={emptyFunction}
-        intermediatePlaces={false}
-      />
-    </ComponentUsageExample>
-    <ComponentUsageExample description="with place">
-      <ViaPointSelector
-        openSearchModal={emptyFunction}
-        removeViaPoint={emptyFunction}
-        intermediatePlaces={'Opastinsilta 6, Helsinki::60.199087,24.940641'}
-      />
-    </ComponentUsageExample>
+    <div className="customize-search">
+      <ComponentUsageExample description="empty">
+        <ViaPointSelector
+          openSearchModal={emptyFunction}
+          removeViaPoint={emptyFunction}
+          intermediatePlaces={false}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="with place">
+        <ViaPointSelector
+          openSearchModal={emptyFunction}
+          removeViaPoint={emptyFunction}
+          intermediatePlaces={'Opastinsilta 6, Helsinki::60.199087,24.940641'}
+        />
+      </ComponentUsageExample>
+    </div>
   </div>
 );
