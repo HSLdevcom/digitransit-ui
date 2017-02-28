@@ -67,6 +67,20 @@ import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
 import DateWarning from './DateWarning';
 import ViaPointSelector from './ViaPointSelector';
+import WalkLeg from './WalkLeg';
+import WaitLeg from './WaitLeg';
+import BicycleLeg from './BicycleLeg';
+import EndLeg from './EndLeg';
+import AirportCheckInLeg from './AirportCheckInLeg';
+import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
+import BusLeg from './BusLeg';
+import AirplaneLeg from './AirplaneLeg';
+import SubwayLeg from './SubwayLeg';
+import TramLeg from './TramLeg';
+import RailLeg from './RailLeg';
+import FerryLeg from './FerryLeg';
+import CarLeg from './CarLeg';
+import ViaLeg from './ViaLeg';
 
 const components = {
   Icon,
@@ -135,6 +149,20 @@ const components = {
   FooterItem,
   DateWarning,
   ViaPointSelector,
+  WalkLeg,
+  WaitLeg,
+  BicycleLeg,
+  EndLeg,
+  AirportCheckInLeg,
+  AirportCollectLuggageLeg,
+  BusLeg,
+  AirplaneLeg,
+  SubwayLeg,
+  TramLeg,
+  RailLeg,
+  FerryLeg,
+  CarLeg,
+  ViaLeg,
 };
 
 function getColors() {

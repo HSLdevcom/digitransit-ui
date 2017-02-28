@@ -131,14 +131,6 @@ $itinerary-route-max-width: 500px;
   }
 }
 
-//start of first leg
-div.itinerary-main > div > .row:nth-child(1)  {
-  .itinerary-instruction-column::before {
-    background-color: green;
-    content:"";
-  }
-}
-
 .row.itinerary-row {
   position:relative;
   line-height: 1.1;
@@ -207,6 +199,10 @@ div.itinerary-main > div > .row:nth-child(1)  {
     content: "";
  }
 
+  .itinerary-instruction-column.via::before {
+     content: "";
+  }
+
  .itinerary-main > div:nth-child(1)::after {
    content: "";
  }
@@ -228,6 +224,12 @@ div.itinerary-main > div > .row:nth-child(1)  {
     border-left-style: dotted;
   }
   .itinerary-instruction-column.bicycle_walk:not(.to)::after{
+    border-left-style: dotted;
+  }
+  .itinerary-instruction-column.citybike_walk:not(.to)::after{
+    border-left-style: dotted;
+  }
+  .itinerary-instruction-column.via:not(.to)::after{
     border-left-style: dotted;
   }
 
@@ -265,7 +267,7 @@ div.itinerary-main > div > .row:nth-child(1)  {
       color: $gray;
     }
 
-    .itinerary-transit-leg-route {
+    .itinerary-transit-leg-route, .itinerary-via-leg-duration {
       @extend .itinerary-leg-text-gray;
       margin-top: 1px;
       overflow: hidden;
@@ -394,19 +396,23 @@ div.itinerary-container-content {
   @extend .itinerary-leg-text-gray;
   padding-top: 10px;
   .agency-link-container {
+    max-width:calc(100% - 1em);
+    white-space: nowrap;
     padding-top: 15px;
     padding-bottom: 10px;
-    .itinerary-leg-agency-link {
+    .agency-link {
       font-size: 10px;
       padding: 7px 8px;
+      .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
         color: $primary-color;
+        max-width: 100%;
       }
-      .icon.external-link-icon-outer {
+      .external-link-icon-outer {
         color: white;
       }
-      .icon.external-link-icon {
+      .external-link-icon {
         color: $primary-color;
       }
     }
@@ -507,4 +513,29 @@ div.itinerary-container-content {
 .itinerary-heading {
   padding-left: 25px;
   padding-top: 12px;
+}
+
+.icon.via {
+  color: $black;
+}
+
+.row.itinerary-row .itinerary-time-column .itinerary-time-column-time.via-arrival-time {
+  margin-bottom: 0;
+}
+
+.itinerary-time-column.via-time-column {
+  margin-top: -12px;
+}
+
+.via-divider {
+  text-align: center;
+  overflow: hidden;
+  line-height: 1px;
+}
+
+.via-divider > .via-divider-line {
+  display: inline-block;
+  border-top: 1px solid $gray;
+  width: 2em;
+  height: 1px;
 }

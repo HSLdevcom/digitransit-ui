@@ -188,6 +188,8 @@ testVariation('SummaryRow', 'passive-large-tomorrow', 7);
 testVariation('SummaryRow', 'active-large-tomorrow', 8);
 testVariation('SummaryRow', 'open-large-today', 9);
 testVariation('SummaryRow', 'open-large-tomorrow', 10);
+testVariation('SummaryRow', 'passive-small-via', 11);
+testVariation('SummaryRow', 'active-large-via', 12);
 
 testVariation('CurrentPositionSuggestionItem', 'with-position');
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
@@ -201,3 +203,25 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('ViaPointSelector', 'no-via-point');
 testVariation('ViaPointSelector', 'with-via-point', 2);
+
+testVariation('WalkLeg', 'walk-start');
+testVariation('WalkLeg', 'walk-middle', 2);
+testVariation('WaitLeg');
+testVariation('BicycleLeg', 'bicycle-leg-normal');
+testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
+testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
+testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
+testVariation('EndLeg');
+testVariation('AirportCheckInLeg');
+testVariation('AirportCollectLuggageLeg');
+testVariation('BusLeg', 'scheduled');
+testVariation('BusLeg', 'realtime', 2, [
+  '.component-example:nth-of-type(1) .component .realtime-icon',
+]).then(skip('ie11'));
+testVariation('AirplaneLeg');
+testVariation('SubwayLeg');
+testVariation('TramLeg');
+testVariation('RailLeg');
+testVariation('FerryLeg');
+testVariation('CarLeg');
+testVariation('ViaLeg');
