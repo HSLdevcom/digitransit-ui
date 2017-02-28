@@ -482,4 +482,6 @@ export default {
     { id: '12', expr: 'dev-turku' },
     { id: '13', expr: 'turku' },
   ],
+
+  minutesToDepartureLimit: 9,
 };
