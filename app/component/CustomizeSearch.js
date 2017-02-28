@@ -399,6 +399,8 @@ class CustomizeSearch extends React.Component {
           <ViaPointSelector
             intermediatePlaces={
               this.context.location.query && this.context.location.query.intermediatePlaces}
+            openSearchModal={this.openSearchModal}
+            removeViaPoint={this.removeViaPoint}
           />
         </div>
       </div>);
