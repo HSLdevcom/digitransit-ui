@@ -1,6 +1,6 @@
 import configMerger from '../util/configMerger';
 
-const CONFIG = process.env.CONFIG || 'hameenlinna';
+const CONFIG = 'hameenlinna';
 const APP_TITLE = 'reittiopas.hameenlinna.fi';
 const APP_DESCRIPTION = '';
 

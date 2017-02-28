@@ -1,4 +1,4 @@
-const CONFIG = process.env.CONFIG || 'matka';
+const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 
