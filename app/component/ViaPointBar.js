@@ -1,70 +1,77 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
-import without from 'lodash/without';
 
 import ViaPointSearchModal from './ViaPointSearchModal';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
+import ComponentUsageExample from './ComponentUsageExample';
 
 
-export default class ViaPointBar extends React.Component {
-  static propTypes = {
-    className: React.PropTypes.string,
-  }
-
-  static defaultProps = {
-    className: false,
-  }
-
-  static contextTypes = {
-    router: routerShape.isRequired,
-    location: locationShape.isRequired,
-  }
-
-  removeViaPoint = () => {
-    this.context.router.replace({
-      ...this.context.location,
-      query: without(this.context.location.query, 'intermediatePlaces'),
-    });
-  }
-
-  openSearchModal = () =>
-  this.context.router.push({
-    ...this.context.location,
-    state: {
-      ...this.context.location.state,
-      viaPointSearchModalOpen: 1,
-      customizeSearchOffcanvas: true,
-    },
-  });
-
-  render() {
-    return (
-      <div>
-        <div className={cx('via-point-bar', this.props.className)}>
-          { this.context.location.query && this.context.location.query.intermediatePlaces && (
+export default function ViaPointBar({
+  intermediatePlaces, openSearchModal, removeViaPoint, className,
+}) {
+  return (
+    <div>
+      <div className={cx('via-point-bar', className)}>
+        { intermediatePlaces && (
           <div className="via-point">
             <FormattedMessage
               id="via-point"
               defaultMessage="Via point"
               className="via-point-header"
             />
-            <button className="noborder link-name" onClick={this.openSearchModal}>
+            <button className="noborder link-name" onClick={openSearchModal}>
               <span>
-                {otpToLocation(this.context.location.query.intermediatePlaces).address}
+                {otpToLocation(intermediatePlaces).address}
               </span>
             </button>
-            <button className="noborder icon-button" onClick={this.removeViaPoint}>
+            <button className="noborder icon-button" onClick={removeViaPoint}>
               <Icon img="icon-icon_close" />
             </button>
           </div>
         )}
-        </div>
-        <ViaPointSearchModal />
       </div>
-    );
-  }
-
+      <ViaPointSearchModal />
+    </div>
+  );
 }
+
+ViaPointBar.propTypes = {
+  className: React.PropTypes.string,
+  openSearchModal: React.PropTypes.func.isRequired,
+  removeViaPoint: React.PropTypes.func.isRequired,
+  intermediatePlaces: React.PropTypes.oneOfType(
+    React.PropTypes.oneOf([false]),
+    React.PropTypes.string,
+    React.PropTypes.arrayOf(React.PropTypes.string),
+  ).isRequired,
+};
+
+ViaPointBar.defaultProps = {
+  className: false,
+};
+
+const emptyFunction = () => {};
+
+ViaPointBar.description = () => (
+  <div>
+    <p>
+      Via point selector
+    </p>
+    <ComponentUsageExample description="empty">
+      <ViaPointBar
+        openSearchModal={emptyFunction}
+        removeViaPoint={emptyFunction}
+        intermediatePlaces={false}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with place">
+      <ViaPointBar
+        openSearchModal={emptyFunction}
+        removeViaPoint={emptyFunction}
+        intermediatePlaces={'Opastinsilta 6, Helsinki::60.199087,24.940641'}
+      />
+    </ComponentUsageExample>
+  </div>
+);
