@@ -512,12 +512,10 @@ div.origin-destination-bar {
     font-size: $font-size-small !important;
     font-weight: $font-weight-bold !important;
 
-    &:first-child {
-      @extend .overflow-fade;
-    }
-
-    // Uh-oh, override material-ui style for not overflowing the beginning of the word
     > div > div {
+      @extend .overflow-fade;
+
+      // Uh-oh, override material-ui style for not overflowing the beginning of the word
       align-items: stretch !important;
       height: 3.5em !important;
     }
