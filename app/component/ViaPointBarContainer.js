@@ -6,6 +6,8 @@ import compose from 'recompose/compose';
 
 import without from 'lodash/without';
 
+import ViaPointBar from './ViaPointBar';
+
 const getRouterContext = getContext({
   router: routerShape.isRequired,
   location: locationShape.isRequired,
@@ -34,6 +36,6 @@ const mapFunctions = mapProps(({ className, router, location }) => ({
 const ViaPointBarContainer = compose(
   getRouterContext,
   mapFunctions,
-);
+)(ViaPointBar);
 
 export default ViaPointBarContainer;
