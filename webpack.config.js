@@ -299,18 +299,18 @@ function getEntry() {
 
   const spriteMap = {};
   getAllConfigs().forEach((config) => {
-    if (config.sprites) {
-      spriteMap[config.CONFIG] = config.sprites;
-    }
+    spriteMap[config.CONFIG] = config.sprites; // assign also undefined/null
   });
 
   const directories = getDirectories('./sass/themes');
   directories.forEach((theme) => {
-    const sassEntryPath = './sass/themes/' + theme + '/main.scss';
-    entry[theme + '_theme'] = [sassEntryPath];
-    const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
+    if (theme in spriteMap) {
+      const sassEntryPath = './sass/themes/' + theme + '/main.scss';
+      entry[theme + '_theme'] = [sassEntryPath];
+      const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
           './static/svg-sprite.' + theme + '.svg';
-    entry[theme + '_sprite'] = [svgEntryPath];
+      entry[theme + '_sprite'] = [svgEntryPath];
+    }
   });
 
   return entry;

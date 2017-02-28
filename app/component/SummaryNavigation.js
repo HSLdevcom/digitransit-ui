@@ -1,4 +1,5 @@
 import React from 'react';
+import Relay from 'react-relay';
 import cx from 'classnames';
 
 import OriginDestinationBar from './OriginDestinationBar';
@@ -122,7 +123,14 @@ class SummaryNavigation extends React.Component {
         />
         <ViaPointBar className={className} />
         <div className={cx('time-selector-settings-row', className)}>
-          <TimeSelectorContainer />
+          <Relay.Renderer
+            Container={TimeSelectorContainer}
+            queryConfig={{
+              name: 'ServiceTimeRangRoute',
+              queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
+            }}
+            environment={Relay.Store}
+          />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
             hasChanges={!this.props.hasDefaultPreferences}

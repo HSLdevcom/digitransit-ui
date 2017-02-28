@@ -12,7 +12,7 @@ import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
-import { otpToLocation } from '../util/otpStrings';
+import ViaPointSelector from './ViaPointSelector';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -259,41 +259,6 @@ class CustomizeSearch extends React.Component {
       />
     </section>);
 
-  getIntermediatePlacesSelector() {
-    return (
-      <section className="offcanvas-section">
-        <FormattedMessage
-          tagName="h4"
-          defaultMessage="Via point"
-          id="via-point"
-        />
-        { this.context.location.query && this.context.location.query.intermediatePlaces ?
-          <div className="via-point">
-            <button className="noborder link-name" onClick={this.openSearchModal}>
-              <span>
-                {otpToLocation(this.context.location.query.intermediatePlaces).address}
-              </span>
-            </button>
-            <button className="noborder icon-button" onClick={this.removeViaPoint}>
-              <Icon img="icon-icon_close" />
-            </button>
-          </div>
-           :
-          <button className="noborder cursor-pointer" onClick={this.openSearchModal}>
-            <div>
-              <Icon img="icon-icon_plus" />
-              {'\u00A0\u00A0'}
-              <FormattedMessage
-                id="add-itinerary-via-point"
-                defaultMessage="Add via point for itinerary"
-              />
-            </div>
-          </button>
-        }
-      </section>
-    );
-  }
-
   getModes() {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
@@ -435,7 +400,10 @@ class CustomizeSearch extends React.Component {
           {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
           {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
           {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
-          {this.getIntermediatePlacesSelector()}
+          <ViaPointSelector
+            intermediatePlaces={
+              this.context.location.query && this.context.location.query.intermediatePlaces}
+          />
         </div>
       </div>);
   }

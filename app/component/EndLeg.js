@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function EndLeg(props) {
   return (
@@ -23,6 +24,19 @@ function EndLeg(props) {
     </div>
   );
 }
+
+EndLeg.description = () => {
+  const endTime = moment().hour(12).minute(34).second(0)
+                          .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary end leg.</p>
+      <ComponentUsageExample>
+        <EndLeg endTime={endTime} to="Veturitie" index={3} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 EndLeg.propTypes = {
   endTime: React.PropTypes.number.isRequired,
