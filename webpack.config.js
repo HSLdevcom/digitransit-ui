@@ -95,6 +95,10 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
+  if (process.env.CONFIG !== '') {
+    return [require('./app/config').getNamedConfiguration(process.env.CONFIG)];
+  }
+
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
