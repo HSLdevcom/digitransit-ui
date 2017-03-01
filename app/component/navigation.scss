@@ -79,7 +79,7 @@ $content-background-color: $background-color;
     background-image: $nav-logo;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: left center;
     min-width: 8em;
   }
   .navi-logo {
@@ -88,7 +88,7 @@ $content-background-color: $background-color;
     height: $nav-logo-height;
     min-width: 130px; //for ff
     background-image: $nav-logo;
-    background-position: center;
+    background-position: left center;
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;

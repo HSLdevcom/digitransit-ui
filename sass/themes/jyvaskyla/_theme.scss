@@ -1,0 +1,16 @@
+@import '../../base/waltti';
+
+/* main theme colors */
+$primary-color: #7DC02D;
+$secondary-color: #489227;
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+$bus-color: $primary-color;
+$viewpoint-marker-color: $primary-color;
+
+$standalone-btn-color: $primary-color;
+
+/* Navbar logo */
+$nav-logo: url('favicon.png');
+$nav-logo-width: 4em;
+$nav-logo-height: 3em;
