@@ -5,7 +5,7 @@ import cx from 'classnames';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import ViaPointSearchModal from './ViaPointSearchModal';
+import ViaPointBarContainer from './ViaPointBarContainer';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
 
@@ -15,6 +15,7 @@ class SummaryNavigation extends React.Component {
       from: React.PropTypes.string,
       to: React.PropTypes.string,
     }).isRequired,
+    hasDefaultPreferences: React.PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -31,7 +32,10 @@ class SummaryNavigation extends React.Component {
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
         const newLocation = { ...this.context.location,
-          state: { ...this.context.location.state, customizeSearchOffcanvas: false },
+          state: { ...this.context.location.state,
+            customizeSearchOffcanvas: false,
+            viaPointSearchModalOpen: false,
+          },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);
       } else {
@@ -117,9 +121,7 @@ class SummaryNavigation extends React.Component {
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
-        <div className="via-point-bar">
-          <ViaPointSearchModal />
-        </div>
+        <ViaPointBarContainer className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <Relay.Renderer
             Container={TimeSelectorContainer}
@@ -138,9 +140,5 @@ class SummaryNavigation extends React.Component {
     );
   }
 }
-
-SummaryNavigation.propTypes = {
-  hasDefaultPreferences: React.PropTypes.bool.isRequired,
-};
 
 export default SummaryNavigation;

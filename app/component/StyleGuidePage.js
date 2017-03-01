@@ -66,6 +66,8 @@ import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
 import DateWarning from './DateWarning';
+import ViaPointSelector from './ViaPointSelector';
+import ViaPointBar from './ViaPointBar';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -147,6 +149,8 @@ const components = {
   PageFooter,
   FooterItem,
   DateWarning,
+  ViaPointSelector,
+  ViaPointBar,
   WalkLeg,
   WaitLeg,
   BicycleLeg,

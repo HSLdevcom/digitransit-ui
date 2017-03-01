@@ -1,6 +1,7 @@
 .desktop .summary {
-  height: 100%;
-  max-height: calc(100% - 164px);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .summary-no-route-found {
@@ -211,7 +212,7 @@
 }
 
 .desktop .summary-list-container {
-  height: calc(100% - 80px);
+  flex: 1 1 auto;
 }
 
 
@@ -219,5 +220,41 @@
   height: 100%;
   > section {
     height: 100%;
+  }
+}
+
+.via-point-bar {
+  background: $black;
+  color: $white;
+
+  &:not(:empty) {
+    padding: 0.4em 10px;
+  }
+
+  .via-point {
+    color: $white;
+    > span {
+      padding-bottom: calc(#{$padding-xsmall} + 1px);
+      padding-right: $padding-large;
+      line-height: normal;
+    }
+
+    .link-name {
+      padding-top: 0.4em;
+      margin-right: $padding-medium;
+    }
+  }
+
+  .icon {
+    margin-bottom: 2px;
+  }
+
+  &.bp-large {
+    &:not(:empty) {
+      padding: 0.4em 20px;
+    }
+    .icon {
+      font-size: 14px;
+    }
   }
 }
