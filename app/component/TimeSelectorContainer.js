@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import Relay from 'react-relay';
+import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
@@ -10,10 +12,17 @@ import TimeSelectors from './TimeSelectors';
 class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    location: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: React.PropTypes.func.isRequired,
+  };
+
+  static propTypes = {
+    serviceTimeRange: React.PropTypes.shape({
+      start: React.PropTypes.number.isRequired,
+      end: React.PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   state = { time: this.context.location.query.time ?
@@ -45,27 +54,39 @@ class TimeSelectorContainer extends Component {
 
   getDates() {
     const dates = [];
-    const date = this.context.getStore('TimeStore').getCurrentTime();
+    const range = this.props.serviceTimeRange;
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const START = now.clone().subtract(MAXRANGE, 'd');
+    const END = now.clone().add(MAXRANGE, 'd');
+    let start = moment.unix(range.start);
+    start = moment.min(moment.max(start, START), now); // always include today!
+    let end = moment.unix(range.end);
+    end = moment.max(moment.min(end, END), now);  // always include today!
+    const dayform = 'YYYY-MM-DD';
+    const today = now.format(dayform);
+    const tomorrow = now.add(1, 'd').format(dayform);
+    const endValue = end.format(dayform);
 
-    dates.push(
-      <option value={date.format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
-        {this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
-      </option>,
-    );
-
-    dates.push(
-      <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')} >
-        {this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' })}
-      </option>,
-    );
-
-    for (let i = 0; i < 28; i++) {
+    let value;
+    const day = start;
+    do {
+      let label;
+      value = day.format(dayform);
+      if (value === today) {
+        label = this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' });
+      } else if (value === tomorrow) {
+        label = this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' });
+      } else {
+        label = day.format('dd D.M');
+      }
       dates.push(
-        <option value={date.add(1, 'd').format('YYYY-MM-DD')} key={date.format('YYYY-MM-DD')}>
-          {date.format('dd D.M')}
+        <option value={value} key={value} >
+          {label}
         </option>,
       );
-    }
+      day.add(1, 'd');
+    } while (value !== endValue);
 
     return dates;
   }
@@ -111,4 +132,13 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-export default TimeSelectorContainer;
+export default Relay.createContainer(TimeSelectorContainer, {
+  fragments: {
+    serviceTimeRange: () => Relay.QL`
+      fragment on serviceTimeRange {
+        start
+        end
+      }
+    `,
+  },
+});
