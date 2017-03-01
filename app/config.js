@@ -76,7 +76,7 @@ export function getNamedConfiguration(configName, piwikId) {
     const config = configMerger(defaultConfig, additionalConfig);
 
     if (piwikId) {
-      config.piwikId = piwikId;
+      config.PIWIK_ID = piwikId;
     }
     addMetaData(config); // add dynamic metadata content
 
