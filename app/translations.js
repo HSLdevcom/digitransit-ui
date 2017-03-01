@@ -823,6 +823,7 @@ const translations = {
   'nb': {
     'about-this-service': 'Om tjenesten',
     'accessibility': 'Tilgjengelighet',
+    'add-itinerary-via-point': 'Tilføy viapunkt i reisen',
     'add-location': 'Legg til sted',
     'add-location-to-favourites': 'Legg til sted i favoritter',
     'address': 'Adresse',
@@ -1018,6 +1019,7 @@ const translations = {
     'using-modes': 'Transportform',
     'very-likely': 'Svært sannsynlig',
     'very-unlikely': 'Lite sannsynlig',
+    'via-point': 'Viapunkt',
     'wait-amount-of-time': 'Vent {duration}',
     'walk': 'gå',
     'walk-distance-duration': 'Gå {distance} ({duration})',
