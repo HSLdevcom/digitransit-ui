@@ -1071,7 +1071,7 @@ const translations = {
     'description': 'Res kollektivt när och fjärran.',
     'destination': 'Destination',
     'destination-label-change': 'Byt destination',
-    'destination-placeholder': 'Skriv din destination, linje eller hållplats',
+    'destination-placeholder': 'Destination, linje eller hållplats',
     'digitransit-platform': 'Digitransit-serviceplattformen',
     'disruption-info': 'Undantagsinfo',
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
