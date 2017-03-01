@@ -203,7 +203,6 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('ViaPointSelector', 'no-via-point');
 testVariation('ViaPointSelector', 'with-via-point', 2);
-testVariation('ViaPointBar', 'no-via-point');
 testVariation('ViaPointBar', 'with-via-point', 2);
 
 testVariation('WalkLeg', 'walk-start');
