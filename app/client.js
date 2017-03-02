@@ -44,6 +44,35 @@ tapEventPlugin();
 const config = window.state.context.plugins['extra-context-plugin'].config;
 const app = appCreator(config);
 
+const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
+
+if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
+  piwik.trackEvent = () => {};
+  piwik.setCustomVariable = () => {};
+  piwik.trackPageView = () => {};
+}
+
+const addPiwik = c => (c.piwik = piwik); // eslint-disable-line no-param-reassign
+
+const piwikPlugin = {
+  name: 'PiwikPlugin',
+  plugContext: plugContext(addPiwik),
+};
+
+const raven = Raven(config.SENTRY_DSN, piwik.getVisitorId());
+
+// eslint-disable-next-line no-param-reassign
+const addRaven = c => (c.raven = raven);
+
+const ravenPlugin = {
+  name: 'RavenPlugin',
+  plugContext: plugContext(addRaven),
+};
+
+// Add plugins
+app.plug(ravenPlugin);
+app.plug(piwikPlugin);
+
 // Run application
 const callback = () => app.rehydrate(window.state, (err, context) => {
   if (err) {
@@ -56,37 +85,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   // eslint-disable-next-line global-require, import/no-dynamic-require
     require(`../sass/themes/${config.CONFIG}/main.scss`);
   }
-
-  const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
-
-  if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
-    piwik.trackEvent = () => {};
-    piwik.setCustomVariable = () => {};
-    piwik.trackPageView = () => {};
-  }
-
-  const addPiwik = c => (c.piwik = piwik); // eslint-disable-line no-param-reassign
-
-  const piwikPlugin = {
-    name: 'PiwikPlugin',
-    plugContext: plugContext(addPiwik),
-  };
-
-  // eslint-disable-next-line no-param-reassign
-  const addRaven = c => (c.raven = Raven(config.SENTRY_DSN));
-
-  const ravenPlugin = {
-    name: 'RavenPlugin',
-    plugContext: plugContext(addRaven),
-  };
-
-  if (typeof window.Raven !== 'undefined' && window.Raven !== null) {
-    window.Raven.setUserContext({ piwik: piwik.getVisitorId() });
-  }
-
-  // Add plugins
-  app.plug(piwikPlugin);
-  app.plug(ravenPlugin);
 
   Relay.injectNetworkLayer(new RelayNetworkLayer([
     urlMiddleware({
