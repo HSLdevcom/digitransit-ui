@@ -11,6 +11,8 @@ import { isBrowser } from '../util/browser';
 const asDepartures = stoptimes => (
   !stoptimes ? [] : stoptimes.map((stoptime) => {
     const isArrival = stoptime.pickupType === 'NONE';
+    const lastStop = stoptime.trip.stops.slice(-1).pop();
+    const isLastStop = stoptime.stop.id === lastStop.id;
       /* OTP returns either scheduled time or realtime prediction in
        * 'realtimeDeparture' and 'realtimeArrival' fields.
        * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
@@ -28,6 +30,7 @@ const asDepartures = stoptimes => (
     return {
       canceled,
       isArrival,
+      isLastStop,
       stoptime: stoptimeTime,
       stop: stoptime.stop,
       realtime: stoptime.realtime,
@@ -116,6 +119,7 @@ class DepartureListContainer extends Component {
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
+          isLastStop={departure.isLastStop}
           isTerminal={this.props.isTerminal}
         />
       );
@@ -159,11 +163,15 @@ export default Relay.createContainer(DepartureListContainer, {
           pickupType
           stopHeadsign
           stop {
+            id
             code
             platformCode
           }
           trip {
             gtfsId
+            stops {
+              id
+            }
             pattern {
               alerts {
                 effectiveStartDate

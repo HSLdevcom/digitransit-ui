@@ -39,6 +39,7 @@ function Departure(props) {
                      props.departure.pattern.headsign ||
                      props.departure.pattern.route.longName}
         isArrival={props.isArrival}
+        isLastStop={props.isLastStop}
       />
       {platformNumber}
     </p>);
@@ -88,6 +89,18 @@ Departure.description = () =>
         isArrival
       />
     </ComponentUsageExample>
+    <ComponentUsageExample
+      description="Last stop and only drop-off"
+    >
+      <Departure
+        departure={exampleDeparture}
+        currentTime={exampleCurrentTime}
+        className="padding-normal padding-bottom"
+        useUTC
+        isArrival
+        isLastStop
+      />
+    </ComponentUsageExample>
   </div>;
 
 Departure.displayName = 'Departure';
@@ -98,6 +111,7 @@ Departure.propTypes = {
   currentTime: React.PropTypes.number.isRequired,
   departure: React.PropTypes.object.isRequired,
   isArrival: React.PropTypes.bool,
+  isLastStop: React.PropTypes.bool,
   isTerminal: React.PropTypes.bool,
   useUTC: React.PropTypes.bool,
 };
