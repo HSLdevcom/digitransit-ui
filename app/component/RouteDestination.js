@@ -7,14 +7,14 @@ import { realtimeDeparture as ExampleData } from './ExampleData';
 function RouteDestination(props, context) {
   let destination;
   const message = props.isLastStop ?
-    {
-      id: 'route-destination-endpoint',
-      defaultMessage: 'Arrives / Terminus',
-    } :
-    {
-      id: 'route-destination-arrives',
-      defaultMessage: 'Only drop-off',
-    };
+  {
+    id: 'route-destination-endpoint',
+    defaultMessage: 'Arrives / Terminus',
+  } :
+  {
+    id: 'route-destination-arrives',
+    defaultMessage: 'Only drop-off',
+  };
 
   if (props.isArrival) {
     destination = (
