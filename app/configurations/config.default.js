@@ -2,9 +2,9 @@ const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL = process.env.MAP_URL || 'https://{s}-dev-api.digitransit.fi';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const PIWIK_ADDRESS = process.env.PIWIK_ADDRESS || '';
-const PIWIK_ID = process.env.PIWIK_ID || '';
-const SENTRY_DSN = process.env.SENTRY_DSN || '';
+const PIWIK_ADDRESS = process.env.PIWIK_ADDRESS;
+const PIWIK_ID = process.env.PIWIK_ID;
+const SENTRY_DSN = process.env.SENTRY_DSN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 
