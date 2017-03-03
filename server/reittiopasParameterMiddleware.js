@@ -10,6 +10,9 @@ const kkj2ToWgs84 = proj4(kkj2, 'WGS84').forward;
 const placeParser = /^[^*]*\*([^*]*)\*([^*]*)\*([^*]*)/;
 
 function parseGeocodingResults(results) {
+  if (!Array.isArray(results) || results.length < 1) {
+    return ' ';
+  }
   return locationToOTP({
     address: results[0].properties.label,
     lon: results[0].geometry.coordinates[0],
