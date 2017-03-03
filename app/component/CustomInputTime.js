@@ -11,6 +11,7 @@ export default function CustomInputTime({ changeTime, time }) {
       onChange={changeTime}
       ref={(input) => {
           // use ref callback to bind change listener so that it works on android/firefox too
+          // once https://github.com/facebook/react/issues/3659 is fixed this can be removed
         if (input !== null && timeInput === null) {
           timeInput = input;
           const listener = (a) => {
