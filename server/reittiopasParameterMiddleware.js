@@ -33,34 +33,48 @@ function parseLocation(location, input, config, next) {
 
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-  if (
-    config.redirectReittiopasParams &&
-    (req.query.from || req.query.to || req.query.from_in || req.query.to_in)
-  ) {
-    const time = moment.tz(config.timezoneData.split('|')[0]);
-    if (req.query.year) {
-      time.year(req.query.year);
+  const parts = req.path.split('/');
+  if (config.redirectReittiopasParams) {
+    const lang = parts[1];
+    if (config.availableLanguages.includes(lang)) {
+      res.cookie('lang', lang, {
+        // Good up to one year
+        maxAge: 365 * 24 * 60 * 60,
+        path: '/',
+      });
     }
-    if (req.query.month) {
-      time.month(req.query.month - 1);
-    }
-    if (req.query.day) {
-      time.date(req.query.day);
-    }
-    if (req.query.hour) {
-      time.hour(req.query.hour);
-    }
-    if (req.query.minute) {
-      time.minute(req.query.minute);
-    }
-    const arriveBy = req.query.timetype === 'arrival';
+    console.log(req.path);
 
-    Promise.all([
-      parseLocation(req.query.from, req.query.from_in, config, next),
-      parseLocation(req.query.to, req.query.to_in, config, next),
-    ]).then(([from, to]) => res.redirect(
-      `/reitti/${from}/${to}?time=${time.unix()}&arriveBy=${arriveBy}`,
-    ));
+    if ((req.query.from || req.query.to || req.query.from_in || req.query.to_in)) {
+      const time = moment.tz(config.timezoneData.split('|')[0]);
+      if (req.query.year) {
+        time.year(req.query.year);
+      }
+      if (req.query.month) {
+        time.month(req.query.month - 1);
+      }
+      if (req.query.day) {
+        time.date(req.query.day);
+      }
+      if (req.query.hour) {
+        time.hour(req.query.hour);
+      }
+      if (req.query.minute) {
+        time.minute(req.query.minute);
+      }
+      const arriveBy = req.query.timetype === 'arrival';
+
+      Promise.all([
+        parseLocation(req.query.from, req.query.from_in, config, next),
+        parseLocation(req.query.to, req.query.to_in, config, next),
+      ]).then(([from, to]) => res.redirect(
+        `/reitti/${from}/${to}?time=${time.unix()}&arriveBy=${arriveBy}`,
+      ));
+    } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(req.path)) {
+      res.redirect('/');
+    } else {
+      next();
+    }
   } else {
     next();
   }
