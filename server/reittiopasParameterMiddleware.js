@@ -48,7 +48,6 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         path: '/',
       });
     }
-    console.log(req.path);
 
     if ((req.query.from || req.query.to || req.query.from_in || req.query.to_in)) {
       const time = moment.tz(config.timezoneData.split('|')[0]);
