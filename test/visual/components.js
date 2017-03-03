@@ -217,7 +217,7 @@ testVariation('AirportCheckInLeg');
 testVariation('AirportCollectLuggageLeg');
 testVariation('BusLeg', 'scheduled');
 testVariation('BusLeg', 'realtime', 2, [
-  '.component-example:nth-of-type(1) .component .realtime-icon',
+  'svg.realtime-icon',
 ]).then(skip('ie11'));
 testVariation('AirplaneLeg');
 testVariation('SubwayLeg');
