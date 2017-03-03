@@ -30,8 +30,10 @@ function parseLocation(location, input, config, next) {
       );
     }
     return getGeocodingResult(location, {}, null, config).then(parseGeocodingResults).catch(next);
+  } else if (input) {
+    return getGeocodingResult(input, {}, null, config).then(parseGeocodingResults).catch(next);
   }
-  return getGeocodingResult(input, {}, null, config).then(parseGeocodingResults).catch(next);
+  return ' ';
 }
 
 export default function reittiopasParameterMiddleware(req, res, next) {
