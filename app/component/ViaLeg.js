@@ -70,7 +70,7 @@ const exampleLeg = t1 => ({
   arrivalTime: t1,
   startTime: t1 + 900000,
   distance: 483.846,
-  mode: 'VIA',
+  mode: 'WALK',
   from: { name: 'Messukeskus', stop: { code: '0613' } },
 });
 
