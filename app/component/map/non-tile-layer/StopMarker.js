@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
+import cx from 'classnames';
 
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
@@ -65,7 +66,7 @@ class StopMarker extends React.Component {
     return L.divIcon({
       html: icon,
       iconSize: [size, size],
-      className: `${this.props.mode} cursor-pointer`,
+      className: cx('cursor-pointer', this.props.mode, { small: size === 8, selected: this.props.selected }),
     });
   }
 
