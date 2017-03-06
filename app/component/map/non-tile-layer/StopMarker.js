@@ -56,17 +56,20 @@ class StopMarker extends React.Component {
     const icon = Icon.asString(iconId, 'mode-icon');
     let size;
     if (zoom <= this.context.config.stopsSmallMaxZoom) {
-      size = 8;
+      size = this.context.config.stopsIconSize.small;
     } else if (this.props.selected) {
-      size = 28;
+      size = this.context.config.stopsIconSize.selected;
     } else {
-      size = 18;
+      size = this.context.config.stopsIconSize.default;
     }
 
     return L.divIcon({
       html: icon,
       iconSize: [size, size],
-      className: cx('cursor-pointer', this.props.mode, { small: size === 8, selected: this.props.selected }),
+      className: cx('cursor-pointer', this.props.mode, {
+        small: size === this.context.config.stopsIconSize.small,
+        selected: this.props.selected,
+      }),
     });
   }
 
