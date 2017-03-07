@@ -95,6 +95,10 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
+  if (process.env.CONFIG !== '') {
+    return [require('./app/config').getNamedConfiguration(process.env.CONFIG)];
+  }
+
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
@@ -296,6 +300,17 @@ function getEntry() {
     leaflet: ['leaflet'],
     main: './app/client',
   };
+
+  if (process.env.CONFIG !== '') {
+    const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
+    const addEntry = (theme, sprites) => {
+      entry[theme + '_theme'] = ['./sass/themes/' + theme + '/main.scss'];
+      entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+    };
+    addEntry('default');
+    addEntry(process.env.CONFIG, config.sprites);
+    return entry;
+  }
 
   const spriteMap = {};
   getAllConfigs().forEach((config) => {
