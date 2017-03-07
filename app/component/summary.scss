@@ -226,6 +226,7 @@
 .via-point-bar {
   background: $black;
   color: $white;
+  font-size: $font-size-small;
 
   &:not(:empty) {
     padding: 0.4em 10px;
@@ -245,11 +246,9 @@
     }
   }
 
-  .icon {
-    margin-bottom: 2px;
-  }
-
   &.bp-large {
+    font-size: $font-size-normal;
+
     &:not(:empty) {
       padding: 0.4em 20px;
     }
