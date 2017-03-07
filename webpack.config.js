@@ -296,7 +296,11 @@ function getEntry() {
   };
 
   const addEntry = (theme, sprites) => {
-    entry[theme + '_theme'] = ['./sass/themes/' + theme + '/main.scss'];
+    let themeCss = './sass/themes/' + theme + '/main.scss';
+    if (!fs.existsSync(themeCss)) {
+      themeCss = './sass/themes/default/main.scss';
+    }
+    entry[theme + '_theme'] = [themeCss];
     entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
   };
 
