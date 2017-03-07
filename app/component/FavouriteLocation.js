@@ -47,11 +47,20 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
   } else {
     info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
+  const styles = {
+    slide: {
+      padding: 5,
+      minHeight: 60,
+      color: '#fff',
+      width: '95%',
+    },
+  };
 
   return (
     <div
       className={cx('favourite-location-content', className)}
       onClick={() => clickFavourite(locationName, lat, lon)}
+      style={styles.slide}
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
