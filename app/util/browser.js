@@ -8,3 +8,4 @@ export const isLangMockEn = isBrowser && window.location.search.indexOf('en') !=
 export const hasHistoryEntries = () =>
   (isIOSApp && getIndex() > 0) || (isBrowser && window.history.length);
 export const isMobile = isBrowser && navigator.userAgent.match(/Mobile/);
+export const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;

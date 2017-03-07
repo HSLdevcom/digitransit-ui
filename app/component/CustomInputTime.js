@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { isMobile } from '../util/browser';
+import { isMobile, isFirefox } from '../util/browser';
 
 export default function CustomInputTime({ changeTime, time }) {
   let timeInput = null;
@@ -12,7 +12,7 @@ export default function CustomInputTime({ changeTime, time }) {
       ref={(input) => {
           // use ref callback to bind change listener so that it works on android/firefox too
           // once https://github.com/facebook/react/issues/3659 is fixed this can be removed
-        if (input !== null && timeInput === null) {
+        if (isMobile && isFirefox && input !== null && timeInput === null) {
           timeInput = input;
           const listener = (a) => {
             changeTime(a); a.target.blur(); a.target.removeEventListener('change', this);
