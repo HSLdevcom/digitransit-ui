@@ -104,7 +104,7 @@ DepartureTime.propTypes = {
 };
 
 DepartureTime.contextTypes = {
-  config: React.PropTypes.object.required,
+  config: React.PropTypes.object.isRequired,
 };
 
 export default DepartureTime;
