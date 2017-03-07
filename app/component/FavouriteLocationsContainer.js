@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
 import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import SwipeableViews from 'react-swipeable-views';
+import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
+import flowRight from 'lodash/flowRight';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
@@ -32,7 +35,14 @@ class FavouriteLocationContainerRoute extends Relay.Route {
   static routeName = 'FavouriteLocationsContainerRoute';
 }
 
-class FavouriteLocationsContainer extends React.Component {
+
+const VirtualizeSwipeableViews = flowRight(
+  bindKeyboard,
+  virtualize,
+)(SwipeableViews);
+
+
+export class FavouriteLocationsContainer extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
@@ -73,14 +83,15 @@ class FavouriteLocationsContainer extends React.Component {
     });
   }
 
-  getFavourite = (index) => {
+  slideRenderer = ({ key, index }) => {
     const favourite = this.props.favourites[index];
 
     if (typeof favourite === 'undefined') {
-      return <EmptyFavouriteLocationSlot index={index} />;
+      return <EmptyFavouriteLocationSlot key={key} index={index} />;
     }
 
     const favouriteLocation = (<FavouriteLocation
+      key={key}
       favourite={favourite} clickFavourite={this.setDestination}
     />);
 
@@ -124,15 +135,26 @@ class FavouriteLocationsContainer extends React.Component {
   }
 
   render() {
-    return (<div>
-      <div className="small-4 columns favourite-location-container--first">
-        {this.getFavourite(0)}
+    const styles = {
+      root: {
+        padding: '0 0px',
+        overflowX: 'visible',
+        width: '100%',
+      },
+      slideContainer: {
+        padding: '0 0px',
+      },
+    };
+    return (
+      <div style={{ width: '36%' }} >
+        <VirtualizeSwipeableViews
+          slideRenderer={this.slideRenderer}
+          style={styles.root} slideStyle={styles.slideContainer}
+          slideCount={this.props.favourites.length + 1}
+          overscanSlideAfter={3}
+        />
       </div>
-      <div className="small-4 columns favourite-location-container">{this.getFavourite(1)}</div>
-      <div className="small-4 columns favourite-location-container--last">
-        {this.getFavourite(2)}
-      </div>
-    </div>);
+    );
   }
 }
 
