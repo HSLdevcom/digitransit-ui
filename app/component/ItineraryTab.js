@@ -153,6 +153,7 @@ export default Relay.createContainer(ItineraryTab, {
           mode
           distance
           duration
+          intermediatePlace
           route {
             shortName
             gtfsId

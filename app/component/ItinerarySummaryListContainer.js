@@ -89,6 +89,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           distance
           duration
           rentedBike
+          intermediatePlace
           route {
             mode
             shortName
