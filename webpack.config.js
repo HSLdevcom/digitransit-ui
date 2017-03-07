@@ -30,7 +30,7 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions'];
+const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions', 'iOS 8'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
