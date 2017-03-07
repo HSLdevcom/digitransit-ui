@@ -95,7 +95,7 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
-  if (process.env.CONFIG !== '') {
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
     return [require('./app/config').getNamedConfiguration(process.env.CONFIG)];
   }
 
@@ -301,12 +301,14 @@ function getEntry() {
     main: './app/client',
   };
 
-  if (process.env.CONFIG !== '') {
+  const addEntry = (theme, sprites) => {
+    entry[theme + '_theme'] = ['./sass/themes/' + theme + '/main.scss'];
+    entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+  };
+
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
     const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
-    const addEntry = (theme, sprites) => {
-      entry[theme + '_theme'] = ['./sass/themes/' + theme + '/main.scss'];
-      entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
-    };
+
     addEntry('default');
     addEntry(process.env.CONFIG, config.sprites);
     return entry;
@@ -320,11 +322,7 @@ function getEntry() {
   const directories = getDirectories('./sass/themes');
   directories.forEach((theme) => {
     if (theme in spriteMap) {
-      const sassEntryPath = './sass/themes/' + theme + '/main.scss';
-      entry[theme + '_theme'] = [sassEntryPath];
-      const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
-          './static/svg-sprite.' + theme + '.svg';
-      entry[theme + '_sprite'] = [svgEntryPath];
+      addEntry(theme, spriteMap[theme]);
     }
   });
 
