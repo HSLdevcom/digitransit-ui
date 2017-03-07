@@ -273,12 +273,6 @@ function getPluginsConfig(env) {
   ]);
 }
 
-function getDirectories(srcDirectory) {
-  return fs.readdirSync(srcDirectory).filter(file =>
-    fs.statSync(path.join(srcDirectory, file)).isDirectory() // eslint-disable-line comma-dangle
-  );
-}
-
 function getDevelopmentEntry() {
   const entry = [
     'webpack-dev-server/client?http://localhost:' + port,
@@ -311,20 +305,11 @@ function getEntry() {
 
     addEntry('default');
     addEntry(process.env.CONFIG, config.sprites);
-    return entry;
+  } else {
+    getAllConfigs().forEach((config) => {
+      addEntry(config.CONFIG, config.sprites);
+    });
   }
-
-  const spriteMap = {};
-  getAllConfigs().forEach((config) => {
-    spriteMap[config.CONFIG] = config.sprites; // assign also undefined/null
-  });
-
-  const directories = getDirectories('./sass/themes');
-  directories.forEach((theme) => {
-    if (theme in spriteMap) {
-      addEntry(theme, spriteMap[theme]);
-    }
-  });
 
   return entry;
 }
