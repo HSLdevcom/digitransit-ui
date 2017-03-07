@@ -82,8 +82,13 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   window.context = context;
 
   if (process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-    require(`../sass/themes/${config.CONFIG}/main.scss`);
+    try {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      require(`../sass/themes/${config.CONFIG}/main.scss`);
+    } catch (error) {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      require('../sass/themes/default/main.scss');
+    }
   }
 
   Relay.injectNetworkLayer(new RelayNetworkLayer([
