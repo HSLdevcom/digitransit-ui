@@ -11,13 +11,13 @@ import { durationToString } from '../util/timeUtils';
 function ViaLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
   const duration = durationToString(props.leg.duration * 1000);
-  const stayDuration = durationToString(props.leg.stayDuration * 1000);
+  const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
 
   return (
     <div key={props.index} style={{ width: '100%' }} className="row itinerary-row" >
       <div className="small-2 columns itinerary-time-column via-time-column">
         <div className="itinerary-time-column-time via-arrival-time">
-          {moment(props.leg.arrivalTime).format('HH:mm')}
+          {moment(props.arrivalTime).format('HH:mm')}
         </div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
@@ -29,7 +29,7 @@ function ViaLeg(props) {
       </div>
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
+        className={'small-10 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
           <div><Icon img="icon-icon_place" className="itinerary-icon via" /></div>
@@ -66,11 +66,10 @@ function ViaLeg(props) {
 
 const exampleLeg = t1 => ({
   duration: 438,
-  stayDuration: 900,
   arrivalTime: t1,
   startTime: t1 + 900000,
   distance: 483.846,
-  mode: 'VIA',
+  mode: 'WALK',
   from: { name: 'Messukeskus', stop: { code: '0613' } },
 });
 
@@ -83,17 +82,21 @@ ViaLeg.description = () => {
          Note that the times are supposed to go on top of the previous leg.
       </p>
       <ComponentUsageExample>
-        <ViaLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
+        <ViaLeg
+          arrivalTime={today}
+          leg={exampleLeg(today)}
+          index={1}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );
 };
 
 ViaLeg.propTypes = {
+  arrivalTime: React.PropTypes.number.isRequired,
   leg: React.PropTypes.shape({
     duration: React.PropTypes.number.isRequired,
-    stayDuration: React.PropTypes.number.isRequired,
-    arrivalTime: React.PropTypes.number.isRequired,
     startTime: React.PropTypes.number.isRequired,
     distance: React.PropTypes.number.isRequired,
     mode: React.PropTypes.string.isRequired,
