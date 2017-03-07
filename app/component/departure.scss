@@ -1,5 +1,5 @@
 @function drop_off_svg($color, $alpha:0.9999999) {
-  @return "data:image/svg+xml;/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><circle stroke-width='2' stroke='#{rgba($color, $alpha)}' fill='white' cx='7' cy='7' r='6'/><line x1='7' y1='7' x2='14' y2='7' stroke-width='8' stroke='white' stroke-linecap='round'/><line x1='7' y1='7' x2='14' y2='7' stroke-width='2' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/><line x1='15' y1='7' x2='12' y2='4.5' stroke-width='1.5' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/><line x1='15' y1='7' x2='12' y2='9.5' stroke-width='1.5' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/></svg>"
+  @return "data:image/svg+xml;/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><circle stroke-width='2' stroke='#{rgba($color, $alpha)}' fill='white' cx='7' cy='7' r='6'/><circle cx='14' cy='7' r='5.5' fill='white'/><line x1='7' y1='7' x2='14' y2='7' stroke-width='2' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/><line x1='15' y1='7' x2='12' y2='4.5' stroke-width='1.5' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/><line x1='15' y1='7' x2='12' y2='9.5' stroke-width='1.5' stroke='#{rgba($color, $alpha)}' stroke-linecap='round'/></svg>"
 }
 
 @function last_stop_svg($color, $alpha:0.9999999) {
@@ -106,6 +106,7 @@
   .drop-off-stop-icon {
     vertical-align: middle;
     display: inline-block;
+    height: 1em;
 
     &::after {
       vertical-align: middle;
