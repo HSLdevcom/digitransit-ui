@@ -5,6 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
 import flowRight from 'lodash/flowRight';
+import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
@@ -68,10 +69,13 @@ export class FavouriteLocationsContainer extends React.Component {
     }),
   };
 
+  static SLOTS_PER_CLICK = 3;
+
   constructor() {
     super();
     this.state = { slideIndex: 0 };
   }
+
 
   onSwitching = (index, type) => {
     if (type === 'end') {
@@ -82,6 +86,22 @@ export class FavouriteLocationsContainer extends React.Component {
       } else {
         this.setState({ slideIndex: index });
       }
+    }
+  }
+
+
+  onPrev = () => {
+    if (this.state.slideIndex > 0) {
+      const newSlideIndex = this.state.slideIndex - FavouriteLocationsContainer.SLOTS_PER_CLICK;
+      this.setState({ slideIndex: Math.max(0, newSlideIndex) });
+    }
+  }
+
+  onNext = () => {
+    if (this.state.slideIndex < this.props.favourites.length - 2) {
+      const newSlideIndex = Math.min(this.state.slideIndex +
+        FavouriteLocationsContainer.SLOTS_PER_CLICK, this.props.favourites.length - 2);
+      this.setState({ slideIndex: Math.max(newSlideIndex, this.props.favourites.length - 2) });
     }
   }
 
@@ -158,21 +178,38 @@ export class FavouriteLocationsContainer extends React.Component {
         padding: '0px 2px',
         overflowX: 'visible',
         width: '100%',
+        margin: 0,
       },
       slideContainer: {
-        padding: '0 0px',
+        padding: '0',
+        margin: 0,
       },
     };
     return (
-      <div key={`fav-locations-${this.props.favourites.length}`} style={{ paddingLeft: '20px', width: '40%' }} >
-        <VirtualizeSwipeableViews
-          slideRenderer={this.slideRenderer}
-          style={styles.root} slideStyle={styles.slideContainer}
-          slideCount={this.props.favourites.length + 1}
-          index={this.state.slideIndex}
-          onSwitching={this.onSwitching}
-          overscanSlideAfter={5}
-        />
+      <div style={{ position: 'relative' }}>
+        <div className="row favourite-locations-container double-overflow-fade" >
+          <div key={`fav-locations-${this.props.favourites.length}`} style={{ paddingLeft: '19px', paddingRight: '11px', width: '40%' }} >
+            <VirtualizeSwipeableViews
+              slideRenderer={this.slideRenderer}
+              style={styles.root} slideStyle={styles.slideContainer}
+              slideCount={this.props.favourites.length + 1}
+              index={this.state.slideIndex}
+              onSwitching={this.onSwitching}
+              overscanSlideAfter={5}
+            />
+          </div>
+
+        </div>
+        <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
+          <span className="fav-location-nav-button">
+            <Icon img="icon-icon_arrow-collapse--left" />
+          </span>
+        </div>
+        <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
+          <span className="fav-location-nav-button">
+            <Icon img="icon-icon_arrow-collapse--right" />
+          </span>
+        </div>
       </div>
     );
   }

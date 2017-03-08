@@ -154,3 +154,20 @@
     margin-right: 0.5em;
   }
 }
+.fav-location-nav-button-container-left {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+}
+
+.fav-location-nav-button-container-right {
+  position: absolute;
+  top: 45px;
+  right: 0px;
+}
+
+.fav-location-nav-button {
+  height:60px;
+  color: $primary-color;
+  font-size: 20px;
+}
