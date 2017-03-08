@@ -68,6 +68,21 @@ export class FavouriteLocationsContainer extends React.Component {
     }),
   };
 
+  constructor() {
+    super();
+    this.state = { slideIndex: 0 };
+  }
+
+  onSwitching = (index, type) => {
+    if (type === 'end') {
+      if (index > this.props.favourites.length - 2) {
+        this.setState({ slideIndex: index }, () => {
+          this.setState({ slideIndex: Math.max(0, this.props.favourites.length - 2) });
+        });
+      }
+    }
+  }
+
   setDestination = (locationName, lat, lon) => {
     const location = {
       lat,
@@ -152,6 +167,8 @@ export class FavouriteLocationsContainer extends React.Component {
           slideRenderer={this.slideRenderer}
           style={styles.root} slideStyle={styles.slideContainer}
           slideCount={this.props.favourites.length + 1}
+          index={this.state.slideIndex}
+          onSwitching={this.onSwitching}
           overscanSlideAfter={3}
         />
       </div>
