@@ -84,11 +84,12 @@ export class FavouriteLocationsContainer extends React.Component {
   }
 
   slideRenderer = ({ key, index }) => {
-    const favourite = this.props.favourites[index];
-
-    if (typeof favourite === 'undefined') {
+    // add-new slot at the end
+    if (index === this.props.favourites.length) {
       return <EmptyFavouriteLocationSlot key={key} index={index} />;
     }
+
+    const favourite = this.props.favourites[index];
 
     const favouriteLocation = (<FavouriteLocation
       key={key}
@@ -146,7 +147,7 @@ export class FavouriteLocationsContainer extends React.Component {
       },
     };
     return (
-      <div style={{ width: '36%' }} >
+      <div key={`fav-locations-${this.props.favourites.length}`} style={{ width: '36%' }} >
         <VirtualizeSwipeableViews
           slideRenderer={this.slideRenderer}
           style={styles.root} slideStyle={styles.slideContainer}
