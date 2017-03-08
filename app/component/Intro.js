@@ -43,8 +43,9 @@ export default class Intro extends React.Component {
       key={i}
       tabIndex={0}
       onClick={this.onNextClick}
+      role="main"
     >
-      <img alt="" aria-hidden="true" src={content.image} role="presentation" />
+      <img alt="" aria-hidden="true" src={content.image} />
       <h3>{content.header[this.context.intl.locale]}</h3>
       <span>{content.text[this.context.intl.locale]}</span>
     </button>
