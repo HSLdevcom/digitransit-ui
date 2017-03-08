@@ -79,6 +79,8 @@ export class FavouriteLocationsContainer extends React.Component {
         this.setState({ slideIndex: index }, () => {
           this.setState({ slideIndex: Math.max(0, this.props.favourites.length - 2) });
         });
+      } else {
+        this.setState({ slideIndex: index });
       }
     }
   }
@@ -99,7 +101,7 @@ export class FavouriteLocationsContainer extends React.Component {
   }
 
   slideRenderer = ({ key, index }) => {
-    // add-new slot at the end
+    // 'add-new' slot at the end
     if (index === this.props.favourites.length) {
       return <EmptyFavouriteLocationSlot key={key} index={index} />;
     }
@@ -153,7 +155,7 @@ export class FavouriteLocationsContainer extends React.Component {
   render() {
     const styles = {
       root: {
-        padding: '0 0px',
+        padding: '0px 2px',
         overflowX: 'visible',
         width: '100%',
       },
@@ -162,14 +164,14 @@ export class FavouriteLocationsContainer extends React.Component {
       },
     };
     return (
-      <div key={`fav-locations-${this.props.favourites.length}`} style={{ width: '36%' }} >
+      <div key={`fav-locations-${this.props.favourites.length}`} style={{ paddingLeft: '20px', width: '40%' }} >
         <VirtualizeSwipeableViews
           slideRenderer={this.slideRenderer}
           style={styles.root} slideStyle={styles.slideContainer}
           slideCount={this.props.favourites.length + 1}
           index={this.state.slideIndex}
           onSwitching={this.onSwitching}
-          overscanSlideAfter={3}
+          overscanSlideAfter={5}
         />
       </div>
     );
