@@ -71,7 +71,7 @@ export function displayDistance(meters) {
 // If the box is smaller than 0.002x0.002, add padding
 export function boundWithMinimumArea(points) {
   if (!points || !points[0]) { return null; }
-  const [lats, lons] = unzip(points);
+  const [lats, lons] = unzip(points.filter(([lat, lon]) => (!isNaN(lat) && !isNaN(lon))));
   const minlat = Math.min(...lats);
   const minlon = Math.min(...lons);
   const maxlat = Math.max(...lats);

@@ -3525,6 +3525,18 @@
                             "name": "String",
                             "ofType": null
                         },
+                        "isDeprecated": true,
+                        "deprecationReason": "Use headsign instead, will be removed in the future"
+                    },
+                    {
+                        "name": "headsign",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
                         "isDeprecated": false,
                         "deprecationReason": null
                     }
@@ -5568,6 +5580,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "intermediatePlace",
+                        "description": "Do we continue from a specified intermediate place",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -5790,6 +5814,16 @@
                                 "name": "Float",
                                 "ofType": null
                             }
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "address",
+                        "description": "The name of the place.",
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
                         },
                         "defaultValue": null
                     }

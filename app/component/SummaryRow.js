@@ -114,10 +114,10 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
     const large = props.breakpoint === 'large';
 
-    if (leg.transitLeg || leg.rentedBike || noTransitLegs) {
+    if (leg.transitLeg || leg.rentedBike || noTransitLegs || leg.intermediatePlace) {
       if (leg.rentedBike) {
         legs.push(<ModeLeg leg={leg} mode="CITYBIKE" large={large} />);
-      } else if (leg.mode === 'VIA') {
+      } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
         legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
@@ -325,7 +325,8 @@ const exampleDataVia = t1 => ({
       transitLeg: true,
       startTime: t1 + 30000,
       endTime: t1 + 40000,
-      mode: 'VIA',
+      mode: 'WALK',
+      intermediatePlace: true,
       distance: 586.4621425755712,
       duration: 600,
       rentedBike: false,

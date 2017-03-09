@@ -1,6 +1,6 @@
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const MAP_URL = process.env.MAP_URL || 'https://{s}-dev-api.digitransit.fi';
+const MAP_URL = process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const PIWIK_ADDRESS = process.env.PIWIK_ADDRESS;
 const PIWIK_ID = process.env.PIWIK_ID;
@@ -22,8 +22,8 @@ export default {
       default: `${MAP_URL}/map/v1/hsl-map/`,
       sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
     },
-    STOP_MAP: `${API_URL}/map/v1/finland-stop-map/`,
-    CITYBIKE_MAP: `${API_URL}/map/v1/hsl-citybike-map/`,
+    STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
     MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
     ALERTS: `${API_URL}/realtime/service-alerts/v1`,
     FONT: 'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
