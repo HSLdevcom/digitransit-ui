@@ -173,7 +173,7 @@ export class FavouriteLocationsContainer extends React.Component {
         padding: '0px 0.1em',
         overflowX: 'visible',
         width: '100%',
-        marginLeft: '13px',
+        marginLeft: '1em',
       },
       slideContainer: {
         padding: '0px',
