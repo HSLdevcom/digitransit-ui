@@ -11,6 +11,7 @@ import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setEndpoint } from '../action/EndpointActions';
+import NoFavouriteLocations from './NoFavouriteLocations';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
@@ -36,14 +37,12 @@ class FavouriteLocationContainerRoute extends Relay.Route {
   static routeName = 'FavouriteLocationsContainerRoute';
 }
 
-
 const VirtualizeSwipeableViews = flowRight(
   bindKeyboard,
   virtualize,
 )(SwipeableViews);
 
-
-export class FavouriteLocationsContainer extends React.Component {
+class FavouriteLocationsContainer extends React.Component {
 
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
@@ -168,6 +167,9 @@ export class FavouriteLocationsContainer extends React.Component {
   }
 
   render() {
+    if (this.props.favourites.length === 0) {
+      return (<NoFavouriteLocations />);
+    }
     const styles = {
       root: {
         padding: '0px 0.1em',

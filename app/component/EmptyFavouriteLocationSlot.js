@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
+import AddIcon from './AddIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const EmptyFavouriteLocationSlot = ({ index }) => (
@@ -12,7 +12,7 @@ const EmptyFavouriteLocationSlot = ({ index }) => (
     key={`add-new-favourite-${index}`}
   >
     <div className="new-favourite-button-content">
-      <Icon img="icon-icon_plus" className="add-new-favourite-icon" />
+      <AddIcon />
       <p className="add-location-text">
         <FormattedMessage id="add-location" defaultMessage="Add location" />
       </p>
