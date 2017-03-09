@@ -77,32 +77,27 @@ export class FavouriteLocationsContainer extends React.Component {
   }
 
 
-  onSwitching = (index, type) => {
-    if (type === 'end') {
-      if (index > this.props.favourites.length - 2) {
-        this.setState({ slideIndex: index }, () => {
-          this.setState({ slideIndex: Math.max(0, this.props.favourites.length - 2) });
-        });
-      } else {
-        this.setState({ slideIndex: index });
-      }
+  onChangeIndex = (index) => {
+    if (index > this.props.favourites.length - 2) {
+      this.setState({ slideIndex: index }, () => {
+        const newSlideIndex = Math.max(0, this.props.favourites.length - 2);
+        this.setState({ slideIndex: newSlideIndex });
+      });
+    } else {
+      this.setState({ slideIndex: index });
     }
   }
 
-
   onPrev = () => {
-    if (this.state.slideIndex > 0) {
-      const newSlideIndex = this.state.slideIndex - FavouriteLocationsContainer.SLOTS_PER_CLICK;
-      this.setState({ slideIndex: Math.max(0, newSlideIndex) });
-    }
+    const newSlideIndex = Math.max(0, this.state.slideIndex -
+      FavouriteLocationsContainer.SLOTS_PER_CLICK);
+    this.setState({ slideIndex: newSlideIndex });
   }
 
   onNext = () => {
-    if (this.state.slideIndex < this.props.favourites.length - 2) {
-      const newSlideIndex = Math.min(this.state.slideIndex +
-        FavouriteLocationsContainer.SLOTS_PER_CLICK, this.props.favourites.length - 2);
-      this.setState({ slideIndex: Math.max(newSlideIndex, this.props.favourites.length - 2) });
-    }
+    const newSlideIndex = Math.min(this.state.slideIndex +
+      FavouriteLocationsContainer.SLOTS_PER_CLICK, this.props.favourites.length - 2);
+    this.setState({ slideIndex: newSlideIndex });
   }
 
   setDestination = (locationName, lat, lon) => {
@@ -194,8 +189,9 @@ export class FavouriteLocationsContainer extends React.Component {
               style={styles.root} slideStyle={styles.slideContainer}
               slideCount={this.props.favourites.length + 1}
               index={this.state.slideIndex}
-              onSwitching={this.onSwitching}
-              overscanSlideAfter={5}
+              onChangeIndex={this.onChangeIndex}
+              overscanSlideAfter={10}
+              overscanSlideBefore={10}
             />
           </div>
 
