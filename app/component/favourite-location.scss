@@ -76,6 +76,8 @@
     color: $gray-blue;
     vertical-align: middle;
     font-size: $font-size-xsmall;
+    white-space: nowrap;
+    overflow-x: hidden;
   }
   .favourite-location-departure {
     display: flex;
