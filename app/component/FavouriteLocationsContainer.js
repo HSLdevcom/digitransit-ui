@@ -170,20 +170,21 @@ export class FavouriteLocationsContainer extends React.Component {
   render() {
     const styles = {
       root: {
-        padding: '0px 2px',
+        padding: '0px 0.1em',
         overflowX: 'visible',
         width: '100%',
-        margin: 0,
+        marginLeft: '13px',
       },
       slideContainer: {
-        padding: '0',
-        margin: 0,
+        padding: '0px',
+        margin: '0px',
+        width: '100%',
       },
     };
     return (
       <div style={{ position: 'relative' }}>
         <div className="row favourite-locations-container double-overflow-fade" >
-          <div key={`fav-locations-${this.props.favourites.length}`} style={{ paddingLeft: '19px', paddingRight: '11px', width: '40%' }} >
+          <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: 0, width: '32%' }} >
             <VirtualizeSwipeableViews
               slideRenderer={this.slideRenderer}
               style={styles.root} slideStyle={styles.slideContainer}
