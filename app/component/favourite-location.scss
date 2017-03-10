@@ -104,8 +104,6 @@
     }
   }
 
-
-
   .favourite-location-arrival-time {
     margin: 0;
     vertical-align: top;
@@ -119,8 +117,8 @@
   padding: $padding-medium 0;
 
   .add-location-text {
-    @include font-medium;
-    color: $gray-blue;
+    @include font-bold;
+    color: $primary-color;
     font-size: $font-size-xxsmall;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -161,6 +159,7 @@
     margin-right: 0.5em;
   }
 }
+
 .fav-location-nav-button-container-left {
   position: absolute;
   top: 1.5em;
