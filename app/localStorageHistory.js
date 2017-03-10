@@ -12,6 +12,8 @@ function getHistoryConsideringTime() {
 // minimial serializable history state (just the paths)
 const history = getHistoryConsideringTime();
 
+let isInitialized = false;
+
 const saveHistory = () => {
   setHistory({ ...history, time: Date.now() });
 };
@@ -25,9 +27,11 @@ const PUSH = (entry) => {
 
 
 const POP = () => {
-  if (history.index > 0) {
+  if (isInitialized && history.index > 0) {
     history.index -= 1;
     saveHistory();
+  } else if (!isInitialized) {
+    isInitialized = true;
   }
 };
 
