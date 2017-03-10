@@ -3,8 +3,7 @@ import Relay from 'react-relay';
 import { routerShape, locationShape, Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
-import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
-import flowRight from 'lodash/flowRight';
+import { bindKeyboard } from 'react-swipeable-views-utils';
 import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
@@ -38,10 +37,7 @@ class FavouriteLocationContainerRoute extends Relay.Route {
   static routeName = 'FavouriteLocationsContainerRoute';
 }
 
-const VirtualizeSwipeableViews = flowRight(
-  bindKeyboard,
-  virtualize,
-)(SwipeableViews);
+const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
 class FavouriteLocationsContainer extends React.Component {
 
@@ -192,15 +188,15 @@ class FavouriteLocationsContainer extends React.Component {
       <div style={{ position: 'relative' }}>
         <div className="favourite-locations-container double-overflow-fade" >
           <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: 0, width: '32%' }} >
-            <VirtualizeSwipeableViews
-              slideRenderer={this.slideRenderer}
+            <SwipeableViewsKB
               style={styles.root} slideStyle={styles.slideContainer}
-              slideCount={this.props.favourites.length + 1}
               index={this.state.slideIndex}
               onChangeIndex={this.onChangeIndex}
-              overscanSlideAfter={10}
-              overscanSlideBefore={10}
-            />
+            >
+              {[...Array(this.props.favourites.length + 1).keys()].map(v => (
+                  this.slideRenderer({ key: v, index: v })),
+                )}
+            </SwipeableViewsKB>
           </div>
         </div>
         {displayLeft && <Link className="fav-location-nav-button-container-left" onClick={this.onPrev}>
@@ -208,11 +204,11 @@ class FavouriteLocationsContainer extends React.Component {
             <Icon img="icon-icon_arrow-collapse--left" />
           </span>
         </Link>}
-        {displayRight && <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
+        {displayRight && <Link className="fav-location-nav-button-container-right" onClick={this.onNext}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--right" />
           </span>
-        </div>
+        </Link>
       }
       </div>
     );
