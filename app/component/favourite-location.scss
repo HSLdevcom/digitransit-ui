@@ -196,6 +196,9 @@
 #no-favourites-container {
   @extend .flex-horizontal;
   padding: $padding-medium;
+  a {
+    width: 33%;
+  }
 }
 
 #no-favourites-container-text {
