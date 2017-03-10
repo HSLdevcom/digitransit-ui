@@ -6,7 +6,7 @@ export default (features, config) => {
 
   const mapping = config.search.peliasMapping;
   return features.map((feature) => {
-    const mappedFeature = Object.assign({}, feature);
+    const mappedFeature = { ...feature };
     const categories = feature.properties.category;
     if (categories) {
       for (let i = 0; i < categories.length; i++) {
@@ -21,6 +21,6 @@ export default (features, config) => {
         }
       }
     }
-    return mappedFeature;
+    return config.search.peliasLocalization(mappedFeature);
   });
 };
