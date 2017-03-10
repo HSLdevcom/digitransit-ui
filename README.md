@@ -44,3 +44,4 @@ More information about [testing](docs/Tests.md).
 * [Z-Index Index](docs/ZIndex.md)
 * [Benchmark results and UX](docs/JSBenchmark.md)
 * [Navigation](docs/Navigation.md)
+* [Themes](docs/Themes.md)

@@ -7,5 +7,5 @@ export const isWindowsPhone = isBrowser && navigator.userAgent.includes('Windows
 export const isLangMockEn = isBrowser && window.location.search.indexOf('en') !== -1;
 export const hasHistoryEntries = () =>
   (isIOSApp && getIndex() > 0) || (isBrowser && window.history.length);
-
-export const isMobile = isBrowser && navigator.userAgent.includes('Mobile');
+export const isMobile = isBrowser && navigator.userAgent.match(/Mobile/) != null;
+export const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;

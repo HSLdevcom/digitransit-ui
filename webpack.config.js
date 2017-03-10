@@ -95,6 +95,10 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
+    return [require('./app/config').getNamedConfiguration(process.env.CONFIG)];
+  }
+
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
@@ -269,12 +273,6 @@ function getPluginsConfig(env) {
   ]);
 }
 
-function getDirectories(srcDirectory) {
-  return fs.readdirSync(srcDirectory).filter(file =>
-    fs.statSync(path.join(srcDirectory, file)).isDirectory() // eslint-disable-line comma-dangle
-  );
-}
-
 function getDevelopmentEntry() {
   const entry = [
     'webpack-dev-server/client?http://localhost:' + port,
@@ -297,21 +295,25 @@ function getEntry() {
     main: './app/client',
   };
 
-  const spriteMap = {};
-  getAllConfigs().forEach((config) => {
-    spriteMap[config.CONFIG] = config.sprites; // assign also undefined/null
-  });
-
-  const directories = getDirectories('./sass/themes');
-  directories.forEach((theme) => {
-    if (theme in spriteMap) {
-      const sassEntryPath = './sass/themes/' + theme + '/main.scss';
-      entry[theme + '_theme'] = [sassEntryPath];
-      const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
-          './static/svg-sprite.' + theme + '.svg';
-      entry[theme + '_sprite'] = [svgEntryPath];
+  const addEntry = (theme, sprites) => {
+    let themeCss = './sass/themes/' + theme + '/main.scss';
+    if (!fs.existsSync(themeCss)) {
+      themeCss = './sass/themes/default/main.scss';
     }
-  });
+    entry[theme + '_theme'] = [themeCss];
+    entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+  };
+
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
+    const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
+
+    addEntry('default');
+    addEntry(process.env.CONFIG, config.sprites);
+  } else {
+    getAllConfigs().forEach((config) => {
+      addEntry(config.CONFIG, config.sprites);
+    });
+  }
 
   return entry;
 }
