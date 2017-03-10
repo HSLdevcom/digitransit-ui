@@ -89,6 +89,9 @@
     padding: $padding-xsmall 0;
     flex-grow: 0;
 
+    .time {
+      color:black;
+    }
     .route-number {
       display: flex;
       flex-direction: row;
@@ -100,6 +103,8 @@
   .favourite-location-departure-time--realtime {
     color: $realtime-color;
   }
+
+
 
   .favourite-location-arrival-time {
     margin: 0;
