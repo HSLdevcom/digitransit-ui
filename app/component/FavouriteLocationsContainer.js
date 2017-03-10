@@ -12,6 +12,7 @@ import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setEndpoint } from '../action/EndpointActions';
 import NoFavouriteLocations from './NoFavouriteLocations';
+import { isMobile } from '../util/browser';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
@@ -183,8 +184,9 @@ class FavouriteLocationsContainer extends React.Component {
         width: '100%',
       },
     };
-    const hasMoreLeft = this.state.slideIndex > 0;
-    const hasMoreRight = this.state.slideIndex < (this.props.favourites.length
+
+    const displayLeft = !isMobile && this.state.slideIndex > 0;
+    const displayRight = !isMobile && this.state.slideIndex < (this.props.favourites.length
       - FavouriteLocationsContainer.SLOTS_PER_CLICK) + 1;
 
     return (
@@ -202,12 +204,12 @@ class FavouriteLocationsContainer extends React.Component {
             />
           </div>
         </div>
-        {hasMoreLeft && <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
+        {displayLeft && <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--left" />
           </span>
         </div>}
-        {hasMoreRight && <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
+        {displayRight && <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--right" />
           </span>
