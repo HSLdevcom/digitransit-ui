@@ -62,7 +62,7 @@ $content-background-color: $background-color;
     align-self: stretch;
   }
   .icon {
-    fill: $top-navigation-icon-color;
+    color: $top-navigation-icon-color;
     vertical-align: middle;
   }
   section.title {
@@ -147,11 +147,10 @@ $content-background-color: $background-color;
 .navi-icons {
   .icon {
     font-size: 1.8em;
+    color: $primary-color;
+    fill: $top-navigation-icon-color;
   }
   width:50px;
-  a {
-    color: $primary-color;
-  }
 }
 .main-menu-toggle {
   .icon {
