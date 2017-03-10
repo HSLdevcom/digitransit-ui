@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 
@@ -18,6 +16,16 @@ const NoFavouriteLocations = () => (
 );
 
 NoFavouriteLocations.displayName = 'NoFavouriteLocations';
+
+
+NoFavouriteLocations.description = () =>
+  <div>
+    <p>Display usage hint for users with no favourites saved
+    </p>
+    <ComponentUsageExample>
+      <NoFavouriteLocations />
+    </ComponentUsageExample>
+  </div>;
 
 
 export default NoFavouriteLocations;

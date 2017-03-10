@@ -75,6 +75,7 @@ testVariation('ParkAndRideAvailability', 'realtime', 2);
 
 testVariation('FavouriteLocation', 'normal', 1,
       '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11'));
+testVariation('NoFavouriteLocations');
 
 testVariation('EmptyFavouriteLocationSlot');
 
