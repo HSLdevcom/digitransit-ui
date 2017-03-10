@@ -1,11 +1,19 @@
 import { createMemoryHistory } from 'history';
 import { setHistory, getHistory } from './store/localStorage';
 
+function getHistoryConsideringTime() {
+  const history = getHistory();
+  if (history.time > Date.now() - (60 * 60 * 1000)) {
+    return history;
+  }
+  return { entries: ['/'], index: 0, time: 0 };
+}
+
 // minimial serializable history state (just the paths)
-const history = getHistory();
+const history = getHistoryConsideringTime();
 
 const saveHistory = () => {
-  setHistory(history);
+  setHistory({ ...history, time: Date.now() });
 };
 
 const PUSH = (entry) => {
