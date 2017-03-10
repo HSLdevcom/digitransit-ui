@@ -43,6 +43,12 @@
   line-height: 1.5;
   position: relative;
 
+
+  padding: 0 $padding-xsmall;
+  min-height: 65;
+  color: #fff;
+  width: 95%;
+
   .favourite-edit-button {
     background-color: rgb(200,128,128);
     color: $gray-blue;
@@ -114,8 +120,8 @@
 .new-favourite-button-content {
   @extend .favourite-button-shared;
   background: $background-color;
-  padding: $padding-medium 0;
   width: 95%;
+  height: 65px;
 
   .add-location-text {
     @include font-bold;
@@ -123,6 +129,7 @@
     font-size: $font-size-xxsmall;
     margin-top: 0px;
     margin-bottom: 0px;
+    padding-top: 0.5em;
   }
 
 
@@ -204,7 +211,7 @@
 #no-favourites-container-text {
   @include font-book;
   width: 70%;
-  padding: $padding-medium;
+  padding: 0 $padding-medium 0 0;
   color: black;
   font-size: $font-size-small;
 
