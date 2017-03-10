@@ -146,5 +146,5 @@ export function setHistory(history) {
 }
 
 export function getHistory() {
-  return getItemAsJson('history', '{"entries":["/"], "index":0}');
+  return getItemAsJson('history', '{"entries":["/"], "index":0, "time":0}');
 }
