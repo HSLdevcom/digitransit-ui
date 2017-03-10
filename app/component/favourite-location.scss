@@ -121,7 +121,6 @@
   @extend .favourite-button-shared;
   background: $background-color;
   width: 95%;
-  height: 65px;
 
   .add-location-text {
     @include font-bold;
