@@ -183,6 +183,10 @@ class FavouriteLocationsContainer extends React.Component {
         width: '100%',
       },
     };
+    const hasMoreLeft = this.state.slideIndex > 0;
+    const hasMoreRight = this.state.slideIndex < (this.props.favourites.length
+      - FavouriteLocationsContainer.SLOTS_PER_CLICK) + 1;
+
     return (
       <div style={{ position: 'relative' }}>
         <div className="row favourite-locations-container double-overflow-fade" >
@@ -197,18 +201,18 @@ class FavouriteLocationsContainer extends React.Component {
               overscanSlideBefore={10}
             />
           </div>
-
         </div>
-        <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
+        {hasMoreLeft && <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--left" />
           </span>
-        </div>
-        <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
+        </div>}
+        {hasMoreRight && <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--right" />
           </span>
         </div>
+      }
       </div>
     );
   }
@@ -231,7 +235,6 @@ export default connectToStores(FavouriteLocationsContainer,
              }
              return null;
            }
-
            return origin;
          })(),
        };
