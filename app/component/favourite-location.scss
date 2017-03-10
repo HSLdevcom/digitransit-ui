@@ -115,6 +115,7 @@
   @extend .favourite-button-shared;
   background: $background-color;
   padding: $padding-medium 0;
+  width: 95%;
 
   .add-location-text {
     @include font-bold;
@@ -123,6 +124,13 @@
     margin-top: 0px;
     margin-bottom: 0px;
   }
+
+
+    color: $primary-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
 }
 
 .favourite-locations-container > div {
@@ -181,15 +189,6 @@
 #no-favourites-container {
   @extend .flex-horizontal;
   padding: $padding-medium;
-}
-
-.new-favourite-button-content {
-  width: 90px;
-  color: $primary-color;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
 }
 
 #no-favourites-container-text {

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Relay from 'react-relay';
-import { routerShape, locationShape } from 'react-router';
+import { routerShape, locationShape, Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { virtualize, bindKeyboard } from 'react-swipeable-views-utils';
@@ -75,7 +75,6 @@ class FavouriteLocationsContainer extends React.Component {
     super();
     this.state = { slideIndex: 0 };
   }
-
 
   onChangeIndex = (index) => {
     if (index > this.props.favourites.length - 2) {
@@ -191,7 +190,7 @@ class FavouriteLocationsContainer extends React.Component {
 
     return (
       <div style={{ position: 'relative' }}>
-        <div className="row favourite-locations-container double-overflow-fade" >
+        <div className="favourite-locations-container double-overflow-fade" >
           <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: 0, width: '32%' }} >
             <VirtualizeSwipeableViews
               slideRenderer={this.slideRenderer}
@@ -204,11 +203,11 @@ class FavouriteLocationsContainer extends React.Component {
             />
           </div>
         </div>
-        {displayLeft && <div className="fav-location-nav-button-container-left" onClick={this.onPrev}>
+        {displayLeft && <Link className="fav-location-nav-button-container-left" onClick={this.onPrev}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--left" />
           </span>
-        </div>}
+        </Link>}
         {displayRight && <div className="fav-location-nav-button-container-right" onClick={this.onNext}>
           <span className="fav-location-nav-button">
             <Icon img="icon-icon_arrow-collapse--right" />
