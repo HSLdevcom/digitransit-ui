@@ -67,7 +67,7 @@ export function getIcon(layer) {
     ['locality', 'icon-icon_city'],
     ['station', 'icon-icon_station'],
     ['localadmin', 'icon-icon_city'],
-    ['neighbourdood', 'icon-icon_city'],
+    ['neighbourhood', 'icon-icon_city'],
     ['route-BUS', 'icon-icon_bus-withoutBox'],
     ['route-TRAM', 'icon-icon_tram-withoutBox'],
     ['route-RAIL', 'icon-icon_rail-withoutBox'],
