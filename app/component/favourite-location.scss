@@ -91,17 +91,17 @@
 
     .time {
       color:black;
+      &.realtime {
+        color: $realtime-color;
+      }
     }
+
     .route-number {
       display: flex;
       flex-direction: row;
       align-items: center;
       width: auto;
     }
-  }
-
-  .favourite-location-departure-time--realtime {
-    color: $realtime-color;
   }
 
 
