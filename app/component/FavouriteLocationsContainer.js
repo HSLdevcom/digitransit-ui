@@ -171,7 +171,7 @@ class FavouriteLocationsContainer extends React.Component {
         padding: '0px 0.1em',
         overflowX: 'visible',
         width: '100%',
-        marginLeft: '1em',
+        marginLeft: '10%',
       },
       slideContainer: {
         padding: '0px',
@@ -187,7 +187,7 @@ class FavouriteLocationsContainer extends React.Component {
     return (
       <div style={{ position: 'relative' }}>
         <div className="favourite-locations-container double-overflow-fade" >
-          <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: 0, width: '32%' }} >
+          <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: '21px 0px', width: '32%' }} >
             <SwipeableViewsKB
               style={styles.root} slideStyle={styles.slideContainer}
               index={this.state.slideIndex}

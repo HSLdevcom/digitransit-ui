@@ -170,18 +170,25 @@
 
 .fav-location-nav-button-container-left {
   position: absolute;
-  top: 1.5em;
+  top: 0px;
   left: 0px;
+  height:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fav-location-nav-button-container-right {
   position: absolute;
-  top: 1.5em;
+  top: 0px;
   right: 0px;
+  height:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fav-location-nav-button {
-  height:60px;
   color: $primary-color;
   font-size: 20px;
 }
