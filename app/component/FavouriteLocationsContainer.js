@@ -184,9 +184,12 @@ class FavouriteLocationsContainer extends React.Component {
     const displayRight = !isMobile && this.state.slideIndex < (this.props.favourites.length
       - FavouriteLocationsContainer.SLOTS_PER_CLICK) + 1;
 
+    const fadeClass = ((((displayLeft && displayRight) && 'double-overflow-fade') ||
+     (displayLeft && 'overflow-fade-left')) || (displayRight && 'overflow-fade')) || '';
+
     return (
       <div style={{ position: 'relative' }}>
-        <div className="favourite-locations-container double-overflow-fade border-bottom" >
+        <div className={`favourite-locations-container ${fadeClass} border-bottom`}>
           <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: '21px 0px', width: '32%' }} >
             <SwipeableViewsKB
               style={styles.root} slideStyle={styles.slideContainer}
