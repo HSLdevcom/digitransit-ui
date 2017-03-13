@@ -9,6 +9,7 @@ import { durationToString } from '../util/timeUtils';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import IntermediateLeg from './IntermediateLeg';
+import PlatformNumber from './PlatformNumber';
 
 class TransitLeg extends React.Component {
 
@@ -115,6 +116,8 @@ class TransitLeg extends React.Component {
               img="icon-icon_arrow-collapse--right"
               className="itinerary-leg-first-row__arrow"
             />
+            {this.context.config.itinerary.showPlatformCode &&
+              <PlatformNumber number={this.props.leg.from.stop.platformCode} />}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
