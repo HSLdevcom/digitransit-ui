@@ -117,7 +117,7 @@ class TransitLeg extends React.Component {
               className="itinerary-leg-first-row__arrow"
             />
             {this.context.config.itinerary.showPlatformCode &&
-              <PlatformNumber number={this.props.leg.from.stop.platformCode} />}
+              <PlatformNumber number={this.props.leg.from.stop.platformCode} short={false} />}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
