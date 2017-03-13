@@ -182,13 +182,15 @@ class FavouriteLocationsContainer extends React.Component {
       },
     };
 
-    const displayLeft = !isMobile && this.state.slideIndex > 0;
-    const displayRight = !isMobile && this.state.slideIndex < (this.props.favourites.length
+    let displayLeft = this.state.slideIndex > 0;
+    let displayRight = this.state.slideIndex < (this.props.favourites.length
       - FavouriteLocationsContainer.SLOTS_PER_CLICK) + 1;
 
     const fadeClass = ((((displayLeft && displayRight) && 'double-overflow-fade') ||
      (displayLeft && 'overflow-fade-left')) || (displayRight && 'overflow-fade')) || '';
 
+    displayLeft = !isMobile && displayLeft;
+    displayRight = !isMobile && displayRight;
 
     return (
       <div style={{ position: 'relative' }}>
