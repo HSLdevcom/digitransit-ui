@@ -116,3 +116,11 @@ $spinner-image: url('../default/default-spinner.png');
   margin-bottom: 1em;
   margin-top: 2.5em; 
 } 
+
+@media (max-width: 900px) {
+  .nofavs-img {
+    height: 250px;
+    width: 100%;
+    max-width: 250px;
+  }
+}
