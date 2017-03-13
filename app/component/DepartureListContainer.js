@@ -178,6 +178,9 @@ export default Relay.createContainer(DepartureListContainer, {
                 longName
                 mode
                 color
+                agency {
+                  name
+                }
               }
               code
             }
