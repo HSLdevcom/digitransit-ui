@@ -2,9 +2,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const NoFavouritesPanel = () => (
-  <div className="row">
+  <div className="nofavs row">
     <div className="small-12 columns">
-      <p className="gray text-center">
+      <p className="nofavs-p black text-center">
       <div className="nofavs-img"></div>
       <FormattedMessage
         id="no-favourites" 
