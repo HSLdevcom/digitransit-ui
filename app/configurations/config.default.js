@@ -101,6 +101,8 @@ export default {
     useRetinaTiles: true,
     tileSize: 512,
     zoomOffset: -1,
+    minZoom: 1,
+    maxZoom: 18,
     useVectorTiles: true,
 
     genericMarker: {
@@ -171,6 +173,11 @@ export default {
   terminalStopsMaxZoom: 17,
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
+  stopsIconSize: {
+    small: 8,
+    selected: 28,
+    default: 18,
+  },
 
   appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
 

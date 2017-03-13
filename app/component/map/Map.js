@@ -184,7 +184,8 @@ class Map extends React.Component {
           ref="map"
           center={center}
           zoom={zoom}
-          minZoom={1}
+          minZoom={this.context.config.map.minZoom}
+          maxZoom={this.context.config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
           bounds={(this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined}
@@ -199,6 +200,8 @@ class Map extends React.Component {
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}
             size={(config.map.useRetinaTiles && L.Browser.retina) ? '@2x' : ''}
+            minZoom={this.context.config.map.minZoom}
+            maxZoom={this.context.config.map.maxZoom}
           />
           <AttributionControl
             position="bottomleft"
