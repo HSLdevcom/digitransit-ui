@@ -1,8 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-//const noFavouriteImg = require('../../sass/themes/default/favourites_empty_tip'); // eslint-disable-line global-require
-
 const NoFavouritesPanel = () => (
   <div className="row">
     <div className="small-12 columns">
