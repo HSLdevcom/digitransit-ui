@@ -102,4 +102,16 @@ $nav-logo: url('digitransit-logo.png');
 $nav-logo-width: 170px;
 $nav-logo-height: 1.8em;
 
-$spinner-image: url('../default/default-spinner.png')
+$spinner-image: url('../default/default-spinner.png');
+
+ /* No favourites image*/
+.nofavs-img {
+  background: url('../default/favourites_empty_tip.png');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  height: 160px;
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
+  margin-bottom: 1em;
+} 
