@@ -4,6 +4,8 @@ import { routerShape, locationShape, Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
+import range from 'lodash/range';
+
 import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
@@ -187,6 +189,7 @@ class FavouriteLocationsContainer extends React.Component {
     const fadeClass = ((((displayLeft && displayRight) && 'double-overflow-fade') ||
      (displayLeft && 'overflow-fade-left')) || (displayRight && 'overflow-fade')) || '';
 
+
     return (
       <div style={{ position: 'relative' }}>
         <div className={`favourite-locations-container ${fadeClass} border-bottom`}>
@@ -196,7 +199,7 @@ class FavouriteLocationsContainer extends React.Component {
               index={this.state.slideIndex}
               onChangeIndex={this.onChangeIndex}
             >
-              {[...Array(this.props.favourites.length + 1).keys()].map(v => (
+              {range(this.props.favourites.length + 1).map(v => (
                   this.slideRenderer({ key: v, index: v })),
                 )}
             </SwipeableViewsKB>
