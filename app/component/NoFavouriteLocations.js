@@ -4,7 +4,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 
 const NoFavouriteLocations = () => (
-  <div id="no-favourites-container">
+  <div id="no-favourites-container" className="border-bottom">
     <EmptyFavouriteLocationSlot index={0} />
     <div id="no-favourites-container-text">
       <FormattedMessage

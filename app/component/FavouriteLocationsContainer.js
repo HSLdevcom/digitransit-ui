@@ -186,7 +186,7 @@ class FavouriteLocationsContainer extends React.Component {
 
     return (
       <div style={{ position: 'relative' }}>
-        <div className="favourite-locations-container double-overflow-fade" >
+        <div className="favourite-locations-container double-overflow-fade border-bottom" >
           <div key={`fav-locations-${this.props.favourites.length}`} style={{ padding: '21px 0px', width: '32%' }} >
             <SwipeableViewsKB
               style={styles.root} slideStyle={styles.slideContainer}
