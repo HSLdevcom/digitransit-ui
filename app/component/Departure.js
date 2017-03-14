@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
@@ -28,10 +28,9 @@ function Departure(props) {
         canceled={props.canceled}
         useUTC={props.useUTC}
       />
-      <RouteNumber
-        mode={mode}
-        realtime={props.departure.realtime}
-        text={props.departure.pattern.route.shortName}
+      <RouteNumberContainer
+        route={props.departure.pattern.route}
+        fadeLong
       />
       <RouteDestination
         mode={mode}

@@ -3,7 +3,11 @@ import { routerShape } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import { hasHistoryEntries } from '../util/browser';
+import { isBrowser, isIOSApp } from '../util/browser';
+import { getIndex } from '../localStorageHistory';
+
+const hasHistoryEntries = () =>
+  (isIOSApp && getIndex() > 0) || (isBrowser && window.history.length);
 
 export default class BackButton extends React.Component {
   static contextTypes = {

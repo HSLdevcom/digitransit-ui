@@ -257,6 +257,7 @@ function getPluginsConfig(env) {
       AppCache: {
         caches: ['main', 'additional', 'optional'],
       },
+      version: '[hash]',
     }),
     new GzipCompressionPlugin({
       asset: '[path].gz[query]',

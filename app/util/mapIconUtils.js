@@ -40,7 +40,13 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
   if (fill) svg.setAttribute('fill', fill);
   // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
-  Array.prototype.forEach.call(symbol.childNodes, node => svg.appendChild(node.cloneNode(true)));
+  Array.prototype.forEach.call(symbol.childNodes, (node) => {
+    const child = node.cloneNode(true);
+    if (node.style && !child.attributes.fill) {
+      child.style.fill = window.getComputedStyle(node).color;
+    }
+    svg.appendChild(child);
+  });
   const image = new Image(width, height);
   image.src = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(svg))}`;
   return image;
