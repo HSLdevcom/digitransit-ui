@@ -19,7 +19,6 @@
   input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
-    width: auto;
     height: 2.6em;
     margin: 0;
     padding: 0 1rem 0 $padding-small;
@@ -226,6 +225,7 @@
 .via-point-bar {
   background: $black;
   color: $white;
+  font-size: $font-size-small;
 
   &:not(:empty) {
     padding: 0.4em 10px;
@@ -245,11 +245,9 @@
     }
   }
 
-  .icon {
-    margin-bottom: 2px;
-  }
-
   &.bp-large {
+    font-size: $font-size-normal;
+
     &:not(:empty) {
       padding: 0.4em 20px;
     }

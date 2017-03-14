@@ -30,7 +30,7 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions'];
+const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions', 'iOS 8'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -95,6 +95,10 @@ function getRulesConfig(env) {
 }
 
 function getAllConfigs() {
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
+    return [require('./app/config').getNamedConfiguration(process.env.CONFIG)];
+  }
+
   const srcDirectory = 'app/configurations';
   return fs.readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
@@ -253,6 +257,7 @@ function getPluginsConfig(env) {
       AppCache: {
         caches: ['main', 'additional', 'optional'],
       },
+      version: '[hash]',
     }),
     new GzipCompressionPlugin({
       asset: '[path].gz[query]',
@@ -267,12 +272,6 @@ function getPluginsConfig(env) {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
   ]);
-}
-
-function getDirectories(srcDirectory) {
-  return fs.readdirSync(srcDirectory).filter(file =>
-    fs.statSync(path.join(srcDirectory, file)).isDirectory() // eslint-disable-line comma-dangle
-  );
 }
 
 function getDevelopmentEntry() {
@@ -297,21 +296,25 @@ function getEntry() {
     main: './app/client',
   };
 
-  const spriteMap = {};
-  getAllConfigs().forEach((config) => {
-    spriteMap[config.CONFIG] = config.sprites; // assign also undefined/null
-  });
-
-  const directories = getDirectories('./sass/themes');
-  directories.forEach((theme) => {
-    if (theme in spriteMap) {
-      const sassEntryPath = './sass/themes/' + theme + '/main.scss';
-      entry[theme + '_theme'] = [sassEntryPath];
-      const svgEntryPath = spriteMap[theme] ? './static/' + spriteMap[theme] :
-          './static/svg-sprite.' + theme + '.svg';
-      entry[theme + '_sprite'] = [svgEntryPath];
+  const addEntry = (theme, sprites) => {
+    let themeCss = './sass/themes/' + theme + '/main.scss';
+    if (!fs.existsSync(themeCss)) {
+      themeCss = './sass/themes/default/main.scss';
     }
-  });
+    entry[theme + '_theme'] = [themeCss];
+    entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+  };
+
+  if (process.env.CONFIG && process.env.CONFIG !== '') {
+    const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
+
+    addEntry('default');
+    addEntry(process.env.CONFIG, config.sprites);
+  } else {
+    getAllConfigs().forEach((config) => {
+      addEntry(config.CONFIG, config.sprites);
+    });
+  }
 
   return entry;
 }

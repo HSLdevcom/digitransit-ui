@@ -25,8 +25,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true, // title text instead of logo img
-
   favicon: './sass/themes/hameenlinna/favicon.png',
 
   feedIds: ['Hameenlinna', 'HameenlinnaEly'],

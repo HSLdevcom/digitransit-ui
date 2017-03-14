@@ -245,6 +245,10 @@ $itinerary-route-max-width: 500px;
       min-height:5px;
     }
 
+    &.via {
+      min-height: 5em;
+    }
+
     .itinerary-leg-first-row {
       display: block;
       white-space: normal;
@@ -289,7 +293,7 @@ $itinerary-route-max-width: 500px;
     }
 
     .intermediate-stops-link {
-      @include font-bold
+      @include font-bold;
       color: $gray-blue;
       border-bottom: 2px dotted $gray-blue;
     }
@@ -325,6 +329,10 @@ $itinerary-route-max-width: 500px;
   .itinerary-instruction-column {
     font-size: $font-size-normal;
     min-height: 75px;
+
+    &.via {
+      min-height: 100px;
+    }
 
     &.intermediate {
       min-height: 10px;

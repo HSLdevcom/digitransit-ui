@@ -128,20 +128,25 @@ class SummaryPage extends React.Component {
       // Make sure active line isn't rendered over
       i => i.props.passive === false);
 
-    leafletObjs.push(
-      <LocationMarker
-        key="fromMarker"
-        position={from}
-        className="from"
-      />,
-    );
-    leafletObjs.push(
-      <LocationMarker
-        key="toMarker"
-        position={to}
-        className="to"
-      />,
-    );
+    if (from.lat && from.lon) {
+      leafletObjs.push(
+        <LocationMarker
+          key="fromMarker"
+          position={from}
+          className="from"
+        />,
+      );
+    }
+
+    if (to.lat && to.lon) {
+      leafletObjs.push(
+        <LocationMarker
+          key="toMarker"
+          position={to}
+          className="to"
+        />,
+      );
+    }
 
     if (query && query.intermediatePlaces) {
       if (Array.isArray(query.intermediatePlaces)) {

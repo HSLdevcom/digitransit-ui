@@ -46,9 +46,8 @@ const FavouritesPanel = ({
   routes,
 }) => (
   <div className="frontpage-panel">
-    <div className="row favourite-locations-container">
-      <FavouriteLocationsContainer />
-    </div><NextDeparturesListHeader />
+    <FavouriteLocationsContainer />
+    <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
     </div>
