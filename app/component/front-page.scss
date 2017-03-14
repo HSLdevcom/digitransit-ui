@@ -461,16 +461,3 @@ svg.icon.footer-icon {
 .favourites {
   background: $white;
 }
-
-.nofavs-p {
-  width: 70%;
-  margin-left: 15%;
-  margin-right: 15%;
-  font-size: $font-size-small;
-}
-
-@media (max-width: 900px) {
-  .nofavs-p {
-    font-size: 1rem;
-  }
-}

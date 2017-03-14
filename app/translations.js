@@ -511,6 +511,7 @@ const translations = {
     'near-you': 'Lähelläsi',
     'nearest': 'Lähimmät',
     'next': 'Seuraava',
+    'no-favourite-locations': 'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites': 'Tähti-painikkeella saat lisättyä linjan tai pysäkin suosikiksesi. Suosikkiesi aikataulut näkyvät etäisyyden mukaan tällä sivulla.',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops': 'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
