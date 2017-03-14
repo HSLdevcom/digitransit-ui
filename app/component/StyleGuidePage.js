@@ -55,6 +55,7 @@ import Labeled from './Labeled';
 import Centered from './Centered';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
+import NoFavouriteLocations from './NoFavouriteLocations';
 import DepartureListHeader from './DepartureListHeader';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
@@ -106,6 +107,7 @@ const components = {
   Availability,
   ParkAndRideAvailability,
   FavouriteLocation,
+  NoFavouriteLocations,
   EmptyFavouriteLocationSlot,
   TimeSelectors,
   TimeNavigationButtons,
