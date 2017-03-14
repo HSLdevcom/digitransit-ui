@@ -94,7 +94,7 @@ $heading-color: #858585;
     }
 
     .nofavs.row {
-      background: $white; 
+      background: $white;
       font-size: 13px;
     }
 
@@ -459,14 +459,14 @@ svg.icon.footer-icon {
 }
 
 .favourites {
-  background: $white; 
+  background: $white;
 }
 
 .nofavs-p {
   width: 70%;
   margin-left: 15%;
   margin-right: 15%;
-  font-size: 0.8rem;
+  font-size: $font-size-small;
 }
 
 @media (max-width: 900px) {
