@@ -214,6 +214,8 @@ class CustomizeSearch extends React.Component {
         max={20}
         initialValue={this.walkingSpeedInitVal}
         step={1}
+        walkSpeed={Math.floor(this.context.location.query.walkSpeed * 60)}
+        visibility={'visible'}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',

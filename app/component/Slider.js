@@ -14,6 +14,8 @@ class Slider extends React.Component {
     headerText: React.PropTypes.string,
     minText: React.PropTypes.string,
     maxText: React.PropTypes.string,
+    walkSpeed: React.PropTypes.string,
+    visibility: React.PropTypes.string
   };
 
   static defaultProps = {
@@ -23,6 +25,8 @@ class Slider extends React.Component {
     headerText: '',
     minText: '',
     maxText: '',
+    walkSpeed: '',
+    visibility: 'hidden'
   };
 
   // eslint-disable-next-line
@@ -54,7 +58,14 @@ class Slider extends React.Component {
         className={
           cx('slider-container', this.props.className, this.state.modified ? 'modified' : '')}
       >
-        <h4>{this.props.headerText}</h4>
+        <div className="slider-container-headers">
+          <div className="left">
+            <h4>{this.props.headerText}</h4>
+          </div>
+          <div className={this.props.visibility}>
+            <div className="sub-header-h5 right">{this.props.walkSpeed} m/min</div>
+          </div>
+        </div>
         <input
           id={this.props.id}
           className={cx('slider')}
