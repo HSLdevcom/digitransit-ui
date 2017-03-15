@@ -11,6 +11,7 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isCallAgencyPickupType } from '../util/legUtils';
 
 const Leg = ({ routeNumber, leg, large }) => (
   <div key={`${leg.mode}_${leg.startTime}`} className="leg">
@@ -30,10 +31,13 @@ Leg.propTypes = {
 };
 
 const RouteLeg = ({ leg, mode, large }) => {
+  const callAgency = isCallAgencyPickupType(leg);
+
   const routeNumber = (
     <RouteNumberContainer
       route={leg.route}
-      className={cx('line', mode.toLowerCase())}
+      isCallAgency={callAgency}
+      className="line"
       vertical
     />
   );
@@ -186,7 +190,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow flex-grow">
+          <div className="action-arrow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </button>,

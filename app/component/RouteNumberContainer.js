@@ -13,8 +13,11 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ route, ...props }, { config }) =>
-  route && <RouteNumber mode={route.mode} text={getText(route, config)} {...props} />;
+const RouteNumberContainer = ({ route, isCallAgency, ...props }, { config }) =>
+  (isCallAgency
+    ? (route && <RouteNumber mode="call" text="HUOM!" {...props} />)
+    : (route && <RouteNumber mode={route.mode} text={getText(route, config)} {...props} />)
+  );
 
 RouteNumberContainer.propTypes = {
   route: React.PropTypes.object.isRequired,
