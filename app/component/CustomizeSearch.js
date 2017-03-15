@@ -185,7 +185,8 @@ class CustomizeSearch extends React.Component {
           this.transferMarginSliderValues[e.target.value],
         )}
         min={0}
-        max={20}
+        max={20} 
+        transferMargin = {isNaN(this.context.location.query.minTransferTime) === false ? Math.round(this.context.location.query.minTransferTime / 60) : 3}
         initialValue={this.transferMarginInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
@@ -215,7 +216,6 @@ class CustomizeSearch extends React.Component {
         initialValue={this.walkingSpeedInitVal}
         step={1}
         walkSpeed={isNaN(this.context.location.query.walkSpeed) === false ? Math.floor(this.context.location.query.walkSpeed * 60) : 72}
-        visibility={'visible'}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',

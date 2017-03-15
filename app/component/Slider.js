@@ -15,7 +15,7 @@ class Slider extends React.Component {
     minText: React.PropTypes.string,
     maxText: React.PropTypes.string,
     walkSpeed: React.PropTypes.number,
-    visibility: React.PropTypes.string
+    transferMargin: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -25,8 +25,6 @@ class Slider extends React.Component {
     headerText: '',
     minText: '',
     maxText: '', 
-    walkSpeed: 72,
-    visibility: 'hidden'
   };
 
   // eslint-disable-next-line
@@ -52,6 +50,15 @@ class Slider extends React.Component {
   }
 
   render() {
+
+    let showWrittenValue = '';
+    
+    if ( this.props.walkSpeed ) { 
+      showWrittenValue = <div className="sub-header-h5 right">{this.props.walkSpeed} m/min</div>;
+    } else if ( this.props.transferMargin ) {
+      showWrittenValue = <div className="sub-header-h5 right">{this.props.transferMargin} min</div>;
+    } 
+
     return (
       <div
         ref="slider"
@@ -62,9 +69,7 @@ class Slider extends React.Component {
           <div className="left">
             <h4>{this.props.headerText}</h4>
           </div>
-          <div className={this.props.visibility}>
-            <div className="sub-header-h5 right">{this.props.walkSpeed} m/min</div>
-          </div>
+            {showWrittenValue}
         </div>
         <input
           id={this.props.id}
