@@ -176,6 +176,7 @@
       border: 1px solid currentColor;
       border-radius: $border-radius-small;
       &.call {
+        color: white;
         border-color: #aaa;
       }
       .bar-inner {
