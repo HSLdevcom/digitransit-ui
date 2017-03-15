@@ -17,22 +17,27 @@ function RouteNumber(props) {
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
 
   return (
-    <span className={cx('route-number', props.className, { vertical: props.vertical })}>
-      {props.hasDisruption ?
-        <IconWithBigCaution
-          className={mode}
-          img={`icon-icon_${mode}`}
-        /> :
-        <Icon
-          className={mode}
-          img={`icon-icon_${mode}`}
-        />
+    <span>
+      <span className={cx('route-number', 'vcenter-children', props.className, { vertical: props.vertical })}>
+        <div className={cx('bar', mode)} ><div className="bar-inner" /></div>
+        {props.hasDisruption ?
+          <IconWithBigCaution
+            className={mode}
+            img={`icon-icon_${mode}`}
+          /> :
+          <Icon
+            className={mode}
+            img={`icon-icon_${mode}`}
+          />
       }
-      {props.vertical ? <br /> : null}
+        {props.vertical ? <br /> : null}
+
+      </span>
       <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
         {props.text}
       </span>
-    </span>);
+    </span>
+  );
 }
 
 RouteNumber.description = () =>

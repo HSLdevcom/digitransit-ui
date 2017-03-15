@@ -9,6 +9,7 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
+  align-items: center;
   user-select: none;
   $distance-gray: #999999;
   font-size: $font-size-normal;
@@ -157,6 +158,33 @@
       }
     }
 
+    .vcenter-children {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+
+
+    div.bar {
+      //top:0px;
+      width: calc(100% - 1px);
+      position: absolute;
+      z-index: -1;
+      //right: 1px;
+      height: 3px;
+      background-color: currentColor;
+      border: 1px solid currentColor;
+      border-radius: $border-radius-small;
+      &.call {
+        border-color: #aaa;
+      }
+      .bar-inner {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(255,255,255,0.25);
+      }
+    }
+
     .line {
       white-space: nowrap;
       width: 100%;
@@ -164,20 +192,7 @@
       z-index: 1;
       text-align: center;
 
-      &:after {
-        content:"";
-        position: absolute;
-        z-index: -1;
-        right: 1px;
-        left: 0;
-        top: 1em;
-
-        border: 2px solid;
-        border-radius: $border-radius-small;
-      }
-
       .icon {
-        margin-top: $padding-small;
         margin-left: $padding-xsmall;
         font-size: 1.3rem;
         float: left;
@@ -282,12 +297,6 @@
     .itinerary-legs {
       padding-top: 0;
       margin-top: 17px;
-
-      .line:after {
-        top: 10px;
-        border-width: 3px;
-        border-radius: $border-radius;
-      }
 
       .line .icon {
         margin-top: 0;
