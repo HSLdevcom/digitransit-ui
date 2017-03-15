@@ -14,7 +14,7 @@ class Slider extends React.Component {
     headerText: React.PropTypes.string,
     minText: React.PropTypes.string,
     maxText: React.PropTypes.string,
-    walkSpeed: React.PropTypes.string,
+    walkSpeed: React.PropTypes.number,
     visibility: React.PropTypes.string
   };
 
@@ -24,8 +24,8 @@ class Slider extends React.Component {
     step: 1,
     headerText: '',
     minText: '',
-    maxText: '',
-    walkSpeed: '',
+    maxText: '', 
+    walkSpeed: 72,
     visibility: 'hidden'
   };
 
