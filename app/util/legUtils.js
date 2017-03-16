@@ -1,7 +1,7 @@
 // converts the given parameter into a string in format HHmm
 // Input: time - seconds since midnight
 function filterLegStops(leg, filter) {
-  if (leg.from.stop && leg.to.stop) {
+  if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
     return leg.trip.stoptimes.filter(stoptime => (stops.indexOf(stoptime.stop.gtfsId) !== -1))
     .filter(filter);
