@@ -80,7 +80,7 @@ class CustomizeSearch extends React.Component {
       10;
 
     this.transferMarginSliderValues =
-       CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
+      CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
     this.transferMarginInitVal = this.context.location.query.minTransferTime ?
       mapToSlider(this.context.location.query.minTransferTime, this.transferMarginSliderValues) :
       10;
@@ -111,13 +111,13 @@ class CustomizeSearch extends React.Component {
       <ToggleButton
         key={`toggle-button-${streetMode}`}
         icon={this.context.config.streetModes[streetMode].icon}
-        onBtnClick={() => this.toggleStreetMode(streetMode)}
-        state={this.getMode(streetMode)}
+        onBtnClick={() => this.toggleStreetMode(streetMode) }
+        state={this.getMode(streetMode) }
         checkedClass={streetMode}
         className={cx('small-4',
           { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 },
-        )}
-      />
+        ) }
+        />
     ));
   }
 
@@ -127,11 +127,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'walking',
           defaultMessage: 'Walking',
-        })}
+        }) }
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
           this.walkReluctanceSliderValues[e.target.value],
-        )}
+        ) }
         min={0}
         max={20}
         initialValue={this.walkReluctanceInitVal}
@@ -139,12 +139,12 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
           defaultMessage: 'Avoid walking',
-        })}
+        }) }
         maxText={this.context.intl.formatMessage({
           id: 'prefer-walking',
           defaultMessage: 'Prefer walking',
-        })}
-      />
+        }) }
+        />
     </section>);
 
   getWalkBoardCostSlider = () => (
@@ -153,11 +153,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'transfers',
           defaultMessage: 'Transfers',
-        })}
+        }) }
         onSliderChange={e => this.updateSettings(
           'walkBoardCost',
           this.walkBoardCostSliderValues[e.target.value],
-        )}
+        ) }
         min={0}
         max={20}
         initialValue={this.walkBoardCostInitVal}
@@ -165,12 +165,12 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'avoid-transfers',
           defaultMessage: 'Avoid transfers',
-        })}
+        }) }
         maxText={this.context.intl.formatMessage({
           id: 'transfers-allowed',
           defaultMessage: 'Transfers allowed',
-        })}
-      />
+        }) }
+        />
     </section>);
 
   getTransferMarginSlider = () => (
@@ -179,24 +179,25 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'transfers-margin',
           defaultMessage: 'Transfer margin at least',
-        })}
+        }) }
         onSliderChange={e => this.updateSettings(
           'minTransferTime',
           this.transferMarginSliderValues[e.target.value],
-        )}
+        ) }
         min={0}
-        max={20} 
-        transferMargin = {isNaN(this.context.location.query.minTransferTime) === false ? Math.round(this.context.location.query.minTransferTime / 60) : 3}
+        max={20}
+        transferMargin={isNaN(this.context.location.query.minTransferTime) === false ?
+          Math.round(this.context.location.query.minTransferTime / 60) : 3}
         initialValue={this.transferMarginInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'no-transfers-margin',
           defaultMessage: '1 min',
-        })}
+        }) }
         maxText={this.context.intl.formatMessage({
           id: 'long-transfers-margin',
           defaultMessage: '12 min',
-        })}
+        }) }
       />
     </section>);
 
@@ -206,11 +207,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'walking-speed',
           defaultMessage: 'Walking speed',
-        })}
+        }) }
         onSliderChange={e => this.updateSettings(
           'walkSpeed',
           this.walkingSpeedSliderValues[e.target.value],
-        )}
+        ) }
         min={0}
         max={20}
         initialValue={this.walkingSpeedInitVal}
@@ -219,12 +220,12 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
-        })}
+        }) }
         maxText={this.context.intl.formatMessage({
           id: 'run',
           defaultMessage: 'Run',
-        })}
-      />
+        }) }
+        />
     </section>);
 
   getTicketSelector = () => (
@@ -233,15 +234,15 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'zones',
           defaultMessage: 'Fare zones',
-        })}
+        }) }
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
         options={this.context.config.ticketOptions}
         onSelectChange={e => this.updateSettings(
           'ticketOption',
           e.target.value,
-        )}
-      />
+        ) }
+        />
     </section>);
 
   getAccessibilitySelector = () => (
@@ -250,15 +251,15 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'accessibility',
           defaultMessage: 'Accessibility',
-        })}
+        }) }
         name="accessible"
         selected={this.context.location.query.accessibilityOption || '0'}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
           e.target.value,
-        )}
-      />
+        ) }
+        />
     </section>);
 
   getModes() {
@@ -277,140 +278,140 @@ class CustomizeSearch extends React.Component {
       ...this.context.location,
       query: without(this.context.location.query, 'intermediatePlaces'),
     });
-  }
+}
 
-  openSearchModal = () =>
-    this.context.router.push({
+openSearchModal = () =>
+  this.context.router.push({
       ...this.context.location,
-      state: {
+    state: {
         ...this.context.location.state,
-        viaPointSearchModalOpen: 2,
+    viaPointSearchModalOpen: 2,
       },
     });
 
-  updateSettings(name, value) {
-    this.context.executeAction(
-      route,
-      {
-        location: {
+updateSettings(name, value) {
+  this.context.executeAction(
+    route,
+    {
+      location: {
           ...this.context.location,
-          query: {
+    query: {
             ...this.context.location.query,
-            [name]: value,
+    [name]: value,
           },
         },
-        router: this.context.router,
+router: this.context.router,
       },
     );
   }
 
-  toggleTransportMode(mode, otpMode) {
-    this.context.executeAction(
-      route,
-      {
-        location: {
+toggleTransportMode(mode, otpMode) {
+  this.context.executeAction(
+    route,
+    {
+      location: {
           ...this.context.location,
-          query: {
+    query: {
             ...this.context.location.query,
-            modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
+    modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
           },
         },
-        router: this.context.router,
+router: this.context.router,
       },
     );
   }
 
-  toggleStreetMode(mode) {
-    this.context.executeAction(
-      route,
-      {
-        location: {
+toggleStreetMode(mode) {
+  this.context.executeAction(
+    route,
+    {
+      location: {
           ...this.context.location,
-          query: {
+    query: {
             ...this.context.location.query,
-            modes:
-              without(
-                this.getModes(),
-                ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
-              .concat(mode.toUpperCase())
-              .join(','),
+    modes:
+    without(
+      this.getModes(),
+      ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
+      .concat(mode.toUpperCase())
+      .join(','),
           },
         },
-        router: this.context.router,
+router: this.context.router,
       },
     );
   }
 
-  actions = {
-    toggleBusState: () => this.toggleTransportMode('bus'),
-    toggleTramState: () => this.toggleTransportMode('tram'),
-    toggleRailState: () => this.toggleTransportMode('rail'),
-    toggleSubwayState: () => this.toggleTransportMode('subway'),
-    toggleFerryState: () => this.toggleTransportMode('ferry'),
-    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
-    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
-  }
+actions = {
+  toggleBusState: () => this.toggleTransportMode('bus'),
+  toggleTramState: () => this.toggleTransportMode('tram'),
+  toggleRailState: () => this.toggleTransportMode('rail'),
+  toggleSubwayState: () => this.toggleTransportMode('subway'),
+  toggleFerryState: () => this.toggleTransportMode('ferry'),
+  toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+  toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+}
 
-  render() {
-    const config = this.context.config;
-    return (
-      <div
-        aria-hidden={!this.props.isOpen}
-        className="customize-search-wrapper"
-        // Clicks to the transparent area and close arrow should close the offcanvas
-        onClick={this.props.onToggleClick}
+render() {
+  const config = this.context.config;
+  return (
+    <div
+      aria-hidden={!this.props.isOpen}
+      className="customize-search-wrapper"
+      // Clicks to the transparent area and close arrow should close the offcanvas
+      onClick={this.props.onToggleClick}
       >
-        <div className="offcanvas-close">
-          <div className="action-arrow" key="arrow">
-            <Icon img="icon-icon_arrow-collapse--right" />
-          </div>
+      <div className="offcanvas-close">
+        <div className="action-arrow" key="arrow">
+          <Icon img="icon-icon_arrow-collapse--right" />
         </div>
-        <div
-          className="customize-search"
-          // Clicks musn't bubble to prevent wrapper from closing the offcanvas
-          onClick={e => e.stopPropagation()}
+      </div>
+      <div
+        className="customize-search"
+        // Clicks musn't bubble to prevent wrapper from closing the offcanvas
+        onClick={e => e.stopPropagation() }
         >
-          <section className="offcanvas-section">
-            <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
-            <div className="row btn-bar">
-              {this.getStreetModesToggleButtons()}
-            </div>
-          </section>
+        <section className="offcanvas-section">
+          <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
+          <div className="row btn-bar">
+            {this.getStreetModesToggleButtons() }
+          </div>
+        </section>
 
-          {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
-          {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
+        {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
+        {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
 
-          <section className="offcanvas-section">
-            <hr />
-          </section>
+        <section className="offcanvas-section">
+          <hr />
+        </section>
 
-          <section className="offcanvas-section">
-            <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
-            <ModeFilter
-              action={this.actions}
-              buttonClass="mode-icon"
-              selectedModes={
-                Object.keys(config.transportModes)
-                  .filter(mode => config.transportModes[mode].availableForSelection)
-                  .filter(mode => this.getMode(mode))
-                  .map(mode => mode.toUpperCase())
-              }
+        <section className="offcanvas-section">
+          <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
+          <ModeFilter
+            action={this.actions}
+            buttonClass="mode-icon"
+            selectedModes={
+              Object.keys(config.transportModes)
+                .filter(mode => config.transportModes[mode].availableForSelection)
+                .filter(mode => this.getMode(mode))
+                .map(mode => mode.toUpperCase())
+            }
             />
-          </section>
+        </section>
 
-          {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
-          {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
-          {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
-          {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
-          <ViaPointSelector
-            intermediatePlaces={
-              this.context.location.query && this.context.location.query.intermediatePlaces}
-            openSearchModal={this.openSearchModal}
-            removeViaPoint={this.removeViaPoint}
+        {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
+        {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
+        {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
+        {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+        <ViaPointSelector
+          intermediatePlaces={
+            this.context.location.query && this.context.location.query.intermediatePlaces}
+          openSearchModal={this.openSearchModal}
+          removeViaPoint={this.removeViaPoint}
           />
-        </div>
-      </div>);
-  }
+      </div>
+    </div>);
+}
 }
 
 export default CustomizeSearch;
