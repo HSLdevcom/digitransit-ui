@@ -278,59 +278,59 @@ class CustomizeSearch extends React.Component {
     this.context.router.replace({
       ...this.context.location,
       query: without(this.context.location.query, 'intermediatePlaces'),
-  });
-}
-
-openSearchModal = () =>
-  this.context.router.push({
-      ...this.context.location,
-    state: {
-        ...this.context.location.state,
-    viaPointSearchModalOpen: 2,
-      },
     });
+  }
 
-updateSettings(name, value) {
-  this.context.executeAction(
+  openSearchModal = () =>
+  this.context.router.push({
+    ...this.context.location,
+    state: {
+      ...this.context.location.state,
+      viaPointSearchModalOpen: 2,
+    },
+  });
+
+  updateSettings(name, value) {
+    this.context.executeAction(
     route,
-    {
-      location: {
+      {
+        location: {
           ...this.context.location,
-    query: {
+          query: {
             ...this.context.location.query,
-    [name]: value,
+            [name]: value,
           },
         },
-router: this.context.router,
+        router: this.context.router,
       },
     );
   }
 
-toggleTransportMode(mode, otpMode) {
-  this.context.executeAction(
+  toggleTransportMode(mode, otpMode) {
+    this.context.executeAction(
     route,
-    {
-      location: {
+      {
+        location: {
           ...this.context.location,
-    query: {
+          query: {
             ...this.context.location.query,
-    modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
+            modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
           },
         },
-router: this.context.router,
+        router: this.context.router,
       },
     );
   }
 
-toggleStreetMode(mode) {
-  this.context.executeAction(
+  toggleStreetMode(mode) {
+    this.context.executeAction(
     route,
-    {
-      location: {
+      {
+        location: {
           ...this.context.location,
-    query: {
+          query: {
             ...this.context.location.query,
-    modes:
+            modes:
     without(
       this.getModes(),
       ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
@@ -338,81 +338,81 @@ toggleStreetMode(mode) {
       .join(','),
           },
         },
-router: this.context.router,
+        router: this.context.router,
       },
     );
   }
 
-actions = {
-  toggleBusState: () => this.toggleTransportMode('bus'),
-  toggleTramState: () => this.toggleTransportMode('tram'),
-  toggleRailState: () => this.toggleTransportMode('rail'),
-  toggleSubwayState: () => this.toggleTransportMode('subway'),
-  toggleFerryState: () => this.toggleTransportMode('ferry'),
-  toggleCitybikeState: () => this.toggleTransportMode('citybike'),
-  toggleAirplaneState: () => this.toggleTransportMode('airplane'),
-}
+  actions = {
+    toggleBusState: () => this.toggleTransportMode('bus'),
+    toggleTramState: () => this.toggleTransportMode('tram'),
+    toggleRailState: () => this.toggleTransportMode('rail'),
+    toggleSubwayState: () => this.toggleTransportMode('subway'),
+    toggleFerryState: () => this.toggleTransportMode('ferry'),
+    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+  }
 
-render() {
-  const config = this.context.config;
-  return (
-    <div
-      aria-hidden={!this.props.isOpen}
-      className="customize-search-wrapper"
-      // Clicks to the transparent area and close arrow should close the offcanvas
-      onClick={this.props.onToggleClick}
-      >
-      <div className="offcanvas-close">
-        <div className="action-arrow" key="arrow">
-          <Icon img="icon-icon_arrow-collapse--right" />
-        </div>
-      </div>
+  render() {
+    const config = this.context.config;
+    return (
       <div
-        className="customize-search"
-        // Clicks musn't bubble to prevent wrapper from closing the offcanvas
-        onClick={e => e.stopPropagation() }
-        >
-        <section className="offcanvas-section">
-          <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
-          <div className="row btn-bar">
-            {this.getStreetModesToggleButtons() }
+        aria-hidden={!this.props.isOpen}
+        className="customize-search-wrapper"
+      // Clicks to the transparent area and close arrow should close the offcanvas
+        onClick={this.props.onToggleClick}
+      >
+        <div className="offcanvas-close">
+          <div className="action-arrow" key="arrow">
+            <Icon img="icon-icon_arrow-collapse--right" />
           </div>
-        </section>
+        </div>
+        <div
+          className="customize-search"
+        // Clicks musn't bubble to prevent wrapper from closing the offcanvas
+          onClick={e => e.stopPropagation()}
+        >
+          <section className="offcanvas-section">
+            <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
+            <div className="row btn-bar">
+              {this.getStreetModesToggleButtons() }
+            </div>
+          </section>
 
-        {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
-        {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
+          {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
+          {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
 
-        <section className="offcanvas-section">
-          <hr />
-        </section>
+          <section className="offcanvas-section">
+            <hr />
+          </section>
 
-        <section className="offcanvas-section">
-          <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
-          <ModeFilter
-            action={this.actions}
-            buttonClass="mode-icon"
-            selectedModes={
+          <section className="offcanvas-section">
+            <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
+            <ModeFilter
+              action={this.actions}
+              buttonClass="mode-icon"
+              selectedModes={
               Object.keys(config.transportModes)
                 .filter(mode => config.transportModes[mode].availableForSelection)
                 .filter(mode => this.getMode(mode))
                 .map(mode => mode.toUpperCase())
             }
             />
-        </section>
+          </section>
 
-        {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
-        {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
-        {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
-        {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
-        <ViaPointSelector
-          intermediatePlaces={
+          {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
+          {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
+          {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
+          {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+          <ViaPointSelector
+            intermediatePlaces={
             this.context.location.query && this.context.location.query.intermediatePlaces}
-          openSearchModal={this.openSearchModal}
-          removeViaPoint={this.removeViaPoint}
+            openSearchModal={this.openSearchModal}
+            removeViaPoint={this.removeViaPoint}
           />
-      </div>
-    </div>);
-}
+        </div>
+      </div>);
+  }
 }
 
 export default CustomizeSearch;

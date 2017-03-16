@@ -71,7 +71,7 @@ class Slider extends React.Component {
         </div>
         <input
           id={this.props.id}
-          className={cx('slider') }
+          className={cx('slider')}
           type="range"
           defaultValue={this.props.initialValue}
           min={this.props.min}
