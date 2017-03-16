@@ -113,7 +113,7 @@ module.exports = {
       selector: 'li.favourites',
     },
     newFavouriteButtonContent: {
-      selector: '#add-new-favourite-1',
+      selector: '#add-new-favourite-0',
     },
     addressPlaceholderNoSelect: {
       selector: '.address-placeholder ',

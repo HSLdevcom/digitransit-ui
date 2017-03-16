@@ -101,6 +101,8 @@ export default {
     useRetinaTiles: true,
     tileSize: 512,
     zoomOffset: -1,
+    minZoom: 1,
+    maxZoom: 18,
     useVectorTiles: true,
 
     genericMarker: {
@@ -171,6 +173,11 @@ export default {
   terminalStopsMaxZoom: 17,
   terminalStopsMinZoom: 12,
   terminalNamesZoom: 16,
+  stopsIconSize: {
+    small: 8,
+    selected: 28,
+    default: 18,
+  },
 
   appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
 
@@ -475,14 +482,18 @@ export default {
   },
 
   piwikMap: [ // in priority order. 1st match stops
-    { id: '5', expr: 'dev.reittiopas' },
-    { id: '4', expr: 'reittiopas' },
-    { id: '7', expr: 'dev.matka|dev.digitransit' },
-    { id: '6', expr: 'matka|digitransit' },
     { id: '10', expr: 'dev-joensuu' },
     { id: '11', expr: 'joensuu' },
     { id: '12', expr: 'dev-turku' },
     { id: '13', expr: 'turku' },
+    // put generic expressions last so that they do not match waltti cities
+    // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
+    { id: '5', expr: 'dev.reittiopas' },
+    { id: '4', expr: 'reittiopas' },
+    { id: '7', expr: 'dev.matka' },
+    { id: '6', expr: 'matka' },
+    { id: '7', expr: 'dev.digitransit' },
+    { id: '6', expr: 'digitransit' },
   ],
 
   minutesToDepartureLimit: 9,
