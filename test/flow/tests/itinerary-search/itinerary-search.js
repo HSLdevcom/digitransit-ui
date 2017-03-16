@@ -15,8 +15,8 @@ module.exports = {
 
     const itineraryInstructions = browser.page.itineraryInstructions();
     itineraryInstructions.waitForFirstItineraryInstructionColumn();
-    itineraryInstructions.verifyOrigin('Helsingin rautatieasema, Helsinki');
-    itineraryInstructions.verifyDestination('Narinkkatori, Helsinki');
+    itineraryInstructions.verifyOrigin('Helsingin rautatieasema');
+    itineraryInstructions.verifyDestination('Narinkkatori');
     browser.end();
   },
 

@@ -50,6 +50,7 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
 
   return (
     <div
+      data-swipeable="true"
       className={cx('favourite-location-content', className)}
       onClick={() => clickFavourite(locationName, lat, lon)}
     >

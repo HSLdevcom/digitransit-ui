@@ -14,6 +14,10 @@ import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
 
 class AddFavouriteContainer extends React.Component {
+  static FavouriteIconIds = ['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
+    'icon-icon_school', 'icon-icon_shopping'];
+
+
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -42,10 +46,6 @@ class AddFavouriteContainer extends React.Component {
       });
     }
   }
-
-  getFavouriteIconIds = () =>
-    (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
-      'icon-icon_school', 'icon-icon_shopping']);
 
   setCoordinatesAndAddress = (name, location) => {
     let address = name;
@@ -173,7 +173,9 @@ class AddFavouriteContainer extends React.Component {
                     return favourite.selectedIconId;
                   }
                   return undefined;
-                })()} favouriteIconIds={this.getFavouriteIconIds()} handleClick={this.selectIcon}
+                })()}
+                favouriteIconIds={AddFavouriteContainer.FavouriteIconIds}
+                handleClick={this.selectIcon}
               />
             </div>
             <div className="add-favourite-container__save">
