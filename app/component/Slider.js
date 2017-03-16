@@ -61,7 +61,7 @@ class Slider extends React.Component {
       <div
         ref="slider"
         className={
-          cx('slider-container', this.props.className, this.state.modified ? 'modified' : '') }
+          cx('slider-container', this.props.className, this.state.modified ? 'modified' : '')}
       >
         <div className="slider-container-headers">
           <div className="left">
