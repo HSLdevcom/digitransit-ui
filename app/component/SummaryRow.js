@@ -364,6 +364,58 @@ const exampleDataVia = t1 => ({
   ],
 });
 
+const exampleDataCallAgency = t1 => ({
+  startTime: t1,
+  endTime: t1 + 10000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 10000,
+      endTime: t1 + 20000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: t1 + 20000,
+      endTime: t1 + 30000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57', mode: 'BUS' },
+      from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
+      to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
+      trip: {
+        stoptimes: [
+          { pickupType: 'CALL_AGENCY',
+            stop: { gtfsId: 'start' } },
+        ],
+      },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 30000,
+      endTime: t1 + 40000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Veturitie' },
+    },
+  ],
+});
+
+
 const nop = () => {};
 
 SummaryRow.description = () => {
@@ -497,6 +549,27 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleDataVia(today)}
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-small-call-agency">
+        <SummaryRow
+          refTime={today}
+          breakpoint="small"
+          data={exampleDataCallAgency(today)}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-large-call-agency">
+        <SummaryRow
+          refTime={today}
+          breakpoint="large"
+          data={exampleDataCallAgency(today)}
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
