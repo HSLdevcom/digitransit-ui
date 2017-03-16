@@ -111,13 +111,13 @@ class CustomizeSearch extends React.Component {
       <ToggleButton
         key={`toggle-button-${streetMode}`}
         icon={this.context.config.streetModes[streetMode].icon}
-        onBtnClick={() => this.toggleStreetMode(streetMode) }
-        state={this.getMode(streetMode) }
+        onBtnClick={() => this.toggleStreetMode(streetMode)}
+        state={this.getMode(streetMode)}
         checkedClass={streetMode}
         className={cx('small-4',
           { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 },
-        ) }
-        />
+        )}
+      />
     ));
   }
 
@@ -127,11 +127,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'walking',
           defaultMessage: 'Walking',
-        }) }
+        })}
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
           this.walkReluctanceSliderValues[e.target.value],
-        ) }
+        )}
         min={0}
         max={20}
         initialValue={this.walkReluctanceInitVal}
@@ -139,12 +139,12 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
           defaultMessage: 'Avoid walking',
-        }) }
+        })}
         maxText={this.context.intl.formatMessage({
           id: 'prefer-walking',
           defaultMessage: 'Prefer walking',
-        }) }
-        />
+        })}
+      />
     </section>);
 
   getWalkBoardCostSlider = () => (
@@ -153,11 +153,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'transfers',
           defaultMessage: 'Transfers',
-        }) }
+        })}
         onSliderChange={e => this.updateSettings(
           'walkBoardCost',
           this.walkBoardCostSliderValues[e.target.value],
-        ) }
+        )}
         min={0}
         max={20}
         initialValue={this.walkBoardCostInitVal}
@@ -165,12 +165,12 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'avoid-transfers',
           defaultMessage: 'Avoid transfers',
-        }) }
+        })}
         maxText={this.context.intl.formatMessage({
           id: 'transfers-allowed',
           defaultMessage: 'Transfers allowed',
-        }) }
-        />
+        })}
+      />
     </section>);
 
   getTransferMarginSlider = () => (
@@ -179,11 +179,11 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'transfers-margin',
           defaultMessage: 'Transfer margin at least',
-        }) }
+        })}
         onSliderChange={e => this.updateSettings(
           'minTransferTime',
           this.transferMarginSliderValues[e.target.value],
-        ) }
+        )}
         min={0}
         max={20}
         transferMargin={isNaN(this.context.location.query.minTransferTime) === false ?
@@ -193,11 +193,11 @@ class CustomizeSearch extends React.Component {
         minText={this.context.intl.formatMessage({
           id: 'no-transfers-margin',
           defaultMessage: '1 min',
-        }) }
+        })}
         maxText={this.context.intl.formatMessage({
           id: 'long-transfers-margin',
           defaultMessage: '12 min',
-        }) }
+        })}
       />
     </section>);
 
@@ -207,25 +207,26 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'walking-speed',
           defaultMessage: 'Walking speed',
-        }) }
+        })}
         onSliderChange={e => this.updateSettings(
           'walkSpeed',
           this.walkingSpeedSliderValues[e.target.value],
-        ) }
+        )}
         min={0}
         max={20}
         initialValue={this.walkingSpeedInitVal}
         step={1}
-        walkSpeed={isNaN(this.context.location.query.walkSpeed) === false ? Math.floor(this.context.location.query.walkSpeed * 60) : 72}
+        walkSpeed={isNaN(this.context.location.query.walkSpeed) === false ?
+          Math.floor(this.context.location.query.walkSpeed * 60) : 72}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
-        }) }
+        })}
         maxText={this.context.intl.formatMessage({
           id: 'run',
           defaultMessage: 'Run',
-        }) }
-        />
+        })}
+      />
     </section>);
 
   getTicketSelector = () => (
@@ -234,15 +235,15 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'zones',
           defaultMessage: 'Fare zones',
-        }) }
+        })}
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
         options={this.context.config.ticketOptions}
         onSelectChange={e => this.updateSettings(
           'ticketOption',
           e.target.value,
-        ) }
-        />
+        )}
+      />
     </section>);
 
   getAccessibilitySelector = () => (
@@ -251,15 +252,15 @@ class CustomizeSearch extends React.Component {
         headerText={this.context.intl.formatMessage({
           id: 'accessibility',
           defaultMessage: 'Accessibility',
-        }) }
+        })}
         name="accessible"
         selected={this.context.location.query.accessibilityOption || '0'}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
           e.target.value,
-        ) }
-        />
+        )}
+      />
     </section>);
 
   getModes() {
@@ -277,7 +278,7 @@ class CustomizeSearch extends React.Component {
     this.context.router.replace({
       ...this.context.location,
       query: without(this.context.location.query, 'intermediatePlaces'),
-    });
+  });
 }
 
 openSearchModal = () =>
