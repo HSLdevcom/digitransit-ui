@@ -14,7 +14,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
 const Leg = ({ routeNumber, leg, large }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className="leg">
+  <div key={`${leg.mode}_${leg.startTime}`} className={`leg ${large ? 'large' : ''}`}>
     { large &&
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -38,6 +38,7 @@ const RouteLeg = ({ leg, mode, large }) => {
       route={leg.route}
       isCallAgency={callAgency}
       className="line"
+      large={large}
       vertical
     />
   );
@@ -190,7 +191,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
             props.onSelectImmediately(props.hash);
           }}
         >
-          <div className="action-arrow">
+          <div className="action-arrow flex-grow">
             <Icon img="icon-icon_arrow-collapse--right" />
           </div>
         </button>,

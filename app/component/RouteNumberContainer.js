@@ -14,15 +14,17 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ route, isCallAgency, ...props }, { config, intl }) =>
+const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config, intl }) =>
   (isCallAgency
     ? (route && <RouteNumber
+      large={large}
       mode="call" text={intl.formatMessage({
         id: 'pay-attention',
         defaultMessage: 'Pay Attention',
       })} {...props}
     />)
-    : (route && <RouteNumber mode={route.mode} text={getText(route, config)} {...props} />)
+    : (route &&
+    <RouteNumber mode={route.mode} large={large} text={getText(route, config)} {...props} />)
   );
 
 RouteNumberContainer.propTypes = {

@@ -9,7 +9,7 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
-  align-items: center;
+  //align-items: center;
   user-select: none;
   $distance-gray: #999999;
   font-size: $font-size-normal;
@@ -126,10 +126,15 @@
     flex: 1 1 0;
 
     .leg {
+      padding-top: $padding-small;
       flex: 1 1 0;
       overflow: hidden;
       justify-content: center;
+      &.large {
+          padding-top: 0;
+      }
     }
+
 
     .leg.via {
       flex: 1 1 0;
@@ -164,11 +169,20 @@
       justify-content: left;
     }
 
+    div.bar-container {
+      top:0;
+      left:0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      position:absolute;
+      align-items: center;
+    }
 
     div.bar {
-      //top:0px;
+      height: 3px;
       width: calc(100% - 1px);
-      position: absolute;
+      //position: absolute;
       z-index: -1;
       //right: 1px;
     //  height: 3px;
@@ -186,6 +200,15 @@
       }
     }
 
+    .bar.large {
+      height: 6px;
+      border-width: 2px;
+      border-radius: $border-radius;
+      .bar-inner {
+        height: 2px;
+      }
+    }
+
     .line {
       white-space: nowrap;
       width: 100%;
@@ -194,8 +217,9 @@
       text-align: center;
 
       .icon {
-        margin-left: $padding-xsmall;
-        font-size: 1.3rem;
+        //margin-top: $padding-small;
+        margin-left: 3px;
+        font-size: $font-size-normal;
         float: left;
       }
     }
@@ -223,7 +247,6 @@
     display: flex;
   }
   .action-arrow {
-    min-height: 40px;
     display: flex;
     align-items: center;
     border: 1px solid rgba(0, 0, 0, 0.19);
@@ -302,8 +325,10 @@
 
       .line .icon {
         margin-top: 0;
-        margin-left: 5px;
-        font-size: 24px;
+        margin-left: 6px;
+        font-size: $font-size-large;
+        width: $font-size-large;
+        height: $font-size-large;
       }
 
       .vehicle-number {
