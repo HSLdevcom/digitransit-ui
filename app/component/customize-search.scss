@@ -60,6 +60,53 @@
     padding: $padding-medium;
   }
 
+  .save-settings {
+    text-align: center;
+    hr {
+      height: 2px;
+      opacity: 0.1;
+      background-color: $white;
+      margin-bottom: 1.7em;
+    }
+  }
+
+  .save-settings-button {
+    background-color: #585a5b;
+    width: 80%;
+    height: 40px;
+    border-radius: 20px;
+    text-align: center;
+      h4 {
+      color: $white;
+      font-size: $font-size-xxsmall;
+      font-family: $font-family;
+      font-weight: 300;
+      margin: 0;
+      text-transform: none;
+      }
+  }
+
+  .reset-settings {
+    text-align: center;
+    max-width: 151px;
+    margin: 0 auto;
+  }
+
+  .reset-settings-button {
+    background: none;
+    cursor: pointer;
+     h4 {
+      color: #aaaaaa;
+      font-size: $font-size-xxsmall;
+      font-family: $font-family;
+      font-weight: 300;
+      margin: 0;
+      text-transform: none;
+      border-bottom: 1px dashed #aaaaaa;
+      line-height: 1.5em;
+      }
+  }
+
   input[type="text"] {
     background-color: transparent;
     border: 1px solid $dark-gray;
