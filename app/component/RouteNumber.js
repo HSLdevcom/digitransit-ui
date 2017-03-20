@@ -18,8 +18,8 @@ function RouteNumber(props) {
 
   const largeClass = props.large ? 'large' : '';
   return (
-    <span className={cx('route-number', { vertical: props.vertical })}>
-      <span className={cx('vcenter-children', props.className)}>
+    <span className={cx('route-number', { vertical: props.vertical }, props.className)}>
+      <span className={cx('vcenter-children')}>
         {props.hasDisruption ?
           <IconWithBigCaution
             className={mode}
