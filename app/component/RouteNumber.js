@@ -18,8 +18,8 @@ function RouteNumber(props) {
 
   const largeClass = props.large ? 'large' : '';
   return (
-    <span>
-      <span className={cx('route-number', 'vcenter-children', props.className, { vertical: props.vertical })}>
+    <span className="route-number">
+      <span className={cx('vcenter-children', props.className, { vertical: props.vertical })}>
         {props.hasDisruption ?
           <IconWithBigCaution
             className={mode}
@@ -30,7 +30,7 @@ function RouteNumber(props) {
             img={`icon-icon_${mode}`}
           />
       }
-        <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>
+        <span className="bar-container"><span className={cx('bar', mode, largeClass)} ><span className="bar-inner" /></span></span>
 
         {props.vertical ? <br /> : null}
 
