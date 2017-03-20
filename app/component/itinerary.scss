@@ -230,6 +230,18 @@ $itinerary-route-max-width: 500px;
     border-left: solid 4px;
   }
 
+  .itinerary-instruction-column.call:not(.to)::after {
+     content: "";
+     position: absolute;
+     top: 17px;
+     bottom: -10px;
+     left: 3px;
+     border-left: dashed 1px;
+     width: 4px;
+     border-right: dashed 1px;
+   }
+
+
   .itinerary-instruction-column.intermediate:not(.to)::after {
     top: 0px;
   }
