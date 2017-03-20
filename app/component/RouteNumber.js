@@ -30,7 +30,7 @@ function RouteNumber(props) {
             img={`icon-icon_${mode}`}
           />
       }
-        <span className="bar-container"><span className={cx('bar', mode, largeClass)} ><span className="bar-inner" /></span></span>
+        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
 
         {props.vertical ? <br /> : null}
 
@@ -68,6 +68,11 @@ RouteNumber.propTypes = {
   className: React.PropTypes.string,
   hasDisruption: React.PropTypes.bool,
   fadeLong: React.PropTypes.bool,
+  withBar: React.PropTypes.bool.isRequired,
+};
+
+RouteNumber.defaultProps = {
+  withBar: false,
 };
 
 RouteNumber.displayName = 'RouteNumber';

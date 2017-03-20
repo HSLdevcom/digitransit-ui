@@ -37,9 +37,10 @@ const RouteLeg = ({ leg, mode, large }) => {
     <RouteNumberContainer
       route={leg.route}
       isCallAgency={callAgency}
-      className="line"
+      className={cx('line', mode.toLowerCase())}
       large={large}
       vertical
+      withBar
     />
   );
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
