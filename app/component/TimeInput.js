@@ -48,7 +48,6 @@ class TimeInput extends Component {
         className="text-time-selector"
         defaultValue={this.props.value}
         onChange={this.onChange}
-        onClick={() => { this.refs.time.select(); }}
         maxLength="5"
         size="5"
         style={{

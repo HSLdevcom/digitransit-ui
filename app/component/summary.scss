@@ -138,6 +138,11 @@
     }
   }
 
+  input[type="time"]:focus, input[type="text"]:focus {
+    background-color: $white;
+    color: $black;
+  }
+
   .right-offcanvas-toggle {
       span {
         color: $primary-font-color;
