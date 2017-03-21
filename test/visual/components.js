@@ -100,7 +100,8 @@ testVariation('IconWithTail', 'notail', 4);
 testVariation('SelectedIconWithTail');
 testVariation('IconWithCaution');
 testVariation('IconWithBigCaution');
-
+testVariation('IconWithIcon', 'customStyle', 1);
+testVariation('IconWithIcon', 'normal', 2);
 
 testVariation('TimeNavigationButtons', 'normal');
 testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {

@@ -7,6 +7,7 @@ import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
 import IconWithCaution from './IconWithCaution';
 import IconWithBigCaution from './IconWithBigCaution';
+import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
 import Departure from './Departure';
 import RouteNumber from './RouteNumber';
@@ -90,6 +91,7 @@ const components = {
   SelectedIconWithTail,
   IconWithBigCaution,
   IconWithCaution,
+  IconWithIcon,
   ComponentDocumentation,
   Departure,
   RouteNumber,
