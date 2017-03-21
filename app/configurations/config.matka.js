@@ -43,6 +43,7 @@ export default {
   },
 
   shouldShowIntro: true,
+  redirectReittiopasParams: true,
 
   aboutThisService: {
     fi: [
