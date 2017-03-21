@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
+import ComponentUsageExample from './ComponentUsageExample';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
@@ -72,9 +73,16 @@ class CallAgencyLeg extends React.Component {
               <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
             </div>
             <div className="itinerary-transit-leg-route call">
-              <span className="warning-message">Liikennöidään kutsujoukkoliikenteenä: <span className="route-name">{this.props.leg.route.longName}</span>,
-          joka on tilattava etukäteen.
-          <div className="itinerary-warning-agency-container"><LegAgencyInfo leg={this.props.leg} /></div>
+              <span className="warning-message">
+                <FormattedMessage
+                  id="warning-call-agency"
+                  values={{
+                    routeName: <span className="route-name">{this.props.leg.route.longName}</span>,
+                  }}
+                  defaultMessage={`TODO Liikennöidään kutsujoukkoliikenteenä: {routeName},
+                  joka on tilattava etukäteen.`}
+                />
+                <div className="itinerary-warning-agency-container"><LegAgencyInfo leg={this.props.leg} /></div>
                 {this.props.leg.route.agency.phone ? (<div className="call-button"><Link href={`tel:${this.props.leg.route.agency.phone}`}>soita {this.props.leg.route.agency.phone}</Link></div>) : ''}
               </span>
             </div>
@@ -89,6 +97,52 @@ class CallAgencyLeg extends React.Component {
       </div>);
   }
 }
+
+CallAgencyLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary bus leg.</p>
+      <ComponentUsageExample description="normal">
+        <CallAgencyLeg leg={exampleData(today)} index={1} focusAction={() => {}} />
+      </ComponentUsageExample>exampleData
+    </div>
+  );
+};
+
+
+const exampleData = t1 => ({
+
+  realTime: false,
+  transitLeg: true,
+  startTime: t1 + 20000,
+  endTime: t1 + 30000,
+  mode: 'BUS',
+  distance: 586.4621425755712,
+  duration: 120,
+  rentedBike: false,
+  route: {
+    longName: 'Leppävaara - Tapiola',
+    agency: { phone: '09-555' },
+    gtfsId: 'xxx',
+    shortName: '57',
+    mode: 'BUS' },
+  from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
+  to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
+  trip: {
+    gtfsId: 'xxx',
+    pattern: {
+      code: 'xxx',
+    },
+    stoptimes: [
+      { pickupType: 'CALL_AGENCY',
+        stop: { gtfsId: 'start' } },
+    ],
+  },
+}
+
+);
 
 CallAgencyLeg.propTypes = {
   leg: PropTypes.object.isRequired,

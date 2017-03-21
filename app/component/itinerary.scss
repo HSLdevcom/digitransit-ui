@@ -241,7 +241,6 @@ $itinerary-route-max-width: 500px;
      border-right: dashed 1px;
    }
 
-
   .itinerary-instruction-column.intermediate:not(.to)::after {
     top: 0px;
   }
@@ -595,6 +594,7 @@ div.itinerary-container-content {
     }
   }
   .warning-message {
+    white-space: normal;
     color: $black;
     .route-name {
       white-space: nowrap;
@@ -604,23 +604,22 @@ div.itinerary-container-content {
 }
 
 .call-button {
-  width: calc(100% - 26px);
+  width: calc(100% - 13px);
   @include font-medium;
   color: white;
   background: $standalone-btn-color;
   vertical-align: middle;
   border-radius: 1.5em;
-  padding: 0.5em 1.5em;
+  padding: 0.6em 1.5em;
   text-align: center;
   margin-top: 10px;
   margin-bottom: 1.5em;
-  margin-left: auto;
   margin-right: auto;
   cursor: pointer;
-
-
+  @include font-medium;
+  font-weight: 600;
   a {
-    @include font-medium;
+
     text-decoration: none;
     color: white;
   }
