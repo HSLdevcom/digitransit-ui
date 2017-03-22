@@ -30,26 +30,41 @@ Leg.propTypes = {
   large: React.PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, mode, large }) => {
-  const callAgency = isCallAgencyPickupType(leg);
+const RouteLeg = ({ leg, large, intl }) => {
+  const isCallAgency = isCallAgencyPickupType(leg);
 
-  const routeNumber = (
-    <RouteNumberContainer
+  let routeNumber;
+  if (isCallAgency) {
+    const message = intl.formatMessage({
+      id: 'pay-attention',
+      defaultMessage: 'Pay Attention',
+    });
+    routeNumber = (<RouteNumber
+      large={large}
+      mode="call"
+      text={message}
+      className={cx('line', 'call')}
+      vertical
+      withBar
+    />);
+  } else {
+    routeNumber =
+    (<RouteNumberContainer
       route={leg.route}
-      isCallAgency={callAgency}
-      className={cx('line', mode.toLowerCase())}
+      className={cx('line', leg.mode.toLowerCase())}
       large={large}
       vertical
       withBar
-    />
-  );
+    />);
+  }
+
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
 };
 
 RouteLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
   large: React.PropTypes.bool.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const ModeLeg = ({ leg, mode, large }) => {
@@ -90,7 +105,7 @@ ViaLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
 };
 
-const SummaryRow = (props, { intl: { formatMessage } }) => {
+const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
   const data = props.data;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
@@ -126,7 +141,7 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
-        legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
+        legs.push(<RouteLeg leg={leg} intl={intl} large={large} />);
       } else {
         legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
       }
