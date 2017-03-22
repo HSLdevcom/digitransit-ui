@@ -49,7 +49,9 @@ testVariation('DepartureTime', 'canceled', 3);
 
 
 testVariation('RouteNumber', 'normal');
-testVariation('RouteNumber', 'vertical', 2);
+testVariation('RouteNumber', 'with-disruption', 2);
+testVariation('RouteNumber', 'vertical', 3);
+testVariation('RouteNumber', 'vertical-with-disruption', 2);
 
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'isArrival', 2);
