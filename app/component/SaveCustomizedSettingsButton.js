@@ -1,45 +1,60 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import { locationShape } from 'react-router';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { setCustomizedSettings, getCustomizedSettings } from '../store/localStorage';
 
-export default function SaveCustomizedSettingsButton() {
-  return (
-    <section className="offcanvas-section">
-      <div className="save-settings">
-        <hr />
-        <button className="save-settings-button" onClick="">
-          <FormattedMessage
+
+class SaveCustomizedSettingsButton extends React.Component {
+
+  static contextTypes = {
+    location: locationShape.isRequired,
+  };
+
+
+  setSettingsData = () => {
+    // Test if has new set values
+    const settings = {
+      accessibilityOption: this.context.location.query.accessibilityOption ?
+      this.context.location.query.accessibilityOption : undefined,
+      minTransferTime: this.context.location.query.minTransferTime ?
+      this.context.location.query.minTransferTime : undefined,
+      modes: (decodeURI(this.context.location.query.modes) !== 'undefined'
+      && decodeURI(this.context.location.query.modes) !== 'TRAM,RAIL,SUBWAY,FERRY,WALK,BUS')
+      ? decodeURI(this.context.location.query.modes).split(',') : undefined,
+      walkBoardCost: this.context.location.query.walkBoardCost ?
+      this.context.location.query.walkBoardCost : undefined,
+      walkReluctance: this.context.location.query.walkReluctance ?
+      this.context.location.query.walkReluctance : undefined,
+      walkSpeed: this.context.location.query.walkSpeed ?
+      this.context.location.query.walkSpeed : undefined,
+    };
+    console.log(settings);
+    setCustomizedSettings(settings);
+    console.log('settings saved');
+    const savedSettings = getCustomizedSettings();
+    console.log(savedSettings);
+  };
+
+  render() {
+    return (
+      <section className="offcanvas-section">
+        <div className="save-settings">
+          <hr />
+         <button className="save-settings-button" onClick={this.setSettingsData}>
+                <FormattedMessage
                 tagName="h4"
                 defaultMessage="Tallenna asetukset"
                 id="save-settings"
-          />
-        </button>
-      </div>
-    </section>
-  );
+              />
+              </button>
+       </div>
+      </section>
+    );
+  }
+
 }
 
-SaveCustomizedSettingsButton.propTypes = {
-  saveSettings: React.PropTypes.func.isRequired,
-};
 
-const emptyFunction = () => {};
-
-SaveCustomizedSettingsButton.description = () => (
-  <div>
-    <p>
-      SaveCustomizedSettingsButton
-    </p>
-    <div className="customize-search">
-      <ComponentUsageExample description="empty">
-        <SaveCustomizedSettingsButton
-          openSearchModal={emptyFunction}
-          removeViaPoint={emptyFunction}
-          intermediatePlaces={false}
-        />
-      </ComponentUsageExample>
-    </div>
-  </div>
-);
+export default SaveCustomizedSettingsButton;

@@ -13,6 +13,7 @@ import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
+import { getCustomizedSettings, setCustomizedSettings, setDefaultSettings, getDefaultSettings } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
@@ -30,6 +31,7 @@ function mapToSlider(value, arr) {
   }
   return best;
 }
+
 
 class CustomizeSearch extends React.Component {
 
@@ -69,28 +71,64 @@ class CustomizeSearch extends React.Component {
   }
 
   componentWillMount() {
+    const custSettings = getCustomizedSettings();
+    console.log(custSettings);
+
     this.walkReluctanceSliderValues =
       CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
-    this.walkReluctanceInitVal = this.context.location.query.walkReluctance ?
-      mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues) :
-      10;
+    if (custSettings.walkReluctance) {
+      console.log('found customized walkreluctance');
+      this.walkReluctanceInitVal = custSettings.walkReluctance
+      && mapToSlider(custSettings.walkReluctance, this.walkReluctanceSliderValues);
+    } else if (this.context.location.query.walkReluctance) {
+      console.log('did not find customized walkreluctance');
+      this.walkReluctanceInitVal = this.context.location.query.walkReluctance
+      && mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues);
+    } else {
+      console.log('no url parameters or localstorage data');
+      this.walkReluctanceInitVal = 10;
+    }
 
     this.walkBoardCostSliderValues =
       CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
-    this.walkBoardCostInitVal = this.context.location.query.walkBoardCost ?
-      mapToSlider(this.context.location.query.walkBoardCost, this.walkBoardCostSliderValues) :
-      10;
+    if (custSettings.walkBoardCost) {
+      this.walkBoardCostInitVal = custSettings.walkBoardCost
+        && mapToSlider(
+          custSettings.walkBoardCost, this.walkBoardCostSliderValues);
+    } else if (this.context.location.query.walkBoardCost) {
+      this.walkBoardCostInitVal = this.context.location.query.walkBoardCost
+        && mapToSlider(
+          this.context.location.query.walkBoardCost, this.walkBoardCostSliderValues);
+    } else {
+      this.walkBoardCostInitVal = 10;
+    }
 
     this.transferMarginSliderValues =
        CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
-    this.transferMarginInitVal = this.context.location.query.minTransferTime ?
-      mapToSlider(this.context.location.query.minTransferTime, this.transferMarginSliderValues) :
-      10;
+    if (custSettings.minTransferTime) {
+      this.transferMarginInitVal = custSettings.minTransferTime
+        && mapToSlider(
+          custSettings.minTransferTime, this.transferMarginSliderValues);
+    } else if (this.context.location.query.minTransferTime) {
+      this.transferMarginInitVal = this.context.location.query.minTransferTime
+        && mapToSlider(
+          this.context.location.query.minTransferTime, this.transferMarginSliderValues);
+    } else {
+      this.transferMarginInitVal = 10;
+    }
 
     this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
-    this.walkingSpeedInitVal = this.context.location.query.walkSpeed ?
-      mapToSlider(this.context.location.query.walkSpeed, this.walkingSpeedSliderValues) :
-      10;
+    if (custSettings.walkSpeed) {
+      this.walkingSpeedInitVal = custSettings.walkSpeed
+        && mapToSlider(
+          custSettings.walkSpeed, this.walkingSpeedSliderValues);
+    } else if (this.context.location.query.walkSpeed) {
+      this.walkingSpeedInitVal = this.context.location.query.walkSpeed
+        && mapToSlider(
+          this.context.location.query.walkSpeed, this.walkingSpeedSliderValues);
+    } else {
+      this.walkingSpeedInitVal = 10;
+    }
   }
 
   getDefaultModes = () =>
@@ -244,6 +282,18 @@ class CustomizeSearch extends React.Component {
       />
     </section>);
 
+  getAccessibilityOption = () => {
+    let accessibilityOption;
+    if (getCustomizedSettings().accessibilityOption && !this.context.location.query.accessibilityOption) {
+      accessibilityOption = getCustomizedSettings().accessibilityOption;
+    } else if (this.context.location.query.accessibilityOption) {
+      accessibilityOption = this.context.location.query.accessibilityOption;
+    } else {
+      accessibilityOption = 0;
+    }
+    return accessibilityOption;
+  }
+
   getAccessibilitySelector = () => (
     <section className="offcanvas-section">
       <Select
@@ -252,7 +302,7 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Accessibility',
         })}
         name="accessible"
-        selected={this.context.location.query.accessibilityOption || '0'}
+        selected={this.getAccessibilityOption()}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e => this.updateSettings(
           'accessibilityOption',
@@ -262,7 +312,10 @@ class CustomizeSearch extends React.Component {
     </section>);
 
   getModes() {
-    if (this.context.location.query.modes) {
+    if (getCustomizedSettings().modes && !this.context.location.query.modes) {
+      return getCustomizedSettings().modes;
+    }
+    else if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
     return this.getDefaultModes();
