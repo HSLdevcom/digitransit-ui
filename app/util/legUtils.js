@@ -23,4 +23,8 @@ export function isCallAgencyPickupType(leg) {
   return filterLegStops(leg, stoptime => (stoptime.pickupType === 'CALL_AGENCY')).length > 0;
 }
 
+export function isCallAgencyDeparture(departure) {
+  return departure.pickupType === 'CALL_AGENCY';
+}
+
 export default null;
