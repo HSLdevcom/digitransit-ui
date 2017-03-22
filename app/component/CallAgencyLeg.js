@@ -83,7 +83,10 @@ class CallAgencyLeg extends React.Component {
                   joka on tilattava etukäteen.`}
                 />
                 <div className="itinerary-warning-agency-container"><LegAgencyInfo leg={this.props.leg} /></div>
-                {this.props.leg.route.agency.phone ? (<div className="call-button"><Link href={`tel:${this.props.leg.route.agency.phone}`}>soita {this.props.leg.route.agency.phone}</Link></div>) : ''}
+                {this.props.leg.route.agency.phone ? (<div className="call-button"><Link href={`tel:${this.props.leg.route.agency.phone}`}><FormattedMessage
+                  id="call"
+                  defaultMessage="Call"
+                /> {this.props.leg.route.agency.phone}</Link></div>) : ''}
               </span>
             </div>
           </div>
