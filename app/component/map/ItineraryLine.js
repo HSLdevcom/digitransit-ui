@@ -11,6 +11,8 @@ import Line from './Line';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
+import { isCallAgencyPickupType } from '../../util/legUtils';
+import IconMarker from './IconMarker';
 
 const getLegText = (leg, config) => {
   if (!leg.route) return '';
@@ -54,6 +56,10 @@ class ItineraryLine extends React.Component {
         mode = 'BICYCLE_WALK';
       }
 
+      if (isCallAgencyPickupType(leg)) {
+        mode = 'call';
+      }
+
       const modePlusClass = mode.toLowerCase() + (this.props.passive ? ' passive' : '');
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
@@ -90,53 +96,98 @@ class ItineraryLine extends React.Component {
             />);
         } else if (leg.transitLeg) {
           const name = getLegText(leg, this.context.config);
-          objs.push(
-            <LegMarker
-              key={`${i},${leg.mode}legmarker`}
-              disableModeIcons
-              renderName
-              leg={{
-                from: leg.from,
-                to: leg.to,
-                lat: middle.lat,
-                lon: middle.lon,
-                name,
-                gtfsId: leg.from.stop.gtfsId,
-                code: leg.from.stop.code,
-              }}
-              mode={mode.toLowerCase()}
-            />,
+          if (isCallAgencyPickupType(leg)) {
+            objs.push(
+              <IconMarker
+                key="call"
+                position={{
+                  lat: middle.lat,
+                  lon: middle.lon,
+                }}
+                className="call"
+                icon="icon-icon_call"
+              />);
+
+            objs.push(
+              <StopMarker
+                key={`${i},${leg.mode}marker,from`}
+                disableModeIcons
+                stop={{
+                  ...leg.from,
+                  gtfsId: leg.from.stop.gtfsId,
+                  code: leg.from.stop.code,
+                  platformCode: leg.from.stop.platformCode,
+                  transfer: true,
+                }}
+                mode={leg.mode.toLowerCase()}
+                renderText={leg.transitLeg && this.props.showTransferLabels}
+              />,
           );
-          objs.push(
-            <StopMarker
-              key={`${i},${leg.mode}marker,from`}
-              disableModeIcons
-              stop={{
-                ...leg.from,
-                gtfsId: leg.from.stop.gtfsId,
-                code: leg.from.stop.code,
-                platformCode: leg.from.stop.platformCode,
-                transfer: true,
-              }}
-              mode={mode.toLowerCase()}
-              renderText={leg.transitLeg && this.props.showTransferLabels}
-            />,
+            objs.push(
+              <StopMarker
+                key={`${i},${leg.mode}marker,to`}
+                disableModeIcons
+                stop={{
+                  ...leg.to,
+                  gtfsId: leg.to.stop.gtfsId,
+                  code: leg.to.stop.code,
+                  platformCode: leg.to.stop.platformCode,
+                  transfer: true,
+                }}
+                mode={leg.mode.toLowerCase()}
+                renderText={leg.transitLeg && this.props.showTransferLabels}
+              />,
           );
-          objs.push(
-            <StopMarker
-              key={`${i},${leg.mode}marker,to`}
-              disableModeIcons
-              stop={{
-                ...leg.to,
-                gtfsId: leg.to.stop.gtfsId,
-                code: leg.to.stop.code,
-                platformCode: leg.to.stop.platformCode,
-                transfer: true,
-              }}
-              mode={mode.toLowerCase()}
-              renderText={leg.transitLeg && this.props.showTransferLabels}
-            />,
+          } else {
+            objs.push(
+              <LegMarker
+                key={`${i},${leg.mode}legmarker`}
+                disableModeIcons
+                renderName
+                leg={{
+                  from: leg.from,
+                  to: leg.to,
+                  lat: middle.lat,
+                  lon: middle.lon,
+                  name,
+                  gtfsId: leg.from.stop.gtfsId,
+                  code: leg.from.stop.code,
+                }}
+                mode={mode.toLowerCase()}
+              />,
           );
+
+            objs.push(
+              <StopMarker
+                key={`${i},${leg.mode}marker,from`}
+                disableModeIcons
+                stop={{
+                  ...leg.from,
+                  gtfsId: leg.from.stop.gtfsId,
+                  code: leg.from.stop.code,
+                  platformCode: leg.from.stop.platformCode,
+                  transfer: true,
+                }}
+                mode={mode.toLowerCase()}
+                renderText={leg.transitLeg && this.props.showTransferLabels}
+              />,
+          );
+            objs.push(
+              <StopMarker
+                key={`${i},${leg.mode}marker,to`}
+                disableModeIcons
+                stop={{
+                  ...leg.to,
+                  gtfsId: leg.to.stop.gtfsId,
+                  code: leg.to.stop.code,
+                  platformCode: leg.to.stop.platformCode,
+                  transfer: true,
+                }}
+                mode={mode.toLowerCase()}
+                renderText={leg.transitLeg && this.props.showTransferLabels}
+              />,
+          );
+          }
         }
       }
     });
@@ -199,6 +250,14 @@ export default Relay.createContainer(ItineraryLine, {
             gtfsId
             code
             platformCode
+          }
+        }
+        trip {
+          stoptimes {
+            stop {
+              gtfsId
+            }
+            pickupType
           }
         }
         intermediateStops {
