@@ -1,38 +1,18 @@
 import React from 'react';
-import Icon from '../Icon';
-
-import { isBrowser } from '../../util/browser';
-
-let L;
-let Marker;
-
-/* eslint-disable global-require */
-if (isBrowser) {
-  L = require('leaflet');
-  Marker = require('react-leaflet/lib/Marker').default;
-}
-/* eslint-enaable global-require */
+import IconMarker from './IconMarker';
 
 export default function LocationMarker({ position, className, noText }) {
   return (
-    <Marker
-      zIndexOffset={10}
+    <IconMarker
       position={position}
-      keyboard={false}
-      icon={L.divIcon({
-        html: Icon.asString(noText ? 'icon-icon_place' : 'icon-icon_mapMarker-point'),
-        className,
-        iconAnchor: [12, 24],
-      })}
+      className={className}
+      icon={noText ? 'icon-icon_place' : 'icon-icon_mapMarker-point'}
     />
   );
 }
 
 LocationMarker.propTypes = {
-  position: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
-  }).isRequired,
+  position: IconMarker.position,
   className: React.PropTypes.string,
   noText: React.PropTypes.bool,
 };
