@@ -24,7 +24,7 @@ import Title from './component/Title';
 import { isBrowser } from './util/browser';
 
 // Localstorage data
-import { setDefaultSettings, getCustomizedSettings, getDefaultSettings } from './store/localStorage';
+import { getCustomizedSettings } from './store/localStorage';
 
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */

@@ -13,7 +13,7 @@ import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
-import { getCustomizedSettings, setCustomizedSettings, setDefaultSettings, getDefaultSettings } from '../store/localStorage';
+import { getCustomizedSettings } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
@@ -72,20 +72,16 @@ class CustomizeSearch extends React.Component {
 
   componentWillMount() {
     const custSettings = getCustomizedSettings();
-    console.log(custSettings);
 
     this.walkReluctanceSliderValues =
       CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
     if (custSettings.walkReluctance) {
-      console.log('found customized walkreluctance');
       this.walkReluctanceInitVal = custSettings.walkReluctance
       && mapToSlider(custSettings.walkReluctance, this.walkReluctanceSliderValues);
     } else if (this.context.location.query.walkReluctance) {
-      console.log('did not find customized walkreluctance');
       this.walkReluctanceInitVal = this.context.location.query.walkReluctance
       && mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues);
     } else {
-      console.log('no url parameters or localstorage data');
       this.walkReluctanceInitVal = 10;
     }
 
@@ -284,7 +280,8 @@ class CustomizeSearch extends React.Component {
 
   getAccessibilityOption = () => {
     let accessibilityOption;
-    if (getCustomizedSettings().accessibilityOption && !this.context.location.query.accessibilityOption) {
+    if (getCustomizedSettings().accessibilityOption
+    && !this.context.location.query.accessibilityOption) {
       accessibilityOption = getCustomizedSettings().accessibilityOption;
     } else if (this.context.location.query.accessibilityOption) {
       accessibilityOption = this.context.location.query.accessibilityOption;
@@ -314,8 +311,7 @@ class CustomizeSearch extends React.Component {
   getModes() {
     if (getCustomizedSettings().modes && !this.context.location.query.modes) {
       return getCustomizedSettings().modes;
-    }
-    else if (this.context.location.query.modes) {
+    } else if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
     }
     return this.getDefaultModes();
