@@ -42,11 +42,19 @@ class SaveCustomizedSettingsButton extends React.Component {
         ? this.context.location.query.walkSpeed
         : undefined,
     };
+
     setCustomizedSettings(settings);
+    console.log('tallennettu');
     this.setState({
       open: true,
     });
   };
+
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  }
 
   render() {
     return (
@@ -60,8 +68,8 @@ class SaveCustomizedSettingsButton extends React.Component {
         <Snackbar
           open={this.state.open}
           message={this.state.message}
-          action="undo"
           autoHideDuration={this.state.autoHideDuration}
+          onRequestClose={this.handleRequestClose}
           bodyStyle={{ backgroundColor: '#585a5b', color: '#fff', textAlign: 'center' }}
         />
       </section>
