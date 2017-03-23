@@ -435,7 +435,6 @@ div.itinerary-container-content {
     padding-bottom: 10px;
     .agency-link {
       font-size: 10px;
-      padding: 7px 8px;
       .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
@@ -591,6 +590,7 @@ div.itinerary-container-content {
     padding-top: $padding-medium;
     &.call {
       padding-top: 2em;
+      padding-right: 1em;
     }
   }
   .warning-message {
