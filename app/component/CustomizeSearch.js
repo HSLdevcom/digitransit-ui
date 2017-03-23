@@ -15,7 +15,7 @@ import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
 import { getCustomizedSettings } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
+// import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -458,7 +458,6 @@ class CustomizeSearch extends React.Component {
             removeViaPoint={this.removeViaPoint}
           />
           <SaveCustomizedSettingsButton />
-          <ResetCustomizedSettingsButton />
         </div>
       </div>);
   }
