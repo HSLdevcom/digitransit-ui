@@ -44,7 +44,6 @@ class SaveCustomizedSettingsButton extends React.Component {
     };
 
     setCustomizedSettings(settings);
-    console.log('tallennettu');
     this.setState({
       open: true,
     });
