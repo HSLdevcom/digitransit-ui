@@ -11,9 +11,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 
 class CallAgencyLeg extends React.Component {
 
-
-  const exampleData = t1 => ({
-
+  exampleData = t1 => ({
     realTime: false,
     transitLeg: true,
     startTime: t1 + 20000,
@@ -40,9 +38,7 @@ class CallAgencyLeg extends React.Component {
           stop: { gtfsId: 'start' } },
       ],
     },
-  }
-
-  );
+  });
 
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
@@ -141,7 +137,7 @@ CallAgencyLeg.description = () => {
     <div>
       <p>Displays an itinerary bus leg.</p>
       <ComponentUsageExample description="normal">
-        <CallAgencyLeg leg={exampleData(today)} index={1} focusAction={() => {}} />
+        <CallAgencyLeg leg={this.exampleData(today)} index={1} focusAction={() => {}} />
       </ComponentUsageExample>exampleData
     </div>
   );
@@ -154,11 +150,9 @@ CallAgencyLeg.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-
 CallAgencyLeg.contextTypes = {
   focusFunction: React.PropTypes.func.isRequired,
   config: React.PropTypes.object.isRequired,
 };
-
 
 export default CallAgencyLeg;
