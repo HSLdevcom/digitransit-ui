@@ -184,11 +184,13 @@
   }
 
   .route-number {
-    padding-left: 0.25em;
+    padding-left: 0.35em;
+    padding-bottom: 4px;
     width: 3.5em;
     vertical-align: middle;
-    margin-bottom: -2px;
-    overflow: hidden;
+    margin-bottom: -6px;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .icon {
