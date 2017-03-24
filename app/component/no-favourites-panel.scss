@@ -1,0 +1,41 @@
+ /* No favourites image*/
+.nofavs-img {
+  background: $no-favourites-img;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  height: 160px;
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  margin-top: 2.5em;
+}
+
+@media (max-width: 900px) {
+  .nofavs-img {
+    height: 240px;
+    width: 100%;
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 380px) {
+  .nofavs-img {
+    height: 160px;
+    width: 100%;
+    max-width: 160px;
+  }
+}
+
+.nofavs-p {
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+  font-size: $font-size-small;
+}
+
+@media (max-width: 900px) {
+  .nofavs-p {
+    font-size: 1rem;
+  }
+}
