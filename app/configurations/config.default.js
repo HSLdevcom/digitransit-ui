@@ -104,7 +104,15 @@ export default {
     minZoom: 1,
     maxZoom: 18,
     useVectorTiles: true,
-
+    controls: {
+      zoom: {
+        // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
+        position: 'bottomleft',
+      },
+      scale: {
+        position: 'bottomright',
+      },
+    },
     genericMarker: {
       // Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18,

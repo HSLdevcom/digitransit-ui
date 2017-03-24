@@ -207,10 +207,12 @@ class Map extends React.Component {
             position="bottomleft"
             prefix='&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>'
           />
-          {this.props.showScaleBar && <ScaleControl imperial={false} position="bottomright" />}
+          {this.props.showScaleBar &&
+            <ScaleControl imperial={false} position={config.map.controls.scale.position} />
+          }
           {this.context.breakpoint === 'large' && (
             <ZoomControl
-              position="bottomleft"
+              position={config.map.controls.zoom.position}
               zoomInText={Icon.asString('icon-icon_plus')}
               zoomOutText={Icon.asString('icon-icon_minus')}
             />
