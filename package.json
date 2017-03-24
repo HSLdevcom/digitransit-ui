@@ -1,5 +1,4 @@
-{
-  "name": "digitransit-ui",
+{ "name": "digitransit-ui",
   "version": "0.0.1",
   "description": "Digitransit UI - open nationwide journey planning platform",
   "author": "digitransit@hsl.fi",
@@ -75,7 +74,7 @@
     "leaflet": "1.0.3",
     "lodash": "4.17.2",
     "mapbox-gl-function": "2.1.0",
-    "material-ui": "0.16.7",
+    "material-ui": "0.17.1",
     "moment": "2.17.1",
     "moment-timezone": "0.5.11",
     "mqtt": "2.4.0",
