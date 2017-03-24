@@ -9,23 +9,22 @@
   margin: 0 auto;
   margin-bottom: 1em;
   margin-top: 2.5em;
-}
+  &.bp-large {
+  }
 
-@media (max-width: 900px) {
-  .nofavs-img {
+  &.bp-medium {
     height: 240px;
     width: 100%;
     max-width: 240px;
-  }
-}
+    }
 
-@media (max-width: 380px) {
-  .nofavs-img {
+  &.bp-small {
     height: 160px;
     width: 100%;
     max-width: 160px;
   }
 }
+
 
 .nofavs-p {
   width: 70%;
