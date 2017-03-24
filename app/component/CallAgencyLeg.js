@@ -41,7 +41,7 @@ class CallAgencyLeg extends React.Component {
           // TODO: Create a helper function for generationg links
         }
           >
-            <div className="small-2 columns itinerary-time-column">
+            <div className="small-2 columns itinerary-time-column call">
               <div className="itinerary-time-column-time">
                 <span className={this.props.leg.realTime ? 'realtime' : ''}>
                   {this.props.leg.realTime &&

@@ -148,12 +148,19 @@ $itinerary-route-max-width: 500px;
     color: $black;
     margin-bottom: 0.5em;
 
+    &.call {
+      .route-number {
+        padding-top: 2em;
+      }
+    }
+
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
       span {
         position: relative;
       }
     }
+
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
