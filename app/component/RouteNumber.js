@@ -17,22 +17,30 @@ function RouteNumber(props) {
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
 
+  const icon = (isCallAgency, hasDisruption) => {
+    if (isCallAgency) {
+      return (<IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
+    }
+
+    if (hasDisruption) {
+      return (<IconWithBigCaution
+        className={mode}
+        img={`icon-icon_${mode}`}
+      />);
+    }
+
+    return (<Icon
+      className={mode}
+      img={`icon-icon_${mode}`}
+    />);
+  };
+
   const largeClass = props.large ? 'large' : '';
   return (
+
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        {props.isCallAgency ?
-          <IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" /> :
-          props.hasDisruption ?
-            <IconWithBigCaution
-              className={mode}
-              img={`icon-icon_${mode}`}
-            /> :
-            <Icon
-              className={mode}
-              img={`icon-icon_${mode}`}
-            />
-      }
+        {icon(props.isCallAgency, props.hasDisruption)}
         {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
 
         {props.vertical ? <br /> : null}

@@ -56,9 +56,6 @@ class ItineraryLine extends React.Component {
         mode = 'BICYCLE_WALK';
       }
 
-      if (isCallAgencyPickupType(leg)) {
-        mode = 'call';
-      }
 
       const modePlusClass = mode.toLowerCase() + (this.props.passive ? ' passive' : '');
 
@@ -69,7 +66,7 @@ class ItineraryLine extends React.Component {
         <Line
           key={`${this.props.hash}_${i}_${mode}`}
           geometry={geometry}
-          mode={mode.toLowerCase()}
+          mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
           passive={this.props.passive}
         />);
 

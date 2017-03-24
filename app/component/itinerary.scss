@@ -131,10 +131,15 @@ $itinerary-route-max-width: 500px;
   }
 }
 
+.call-agency {
+  background-color: yellow;
+}
+
 .row.itinerary-row {
   position:relative;
   line-height: 1.1;
   color: $medium-gray;
+  width: 100%;
   max-width: $itinerary-route-max-width;
   .itinerary-time-column {
     @include font-narrow-medium;
@@ -142,12 +147,20 @@ $itinerary-route-max-width: 500px;
     text-align: center;
     color: $black;
     margin-bottom: 0.5em;
+
+    &.call {
+      .route-number {
+        padding-top: 2em;
+      }
+    }
+
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
       span {
         position: relative;
       }
     }
+
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
@@ -155,13 +168,21 @@ $itinerary-route-max-width: 500px;
         position: absolute;
       }
       font-size: 14pt;
+      &.call {
+        font-size: 24px;
+      }
     }
+
     .original-time {
       text-decoration: line-through;
       color: $gray;
     }
     .route-number {
       padding-top: 0.25em;
+      &.call {
+        padding-top: 1.5em;
+        padding-left: 0.8em;
+      }
     }
     .vehicle-number.long {
       overflow: hidden;
@@ -215,6 +236,17 @@ $itinerary-route-max-width: 500px;
     left: 3px;
     border-left: solid 4px;
   }
+
+  .itinerary-instruction-column.call:not(.to)::after {
+     content: "";
+     position: absolute;
+     top: 17px;
+     bottom: -10px;
+     left: 3px;
+     border-left: dashed 1px;
+     width: 4px;
+     border-right: dashed 1px;
+   }
 
   .itinerary-instruction-column.intermediate:not(.to)::after {
     top: 0px;
@@ -410,7 +442,6 @@ div.itinerary-container-content {
     padding-bottom: 10px;
     .agency-link {
       font-size: 10px;
-      padding: 7px 8px;
       .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
@@ -546,4 +577,65 @@ div.itinerary-container-content {
   border-top: 1px solid $gray;
   width: 2em;
   height: 1px;
+}
+
+.itinerary-call-agency-warning {
+  width: calc(100% - 20px);
+  height: calc(100% - 3em);
+  background-color: rgba(254, 209, 0, 0.3);
+  position:absolute;
+  top:0;
+  left:0;
+  margin-top: 2em;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: $border-radius;
+}
+
+.itinerary-instruction-column.call {
+  .itinerary-transit-leg-route {
+    padding-top: $padding-medium;
+    &.call {
+      padding-top: 2em;
+      padding-right: 1em;
+    }
+  }
+  .warning-message {
+    white-space: normal;
+    color: $black;
+    .route-name {
+      white-space: nowrap;
+      @include font-bold;
+    }
+  }
+}
+
+.call-button {
+  width: calc(100% - 13px);
+  @include font-medium;
+  color: white;
+  background: $standalone-btn-color;
+  vertical-align: middle;
+  border-radius: 1.5em;
+  padding: 0.6em 1.5em;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 1.5em;
+  margin-right: auto;
+  cursor: pointer;
+  @include font-medium;
+  font-weight: 600;
+  a {
+
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.itinerary-warning-agency-container {
+  display: flex;
+  justify-content: center;
+  .agency-link-container {
+    padding:0;
+  }
 }
