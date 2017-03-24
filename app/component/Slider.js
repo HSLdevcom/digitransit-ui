@@ -14,8 +14,7 @@ class Slider extends React.Component {
     headerText: React.PropTypes.string,
     minText: React.PropTypes.string,
     maxText: React.PropTypes.string,
-    walkSpeed: React.PropTypes.number,
-    transferMargin: React.PropTypes.number,
+    writtenValue: React.PropTypes.string,
   };
 
   static defaultProps = {
@@ -50,11 +49,9 @@ class Slider extends React.Component {
   }
 
   render() {
-    let showWrittenValue = '';
-    if (this.props.walkSpeed) {
-      showWrittenValue = <div className="sub-header-h5 right">{this.props.walkSpeed} m/min</div>;
-    } else if (this.props.transferMargin) {
-      showWrittenValue = <div className="sub-header-h5 right">{this.props.transferMargin} min</div>;
+    let showWrittenValue;
+    if (this.props.writtenValue) {
+      showWrittenValue = <div className="sub-header-h5 right">{this.props.writtenValue}</div>;
     }
 
     return (

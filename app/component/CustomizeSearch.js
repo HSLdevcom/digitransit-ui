@@ -186,8 +186,8 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
-        transferMargin={isNaN(this.context.location.query.minTransferTime) === false ?
-          Math.round(this.context.location.query.minTransferTime / 60) : 3}
+        writtenValue={isNaN(this.context.location.query.minTransferTime) === false ?
+          `${(Math.round(this.context.location.query.minTransferTime / 60))} min` : `${3} min`}
         initialValue={this.transferMarginInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
@@ -216,8 +216,8 @@ class CustomizeSearch extends React.Component {
         max={20}
         initialValue={this.walkingSpeedInitVal}
         step={1}
-        walkSpeed={isNaN(this.context.location.query.walkSpeed) === false ?
-          Math.floor(this.context.location.query.walkSpeed * 60) : 72}
+        writtenValue={isNaN(this.context.location.query.walkSpeed) === false ?
+          `${(Math.floor(this.context.location.query.walkSpeed * 60))} m/min` : `${72} m/min`}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
