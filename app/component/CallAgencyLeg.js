@@ -1,15 +1,48 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import ComponentUsageExample from './ComponentUsageExample';
 import { FormattedMessage } from 'react-intl';
 
+import ComponentUsageExample from './ComponentUsageExample';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 
 class CallAgencyLeg extends React.Component {
+
+
+  const exampleData = t1 => ({
+
+    realTime: false,
+    transitLeg: true,
+    startTime: t1 + 20000,
+    endTime: t1 + 30000,
+    mode: 'BUS',
+    distance: 586.4621425755712,
+    duration: 120,
+    rentedBike: false,
+    route: {
+      longName: 'Leppävaara - Tapiola',
+      agency: { phone: '09-555' },
+      gtfsId: 'xxx',
+      shortName: '57',
+      mode: 'BUS' },
+    from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
+    to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
+    trip: {
+      gtfsId: 'xxx',
+      pattern: {
+        code: 'xxx',
+      },
+      stoptimes: [
+        { pickupType: 'CALL_AGENCY',
+          stop: { gtfsId: 'start' } },
+      ],
+    },
+  }
+
+  );
 
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
@@ -113,39 +146,6 @@ CallAgencyLeg.description = () => {
     </div>
   );
 };
-
-
-const exampleData = t1 => ({
-
-  realTime: false,
-  transitLeg: true,
-  startTime: t1 + 20000,
-  endTime: t1 + 30000,
-  mode: 'BUS',
-  distance: 586.4621425755712,
-  duration: 120,
-  rentedBike: false,
-  route: {
-    longName: 'Leppävaara - Tapiola',
-    agency: { phone: '09-555' },
-    gtfsId: 'xxx',
-    shortName: '57',
-    mode: 'BUS' },
-  from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
-  to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
-  trip: {
-    gtfsId: 'xxx',
-    pattern: {
-      code: 'xxx',
-    },
-    stoptimes: [
-      { pickupType: 'CALL_AGENCY',
-        stop: { gtfsId: 'start' } },
-    ],
-  },
-}
-
-);
 
 CallAgencyLeg.propTypes = {
   leg: PropTypes.object.isRequired,
