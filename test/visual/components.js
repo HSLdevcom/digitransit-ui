@@ -49,7 +49,9 @@ testVariation('DepartureTime', 'canceled', 3);
 
 
 testVariation('RouteNumber', 'normal');
-testVariation('RouteNumber', 'vertical', 2);
+testVariation('RouteNumber', 'with-disruption', 2);
+testVariation('RouteNumber', 'vertical', 3);
+testVariation('RouteNumber', 'vertical-with-disruption', 2);
 
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'isArrival', 2);
@@ -100,7 +102,8 @@ testVariation('IconWithTail', 'notail', 4);
 testVariation('SelectedIconWithTail');
 testVariation('IconWithCaution');
 testVariation('IconWithBigCaution');
-
+testVariation('IconWithIcon', 'customStyle', 1);
+testVariation('IconWithIcon', 'normal', 2);
 
 testVariation('TimeNavigationButtons', 'normal');
 testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {

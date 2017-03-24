@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
+import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
@@ -20,15 +21,17 @@ function RouteNumber(props) {
   return (
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        {props.hasDisruption ?
-          <IconWithBigCaution
-            className={mode}
-            img={`icon-icon_${mode}`}
-          /> :
-          <Icon
-            className={mode}
-            img={`icon-icon_${mode}`}
-          />
+        {props.isCallAgency ?
+          <IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" /> :
+          props.hasDisruption ?
+            <IconWithBigCaution
+              className={mode}
+              img={`icon-icon_${mode}`}
+            /> :
+            <Icon
+              className={mode}
+              img={`icon-icon_${mode}`}
+            />
       }
         {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
 
@@ -51,10 +54,40 @@ RouteNumber.description = () =>
         text={exampleRealtimeDeparture.pattern.route.shortName}
       />
     </ComponentUsageExample>
+    <ComponentUsageExample description="with disruption">
+      <RouteNumber
+        mode={exampleRealtimeDeparture.pattern.route.mode}
+        text={exampleRealtimeDeparture.pattern.route.shortName}
+        hasDisruption
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="with callAgency">
+      <RouteNumber
+        mode={exampleRealtimeDeparture.pattern.route.mode}
+        text={exampleRealtimeDeparture.pattern.route.shortName}
+        isCallAgency
+      />
+    </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
       <RouteNumber
         mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
+        vertical
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="in vertical configuration with disruption">
+      <RouteNumber
+        mode={exampleRealtimeDeparture.pattern.route.mode}
+        text={exampleRealtimeDeparture.pattern.route.shortName}
+        hasDisruption
+        vertical
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="in vertical configuration with callAgency">
+      <RouteNumber
+        mode={exampleRealtimeDeparture.pattern.route.mode}
+        text={exampleRealtimeDeparture.pattern.route.shortName}
+        isCallAgency
         vertical
       />
     </ComponentUsageExample>
@@ -69,10 +102,18 @@ RouteNumber.propTypes = {
   hasDisruption: React.PropTypes.bool,
   fadeLong: React.PropTypes.bool,
   withBar: React.PropTypes.bool.isRequired,
+  isCallAgency: React.PropTypes.bool.isRequired,
 };
 
 RouteNumber.defaultProps = {
   withBar: false,
+  className: '',
+  vertical: false,
+  large: false,
+  hasDisruption: false,
+  fadeLong: false,
+  text: '',
+
 };
 
 RouteNumber.displayName = 'RouteNumber';

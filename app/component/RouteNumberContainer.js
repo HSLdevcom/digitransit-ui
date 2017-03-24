@@ -1,10 +1,9 @@
 import React from 'react';
 import get from 'lodash/get';
-import { intlShape } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
 
-const getText = (route, config) => {
+const getText = (route, props, config) => {
   const showAgency = get(config, 'agency.show', false);
   if (route.shortName) {
     return route.shortName;
@@ -14,18 +13,16 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config, intl }) =>
-  (isCallAgency
-    ? (route && <RouteNumber
+const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config }) =>
+  (route &&
+    <RouteNumber
+      isCallAgency={isCallAgency}
+      mode={route.mode}
       large={large}
-      mode="call" text={intl.formatMessage({
-        id: 'pay-attention',
-        defaultMessage: 'Pay Attention',
-      })} {...props}
-    />)
-    : (route &&
-    <RouteNumber mode={route.mode} large={large} text={getText(route, config)} {...props} />)
-  );
+      text={getText(route, props, config)}
+      {...props}
+    />);
+
 
 RouteNumberContainer.propTypes = {
   route: React.PropTypes.object.isRequired,
@@ -37,7 +34,6 @@ RouteNumberContainer.propTypes = {
 
 RouteNumberContainer.contextTypes = {
   config: React.PropTypes.object.isRequired,
-  intl: intlShape,
 };
 
 RouteNumberContainer.displayName = 'RouteNumberContainer';
