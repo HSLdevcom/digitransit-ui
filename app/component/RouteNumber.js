@@ -63,20 +63,25 @@ RouteNumber.description = () =>
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="with disruption">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        hasDisruption
-      />
+      <div style={{ paddingLeft: '5px' }}>
+        <RouteNumber
+          mode={exampleRealtimeDeparture.pattern.route.mode}
+          text={exampleRealtimeDeparture.pattern.route.shortName}
+          hasDisruption
+        />
+      </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="with callAgency">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        isCallAgency
-      />
+      <div style={{ paddingLeft: '5px' }}>
+        <RouteNumber
+          mode={exampleRealtimeDeparture.pattern.route.mode}
+          text={exampleRealtimeDeparture.pattern.route.shortName}
+          isCallAgency
+        />
+      </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
+
       <RouteNumber
         mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
@@ -84,20 +89,24 @@ RouteNumber.description = () =>
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration with disruption">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        hasDisruption
-        vertical
-      />
+      <div style={{ paddingLeft: '5px' }}>
+        <RouteNumber
+          mode={exampleRealtimeDeparture.pattern.route.mode}
+          text={exampleRealtimeDeparture.pattern.route.shortName}
+          hasDisruption
+          vertical
+        />
+      </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration with callAgency">
-      <RouteNumber
-        mode={exampleRealtimeDeparture.pattern.route.mode}
-        text={exampleRealtimeDeparture.pattern.route.shortName}
-        isCallAgency
-        vertical
-      />
+      <div style={{ paddingLeft: '5px' }}>
+        <RouteNumber
+          mode={exampleRealtimeDeparture.pattern.route.mode}
+          text={exampleRealtimeDeparture.pattern.route.shortName}
+          isCallAgency
+          vertical
+        />
+      </div>
     </ComponentUsageExample>
   </div>;
 
