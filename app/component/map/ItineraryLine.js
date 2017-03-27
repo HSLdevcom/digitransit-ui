@@ -104,37 +104,6 @@ class ItineraryLine extends React.Component {
                 className="call"
                 icon="icon-icon_call"
               />);
-
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,from`}
-                disableModeIcons
-                stop={{
-                  ...leg.from,
-                  gtfsId: leg.from.stop.gtfsId,
-                  code: leg.from.stop.code,
-                  platformCode: leg.from.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={leg.mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-          );
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,to`}
-                disableModeIcons
-                stop={{
-                  ...leg.to,
-                  gtfsId: leg.to.stop.gtfsId,
-                  code: leg.to.stop.code,
-                  platformCode: leg.to.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={leg.mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-          );
           } else {
             objs.push(
               <LegMarker
