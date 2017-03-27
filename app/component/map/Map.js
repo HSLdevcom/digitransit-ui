@@ -68,18 +68,18 @@ class Map extends React.Component {
   componentDidMount = () => {
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.refs.map.leafletElement._container, this.resizeMap);
+    this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
   }
 
   componentWillUnmount = () => {
-    this.erd.removeListener(this.refs.map.leafletElement._container, this.resizeMap);
+    this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
   }
 
   resizeMap = () => {
-    if (this.refs.map) {
-      this.refs.map.leafletElement.invalidateSize(false);
+    if (this.map) {
+      this.map.leafletElement.invalidateSize(false);
       if (this.props.fitBounds) {
-        this.refs.map.leafletElement.fitBounds(
+        this.map.leafletElement.fitBounds(
           boundWithMinimumArea(this.props.bounds),
           this.props.boundsOptions,
         );
@@ -181,7 +181,7 @@ class Map extends React.Component {
       map = (
         <LeafletMap
           keyboard={false}
-          ref="map"
+          ref={(el) => { this.map = el; }}
           center={center}
           zoom={zoom}
           minZoom={this.context.config.map.minZoom}
