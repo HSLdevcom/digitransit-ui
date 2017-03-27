@@ -47,11 +47,10 @@ testVariation('Departure', 'isArrival', 4);
 testVariation('DepartureTime', 'normal', 2);
 testVariation('DepartureTime', 'canceled', 3);
 
-
 testVariation('RouteNumber', 'normal');
-testVariation('RouteNumber', 'with-disruption', 2);
+testVariation('RouteNumber', 'with-disruption', 1);
 testVariation('RouteNumber', 'vertical', 3);
-testVariation('RouteNumber', 'vertical-with-disruption', 2);
+testVariation('RouteNumber', 'vertical-with-disruption', 4);
 
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'isArrival', 2);
