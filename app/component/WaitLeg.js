@@ -3,6 +3,7 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
+import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 
@@ -43,6 +44,26 @@ function WaitLeg(props) {
     </div>
   );
 }
+
+
+const exampleLeg = () => ({
+  to: { name: 'Ilmattarentie' },
+});
+
+WaitLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  const leg = exampleLeg();
+  const duration = moment.duration(17, 'minutes').asMilliseconds();
+  return (
+    <div>
+      <p>Displays an itinerary wait leg.</p>
+      <ComponentUsageExample>
+        <WaitLeg startTime={today} focusAction={() => {}} waitTime={duration} leg={leg} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 WaitLeg.propTypes = {
   startTime: React.PropTypes.number.isRequired,

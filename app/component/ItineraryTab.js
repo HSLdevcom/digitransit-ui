@@ -6,21 +6,21 @@ import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
-import config from '../config';
+import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 
-const routeInformation = config.showRouteInformation && <RouteInformation />;
-
 class ItineraryTab extends React.Component {
   static propTypes = {
+    searchTime: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
     focus: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     breakpoint: React.PropTypes.string.isRequired,
+    config: React.PropTypes.object.isRequired,
   }
 
   state = {
@@ -46,6 +46,9 @@ class ItineraryTab extends React.Component {
   }
 
   render() {
+    const config = this.context.config;
+    const routeInformation = config.showRouteInformation && <RouteInformation />;
+
     return (
       <div className="itinerary-tab">
         {this.context.breakpoint !== 'large' &&
@@ -53,9 +56,15 @@ class ItineraryTab extends React.Component {
             <TimeFrame
               startTime={this.props.itinerary.startTime}
               endTime={this.props.itinerary.endTime}
+              refTime={this.props.searchTime}
               className="timeframe--itinerary-summary"
             />
           </ItinerarySummary>
+        }
+        {this.context.breakpoint === 'large' &&
+          <div className="itinerary-timeframe">
+            <DateWarning date={this.props.itinerary.startTime} refTime={this.props.searchTime} />
+          </div>
         }
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div
@@ -77,6 +86,11 @@ class ItineraryTab extends React.Component {
 
 export default Relay.createContainer(ItineraryTab, {
   fragments: {
+    searchTime: () => Relay.QL`
+      fragment on Plan {
+        date
+      }
+    `,
     itinerary: () => Relay.QL`
       fragment on Itinerary {
         walkDistance
@@ -139,6 +153,7 @@ export default Relay.createContainer(ItineraryTab, {
           mode
           distance
           duration
+          intermediatePlace
           route {
             shortName
             gtfsId

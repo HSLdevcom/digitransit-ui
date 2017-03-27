@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 
-import config from '../../../config';
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import TicketSales from './TicketSales';
 
-export default function VectorTileLayerContainer(props) {
+export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
 
   if (props.showStops) {
@@ -40,6 +39,10 @@ export default function VectorTileLayerContainer(props) {
 
 VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string.isRequired),
-  disableMapTracking: PropTypes.func.isRequired,
+  disableMapTracking: PropTypes.func,
   showStops: PropTypes.bool,
+};
+
+VectorTileLayerContainer.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };

@@ -787,6 +787,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "serviceTimeRange",
+                        "description": "Get start and end time for publict transit services present in the graph",
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "serviceTimeRange",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "bikeRentalStations",
                         "description": null,
                         "args": [],
@@ -1121,7 +1133,7 @@
                                 "description": "The set of characteristics that the user wants to optimize for -- defaults to QUICK, or optimize for transit time.",
                                 "type": {
                                     "kind": "ENUM",
-                                    "name": "OptimizeTtpe",
+                                    "name": "OptimizeType",
                                     "ofType": null
                                 },
                                 "defaultValue": null
@@ -2890,7 +2902,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
-                                    "name": "String",
+                                    "name": "Long",
                                     "ofType": null
                                 },
                                 "defaultValue": "0"
@@ -2937,7 +2949,7 @@
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
-                                    "name": "String",
+                                    "name": "Long",
                                     "ofType": null
                                 },
                                 "defaultValue": "0"
@@ -3506,6 +3518,18 @@
                     },
                     {
                         "name": "stopHeadsign",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": true,
+                        "deprecationReason": "Use headsign instead, will be removed in the future"
+                    },
+                    {
+                        "name": "headsign",
                         "description": null,
                         "args": [],
                         "type": {
@@ -4527,6 +4551,41 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "serviceTimeRange",
+                "description": "Time range covered by the routing graph",
+                "fields": [
+                    {
+                        "name": "start",
+                        "description": "Beginning of service time range",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "end",
+                        "description": "End of service time range",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Long",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "BikeRentalStation",
                 "description": null,
                 "fields": [
@@ -5521,6 +5580,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "intermediatePlace",
+                        "description": "Do we continue from a specified intermediate place",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -5603,6 +5674,85 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "components",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "fareComponent",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "fareComponent",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "fareId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "currency",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "cents",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "routes",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Route",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -5666,6 +5816,16 @@
                             }
                         },
                         "defaultValue": null
+                    },
+                    {
+                        "name": "address",
+                        "description": "The name of the place.",
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
                     }
                 ],
                 "interfaces": null,
@@ -5674,7 +5834,7 @@
             },
             {
                 "kind": "ENUM",
-                "name": "OptimizeTtpe",
+                "name": "OptimizeType",
                 "description": null,
                 "fields": null,
                 "inputFields": null,

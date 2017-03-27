@@ -22,8 +22,7 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
-
-import config from '../config';
+import { otpToLocation } from '../util/otpStrings';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -39,6 +38,7 @@ class SummaryPage extends React.Component {
     }).isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object,
   };
 
   static propTypes = {
@@ -70,27 +70,17 @@ class SummaryPage extends React.Component {
     }).isRequired).isRequired,
   };
 
-  static customizableParameters = {
-    modes: Object.keys(config.transportModes)
-      .filter(mode => config.transportModes[mode].defaultValue === true)
-      .map(mode => config.modeToOTP[mode])
-      .concat((Object.keys(config.streetModes)
-        .filter(mode => config.streetModes[mode].defaultValue === true)
-        .map(mode => config.modeToOTP[mode])))
-
-
-      .sort()
-      .join(','),
+  static hcParameters = {
     walkReluctance: 2,
     walkBoardCost: 600,
     minTransferTime: 180,
     walkSpeed: 1.2,
     wheelchair: false,
-    maxWalkDistance: config.maxWalkDistance,
-    preferred: { agencies: config.preferredAgency || '' },
   };
 
   state = { center: null }
+
+  componentWillMount = () => this.initCustomizableParameters(this.context.config)
 
   componentWillReceiveProps(newProps, newContext) {
     if (newContext.breakpoint === 'large' && this.state.center) {
@@ -98,15 +88,31 @@ class SummaryPage extends React.Component {
     }
   }
 
+  initCustomizableParameters = (config) => {
+    this.customizableParameters = {
+      ...SummaryPage.hcParameters,
+      modes: Object.keys(config.transportModes)
+        .filter(mode => config.transportModes[mode].defaultValue === true)
+        .map(mode => config.modeToOTP[mode])
+        .concat((Object.keys(config.streetModes)
+          .filter(mode => config.streetModes[mode].defaultValue === true)
+          .map(mode => config.modeToOTP[mode])))
+        .sort()
+        .join(','),
+      maxWalkDistance: config.maxWalkDistance,
+      preferred: { agencies: config.preferredAgency || '' },
+    };
+  }
+
   updateCenter = (lat, lon) => this.setState({ center: { lat, lon } })
 
   hasDefaultPreferences = () => {
-    const a = pick(SummaryPage.customizableParameters, keys(this.props));
-    const b = pick(this.props, keys(SummaryPage.customizableParameters));
+    const a = pick(this.customizableParameters, keys(this.props));
+    const b = pick(this.props, keys(this.customizableParameters));
     return isMatch(a, b);
   }
   renderMap() {
-    const { plan: { plan }, location: { state }, from, to } = this.props;
+    const { plan: { plan }, location: { state, query }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
     const itineraries = plan.itineraries || [];
 
@@ -122,20 +128,49 @@ class SummaryPage extends React.Component {
       // Make sure active line isn't rendered over
       i => i.props.passive === false);
 
-    leafletObjs.push(
-      <LocationMarker
-        key="fromMarker"
-        position={from}
-        className="from"
-      />,
-    );
-    leafletObjs.push(
-      <LocationMarker
-        key="toMarker"
-        position={to}
-        className="to"
-      />,
-    );
+    if (from.lat && from.lon) {
+      leafletObjs.push(
+        <LocationMarker
+          key="fromMarker"
+          position={from}
+          className="from"
+        />,
+      );
+    }
+
+    if (to.lat && to.lon) {
+      leafletObjs.push(
+        <LocationMarker
+          key="toMarker"
+          position={to}
+          className="to"
+        />,
+      );
+    }
+
+    if (query && query.intermediatePlaces) {
+      if (Array.isArray(query.intermediatePlaces)) {
+        query.intermediatePlaces.map(otpToLocation).forEach((location, i) => {
+          leafletObjs.push(
+            <LocationMarker
+              key={`via_${i}`}
+              position={location}
+              className="via"
+              noText
+            />,
+          );
+        });
+      } else {
+        leafletObjs.push(
+          <LocationMarker
+            key={'via'}
+            position={otpToLocation(query.intermediatePlaces)}
+            className="via"
+            noText
+          />,
+        );
+      }
+    }
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
@@ -174,6 +209,7 @@ class SummaryPage extends React.Component {
       if (done) {
         content = (
           <SummaryPlanContainer
+            plan={this.props.plan.plan}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
           >
@@ -236,6 +272,7 @@ class SummaryPage extends React.Component {
     } else {
       content = (
         <SummaryPlanContainer
+          plan={this.props.plan.plan}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
         />
@@ -263,6 +300,7 @@ export default Relay.createContainer(SummaryPage, {
         plan(
           fromPlace: $fromPlace,
           toPlace: $toPlace,
+          intermediatePlaces: $intermediatePlaces,
           numItineraries: $numItineraries,
           modes: $modes,
           date: $date,
@@ -277,6 +315,8 @@ export default Relay.createContainer(SummaryPage, {
           arriveBy: $arriveBy,
           preferred: $preferred)
         {
+          ${SummaryPlanContainer.getFragment('plan')}
+          ${ItineraryTab.getFragment('searchTime')}
           itineraries {
             ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
@@ -297,13 +337,16 @@ export default Relay.createContainer(SummaryPage, {
     to: null,
     fromPlace: null,
     toPlace: null,
+    intermediatePlaces: null,
     numItineraries: typeof matchMedia !== 'undefined' &&
       matchMedia('(min-width: 900px)').matches ? 5 : 3,
     date: moment().format('YYYY-MM-DD'),
     time: moment().format('HH:mm:ss'),
-    preferred: { agencies: config.preferredAgency || '' },
     arriveBy: false,
     disableRemainingWeightHeuristic: false,
+    modes: null,
+    maxWalkDistance: 0,
+    preferred: null,
   },
-    ...SummaryPage.customizableParameters },
+    ...SummaryPage.hcParameters },
 });

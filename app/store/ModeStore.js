@@ -8,18 +8,19 @@ class ModeStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     const localData = getModeStorage();
+    this.config = dispatcher.getContext().config;
     this.data = localData.busState !== undefined ? localData : this.enableAll();
     this.generateMode();
   }
 
   enableAll = () => ({
-    busState: true,
-    tramState: true,
-    railState: true,
-    subwayState: true,
-    ferryState: true,
-    airplaneState: true,
-    citybikeState: true,
+    busState: this.config.transportModes.bus.availableForSelection,
+    tramState: this.config.transportModes.tram.availableForSelection,
+    railState: this.config.transportModes.rail.availableForSelection,
+    subwayState: this.config.transportModes.subway.availableForSelection,
+    ferryState: this.config.transportModes.ferry.availableForSelection,
+    airplaneState: this.config.transportModes.airplane.availableForSelection,
+    citybikeState: this.config.transportModes.citybike.availableForSelection,
   });
 
   getData() {

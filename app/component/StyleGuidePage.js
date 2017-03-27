@@ -55,6 +55,7 @@ import Labeled from './Labeled';
 import Centered from './Centered';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
+import NoFavouriteLocations from './NoFavouriteLocations';
 import DepartureListHeader from './DepartureListHeader';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
@@ -62,9 +63,26 @@ import SuggestionItem from './SuggestionItem';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import { Component as LangSelect } from './LangSelect';
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
+import { component as SummaryRow } from './SummaryRow';
 import PageFooter from './PageFooter';
 import FooterItem from './FooterItem';
+import DateWarning from './DateWarning';
+import ViaPointSelector from './ViaPointSelector';
+import ViaPointBar from './ViaPointBar';
+import WalkLeg from './WalkLeg';
+import WaitLeg from './WaitLeg';
+import BicycleLeg from './BicycleLeg';
+import EndLeg from './EndLeg';
+import AirportCheckInLeg from './AirportCheckInLeg';
+import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
+import BusLeg from './BusLeg';
+import AirplaneLeg from './AirplaneLeg';
+import SubwayLeg from './SubwayLeg';
+import TramLeg from './TramLeg';
+import RailLeg from './RailLeg';
+import FerryLeg from './FerryLeg';
+import CarLeg from './CarLeg';
+import ViaLeg from './ViaLeg';
 
 const components = {
   Icon,
@@ -89,6 +107,7 @@ const components = {
   Availability,
   ParkAndRideAvailability,
   FavouriteLocation,
+  NoFavouriteLocations,
   EmptyFavouriteLocationSlot,
   TimeSelectors,
   TimeNavigationButtons,
@@ -131,6 +150,23 @@ const components = {
   LangSelect,
   PageFooter,
   FooterItem,
+  DateWarning,
+  ViaPointSelector,
+  ViaPointBar,
+  WalkLeg,
+  WaitLeg,
+  BicycleLeg,
+  EndLeg,
+  AirportCheckInLeg,
+  AirportCollectLuggageLeg,
+  BusLeg,
+  AirplaneLeg,
+  SubwayLeg,
+  TramLeg,
+  RailLeg,
+  FerryLeg,
+  CarLeg,
+  ViaLeg,
 };
 
 function getColors() {
@@ -377,8 +413,6 @@ function getHelpers() {
       </div>
       <br />
       <div className="cursor-pointer">some div<span className="code">.cursor-pointer</span>
-      </div>
-      <div className="dashed-underline">some div<span className="code">.dashed-underline</span>
       </div>
       <div className="bold">some div<span className="code">.bold</span>
       </div>

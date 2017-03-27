@@ -21,7 +21,7 @@ global.fetch = require('node-fetch');
 
 global.self = { fetch: global.fetch };
 
-const config = require('../app/config').default;
+const config = require('../app/config').getConfiguration();
 
 let Raven;
 
@@ -85,6 +85,8 @@ function setupErrorHandling() {
 }
 
 function setUpRoutes() {
+  app.use(['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'], require('./reittiopasParameterMiddleware').default);
+  app.use('/search/', (req, res) => res.redirect(`http://classic.reittiopas.fi/search${req.url}`));
   app.use(require('../app/server').default);
 }
 

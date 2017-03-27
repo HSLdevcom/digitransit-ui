@@ -10,6 +10,7 @@ export default class StopMarkerLayerRoute extends Relay.Route {
             minLon: variables.minLon,
             maxLat: variables.maxLat,
             maxLon: variables.maxLon,
+            agency: variables.agency,
           })}
         }
       }
@@ -20,6 +21,7 @@ export default class StopMarkerLayerRoute extends Relay.Route {
     minLon: { required: true },
     maxLat: { required: true },
     maxLon: { required: true },
+    agency: { required: false },
   };
   static routeName = 'StopMarkerLayerRoute';
 }

@@ -10,7 +10,6 @@ import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
-import config from '../../../config';
 import { isBrowser } from '../../../util/browser';
 
 let L;
@@ -29,6 +28,7 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 // Small icon for zoom levels <= 15
@@ -62,10 +62,11 @@ class CityBikeMarker extends React.Component {
     location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   getIcon = zoom => (
-    (!this.props.transit && zoom <= config.stopsSmallMaxZoom) ?
+    (!this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom) ?
       L.divIcon({
         html: smallIconSvg,
         iconSize: [8, 8],

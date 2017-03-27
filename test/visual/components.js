@@ -22,10 +22,10 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-      .setUrl(`/styleguide/component/${componentName}`)
-      .setCaptureElements(capture)
-      .ignoreElements(ignoreElements || [])
-      .capture(variationName, {}, fn);
+            .setUrl(`/styleguide/component/${componentName}?en`)
+            .setCaptureElements(capture)
+            .ignoreElements(ignoreElements || [])
+            .capture(variationName, {}, fn);
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
@@ -75,6 +75,7 @@ testVariation('ParkAndRideAvailability', 'realtime', 2);
 
 testVariation('FavouriteLocation', 'normal', 1,
       '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11'));
+testVariation('NoFavouriteLocations');
 
 testVariation('EmptyFavouriteLocationSlot');
 
@@ -109,7 +110,7 @@ testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {
       ).wait(400); // Wait for animation to happen
 });
 
-testVariation('TimeSelectors').then(skip(['ie11', 'safari10'])); // TODO figure out why time differs when run locally & snap
+testVariation('TimeSelectors');
 
 testVariation('RightOffcanvasToggle', 'default');
 testVariation('RightOffcanvasToggle', 'adjusted', 2);
@@ -138,6 +139,7 @@ testVariation('FakeSearchWithButton', 'large', 2);
 testVariation('FrontPagePanelLarge');
 testVariation('FrontPagePanelSmall');
 testVariation('ExternalLink');
+testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
 
 testVariation('ModeFilter', 'grey-buttons');
@@ -177,9 +179,18 @@ testVariation('FooterItem', 'basic');
 testVariation('FooterItem', 'with-icon', 2);
 
 
-testVariation('SummaryRow', 'passive');
-testVariation('SummaryRow', 'active', 2);
-testVariation('SummaryRow', 'open', 3);
+testVariation('SummaryRow', 'passive-small-today');
+testVariation('SummaryRow', 'active-small-today', 2);
+testVariation('SummaryRow', 'passive-large-today', 3);
+testVariation('SummaryRow', 'active-large-today', 4);
+testVariation('SummaryRow', 'passive-small-tomorrow', 5);
+testVariation('SummaryRow', 'active-small-tomorrow', 6);
+testVariation('SummaryRow', 'passive-large-tomorrow', 7);
+testVariation('SummaryRow', 'active-large-tomorrow', 8);
+testVariation('SummaryRow', 'open-large-today', 9);
+testVariation('SummaryRow', 'open-large-tomorrow', 10);
+testVariation('SummaryRow', 'passive-small-via', 11);
+testVariation('SummaryRow', 'active-large-via', 12);
 
 testVariation('CurrentPositionSuggestionItem', 'with-position');
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
@@ -188,3 +199,31 @@ testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
 testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
+
+testVariation('DateWarning', 'tomorrow-show-warning', 2);
+
+testVariation('ViaPointSelector', 'no-via-point');
+testVariation('ViaPointSelector', 'with-via-point', 2);
+testVariation('ViaPointBar', 'with-via-point', 2);
+
+testVariation('WalkLeg', 'walk-start');
+testVariation('WalkLeg', 'walk-middle', 2);
+testVariation('WaitLeg');
+testVariation('BicycleLeg', 'bicycle-leg-normal');
+testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
+testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
+testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
+testVariation('EndLeg');
+testVariation('AirportCheckInLeg');
+testVariation('AirportCollectLuggageLeg');
+testVariation('BusLeg', 'scheduled');
+testVariation('BusLeg', 'realtime', 2, [
+  'svg.realtime-icon',
+]).then(skip('ie11'));
+testVariation('AirplaneLeg');
+testVariation('SubwayLeg');
+testVariation('TramLeg');
+testVariation('RailLeg');
+testVariation('FerryLeg');
+testVariation('CarLeg');
+testVariation('ViaLeg');

@@ -1,9 +1,11 @@
 import React from 'react';
+import Relay from 'react-relay';
 import cx from 'classnames';
 
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import ViaPointBarContainer from './ViaPointBarContainer';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { otpToLocation } from '../util/otpStrings';
 
@@ -13,6 +15,7 @@ class SummaryNavigation extends React.Component {
       from: React.PropTypes.string,
       to: React.PropTypes.string,
     }).isRequired,
+    hasDefaultPreferences: React.PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -28,10 +31,13 @@ class SummaryNavigation extends React.Component {
         (!location.state || !location.state.customizeSearchOffcanvas)
         && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
         this.transitionDone = true;
-        this.context.router.replace({ ...location,
-          pathname: this.context.location.pathname,
-          query: this.context.location.query,
-        });
+        const newLocation = { ...this.context.location,
+          state: { ...this.context.location.state,
+            customizeSearchOffcanvas: false,
+            viaPointSearchModalOpen: false,
+          },
+        };
+        setTimeout(() => this.context.router.replace(newLocation), 0);
       } else {
         this.transitionDone = false;
       }
@@ -84,7 +90,7 @@ class SummaryNavigation extends React.Component {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
-      drawerWidth = 0.5 * window.innerWidth > 291 ? 0.5 * window.innerWidth : 291;
+      drawerWidth = 0.5 * window.innerWidth > 291 ? Math.min(600, 0.5 * window.innerWidth) : 291;
     }
 
     return (
@@ -115,8 +121,16 @@ class SummaryNavigation extends React.Component {
           origin={otpToLocation(this.props.params.from)}
           destination={otpToLocation(this.props.params.to)}
         />
+        <ViaPointBarContainer className={className} />
         <div className={cx('time-selector-settings-row', className)}>
-          <TimeSelectorContainer />
+          <Relay.Renderer
+            Container={TimeSelectorContainer}
+            queryConfig={{
+              name: 'ServiceTimeRangRoute',
+              queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
+            }}
+            environment={Relay.Store}
+          />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
             hasChanges={!this.props.hasDefaultPreferences}
@@ -126,9 +140,5 @@ class SummaryNavigation extends React.Component {
     );
   }
 }
-
-SummaryNavigation.propTypes = {
-  hasDefaultPreferences: React.PropTypes.bool.isRequired,
-};
 
 export default SummaryNavigation;

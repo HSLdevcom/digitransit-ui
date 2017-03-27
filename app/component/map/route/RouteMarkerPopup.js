@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteHeader from '../../RouteHeader';
-import Icon from '../../Icon';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
@@ -70,12 +69,10 @@ class RouteMarkerPopup extends React.Component {
         />
         <div className="bottom location">
           <Link to={tripPath} >
-            <Icon img="icon-icon_time" />
             Lähdön tiedot
           </Link>
           <br />
           <Link to={patternPath} className="route" >
-            <Icon img={`icon-icon_${this.props.message.mode}-withoutBox`} />
             Linjan tiedot
           </Link>
         </div>

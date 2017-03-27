@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function AirportCheckInLeg(props) {
   return (
@@ -21,20 +22,37 @@ function AirportCheckInLeg(props) {
           <FormattedMessage
             id="airport-check-in"
             values={{ agency: props.leg.agency && props.leg.agency.name }}
-            defaultMessage="Optionally check in your luggage with {agency}"
+            defaultMessage="Check-in at the {agency} desk"
           />
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div>
           <FormattedMessage
             id="airport-security-check-go-to-gate"
-            defaultMessage="Walk through the security check and go to gate"
+            defaultMessage="Proceed to your gate through security check"
           />
         </div>
       </div>
     </div>
   );
 }
+
+const exampleLeg = () => ({
+  agency: { name: 'Finnair' },
+});
+
+AirportCheckInLeg.description = () => {
+  const startTime = moment().hour(12).minute(34).second(0)
+                        .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary airport check-in leg.</p>
+      <ComponentUsageExample>
+        <AirportCheckInLeg leg={exampleLeg()} startTime={startTime} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 AirportCheckInLeg.propTypes = {
   leg: React.PropTypes.shape({

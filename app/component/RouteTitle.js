@@ -25,7 +25,7 @@ RouteTitle.propTypes = {
     gtfsId: React.PropTypes.string.isRequired,
     mode: React.PropTypes.string.isRequired,
     shortName: React.PropTypes.string,
-  }).isRequired,
+  }),
 };
 
 RouteTitle.contextTypes = {

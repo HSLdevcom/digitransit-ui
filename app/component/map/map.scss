@@ -35,13 +35,21 @@ div.below-map {
   height: calc(100% - #{$small-map-height});
 }
 
-/* Hide top container for small screens.
- * When we are demoing application on a desktop browser in "narrow mobile width"
- * Leaflet top bar icons are always in a way of something.
- * Note that only checking if we are on mobile device using Leaflet.Browser.touch is not enough.
- */
-div.leaflet-control-container div.leaflet-top {
-  display: none;
+div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
+  color: $gray-blue;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 14px;
+  margin-left: 20px;
+  .icon {
+    font-size: 17px;
+  }
+  a {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 22px;
+  }
 }
 
 div.leaflet-container {
@@ -83,7 +91,7 @@ div.leaflet-marker-icon.place.halo {
     display: none;
 }
 
-div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
+div.leaflet-marker-icon.from, div.leaflet-marker-icon.to, div.leaflet-marker-icon.via {
   > span {
     &::before {
       color: white;
@@ -99,6 +107,10 @@ div.leaflet-marker-icon.from, div.leaflet-marker-icon.to {
       stroke-width: 60px;
     }
   }
+}
+
+div.leaflet-marker-icon.via {
+  color: $black;
 }
 
 div.leaflet-marker-icon.from > span::before {
@@ -136,12 +148,12 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   position: absolute;
   z-index: 802;
   bottom: 18px;
-  left: 12px;
+  left: 20px;
   background-color: $white;
   padding: 6px;
   border-radius: $border-radius;
   line-height: 0.5;
-  box-shadow:0 0 1px #000000;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .icon-mapMarker-toggle-positioning-online {
@@ -159,23 +171,12 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   .route-header {
     height:auto;
     border: none;
-    & h1 {
-      font-size: 12pt;
-    }
-    .route-header-name {
-      display:none;
-    }
-    .route-header-direction {
-      color: $dark-color;
-      font-size: $font-size-small;
-    }
   }
 
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
     margin-bottom: 5px;
-    outline: 1px solid rgba(0,0,0,0.10);
   }
   .leaflet-popup-content {
     margin: 0;
@@ -214,30 +215,30 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     background: $background-color;
     border-top: solid 1px #ddd;
 
-    div {
+    div, a {
+      display: block;
       padding: 0.5em 12px;
       flex-grow: 1;
       text-align: center;
+      text-decoration: none;
 
       &:first-child {
         border-right: 1px solid $light-gray;
       }
     }
-
-    a {
-      color: $gray;
-      text-decoration: none;
-    }
   }
 
   .leaflet-popup-tip-container {
-    margin: -6px 0px;
+    margin: -5px 0px;
     left: 0px;
     .leaflet-popup-tip  {
-      border: 1px solid $gray;
       background: $background-color;
     }
   }
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 14px rgba(0, 0, 0, 0.4)
 }
 
 div.origin-popup {
@@ -262,7 +263,6 @@ div.origin-popup {
     border-radius: $border-radius;
     padding: 0;
     overflow: hidden;
-    outline: 1px solid rgba(0,0,0,0.10);
 
     .leaflet-popup-content {
       margin:8px;
@@ -271,7 +271,7 @@ div.origin-popup {
       }
     }
   }
-  
+
   .origin-popup-name {
     @include font-book;
     height: 1.3em;
@@ -287,18 +287,14 @@ div.origin-popup {
     width: 2em;
     height: 1.5em;
     position: absolute;
-    right: 1px;
+    right: 0;
     top: 2em;
   }
 
   .leaflet-popup-tip-container {
     position: relative;
-    bottom: 1px;
     left: 0px;
     margin: 0px 0px;
-    .leaflet-popup-tip {
-      border: 1px solid $gray;
-    }
   }
 }
 
@@ -423,8 +419,12 @@ div.origin-popup {
 }
 
 /* Fix to default leaflet behavior */
-.leaflet-map-pane svg.icon {
+.leaflet-map-pane svg {
   position: relative;
+}
+
+.leaflet-marker-icon > svg {
+  position: absolute;
 }
 
 div.background-gradient {
@@ -453,8 +453,8 @@ div.map-click-prevent-overlay {
 
 .bp-large .leaflet-control-scale.leaflet-control {
     //front page desktop
-    margin-right: 400px;
-    margin-bottom: 44px;
+    right: calc(100px + 28vw);
+    bottom: 24px;
     cursor: grab;
 }
 

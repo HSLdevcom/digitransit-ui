@@ -8,6 +8,7 @@ function ItinerarySummaryListContainer(props) {
     const open = props.open && Number(props.open);
     const summaries = props.itineraries.map((itinerary, i) => (
       <SummaryRow
+        refTime={props.searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
         data={itinerary}
@@ -21,19 +22,32 @@ function ItinerarySummaryListContainer(props) {
     ));
 
     return <div className="summary-list-container momentum-scroll">{summaries}</div>;
+  } else if (
+    !props.relay.route.params.from.lat || !props.relay.route.params.from.lon ||
+    !props.relay.route.params.to.lat || !props.relay.route.params.to.lon
+  ) {
+    return (
+      <div className="summary-list-container summary-no-route-found">
+        <FormattedMessage
+          id="no-route-start-end"
+          defaultMessage={'Please select origin and destination.'}
+        />
+      </div>
+    );
   }
   return (
     <div className="summary-list-container summary-no-route-found">
       <FormattedMessage
         id="no-route-msg"
-        defaultMessage={'Unfortunately no route was found between the locations you gave. ' +
-          'Please change origin and/or destination address.'}
+        defaultMessage={'Unfortunately no routes were found for your journey. ' +
+          'Please change your origin or destination address.'}
       />
     </div>
   );
 }
 
 ItinerarySummaryListContainer.propTypes = {
+  searchTime: React.PropTypes.number.isRequired,
   itineraries: React.PropTypes.array,
   activeIndex: React.PropTypes.number.isRequired,
   currentTime: React.PropTypes.number.isRequired,
@@ -41,6 +55,22 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: React.PropTypes.func.isRequired,
   open: React.PropTypes.number,
   children: React.PropTypes.node,
+  relay: React.PropTypes.shape({
+    route: React.PropTypes.shape({
+      params: React.PropTypes.shape({
+        to: React.PropTypes.shape({
+          lat: React.PropTypes.number,
+          lon: React.PropTypes.number,
+          address: React.PropTypes.string.isRequired,
+        }).isRequired,
+        from: React.PropTypes.shape({
+          lat: React.PropTypes.number,
+          lon: React.PropTypes.number,
+          address: React.PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default Relay.createContainer(ItinerarySummaryListContainer, {
@@ -59,6 +89,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           distance
           duration
           rentedBike
+          intermediatePlace
           route {
             mode
             shortName

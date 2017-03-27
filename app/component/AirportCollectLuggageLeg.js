@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
+import ComponentUsageExample from './ComponentUsageExample';
 
 function AirportCollectLuggageLeg(props) {
   return (
@@ -20,7 +21,7 @@ function AirportCollectLuggageLeg(props) {
         <div className="itinerary-leg-first-row">
           <FormattedMessage
             id="airport-collect-luggage"
-            defaultMessage="Collect your luggage, if any."
+            defaultMessage="Collect your luggage"
           />
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
@@ -28,6 +29,23 @@ function AirportCollectLuggageLeg(props) {
     </div>
   );
 }
+
+const exampleLeg = t1 => ({
+  endTime: t1 + 100000,
+});
+
+AirportCollectLuggageLeg.description = () => {
+  const today = moment().hour(12).minute(34).second(0)
+                            .valueOf();
+  return (
+    <div>
+      <p>Displays an itinerary airport collect luggage leg.</p>
+      <ComponentUsageExample>
+        <AirportCollectLuggageLeg leg={exampleLeg(today)} focusAction={() => {}} />
+      </ComponentUsageExample>
+    </div>
+  );
+};
 
 AirportCollectLuggageLeg.propTypes = {
   leg: React.PropTypes.shape({

@@ -21,7 +21,7 @@ const StopPageHeader = compose(
     icons: [
       // TODO: Re-add when done
       /* <Labeled
-        label={<FormattedMessage id="extra-info" defaultMessage="More info" />}
+        label={<FormattedMessage id="extra-info" defaultMessage="Further information" />}
         showLabel={props.breakpoint === 'large'}
       >
         <InfoIcon stop={props.stop} />

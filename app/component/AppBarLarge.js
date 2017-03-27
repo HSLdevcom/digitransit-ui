@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import { routerShape, locationShape } from 'react-router';
-import config from '../config';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 
-const AppBarLarge = ({ titleClicked }, { router, location }) => {
+const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -17,10 +16,18 @@ const AppBarLarge = ({ titleClicked }, { router, location }) => {
       },
     });
   };
+
   return (
     <div>
       <div className="top-bar bp-large flex-horizontal">
-        <a onClick={titleClicked} ><div className="navi-logo" /></a>
+        <a onClick={titleClicked} >
+          {config.textLogo ?
+            <section className="title">
+              <span className="title">{config.title}</span>
+            </section> :
+            <div className="navi-logo" />
+          }
+        </a>
         <div className="empty-space flex-grow" />
         <div className="navi-languages right-border navi-margin"><LangSelect /></div>
         <div className="navi-icons navi-margin padding-horizontal-large">
@@ -29,7 +36,7 @@ const AppBarLarge = ({ titleClicked }, { router, location }) => {
           </a>
         </div>
         <div className="padding-horizontal-large navi-margin" >
-          <ExternalLink {...config.appBarLink} />
+          <ExternalLink className="external-top-bar" {...config.appBarLink} />
         </div>
       </div>
       <DisruptionInfo />
@@ -46,6 +53,7 @@ AppBarLarge.displayName = 'AppBarLarge';
 AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 AppBarLarge.description = () => (

@@ -32,6 +32,8 @@ class PatternStopsContainer extends React.Component {
   }
 
   render() {
+    if (!this.props.pattern) return false;
+
     if (
       some(this.props.routes, route => route.fullscreenMap) &&
       this.context.breakpoint !== 'large'

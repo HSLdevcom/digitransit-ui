@@ -6,6 +6,7 @@ import TimeNavigationButtons from './TimeNavigationButtons';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
+    plan: React.PropTypes.object.isRequired,
     itineraries: React.PropTypes.array.isRequired,
     children: React.PropTypes.node,
     params: React.PropTypes.shape({
@@ -80,12 +81,13 @@ class SummaryPlanContainer extends React.Component {
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
+          searchTime={this.props.plan.date}
           itineraries={this.props.itineraries}
           currentTime={currentTime}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
-          open={this.props.params.hash}
+          open={Number(this.props.params.hash)}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
@@ -97,6 +99,11 @@ class SummaryPlanContainer extends React.Component {
 
 export default Relay.createContainer(SummaryPlanContainer, {
   fragments: {
+    plan: () => Relay.QL`
+      fragment on Plan {
+        date
+      }
+    `,
     itineraries: () => Relay.QL`
       fragment on Itinerary @relay(plural: true) {
         ${ItinerarySummaryListContainer.getFragment('itineraries')}

@@ -110,7 +110,6 @@ class OriginDestinationBar extends React.Component {
         </button>
         <OneTabSearchModal
           layers={searchLayers}
-          endpoint={this.props[tab]}
           target={tab}
           responsive
         />

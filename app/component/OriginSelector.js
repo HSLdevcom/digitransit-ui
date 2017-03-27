@@ -1,18 +1,22 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { routerShape, locationShape } from 'react-router';
 
-import config from '../config';
 import { setEndpoint } from '../action/EndpointActions';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
 
-const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction }) => (
+const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction, router, location }) => (
   <li>
     <button
       className="noborder"
       style={{ display: 'block' }}
-      onClick={() => executeAction(setEndpoint,
-        { target: 'origin', endpoint: { lat, lon, address: label } })}
+      onClick={() => executeAction(setEndpoint, {
+        target: 'origin',
+        endpoint: { lat, lon, address: label },
+        router,
+        location,
+      })}
     >
       <Icon className={`splash-icon ${icon}`} img={icon} />
       { label }
@@ -29,9 +33,15 @@ OriginSelectorRow.propTypes = {
 
 OriginSelectorRow.contextTypes = {
   executeAction: React.PropTypes.func.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
 };
 
-const OriginSelector = ({ favourites, oldSearches }) => {
+const OriginSelector = ({ favourites, oldSearches }, { config }) => {
+  const notInFavourites = item => favourites.filter(favourite =>
+    Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
+    Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4).length === 0;
+
   const names = favourites.map(
       f => <OriginSelectorRow
         key={`f-${f.locationName}`}
@@ -40,7 +50,7 @@ const OriginSelector = ({ favourites, oldSearches }) => {
         lat={f.lat}
         lon={f.lon}
       />)
-      .concat(oldSearches.map(s => <OriginSelectorRow
+      .concat(oldSearches.filter(notInFavourites).map(s => <OriginSelectorRow
         key={`o-${s.properties.label}`}
         icon={getIcon(s.properties.layer)}
         label={s.properties.label}
@@ -54,6 +64,10 @@ const OriginSelector = ({ favourites, oldSearches }) => {
 OriginSelector.propTypes = {
   favourites: React.PropTypes.array.isRequired,
   oldSearches: React.PropTypes.array.isRequired,
+};
+
+OriginSelector.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default connectToStores(

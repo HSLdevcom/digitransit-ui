@@ -3,10 +3,8 @@ import Tabs from 'material-ui/Tabs/Tabs';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
-import config from '../config';
 
-
-const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl }) => {
+const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl, config }) => {
   if (!modalIsOpen) {
     return false;
   }
@@ -50,6 +48,7 @@ SearchModal.propTypes = {
 
 SearchModal.contextTypes = {
   intl: intlShape.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 export default SearchModal;

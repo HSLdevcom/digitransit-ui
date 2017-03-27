@@ -10,11 +10,11 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
 } from './ExampleData';
 
-function DepartureTime(props) {
+function DepartureTime(props, context) {
   let shownTime;
   const timeDiffInMinutes = Math.floor(((props.departureTime - props.currentTime) / 60));
 
-  if (timeDiffInMinutes < 0 || timeDiffInMinutes > 20) {
+  if (timeDiffInMinutes < 0 || timeDiffInMinutes > context.config.minutesToDepartureLimit) {
     const departureTime = moment(props.departureTime * 1000);
     if (props.useUTC) {
       departureTime.utc();
@@ -101,6 +101,10 @@ DepartureTime.propTypes = {
   realtime: React.PropTypes.bool,
   style: React.PropTypes.object,
   useUTC: React.PropTypes.bool,
+};
+
+DepartureTime.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default DepartureTime;

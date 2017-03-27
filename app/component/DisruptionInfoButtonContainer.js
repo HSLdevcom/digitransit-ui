@@ -23,11 +23,11 @@ function DisruptionInfoButtonContainer(props, { router, location }) {
         forceFetch
         queryConfig={new ViewerRoute()}
         environment={Relay.Store}
-        render={({ done, renderProps }) => (done ? (
+        render={({ renderProps }) => (
           <DisruptionInfoButton
             {...renderProps}
             toggleDisruptionInfo={openDisruptionInfo}
-          />) : undefined
+          />
         )}
       />);
   }

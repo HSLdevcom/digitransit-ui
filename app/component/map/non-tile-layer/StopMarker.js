@@ -3,12 +3,12 @@ import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
+import cx from 'classnames';
 
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
-import config from '../../../config';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
@@ -28,6 +28,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
   route: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 });
 
 class StopMarker extends React.Component {
@@ -46,6 +47,7 @@ class StopMarker extends React.Component {
     location: locationShape.isRequired,
     route: React.PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
 
@@ -53,18 +55,21 @@ class StopMarker extends React.Component {
     const iconId = `icon-icon_${this.props.mode}`;
     const icon = Icon.asString(iconId, 'mode-icon');
     let size;
-    if (zoom <= config.stopsSmallMaxZoom) {
-      size = 8;
+    if (zoom <= this.context.config.stopsSmallMaxZoom) {
+      size = this.context.config.stopsIconSize.small;
     } else if (this.props.selected) {
-      size = 28;
+      size = this.context.config.stopsIconSize.selected;
     } else {
-      size = 18;
+      size = this.context.config.stopsIconSize.default;
     }
 
     return L.divIcon({
       html: icon,
       iconSize: [size, size],
-      className: `${this.props.mode} cursor-pointer`,
+      className: cx('cursor-pointer', this.props.mode, {
+        small: size === this.context.config.stopsIconSize.small,
+        selected: this.props.selected,
+      }),
     });
   }
 
@@ -116,7 +121,7 @@ class StopMarker extends React.Component {
           lon: this.props.stop.lon,
         }}
         getIcon={
-          config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
+          this.context.config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
           this.getModeIcon : this.getIcon
         }
         id={this.props.stop.gtfsId}
@@ -128,6 +133,7 @@ class StopMarker extends React.Component {
           route={new StopRoute({
             stopId: this.props.stop.gtfsId,
             date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
+            currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
           })}
           renderLoading={() =>
             <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>

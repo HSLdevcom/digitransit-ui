@@ -62,8 +62,7 @@ $content-background-color: $background-color;
     align-self: stretch;
   }
   .icon {
-    fill: $top-navigation-icon-color;
-    font-size: $font-size-large;
+    color: $top-navigation-icon-color;
     vertical-align: middle;
   }
   section.title {
@@ -80,16 +79,17 @@ $content-background-color: $background-color;
     background-image: $nav-logo;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: left center;
     min-width: 8em;
   }
   .navi-logo {
     margin-left: 32px;
-    height: 1.8em;
+    width: $nav-logo-width;
+    height: $nav-logo-height;
     min-width: 130px; //for ff
     background-image: $nav-logo;
+    background-position: left center;
     background-size: contain;
-    width:170px;
     background-repeat: no-repeat;
     cursor: pointer;
   }
@@ -144,22 +144,26 @@ $content-background-color: $background-color;
   border-right: 1px solid rgba(0,0,0,0.15);
 }
 
-.navi-margin {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .navi-icons {
   .icon {
     font-size: 1.8em;
+    color: $primary-color;
+    fill: $top-navigation-icon-color;
   }
   width:50px;
-  a {
-    color: $primary-color;
-  }
 }
 .main-menu-toggle {
+  .icon {
+    font-size: $font-size-large;
+  }
+
   right: 0;
+}
+
+.back-button {
+  .icon {
+    font-size: $font-size-large;
+  }
 }
 
 .main-menu {
@@ -346,45 +350,37 @@ section.content {
   width: 15px;
 }
 
+.external-top-bar {
+  .external-link-icon-outer {
+    color: $primary-color;
+  }
+
+  .external-link-icon {
+    color: $primary-font-color;
+  }
+}
+
+.external-link-decoration {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  font-size: 7px;
+}
 .external-link-container {
-  position:relative;
-  spacing: 0px;
+  position: relative;
+  display: inline-block;
+  line-height: 22px;
+  font-size: 18px;
   margin: 0px;
-  padding: 0px 6px 3px 6px;
-  line-height:0;
+  padding: 0px 6px;
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 4px;
 
-  span {
-    position: absolute;
-    line-height: normal;
-    top: -1px;
-    right: -1px;
-    height:7px;
-    line-height:0;
-  }
-
-  span:nth-of-type(1) {
-    .icon {
-      font-size: 7px;
-      color: $primary-color;
-    }
-  }
-
-  span:nth-of-type(2) {
-    .icon {
-      font-size: 6px;
-      color: $primary-font-color;
-    }
-  }
-
-
-  .external-link {
-    spacing: 0;
-    margin: 0;
+  a.external-link {
+    display: inline-block;
+    vertical-align: text-top;
     color: $white;
     font-size: $font-size-xxsmall;
     text-decoration: none;
   }
-
 }

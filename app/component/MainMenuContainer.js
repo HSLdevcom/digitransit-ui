@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { intlShape } from 'react-intl';
 
-import config from '../config';
 import Icon from './Icon';
 import { openFeedbackModal } from '../action/feedbackActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -14,6 +13,7 @@ class MainMenuContainer extends Component {
     piwik: PropTypes.object,
     router: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   onRequestChange = newState => this.internalSetOffcanvas(newState);
@@ -79,12 +79,12 @@ class MainMenuContainer extends Component {
             </Drawer>
           )}
         </LazilyLoad>
-        {config.mainMenu.show ? (
+        {this.context.config.mainMenu.show ? (
           <div className="icon-holder cursor-pointer main-menu-toggle">
             <button
               aria-label={this.context.intl.formatMessage({
                 id: 'main-menu-label-open',
-                defaultMessage: 'Open main menu',
+                defaultMessage: 'Open the main menu',
               })}
               onClick={this.toggleOffcanvas}
               className="noborder cursor-pointer"

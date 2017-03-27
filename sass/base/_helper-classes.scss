@@ -22,6 +22,9 @@
 .ferry {
   color: $ferry-color;
 }
+.car {
+  color: $car-color;
+}
 .citybike {
   color: $citybike-color;
 }
@@ -37,19 +40,25 @@
 .bicycle_walk {
   color: $bicycle-color;
 }
+.via {
+  color: $walk-color;
+}
 .from {
   color: $from-color;
 }
 .realtime {
-    color: $realtime-color;
+  color: $realtime-color;
 }
 .to {
   color: $to-color;
 }
+.viewpoint {
+  color: $viewpoint-marker-color;
+}
 .gray {
-  color: $dark-color;
+  color: $gray;
   p {
-    color: $dark-color;
+    color: $gray;
   }
 }
 
@@ -116,9 +125,6 @@
 /* Appearance */
 .cursor-pointer {
   cursor: pointer;
-}
-.dashed-underline {
-  border-bottom: 1px dashed $dark-color;
 }
 
 /* TODO Remove this - setting only the font-weight can give wrong combinations,
@@ -191,5 +197,28 @@ body .large {
 
   &:active {
     background: $standalone-btn-active-color;
+  }
+}
+
+.page-not-found {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+
+  svg {
+    height: 130px;
+    width: 150px;
+  }
+
+  p {
+    font-size: $font-size-large;
+    a {
+      font-size: $font-size-large;
+      color: $primary-color;
+      border-bottom: 1px dotted;
+      text-decoration: none;
+    }
   }
 }

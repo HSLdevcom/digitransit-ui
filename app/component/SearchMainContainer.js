@@ -1,5 +1,6 @@
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
 import without from 'lodash/without';
@@ -11,15 +12,15 @@ import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
-import { getAllEndpointLayers } from '../util/searchUtils';
+import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
 
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
     executeAction: React.PropTypes.func.isRequired,
     getStore: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
     intl: intlShape.isRequired,
     breakpoint: React.PropTypes.string.isRequired,
   };
@@ -51,13 +52,19 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
+    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.selectedTab,
+        router: this.context.router,
+        location: locationWithTime,
       });
     } else {
       this.context.executeAction(setEndpoint, {
         target: this.props.selectedTab,
+        router: this.context.router,
+        location: locationWithTime,
         endpoint: {
           lat: item.geometry.coordinates[1],
           lon: item.geometry.coordinates[0],
@@ -108,7 +115,7 @@ class SearchMainContainer extends React.Component {
     this.focusInput(tabname);
   }
 
-  renderEndpointTab = (tabname, tablabel, placeholder, type, endpoint, layers) => (
+  renderEndpointTab = (tabname, tablabel, placeholder, type, layers) => (
     <Tab
       className={`search-header__button${this.props.selectedTab === tabname ? '--selected' : ''}`}
       label={tablabel}
@@ -119,7 +126,6 @@ class SearchMainContainer extends React.Component {
       <SearchInputContainer
         ref={(c) => { this.searchInputs[tabname] = c; }}
         id={`search-${tabname}`}
-        useCurrentPosition={endpoint.useCurrentPosition}
         placeholder={placeholder}
         type={type}
         layers={layers}
@@ -132,7 +138,7 @@ class SearchMainContainer extends React.Component {
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
       id: 'destination-placeholder',
-      defaultMessage: 'Where to? - address or stop',
+      defaultMessage: 'Enter destination, route or stop',
     });
 
     const fakeSearchBar = (
@@ -182,7 +188,6 @@ class SearchMainContainer extends React.Component {
               defaultMessage: 'Origin',
             }),
             'endpoint',
-            this.context.getStore('EndpointStore').getOrigin(),
             searchLayers,
           )}
           {this.renderEndpointTab(
@@ -202,7 +207,6 @@ class SearchMainContainer extends React.Component {
               defaultMessage: 'Destination, route or stop',
             }),
             'all',
-            this.context.getStore('EndpointStore').getDestination(),
             searchLayers,
           )}
         </Component>

@@ -39,6 +39,8 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
+  if (!stop) return false;
+
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
@@ -46,7 +48,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 
   if (breakpoint === 'large') {
     leafletObjs.push(
-      <SelectedStopPopup lat={stop.lat} lon={stop.lon}>
+      <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
         <SelectedStopPopupContent stop={stop} />
       </SelectedStopPopup>,
     );
@@ -63,10 +65,8 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
       lat={stop.lat}
       lon={stop.lon}
       zoom={!(params.stopId) || stop.platformCode ? 18 : 16}
-      key={`map-${showScale}`} // forces update when prop fullScreenMap changes
       showStops
       hilightedStops={[params.stopId]}
-      disableZoom={!fullscreenMap}
       leafletObjs={leafletObjs}
       showScaleBar={showScale}
     >
@@ -84,9 +84,18 @@ StopPageMap.contextTypes = {
 };
 
 StopPageMap.propTypes = {
-  stop: React.PropTypes.object.isRequired,
-  routes: React.PropTypes.object.isRequired,
-  params: React.PropTypes.object.isRequired,
+  stop: React.PropTypes.shape({
+    lat: React.PropTypes.number.isRequired,
+    lon: React.PropTypes.number.isRequired,
+    platformCode: React.PropTypes.string,
+  }).isRequired,
+  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
+    fullscreenMap: React.PropTypes.string,
+  }).isRequired).isRequired,
+  params: React.PropTypes.oneOfType([
+    React.PropTypes.shape({ stopId: React.PropTypes.string.isRequired }).isRequired,
+    React.PropTypes.shape({ terminalId: React.PropTypes.string.isRequired }).isRequired,
+  ]).isRequired,
 };
 
 export default Relay.createContainer(StopPageMap, {

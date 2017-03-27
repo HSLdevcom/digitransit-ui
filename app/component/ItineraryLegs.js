@@ -16,7 +16,7 @@ import TramLeg from './TramLeg';
 import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
-import config from '../config';
+import ViaLeg from './ViaLeg';
 
 class ItineraryLegs extends React.Component {
 
@@ -49,7 +49,7 @@ class ItineraryLegs extends React.Component {
     let startTime;
     let previousLeg;
     let nextLeg;
-    const waitThreshold = config.itinerary.waitThreshold * 1000;
+    const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const legs = [];
     const usingOwnBicycle = (
       ((this.props.itinerary.legs[0]) != null) &&
@@ -186,6 +186,15 @@ class ItineraryLegs extends React.Component {
           >
             {this.stopCode(leg.from.stop)}
           </CarLeg>);
+      } else if (leg.intermediatePlace) {
+        legs.push(
+          <ViaLeg
+            key={`${j}via`}
+            leg={leg}
+            arrivalTime={compressedLegs[j - 1].endTime}
+            focusAction={this.focus(leg.from)}
+          />,
+        );
       } else {
         legs.push(
           <WalkLeg
@@ -200,20 +209,21 @@ class ItineraryLegs extends React.Component {
 
       if (nextLeg) {
         waitTime = nextLeg.startTime - leg.endTime;
-      }
-
-      if (waitTime > waitThreshold &&
-        (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' && leg.mode !== 'AIRPLANE') {
-        legs.push(
-          <WaitLeg
-            key={`${j}w`}
-            leg={leg}
-            startTime={leg.endTime}
-            waitTime={waitTime}
-            focusAction={this.focus(leg.to)}
-          >
-            {this.stopCode(leg.to.stop)}
-          </WaitLeg>);
+        if (waitTime > waitThreshold &&
+          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' && leg.mode !== 'AIRPLANE' &&
+          !nextLeg.intermediatePlace
+        ) {
+          legs.push(
+            <WaitLeg
+              key={`${j}w`}
+              leg={leg}
+              startTime={leg.endTime}
+              waitTime={waitTime}
+              focusAction={this.focus(leg.to)}
+            >
+              {this.stopCode(leg.to.stop)}
+            </WaitLeg>);
+        }
       }
     });
 
@@ -233,6 +243,10 @@ class ItineraryLegs extends React.Component {
 ItineraryLegs.propTypes = {
   itinerary: React.PropTypes.object,
   focusMap: React.PropTypes.func,
+};
+
+ItineraryLegs.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 export default ItineraryLegs;

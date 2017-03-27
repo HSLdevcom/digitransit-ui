@@ -14,6 +14,10 @@ import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
 
 class AddFavouriteContainer extends React.Component {
+  static FavouriteIconIds = ['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
+    'icon-icon_school', 'icon-icon_shopping'];
+
+
   static contextTypes = {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -42,10 +46,6 @@ class AddFavouriteContainer extends React.Component {
       });
     }
   }
-
-  getFavouriteIconIds = () =>
-    (['icon-icon_place', 'icon-icon_home', 'icon-icon_work', 'icon-icon_sport',
-      'icon-icon_school', 'icon-icon_shopping']);
 
   setCoordinatesAndAddress = (name, location) => {
     let address = name;
@@ -103,7 +103,7 @@ class AddFavouriteContainer extends React.Component {
 
     const searchTabLabel = this.context.intl.formatMessage({
       id: 'favourite-target',
-      defaultMessage: 'Favourite place',
+      defaultMessage: 'Favourite location',
     });
 
     const favourite = this.state.favourite;
@@ -124,17 +124,17 @@ class AddFavouriteContainer extends React.Component {
                 <h3>{(!this.isEdit() &&
                   <FormattedMessage
                     id="add-location-to-favourites"
-                    defaultMessage="Add a location to your favourites tab"
+                    defaultMessage="Add an important location to your Favorites"
                   />) || <FormattedMessage
                     id="edit-favourites"
-                    defaultMessage="Edit favourite place"
+                    defaultMessage="Edit the location in the Favorites"
                   />}
                 </h3>
               </div>
             </header>
             <div className="add-favourite-container__search search-form">
               <h4>
-                <FormattedMessage id="specify-location" defaultMessage="Specify the location" />
+                <FormattedMessage id="specify-location" defaultMessage="Specify location" />
               </h4>
               <FakeSearchBar
                 endpointAddress={(this.state != null ? favourite.address : undefined) || ''}
@@ -152,7 +152,7 @@ class AddFavouriteContainer extends React.Component {
               />
             </div><div className="add-favourite-container__give-name">
               <h4>
-                <FormattedMessage id="give-name-to-location" defaultMessage="Name the location" />
+                <FormattedMessage id="give-name-to-location" defaultMessage="Give the location a descriptive name" />
               </h4>
               <div className="add-favourite-container__input-placeholder">
                 <input
@@ -166,14 +166,16 @@ class AddFavouriteContainer extends React.Component {
               </div>
             </div>
             <div className="add-favourite-container__pick-icon">
-              <h4><FormattedMessage id="pick-icon" defaultMessage="Select an icon" /></h4>
+              <h4><FormattedMessage id="pick-icon" defaultMessage="Select icon" /></h4>
               <FavouriteIconTable
                 selectedIconId={(() => {
                   if (favourite.selectedIconId !== 'undefined' || null) {
                     return favourite.selectedIconId;
                   }
                   return undefined;
-                })()} favouriteIconIds={this.getFavouriteIconIds()} handleClick={this.selectIcon}
+                })()}
+                favouriteIconIds={AddFavouriteContainer.FavouriteIconIds}
+                handleClick={this.selectIcon}
               />
             </div>
             <div className="add-favourite-container__save">
@@ -181,9 +183,7 @@ class AddFavouriteContainer extends React.Component {
                 className={`add-favourite-container-button ${this.canSave() ? '' : 'disabled'}`}
                 onClick={this.save}
               >
-                <FormattedMessage
-                  id="save" defaultMessage="Save"
-                />
+                <FormattedMessage id="save" defaultMessage="Save" />
               </div>
             </div>
             {this.isEdit() &&
@@ -191,17 +191,13 @@ class AddFavouriteContainer extends React.Component {
                 <div
                   className="add-favourite-container-button delete" onClick={this.delete}
                 >
-                  <FormattedMessage
-                    id="delete" defaultMessage="Delete"
-                  />
+                  <FormattedMessage id="delete" defaultMessage="Delete" />
                 </div>
               </div>), (<div key="cancel" className="add-favourite-container__save">
                 <div
                   className="add-favourite-container-button cancel" onClick={this.quit}
                 >
-                  <FormattedMessage
-                    id="cancel" defaultMessage="Cancel"
-                  />
+                  <FormattedMessage id="cancel" defaultMessage="Cancel" />
                 </div>
               </div>)]
             }

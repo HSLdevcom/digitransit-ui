@@ -58,9 +58,9 @@ $search-header-height: 45px;
     background-color: transparent;
     border-radius: $form-input-border-radius;
     border: 0px;
-    height: $search-form-input-overlay-height;
     padding-left: calc(#{$padding-large} - 10px);
     line-height: $search-form-input-overlay-height;
+    overflow: hidden;
   }
 }
 
@@ -152,9 +152,6 @@ $search-header-height: 45px;
 }
 
 .onetab-search-modal-container.bp-large {
-  width: 0px;
-  margin-left: -13px;
-
   .fake-search-container.bp-large {
     position: absolute;
     padding:0;
@@ -235,7 +232,6 @@ $search-header-height: 45px;
       height: 60px;
       font-size:18px;
       text-align: left;
-      line-height: $search-form-input-overlay-height;
       border-top-left-radius: $input-border-radius;
       border-bottom-left-radius: $input-border-radius;
       box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
@@ -443,7 +439,7 @@ ul.react-autowhatever__items-list {
   top: 0px;
   left: 0px;
   position: fixed;
-  z-index: 803;
+  z-index: 1100;
   background: rgba(0, 0, 0, 0.541176);
 }
 
@@ -453,7 +449,7 @@ ul.react-autowhatever__items-list {
 }
 
 div.search-modal {
-  z-index: 1202;
+  z-index: 1300;
   background: #EEF1F3;
   overflow: auto;
   width: 100%;
@@ -515,12 +511,10 @@ div.origin-destination-bar {
     font-size: $font-size-small !important;
     font-weight: $font-weight-bold !important;
 
-    &:first-child {
-      @extend .overflow-fade;
-    }
-
-    // Uh-oh, override material-ui style for not overflowing the beginning of the word
     > div > div {
+      @extend .overflow-fade;
+
+      // Uh-oh, override material-ui style for not overflowing the beginning of the word
       align-items: stretch !important;
       height: 3.5em !important;
     }

@@ -33,6 +33,7 @@ class TopLevel extends React.Component {
     intl: intlShape,
     url: React.PropTypes.string.isRequired,
     headers: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static childContextTypes = {
@@ -54,10 +55,10 @@ class TopLevel extends React.Component {
     'large'
 
   render() {
-    configureMoment(this.context.intl.locale);
-    const host = this.context.headers && this.context.headers.host;
+    configureMoment(this.context.intl.locale, this.context.config);
+    const host = this.context.headers && (this.context.headers['x-forwarded-host'] || this.context.headers.host);
     const url = this.context.url;
-    const metadata = meta(this.context.intl.locale, host, url);
+    const metadata = meta(this.context.intl.locale, host, url, this.context.config);
     const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
 
     const disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);

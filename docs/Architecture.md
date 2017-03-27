@@ -1,4 +1,4 @@
-Digitransit-ui is a React based web application. The following bullet point describe the architecture on a overveiw level and provide guidelines on how the code should be.
+Digitransit-ui is a React based web application. The following bullet point describe the architecture on a overview level and provide guidelines on how the code should be.
 
 # Logic (i.e. HTML + JS in traditional web)
  - Front-end is written using modern javascript (ES2015)

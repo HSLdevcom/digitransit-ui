@@ -9,7 +9,7 @@ export default function LocationPopup({ name, lat, lon }, { intl }) {
     <Card>
       <div className="padding-small">
         <CardHeader
-          name={intl.formatMessage({ id: 'location-from-map', defaultMessage: 'Picked location' })}
+          name={intl.formatMessage({ id: 'location-from-map', defaultMessage: 'Selected location' })}
           description={name}
           unlinked
           className="padding-small"

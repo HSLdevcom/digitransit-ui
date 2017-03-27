@@ -54,7 +54,7 @@ export default class ItineraryFeedback extends React.Component {
             <div className="form-message">
               <FormattedMessage
                 id="itinerary-feedback-message"
-                defaultMessage="Could not find what you were looking for?"
+                defaultMessage="Couldn’t find what you were looking for?"
               />
             </div>
             <textarea

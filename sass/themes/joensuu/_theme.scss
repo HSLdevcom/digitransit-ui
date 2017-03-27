@@ -1,7 +1,7 @@
 /* Joensuu theme */
 
 /* Base theme */
-@import '../default/theme';
+@import '../../base/waltti';
 
 /* General palette */
 $gray-blue: #7f929c;
@@ -33,4 +33,3 @@ $rail-color: $joensuu-rail-green;
 /* Navbar logo */
 $nav-logo: url('jojo-logo.png');
 
-$spinner-image: url('/img/default-spinner.png')

@@ -15,7 +15,7 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-export default function PlaceMarker({ displayOriginPopup, position }, { intl, popupContainer }) {
+export default function PlaceMarker({ displayOriginPopup, position }, { intl }) {
   let popup;
 
   if (displayOriginPopup) {
@@ -23,7 +23,6 @@ export default function PlaceMarker({ displayOriginPopup, position }, { intl, po
       <OriginPopup
         shouldOpen
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        popupContainer={popupContainer}
         text={position.address}
         keyboard={false}
         yOffset={14}
@@ -61,7 +60,6 @@ export default function PlaceMarker({ displayOriginPopup, position }, { intl, po
 
 PlaceMarker.contextTypes = {
   intl: intlShape.isRequired,
-  popupContainer: React.PropTypes.node.isRequired,
 };
 
 PlaceMarker.propTypes = {

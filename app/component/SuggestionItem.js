@@ -4,12 +4,11 @@ import pure from 'recompose/pure';
 
 import Icon from './Icon';
 import { getLabel, getIcon } from '../util/suggestionUtils';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure((props) => {
   let icon;
-  if (props.item.properties.mode && config.search.suggestions.useTransportIcons) {
+  if (props.item.properties.mode && props.useTransportIcons) {
     icon = (
       <Icon
         img={`icon-icon_${props.item.properties.mode}`}
@@ -47,7 +46,9 @@ const SuggestionItem = pure((props) => {
 
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,
+  useTransportIcons: React.PropTypes.bool,
 };
+
 
 SuggestionItem.displayName = 'SuggestionItem';
 

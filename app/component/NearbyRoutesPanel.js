@@ -7,13 +7,12 @@ import without from 'lodash/without';
 import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
-import config from '../config';
 
-function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
+function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      {config.showModeFilter &&
-        (<div className="row">
+      {context.config.showModeFilter &&
+        (<div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
@@ -29,6 +28,9 @@ function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }) {
           currentTime={currentTime}
           modes={modes}
           placeTypes={placeTypes}
+          maxDistance={context.config.nearbyRoutes.radius}
+          maxResults={context.config.nearbyRoutes.results || 50}
+          timeRange={context.config.nearbyRoutes.timeRange || 7200}
         />
       </div>
     </div>
@@ -43,6 +45,10 @@ NearbyRoutesPanel.propTypes = {
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
   placeTypes: PropTypes.array.isRequired,
+};
+
+NearbyRoutesPanel.contextTypes = {
+  config: React.PropTypes.object,
 };
 
 export default connectToStores(

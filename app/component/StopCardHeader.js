@@ -1,6 +1,5 @@
 import React from 'react';
 import CardHeader from './CardHeader';
-import config from '../config';
 import ComponentUsageExample from './ComponentUsageExample';
 import InfoIcon from './InfoIcon';
 
@@ -8,11 +7,11 @@ class StopCardHeader extends React.Component {
   getDescription() {
     let description = '';
 
-    if (config.stopCard.header.showDescription && this.props.stop.desc) {
+    if (this.context.config.stopCard.header.showDescription && this.props.stop.desc) {
       description += this.props.stop.desc;
     }
 
-    if (config.stopCard.header.showDistance && this.props.distance) {
+    if (this.context.config.stopCard.header.showDistance && this.props.distance) {
       description += ` // ${Math.round(this.props.distance)} m`;
     }
 
@@ -20,13 +19,15 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
+    if (!this.props.stop) return false;
+
     return (
       <CardHeader
         className={this.props.className}
         headingStyle={this.props.headingStyle}
         name={this.props.stop.name}
         description={this.getDescription()}
-        code={config.stopCard.header.showStopCode && this.props.stop.code ?
+        code={this.context.config.stopCard.header.showStopCode && this.props.stop.code ?
               this.props.stop.code : null}
         icons={this.props.icons}
       />
@@ -40,6 +41,10 @@ StopCardHeader.propTypes = {
   className: React.PropTypes.string,
   headingStyle: React.PropTypes.string,
   icons: React.PropTypes.arrayOf(React.PropTypes.node),
+};
+
+StopCardHeader.contextTypes = {
+  config: React.PropTypes.object.isRequired,
 };
 
 const exampleStop = {

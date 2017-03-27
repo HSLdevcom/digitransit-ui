@@ -10,7 +10,7 @@ function DisruptionListContainer({ alerts }, { intl }) {
     return (
       <FormattedMessage
         id="disruption-info-no-alerts"
-        defaultMessage="No disruption info."
+        defaultMessage="No known disruptions or diversions."
       />
     );
   }
@@ -20,14 +20,16 @@ function DisruptionListContainer({ alerts }, { intl }) {
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);
     const cause = 'because';
-    const translation = find(alert.alertDescriptionTextTranslations,
-                               ['language', intl.locale]);
     const routes = [alert.route];
+    const translation = find(alert.alertDescriptionTextTranslations, ['language', intl.locale]);
+
+    const description = translation ? translation.text : alert.alertDescriptionText;
+
 
     return (
       <DisruptionRow
         key={id}
-        description={translation.text}
+        description={description}
         startTime={startTime}
         endTime={endTime}
         cause={cause}
@@ -52,10 +54,12 @@ export const relayFragment = {
   fragment on QueryType {
     alerts {
       id
+      alertHeaderText
       alertHeaderTextTranslations {
         text
         language
       }
+      alertDescriptionText
       alertDescriptionTextTranslations {
         text
         language

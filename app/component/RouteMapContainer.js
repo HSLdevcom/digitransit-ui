@@ -11,6 +11,8 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 
 function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
+  if (!pattern) return false;
+
   let selectedVehicle;
   let fitBounds = true;
   let zoom;
@@ -57,14 +59,14 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
       lon={(selectedVehicle && selectedVehicle.long) || undefined}
       className={'full'}
-      key={showScale} // rerender for scale
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
       showScaleBar={showScale}
     >
-      {!fullscreen && <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />}
+      {breakpoint !== 'large' && !fullscreen &&
+        <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} key="overlay" />}
       {breakpoint !== 'large' && (
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
           {fullscreen ?
@@ -78,7 +80,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 RouteMapContainer.contextTypes = {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
-  breakpoint: React.PropTypes.string,
+  breakpoint: React.PropTypes.string.isRequired,
 };
 
 RouteMapContainer.propTypes = {

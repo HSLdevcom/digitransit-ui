@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import config from '../config';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
@@ -44,13 +43,14 @@ class TransitLeg extends React.Component {
   renderMain = () => {
     const originalTime = (
       this.props.leg.realTime &&
-      this.props.leg.departureDelay >= config.itinerary.delayThreshold) &&
+      this.props.leg.departureDelay >= this.context.config.itinerary.delayThreshold) &&
       [<br key="br" />, <span key="time" className="original-time">
         {moment(this.props.leg.startTime).subtract(this.props.leg.departureDelay, 's')
           .format('HH:mm')
         }
       </span>];
 
+    const firstLegClassName = this.props.index === 0 ? ' start' : '';
     const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
 
@@ -61,10 +61,9 @@ class TransitLeg extends React.Component {
         || (<FormattedMessage
           id="number-of-intermediate-stops"
           values={{
-            number: (stops
-         && stops.length) || 0,
+            number: (stops && stops.length) || 0,
           }}
-          defaultMessage="{number, plural, =0 {No intermediate stops} one {1 stop} other {{number} stops} }"
+          defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
         />);
       return (
         <div className="intermediate-stop-info-container">{stopCount === 0 ? <span className="intermediate-stop-no-stops">{message}</span> :
@@ -91,6 +90,8 @@ class TransitLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column">
           <div className="itinerary-time-column-time">
             <span className={this.props.leg.realTime ? 'realtime' : ''}>
+              {this.props.leg.realTime &&
+                <Icon img="icon-icon_realtime" className="realtime-icon realtime" />}
               {moment(this.props.leg.startTime).format('HH:mm')}
             </span>{originalTime}
           </div>
@@ -105,7 +106,7 @@ class TransitLeg extends React.Component {
       </Link>
       <div
         onClick={this.props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${modeClassName}`}
+        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
       >
         <div className="itinerary-leg-first-row">
           <div>{this.props.leg.from.name}{this.stopCode(
@@ -151,6 +152,7 @@ TransitLeg.propTypes = {
 
 TransitLeg.contextTypes = {
   focusFunction: React.PropTypes.func.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 

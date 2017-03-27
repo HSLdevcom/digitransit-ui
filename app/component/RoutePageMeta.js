@@ -8,6 +8,8 @@ import { intlShape } from 'react-intl';
 const RoutePageMeta = compose(
   getContext({ intl: intlShape }),
   mapProps(({ intl, route }) => {
+    if (!route) return false;
+
     const title = intl.formatMessage({
       id: 'route-page.title',
       defaultMessage: 'Route - {shortName}',

@@ -1,7 +1,6 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import config from '../../config';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
@@ -14,6 +13,7 @@ class OriginPopup extends React.Component {
     popupContainer: React.PropTypes.object.isRequired,
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired,
+    config: React.PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -44,7 +44,7 @@ class OriginPopup extends React.Component {
         context={this.context}
         offset={[50, this.props.yOffset]}
         closeButton={false}
-        maxWidth={config.map.genericMarker.popup.maxWidth}
+        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         autoPan={false}
         className="origin-popup"
       >

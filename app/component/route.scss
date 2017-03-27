@@ -1,12 +1,6 @@
 $route-header-height: 65px;
 $route-schedule-date-height: 36px;
 
-$route-header-favourite-icon-stroke-color: $light-gray;
-$route-header-favourite-icon-fill-color: $background-color;
-$route-header-favourite-icon-hover-stroke-color: $white;
-$route-header-favourite-icon-selected-fill-color: $favourite-color;
-$route-header-favourite-icon-selected-hover-stroke-color: $white;
-
 /* table headers */
 .route-list-header {
   border-bottom: solid 1px #eef1f3;
@@ -44,7 +38,7 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     p {
       color: $gray;
     }
-  };
+  }
 }
 
 .route-page-content {
@@ -107,8 +101,8 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     }
 
     .route-stop-row-divider {
-      width: calc(100% - 188px);
-      left: 188px;
+      width: calc(100% - 110px);
+      left: 110px;
     }
 
     .route-stop-schematized {
@@ -140,15 +134,15 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
 .route-stop-row-divider {
   position: absolute;
   height: 1px;
-  width: calc(100% - 90px);
+  width: calc(100% - 4.5em);
   bottom: 0px;
-  left: 90px;
+  left: 4.5em;
   background-color: $background-color;
 }
 
 .columns.route-stop-time {
   text-align: right;
-  color: $dark-color;
+  color: $black;
   padding-left: 0;
   padding-top: 1px;
   width: 50px;
@@ -220,35 +214,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
     .vehicle-number {
       padding-left: 0.25em;
     }
-  }
-  .route-header-name {
-    margin: 0;
-    color: $gray;
-    @include font-book;
-    font-size: 10pt;
-  }
-  .route-header-direction {
-    margin: 0.5em 0;
-    color: $black;
-    .icon {
-      height: 0.5em;
-      width: 0.5em;
-    }
-    .route-header-direction-switch {
-      background: currentColor;
-      width: 1.7em;
-      height: 1.2em;
-      padding: 2px;
-      border-radius: 0.6em;
-      fill: white;
-      vertical-align: bottom;
-      margin-left: 1ex;
-    }
-  }
-  .favourite-icon {
-    position: absolute;
-    top: 13px;
-    right: 15px;
   }
 }
 
@@ -355,12 +320,18 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
   transform: translateX(50%);
 }
 
+.route-page-action-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 0 15px;
+  background-color: #eef1f3;
+}
+
 .route-schedule-date {
   @include font-book;
 
   min-height: $route-schedule-date-height;
-  background-color: #eef1f3;
-  padding: 0 15px;
   margin: 0;
 
   .icon {
@@ -390,18 +361,6 @@ $route-header-favourite-icon-selected-hover-stroke-color: $white;
       padding: 4px;
     }
   }
-}
-
-.desktop .route-agency-name {
-    font-size: $font-size-normal;
-    padding-left:24px;
-  }
-
-.route-agency-name {
-  padding-left:14px;
-  padding-bottom: 8px;
-  font-size: $font-size-small;
-  color: $gray;
 }
 
 // Tabs
@@ -532,10 +491,10 @@ div.route-tabs {
 }
 
 .route-pattern-select {
-  padding: 8px 10px;
+  padding: 8px 10px 5px 10px;
   background-color: #eef1f3;
   position: relative;
-  min-height: 53px;
+  min-height: 49px;
 
   select {
     padding:0 35px 0 10px;
@@ -585,6 +544,7 @@ div.route-tabs {
     border-bottom: 1px solid $light-gray;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
+    position: relative;
 
     .icon.caution {
       fill: $cancelation-red;
@@ -618,7 +578,7 @@ div.route-tabs {
 
     .route-alert-duration {
       color: $gray;
-      font-size: $font-size-xxsmall;;
+      font-size: $font-size-xxsmall;
       margin-bottom: 0.2em;
       font-weight: 200;
     }
@@ -664,5 +624,37 @@ nav.top-bar .title .route-number {
     border-radius: $border-radius;
     height: 26px;
     width: 26px;
+  }
+}
+
+.desktop {
+  .route-agency {
+    padding: 0 0 0 20px;
+  }
+}
+.route-agency {
+  @extend .itinerary-leg-agency;
+  padding: 0 0 0 10px;
+  .agency-link-container {
+    max-width:calc(100% - 1em);
+    white-space: nowrap;
+    padding-top: 0px;
+    padding-bottom: 7px;
+    .agency-link {
+      font-size: 10px;
+      padding: 0;
+      .external-link-container { max-width: calc(100% - 1em);}
+      a {
+        font-weight:$font-weight-bold;
+        color: $primary-color;
+        max-width: 100%;
+      }
+      .icon.external-link-icon-outer {
+        color: white;
+      }
+      .icon.external-link-icon {
+        color: $primary-color;
+      }
+    }
   }
 }

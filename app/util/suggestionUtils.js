@@ -32,17 +32,10 @@ export const getLabel = memoize((suggestion) => {
           </span>
         </span>
       ), suggestion.longName] : [suggestion.longName, null];
-    case 'venue': {
-      let desc;
-      if (suggestion.street) {
-        desc = suggestion.housenumber ?
-          `${suggestion.street} ${suggestion.housenumber}, ${getLocality(suggestion)}` :
-          `${suggestion.street}, ${getLocality(suggestion)}`;
-      } else {
-        desc = suggestion.label.replace(new RegExp(`${suggestion.name}(,)?( )?`), '');
-      }
-      return [suggestion.name, desc];
-    }
+    case 'venue':
+    case 'address':
+      return [suggestion.name, suggestion.label.replace(new RegExp(`${suggestion.name}(,)?( )?`), '')];
+
     case 'favouriteStop':
     case 'stop':
       return suggestion.source === 'gtfs' ?
@@ -52,7 +45,6 @@ export const getLabel = memoize((suggestion) => {
           </span>
         )];
     case 'station':
-      return [suggestion.name || suggestion.label, getLocality(suggestion)];
     default:
       return [suggestion.name || suggestion.label, getLocality(suggestion)];
   }
@@ -75,7 +67,7 @@ export function getIcon(layer) {
     ['locality', 'icon-icon_city'],
     ['station', 'icon-icon_station'],
     ['localadmin', 'icon-icon_city'],
-    ['neighbourdood', 'icon-icon_city'],
+    ['neighbourhood', 'icon-icon_city'],
     ['route-BUS', 'icon-icon_bus-withoutBox'],
     ['route-TRAM', 'icon-icon_tram-withoutBox'],
     ['route-RAIL', 'icon-icon_rail-withoutBox'],

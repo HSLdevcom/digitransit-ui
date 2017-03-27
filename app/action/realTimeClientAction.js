@@ -1,5 +1,4 @@
 import moment from 'moment';
-import config from '../config';
 import { getJson } from '../util/xhrPromise';
 
 // getTopic
@@ -21,8 +20,6 @@ function parseMessage(topic, message, actionContext) {
 
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
-    // fix oday format
-    parsedMessage.oday = parsedMessage.oday && parsedMessage.oday.replace(/-/g, '');
   } else {
     parsedMessage = message.VP;
   }
@@ -48,7 +45,7 @@ function parseMessage(topic, message, actionContext) {
 }
 
 function getInitialData(topic, actionContext) {
-  getJson(config.URL.REALTIME + topic.replace('#', '')).then((data) => {
+  getJson(actionContext.config.URL.REALTIME + topic.replace('#', '')).then((data) => {
     Object.keys(data).forEach((resTopic) => {
       parseMessage(resTopic, data[resTopic], actionContext);
     });
@@ -63,7 +60,7 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
   topics.forEach(topic => getInitialData(topic, actionContext));
 
   System.import('mqtt').then((mqtt) => {
-    const client = mqtt.connect(config.URL.MQTT);
+    const client = mqtt.connect(actionContext.config.URL.MQTT);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) => parseMessage(topic, message, actionContext));
     actionContext.dispatch('RealTimeClientStarted', { client, topics });
