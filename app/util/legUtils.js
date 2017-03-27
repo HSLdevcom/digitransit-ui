@@ -1,5 +1,3 @@
-// converts the given parameter into a string in format HHmm
-// Input: time - seconds since midnight
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
@@ -26,5 +24,3 @@ export function isCallAgencyPickupType(leg) {
 export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
-
-export default null;

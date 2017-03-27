@@ -3,7 +3,7 @@ import get from 'lodash/get';
 
 import RouteNumber from './RouteNumber';
 
-const getText = (route, props, config) => {
+const getText = (route, config) => {
   const showAgency = get(config, 'agency.show', false);
   if (route.shortName) {
     return route.shortName;
@@ -19,7 +19,7 @@ const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config
       isCallAgency={isCallAgency}
       mode={route.mode}
       large={large}
-      text={getText(route, props, config)}
+      text={getText(route, config)}
       {...props}
     />);
 
