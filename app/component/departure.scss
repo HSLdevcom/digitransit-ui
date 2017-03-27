@@ -211,10 +211,11 @@
   }
   .city-bike-station-name {
     width: calc(100% - 10.5em);
-    vertical-align: bottom;
+    vertical-align: middle;
     padding-left: 0.5em;
   }
   .bicycle-rental-station {
+    display: inline-flex;
     position: relative;
     width: calc(100% - 3.5em);
     background-color: rgb(238, 241, 243);
