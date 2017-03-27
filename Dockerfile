@@ -23,20 +23,30 @@ ENV \
   NODE_OPTS='' \
   RELAY_FETCH_TIMEOUT=''
 
+RUN \
+  apt-get update && \
+  apt-get install -y --no-install-recommends apt-transport-https
+
+RUN \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends yarn
+
 WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  npm install && \
-  npm rebuild node-sass && \
-  npm run build && \
+  yarn global add node-gyp && \
+  yarn install && \
+  yarn add --force node-sass && \
+  yarn run build && \
   rm -rf static docs test /tmp/* && \
-  npm prune --production && \
-  npm cache clean && \
+  yarn cache clean && \
   chmod -R a+rwX . && \
   chown -R 9999:9999 ${WORK}
 
 # Don't run as root, because there's no reason to (https://docs.docker.com/engine/articles/dockerfile_best-practices/#user).
 USER 9999
 
-CMD npm run start
+CMD yarn run start
