@@ -3,6 +3,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
+import isEqual from 'lodash/isEqual';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -120,6 +121,12 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
+        if (isEqual(
+          [leg.from.lat, leg.from.lon],
+          [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon])
+        ) {
+          legs.push(<ViaLeg leg={leg} />);
+        }
         legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
       } else {
         legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
@@ -239,6 +246,7 @@ SummaryRow.propTypes = {
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
   breakpoint: React.PropTypes.string.isRequired,
+  intermediatePlaces: React.PropTypes.array,
 };
 
 SummaryRow.contextTypes = {
