@@ -16,7 +16,9 @@ IconWithBigCaution.displayName = 'IconWithBigCaution';
 
 IconWithBigCaution.description = () =>
   <ComponentUsageExample description="Bus with caution">
-    <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+    <div style={{ paddingLeft: '5px' }}>
+      <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+    </div>
   </ComponentUsageExample>;
 
 IconWithBigCaution.propTypes = {
