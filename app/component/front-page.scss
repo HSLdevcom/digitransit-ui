@@ -92,6 +92,12 @@ $heading-color: #858585;
       padding-top:10px;
       background: #eef1f3;
     }
+
+    .nofavs.row {
+      background: $white;
+      font-size: 13px;
+    }
+
     .next-departures-list-header {
       background: #eef1f3;
       padding: 6px 14px;
@@ -450,4 +456,8 @@ svg.icon.footer-icon {
   > div {
     max-width: 600px;
   }
+}
+
+.favourites {
+  background: $white;
 }

@@ -7,12 +7,14 @@ module.exports = {
   },
   'extends': 'airbnb',
   'rules': {
+    // Require custom extension
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
-    'react/no-string-refs': 'warn',
-    'react/no-find-dom-node': 'warn',
+    'react/require-default-props': 'warn',
+    'react/jsx-no-bind': ['warn', {ignoreRefs: true, allowArrowFunctions: false, allowBind: false}],
+    'react/jsx-key': 'error',
     // TODO: https://github.com/yannickcr/eslint-plugin-react/issues/819
     // TODO: https://github.com/yannickcr/eslint-plugin-react/issues/811
-    'react/no-unused-prop-types': ['off', { skipShapeProps: true }],
+    'react/no-unused-prop-types': ['warn', { skipShapeProps: true }],
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'warn',
     'jsx-a11y/no-static-element-interactions': 'warn',

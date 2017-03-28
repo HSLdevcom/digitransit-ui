@@ -33,105 +33,105 @@ const getRouteStopSvg = (first, last) => (
   </svg>
 );
 
-const RouteStop = ({
-  vehicles, stop, mode, distance, last, first, currentTime, className,
-}) => {
-  const vehicleTripLinks = vehicles && vehicles.map(vehicle => (
-    <Relay.RootContainer
-      key={vehicle.id}
-      Component={TripLink}
-      route={new FuzzyTripRoute({
-        route: vehicle.route,
-        direction: vehicle.direction,
-        date: vehicle.operatingDay,
-        time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
-          (vehicle.tripStartTime.substring(2, 4) * 60),
-      })}
-      renderFetched={data =>
-        (<TripLink
-          mode={vehicle.mode}
-          {...data}
-        />)
-      }
-    />
-  ));
+class RouteStop extends React.Component {
+  static propTypes = {
+    vehicles: React.PropTypes.array,
+    stop: React.PropTypes.object,
+    mode: React.PropTypes.string,
+    className: React.PropTypes.string,
+    distance: React.PropTypes.number,
+    currentTime: React.PropTypes.number.isRequired,
+    first: React.PropTypes.bool,
+    last: React.PropTypes.bool,
+  };
 
-  return (
-    <div className={cx('route-stop row', className)}>
-      <div className="columns route-stop-now">{vehicleTripLinks}</div>
-      <Link to={`/pysakit/${stop.gtfsId}`}>
-        <div className={`columns route-stop-name ${mode}`}>
-          {getRouteStopSvg(first, last)}
-          {stop.name}
-          <br />
-          <div style={{ whiteSpace: 'nowrap' }}>
-            {stop.code && <StopCode code={stop.code} />}
-            <span className="route-stop-address">{stop.desc}</span>
-            {'\u2002'}
-            {distance && (
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={distance}
-              />
-            )}
-          </div>
-        </div>
-        {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
-          stop.stopTimesForPattern.map(stopTime => (
-            <div key={stopTime.scheduledDeparture} className="columns route-stop-time">
-              {fromStopTime(stopTime, currentTime)}
+  static description = () =>
+    <ComponentUsageExample description="basic">
+      <RouteStop
+        stop={{
+          stopTimesForPattern: [{
+            realtime: true,
+            realtimeState: 'UPDATED',
+            realtimeDeparture: 48796,
+            serviceDay: 1471467600,
+            scheduledDeparture: 48780,
+          },
+          {
+            realtime: false,
+            realtimeState: 'SCHEDULED',
+            realtimeDeparture: 49980,
+            serviceDay: 1471467600,
+            scheduledDeparture: 49980,
+          }],
+          gtfsId: 'HSL:1173101',
+          lat: 60.198185699999726,
+          lon: 24.940634400000118,
+          name: 'Asemapäällikönkatu',
+          desc: 'Ratamestarinkatu',
+          code: '0663',
+        }}
+        mode="bus"
+        distance={200}
+        last={false}
+        currentTime={1471515614}
+      />
+    </ComponentUsageExample>;
+
+  render() {
+    const { vehicles, stop, mode, distance, last, first, currentTime, className } = this.props;
+
+    const vehicleTripLinks = vehicles && vehicles.map(vehicle => (
+      <Relay.RootContainer
+        key={vehicle.id}
+        Component={TripLink}
+        route={new FuzzyTripRoute({
+          route: vehicle.route,
+          direction: vehicle.direction,
+          date: vehicle.operatingDay,
+          time: (vehicle.tripStartTime.substring(0, 2) * 60 * 60) +
+            (vehicle.tripStartTime.substring(2, 4) * 60),
+        })}
+        renderFetched={data =>
+          (<TripLink
+            mode={vehicle.mode}
+            {...data}
+          />)
+        }
+      />
+    ));
+
+    return (
+      <div className={cx('route-stop row', className)} ref={el => (this.element = el)}>
+        <div className="columns route-stop-now">{vehicleTripLinks}</div>
+        <Link to={`/pysakit/${stop.gtfsId}`}>
+          <div className={`columns route-stop-name ${mode}`}>
+            {getRouteStopSvg(first, last)}
+            {stop.name}
+            <br />
+            <div style={{ whiteSpace: 'nowrap' }}>
+              {stop.code && <StopCode code={stop.code} />}
+              <span className="route-stop-address">{stop.desc}</span>
+              {'\u2002'}
+              {distance && (
+                <WalkDistance
+                  className="nearest-route-stop"
+                  icon="icon_location-with-user"
+                  walkDistance={distance}
+                />
+              )}
             </div>
-          ))
-        )}
-      </Link>
-      <div className="route-stop-row-divider" />
-    </div>);
-};
-
-RouteStop.propTypes = {
-  vehicles: React.PropTypes.array,
-  stop: React.PropTypes.object,
-  mode: React.PropTypes.string,
-  className: React.PropTypes.string,
-  distance: React.PropTypes.number,
-  currentTime: React.PropTypes.number.isRequired,
-  first: React.PropTypes.bool,
-  last: React.PropTypes.bool,
-};
-
-RouteStop.displayName = 'RouteStop';
-
-RouteStop.description = () =>
-  <ComponentUsageExample description="basic">
-    <RouteStop
-      stop={{
-        stopTimesForPattern: [{
-          realtime: true,
-          realtimeState: 'UPDATED',
-          realtimeDeparture: 48796,
-          serviceDay: 1471467600,
-          scheduledDeparture: 48780,
-        },
-        {
-          realtime: false,
-          realtimeState: 'SCHEDULED',
-          realtimeDeparture: 49980,
-          serviceDay: 1471467600,
-          scheduledDeparture: 49980,
-        }],
-        gtfsId: 'HSL:1173101',
-        lat: 60.198185699999726,
-        lon: 24.940634400000118,
-        name: 'Asemapäällikönkatu',
-        desc: 'Ratamestarinkatu',
-        code: '0663',
-      }}
-      mode="bus"
-      distance={200}
-      last={false}
-      currentTime={1471515614}
-    />
-  </ComponentUsageExample>;
+          </div>
+          {(stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0 &&
+            stop.stopTimesForPattern.map(stopTime => (
+              <div key={stopTime.scheduledDeparture} className="columns route-stop-time">
+                {fromStopTime(stopTime, currentTime)}
+              </div>
+            ))
+          )}
+        </Link>
+        <div className="route-stop-row-divider" />
+      </div>);
+  }
+}
 
 export default RouteStop;
