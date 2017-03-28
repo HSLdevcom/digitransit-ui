@@ -97,7 +97,7 @@ class SaveCustomizedSettingsButton extends React.Component {
         </section>
         <Snackbar
           open={this.state.open}
-          message={this.state.message}
+          message={<FormattedMessage tagName="span" defaultMessage="Tallenna asetukset" id="settings-saved" />}
           autoHideDuration={this.state.autoHideDuration}
           onRequestClose={this.handleRequestClose}
           style={containerStyles}
