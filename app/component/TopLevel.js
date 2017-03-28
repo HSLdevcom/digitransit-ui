@@ -46,11 +46,12 @@ class TopLevel extends React.Component {
   constructor(props, context) {
     super(props, context);
     configureMoment(context.intl.locale, context.config);
-    const hasTrackingPixel = get(context, 'config.showAdformTrackingPixel', false);
-    this.trackingPixel = hasTrackingPixel ? <HSLAdformTrackingPixel /> : undefined;
-
     const host = context.headers && (context.headers['x-forwarded-host'] || context.headers.host);
     const url = context.url;
+
+    const hasTrackingPixel = get(context, 'config.showAdformTrackingPixel', false);
+    this.trackingPixel = host && host.indexOf('127.0.0.1') === -1 && host.indexOf('localhost') === -1 && hasTrackingPixel ? <HSLAdformTrackingPixel /> : undefined;
+
     this.metadata = meta(this.context.intl.locale, host, url, this.context.config);
 
     this.topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
