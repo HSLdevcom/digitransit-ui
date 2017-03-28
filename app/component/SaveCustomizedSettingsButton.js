@@ -14,7 +14,7 @@ class SaveCustomizedSettingsButton extends React.Component {
     super(props);
     this.state = {
       autoHideDuration: 940,
-      message: 'Muutokset tallennettu!',
+      message: 'settings-saved',
       open: false,
     };
   }
@@ -49,29 +49,68 @@ class SaveCustomizedSettingsButton extends React.Component {
     });
   };
 
+  getSnackbarDimensions = () => {
+    // Since the settings container gets its dimensions dynamically the Snackbar modal
+    // has to be calculated by javascript watching the settings container's width
+    let containerStyles;
+    const containerWidth =
+      document.getElementsByClassName('customize-search')[0] ? (document.getElementsByClassName('customize-search')[0].parentElement.offsetWidth) * 0.7428
+      : null;
+    if (window.innerWidth <= 320) {
+      containerStyles = {
+        maxWidth: 'auto',
+        width: `${window.innerWidth}px`,
+      };
+    } else if (window.innerWidth <= 768) {
+      containerStyles = {
+        maxWidth: 'auto',
+        left: '55%',
+        width: `${containerWidth}px`,
+      };
+    } else {
+      containerStyles = {
+        maxWidth: 'auto',
+        left: '52%',
+        width: `${containerWidth}px`,
+      };
+    }
+    return containerStyles;
+  };
+
   handleRequestClose = () => {
     this.setState({
       open: false,
     });
-  }
+  };
 
   render() {
+    const containerStyles = this.getSnackbarDimensions();
     return (
-      <section className="offcanvas-section">
-        <div className="save-settings">
-          <hr />
-          <button className="save-settings-button" onClick={this.setSettingsData}>
-            <FormattedMessage tagName="h4" defaultMessage="Tallenna asetukset" id="save-settings" />
-          </button>
-        </div>
+      <div>
+        <section className="offcanvas-section">
+          <div className="save-settings">
+            <hr />
+            <button className="save-settings-button" onClick={this.setSettingsData}>
+              <FormattedMessage tagName="h4" defaultMessage="Tallenna asetukset" id="settings-savebutton" />
+            </button>
+          </div>
+        </section>
         <Snackbar
           open={this.state.open}
           message={this.state.message}
           autoHideDuration={this.state.autoHideDuration}
           onRequestClose={this.handleRequestClose}
-          bodyStyle={{ backgroundColor: '#585a5b', color: '#fff', textAlign: 'center' }}
+          style={containerStyles}
+          bodyStyle={{
+            backgroundColor: '#585a5b',
+            color: '#fff',
+            textAlign: 'center',
+            width: containerStyles.width,
+            fontSize: '0.8rem',
+            fontFamily: '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif',
+          }}
         />
-      </section>
+      </div>
     );
   }
 }
