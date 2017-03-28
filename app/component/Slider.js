@@ -14,6 +14,7 @@ class Slider extends React.Component {
     headerText: React.PropTypes.string,
     minText: React.PropTypes.string,
     maxText: React.PropTypes.string,
+    writtenValue: React.PropTypes.string,
   };
 
   static defaultProps = {
@@ -27,17 +28,15 @@ class Slider extends React.Component {
 
   // eslint-disable-next-line
   defaultValue = this.props.defaultValue != null ? this.props.defaultValue :
-      Math.floor((this.props.min + this.props.max) / 2);
+    Math.floor((this.props.min + this.props.max) / 2);
 
   state = { modified: this.props.initialValue !== this.defaultValue }
 
-  componentDidMount = () => {
-    this.refs.slider.addEventListener('touchmove', e => e.stopPropagation());
-  }
+  componentDidMount = () =>
+    this.slider && this.slider.addEventListener('touchmove', e => e.stopPropagation());
 
-  componentWillUnmount = () => {
-    this.refs.slider.removeEventListener('touchmove', e => e.stopPropagation());
-  }
+  componentWillUnmount = () =>
+    this.slider && this.slider.removeEventListener('touchmove', e => e.stopPropagation());
 
   valueChanged = (e) => {
     if (parseInt(e.target.value, 10) !== this.defaultValue) {
@@ -48,13 +47,23 @@ class Slider extends React.Component {
   }
 
   render() {
+    let showWrittenValue;
+    if (this.props.writtenValue) {
+      showWrittenValue = <div className="sub-header-h5 right">{this.props.writtenValue}</div>;
+    }
+
     return (
       <div
-        ref="slider"
+        ref={(el) => { this.slider = el; }}
         className={
           cx('slider-container', this.props.className, this.state.modified ? 'modified' : '')}
       >
-        <h4>{this.props.headerText}</h4>
+        <div className="slider-container-headers">
+          <div className="left">
+            <h4>{this.props.headerText}</h4>
+          </div>
+          {showWrittenValue}
+        </div>
         <input
           id={this.props.id}
           className={cx('slider')}

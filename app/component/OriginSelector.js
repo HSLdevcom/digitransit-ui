@@ -38,6 +38,10 @@ OriginSelectorRow.contextTypes = {
 };
 
 const OriginSelector = ({ favourites, oldSearches }, { config }) => {
+  const notInFavourites = item => favourites.filter(favourite =>
+    Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
+    Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4).length === 0;
+
   const names = favourites.map(
       f => <OriginSelectorRow
         key={`f-${f.locationName}`}
@@ -46,7 +50,7 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         lat={f.lat}
         lon={f.lon}
       />)
-      .concat(oldSearches.map(s => <OriginSelectorRow
+      .concat(oldSearches.filter(notInFavourites).map(s => <OriginSelectorRow
         key={`o-${s.properties.label}`}
         icon={getIcon(s.properties.layer)}
         label={s.properties.label}
