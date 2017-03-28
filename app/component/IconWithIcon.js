@@ -14,15 +14,19 @@ const IconWithIcon = ({ id, className, img, subIcon, subIconClassName }) => (
 IconWithIcon.description = () =>
   <div>
     <ComponentUsageExample description="Bus with caution">
-      <IconWithIcon
-        className="bus"
-        img="icon-icon_bus"
-        subIcon="icon-icon_caution"
-        subIconClassName="subicon-caution"
-      />
+      <div style={{ paddingLeft: '5px' }}>
+        <IconWithIcon
+          className="bus"
+          img="icon-icon_bus"
+          subIcon="icon-icon_caution"
+          subIconClassName="subicon-caution"
+        />
+      </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="Bus with call agency caution">
-      <IconWithIcon className="bus" img="icon-icon_bus" subIcon="icon-icon_call" />
+      <div style={{ paddingLeft: '5px' }}>
+        <IconWithIcon className="bus" img="icon-icon_bus" subIcon="icon-icon_call" />
+      </div>
     </ComponentUsageExample>
   </div>;
 
