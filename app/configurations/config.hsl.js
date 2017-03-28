@@ -29,6 +29,7 @@ export default {
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
   preferredAgency: 'HSL',
+  showAdformTrackingPixel: true,
 
   searchParams: {
     'boundary.rect.min_lat': 59.9,
