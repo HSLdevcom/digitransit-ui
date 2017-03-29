@@ -22,7 +22,7 @@ function PlatformNumber({ number, short = true }) {
   return (
     <span className="platform-number">
       <FormattedMessage
-        id="platform-number"
+        id="platform-num"
         values={{ platformCode: number }}
         defaultMessage="Platform {platformCode}"
       />
