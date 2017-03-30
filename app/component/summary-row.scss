@@ -9,6 +9,7 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
+  //align-items: center;
   user-select: none;
   $distance-gray: #999999;
   font-size: $font-size-normal;
@@ -125,10 +126,18 @@
     flex: 1 1 0;
 
     .leg {
+      padding-top: $padding-small;
       flex: 1 1 0;
       overflow: hidden;
       justify-content: center;
+      &.large {
+          padding-top: 0;
+      }
+      .route-number {
+        width: 100%;
+      }
     }
+
 
     .leg.via {
       flex: 1 1 0;
@@ -157,6 +166,52 @@
       }
     }
 
+    .vcenter-children {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+
+    div.bar-container {
+      top:0;
+      left:0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      position:absolute;
+      align-items: center;
+    }
+
+    div.bar {
+      height: 3px;
+      width: calc(100% - 1px);
+      //position: absolute;
+      z-index: -1;
+      //right: 1px;
+    //  height: 3px;
+      background-color: currentColor;
+      border: 1px solid currentColor;
+      border-radius: $border-radius-small;
+      &.call {
+        color: white;
+        border-color: #aaa;
+      }
+      .bar-inner {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(255,255,255,0.25);
+      }
+    }
+
+    .bar.large {
+      height: 6px;
+      border-width: 2px;
+      border-radius: $border-radius;
+      .bar-inner {
+        height: 2px;
+      }
+    }
+
     .line {
       white-space: nowrap;
       width: 100%;
@@ -164,22 +219,10 @@
       z-index: 1;
       text-align: center;
 
-      &:after {
-        content:"";
-        position: absolute;
-        z-index: -1;
-        right: 1px;
-        left: 0;
-        top: 1em;
-
-        border: 2px solid;
-        border-radius: $border-radius-small;
-      }
-
       .icon {
-        margin-top: $padding-small;
-        margin-left: $padding-xsmall;
-        font-size: 1.3rem;
+        //margin-top: $padding-small;
+        margin-left: 3px;
+        font-size: 1.35em;
         float: left;
       }
     }
@@ -283,16 +326,12 @@
       padding-top: 0;
       margin-top: 17px;
 
-      .line:after {
-        top: 10px;
-        border-width: 3px;
-        border-radius: $border-radius;
-      }
-
       .line .icon {
         margin-top: 0;
-        margin-left: 5px;
-        font-size: 24px;
+        margin-left: 6px;
+        font-size: $font-size-large;
+        width: $font-size-large;
+        height: $font-size-large;
       }
 
       .vehicle-number {
@@ -300,6 +339,7 @@
         margin-left: 6px;
         margin-top: 3.5px;
       }
+
     }
 
     .itinerary-end-time {
@@ -329,5 +369,10 @@
         min-height: 75px;
       }
     }
+  }
+
+  .call {
+    //text color
+    color: $black;
   }
 }
