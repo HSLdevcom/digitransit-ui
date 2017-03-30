@@ -329,6 +329,11 @@ section.content {
     color: $action-color;
     margin: 0;
   }
+
+  a {
+    @include font-medium;
+    padding: 0 4px;
+  }
 }
 
 // Need more specific selector to override
