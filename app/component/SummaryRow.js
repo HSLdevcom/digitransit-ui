@@ -142,7 +142,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
-        if (isEqual(
+        if (props.intermediatePlaces && props.intermediatePlaces.length > 0 && isEqual(
           [leg.from.lat, leg.from.lon],
           [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon])
         ) {
