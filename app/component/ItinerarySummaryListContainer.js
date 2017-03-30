@@ -98,10 +98,26 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
               name
             }
           }
+          trip {
+            stoptimes {
+              stop {
+                gtfsId
+              }
+              pickupType
+            }
+          }
           from {
             name
             lat
             lon
+            stop {
+              gtfsId
+            }
+          }
+          to {
+            stop {
+              gtfsId
+            }
           }
         }
       }
