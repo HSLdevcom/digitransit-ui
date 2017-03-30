@@ -124,6 +124,10 @@
   display: inline-block;
   &.vertical {
     text-align: center;
+    max-width: 100%;
+    .vehicle-number {
+      max-width: 100%;
+    }
   }
 }
 
