@@ -125,6 +125,7 @@ class MessageBar extends Component {
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}
+              className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{
                 maxHeight: this.state.maximized ? '400px' : '60px',
                 transition: 'max-height 300ms',

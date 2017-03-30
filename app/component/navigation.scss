@@ -323,6 +323,10 @@ section.content {
   text-align: left;
   cursor: pointer;
 
+  span {
+    width:45px;
+  }
+
   h2 {
     @include font-medium;
     font-size: $font-size-small;
@@ -336,6 +340,14 @@ section.content {
   }
 }
 
+#close-message-bar {
+  span {
+      padding-right:10px;
+  }
+}
+.message-bar-fade {
+  mask-image: linear-gradient(rgba(0,0,0,1) 4em, rgba(0, 0, 0, 0));
+}
 // Need more specific selector to override
 .message-bar .icon {
   margin: 10px;
