@@ -53,6 +53,9 @@ export default (features, config) => {
         }
       }
     }
-    return config.search.peliasLocalization(mappedFeature);
+    if (config.search.peliasLocalization) {
+      return config.search.peliasLocalization(mappedFeature);
+    }
+    return mappedFeature;
   });
 };
