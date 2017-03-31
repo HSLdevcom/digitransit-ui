@@ -11,6 +11,7 @@ import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
+import mapPeliasModality from './pelias-to-modality-mapper';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -132,7 +133,8 @@ export function getGeocodingResult(input, geolocation, language, config) {
   const opts = { text: input, ...config.searchParams, ...focusPoint, lang: language };
 
   return getJson(config.URL.PELIAS, opts)
-    .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'));
+    .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'))
+    .then(features => mapPeliasModality(features, config));
 }
 
 function getFavouriteRoutes(favourites, input) {
@@ -228,8 +230,8 @@ function getRoutes(input, config) {
   ).then(suggestions => take(suggestions, 10));
 }
 
-function getStops(input, origin) {
-  if (typeof input !== 'string' || input.trim().length === 0) {
+function getStops(input, origin, config) {
+  if (typeof input !== 'string' || input.trim().length === 0 || config.search.usePeliasStops) {
     return Promise.resolve([]);
   }
   const number = input.match(/^\d+$/);
@@ -323,7 +325,7 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       getFavouriteStops(favouriteStops, input, origin),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
-      getStops(input, location),
+      getStops(input, location, config),
     ])
     .then(flatten)
     .then(uniqByLabel)
