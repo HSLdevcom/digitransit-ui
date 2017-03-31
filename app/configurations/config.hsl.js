@@ -190,7 +190,7 @@ export default {
         sv:
         [
             { type: 'text', content: 'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ' },
-            { type: 'a', content: 'Anvandarvillkor', href: 'https://www.hsl.fi/sv/anvandarvillkor' },
+            { type: 'a', content: 'Användarvillkor', href: 'https://www.hsl.fi/sv/anvandarvillkor' },
             { type: 'a', content: 'Dataskyddsbeskrivning', href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning' },
         ],
       },
