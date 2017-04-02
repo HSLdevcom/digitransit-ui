@@ -17,6 +17,7 @@ const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config
   (route &&
     <RouteNumber
       isCallAgency={isCallAgency}
+      color={route.color ? `#${route.color}` : null}
       mode={route.mode}
       large={large}
       text={getText(route, config)}

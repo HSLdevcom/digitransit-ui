@@ -4,7 +4,7 @@ import cx from 'classnames';
 function Icon(props) {
   return (
     <span aria-hidden>
-      <svg id={props.id} viewBox={props.viewBox} className={cx('icon', props.className)}>
+      <svg id={props.id} style={{ fill: props.color ? props.color : null }} viewBox={props.viewBox} className={cx('icon', props.className)}>
         <use xlinkHref={`#${props.img}`} />
       </svg>
     </span>
@@ -14,6 +14,7 @@ function Icon(props) {
 Icon.propTypes = {
   id: React.PropTypes.string,
   viewBox: React.PropTypes.string,
+  color: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
 };
