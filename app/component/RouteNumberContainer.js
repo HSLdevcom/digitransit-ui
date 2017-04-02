@@ -14,15 +14,16 @@ const getText = (route, config) => {
 };
 
 const RouteNumberContainer = ({ className, route, isCallAgency, large, ...props }, { config }) =>
-(route && <RouteNumber
-  className={className}
-  isCallAgency={isCallAgency || route.type === 715}
-  mode={route.mode}
-  large={large}
-  text={getText(route, config)}
-  {...props}
-/>);
-
+  (route &&
+    <RouteNumber
+      className={className}
+      isCallAgency={isCallAgency || route.type === 715}
+      color={route.color ? `#${route.color}` : null}
+      mode={route.mode}
+      large={large}
+      text={getText(route, config)}
+      {...props}
+    />);
 
 RouteNumberContainer.propTypes = {
   route: React.PropTypes.object.isRequired,

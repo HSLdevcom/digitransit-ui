@@ -2,10 +2,11 @@ import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithBigCaution = ({ id, img, className }) => (
+const IconWithBigCaution = ({ id, img, className,color }) => (
   <IconWithIcon
     id={id}
     className={className}
+    color={color ? color : null}
     img={img}
     subIcon="icon-icon_caution"
     subIconClassName="subicon-caution"
@@ -23,6 +24,7 @@ IconWithBigCaution.description = () =>
 
 IconWithBigCaution.propTypes = {
   id: React.PropTypes.string,
+  color: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
 };

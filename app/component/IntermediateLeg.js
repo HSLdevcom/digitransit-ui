@@ -1,7 +1,7 @@
 import React from 'react';
 import StopCode from './StopCode';
 
-function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
+function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
   const modeClassName =
     `${mode.toLowerCase()}`;
 
@@ -9,6 +9,7 @@ function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
     <div style={{ width: '100%' }} className="row itinerary-row" onClick={e => focusFunction(e)}>
       <div className="small-2 columns itinerary-time-column" />
       <div
+        style={{ color }}
         className={`small-10 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
         <div className="itinerary-leg-first-row">
@@ -28,6 +29,7 @@ IntermediateLeg.propTypes = {
   waitTime: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
   mode: React.PropTypes.string.isRequired,
+  color: React.PropTypes.string,
   stopCode: React.PropTypes.string.isRequired,
 };
 
