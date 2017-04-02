@@ -14,7 +14,7 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 
-const getRouteStopSvg = (first, last) => (
+const getRouteStopSvg = (first, last, color) => (
   <svg className="route-stop-schematized" >
     <line
       x1="6"
@@ -22,7 +22,7 @@ const getRouteStopSvg = (first, last) => (
       y1={first ? 13 : 0}
       y2={last ? 13 : 67}
       strokeWidth="5"
-      stroke="currentColor"
+      stroke={color || 'currentColor'}
     />
     <line
       x1="6"
@@ -33,7 +33,7 @@ const getRouteStopSvg = (first, last) => (
       stroke="white"
       opacity="0.2"
     />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="13" r="5" />
+    <circle strokeWidth="2" stroke={color || 'currentColor'} fill="white" cx="6" cy="13" r="5" />
   </svg>
 );
 
@@ -55,7 +55,7 @@ const TripRouteStop = (props) => {
       <div className="columns route-stop-now">{vehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
-          {getRouteStopSvg(props.first, props.last)}
+          {getRouteStopSvg(props.first, props.last, props.color ? props.color : 'currentColor')}
           {props.stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
@@ -83,6 +83,7 @@ const TripRouteStop = (props) => {
 TripRouteStop.propTypes = {
   vehicles: React.PropTypes.array,
   mode: React.PropTypes.string.isRequired,
+  color: React.PropTypes.string,
   stopPassed: React.PropTypes.bool,
   realtimeDeparture: React.PropTypes.number,
   stop: React.PropTypes.object.isRequired,
