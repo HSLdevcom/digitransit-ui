@@ -15,6 +15,7 @@ export default class Line extends React.Component {
   static propTypes = {
     thin: React.PropTypes.bool,
     passive: React.PropTypes.bool,
+    color: React. PropTypes.string,
     mode: React.PropTypes.string.isRequired,
     geometry: React.PropTypes.array.isRequired,
   }
@@ -71,7 +72,7 @@ export default class Line extends React.Component {
           ref={(el) => { this.line = el; }}
           positions={this.props.geometry}
           className={`leg ${className}`}
-          color={this.props.passive ? '#758993' : 'currentColor'}
+          color={this.props.color ? this.props.color : 'currentColor'}
           weight={legWeight}
           interactive={false}
         />

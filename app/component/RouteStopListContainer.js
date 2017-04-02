@@ -40,6 +40,7 @@ class RouteStopListContainer extends React.Component {
     const nearest = position.hasLocation === true ?
       getDistanceToNearestStop(position.lat, position.lon, stops) : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
+    
 
     const vehicles = groupBy(
       values(this.props.vehicles)
@@ -61,6 +62,7 @@ class RouteStopListContainer extends React.Component {
 
       return (
         <RouteStop
+          color = {(this.props.pattern.route && this.props.pattern.route.color) ? `#${this.props.pattern.route.color}`: null}
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
@@ -105,6 +107,7 @@ export default Relay.createContainer(
           directionId
           route {
             mode
+            color
           }
           stops {
             stopTimesForPattern(id: $patternId, startTime: $currentTime) {
