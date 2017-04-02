@@ -10,6 +10,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();
+  const color = props.color;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
@@ -19,17 +20,19 @@ function RouteNumber(props) {
 
   const icon = (isCallAgency, hasDisruption) => {
     if (isCallAgency) {
-      return (<IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
+      return (<IconWithIcon color={color} className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
     }
 
     if (hasDisruption) {
       return (<IconWithBigCaution
+        color={color}
         className={mode}
         img={`icon-icon_${mode}`}
       />);
     }
 
     return (<Icon
+      color={color}
       className={mode}
       img={`icon-icon_${mode}`}
     />);
@@ -41,12 +44,12 @@ function RouteNumber(props) {
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
         {icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div style={{ color: color }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
 
         {props.vertical ? <br /> : null}
 
       </span>
-      <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+      <span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
         {props.text}
       </span>
     </span>
@@ -112,6 +115,7 @@ RouteNumber.description = () =>
 
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,
+  color: React.PropTypes.string,
   text: React.PropTypes.node,
   large: React.PropTypes.bool,
   vertical: React.PropTypes.bool,

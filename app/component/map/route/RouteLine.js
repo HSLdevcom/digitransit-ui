@@ -64,6 +64,7 @@ class RouteLine extends React.Component {
         {objs}
         <Line
           key="line"
+          color={this.props.pattern.route.color ? `#${this.props.pattern.route.color}` : null}
           geometry={this.props.pattern.geometry || this.props.pattern.stops}
           mode={modeClass}
           thin={this.props.thin}
@@ -84,6 +85,7 @@ export default Relay.createContainer(RouteLine, {
         }
         route {
           mode
+          color
         }
         stops {
           lat
