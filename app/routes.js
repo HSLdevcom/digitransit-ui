@@ -153,7 +153,6 @@ export default (config) => {
     accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
       : undefined,
   };
-  console.log(settings);
   const preparePlanParams = (
       { from, to },
       { location: { query: {
