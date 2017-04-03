@@ -173,7 +173,7 @@ function getPolyfills(userAgent, config) {
 
   config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
-      flags: ['gated'],
+      flags: ['always'],
     };
   });
 
