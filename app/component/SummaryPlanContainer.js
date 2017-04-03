@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
+import { getRoutePath } from '../util/path';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -31,17 +32,17 @@ class SummaryPlanContainer extends React.Component {
       this.context.router.replace({
         ...this.context.location,
         state: { summaryPageSelected: index },
-        pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+        pathname: getRoutePath(this.props.params.from, this.props.params.to),
       });
     }
-  }
+  };
 
   onSelectImmediately = (index) => {
     if (Number(this.props.params.hash) === index) {
       if (this.context.breakpoint === 'large') {
         this.context.router.replace({
           ...this.context.location,
-          pathname: `/reitti/${this.props.params.from}/${this.props.params.to}`,
+          pathname: getRoutePath(this.props.params.from, this.props.params.to),
         });
       } else {
         this.context.router.goBack();
@@ -51,8 +52,8 @@ class SummaryPlanContainer extends React.Component {
         ...this.context.location,
         state: { summaryPageSelected: index },
       };
-      const basePath = `/reitti/${this.props.params.from}/${this.props.params.to}`;
-      const indexPath = `/reitti/${this.props.params.from}/${this.props.params.to}/${index}`;
+      const basePath = getRoutePath(this.props.params.from, this.props.params.to);
+      const indexPath = `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`;
 
       if (this.context.breakpoint === 'large') {
         newState.pathname = indexPath;
