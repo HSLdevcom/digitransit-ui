@@ -13,7 +13,7 @@ import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
-import { getCustomizedSettings, getDefaultSettings, resetCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings, resetCustomizedSettings } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
@@ -33,7 +33,14 @@ function mapToSlider(value, arr) {
 }
 
 // Get default settings
-const defaultSettings = getDefaultSettings();
+const defaultSettings = {
+  accessibilityOption: 0,
+  minTransferTime: 180,
+  modes: ['TRAM', 'RAIL', 'SUBWAY', 'FERRY', 'BUS', 'WALK'],
+  walkBoardCost: 600,
+  walkReluctance: 2,
+  walkSpeed: 1.2,
+};
 
 class CustomizeSearch extends React.Component {
 
