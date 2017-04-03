@@ -88,21 +88,21 @@
 
   .reset-settings {
     text-align: center;
-    max-width: 151px;
+    max-width: 170px;
     margin: 0 auto;
   }
 
   .reset-settings-button {
     background: none;
     cursor: pointer;
+    border-bottom: 1px dashed #aaaaaa;
      h4 {
       color: #aaaaaa;
-      font-size: $font-size-xxsmall;
+      font-size: $font-size-xsmall;
       font-family: $font-family;
       font-weight: 300;
       margin: 0;
       text-transform: none;
-      border-bottom: 1px dashed #aaaaaa;
       line-height: 1.5em;
       }
   }
@@ -186,6 +186,6 @@
 
 .mobile {
   .reset-settings {
-     max-width: 159px;
+    max-width: 230px;
   }
 }

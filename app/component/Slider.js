@@ -85,7 +85,7 @@ class Slider extends React.Component {
           onInput={(e) => { this.props.onSliderChange(e); }}
           value={this.props.value}
         />
-        <span className="sub-header-h5 left">{this.props.minText} value {this.props.value}</span>
+        <span className="sub-header-h5 left">{this.props.minText}</span>
         <span className="sub-header-h5 right">{this.props.maxText}</span>
       </div>);
   }
