@@ -13,9 +13,9 @@ import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
-import { getCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings, getDefaultSettings, resetCustomizedSettings } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-// import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
+import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -32,6 +32,8 @@ function mapToSlider(value, arr) {
   return best;
 }
 
+// Get default settings
+const defaultSettings = getDefaultSettings();
 
 class CustomizeSearch extends React.Component {
 
@@ -70,9 +72,25 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      accessibilityOption: 0,
+      minTransferTime: 0,
+      modes: [],
+      walkBoardCost: 0,
+      walkReluctance: 0,
+      walkSpeed: 0,
+    };
+  }
+
+
   componentWillMount() {
+    // Check if there are customized settings set
     const custSettings = getCustomizedSettings();
 
+    /* Map sliders, if there are customized settings, prioritize them first,
+    if there are query parameters, they come in second, if not, fall back to default values */
     this.walkReluctanceSliderValues =
       CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
     if (custSettings.walkReluctance) {
@@ -82,7 +100,8 @@ class CustomizeSearch extends React.Component {
       this.walkReluctanceInitVal = this.context.location.query.walkReluctance
       && mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues);
     } else {
-      this.walkReluctanceInitVal = 10;
+      this.walkReluctanceInitVal = defaultSettings.walkReluctance
+      && mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues);
     }
 
     this.walkBoardCostSliderValues =
@@ -96,7 +115,8 @@ class CustomizeSearch extends React.Component {
         && mapToSlider(
           this.context.location.query.walkBoardCost, this.walkBoardCostSliderValues);
     } else {
-      this.walkBoardCostInitVal = 10;
+      this.walkBoardCostInitVal = defaultSettings.walkBoardCost
+      && mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues);
     }
 
     this.transferMarginSliderValues =
@@ -110,7 +130,8 @@ class CustomizeSearch extends React.Component {
         && mapToSlider(
           this.context.location.query.minTransferTime, this.transferMarginSliderValues);
     } else {
-      this.transferMarginInitVal = 10;
+      this.transferMarginInitVal = defaultSettings.minTransferTime
+      && mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues);
     }
 
     this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
@@ -123,8 +144,17 @@ class CustomizeSearch extends React.Component {
         && mapToSlider(
           this.context.location.query.walkSpeed, this.walkingSpeedSliderValues);
     } else {
-      this.walkingSpeedInitVal = 10;
+      this.walkingSpeedInitVal = defaultSettings.walkSpeed
+      && mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues);
     }
+
+    // Set the states accordingly to send as Slider values
+    this.setState({
+      minTransferTime: this.transferMarginInitVal,
+      walkBoardCost: this.walkBoardCostInitVal,
+      walkReluctance: this.walkReluctanceInitVal,
+      walkSpeed: this.walkingSpeedInitVal,
+    });
   }
 
   getDefaultModes = () =>
@@ -167,10 +197,11 @@ class CustomizeSearch extends React.Component {
         onSliderChange={e => this.updateSettings(
           'walkReluctance',
           this.walkReluctanceSliderValues[e.target.value],
+          this.walkReluctanceSliderValues,
         )}
         min={0}
         max={20}
-        initialValue={this.walkReluctanceInitVal}
+        value={this.state.walkReluctance}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
@@ -193,10 +224,11 @@ class CustomizeSearch extends React.Component {
         onSliderChange={e => this.updateSettings(
           'walkBoardCost',
           this.walkBoardCostSliderValues[e.target.value],
+          this.walkBoardCostSliderValues,
         )}
         min={0}
         max={20}
-        initialValue={this.walkBoardCostInitVal}
+        value={this.state.walkBoardCost}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-transfers',
@@ -219,12 +251,13 @@ class CustomizeSearch extends React.Component {
         onSliderChange={e => this.updateSettings(
           'minTransferTime',
           this.transferMarginSliderValues[e.target.value],
+          this.transferMarginSliderValues,
         )}
         min={0}
         max={20}
         writtenValue={isNaN(this.context.location.query.minTransferTime) === false ?
           `${(Math.round(this.context.location.query.minTransferTime / 60))} min` : `${3} min`}
-        initialValue={this.transferMarginInitVal}
+        value={this.state.minTransferTime}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'no-transfers-margin',
@@ -247,10 +280,11 @@ class CustomizeSearch extends React.Component {
         onSliderChange={e => this.updateSettings(
           'walkSpeed',
           this.walkingSpeedSliderValues[e.target.value],
+          this.walkingSpeedSliderValues,
         )}
         min={0}
         max={20}
-        initialValue={this.walkingSpeedInitVal}
+        value={this.state.walkSpeed}
         step={1}
         writtenValue={isNaN(this.context.location.query.walkSpeed) === false ?
           `${(Math.floor(this.context.location.query.walkSpeed * 60))} m/min` : `${72} m/min`}
@@ -341,7 +375,8 @@ class CustomizeSearch extends React.Component {
     },
   });
 
-  updateSettings(name, value) {
+  updateSettings(name, value, sliderValues) {
+    console.log('updateSettings()');
     this.context.executeAction(
     route,
       {
@@ -350,6 +385,41 @@ class CustomizeSearch extends React.Component {
           query: {
             ...this.context.location.query,
             [name]: value,
+          },
+        },
+        router: this.context.router,
+      },
+    );
+    this.setState({
+      [name]: value && mapToSlider(value, sliderValues),
+    });
+  }
+
+  resetParameters = () => {
+    resetCustomizedSettings();
+    this.setState({
+      walkSpeed: defaultSettings.walkSpeed &&
+      mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues),
+      walkReluctance: defaultSettings.walkReluctance &&
+      mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
+      walkBoardCost: defaultSettings.walkBoardCost &&
+      mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
+      accessibilityOption: defaultSettings.accessibilityOption,
+      minTransferTime: defaultSettings.minTransferTime &&
+      mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues),
+    });
+    this.context.executeAction(
+    route,
+      {
+        location: {
+          ...this.context.location,
+          query: {
+            walkSpeed: defaultSettings.walkSpeed,
+            walkReluctance: defaultSettings.walkReluctance,
+            walkBoardCost: defaultSettings.walkBoardCost,
+            minTransferTime: defaultSettings.minTransferTime,
+            accessibilityOption: defaultSettings.accessibilityOption,
+            modes: (defaultSettings.modes).toString(),
           },
         },
         router: this.context.router,
@@ -462,6 +532,7 @@ class CustomizeSearch extends React.Component {
             removeViaPoint={this.removeViaPoint}
           />
           <SaveCustomizedSettingsButton />
+          <ResetCustomizedSettingsButton onReset={this.resetParameters} />
         </div>
       </div>);
   }

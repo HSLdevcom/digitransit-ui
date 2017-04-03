@@ -96,6 +96,10 @@ export function getDefaultSettings() {
   return getItemAsJson('defaultSettings');
 }
 
+export function resetCustomizedSettings() {
+  setItem('customizedSettings', {});
+}
+
 export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
 }
