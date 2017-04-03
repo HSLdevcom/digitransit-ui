@@ -19,7 +19,7 @@ class ResetCustomizedSettingsButton extends React.Component {
             <FormattedMessage
               tagName="h4"
               defaultMessage="Palauta oletusasetukset"
-              id="reset-settings"
+              id="settings-reset"
             />
           </div>
         </div>
