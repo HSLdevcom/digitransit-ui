@@ -47,9 +47,12 @@ ViaPointSelector.propTypes = {
     React.PropTypes.oneOf([false]),
     React.PropTypes.string,
     React.PropTypes.arrayOf(React.PropTypes.string),
-  ]).isRequired,
+  ]),
 };
 
+ViaPointSelector.defaultProps = {
+  intermediatePlaces: [],
+};
 const emptyFunction = () => {};
 
 ViaPointSelector.description = () => (
