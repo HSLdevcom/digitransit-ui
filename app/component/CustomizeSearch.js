@@ -376,7 +376,6 @@ class CustomizeSearch extends React.Component {
   });
 
   updateSettings(name, value, sliderValues) {
-    console.log('updateSettings()');
     this.context.executeAction(
     route,
       {
