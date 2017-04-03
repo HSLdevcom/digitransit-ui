@@ -10,7 +10,7 @@ const MainMenuLinks = ({ content }) => (<div id="page-m-footer">
 
 
 MainMenuLinks.propTypes = {
-  content: PropTypes.arrayOf(FooterItem.propTypes),
+  content: PropTypes.arrayOf(React.PropTypes.shape(FooterItem.propTypes)),
 };
 
 MainMenuLinks.defaultProps = {
