@@ -15,7 +15,7 @@ export default class Line extends React.Component {
   static propTypes = {
     thin: React.PropTypes.bool,
     passive: React.PropTypes.bool,
-    color: React. PropTypes.string,
+    color: React.PropTypes.string,
     mode: React.PropTypes.string.isRequired,
     geometry: React.PropTypes.array.isRequired,
   }

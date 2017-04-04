@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 const subIconTemplate = { fontSize: '75%', position: 'absolute', bottom: '-5px', left: '-5px' };
 const IconWithIcon = ({ id, className, img, subIcon, subIconClassName, color }) => (
   <span style={{ position: 'relative' }} id={id} className={className}>
-    <span ><Icon color={color ? color : null} img={img} /></span>
+    <span ><Icon color={color} img={img} /></span>
     <span className={subIconClassName} style={subIconTemplate}><Icon img={subIcon} /></span>
   </span>
   );

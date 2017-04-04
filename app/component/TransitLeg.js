@@ -95,7 +95,7 @@ class TransitLeg extends React.Component {
               {moment(this.props.leg.startTime).format('HH:mm')}
             </span>{originalTime}
           </div>
-          <RouteNumber                                                    //  shouldn't this be a route number container instead???
+          <RouteNumber //  shouldn't this be a route number container instead???
             mode={this.props.mode.toLowerCase()}
             color={this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor'}
             text={this.props.leg.route && this.props.leg.route.shortName}
@@ -105,7 +105,8 @@ class TransitLeg extends React.Component {
           />
         </div>
       </Link>
-      <div style={{color: this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor'}}
+      <div 
+        style={{ color: this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor' }}
         onClick={this.props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
       >

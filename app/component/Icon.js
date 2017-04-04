@@ -4,7 +4,7 @@ import cx from 'classnames';
 function Icon(props) {
   return (
     <span aria-hidden>
-      <svg id={props.id} style={{fill: props.color ? props.color : null}} viewBox={props.viewBox} className={cx('icon', props.className)}>
+      <svg id={props.id} style={{ fill: props.color ? props.color : null }} viewBox={props.viewBox} className={cx('icon', props.className)}>
         <use xlinkHref={`#${props.img}`} />
       </svg>
     </span>

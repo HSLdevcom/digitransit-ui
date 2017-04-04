@@ -22,7 +22,7 @@ const getRouteStopSvg = (first, last, color) => (
       y1={first ? 13 : 0}
       y2={last ? 13 : 67}
       strokeWidth="5"
-      stroke={color ? color : 'currentColor'}
+      stroke={color}
     />
     <line
       x1="6"
@@ -33,7 +33,7 @@ const getRouteStopSvg = (first, last, color) => (
       stroke="white"
       opacity="0.2"
     />
-    <circle strokeWidth="2" stroke={color ? color : 'currentColor'} fill="white" cx="6" cy="13" r="5" />
+    <circle strokeWidth="2" stroke={color} fill="white" cx="6" cy="13" r="5" />
   </svg>
 );
 
