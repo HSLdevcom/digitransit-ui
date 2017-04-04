@@ -5,39 +5,12 @@ import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
 
-
-import memoize from 'lodash/memoize';
-import glfun from 'mapbox-gl-function';
-
 import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
+import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
-
-
-/** XXX copied here from mapIconUtils for now to get ios8 working. */
-const getCaseRadius = memoize(glfun({
-  type: 'exponential',
-  base: 1.15,
-  domain: [11.9, 12, 22],
-  range: [0, 1.5, 26],
-}), ({ $zoom }) => $zoom);
-
-
-const getStopRadius = memoize(glfun({
-  type: 'exponential',
-  base: 1.15,
-  domain: [11.9, 12, 22],
-  range: [0, 1, 24],
-}), ({ $zoom }) => $zoom);
-
-const getHubRadius = memoize(glfun({
-  type: 'exponential',
-  base: 1.15,
-  domain: [14, 14.1, 22],
-  range: [0, 2, 20],
-}), ({ $zoom }) => $zoom);
 
 let L;
 
