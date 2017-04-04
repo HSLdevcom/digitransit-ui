@@ -166,7 +166,7 @@ function getPolyfills(userAgent, config) {
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
-    Intl: { flags: ['gated'] },
+    Intl: { flags: ['always'] },
     'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
