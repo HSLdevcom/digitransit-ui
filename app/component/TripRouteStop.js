@@ -55,7 +55,7 @@ const TripRouteStop = (props) => {
       <div className="columns route-stop-now">{vehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
-          {getRouteStopSvg(props.first, props.last,props.color ? props.color : 'currentColor')}
+          {getRouteStopSvg(props.first, props.last, props.color ? props.color : 'currentColor')}
           {props.stop.name}
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>

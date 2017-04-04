@@ -44,7 +44,7 @@ function RouteNumber(props) {
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
         {icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div style={{ color: color }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div style={{ color }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
 
         {props.vertical ? <br /> : null}
 

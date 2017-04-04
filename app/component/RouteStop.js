@@ -79,16 +79,16 @@ class RouteStop extends React.Component {
     </ComponentUsageExample>;
 
   render() {
-    const { 
-      vehicles, 
+    const {
+      vehicles,
       stop,
-      mode, 
-      distance, 
-      last, 
-      first, 
-      currentTime, 
-      className, 
-      color 
+      mode,
+      distance,
+      last,
+      first,
+      currentTime,
+      className,
+      color,
       } = this.props;
 
     const vehicleTripLinks = vehicles && vehicles.map(vehicle => (
