@@ -112,9 +112,10 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 
   const history = historyCreator(config);
 
+
   function track() {
     // track "getting back to home"
-    const newHref = this.props.history.createHref(this.state.location);
+    const newHref = this.props.router.createHref(this.state.location);
 
     if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
       if (config.feedback.enable && shouldDisplayPopup(
@@ -130,7 +131,7 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     }
 
     this.href = newHref;
-    piwik.setCustomUrl(this.props.history.createHref(this.state.location));
+    piwik.setCustomUrl(this.props.router.createHref(this.state.location));
     piwik.trackPageView();
   }
 
