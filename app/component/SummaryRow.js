@@ -13,7 +13,7 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const Leg = ({ routeNumber, leg, large }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className="leg">
+  <div className="leg">
     { large &&
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -116,13 +116,13 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
 
     if (leg.transitLeg || leg.rentedBike || noTransitLegs || leg.intermediatePlace) {
       if (leg.rentedBike) {
-        legs.push(<ModeLeg leg={leg} mode="CITYBIKE" large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" large={large} />);
       } else if (leg.intermediatePlace) {
-        legs.push(<ViaLeg leg={leg} />);
+        legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
       } else if (leg.route) {
-        legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
+        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} large={large} />);
       } else {
-        legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} large={large} />);
       }
     }
   });
