@@ -96,7 +96,7 @@
   .reset-settings-button {
     background: none;
     cursor: pointer;
-    border-bottom: 1px dashed #aaaaaa;
+
      h4 {
       color: #aaaaaa;
       font-size: $font-size-xsmall;
@@ -105,6 +105,12 @@
       margin: 0;
       text-transform: none;
       line-height: 1.5em;
+      border-bottom: 2px dotted #aaaaaa;
+      transition: all 300ms ease-out;
+      &:hover {
+        color: #3e3e3e;
+        border-bottom: 2px dotted #3e3e3e;
+      }
       }
   }
 
