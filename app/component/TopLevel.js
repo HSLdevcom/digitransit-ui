@@ -53,9 +53,6 @@ class TopLevel extends React.Component {
     this.trackingPixel = host && host.indexOf('127.0.0.1') === -1 && host.indexOf('localhost') === -1 && hasTrackingPixel ? <HSLAdformTrackingPixel /> : undefined;
 
     this.metadata = meta(this.context.intl.locale, host, url, this.context.config);
-
-    this.topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
-    this.disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
   }
 
   getChildContext() {
@@ -72,6 +69,9 @@ class TopLevel extends React.Component {
     'large'
 
   render() {
+    this.topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
+    this.disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
+
     let content;
 
     if (this.props.children || !(this.props.map || this.props.header)) {
