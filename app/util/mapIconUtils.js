@@ -138,7 +138,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 export function drawTerminalIcon(tile, geom, type, name) {
   const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
   getImageFromSpriteCache(`icon-icon_${type.toLowerCase()}`, iconSize, iconSize).then(
-    image=>{
+    (image) => {
       tile.ctx.drawImage(
         image,
         (geom.x / tile.ratio) - (iconSize / 2),
@@ -167,26 +167,24 @@ export function drawTerminalIcon(tile, geom, type, name) {
           y += (FONT_SIZE + 2) * tile.scaleratio;
         });
       }
-    })
-
-  }
+    });
+}
 
 export function drawParkAndRideIcon(tile, geom, width, height) {
   getImageFromSpriteCache('icon-icon_park-and-ride', width, height).then(
-    image => {drawIconImage(image, tile, geom, width, height);})
+    (image) => { drawIconImage(image, tile, geom, width, height); });
 }
 
 export function drawCitybikeIcon(tile, geom, imageSize) {
   getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize).then(
-    (image)=>{drawIconImage(image, tile, geom, imageSize, imageSize);}
-  )
-
+    (image) => { drawIconImage(image, tile, geom, imageSize, imageSize); },
+  );
 }
 
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize).then(
-    (image)=>{drawIconImage(image, tile, geom, imageSize, imageSize);}
-  )
+    (image) => { drawIconImage(image, tile, geom, imageSize, imageSize); },
+  );
 }
 
 export function drawAvailabilityBadge(availability, tile, geom, imageSize,
@@ -196,15 +194,15 @@ export function drawAvailabilityBadge(availability, tile, geom, imageSize,
   }
 
   getImageFromSpriteCache(`icon-icon_${availability}-availability`,
-    badgeSize, badgeSize).then(image=>{
+    badgeSize, badgeSize).then((image) => {
       drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-    })
+    });
 }
 
 export function drawIcon(icon, tile, geom, imageSize) {
   getImageFromSpriteCache(icon, imageSize, imageSize).then(
-    (image)=>{
+    (image) => {
       drawIconImage(image, tile, geom, imageSize, imageSize);
-    }
-  )
+    },
+  );
 }
