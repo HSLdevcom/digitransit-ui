@@ -11,6 +11,7 @@ import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
 import { getLabel } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import { isBrowser } from '../util/browser';
+import Loading from './Loading';
 
 const L = isBrowser ? require('leaflet') : null;
 
@@ -227,7 +228,7 @@ export default class SearchInputContainer extends Component {
       return children;
     } else if (this.state.searchInProgress) {
       // Loading in progress
-      elem = <div className="spinner-loader" />;
+      elem = <Loading />;
     } else if (endpointResultCount === 0 && searchResultCount === 0) {
       // No results
       elem = <FormattedMessage id="search-no-results" defaultMessage="No location" />;
