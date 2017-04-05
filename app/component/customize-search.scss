@@ -89,29 +89,32 @@
 
   .reset-settings {
     text-align: center;
-    max-width: 170px;
+    max-width: 30%;
     margin: 0 auto;
+    padding: 0;
+    background-color: transparent;
+    display: block;
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .reset-settings-button {
     background: none;
     cursor: pointer;
-
-     h4 {
-      color: #aaaaaa;
-      font-size: $font-size-xsmall;
-      font-family: $font-family;
-      font-weight: 300;
-      margin: 0;
-      text-transform: none;
-      line-height: 1.5em;
-      border-bottom: 2px dotted #aaaaaa;
-      transition: all 300ms ease-out;
-      &:hover {
-        color: $medium-gray;
-        border-bottom: 2px dotted $medium-gray;
-      }
-      }
+    color: #aaaaaa;
+    font-size: $font-size-xsmall;
+    font-family: $font-family;
+    font-weight: 300;
+    margin: 0;
+    text-transform: none;
+    line-height: 1.5em;
+    border-bottom: 2px dotted #aaaaaa;
+    transition: all 300ms ease-out;
+    &:hover {
+      color: $medium-gray;
+      border-bottom: 2px dotted $medium-gray;
+    }
   }
 
   input[type="text"] {
