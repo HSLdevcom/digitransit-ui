@@ -87,7 +87,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
       'properties.label',
       'properties.shortName',
       'properties.longName',
-      'properties.name',
       'properties.desc',
     ]);
 
