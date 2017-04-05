@@ -117,8 +117,8 @@ $content-background-color: $background-color;
   border-bottom: 1px solid #262626;
   padding: 0px 5px;
   .lang {
-    @include font-medium
-    font-size: font-size-small;
+    @include font-medium;
+    font-size: $font-size-small;
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
@@ -173,7 +173,7 @@ $content-background-color: $background-color;
   height:100%;
   overflow-y: auto;
   text-align: left;
-  @include font-medium
+  @include font-medium;
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
