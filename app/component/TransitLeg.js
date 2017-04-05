@@ -74,9 +74,9 @@ class TransitLeg extends React.Component {
 
     return (<div
       key={this.props.index}
-      style={{
+      /* style={{
         width: '100%',
-      }}
+      }}*/
       className="row itinerary-row"
     >
       <Link
@@ -104,6 +104,10 @@ class TransitLeg extends React.Component {
           />
         </div>
       </Link>
+      <div className={`leg-before ${modeClassName}`} style={{ backgroundColor: '' }}>
+        <div className={`leg-before-circle ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
+      </div>
       <div
         onClick={this.props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
