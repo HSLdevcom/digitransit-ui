@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Relay, { Route } from 'react-relay';
 import NearbyRouteListContainer from './NearbyRouteListContainer';
+import NetworkError from './NetworkError';
+import Loading from './Loading';
 
 class NearbyRouteListContainerRoute extends Route {
   static queries = {
@@ -76,12 +78,15 @@ export default class NearestRoutesContainer extends Component {
           timeRange: this.props.timeRange,
         })}
         environment={Relay.Store}
-        render={({ props }) => {
-          if (props) {
+
+        render={({ error, props, retry }) => {
+          if (error) {
+            return <NetworkError retry={retry} />;
+          } else if (props) {
             return <NearbyRouteListContainer {...props} />;
           }
           if (this.useSpinner === true) {
-            return <div className="spinner-loader" />;
+            return <Loading />;
           }
           return undefined;
         }}
