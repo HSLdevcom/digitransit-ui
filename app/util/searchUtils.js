@@ -55,13 +55,34 @@ function mapStops(stops) {
 }
 
 
-function filterMatchingToInput(list, input, fields) {
-  if (typeof input === 'string' && input.length > 0) {
-    return list.filter((item) => {
-      const parts = fields.map(pName => get(item, pName));
+function filterMatchingToInput(list, Input, fields) {
+  if (typeof Input === 'string' && Input.length > 0) {
+    const input = Input.toLowerCase();
 
-      const test = parts.join(' ').toLowerCase();
-      return test.includes(input.toLowerCase());
+    return list.filter((item) => {
+      let parts = [];
+      fields.forEach((pName) => {
+        let value = get(item, pName);
+
+
+        if (pName === 'properties.label' || pName === 'address') {
+          // special case: drop last part i.e. city, because it is too coarse match target
+          value = value.split(',');
+          if (value.length > 1) {
+            value.splice(value.length - 1, 1);
+          }
+          value = value.join();
+        }
+        if (value) {
+          parts = parts.concat(value.toLowerCase().replace(/,/g, ' ').split(' '));
+        }
+      });
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i].indexOf(input) === 0) { // accept match only at word start
+          return true;
+        }
+      }
+      return false;
     });
   }
 
