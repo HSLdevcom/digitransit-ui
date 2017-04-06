@@ -81,8 +81,10 @@ export default class NearestRoutesContainer extends Component {
 
         render={({ error, props, retry }) => {
           if (error) {
+            this.useSpinner = true;
             return <NetworkError retry={retry} />;
           } else if (props) {
+            this.useSpinner = false;
             return <NearbyRouteListContainer {...props} />;
           }
           if (this.useSpinner === true) {
