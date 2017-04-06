@@ -354,10 +354,10 @@ class CustomizeSearch extends React.Component {
     </section>);
 
   getModes() {
-    if (getCustomizedSettings().modes && !this.context.location.query.modes) {
-      return getCustomizedSettings().modes;
-    } else if (this.context.location.query.modes) {
+    if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes).split(',');
+    } else if (getCustomizedSettings().modes) {
+      return getCustomizedSettings().modes;
     }
     return this.getDefaultModes();
   }
