@@ -57,7 +57,7 @@ function mapStops(stops) {
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
-    const input = Input.toLowerCase();
+    const input = Input.toLowerCase().trim();
 
     return list.filter((item) => {
       let parts = [];
