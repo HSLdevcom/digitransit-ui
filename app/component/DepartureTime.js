@@ -14,7 +14,6 @@ function DepartureTime(props, context) {
   let shownTime;
   const timeDiffInMinutes = Math.floor(((props.departureTime - props.currentTime) / 60));
 
-
   if (timeDiffInMinutes < 0 || timeDiffInMinutes > context.config.minutesToDepartureLimit) {
     const departureTime = moment(props.departureTime * 1000);
     if (props.useUTC) {
