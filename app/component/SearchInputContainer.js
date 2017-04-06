@@ -179,7 +179,7 @@ export default class SearchInputContainer extends Component {
   }
 
   executeSearchWithParams=(newinput) => {
-    const terms = newinput || this.state.value;
+    const terms = typeof newinput === 'string' ? newinput : this.state.value;
     executeSearch(this.context.getStore, {
       input: terms,
       type: this.props.type,
