@@ -46,9 +46,6 @@ export default class NearestRoutesContainer extends Component {
     this.useSpinner = true;
   }
 
-  componentDidMount() {
-    this.useSpinner = false;
-  }
 
   shouldComponentUpdate(nextProps) {
     return (
