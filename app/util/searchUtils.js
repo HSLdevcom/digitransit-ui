@@ -64,8 +64,7 @@ function filterMatchingToInput(list, Input, fields) {
       fields.forEach((pName) => {
         let value = get(item, pName);
 
-
-        if (pName === 'properties.label' || pName === 'address') {
+        if ((pName === 'properties.label' || pName === 'address') && value) {
           // special case: drop last part i.e. city, because it is too coarse match target
           value = value.split(',');
           if (value.length > 1) {
