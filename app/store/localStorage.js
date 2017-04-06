@@ -65,7 +65,7 @@ export function setCustomizedSettings(data) {
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
   const newSettings = {
-    accessibilityOption: data.accessibilityOption ? data.accessibilityOption
+    accessibilityOption: !(typeof data.accessibilityOption === 'undefined') ? data.accessibilityOption
     : oldSettings.accessibilityOption,
     minTransferTime: data.minTransferTime ? data.minTransferTime
     : oldSettings.minTransferTime,
@@ -79,21 +79,6 @@ export function setCustomizedSettings(data) {
     : oldSettings.walkSpeed,
   };
   setItem('customizedSettings', newSettings);
-}
-
-export function setDefaultSettings() {
-  setItem('defaultSettings', {
-    accessibilityOption: 0,
-    minTransferTime: 180,
-    modes: ['TRAM', 'RAIL', 'SUBWAY', 'FERRY', 'BUS', 'WALK'],
-    walkBoardCost: 600,
-    walkReluctance: 2,
-    walkSpeed: 1.2,
-  });
-}
-
-export function getDefaultSettings() {
-  return getItemAsJson('defaultSettings');
 }
 
 export function resetCustomizedSettings() {

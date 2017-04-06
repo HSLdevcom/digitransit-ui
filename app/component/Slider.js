@@ -9,7 +9,6 @@ class Slider extends React.Component {
     defaultValue: React.PropTypes.number,
     initialValue: React.PropTypes.number.isRequired,
     onSliderChange: React.PropTypes.func.isRequired,
-    setChangedValue: React.PropTypes.number,
     min: React.PropTypes.number,
     max: React.PropTypes.number,
     step: React.PropTypes.number,
