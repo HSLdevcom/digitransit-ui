@@ -27,7 +27,7 @@ class TransitLeg extends React.Component {
 
   renderIntermediate() {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
-      return this.props.leg.intermediateStops.map(
+      const stopList = this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
           key={stop.gtfsId}
           mode={this.props.mode}
@@ -36,6 +36,7 @@ class TransitLeg extends React.Component {
           focusFunction={this.context.focusFunction({ lat: stop.lat, lon: stop.lon })}
         />),
       );
+      return <div className="itinerary-leg-container" style={{ marginLeft: '20%', width: '78%' }}>{stopList}</div>;
     }
     return null;
   }
@@ -79,15 +80,15 @@ class TransitLeg extends React.Component {
       }}*/
       className="row itinerary-row"
     >
-      <Link
-        onClick={e => e.stopPropagation()}
-        to={
-          `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
-          this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
-          // TODO: Create a helper function for generationg links
-        }
-      >
-        <div className="small-2 columns itinerary-time-column">
+      <div className="small-2 columns itinerary-time-column">
+        <Link
+          onClick={e => e.stopPropagation()}
+          to={
+            `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
+            this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
+            // TODO: Create a helper function for generationg links
+          }
+        >
           <div className="itinerary-time-column-time">
             <span className={this.props.leg.realTime ? 'realtime' : ''}>
               {this.props.leg.realTime &&
@@ -102,9 +103,9 @@ class TransitLeg extends React.Component {
             vertical
             fadeLong
           />
-        </div>
-      </Link>
-      <div className={`leg-before ${modeClassName}`} style={{ backgroundColor: '' }}>
+        </Link>
+      </div>
+      <div className={`leg-before ${modeClassName}`} >
         <div className={`leg-before-circle ${modeClassName}`} />
         <div className={`leg-before-line ${modeClassName}`} />
       </div>

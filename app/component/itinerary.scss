@@ -162,7 +162,7 @@ $itinerary-route-max-width: 500px;
 
   .leg-before {
     max-width: 15px;
-    margin-left: 0.7em;
+    margin-right: 0.7em;
     position: relative;
   }
 
@@ -171,6 +171,19 @@ $itinerary-route-max-width: 500px;
     left: -4px;
     top: -6px;
     @include setModeCircles(#fff);
+    &.circle-fill {
+    &.bus { @include setModeCircles($bus-color); }
+    &.airplane { @include setModeCircles($airplane-color); }
+    &.tram { @include setModeCircles($tram-color); }
+    &.subway { @include setModeCircles($metro-color); }
+    &.rail { @include setModeCircles($rail-color); }
+    &.ferry { @include setModeCircles($ferry-color); }
+    &.citybike { @include setModeCircles($citybike-color); }
+    &.walk { @include setModeCircles($walk-color); }
+    &.wait { @include setModeCircles($wait-color); }
+    &.bicycle { @include setModeCircles($bicycle-color); }
+    &.car { @include setModeCircles($car-color); }
+  }
   }
 
   .leg-before-line {
@@ -179,6 +192,13 @@ $itinerary-route-max-width: 500px;
     position: absolute;
     left: 5px;
     border-left: 4px solid;
+    &.walk {
+      border-left-style: dotted;
+    }
+    &.short-line {
+      height: 23px;
+      top: 9px;
+    }
   }
 
   .itinerary-time-column {
@@ -229,31 +249,37 @@ $itinerary-route-max-width: 500px;
       width: inherit;
     }
   }
+/*
   .itinerary-instruction-column::before {
  //   content: "⚬";
-content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
     font-size: 24px;
     position: absolute;
     left: -2px;
     top: -6px;
   }
-
+*/
+/*
   .itinerary-instruction-column.intermediate::before {
-    //content: "●";
-content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
+    content: "●";
+    //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
   }
-
+  */
+/*
   &:last-child .itinerary-instruction-column::before {
     // content: "⚬";
-content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");    font-size: 24px;
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");    font-size: 24px;
     position: absolute;
     left: -2.5px;
     top: -6px;
   }
+*/
+/*
   &:last-child .itinerary-instruction-column.intermediate::before {
  //   content: "●";
 content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
 }
+*/
 
   .itinerary-instruction-column.start::before {
      content: "";
@@ -271,6 +297,9 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
    content: "";
  }
 
+
+/*
+  Stop lines
  .itinerary-instruction-column:not(.to)::after {
     content: "";
     position: absolute;
@@ -279,7 +308,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     left: 3px;
     border-left: solid 4px;
   }
-
+*/
   .itinerary-instruction-column.call:not(.to)::after {
      content: "";
      position: absolute;
@@ -315,6 +344,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     padding-left: 0.5em;
     margin-bottom: 0.5em;
     min-height: 4.15em;
+    max-height: 55px;
 
     &.intermediate {
       min-height:5px;

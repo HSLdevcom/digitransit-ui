@@ -6,11 +6,14 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 function EndLeg(props) {
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row">
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.endTime).format('HH:mm')}
         </div>
+      </div>
+      <div className="leg-before" >
+        <div className="leg-before-circle" />
       </div>
       <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
         <div>
