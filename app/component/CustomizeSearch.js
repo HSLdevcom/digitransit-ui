@@ -398,7 +398,7 @@ class CustomizeSearch extends React.Component {
         router: this.context.router,
       },
     );
-    !typeof sliderValues === 'undefined' ? 
+    !(typeof sliderValues === 'undefined') ? 
     this.setState({
       [name]: value && mapToSlider(value, sliderValues),
     }) : this.setState({
@@ -409,15 +409,11 @@ class CustomizeSearch extends React.Component {
   resetParameters = () => {
     resetCustomizedSettings();
     this.setState({
-      walkSpeed: defaultSettings.walkSpeed &&
-      mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues),
-      walkReluctance: defaultSettings.walkReluctance &&
-      mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
-      walkBoardCost: defaultSettings.walkBoardCost &&
-      mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
+      walkSpeed: mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues),
+      walkReluctance: mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
+      walkBoardCost: mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
       accessibilityOption: defaultSettings.accessibilityOption,
-      minTransferTime: defaultSettings.minTransferTime &&
-      mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues),
+      minTransferTime: mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues),
     });
     this.context.executeAction(
     route,
