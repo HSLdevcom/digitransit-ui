@@ -325,14 +325,14 @@ class CustomizeSearch extends React.Component {
 
   getAccessibilityOption = () => {
     let accessibilityOption;
-    if (getCustomizedSettings().accessibilityOption
-    && !this.context.location.query.accessibilityOption) {
-      accessibilityOption = getCustomizedSettings().accessibilityOption;
-    } else if (this.context.location.query.accessibilityOption) {
+    if (!(typeof this.context.location.query.accessibilityOption === 'undefined')) {
       accessibilityOption = this.context.location.query.accessibilityOption;
+    } else if (!(typeof getCustomizedSettings().accessibilityOption === 'undefined')) {
+      accessibilityOption = getCustomizedSettings().accessibilityOption;
     } else {
       accessibilityOption = 0;
     }
+    console.log(`getAccessibilityOption value ${accessibilityOption}`);
     return accessibilityOption;
   }
 
@@ -383,6 +383,8 @@ class CustomizeSearch extends React.Component {
   });
 
   updateSettings(name, value, sliderValues) {
+    console.log('update settings');
+    console.log(`slider values ${sliderValues}, name ${name}, value ${value}`)
     this.context.executeAction(
     route,
       {
@@ -396,8 +398,11 @@ class CustomizeSearch extends React.Component {
         router: this.context.router,
       },
     );
+    !typeof sliderValues === 'undefined' ? 
     this.setState({
       [name]: value && mapToSlider(value, sliderValues),
+    }) : this.setState({
+      [name] : value
     });
   }
 
