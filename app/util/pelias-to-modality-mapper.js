@@ -1,3 +1,35 @@
+/* eslint-disable no-unused-vars */
+
+// Example configuration for config.*.js to enable pelias search and mapping functionality
+const exampleConfig = {
+// ...
+  search: {
+    usePeliasStops: true, // enable to use pelias to search for stops
+    mapPeliasModality: true, // enable to map pelias stops to otp
+    peliasMapping: { // mapping values
+      onstreetBus: 'BUS',
+      onstreetTram: 'TRAM',
+      airport: 'AIRPORT',
+      railStation: 'RAIL',
+      metroStation: 'SUBWAY',
+      busStation: 'BUS',
+      tramStation: 'TRAM',
+      harbourPort: 'FERRY',
+      ferryPort: 'FERRY',
+      ferryStop: 'FERRY',
+      liftStation: 'FUNICULAR',
+    },
+    peliasLayer: () => 'stop', // function to change layer
+    peliasLocalization: (feature) => {
+      // localization example; showing locality (county) in label and name
+      const localized = { ...feature };
+      localized.properties.label = `${feature.properties.name}, ${feature.properties.locality}`;
+      localized.properties.name = `${feature.properties.name}, ${feature.properties.locality}`;
+      return localized;
+    },
+  },
+// ...
+};
 
 export default (features, config) => {
   if (!config.search.mapPeliasModality) {
@@ -21,6 +53,9 @@ export default (features, config) => {
         }
       }
     }
-    return config.search.peliasLocalization(mappedFeature);
+    if (config.search.peliasLocalization) {
+      return config.search.peliasLocalization(mappedFeature);
+    }
+    return mappedFeature;
   });
 };

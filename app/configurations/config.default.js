@@ -55,7 +55,7 @@ export default {
     mapPeliasModality: false,
     peliasMapping: { },
     peliasLayer: null,
-    peliasLocalization: feature => feature,
+    peliasLocalization: null,
   },
 
   nearbyRoutes: {
