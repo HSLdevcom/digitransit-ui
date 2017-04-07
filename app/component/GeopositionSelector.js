@@ -7,6 +7,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import Icon from './Icon';
 import { setUseCurrent } from '../action/EndpointActions';
+import Loading from './Loading';
 
 const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => {
   /* States:
@@ -43,7 +44,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (
       <div id="geoposition-selector">
-        <div className="spinner-loader" />
+        <Loading />
         <div className="spinner-caption">
           <FormattedMessage id="splash-locating" defaultMessage="Detecting location" />…
         </div>

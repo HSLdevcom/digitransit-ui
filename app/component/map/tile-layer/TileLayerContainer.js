@@ -22,6 +22,7 @@ import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
 import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
+import Loading from '../../Loading';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
@@ -202,7 +203,7 @@ class TileLayerContainer extends MapLayer {
 
     const loadingPopup = () =>
       <div className="card" style={{ height: '12rem' }}>
-        <div className="spinner-loader" />
+        <Loading />
       </div>;
 
     if (typeof this.state.selectableTargets !== 'undefined') {

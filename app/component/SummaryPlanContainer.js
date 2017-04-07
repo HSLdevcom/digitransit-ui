@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
+import Loading from './Loading';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -76,7 +77,7 @@ class SummaryPlanContainer extends React.Component {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const activeIndex = this.getActiveIndex();
     if (!this.props.itineraries) {
-      return <div className="spinner-loader" />;
+      return <Loading />;
     }
 
     return (
