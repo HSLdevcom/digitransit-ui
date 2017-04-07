@@ -111,6 +111,7 @@ class ItineraryLine extends React.Component {
                 key={`${i},${leg.mode}legmarker`}
                 disableModeIcons
                 renderName
+                color={(leg.route && leg.route.color) ? `#${leg.route.color}` : null}
                 leg={{
                   from: leg.from,
                   to: leg.to,
