@@ -5,6 +5,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
+import MessageBarMessage from './MessageBarMessage';
 
 
 /* Small version has constant height,
@@ -31,12 +32,13 @@ class MessageBar extends Component {
 
   getTabContent = () => (
     this.unreadMessages().map(el => (
-      <div tabIndex={0} role="banner" key={el.id} onClick={this.maximize}>
-        <h2>{el.content[this.props.lang].title}</h2>
-        {el.content[this.props.lang].content}
-      </div>
+      <MessageBarMessage
+        key={el.id}
+        onMaximize={this.maximize}
+        content={el.content[this.props.lang]}
+      />
     ))
-  );
+  )
 
   getTabs = () => (
 
@@ -123,6 +125,7 @@ class MessageBar extends Component {
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}
+              className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{
                 maxHeight: this.state.maximized ? '400px' : '60px',
                 transition: 'max-height 300ms',

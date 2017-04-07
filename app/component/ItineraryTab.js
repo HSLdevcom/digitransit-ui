@@ -157,12 +157,22 @@ export default Relay.createContainer(ItineraryTab, {
           route {
             shortName
             gtfsId
+            longName
+            agency {
+              phone
+            }
           }
           trip {
             gtfsId
             tripHeadsign
             pattern {
               code
+            }
+            stoptimes {
+              pickupType
+              stop {
+                gtfsId
+              }
             }
           }
         }

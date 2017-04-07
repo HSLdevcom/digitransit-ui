@@ -17,6 +17,8 @@ import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
+import CallAgencyLeg from './CallAgencyLeg';
+import { isCallAgencyPickupType } from '../util/legUtils';
 
 class ItineraryLegs extends React.Component {
 
@@ -103,7 +105,14 @@ class ItineraryLegs extends React.Component {
         previousLeg = compressedLegs[j - 1];
       }
 
-      if (leg.mode === 'BUS') {
+      if (isCallAgencyPickupType(leg)) {
+        legs.push(<CallAgencyLeg
+          key={j}
+          index={j}
+          leg={leg}
+          focusAction={this.focus(leg.from)}
+        />);
+      } else if (leg.mode === 'BUS') {
         legs.push(
           <BusLeg
             key={j}
@@ -206,6 +215,7 @@ class ItineraryLegs extends React.Component {
             {this.stopCode(leg.from.stop)}
           </WalkLeg>);
       }
+
 
       if (nextLeg) {
         waitTime = nextLeg.startTime - leg.endTime;
