@@ -85,7 +85,7 @@ class RoutePage extends React.Component {
       <div className="tabs route-tabs">
         <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
           { this.context.breakpoint === 'large' && (
-            <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
+            <RouteNumber color={this.props.route.color ? `#${this.props.route.color}` : null} mode={this.props.route.mode} text={this.props.route.shortName} />
           )}
           <a
             className={cx({ 'is-active': activeTab === 'pysakit' })}
@@ -140,6 +140,7 @@ export default Relay.createContainer(RoutePage, {
       Relay.QL`
       fragment on Route {
         gtfsId
+        color
         shortName
         longName
         mode
