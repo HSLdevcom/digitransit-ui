@@ -2,7 +2,7 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { setEndpoint } from '../../action/EndpointActions';
-import { withCurrentTime } from '../../util/searchUtils';
+//import { withCurrentTime } from '../../util/searchUtils';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
