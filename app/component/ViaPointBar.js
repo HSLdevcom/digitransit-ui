@@ -7,7 +7,6 @@ import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
 export default function ViaPointBar({
   intermediatePlaces, openSearchModal, removeViaPoint, className,
 }) {
@@ -50,6 +49,7 @@ ViaPointBar.propTypes = {
 
 ViaPointBar.defaultProps = {
   className: false,
+  intermediatePlaces: false,
 };
 
 const emptyFunction = () => {};

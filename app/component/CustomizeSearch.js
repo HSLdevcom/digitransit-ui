@@ -36,7 +36,6 @@ function mapToSlider(value, arr) {
 const defaultSettings = {
   accessibilityOption: 0,
   minTransferTime: 180,
-  modes: ['TRAM', 'RAIL', 'SUBWAY', 'FERRY', 'BUS', 'WALK'],
   walkBoardCost: 600,
   walkReluctance: 2,
   walkSpeed: 1.2,
@@ -428,8 +427,7 @@ class CustomizeSearch extends React.Component {
             walkBoardCost: defaultSettings.walkBoardCost,
             minTransferTime: defaultSettings.minTransferTime,
             accessibilityOption: defaultSettings.accessibilityOption,
-            modes: (defaultSettings.modes).toString(),
-            reset: true,
+            modes: this.getDefaultModes().toString(),
           },
         },
         router: this.context.router,

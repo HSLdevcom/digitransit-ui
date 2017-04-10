@@ -9,6 +9,7 @@ import Icon from '../../Icon';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import TerminalRoute from '../../../route/TerminalRoute';
+import Loading from '../../Loading';
 
 import { isBrowser } from '../../../util/browser';
 
@@ -80,7 +81,7 @@ class TerminalMarker extends React.Component {
             date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
           })}
           renderLoading={() => (
-            <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
+            <div className="card" style={{ height: '12rem' }}><Loading /></div>
           )}
           renderFetched={data => (
             <StopMarkerPopupWithContext {...data} context={this.context} />

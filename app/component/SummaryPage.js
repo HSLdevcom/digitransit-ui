@@ -23,6 +23,7 @@ import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
+import Loading from './Loading';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -225,7 +226,7 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
-            <div className="spinner-loader" />
+            <Loading />
           </div>
         );
       }
@@ -253,7 +254,7 @@ class SummaryPage extends React.Component {
     if (!done) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
-          <div className="spinner-loader" />
+          <Loading />
         </div>
       );
     } else if (this.props.params.hash) {

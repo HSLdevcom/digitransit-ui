@@ -50,6 +50,10 @@ ViaPointSelector.propTypes = {
   ]).isRequired,
 };
 
+ViaPointSelector.defaultProps = {
+  intermediatePlaces: false,
+};
+
 const emptyFunction = () => {};
 
 ViaPointSelector.description = () => (

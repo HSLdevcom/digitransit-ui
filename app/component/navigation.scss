@@ -117,8 +117,8 @@ $content-background-color: $background-color;
   border-bottom: 1px solid #262626;
   padding: 0px 5px;
   .lang {
-    @include font-medium
-    font-size: font-size-small;
+    @include font-medium;
+    font-size: $font-size-small;
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
@@ -173,7 +173,7 @@ $content-background-color: $background-color;
   height:100%;
   overflow-y: auto;
   text-align: left;
-  @include font-medium
+  @include font-medium;
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
@@ -323,14 +323,31 @@ section.content {
   text-align: left;
   cursor: pointer;
 
+  span {
+    width:45px;
+  }
+
   h2 {
     @include font-medium;
     font-size: $font-size-small;
     color: $action-color;
     margin: 0;
   }
+
+  a {
+    @include font-medium;
+    padding: 0 4px;
+  }
 }
 
+#close-message-bar {
+  span {
+      padding-right:10px;
+  }
+}
+.message-bar-fade {
+  mask-image: linear-gradient(rgba(0,0,0,1) 4em, rgba(0, 0, 0, 0));
+}
 // Need more specific selector to override
 .message-bar .icon {
   margin: 10px;
