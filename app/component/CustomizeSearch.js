@@ -332,7 +332,6 @@ class CustomizeSearch extends React.Component {
     } else {
       accessibilityOption = 0;
     }
-    console.log(`getAccessibilityOption value ${accessibilityOption}`);
     return accessibilityOption;
   }
 
@@ -355,7 +354,7 @@ class CustomizeSearch extends React.Component {
 
   getModes() {
     if (this.context.location.query.modes) {
-      return decodeURI(this.context.location.query.modes).split(',');
+      return decodeURI(this.context.location.query.modes).split('?')[0].split(',');
     } else if (getCustomizedSettings().modes) {
       return getCustomizedSettings().modes;
     }
@@ -383,8 +382,6 @@ class CustomizeSearch extends React.Component {
   });
 
   updateSettings(name, value, sliderValues) {
-    console.log('update settings');
-    console.log(`slider values ${sliderValues}, name ${name}, value ${value}`)
     this.context.executeAction(
     route,
       {
@@ -398,12 +395,15 @@ class CustomizeSearch extends React.Component {
         router: this.context.router,
       },
     );
-    !(typeof sliderValues === 'undefined') ? 
-    this.setState({
-      [name]: value && mapToSlider(value, sliderValues),
-    }) : this.setState({
-      [name] : value
-    });
+    if (!(typeof sliderValues === 'undefined')) {
+      this.setState({
+        [name]: value && mapToSlider(value, sliderValues),
+      });
+    } else {
+      this.setState({
+        [name]: value,
+      });
+    }
   }
 
   resetParameters = () => {
@@ -413,7 +413,8 @@ class CustomizeSearch extends React.Component {
       walkReluctance: mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
       walkBoardCost: mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
       accessibilityOption: defaultSettings.accessibilityOption,
-      minTransferTime: mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues),
+      minTransferTime: mapToSlider(defaultSettings.minTransferTime,
+      this.transferMarginSliderValues),
     });
     this.context.executeAction(
     route,
@@ -421,12 +422,14 @@ class CustomizeSearch extends React.Component {
         location: {
           ...this.context.location,
           query: {
+            time: this.context.location.query.time,
             walkSpeed: defaultSettings.walkSpeed,
             walkReluctance: defaultSettings.walkReluctance,
             walkBoardCost: defaultSettings.walkBoardCost,
             minTransferTime: defaultSettings.minTransferTime,
             accessibilityOption: defaultSettings.accessibilityOption,
             modes: (defaultSettings.modes).toString(),
+            reset: true,
           },
         },
         router: this.context.router,

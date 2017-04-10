@@ -134,7 +134,9 @@ function getIntermediatePlaces(intermediatePlaces) {
 }
 
 export default (config) => {
+  console.log('routes.js ran..');
   const custSettings = getCustomizedSettings();
+  console.log(custSettings);
   const settings = {
     walkSpeed: custSettings.walkSpeed ? Number(custSettings.walkSpeed)
       : undefined,
@@ -153,6 +155,7 @@ export default (config) => {
     accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
       : undefined,
   };
+  console.log(settings);
   const preparePlanParams = (
       { from, to },
       { location: { query: {

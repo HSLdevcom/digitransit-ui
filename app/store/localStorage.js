@@ -82,7 +82,7 @@ export function setCustomizedSettings(data) {
 }
 
 export function resetCustomizedSettings() {
-  setItem('customizedSettings', {});
+  localStorage.removeItem('customizedSettings');
 }
 
 export function getFavouriteLocationsStorage() {
