@@ -29,14 +29,10 @@ export function route(actionContext, payload, done) {
     }
 
     const path = getRoutePath(from, to);
-    console.log(payload.location.pathname);
-
     if (payload && payload.router && payload.location) {
       // Checks if the user is making the first search from the
       // main page
       if (payload.location.pathname.indexOf('/reitti') === 0) {
-        console.log('payload present');
-        console.log(payload.location);
         payload.router.replace({
           ...payload.location,
           state: {  // reset back to 1st alternative at reroute
@@ -46,7 +42,7 @@ export function route(actionContext, payload, done) {
           pathname: path,
         });
       } else {
-        // Will be ran when doing the first search from the main page 
+        // Will be ran when doing the first search from the main page
         console.log('nothing at all');
         payload.router.push(({ ...payload.location, pathname: path }));
       }

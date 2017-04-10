@@ -62,8 +62,6 @@ class SearchMainContainer extends React.Component {
     custSettings.modes = custSettings.modes && custSettings.modes.toString();
     const locationWithCustSettings = Object.assign({}, locationWithTime);
     Object.keys(custSettings).map(v => (locationWithCustSettings.query[v] = custSettings[v]));
-    console.log(locationWithCustSettings);
-    console.log(locationWithTime);
 
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
