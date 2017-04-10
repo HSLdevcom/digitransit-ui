@@ -182,7 +182,9 @@ function getPolyfills(userAgent, config) {
     features,
     minify: process.env.NODE_ENV !== 'development',
     unknown: 'polyfill',
-  });
+  }).then(polyfills =>
+    // no sourcemaps for inlined js
+    polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''));
 }
 
 function getScripts(req, config) {
