@@ -167,7 +167,7 @@ export default {
       },
       {
         header: 'Data sources',
-        paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on HSL’s JORE data.'],
+        paragraphs: ["Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on HSL’s JORE data."],
       },
     ],
   },

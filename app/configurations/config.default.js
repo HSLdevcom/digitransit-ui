@@ -470,7 +470,7 @@ export default {
         paragraphs: ['The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency.'],
       },
       {
-        header: 'Datasources',
+        header: 'Data sources',
         paragraphs: ["Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database."],
       },
     ],
