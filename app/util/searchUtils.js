@@ -12,6 +12,9 @@ import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
+import { getCustomizedSettings } from '../store/localStorage';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -354,9 +357,18 @@ export const executeSearch = (getStore, data, callback) => {
   debouncedSearch(getStore, data, callback);
 };
 
+const custSettings = omitBy(getCustomizedSettings(), isNil);
+custSettings.modes = custSettings.modes && custSettings.modes.toString();
+console.log(custSettings);
+
 export const withCurrentTime = (getStore, location) => ({
   ...location,
   query: {
     time: getStore('TimeStore').getCurrentTime().unix(),
+    minTransferTime: location.minTransferTime ? location.minTransferTime : getCustomizedSettings().minTransferTime,
+    modes: location.modes ? location.minTransferTime : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
+    walkBoardCost: location.walkBoardCost ? location.walkBoardCost : getCustomizedSettings().walkBoardCost,
+    walkReluctance: location.walkReluctance ? location.walkReluctance : getCustomizedSettings().walkReluctance,
+    walkSpeed: location.walkSpeed ? location.walkSpeed : getCustomizedSettings().walkSpeed
   },
 });
