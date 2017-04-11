@@ -4,6 +4,13 @@
   flex-direction: column;
 }
 
+@media print {
+  .desktop .summary {
+    display: block;
+    height: auto;
+  }
+}
+
 .summary-no-route-found {
     padding: 1em;
 }
@@ -214,6 +221,17 @@
   flex: 1 1 auto;
 }
 
+
+@media print {
+  .summary {
+    display:block;
+    height: auto;
+    .summary-list-container {
+      display:block;
+      height:auto;
+    }
+  }
+}
 
 .summary-content {
   height: 100%;

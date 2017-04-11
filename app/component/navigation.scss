@@ -270,6 +270,7 @@ section.content {
       position: relative;
 
       @media print {
+        page-break-before: always;
         width: 100%;
         min-height: 27cm;
       }
@@ -280,7 +281,12 @@ section.content {
 @media print {
   section.content {
      height: auto;
-     display: inline;
+     display: block;
+
+     .desktop {
+       height: auto;
+       display: block;
+     }
    }
 }
 
