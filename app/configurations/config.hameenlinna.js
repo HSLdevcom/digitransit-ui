@@ -9,7 +9,7 @@ const walttiConfig = require('./waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Hameenlinna', href: 'http://www.hameenlinna.fi/joukkoliikenne/' },
+  appBarLink: { name: 'Hämeenlinna', href: 'http://www.hameenlinna.fi/joukkoliikenne/' },
 
   colors: {
     primary: '#F76013',
