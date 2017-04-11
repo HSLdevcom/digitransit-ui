@@ -6,14 +6,14 @@ import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
+import omitBy from 'lodash/omitBy';
+import isNil from 'lodash/isNil';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
-import omitBy from 'lodash/omitBy';
-import isNil from 'lodash/isNil';
 import { getCustomizedSettings } from '../store/localStorage';
 
 function getRelayQuery(query) {
@@ -363,12 +363,17 @@ console.log(custSettings);
 
 export const withCurrentTime = (getStore, location) => ({
   ...location,
-  query: {
+  query: omitBy({
     time: getStore('TimeStore').getCurrentTime().unix(),
-    minTransferTime: location.minTransferTime ? location.minTransferTime : getCustomizedSettings().minTransferTime,
-    modes: location.modes ? location.minTransferTime : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
-    walkBoardCost: location.walkBoardCost ? location.walkBoardCost : getCustomizedSettings().walkBoardCost,
-    walkReluctance: location.walkReluctance ? location.walkReluctance : getCustomizedSettings().walkReluctance,
-    walkSpeed: location.walkSpeed ? location.walkSpeed : getCustomizedSettings().walkSpeed
-  },
+    minTransferTime: location.minTransferTime ? location.minTransferTime
+    : getCustomizedSettings().minTransferTime,
+    modes: location.modes ? location.minTransferTime
+    : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
+    walkBoardCost: location.walkBoardCost ? location.walkBoardCost
+    : getCustomizedSettings().walkBoardCost,
+    walkReluctance: location.walkReluctance ? location.walkReluctance
+    : getCustomizedSettings().walkReluctance,
+    walkSpeed: location.walkSpeed ? location.walkSpeed
+    : getCustomizedSettings().walkSpeed }, isNil)
+  ,
 });
