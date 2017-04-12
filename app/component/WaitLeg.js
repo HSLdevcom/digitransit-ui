@@ -8,13 +8,18 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 
 function WaitLeg(props) {
+  const modeClassName = 'wait';
   return (
-    <div style={{ width: '100%' }} className="row itinerary-row">
+    <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode="wait" vertical />
+      </div>
+      <div className={`leg-before ${modeClassName}`} >
+        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         onClick={props.focusAction}

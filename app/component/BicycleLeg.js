@@ -52,13 +52,18 @@ function BicycleLeg(props) {
     }
   }
 
+  const modeClassName = 'bicycle';
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row">
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode={mode} vertical />
+      </div>
+      <div className={`leg-before ${modeClassName}`} >
+        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         onClick={props.focusAction}

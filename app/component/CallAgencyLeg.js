@@ -56,6 +56,10 @@ class CallAgencyLeg extends React.Component {
             />
           </div>
         </Link>
+        <div className={`leg-before ${modeClassName}`} >
+          <div className={`leg-before-circle circle-fill ${modeClassName}`} />
+          <div className={`leg-before-line ${modeClassName}`} />
+        </div>
         <div
           onClick={this.props.focusAction}
           className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}

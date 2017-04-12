@@ -3,7 +3,7 @@
 $topbar-height: 40px;
 $itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
-$itinerary-route-max-width: 500px;
+$itinerary-route-max-width: 420px;
 
 @mixin getCircleSvg($stroke, $fill) {
     content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
@@ -66,7 +66,7 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-main {
-  width: 100%;
+  width: 94%;
   padding-top: 20px;
 
   flex-grow: 1;
@@ -159,15 +159,15 @@ $itinerary-route-max-width: 500px;
   color: $medium-gray;
   width: 100%;
   max-width: 100%;
+  display: flex;
 
   .leg-before {
     max-width: 15px;
-    margin-right: 0.7em;
+    margin-right: 2.2%;
     position: relative;
   }
 
   .leg-before-circle {
-    position: absolute;
     left: -4px;
     top: -6px;
     @include setModeCircles(#fff);
@@ -187,17 +187,13 @@ $itinerary-route-max-width: 500px;
   }
 
   .leg-before-line {
-    height: 73px;
-    top: 11px;
+    height: 100%;
+    top: 14px;
     position: absolute;
-    left: 5px;
-    border-left: 4px solid;
+    left: 8px;
+    border-left: 6px solid;
     &.walk {
       border-left-style: dotted;
-    }
-    &.short-line {
-      height: 23px;
-      top: 9px;
     }
   }
 
@@ -208,6 +204,10 @@ $itinerary-route-max-width: 500px;
     color: $black;
     margin-bottom: 0.5em;
 
+    a {
+        text-decoration: none;
+    }
+
     &.call {
       .route-number {
         padding-top: 2em;
@@ -216,6 +216,8 @@ $itinerary-route-max-width: 500px;
 
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
+      color: $black;
+      text-decoration: none;
       span {
         position: relative;
       }
@@ -297,7 +299,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
    content: "";
  }
 
-
 /*
   Stop lines
  .itinerary-instruction-column:not(.to)::after {
@@ -309,6 +310,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     border-left: solid 4px;
   }
 */
+
   .itinerary-instruction-column.call:not(.to)::after {
      content: "";
      position: absolute;
@@ -344,7 +346,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     padding-left: 0.5em;
     margin-bottom: 0.5em;
     min-height: 4.15em;
-    max-height: 55px;
 
     &.intermediate {
       min-height:5px;
@@ -394,7 +395,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     }
 
     .intermediate-stop-info-container {
-      padding-top:6px;
+      margin-top: 6px;
     }
 
     .intermediate-stops-link {
@@ -423,6 +424,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
 
 .bp-large .row.itinerary-row {
   max-width: $itinerary-route-max-width;
+  margin-left: 0;
 
  .itinerary-time-column {
     @include font-narrow-medium;
@@ -457,7 +459,11 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     }
     .itinerary-icon {
       font-size: 13px;
-      margin-left: -24px;
+      margin-left: -8%;
+      &.to {
+        margin-left: -6.5%;
+        margin-top: 1%;
+      }
     }
 
     .itinerary-search-icon {
@@ -519,12 +525,11 @@ div.itinerary-container-content {
 
 .itinerary-leg-agency {
   @extend .itinerary-leg-text-gray;
-  padding-top: 10px;
   .agency-link-container {
     max-width:calc(100% - 1em);
     white-space: nowrap;
-    padding-top: 15px;
-    padding-bottom: 10px;
+    margin-top: 0.7em;
+    margin-bottom: 0.80em;
     .agency-link {
       font-size: 10px;
       .external-link-container { max-width: calc(100% - 1em);}
@@ -711,7 +716,6 @@ div.itinerary-container-content {
   @include font-medium;
   font-weight: 600;
   a {
-
     text-decoration: none;
     color: white;
   }
@@ -723,4 +727,13 @@ div.itinerary-container-content {
   .agency-link-container {
     padding:0;
   }
+}
+
+.itinerary-leg-container {
+  margin-left: 16.6%;
+  width: 70%;
+  }
+
+.mobile .itinerary-leg-container {
+  margin-left: 20%;
 }

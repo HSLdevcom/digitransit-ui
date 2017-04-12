@@ -9,7 +9,7 @@ function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
     <div style={{ width: '100%' }} className="row itinerary-row" onClick={e => focusFunction(e)}>
       <div className={`leg-before ${modeClassName}`} >
         <div className={`leg-before-circle circle-fill ${modeClassName}`} />
-        <div className={`leg-before-line short-line ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
       </div>
       <div className={`small-10 columns itinerary-instruction-column intermediate ${modeClassName}`}>
         <div className="itinerary-leg-first-row">

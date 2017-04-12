@@ -12,14 +12,19 @@ function CarLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
+  const modeClassName = 'car';
 
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row" >
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
+      </div>
+      <div className={`leg-before ${modeClassName}`} >
+        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         onClick={props.focusAction}

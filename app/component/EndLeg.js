@@ -5,6 +5,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 function EndLeg(props) {
+  const modeClassName = 'end';
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
@@ -14,6 +15,9 @@ function EndLeg(props) {
       </div>
       <div className="leg-before" >
         <div className="leg-before-circle" />
+      </div>
+      <div className={`leg-before ${modeClassName}`} >
+        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
       </div>
       <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
         <div>

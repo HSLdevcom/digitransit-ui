@@ -36,7 +36,7 @@ class TransitLeg extends React.Component {
           focusFunction={this.context.focusFunction({ lat: stop.lat, lon: stop.lon })}
         />),
       );
-      return <div className="itinerary-leg-container" style={{ marginLeft: '20%', width: '78%' }}>{stopList}</div>;
+      return <div className="itinerary-leg-container" >{stopList}</div>;
     }
     return null;
   }
