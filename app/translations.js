@@ -638,7 +638,7 @@ const translations = {
     'walking-speed': 'Kävelynopeus',
     'warning-call-agency': `Liikennöidään kutsujoukkoliikenteenä: {routeName},
       joka on tilattava etukäteen`,
-    'warning-call-agency-no-route': 'Liikennöidään kutsujoukkoliikenteenä joka on tilattava etukäteen',
+    'warning-call-agency-no-route': 'Liikennöidään kutsujoukkoliikenteenä, joka on tilattava etukäteen',
     'weather-at-destination': 'Sää määränpäässä',
     'yesterday': 'Eilen',
     'your-favourites': 'Suosikkisi',
