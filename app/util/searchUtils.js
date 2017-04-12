@@ -361,19 +361,35 @@ const custSettings = omitBy(getCustomizedSettings(), isNil);
 custSettings.modes = custSettings.modes && custSettings.modes.toString();
 console.log(custSettings);
 
-export const withCurrentTime = (getStore, location) => ({
+export const withCurrentParameters = (getStore, location) => ({
   ...location,
-  query: omitBy({
-    time: getStore('TimeStore').getCurrentTime().unix(),
-    minTransferTime: location.minTransferTime ? location.minTransferTime
+  query: {
+    ...location.query,
+    accessibilityOption: location.query.accessibilityOption ? location.query.accessibilityOption
+    : getCustomizedSettings().accessibilityOption,
+    time: location.query.time ? location.query.time : getStore('TimeStore').getCurrentTime().unix(),
+    minTransferTime: location.query.minTransferTime ? location.query.minTransferTime
     : getCustomizedSettings().minTransferTime,
-    modes: location.modes ? location.minTransferTime
+    modes: location.query.modes ? location.query.modes
     : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
-    walkBoardCost: location.walkBoardCost ? location.walkBoardCost
+    walkBoardCost: location.query.walkBoardCost ? location.query.walkBoardCost
     : getCustomizedSettings().walkBoardCost,
-    walkReluctance: location.walkReluctance ? location.walkReluctance
+    walkReluctance: location.query.walkReluctance ? location.query.walkReluctance
     : getCustomizedSettings().walkReluctance,
-    walkSpeed: location.walkSpeed ? location.walkSpeed
-    : getCustomizedSettings().walkSpeed }, isNil)
-  ,
+    walkSpeed: location.query.walkSpeed ? location.query.walkSpeed
+    : getCustomizedSettings().walkSpeed,
+  },
+  /*omitBy({
+    time: getStore('TimeStore').getCurrentTime().unix(),
+    minTransferTime: location.query.minTransferTime ? location.query.minTransferTime
+    : getCustomizedSettings().minTransferTime,
+    modes: location.query.modes ? location.query.modes
+    : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
+    walkBoardCost: location.query.walkBoardCost ? location.query.walkBoardCost
+    : getCustomizedSettings().walkBoardCost,
+    walkReluctance: location.query.walkReluctance ? location.query.walkReluctance
+    : getCustomizedSettings().walkReluctance,
+    walkSpeed: location.query.walkSpeed ? location.query.walkSpeed
+    : getCustomizedSettings().walkSpeed }, isNil),*/
+
 });

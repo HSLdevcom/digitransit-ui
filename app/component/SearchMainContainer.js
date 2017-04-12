@@ -15,7 +15,7 @@ import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
 import { getCustomizedSettings } from '../store/localStorage';
-import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
+import { getAllEndpointLayers, withCurrentParameters } from '../util/searchUtils';
 
 
 class SearchMainContainer extends React.Component {
@@ -55,15 +55,14 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
-    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+    const locationWithTime = withCurrentParameters(this.context.getStore, this.context.location);
     console.log(locationWithTime);
 /*
     const custSettings = omitBy(getCustomizedSettings(), isNil);
-
     custSettings.modes = custSettings.modes && custSettings.modes.toString();
     const locationWithCustSettings = Object.assign({}, locationWithTime);
     Object.keys(custSettings).map(v => (locationWithCustSettings.query[v] = custSettings[v]));
-    console.log(locationWithCustSettings);*/
+*/
 
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
