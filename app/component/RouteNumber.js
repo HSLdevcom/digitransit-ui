@@ -130,7 +130,7 @@ RouteNumber.defaultProps = {
   hasDisruption: false,
   fadeLong: false,
   text: '',
-
+  isCallAgency: false,
 };
 
 RouteNumber.displayName = 'RouteNumber';

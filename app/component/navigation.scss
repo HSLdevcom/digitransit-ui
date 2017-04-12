@@ -6,6 +6,7 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
 /* top bar */
 $topbar-height: 40px;
+
 $top-navigation-icon-color: $primary-font-color;
 $top-navigation-title-color: $title-color;
 
@@ -229,7 +230,6 @@ $content-background-color: $background-color;
 // Work-around using position: absolute; and pinning all corners made the performance really bad
 section.content {
   background-color: $content-background-color;
-  height: calc(100% - #{$topbar-height});
   position: relative;
 
   .mobile {
@@ -256,8 +256,9 @@ section.content {
       position: relative;
 
       @media print {
+        height: auto;
         width: 100%;
-        page-break-after: always;
+        display: inline;
       }
     }
 
@@ -269,11 +270,24 @@ section.content {
       position: relative;
 
       @media print {
+        page-break-before: always;
         width: 100%;
         min-height: 27cm;
       }
     }
   }
+}
+
+@media print {
+  section.content {
+     height: auto;
+     display: block;
+
+     .desktop {
+       height: auto;
+       display: block;
+     }
+   }
 }
 
 
