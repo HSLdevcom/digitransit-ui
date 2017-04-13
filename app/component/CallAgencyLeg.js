@@ -49,7 +49,7 @@ class CallAgencyLeg extends React.Component {
             </div>
             <RouteNumber
               mode="call"
-              className="call"
+              className="leg-call"
               realtime={false}
               vertical
               fadeLong

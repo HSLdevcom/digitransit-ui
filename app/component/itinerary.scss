@@ -168,15 +168,19 @@ $itinerary-route-max-width: 500px;
       }
     }
 
+
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
         left: -0.4em;
         position: absolute;
       }
-      font-size: 1.8em;
-      &.call {
-        font-size: 24px;
+      font-size: 14pt;
+    }
+
+    .leg-call {
+      .icon {
+        font-size: 1.8em;
       }
     }
 
