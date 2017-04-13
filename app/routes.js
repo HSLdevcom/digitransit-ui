@@ -133,11 +133,10 @@ function getIntermediatePlaces(intermediatePlaces) {
   return [];
 }
 
-export default (config) => {
-  console.log('routes.js ran..');
+function getSettings() {
   const custSettings = getCustomizedSettings();
-  console.log(custSettings);
-  const settings = {
+
+  return {
     walkSpeed: custSettings.walkSpeed ? Number(custSettings.walkSpeed)
       : undefined,
     walkReluctance: custSettings.walkReluctance ? Number(custSettings.walkReluctance)
@@ -155,7 +154,9 @@ export default (config) => {
     accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
       : undefined,
   };
-  console.log(settings);
+}
+
+export default (config) => {
   const preparePlanParams = (
       { from, to },
       { location: { query: {
@@ -170,7 +171,9 @@ export default (config) => {
         modes,
         accessibilityOption,
       } } },
-    ) => omitBy({
+  ) => {
+    const settings = getSettings();
+    return omitBy({
       fromPlace: from,
       toPlace: to,
       from: otpToLocation(from),
@@ -186,17 +189,18 @@ export default (config) => {
       date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
       time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
       walkReluctance: walkReluctance ? Number(walkReluctance) : settings.walkReluctance,
-      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
-      minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
-      walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
+      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : settings.walkBoardCost,
+      minTransferTime: minTransferTime ? Number(minTransferTime) : settings.minTransferTime,
+      walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
       arriveBy: arriveBy ? arriveBy === 'true' : undefined,
       maxWalkDistance: (typeof modes === 'undefined' ||
         (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) ?
         config.maxWalkDistance : config.maxBikingDistance,
-      wheelchair: accessibilityOption === '1',
+      wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil);
+  };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
     React.cloneElement(element, props) :
