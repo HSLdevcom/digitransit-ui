@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
