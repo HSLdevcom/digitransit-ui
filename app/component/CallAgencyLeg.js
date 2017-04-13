@@ -137,11 +137,9 @@ CallAgencyLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 CallAgencyLeg.contextTypes = {
-  focusFunction: React.PropTypes.func.isRequired,
   config: React.PropTypes.object.isRequired,
 };
 
