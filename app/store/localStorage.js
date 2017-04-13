@@ -57,6 +57,34 @@ export function removeItem(k) {
   }
 }
 
+export function getCustomizedSettings() {
+  return getItemAsJson('customizedSettings');
+}
+
+export function setCustomizedSettings(data) {
+  // Get old settings and test if set values have changed
+  const oldSettings = getCustomizedSettings();
+  const newSettings = {
+    accessibilityOption: !(typeof data.accessibilityOption === 'undefined') ? data.accessibilityOption
+    : oldSettings.accessibilityOption,
+    minTransferTime: data.minTransferTime ? data.minTransferTime
+    : oldSettings.minTransferTime,
+    modes: data.modes ? data.modes
+    : oldSettings.modes,
+    walkBoardCost: data.walkBoardCost ? data.walkBoardCost
+    : oldSettings.walkBoardCost,
+    walkReluctance: data.walkReluctance ? data.walkReluctance
+    : oldSettings.walkReluctance,
+    walkSpeed: data.walkSpeed ? data.walkSpeed
+    : oldSettings.walkSpeed,
+  };
+  setItem('customizedSettings', newSettings);
+}
+
+export function resetCustomizedSettings() {
+  localStorage.removeItem('customizedSettings');
+}
+
 export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
 }

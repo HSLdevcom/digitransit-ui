@@ -373,9 +373,15 @@ export const executeSearch = (getStore, data, callback) => {
   debouncedSearch(getStore, data, callback);
 };
 
-export const withCurrentTime = (getStore, location) => ({
-  ...location,
-  query: {
-    time: getStore('TimeStore').getCurrentTime().unix(),
-  },
-});
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time ? query.time : getStore('TimeStore').getCurrentTime().unix(),
+    },
+  };
+};
