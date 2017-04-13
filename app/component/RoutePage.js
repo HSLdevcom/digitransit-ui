@@ -83,7 +83,7 @@ class RoutePage extends React.Component {
     }
 
     return (
-      <div>{this.props.route.type === 715 && <CallAgencyWarning />}
+      <div>{this.props.route.type === 715 && <CallAgencyWarning route={this.props.route} />}
         <div className="tabs route-tabs">
           <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
             { this.context.breakpoint === 'large' && (
@@ -149,6 +149,9 @@ export default Relay.createContainer(RoutePage, {
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
         alerts
+        agency {
+          phone
+        }
       }
     `,
   },

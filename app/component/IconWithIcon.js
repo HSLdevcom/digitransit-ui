@@ -39,7 +39,7 @@ IconWithIcon.description = () =>
 IconWithIcon.displayName = 'IconWithIcon';
 
 IconWithIcon.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
   subIcon: PropTypes.string,
@@ -47,6 +47,7 @@ IconWithIcon.propTypes = {
 };
 
 IconWithIcon.defaultProps = {
+  id: '',
   subIcon: '',
   className: '',
   subIconClassName: '',
