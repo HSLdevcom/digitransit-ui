@@ -43,7 +43,6 @@ export function route(actionContext, payload, done) {
         });
       } else {
         // Will be ran when doing the first search from the main page
-        console.log('nothing at all');
         payload.router.push(({ ...payload.location, pathname: path }));
       }
     }
