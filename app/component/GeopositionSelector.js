@@ -24,6 +24,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
     && !searchModalIsOpen && !origin.userSetPosition && !origin.useCurrentPosition) {
     context.executeAction(setUseCurrent, {
       target: 'origin',
+      keepSelectedLocation: true, // don't overwrite if user has already set a location
       router: context.router,
       location: context.location,
     });

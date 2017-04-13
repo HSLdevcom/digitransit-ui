@@ -60,6 +60,12 @@ $route-schedule-date-height: 36px;
   }
 }
 
+@media print {
+  div.route-page-content {
+    display: block;
+  }
+}
+
 // stop list
 .route-stop-list {
   @include font-narrow-medium;

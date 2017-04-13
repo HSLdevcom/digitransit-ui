@@ -9,7 +9,7 @@ const walttiConfig = require('./waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Hameenlinna', href: 'http://www.hameenlinna.fi/joukkoliikenne/' },
+  appBarLink: { name: 'Hämeenlinna', href: 'http://www.hameenlinna.fi/joukkoliikenne/' },
 
   colors: {
     primary: '#F76013',
@@ -56,7 +56,6 @@ export default configMerger(walttiConfig, {
     content: [
       { label: (function () { return `© Hameenlinna ${(1900 + new Date().getYear())}`; }()) },
       {},
-      { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },
