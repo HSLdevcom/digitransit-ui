@@ -29,9 +29,10 @@ function RouteNumber(props) {
       />);
     }
 
-    return (<Icon
+    return (<IconWithIcon
       className={mode}
       img={`icon-icon_${mode}`}
+      subIcon=""
     />);
   };
 

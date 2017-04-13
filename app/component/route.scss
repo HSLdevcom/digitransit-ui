@@ -638,17 +638,21 @@ div.route-tabs {
 }
 
 nav.top-bar .title .route-number {
+  font-size: 24px;
   .vehicle-number {
     color: $title-color;
+    vertical-align: middle;
   }
+  .route-number-title {
+    font-size: 25px;
+    span > span:nth-child(1) {
+        span > svg.icon {
+          //margin-top: -4px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: $border-radius;
+        }
+    }
 
-  font-size: 24px;
-  .icon {
-    margin-top: -4px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: $border-radius;
-    height: 26px;
-    width: 26px;
   }
 }
 

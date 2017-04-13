@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 
 const RouteTitle = ({ route }, { breakpoint }) => (
   (breakpoint === 'large' || !route || !route.mode) ?
@@ -13,8 +13,10 @@ const RouteTitle = ({ route }, { breakpoint }) => (
     />
     :
     <Link to={`/linjat/${route.gtfsId}`}>
-      <RouteNumber
-        mode={route.mode}
+      <RouteNumberContainer
+        className="route-number-title"
+        route={route}
+        vertical={false}
         text={route.shortName}
       />
     </Link>
@@ -40,6 +42,7 @@ export default Relay.createContainer(RouteTitle, {
         gtfsId
         shortName
         mode
+        type
       }
     `,
   },
