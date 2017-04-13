@@ -4,8 +4,6 @@ import { routerShape, locationShape } from 'react-router';
 import Tab from 'material-ui/Tabs/Tab';
 import cx from 'classnames';
 import without from 'lodash/without';
-import omitBy from 'lodash/omitBy';
-import isNil from 'lodash/isNil';
 
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import FakeSearchBar from './FakeSearchBar';
@@ -14,8 +12,7 @@ import SearchInputContainer from './SearchInputContainer';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
-import { getCustomizedSettings } from '../store/localStorage';
-import { getAllEndpointLayers, withCurrentParameters } from '../util/searchUtils';
+import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
 
 
 class SearchMainContainer extends React.Component {
@@ -55,14 +52,7 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
-    const locationWithTime = withCurrentParameters(this.context.getStore, this.context.location);
-    console.log(locationWithTime);
-/*
-    const custSettings = omitBy(getCustomizedSettings(), isNil);
-    custSettings.modes = custSettings.modes && custSettings.modes.toString();
-    const locationWithCustSettings = Object.assign({}, locationWithTime);
-    Object.keys(custSettings).map(v => (locationWithCustSettings.query[v] = custSettings[v]));
-*/
+    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
 
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {

@@ -6,15 +6,12 @@ import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
-import omitBy from 'lodash/omitBy';
-import isNil from 'lodash/isNil';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
-import { getCustomizedSettings } from '../store/localStorage';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -376,39 +373,15 @@ export const executeSearch = (getStore, data, callback) => {
   debouncedSearch(getStore, data, callback);
 };
 
-const custSettings = omitBy(getCustomizedSettings(), isNil);
-custSettings.modes = custSettings.modes && custSettings.modes.toString();
-console.log(custSettings);
 
-export const withCurrentParameters = (getStore, location) => ({
-  ...location,
-  query: {
-    ...location.query,
-    accessibilityOption: location.query.accessibilityOption ? location.query.accessibilityOption
-    : getCustomizedSettings().accessibilityOption,
-    time: location.query.time ? location.query.time : getStore('TimeStore').getCurrentTime().unix(),
-    minTransferTime: location.query.minTransferTime ? location.query.minTransferTime
-    : getCustomizedSettings().minTransferTime,
-    modes: location.query.modes ? location.query.modes
-    : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
-    walkBoardCost: location.query.walkBoardCost ? location.query.walkBoardCost
-    : getCustomizedSettings().walkBoardCost,
-    walkReluctance: location.query.walkReluctance ? location.query.walkReluctance
-    : getCustomizedSettings().walkReluctance,
-    walkSpeed: location.query.walkSpeed ? location.query.walkSpeed
-    : getCustomizedSettings().walkSpeed,
-  },
-  /*omitBy({
-    time: getStore('TimeStore').getCurrentTime().unix(),
-    minTransferTime: location.query.minTransferTime ? location.query.minTransferTime
-    : getCustomizedSettings().minTransferTime,
-    modes: location.query.modes ? location.query.modes
-    : (getCustomizedSettings().modes && getCustomizedSettings().modes.toString()),
-    walkBoardCost: location.query.walkBoardCost ? location.query.walkBoardCost
-    : getCustomizedSettings().walkBoardCost,
-    walkReluctance: location.query.walkReluctance ? location.query.walkReluctance
-    : getCustomizedSettings().walkReluctance,
-    walkSpeed: location.query.walkSpeed ? location.query.walkSpeed
-    : getCustomizedSettings().walkSpeed }, isNil),*/
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
 
-});
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time ? query.time : getStore('TimeStore').getCurrentTime().unix(),
+    },
+  };
+};
