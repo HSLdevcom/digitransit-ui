@@ -62,6 +62,9 @@ function BicycleLeg(props) {
         <RouteNumber mode={mode} vertical />
       </div>
       <div className={`leg-before ${modeClassName}`} >
+        {props.index === 0 && (
+        <div className="itinerary-icon-container-from"><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
+          )}
         <div className={`leg-before-circle circle-fill ${modeClassName}`} />
         <div className={`leg-before-line ${modeClassName}`} />
       </div>
@@ -70,9 +73,6 @@ function BicycleLeg(props) {
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
-          {props.index === 0 && (
-            <div><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>

@@ -101,12 +101,32 @@ $itinerary-route-max-width: 420px;
   background: transparent;
 }
 
+.itinerary-icon-container-from {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0.3em;
+}
+
 .itinerary-icon {
   position: absolute;
   margin-left: -21px;
   margin-top: 2px;
   fill: currentColor;
   font-size: $font-size-xxsmall;
+    &.to {
+      margin-left: -6.5%;
+      margin-top: 1%;
+    }
+    &.from {
+      margin-left: -6.2%;
+    }
+}
+
+.bp-large {
+  .from {
+  margin-left: -8.2%;
+  }
 }
 
 .itinerary-search-icon {
@@ -457,14 +477,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     &.intermediate {
       min-height: 10px;
       margin-bottom: 7px;
-    }
-    .itinerary-icon {
-      font-size: 13px;
-      margin-left: -8%;
-      &.to {
-        margin-left: -6.5%;
-        margin-top: 1%;
-      }
     }
 
     .itinerary-search-icon {

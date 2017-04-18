@@ -21,6 +21,9 @@ function WalkLeg(props) {
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
       <div className="leg-before walk">
+        {props.index === 0 && (
+        <div className="itinerary-icon-container-from"><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
+          )}
         <div className="leg-before-circle walk" />
         <div className="leg-before-line walk" />
       </div>
@@ -29,9 +32,6 @@ function WalkLeg(props) {
         className={`small-10 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
-          {props.index === 0 && (
-            <div><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
           <div>
             {props.leg.from.name}
             {props.children}
