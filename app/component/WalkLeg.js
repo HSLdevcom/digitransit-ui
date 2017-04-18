@@ -11,6 +11,7 @@ import { durationToString } from '../util/timeUtils';
 function WalkLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
   const duration = durationToString(props.leg.duration * 1000);
+  const modeClassName = 'walk';
 
   return (
     <div key={props.index} className="row itinerary-row" >
@@ -20,12 +21,12 @@ function WalkLeg(props) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <div className="leg-before walk">
+      <div className={`leg-before ${modeClassName}`} >
         {props.index === 0 && (
         <div className="itinerary-icon-container-from"><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
           )}
-        <div className="leg-before-circle walk" />
-        <div className="leg-before-line walk" />
+        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
+        <div className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         onClick={props.focusAction}
