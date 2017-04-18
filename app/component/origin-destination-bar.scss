@@ -1,5 +1,5 @@
 .origin-destination-bar {
-  background-color: $primary-color;
+  background-color: $background-color-darker;
   width: 100%;
   padding-top: calc(#{$padding-large} - 15px);
   padding-bottom: calc(#{$padding-medium} - 8px);
@@ -11,7 +11,7 @@
     @include font-book;
     font-size: $font-size-small;
     cursor: pointer;
-    color: $primary-font-color;
+    color: $primary-color;
     display: inline-block;
     padding-left: 17px;
     position: relative;
@@ -20,7 +20,6 @@
 
     .link-name {
       @extend .overflow-fade;
-      border-bottom: 1px solid $secondary-color;
     }
 
     .from-link span:first-child::before {
@@ -59,9 +58,9 @@
       width: 100%;
 
     }
-
     &:hover {
-      color: $white;
+      border-bottom: 1px solid $secondary-color;
+      color: $secondary-color;
     }
   }
 
@@ -69,9 +68,10 @@
     padding: $padding-xxsmall;
     font-size: $font-size-normal;
     margin-top: -4px;
-    border: solid 1px $secondary-color;
+    border: solid 1px $light-gray;
     border-radius: $border-radius;
-    color: $secondary-font-color;
+    background-color: $white;
+    color: $primary-color;
     cursor: pointer;
     display: inline-block;
 

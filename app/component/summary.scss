@@ -18,7 +18,7 @@
 .time-selectors {
   @include font-book;
   font-size: $font-size-small;
-  background-color: $secondary-color;
+  background-color: $background-color-darker;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -32,9 +32,8 @@
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
-    background-color: $primary-color;
-    box-shadow: none;
-    color: $secondary-font-color;
+    background-color: $white;
+    color: $primary-color;
     border: none;
     border-radius: $border-radius;
     appearance: none;
@@ -42,21 +41,23 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $primary-color;
+      background-color: $white;
       //outline: none;
-      box-shadow: none;
     }
 
     &:focus {
-      background-color: $primary-color;
+      background-color: $white;
       //outline: none;
-      box-shadow: none;
     }
 
     &.text-time-selector, &.desktop {
       padding: 0 0.5em 0 0.5em;
       margin: 0 -0.5em 0 0;
       text-align: center;
+      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+      &:focus {
+        box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+      }
     }
   }
   .select-wrapper {
@@ -64,7 +65,7 @@
     flex-direction: row;
     align-items: center;
     border-radius: $border-radius;
-    background: $primary-color;
+    background: $background-color-darker;
     margin-right: 1px;
 
     > span {
@@ -76,7 +77,7 @@
   .fake-select-arrow {
     font-size: 0.5rem;
     width: 2em;
-    color: #fff;
+    color: $primary-color;
   }
 
   .time-selector {
@@ -84,6 +85,7 @@
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
+    border: solid 1px $light-gray;
     input {
       font-size: $font-size-xxsmall !important;
     }
@@ -102,13 +104,17 @@
   .arrive {
     width: auto;
     text-align: left;
- }
+  }
+
+  .arrive, .date {
+    border: solid 1px $light-gray;
+  }
 }
 
 .time-selector-settings-row {
   padding: $padding-small 6px;
   overflow-x: hidden;
-  background-color: $secondary-color;
+  background-color: $background-color-darker;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -147,7 +153,7 @@
 
   .right-offcanvas-toggle {
       span {
-        color: $primary-font-color;
+        color: $primary-color;
         font-size: $font-size-small;
       }
       border-radius: $border-radius;
@@ -157,19 +163,19 @@
 .right-offcanvas-toggle {
 
   &:hover {
-    background-color: $primary-color;
+    background-color: $white;
     //outline: none;
     box-shadow: none;
   }
 
   &:focus {
-    background-color: $primary-color;
+    background-color: $white;
     //outline: none;
     box-shadow: none;
   }
 
   span {
-    color: $primary-font-color;
+    color: $primary-color;
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
@@ -178,9 +184,10 @@
   }
   width: auto;
   margin: 0;
-  background-color: $primary-color;
+  background-color: $white;
+  border: solid 1px $light-gray;
   border-radius: $border-radius-small;
-  color: $primary-font-color;
+  color: $primary-color;
   display: flex;
   align-items: center;
   min-height: 30px;
@@ -199,7 +206,6 @@
     line-height: 0;
 
     .icon {
-      fill: $white;
       font-size: $font-size-large;
     }
 
