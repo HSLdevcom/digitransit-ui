@@ -11,6 +11,7 @@ import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
+import Loading from '../../Loading';
 
 let L;
 
@@ -136,7 +137,7 @@ class StopMarker extends React.Component {
             currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
           })}
           renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
+            <div className="card" style={{ height: '12rem' }}><Loading /></div>
           }
           renderFetched={data =>
             <StopMarkerPopupWithContext {...data} context={this.context} />

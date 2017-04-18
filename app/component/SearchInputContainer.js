@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import find from 'lodash/find';
+import get from 'lodash/get';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
-
 import ReactAutowhatever from 'react-autowhatever';
+import NetworkError from './NetworkError';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
 import { getLabel } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import { isBrowser } from '../util/browser';
+import Loading from './Loading';
 
 const L = isBrowser ? require('leaflet') : null;
 
@@ -48,9 +50,16 @@ export default class SearchInputContainer extends Component {
     }, this.onSearchChange);
   }
 
-  onSearchChange = (data) => {
-    const inProgress = data == null;
-    const results = inProgress ? [] : data;
+  /*
+   * event: [{type: <type>, term:<term>, error: error}]
+   */
+  onSearchChange = (event) => {
+    const inProgress = event === null;
+    const results = inProgress ? [] : event;
+    if (inProgress && this.state.searchInProgress) {
+      return;
+    }
+
     this.setState({
       searchInProgress: inProgress,
       suggestions: results,
@@ -68,12 +77,13 @@ export default class SearchInputContainer extends Component {
     });
   }
 
-  getItems() {
-    if (this.props.type === 'all') {
-      const suggestions = find(this.state.suggestions, ['name', this.state.type]);
-      return (suggestions && suggestions.items) || [];
-    }
-    return this.state.suggestions;
+  /**
+   * Returns object containing results for specified type of undefined if no such results exist
+   */
+  getItems(typeParam) {
+    const type = typeParam || (this.props.type === 'all' ? this.state.type : this.props.type);
+    const result = find(this.state.suggestions, ['type', type]);
+    return result;
   }
 
   focusItem(i) {  // eslint-disable-line class-methods-use-this
@@ -93,7 +103,6 @@ export default class SearchInputContainer extends Component {
           focusedItemIndex: eventProps.itemIndex,
         });
       }
-
       event.preventDefault();
     }
   }
@@ -108,7 +117,7 @@ export default class SearchInputContainer extends Component {
   }
 
   handleOnKeyDown = (event, eventProps) => {
-    if (event.keyCode === 13 && this.getItems().length > 0) {
+    if (event.keyCode === 13 && get(this.getItems(), 'results.length', 0) > 0) {
       // enter selects current
       this.currentItemSelected();
       this.blur();
@@ -167,8 +176,13 @@ export default class SearchInputContainer extends Component {
       value: input,
     });
 
+    this.executeSearchWithParams(input);
+  }
+
+  executeSearchWithParams=(newinput) => {
+    const terms = typeof newinput === 'string' ? newinput : this.state.value;
     executeSearch(this.context.getStore, {
-      input: event.target.value,
+      input: terms,
       type: this.props.type,
       layers: this.props.layers,
       config: this.context.config,
@@ -176,8 +190,8 @@ export default class SearchInputContainer extends Component {
   }
 
   currentItemSelected = () => {
-    if (this.state.focusedItemIndex >= 0 && this.getItems().length > 0) {
-      const item = this.getItems()[this.state.focusedItemIndex];
+    if (this.state.focusedItemIndex >= 0 && get(this.getItems(), 'results.length', 0) > 0) {
+      const item = this.getItems().results[this.state.focusedItemIndex];
       let name;
 
       if (item.type === 'CurrentLocation') {
@@ -203,22 +217,25 @@ export default class SearchInputContainer extends Component {
 
   renderItemsOrEmpty(children) {
     let elem;
-    if (children != null) {
+
+    const endpointResultCount = get(this.getItems('endpoint'), 'results.length', 0);
+    const searchResultCount = get(this.getItems('search'), 'results.length', 0);
+
+    if (get(this.getItems(), 'error', false)) {
+      return <NetworkError retry={() => this.executeSearchWithParams()} />;
+    } else if (children !== null) {
       // we have results
       return children;
     } else if (this.state.searchInProgress) {
       // Loading in progress
-      elem = <div className="spinner-loader" />;
-    } else if (
-        this.state.suggestions.length === 0 ||
-        (this.state.suggestions[0].items.length === 0 &&
-        this.state.suggestions[1].items.length === 0)) {
+      elem = <Loading />;
+    } else if (endpointResultCount === 0 && searchResultCount === 0) {
       // No results
       elem = <FormattedMessage id="search-no-results" defaultMessage="No location" />;
-    } else if (children === null && this.state.suggestions[0].items.length > 0) {
+    } else if (children === null && endpointResultCount > 0) {
       // Complex search, Results in destination tab
       elem = <FormattedMessage id="search-destination-results-but-no-search" defaultMessage="'View results in the adjacent “Destination” tab" />;
-    } else if (children === null && this.state.suggestions[1].items.length > 0) {
+    } else if (children === null && searchResultCount > 0) {
       // Complex search, Results in search tab
       elem = <FormattedMessage id="search-search-results-but-no-destination" defaultMessage="View results in the adjacent “About the route or stop” tab" />;
     } else {
@@ -251,7 +268,7 @@ export default class SearchInputContainer extends Component {
           <FormattedMessage id="destination" defaultMessage="Destination" />
           {this.state.type !== 'endpoint' && (
             <span className="item-count">
-              {(find(this.state.suggestions, ['name', 'endpoint']) || { items: [] }).items.length}
+              {get(this.getItems('endpoint'), 'results.length', 0)}
             </span>
           )}
         </a>
@@ -263,7 +280,7 @@ export default class SearchInputContainer extends Component {
           <FormattedMessage id="route-stop-or-keyword" defaultMessage="About the route or stop" />
           {this.state.type !== 'search' && (
             <span className="item-count">
-              {(find(this.state.suggestions, ['name', 'search']) || { items: [] }).items.length}
+              {get(this.getItems('search'), 'results.length', 0)}
             </span>
           )}
         </a>
@@ -303,7 +320,7 @@ export default class SearchInputContainer extends Component {
           ref={(c) => { this.autowhatever = c; }}
           className={this.props.className}
           id="suggest"
-          items={this.getItems()}
+          items={get(this.getItems(), 'results', [])}
           renderItem={this.renderItem}
           renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : this.renderSimpleWrapper}
           onSuggestionSelected={this.currentItemSelected}
