@@ -39,13 +39,9 @@ $content-background-color: $background-color;
   text-align: center;
   overflow: visible; // Show drawer menu
   z-index: 1001;
-  line-height: 35px;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
   height: 40px;
-
-  // Sets the item spacing for s-breakpoint offcanvas
-  line-height: 35px;
 
   &.bp-large {
     height: 60px;
@@ -209,6 +205,7 @@ $content-background-color: $background-color;
 }
 
 .offcanvas-section {
+  line-height: 35px;
   padding: 0.5em $padding-large;
   .footer-item {
     margin: 0px;

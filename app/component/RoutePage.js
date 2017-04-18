@@ -4,6 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
 import Icon from './Icon';
+import CallAgencyWarning from './CallAgencyWarning';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
@@ -82,54 +83,55 @@ class RoutePage extends React.Component {
     }
 
     return (
-      <div className="tabs route-tabs">
-        <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
-          { this.context.breakpoint === 'large' && (
+      <div>{this.props.route.type === 715 && <CallAgencyWarning route={this.props.route} />}
+        <div className="tabs route-tabs">
+          <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
+            { this.context.breakpoint === 'large' && (
             <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
           )}
-          <a
-            className={cx({ 'is-active': activeTab === 'pysakit' })}
-            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`); }}
-          >
-            <div>
-              <Icon img="icon-icon_bus-stop" />
-              <FormattedMessage id="stops" defaultMessage="Stops" />
-            </div>
-          </a>
-          <a
-            className={cx({ 'is-active': activeTab === 'aikataulu' })}
-            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`); }}
-          >
-            <div>
-              <Icon img="icon-icon_schedule" />
-              <FormattedMessage id="timetable" defaultMessage="Timetable" />
-            </div>
-          </a>
-          <a
-            className={cx({
-              activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
-              'is-active': activeTab === 'hairiot',
-            })}
-            onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
-          >
-            <div>
-              <Icon img="icon-icon_caution" />
-              <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-            </div>
-          </a>
-          <FavouriteRouteContainer
-            className="route-page-header"
-            gtfsId={this.props.route.gtfsId}
-          />
-        </nav>
-        {this.props.params.patternId && <RoutePatternSelect
-          params={this.props.params}
-          route={this.props.route}
-          onSelectChange={this.onPatternChange}
-          className={cx({ 'bp-large': this.context.breakpoint === 'large' })}
-        />}
-        <RouteAgencyInfo route={this.props.route} />
-      </div>
+            <a
+              className={cx({ 'is-active': activeTab === 'pysakit' })}
+              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`); }}
+            >
+              <div>
+                <Icon img="icon-icon_bus-stop" />
+                <FormattedMessage id="stops" defaultMessage="Stops" />
+              </div>
+            </a>
+            <a
+              className={cx({ 'is-active': activeTab === 'aikataulu' })}
+              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`); }}
+            >
+              <div>
+                <Icon img="icon-icon_schedule" />
+                <FormattedMessage id="timetable" defaultMessage="Timetable" />
+              </div>
+            </a>
+            <a
+              className={cx({
+                activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+                'is-active': activeTab === 'hairiot',
+              })}
+              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
+            >
+              <div>
+                <Icon img="icon-icon_caution" />
+                <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
+              </div>
+            </a>
+            <FavouriteRouteContainer
+              className="route-page-header"
+              gtfsId={this.props.route.gtfsId}
+            />
+          </nav>
+          {this.props.params.patternId && <RoutePatternSelect
+            params={this.props.params}
+            route={this.props.route}
+            onSelectChange={this.onPatternChange}
+            className={cx({ 'bp-large': this.context.breakpoint === 'large' })}
+          />}
+          <RouteAgencyInfo route={this.props.route} />
+        </div></div>
     );
   }
 }
@@ -143,9 +145,13 @@ export default Relay.createContainer(RoutePage, {
         shortName
         longName
         mode
+        type
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
         alerts
+        agency {
+          phone
+        }
       }
     `,
   },
