@@ -1,5 +1,7 @@
 import unzip from 'lodash/unzip';
 import { isBrowser } from './browser';
+import config from '../configurations/config.default';
+
 
 /* eslint-disable global-require */
 const L = isBrowser ? require('leaflet') : null;
@@ -53,18 +55,27 @@ export function getDistanceToFurthestStop(coordinates, stops) {
 }
 
 export function displayDistance(meters) {
-  /* eslint-disable yoda */
-  if (meters < 100) {
-    return `${Math.round(meters / 10) * 10} m`; // Tens of meters
-  } else if (meters < 1000) {
-    return `${Math.round(meters / 50) * 50} m`; // fifty meters
-  } else if (meters < 10000) {
-    return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
-  } else if (meters < 100000) {
-    return `${Math.round(meters / 1000)} km`; // kilometers
+  if (config.IMPERIAL) {
+    const feet = meters * 3.2808399;
+    if (feet < 100) {
+      return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
+    } else if (feet < 1000) {
+      return `${Math.round(feet / 50) * 50} ft`; // fifty feet
+    }
+    return `${(Math.round(feet / 528)) / 10} mi`; // tenth of a mile
+  } else {
+      /* eslint-disable yoda */
+    if (meters < 100) {
+      return `${Math.round(meters / 10) * 10} m`; // Tens of meters
+    } else if (meters < 1000) {
+      return `${Math.round(meters / 50) * 50} m`; // fifty meters
+    } else if (meters < 10000) {
+      return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
+    } else if (meters < 100000) {
+      return `${Math.round(meters / 1000)} km`; // kilometers
+    }
+    return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
   }
-  return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
-  /* eslint-enable yoda */
 }
 
 // Return the bounding box of a latlon array of length > 0

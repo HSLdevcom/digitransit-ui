@@ -37,7 +37,7 @@ class RoutePage extends React.Component {
     if (this.props.route == null) { return; }
     const route = this.props.route.gtfsId.split(':');
 
-    if (route[0].toLowerCase() === 'hsl') {
+    if (route[0].toLowerCase() === 'hsl' || route[0].toLowerCase() === 'mta') {
       this.context.executeAction(startRealTimeClient, {
         route: route[1],
       });
