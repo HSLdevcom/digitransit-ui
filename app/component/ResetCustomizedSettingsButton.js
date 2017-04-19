@@ -14,7 +14,7 @@ class ResetCustomizedSettingsButton extends React.Component {
   render() {
     return (
       <section className="offcanvas-section">
-        <button className="reset-settings"  onClick={this.resetSettings}>
+        <button className="reset-settings" onClick={this.resetSettings}>
           <div className="reset-settings-button">
             <FormattedMessage
               defaultMessage="Palauta oletusasetukset"
