@@ -9,6 +9,7 @@ import { durationToString } from '../util/timeUtils';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import IntermediateLeg from './IntermediateLeg';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 class TransitLeg extends React.Component {
 
@@ -75,9 +76,6 @@ class TransitLeg extends React.Component {
 
     return (<div
       key={this.props.index}
-      /* style={{
-        width: '100%',
-      }}*/
       className="row itinerary-row"
     >
       <div className="small-2 columns itinerary-time-column">
@@ -105,10 +103,7 @@ class TransitLeg extends React.Component {
           />
         </Link>
       </div>
-      <div className={`leg-before ${modeClassName}`} >
-        <div className={`leg-before-circle ${modeClassName}`} />
-        <div className={`leg-before-line ${modeClassName}`} />
-      </div>
+      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
       <div
         onClick={this.props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}

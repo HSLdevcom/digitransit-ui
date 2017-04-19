@@ -182,7 +182,7 @@ $itinerary-route-max-width: 420px;
   display: flex;
 
   .leg-before {
-    max-width: 15px;
+    min-width: 24px;
     margin-right: 2.2%;
     position: relative;
   }

@@ -6,6 +6,7 @@ import RouteNumber from './RouteNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function WaitLeg(props) {
   const modeClassName = 'wait';
@@ -17,10 +18,7 @@ function WaitLeg(props) {
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <div className={`leg-before ${modeClassName}`} >
-        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
-        <div className={`leg-before-line ${modeClassName}`} />
-      </div>
+      <ItineraryCircleLine modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"

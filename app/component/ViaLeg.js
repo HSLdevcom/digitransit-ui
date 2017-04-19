@@ -7,6 +7,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function ViaLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
@@ -14,7 +15,7 @@ function ViaLeg(props) {
   const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
 
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row" >
       <div className="small-2 columns itinerary-time-column via-time-column">
         <div className="itinerary-time-column-time via-arrival-time">
           {moment(props.arrivalTime).format('HH:mm')}
@@ -27,6 +28,7 @@ function ViaLeg(props) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
         className={'small-10 columns itinerary-instruction-column via'}
