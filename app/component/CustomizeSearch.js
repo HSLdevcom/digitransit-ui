@@ -406,6 +406,7 @@ class CustomizeSearch extends React.Component {
   }
 
   resetParameters = () => {
+    console.log('resetParameters');
     resetCustomizedSettings();
     this.setState({
       walkSpeed: mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues),
