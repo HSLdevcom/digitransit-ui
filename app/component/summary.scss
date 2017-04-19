@@ -54,10 +54,6 @@
       padding: 0 0.5em 0 0.5em;
       margin: 0 -0.5em 0 0;
       text-align: center;
-      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
-      &:focus {
-        box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
-      }
     }
   }
   .select-wrapper {
@@ -71,6 +67,12 @@
     > span {
       margin-left: -1rem;
       pointer-events: none;
+    }
+  }
+  .time-box-shadow input {
+    box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+    &:focus {
+      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
     }
   }
 

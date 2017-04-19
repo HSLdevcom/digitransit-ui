@@ -12,6 +12,7 @@ import CustomInputTime from './CustomInputTime';
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
 ) {
+  const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
@@ -42,7 +43,7 @@ export default function TimeSelectors(
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
       {supportsInputType('time') ?
-        <div id="time" className="select-wrapper">
+        <div id="time" className={timeInputClass}>
           <CustomInputTime
             time={time.format('HH:mm')}
             changeTime={changeTime}
@@ -51,7 +52,7 @@ export default function TimeSelectors(
             <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" key="caret" />
           }
         </div> :
-        <div className="select-wrapper">
+        <div className={timeInputClass}>
           <TimeInput value={time.format('HH:mm')} changeTime={changeTime} />
         </div>}
     </div>
