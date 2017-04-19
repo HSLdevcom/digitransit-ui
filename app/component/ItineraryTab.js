@@ -101,6 +101,9 @@ export default Relay.createContainer(ItineraryTab, {
           type
           currency
           cents
+          components {
+            fareId
+          }
         }
         legs {
           mode

@@ -115,6 +115,7 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-ticket-information {
+  display: flex;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: 10pt;
@@ -122,18 +123,57 @@ $itinerary-route-max-width: 500px;
   padding: 0 1.3em 1em 1.3em;
   border: 0px;
   max-width: 500px;
+  .itinerary-ticket-layout-left {
+    display: inline-block;
+    font-size: 2.4em;
+    padding-right: 10px;
+  }
+
+  .itinerary-ticket-layout-right {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .itinerary-information-container {
+    display: block;
+  }
+
+  .itinerary-ticket-external-link {
+    .external-link-container {
+      margin-top: 0.25em;
+    }
+    a {
+      color: $primary-color;
+      @include font-medium;
+    }
+    .external-link-icon-outer {
+      color: white;
+    }
+
+    .external-link-icon {
+      color: $primary-color;
+    }
+
+  }
+
   .itinerary-ticket-information-class {
     font-weight: $font-weight-bold;
     color: $black;
     display: inline;
     margin-left: 0.3em;
+    padding-right: 1em;
   }
-  .itinerary-ticket-information-buy {
-    font-weight: $font-weight-bold;
-    margin-top: 0.5em;
-    a {
-      color: $primary-color;
-      text-decoration: none;
+}
+
+.desktop {
+  span.external-link-container {
+    float: right;
+    margin-right: 2em;
+  }
+  .itinerary-ticket-information{
+    .itinerary-information-container {
+      display:flex;
+      align-items: center;
     }
   }
 }

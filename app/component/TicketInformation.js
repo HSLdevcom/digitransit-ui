@@ -1,9 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
+import Icon from './Icon';
+import ExternalLink from './ExternalLink';
 
-export default function TicketInformation({ fares }) {
+
+export default function TicketInformation({ fares }, { config }) {
   let currency;
   let regularFare;
   if (fares != null) {
@@ -16,25 +20,32 @@ export default function TicketInformation({ fares }) {
     }
   }
 
-  if (!regularFare) {
+  if (!regularFare || regularFare.cents === -1) {
     return null;
   }
 
+  // XXX for now we only use single (first) component
+  const fareId = get(regularFare, 'components[0].fareId');
+  const fareMapping = get(config, 'fareMapping', {});
+
+  const mappedFareId = fareMapping[fareId] || fareId;
+
   return (
-    <div className="itinerary-ticket-information">
-      <div>
-        <FormattedMessage id="required-ticket" defaultMessage="Ticket required for the journey" />:
-        <div className="itinerary-ticket-information-class">
-          {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
+    <div className="row itinerary-row itinerary-ticket-information">
+      <div className="itinerary-ticket-layout-left"><Icon img="icon-icon_ticket" /></div>
+      <div className="itinerary-ticket-layout-right">
+        <div className="itinerary-information-container">
+          <div className="itinerary-ticket-information-class">
+            <FormattedMessage id="ticket-single-adult" defaultMessage="Adult" />
+            , <FormattedMessage id={`ticket-type-${mappedFareId}`} />, {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
+          </div>
+          <ExternalLink className="itinerary-ticket-external-link" href="https://www.hsl.fi/liput-ja-hinnat" >
+            <FormattedMessage
+              id="buy-ticket"
+              defaultMessage="How to buy a ticket (HSL.fi)"
+            />
+          </ExternalLink>
         </div>
-      </div>
-      <div className="itinerary-ticket-information-buy">
-        <a href="https://www.hsl.fi/liput-ja-hinnat">
-          <FormattedMessage
-            id="buy-ticket"
-            defaultMessage="How to buy a ticket (HSL.fi)"
-          /> ›
-        </a>
       </div>
     </div>
   );
@@ -42,6 +53,11 @@ export default function TicketInformation({ fares }) {
 
 TicketInformation.propTypes = {
   fares: React.PropTypes.array,
+};
+
+TicketInformation.contextTypes = {
+  config: React.PropTypes.object,
+  breakpoint: React.PropTypes.string,
 };
 
 TicketInformation.displayName = 'TicketInformation';
