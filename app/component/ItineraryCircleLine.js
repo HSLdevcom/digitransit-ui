@@ -14,7 +14,7 @@ ItineraryCircleLine.defaultProps = {
 };
 
 ItineraryCircleLine.propTypes = {
-  index: React.PropTypes.string,
+  index: React.PropTypes.number.isRequired,
   modeClassName: React.PropTypes.string.isRequired,
 };
 

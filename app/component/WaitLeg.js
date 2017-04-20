@@ -18,7 +18,7 @@ function WaitLeg(props) {
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <ItineraryCircleLine modeClassName={modeClassName} />
+      <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"
@@ -71,6 +71,7 @@ WaitLeg.description = () => {
 WaitLeg.propTypes = {
   startTime: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
+  index: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
   waitTime: React.PropTypes.number.isRequired,
   leg: React.PropTypes.shape({
