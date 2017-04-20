@@ -28,13 +28,12 @@ function ViaLeg(props) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName="via" />
+      <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
         className={'small-10 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
-          <div><Icon img="icon-icon_place" className="itinerary-icon via" /></div>
           <div>
             {props.leg.from.name}
             {props.leg.from.stop && props.leg.from.stop.code && (
@@ -110,6 +109,7 @@ ViaLeg.propTypes = {
     }).isRequired,
   }).isRequired,
   index: React.PropTypes.number.isRequired,
+  isVia: React.PropTypes.bool,
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };

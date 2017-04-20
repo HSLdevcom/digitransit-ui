@@ -21,6 +21,7 @@ $itinerary-route-max-width: 420px;
     &.wait { @include getCircleSvg($wait-color, $fill); }
     &.bicycle { @include getCircleSvg($bicycle-color, $fill); }
     &.car { @include getCircleSvg($car-color, $fill); }
+    &.via { @include getCircleSvg($walk-color, $fill); }
 }
 
 
@@ -101,18 +102,12 @@ $itinerary-route-max-width: 420px;
   background: transparent;
 }
 
-.itinerary-icon-container-from {
+.itinerary-icon-container {
     position: absolute;
     width: 17px;
     height: 17px;
-    left: 0.4em;
-}
-
-.itinerary-icon-container-to {
-    position: absolute;
-    width: 17px;
-    height: 17px;
-    left: -1.7em;
+    left: 0.1em;
+    z-index: 10;
 }
 
 .itinerary-icon {
@@ -120,13 +115,20 @@ $itinerary-route-max-width: 420px;
   margin-left: -21px;
   margin-top: 2px;
   fill: currentColor;
-  font-size: $font-size-xxsmall;
     &.to {
-      margin-left: -6.5%;
-      margin-top: 1%;
+      margin: 0 auto;
+//      font-size: $font-size-normal;
+      font-size: $font-size-large;
     }
     &.from {
-      margin-left: -6.2%;
+      margin: 0 auto;
+//      font-size: $font-size-normal;
+      font-size: $font-size-large;
+    }
+    &.via {
+      margin: 0 auto;
+//      font-size: $font-size-normal;
+      font-size: $font-size-large;
     }
 }
 
@@ -195,8 +197,8 @@ $itinerary-route-max-width: 420px;
   }
 
   .leg-before-circle {
-    left: -4px;
-    top: -6px;
+    position: absolute;
+    z-index: 9;
     @include setModeCircles(#fff);
     &.circle-fill {
     &.bus { @include setModeCircles($bus-color); }
@@ -210,18 +212,22 @@ $itinerary-route-max-width: 420px;
     &.wait { @include setModeCircles($wait-color); }
     &.bicycle { @include setModeCircles($bicycle-color); }
     &.car { @include setModeCircles($car-color); }
+    &.via { @include setModeCircles($walk-color); }
   }
   }
 
   .leg-before-line {
-    height: 100%;
+    height: 85%;
     top: 14px;
     position: absolute;
     left: 8px;
     border-left: 6px solid;
 
     &.walk {
-      border-left-style: dotted;
+      background-image: url('../default/dotted-line-bg.png');
+      border: none;
+      width: 7px;
+      background-size: 100% auto;
     }
   }
 
