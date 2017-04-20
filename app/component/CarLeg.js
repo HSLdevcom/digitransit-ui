@@ -7,6 +7,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function CarLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
@@ -22,13 +23,7 @@ function CarLeg(props) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <div className={`leg-before ${modeClassName}`} >
-        {props.index === 0 && (
-        <div className="itinerary-icon-container-from"><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
-        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
-        <div className={`leg-before-line ${modeClassName}`} />
-      </div>
+      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}

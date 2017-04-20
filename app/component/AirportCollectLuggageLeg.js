@@ -4,6 +4,8 @@ import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import ItineraryCircleLine from './ItineraryCircleLine';
+
 
 function AirportCollectLuggageLeg(props) {
   const modeClassName = 'wait';
@@ -15,10 +17,7 @@ function AirportCollectLuggageLeg(props) {
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <div className={`leg-before ${modeClassName}`} >
-        <div className={`leg-before-circle circle-fill ${modeClassName}`} />
-        <div className={`leg-before-line ${modeClassName}`} />
-      </div>
+      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"

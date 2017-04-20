@@ -18,11 +18,11 @@ function EndLeg(props) {
       </div>
       <div className={`leg-before ${modeClassName}`} >
         <div className={`leg-before-circle circle-fill ${modeClassName}`} />
-      </div>
-      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
-        <div>
+        <div className="itinerary-icon-container-to">
           <Icon img="icon-icon_mapMarker-point" className="itinerary-icon to" />
         </div>
+      </div>
+      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
         <div className="itinerary-leg-first-row">
           {props.to}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
