@@ -146,8 +146,8 @@ function getSettings() {
     modes: custSettings.modes ? custSettings.modes
         .toString()
         .split(',')
-        .sort()
         .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
         .join(',') : undefined,
     minTransferTime: custSettings.minTransferTime ? Number(custSettings.minTransferTime)
       : undefined,
@@ -182,8 +182,8 @@ export default (config) => {
       numItineraries: numItineraries ? Number(numItineraries) : undefined,
       modes: modes ? modes
         .split(',')
-        .sort()
         .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
         .join(',')
       : settings.modes,
       date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
