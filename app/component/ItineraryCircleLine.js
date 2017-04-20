@@ -9,10 +9,6 @@ const ItineraryCircleLine = props =>
     <div className={`leg-before-line ${props.modeClassName}`} />
   </div>;
 
-ItineraryCircleLine.defaultProps = {
-  index: undefined,
-};
-
 ItineraryCircleLine.propTypes = {
   index: React.PropTypes.number.isRequired,
   modeClassName: React.PropTypes.string.isRequired,
