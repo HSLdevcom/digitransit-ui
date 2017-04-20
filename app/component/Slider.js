@@ -81,7 +81,8 @@ class Slider extends React.Component {
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          onInput={(e) => { this.props.onSliderChange(e); }}
+          onMouseUp={(e) => { this.props.onSliderChange(e); }}
+          onChange={(e) => { this.props.onSliderChange(e); }}
           value={this.props.value}
         />
         <span className="sub-header-h5 left">{this.props.minText}</span>

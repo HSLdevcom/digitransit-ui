@@ -83,7 +83,6 @@ class CustomizeSearch extends React.Component {
     this.state = {
       accessibilityOption: 0,
       minTransferTime: 0,
-      modes: [],
       walkBoardCost: 0,
       walkReluctance: 0,
       walkSpeed: 0,
