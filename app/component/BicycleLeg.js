@@ -62,7 +62,7 @@ function BicycleLeg(props) {
         </div>
         <RouteNumber mode={mode} vertical />
       </div>
-      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}

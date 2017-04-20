@@ -17,7 +17,7 @@ function AirportCollectLuggageLeg(props) {
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"
@@ -52,6 +52,7 @@ AirportCollectLuggageLeg.description = () => {
 };
 
 AirportCollectLuggageLeg.propTypes = {
+  index: React.PropTypes.number.isRequired,
   leg: React.PropTypes.shape({
     endTime: React.PropTypes.number.isRequired,
   }).isRequired,

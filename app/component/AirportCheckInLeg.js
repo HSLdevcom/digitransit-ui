@@ -16,7 +16,7 @@ function AirportCheckInLeg(props) {
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
-      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"
@@ -65,6 +65,7 @@ AirportCheckInLeg.propTypes = {
   }).isRequired,
   startTime: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
+  index: React.PropTypes.number.isRequired,
 };
 
 export default AirportCheckInLeg;
