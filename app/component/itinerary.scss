@@ -6,7 +6,7 @@ $itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 420px;
 
 @mixin getCircleSvg($stroke, $fill) {
-    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25'><circle stroke-width='2' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
 }
 
 @mixin setModeCircles($fill) {
@@ -115,20 +115,26 @@ $itinerary-route-max-width: 420px;
   margin-left: -21px;
   margin-top: 2px;
   fill: currentColor;
-    &.to {
+
+    @mixin itineraryTableIcons() {
       margin: 0 auto;
-//      font-size: $font-size-normal;
-      font-size: $font-size-large;
+      font-size: $font-size-normal;
+      //font-size: $font-size-large;
+      width: 20px;
+      height: 20px;
+      margin-left: -0.1em;
+      background-color: $white;
     }
-    &.from {
-      margin: 0 auto;
-//      font-size: $font-size-normal;
-      font-size: $font-size-large;
+    &.to-it {
+      @include itineraryTableIcons();
+      top: 4px;
     }
-    &.via {
-      margin: 0 auto;
-//      font-size: $font-size-normal;
-      font-size: $font-size-large;
+    &.from-it {
+      @include itineraryTableIcons();
+      top: -4px;
+    }
+    &.via-it {
+      @include itineraryTableIcons();
     }
 }
 
@@ -194,6 +200,7 @@ $itinerary-route-max-width: 420px;
     min-width: 24px;
     margin-right: 2.2%;
     position: relative;
+    max-height: 200px;
   }
 
   .leg-before-circle {
@@ -217,17 +224,21 @@ $itinerary-route-max-width: 420px;
   }
 
   .leg-before-line {
-    height: 85%;
-    top: 14px;
+    height: 94%;
+    top: 0.7em;
     position: absolute;
     left: 8px;
     border-left: 6px solid;
 
     &.walk {
       background-image: url('../default/dotted-line-bg.png');
+      background-size: 90% auto;
+      background-position-y: 31px;
+      background-position-x: 0px;
+      background-repeat-x: no-repeat;
       border: none;
-      width: 7px;
-      background-size: 100% auto;
+      width: 8px;
+      left: 7px;
     }
   }
 
@@ -756,7 +767,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-leg-container {
-  margin-left: 16.6%;
+  margin-left: 16%;
   width: 70%;
   }
 
