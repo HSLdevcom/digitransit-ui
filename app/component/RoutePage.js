@@ -38,7 +38,7 @@ class RoutePage extends React.Component {
     if (this.props.route == null) { return; }
     const route = this.props.route.gtfsId.split(':');
 
-    if (route[0].toLowerCase() === 'hsl') {
+    if (route[0].toLowerCase() === 'hsl' || route[0].toLowerCase() === 'mta') {
       this.context.executeAction(startRealTimeClient, {
         route: route[1],
       });
@@ -83,11 +83,11 @@ class RoutePage extends React.Component {
     }
 
     return (
-      <div>{this.props.route.type === 715 && <CallAgencyWarning route={this.props.route} />}
-        <div className="tabs route-tabs">
-          <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
-            { this.context.breakpoint === 'large' && (
-            <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
+
+      <div className="tabs route-tabs">
+        <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
+          { this.context.breakpoint === 'large' && (
+            <RouteNumber color={this.props.route.color ? `#${this.props.route.color}` : null} mode={this.props.route.mode} text={this.props.route.shortName} />
           )}
             <a
               className={cx({ 'is-active': activeTab === 'pysakit' })}
@@ -142,6 +142,7 @@ export default Relay.createContainer(RoutePage, {
       Relay.QL`
       fragment on Route {
         gtfsId
+        color
         shortName
         longName
         mode

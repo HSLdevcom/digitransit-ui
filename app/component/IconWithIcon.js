@@ -3,12 +3,12 @@ import React, { PropTypes } from 'react';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const subIconTemplate = { fontSize: '65%', position: 'absolute', bottom: '-0.3em', left: '-0.3em' };
-const IconWithIcon = ({ id, className, img, subIcon, subIconClassName }) => (
+
+const subIconTemplate = { fontSize: '75%', position: 'absolute', bottom: '-5px', left: '-5px' };
+const IconWithIcon = ({ id, className, img, subIcon, subIconClassName, color }) => (
   <span style={{ position: 'relative' }} id={id} className={className}>
-    <span ><Icon img={img} /></span>
-    {subIcon && <span className={subIconClassName} style={subIconTemplate}>
-      <Icon img={subIcon} /></span>}
+    <span ><Icon color={color} img={img} /></span>
+    <span className={subIconClassName} style={subIconTemplate}><Icon img={subIcon} /></span>
   </span>
   );
 
@@ -44,6 +44,7 @@ IconWithIcon.propTypes = {
   img: PropTypes.string.isRequired,
   subIcon: PropTypes.string,
   subIconClassName: PropTypes.string,
+  color: PropTypes.string,
 };
 
 IconWithIcon.defaultProps = {

@@ -64,6 +64,7 @@ class ItineraryLine extends React.Component {
 
       objs.push(
         <Line
+          color={(leg.route && leg.route.color) ? `#${leg.route.color}` : null}
           key={`${this.props.hash}_${i}_${mode}`}
           geometry={geometry}
           mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
@@ -110,6 +111,7 @@ class ItineraryLine extends React.Component {
                 key={`${i},${leg.mode}legmarker`}
                 disableModeIcons
                 renderName
+                color={(leg.route && leg.route.color) ? `#${leg.route.color}` : null}
                 leg={{
                   from: leg.from,
                   to: leg.to,
@@ -186,6 +188,7 @@ export default Relay.createContainer(ItineraryLine, {
         transitLeg
         route {
           shortName
+          color
           agency {
             name
           }
