@@ -118,9 +118,8 @@ $itinerary-route-max-width: 500px;
   display: flex;
   color: $gray;
   font-weight: $font-weight-book;
-  font-size: 10pt;
+  font-size: $font-size-xxsmall;
   margin: 0 auto;
-  padding: 0 1.3em 1em 1.3em;
   border: 0px;
   max-width: 500px;
   .itinerary-ticket-layout-left {
@@ -130,17 +129,17 @@ $itinerary-route-max-width: 500px;
   }
 
   .itinerary-ticket-layout-right {
-    display: inline-block;
-    width: 100%;
-  }
-
-  .itinerary-information-container {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    padding-right: 1em;
   }
 
   .itinerary-ticket-external-link {
+    flex-shrink: 0;
     .external-link-container {
-      margin-top: 0.25em;
+      margin-top: 0;
+      margin-right: 0;
     }
     a {
       color: $primary-color;
@@ -156,7 +155,9 @@ $itinerary-route-max-width: 500px;
 
   }
 
-  .itinerary-ticket-information-class {
+  .itinerary-ticket-type {
+    white-space:normal;
+    flex-shrink: 1;
     font-weight: $font-weight-bold;
     color: $black;
     display: inline;
@@ -166,18 +167,12 @@ $itinerary-route-max-width: 500px;
 }
 
 .desktop {
-  span.external-link-container {
-    float: right;
-    margin-right: 2em;
-  }
   .itinerary-ticket-information{
-    .itinerary-information-container {
-      display:flex;
-      align-items: center;
+    font-size: 15px;
+    .itinerary-ticket-layout-right {
     }
   }
 }
-
 .call-agency {
   background-color: yellow;
 }
