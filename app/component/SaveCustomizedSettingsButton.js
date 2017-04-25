@@ -22,7 +22,7 @@ class SaveCustomizedSettingsButton extends React.Component {
   setSettingsData = () => {
     // Test if has new set values
     const settings = {
-      accessibilityOption: this.context.location.query.accessibilityOption
+      accessibilityOption: !(typeof this.context.location.query.accessibilityOption === 'undefined')
         ? this.context.location.query.accessibilityOption
         : undefined,
       minTransferTime: this.context.location.query.minTransferTime
