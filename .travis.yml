@@ -7,7 +7,7 @@ services:
 install:
   - npm install --silent
   - npm run lint
-  - travis_wait 20docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
+  - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
 script:
   - travis_wait 30 npm run test-visual
