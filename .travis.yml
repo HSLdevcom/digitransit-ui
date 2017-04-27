@@ -12,10 +12,7 @@ node_js:
   - "6"
 services:
   - docker
-before_install:
-  - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
 install:
-  - npm -v
+  - true
 script:
-  - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   - test/test-travis.sh
