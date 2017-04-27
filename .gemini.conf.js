@@ -5,9 +5,9 @@ module.exports = {
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
   "suitesPerSession": 10,
-  "retry": 1,
+  "retry": 2,
   "system": {
-    "plugins": { "browserstack": { "localIdentifier": process.env.SNAP_COMMIT } },
+    "plugins": { "browserstack": { "localIdentifier": process.env.TRAVIS_BUILD_ID } },
     "parallelLimit": 3
   },
   "browsers": {
