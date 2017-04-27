@@ -1,7 +1,7 @@
 module.exports = {
   "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
-  "httpTimeout": 30000,
+  "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 2,
   "suitesPerSession": 10,
