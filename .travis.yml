@@ -1,9 +1,9 @@
 sudo: required
 env:
- - VISUAL=ie
- - VISUAL=safari
- - VISUAL=chrome
- - VISUAL=firefox
+ - VISUAL=ie11
+ - VISUAL=chrome50
+ - VISUAL=safari10
+ - VISUAL=edge13
  - NWENV=chromedriver,firefox
  - LINT=1
 cache: yarn
