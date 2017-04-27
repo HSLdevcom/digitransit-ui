@@ -1,7 +1,7 @@
 #/bin/bash
 
 if [ -n "$VISUAL" ]; then
-  yarn install --silent
+  yarn install
   yarn run test-visual -- --browser $VISUAL
   exit $?
 fi
