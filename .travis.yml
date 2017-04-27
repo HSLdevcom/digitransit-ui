@@ -14,10 +14,7 @@ services:
 before_install:
   - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
 install:
-  - wget -N http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip
-  - npm install --silent
-  - npm run lint
+  - npm -v
 script:
   - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   - test/test-travis.sh
