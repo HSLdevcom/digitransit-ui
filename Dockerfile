@@ -2,7 +2,6 @@ FROM node:6
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
-LABEL io.openshift.expose-services 8080:http
 
 ENV \
   # Where the app is built and run inside the docker fs \
