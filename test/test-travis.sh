@@ -1,8 +1,8 @@
 #/bin/bash
 
 if [ -n "$VISUAL" ]; then
-  npm install --silent
-  npm run test-visual -- --browser $VISUAL
+  yarn install --silent
+  yarn run test-visual -- --browser $VISUAL
   exit $?
 fi
 
@@ -14,6 +14,6 @@ if [ -n "$NWENV" ]; then
 fi
 
 if [ -n "$LINT" ]; then
-  npm run lint
+  yarn run lint
   exit $?
 fi

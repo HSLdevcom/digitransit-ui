@@ -6,6 +6,7 @@ env:
  - VISUAL=firefox
  - NWENV=chromedriver,firefox
  - LINT=1
+cache: yarn
 language: node_js
 node_js:
   - "6"
