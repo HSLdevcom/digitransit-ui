@@ -1,6 +1,13 @@
 sudo: required
 services:
   - docker
+install:
+  - npm install --only=dev
+script:
+  - npm run lint
+  - npm run test-visual
+  - npm run test-local
 
 before_install:
- - docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
+  - docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
+  - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
