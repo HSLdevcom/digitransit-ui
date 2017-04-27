@@ -5,10 +5,10 @@ node_js:
 services:
   - docker
 install:
-  - npm install --only=dev
+  - npm install
+  - npm run lint
 script:
-  - npm run lint test-visual
-
+  - npm run test-visual
 before_install:
   - docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
