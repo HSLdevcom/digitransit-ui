@@ -6,7 +6,11 @@ $itinerary-tab-switch-height: 48px;
 $itinerary-route-max-width: 420px;
 
 @mixin getCircleSvg($stroke, $fill) {
-    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25'><circle stroke-width='2' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
+  svg {
+    stroke: $stroke;
+    fill: $fill;
+  }
+    //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle stroke-width='2' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
 }
 
 @mixin setModeCircles($fill) {
@@ -235,7 +239,7 @@ $itinerary-route-max-width: 420px;
       background-size: 90% auto;
       background-position-y: 31px;
       background-position-x: 0px;
-      background-repeat-x: no-repeat;
+      background-repeat: no-repeat repeat;
       border: none;
       width: 8px;
       left: 7px;
@@ -767,7 +771,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-leg-container {
-  margin-left: 16%;
+  margin-left: 16.6%;
   width: 70%;
   }
 
