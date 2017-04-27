@@ -122,6 +122,8 @@ $itinerary-route-max-width: 500px;
   margin: 0 auto;
   border: 0px;
   max-width: 500px;
+  border-top: 1px solid #ddd;
+  padding: $padding-medium 0 $padding-large 0;
   .itinerary-ticket-layout-left {
     display: inline-block;
     font-size: 2.4em;
@@ -131,6 +133,7 @@ $itinerary-route-max-width: 500px;
   .itinerary-ticket-layout-right {
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 0;
     padding-right: 1em;
   }
@@ -158,11 +161,19 @@ $itinerary-route-max-width: 500px;
   .itinerary-ticket-type {
     white-space:normal;
     flex-shrink: 1;
-    font-weight: $font-weight-bold;
-    color: $black;
     display: inline;
     margin-left: 0.3em;
     padding-right: 1em;
+
+    .ticket-type-group, .ticket-type-zone {
+      @include font-book;
+      color: $gray;
+    }
+
+    .ticket-type-fare {
+      font-weight: $font-weight-bold;
+      color: $black;
+    }
   }
 }
 
@@ -327,6 +338,10 @@ $itinerary-route-max-width: 500px;
       min-height: 5em;
     }
 
+    &.end {
+      min-height: 3em;
+    }
+
     .itinerary-leg-first-row {
       display: block;
       white-space: normal;
@@ -416,6 +431,11 @@ $itinerary-route-max-width: 500px;
       min-height: 10px;
       margin-bottom: 7px;
     }
+
+    &.end {
+      min-height: 0;
+    }
+
     .itinerary-icon {
       font-size: 13px;
       margin-left: -24px;

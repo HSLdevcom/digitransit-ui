@@ -35,8 +35,17 @@ export default function TicketInformation({ fares }, { config }) {
       <div className="columns small-2 itinerary-ticket-layout-left"><Icon img="icon-icon_ticket" /></div>
       <div className="columns small-10 itinerary-ticket-layout-right">
         <div className="itinerary-ticket-type">
-          <FormattedMessage id="ticket-single-adult" defaultMessage="Adult" />
-            , <FormattedMessage id={`ticket-type-${mappedFareId}`} />, {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
+          <div className="ticket-type-zone">
+            <FormattedMessage id={`ticket-type-${mappedFareId}`} />
+          </div>
+          <div>
+            <span className="ticket-type-group">
+              <FormattedMessage id="ticket-single-adult" defaultMessage="Adult" />,&nbsp;
+            </span>
+            <span className="ticket-type-fare">
+              {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
+            </span>
+          </div>
         </div>
         <ExternalLink className="itinerary-ticket-external-link" href="https://www.hsl.fi/liput-ja-hinnat" >
           <FormattedMessage
