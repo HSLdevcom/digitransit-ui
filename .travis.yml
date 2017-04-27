@@ -1,13 +1,18 @@
 sudo: required
+env:
+ - CHROMEDRIVER=./chromedriver NOSERVER=1
 language: node_js
 node_js:
   - "6"
 services:
   - docker
 install:
+  - wget -N http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
   - npm install --silent
   - npm run lint
   - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
 script:
   - travis_wait 50 npm run test-visual
+  - travis wait 10 test/flow/script/run-snap-tests.sh
