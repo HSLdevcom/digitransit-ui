@@ -4,18 +4,20 @@ env:
  - VISUAL=safari
  - VISUAL=chrome
  - VISUAL=firefox
- - NWENV=chromedriver
+ - NWENV=chromedriver,firefox
+ - LINT=1
 language: node_js
 node_js:
   - "6"
 services:
   - docker
+before_install:
+  - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
 install:
   - wget -N http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
   - npm install --silent
   - npm run lint
-  - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
-  - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
 script:
+  - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   - test/test-travis.sh
