@@ -32,11 +32,6 @@ RUN \
   npm run build && \
   rm -rf static docs test /tmp/* && \
   npm prune --production && \
-  npm cache clean && \
-  chmod -R a+rwX . && \
-  chown -R 9999:9999 ${WORK}
-
-# Don't run as root, because there's no reason to (https://docs.docker.com/engine/articles/dockerfile_best-practices/#user).
-USER 9999
+  npm cache clean
 
 CMD npm run start
