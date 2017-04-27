@@ -1,6 +1,10 @@
 sudo: required
 env:
- - CHROMEDRIVER=./chromedriver NOSERVER=1
+ - VISUAL=ie
+ - VISUAL=safari
+ - VISUAL=chrome
+ - VISUAL=firefox
+ - NWENV=chromedriver
 language: node_js
 node_js:
   - "6"
@@ -14,5 +18,4 @@ install:
   - travis_wait 20 docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   - docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
 script:
-  - travis_wait 50 npm run test-visual
-  - travis wait 10 test/flow/script/run-snap-tests.sh
+  - test/test-travis.sh
