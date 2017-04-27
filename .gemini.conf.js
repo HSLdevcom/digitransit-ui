@@ -7,7 +7,7 @@ module.exports = {
   "suitesPerSession": 10,
   "retry": 2,
   "system": {
-    "plugins": { "browserstack": { "localIdentifier": process.env.TRAVIS_BUILD_ID } },
+    "plugins": { "browserstack": { "localIdentifier": process.env.IDENTIFIER } },
     "parallelLimit": 3
   },
   "browsers": {

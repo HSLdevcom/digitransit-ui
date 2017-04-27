@@ -4,7 +4,7 @@ yarn install
 if [ -n "$VISUAL" ]; then
   docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
-  yarn run test-visual -- --browser $VISUAL
+  IDENTIFIER=$TRACIS_COMMIT-$VISUAL yarn run test-visual -- --browser $VISUAL
   exit $?
 fi
 
