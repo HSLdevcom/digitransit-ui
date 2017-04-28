@@ -16,3 +16,5 @@ install:
   - true
 script:
   - test/test-travis.sh
+before_deploy:
+  - echo "before deploy!"
