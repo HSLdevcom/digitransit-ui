@@ -24,7 +24,11 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           suite
             .setUrl(`/styleguide/component/${componentName}?en`)
             .before((actions) => {
-              actions.waitForElementToShow(capture, 5000);
+              try {
+                actions.waitForElementToShow(capture, 5000);
+              } catch (T) {
+                console.log('could not wait', capture, T);
+              }
             })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
