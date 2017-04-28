@@ -23,6 +23,17 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           }
           suite
             .setUrl(`/styleguide/component/${componentName}?enmock`)
+            .before((actions) => {
+              try {
+                if (capture instanceof Array) {
+                  actions.waitForElementToShow(capture[0], 5000);
+                } else {
+                  actions.waitForElementToShow(capture, 5000);
+                }
+              } catch (T) {
+                console.error('Could not wait', componentName, variationName, capture, T);
+              }
+            })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
