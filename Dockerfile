@@ -26,7 +26,7 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  npm install --silent && \
+  yarn install && \
   npm rebuild node-sass && \
   npm run build && \
   rm -rf static docs test /tmp/* && \
