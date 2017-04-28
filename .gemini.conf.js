@@ -3,7 +3,7 @@ module.exports = {
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 2,
+  "sessionsPerBrowser": 1,
   "suitesPerSession": 10,
   "retry": 2,
   "system": {
