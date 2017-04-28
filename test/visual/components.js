@@ -23,6 +23,7 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           }
           suite
             .setUrl(`/styleguide/component/${componentName}?en`)
+            .waitForElementToShow(capture, 5000)
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
