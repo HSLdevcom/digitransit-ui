@@ -23,17 +23,17 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           }
           suite
             .setUrl(`/styleguide/component/${componentName}?en`)
-            .before((actions) => {
-              try {
-                if (capture instanceof Array) {
-                  actions.waitForElementToShow(capture[0], 20000);
-                } else {
-                  actions.waitForElementToShow(capture, 20000);
-                }
-              } catch (T) {
-                console.error('Could not wait', componentName, variationName, capture, T);
-              }
-            })
+            // .before((actions) => {
+            //   try {
+            //     if (capture instanceof Array) {
+            //       actions.waitForElementToShow(capture[0], 20000);
+            //     } else {
+            //       actions.waitForElementToShow(capture, 20000);
+            //     }
+            //   } catch (T) {
+            //     console.error('Could not wait', componentName, variationName, capture, T);
+            //   }
+            // })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
