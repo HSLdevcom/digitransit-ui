@@ -1,11 +1,11 @@
 sudo: required
 env:
- - VISUAL=ie11
- - VISUAL=chrome50
+# - VISUAL=ie11
+# - VISUAL=chrome50
  - VISUAL=safari10
- - VISUAL=edge13
+# - VISUAL=edge13
  - NWENV=chromedriver,firefox
- - LINT=1
+# - LINT=1
 cache: yarn
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
