@@ -25,9 +25,13 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             .setUrl(`/styleguide/component/${componentName}?en`)
             .before((actions) => {
               try {
-                actions.waitForElementToShow(capture, 5000);
+                if (capture instanceof Array) {
+                  actions.waitForElementToShow(capture[0], 5000);
+                } else {
+                  actions.waitForElementToShow(capture, 5000);
+                }
               } catch (T) {
-                console.log('could not wait', capture, T);
+                console.log('could not wait', componentName, variationName, capture, T);
               }
             })
             .setCaptureElements(capture)
