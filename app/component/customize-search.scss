@@ -71,25 +71,13 @@
   }
 
   .save-settings-button {
-    background-color: #585a5b;
     width: 80%;
-    height: 40px;
     border-radius: 20px;
-    text-align: center;
     margin: 0;
-      h4 {
-      color: $white;
-      font-size: $font-size-xxsmall;
-      font-family: $font-family;
-      font-weight: 300;
-      margin: 0;
-      text-transform: none;
-      }
   }
 
   .reset-settings {
-    text-align: center;
-    max-width: 30%;
+    max-width: 80%;
     margin: 0 auto;
     padding: 0;
     background-color: transparent;
@@ -100,20 +88,20 @@
   }
 
   .reset-settings-button {
-    background: none;
-    cursor: pointer;
-    color: #aaaaaa;
-    font-size: $font-size-xsmall;
-    font-family: $font-family;
-    font-weight: 300;
-    margin: 0;
-    text-transform: none;
+    @include font-book;
     line-height: 1.5em;
-    border-bottom: 2px dotted #aaaaaa;
-    transition: all 300ms ease-out;
+
+    span {
+      color: #aaaaaa;
+      border-bottom: 2px dotted #aaaaaa;
+      transition: all 300ms ease-out;
+    }
+
     &:hover {
-      color: $medium-gray;
-      border-bottom: 2px dotted $medium-gray;
+      span {
+        color: $medium-gray;
+        border-bottom: 2px dotted $medium-gray;
+      }
     }
   }
 
@@ -196,6 +184,6 @@
 
 .mobile {
   .reset-settings {
-    max-width: 157px;
+    max-width: 100%;
   }
 }

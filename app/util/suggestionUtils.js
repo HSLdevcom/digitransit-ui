@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
+import escapeRegExp from 'lodash/escapeRegExp';
 
 import StopCode from '../component/StopCode';
 
@@ -34,7 +35,10 @@ export const getLabel = memoize((suggestion) => {
       ), suggestion.longName] : [suggestion.longName, null];
     case 'venue':
     case 'address':
-      return [suggestion.name, suggestion.label.replace(new RegExp(`${suggestion.name}(,)?( )?`), '')];
+      return [
+        suggestion.name,
+        suggestion.label.replace(new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`), ''),
+      ];
 
     case 'favouriteStop':
     case 'stop':
