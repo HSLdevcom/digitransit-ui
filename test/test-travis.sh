@@ -5,7 +5,12 @@ if [ -n "$VISUAL" ]; then
   docker build -t hsldevcom/digitransit-ui:$TRAVIS_COMMIT .
   docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   IDENTIFIER=$TRAVIS_COMMIT_$VISUAL yarn run test-visual -- --browser $VISUAL
-  exit $?
+  RESULT=$?
+  if [ $? -ne 0 ]; then
+    tar czf gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz gemini-report
+    ./dropbox_uploader.sh gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz /gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz
+  fi
+  exit $RESULT
 fi
 
 if [ -n "$NWENV" ]; then
