@@ -6,7 +6,8 @@ if [ -n "$VISUAL" ]; then
   docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   IDENTIFIER=$TRAVIS_COMMIT_$VISUAL yarn run test-visual -- --browser $VISUAL
   RESULT=$?
-  if [ $? -ne 0 ]; then
+  if [ $RESULT -ne 0 ]; then
+    echo "Uploading test images to https://www.dropbox.com/sh/emh3x8h38egy2k1/AAAq_eLYDxJ0AJAwFffoZqH9a?dl=0"
     tar czf gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz gemini-report
     ./dropbox_uploader.sh gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz /gemini-report-$TRAVIS_COMMIT-$VISUAL.tar.gz
   fi
