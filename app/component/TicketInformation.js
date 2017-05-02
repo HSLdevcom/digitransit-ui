@@ -12,16 +12,16 @@ export default function TicketInformation({ fares }, { config }) {
   let regularFare;
   if (fares != null) {
     regularFare = fares.filter(fare => fare.type === 'regular')[0];
-
-    switch (regularFare.currency) {
-      case 'EUR':
-      default:
-        currency = '€';
-    }
   }
 
   if (!regularFare || regularFare.cents === -1) {
     return null;
+  }
+
+  switch (regularFare.currency) {
+    case 'EUR':
+    default:
+      currency = '€';
   }
 
   // XXX for now we only use single (first) component
