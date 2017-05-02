@@ -91,6 +91,7 @@ export default {
   },
 
   showTicketInformation: true,
+  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
   transportModes: {
     airplane: {

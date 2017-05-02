@@ -47,12 +47,14 @@ export default function TicketInformation({ fares }, { config }) {
             </span>
           </div>
         </div>
-        <ExternalLink className="itinerary-ticket-external-link" href="https://www.hsl.fi/liput-ja-hinnat" >
-          <FormattedMessage
-            id="buy-ticket"
-            defaultMessage="How to buy a ticket (HSL.fi)"
-          />
-        </ExternalLink>
+        { config.ticketLink &&
+          (<ExternalLink className="itinerary-ticket-external-link" href={config.ticketLink} >
+            <FormattedMessage
+              id="buy-ticket"
+              defaultMessage="How to buy a ticket"
+            />
+          </ExternalLink>
+        )}
       </div>
     </div>
   );
