@@ -24,7 +24,7 @@ if [ -n "$NWENV" ]; then
   docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
   wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
-  NOSERVER=1 CHROMEDRIVER=./chromedriver test/flow/script/run-snap-tests.sh
+  NOSERVER=1 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
   exit $?
 fi
 
