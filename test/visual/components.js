@@ -23,13 +23,15 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           }
           suite
             .setUrl(`/styleguide/component/${componentName}?en`)
+             .before((actions) => {
+               actions.wait(1000); // additional delay fir safari
+             })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
-          throw error;
         }
       });
     });
