@@ -166,13 +166,14 @@ function getPolyfills(userAgent, config) {
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
-    Intl: { flags: ['gated'] },
+    Intl: { flags: ['always'] },
+    'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
 
   config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
-      flags: ['gated'],
+      flags: ['always'],
     };
   });
 
@@ -181,7 +182,9 @@ function getPolyfills(userAgent, config) {
     features,
     minify: process.env.NODE_ENV !== 'development',
     unknown: 'polyfill',
-  });
+  }).then(polyfills =>
+    // no sourcemaps for inlined js
+    polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''));
 }
 
 function getScripts(req, config) {

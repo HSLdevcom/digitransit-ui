@@ -406,6 +406,12 @@ ul.react-autowhatever__items-list {
     }
   }
 
+  &.OldSearch, &.FavouritePlace {
+    p.suggestion-name, span.suggestion-type {
+      color: $visited-link-color;
+    }
+  }
+
   .suggestion-label {
     font-size: $font-size-xxsmall;
     color: $gray;

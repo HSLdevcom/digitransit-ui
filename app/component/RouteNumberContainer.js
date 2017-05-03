@@ -13,15 +13,15 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ route, isCallAgency, large, ...props }, { config }) =>
-  (route &&
-    <RouteNumber
-      isCallAgency={isCallAgency}
-      mode={route.mode}
-      large={large}
-      text={getText(route, config)}
-      {...props}
-    />);
+const RouteNumberContainer = ({ className, route, isCallAgency, large, ...props }, { config }) =>
+(route && <RouteNumber
+  className={className}
+  isCallAgency={isCallAgency || route.type === 715}
+  mode={route.mode}
+  large={large}
+  text={getText(route, config)}
+  {...props}
+/>);
 
 
 RouteNumberContainer.propTypes = {
@@ -30,6 +30,10 @@ RouteNumberContainer.propTypes = {
   className: React.PropTypes.string,
   hasDisruption: React.PropTypes.bool,
   fadeLong: React.PropTypes.bool,
+};
+
+RouteNumberContainer.defaultProps = {
+  className: '',
 };
 
 RouteNumberContainer.contextTypes = {

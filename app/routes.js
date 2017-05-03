@@ -23,6 +23,9 @@ import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
 
+// Localstorage data
+import { getCustomizedSettings } from './store/localStorage';
+
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
   header: ({ error, props, element, retry }) => {
@@ -130,6 +133,29 @@ function getIntermediatePlaces(intermediatePlaces) {
   return [];
 }
 
+function getSettings() {
+  const custSettings = getCustomizedSettings();
+
+  return {
+    walkSpeed: custSettings.walkSpeed ? Number(custSettings.walkSpeed)
+      : undefined,
+    walkReluctance: custSettings.walkReluctance ? Number(custSettings.walkReluctance)
+      : undefined,
+    walkBoardCost: custSettings.walkBoardCost ? Number(custSettings.walkBoardCost)
+      : undefined,
+    modes: custSettings.modes ? custSettings.modes
+        .toString()
+        .split(',')
+        .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
+        .join(',') : undefined,
+    minTransferTime: custSettings.minTransferTime ? Number(custSettings.minTransferTime)
+      : undefined,
+    accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
+      : undefined,
+  };
+}
+
 export default (config) => {
   const preparePlanParams = (
       { from, to },
@@ -145,7 +171,9 @@ export default (config) => {
         modes,
         accessibilityOption,
       } } },
-    ) => omitBy({
+  ) => {
+    const settings = getSettings();
+    return omitBy({
       fromPlace: from,
       toPlace: to,
       from: otpToLocation(from),
@@ -154,24 +182,25 @@ export default (config) => {
       numItineraries: numItineraries ? Number(numItineraries) : undefined,
       modes: modes ? modes
         .split(',')
-        .sort()
         .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
         .join(',')
-      : undefined,
+      : settings.modes,
       date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
       time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-      walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
-      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
-      minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
-      walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
+      walkReluctance: walkReluctance ? Number(walkReluctance) : settings.walkReluctance,
+      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : settings.walkBoardCost,
+      minTransferTime: minTransferTime ? Number(minTransferTime) : settings.minTransferTime,
+      walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
       arriveBy: arriveBy ? arriveBy === 'true' : undefined,
       maxWalkDistance: (typeof modes === 'undefined' ||
         (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) ?
         config.maxWalkDistance : config.maxBikingDistance,
-      wheelchair: accessibilityOption === '1',
+      wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil);
+  };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
     React.cloneElement(element, props) :

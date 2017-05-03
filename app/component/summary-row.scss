@@ -365,14 +365,19 @@
         transform: rotate(-90deg);
       }
 
-      &.bp-large {
-        min-height: 75px;
-      }
+      min-height: 75px;
     }
   }
 
   .call {
     //text color
     color: $black;
+  }
+}
+
+@media print {
+  .itinerary-summary-row.bp-large.open {
+    height: auto;
+    display: block;
   }
 }

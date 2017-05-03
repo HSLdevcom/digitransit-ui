@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -29,9 +28,10 @@ function RouteNumber(props) {
       />);
     }
 
-    return (<Icon
+    return (<IconWithIcon
       className={mode}
       img={`icon-icon_${mode}`}
+      subIcon=""
     />);
   };
 
@@ -130,7 +130,7 @@ RouteNumber.defaultProps = {
   hasDisruption: false,
   fadeLong: false,
   text: '',
-
+  isCallAgency: false,
 };
 
 RouteNumber.displayName = 'RouteNumber';

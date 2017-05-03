@@ -50,7 +50,7 @@ class CallAgencyLeg extends React.Component {
             </div>
             <RouteNumber
               mode="call"
-              className="call"
+              className="leg-call"
               realtime={false}
               vertical
               fadeLong
@@ -139,11 +139,9 @@ CallAgencyLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 CallAgencyLeg.contextTypes = {
-  focusFunction: React.PropTypes.func.isRequired,
   config: React.PropTypes.object.isRequired,
 };
 

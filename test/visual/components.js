@@ -22,7 +22,10 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-            .setUrl(`/styleguide/component/${componentName}?en`)
+            .setUrl(`/styleguide/component/${componentName}?enmock`)
+            .before((actions) => {
+              actions.wait(2000); // test additional delay
+            })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
@@ -195,6 +198,8 @@ testVariation('SummaryRow', 'passive-small-via', 11);
 testVariation('SummaryRow', 'active-large-via', 12);
 testVariation('SummaryRow', 'passive-small-call-agency', 13);
 testVariation('SummaryRow', 'active-large-call-agency', 14);
+
+testVariation('CallAgencyWarning');
 
 testVariation('CurrentPositionSuggestionItem', 'with-position');
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2);

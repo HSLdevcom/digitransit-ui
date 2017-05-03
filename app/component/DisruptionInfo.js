@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
 import Modal from './Modal';
+import Loading from './Loading';
 import ViewerRoute from '../route/ViewerRoute';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -38,7 +39,7 @@ function DisruptionInfo(props, context) {
           Component={DisruptionListContainer}
           forceFetch
           route={new ViewerRoute()}
-          renderLoading={() => <div className="spinner-loader" />}
+          renderLoading={() => <Loading />}
         />
       </Modal>);
   }

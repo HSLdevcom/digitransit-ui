@@ -126,6 +126,7 @@ class SummaryNavigation extends React.Component {
           <Relay.Renderer
             Container={TimeSelectorContainer}
             queryConfig={{
+              params: {},
               name: 'ServiceTimeRangRoute',
               queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
             }}

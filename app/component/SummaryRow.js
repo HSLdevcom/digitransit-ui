@@ -15,7 +15,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
 const Leg = ({ routeNumber, leg, large }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className={`leg ${large ? 'large' : ''}`}>
+  <div className={`leg ${large ? 'large' : ''}`}>
     { large &&
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -138,9 +138,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
 
     if (leg.transitLeg || leg.rentedBike || noTransitLegs || leg.intermediatePlace) {
       if (leg.rentedBike) {
-        legs.push(<ModeLeg leg={leg} mode="CITYBIKE" large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" large={large} />);
       } else if (leg.intermediatePlace) {
-        legs.push(<ViaLeg leg={leg} />);
+        legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
       } else if (leg.route) {
         if (props.intermediatePlaces && props.intermediatePlaces.length > 0 && isEqual(
           [leg.from.lat, leg.from.lon],
@@ -148,9 +148,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
         ) {
           legs.push(<ViaLeg leg={leg} />);
         }
-        legs.push(<RouteLeg leg={leg} intl={intl} large={large} />);
+        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} intl={intl} large={large} />);
       } else {
-        legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} large={large} />);
       }
     }
   });
