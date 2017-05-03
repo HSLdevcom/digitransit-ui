@@ -28,7 +28,7 @@ export default function TicketInformation({ fares }, { config }) {
   const fareId = get(regularFare, 'components[0].fareId');
   const fareMapping = get(config, 'fareMapping', {});
 
-  const mappedFareId = fareMapping[fareId] || fareId;
+  const mappedFareId = fareId ? fareMapping[fareId] : null;
 
   return (
     <div className="row itinerary-row itinerary-ticket-information">
@@ -36,7 +36,7 @@ export default function TicketInformation({ fares }, { config }) {
       <div className="columns small-10 itinerary-ticket-layout-right">
         <div className="itinerary-ticket-type">
           <div className="ticket-type-zone">
-            <FormattedMessage id={`ticket-type-${mappedFareId}`} />
+            {mappedFareId && <FormattedMessage id={`ticket-type-${mappedFareId}`} />}
           </div>
           <div>
             <span className="ticket-type-group">
