@@ -1,5 +1,7 @@
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
+import config from '../configurations/config.default';
+import { displayImperialDistance } from '../util/geo-utils';
 
 
 const round = (distance) => {
@@ -13,7 +15,9 @@ const Distance = (props) => {
 
   if (props.distance) {
     roundedDistance = round(props.distance);
-    if (roundedDistance < 1000) {
+    if (config.imperial) {
+      distance = displayImperialDistance(props.distance);
+    } else if (roundedDistance < 1000) {
       distance = `${roundedDistance}m`;
     } else {
       distance = `${(roundedDistance / 1000).toFixed(1)}km`;

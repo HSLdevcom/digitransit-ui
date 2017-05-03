@@ -54,7 +54,7 @@ export function getDistanceToFurthestStop(coordinates, stops) {
 }
 
 
-function displayImperialDistance(meters) {
+export function displayImperialDistance(meters) {
   const feet = meters * 3.2808399;
 
   /* eslint-disable yoda */
