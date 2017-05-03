@@ -115,29 +115,73 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-ticket-information {
+  display: flex;
   color: $gray;
   font-weight: $font-weight-book;
-  font-size: 10pt;
+  font-size: $font-size-xxsmall;
   margin: 0 auto;
-  padding: 0 1.3em 1em 1.3em;
   border: 0px;
   max-width: 500px;
-  .itinerary-ticket-information-class {
-    font-weight: $font-weight-bold;
-    color: $black;
-    display: inline;
-    margin-left: 0.3em;
+  border-top: 1px solid #ddd;
+  padding: $padding-medium 0 $padding-large 0;
+  .itinerary-ticket-layout-left {
+    display: inline-block;
+    font-size: 2.4em;
+    padding-right: 10px;
   }
-  .itinerary-ticket-information-buy {
-    font-weight: $font-weight-bold;
-    margin-top: 0.5em;
+
+  .itinerary-ticket-layout-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    padding-right: 1em;
+  }
+
+  .itinerary-ticket-external-link {
+    flex-shrink: 0;
+    .external-link-container {
+      margin-top: 0;
+      margin-right: 0;
+    }
     a {
       color: $primary-color;
-      text-decoration: none;
+      @include font-medium;
+    }
+    .external-link-icon-outer {
+      color: white;
+    }
+
+    .external-link-icon {
+      color: $primary-color;
+    }
+
+  }
+
+  .itinerary-ticket-type {
+    white-space:normal;
+    flex-shrink: 1;
+    display: inline;
+    margin-left: 0.3em;
+    padding-right: 1em;
+
+    .ticket-type-group, .ticket-type-zone {
+      @include font-book;
+      color: $gray;
+    }
+
+    .ticket-type-fare {
+      font-weight: $font-weight-bold;
+      color: $black;
     }
   }
 }
 
+.desktop {
+  .itinerary-ticket-information{
+    font-size: 15px;
+  }
+}
 .call-agency {
   background-color: yellow;
 }
@@ -292,6 +336,10 @@ $itinerary-route-max-width: 500px;
       min-height: 5em;
     }
 
+    &.end {
+      min-height: 3em;
+    }
+
     .itinerary-leg-first-row {
       display: block;
       white-space: normal;
@@ -381,6 +429,11 @@ $itinerary-route-max-width: 500px;
       min-height: 10px;
       margin-bottom: 7px;
     }
+
+    &.end {
+      min-height: 0;
+    }
+
     .itinerary-icon {
       font-size: 13px;
       margin-left: -24px;
