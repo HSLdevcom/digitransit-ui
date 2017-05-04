@@ -8,6 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import supportsInputType from '../util/supportsInputType';
 import TimeInput from './TimeInput';
 import CustomInputTime from './CustomInputTime';
+import ItineraryTimePicker from './ItineraryTimePicker';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
@@ -42,19 +43,7 @@ export default function TimeSelectors(
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
-      {supportsInputType('time') ?
-        <div id="time" className={timeInputClass}>
-          <CustomInputTime
-            time={time.format('HH:mm')}
-            changeTime={changeTime}
-          />
-          {isMobile &&
-            <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" key="caret" />
-          }
-        </div> :
-        <div className={timeInputClass}>
-          <TimeInput value={time.format('HH:mm')} changeTime={changeTime} />
-        </div>}
+      <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
     </div>
   );
 }

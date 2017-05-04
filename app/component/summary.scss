@@ -112,6 +112,46 @@
     border: solid 1px $light-gray;
   }
 }
+.time-input-container {
+  display: flex;
+  background: $white;
+  padding: 0 calc(0.7em + 1.5rem) 0 0.7em;
+  box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+  border-radius: 3px;
+  & .time-input-field {
+    width: 1.5em;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    box-shadow: none;
+    background-color: transparent !important;
+    &:focus {
+      box-shadow: none !important;
+      border-color: none !important;
+    }
+  }
+  .digit-separator {
+    margin-top: 5px;
+    color: $primary-color;
+  }
+}
+
+.time-button-container {
+  width: 10px;
+  button {
+    width: 12px;
+    background: #fff;
+    border: 1px solid #c3e1ec;
+    text-align: center;
+    height: 18px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 7px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+  }
+}
 
 .time-selector-settings-row {
   padding: $padding-small 6px;
