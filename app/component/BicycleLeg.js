@@ -7,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function BicycleLeg(props) {
   let stopsDescription;
@@ -52,22 +53,21 @@ function BicycleLeg(props) {
     }
   }
 
+  const modeClassName = 'bicycle';
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row">
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode={mode} vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
-          {props.index === 0 && (
-            <div><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>

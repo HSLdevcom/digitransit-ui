@@ -6,16 +6,19 @@ import RouteNumber from './RouteNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function WaitLeg(props) {
+  const modeClassName = 'wait';
   return (
-    <div style={{ width: '100%' }} className="row itinerary-row">
+    <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
+      <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"
@@ -68,6 +71,7 @@ WaitLeg.description = () => {
 WaitLeg.propTypes = {
   startTime: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
+  index: React.PropTypes.number.isRequired,
   children: React.PropTypes.node,
   waitTime: React.PropTypes.number.isRequired,
   leg: React.PropTypes.shape({
