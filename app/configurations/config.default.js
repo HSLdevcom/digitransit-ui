@@ -510,5 +510,4 @@ export default {
   minutesToDepartureLimit: 9,
 
   // this flag when true enables imperial measurements  'feet/miles system'
-  imperial: false,
 };
