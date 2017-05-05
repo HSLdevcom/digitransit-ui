@@ -30,6 +30,7 @@ export default class ItineraryTimePicker extends React.Component {
     }
     // Accept only numbers
     if (/^\d+$/.test(event.target.value)) {
+      // Check if there's a leading zero
       const hourInput = this.checkZero(event.target.value);
       if (hourInput.length < 3) {
         // Clean up the input
@@ -92,13 +93,17 @@ export default class ItineraryTimePicker extends React.Component {
     }
   }
 
-  fixDigits = digit => ((digit.val.length === 2 && digit.val > digit.max) ? 0 : this.padDigits(digit.val));
+  fixDigits = digit => (
+    (digit.val.length === 2 && digit.val > digit.max) ? digit.val.substr(1)
+    : this.padDigits(digit.val)
+    );
 
   checkZero = digit => (digit.charAt(0) === '0' && digit.length > 2 ? digit.substr(1) : digit);
 
   checkInt = val => (typeof val !== 'string' ? val : parseInt(val, 10));
 
   toggleHours = (event) => {
+    // Check if the value is a string and convert it to int
     let hours = this.checkInt(this.hourEl.value);
     if (event.keyCode === 38) { // Up
       hours = hours < 23 ? hours + 1 : 0;
