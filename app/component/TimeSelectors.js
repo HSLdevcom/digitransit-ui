@@ -1,19 +1,19 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import { isMobile } from '../util/browser';
+// import { isMobile } from '../util/browser';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-import supportsInputType from '../util/supportsInputType';
-import TimeInput from './TimeInput';
-import CustomInputTime from './CustomInputTime';
+// import supportsInputType from '../util/supportsInputType';
+// import TimeInput from './TimeInput';
+// import CustomInputTime from './CustomInputTime';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
 ) {
-  const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
+ // const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
