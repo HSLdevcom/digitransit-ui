@@ -6,6 +6,6 @@ export const isLangMockEn = isBrowser && window.location.search.indexOf('en') !=
 export const isMobile = isBrowser && navigator.userAgent.match(/Mobile/) != null;
 export const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;
 export const isImperial = () => {
-  if ((window.navigator.userLanguage === 'en-US') || window.navigator.language === 'en-US') return true;
+  if ((navigator.userLanguage === 'en-US') || navigator.language === 'en-US') return true;
   return false;
 };
