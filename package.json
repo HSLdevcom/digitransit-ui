@@ -120,7 +120,7 @@
     "brotli-webpack-plugin": "0.2.0",
     "compression-webpack-plugin": "0.3.2",
     "css-loader": "0.26.2",
-    "csswring": "5.1.1",
+    "csswring": "6.0.0",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-import-resolver-webpack": "0.8.1",
