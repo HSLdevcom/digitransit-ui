@@ -64,7 +64,7 @@
     "express-static-gzip": "0.2.2",
     "favicons-webpack-plugin": "^0.0.7",
     "fluxible": "1.2.0",
-    "fluxible-addons-react": "0.2.9",
+    "fluxible-addons-react": "0.2.12",
     "foundation-apps": "1.2.0",
     "history": "2.1.2",
     "htm-to-json": "^0.1.4",
