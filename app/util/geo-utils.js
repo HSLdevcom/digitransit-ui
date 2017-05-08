@@ -1,6 +1,6 @@
 import unzip from 'lodash/unzip';
-import { isBrowser } from './browser';
-import config from '../configurations/config.default';
+import { isBrowser, isImperial } from './browser';
+
 
 /* eslint-disable global-require */
 const L = isBrowser ? require('leaflet') : null;
@@ -68,7 +68,7 @@ export function displayImperialDistance(meters) {
 }
 
 export function displayDistance(meters) {
-  if (config.imperial) {
+  if (isImperial()) {
     return displayImperialDistance(meters);
   }
   if (meters < 100) {
