@@ -2,6 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import RouteHeader from '../../RouteHeader';
 
@@ -36,6 +37,10 @@ class RouteMarkerPopup extends React.Component {
     }).isRequired,
   }
 
+  static contextTypes = {
+    intl: intlShape,
+  };
+
 
   getChildContext() {
     return {
@@ -69,11 +74,11 @@ class RouteMarkerPopup extends React.Component {
         />
         <div className="bottom location">
           <Link to={tripPath} >
-            Lähdön tiedot
+          <FormattedMessage id="trip-information" defaultMessage="Trip Information" />
           </Link>
           <br />
           <Link to={patternPath} className="route" >
-            Linjan tiedot
+            <FormattedMessage id="view-route" defaultMessage="View Route" />
           </Link>
         </div>
       </div>
