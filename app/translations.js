@@ -863,7 +863,7 @@ const translations = {
     'transfers-allowed': 'Saa olla vaihtoja',
     'transfers-margin': 'Vaihtoaika vähintään',
     'trip-co2-emissions': 'Reitin CO2 päästöt',
-    'trip-information':'Lähdön tiedot',
+    'trip-information': 'Lähdön tiedot',
     'trip-page.description': 'Linja {shortName}, {longName}',
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',

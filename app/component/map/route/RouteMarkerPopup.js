@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import RouteHeader from '../../RouteHeader';
 
@@ -17,6 +17,7 @@ class RouteMarkerPopup extends React.Component {
   static propTypes = {
     context: React.PropTypes.shape({
       router: React.PropTypes.object.isRequired,
+      intl: intlShape.isRequired,
       executeAction: React.PropTypes.func.isRequired,
     }).isRequired,
     trip: React.PropTypes.shape({
@@ -36,11 +37,6 @@ class RouteMarkerPopup extends React.Component {
       tripStartTime: React.PropTypes.string.isRequired,
     }).isRequired,
   }
-
-  static contextTypes = {
-    intl: intlShape,
-  };
-
 
   getChildContext() {
     return {
@@ -62,7 +58,6 @@ class RouteMarkerPopup extends React.Component {
       tripPath = `${patternPath}/${this.props.trip.fuzzyTrip.gtfsId}`;
     }
 
-
     return (
       <div className="card">
         <RouteHeader
@@ -74,11 +69,15 @@ class RouteMarkerPopup extends React.Component {
         />
         <div className="bottom location">
           <Link to={tripPath} >
-          <FormattedMessage id="trip-information" defaultMessage="Trip Information" />
+            {this.props.context.intl.formatMessage(
+              { id: 'trip-information', defaultMessage: 'Trip Information' },
+              )}
           </Link>
           <br />
           <Link to={patternPath} className="route" >
-            <FormattedMessage id="view-route" defaultMessage="View Route" />
+            {this.props.context.intl.formatMessage(
+              { id: 'view-route', defaultMessage: 'View Route' },
+              )}
           </Link>
         </div>
       </div>
