@@ -8,8 +8,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 
-function ViaLeg(props) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+function ViaLeg(props, context) {
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
 
@@ -111,5 +111,7 @@ ViaLeg.propTypes = {
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
+
+ViaLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default ViaLeg;

@@ -67,8 +67,8 @@ export function displayImperialDistance(meters) {
   return `${(Math.round(feet / 528)) / 10} mi`; // tenth of a mile
 }
 
-export function displayDistance(meters) {
-  if (isImperial()) {
+export function displayDistance(meters, config) {
+  if (isImperial(config)) {
     return displayImperialDistance(meters);
   }
   if (meters < 100) {

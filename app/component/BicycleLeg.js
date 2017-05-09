@@ -8,9 +8,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 
-function BicycleLeg(props) {
+function BicycleLeg(props, context) {
   let stopsDescription;
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   let { mode } = props.leg;
   let legDescription = <span>{props.leg.from.name}</span>;
@@ -151,5 +151,7 @@ BicycleLeg.propTypes = {
   index: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
 };
+
+BicycleLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default BicycleLeg;
