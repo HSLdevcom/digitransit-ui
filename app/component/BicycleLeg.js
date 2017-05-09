@@ -16,6 +16,7 @@ function BicycleLeg(props) {
   let { mode } = props.leg;
   let legDescription = <span>{props.leg.from.name}</span>;
   const firstLegClassName = props.index === 0 ? 'start' : '';
+  let modeClassName = 'bicycle';
 
   if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
     stopsDescription = (
@@ -36,6 +37,7 @@ function BicycleLeg(props) {
   }
 
   if (props.leg.rentedBike === true) {
+    modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
         id="rent-cycle-at"
@@ -53,7 +55,6 @@ function BicycleLeg(props) {
     }
   }
 
-  const modeClassName = 'bicycle';
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
