@@ -370,7 +370,7 @@ $itinerary-route-max-width: 420px;
       min-width: 24px;
       margin-left: 1em;
       position: absolute;
-      margin-top: -2em;
+      margin-top: -1em;
     }
   }
   .itinerary-instruction-column.start::before {
@@ -817,8 +817,7 @@ div.itinerary-container-content {
   }
   .special-icon {
     &.call, &.disruption {
-      margin-left: 9px;
-      margin-top: -2em;
+      margin-left: 5px;
     }
     }
   }
