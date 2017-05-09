@@ -19,6 +19,7 @@ import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { isCallAgencyPickupType } from '../util/legUtils';
+import cloneDeep from 'lodash/cloneDeep';
 
 class ItineraryLegs extends React.Component {
 
@@ -82,10 +83,10 @@ class ItineraryLegs extends React.Component {
           }
 
           compressedLegs.push(compressLeg);
-          compressLeg = cleg;
+          compressLeg = cloneDeep(cleg);
         }
       } else {
-        compressLeg = cleg;
+        compressLeg = cloneDeep(cleg);
       }
     });
 
