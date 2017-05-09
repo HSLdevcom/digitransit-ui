@@ -36,12 +36,6 @@ function ViaLeg(props) {
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
             <div className="itinerary-via-leg-duration">
               <FormattedMessage
                 id="via-leg-stop-duration"
@@ -50,8 +44,8 @@ function ViaLeg(props) {
               />
             </div>
             {props.children}
+            <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage

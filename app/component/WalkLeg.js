@@ -31,14 +31,8 @@ function WalkLeg(props) {
           <div>
             {props.leg.from.name}
             {props.children}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
+            <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
           </div>
-          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
