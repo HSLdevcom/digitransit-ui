@@ -26,6 +26,7 @@ $itinerary-route-max-width: 420px;
     &.bicycle { @include getCircleSvg($bicycle-color, $fill); }
     &.car { @include getCircleSvg($car-color, $fill); }
     &.via { @include getCircleSvg($walk-color, $fill); }
+    &.call { @include getCircleSvg($bus-color, $fill); }
 }
 
 
@@ -275,6 +276,7 @@ $itinerary-route-max-width: 420px;
     &.bicycle { @include setModeCircles($bicycle-color); }
     &.car { @include setModeCircles($car-color); }
     &.via { @include setModeCircles($walk-color); }
+    &.call { @include setModeCircles($bus-color); }
   }
   }
 
@@ -297,8 +299,9 @@ $itinerary-route-max-width: 420px;
     }
     &.call {
       border-left: dashed 1px;
-      width: 6px;
       border-right: dashed 1px;
+      border-color: #aaaaaa;
+      width: 6px;
       height: 122%;
       background: $white;
     }
