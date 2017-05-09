@@ -42,9 +42,6 @@ function RouteNumber(props) {
       <span className={cx('vcenter-children', props.className)}>
         <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
         {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
-
-        {props.vertical ? <br /> : null}
-
       </span>
       <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
         {props.text}
