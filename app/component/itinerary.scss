@@ -256,7 +256,6 @@ $itinerary-route-max-width: 420px;
     min-width: 24px;
     margin-right: 2.2%;
     position: relative;
-    max-height: 200px;
   }
 
   .leg-before-circle {
@@ -302,7 +301,7 @@ $itinerary-route-max-width: 420px;
       border-right: dashed 1px;
       border-color: #aaaaaa;
       width: 6px;
-      height: 113%;
+      height: 100%;
       background: $white;
     }
   }
