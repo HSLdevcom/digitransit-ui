@@ -35,13 +35,12 @@ function RouteNumber(props) {
     />);
   };
 
-  const largeClass = props.large ? 'large' : '';
   return (
 
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
         {icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
 
         {props.vertical ? <br /> : null}
 
@@ -113,7 +112,6 @@ RouteNumber.description = () =>
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,
   text: React.PropTypes.node,
-  large: React.PropTypes.bool,
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,
   hasDisruption: React.PropTypes.bool,
@@ -126,7 +124,6 @@ RouteNumber.defaultProps = {
   withBar: false,
   className: '',
   vertical: false,
-  large: false,
   hasDisruption: false,
   fadeLong: false,
   text: '',

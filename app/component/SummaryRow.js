@@ -14,13 +14,11 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
-const Leg = ({ routeNumber, leg, large }) => (
-  <div className={`leg ${large ? 'large' : ''}`}>
-    { large &&
-      <div className="departure-stop overflow-fade">
-        &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-      </div>
-    }
+const Leg = ({ routeNumber, leg }) => (
+  <div className="leg">
+    <div className="departure-stop overflow-fade">
+      &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
+    </div>
     {routeNumber}
   </div>
 );
@@ -28,10 +26,9 @@ const Leg = ({ routeNumber, leg, large }) => (
 Leg.propTypes = {
   routeNumber: React.PropTypes.node.isRequired,
   leg: React.PropTypes.object.isRequired,
-  large: React.PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, large, intl }) => {
+const RouteLeg = ({ leg, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -41,7 +38,6 @@ const RouteLeg = ({ leg, large, intl }) => {
       defaultMessage: 'Pay Attention',
     });
     routeNumber = (<RouteNumber
-      large={large}
       mode="call"
       text={message}
       className={cx('line', 'call')}
@@ -53,47 +49,44 @@ const RouteLeg = ({ leg, large, intl }) => {
     (<RouteNumberContainer
       route={leg.route}
       className={cx('line', leg.mode.toLowerCase())}
-      large={large}
       vertical
       withBar
     />);
   }
 
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return <Leg leg={leg} routeNumber={routeNumber} />;
 };
 
 RouteLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
-  large: React.PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
 };
 
-const ModeLeg = ({ leg, mode, large }) => {
+const ModeLeg = ({ leg, mode }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
       text={''}
       className={cx('line', mode.toLowerCase())}
       vertical
+      withBar
     />
   );
-  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
+  return <Leg leg={leg} routeNumber={routeNumber} />;
 };
 
 ModeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.bool.isRequired,
 };
 
-const CityBikeLeg = ({ leg, large }) => (
-  <ModeLeg leg={leg} mode="CITYBIKE" large={large} />
+const CityBikeLeg = ({ leg }) => (
+  <ModeLeg leg={leg} mode="CITYBIKE" />
 );
 
 CityBikeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.bool.isRequired,
 };
 
 const ViaLeg = ({ leg }) => (
@@ -134,11 +127,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
 
     lastLegRented = leg.rentedBike;
 
-    const large = props.breakpoint === 'large';
-
     if (leg.transitLeg || leg.rentedBike || noTransitLegs || leg.intermediatePlace) {
       if (leg.rentedBike) {
-        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
       } else if (leg.route) {
@@ -148,9 +139,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
         ) {
           legs.push(<ViaLeg leg={leg} />);
         }
-        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} intl={intl} large={large} />);
+        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} intl={intl} />);
       } else {
-        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} large={large} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} />);
       }
     }
   });
