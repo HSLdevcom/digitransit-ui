@@ -71,12 +71,10 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-main {
-  width: 94%;
-  padding-top: 20px;
-
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding-top: 15px;
 
   div {
     flex-grow: 1;
@@ -94,10 +92,6 @@ $itinerary-route-max-width: 420px;
     display:block;
     height:auto;
   }
-}
-
-.itinerary-main.bp-large {
-  padding-top: 15px;
 }
 
 .itinerary-summary {
@@ -156,9 +150,7 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-search-icon {
-  position: absolute;
-  right: 15px;
-  top: 0px;
+  float: right;
   color: $medium-gray;
 }
 
@@ -173,12 +165,12 @@ $itinerary-route-max-width: 420px;
 
 .itinerary-ticket-information {
   display: flex;
+  width: 90%;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: $font-size-xxsmall;
   margin: 0 auto;
   border: 0px;
-  max-width: 500px;
   border-top: 1px solid #ddd;
   padding: $padding-medium 0 $padding-large 0;
   .itinerary-ticket-layout-left {
@@ -192,7 +184,6 @@ $itinerary-route-max-width: 420px;
     flex-direction: row;
     align-items: center;
     padding: 0;
-    padding-right: 1em;
   }
 
   .itinerary-ticket-external-link {
@@ -466,7 +457,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     .itinerary-leg-first-row {
       display: block;
       white-space: normal;
-      width: 90%;
       color: $black;
       @include font-medium;
 
@@ -520,9 +510,8 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
 }
 
 .mobile {
-  .itinerary-row {
+  .itinerary-leg-first-row {
     width: 90%;
-    display: flex;
   }
 }
 
