@@ -3,7 +3,30 @@
 $topbar-height: 40px;
 $itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
-$itinerary-route-max-width: 500px;
+$itinerary-route-max-width: 420px;
+
+@mixin getCircleSvg($stroke, $fill) {
+  svg {
+    stroke: $stroke;
+    fill: $fill;
+  }
+    //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle stroke-width='2' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
+}
+
+@mixin setModeCircles($fill) {
+    &.bus { @include getCircleSvg($bus-color, $fill); }
+    &.airplane { @include getCircleSvg($airplane-color, $fill); }
+    &.tram { @include getCircleSvg($tram-color, $fill); }
+    &.subway { @include getCircleSvg($metro-color, $fill); }
+    &.rail { @include getCircleSvg($rail-color, $fill); }
+    &.ferry { @include getCircleSvg($ferry-color, $fill); }
+    &.citybike { @include getCircleSvg($citybike-color, $fill); }
+    &.walk { @include getCircleSvg($walk-color, $fill); }
+    &.wait { @include getCircleSvg($wait-color, $fill); }
+    &.bicycle { @include getCircleSvg($bicycle-color, $fill); }
+    &.car { @include getCircleSvg($car-color, $fill); }
+    &.via { @include getCircleSvg($walk-color, $fill); }
+}
 
 
 .itinerary-swipe-views-root {
@@ -48,7 +71,7 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-main {
-  width: 100%;
+  width: 94%;
   padding-top: 20px;
 
   flex-grow: 1;
@@ -90,12 +113,46 @@ $itinerary-route-max-width: 500px;
   background: transparent;
 }
 
+.itinerary-icon-container {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0.1em;
+    z-index: 10;
+}
+
 .itinerary-icon {
   position: absolute;
   margin-left: -21px;
   margin-top: 2px;
   fill: currentColor;
-  font-size: $font-size-xxsmall;
+
+    @mixin itineraryTableIcons() {
+      margin: 0 auto;
+      font-size: $font-size-normal;
+      //font-size: $font-size-large;
+      width: 20px;
+      height: 20px;
+      margin-left: -0.1em;
+      background-color: $white;
+    }
+    &.to-it {
+      @include itineraryTableIcons();
+      top: 4px;
+    }
+    &.from-it {
+      @include itineraryTableIcons();
+      top: -4px;
+    }
+    &.via-it {
+      @include itineraryTableIcons();
+    }
+}
+
+.bp-large {
+  .from {
+  margin-left: -8.2%;
+  }
 }
 
 .itinerary-search-icon {
@@ -115,29 +172,73 @@ $itinerary-route-max-width: 500px;
 }
 
 .itinerary-ticket-information {
+  display: flex;
   color: $gray;
   font-weight: $font-weight-book;
-  font-size: 10pt;
+  font-size: $font-size-xxsmall;
   margin: 0 auto;
-  padding: 0 1.3em 1em 1.3em;
   border: 0px;
   max-width: 500px;
-  .itinerary-ticket-information-class {
-    font-weight: $font-weight-bold;
-    color: $black;
-    display: inline;
-    margin-left: 0.3em;
+  border-top: 1px solid #ddd;
+  padding: $padding-medium 0 $padding-large 0;
+  .itinerary-ticket-layout-left {
+    display: inline-block;
+    font-size: 2.4em;
+    padding-right: 10px;
   }
-  .itinerary-ticket-information-buy {
-    font-weight: $font-weight-bold;
-    margin-top: 0.5em;
+
+  .itinerary-ticket-layout-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    padding-right: 1em;
+  }
+
+  .itinerary-ticket-external-link {
+    flex-shrink: 0;
+    .external-link-container {
+      margin-top: 0;
+      margin-right: 0;
+    }
     a {
       color: $primary-color;
-      text-decoration: none;
+      @include font-medium;
+    }
+    .external-link-icon-outer {
+      color: white;
+    }
+
+    .external-link-icon {
+      color: $primary-color;
+    }
+
+  }
+
+  .itinerary-ticket-type {
+    white-space:normal;
+    flex-shrink: 1;
+    display: inline;
+    margin-left: 0.3em;
+    padding-right: 1em;
+
+    .ticket-type-group, .ticket-type-zone {
+      @include font-book;
+      color: $gray;
+    }
+
+    .ticket-type-fare {
+      font-weight: $font-weight-bold;
+      color: $black;
     }
   }
 }
 
+.desktop {
+  .itinerary-ticket-information{
+    font-size: 15px;
+  }
+}
 .call-agency {
   background-color: yellow;
 }
@@ -147,13 +248,65 @@ $itinerary-route-max-width: 500px;
   line-height: 1.1;
   color: $medium-gray;
   width: 100%;
-  max-width: $itinerary-route-max-width;
+  max-width: 100%;
+  display: flex;
+
+  .leg-before {
+    min-width: 24px;
+    margin-right: 2.2%;
+    position: relative;
+    max-height: 200px;
+  }
+
+  .leg-before-circle {
+    position: absolute;
+    z-index: 9;
+    @include setModeCircles(#fff);
+    &.circle-fill {
+    &.bus { @include setModeCircles($bus-color); }
+    &.airplane { @include setModeCircles($airplane-color); }
+    &.tram { @include setModeCircles($tram-color); }
+    &.subway { @include setModeCircles($metro-color); }
+    &.rail { @include setModeCircles($rail-color); }
+    &.ferry { @include setModeCircles($ferry-color); }
+    &.citybike { @include setModeCircles($citybike-color); }
+    &.walk { @include setModeCircles($walk-color); }
+    &.wait { @include setModeCircles($wait-color); }
+    &.bicycle { @include setModeCircles($bicycle-color); }
+    &.car { @include setModeCircles($car-color); }
+    &.via { @include setModeCircles($walk-color); }
+  }
+  }
+
+  .leg-before-line {
+    height: 94%;
+    top: 0.7em;
+    position: absolute;
+    left: 8px;
+    border-left: 6px solid;
+
+    &.walk {
+      background-image: url('../default/dotted-line-bg.png');
+      background-size: 90% auto;
+      background-position-y: 31px;
+      background-position-x: 0px;
+      background-repeat: no-repeat repeat;
+      border: none;
+      width: 8px;
+      left: 7px;
+    }
+  }
+
   .itinerary-time-column {
     @include font-narrow-medium;
-    font-size: 10pt;
+    font-size: 1em;
     text-align: center;
     color: $black;
     margin-bottom: 0.5em;
+
+    a {
+        text-decoration: none;
+    }
 
     &.call {
       .route-number {
@@ -163,6 +316,8 @@ $itinerary-route-max-width: 500px;
 
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
+      color: $black;
+      text-decoration: none;
       span {
         position: relative;
       }
@@ -200,28 +355,37 @@ $itinerary-route-max-width: 500px;
       width: inherit;
     }
   }
+/*
   .itinerary-instruction-column::before {
-    content: "⚬";
+ //   content: "⚬";
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
     font-size: 24px;
     position: absolute;
     left: -2px;
     top: -6px;
   }
-
+*/
+/*
   .itinerary-instruction-column.intermediate::before {
     content: "●";
+    //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
   }
-
+  */
+/*
   &:last-child .itinerary-instruction-column::before {
-    content: "⚬";
-    font-size: 24px;
+    // content: "⚬";
+    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");    font-size: 24px;
     position: absolute;
     left: -2.5px;
     top: -6px;
   }
+*/
+/*
   &:last-child .itinerary-instruction-column.intermediate::before {
-    content: "●";
-  }
+ //   content: "●";
+content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
+}
+*/
 
   .itinerary-instruction-column.start::before {
      content: "";
@@ -239,14 +403,17 @@ $itinerary-route-max-width: 500px;
    content: "";
  }
 
+/*
+  Stop lines
  .itinerary-instruction-column:not(.to)::after {
     content: "";
     position: absolute;
     top: 17px;
-    bottom: -10px;
+    bottom: -30px;
     left: 3px;
     border-left: solid 4px;
   }
+*/
 
   .itinerary-instruction-column.call:not(.to)::after {
      content: "";
@@ -280,7 +447,7 @@ $itinerary-route-max-width: 500px;
     cursor: pointer;
     @include font-book;
     font-size: 10pt;
-    padding-left: 1.5em;
+    padding-left: 0.5em;
     margin-bottom: 0.5em;
     min-height: 4.15em;
 
@@ -290,6 +457,10 @@ $itinerary-route-max-width: 500px;
 
     &.via {
       min-height: 5em;
+    }
+
+    &.end {
+      min-height: 3em;
     }
 
     .itinerary-leg-first-row {
@@ -332,7 +503,7 @@ $itinerary-route-max-width: 500px;
     }
 
     .intermediate-stop-info-container {
-      padding-top:6px;
+      margin-top: 6px;
     }
 
     .intermediate-stops-link {
@@ -348,13 +519,26 @@ $itinerary-route-max-width: 500px;
   }
 }
 
-
+.mobile {
+  .itinerary-row {
+    width: 90%;
+    display: flex;
+  }
+}
 
 .bp-large .row.itinerary-row .itinerary-instruction-column:not(.to)::after {
     left: 3px;
 }
 
 .bp-large .row.itinerary-row {
+  max-width: $itinerary-route-max-width;
+  margin-left: 0;
+
+ .itinerary-time-column {
+    @include font-narrow-medium;
+    font-size: 10pt;
+ }
+
   .itinerary-time-column {
     .itinerary-time-column-time {
       font-size: 21px;
@@ -381,6 +565,11 @@ $itinerary-route-max-width: 500px;
       min-height: 10px;
       margin-bottom: 7px;
     }
+
+    &.end {
+      min-height: 0;
+    }
+
     .itinerary-icon {
       font-size: 13px;
       margin-left: -24px;
@@ -445,12 +634,11 @@ div.itinerary-container-content {
 
 .itinerary-leg-agency {
   @extend .itinerary-leg-text-gray;
-  padding-top: 10px;
   .agency-link-container {
     max-width:calc(100% - 1em);
     white-space: nowrap;
-    padding-top: 15px;
-    padding-bottom: 10px;
+    margin-top: 0.7em;
+    margin-bottom: 0.80em;
     .agency-link {
       font-size: 10px;
       .external-link-container { max-width: calc(100% - 1em);}
@@ -640,7 +828,6 @@ div.itinerary-container-content {
   @include font-medium;
   font-weight: 600;
   a {
-
     text-decoration: none;
     color: white;
   }
@@ -652,4 +839,13 @@ div.itinerary-container-content {
   .agency-link-container {
     padding:0;
   }
+}
+
+.itinerary-leg-container {
+  margin-left: 16.6%;
+  width: 70%;
+  }
+
+.mobile .itinerary-leg-container {
+  margin-left: 20%;
 }

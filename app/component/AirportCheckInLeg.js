@@ -4,16 +4,19 @@ import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function AirportCheckInLeg(props) {
+  const modeClassName = 'wait';
   return (
-    <div style={{ width: '100%' }} className="row itinerary-row">
+    <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className="small-10 columns itinerary-instruction-column wait"
@@ -62,6 +65,7 @@ AirportCheckInLeg.propTypes = {
   }).isRequired,
   startTime: React.PropTypes.number.isRequired,
   focusAction: React.PropTypes.func.isRequired,
+  index: React.PropTypes.number.isRequired,
 };
 
 export default AirportCheckInLeg;
