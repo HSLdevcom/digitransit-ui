@@ -32,11 +32,15 @@ function mapToSlider(value, arr) {
   return best;
 }
 
+const WALKBOARDCOST_MIN = 1;
+const WALKBOARDCOST_DEFAULT = 600;
+const WALKBOARDCOST_MAX = 3600;
+
 // Get default settings
 const defaultSettings = {
   accessibilityOption: 0,
   minTransferTime: 180,
-  walkBoardCost: 600,
+  walkBoardCost: WALKBOARDCOST_DEFAULT,
   walkReluctance: 2,
   walkSpeed: 1.2,
 };
@@ -83,7 +87,6 @@ class CustomizeSearch extends React.Component {
     this.state = {
       accessibilityOption: 0,
       minTransferTime: 0,
-      modes: [],
       walkBoardCost: 0,
       walkReluctance: 0,
       walkSpeed: 0,
@@ -111,7 +114,8 @@ class CustomizeSearch extends React.Component {
     }
 
     this.walkBoardCostSliderValues =
-      CustomizeSearch.getSliderStepsArray(1, 1800, 600).reverse().map(num => Math.round(num));
+      CustomizeSearch.getSliderStepsArray(WALKBOARDCOST_MIN, WALKBOARDCOST_MAX,
+        WALKBOARDCOST_DEFAULT).reverse().map(num => Math.round(num));
     if (custSettings.walkBoardCost) {
       this.walkBoardCostInitVal = custSettings.walkBoardCost
         && mapToSlider(

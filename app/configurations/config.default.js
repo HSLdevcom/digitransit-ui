@@ -157,9 +157,8 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch back in april
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/citybike',
@@ -266,9 +265,8 @@ export default {
       defaultValue: true,
     },
 
-    // TODO: Switch back in april
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false,
     },
 

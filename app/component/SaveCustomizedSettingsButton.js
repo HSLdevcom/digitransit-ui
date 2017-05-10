@@ -91,7 +91,7 @@ class SaveCustomizedSettingsButton extends React.Component {
           <div className="save-settings">
             <hr />
             <button className="save-settings-button" onClick={this.setSettingsData}>
-              <FormattedMessage tagName="h4" defaultMessage="Tallenna asetukset" id="settings-savebutton" />
+              <FormattedMessage defaultMessage="Tallenna asetukset" id="settings-savebutton" />
             </button>
           </div>
         </section>
