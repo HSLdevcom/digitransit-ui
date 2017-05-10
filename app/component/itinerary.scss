@@ -331,8 +331,6 @@ $itinerary-route-max-width: 420px;
         position: relative;
       }
     }
-
-
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
@@ -341,13 +339,11 @@ $itinerary-route-max-width: 420px;
       }
       font-size: 14pt;
     }
-
     .leg-call {
       .icon {
         font-size: 1.8em;
       }
     }
-
     .original-time {
       text-decoration: line-through;
       color: $gray;
@@ -373,6 +369,7 @@ $itinerary-route-max-width: 420px;
       margin-top: -1em;
     }
   }
+
   .itinerary-instruction-column.start::before {
      content: "";
   }
@@ -501,13 +498,12 @@ $itinerary-route-max-width: 420px;
     .icon {
       font-size: 24px;
     }
-
     .vehicle-number {
       font-size: $font-size-normal;
     }
   }
 
-  .itinerary-instruction-column {
+  .itinerary-instruction-column { 
     font-size: $font-size-normal;
     min-height: 75px;
 
@@ -802,6 +798,9 @@ div.itinerary-container-content {
   width: 70%;
   }
 
+.vehicle-number-container-v {
+        margin-top: 4px;
+  }
 
 .mobile {
   .itinerary-leg-container {
@@ -826,4 +825,7 @@ div.itinerary-container-content {
       max-width: auto;
     }
   }
+  .vehicle-number-container-v {
+      margin-top: 0;
+    }
 }

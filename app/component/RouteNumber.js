@@ -50,7 +50,7 @@ function RouteNumber(props) {
       {props.vertical === false ?
         <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
           {props.text}</span>
-          : <div><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+          : <div className="vehicle-number-container-v"><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
             {props.text}
           </span></div> }
     </span>
