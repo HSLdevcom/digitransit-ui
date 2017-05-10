@@ -5,18 +5,6 @@
 # set -e
 # set -x
 
-# Kills process tree
-killtree() {
-  if [ -n "$1" ]; then
-    local _pid=$1
-    kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
-    for _child in $(pgrep -P ${_pid}); do
-      killtree ${_child}
-    done
-    kill -TERM ${_pid}
-  fi
-}
-
 SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
 SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
 FIREFOX_BINARY="firefox/firefox-bin"
@@ -64,8 +52,10 @@ $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $NWENV --retries 3
 TESTSTATUS=$?
 echo "Done"
 
-killtree $DRIVER_PID
+kill -HUP $DRIVER_PID
 
 echo "Exiting with status $TESTSTATUS"
+ps aux
+
 
 exit $TESTSTATUS
