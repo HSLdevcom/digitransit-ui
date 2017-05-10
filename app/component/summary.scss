@@ -117,7 +117,7 @@
   padding: 0 calc(0.7em + 1.5rem) 0 0.7em;
   box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
   border-radius: 3px;
-  & .time-input-field {
+  .time-input-field {
     width: 1.5em;
     padding-right: 0 !important;
     padding-left: 0 !important;
@@ -127,11 +127,16 @@
       box-shadow: none !important;
       border-color: none !important;
     }
+    &#inputMinutes{
+      text-align: left;
+    }
+    &#inputHours{
+      text-align: right;
+    }
   }
   .digit-separator {
-    margin-top: 5px;
+    margin: 6px 3px;
     color: $link-color;
-    margin-right: 2px;
   }
 }
 
