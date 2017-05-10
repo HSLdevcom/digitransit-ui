@@ -33,7 +33,7 @@
     display: inline-block;
     background-image: none;
     background-color: $white;
-    color: $primary-color;
+    color: $link-color;
     border: none;
     border-radius: $border-radius;
     appearance: none;
@@ -79,7 +79,7 @@
   .fake-select-arrow {
     font-size: 0.5rem;
     width: 2em;
-    color: $primary-color;
+    color: $link-color;
   }
 
   .time-selector {
@@ -131,7 +131,7 @@
   }
   .digit-separator {
     margin-top: 5px;
-    color: $primary-color;
+    color: $link-color;
     margin-right: 2px;
   }
 }
@@ -196,7 +196,7 @@
 
   .right-offcanvas-toggle {
       span {
-        color: $primary-color;
+        color: $link-color;
         font-size: $font-size-small;
       }
       border-radius: $border-radius;
@@ -218,7 +218,7 @@
   }
 
   span {
-    color: $primary-color;
+    color: $link-color;
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
@@ -230,7 +230,7 @@
   background-color: $white;
   border: solid 1px $light-gray;
   border-radius: $border-radius-small;
-  color: $primary-color;
+  color: $link-color;
   display: flex;
   align-items: center;
   min-height: 30px;

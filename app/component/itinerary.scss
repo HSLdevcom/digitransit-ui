@@ -132,7 +132,7 @@ $itinerary-route-max-width: 500px;
     font-weight: $font-weight-bold;
     margin-top: 0.5em;
     a {
-      color: $primary-color;
+      color: $link-color;
       text-decoration: none;
     }
   }
@@ -456,14 +456,14 @@ div.itinerary-container-content {
       .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
-        color: $primary-color;
+        color: $link-color;
         max-width: 100%;
       }
       .external-link-icon-outer {
         color: white;
       }
       .external-link-icon {
-        color: $primary-color;
+        color: $link-color;
       }
     }
   }

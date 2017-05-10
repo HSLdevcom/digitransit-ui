@@ -44,7 +44,7 @@
     display: inline-block;
     border-radius: 20px;
     padding: 2px 36px 5px 8px;
-    background-color: $hilight-color;
+    background-color: $link-color;
     color: $primary-font-color;
 
     cursor: pointer;
@@ -73,8 +73,8 @@
   #splash-searchfield {
     display: flex;
     @include font-medium;
-    color: $primary-color;
-    border-bottom: 2px solid $primary-color;
+    color: $link-color;
+    border-bottom: 2px solid $link-color;
     .icon {
       margin-left: 1rem;
     }

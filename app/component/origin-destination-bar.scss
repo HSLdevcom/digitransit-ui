@@ -11,7 +11,7 @@
     @include font-book;
     font-size: $font-size-small;
     cursor: pointer;
-    color: $primary-color;
+    color: $link-color;
     display: inline-block;
     padding-left: 17px;
     position: relative;
@@ -71,7 +71,7 @@
     border: solid 1px $light-gray;
     border-radius: $border-radius;
     background-color: $white;
-    color: $primary-color;
+    color: $link-color;
     cursor: pointer;
     display: inline-block;
 
