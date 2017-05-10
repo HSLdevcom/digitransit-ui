@@ -79,6 +79,7 @@ class RouteStop extends React.Component {
     </ComponentUsageExample>;
 
   render() {
+
     const { vehicles,
             stop,
             mode,

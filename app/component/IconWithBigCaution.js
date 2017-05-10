@@ -2,7 +2,6 @@ import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
 const IconWithBigCaution = ({ id, img, className, color }) => (
   <IconWithIcon
     id={id}

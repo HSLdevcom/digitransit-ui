@@ -33,6 +33,7 @@ const getRouteStopSvg = (first, last, color) => (
       stroke="white"
       opacity="0.2"
     />
+
     <circle strokeWidth="2" stroke={color || 'currentColor'} fill="white" cx="6" cy="13" r="5" />
   </svg>
 );
