@@ -17,9 +17,20 @@
     position: relative;
     min-width: 0;
     margin: 0 $padding-medium;
+    box-sizing: content-box;
+
+    &:hover {
+      .link-name {
+        color: $secondary-color;
+        border-bottom: 1px solid $secondary-color;
+        transition: color 300ms ease-out;
+        transition: border-bottom 300ms ease-out;
+      }
+    }
 
     .link-name {
       @extend .overflow-fade;
+      border-bottom: 1px solid transparent;
     }
 
     .from-link span:first-child::before {
@@ -58,10 +69,7 @@
       width: 100%;
 
     }
-    &:hover {
-      border-bottom: 1px solid $secondary-color;
-      color: $secondary-color;
-    }
+
   }
 
   .switch {
