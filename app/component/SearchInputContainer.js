@@ -107,13 +107,21 @@ export default class SearchInputContainer extends Component {
     }
   }
 
+  getInput() {
+    get(this, 'autowhatever.input', null);
+  }
+
   blur() {
     // hide safari keyboard
-    this.autowhatever.input.blur();
+    if (this.getInput() != null) {
+      this.getInput().blur();
+    }
   }
 
   focus = () => {
-    this.autowhatever.input.focus();
+    if (this.getInput() != null) {
+      this.getInput().focus();
+    }
   }
 
   handleOnKeyDown = (event, eventProps) => {
@@ -209,11 +217,6 @@ export default class SearchInputContainer extends Component {
       this.props.onSuggestionSelected(name, item);
     }
   }
-
-  clearInput = () => {
-    this.handleUpdateInputNow({ target: { value: '' } });
-    this.focus();
-  };
 
   renderItemsOrEmpty(children) {
     let elem;
