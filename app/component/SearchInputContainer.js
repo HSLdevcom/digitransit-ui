@@ -86,6 +86,10 @@ export default class SearchInputContainer extends Component {
     return result;
   }
 
+  getInput() {
+    get(this, 'autowhatever.input', null);
+  }
+
   focusItem(i) {  // eslint-disable-line class-methods-use-this
     if (L.Browser.touch) {
       return;
@@ -105,10 +109,6 @@ export default class SearchInputContainer extends Component {
       }
       event.preventDefault();
     }
-  }
-
-  getInput() {
-    get(this, 'autowhatever.input', null);
   }
 
   blur() {
