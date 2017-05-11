@@ -54,9 +54,10 @@ class TransitLeg extends React.Component {
       </span>];
 
     const firstLegClassName = this.props.index === 0 ? ' start' : '';
-    const modeClassName =
+    /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
-
+    */
+    const modeClassName = this.props.mode.toLowerCase();
     const StopInfo = ({ stops, leg, toggleFunction }) => {
       const stopCount = (stops && stops.length) || 0;
       const message = (this.state.showIntermediateStops &&
