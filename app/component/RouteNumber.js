@@ -35,20 +35,24 @@ function RouteNumber(props) {
     />);
   };
 
+  // props.vertical is FALSE in Near you view
+  // props.vertical is TRUE in itinerary view
   const largeClass = props.large ? 'large' : '';
   return (
 
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        {icon(props.isCallAgency, props.hasDisruption)}
+        { props.vertical === true ?
+          <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
+        : icon(props.isCallAgency, props.hasDisruption)}
         {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
-
-        {props.vertical ? <br /> : null}
-
       </span>
-      <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
-        {props.text}
-      </span>
+      {props.vertical === false ?
+        <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+          {props.text}</span>
+          : <div className="vehicle-number-container-v"><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+            {props.text}
+          </span></div> }
     </span>
   );
 }
