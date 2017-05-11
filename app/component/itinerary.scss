@@ -26,6 +26,7 @@ $itinerary-route-max-width: 420px;
     &.bicycle { @include getCircleSvg($bicycle-color, $fill); }
     &.car { @include getCircleSvg($car-color, $fill); }
     &.via { @include getCircleSvg($walk-color, $fill); }
+    &.call { @include getCircleSvg($bus-color, $fill); }
 }
 
 
@@ -71,6 +72,12 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-main {
+<<<<<<< HEAD
+=======
+  width: 92%;
+  padding-top: 20px;
+
+>>>>>>> master
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -246,7 +253,6 @@ $itinerary-route-max-width: 420px;
     min-width: 24px;
     margin-right: 2.2%;
     position: relative;
-    max-height: 200px;
   }
 
   .leg-before-circle {
@@ -266,6 +272,7 @@ $itinerary-route-max-width: 420px;
     &.bicycle { @include setModeCircles($bicycle-color); }
     &.car { @include setModeCircles($car-color); }
     &.via { @include setModeCircles($walk-color); }
+    &.call { @include setModeCircles($bus-color); }
   }
   }
 
@@ -285,6 +292,14 @@ $itinerary-route-max-width: 420px;
       border: none;
       width: 8px;
       left: 7px;
+    }
+    &.call {
+      border-left: dashed 1px;
+      border-right: dashed 1px;
+      border-color: #aaaaaa;
+      width: 6px;
+      height: 100%;
+      background: $white;
     }
   }
 
@@ -313,8 +328,6 @@ $itinerary-route-max-width: 420px;
         position: relative;
       }
     }
-
-
     .icon {
       &.realtime-icon.realtime {
         top: -0.3em;
@@ -323,13 +336,11 @@ $itinerary-route-max-width: 420px;
       }
       font-size: 14pt;
     }
-
     .leg-call {
       .icon {
         font-size: 1.8em;
       }
     }
-
     .original-time {
       text-decoration: line-through;
       color: $gray;
@@ -346,37 +357,15 @@ $itinerary-route-max-width: 420px;
       width: inherit;
     }
   }
-/*
-  .itinerary-instruction-column::before {
- //   content: "⚬";
-    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
-    font-size: 24px;
-    position: absolute;
-    left: -2px;
-    top: -6px;
+  .special-icon {
+    &.call, &.disruption {
+      min-height: 24px;
+      min-width: 24px;
+      margin-left: 1em;
+      position: absolute;
+      margin-top: -1em;
+    }
   }
-*/
-/*
-  .itinerary-instruction-column.intermediate::before {
-    content: "●";
-    //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
-  }
-  */
-/*
-  &:last-child .itinerary-instruction-column::before {
-    // content: "⚬";
-    content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");    font-size: 24px;
-    position: absolute;
-    left: -2.5px;
-    top: -6px;
-  }
-*/
-/*
-  &:last-child .itinerary-instruction-column.intermediate::before {
- //   content: "●";
-content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
-}
-*/
 
   .itinerary-instruction-column.start::before {
      content: "";
@@ -393,30 +382,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
  .itinerary-main > div:nth-child(1)::after {
    content: "";
  }
-
-/*
-  Stop lines
- .itinerary-instruction-column:not(.to)::after {
-    content: "";
-    position: absolute;
-    top: 17px;
-    bottom: -30px;
-    left: 3px;
-    border-left: solid 4px;
-  }
-*/
-
-  .itinerary-instruction-column.call:not(.to)::after {
-     content: "";
-     position: absolute;
-     top: 17px;
-     bottom: -10px;
-     left: 3px;
-     border-left: dashed 1px;
-     width: 4px;
-     border-right: dashed 1px;
-   }
-
   .itinerary-instruction-column.intermediate:not(.to)::after {
     top: 0px;
   }
@@ -508,6 +473,7 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
 
   }
 }
+<<<<<<< HEAD
 
 .mobile {
   .itinerary-leg-first-row {
@@ -515,6 +481,8 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
   }
 }
 
+=======
+>>>>>>> master
 .bp-large .row.itinerary-row .itinerary-instruction-column:not(.to)::after {
     left: 3px;
 }
@@ -536,7 +504,6 @@ content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' wi
     .icon {
       font-size: 24px;
     }
-
     .vehicle-number {
       font-size: $font-size-normal;
     }
@@ -776,26 +743,28 @@ div.itinerary-container-content {
   background-color: rgba(254, 209, 0, 0.3);
   position:absolute;
   top:0;
-  left:0;
+  left:4%;
   margin-top: 2em;
   margin-left: 10px;
   margin-right: 10px;
   border-radius: $border-radius;
+  height: calc(100% - 2.3em);
+  top: -0.4em;
 }
 
 .itinerary-instruction-column.call {
   .itinerary-transit-leg-route {
     padding-top: $padding-medium;
-    &.call {
+    &.call, &.disruption {
       padding-top: 2em;
       padding-right: 1em;
+      width: 90%;
     }
   }
   .warning-message {
     white-space: normal;
     color: $black;
     .route-name {
-      white-space: nowrap;
       @include font-bold;
     }
   }
@@ -835,6 +804,34 @@ div.itinerary-container-content {
   width: 70%;
   }
 
-.mobile .itinerary-leg-container {
-  margin-left: 20%;
+.vehicle-number-container-v {
+        margin-top: 4px;
+  }
+
+.mobile {
+  .itinerary-leg-container {
+    margin-left: 20%;
+  }
+  .itinerary-row {
+    width: 90%;
+    display: flex;
+   .leg-before-line {
+    &.call {
+      height: 105%;
+    }
+  }
+  .special-icon {
+    &.call, &.disruption {
+      margin-left: 5px;
+    }
+    }
+  }
+  .itinerary-transit-leg-route {
+    &.call, &.disruption {
+      max-width: auto;
+    }
+  }
+  .vehicle-number-container-v {
+      margin-top: 0;
+    }
 }
