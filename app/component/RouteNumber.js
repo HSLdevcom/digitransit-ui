@@ -52,7 +52,7 @@ function RouteNumber(props) {
         {props.withBar && <div className="bar-container"><div style={{ color: color || 'currentColor' }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
       </span>
       {props.vertical === false ?
-        <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+        <span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
           {props.text}</span>
           : <div className="vehicle-number-container-v"><span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
             {props.text}
