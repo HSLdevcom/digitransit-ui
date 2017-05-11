@@ -24,7 +24,7 @@
   flex-direction: row;
   align-items: stretch;
 
-  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
+  input[type="date"], input[type="time"].time-selector, input[type="text"], select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
     height: 2.6em;
@@ -108,8 +108,15 @@
     text-align: left;
   }
 
-  .arrive, .date {
+  .arrive, .date, input[type="time"].time-selector {
     border: solid 1px $light-gray;
+    box-shadow: none;
+  }
+
+  select {
+    &:hover {
+      border: solid 1px $link-color;
+    }
   }
 }
 .time-input-container {
@@ -136,7 +143,7 @@
     }
   }
   .digit-separator {
-    margin: 6px 3px;
+    margin: 0.35em 3px;
     color: $link-color;
   }
 }
@@ -212,6 +219,7 @@
 
   &:hover {
     background-color: $white;
+    border: solid 1px $link-color;
     //outline: none;
     box-shadow: none;
   }
