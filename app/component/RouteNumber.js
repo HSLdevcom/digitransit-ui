@@ -9,6 +9,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();
+  const color = props.color;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
@@ -18,17 +19,20 @@ function RouteNumber(props) {
 
   const icon = (isCallAgency, hasDisruption) => {
     if (isCallAgency) {
-      return (<IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
+      return (<IconWithIcon color={color} className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
     }
 
     if (hasDisruption) {
       return (<IconWithBigCaution
+        color={color}
         className={mode}
         img={`icon-icon_${mode}`}
       />);
     }
 
+
     return (<IconWithIcon
+      color={color}
       className={mode}
       img={`icon-icon_${mode}`}
       subIcon=""
@@ -45,12 +49,12 @@ function RouteNumber(props) {
         { props.vertical === true ?
           <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
         : icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div style={{ color: color || 'currentColor' }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
       </span>
       {props.vertical === false ?
         <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
           {props.text}</span>
-          : <div className="vehicle-number-container-v"><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+          : <div className="vehicle-number-container-v"><span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
             {props.text}
           </span></div> }
     </span>
@@ -116,6 +120,7 @@ RouteNumber.description = () =>
 
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,
+  color: React.PropTypes.string,
   text: React.PropTypes.node,
   large: React.PropTypes.bool,
   vertical: React.PropTypes.bool,

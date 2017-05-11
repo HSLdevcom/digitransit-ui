@@ -10,7 +10,7 @@ import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const getRouteStopSvg = (first, last) => (
+const getRouteStopSvg = (first, last, color) => (
   <svg className="route-stop-schematized" >
     <line
       x1="6"
@@ -18,7 +18,7 @@ const getRouteStopSvg = (first, last) => (
       y1={first ? 13 : 0}
       y2={last ? 13 : 67}
       strokeWidth="5"
-      stroke="currentColor"
+      stroke={color || 'currentColor'}
     />
     <line
       x1="6"
@@ -29,12 +29,13 @@ const getRouteStopSvg = (first, last) => (
       stroke="white"
       opacity="0.2"
     />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="13" r="5" />
+    <circle strokeWidth="2" stroke={color || 'currentColor'} fill="white" cx="6" cy="13" r="5" />
   </svg>
 );
 
 class RouteStop extends React.Component {
   static propTypes = {
+    color: React.PropTypes.string,
     vehicles: React.PropTypes.array,
     stop: React.PropTypes.object,
     mode: React.PropTypes.string,
@@ -78,7 +79,16 @@ class RouteStop extends React.Component {
     </ComponentUsageExample>;
 
   render() {
-    const { vehicles, stop, mode, distance, last, first, currentTime, className } = this.props;
+
+    const { vehicles,
+            stop,
+            mode,
+            distance,
+            last,
+            first,
+            currentTime,
+            className,
+            color } = this.props;
 
     const vehicleTripLinks = vehicles && vehicles.map(vehicle => (
       <Relay.RootContainer
@@ -105,7 +115,7 @@ class RouteStop extends React.Component {
         <div className="columns route-stop-now">{vehicleTripLinks}</div>
         <Link to={`/pysakit/${stop.gtfsId}`}>
           <div className={`columns route-stop-name ${mode}`}>
-            {getRouteStopSvg(first, last)}
+            {getRouteStopSvg(first, last, color || 'currentColor')}
             {stop.name}
             <br />
             <div style={{ whiteSpace: 'nowrap' }}>
