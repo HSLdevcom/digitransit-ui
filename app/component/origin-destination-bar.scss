@@ -2,7 +2,6 @@
   background-color: $background-color-darker;
   width: 100%;
   padding-top: calc(#{$padding-large} - 15px);
-  padding-bottom: calc(#{$padding-medium} - 8px);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -82,6 +81,10 @@
     color: $link-color;
     cursor: pointer;
     display: inline-block;
+
+    &:hover {
+      border: solid 1px $link-color;
+    }
 
     .icon {
       position: relative;
