@@ -9,13 +9,13 @@ const round = (distance) => {
   return distance - (distance % 100);
 };
 
-const Distance = (props) => {
+const Distance = (props, config) => {
   let distance;
   let roundedDistance;
 
   if (props.distance) {
     roundedDistance = round(props.distance);
-    if (isImperial()) {
+    if (isImperial(config)) {
       distance = displayImperialDistance(props.distance);
     } else if (roundedDistance < 1000) {
       distance = `${roundedDistance}m`;
@@ -46,6 +46,8 @@ Distance.description = () =>
 Distance.propTypes = {
   distance: React.PropTypes.number.isRequired,
 };
+
+Distance.contextTypes = { config: React.PropTypes.object.isRequired };
 
 Distance.displayName = 'Distance';
 
