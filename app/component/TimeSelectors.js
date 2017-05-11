@@ -1,19 +1,18 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-// import { isMobile } from '../util/browser';
+import { isMobile } from '../util/browser';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-// import supportsInputType from '../util/supportsInputType';
-// import TimeInput from './TimeInput';
-// import CustomInputTime from './CustomInputTime';
+import supportsInputType from '../util/supportsInputType';
+import CustomInputTime from './CustomInputTime';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
 ) {
- // const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
+  const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
@@ -43,7 +42,16 @@ export default function TimeSelectors(
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
-      <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
+      {supportsInputType('time') && isMobile ?
+        <div id="time" className={timeInputClass}>
+          <CustomInputTime
+            time={time.format('HH:mm')}
+            changeTime={changeTime}
+          />
+          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" key="caret" />
+        </div> :
+        <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
+        }
     </div>
   );
 }
