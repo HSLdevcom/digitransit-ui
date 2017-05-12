@@ -30,6 +30,8 @@
     .link-name {
       @extend .overflow-fade;
       border-bottom: 1px solid transparent;
+      transition: color 200ms ease-out;
+      transition: border-bottom 200ms ease-out;
     }
 
     .from-link span:first-child::before {
