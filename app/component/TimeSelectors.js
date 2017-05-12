@@ -42,16 +42,7 @@ export default function TimeSelectors(
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
-      {supportsInputType('time') && isMobile ?
-        <div id="time" className={timeInputClass}>
-          <CustomInputTime
-            time={time.format('HH:mm')}
-            changeTime={changeTime}
-          />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" key="caret" />
-        </div> :
-        <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
-        }
+      <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
     </div>
   );
 }
