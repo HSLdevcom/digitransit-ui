@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
-function PlatformNumber({ number, short = true }) {
+function PlatformNumber({ number, short }) {
   if (!number) {
     return false;
   }
@@ -32,7 +32,12 @@ function PlatformNumber({ number, short = true }) {
 
 PlatformNumber.propTypes = {
   number: React.PropTypes.string,
-  short: React.PropTypes.number,
+  short: React.PropTypes.bool,
+};
+
+PlatformNumber.defaultProps = {
+  number: false,
+  short: true,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';
