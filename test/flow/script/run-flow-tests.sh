@@ -1,20 +1,9 @@
 #!/bin/bash
+# Run flow tests on CI
 
 # Enable for debugging
 # set -e
 # set -x
-
-# Kills process tree
-killtree() {
-  if [ -n "$1" ]; then
-    local _pid=$1
-    kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
-    for _child in $(pgrep -P ${_pid}); do
-      killtree ${_child}
-    done
-    kill -TERM ${_pid}
-  fi
-}
 
 SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
 SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
@@ -40,21 +29,10 @@ function checkDependencies() {
       tar xjf firefox-45.4.0esr.tar.bz2
     fi
   fi
-
 }
 
-echo "Running ui-tests"
+echo "Running flow-tests"
 echo "***************************"
-
-#echo "Starting local server."
-#START_SERVER=1
-#CONFIG=hsl PORT=8080 npm run dev-nowatch &
-if [ -z "$NOSERVER" ]; then
-  echo "Building app"
-  npm run build; CONFIG=hsl PORT=8080 npm run start &
-  NODE_PID=$!
-  sleep 15
-fi
 
 if [ -z "$NWENV" ]; then
   NWENV="chromedriver"
@@ -69,14 +47,15 @@ DBUS_SESSION_BUS_ADDRESS=/dev/null CHROMEDRIVER_VERSION=2.24 $CHROMEDRIVER --ver
 DRIVER_PID=$!
 sleep 4
 
-echo "Running tests"
+echo "Running tests NWENV=$NWENV"
 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $NWENV --retries 3
 TESTSTATUS=$?
 echo "Done"
 
-killtree $NODE_PID
-killtree $DRIVER_PID
+kill -HUP $DRIVER_PID
 
 echo "Exiting with status $TESTSTATUS"
+ps aux
+
 
 exit $TESTSTATUS

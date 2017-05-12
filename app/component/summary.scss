@@ -2,6 +2,14 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow-x: auto;
+}
+
+@media print {
+  .desktop .summary {
+    display: block;
+    height: auto;
+  }
 }
 
 .summary-no-route-found {
@@ -214,6 +222,17 @@
   flex: 1 1 auto;
 }
 
+
+@media print {
+  .summary {
+    display:block;
+    height: auto;
+    .summary-list-container {
+      display:block;
+      height:auto;
+    }
+  }
+}
 
 .summary-content {
   height: 100%;

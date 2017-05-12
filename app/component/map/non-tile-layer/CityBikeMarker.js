@@ -11,6 +11,7 @@ import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
+import Loading from '../../Loading';
 
 let L;
 
@@ -96,7 +97,7 @@ class CityBikeMarker extends React.Component {
           route={new CityBikeRoute({ stationId: this.props.station.stationId })}
           renderLoading={() => (
             <div className="card" style={{ height: '12rem' }}>
-              <div className="spinner-loader" />
+              <Loading />
             </div>
           )}
           renderFetched={data => (<CityBikePopupWithContext {...data} context={this.context} />)}

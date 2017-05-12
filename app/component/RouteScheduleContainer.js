@@ -9,6 +9,7 @@ import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import RouteScheduleDateSelect from './RouteScheduleDateSelect';
 import PrintLink from './PrintLink';
+import Loading from './Loading';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -66,7 +67,7 @@ class RouteScheduleContainer extends Component {
     const { stops } = this.props.pattern;
     const trips = RouteScheduleContainer.transformTrips(this.props.pattern.tripsForDate, stops);
     if (trips == null) {
-      return <div className="spinner-loader" />;
+      return <Loading />;
     } else if (trips.length === 0) {
       return (
         <div className="text-center">

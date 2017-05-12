@@ -1,5 +1,6 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { locationShape } from 'react-router';
 import Splash from './Splash';
 
 import { getIntroShown, setIntroShown } from '../store/localStorage';
@@ -13,6 +14,7 @@ class SplashOrComponent extends React.Component {
 
   static contextTypes = {
     config: React.PropTypes.object.isRequired,
+    location: locationShape.isRequired,
   };
 
   constructor(props, { config }) {
@@ -29,7 +31,10 @@ class SplashOrComponent extends React.Component {
   }
 
   render() {
-    if (!this.props.displaySplash && !this.state.shouldShowIntro) {
+    const location = this.context.location;
+    const searchOpen = location && location.state && location.state.oneTabSearchModalOpen;
+
+    if (!this.props.displaySplash && !searchOpen && !this.state.shouldShowIntro) {
       return this.props.children;
     }
     return (

@@ -2,12 +2,14 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
+import get from 'lodash/get';
 
 import meta from '../meta';
 import configureMoment from '../util/configure-moment';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
+import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -41,6 +43,18 @@ class TopLevel extends React.Component {
     breakpoint: React.PropTypes.string.isRequired,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    configureMoment(context.intl.locale, context.config);
+    const host = context.headers && (context.headers['x-forwarded-host'] || context.headers.host);
+    const url = context.url;
+
+    const hasTrackingPixel = get(context, 'config.showAdformTrackingPixel', false);
+    this.trackingPixel = host && host.indexOf('127.0.0.1') === -1 && host.indexOf('localhost') === -1 && hasTrackingPixel ? <HSLAdformTrackingPixel /> : undefined;
+
+    this.metadata = meta(this.context.intl.locale, host, url, this.context.config);
+  }
+
   getChildContext() {
     return {
       location: this.props.location,
@@ -55,13 +69,8 @@ class TopLevel extends React.Component {
     'large'
 
   render() {
-    configureMoment(this.context.intl.locale, this.context.config);
-    const host = this.context.headers && (this.context.headers['x-forwarded-host'] || this.context.headers.host);
-    const url = this.context.url;
-    const metadata = meta(this.context.intl.locale, host, url, this.context.config);
-    const topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
-
-    const disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
+    this.topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
+    this.disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
 
     let content;
 
@@ -70,7 +79,7 @@ class TopLevel extends React.Component {
     } else if (this.props.width < 900) {
       content = (
         <MobileView
-          map={disableMapOnMobile || this.props.map}
+          map={this.disableMapOnMobile || this.props.map}
           content={this.props.content}
           header={this.props.header}
         />
@@ -90,12 +99,14 @@ class TopLevel extends React.Component {
 
     return (
       <div className="fullscreen">
-        {!topBarOptions.hidden && <AppBarContainer title={this.props.title} {...topBarOptions} />}
-        <Helmet {...metadata} />
-        <section ref="content" className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
+        {!this.topBarOptions.hidden &&
+          <AppBarContainer title={this.props.title} {...this.topBarOptions} />}
+        <Helmet {...this.metadata} />
+        <section className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
           {this.props.meta}
           { content }
         </section>
+        {this.trackingPixel}
       </div>
     );
   }

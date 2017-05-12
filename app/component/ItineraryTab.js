@@ -29,8 +29,6 @@ class ItineraryTab extends React.Component {
     lon: undefined,
   };
 
-  shouldComponentUpdate = () => false
-
   getState = () => ({
     lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
     lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
@@ -101,6 +99,9 @@ export default Relay.createContainer(ItineraryTab, {
           type
           currency
           cents
+          components {
+            fareId
+          }
         }
         legs {
           mode
@@ -157,12 +158,22 @@ export default Relay.createContainer(ItineraryTab, {
           route {
             shortName
             gtfsId
+            longName
+            agency {
+              phone
+            }
           }
           trip {
             gtfsId
             tripHeadsign
             pattern {
               code
+            }
+            stoptimes {
+              pickupType
+              stop {
+                gtfsId
+              }
             }
           }
         }

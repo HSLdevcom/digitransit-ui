@@ -22,7 +22,10 @@ class MessageStore extends Store {
 
   /* Message format:
    * { id: id,
-   *   content: { fi: "foo", sv: "bar" }
+   *   content: {
+   *     fi: {"title":"title", "content": "content"},
+   *     sv: {"title":"title", "content": "content"},
+   *   }
    * }
    */
   // TODO: Generate message id if missing

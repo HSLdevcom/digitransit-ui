@@ -10,6 +10,7 @@ import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import IntermediateLeg from './IntermediateLeg';
 import PlatformNumber from './PlatformNumber';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 class TransitLeg extends React.Component {
 
@@ -28,7 +29,7 @@ class TransitLeg extends React.Component {
 
   renderIntermediate() {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
-      return this.props.leg.intermediateStops.map(
+      const stopList = this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
           key={stop.gtfsId}
           mode={this.props.mode}
@@ -37,6 +38,7 @@ class TransitLeg extends React.Component {
           focusFunction={this.context.focusFunction({ lat: stop.lat, lon: stop.lon })}
         />),
       );
+      return <div className="itinerary-leg-container" >{stopList}</div>;
     }
     return null;
   }
@@ -52,9 +54,10 @@ class TransitLeg extends React.Component {
       </span>];
 
     const firstLegClassName = this.props.index === 0 ? ' start' : '';
-    const modeClassName =
+    /* const modeClassName =
       `${this.props.mode.toLowerCase()}${this.props.index === 0 ? ' from' : ''}`;
-
+    */
+    const modeClassName = this.props.mode.toLowerCase();
     const StopInfo = ({ stops, leg, toggleFunction }) => {
       const stopCount = (stops && stops.length) || 0;
       const message = (this.state.showIntermediateStops &&
@@ -75,20 +78,17 @@ class TransitLeg extends React.Component {
 
     return (<div
       key={this.props.index}
-      style={{
-        width: '100%',
-      }}
       className="row itinerary-row"
     >
-      <Link
-        onClick={e => e.stopPropagation()}
-        to={
-          `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
-          this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
-          // TODO: Create a helper function for generationg links
-        }
-      >
-        <div className="small-2 columns itinerary-time-column">
+      <div className="small-2 columns itinerary-time-column">
+        <Link
+          onClick={e => e.stopPropagation()}
+          to={
+            `/linjat/${this.props.leg.route.gtfsId}/pysakit/${
+            this.props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
+            // TODO: Create a helper function for generationg links
+          }
+        >
           <div className="itinerary-time-column-time">
             <span className={this.props.leg.realTime ? 'realtime' : ''}>
               {this.props.leg.realTime &&
@@ -103,8 +103,9 @@ class TransitLeg extends React.Component {
             vertical
             fadeLong
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
+      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
       <div
         onClick={this.props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}

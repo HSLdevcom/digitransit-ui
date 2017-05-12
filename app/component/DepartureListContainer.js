@@ -34,6 +34,7 @@ const asDepartures = stoptimes => (
       pattern: stoptime.trip.pattern,
       headsign: stoptime.stopHeadsign,
       trip: stoptime.trip,
+      pickupType: stoptime.pickupType,
     };
   })
 );
@@ -178,6 +179,9 @@ export default Relay.createContainer(DepartureListContainer, {
                 longName
                 mode
                 color
+                agency {
+                  name
+                }
               }
               code
             }

@@ -5,6 +5,7 @@ import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 import NoFavouritesPanel from './NoFavouritesPanel';
+import Loading from './Loading';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -30,9 +31,7 @@ const FavouriteRoutes = ({ routes }) => {
       Component={FavouriteRouteListContainer}
       forceFetch route={new FavouriteRouteListContainerRoute({
         ids: routes,
-      })} renderLoading={() => (
-        <div className="spinner-loader" />
-      )}
+      })} renderLoading={Loading}
     />);
   }
   return <NoFavouritesPanel />;
@@ -46,9 +45,8 @@ const FavouritesPanel = ({
   routes,
 }) => (
   <div className="frontpage-panel">
-    <div className="row favourite-locations-container">
-      <FavouriteLocationsContainer />
-    </div><NextDeparturesListHeader />
+    <FavouriteLocationsContainer />
+    <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
     </div>

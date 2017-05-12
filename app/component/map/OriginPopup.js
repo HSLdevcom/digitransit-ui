@@ -42,7 +42,6 @@ class OriginPopup extends React.Component {
     return (
       <Popup
         context={this.context}
-        ref="popup"
         offset={[50, this.props.yOffset]}
         closeButton={false}
         maxWidth={this.context.config.map.genericMarker.popup.maxWidth}

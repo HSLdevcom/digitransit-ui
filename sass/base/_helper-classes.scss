@@ -10,6 +10,9 @@
 .bus {
   color: $bus-color;
 }
+.map .call {
+  color: $white;
+}
 .tram {
   color: $tram-color;
 }
@@ -98,6 +101,13 @@
   position: relative;
   height: 100%;
 }
+
+@media print {
+    .fullscreen {
+      height: auto;
+    }
+}
+
 .padding-small  {
   padding: 0.45em 1em;
 }

@@ -42,7 +42,8 @@ export default {
     ],
   },
 
-  shouldShowIntro: true,
+  shouldShowIntro: false,
+  redirectReittiopasParams: true,
 
   aboutThisService: {
     fi: [

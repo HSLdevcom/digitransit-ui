@@ -7,28 +7,28 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
 function CarLeg(props) {
   const distance = displayDistance(parseInt(props.leg.distance, 10));
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
+  const modeClassName = 'car';
 
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row" >
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
-          {(props.index === 0) && (
-            <div><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
           <div>
             {props.leg.from.name}
             {props.children}

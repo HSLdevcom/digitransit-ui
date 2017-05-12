@@ -34,6 +34,7 @@ $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
 $realtime-color: #46b32a;
+$visited-link-color: #8c4799;
 
 /* Component palette */
 $title-color: $white;
@@ -54,7 +55,7 @@ $tram-color: $livi-tram-green;
 $metro-color: $livi-subway-orange;
 $rail-color: $livi-rail-purple;
 $ferry-color: $livi-ferry-blue;
-$citybike-color: #FBB800;
+$citybike-color: #F2B62D;
 $walk-color: #6ba3af;
 $wait-color: #979797;
 $bicycle-color: #64be14;
@@ -102,4 +103,6 @@ $nav-logo: url('digitransit-logo.png');
 $nav-logo-width: 170px;
 $nav-logo-height: 1.8em;
 
-$spinner-image: url('../default/default-spinner.png')
+$spinner-image: url('../default/default-spinner.png');
+$no-favourites-img: url('../default/favourites_empty_tip.png');
+
