@@ -12,6 +12,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 const getAlerts = (route, currentTime, intl) => {
   const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
+  const color = route.color;
 
   return route.alerts.map((alert) => {
     // Try to find the alert in user's language, or failing in English, or failing in any language
@@ -53,6 +54,7 @@ const getAlerts = (route, currentTime, intl) => {
       <RouteAlertsRow
         key={alert.id}
         routeMode={routeMode}
+        color={color ? `#${color}` : null}
         routeLine={routeLine}
         header={header}
         description={description}
@@ -104,6 +106,7 @@ export default Relay.createContainer(RouteAlertsContainerWithTime,
       route: () => Relay.QL`
         fragment on Route {
           mode
+          color
           shortName
           alerts {
             id

@@ -12,10 +12,11 @@ export default function RouteAlertsRow({
   routeMode,
   routeLine,
   expired,
+  color,
 }) {
   return (
     <div className={cx('route-alert-row', { expired })}>
-      <RouteNumber mode={routeMode} text={routeLine} vertical />
+      <RouteNumber color={color} mode={routeMode} text={routeLine} vertical />
       <Icon img="icon-icon_caution" className="caution" />
       <div className="route-alert-contents">
         <div className="route-alert-duration">
@@ -40,6 +41,7 @@ RouteAlertsRow.propTypes = {
   routeMode: React.PropTypes.string.isRequired,
   routeLine: React.PropTypes.string.isRequired,
   expired: React.PropTypes.bool.isRequired,
+  color: React.PropTypes.string.isRequired,
 };
 
 RouteAlertsRow.description = () =>
