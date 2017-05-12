@@ -342,7 +342,7 @@ export default class SearchInputContainer extends Component {
             onTouchStart: this.handleOnTouchStart,
           }}
         />
-        {this.props.children}
+
       </div>);
   }
 }
