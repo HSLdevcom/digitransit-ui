@@ -1549,7 +1549,7 @@ const translations = {
     'very-unlikely': 'Väldigt osannolikt',
     'via-leg-stop-duration': 'Mellanstopp {stayDuration}',
     'via-point': 'Mellanstopp',
-    'view-route': 'Visa linjen',
+    'view-route': 'Visa linje',
     'wait-amount-of-time': 'Vänta {duration}',
     'walk-distance-duration': 'Gå {distance} ({duration})',
     'walking': 'Gång',
