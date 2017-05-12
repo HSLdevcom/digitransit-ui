@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import find from 'lodash/find';
 import get from 'lodash/get';
-import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ReactAutowhatever from 'react-autowhatever';
 import NetworkError from './NetworkError';
@@ -29,7 +28,6 @@ export default class SearchInputContainer extends Component {
     className: PropTypes.string,
     id: PropTypes.string,
     placeholder: PropTypes.string,
-    children: PropTypes.node,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
     layers: React.PropTypes.array,
@@ -65,16 +63,6 @@ export default class SearchInputContainer extends Component {
       suggestions: results,
       focusedItemIndex: 0,
     }, () => this.focusItem(0));
-  }
-
-  onSwitchTab = (tab) => {
-    this.setState({
-      type: tab,
-      focusedItemIndex: 0,
-    }, () => {
-      this.focusItem(0);
-      this.focus();
-    });
   }
 
   /**
@@ -260,38 +248,6 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderMultiWrapper = ({ children, ...rest }) => (
-    <div {...rest} >
-      <div className="react-autowhatever__type-selector">
-        <a
-          onClick={() => this.onSwitchTab('endpoint')}
-          className={cx({ selected: this.state.type === 'endpoint' })}
-          id="endpoint-tab"
-        >
-          <FormattedMessage id="destination" defaultMessage="Destination" />
-          {this.state.type !== 'endpoint' && (
-            <span className="item-count">
-              {get(this.getItems('endpoint'), 'results.length', 0)}
-            </span>
-          )}
-        </a>
-        <a
-          onClick={() => this.onSwitchTab('search')}
-          className={cx({ selected: this.state.type === 'search' })}
-          id="search-tab"
-        >
-          <FormattedMessage id="route-stop-or-keyword" defaultMessage="About the route or stop" />
-          {this.state.type !== 'search' && (
-            <span className="item-count">
-              {get(this.getItems('search'), 'results.length', 0)}
-            </span>
-          )}
-        </a>
-      </div>
-      {this.renderItemsOrEmpty(children)}
-    </div>
-  )
-
   renderItem = (item) => { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
@@ -342,7 +298,6 @@ export default class SearchInputContainer extends Component {
             onTouchStart: this.handleOnTouchStart,
           }}
         />
-
       </div>);
   }
 }
