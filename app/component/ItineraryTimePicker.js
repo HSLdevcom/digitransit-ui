@@ -74,8 +74,9 @@ export default class ItineraryTimePicker extends React.Component {
     if (val.id === 'minutes' && (val.time === 0 || val.time === 59)) {
     // If the minute value is increased so it loops to the min value, add one hour
     // If the minute value is decreased so it loops to the max value, reduce one hour
+      const toggledHour = (this.state.hours < 1 ? 23 : parseInt(this.state.hours, 10) + val.add);
       toggledState = {
-        hours: parseInt(this.state.hours, 10) + val.add,
+        hours: toggledHour < 0 ? 23 : toggledHour,
         minutes: val.time,
       };
       requestString = `${parseInt(this.state.hours, 10) + val.add} ${val.time}`;
