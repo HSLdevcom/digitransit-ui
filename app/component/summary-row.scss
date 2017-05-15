@@ -80,7 +80,7 @@
 
     // When we don't have a start date box, we can add some spacing
     .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
-      margin-top: -1px;
+      margin-top: -2px;
     }
 
     .itinerary-start-date {
@@ -295,7 +295,7 @@
       padding-top: 17px;
 
       .itinerary-first-leg-start-time {
-        padding-top: 1px;
+        margin-top: -1px;
         font-size: $font-size-normal;
       }
       .itinerary-start-date {
