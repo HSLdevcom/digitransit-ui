@@ -7,6 +7,14 @@ import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
+import { isBrowser } from '../util/browser';
+
+let L;
+
+if (isBrowser) {
+  // eslint-disable-next-line
+  L = require('leaflet');
+}
 
 export default function ItineraryPageMap(
   { itinerary, params, from, to, routes, center },
@@ -81,6 +89,25 @@ export default function ItineraryPageMap(
 
   const showScale = fullscreen || breakpoint === 'large';
 
+// onCenterMap() used to check if the layer has a marker for an itinerary
+// stop, emulate a click on the map to open up the popup
+  const onCenterMap = (element) => {
+    if (!element || !center) {
+      return;
+    }
+    element.map.leafletElement.closePopup();
+    const latlngPoint = new L.LatLng(center.lat, center.lon);
+    element.map.leafletElement.eachLayer((layer) => {
+      if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
+        layer.fireEvent('click', {
+          latlng: latlngPoint,
+          layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
+          containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
+        });
+      }
+    });
+  };
+
   return (
     <Map
       className="full itinerary"
@@ -92,6 +119,7 @@ export default function ItineraryPageMap(
       fitBounds={Boolean(bounds)}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
+      ref={onCenterMap}
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
