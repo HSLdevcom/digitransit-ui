@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-
+import cloneDeep from 'lodash/cloneDeep';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -19,7 +19,6 @@ import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { isCallAgencyPickupType } from '../util/legUtils';
-import cloneDeep from 'lodash/cloneDeep';
 
 class ItineraryLegs extends React.Component {
 
