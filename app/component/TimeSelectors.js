@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
-import { isMobile } from '../util/browser';
-
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryTimePicker from './ItineraryTimePicker';
