@@ -28,7 +28,7 @@ if [ -n "$NWENV" ]; then
   RESULT=$?
   if [ $RESULT -eq 0 ]; then
     echo "Pushing to docker"
-    if [ "$TRAVIS_BRANCH" = "master" ]; then
+    if [[ "$TRAVIS_BRANCH" = "master" && "$TRAVIS_PULL_REQUEST" = "false" ]]; then
       docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_AUTH
       docker push hsldevcom/digitransit-ui:ci-$TRAVIS_COMMIT
       docker tag hsldevcom/digitransit-ui:ci-$TRAVIS_COMMIT hsldevcom/digitransit-ui:latest
