@@ -14,11 +14,13 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
-const Leg = ({ routeNumber, leg }) => (
+const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
-    <div className="departure-stop overflow-fade">
-      &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-    </div>
+    { large &&
+      <div className="departure-stop overflow-fade">
+        &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
+      </div>
+    }
     {routeNumber}
   </div>
 );
@@ -26,9 +28,10 @@ const Leg = ({ routeNumber, leg }) => (
 Leg.propTypes = {
   routeNumber: React.PropTypes.node.isRequired,
   leg: React.PropTypes.object.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, intl }) => {
+const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -54,15 +57,16 @@ const RouteLeg = ({ leg, intl }) => {
     />);
   }
 
-  return <Leg leg={leg} routeNumber={routeNumber} />;
+  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
 };
 
 RouteLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
-const ModeLeg = ({ leg, mode }) => {
+const ModeLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -72,21 +76,23 @@ const ModeLeg = ({ leg, mode }) => {
       withBar
     />
   );
-  return <Leg leg={leg} routeNumber={routeNumber} />;
+  return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
 };
 
 ModeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
-const CityBikeLeg = ({ leg }) => (
-  <ModeLeg leg={leg} mode="CITYBIKE" />
+const CityBikeLeg = ({ leg, large }) => (
+  <ModeLeg leg={leg} mode="CITYBIKE" large={large} />
 );
 
 CityBikeLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
   mode: React.PropTypes.string.isRequired,
+  large: React.PropTypes.bool.isRequired,
 };
 
 const ViaLeg = ({ leg }) => (
@@ -127,9 +133,11 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
 
     lastLegRented = leg.rentedBike;
 
+    const large = props.breakpoint === 'large';
+
     if (leg.transitLeg || leg.rentedBike || noTransitLegs || leg.intermediatePlace) {
       if (leg.rentedBike) {
-        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode="CITYBIKE" large={large} />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
       } else if (leg.route) {
@@ -139,9 +147,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
         ) {
           legs.push(<ViaLeg leg={leg} />);
         }
-        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} intl={intl} />);
+        legs.push(<RouteLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} intl={intl} large={large} />);
       } else {
-        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} />);
+        legs.push(<ModeLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} mode={leg.mode} large={large} />);
       }
     }
   });
