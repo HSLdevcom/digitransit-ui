@@ -86,6 +86,10 @@ export default class SearchInputContainer extends Component {
     return result;
   }
 
+  getInput() {
+    get(this, 'autowhatever.input', null);
+  }
+
   focusItem(i) {  // eslint-disable-line class-methods-use-this
     if (L.Browser.touch) {
       return;
@@ -109,11 +113,15 @@ export default class SearchInputContainer extends Component {
 
   blur() {
     // hide safari keyboard
-    this.autowhatever.input.blur();
+    if (this.getInput() != null) {
+      this.getInput().blur();
+    }
   }
 
   focus = () => {
-    this.autowhatever.input.focus();
+    if (this.getInput() != null) {
+      this.getInput().focus();
+    }
   }
 
   handleOnKeyDown = (event, eventProps) => {
@@ -209,11 +217,6 @@ export default class SearchInputContainer extends Component {
       this.props.onSuggestionSelected(name, item);
     }
   }
-
-  clearInput = () => {
-    this.handleUpdateInputNow({ target: { value: '' } });
-    this.focus();
-  };
 
   renderItemsOrEmpty(children) {
     let elem;

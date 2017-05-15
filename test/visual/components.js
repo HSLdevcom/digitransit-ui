@@ -32,7 +32,6 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
-          throw error;
         }
       });
     });
