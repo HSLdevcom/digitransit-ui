@@ -5,14 +5,12 @@ import { isMobile } from '../util/browser';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-import supportsInputType from '../util/supportsInputType';
-import CustomInputTime from './CustomInputTime';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
 export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
 ) {
-  const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
+  // const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
