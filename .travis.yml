@@ -6,7 +6,6 @@ env:
  - LINT=1
  - NWENV=chromedriver,firefox
  - VISUAL=edge13
- - VISUAL=safari10
  - VISUAL=chrome50
  - VISUAL=ie11
 
