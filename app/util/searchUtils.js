@@ -11,6 +11,7 @@ import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
+import mapPeliasModality from './pelias-to-modality-mapper';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -54,13 +55,33 @@ function mapStops(stops) {
 }
 
 
-function filterMatchingToInput(list, input, fields) {
-  if (typeof input === 'string' && input.length > 0) {
-    return list.filter((item) => {
-      const parts = fields.map(pName => get(item, pName));
+function filterMatchingToInput(list, Input, fields) {
+  if (typeof Input === 'string' && Input.length > 0) {
+    const input = Input.toLowerCase().trim();
 
-      const test = parts.join(' ').toLowerCase();
-      return test.includes(input.toLowerCase());
+    return list.filter((item) => {
+      let parts = [];
+      fields.forEach((pName) => {
+        let value = get(item, pName);
+
+        if ((pName === 'properties.label' || pName === 'address') && value) {
+          // special case: drop last part i.e. city, because it is too coarse match target
+          value = value.split(',');
+          if (value.length > 1) {
+            value.splice(value.length - 1, 1);
+          }
+          value = value.join();
+        }
+        if (value) {
+          parts = parts.concat(value.toLowerCase().replace(/,/g, ' ').split(' '));
+        }
+      });
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i].indexOf(input) === 0) { // accept match only at word start
+          return true;
+        }
+      }
+      return false;
     });
   }
 
@@ -86,7 +107,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
       'properties.label',
       'properties.shortName',
       'properties.longName',
-      'properties.name',
       'properties.desc',
     ]);
 
@@ -132,7 +152,8 @@ export function getGeocodingResult(input, geolocation, language, config) {
   const opts = { text: input, ...config.searchParams, ...focusPoint, lang: language };
 
   return getJson(config.URL.PELIAS, opts)
-    .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'));
+    .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'))
+    .then(features => mapPeliasModality(features, config));
 }
 
 function getFavouriteRoutes(favourites, input) {
@@ -228,8 +249,8 @@ function getRoutes(input, config) {
   ).then(suggestions => take(suggestions, 10));
 }
 
-function getStops(input, origin) {
-  if (typeof input !== 'string' || input.trim().length === 0) {
+function getStops(input, origin, config) {
+  if (typeof input !== 'string' || input.trim().length === 0 || config.search.usePeliasStops) {
     return Promise.resolve([]);
   }
   const number = input.match(/^\d+$/);
@@ -272,11 +293,14 @@ export const getAllEndpointLayers = () => (
 
 export function executeSearchImmediate(getStore, { input, type, layers, config }, callback) {
   const position = getStore('PositionStore').getLocationState();
-  let endpointSearches = [];
-  let searchSearches = [];
+  let endpointSearches;
+  let searchSearches;
+  let endpointSearchesPromise;
+  let searchSearchesPromise;
   const endpointLayers = layers || getAllEndpointLayers();
 
   if (type === 'endpoint' || type === 'all') {
+    endpointSearches = { type: 'endpoint', term: input, results: [] };
     const favouriteLocations = getStore('FavouriteLocationStore').getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
     const language = getStore('PreferencesStore').getLanguage();
@@ -300,47 +324,46 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       searchComponents.push(getGeocodingResult(input, position, language, config));
     }
 
-    endpointSearches = Promise.all(searchComponents)
-    .then(flatten)
-    .then(uniqByLabel)
-    .catch(err => console.error(err)); // eslint-disable-line no-console
+    endpointSearchesPromise = Promise.all(searchComponents)
+      .then(flatten)
+      .then(uniqByLabel)
+      .then((results) => { endpointSearches.results = results; })
+      .catch((err) => { endpointSearches.error = err; });
 
     if (type === 'endpoint') {
-      endpointSearches.then(callback);
+      endpointSearchesPromise.then(() => callback([endpointSearches]));
       return;
     }
   }
 
   if (type === 'search' || type === 'all') {
+    searchSearches = { type: 'search', term: input, results: [] };
     const origin = getStore('EndpointStore').getOrigin();
     const location = origin.lat ? origin : position;
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
     const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
-    searchSearches = Promise.all([
+    searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
       getFavouriteStops(favouriteStops, input, origin),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
-      getStops(input, location),
+      getStops(input, location, config),
     ])
     .then(flatten)
     .then(uniqByLabel)
-    .catch(err => console.error(err)); // eslint-disable-line no-console
+    .then((results) => { searchSearches.results = results; })
+    .catch((err) => { searchSearches.error = err; });
 
     if (type === 'search') {
-      searchSearches.then(callback);
+      searchSearchesPromise.then(() => { callback([searchSearches]); });
       return;
     }
   }
 
-  Promise.all([endpointSearches, searchSearches])
-    .then(([endpoints, search]) => callback([
-      { name: 'endpoint', items: endpoints },
-      { name: 'search', items: search },
-    ]))
-    .catch(err => console.error(err)); // eslint-disable-line no-console
+  Promise.all([endpointSearchesPromise, searchSearchesPromise])
+    .then(() => callback([searchSearches, endpointSearches]));
 }
 
 const debouncedSearch = debounce(executeSearchImmediate, 300);
@@ -350,9 +373,15 @@ export const executeSearch = (getStore, data, callback) => {
   debouncedSearch(getStore, data, callback);
 };
 
-export const withCurrentTime = (getStore, location) => ({
-  ...location,
-  query: {
-    time: getStore('TimeStore').getCurrentTime().unix(),
-  },
-});
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time ? query.time : getStore('TimeStore').getCurrentTime().unix(),
+    },
+  };
+};

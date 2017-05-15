@@ -60,6 +60,36 @@ $route-schedule-date-height: 36px;
   }
 }
 
+.route-warning-message {
+  background-color: rgba(254, 209, 0, 0.3);
+  .upper {
+    @include font-bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: $font-size-small;
+    line-height: 1.1rem;
+    padding-right: 1.5em;
+    span:nth-child(1) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 1.8em;
+      padding-right: $padding-small;
+    }
+  }
+  .call-button {
+    margin-bottom: 0;
+  }
+}
+
+
+@media print {
+  div.route-page-content {
+    display: block;
+  }
+}
+
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
@@ -281,7 +311,7 @@ $route-schedule-date-height: 36px;
     height: 0;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-top: 7px solid $primary-color;
+    border-top: 7px solid $link-color;
   }
 }
 
@@ -396,7 +426,7 @@ div.route-tabs {
       }
 
       &.is-active {
-        border-bottom: 2px solid $primary-color ;
+        border-bottom: 2px solid $link-color ;
         color: $black;
 
         .icon {
@@ -430,7 +460,7 @@ div.route-tabs {
         display: block;
         width: 1.5em;
         height: 1.5em;
-        fill: $gray-blue;
+        fill: $link-color;
         color: $background-color;
         margin: $padding-small auto;
       }
@@ -613,17 +643,21 @@ div.route-tabs {
 }
 
 nav.top-bar .title .route-number {
+  font-size: 24px;
   .vehicle-number {
     color: $title-color;
+    vertical-align: middle;
   }
+  .route-number-title {
+    font-size: 25px;
+    span > span:nth-child(1) {
+        span > svg.icon {
+          //margin-top: -4px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: $border-radius;
+        }
+    }
 
-  font-size: 24px;
-  .icon {
-    margin-top: -4px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: $border-radius;
-    height: 26px;
-    width: 26px;
   }
 }
 
@@ -646,14 +680,14 @@ nav.top-bar .title .route-number {
       .external-link-container { max-width: calc(100% - 1em);}
       a {
         font-weight:$font-weight-bold;
-        color: $primary-color;
+        color: $link-color;
         max-width: 100%;
       }
       .icon.external-link-icon-outer {
         color: white;
       }
       .icon.external-link-icon {
-        color: $primary-color;
+        color: $link-color;
       }
     }
   }

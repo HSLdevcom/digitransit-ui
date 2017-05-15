@@ -7,6 +7,7 @@ import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
 import IconWithCaution from './IconWithCaution';
 import IconWithBigCaution from './IconWithBigCaution';
+import IconWithIcon from './IconWithIcon';
 import ComponentDocumentation from './ComponentDocumentation';
 import Departure from './Departure';
 import RouteNumber from './RouteNumber';
@@ -83,6 +84,8 @@ import RailLeg from './RailLeg';
 import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
+import CallAgencyLeg from './CallAgencyLeg';
+import CallAgencyWarning from './CallAgencyWarning';
 
 const components = {
   Icon,
@@ -90,6 +93,7 @@ const components = {
   SelectedIconWithTail,
   IconWithBigCaution,
   IconWithCaution,
+  IconWithIcon,
   ComponentDocumentation,
   Departure,
   RouteNumber,
@@ -167,6 +171,8 @@ const components = {
   FerryLeg,
   CarLeg,
   ViaLeg,
+  CallAgencyLeg,
+  CallAgencyWarning,
 };
 
 function getColors() {

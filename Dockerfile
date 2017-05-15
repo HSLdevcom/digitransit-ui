@@ -2,7 +2,6 @@ FROM node:6
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
-LABEL io.openshift.expose-services 8080:http
 
 ENV \
   # Where the app is built and run inside the docker fs \
@@ -37,16 +36,10 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  yarn global add node-gyp && \
-  yarn install && \
+  yarn install --silent && \
   yarn add --force node-sass && \
   yarn run build && \
   rm -rf static docs test /tmp/* && \
-  yarn cache clean && \
-  chmod -R a+rwX . && \
-  chown -R 9999:9999 ${WORK}
-
-# Don't run as root, because there's no reason to (https://docs.docker.com/engine/articles/dockerfile_best-practices/#user).
-USER 9999
+  yarn cache clean
 
 CMD yarn run start

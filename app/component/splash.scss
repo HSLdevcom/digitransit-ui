@@ -73,8 +73,8 @@
   #splash-searchfield {
     display: flex;
     @include font-medium;
-    color: $primary-color;
-    border-bottom: 2px solid $primary-color;
+    color: $link-color;
+    border-bottom: 2px solid $link-color;
     .icon {
       margin-left: 1rem;
     }

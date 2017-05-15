@@ -7,6 +7,7 @@ import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeCl
 import RouteMarkerPopup from './route/RouteMarkerPopup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import { asString as iconAsString } from '../IconWithTail';
+import Loading from '../Loading';
 
 import { isBrowser } from '../../util/browser';
 
@@ -138,7 +139,7 @@ export default class VehicleMarkerContainer extends React.PureComponent {
             (message.tripStartTime.substring(2, 4) * 60),
         })}
         renderLoading={() => (
-          <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
+          <div className="card" style={{ height: '12rem' }}><Loading /></div>
         )}
         renderFetched={data => (
           <RouteMarkerPopupWithContext {...data} message={message} context={this.context} />

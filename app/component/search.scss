@@ -90,7 +90,7 @@ $search-header-height: 45px;
 
     input[type="text"].react-autowhatever__input {
       flex: 0 0 auto;
-      border: 1px solid $primary-color;
+      border: 1px solid $link-color;
       border-radius: 4px;
       height: 3em;
       width: 100%;
@@ -250,7 +250,7 @@ $search-header-height: 45px;
   z-index: 1;
 
   a {
-    color: $primary-color;
+    color: $link-color;
     height: 100%;
     padding: 10px 10px;
     margin: 0 3px;
@@ -269,7 +269,7 @@ $search-header-height: 45px;
     }
 
     .item-count {
-      background-color: $primary-color;
+      background-color: $link-color;
       color: $primary-font-color;
       font-size: 0.8em;
       margin-left: 0.5em;
@@ -406,6 +406,12 @@ ul.react-autowhatever__items-list {
     }
   }
 
+  &.OldSearch, &.FavouritePlace {
+    p.suggestion-name, span.suggestion-type {
+      color: $visited-link-color;
+    }
+  }
+
   .suggestion-label {
     font-size: $font-size-xxsmall;
     color: $gray;
@@ -469,7 +475,7 @@ div.search-modal {
 
     &:focus {
       box-shadow: none;
-      border-color: $primary-color
+      border-color: $link-color;
     }
   }
 }

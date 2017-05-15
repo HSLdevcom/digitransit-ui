@@ -167,6 +167,7 @@ function getPolyfills(userAgent, config) {
     es7: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['gated'] },
+    'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
 
@@ -181,7 +182,9 @@ function getPolyfills(userAgent, config) {
     features,
     minify: process.env.NODE_ENV !== 'development',
     unknown: 'polyfill',
-  });
+  }).then(polyfills =>
+    // no sourcemaps for inlined js
+    polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''));
 }
 
 function getScripts(req, config) {
