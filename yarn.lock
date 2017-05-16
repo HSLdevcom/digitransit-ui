@@ -35,7 +35,7 @@ accepts@~1.2.12, accepts@~1.2.13:
     mime-types "~2.1.6"
     negotiator "0.5.3"
 
-accepts@~1.3.3:
+accepts@~1.3.1, accepts@~1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.3.tgz#c3ca7434938648c3e0d9c1e328dd68b622c284ca"
   dependencies:
@@ -1221,7 +1221,7 @@ bluebird-q@^2.1.1:
   dependencies:
     bluebird "^3.4.6"
 
-bluebird@^2.9.30:
+bluebird@^2.9.25, bluebird@^2.9.30:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
@@ -1485,6 +1485,10 @@ builtin-status-codes@^2.0.0:
 bytes@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.1.0.tgz#ac93c410e2ffc9cc7cf4b464b38289067f5e47b4"
+
+bytes@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.2.0.tgz#fd35464a403f6f9117c2de3609ecff9cae000588"
 
 bytes@2.4.0:
   version "2.4.0"
@@ -1875,7 +1879,7 @@ compress-commons@~0.2.0:
     node-int64 "~0.3.0"
     readable-stream "~1.0.26"
 
-compressible@~2.0.5:
+compressible@~2.0.5, compressible@~2.0.7:
   version "2.0.9"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.9.tgz#6daab4e2b599c2770dd9e21e7a891b1c5a755425"
   dependencies:
@@ -2965,6 +2969,10 @@ event-emitter@~0.3.4:
   dependencies:
     d "~0.1.1"
     es5-ext "~0.10.7"
+
+event-source-polyfill@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/event-source-polyfill/-/event-source-polyfill-0.0.9.tgz#18c6205d170ab09db889ffceaa33f0e493f14a50"
 
 event-stream@~3.3.0:
   version "3.3.4"
@@ -4088,7 +4096,7 @@ ignore@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.0.tgz#8d88f03c3002a0ac52114db25d2c673b0bf1e435"
 
-iltorb@^1.0.12:
+iltorb@^1.0.12, iltorb@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-1.0.13.tgz#9913538457bf39d3dac223ebb4d9990dbda1354f"
   dependencies:
@@ -5051,17 +5059,13 @@ lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
 
-lodash@4.17.4, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.17.4, lodash@^4.3.0:
+lodash@4.17.4, lodash@^4.0.0, lodash@^4.1.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 lodash@^3.10.1, lodash@^3.2.0, lodash@^3.5.0, lodash@^3.9.3:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.2.0:
-  version "4.17.2"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
 
 lodash@~2.4.1:
   version "2.4.2"
@@ -5127,7 +5131,7 @@ lru-cache@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.5.0.tgz#d82388ae9c960becbea0c73bb9eb79b6c6ce9aeb"
 
-lru-cache@^4.0.1, lru-cache@^4.0.2:
+lru-cache@^4.0.0, lru-cache@^4.0.1, lru-cache@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.0.2.tgz#1d17679c069cda5d040991a09dbc2c0db377e55e"
   dependencies:
@@ -5517,6 +5521,12 @@ multimatch@^2.0.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
+multipipe@^0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/multipipe/-/multipipe-0.3.1.tgz#92625525761ba04feaa09605b6382bce2c91f11f"
+  dependencies:
+    duplexer2 "^0.1.2"
+
 mutationobserver-shim@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/mutationobserver-shim/-/mutationobserver-shim-0.3.2.tgz#f4d5dae7a4971a2207914fb5a90ebd514b65acca"
@@ -5758,6 +5768,16 @@ node-sass@4.5.0:
 node-uuid@~1.4.0:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.7.tgz#6da5a17668c4b3dd59623bda11cf7fa4c1f60a6f"
+
+node-zopfli@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/node-zopfli/-/node-zopfli-1.4.0.tgz#51a974ed2221fcc1bb9dbed36682057fa4c1fa94"
+  dependencies:
+    bluebird "^2.9.25"
+    commander "^2.8.1"
+    defaults "^1.0.2"
+    nan "^2.0.0"
+    node-pre-gyp "^0.6.4"
 
 node-zopfli@^2.0.0:
   version "2.0.2"
@@ -6197,7 +6217,7 @@ performance-now@^0.2.0, performance-now@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
-phantomjs-prebuilt@2.1.14, phantomjs-prebuilt@^2.1.10:
+phantomjs-prebuilt@^2.1.10:
   version "2.1.14"
   resolved "https://registry.yarnpkg.com/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.14.tgz#d53d311fcfb7d1d08ddb24014558f1188c516da0"
   dependencies:
@@ -6296,9 +6316,9 @@ point-in-polygon@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
 
-polyfill-service@3.17.0:
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/polyfill-service/-/polyfill-service-3.17.0.tgz#1eb3dbd2609465787021945b064e21090a87e409"
+polyfill-service@3.18.0:
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/polyfill-service/-/polyfill-service-3.18.0.tgz#8a4685a1299a3f28b1d9600ae34b48c3e4f91072"
   dependencies:
     Base64 "^1.0.0"
     array.of "^0.1.1"
@@ -6310,6 +6330,7 @@ polyfill-service@3.17.0:
     convert-source-map "^1.3.0"
     denodeify "^1.2.1"
     dotenv "^4.0.0"
+    event-source-polyfill "^0.0.9"
     exists-sync "0.0.4"
     express "^4.14.1"
     fast-stats "0.0.3"
@@ -6343,12 +6364,15 @@ polyfill-service@3.17.0:
     request "^2.79.0"
     request-promise "^4.1.1"
     semver "^5.3.0"
+    shrink-ray "^0.1.3"
     stream-from-promise "^1.0.0"
     stream-to-string "^1.1.0"
+    string.fromcodepoint "^0.2.1"
     tsort "0.0.1"
     useragent "^2.1.12"
     usertiming "^0.1.8"
-    yaku "^0.17.8"
+    whatwg-fetch "^2.0.3"
+    yaku "0.17.11"
 
 polyline-encoded@0.0.8:
   version "0.0.8"
@@ -7808,6 +7832,22 @@ shelljs@^0.7.5:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
+shrink-ray@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/shrink-ray/-/shrink-ray-0.1.3.tgz#8ee4637399c495b897b4b7272ef4b0d7cea35725"
+  dependencies:
+    accepts "~1.3.1"
+    bytes "2.2.0"
+    compressible "~2.0.7"
+    debug "~2.2.0"
+    iltorb "^1.0.9"
+    lru-cache "^4.0.0"
+    multipipe "^0.3.0"
+    node-zopfli "^1.4.0"
+    on-headers "~1.0.1"
+    stream-buffers "^3.0.0"
+    vary "~1.1.0"
+
 sigmund@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sigmund/-/sigmund-1.0.1.tgz#3ff21f198cad2175f9f3b781853fd94d0d19b590"
@@ -8058,6 +8098,10 @@ stream-browserify@^2.0.0, stream-browserify@^2.0.1:
     inherits "~2.0.1"
     readable-stream "^2.0.2"
 
+stream-buffers@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-3.0.1.tgz#68a38c5faadeded79ff79988d368e3fb1325ef06"
+
 stream-combiner2@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stream-combiner2/-/stream-combiner2-1.1.1.tgz#fb4d8a1420ea362764e21ad4780397bebcb41cbe"
@@ -8143,6 +8187,10 @@ string-width@^2.0.0:
   dependencies:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^3.0.0"
+
+string.fromcodepoint@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string.fromcodepoint/-/string.fromcodepoint-0.2.1.tgz#8d978333c0bc92538f50f383e4888f3e5619d653"
 
 string_decoder@^0.10.25, string_decoder@~0.10.0, string_decoder@~0.10.x:
   version "0.10.31"
@@ -9023,6 +9071,10 @@ whatwg-fetch@>=0.10.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-1.1.1.tgz#ac3c9d39f320c6dce5339969d054ef43dd333319"
 
+whatwg-fetch@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
+
 whet.extend@~0.9.9:
   version "0.9.9"
   resolved "https://registry.yarnpkg.com/whet.extend/-/whet.extend-0.9.9.tgz#f877d5bf648c97e5aa542fadc16d6a259b9c11a1"
@@ -9154,9 +9206,9 @@ y18n@^3.2.0, y18n@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
 
-yaku@^0.17.8:
-  version "0.17.12"
-  resolved "https://registry.yarnpkg.com/yaku/-/yaku-0.17.12.tgz#a930a533997d000bf3b3259e9fd943e4cca73da9"
+yaku@0.17.11:
+  version "0.17.11"
+  resolved "https://registry.yarnpkg.com/yaku/-/yaku-0.17.11.tgz#2079a8b4dd45e6937ff87dd295735873e701f4d0"
 
 yallist@^2.0.0:
   version "2.0.0"
