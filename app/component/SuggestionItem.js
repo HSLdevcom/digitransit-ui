@@ -1,37 +1,39 @@
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
+import { Link } from 'react-router';
+import get from 'lodash/get';
 
 import Icon from './Icon';
 import { getLabel, getIcon } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SuggestionItem = pure((props) => {
+const SuggestionItem = pure(({ item, useTransportIcons }) => {
   let icon;
-  if (props.item.properties.mode && props.useTransportIcons) {
+  if (item.properties.mode && useTransportIcons) {
     icon = (
       <Icon
-        img={`icon-icon_${props.item.properties.mode}`}
-        className={props.item.properties.mode}
+        img={`icon-icon_${item.properties.mode}`}
+        className={item.properties.mode}
       />
     );
   } else {
     icon = (
       <Icon
-        img={getIcon(props.item.properties.layer)}
-        className={props.item.iconClass || ''}
+        img={getIcon(item.properties.layer)}
+        className={item.iconClass || ''}
       />
     );
   }
 
-  const label = getLabel(props.item.properties);
+  const label = getLabel(item.properties);
 
-  return (
+  const ri = (
     <div
       className={cx(
         'search-result',
-        props.item.type,
-        { favourite: props.item.type.startsWith('Favourite') },
+        item.type,
+        { favourite: item.type.startsWith('Favourite') },
       )}
     >
       <span className="autosuggestIcon">
@@ -42,6 +44,19 @@ const SuggestionItem = pure((props) => {
         <p className="suggestion-label" >{label[1]}</p>
       </div>
     </div>);
+  if (item.properties.layer === 'stop' && get(item, 'properties.id', '') !== undefined) {
+    /* eslint no-param-reassign: ["error", { "props": false }]*/
+    return (<div className="suggestion-item-stop"><div><Link
+      onClick={() => {
+        item.timetableClicked = false;
+      }}
+    >{ri}</Link></div><div className="suggestion-item-timetable"><Link
+      onClick={() => {
+        item.timetableClicked = true;
+      }}
+    ><Icon img="icon-icon_schedule" /><div className="suggestion-item-timetable-label">Aikataulu</div></Link></div></div>);
+  }
+  return ri;
 });
 
 SuggestionItem.propTypes = {

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import find from 'lodash/find';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ReactAutowhatever from 'react-autowhatever';
 import NetworkError from './NetworkError';
@@ -69,9 +70,20 @@ export default class SearchInputContainer extends Component {
    * Returns object containing results for specified type of undefined if no such results exist
    */
   getItems(typeParam) {
-    const type = typeParam || (this.props.type === 'all' ? this.state.type : this.props.type);
-    const result = find(this.state.suggestions, ['type', type]);
-    return result;
+    const type = typeParam || (this.props.type);
+
+    const endpoints = find(this.state.suggestions, ['type', 'endpoint']);
+
+    if (type === 'all') {
+      const all = {};
+      all.results = get(endpoints, 'results', []);
+      const search = find(this.state.suggestions, ['type', 'search']);
+      all.results = all.results.concat(get(search, 'results', []));
+      all.error = all.results.length === 0 && (get(endpoints, 'error') || get(search, 'error'));
+      return all;
+    }
+
+    return endpoints;
   }
 
   getInput() {
@@ -153,7 +165,6 @@ export default class SearchInputContainer extends Component {
       }, this.currentItemSelected);
 
       this.blur();
-      event.preventDefault();
     }
   }
 
@@ -197,14 +208,32 @@ export default class SearchInputContainer extends Component {
           { id: 'own-position', defaultMessage: 'Your current location' },
         );
       } else {
-        const type = (this.props.type === 'all' && this.state.type) || this.props.type;
+          // type is destination unless timetable of route was clicked
+        let type = 'destination';
+        switch (item.type) {
+          case 'Stop': // stop can be timetable or
+            if (item.timetableClicked === true) {
+              type = 'search';
+            }
+            break;
+          case 'Route':
+            type = 'search';
+            break;
+          default:
+        }
         this.context.executeAction(saveSearch, { item, type });
-        name = item.properties.label || getLabel(item.properties).join(', ');
       }
 
-      this.props.onSuggestionSelected(name, item);
+      name = item.properties.label || getLabel(item.properties).join(', ');
+
+      const clone = cloneDeep(item);
+      if (get(clone, 'properties.layer') === 'stop' && clone.timetableClicked === true && get(clone, 'properties.id') !== undefined) {
+        clone.properties.link = `/pysakit/${clone.properties.id.substring(5, clone.properties.id.indexOf('#'))}`;
+      }
+      this.props.onSuggestionSelected(name, clone);
     }
   }
+
 
   renderItemsOrEmpty(children) {
     let elem;

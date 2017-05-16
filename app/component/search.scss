@@ -20,6 +20,7 @@ $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
+$item-border-color: #eee;
 
 .search-form {
   top: 0;
@@ -208,6 +209,7 @@ $search-header-height: 45px;
   flex-direction: column;
 }
 
+
 .react-autowhatever__container {
   height: 100%;
   display: flex;
@@ -295,7 +297,7 @@ ul.react-autowhatever__items-list {
     overflow: hidden;
 
     &:not(:last-child) {
-      border-bottom: solid 1px #eee;
+      border-bottom: solid 1px $item-border-color;
     }
   }
 }
@@ -321,7 +323,7 @@ ul.react-autowhatever__items-list {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
   letter-spacing: $search-result-text-letter-spacing;
-  padding: 0.2em;
+  padding: 0;
 }
 
 .react-autowhatever__item--focused {
@@ -406,6 +408,7 @@ ul.react-autowhatever__items-list {
     }
   }
 
+
   &.OldSearch, &.FavouritePlace {
     p.suggestion-name, span.suggestion-type {
       color: $visited-link-color;
@@ -418,6 +421,39 @@ ul.react-autowhatever__items-list {
   }
 }
 
+.suggestion-item-stop {
+  padding: 1px;
+  display: flex;
+  flex-direction: row;
+  > div {
+    flex-grow: 1;
+  }
+  .suggestion-item-timetable {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-left: 1px solid $item-border-color;
+    a {
+      display: flex;
+      align-items: center;
+    }
+    span { //icon span
+      display: inline-block;
+      padding-right: $padding-small;
+      color: $primary-color;
+    }
+    div.suggestion-item-timetable-label {
+      display:inline-block;
+      @include font-bold;
+      color: $primary-color;
+      text-transform: uppercase;
+      font-size: $font-size-xxxsmall;
+    }
+  }
+}
 
 .bp-large .search-result {
   line-height: 1.25;
