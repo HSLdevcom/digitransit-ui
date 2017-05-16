@@ -415,7 +415,9 @@ $itinerary-route-max-width: 420px;
     }
 
     .itinerary-leg-first-row {
-      display: block;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       white-space: normal;
       color: $black;
       @include font-medium;
