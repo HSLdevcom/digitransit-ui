@@ -1,5 +1,6 @@
 import unzip from 'lodash/unzip';
-import { isBrowser } from './browser';
+import { isBrowser, isImperial } from './browser';
+
 
 /* eslint-disable global-require */
 const L = isBrowser ? require('leaflet') : null;
@@ -52,8 +53,24 @@ export function getDistanceToFurthestStop(coordinates, stops) {
            { stop: null, distance: 0 });
 }
 
-export function displayDistance(meters) {
+
+export function displayImperialDistance(meters) {
+  const feet = meters * 3.2808399;
+
   /* eslint-disable yoda */
+
+  if (feet < 100) {
+    return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
+  } else if (feet < 1000) {
+    return `${Math.round(feet / 50) * 50} ft`; // fifty feet
+  }
+  return `${(Math.round(feet / 528)) / 10} mi`; // tenth of a mile
+}
+
+export function displayDistance(meters, config) {
+  if (isImperial(config)) {
+    return displayImperialDistance(meters);
+  }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
   } else if (meters < 1000) {
@@ -64,8 +81,10 @@ export function displayDistance(meters) {
     return `${Math.round(meters / 1000)} km`; // kilometers
   }
   return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
-  /* eslint-enable yoda */
 }
+
+  /* eslint-enable yoda */
+
 
 // Return the bounding box of a latlon array of length > 0
 // If the box is smaller than 0.002x0.002, add padding
