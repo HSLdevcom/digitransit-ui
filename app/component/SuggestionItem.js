@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
 import { Link } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 
 import Icon from './Icon';
@@ -54,7 +55,7 @@ const SuggestionItem = pure(({ item, useTransportIcons }) => {
       onClick={() => {
         item.timetableClicked = true;
       }}
-    ><Icon img="icon-icon_schedule" /><div className="suggestion-item-timetable-label">Aikataulu</div></Link></div></div>);
+    ><Icon img="icon-icon_schedule" /><div className="suggestion-item-timetable-label"><FormattedMessage id="timetable" defaultMessage="Timetable" /></div></Link></div></div>);
   }
   return ri;
 });
