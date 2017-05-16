@@ -11,7 +11,16 @@ const getLocality = suggestion => suggestion.localadmin || suggestion.locality |
 
 memoize.Cache = Map;
 
+const getStopCode = (id) => {
+  console.log('getting stop code from:', id);
+  if (id === undefined || id.indexOf('#') === -1) {
+    return undefined;
+  }
+  return id.substring(id.indexOf('#') + 1);
+};
+
 export const getLabel = memoize((suggestion) => {
+  console.log('suggestion', suggestion);
   switch (suggestion.layer) {
     case 'currentPosition':
       return [suggestion.labelId, null];
@@ -42,10 +51,11 @@ export const getLabel = memoize((suggestion) => {
 
     case 'favouriteStop':
     case 'stop':
-      return suggestion.source === 'gtfs' ?
+      return suggestion.source.indexOf('gtfs') !== 0 ?
         [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
           <span key={suggestion.id}>
-            {suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}
+            {getStopCode(suggestion.id) && <StopCode code={getStopCode(suggestion.id)} />}
+            {suggestion.desc}
           </span>
         )];
     case 'station':
