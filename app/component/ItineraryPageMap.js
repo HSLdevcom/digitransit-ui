@@ -7,7 +7,7 @@ import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
-import { isBrowser } from '../util/browser';
+import { isBrowser, isMobile } from '../util/browser';
 
 let L;
 
@@ -96,16 +96,20 @@ export default function ItineraryPageMap(
       return;
     }
     element.map.leafletElement.closePopup();
-    const latlngPoint = new L.LatLng(center.lat, center.lon);
-    element.map.leafletElement.eachLayer((layer) => {
-      if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
-        layer.fireEvent('click', {
-          latlng: latlngPoint,
-          layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
-          containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
-        });
-      }
-    });
+    if (isMobile && fullscreen) {
+      const latlngPoint = new L.LatLng(center.lat, center.lon);
+      element.map.leafletElement.eachLayer((layer) => {
+        if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
+          layer.fireEvent('click', {
+            latlng: latlngPoint,
+            layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
+            containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
+          });
+        }
+      });
+    } else if (isMobile && !fullscreen) {
+      element.map.leafletElement.closePopup();
+    }
   };
 
   return (
