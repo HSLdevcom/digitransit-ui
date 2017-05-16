@@ -95,8 +95,9 @@ export default function ItineraryPageMap(
     if (!element || !center) {
       return;
     }
+    console.log(isMobile);
     element.map.leafletElement.closePopup();
-    if (isMobile && fullscreen) {
+    if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
       element.map.leafletElement.eachLayer((layer) => {
         if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
@@ -107,8 +108,6 @@ export default function ItineraryPageMap(
           });
         }
       });
-    } else if (isMobile && !fullscreen) {
-      element.map.leafletElement.closePopup();
     }
   };
 
