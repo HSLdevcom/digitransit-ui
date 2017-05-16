@@ -209,7 +209,7 @@ export default class SearchInputContainer extends Component {
         );
       } else {
           // type is destination unless timetable of route was clicked
-        let type = 'destination';
+        let type = 'endpoint';
         switch (item.type) {
           case 'Stop': // stop can be timetable or
             if (item.timetableClicked === true) {
