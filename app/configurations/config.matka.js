@@ -26,6 +26,8 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
 
+  feedIds: ['MATKA'],
+
   sprites: 'svg-sprite.default.svg',
 
   meta: {
