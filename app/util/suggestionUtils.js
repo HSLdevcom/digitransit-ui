@@ -12,7 +12,6 @@ const getLocality = suggestion => suggestion.localadmin || suggestion.locality |
 memoize.Cache = Map;
 
 const getStopCode = (id) => {
-  console.log('getting stop code from:', id);
   if (id === undefined || id.indexOf('#') === -1) {
     return undefined;
   }
@@ -20,7 +19,6 @@ const getStopCode = (id) => {
 };
 
 export const getLabel = memoize((suggestion) => {
-  console.log('suggestion', suggestion);
   switch (suggestion.layer) {
     case 'currentPosition':
       return [suggestion.labelId, null];
