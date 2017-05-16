@@ -46,6 +46,13 @@ export default {
   shortName: 'Digitransit',
 
   searchParams: {},
+  feedIds: [],
+
+/*
+ * by default search endpoints from all but gtfs sources, correct gtfs source
+ * figured based on feedIds config variable
+ */
+  searchSources: ['oa', 'osm', 'nlsfi'],
 
   search: {
     suggestions: {
