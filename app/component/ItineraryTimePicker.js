@@ -48,6 +48,11 @@ export default class ItineraryTimePicker extends React.Component {
         // Send new time request
         const requestString = timePropertyId === 'hours' ? `${newTime} ${this.state.minutes}` : `${this.state.hours} ${newTime}`;
         this.props.changeTime({ target: { value: requestString } });
+        // If set hours are 3-9 or two digits, switch to minute input
+        if ((newTime.length === 2 || (newTime < 10 && newTime > 2)) && timePropertyId === 'hours') {
+          this.minEl.focus();
+          this.minEl.setSelectionRange(0, 2);
+        }
       } else if (input.length === 3) {
         this.setState({
           [timePropertyId]: event.target.value.slice(-1),
