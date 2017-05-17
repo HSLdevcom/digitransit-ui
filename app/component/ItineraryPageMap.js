@@ -7,7 +7,7 @@ import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
-import { isBrowser, isMobile } from '../util/browser';
+import { isBrowser } from '../util/browser';
 
 let L;
 
