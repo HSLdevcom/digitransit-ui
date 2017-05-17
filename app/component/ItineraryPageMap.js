@@ -95,7 +95,6 @@ export default function ItineraryPageMap(
     if (!element || !center) {
       return;
     }
-    console.log(isMobile);
     element.map.leafletElement.closePopup();
     if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);

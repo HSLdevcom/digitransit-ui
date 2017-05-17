@@ -105,7 +105,9 @@ class SummaryPage extends React.Component {
     };
   }
 
-  updateCenter = (lat, lon) => this.setState({ center: { lat, lon } })
+  updateCenter = (lat, lon) => {
+    this.setState({ center: { lat, lon } });
+  }
 
   hasDefaultPreferences = () => {
     const a = pick(this.customizableParameters, keys(this.props));
