@@ -111,6 +111,7 @@ const exampleStop = {
   properties: {
     source: 'gtfsHSL',
     gtfsId: 'HSL:1130446',
+    id: 'HSL:1130446#0221',
     name: 'Caloniuksenkatu',
     desc: 'Mechelininkatu 21',
     code: '0221',

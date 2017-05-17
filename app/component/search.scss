@@ -422,13 +422,14 @@ ul.react-autowhatever__items-list {
 }
 
 .suggestion-item-stop {
-  padding: 1px;
+  padding: 0;
   display: flex;
   flex-direction: row;
   > div {
     flex-grow: 1;
   }
   .suggestion-item-timetable {
+    margin: 1px 0px 1px 0px;
     padding-left: 0.5em;
     padding-right: 0.5em;
     display: flex;
@@ -446,6 +447,7 @@ ul.react-autowhatever__items-list {
       color: $primary-color;
     }
     div.suggestion-item-timetable-label {
+
       display:inline-block;
       @include font-bold;
       color: $primary-color;
@@ -454,6 +456,15 @@ ul.react-autowhatever__items-list {
     }
   }
 }
+
+.suggestion-label {
+  .itinerary-stop-code {
+    display: inline-block;
+    margin-right: 4px;
+  }
+}
+
+
 
 .bp-large .search-result {
   line-height: 1.25;
