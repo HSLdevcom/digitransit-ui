@@ -109,6 +109,7 @@ const exampleRoute = {
 const exampleStop = {
   type: 'Stop',
   properties: {
+    source: 'gtfsHSL',
     gtfsId: 'HSL:1130446',
     name: 'Caloniuksenkatu',
     desc: 'Mechelininkatu 21',
