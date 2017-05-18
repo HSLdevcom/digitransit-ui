@@ -233,12 +233,9 @@ function getRoutes(input, config) {
   );
 
   return getRelayQuery(query).then(data =>
-    data[0].routes.filter((item) => {
-      console.log('feedid', config.feedIds, item);
-      return (
+    data[0].routes.filter(item => (
       config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
-      );
-    })
+      ))
     .map(mapRoute)
     .sort((x, y) => routeCompare(x.properties, y.properties)),
   ).then(suggestions => take(suggestions, 10));
@@ -277,6 +274,7 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       }
       searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
     }
+
     if (endpointLayers.includes('Geocoding')) {
       const focusPoint = (config.autoSuggest.locationAware && position.hasLocation) ? {
         // Round coordinates to approx 1 km, in order to improve caching
@@ -301,6 +299,19 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
     }
 
     endpointSearchesPromise = Promise.all(searchComponents)
+    .then((resultsArray) => {
+      if (endpointLayers.includes('Stops') && endpointLayers.includes('Geocoding')) {
+        // sort & combine pelias results into single array
+        const modifiedResultsArray = [];
+        for (let i = 0; i < resultsArray.length - 2; i++) {
+          modifiedResultsArray.push(resultsArray[i]);
+        }
+        const sorted = orderBy(resultsArray[resultsArray.length - 1].concat(resultsArray[resultsArray.length - 2]), [u => u.properties.confidence], ['desc']);
+        modifiedResultsArray.push(sorted);
+        return modifiedResultsArray;
+      }
+      return resultsArray;
+    })
       .then(flatten)
       .then(uniqByLabel)
       .then((results) => { endpointSearches.results = results; })

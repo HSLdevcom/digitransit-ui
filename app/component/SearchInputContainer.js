@@ -58,7 +58,6 @@ export default class SearchInputContainer extends Component {
     if (inProgress && this.state.searchInProgress) {
       return;
     }
-
     this.setState({
       searchInProgress: inProgress,
       suggestions: results,
