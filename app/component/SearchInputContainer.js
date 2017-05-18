@@ -86,7 +86,7 @@ export default class SearchInputContainer extends Component {
   }
 
   getInput() {
-    get(this, 'autowhatever.input', null);
+    return get(this, 'autowhatever.input', null);
   }
 
   focusItem(i) {  // eslint-disable-line class-methods-use-this
