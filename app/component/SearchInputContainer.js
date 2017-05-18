@@ -287,6 +287,7 @@ export default class SearchInputContainer extends Component {
     }
     return (
       <SuggestionItem
+        doNotShowLinkToStop={(this.props.type !== 'all')}
         ref={item.name}
         item={item}
         useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}

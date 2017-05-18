@@ -9,7 +9,7 @@ import Icon from './Icon';
 import { getLabel, getIcon } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SuggestionItem = pure(({ item, useTransportIcons }) => {
+const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) => {
   let icon;
   if (item.properties.mode && useTransportIcons) {
     icon = (
@@ -45,7 +45,7 @@ const SuggestionItem = pure(({ item, useTransportIcons }) => {
         <p className="suggestion-label" >{label[1]}</p>
       </div>
     </div>);
-  if (item.properties.layer === 'stop' && get(item, 'properties.id', '') !== undefined) {
+  if (doNotShowLinkToStop === false && item.properties.layer === 'stop' && get(item, 'properties.id', '') !== undefined) {
     /* eslint no-param-reassign: ["error", { "props": false }]*/
     return (<div className="suggestion-item-stop"><div><Link
       onClick={() => {
@@ -63,8 +63,8 @@ const SuggestionItem = pure(({ item, useTransportIcons }) => {
 SuggestionItem.propTypes = {
   item: React.PropTypes.object,
   useTransportIcons: React.PropTypes.bool,
+  doNotShowLInkToStop: React.PropTypes.bool,
 };
-
 
 SuggestionItem.displayName = 'SuggestionItem';
 
