@@ -144,12 +144,12 @@ export default class ItineraryTimePicker extends React.Component {
     if (event.keyCode === 8 || event.keyCode === 46) {
       if (event.target.id === 'inputHours') {
         this.setState({
-          hours: 0,
+          hours: '',
         });
       }
       if (event.target.id === 'inputMinutes') {
         this.setState({
-          minutes: 0,
+          minutes: '',
         });
       }
     }
