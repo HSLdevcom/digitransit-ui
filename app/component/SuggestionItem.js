@@ -45,7 +45,8 @@ const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) =
         <p className="suggestion-label" >{label[1]}</p>
       </div>
     </div>);
-  if (doNotShowLinkToStop === false && item.properties.layer === 'stop' && get(item, 'properties.id', '') !== undefined) {
+  if (doNotShowLinkToStop === false && item.properties.layer === 'stop' &&
+    (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined) {
     /* eslint no-param-reassign: ["error", { "props": false }]*/
     return (<div className="suggestion-item-stop"><div><Link
       onClick={() => {
