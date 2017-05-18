@@ -132,6 +132,11 @@ export default class ItineraryTimePicker extends React.Component {
           minutes: this.state.oldMinute,
         });
       }
+    } else {
+      const id = event.target.id === 'inputHours' ? 'hours' : 'minutes';
+      this.setState({
+        [id]: this.padDigits(event.target.value),
+      });
     }
   }
 
@@ -174,11 +179,7 @@ export default class ItineraryTimePicker extends React.Component {
           ref={el => (this.hourEl = el)}
           id="inputHours"
           className="time-input-field"
-          value={
-            this.state.hours > 9
-              ? this.state.hours
-              : this.padDigits(parseInt(this.state.hours, 10))
-          }
+          value={this.state.hours}
           maxLength={3}
           onClick={e => e.target.setSelectionRange(0, 2)}
           onChange={this.onChangeTime}
@@ -191,11 +192,7 @@ export default class ItineraryTimePicker extends React.Component {
           ref={el => (this.minEl = el)}
           id="inputMinutes"
           className="time-input-field"
-          value={
-            this.state.minutes > 9
-              ? this.state.minutes
-              : this.padDigits(parseInt(this.state.minutes, 10))
-          }
+          value={this.state.minutes}
           maxLength={3}
           onClick={e => e.target.setSelectionRange(0, 2)}
           onChange={this.onChangeTime}
