@@ -444,13 +444,13 @@ ul.react-autowhatever__items-list {
     span { //icon span
       display: inline-block;
       padding-right: $padding-small;
-      color: $primary-color;
+      color: $link-color;
     }
     div.suggestion-item-timetable-label {
 
       display:inline-block;
       @include font-bold;
-      color: $primary-color;
+      color: $link-color;
       text-transform: uppercase;
       font-size: $font-size-xxxsmall;
     }
