@@ -134,7 +134,10 @@ SuggestionItem.description = () =>
       <SuggestionItem item={exampleRoute} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Stop">
-      <SuggestionItem item={exampleStop} />
+      <SuggestionItem item={exampleStop} doNotShowLinkToStop={false} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Stop">
+      <SuggestionItem item={exampleStop} doNotShowLinkToStop />
     </ComponentUsageExample>
   </div>;
 
