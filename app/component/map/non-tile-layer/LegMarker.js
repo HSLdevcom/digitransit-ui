@@ -31,6 +31,7 @@ export default class LegMarker extends React.Component {
   static propTypes = {
     leg: React.PropTypes.object.isRequired,
     mode: React.PropTypes.string.isRequired,
+    color: React.PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -55,7 +56,7 @@ export default class LegMarker extends React.Component {
         }}
         interactive={false}
         icon={L.divIcon({
-          html: `<div>${fixName(this.props.leg.name)}</div>`,
+          html: `<div style='color: ${this.props.color}'>${fixName(this.props.leg.name)}</div>`,
           className: `legmarker ${this.props.mode}`,
           iconSize: null,
         })}

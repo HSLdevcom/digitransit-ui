@@ -31,6 +31,7 @@ class TransitLeg extends React.Component {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
       const stopList = this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
+          color={this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor'}
           key={stop.gtfsId}
           mode={this.props.mode}
           name={stop.name}
@@ -96,8 +97,9 @@ class TransitLeg extends React.Component {
               {moment(this.props.leg.startTime).format('HH:mm')}
             </span>{originalTime}
           </div>
-          <RouteNumber
+          <RouteNumber   //  shouldn't this be a route number container instead???
             mode={this.props.mode.toLowerCase()}
+            color={this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor'}
             text={this.props.leg.route && this.props.leg.route.shortName}
             realtime={this.props.leg.realTime}
             vertical
@@ -105,8 +107,9 @@ class TransitLeg extends React.Component {
           />
         </Link>
       </div>
-      <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine color={this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor'} index={this.props.index} modeClassName={modeClassName} />
       <div
+        style={{ color: this.props.leg.route ? `#${this.props.leg.route.color}` : 'currentColor' }}
         onClick={this.props.focusAction}
         className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
       >
