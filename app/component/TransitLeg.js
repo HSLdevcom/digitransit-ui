@@ -28,6 +28,7 @@ class TransitLeg extends React.Component {
 
   renderIntermediate() {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
+      console.log('row 31');
       const stopList = this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
           key={stop.gtfsId}
@@ -70,7 +71,7 @@ class TransitLeg extends React.Component {
         />);
       return (
         <div className="intermediate-stop-info-container">{stopCount === 0 ? <span className="intermediate-stop-no-stops">{message}</span> :
-        <span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}>
+        <span className="intermediate-stops-link pointer-cursor" onClick={(event) => { event.stopPropagation(); toggleFunction(); }}>
           {message}
         </span>} <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>);
     };
