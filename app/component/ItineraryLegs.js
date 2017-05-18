@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-
+import cloneDeep from 'lodash/cloneDeep';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -82,10 +82,10 @@ class ItineraryLegs extends React.Component {
           }
 
           compressedLegs.push(compressLeg);
-          compressLeg = cleg;
+          compressLeg = cloneDeep(cleg);
         }
       } else {
-        compressLeg = cleg;
+        compressLeg = cloneDeep(cleg);
       }
     });
 

@@ -26,11 +26,10 @@ WORKDIR ${WORK}
 ADD . ${WORK}
 
 RUN \
-  npm install --silent&& \
-  npm rebuild node-sass && \
-  npm run build && \
+  yarn install --silent && \
+  yarn add --force node-sass && \
+  yarn run build && \
   rm -rf static docs test /tmp/* && \
-  npm prune --production && \
-  npm cache clean
+  yarn cache clean
 
-CMD npm run start
+CMD yarn run start
