@@ -166,14 +166,14 @@ function getPolyfills(userAgent, config) {
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
-    Intl: { flags: ['always'] },
+    Intl: { flags: ['gated'] },
     'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
 
   config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
-      flags: ['always'],
+      flags: ['gated'],
     };
   });
 

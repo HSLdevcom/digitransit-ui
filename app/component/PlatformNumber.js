@@ -2,19 +2,42 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
-function PlatformNumber({ number }) {
+function PlatformNumber({ number, short }) {
   if (!number) {
     return false;
   }
+
+  if (short) {
+    return (
+      <span className="platform-short">
+        <FormattedMessage
+          id="platform-short"
+          values={{ platformCode: number }}
+          defaultMessage="Plat. {platformCode}"
+        />
+      </span>
+    );
+  }
+
   return (
     <span className="platform-number">
-      <FormattedMessage id="platform-short" defaultMessage="Plat." /> {number}
+      <FormattedMessage
+        id="platform-num"
+        values={{ platformCode: number }}
+        defaultMessage="Platform {platformCode}"
+      />
     </span>
   );
 }
 
 PlatformNumber.propTypes = {
   number: React.PropTypes.string,
+  short: React.PropTypes.bool,
+};
+
+PlatformNumber.defaultProps = {
+  number: false,
+  short: true,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';

@@ -91,7 +91,7 @@ $item-border-color: #eee;
 
     input[type="text"].react-autowhatever__input {
       flex: 0 0 auto;
-      border: 1px solid $primary-color;
+      border: 1px solid $link-color;
       border-radius: 4px;
       height: 3em;
       width: 100%;
@@ -252,7 +252,7 @@ $item-border-color: #eee;
   z-index: 1;
 
   a {
-    color: $primary-color;
+    color: $link-color;
     height: 100%;
     padding: 10px 10px;
     margin: 0 3px;
@@ -271,7 +271,7 @@ $item-border-color: #eee;
     }
 
     .item-count {
-      background-color: $primary-color;
+      background-color: $link-color;
       color: $primary-font-color;
       font-size: 0.8em;
       margin-left: 0.5em;
@@ -522,7 +522,7 @@ div.search-modal {
 
     &:focus {
       box-shadow: none;
-      border-color: $primary-color
+      border-color: $link-color;
     }
   }
 }
