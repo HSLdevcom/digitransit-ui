@@ -151,7 +151,6 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-search-icon {
-  float: right;
   color: $medium-gray;
 }
 
@@ -429,6 +428,11 @@ $itinerary-route-max-width: 420px;
       }
       span.itinerary-stop-code {
         vertical-align: 2px;
+      }
+
+      > :first-child {
+        flex-grow: 1;
+        max-width: calc(100% - 20px);
       }
     }
 

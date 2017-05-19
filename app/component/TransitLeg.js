@@ -114,8 +114,8 @@ class TransitLeg extends React.Component {
           <div>{this.props.leg.from.name}{this.stopCode(
             this.props.leg.from.stop && this.props.leg.from.stop.code)}
             <PlatformNumber number={this.props.leg.from.stop.platformCode} short={false} />
-            <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
           </div>
+          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-transit-leg-route">
           {this.props.children}

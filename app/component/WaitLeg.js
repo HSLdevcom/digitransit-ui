@@ -27,8 +27,8 @@ function WaitLeg(props) {
           <div>
             {props.leg.to.name}
             {props.children}
-            <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
           </div>
+          <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
         <div className="itinerary-leg-action">
           <FormattedMessage
