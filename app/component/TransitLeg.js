@@ -71,7 +71,7 @@ class TransitLeg extends React.Component {
         />);
       return (
         <div className="intermediate-stop-info-container">{stopCount === 0 ? <span className="intermediate-stop-no-stops">{message}</span> :
-        <span className="intermediate-stops-link pointer-cursor" onClick={toggleFunction}>
+        <span className="intermediate-stops-link pointer-cursor" onClick={(event) => { event.stopPropagation(); toggleFunction(); }}>
           {message}
         </span>} <span className="intermediate-stops-duration">({durationToString(leg.duration * 1000)})</span></div>);
     };
