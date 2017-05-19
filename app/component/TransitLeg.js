@@ -28,7 +28,6 @@ class TransitLeg extends React.Component {
 
   renderIntermediate() {
     if (this.props.leg.intermediateStops.length > 0 && this.state.showIntermediateStops === true) {
-      console.log('row 31');
       const stopList = this.props.leg.intermediateStops.map(
         stop => (<IntermediateLeg
           key={stop.gtfsId}
