@@ -3,7 +3,6 @@
 $topbar-height: 40px;
 $itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
-$itinerary-route-max-width: 420px;
 
 @mixin getCircleSvg($stroke, $fill) {
   svg {
@@ -112,7 +111,7 @@ $itinerary-route-max-width: 420px;
     position: absolute;
     width: 17px;
     height: 17px;
-    left: 0.1em;
+    left: 2px;
     z-index: 10;
 }
 
@@ -165,14 +164,13 @@ $itinerary-route-max-width: 420px;
 
 .itinerary-ticket-information {
   display: flex;
-  width: 90%;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: $font-size-xxsmall;
-  margin: 0 auto;
+  margin: 0;
   border: 0px;
   border-top: 1px solid #ddd;
-  padding: $padding-medium 0 $padding-large 0;
+  padding: $padding-medium 10px $padding-large 20px;
   .itinerary-ticket-layout-left {
     display: inline-block;
     font-size: 2.4em;
@@ -244,8 +242,7 @@ $itinerary-route-max-width: 420px;
   display: flex;
 
   .leg-before {
-    min-width: 24px;
-    margin-right: 2.2%;
+    min-width: 15px;
     position: relative;
   }
 
@@ -279,8 +276,8 @@ $itinerary-route-max-width: 420px;
 
     &.walk {
       background-image: url('../default/dotted-line-bg.png');
-      background-size: 90% auto;
-      background-position-y: 31px;
+      background-size: 100% auto;
+      background-position-y: -3px;
       background-position-x: 0px;
       background-repeat: no-repeat repeat;
       border: none;
@@ -480,7 +477,7 @@ $itinerary-route-max-width: 420px;
 }
 
 .bp-large .row.itinerary-row {
-  max-width: $itinerary-route-max-width;
+  padding-right: 3px;
   margin-left: 0;
 
  .itinerary-time-column {
@@ -538,7 +535,6 @@ $itinerary-route-max-width: 420px;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
   width: calc(100% - 2em);
-  max-width: $itinerary-route-max-width;
   div {
     border-right: solid 1px $light-gray;
 
@@ -803,9 +799,6 @@ div.itinerary-container-content {
 .mobile {
   .itinerary-leg-container {
     margin-left: 20%;
-  }
-  .itinerary-leg-first-row {
-    width: 90%;
   }
   .itinerary-row {
     width: 90%;

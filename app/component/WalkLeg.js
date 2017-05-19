@@ -25,7 +25,7 @@ function WalkLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           <div>

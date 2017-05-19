@@ -60,7 +60,7 @@ class CallAgencyLeg extends React.Component {
         <ItineraryCircleLine index={this.props.index} modeClassName={modeClassName} />
         <div
           onClick={this.props.focusAction}
-          className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
+          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
         >
           <div className="itinerary-leg-first-row">
             <div>{this.props.leg.from.name}{this.stopCode(

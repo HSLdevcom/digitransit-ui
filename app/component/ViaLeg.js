@@ -31,7 +31,7 @@ function ViaLeg(props, context) {
       <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
-        className={'small-10 columns itinerary-instruction-column via'}
+        className={'small-9 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
           <div>
