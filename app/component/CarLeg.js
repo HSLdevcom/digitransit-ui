@@ -9,8 +9,8 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-function CarLeg(props) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+function CarLeg(props, context) {
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
@@ -85,5 +85,7 @@ CarLeg.propTypes = {
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
+
+CarLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default CarLeg;

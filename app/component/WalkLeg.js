@@ -9,8 +9,8 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-function WalkLeg(props) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+function WalkLeg(props, context) {
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   const modeClassName = 'walk';
 
@@ -87,5 +87,7 @@ WalkLeg.propTypes = {
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
+
+WalkLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default WalkLeg;

@@ -105,7 +105,7 @@ ViaLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
 };
 
-const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
+const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
   const data = props.data;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
@@ -193,7 +193,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
         </span>
         <div className="itinerary-walking-distance">
           <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-          {displayDistance(data.walkDistance)}
+          {displayDistance(data.walkDistance, config)}
         </div>
       </div>
       {props.open || props.children ? [
@@ -271,6 +271,7 @@ SummaryRow.propTypes = {
 
 SummaryRow.contextTypes = {
   intl: intlShape.isRequired,
+  config: React.PropTypes.object.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
