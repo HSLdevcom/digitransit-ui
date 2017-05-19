@@ -175,7 +175,7 @@ export default class ItineraryTimePicker extends React.Component {
         className={`time-input-container time-selector ${!isMobile ? 'time-selector' : ''}`}
       >
         <input
-          type="text"
+          type="tel"
           ref={el => (this.hourEl = el)}
           id="inputHours"
           className="time-input-field"
@@ -188,7 +188,7 @@ export default class ItineraryTimePicker extends React.Component {
         />
         <div className="digit-separator">:</div>
         <input
-          type="text"
+          type="tel"
           ref={el => (this.minEl = el)}
           id="inputMinutes"
           className="time-input-field"

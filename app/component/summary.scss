@@ -136,10 +136,16 @@
       border-color: none !important;
     }
     &#inputMinutes{
+      font-size: 1rem !important;
+      padding-top: 0.7em;
       text-align: left;
+      color: $link-color;
     }
     &#inputHours{
+      font-size: 1rem !important;
+      padding-top: 0.7em;
       text-align: right;
+      color: $link-color;
     }
   }
   .digit-separator {
