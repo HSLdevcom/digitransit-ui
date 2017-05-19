@@ -9,8 +9,8 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-function CarLeg(props) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+function CarLeg(props, context) {
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
@@ -26,18 +26,12 @@ function CarLeg(props) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
             {props.children}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
@@ -91,5 +85,7 @@ CarLeg.propTypes = {
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
+
+CarLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default CarLeg;

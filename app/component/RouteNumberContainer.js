@@ -13,12 +13,11 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ className, route, isCallAgency, large, ...props }, { config }) =>
+const RouteNumberContainer = ({ className, route, isCallAgency, ...props }, { config }) =>
 (route && <RouteNumber
   className={className}
   isCallAgency={isCallAgency || route.type === 715}
   mode={route.mode}
-  large={large}
   text={getText(route, config)}
   {...props}
 />);

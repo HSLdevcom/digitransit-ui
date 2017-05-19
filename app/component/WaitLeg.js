@@ -21,18 +21,12 @@ function WaitLeg(props) {
       <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
       <div
         onClick={props.focusAction}
-        className="small-10 columns itinerary-instruction-column wait"
+        className="small-9 columns itinerary-instruction-column wait"
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.to.name}
             {props.children}
-            {props.children && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>

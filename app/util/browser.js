@@ -6,3 +6,11 @@ export const isLangMockEn = isBrowser && window.location.search.indexOf('enmock'
 export const isMobile = isBrowser && navigator.userAgent.match(/Mobile/) != null;
 export const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;
 export const isAndroid = isBrowser && navigator.userAgent.match(/Android/) != null;
+export const isImperial = (config) => {
+  if (config.imperialEnabled &&
+      (String(navigator.userLanguage).toLowerCase() === 'en-us' ||
+       String(navigator.language).toLowerCase() === 'en-us')) {
+    return true;
+  }
+  return false;
+};

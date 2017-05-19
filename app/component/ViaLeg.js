@@ -9,8 +9,8 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-function ViaLeg(props) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+function ViaLeg(props, context) {
+  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
   const duration = durationToString(props.leg.duration * 1000);
   const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
 
@@ -31,17 +31,11 @@ function ViaLeg(props) {
       <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
-        className={'small-10 columns itinerary-instruction-column via'}
+        className={'small-9 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
             <div className="itinerary-via-leg-duration">
               <FormattedMessage
                 id="via-leg-stop-duration"
@@ -113,5 +107,7 @@ ViaLeg.propTypes = {
   focusAction: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
+
+ViaLeg.contextTypes = { config: React.PropTypes.object.isRequired };
 
 export default ViaLeg;
