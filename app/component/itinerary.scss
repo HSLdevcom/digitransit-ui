@@ -413,7 +413,6 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-first-row {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       white-space: normal;
       color: $black;
       @include font-medium;
