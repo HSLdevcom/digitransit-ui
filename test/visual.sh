@@ -4,7 +4,7 @@ ORG=${ORG:-hsldevcom}
 yarn install
 
 if [ -n "$BS_ACCESS_KEY" ]; then
-    docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:$TRAVIS_COMMIT
+    docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:ci-$TRAVIS_COMMIT
     IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn run test-visual -- --browser $VISUAL
     RESULT=$?
     if [ $RESULT -ne 0 ]; then
