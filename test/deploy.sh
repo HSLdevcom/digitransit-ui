@@ -9,12 +9,13 @@ unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
-  echo "Pushing to docker"
   if [[ "$TRAVIS_BRANCH" = "master" && "$TRAVIS_PULL_REQUEST" = "false" ]]; then
+      echo "Pushing dev release to docker"
       docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_AUTH
       docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/digitransit-ui:latest
       docker push $ORG/digitransit-ui:latest
       if [ -z "$TRAVIS_TAG" ]; then
+          echo "Pushing prod release to docker"
           docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/digitransit-ui:prod
           docker push $ORG/digitransit-ui:prod
       fi
