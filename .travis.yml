@@ -23,23 +23,26 @@ services:
   - docker
 install:
   - true
-script:
-  - test/build.sh
 before_deploy:
   - echo "before deploy!"
 
 jobs:
   include:
 
-   - stage: visual
+   - stage: build
+     script: test/build.sh
+
+   - stage: test
      env: VISUAL=edge13
      script: test/visual.sh
-   - stage: visual
+   - stage: test
      env: VISUAL=chrome50
      script: test/visual.sh
-   - stage: visual
+   - stage: test
      env: VISUAL=ie11
      script: test/visual.sh
+   - stage: test
+     script: test/flow.sh
 
    - stage: deploy
      script: test/deploy.sh
