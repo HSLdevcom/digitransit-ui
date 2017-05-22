@@ -24,15 +24,12 @@ services:
 install:
   - true
 script:
-  - true
+  - test/build.sh
 before_deploy:
   - echo "before deploy!"
 
 jobs:
   include:
-   - stage: test
-     env: LINT=1
-     script: test/build.sh
 
    - stage: visual
      env: VISUAL=edge13
