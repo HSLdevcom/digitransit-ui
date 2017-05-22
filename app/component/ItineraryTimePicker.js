@@ -148,7 +148,7 @@ export default class ItineraryTimePicker extends React.Component {
     if (
       event.keyCode === 8 ||
       event.keyCode === 46 ||
-      (event.keyCode === 229 && isAndroid && !isFirefox)
+      (event.keyCode === 229 && isAndroid && isChrome)
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
