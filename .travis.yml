@@ -29,7 +29,7 @@ before_deploy:
 jobs:
   include:
 
-   - stage: build
+   - stage: prebuild
      script: test/build.sh
 
    - stage: test
