@@ -21,7 +21,7 @@ class StopPageContentOptions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showTab: 'right-now', //Show right-now as default
+      showTab: 'right-now', // Show right-now as default
     };
   }
 

@@ -53,12 +53,14 @@ class StopPageTabContainer extends React.Component {
             /></span>
         </div>
       </div>
-      <div
-        className={`stop-tab-singletab add-info ${this.state.active === 'add-info' ? 'active' : 'inactive'}`}
+      { // <div
+        // className={`stop-tab-singletab add-info ${this.state.active === 'add-info'
+        // ? 'active' : 'inactive'}`}
         // onClick={() => { this.setState({ active: 'add-info' }); }}
-      />
+      // />
+      }
     </div>);
-  };
+  }
 }
 
 export default StopPageTabContainer;

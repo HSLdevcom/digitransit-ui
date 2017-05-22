@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-top: 1px solid #dddddd
 }
 
 .stop-page-content {
@@ -87,7 +88,7 @@
 .stop-tab-singletab {
   text-transform: uppercase;
   font-size: $font-size-xsmall;
-  width: 33.333333%;
+  width: 50%;
   text-align: center;
   background-color: $white;
   cursor: pointer;
