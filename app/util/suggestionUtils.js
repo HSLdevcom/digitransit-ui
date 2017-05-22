@@ -61,14 +61,14 @@ export function uniqByLabel(features) {
   );
 }
 
-export function getIcon(layer) {
+export function getIcon(layer, mode = 'bus-stop') {
   const layerIcon = new Map([
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],
     ['favourite', 'icon-icon_star'],
     ['address', 'icon-icon_place'],
-    ['stop', 'icon-icon_bus-stop'],
+    ['stop', `icon-icon_${mode.toLowerCase()}`],
     ['locality', 'icon-icon_city'],
     ['station', 'icon-icon_station'],
     ['localadmin', 'icon-icon_city'],

@@ -18,7 +18,7 @@ const SuggestionItem = pure((props) => {
   } else {
     icon = (
       <Icon
-        img={getIcon(props.item.properties.layer)}
+        img={getIcon(props.item.properties.layer, props.item.properties.mode)}
         className={props.item.iconClass || ''}
       />
     );
