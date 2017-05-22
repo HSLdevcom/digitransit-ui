@@ -25,23 +25,22 @@ install:
   - true
 before_deploy:
   - echo "before deploy!"
+script:
+  - test/build.sh
 
 jobs:
   include:
 
-   - stage: prebuild
-     script: test/build.sh
-
-   - stage: test
+   - stage: test2
      env: VISUAL=edge13
      script: test/visual.sh
-   - stage: test
+   - stage: test2
      env: VISUAL=chrome50
      script: test/visual.sh
-   - stage: test
+   - stage: test2
      env: VISUAL=ie11
      script: test/visual.sh
-   - stage: test
+   - stage: test2
      script: test/flow.sh
 
    - stage: deploy
