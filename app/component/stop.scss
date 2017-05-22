@@ -95,6 +95,13 @@
   color: $primary-color;
   transition: 0.10s all ease-in;
   border-bottom: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+
+  svg {
+    stroke: $primary-color;
+    fill: $primary-color;
+  }
 
   &.active {
     background-color: $background-color;
@@ -103,6 +110,10 @@
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     color: $black;
+    svg {
+    stroke: $black;
+    fill: $black;
+  }
   }
   //Dummy setting as a placeholder, remove when
   //Additional info is done
