@@ -9,6 +9,47 @@ import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
 import Error404 from './404';
 
+class StopPageContentOptions extends React.Component {
+
+  static propTypes = {
+    selectedTab: React.PropTypes.func,
+    breakPoint: React.PropTypes.string,
+    printUrl: React.PropTypes.string,
+    departureProps: React.PropTypes.object,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showTab: 'right-now', //Show right-now as default
+    };
+  }
+
+  setTab = (val) => {
+    this.setState({
+      showTab: val,
+    });
+  }
+
+  render() {
+    // Currently shows only next departures, add Timetables 
+    return (<div className="stop-page-content-wrapper">
+      <StopPageTabContainer selectedTab={this.setTab} />
+      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+      {this.state.showTab === 'right-now' &&
+      <div className="stop-scroll-container">
+        <DepartureListHeader />
+        <DepartureListContainerWithProps {...this.props.departureProps} />
+      </div>
+      }
+      {this.state.showTab === 'timetable' &&
+      <div />
+      }
+    </div>);
+  }
+
+}
+
 const DepartureListContainerWithProps = mapProps(props => ({
   stoptimes: props.stop.stoptimes,
   key: 'departures',
@@ -22,12 +63,11 @@ const DepartureListContainerWithProps = mapProps(props => ({
 
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
-    <div className="stop-page-content-wrapper">
-      <StopPageTabContainer />
-      <StopPageActionBar breakpoint={props.breakpoint} printUrl={props.stop.url} />
-      <DepartureListHeader />
-      <DepartureListContainerWithProps {...props} />
-    </div>
+    <StopPageContentOptions
+      breakPoint={props.breakpoint}
+      printUrl={props.stop.url}
+      departureProps={props}
+    />
   )));
 
 const StopPageContentOrEmpty = (props) => {

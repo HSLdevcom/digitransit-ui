@@ -66,6 +66,10 @@
   }
 }
 
+.stop-scroll-container {
+  overflow-y: scroll;
+}
+
 .stop-tab-container {
   display: flex;
   min-height: 77px;
@@ -99,6 +103,12 @@
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     color: $black;
+  }
+  //Dummy setting as a placeholder, remove when
+  //Additional info is done
+  &.add-info.inactive {
+    background-color: $background-color;
+    border-top: 4px solid $background-color;
   }
 }
 .mobile {
