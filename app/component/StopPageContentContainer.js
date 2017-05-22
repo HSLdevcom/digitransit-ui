@@ -3,6 +3,7 @@ import Relay from 'react-relay';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
+import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
@@ -22,6 +23,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
 const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <div className="stop-page-content-wrapper">
+      <StopPageTabContainer />
       <StopPageActionBar breakpoint={props.breakpoint} printUrl={props.stop.url} />
       <DepartureListHeader />
       <DepartureListContainerWithProps {...props} />

@@ -26,6 +26,7 @@
 
   .card-code {
     font-size: 14px;
+    margin-right: 10px;
   }
 }
 
@@ -63,6 +64,45 @@
   &.stop-page-content-enter, &.stop-page-content-leave.stop-page-content-leave-active {
     flex-grow: 0;
   }
+}
+
+.stop-tab-container {
+  display: flex;
+  min-height: 73px;
+  border-top-color: #dddddd;
+  border-top-width: 2px;
+  border-bottom-color: #dddddd;
+  border-bottom-width: 2px;
+}
+
+.stop-tab-singletab {
+  text-transform: uppercase;
+  font-size: $font-size-xsmall;
+  width: 30%;
+  text-align: center;
+  background-color: $white;
+  cursor: pointer;
+  border-top: 4px solid $white;
+  color: $primary-color;
+  transition: 0.15s all ease-in;
+
+  &.active {
+    background-color: $background-color;
+    border-top: 4px solid $primary-color;
+    color: $black;
+  }
+}
+
+.stop-tab-singletab-container {
+  display: block; 
+  margin: 0 auto;
+  max-width: 100px;
+  padding-top: 0.8em;
+}
+
+.stop-page-tab_icon {
+  width: 24px;
+  height: 24px;
 }
 
 .stop-page.departure-list {
@@ -134,6 +174,9 @@ hr.action-bar {
     box-shadow: none;
     height: auto;
     padding: 10px 20px 8px 20px;
+    hr {
+      display: none;
+    }
   }
   .action-bar {
     a.external-link {
