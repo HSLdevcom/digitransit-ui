@@ -31,6 +31,7 @@ before_deploy:
 jobs:
   include:
    - stage: test
+     env: LINT=1
      script: test/build.sh
 
    - stage: visual
