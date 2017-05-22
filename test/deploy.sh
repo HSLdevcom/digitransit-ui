@@ -14,6 +14,10 @@ if [ $RESULT -eq 0 ]; then
       docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_AUTH
       docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/digitransit-ui:latest
       docker push $ORG/digitransit-ui:latest
+      if [ -z "$TRAVIS_TAG" ]; then
+          docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/digitransit-ui:prod
+          docker push $ORG/digitransit-ui:prod
+      fi
   fi
 fi
 exit $RESULT
