@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-top: 1px solid #dddddd
+  border-top: 1px solid #dddddd;
+  overflow-y: hidden;
 }
 
 .stop-page-content {
@@ -68,8 +69,8 @@
 }
 
 .stop-scroll-container {
-  overflow-y: scroll;
-  height: 90%;
+ // overflow-y: scroll;
+//  height: 80%;
 }
 
 .stop-tab-container {
