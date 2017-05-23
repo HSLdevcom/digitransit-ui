@@ -54,8 +54,8 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         key={`o-${s.properties.label || s.properties.name}`}
         icon={getIcon(s.properties.layer)}
         label={s.properties.label || s.properties.name}
-        lat={s.geometry.coordinates[1]}
-        lon={s.geometry.coordinates[0]}
+        lat={(s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
+        lon={(s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
       />))
       .concat(config.defaultOrigins.map(o => <OriginSelectorRow key={`o-${o.label}`} {...o} />));
   return <ul>{names.slice(0, 3)}</ul>;
