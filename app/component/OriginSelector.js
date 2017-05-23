@@ -51,9 +51,9 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         lon={f.lon}
       />)
       .concat(oldSearches.filter(notInFavourites).map(s => <OriginSelectorRow
-        key={`o-${s.properties.label}`}
+        key={`o-${s.properties.label || s.properties.name}`}
         icon={getIcon(s.properties.layer)}
-        label={s.properties.label}
+        label={s.properties.label || s.properties.name}
         lat={s.geometry.coordinates[1]}
         lon={s.geometry.coordinates[0]}
       />))
