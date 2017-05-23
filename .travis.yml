@@ -1,15 +1,11 @@
 sudo: required
+
 branches:
   only:
   - master
-env:
- - LINT=1
- - NWENV=chromedriver,firefox
- - VISUAL=edge13
- - VISUAL=chrome50
- - VISUAL=ie11
 
 cache: yarn
+
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
  - export DISPLAY=:99.0
@@ -18,14 +14,34 @@ before_install:
  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
  - sudo dpkg -i google-chrome*.deb
  - openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_iv -in test/.dropbox_uploader.enc -out test/.dropbox_uploader -d
+
 language: node_js
+
 node_js:
   - "6"
 services:
   - docker
 install:
   - true
-script:
-  - test/test-travis.sh
 before_deploy:
   - echo "before deploy!"
+script:
+  - test/build.sh
+
+jobs:
+  include:
+
+   - stage: test2
+     env: VISUAL=edge13
+     script: test/visual.sh
+   - stage: test2
+     env: VISUAL=chrome50
+     script: test/visual.sh
+   - stage: test2
+     env: VISUAL=ie11
+     script: test/visual.sh
+   - stage: test2
+     script: test/flow.sh
+
+   - stage: deploy
+     script: test/deploy.sh
