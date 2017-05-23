@@ -7,6 +7,7 @@ import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
+import Timetable from './Timetable';
 import Error404 from './404';
 
 class StopPageContentOptions extends React.Component {
@@ -32,7 +33,7 @@ class StopPageContentOptions extends React.Component {
   }
 
   render() {
-    // Currently shows only next departures, add Timetables 
+    // Currently shows only next departures, add Timetables
     return (<div className="stop-page-content-wrapper">
       <StopPageTabContainer selectedTab={this.setTab} />
       {this.state.showTab === 'right-now' &&
@@ -44,7 +45,10 @@ class StopPageContentOptions extends React.Component {
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+      <div>
+        <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+        <Timetable />
+      </div>
       }
     </div>);
   }

@@ -1,0 +1,15 @@
+.timetable {
+  .timetable-row {
+      background-color: $white;
+      border: 1px solid $light-gray;
+      border-top: none;
+      padding: $padding-medium $padding-xlarge $padding-xlarge $padding-xlarge;
+      &>span {
+      	padding-right: $padding-xlarge;
+      	font-size: $font-size-normal;
+      }
+      h1.title {
+      	font-size: $font-size-xlarge;
+      }
+  }
+}
