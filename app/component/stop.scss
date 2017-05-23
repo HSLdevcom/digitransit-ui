@@ -67,23 +67,17 @@
   }
 }
 
-.stop-scroll-container {
- // overflow-y: scroll;
-//  height: 80%;
-}
-
 .stop-tab-container {
   display: flex;
   border-top-color: #dddddd;
   border-top-width: 2px;
-  //min-height: 77px;
   padding-bottom: 0.8em;
 }
 
 .mobile {
   .stop-tab-container {
     border-bottom: none;
-    //min-height: 54px;
+    padding-bottom: 0.5em;
   }
 }
 
