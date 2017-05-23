@@ -82,6 +82,16 @@
   }
 }
 
+.stop-tabs-fillerline {
+  height: 10px;
+}
+
+.mobilel {
+  .stop-tabs-fillerline {
+    height: 5px;
+  }
+}
+
 .stop-tab-singletab {
   text-transform: uppercase;
   font-size: $font-size-xxsmall;

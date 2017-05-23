@@ -36,6 +36,7 @@ class StopPageContentOptions extends React.Component {
     return (<div className="stop-page-content-wrapper">
       <div>
         <StopPageTabContainer selectedTab={this.setTab} />
+        <div className="stop-tabs-fillerline" />
         {this.state.showTab === 'right-now' && <DepartureListHeader />}
       </div>
       {this.state.showTab === 'right-now' &&
