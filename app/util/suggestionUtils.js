@@ -37,7 +37,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
 export const isStop = ({ layer }) =>
   (layer === 'stop' || layer === 'favouriteStop');
 
-export const getLabel = memoize((suggestion, plain:false) => {
+export const getLabel = memoize((suggestion, plain = false) => {
   switch (suggestion.layer) {
     case 'currentPosition':
       return [suggestion.labelId, null];
@@ -71,7 +71,7 @@ export const getLabel = memoize((suggestion, plain:false) => {
       return (plain) ?
         [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
           <span key={suggestion.id}>
-            {getStopCode({ suggestion }) && <StopCode code={getStopCode({ suggestion })} />}
+            {getStopCode(suggestion) && <StopCode code={getStopCode(suggestion)} />}
             {suggestion.desc}
           </span>
         )];
