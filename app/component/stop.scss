@@ -4,7 +4,6 @@
   flex-direction: column;
   height: 100%;
   border-top: 1px solid #dddddd;
-  overflow-y: hidden;
 }
 
 .stop-page-content {
@@ -75,22 +74,24 @@
 
 .stop-tab-container {
   display: flex;
-  min-height: 77px;
   border-top-color: #dddddd;
   border-top-width: 2px;
+  //min-height: 77px;
+  padding-bottom: 0.8em;
 }
 
 .mobile {
   .stop-tab-container {
-    min-height: 54px;
     border-bottom: none;
+    //min-height: 54px;
   }
 }
 
 .stop-tab-singletab {
   text-transform: uppercase;
-  font-size: $font-size-xsmall;
+  font-size: $font-size-xxsmall;
   width: 50%;
+  height: 100%;
   text-align: center;
   background-color: $white;
   cursor: pointer;
@@ -134,16 +135,11 @@
   display: block;
   margin: 0 auto;
   max-width: 100px;
-  padding-top: 0.8em;
   font-weight: bold;
   line-height: 1.56;
   letter-spacing: -0.4px;
-}
-
-.mobile {
-  .stop-tab-singletab-container {
-     padding-top: 0.8em;
-  }
+  margin-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
 .stop-page-tab_icon {

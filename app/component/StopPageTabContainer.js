@@ -33,11 +33,11 @@ class StopPageTabContainer extends React.Component {
               <path d="M81.072 1024.014c-44.781 0-81.079-36.302-81.079-81.079 0-519.948 423.002-942.946 942.939-942.946 44.781 0 81.079 36.302 81.079 81.079s-36.298 81.079-81.079 81.079c-430.524 0-780.781 350.257-780.781 780.788 0 44.773-36.298 81.079-81.079 81.079z" />
             </svg>
           </div>
-          <span>
-            <FormattedMessage
-              id="right-now"
-              defaultMessage="right now"
-            /></span>
+          <div><FormattedMessage
+            id="right-now"
+            defaultMessage="right now"
+          />
+          </div>
         </div>
       </div>
       <div
@@ -46,11 +46,11 @@ class StopPageTabContainer extends React.Component {
       >
         <div className="stop-tab-singletab-container">
           <div><Icon img="icon-icon_schedule" className="stop-page-tab_icon" /></div>
-          <span>
-            <FormattedMessage
-              id="timetable"
-              defaultMessage="timetable"
-            /></span>
+          <div><FormattedMessage
+            id="timetable"
+            defaultMessage="timetable"
+          />
+          </div>
         </div>
       </div>
       { // <div
