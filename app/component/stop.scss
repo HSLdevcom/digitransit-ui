@@ -142,13 +142,9 @@
 }
 
 .mobile {
-  .stop-page-tab_icon {
-    width: 14px;
-    height: 13px;
-  }
-  .stop-tab-singletab-container svg {
-    width: 14px;
-    height: 13px;
+  .stop-page-tab_icon, .stop-tab-singletab-container svg {
+    width: 1.6em;
+    height: 1.6em;
   }
 }
 
