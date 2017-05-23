@@ -35,19 +35,19 @@ class StopPageContentOptions extends React.Component {
     // Currently shows only next departures, add Timetables 
     return (<div className="stop-page-content-wrapper">
       <StopPageTabContainer selectedTab={this.setTab} />
-      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
       {this.state.showTab === 'right-now' &&
-      <div className="stop-scroll-container">
+      <div style={{ height: '90%' }}>
         <DepartureListHeader />
-        <DepartureListContainerWithProps {...this.props.departureProps} />
-      </div>
+        <div className="stop-scroll-container">
+          <DepartureListContainerWithProps {...this.props.departureProps} />
+        </div>
+        </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div />
+      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
       }
     </div>);
   }
-
 }
 
 const DepartureListContainerWithProps = mapProps(props => ({
