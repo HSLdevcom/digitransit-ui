@@ -32,11 +32,11 @@ class StopPageContentOptions extends React.Component {
   }
 
   render() {
-    // Currently shows only next departures, add Timetables 
+    // Currently shows only next departures, add Timetables
     return (<div className="stop-page-content-wrapper">
       <div>
-      <StopPageTabContainer selectedTab={this.setTab} />
-      {this.state.showTab === 'right-now' && <DepartureListHeader />}
+        <StopPageTabContainer selectedTab={this.setTab} />
+        {this.state.showTab === 'right-now' && <DepartureListHeader />}
       </div>
       {this.state.showTab === 'right-now' &&
         <div style={{ height: '100%', overflowY: 'scroll' }}>
