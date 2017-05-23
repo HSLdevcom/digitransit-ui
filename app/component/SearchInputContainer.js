@@ -8,7 +8,7 @@ import NetworkError from './NetworkError';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
-import { getLabel } from '../util/suggestionUtils';
+import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import { isBrowser } from '../util/browser';
 import Loading from './Loading';
@@ -220,19 +220,19 @@ export default class SearchInputContainer extends Component {
             break;
           default:
         }
+
         this.context.executeAction(saveSearch, { item, type });
       }
 
-      name = item.properties.label || getLabel(item.properties).join(', ');
-
+      name = item.properties.label || getLabel(item.properties, true).join(', ');
       const clone = cloneDeep(item);
-      if (get(clone, 'properties.layer') === 'stop' && clone.timetableClicked === true && get(clone, 'properties.id') !== undefined) {
-        clone.properties.link = `/pysakit/${clone.properties.id.substring(5, clone.properties.id.indexOf('#'))}`;
+      if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
+        clone.properties.link = `/pysakit/${getGTFSId(clone.properties)}`;
       }
+
       this.props.onSuggestionSelected(name, clone);
     }
   }
-
 
   renderItemsOrEmpty(children) {
     let elem;

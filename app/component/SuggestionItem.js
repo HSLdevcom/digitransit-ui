@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 
 import Icon from './Icon';
-import { getLabel, getIcon } from '../util/suggestionUtils';
+import { getLabel, getIcon, isStop, getGTFSId } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) => {
@@ -45,8 +45,7 @@ const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) =
         <p className="suggestion-label" >{label[1]}</p>
       </div>
     </div>);
-  if (doNotShowLinkToStop === false && item.properties.layer === 'stop' &&
-    (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined) {
+  if (doNotShowLinkToStop === false && isStop(item.properties) && getGTFSId(item.properties) !== undefined && (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined) {
     /* eslint no-param-reassign: ["error", { "props": false }]*/
     return (<div className="suggestion-item-stop"><div><Link
       onClick={() => {
