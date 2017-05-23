@@ -326,6 +326,12 @@
   }
 }
 
+.mobile {
+  .departure-list-header {
+     margin-top: 0em;
+  }
+}
+
 .desktop .departure-list-header {
   .route-number-header {
     width: 50px;
@@ -336,6 +342,11 @@
   .time-header {
     width: 50px;
     margin-right: 30px;
+  }
+}
+
+.mobile {
+  .departure-list-header {
   }
 }
 
