@@ -61,7 +61,7 @@ Timetable.propTypes = {
     stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
       pattern: PropTypes.shape({
         route: PropTypes.shape({
-          shortName: PropTypes.string.isRequired,
+          shortName: PropTypes.string,
         }).isRequired,
       }).isRequired,
       stoptimes: PropTypes.arrayOf(PropTypes.shape({
