@@ -1,25 +1,25 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 
-class TimetableRow extends React.Component {
-  render() {
-    return (
-      <div className="timetable-row">
-        <h1 className="title bold">{this.props.title}:</h1>
-        {this.props.stoptimes.map((time,index) => {
-          return <span key={index}>
-            <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
-            <span>/{time.shortName} </span>
-          </span>
-        })}
-      </div>
-    );
-  }
-}
+const TimetableRow = ({ title, stoptimes }) => (
+  <div className="timetable-row">
+    <h1 className="title bold">{title}:</h1>
+    {stoptimes.map(time => (
+      <span key={time.shortName + time.scheduledDeparture}>
+        <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
+        <span>/{time.shortName} </span>
+      </span>
+    ))}
+  </div>
+);
 
 TimetableRow.propTypes = {
   title: PropTypes.string.isRequired,
-  stoptimes: PropTypes.array.isRequired,
+  stoptimes: PropTypes.arrayOf(PropTypes.shape({
+    shortName: PropTypes.string.isRequired,
+    serviceDay: PropTypes.number.isRequired,
+    scheduledDeparture: PropTypes.number.isRequired,
+  })).isRequired,
 };
 
 export default TimetableRow;

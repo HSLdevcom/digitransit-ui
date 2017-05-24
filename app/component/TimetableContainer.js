@@ -26,5 +26,5 @@ export default Relay.createContainer(Timetable, {
       }
     `,
   },
-  initialVariables: {date},
+  initialVariables: { date },
 });

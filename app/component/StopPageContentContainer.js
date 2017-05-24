@@ -50,7 +50,7 @@ class StopPageContentOptions extends React.Component {
       {this.state.showTab === 'timetable' &&
       <div>
         <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
-        <TimetableContainer stop={this.props.departureProps.stop}/>
+        <TimetableContainer stop={this.props.departureProps.stop} />
       </div>
       }
     </div>);
