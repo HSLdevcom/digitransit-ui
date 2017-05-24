@@ -42,6 +42,9 @@ jobs:
      env: VISUAL=ie11
      script: test/visual.sh
    - stage: test2
+     env: VISUAL=safari10
+     script: test/visual.sh
+   - stage: test2
      script: test/flow.sh
 
    - stage: deploy
