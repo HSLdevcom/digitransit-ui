@@ -4,6 +4,14 @@
 if [ -n "$TRAVIS_TAG" ]; then exit 0; fi
 
 set -e
+
+export CHROME_BIN=/usr/bin/google-chrome
+export DISPLAY=:99.0
+/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16
+sudo apt-get install -y libappindicator1 fonts-liberation
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome*.deb
+
 ORG=${ORG:-hsldevcom}
 yarn install
 
