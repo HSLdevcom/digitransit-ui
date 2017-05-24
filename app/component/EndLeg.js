@@ -19,9 +19,9 @@ function EndLeg(props) {
           <Icon img="icon-icon_mapMarker-point" className="itinerary-icon to to-it" />
         </div>
       </div>
-      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
+      <div onClick={props.focusAction} className="small-9 columns itinerary-instruction-column to end">
         <div className="itinerary-leg-first-row">
-          {props.to}
+          <div>{props.to}</div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
       </div>

@@ -5,7 +5,7 @@ import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { isBrowser } from '../../util/browser';
+import { isBrowser, isDebugTiles } from '../../util/browser';
 import Icon from '../Icon';
 
 /* eslint-disable global-require */
@@ -173,7 +173,7 @@ class Map extends React.Component {
         boundsOptions.paddingTopLeft = this.props.padding;
       }
 
-      let mapUrl = config.URL.MAP;
+      let mapUrl = (isDebugTiles && config.URL.MAP.debug) || config.URL.MAP;
       if (mapUrl !== null && typeof mapUrl === 'object') {
         mapUrl = mapUrl[this.context.getStore('PreferencesStore').getLanguage()] || config.URL.MAP.default;
       }
@@ -199,7 +199,7 @@ class Map extends React.Component {
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}
-            size={(config.map.useRetinaTiles && L.Browser.retina) ? '@2x' : ''}
+            size={(config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles) ? '@2x' : ''}
             minZoom={this.context.config.map.minZoom}
             maxZoom={this.context.config.map.maxZoom}
           />

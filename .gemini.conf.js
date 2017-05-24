@@ -38,7 +38,10 @@ module.exports = {
         "os": "OS X",
         "os_version": "Sierra",
         "browserName": "safari",
-        "version": "10",
+        "version": "10.1",
+	"safari.options" : {
+           "technologyPreview": true
+	},
         "locationContextEnabled": false
       }
     },
