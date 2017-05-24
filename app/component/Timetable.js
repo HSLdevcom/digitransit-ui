@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
 import TimetableRow from './TimetableRow';
+import ComponentUsageExample from './ComponentUsageExample';
 
 
 
@@ -33,9 +34,43 @@ class Timetable extends React.Component {
     );
   }
 }
+Timetable.displayName = 'Timetable';
+const exampleStop = {
+  "stoptimesForServiceDate": [{
+    "pattern": {
+      "route": {
+        "shortName": "787K"
+      }
+    },
+    "stoptimes": [{
+      "scheduledDeparture": 60180,
+      "serviceDay": 1495659600,
+    }]
+  }]
+};
+
+Timetable.description = () =>
+  <div>
+    <p>Renders a timetable</p>
+    <ComponentUsageExample description="">
+      <Timetable stop={exampleStop} />
+    </ComponentUsageExample>
+  </div>;
 
 Timetable.propTypes = {
-  stop: PropTypes.object.isRequired
+  stop: PropTypes.shape({
+    stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
+      pattern: PropTypes.shape({
+        route: PropTypes.shape({
+          shortName: PropTypes.string.isRequired
+        }).isRequired
+      }).isRequired,
+      stoptimes: PropTypes.arrayOf(PropTypes.shape({
+        scheduledDeparture: PropTypes.number.isRequired,
+        serviceDay: PropTypes.number.isRequired
+      })).isRequired
+    })).isRequired
+  }).isRequired
 };
 
 export default Timetable;
