@@ -16,8 +16,8 @@ module.exports = {
     stop.click('@clusterStop');
     stop.expectCardHeaderDescription('Ruoholahdenkatu');
     stop.waitForDepartureVisible();
-    stop.click('//div[contains(@class, "stop-tab-singletab")][contains(@class, "inactive")]');
-    stop.waitForElementVisible('//div[contains(@class, "timetable")]');
+    stop.click('@inactiveTab');
+    stop.waitForElementVisible('@timetable', browser.globals.itinerarySearchTimeout);
 
     browser.end();
   },

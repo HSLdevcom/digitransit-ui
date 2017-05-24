@@ -35,5 +35,11 @@ module.exports = {
     departure: {
       selector: '.route-detail-text',
     },
+    inactiveTab: {
+      selector: 'stop-tab-singletab.inactive',
+    },
+    timetable: {
+      selector: '.timetable',
+    },
   },
 };
