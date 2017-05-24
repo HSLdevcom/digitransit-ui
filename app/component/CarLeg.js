@@ -26,18 +26,12 @@ function CarLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
             {props.children}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>

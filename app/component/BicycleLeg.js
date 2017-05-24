@@ -16,6 +16,7 @@ function BicycleLeg(props, context) {
   let { mode } = props.leg;
   let legDescription = <span>{props.leg.from.name}</span>;
   const firstLegClassName = props.index === 0 ? 'start' : '';
+  let modeClassName = 'bicycle';
 
   if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
     stopsDescription = (
@@ -36,6 +37,7 @@ function BicycleLeg(props, context) {
   }
 
   if (props.leg.rentedBike === true) {
+    modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
         id="rent-cycle-at"
@@ -53,7 +55,6 @@ function BicycleLeg(props, context) {
     }
   }
 
-  const modeClassName = 'bicycle';
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
@@ -65,13 +66,13 @@ function BicycleLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div>
+        <div className="itinerary-leg-action">
           {stopsDescription}
         </div>
       </div>

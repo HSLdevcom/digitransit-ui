@@ -37,15 +37,13 @@ function RouteNumber(props) {
 
   // props.vertical is FALSE in Near you view
   // props.vertical is TRUE in itinerary view
-  const largeClass = props.large ? 'large' : '';
   return (
-
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
         { props.vertical === true ?
           <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
         : icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
       </span>
       {props.vertical === false ?
         <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
@@ -117,7 +115,6 @@ RouteNumber.description = () =>
 RouteNumber.propTypes = {
   mode: React.PropTypes.string.isRequired,
   text: React.PropTypes.node,
-  large: React.PropTypes.bool,
   vertical: React.PropTypes.bool,
   className: React.PropTypes.string,
   hasDisruption: React.PropTypes.bool,
@@ -130,7 +127,6 @@ RouteNumber.defaultProps = {
   withBar: false,
   className: '',
   vertical: false,
-  large: false,
   hasDisruption: false,
   fadeLong: false,
   text: '',

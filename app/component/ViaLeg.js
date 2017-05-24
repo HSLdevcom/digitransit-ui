@@ -31,17 +31,11 @@ function ViaLeg(props, context) {
       <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
-        className={'small-10 columns itinerary-instruction-column via'}
+        className={'small-9 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
             <div className="itinerary-via-leg-duration">
               <FormattedMessage
                 id="via-leg-stop-duration"
