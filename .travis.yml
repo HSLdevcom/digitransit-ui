@@ -37,4 +37,5 @@ jobs:
      node_js: "6"
      script: test/flow.sh
    - stage: deploy
+     node_js: "6"
      script: test/deploy.sh
