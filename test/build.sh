@@ -6,6 +6,8 @@ if [ -n "$TRAVIS_TAG" ]; then
     exit 0;
 fi
 
+echo -e "export const COMMIT_ID = \"${TRAVIS_COMMIT}\";\nexport const BUILD_TIME = \""`date -Iminutes -u`"\";" > app/buildInfo.js
+
 set -e
 ORG=${ORG:-hsldevcom}
 
