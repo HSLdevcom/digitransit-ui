@@ -7,7 +7,7 @@ import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
-import Timetable from './Timetable';
+import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
 class StopPageContentOptions extends React.Component {
@@ -50,7 +50,7 @@ class StopPageContentOptions extends React.Component {
       {this.state.showTab === 'timetable' &&
       <div>
         <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
-        <Timetable />
+        <TimetableContainer stop={this.props.departureProps.stop}/>
       </div>
       }
     </div>);
@@ -96,6 +96,7 @@ export default Relay.createContainer(StopPageContentOrEmpty, {
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
+        ${TimetableContainer.getFragment('stop')}
       }
     `,
   },

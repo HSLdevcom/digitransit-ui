@@ -1,45 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
 import moment from 'moment';
 import TimetableRow from './TimetableRow';
 
-const test_timetable = [{
-  serviceDay:1495486800,
-  scheduledArrival:42320,
-  shortName: "55a"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:42420,
-  shortName: "57"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:42520,
-  shortName: "52"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:42620,
-  shortName: "55"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:42720,
-  shortName: "62"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:42820,
-  shortName: "103n"
-},{
-  serviceDay:1495486800,
-  scheduledArrival:51820,
-  shortName: "57"
-}];
 
-const timetableMap = groupBy(test_timetable, (time) => {
-  return moment.unix(time.serviceDay + time.scheduledArrival).format('HH');
-});
+
+function mapStopTimes(stoptimesObject) {
+  return stoptimesObject.map((stoptime) => {
+    return stoptime.stoptimes.map((st) => {return{shortName: stoptime.pattern.route.shortName, scheduledDeparture: st.scheduledDeparture, serviceDay: st.serviceDay}});
+  }).reduce((acc,val)=> acc.concat(val),[]);
+}
+
+function groupArrayByHour(stoptimesArray) {
+  return groupBy(stoptimesArray, (stoptime) => {
+    return moment.unix(stoptime.serviceDay + stoptime.scheduledDeparture).format('HH');
+  });
+}
 
 class Timetable extends React.Component {
   render() {
+    const timetableMap = groupArrayByHour(mapStopTimes(this.props.stop.stoptimesForServiceDate));
     return (
       <div className="timetable">
         {map(timetableMap, (stoptimes,hour)=>{
@@ -56,6 +37,7 @@ class Timetable extends React.Component {
 }
 
 Timetable.propTypes = {
+  stop: PropTypes.object.isRequired
 };
 
 export default Timetable;

@@ -8,7 +8,7 @@ class TimetableRow extends React.Component {
         <h1 className="title bold">{this.props.title}:</h1>
         {this.props.stoptimes.map((time,index) => {
           return <span key={index}>
-            <span className="bold">{moment.unix(time.serviceDay + time.scheduledArrival).format('mm')}</span>
+            <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
             <span>/{time.shortName} </span>
           </span>
         })}
