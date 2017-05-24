@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
 import moment from 'moment';
 import TimetableRow from './TimetableRow';
 
@@ -23,14 +22,13 @@ class Timetable extends React.Component {
     const timetableMap = groupArrayByHour(mapStopTimes(this.props.stop.stoptimesForServiceDate));
     return (
       <div className="timetable">
-        {map(timetableMap, (stoptimes,hour)=>{
-          return <TimetableRow
-                   key={hour}
-                   title={hour}
-                   stoptimes={stoptimes}
-                 />
-          })
-        }
+        {Object.keys(timetableMap).sort().map(hour =>
+          <TimetableRow
+           key={hour}
+           title={hour}
+           stoptimes={timetableMap[hour]}
+         />
+        )}
       </div>
     );
   }
