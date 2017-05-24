@@ -8,35 +8,33 @@ branches:
 cache: yarn
 
 language: node_js
-
-node_js:
-  - "6"
+install: true
 services:
   - docker
-install:
-  - true
-before_deploy:
-  - echo "before deploy!"
-script:
-  - test/build.sh
 
 jobs:
   include:
-
-   - stage: test2
+   - stage: build container
+     node_js: "6"
+     script: test/build.sh
+   - stage: test
      env: VISUAL=edge13
+     node_js: "6"
      script: test/visual.sh
-   - stage: test2
+   - stage: test
      env: VISUAL=chrome50
+     node_js: "6"
      script: test/visual.sh
-   - stage: test2
+   - stage: test
      env: VISUAL=ie11
+     node_js: "6"
      script: test/visual.sh
-   - stage: test2
+   - stage: test
      env: VISUAL=safari10
+     node_js: "6"
      script: test/visual.sh
-   - stage: test2
+   - stage: test
+     node_js: "6"
      script: test/flow.sh
-
    - stage: deploy
      script: test/deploy.sh
