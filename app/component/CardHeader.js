@@ -26,6 +26,10 @@ const CardHeader = ({
         <Icon img={icon} />
       </div>
     ) : null}
+    {className === 'stop-page header' &&
+    <div className="stop-page-header_icon-container">
+      <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
+      </div>}
     <div className="card-header-wrapper">
       <span className={headingStyle || 'h4'}>
         {name}{unlinked ? null : <span className="link-arrow"> ›</span>}

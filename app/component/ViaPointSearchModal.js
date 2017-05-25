@@ -20,7 +20,7 @@ class ViaPointSearchModal extends React.Component {
 
   componentDidUpdate() {
     if (this.modalIsOpen() && this.searchInputContainer) {
-      this.searchInputContainer.autowhatever.input.focus();
+      this.searchInputContainer.focus();
     }
   }
 
