@@ -62,7 +62,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
       bounds={(
-        pattern.geometry.filter(point => (point.lat != null && point.lon != null)) ||
+        pattern.geometry.filter(point => (point.lat !== null && point.lon !== null)) ||
         pattern.stops).map(p => [p.lat, p.lon],
       )}
       zoom={zoom}
