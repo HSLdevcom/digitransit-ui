@@ -14,6 +14,7 @@ import {
   urlMiddleware,
   gqErrorsMiddleware,
   retryMiddleware,
+  batchMiddleware,
 } from 'react-relay-network-layer';
 import OfflinePlugin from 'offline-plugin/runtime';
 
@@ -94,11 +95,14 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   Relay.injectNetworkLayer(new RelayNetworkLayer([
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
+    }),
+    batchMiddleware({
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
     retryMiddleware(),
-  ], { disableBatchQuery: false }));
+
+  ]));
 
   IsomorphicRelay.injectPreparedData(
     Relay.Store,
@@ -111,7 +115,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     .addConfigMessages(config);
 
   const history = historyCreator(config);
-
 
   function track() {
     // track "getting back to home"
