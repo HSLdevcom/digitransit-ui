@@ -39,7 +39,7 @@ module.exports = {
       selector: '.route-detail-text',
     },
     inactiveTab: {
-      selector: 'stop-tab-singletab.inactive',
+      selector: '.stop-tab-singletab.inactiveTab',
     },
     timetable: {
       selector: '.timetable',
