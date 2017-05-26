@@ -1,6 +1,7 @@
 
 function clickFavourites() {
   this.api.debug('opening favourites tab');
+  this.api.pause(1000);
   this.waitForElementVisible('@favouritePaneSelect', this.api.globals.elementVisibleTimeout);
   this.api.checkedClick(this.elements.favouritePaneSelect.selector);
   return this;

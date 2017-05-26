@@ -1,4 +1,4 @@
-[![Build](https://api.travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)](https://api.travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)
+[![Build Status](https://travis-ci.org/HSLdevcom/digitransit-ui.svg?branch=master)](https://travis-ci.org/HSLdevcom/digitransit-ui)
 
 Digitransit-ui is a mobile friendly User interface built to work with Digitransit platform
 

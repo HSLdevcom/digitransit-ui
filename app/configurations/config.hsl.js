@@ -31,6 +31,8 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
+  feedIds: ['HSL'],
+
   preferredAgency: 'HSL',
   showAdformTrackingPixel: true,
 
