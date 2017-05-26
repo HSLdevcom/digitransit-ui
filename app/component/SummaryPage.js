@@ -35,6 +35,7 @@ class SummaryPage extends React.Component {
     queryAggregator: React.PropTypes.shape({
       readyState: React.PropTypes.shape({
         done: React.PropTypes.bool.isRequired,
+        error: React.PropTypes.string,
       }).isRequired,
     }).isRequired,
     router: React.PropTypes.object.isRequired,
@@ -195,7 +196,7 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { breakpoint, queryAggregator: { readyState: { done } } } = this.context;
+    const { breakpoint, queryAggregator: { readyState: { done, error } } } = this.context;
     // Call props.map directly in order to render to same map instance
     const map = this.props.map ? this.props.map.type({
       itinerary: this.props.plan.plan.itineraries &&
@@ -209,12 +210,13 @@ class SummaryPage extends React.Component {
     if (breakpoint === 'large') {
       let content;
 
-      if (done) {
+      if (done || error !== null) {
         content = (
           <SummaryPlanContainer
             plan={this.props.plan.plan}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
+            error={error}
           >
             {this.props.content && React.cloneElement(
               this.props.content,
@@ -253,7 +255,7 @@ class SummaryPage extends React.Component {
 
     let content;
 
-    if (!done) {
+    if (!done && !error) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />

@@ -84,10 +84,9 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const activeIndex = this.getActiveIndex();
-    if (!this.props.itineraries) {
+    if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
-
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
