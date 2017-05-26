@@ -26,6 +26,9 @@ module.exports = {
     clusterStop: {
       selector: '.card .cursor-pointer',
     },
+    clusterHeader: {
+      selector: '.card .header-primary',
+    },
     cardHeader: {
       selector: '.card-header .sub-header-h4',
     },
@@ -41,5 +44,9 @@ module.exports = {
     timetable: {
       selector: '.timetable',
     },
+    timetableRow: {
+      selector: '.timetable-row',
+    },
+
   },
 };

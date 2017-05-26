@@ -16,9 +16,11 @@ module.exports = {
     stop.click('@clusterStop');
     stop.expectCardHeaderDescription('Ruoholahdenkatu');
     stop.waitForDepartureVisible();
+    stop.click('@clusterHeader');
+    stop.waitForElementVisible('@inactiveTab', browser.globals.itinerarySearchTimeout);
     stop.click('@inactiveTab');
     stop.waitForElementVisible('@timetable', browser.globals.itinerarySearchTimeout);
-
+    stop.waitForElementVisible('@timetableRow', browser.globals.itinerarySearchTimeout);
     browser.end();
   },
 };
