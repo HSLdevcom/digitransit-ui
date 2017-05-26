@@ -13,10 +13,11 @@ module.exports = {
 
     const stop = browser.page.stopCard();
     stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
+    stop.waitForElementVisible('@clusterStop', browser.globals.itinerarySearchTimeout);
     stop.click('@clusterStop');
+    stop.waitForElementVisible('@clusterLink', browser.globals.itinerarySearchTimeout);
+    stop.click('@clusterLink');
     stop.expectCardHeaderDescription('Ruoholahdenkatu');
-    stop.waitForDepartureVisible();
-    stop.click('@clusterHeader');
     stop.waitForElementVisible('@inactiveTab', browser.globals.itinerarySearchTimeout);
     stop.click('@inactiveTab');
     stop.waitForElementVisible('@timetable', browser.globals.itinerarySearchTimeout);
