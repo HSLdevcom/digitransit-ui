@@ -7,6 +7,7 @@ const PIWIK_ID = process.env.PIWIK_ID;
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
+const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 
 export default {
   PIWIK_ADDRESS,
@@ -14,7 +15,7 @@ export default {
   SENTRY_DSN,
   PORT,
   CONFIG,
-
+  OTPTimeut: OTP_TIMEOUT,
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,

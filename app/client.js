@@ -100,8 +100,14 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
-    retryMiddleware(),
-
+    retryMiddleware({
+      fetchTimeout: config.OTPTimeout + 1000,
+    }),
+    next => (req) => {
+      // eslint-disable-next-line no-param-reassign
+      req.headers.OTPTimeout = config.OTPTimeout;
+      return next(req);
+    },
   ]));
 
   IsomorphicRelay.injectPreparedData(
