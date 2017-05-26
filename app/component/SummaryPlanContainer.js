@@ -11,6 +11,7 @@ class SummaryPlanContainer extends React.Component {
     plan: React.PropTypes.object.isRequired,
     itineraries: React.PropTypes.array.isRequired,
     children: React.PropTypes.node,
+    error: React.PropTypes.string,
     params: React.PropTypes.shape({
       from: React.PropTypes.string.isRequired,
       to: React.PropTypes.string.isRequired,
