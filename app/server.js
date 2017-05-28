@@ -14,7 +14,7 @@ import {
   gqErrorsMiddleware,
   retryMiddleware,
   batchMiddleware,
-} from 'react-relay-network-layer';
+} from 'react-relay-network-layer/lib';
 import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
