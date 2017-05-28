@@ -15,7 +15,7 @@ export default {
   SENTRY_DSN,
   PORT,
   CONFIG,
-  OTPTimeut: OTP_TIMEOUT,
+  OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
