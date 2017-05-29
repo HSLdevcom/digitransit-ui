@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { isMobile, isAndroid, isChrome } from '../util/browser';
+import { isMobile, isAndroid, isChrome, isSamsungBrowser } from '../util/browser';
 
 export default class ItineraryTimePicker extends React.Component {
   static propTypes = {
@@ -128,7 +128,7 @@ export default class ItineraryTimePicker extends React.Component {
     if (
       this.state.lastKey === 8 ||
       this.state.lastKey === 46 ||
-      (this.state.lastKey === 229 && (isAndroid && isChrome))
+      (this.state.lastKey === 229 && (isAndroid && isChrome && !isSamsungBrowser))
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
@@ -152,7 +152,7 @@ export default class ItineraryTimePicker extends React.Component {
     if (
       event.keyCode === 8 ||
       event.keyCode === 46 ||
-      (event.keyCode === 229 && (isAndroid && isChrome))
+      (event.keyCode === 229 && (isAndroid && isChrome && !isSamsungBrowser))
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
