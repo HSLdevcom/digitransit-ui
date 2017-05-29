@@ -3,10 +3,11 @@
       background-color: $white;
       border: 1px solid $light-gray;
       border-top: none;
-      padding: $padding-medium $padding-xlarge $padding-xlarge $padding-xlarge;
+      padding: $padding-medium $padding-large $padding-large $padding-large;
       &>span {
-      	padding-right: $padding-xlarge;
+        width: 85px;
       	font-size: $font-size-normal;
+        display: inline-block;
       }
       h1.title {
       	font-size: $font-size-xlarge;
