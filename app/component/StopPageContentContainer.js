@@ -48,7 +48,7 @@ class StopPageContentOptions extends React.Component {
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div>
+      <div style={{ height: '100%', overflowY: 'scroll' }}>
         <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
         <TimetableContainer stop={this.props.departureProps.stop} />
       </div>
