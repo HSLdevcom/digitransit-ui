@@ -9,6 +9,9 @@
       	font-size: $font-size-normal;
         display: inline-block;
       }
+      .mobile h1.title {
+        font-size: $font-size-large;
+      }
       h1.title {
       	font-size: $font-size-xlarge;
       }
