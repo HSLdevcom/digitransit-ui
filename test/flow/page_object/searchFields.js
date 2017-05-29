@@ -83,14 +83,24 @@ function itinerarySearch(origin, destination) {
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
   this.openSearch();
-  this.api.checkedClick(this.elements.search.selector);
-  this.waitForElementVisible('@searchDestination', timeout)
-  .setValue('@searchDestination', search);
+  this.waitForElementVisible('@searchDestination', timeout);
+  this.setValue('@searchDestination', search);
   this.waitForElementVisible('@firstSuggestedItem', timeout);
-
   return this.enterKeySearch();
 }
 
+function selectTimetableForFirstResult(search) {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.openSearch();
+  this.waitForElementVisible('@searchDestination', timeout);
+  this.setValue('@searchDestination', search);
+  this.waitForElementVisible('@firstSuggestedItem', timeout);
+//  this.pause(1000000);
+
+  this.checkedClick(this.elements.firstSuggestedItemTimeTable.selector);
+
+  // return this.enterKeySearch();
+}
 
 function verifyItemInSearchResult(favouriteName) {
   this.api.withXpath(() => {
@@ -110,6 +120,7 @@ module.exports = {
     enterKeyDestination,
     itinerarySearch,
     setSearch,
+    selectTimetableForFirstResult,
     openSearch,
     waitSearchClosing,
     verifyItemInSearchResult,
@@ -132,6 +143,9 @@ module.exports = {
     },
     firstSuggestedItem: {
       selector: '#react-autowhatever-suggest--item-0',
+    },
+    firstSuggestedItemTimeTable: {
+      selector: '#react-autowhatever-suggest--item-0 .suggestion-item-timetable-label',
     },
     search: {
       selector: 'a#search-tab',

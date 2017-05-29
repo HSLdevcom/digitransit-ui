@@ -97,9 +97,8 @@ class SearchMainContainer extends React.Component {
     });
   }
 
-  focusInput = value => (
-    // this.searchInputs[value] is a hack
-    this.searchInputs[value] && this.searchInputs[value].autowhatever.input.focus()
+  focusInput = tab => (
+    this.searchInputs[tab] && this.searchInputs[tab].focus()
   )
 
   closeModal = () => this.context.router.goBack()
