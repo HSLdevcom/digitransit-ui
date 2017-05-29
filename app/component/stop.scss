@@ -74,6 +74,9 @@
   border-top-width: 2px;
   padding-bottom: 0;
   position: relative;
+  > button {
+    outline: 0;
+  }
 }
 
 .mobile {
@@ -92,7 +95,7 @@
   }
 }
 
-.stop-tab-singletab {
+button.stop-tab-singletab, button.stop-tab-singletab:hover {
   text-transform: uppercase;
   font-size: $font-size-xxsmall;
   width: 50%;
@@ -114,7 +117,7 @@
     fill: $primary-color;
   }
 
-  &.active {
+  &.active, &.active:hover {
     background-color: $background-color;
     border-bottom: 1px solid $background-color;
     border-top: 4px solid $primary-color;
