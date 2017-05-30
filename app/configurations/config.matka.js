@@ -4,6 +4,7 @@ const APP_TITLE = 'Matka.fi';
 
 export default {
   CONFIG,
+  OTPTimeout: process.env.OTP_TIMEOUT || 30000,
 
   contactName: {
     sv: 'Livin',

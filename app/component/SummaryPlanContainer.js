@@ -11,6 +11,7 @@ class SummaryPlanContainer extends React.Component {
     plan: React.PropTypes.object.isRequired,
     itineraries: React.PropTypes.array.isRequired,
     children: React.PropTypes.node,
+    error: React.PropTypes.string,
     params: React.PropTypes.shape({
       from: React.PropTypes.string.isRequired,
       to: React.PropTypes.string.isRequired,
@@ -84,10 +85,9 @@ class SummaryPlanContainer extends React.Component {
   render() {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const activeIndex = this.getActiveIndex();
-    if (!this.props.itineraries) {
+    if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
-
     return (
       <div className="summary">
         <ItinerarySummaryListContainer

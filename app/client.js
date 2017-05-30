@@ -14,7 +14,8 @@ import {
   urlMiddleware,
   gqErrorsMiddleware,
   retryMiddleware,
-} from 'react-relay-network-layer';
+  batchMiddleware,
+} from 'react-relay-network-layer/lib';
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
@@ -94,11 +95,20 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   Relay.injectNetworkLayer(new RelayNetworkLayer([
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
+    }),
+    batchMiddleware({
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
-    retryMiddleware(),
-  ], { disableBatchQuery: false }));
+    retryMiddleware({
+      fetchTimeout: config.OTPTimeout + 1000,
+    }),
+    next => (req) => {
+      // eslint-disable-next-line no-param-reassign
+      req.headers.OTPTimeout = config.OTPTimeout;
+      return next(req);
+    },
+  ]));
 
   IsomorphicRelay.injectPreparedData(
     Relay.Store,
@@ -111,7 +121,6 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     .addConfigMessages(config);
 
   const history = historyCreator(config);
-
 
   function track() {
     // track "getting back to home"
