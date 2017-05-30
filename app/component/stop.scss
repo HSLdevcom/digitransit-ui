@@ -109,8 +109,8 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   border-bottom: 1px solid #dddddd;
   border-left: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
-
-      padding-bottom: 0.8em;
+  padding-bottom: 0.8em;
+  padding-top: 0;
 
   svg {
     stroke: $primary-color;
