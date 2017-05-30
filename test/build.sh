@@ -1,13 +1,16 @@
 #/bin/bash
 
 # do nothing if the build is for tagging a prod release
-if [ -n "$TRAVIS_TAG" ]; then exit 0; fi
+if [ -n "$TRAVIS_TAG" ]; then
+    echo "*** Tagged build:" $TRAVIS_TAG
+    exit 0;
+fi
 
 echo -e "export const COMMIT_ID = '${TRAVIS_COMMIT}';\nexport const BUILD_TIME = '"`date -Iminutes -u`"';" > app/buildInfo.js
 
 set -e
 ORG=${ORG:-hsldevcom}
-echo "*** Tag:" $TRAVIS_TAG
+
 yarn install
 yarn run lint
 docker build -t $ORG/digitransit-ui:ci-$TRAVIS_COMMIT .
