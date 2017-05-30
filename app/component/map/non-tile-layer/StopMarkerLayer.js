@@ -68,7 +68,7 @@ class StopMarkerLayer extends React.Component {
           this.context.map.getZoom() <= this.context.config.terminalStopsMaxZoom) {
         stops.push(
           <TerminalMarker
-            key={stop.parentStation.gtfsId}
+            key={stop.gtfsId}
             terminal={stop.parentStation}
             selected={selected}
             mode={modeClass}
