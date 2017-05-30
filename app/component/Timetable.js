@@ -7,7 +7,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 function mapStopTimes(stoptimesObject) {
   return stoptimesObject.map(stoptime =>
-    stoptime.stoptimes.map(st => ({ shortName: stoptime.pattern.route.shortName,
+    stoptime.stoptimes.map(st => ({
+      name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
       scheduledDeparture: st.scheduledDeparture,
       serviceDay: st.serviceDay,
     })),
@@ -39,10 +40,25 @@ const exampleStop = {
     pattern: {
       route: {
         shortName: '787K',
+        agency: {
+          name: 'Helsingin seudun liikenne',
+        },
       },
     },
     stoptimes: [{
       scheduledDeparture: 60180,
+      serviceDay: 1495659600,
+    }],
+  }, {
+    pattern: {
+      route: {
+        agency: {
+          name: 'Helsingin seudun liikenne',
+        },
+      },
+    },
+    stoptimes: [{
+      scheduledDeparture: 61180,
       serviceDay: 1495659600,
     }],
   }],
@@ -62,6 +78,9 @@ Timetable.propTypes = {
       pattern: PropTypes.shape({
         route: PropTypes.shape({
           shortName: PropTypes.string,
+          agency: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+          }).isRequired,
         }).isRequired,
       }).isRequired,
       stoptimes: PropTypes.arrayOf(PropTypes.shape({

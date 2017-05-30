@@ -15,6 +15,10 @@ export default Relay.createContainer(Timetable, {
             headsign
             route {
               shortName
+              agency {
+                id
+                name
+              }
             }
           }
           stoptimes {

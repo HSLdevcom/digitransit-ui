@@ -8,12 +8,16 @@
         width: 85px;
       	font-size: $font-size-normal;
         display: inline-block;
+        overflow: hidden;
       }
       .mobile h1.title {
         font-size: $font-size-large;
       }
       h1.title {
       	font-size: $font-size-xlarge;
+      }
+      .line-name {
+        white-space: nowrap;
       }
   }
 }
