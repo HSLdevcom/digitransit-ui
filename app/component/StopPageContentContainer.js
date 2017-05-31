@@ -41,14 +41,14 @@ class StopPageContentOptions extends React.Component {
         {this.state.showTab === 'right-now' && <DepartureListHeader />}
       </div>
       {this.state.showTab === 'right-now' &&
-        <div style={{ height: '100%', overflowY: 'scroll' }}>
+        <div style={{ height: '100%', overflowY: 'auto' }}>
           <div className="stop-scroll-container">
             <DepartureListContainerWithProps {...this.props.departureProps} />
           </div>
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div style={{ height: '100%', overflowY: 'scroll' }}>
+      <div style={{ height: '100%', overflowY: 'auto' }}>
         <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
         <TimetableContainer stop={this.props.departureProps.stop} />
       </div>
