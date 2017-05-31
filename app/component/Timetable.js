@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import groupBy from 'lodash/groupBy';
-import moment from 'moment';
+import padStart from 'lodash/padStart';
 import TimetableRow from './TimetableRow';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -16,17 +16,19 @@ function mapStopTimes(stoptimesObject) {
 }
 
 function groupArrayByHour(stoptimesArray) {
-  return groupBy(stoptimesArray, stoptime => (moment.unix(stoptime.serviceDay + stoptime.scheduledDeparture).format('HH')));
+  return groupBy(stoptimesArray, stoptime =>
+    Math.floor(stoptime.scheduledDeparture / (60 * 60)),
+  );
 }
 
 const Timetable = ({ stop }) => {
   const timetableMap = groupArrayByHour(mapStopTimes(stop.stoptimesForServiceDate));
   return (
     <div className="timetable">
-      {Object.keys(timetableMap).sort().map(hour =>
+      {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
         <TimetableRow
           key={hour}
-          title={hour}
+          title={padStart(hour % 24, 2, '0')}
           stoptimes={timetableMap[hour]}
         />,
       )}
