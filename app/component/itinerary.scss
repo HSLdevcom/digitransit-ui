@@ -170,7 +170,7 @@ $itinerary-tab-switch-height: 48px;
   margin: 0;
   border: 0px;
   border-top: 1px solid #ddd;
-  padding: $padding-medium 10px $padding-large 20px;
+  padding: $padding-medium;
   .itinerary-ticket-layout-left {
     display: inline-block;
     font-size: 2.4em;
@@ -243,6 +243,7 @@ $itinerary-tab-switch-height: 48px;
 
   .leg-before {
     min-width: 15px;
+    max-width: 25px;
     position: relative;
   }
 
@@ -300,6 +301,7 @@ $itinerary-tab-switch-height: 48px;
     text-align: center;
     color: $black;
     margin-bottom: 0.5em;
+    flex-grow: 0;
 
     a {
         text-decoration: none;
@@ -725,7 +727,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-call-agency-warning {
-  width: calc(100% - 20px);
+  width: calc(100% - 50px);
   height: calc(100% - 3em);
   background-color: rgba(254, 209, 0, 0.3);
   position:absolute;
@@ -787,8 +789,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-leg-container {
-  margin-left: 70px;
-  width: 70%;
+  margin-left: calc(100% / 6);
   }
 
 .vehicle-number-container-v {
@@ -796,12 +797,10 @@ div.itinerary-container-content {
   }
 
 .mobile {
-  .itinerary-leg-container {
-    margin-left: 20%;
+  .itinerary-main {
+    margin: 0 $padding-small;
   }
   .itinerary-row {
-    width: 90%;
-    display: flex;
    .leg-before-line {
     &.call {
       height: 105%;
