@@ -86,6 +86,7 @@ import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
+import Timetable from './Timetable';
 
 const components = {
   Icon,
@@ -173,6 +174,7 @@ const components = {
   ViaLeg,
   CallAgencyLeg,
   CallAgencyWarning,
+  Timetable,
 };
 
 function getColors() {

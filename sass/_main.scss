@@ -34,7 +34,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/origin-destination-bar';
 @import '../app/component/disruption';
 @import '../app/component/departure';
-@import '../app/component/stop'; 
+@import '../app/component/stop';
 @import '../app/component/util';
 @import '../app/component/not-implemented';
 @import '../app/component/city-bike';
@@ -44,6 +44,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/favourite-icon-table';
 @import '../app/component/splash';
 @import '../app/component/documentation';
+@import '../app/component/timetable';
 
 @import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
 

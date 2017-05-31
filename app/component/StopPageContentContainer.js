@@ -7,6 +7,7 @@ import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
+import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
 class StopPageContentOptions extends React.Component {
@@ -40,14 +41,15 @@ class StopPageContentOptions extends React.Component {
         {this.state.showTab === 'right-now' && <DepartureListHeader />}
       </div>
       {this.state.showTab === 'right-now' &&
-        <div style={{ height: '100%', overflowY: 'scroll' }}>
-          <div className="stop-scroll-container">
-            <DepartureListContainerWithProps {...this.props.departureProps} />
-          </div>
+        <div className="stop-scroll-container momentum-scroll">
+          <DepartureListContainerWithProps {...this.props.departureProps} />
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+      <div className="momentum-scroll">
+        <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+        <TimetableContainer stop={this.props.departureProps.stop} />
+      </div>
       }
     </div>);
   }
@@ -92,6 +94,7 @@ export default Relay.createContainer(StopPageContentOrEmpty, {
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
+        ${TimetableContainer.getFragment('stop')}
       }
     `,
   },
