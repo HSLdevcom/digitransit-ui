@@ -25,6 +25,7 @@ export default Relay.createContainer(Timetable, {
             scheduledDeparture
             serviceDay
             headsign
+            pickupType
           }
         }
       }

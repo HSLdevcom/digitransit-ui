@@ -7,11 +7,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 function mapStopTimes(stoptimesObject) {
   return stoptimesObject.map(stoptime =>
-    stoptime.stoptimes.map(st => ({
-      name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
-      scheduledDeparture: st.scheduledDeparture,
-      serviceDay: st.serviceDay,
-    })),
+    stoptime.stoptimes
+      .filter(st => st.pickupType !== 'NONE')
+      .map(st => ({
+        name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
+        scheduledDeparture: st.scheduledDeparture,
+        serviceDay: st.serviceDay,
+      })),
   ).reduce((acc, val) => acc.concat(val), []);
 }
 
