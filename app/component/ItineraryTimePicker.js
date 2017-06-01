@@ -22,7 +22,10 @@ export default class ItineraryTimePicker extends React.Component {
   }
 
   componentWillReceiveProps({ initHours, initMin }) {
-    if (this.props.initHours !== initHours || this.props.initMin !== initMin) {
+    if (
+      Number(this.hourEl.value) !== Number(initHours) ||
+      Number(this.minEl.value) !== Number(initMin)
+    ) {
       this.setState({
         hours: initHours,
         minutes: initMin,
