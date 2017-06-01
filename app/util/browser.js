@@ -8,6 +8,7 @@ export const isMobile = isBrowser && navigator.userAgent.match(/Mobile/) != null
 export const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;
 export const isAndroid = isBrowser && navigator.userAgent.match(/Android/) != null;
 export const isChrome = isBrowser && navigator.userAgent.match(/Chrome/) != null;
+export const isSamsungBrowser = isBrowser && navigator.userAgent.match(/SamsungBrowser/) != null;
 export const isImperial = (config) => {
   if (config.imperialEnabled &&
       (String(navigator.userLanguage).toLowerCase() === 'en-us' ||

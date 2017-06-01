@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { isMobile, isAndroid, isChrome } from '../util/browser';
+import { isMobile } from '../util/browser';
 
 export default class ItineraryTimePicker extends React.Component {
   static propTypes = {
@@ -127,8 +127,7 @@ export default class ItineraryTimePicker extends React.Component {
     // If user erased the input by backspace/delete, return the original value
     if (
       this.state.lastKey === 8 ||
-      this.state.lastKey === 46 ||
-      (this.state.lastKey === 229 && (isAndroid && isChrome))
+      this.state.lastKey === 46
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
@@ -151,8 +150,7 @@ export default class ItineraryTimePicker extends React.Component {
   handleKeyDown = (event) => {
     if (
       event.keyCode === 8 ||
-      event.keyCode === 46 ||
-      (event.keyCode === 229 && (isAndroid && isChrome))
+      event.keyCode === 46
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
