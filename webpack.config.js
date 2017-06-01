@@ -197,10 +197,7 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
-    new webpack.NamedChunksPlugin((chunk) => {
-      if (chunk.name) { return chunk.name; }
-      return chunk.modules.map(m => path.relative(m.context, m.request)).join('_');
-    }),
+    new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
@@ -215,8 +212,12 @@ function getPluginsConfig(env) {
       names: ['common', 'leaflet', 'manifest'],
       minChunks: Infinity,
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      children: true,
+      async: true,
+    }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.2 }),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 60000 }),
+    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 30000 }),
     new NameAllModulesPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
