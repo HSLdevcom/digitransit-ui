@@ -8,7 +8,13 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
+import {
+  RelayNetworkLayer,
+  urlMiddleware,
+  gqErrorsMiddleware,
+  retryMiddleware,
+  batchMiddleware,
+} from 'react-relay-network-layer/lib';
 import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
@@ -58,10 +64,12 @@ function getRobotNetworkLayer(config) {
       retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
+      }),
+      batchMiddleware({
         batchUrl: `${config.URL.OTP}index/graphql/batch`,
       }),
       gqErrorsMiddleware(),
-    ], { disableBatchQuery: false });
+    ]);
   }
   return robotLayers[config.CONFIG];
 }
@@ -71,13 +79,15 @@ const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 function getNetworkLayer(config) {
   if (!networkLayers[config.CONFIG]) {
     networkLayers[config.CONFIG] = new RelayNetworkLayer([
-      retryMiddleware({ RELAY_FETCH_TIMEOUT, retryDelays: [] }),
+      retryMiddleware({ fetchTimeout: RELAY_FETCH_TIMEOUT, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
+      }),
+      batchMiddleware({
         batchUrl: `${config.URL.OTP}index/graphql/batch`,
       }),
       gqErrorsMiddleware(),
-    ], { disableBatchQuery: false },
+    ],
     );
   }
   return networkLayers[config.CONFIG];

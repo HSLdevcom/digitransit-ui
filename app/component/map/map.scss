@@ -184,7 +184,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   }
   .card {
     border: none;
-
+    >a {
+      display: block;
+    }
     hr {
       height: 1px;
       color: #ddd;

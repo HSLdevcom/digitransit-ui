@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { isMobile, isAndroid, isChrome } from '../util/browser';
+import { isMobile } from '../util/browser';
 
 export default class ItineraryTimePicker extends React.Component {
   static propTypes = {
@@ -41,10 +41,6 @@ export default class ItineraryTimePicker extends React.Component {
             max: timePropertyId === 'hours' ? 23 : 59,
           })
           : input;
-        this.setState({
-          [timePropertyId]: newTime,
-          [oldPropertyId]: newTime,
-        });
         // Send new time request
         const requestString = timePropertyId === 'hours' ? `${newTime} ${this.state.minutes}` : `${this.state.hours} ${newTime}`;
         this.props.changeTime({ target: { value: requestString } });
@@ -53,7 +49,15 @@ export default class ItineraryTimePicker extends React.Component {
           this.minEl.focus();
           this.minEl.setSelectionRange(0, 2);
         }
+        this.setState({
+          [timePropertyId]: newTime,
+          [oldPropertyId]: newTime,
+        });
       } else if (input.length === 3) {
+        const requestString = timePropertyId === 'hours'
+        ? `${event.target.value.slice(-1)} ${this.state.minutes}`
+        : `${this.state.hours} ${event.target.value.slice(-1)}`;
+        this.props.changeTime({ target: { value: requestString } });
         this.setState({
           [timePropertyId]: event.target.value.slice(-1),
           [oldPropertyId]: event.target.value.slice(-1),
@@ -123,8 +127,7 @@ export default class ItineraryTimePicker extends React.Component {
     // If user erased the input by backspace/delete, return the original value
     if (
       this.state.lastKey === 8 ||
-      this.state.lastKey === 46 ||
-      (this.state.lastKey === 229 && isAndroid && isChrome)
+      this.state.lastKey === 46
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({
@@ -147,8 +150,7 @@ export default class ItineraryTimePicker extends React.Component {
   handleKeyDown = (event) => {
     if (
       event.keyCode === 8 ||
-      event.keyCode === 46 ||
-      (event.keyCode === 229 && isAndroid && isChrome)
+      event.keyCode === 46
     ) {
       if (event.target.id === 'inputHours') {
         this.setState({

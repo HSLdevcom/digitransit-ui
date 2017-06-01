@@ -35,6 +35,7 @@ jobs:
      script: test/visual.sh
    - stage: test
      node_js: "6"
+     env: FLOW=1
      script: test/flow.sh
    - stage: deploy
      node_js: "6"
