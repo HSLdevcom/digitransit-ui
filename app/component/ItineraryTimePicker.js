@@ -19,6 +19,18 @@ export default class ItineraryTimePicker extends React.Component {
     this.onChangeTime = this.onChangeTime.bind(this);
   }
 
+  componentWillReceiveProps({ initHours, initMin }) {
+    if (this.props.initHours !== initHours || this.props.initMin !== initMin) {
+      this.setState({
+        hours: initHours,
+        minutes: initMin,
+        lastKey: 0,
+        oldHour: initHours,
+        oldMinute: initMin,
+      });
+    }
+  }
+
   onChangeTime(event) {
     // If backspace is pressed, erase the value
     const timePropertyId = event.target.id === 'inputHours' ? 'hours' : 'minutes';
