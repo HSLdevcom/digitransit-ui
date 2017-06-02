@@ -16,7 +16,14 @@ class SummaryNavigation extends React.Component {
       to: React.PropTypes.string,
     }).isRequired,
     hasDefaultPreferences: React.PropTypes.bool.isRequired,
+    startTime: React.PropTypes.number,
+    endTime: React.PropTypes.number,
   };
+
+  static defaultProps = {
+    startTime: null,
+    endTime: null,
+  }
 
   static contextTypes = {
     piwik: React.PropTypes.object,
@@ -86,6 +93,14 @@ class SummaryNavigation extends React.Component {
     CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
   }
 
+  renderTimeSelectorContainer = ({ done, props }) => (done ? (
+    <TimeSelectorContainer
+      {...props}
+      startTime={this.props.startTime}
+      endTime={this.props.endTime}
+    />
+  ) : undefined)
+
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -131,6 +146,7 @@ class SummaryNavigation extends React.Component {
               queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
             }}
             environment={Relay.Store}
+            render={this.renderTimeSelectorContainer}
           />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
