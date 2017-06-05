@@ -5,7 +5,6 @@ import some from 'lodash/some';
 import get from 'lodash/get';
 
 import meta from '../meta';
-import configureMoment from '../util/configure-moment';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -45,7 +44,6 @@ class TopLevel extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    configureMoment(context.intl.locale, context.config);
     const host = context.headers && (context.headers['x-forwarded-host'] || context.headers.host);
     const url = context.url;
 

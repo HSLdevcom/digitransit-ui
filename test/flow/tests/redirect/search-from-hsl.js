@@ -1,6 +1,5 @@
 module.exports = {
   '@tags': ['smoke'],
-  '@disabled': true, // XXX does not work in travis, figure out why
   OldSearchShouldRedirect: (browser) => {
     const date = new Date();
 
