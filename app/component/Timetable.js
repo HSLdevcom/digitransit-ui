@@ -87,6 +87,7 @@ class Timetable extends React.Component {
             key={hour}
             title={padStart(hour % 24, 2, '0')}
             stoptimes={timetableMap[hour]}
+            showRoutes={this.state.showRoutes}
           />,
       )}
       </div>

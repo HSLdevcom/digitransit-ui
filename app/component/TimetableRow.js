@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 const LONG_LINE_NAME = 5;
 
-const TimetableRow = ({ title, stoptimes }) => (
+const TimetableRow = ({ title, stoptimes, showRoutes }) => (
   <div>
     <div className="timetable-row">
       <h1 className="title bold">{title}:</h1>
@@ -15,7 +15,8 @@ const TimetableRow = ({ title, stoptimes }) => (
             key={(time.name) + time.scheduledDeparture}
             className={cx({ 'overflow-fade': time.name && time.name.length > LONG_LINE_NAME })}
           >
-            {time.name !== '995' ? // Placeholder
+            {(showRoutes.filter(o => o === time.name).length > 0 && showRoutes.length > 0)
+            || showRoutes.length === 0 ?
               <div>
                 <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
                 <span className="line-name" title={(time.name)}>/{(time.name)}</span>
@@ -35,6 +36,7 @@ TimetableRow.propTypes = {
     serviceDay: PropTypes.number.isRequired,
     scheduledDeparture: PropTypes.number.isRequired,
   })).isRequired,
+  showRoutes: PropTypes.array,
 };
 
 export default TimetableRow;
