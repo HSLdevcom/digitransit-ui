@@ -118,6 +118,7 @@ class TimeSelectorContainer extends Component {
             query: {
               ...this.context.location.query,
               time: this.state.time.unix(),
+              arriveBy: this.state.arriveBy,
             },
           },
           router: this.context.router,
@@ -125,13 +126,17 @@ class TimeSelectorContainer extends Component {
       ),
     500);
 
-  changeTime = ({ target }) => (target.value ? this.setState(
-    { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
+  changeTime = ({ target }) => (target.value ? this.setState({
+    time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD'),
+    setTimefromProps: false,
+  },
     this.dispatchChangedtime,
   ) : {});
 
-  changeDate = ({ target }) => this.setState(
-    { time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD') },
+  changeDate = ({ target }) => this.setState({
+    time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD'),
+    setTimefromProps: false,
+  },
     this.dispatchChangedtime,
   );
 
