@@ -23,15 +23,12 @@ export default class ItineraryTimePicker extends React.Component {
   }
 
   onChangeTime = (event) => {
-    console.log('SE', event.target.selectionStart, event.target.selectionEnd);
-    console.log('on change', event.target.value);
     const isHour = this.isHours(event.target.id);
     const timePropertyId = isHour ? 'hours' : 'minutes';
     const oldPropertyId = isHour ? 'oldHour' : 'oldMinute';
     const focusropertyId = isHour ? 'focusHours' : 'focusMinutes';
 
     if (this.state[focusropertyId] === true) {
-      console.log('just focused, value:', event.target.value);
       // just focused, accept 1 digit
       if (event.target.value === '') {
         this.setState({ [focusropertyId]: false, [timePropertyId]: event.target.value });
@@ -39,7 +36,6 @@ export default class ItineraryTimePicker extends React.Component {
       }
       this.setState({ [focusropertyId]: false });
     } else if (this.state[timePropertyId].length > event.target.value.length) {
-      console.log('not just focused focused, backspaced?');
       this.setState({
         [timePropertyId]: '',
       });
@@ -62,12 +58,8 @@ export default class ItineraryTimePicker extends React.Component {
         this.props.changeTime({ target: { value: requestString } });
         // If set hours are 3-9 or two digits, switch to minute input
         if ((newTime.length === 2 || (newTime < 10 && newTime > 2)) && isHour) {
-          console.log('blurring hour');
           this.hourEl.blur();
-          // this.handleBlur({ target: this.hourEl });
-          console.log('moving focus to minute');
           this.minEl.focus();
-          // this.handleFocus({ target: this.minEl });
         } else {
           this.setState({
             [timePropertyId]: newTime,
@@ -175,7 +167,6 @@ export default class ItineraryTimePicker extends React.Component {
 
   handleBlur = (event) => {
     const isHour = this.isHours(event.target.id);
-    console.log('blur, isHour', isHour);
     if (isHour) {
       this.onBlur('hours', event.target.value, this.state.oldHour);
     } else {
@@ -186,7 +177,6 @@ export default class ItineraryTimePicker extends React.Component {
   /** on focus clear the value */
   handleFocus = (event) => {
     const isHour = this.isHours(event.target.id);
-    console.log('focus, isHour', isHour);
     this.setSelectionRange(event);
     if (isHour) {
       this.setState({
@@ -206,7 +196,6 @@ export default class ItineraryTimePicker extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div
         className={`time-input-container time-selector ${!isMobile ? 'time-selector' : ''}`}
