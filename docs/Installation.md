@@ -35,7 +35,8 @@ Or you can also use this:
 - https://github.com/robertknight/webpack-bundle-size-analyzer
 
 ## Configure Git Hooks
-You should configure git pre-commit hook to run tests and lint. That can be done like so:
+You should configure git pre-commit hook to run tests and lint.
+That can be done like so:
 - `ln -s ../../hooks/pre-commit.sh .git/hooks/pre-commit`
 - `ln -s ../../hooks/pre-push.sh .git/hooks/pre-push`
 
