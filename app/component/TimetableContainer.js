@@ -9,12 +9,15 @@ export default Relay.createContainer(Timetable, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
+        gtfsId
         name
         stoptimesForServiceDate(date:$date) {
           pattern {
             headsign
             route {
+              id
               shortName
+              mode
               agency {
                 id
                 name

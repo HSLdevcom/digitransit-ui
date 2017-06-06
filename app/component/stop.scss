@@ -240,3 +240,68 @@ hr.action-bar {
     }
   }
 }
+
+.filter-stop-modal {
+    position: fixed;
+    z-index: 99999;
+    background-color: #ffffff;
+    width: 50%;
+    height: 600px;
+    overflow-y: scroll;
+    top: 15%;
+    left: 35%;
+
+    .routes-container {
+      padding: 1em;
+    }
+
+    .route-row {
+       display: flex;
+    }
+    .checkbox-container {
+     margin-right: 2em;
+     position: relative;
+
+     & input[type=checkbox] {
+        visibility: hidden;
+        width: 24px;
+        height: 24px;
+        &:checked + label {
+          &:before{
+            content: '✔';
+            font-size: 1.2em;
+            line-height: 1.5em;
+            color: #64be14;
+            font-weight: 700;
+            font-family: $font-family;
+            transform: rotateY(15deg);
+            margin-left: 4px;
+          }
+        }
+      }
+      & label {
+         width: 24px;
+         height: 24px;
+         border: 1px solid #78909c;
+         border-radius: 4px;
+         background-color: $white;
+         cursor: pointer;
+	       position: absolute;
+         top: 0;
+         left: 0;
+      }
+    }
+
+    .route-number {
+      padding-right: 2em;
+    }
+}
+
+.mobile {
+  .filter-stop-modal {
+    width: 100%;
+    min-height: 100%;
+    left: 0;
+    top: 0;
+  }
+}
