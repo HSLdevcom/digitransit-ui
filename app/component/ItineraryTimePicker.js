@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { isMobile } from '../util/browser';
 
+const setSelectionRange = e => e.target.setSelectionRange(0, 2);
+
 export default class ItineraryTimePicker extends React.Component {
   static propTypes = {
     changeTime: PropTypes.func.isRequired,
@@ -17,6 +19,21 @@ export default class ItineraryTimePicker extends React.Component {
       oldMinute: this.props.initMin,
     };
     this.onChangeTime = this.onChangeTime.bind(this);
+  }
+
+  componentWillReceiveProps({ initHours, initMin }) {
+    if (
+      Number(this.hourEl.value) !== Number(initHours) ||
+      Number(this.minEl.value) !== Number(initMin)
+    ) {
+      this.setState({
+        hours: initHours,
+        minutes: initMin,
+        lastKey: 0,
+        oldHour: initHours,
+        oldMinute: initMin,
+      });
+    }
   }
 
   onChangeTime(event) {
@@ -191,7 +208,7 @@ export default class ItineraryTimePicker extends React.Component {
           className="time-input-field"
           value={this.state.hours}
           maxLength={3}
-          onClick={e => e.target.setSelectionRange(0, 2)}
+          onClick={setSelectionRange}
           onChange={this.onChangeTime}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
@@ -204,7 +221,7 @@ export default class ItineraryTimePicker extends React.Component {
           className="time-input-field"
           value={this.state.minutes}
           maxLength={3}
-          onClick={e => e.target.setSelectionRange(0, 2)}
+          onClick={setSelectionRange}
           onChange={this.onChangeTime}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}

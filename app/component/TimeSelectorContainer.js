@@ -26,19 +26,36 @@ class TimeSelectorContainer extends Component {
   };
 
   state = { time: this.context.location.query.time ?
-    moment(this.context.location.query.time * 1000) :
+    moment.unix(this.context.location.query.time) :
     moment(),
+    arriveBy: this.context.location.query.arriveBy === 'true',
+    setTimefromProps: false,
   };
 
   componentDidMount() {
-    this.context.router.listen(location =>
-      location.query.time && Number(location.query.time) !== this.state.time.unix() &&
-        this.setState({ time: moment(location.query.time * 1000) }),
-    );
+    this.context.router.listen((location) => {
+      if (location.query.time && Number(location.query.time) !== this.state.time.unix()
+        && (location.query.arriveBy === 'true') === this.state.arriveBy
+      ) {
+        this.setState({ time: moment.unix(location.query.time) });
+      } else if ((location.query.arriveBy === 'true') !== this.state.arriveBy) {
+        this.setState({ setTimefromProps: true });
+      }
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.state.setTimefromProps && newProps.startTime && newProps.endTime) {
+      this.setState({
+        time: moment(this.state.arriveBy ? newProps.endTime : newProps.startTime),
+        setTimefromProps: false,
+      });
+    }
   }
 
   setArriveBy = ({ target }) =>
-    this.context.executeAction(
+    this.setState({ arriveBy: target.value === 'true' },
+    () => this.context.executeAction(
       route,
       {
         location: {
@@ -50,7 +67,7 @@ class TimeSelectorContainer extends Component {
         },
         router: this.context.router,
       },
-    );
+    ));
 
   getDates() {
     const dates = [];
@@ -101,6 +118,7 @@ class TimeSelectorContainer extends Component {
             query: {
               ...this.context.location.query,
               time: this.state.time.unix(),
+              arriveBy: this.state.arriveBy,
             },
           },
           router: this.context.router,
@@ -108,20 +126,24 @@ class TimeSelectorContainer extends Component {
       ),
     500);
 
-  changeTime = ({ target }) => (target.value ? this.setState(
-    { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
+  changeTime = ({ target }) => (target.value ? this.setState({
+    time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD'),
+    setTimefromProps: false,
+  },
     this.dispatchChangedtime,
   ) : {});
 
-  changeDate = ({ target }) => this.setState(
-    { time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD') },
+  changeDate = ({ target }) => this.setState({
+    time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD'),
+    setTimefromProps: false,
+  },
     this.dispatchChangedtime,
   );
 
   render() {
     return (
       <TimeSelectors
-        arriveBy={this.context.location.query.arriveBy === 'true'}
+        arriveBy={this.state.arriveBy}
         time={this.state.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}

@@ -19,6 +19,7 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
+import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
@@ -120,7 +121,14 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     .getStore('MessageStore')
     .addConfigMessages(config);
 
+  const language = context
+      .getComponentContext()
+      .getStore('PreferencesStore').getLanguage();
+
+  configureMoment(language, config);
+
   const history = historyCreator(config);
+
 
   function track() {
     // track "getting back to home"
