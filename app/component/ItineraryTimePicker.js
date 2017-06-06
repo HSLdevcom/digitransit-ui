@@ -174,7 +174,6 @@ export default class ItineraryTimePicker extends React.Component {
     }
   }
 
-  /** on focus clear the value */
   handleFocus = (event) => {
     const isHour = this.isHours(event.target.id);
     this.setSelectionRange(event);
