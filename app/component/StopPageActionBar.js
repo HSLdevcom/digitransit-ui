@@ -4,7 +4,7 @@ import DateSelect from './DateSelect';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
-const StopPageActionBar = ({ printUrl, breakpoint, startDate, selectedDate, onDateChange }) => (
+const StopPageActionBar = ({ printUrl, startDate, selectedDate, onDateChange }) => (
   printUrl &&
     <div id="stop-page-action-bar">
       <DateSelect
@@ -22,7 +22,6 @@ StopPageActionBar.displayName = 'StopPageActionBar';
 
 StopPageActionBar.propTypes = {
   printUrl: PropTypes.string,
-  breakpoint: PropTypes.string,
 };
 
 export default StopPageActionBar;
