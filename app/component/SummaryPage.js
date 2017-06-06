@@ -205,6 +205,14 @@ class SummaryPage extends React.Component {
       ...this.props,
     }, this.context) : this.renderMap();
 
+    let earliestStartTime;
+    let latestArrivalTime;
+
+    if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries) {
+      earliestStartTime = Math.min(...this.props.plan.plan.itineraries.map(i => i.startTime));
+      latestArrivalTime = Math.max(...this.props.plan.plan.itineraries.map(i => i.endTime));
+    }
+
     const hasDefaultPreferences = this.hasDefaultPreferences();
 
     if (breakpoint === 'large') {
@@ -243,9 +251,14 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           )}
-          header={<SummaryNavigation
-            params={this.props.params} hasDefaultPreferences={hasDefaultPreferences}
-          />}
+          header={(
+            <SummaryNavigation
+              params={this.props.params}
+              hasDefaultPreferences={hasDefaultPreferences}
+              startTime={earliestStartTime}
+              endTime={latestArrivalTime}
+            />
+          )}
           // TODO: Chceck preferences
           content={content}
           map={map}
@@ -288,7 +301,10 @@ class SummaryPage extends React.Component {
       <MobileView
         header={!this.props.params.hash ?
           <SummaryNavigation
-            hasDefaultPreferences={hasDefaultPreferences} params={this.props.params}
+            hasDefaultPreferences={hasDefaultPreferences}
+            params={this.props.params}
+            startTime={earliestStartTime}
+            endTime={latestArrivalTime}
           /> : false}
         content={content}
         map={map}
@@ -323,6 +339,8 @@ export default Relay.createContainer(SummaryPage, {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
           itineraries {
+            startTime
+            endTime
             ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
