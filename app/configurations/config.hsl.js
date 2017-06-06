@@ -105,6 +105,20 @@ export default {
     },
   },
 
+  streetModes: {
+    car_park: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'car-withoutBox',
+    },
+
+    car: {
+      availableForSelection: false,
+      defaultValue: false,
+      icon: 'car_park-withoutBox',
+    },
+  },
+
   areaPolygon: [
     [24.2647, 60.178], [24.3097, 60.2537], [24.3903, 60.3058], [24.4683, 60.3123],
     [24.4918, 60.3438], [24.5685, 60.3371], [24.6128, 60.3755], [24.739, 60.3642],
