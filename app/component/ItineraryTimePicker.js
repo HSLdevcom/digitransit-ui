@@ -11,7 +11,6 @@ export default class ItineraryTimePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.getState(props, {});
-    console.log('state', this.state);
   }
 
   componentWillReceiveProps({ initHours, initMin }) {
@@ -21,61 +20,6 @@ export default class ItineraryTimePicker extends React.Component {
     ) {
       this.setState(this.getState({ initHours, initMin }, this.state));
     }
-  }
-
-  handleKeyDown = (event) => {
-    console.log('keyDown', event.target.id);
-    if (event.keyCode === 38 || event.keyCode === 40) { // up or down
-      // up or down
-      this.toggleTime(event);
-    }
-  }
-
-  constructToggle = (val) => {
-    let toggledState;
-    let requestString;
-    if (val.id === 'minutes' && (val.time === 0 || val.time === 59)) {
-     // If the minute value is increased so it loops to the min value, add one hour
-     // If the minute value is decreased so it loops to the max value, reduce one hour
-      const toggledHour = (this.state.hours < 1 ? 23 : parseInt(this.state.hours, 10) + val.add);
-      toggledState = {
-        hours: toggledHour < 0 ? 23 : toggledHour,
-        minutes: val.time,
-      };
-      requestString = `${parseInt(this.state.hours, 10) + val.add} ${val.time}`;
-    } else {
-      toggledState = {
-        [val.id]: val.time,
-      };
-      requestString = val.id === 'hours' ? `${val.time} ${this.state.minutes}` : `${this.state.hours} ${val.time}`;
-    }
-    return { toggledState, requestString };
-  }
-
-  toggleTime = (event) => {
-    const isHour = this.isHours(event.target.id);
-    const id = this.stateId(event.target.id);
-    const max = isHour ? 23 : 59;
-    const newTime = this.checkInt(event.target.value);
-    let newChanges;
-    if (event.keyCode === 38) { // Up
-      newChanges = this.constructToggle({
-        time: newTime < max ? newTime + 1 : 0,
-        id,
-        max,
-        add: 1,
-      });
-    }
-    if (event.keyCode === 40) { // Down
-      newChanges = this.constructToggle({
-        time: newTime !== 0 ? newTime - 1 : max,
-        id,
-        max,
-        add: -1,
-      });
-    }
-    this.setState(newChanges.toggledState);
-    this.props.changeTime({ target: { value: newChanges.requestString } });
   }
 
   onChangeTime = (event) => {
@@ -148,10 +92,8 @@ export default class ItineraryTimePicker extends React.Component {
   onBlur = (stateName, newValue, oldValue) => {
     if (newValue === '') {
        // restore old
-      console.log('resetting old value', oldValue);
       this.setState({ [stateName]: oldValue });
     } else {
-      console.log('using new value', newValue, this.padDigits(newValue), { [stateName]: this.padDigits(newValue) });
       this.setState({ [stateName]: this.padDigits(newValue) });
     }
   }
@@ -164,6 +106,59 @@ export default class ItineraryTimePicker extends React.Component {
     oldHour: initHours,
     oldMinute: initMin,
   })
+
+  toggleTime = (event) => {
+    const isHour = this.isHours(event.target.id);
+    const id = this.stateId(event.target.id);
+    const max = isHour ? 23 : 59;
+    const newTime = this.checkInt(event.target.value);
+    let newChanges;
+    if (event.keyCode === 38) { // Up
+      newChanges = this.constructToggle({
+        time: newTime < max ? newTime + 1 : 0,
+        id,
+        max,
+        add: 1,
+      });
+    }
+    if (event.keyCode === 40) { // Down
+      newChanges = this.constructToggle({
+        time: newTime !== 0 ? newTime - 1 : max,
+        id,
+        max,
+        add: -1,
+      });
+    }
+    this.setState(newChanges.toggledState);
+    this.props.changeTime({ target: { value: newChanges.requestString } });
+  }
+
+  constructToggle = (val) => {
+    let toggledState;
+    let requestString;
+    if (val.id === 'minutes' && ((val.time === 0 && val.add === 1) || (val.time === 59 && val.add === -1))) {
+     // If the minute value is increased so it loops to the min value, add one hour
+     // If the minute value is decreased so it loops to the max value, reduce one hour
+      const toggledHour = (this.state.hours < 1 ? 23 : parseInt(this.state.hours, 10) + val.add);
+      toggledState = {
+        hours: toggledHour < 0 ? 23 : toggledHour,
+        minutes: val.time,
+      };
+      requestString = `${parseInt(this.state.hours, 10) + val.add} ${val.time}`;
+    } else {
+      toggledState = {
+        [val.id]: val.time,
+      };
+      requestString = val.id === 'hours' ? `${val.time} ${this.state.minutes}` : `${this.state.hours} ${val.time}`;
+    }
+    return { toggledState, requestString };
+  }
+
+  handleKeyDown = (event) => {
+    if (event.keyCode === 38 || event.keyCode === 40) { // up or down
+      this.toggleTime(event);
+    }
+  }
 
   fixDigits = digit => (
     (digit.val.length === 2 && digit.val > digit.max) ? digit.val.substr(1)
