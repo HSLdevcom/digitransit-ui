@@ -58,8 +58,10 @@ export default class ItineraryTimePicker extends React.Component {
         this.props.changeTime({ target: { value: requestString } });
         // If set hours are 3-9 or two digits, switch to minute input
         if ((newTime.length === 2 || (newTime < 10 && newTime > 2)) && isHour) {
+          // move to minutes field
           this.hourEl.blur();
           this.minEl.focus();
+          this.setSelectionRange({ target: this.minEl });
         } else {
           this.setState({
             [timePropertyId]: newTime,
@@ -176,7 +178,6 @@ export default class ItineraryTimePicker extends React.Component {
 
   handleFocus = (event) => {
     const isHour = this.isHours(event.target.id);
-    this.setSelectionRange(event);
     if (isHour) {
       this.setState({
         focusHours: true,
@@ -209,6 +210,7 @@ export default class ItineraryTimePicker extends React.Component {
           onChange={this.onChangeTime}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
+          onClick={this.setSelectionRange}
           onKeyDown={this.handleKeyDown}
         />
         <div className="digit-separator">:</div>
@@ -220,6 +222,7 @@ export default class ItineraryTimePicker extends React.Component {
           value={this.state.minutes}
           maxLength={3}
           onChange={this.onChangeTime}
+          onClick={this.setSelectionRange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
