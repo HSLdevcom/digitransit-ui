@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import FilterTimeTableModal from './FilterTimeTableModal';
+import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -50,14 +51,18 @@ class Timetable extends React.Component {
     this.setRouteVisibilityState = this.setRouteVisibilityState.bind(this);
     this.state = {
       showRoutes: [],
-      allRoutes: true,
       hideAllRoutes: false,
+      showFilterModal: false,
     };
   }
 
   setRouteVisibilityState = (val) => {
     this.setState({ showRoutes: val.showRoutes, hideAllRoutes: val.hideAllRoutes });
     console.log(val);
+  }
+
+  showModal = (val) => {
+    this.setState({ showFilterModal: val });
   }
 
   mapStopTimes = stoptimesObject =>
@@ -81,13 +86,25 @@ class Timetable extends React.Component {
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
     return (
       <div className="timetable">
-        <FilterTimeTableModal stop={this.props.stop} setRoutes={this.setRouteVisibilityState} />
+        {this.state.showFilterModal === true ?
+          <FilterTimeTableModal
+            stop={this.props.stop}
+            setRoutes={this.setRouteVisibilityState}
+            showFilterModal={this.showModal}
+            showRoutesList={this.state.showRoutes}
+            hideAllRoutes={this.state.hideAllRoutes}
+          /> : null}
+        <TimeTableOptionsPanel
+          showRoutes={this.state.showRoutes}
+          showFilterModal={this.showModal}
+        />
         {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
           <TimetableRow
             key={hour}
             title={padStart(hour % 24, 2, '0')}
             stoptimes={timetableMap[hour]}
             showRoutes={this.state.showRoutes}
+            hideAllRoutes={this.state.hideAllRoutes}
           />,
       )}
       </div>

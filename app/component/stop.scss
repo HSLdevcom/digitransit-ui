@@ -297,6 +297,32 @@ hr.action-bar {
     }
 }
 
+.timetable-options-panel {
+  display: flex;
+}
+
+.timetable-showroutes {
+  display: flex;
+  margin-left: 1em;
+}
+
+.showroutes-icon {
+  margin-right: 1em;
+
+  & svg {
+  width: 24px;
+  height: 24px;
+  }
+}
+
+.showroutes-list {
+  display: flex;
+
+  .showroute-number {
+    margin-right: 20px;
+  }
+}
+
 .mobile {
   .filter-stop-modal {
     width: 100%;
