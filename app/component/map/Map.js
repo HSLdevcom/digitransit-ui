@@ -173,7 +173,7 @@ class Map extends React.Component {
         boundsOptions.paddingTopLeft = this.props.padding;
       }
 
-      let mapUrl = (isDebugTiles && config.URL.MAP.debug) || config.URL.MAP;
+      let mapUrl = (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) || config.URL.MAP;
       if (mapUrl !== null && typeof mapUrl === 'object') {
         mapUrl = mapUrl[this.context.getStore('PreferencesStore').getLanguage()] || config.URL.MAP.default;
       }
