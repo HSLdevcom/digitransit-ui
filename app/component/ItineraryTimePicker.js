@@ -65,7 +65,7 @@ export default class ItineraryTimePicker extends React.Component {
         } else {
           this.setState({
             [timePropertyId]: newTime,
-            [oldPropertyId]: newTime,
+            [oldPropertyId]: this.padDigits(newTime),
           });
         }
       } else if (input.length === 3) {
