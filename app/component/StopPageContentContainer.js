@@ -1,6 +1,5 @@
 import React from 'react';
 import Relay from 'react-relay';
-import moment from 'moment';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
@@ -11,8 +10,6 @@ import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
 import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
-
-const initialDate = moment().format('YYYYMMDD');
 
 class StopPageContentOptions extends React.Component {
 
@@ -27,8 +24,9 @@ class StopPageContentOptions extends React.Component {
       variables: React.PropTypes.shape({
         date: React.PropTypes.string.isRequired,
       }).isRequired,
-      setVariables: React.PropTypes.func.isRequired,
     }).isRequired,
+    initialDate: React.PropTypes.string.isRequired,
+    setDate: React.PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -43,10 +41,7 @@ class StopPageContentOptions extends React.Component {
   }
 
   onDateChange = ({ target }) => {
-    // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
-    this.props.relay.setVariables({
-      date: target.value,
-    });
+    this.props.setDate(target.value);
   };
 
   setTab = (val) => {
@@ -72,7 +67,7 @@ class StopPageContentOptions extends React.Component {
       <div className="momentum-scroll">
         <StopPageActionBar
           printUrl={this.props.printUrl}
-          startDate={initialDate}
+          startDate={this.props.initialDate}
           selectedDate={this.props.relay.variables.date}
           onDateChange={this.onDateChange}
         />
@@ -103,6 +98,8 @@ const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequir
       printUrl={props.stop.url}
       departureProps={props}
       relay={props.relay}
+      initialDate={props.initialDate}
+      setDate={props.setDate}
     />
   )));
 
@@ -136,6 +133,6 @@ export default Relay.createContainer(StopPageContentOrEmpty, {
     startTime: 0,
     timeRange: 3600 * 12,
     numberOfDepartures: 100,
-    date: initialDate,
+    date: null,
   },
 });
