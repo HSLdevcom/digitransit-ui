@@ -34,7 +34,7 @@ import SelectParkAndRideRow from './map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from './map/tile-layer/SelectStopRow';
 import SelectTerminalRow from './map/tile-layer/SelectTerminalRow';
 import TicketInformation from './TicketInformation';
-import RouteScheduleDateSelect from './RouteScheduleDateSelect';
+import DateSelect from './DateSelect';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
@@ -124,7 +124,7 @@ const components = {
   SelectStopRow,
   SelectTerminalRow,
   TicketInformation,
-  RouteScheduleDateSelect,
+  DateSelect,
   RouteScheduleHeader,
   RouteScheduleStopSelect,
   RouteScheduleTripRow,
