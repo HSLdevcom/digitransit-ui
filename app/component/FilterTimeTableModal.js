@@ -87,7 +87,7 @@ class FilterTimeTableModal extends React.Component {
             img={`icon-icon_${o.route.mode.toLowerCase()}`}
           />
         </div>
-        <div className="route-number">{o.route.shortName}</div>
+        <div className={`route-number ${o.route.mode.toLowerCase()}`}>{o.route.shortName}</div>
         <div className="route-headsign">{o.headsign}</div>
       </div>));
     return routeDivs;
@@ -103,13 +103,17 @@ class FilterTimeTableModal extends React.Component {
 
     return (<div className="filter-stop-modal">
       <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
-        <IconWithIcon
-          img="icon-icon_arrow-left"
-        />
-        <FormattedMessage
-          id="show-routes"
-          defaultMessage="Show Lines"
-        />
+        <div className="filter-stop-modal-return-icon">
+          <IconWithIcon
+            img="icon-icon_arrow-left"
+          />
+        </div>
+        <div className="filter-stop-modal-return-header">
+          <FormattedMessage
+            id="show-routes"
+            defaultMessage="Show Lines"
+          />
+        </div>
       </div>
       <div className="routes-container">
         <div className="all-routes-header">
@@ -136,4 +140,3 @@ class FilterTimeTableModal extends React.Component {
 }
 
 export default FilterTimeTableModal;
-
