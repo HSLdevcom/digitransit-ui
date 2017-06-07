@@ -65,9 +65,9 @@ function setUpMiddleware() {
   app.use(cookieParser());
   app.use(bodyParser.raw());
   if (process.env.NODE_ENV === 'development') {
-    const port = process.env.HOT_LOAD_PORT || 9000;
+    const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
     // proxy for dev-bundle
-    app.use('/proxy/', proxy(`http://localhost:${port}/`));
+    app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
   }
 }
 
