@@ -98,8 +98,12 @@ class Timetable extends React.Component {
 
 Timetable.displayName = 'Timetable';
 const exampleStop = {
+  gtfsId: '123124234',
+  name: '1231213',
+  url: '1231231',
   stoptimesForServiceDate: [{
     pattern: {
+      headsign: 'Pornainen',
       route: {
         shortName: '787K',
         agency: {
