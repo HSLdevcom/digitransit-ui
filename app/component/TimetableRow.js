@@ -22,7 +22,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, hideAllRoutes }) => (
                 <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
                 <span className="line-name" title={(time.name)}>/{(time.name)}</span>
               </div>
-            : <div />
+            : null
             }
           </span>
       ))}

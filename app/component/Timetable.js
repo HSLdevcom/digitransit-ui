@@ -41,6 +41,7 @@ class Timetable extends React.Component {
   }
 
   setRouteVisibilityState = (val) => {
+    console.log(val);
     this.setState({ showRoutes: val.showRoutes, hideAllRoutes: val.hideAllRoutes });
   }
 
@@ -80,6 +81,7 @@ class Timetable extends React.Component {
         <TimeTableOptionsPanel
           showRoutes={this.state.showRoutes}
           showFilterModal={this.showModal}
+          hideAllRoutes={this.state.hideAllRoutes}
         />
         <StopPageActionBar printUrl={this.props.stop.url} />
         {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>

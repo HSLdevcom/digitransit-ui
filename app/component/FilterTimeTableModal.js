@@ -10,14 +10,17 @@ class FilterTimeTableModal extends React.Component {
     setRoutes: React.PropTypes.func,
     showFilterModal: React.PropTypes.func,
     showRoutesList: React.PropTypes.array,
+    hideAllRoutes: React.PropTypes.bool,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       showRoutes: this.props.showRoutesList,
-      allRoutes: this.props.showRoutesList.length === 0 && true,
-      hideAllRoutes: false,
+      allRoutes: (this.props.showRoutesList.length === 0
+      && this.props.hideAllRoutes === false)
+      && true,
+      hideAllRoutes: this.props.hideAllRoutes,
     };
   }
 
