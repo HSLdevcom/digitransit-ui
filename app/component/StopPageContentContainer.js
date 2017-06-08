@@ -6,7 +6,6 @@ import getContext from 'recompose/getContext';
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
-import StopPageActionBar from './StopPageActionBar';
 import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
@@ -47,7 +46,6 @@ class StopPageContentOptions extends React.Component {
       }
       {this.state.showTab === 'timetable' &&
       <div className="momentum-scroll">
-        <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
         <TimetableContainer stop={this.props.departureProps.stop} />
       </div>
       }

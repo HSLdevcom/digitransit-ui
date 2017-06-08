@@ -15,7 +15,8 @@ const TimetableRow = ({ title, stoptimes, showRoutes, hideAllRoutes }) => (
             key={(time.name) + time.scheduledDeparture}
             className={cx({ 'overflow-fade': time.name && time.name.length > LONG_LINE_NAME })}
           >
-            {(showRoutes.filter(o => o === time.name).length > 0 && showRoutes.length > 0 && hideAllRoutes === false)
+            {(showRoutes.filter(o => o === time.name).length > 0
+            && showRoutes.length > 0 && hideAllRoutes === false)
             || (showRoutes.length === 0 && hideAllRoutes === false) ?
               <div>
                 <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>

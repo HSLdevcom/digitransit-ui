@@ -4,31 +4,14 @@ import padStart from 'lodash/padStart';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
+import StopPageActionBar from './StopPageActionBar';
 import ComponentUsageExample from './ComponentUsageExample';
 
-/*
-function mapStopTimes(stoptimesObject) {
-  return stoptimesObject.map(stoptime =>
-    stoptime.stoptimes
-      .filter(st => st.pickupType !== 'NONE')
-      .map(st => ({
-        name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
-        scheduledDeparture: st.scheduledDeparture,
-        serviceDay: st.serviceDay,
-      })),
-  ).reduce((acc, val) => acc.concat(val), []);
-}
-
-function groupArrayByHour(stoptimesArray) {
-  return groupBy(stoptimesArray, stoptime =>
-    Math.floor(stoptime.scheduledDeparture / (60 * 60)),
-  );
-}
-*/
 class Timetable extends React.Component {
 
   static propTypes = {
     stop: PropTypes.shape({
+      url: PropTypes.string,
       stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
         pattern: PropTypes.shape({
           route: PropTypes.shape({
@@ -44,6 +27,7 @@ class Timetable extends React.Component {
         })).isRequired,
       })).isRequired,
     }).isRequired,
+    printUrl: PropTypes.string,
   };
 
   constructor(props) {
@@ -58,7 +42,6 @@ class Timetable extends React.Component {
 
   setRouteVisibilityState = (val) => {
     this.setState({ showRoutes: val.showRoutes, hideAllRoutes: val.hideAllRoutes });
-    console.log(val);
   }
 
   showModal = (val) => {
@@ -98,6 +81,7 @@ class Timetable extends React.Component {
           showRoutes={this.state.showRoutes}
           showFilterModal={this.showModal}
         />
+        <StopPageActionBar printUrl={this.props.stop.url} />
         {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
           <TimetableRow
             key={hour}
@@ -111,23 +95,7 @@ class Timetable extends React.Component {
     );
   }
 }
-/*
-const Timetable = ({ stop }) => {
-  const timetableMap = groupArrayByHour(mapStopTimes(stop.stoptimesForServiceDate));
-  return (
-    <div className="timetable">
-      <FilterTimeTableModal stop={stop} />
-      {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
-        <TimetableRow
-          key={hour}
-          title={padStart(hour % 24, 2, '0')}
-          stoptimes={timetableMap[hour]}
-        />,
-      )}
-    </div>
-  );
-};
-*/
+
 Timetable.displayName = 'Timetable';
 const exampleStop = {
   stoptimesForServiceDate: [{
@@ -165,24 +133,5 @@ Timetable.description = () =>
       <Timetable stop={exampleStop} />
     </ComponentUsageExample>
   </div>;
-/*
-Timetable.propTypes = {
-  stop: PropTypes.shape({
-    stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
-      pattern: PropTypes.shape({
-        route: PropTypes.shape({
-          shortName: PropTypes.string,
-          agency: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-          }).isRequired,
-        }).isRequired,
-      }).isRequired,
-      stoptimes: PropTypes.arrayOf(PropTypes.shape({
-        scheduledDeparture: PropTypes.number.isRequired,
-        serviceDay: PropTypes.number.isRequired,
-      })).isRequired,
-    })).isRequired,
-  }).isRequired,
-};
-*/
+
 export default Timetable;

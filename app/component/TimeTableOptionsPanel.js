@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import IconWithIcon from './IconWithIcon';
+import Icon from './Icon';
 
 class TimeTableOptionsPanel extends React.Component {
 
@@ -22,8 +22,9 @@ class TimeTableOptionsPanel extends React.Component {
     return (<div className="timetable-options-panel">
       <div className="timetable-showroutes">
         <div className="showroutes-icon">
-          <IconWithIcon
+          <Icon
             img="icon-icon_bus"
+            className="showroutes-icon-svg"
           />
         </div>
         <div className="showroutes-header" onClick={() => this.props.showFilterModal(true)}>

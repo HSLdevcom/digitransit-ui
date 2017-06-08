@@ -1,7 +1,7 @@
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { FormattedMessage } from 'react-intl';
-import IconWithIcon from './IconWithIcon';
+import Icon from './Icon';
 
 class FilterTimeTableModal extends React.Component {
 
@@ -21,12 +21,11 @@ class FilterTimeTableModal extends React.Component {
     };
   }
 
-  toggleAllRoutes = (availableRoutes) => {
+  toggleAllRoutes = () => {
     if (this.state.allRoutes === true) {
       this.setState({
         allRoutes: false,
         hideAllRoutes: true });
-      console.log(availableRoutes.map(o => o.route.shortName));
       this.updateParent({ showRoutes: [], hideAllRoutes: true });
     } else {
       this.setState({
@@ -45,7 +44,6 @@ class FilterTimeTableModal extends React.Component {
     ? oldHiddenRoutes.concat([routeId])
     : oldHiddenRoutes.filter(o => o !== routeId);
     }
-    console.log(newVal);
     if (newVal.length === 0) {
       this.updateParent({ showRoutes: newVal, hideAllRoutes: true });
       this.setState({ showRoutes: newVal });
@@ -56,9 +54,6 @@ class FilterTimeTableModal extends React.Component {
   }
 
   updateParent(newOptions) {
-    console.log({
-      showRoutes: newOptions.showRoutes,
-      hideAllRoutes: newOptions.hideAllRoutes });
     this.props.setRoutes({
       showRoutes: newOptions.showRoutes,
       hideAllRoutes: newOptions.hideAllRoutes });
@@ -82,7 +77,7 @@ class FilterTimeTableModal extends React.Component {
           <label htmlFor={`input-${o.route.shortName}`} />
         </div>
         <div className="route-mode">
-          <IconWithIcon
+          <Icon
             className={o.route.mode.toLowerCase()}
             img={`icon-icon_${o.route.mode.toLowerCase()}`}
           />
@@ -104,7 +99,7 @@ class FilterTimeTableModal extends React.Component {
     return (<div className="filter-stop-modal">
       <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
         <div className="filter-stop-modal-return-icon">
-          <IconWithIcon
+          <Icon
             img="icon-icon_arrow-left"
           />
         </div>
@@ -122,7 +117,7 @@ class FilterTimeTableModal extends React.Component {
               type="checkbox"
               id="input-all-routes"
               checked={this.state.allRoutes}
-              onChange={() => this.toggleAllRoutes(cleanedUpavailableRoutes)}
+              onChange={() => this.toggleAllRoutes()}
             />
             <label htmlFor="input-all-routes" />
           </div>

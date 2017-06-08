@@ -11,6 +11,7 @@ export default Relay.createContainer(Timetable, {
       fragment Timetable on Stop {
         gtfsId
         name
+        url
         stoptimesForServiceDate(date:$date) {
           pattern {
             headsign
