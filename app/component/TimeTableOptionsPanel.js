@@ -20,11 +20,12 @@ class TimeTableOptionsPanel extends React.Component {
 
   render() {
     const showRoutesDiv = this.props.showRoutes.map(o => <div key={o} className="showroute-number">{o}</div>);
+    const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
     return (<div className="timetable-options-panel">
       <div className="timetable-showroutes">
         <div className="showroutes-icon">
           <Icon
-            img="icon-icon_bus"
+            img={`icon-icon_${stopVehicle}`}
             className="showroutes-icon-svg"
           />
         </div>

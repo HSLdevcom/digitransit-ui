@@ -82,6 +82,7 @@ class Timetable extends React.Component {
           showRoutes={this.state.showRoutes}
           showFilterModal={this.showModal}
           hideAllRoutes={this.state.hideAllRoutes}
+          stop={this.props.stop}
         />
         <StopPageActionBar printUrl={this.props.stop.url} />
         {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
