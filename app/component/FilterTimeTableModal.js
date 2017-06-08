@@ -100,7 +100,7 @@ class FilterTimeTableModal extends React.Component {
     const routeList = this.constructRouteDivs(cleanedUpavailableRoutes);
 
     return (<div>
-      <div className="filter-stop-modal-overlay" />
+      <div className="filter-stop-modal-overlay" onClick={() => this.props.showFilterModal(false)} />
       <div className="filter-stop-modal">
         <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
           <div className="filter-stop-modal-return-icon">
