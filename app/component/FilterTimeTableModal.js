@@ -99,39 +99,42 @@ class FilterTimeTableModal extends React.Component {
     const cleanedUpavailableRoutes = uniqBy(availableRoutes, 'route.id');
     const routeList = this.constructRouteDivs(cleanedUpavailableRoutes);
 
-    return (<div className="filter-stop-modal">
-      <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
-        <div className="filter-stop-modal-return-icon">
-          <Icon
-            img="icon-icon_arrow-left"
-          />
-        </div>
-        <div className="filter-stop-modal-return-header">
-          <FormattedMessage
-            id="show-routes"
-            defaultMessage="Show Lines"
-          />
-        </div>
-      </div>
-      <div className="routes-container">
-        <div className="all-routes-header">
-          <div className="checkbox-container">
-            <input
-              type="checkbox"
-              id="input-all-routes"
-              checked={this.state.allRoutes}
-              onChange={() => this.toggleAllRoutes()}
+    return (<div>
+      <div className="filter-stop-modal-overlay" />
+      <div className="filter-stop-modal">
+        <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
+          <div className="filter-stop-modal-return-icon">
+            <Icon
+              img="icon-icon_arrow-left"
             />
-            <label htmlFor="input-all-routes" />
           </div>
-          <div className="all-routes-header-title">
+          <div className="filter-stop-modal-return-header">
             <FormattedMessage
-              id="all-routes"
-              defaultMessage="All lines"
+              id="show-routes"
+              defaultMessage="Show Lines"
             />
           </div>
         </div>
-        {routeList.length > 0 ? routeList : null}
+        <div className="routes-container">
+          <div className="all-routes-header">
+            <div className="checkbox-container">
+              <input
+                type="checkbox"
+                id="input-all-routes"
+                checked={this.state.allRoutes}
+                onChange={() => this.toggleAllRoutes()}
+              />
+              <label htmlFor="input-all-routes" />
+            </div>
+            <div className="all-routes-header-title">
+              <FormattedMessage
+                id="all-routes"
+                defaultMessage="All lines"
+              />
+            </div>
+          </div>
+          {routeList.length > 0 ? routeList : null}
+        </div>
       </div>
     </div>);
   }
