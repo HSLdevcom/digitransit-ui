@@ -12,7 +12,7 @@ class StopPageTabContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: 'right-now', //show departures as the default
+      active: 'right-now', // show departures as the default
     };
   }
 

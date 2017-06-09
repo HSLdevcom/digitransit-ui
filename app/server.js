@@ -35,8 +35,6 @@ import MUITheme from './MuiTheme';
 // configuration
 import { getConfiguration } from './config';
 
-const port = process.env.HOT_LOAD_PORT || 9000;
-
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 
@@ -199,10 +197,7 @@ function getPolyfills(userAgent, config) {
 
 function getScripts(req, config) {
   if (process.env.NODE_ENV === 'development') {
-    const host =
-      (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
-
-    return <script async src={`//${host}:${port}/js/bundle.js`} />;
+    return <script async src={'/proxy/js/bundle.js'} />;
   }
   return [
     <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
