@@ -15,8 +15,8 @@ export default class ItineraryTimePicker extends React.Component {
 
   componentWillReceiveProps({ initHours, initMin }) {
     if (
-      Number(this.hourEl.value) !== Number(initHours) ||
-      Number(this.minEl.value) !== Number(initMin)
+      Number(this.state.initHours) !== Number(initHours) ||
+      Number(this.state.initMin) !== Number(initMin)
     ) {
       this.setState(this.getState({ initHours, initMin }, this.state));
     }
@@ -65,7 +65,6 @@ export default class ItineraryTimePicker extends React.Component {
         } else {
           this.setState({
             [timePropertyId]: newTime,
-            [oldPropertyId]: this.padDigits(newTime),
           });
         }
       } else if (input.length === 3) {
@@ -94,12 +93,20 @@ export default class ItineraryTimePicker extends React.Component {
 
   setSelectionRange = e => e.target.setSelectionRange(0, 2);
 
-  getState = ({ initHours, initMin }, currentState) => ({
-    hours: currentState.hours !== '' ? initHours : '',
-    minutes: currentState.minutes !== '' ? initMin : '',
-    oldHour: initHours,
-    oldMinute: initMin,
-  })
+  getState = ({ initHours, initMin }, currentState) => {
+    const newState = {
+      oldHour: initHours,
+      oldMinute: initMin,
+    };
+
+    if (currentState.hours === undefined) {
+      newState.hours = initHours;
+    }
+    if (currentState.hours === undefined) {
+      newState.minutes = initMin;
+    }
+    return newState;
+  };
 
   toggleTime = (event) => {
     const isHour = this.isHours(event.target.id);
