@@ -115,24 +115,24 @@ class FilterTimeTableModal extends React.Component {
             />
           </div>
         </div>
-        <div className="routes-container">
-          <div className="all-routes-header">
-            <div className="checkbox-container">
-              <input
-                type="checkbox"
-                id="input-all-routes"
-                checked={this.state.allRoutes}
-                onChange={() => this.toggleAllRoutes()}
-              />
-              <label htmlFor="input-all-routes" />
-            </div>
-            <div className="all-routes-header-title">
-              <FormattedMessage
-                id="all-routes"
-                defaultMessage="All lines"
-              />
-            </div>
+        <div className="all-routes-header">
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="input-all-routes"
+              checked={this.state.allRoutes}
+              onChange={() => this.toggleAllRoutes()}
+            />
+            <label htmlFor="input-all-routes" />
           </div>
+          <div className="all-routes-header-title">
+            <FormattedMessage
+              id="all-routes"
+              defaultMessage="All lines"
+            />
+          </div>
+        </div>
+        <div className="routes-container">
           {routeList.length > 0 ? routeList : null}
         </div>
       </div>

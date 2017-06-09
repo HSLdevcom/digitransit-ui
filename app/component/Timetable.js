@@ -28,6 +28,7 @@ class Timetable extends React.Component {
       })).isRequired,
     }).isRequired,
     printUrl: PropTypes.string,
+    propsForStpPageActionBar: PropTypes.object,
   };
 
   constructor(props) {
@@ -84,7 +85,12 @@ class Timetable extends React.Component {
           hideAllRoutes={this.state.hideAllRoutes}
           stop={this.props.stop}
         />
-        <StopPageActionBar printUrl={this.props.stop.url} />
+        <StopPageActionBar
+          printUrl={this.props.propsForStpPageActionBar.printUrl}
+          startDate={this.props.propsForStpPageActionBar.startDate}
+          selectedDate={this.props.propsForStpPageActionBar.selectedDate}
+          onDateChange={this.props.propsForStpPageActionBar.onDateChange}
+        />
         {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
           <TimetableRow
             key={hour}

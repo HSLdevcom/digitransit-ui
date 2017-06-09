@@ -195,6 +195,35 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   padding: 5px 10px;
   padding-bottom: 0.6em;
   text-align:right;
+
+  .route-schedule-date {
+    text-align: left;
+    width: 36%;
+      & select {
+      text-align: left;
+      text-transform: uppercase;
+      color: #80939d;
+      font-weight: 700;
+      margin-right: 20px;
+      cursor: pointer;
+      font-size: 100%;
+      border-bottom: 2px #80939d dotted !important;
+      transition: all .2s ease-out;
+      width: 62%;
+      height: 1.27em;
+      line-height: 1.3em;
+      &:hover {
+        color: #b0b0b0;
+        border-bottom: 2px #b0b0b0 dotted !important;
+      }
+    }
+    & svg {
+        width: 1.2em;
+        height: 1.2em;
+        margin-left: 0.5em;
+        margin-right: 1em;
+    }
+  }
 }
 
 .action-bar {
@@ -226,7 +255,7 @@ hr.action-bar {
 .desktop {
   #stop-page-action-bar {
     height: auto;
-    padding: 10px 20px 8px 20px;
+    //padding: 10px 20px 8px 20px;
   }
   .action-bar {
     a.external-link {
@@ -361,6 +390,17 @@ hr.action-bar {
       margin-top: 4px;
       font-weight: 400;
     }
+}
+
+.timetable-rowcontainer {
+  display: inline-block;
+  width: 100%;
+}
+
+.timetablerow-linetime {
+  float: left;
+  margin-right: 1.2em;
+  width: 4.1em;
 }
 
 .timetable-options-panel {

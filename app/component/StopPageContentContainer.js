@@ -50,7 +50,6 @@ class StopPageContentOptions extends React.Component {
   }
 
   render() {
-    console.log(this.props.relay.variables.date);
     return (<div className="stop-page-content-wrapper">
       <div>
         <StopPageTabContainer selectedTab={this.setTab} />
