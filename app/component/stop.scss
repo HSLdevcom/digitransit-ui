@@ -198,7 +198,8 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
 
   .route-schedule-date {
     text-align: left;
-    width: 36%;
+    width: 52%;
+    font-size: 0.9em;
       & select {
       text-align: left;
       text-transform: uppercase;
@@ -209,7 +210,7 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
       font-size: 100%;
       border-bottom: 2px #80939d dotted !important;
       transition: all .2s ease-out;
-      width: 62%;
+      width: 37%;
       height: 1.27em;
       line-height: 1.3em;
       &:hover {
@@ -221,7 +222,7 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
         width: 1.2em;
         height: 1.2em;
         margin-left: 0.5em;
-        margin-right: 1em;
+            margin-right: 1.2em;
     }
   }
 }
@@ -277,14 +278,31 @@ hr.action-bar {
     left: 0;
 }
 
+//The two classes below are to center the modal
+.filter-stop-modal-fixed-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+}
+
+.filter-stop-modal-relative-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .filter-stop-modal {
     position: absolute;
     z-index: 99999;
     background-color: #ffffff;
     border-radius: 8px;
     width: 100%;
-    top: -16%;
-    left: 39%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     max-width: 720px;
 
     .filter-stop-modal-return {
@@ -426,9 +444,9 @@ hr.action-bar {
   text-transform: uppercase;
   color: #80939d;
   font-weight: 700;
-  margin-right: 20px;
   cursor: pointer;
-  width: 30%;
+  width: 41%;
+  font-size: 0.9em;
   & span {
     border-bottom: 2px #80939d dotted;
     transition: all .2s ease-out;
@@ -455,10 +473,13 @@ hr.action-bar {
   .filter-stop-modal {
     min-height: 100%;
     max-width: 100%;
+    height: 100%;
+    padding-bottom: 8em;
     left: 0;
     top: 0;
     position: fixed;
     border-radius: 0;
+    transform: translate(0%, 0%);
   }
 
   .routes-container {

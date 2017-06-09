@@ -101,39 +101,43 @@ class FilterTimeTableModal extends React.Component {
 
     return (<div>
       <div className="filter-stop-modal-overlay" onClick={() => this.props.showFilterModal(false)} />
-      <div className="filter-stop-modal">
-        <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
-          <div className="filter-stop-modal-return-icon">
-            <Icon
-              img="icon-icon_arrow-left"
-            />
+      <div className="filter-stop-modal-fixed-container">
+        <div className="filter-stop-modal-relative-container ">
+          <div className="filter-stop-modal">
+            <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
+              <div className="filter-stop-modal-return-icon">
+                <Icon
+                  img="icon-icon_arrow-left"
+                />
+              </div>
+              <div className="filter-stop-modal-return-header">
+                <FormattedMessage
+                  id="show-routes"
+                  defaultMessage="Show Lines"
+                />
+              </div>
+            </div>
+            <div className="all-routes-header">
+              <div className="checkbox-container">
+                <input
+                  type="checkbox"
+                  id="input-all-routes"
+                  checked={this.state.allRoutes}
+                  onChange={() => this.toggleAllRoutes()}
+                />
+                <label htmlFor="input-all-routes" />
+              </div>
+              <div className="all-routes-header-title">
+                <FormattedMessage
+                  id="all-routes"
+                  defaultMessage="All lines"
+                />
+              </div>
+            </div>
+            <div className="routes-container">
+              {routeList.length > 0 ? routeList : null}
+            </div>
           </div>
-          <div className="filter-stop-modal-return-header">
-            <FormattedMessage
-              id="show-routes"
-              defaultMessage="Show Lines"
-            />
-          </div>
-        </div>
-        <div className="all-routes-header">
-          <div className="checkbox-container">
-            <input
-              type="checkbox"
-              id="input-all-routes"
-              checked={this.state.allRoutes}
-              onChange={() => this.toggleAllRoutes()}
-            />
-            <label htmlFor="input-all-routes" />
-          </div>
-          <div className="all-routes-header-title">
-            <FormattedMessage
-              id="all-routes"
-              defaultMessage="All lines"
-            />
-          </div>
-        </div>
-        <div className="routes-container">
-          {routeList.length > 0 ? routeList : null}
         </div>
       </div>
     </div>);
