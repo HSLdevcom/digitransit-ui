@@ -222,7 +222,7 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
         width: 1.2em;
         height: 1.2em;
         margin-left: 0.5em;
-            margin-right: 1.2em;
+        margin-right: 1.4em;
     }
   }
 }
@@ -270,10 +270,10 @@ hr.action-bar {
 }
 .filter-stop-modal-overlay {
     background: rgba(0,0,0,.541176);
-    width: 100%;
+    width: 100vw;
     height: 100%;
     position: fixed;
-    z-index: 9999;
+    z-index: 9996;
     top: 0;
     left: 0;
 }
@@ -285,13 +285,17 @@ hr.action-bar {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 99999;
+    z-index: 99995;
 }
 
 .filter-stop-modal-relative-container {
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 99995;
+}
+
+.timetable-topbar {
 }
 
 .filter-stop-modal {
@@ -335,6 +339,8 @@ hr.action-bar {
 
     .all-routes-header-title {
       margin-top: 0.3em;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
     }
 
     .routes-container {
@@ -460,7 +466,6 @@ hr.action-bar {
 .showroutes-list {
   display: inline-block;
   font-size: $font-size-xxsmall;
-  margin-top: 5px;
   width: 66%;
 
   .showroute-number {

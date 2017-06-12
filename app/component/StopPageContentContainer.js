@@ -50,6 +50,7 @@ class StopPageContentOptions extends React.Component {
   }
 
   render() {
+    // Currently shows only next departures, add Timetables
     return (<div className="stop-page-content-wrapper">
       <div>
         <StopPageTabContainer selectedTab={this.setTab} />
@@ -62,18 +63,16 @@ class StopPageContentOptions extends React.Component {
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div className="momentum-scroll">
         <TimetableContainer
           stop={this.props.departureProps.stop}
           date={this.props.relay.variables.date}
-          propsForStpPageActionBar={{
+          propsForStopPageActionBar={{
             printUrl: this.props.printUrl,
             startDate: this.props.initialDate,
             selectedDate: this.props.relay.variables.date,
             onDateChange: this.onDateChange,
           }}
         />
-      </div>
       }
     </div>);
   }

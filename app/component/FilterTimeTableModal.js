@@ -10,17 +10,13 @@ class FilterTimeTableModal extends React.Component {
     setRoutes: React.PropTypes.func,
     showFilterModal: React.PropTypes.func,
     showRoutesList: React.PropTypes.array,
-    hideAllRoutes: React.PropTypes.bool,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       showRoutes: this.props.showRoutesList,
-      allRoutes: (this.props.showRoutesList.length === 0
-      && this.props.hideAllRoutes === false)
-      && true,
-      hideAllRoutes: this.props.hideAllRoutes,
+      allRoutes: this.props.showRoutesList.length === 0 && true,
     };
   }
 
@@ -28,14 +24,14 @@ class FilterTimeTableModal extends React.Component {
     if (this.state.allRoutes === true) {
       this.setState({
         allRoutes: false,
-        hideAllRoutes: true });
-      this.updateParent({ showRoutes: [], hideAllRoutes: true });
+      });
+      this.updateParent({ showRoutes: [] });
     } else {
       this.setState({
         allRoutes: true,
         showRoutes: [],
-        hideAllRoutes: false });
-      this.updateParent({ showRoutes: [], hideAllRoutes: false });
+      });
+      this.updateParent({ showRoutes: [] });
     }
   }
 
@@ -48,10 +44,10 @@ class FilterTimeTableModal extends React.Component {
     : oldHiddenRoutes.filter(o => o !== routeId);
     }
     if (newVal.length === 0) {
-      this.updateParent({ showRoutes: newVal, hideAllRoutes: true });
-      this.setState({ showRoutes: newVal });
+      this.updateParent({ showRoutes: newVal, allRoutes: true });
+      this.setState({ showRoutes: newVal, allRoutes: true });
     } else {
-      this.updateParent({ showRoutes: newVal, hideAllRoutes: false });
+      this.updateParent({ showRoutes: newVal });
       this.setState({ allRoutes: false, showRoutes: newVal });
     }
   }
@@ -59,7 +55,7 @@ class FilterTimeTableModal extends React.Component {
   updateParent(newOptions) {
     this.props.setRoutes({
       showRoutes: newOptions.showRoutes,
-      hideAllRoutes: newOptions.hideAllRoutes });
+    });
   }
 
   constructRouteDivs = (val) => {
@@ -91,6 +87,12 @@ class FilterTimeTableModal extends React.Component {
     return routeDivs;
   }
 
+  closeModal = (e) => {
+    if (e.target === document.getElementById('stopmodal-relative-overlay')) {
+      this.props.showFilterModal(false);
+    }
+  }
+
 
   render() {
     const availableRoutes = (
@@ -98,13 +100,12 @@ class FilterTimeTableModal extends React.Component {
         );
     const cleanedUpavailableRoutes = uniqBy(availableRoutes, 'route.id');
     const routeList = this.constructRouteDivs(cleanedUpavailableRoutes);
-
     return (<div>
-      <div className="filter-stop-modal-overlay" onClick={() => this.props.showFilterModal(false)} />
-      <div className="filter-stop-modal-fixed-container">
-        <div className="filter-stop-modal-relative-container ">
+      <div className="filter-stop-modal-overlay" />
+      <div className="filter-stop-modal-fixed-container" onClick={e => this.closeModal(e)}>
+        <div className="filter-stop-modal-relative-container" id="stopmodal-relative-overlay">
           <div className="filter-stop-modal">
-            <div className="filter-stop-modal-return" onClick={() => this.props.showFilterModal(false)}>
+            <div className="filter-stop-modal-return" id="stopmodal-return" onClick={() => this.props.showFilterModal(false)}>
               <div className="filter-stop-modal-return-icon">
                 <Icon
                   img="icon-icon_arrow-left"
@@ -123,7 +124,8 @@ class FilterTimeTableModal extends React.Component {
                   type="checkbox"
                   id="input-all-routes"
                   checked={this.state.allRoutes}
-                  onChange={() => this.toggleAllRoutes()}
+                  onClick={e => this.state.allRoutes === true && e.preventDefault()}
+                  onChange={(e) => { this.toggleAllRoutes(e); }}
                 />
                 <label htmlFor="input-all-routes" />
               </div>

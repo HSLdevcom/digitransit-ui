@@ -28,7 +28,7 @@ class Timetable extends React.Component {
       })).isRequired,
     }).isRequired,
     printUrl: PropTypes.string,
-    propsForStpPageActionBar: PropTypes.object,
+    propsForStopPageActionBar: PropTypes.object,
   };
 
   constructor(props) {
@@ -36,14 +36,12 @@ class Timetable extends React.Component {
     this.setRouteVisibilityState = this.setRouteVisibilityState.bind(this);
     this.state = {
       showRoutes: [],
-      hideAllRoutes: false,
       showFilterModal: false,
     };
   }
 
   setRouteVisibilityState = (val) => {
-    console.log(val);
-    this.setState({ showRoutes: val.showRoutes, hideAllRoutes: val.hideAllRoutes });
+    this.setState({ showRoutes: val.showRoutes });
   }
 
   showModal = (val) => {
@@ -70,36 +68,39 @@ class Timetable extends React.Component {
     const timetableMap = this.groupArrayByHour(
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
     return (
-      <div className="timetable">
-        {this.state.showFilterModal === true ?
-          <FilterTimeTableModal
-            stop={this.props.stop}
-            setRoutes={this.setRouteVisibilityState}
-            showFilterModal={this.showModal}
-            showRoutesList={this.state.showRoutes}
-            hideAllRoutes={this.state.hideAllRoutes}
-          /> : null}
-        <TimeTableOptionsPanel
-          showRoutes={this.state.showRoutes}
-          showFilterModal={this.showModal}
-          hideAllRoutes={this.state.hideAllRoutes}
-          stop={this.props.stop}
-        />
-        <StopPageActionBar
-          printUrl={this.props.propsForStpPageActionBar.printUrl}
-          startDate={this.props.propsForStpPageActionBar.startDate}
-          selectedDate={this.props.propsForStpPageActionBar.selectedDate}
-          onDateChange={this.props.propsForStpPageActionBar.onDateChange}
-        />
-        {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
-          <TimetableRow
-            key={hour}
-            title={padStart(hour % 24, 2, '0')}
-            stoptimes={timetableMap[hour]}
-            showRoutes={this.state.showRoutes}
-            hideAllRoutes={this.state.hideAllRoutes}
-          />,
-      )}
+      <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div className="timetable" style={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
+          {this.state.showFilterModal === true ?
+            <FilterTimeTableModal
+              stop={this.props.stop}
+              setRoutes={this.setRouteVisibilityState}
+              showFilterModal={this.showModal}
+              showRoutesList={this.state.showRoutes}
+            /> : null}
+          <div className="timetable-topbar">
+            <TimeTableOptionsPanel
+              showRoutes={this.state.showRoutes}
+              showFilterModal={this.showModal}
+              stop={this.props.stop}
+            />
+            <StopPageActionBar
+              printUrl={this.props.propsForStopPageActionBar.printUrl}
+              startDate={this.props.propsForStopPageActionBar.startDate}
+              selectedDate={this.props.propsForStopPageActionBar.selectedDate}
+              onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+            />
+          </div>
+          <div className="momentum-scroll" style={{ flex: '1' }}>
+            {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
+              <TimetableRow
+                key={hour}
+                title={padStart(hour % 24, 2, '0')}
+                stoptimes={timetableMap[hour]}
+                showRoutes={this.state.showRoutes}
+              />,
+          )}
+          </div>
+        </div>
       </div>
     );
   }

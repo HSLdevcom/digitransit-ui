@@ -8,7 +8,6 @@ class TimeTableOptionsPanel extends React.Component {
     stop: React.PropTypes.object,
     showRoutes: React.PropTypes.array,
     showFilterModal: React.PropTypes.func,
-    hideAllRoutes: React.PropTypes.bool,
   };
 
   constructor(props) {
@@ -36,17 +35,12 @@ class TimeTableOptionsPanel extends React.Component {
           />
         </div>
         <div className="showroutes-list">
-          {(showRoutesDiv.length > 0 && this.props.hideAllRoutes === false) && showRoutesDiv}
-          {(showRoutesDiv.length === 0 && this.props.hideAllRoutes === false) &&
+          {showRoutesDiv.length > 0 && showRoutesDiv}
+          {showRoutesDiv.length === 0 &&
           <FormattedMessage
             id="all-routes"
             defaultMessage="All Lines"
           />}
-          {(showRoutesDiv.length === 0 && this.props.hideAllRoutes === true) ?
-            <FormattedMessage
-              id="all-routes-disabled"
-              defaultMessage="No lines"
-            /> : null }
         </div>
       </div>
     </div>);
