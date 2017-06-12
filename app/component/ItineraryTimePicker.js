@@ -61,7 +61,9 @@ export default class ItineraryTimePicker extends React.Component {
           // move to minutes field
           this.hourEl.blur();
           this.minEl.focus();
-          this.setSelectionRange({ target: this.minEl });
+          setTimeout(() => {
+            this.minEl.setSelectionRange(0, 2);
+          }, 0);
         } else {
           this.setState({
             [timePropertyId]: newTime,
