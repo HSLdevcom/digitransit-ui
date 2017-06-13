@@ -189,7 +189,8 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
 }
 
 #stop-page-action-bar {
-  //box-shadow: 0px -1px 0px 0px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
   z-index: 400; //get shadow over map
   padding: 5px 10px;
   text-align:right;
@@ -223,12 +224,8 @@ hr.action-bar {
 
 .desktop {
   #stop-page-action-bar {
-    box-shadow: none;
     height: auto;
     padding: 10px 20px 8px 20px;
-    hr {
-      display: none;
-    }
   }
   .action-bar {
     a.external-link {
