@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
@@ -27,14 +28,14 @@ class StopCard extends React.Component {
 }
 
 StopCard.propTypes = {
-  stop: React.PropTypes.shape({
-    gtfsId: React.PropTypes.string.isRequired,
+  stop: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
   }),
-  icons: React.PropTypes.arrayOf(React.PropTypes.node),
-  distance: React.PropTypes.number,
-  className: React.PropTypes.string,
-  children: React.PropTypes.node,
-  isTerminal: React.PropTypes.bool,
+  icons: PropTypes.arrayOf(PropTypes.node),
+  distance: PropTypes.number,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  isTerminal: PropTypes.bool,
 };
 
 export default StopCard;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -217,9 +218,9 @@ function getScripts(req, config) {
 }
 
 const ContextProvider = provideContext(IntlProvider, {
-  config: React.PropTypes.object,
-  url: React.PropTypes.string,
-  headers: React.PropTypes.object,
+  config: PropTypes.object,
+  url: PropTypes.string,
+  headers: PropTypes.object,
 });
 
 function getContent(context, renderProps, locale, userAgent) {

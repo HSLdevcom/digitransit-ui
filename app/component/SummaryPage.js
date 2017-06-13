@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
@@ -31,44 +32,44 @@ function getActiveIndex(state) {
 
 class SummaryPage extends React.Component {
   static contextTypes = {
-    breakpoint: React.PropTypes.string.isRequired,
-    queryAggregator: React.PropTypes.shape({
-      readyState: React.PropTypes.shape({
-        done: React.PropTypes.bool.isRequired,
-        error: React.PropTypes.string,
+    breakpoint: PropTypes.string.isRequired,
+    queryAggregator: PropTypes.shape({
+      readyState: PropTypes.shape({
+        done: PropTypes.bool.isRequired,
+        error: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    config: PropTypes.object,
   };
 
   static propTypes = {
-    location: React.PropTypes.shape({
-      state: React.PropTypes.object,
+    location: PropTypes.shape({
+      state: PropTypes.object,
     }).isRequired,
-    params: React.PropTypes.shape({
-      hash: React.PropTypes.string,
+    params: PropTypes.shape({
+      hash: PropTypes.string,
     }).isRequired,
-    plan: React.PropTypes.shape({
-      plan: React.PropTypes.shape({
-        itineraries: React.PropTypes.array,
+    plan: PropTypes.shape({
+      plan: PropTypes.shape({
+        itineraries: PropTypes.array,
       }).isRequired,
     }).isRequired,
-    content: React.PropTypes.node,
-    map: React.PropTypes.shape({
-      type: React.PropTypes.func.isRequired,
+    content: PropTypes.node,
+    map: PropTypes.shape({
+      type: PropTypes.func.isRequired,
     }),
-    from: React.PropTypes.shape({
-      lat: React.PropTypes.number.isRequired,
-      lon: React.PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
     }).isRequired,
-    to: React.PropTypes.shape({
-      lat: React.PropTypes.number.isRequired,
-      lon: React.PropTypes.number.isRequired,
+    to: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
     }).isRequired,
-    routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      fullscreenMap: React.PropTypes.bool,
+    routes: PropTypes.arrayOf(PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
     }).isRequired).isRequired,
   };
 

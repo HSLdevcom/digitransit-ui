@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -35,8 +36,8 @@ class CityBikeMarkerContainer extends React.Component {
   );
 
   static contextTypes = {
-    map: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   componentDidMount() {

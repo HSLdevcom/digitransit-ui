@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
 
@@ -27,11 +28,11 @@ function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
 }
 
 IntermediateLeg.propTypes = {
-  focusFunction: React.PropTypes.func.isRequired,
-  waitTime: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string.isRequired,
-  stopCode: React.PropTypes.string.isRequired,
+  focusFunction: PropTypes.func.isRequired,
+  waitTime: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  stopCode: PropTypes.string.isRequired,
 };
 
 export default IntermediateLeg;

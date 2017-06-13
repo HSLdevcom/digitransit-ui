@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -150,8 +151,8 @@ TransitLeg.propTypes = {
 };
 
 TransitLeg.contextTypes = {
-  focusFunction: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  focusFunction: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 

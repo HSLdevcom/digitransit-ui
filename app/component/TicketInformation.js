@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
@@ -61,12 +62,12 @@ export default function TicketInformation({ fares }, { config }) {
 }
 
 TicketInformation.propTypes = {
-  fares: React.PropTypes.array,
+  fares: PropTypes.array,
 };
 
 TicketInformation.contextTypes = {
-  config: React.PropTypes.object,
-  breakpoint: React.PropTypes.string,
+  config: PropTypes.object,
+  breakpoint: PropTypes.string,
 };
 
 TicketInformation.displayName = 'TicketInformation';

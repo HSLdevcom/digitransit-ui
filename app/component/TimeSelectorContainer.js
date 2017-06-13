@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
@@ -15,13 +16,13 @@ class TimeSelectorContainer extends Component {
     location: locationShape.isRequired,
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
-    serviceTimeRange: React.PropTypes.shape({
-      start: React.PropTypes.number.isRequired,
-      end: React.PropTypes.number.isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
     }).isRequired,
   };
 

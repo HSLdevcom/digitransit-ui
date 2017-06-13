@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ComponentUsageExample from '../ComponentUsageExample';
@@ -39,17 +40,17 @@ export default class GenericMarker extends React.Component {
   static displayName = 'GenericMarker';
 
   static contextTypes = {
-    map: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    position: React.PropTypes.object.isRequired,
-    getIcon: React.PropTypes.func.isRequired,
-    id: React.PropTypes.string,
-    renderName: React.PropTypes.bool,
-    name: React.PropTypes.string,
-    children: React.PropTypes.node,
+    position: PropTypes.object.isRequired,
+    getIcon: PropTypes.func.isRequired,
+    id: PropTypes.string,
+    renderName: PropTypes.bool,
+    name: PropTypes.string,
+    children: PropTypes.node,
   };
 
   componentDidMount() {

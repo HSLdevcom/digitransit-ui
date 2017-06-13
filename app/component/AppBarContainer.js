@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { routerShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import AppBarSmall from './AppBarSmall';
@@ -12,7 +13,7 @@ const AppBarContainer = ({ breakpoint, router, ...args }) => (
     />);
 
 const WithContext = getContext({ router: routerShape.isRequired,
-  breakpoint: React.PropTypes.string.isRequired })(AppBarContainer);
+  breakpoint: PropTypes.string.isRequired })(AppBarContainer);
 
 WithContext.propTypes = {
   disableBackButton: PropTypes.bool,

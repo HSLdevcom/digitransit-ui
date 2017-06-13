@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../Icon';
 
@@ -29,10 +30,10 @@ export default function IconMarker({ position, className, icon }) {
 }
 
 IconMarker.propTypes = {
-  position: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  position: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }).isRequired,
-  className: React.PropTypes.string,
-  icon: React.PropTypes.string,
+  className: PropTypes.string,
+  icon: PropTypes.string,
 };

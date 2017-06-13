@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import CityBikeCard from './CityBikeCard';
@@ -15,14 +16,14 @@ const CityBikeCardContainer = connectToStores(CityBikeCard, ['FavouriteCityBikeS
 );
 
 CityBikeCardContainer.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string,
-  children: React.PropTypes.node,
+  station: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
 
 CityBikeCardContainer.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-  getStore: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 export default CityBikeCardContainer;
