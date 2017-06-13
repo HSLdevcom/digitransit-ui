@@ -1,9 +1,6 @@
 import Relay from 'react-relay';
-import moment from 'moment';
 
 import Timetable from './Timetable';
-
-const date = moment().format('YYYYMMDD');
 
 export default Relay.createContainer(Timetable, {
   fragments: {
@@ -31,5 +28,5 @@ export default Relay.createContainer(Timetable, {
       }
     `,
   },
-  initialVariables: { date },
+  initialVariables: { date: null },
 });

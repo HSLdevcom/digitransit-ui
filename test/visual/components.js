@@ -125,7 +125,7 @@ testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation');
-testVariation('RouteScheduleDateSelect');
+testVariation('DateSelect');
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
