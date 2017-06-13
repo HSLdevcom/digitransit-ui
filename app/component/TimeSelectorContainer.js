@@ -126,11 +126,15 @@ class TimeSelectorContainer extends Component {
       ),
     500);
 
-  changeTime = ({ target }) => (target.value ? this.setState({
+  changeTime = ({ target }, callback) => (target.value ? this.setState({
     time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD'),
     setTimefromProps: false,
+  }, () => {
+    if (typeof callback === 'function') {
+      callback();
+    }
+    this.dispatchChangedtime();
   },
-    this.dispatchChangedtime,
   ) : {});
 
   changeDate = ({ target }) => this.setState({
