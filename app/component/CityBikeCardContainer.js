@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import CityBikeCard from './CityBikeCard';
 import { toggleFavouriteCityBikeStation } from '../action/FavouriteActions';
