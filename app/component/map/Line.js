@@ -61,7 +61,7 @@ export default class Line extends React.Component {
         <Polyline
           key="halo"
           ref={(el) => { this.halo = el; }}
-          positions={this.props.geometry}
+          positions={this.props.geometry.filter(point => point.lat !== null && point.lon !== null)}
           className={`leg-halo ${className}`}
           weight={haloWeight}
           interactive={false}
@@ -69,7 +69,7 @@ export default class Line extends React.Component {
         <Polyline
           key="line"
           ref={(el) => { this.line = el; }}
-          positions={this.props.geometry}
+          positions={this.props.geometry.filter(point => point.lat !== null && point.lon !== null)}
           className={`leg ${className}`}
           color={this.props.passive ? '#758993' : 'currentColor'}
           weight={legWeight}
