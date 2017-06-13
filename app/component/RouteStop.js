@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
@@ -35,14 +36,14 @@ const getRouteStopSvg = (first, last) => (
 
 class RouteStop extends React.Component {
   static propTypes = {
-    vehicles: React.PropTypes.array,
-    stop: React.PropTypes.object,
-    mode: React.PropTypes.string,
-    className: React.PropTypes.string,
-    distance: React.PropTypes.number,
-    currentTime: React.PropTypes.number.isRequired,
-    first: React.PropTypes.bool,
-    last: React.PropTypes.bool,
+    vehicles: PropTypes.array,
+    stop: PropTypes.object,
+    mode: PropTypes.string,
+    className: PropTypes.string,
+    distance: PropTypes.number,
+    currentTime: PropTypes.number.isRequired,
+    first: PropTypes.bool,
+    last: PropTypes.bool,
   };
 
   static description = () =>

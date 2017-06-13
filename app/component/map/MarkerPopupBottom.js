@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
@@ -8,14 +9,14 @@ class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: React.PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    getStore: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   routeFrom = () => {

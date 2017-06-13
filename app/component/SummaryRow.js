@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
@@ -26,9 +27,9 @@ const Leg = ({ routeNumber, leg, large }) => (
 );
 
 Leg.propTypes = {
-  routeNumber: React.PropTypes.node.isRequired,
-  leg: React.PropTypes.object.isRequired,
-  large: React.PropTypes.bool.isRequired,
+  routeNumber: PropTypes.node.isRequired,
+  leg: PropTypes.object.isRequired,
+  large: PropTypes.bool.isRequired,
 };
 
 const RouteLeg = ({ leg, large, intl }) => {
@@ -61,9 +62,9 @@ const RouteLeg = ({ leg, large, intl }) => {
 };
 
 RouteLeg.propTypes = {
-  leg: React.PropTypes.object.isRequired,
+  leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  large: React.PropTypes.bool.isRequired,
+  large: PropTypes.bool.isRequired,
 };
 
 const ModeLeg = ({ leg, mode, large }) => {
@@ -80,9 +81,9 @@ const ModeLeg = ({ leg, mode, large }) => {
 };
 
 ModeLeg.propTypes = {
-  leg: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.bool.isRequired,
+  leg: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired,
+  large: PropTypes.bool.isRequired,
 };
 
 const CityBikeLeg = ({ leg, large }) => (
@@ -90,9 +91,9 @@ const CityBikeLeg = ({ leg, large }) => (
 );
 
 CityBikeLeg.propTypes = {
-  leg: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
-  large: React.PropTypes.bool.isRequired,
+  leg: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired,
+  large: PropTypes.bool.isRequired,
 };
 
 const ViaLeg = ({ leg }) => (
@@ -102,7 +103,7 @@ const ViaLeg = ({ leg }) => (
 );
 
 ViaLeg.propTypes = {
-  leg: React.PropTypes.object.isRequired,
+  leg: PropTypes.object.isRequired,
 };
 
 const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
@@ -257,21 +258,21 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
 
 
 SummaryRow.propTypes = {
-  refTime: React.PropTypes.number.isRequired,
-  data: React.PropTypes.object.isRequired,
-  passive: React.PropTypes.bool,
-  onSelect: React.PropTypes.func.isRequired,
-  onSelectImmediately: React.PropTypes.func.isRequired,
-  hash: React.PropTypes.number.isRequired,
-  children: React.PropTypes.node,
-  open: React.PropTypes.bool,
-  breakpoint: React.PropTypes.string.isRequired,
-  intermediatePlaces: React.PropTypes.array,
+  refTime: PropTypes.number.isRequired,
+  data: PropTypes.object.isRequired,
+  passive: PropTypes.bool,
+  onSelect: PropTypes.func.isRequired,
+  onSelectImmediately: PropTypes.func.isRequired,
+  hash: PropTypes.number.isRequired,
+  children: PropTypes.node,
+  open: PropTypes.bool,
+  breakpoint: PropTypes.string.isRequired,
+  intermediatePlaces: PropTypes.array,
 };
 
 SummaryRow.contextTypes = {
   intl: intlShape.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 SummaryRow.displayName = 'SummaryRow';
@@ -605,6 +606,6 @@ SummaryRow.description = () => {
 };
 
 const withBreakPoint = getContext({
-  breakpoint: React.PropTypes.string.isRequired })(SummaryRow);
+  breakpoint: PropTypes.string.isRequired })(SummaryRow);
 
 export { SummaryRow as component, withBreakPoint as default };

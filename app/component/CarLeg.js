@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -69,23 +70,23 @@ CarLeg.description = () => {
 };
 
 CarLeg.propTypes = {
-  leg: React.PropTypes.shape({
-    duration: React.PropTypes.number.isRequired,
-    startTime: React.PropTypes.number.isRequired,
-    distance: React.PropTypes.number.isRequired,
-    from: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      stop: React.PropTypes.shape({
-        code: React.PropTypes.string,
+  leg: PropTypes.shape({
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        code: PropTypes.string,
       }),
     }).isRequired,
-    mode: React.PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
   }).isRequired,
-  index: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  index: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
-CarLeg.contextTypes = { config: React.PropTypes.object.isRequired };
+CarLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default CarLeg;

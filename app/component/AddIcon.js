@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -23,7 +24,7 @@ AddIcon.description = () =>
 AddIcon.displayName = 'IconWithCaution';
 
 AddIcon.propTypes = {
-  id: React.PropTypes.string,
+  id: PropTypes.string,
 };
 
 export default AddIcon;

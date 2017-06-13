@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -24,9 +25,9 @@ IconWithCaution.description = () =>
 IconWithCaution.displayName = 'IconWithCaution';
 
 IconWithCaution.propTypes = {
-  id: React.PropTypes.string,
-  className: React.PropTypes.string,
-  img: React.PropTypes.string.isRequired,
+  id: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string.isRequired,
 };
 
 export default IconWithCaution;

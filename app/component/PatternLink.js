@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import IconWithTail from './IconWithTail';
@@ -15,11 +16,11 @@ function PatternLink({ mode, pattern, route, fullscreenMap, selected = false }) 
 }
 
 PatternLink.propTypes = {
-  mode: React.PropTypes.string.isRequired,
-  pattern: React.PropTypes.string.isRequired,
-  route: React.PropTypes.string.isRequired,
-  fullscreenMap: React.PropTypes.bool,
-  selected: React.PropTypes.bool,
+  mode: PropTypes.string.isRequired,
+  pattern: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired,
+  fullscreenMap: PropTypes.bool,
+  selected: PropTypes.bool,
 };
 
 export default PatternLink;

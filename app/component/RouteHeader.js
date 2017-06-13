@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
@@ -29,12 +30,12 @@ export default function RouteHeader(props) {
 }
 
 RouteHeader.propTypes = {
-  route: React.PropTypes.shape({
-    gtfsId: React.PropTypes.string.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    shortName: React.PropTypes.string,
+  route: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    shortName: PropTypes.string,
   }).isRequired,
-  trip: React.PropTypes.string,
-  pattern: React.PropTypes.shape({ code: React.PropTypes.string.isRequired }),
-  className: React.PropTypes.string,
+  trip: PropTypes.string,
+  pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
+  className: PropTypes.string,
 };

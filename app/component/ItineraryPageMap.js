@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -141,24 +142,24 @@ export default function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itinerary: React.PropTypes.object,
-  params: React.PropTypes.shape({
-    from: React.PropTypes.string.isRequired,
-    to: React.PropTypes.string.isRequired,
+  itinerary: PropTypes.object,
+  params: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
   }).isRequired,
-  from: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  from: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  to: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  to: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  center: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  center: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.bool,
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    fullscreenMap: PropTypes.bool,
   }).isRequired).isRequired,
 };

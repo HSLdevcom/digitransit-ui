@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -13,14 +14,14 @@ if (isBrowser) {
 
 export default class Line extends React.Component {
   static propTypes = {
-    thin: React.PropTypes.bool,
-    passive: React.PropTypes.bool,
-    mode: React.PropTypes.string.isRequired,
-    geometry: React.PropTypes.array.isRequired,
+    thin: PropTypes.bool,
+    passive: PropTypes.bool,
+    mode: PropTypes.string.isRequired,
+    geometry: PropTypes.array.isRequired,
   }
 
   static contextTypes = {
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

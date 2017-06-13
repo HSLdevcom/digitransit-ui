@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function MobileView({ header, map, content }) {
@@ -11,7 +12,7 @@ export default function MobileView({ header, map, content }) {
 }
 
 MobileView.propTypes = {
-  header: React.PropTypes.node,
-  map: React.PropTypes.node,
-  content: React.PropTypes.node,
+  header: PropTypes.node,
+  map: PropTypes.node,
+  content: PropTypes.node,
 };

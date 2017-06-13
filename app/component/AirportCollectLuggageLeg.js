@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -52,11 +53,11 @@ AirportCollectLuggageLeg.description = () => {
 };
 
 AirportCollectLuggageLeg.propTypes = {
-  index: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    endTime: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
   }).isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default AirportCollectLuggageLeg;

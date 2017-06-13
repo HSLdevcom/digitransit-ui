@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { isBrowser } from '../../../util/browser';
@@ -7,14 +8,14 @@ const Popup = isBrowser ?
 
 class SelectedStopPopup extends React.Component {
   static propTypes = {
-    shouldOpen: React.PropTypes.bool,
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
-    children: React.PropTypes.node.isRequired,
+    shouldOpen: PropTypes.bool,
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   static contextTypes = {
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

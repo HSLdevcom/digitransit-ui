@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -86,8 +87,8 @@ MarkerSelectPopup.description = (
 );
 
 MarkerSelectPopup.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  selectRow: React.PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
+  selectRow: PropTypes.func.isRequired,
 };
 
 export default MarkerSelectPopup;

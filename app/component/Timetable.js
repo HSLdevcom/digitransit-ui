@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import TimetableRow from './TimetableRow';

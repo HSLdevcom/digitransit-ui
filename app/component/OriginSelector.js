@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape, locationShape } from 'react-router';
@@ -25,14 +26,14 @@ const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction, router, l
 );
 
 OriginSelectorRow.propTypes = {
-  icon: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  lat: React.PropTypes.number.isRequired,
-  lon: React.PropTypes.number.isRequired,
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  lat: PropTypes.number.isRequired,
+  lon: PropTypes.number.isRequired,
 };
 
 OriginSelectorRow.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
 };
@@ -62,12 +63,12 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
 };
 
 OriginSelector.propTypes = {
-  favourites: React.PropTypes.array.isRequired,
-  oldSearches: React.PropTypes.array.isRequired,
+  favourites: PropTypes.array.isRequired,
+  oldSearches: PropTypes.array.isRequired,
 };
 
 OriginSelector.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default connectToStores(

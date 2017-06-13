@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import { intlShape } from 'react-intl';
@@ -26,10 +27,10 @@ export default function DesktopView({ title, header, map, content }, { intl: { f
 }
 
 DesktopView.propTypes = {
-  title: React.PropTypes.node,
-  header: React.PropTypes.node,
-  map: React.PropTypes.node,
-  content: React.PropTypes.node,
+  title: PropTypes.node,
+  header: PropTypes.node,
+  map: PropTypes.node,
+  content: PropTypes.node,
 };
 
 DesktopView.contextTypes = {
