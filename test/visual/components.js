@@ -125,7 +125,7 @@ testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation');
-testVariation('RouteScheduleDateSelect');
+testVariation('DateSelect');
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
@@ -170,6 +170,7 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
 testVariation('StopCardHeader');
+testVariation('Timetable');
 testVariation('SplitBars');
 testVariation('Labeled');
 testVariation('Centered');

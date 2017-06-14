@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import groupBy from 'lodash/groupBy';
 import toPairs from 'lodash/toPairs';
@@ -28,10 +29,10 @@ function RouteList(props) {
 }
 
 RouteList.propTypes = {
-  className: React.PropTypes.string,
-  routes: React.PropTypes.shape({
-    mode: React.PropTypes.string.isRequired,
-    shortName: React.PropTypes.string,
+  className: PropTypes.string,
+  routes: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    shortName: PropTypes.string,
   }).isRequired,
 };
 

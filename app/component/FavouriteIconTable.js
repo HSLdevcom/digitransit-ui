@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -34,9 +35,9 @@ FavouriteIconTable.description = () =>
   </div>;
 
 FavouriteIconTable.propTypes = {
-  handleClick: React.PropTypes.func.isRequired,
-  favouriteIconIds: React.PropTypes.array,
-  selectedIconId: React.PropTypes.string,
+  handleClick: PropTypes.func.isRequired,
+  favouriteIconIds: PropTypes.array,
+  selectedIconId: PropTypes.string,
 };
 
 export default FavouriteIconTable;

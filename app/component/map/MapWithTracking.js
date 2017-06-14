@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withReducer from 'recompose/withReducer';
@@ -147,7 +148,7 @@ const MapWithTracking =
   );
 
 MapWithTracking.contextTypes = {
-  getStore: React.PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 MapWithTracking.description =

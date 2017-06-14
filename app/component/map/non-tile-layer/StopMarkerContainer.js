@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -50,10 +51,10 @@ export default function StopMarkerContainer({ hilightedStops }, { map, config })
 }
 
 StopMarkerContainer.propTypes = {
-  hilightedStops: React.PropTypes.array,
+  hilightedStops: PropTypes.array,
 };
 
 StopMarkerContainer.contextTypes = {
-  map: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -21,7 +22,7 @@ const RouteListHeader = ({ className }) => (
 
 
 RouteListHeader.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default RouteListHeader;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -6,13 +7,13 @@ import Icon from './Icon';
 class StopPageTabContainer extends React.Component {
 
   static propTypes = {
-    selectedTab: React.PropTypes.func.isRequired,
+    selectedTab: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      active: 'right-now', //show departures as the default
+      active: 'right-now', // show departures as the default
     };
   }
 
@@ -22,7 +23,7 @@ class StopPageTabContainer extends React.Component {
 
   render() {
     return (<div className="stop-tab-container">
-      <div
+      <button
         className={`stop-tab-singletab ${this.state.active === 'right-now' ? 'active' : 'inactive'}`}
         onClick={() => { this.setState({ active: 'right-now' }); this.selectedTab('right-now'); }}
       >
@@ -39,8 +40,8 @@ class StopPageTabContainer extends React.Component {
           />
           </div>
         </div>
-      </div>
-      <div
+      </button>
+      <button
         className={`stop-tab-singletab ${this.state.active === 'timetable' ? 'active' : 'inactive'}`}
         onClick={() => { this.setState({ active: 'timetable' }); this.selectedTab('timetable'); }}
       >
@@ -52,7 +53,7 @@ class StopPageTabContainer extends React.Component {
           />
           </div>
         </div>
-      </div>
+      </button>
       { // <div
         // className={`stop-tab-singletab add-info ${this.state.active === 'add-info'
         // ? 'active' : 'inactive'}`}

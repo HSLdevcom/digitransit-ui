@@ -249,6 +249,7 @@ export default {
     walk: 'WALK',
     bicycle: 'BICYCLE',
     car: 'CAR',
+    car_park: 'CAR_PARK',
   },
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.

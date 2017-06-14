@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -19,6 +20,7 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
+import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
@@ -120,7 +122,14 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     .getStore('MessageStore')
     .addConfigMessages(config);
 
+  const language = context
+      .getComponentContext()
+      .getStore('PreferencesStore').getLanguage();
+
+  configureMoment(language, config);
+
   const history = historyCreator(config);
+
 
   function track() {
     // track "getting back to home"
@@ -145,11 +154,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    piwik: React.PropTypes.object,
-    raven: React.PropTypes.object,
-    url: React.PropTypes.string,
-    config: React.PropTypes.object,
-    headers: React.PropTypes.object,
+    piwik: PropTypes.object,
+    raven: PropTypes.object,
+    url: PropTypes.string,
+    config: PropTypes.object,
+    headers: PropTypes.object,
   });
 
   // init geolocation handling

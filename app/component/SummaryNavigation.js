@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
@@ -11,18 +12,25 @@ import { otpToLocation } from '../util/otpStrings';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string,
-      to: React.PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
     }).isRequired,
-    hasDefaultPreferences: React.PropTypes.bool.isRequired,
+    hasDefaultPreferences: PropTypes.bool.isRequired,
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
   };
 
+  static defaultProps = {
+    startTime: null,
+    endTime: null,
+  }
+
   static contextTypes = {
-    piwik: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string,
+    piwik: PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   componentDidMount() {
@@ -86,6 +94,14 @@ class SummaryNavigation extends React.Component {
     CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
   }
 
+  renderTimeSelectorContainer = ({ done, props }) => (done ? (
+    <TimeSelectorContainer
+      {...props}
+      startTime={this.props.startTime}
+      endTime={this.props.endTime}
+    />
+  ) : undefined)
+
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -131,6 +147,7 @@ class SummaryNavigation extends React.Component {
               queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
             }}
             environment={Relay.Store}
+            render={this.renderTimeSelectorContainer}
           />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}

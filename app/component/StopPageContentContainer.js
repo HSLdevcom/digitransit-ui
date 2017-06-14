@@ -1,22 +1,38 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
+
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import StopPageActionBar from './StopPageActionBar';
+import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
 class StopPageContentOptions extends React.Component {
 
   static propTypes = {
-    selectedTab: React.PropTypes.func,
-    breakPoint: React.PropTypes.string,
-    printUrl: React.PropTypes.string,
-    departureProps: React.PropTypes.object,
+    printUrl: PropTypes.string,
+    departureProps: PropTypes.shape({
+      stop: PropTypes.shape({
+        stoptimes: PropTypes.array,
+      }).isRequired,
+    }).isRequired,
+    relay: PropTypes.shape({
+      variables: PropTypes.shape({
+        date: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    initialDate: PropTypes.string.isRequired,
+    setDate: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    printUrl: null,
+  }
 
   constructor(props) {
     super(props);
@@ -24,6 +40,10 @@ class StopPageContentOptions extends React.Component {
       showTab: 'right-now', // Show right-now as default
     };
   }
+
+  onDateChange = ({ target }) => {
+    this.props.setDate(target.value);
+  };
 
   setTab = (val) => {
     this.setState({
@@ -40,14 +60,23 @@ class StopPageContentOptions extends React.Component {
         {this.state.showTab === 'right-now' && <DepartureListHeader />}
       </div>
       {this.state.showTab === 'right-now' &&
-        <div style={{ height: '100%', overflowY: 'scroll' }}>
-          <div className="stop-scroll-container">
-            <DepartureListContainerWithProps {...this.props.departureProps} />
-          </div>
+        <div className="stop-scroll-container momentum-scroll">
+          <DepartureListContainerWithProps {...this.props.departureProps} />
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <StopPageActionBar breakpoint={this.props.breakPoint} printUrl={this.props.printUrl} />
+      <div className="momentum-scroll">
+        <StopPageActionBar
+          printUrl={this.props.printUrl}
+          startDate={this.props.initialDate}
+          selectedDate={this.props.relay.variables.date}
+          onDateChange={this.onDateChange}
+        />
+        <TimetableContainer
+          stop={this.props.departureProps.stop}
+          date={this.props.relay.variables.date}
+        />
+      </div>
       }
     </div>);
   }
@@ -64,12 +93,14 @@ const DepartureListContainerWithProps = mapProps(props => ({
   currentTime: props.relay.variables.startTime,
 }))(DepartureListContainer);
 
-const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
+const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <StopPageContentOptions
-      breakPoint={props.breakpoint}
       printUrl={props.stop.url}
       departureProps={props}
+      relay={props.relay}
+      initialDate={props.initialDate}
+      setDate={props.setDate}
     />
   )));
 
@@ -81,17 +112,20 @@ const StopPageContentOrEmpty = (props) => {
 };
 
 StopPageContentOrEmpty.propTypes = {
-  stop: React.PropTypes.object,
+  stop: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
 };
 
 export default Relay.createContainer(StopPageContentOrEmpty, {
   fragments: {
-    stop: () => Relay.QL`
+    stop: ({ date }) => Relay.QL`
       fragment on Stop {
         url
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
+        ${TimetableContainer.getFragment('stop', { date })}
       }
     `,
   },
@@ -100,5 +134,6 @@ export default Relay.createContainer(StopPageContentOrEmpty, {
     startTime: 0,
     timeRange: 3600 * 12,
     numberOfDepartures: 100,
+    date: null,
   },
 });

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -6,10 +7,10 @@ import Icon from './Icon';
 
 export default class ItineraryFeedback extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    piwik: React.PropTypes.object,
+    piwik: PropTypes.object,
   };
 
   state = {
