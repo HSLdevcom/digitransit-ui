@@ -65,18 +65,18 @@ class FilterTimeTableModal extends React.Component {
     val.forEach(o =>
     routeDivs.push(
       <div
-        key={(o.route.shortName ? o.route.shortName : o.route.longName)}
+        key={(o.route.shortName ? o.route.shortName : o.route.agency.name)}
         className="route-row"
       >
         <div className="checkbox-container">
           <input
             type="checkbox"
             checked={this.state.showRoutes.filter(v =>
-            v === (o.route.shortName ? o.route.shortName : o.route.longName)).length > 0}
-            id={`input-${o.route.shortName ? o.route.shortName : o.route.longName}`}
+            v === (o.route.shortName ? o.route.shortName : o.route.agency.name)).length > 0}
+            id={`input-${o.route.shortName ? o.route.shortName : o.route.agency.name}`}
             onChange={() => this.handleCheckbox(o.route.shortName)}
           />
-          <label htmlFor={`input-${(o.route.shortName ? o.route.shortName : o.route.longName)}`} />
+          <label htmlFor={`input-${(o.route.shortName ? o.route.shortName : o.route.agency.name)}`} />
         </div>
         <div className="route-mode">
           <Icon
@@ -85,9 +85,9 @@ class FilterTimeTableModal extends React.Component {
           />
         </div>
         <div
-          className={`route-number ${o.route.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.route.shortName ? o.route.shortName : o.route.longName)
-            && (o.route.shortName ? o.route.shortName : o.route.longName).length > LONG_LINE_NAME })}`}
-        >{(o.route.shortName ? o.route.shortName : o.route.longName)}</div>
+          className={`route-number ${o.route.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.route.shortName ? o.route.shortName : o.route.agency.name)
+            && (o.route.shortName ? o.route.shortName : o.route.agency.name).length > LONG_LINE_NAME })}`}
+        >{(o.route.shortName ? o.route.shortName : o.route.agency.name)}</div>
         <div className="route-headsign">{o.headsign}</div>
       </div>));
     return routeDivs;
