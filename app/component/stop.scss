@@ -318,8 +318,8 @@ hr.action-bar {
       margin-left: 1.3em;
 
       & svg {
-        width: 0.9em;
-        height: 0.9em;
+        width: 0.85em;
+        height: 0.85em;
         fill: #78909c;
       }
     }
@@ -329,6 +329,7 @@ hr.action-bar {
       margin-left: 17px;
       margin-bottom: 16px;
       font-size: $font-size-small;
+      font-weight: $font-weight-bold;
     }
 
     .all-routes-header {
@@ -409,7 +410,7 @@ hr.action-bar {
     .route-number {
       margin-top: 0.1em;
       margin-right: 2em;
-      max-width: 4em;
+      width: 1.5em;
       max-height: 1.7em;
     }
 
