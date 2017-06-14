@@ -1,6 +1,7 @@
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 import Icon from './Icon';
 
 class FilterTimeTableModal extends React.Component {
@@ -60,20 +61,22 @@ class FilterTimeTableModal extends React.Component {
 
   constructRouteDivs = (val) => {
     const routeDivs = [];
+    const LONG_LINE_NAME = 5;
     val.forEach(o =>
     routeDivs.push(
       <div
-        key={o.route.shortName}
+        key={(o.route.shortName ? o.route.shortName : o.route.longName)}
         className="route-row"
       >
         <div className="checkbox-container">
           <input
             type="checkbox"
-            checked={this.state.showRoutes.filter(v => v === o.route.shortName).length > 0}
-            id={`input-${o.route.shortName}`}
+            checked={this.state.showRoutes.filter(v =>
+            v === (o.route.shortName ? o.route.shortName : o.route.longName)).length > 0}
+            id={`input-${o.route.shortName ? o.route.shortName : o.route.longName}`}
             onChange={() => this.handleCheckbox(o.route.shortName)}
           />
-          <label htmlFor={`input-${o.route.shortName}`} />
+          <label htmlFor={`input-${(o.route.shortName ? o.route.shortName : o.route.longName)}`} />
         </div>
         <div className="route-mode">
           <Icon
@@ -81,7 +84,10 @@ class FilterTimeTableModal extends React.Component {
             img={`icon-icon_${o.route.mode.toLowerCase()}`}
           />
         </div>
-        <div className={`route-number ${o.route.mode.toLowerCase()}`}>{o.route.shortName}</div>
+        <div
+          className={`route-number ${o.route.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.route.shortName ? o.route.shortName : o.route.longName)
+            && (o.route.shortName ? o.route.shortName : o.route.longName).length > LONG_LINE_NAME })}`}
+        >{(o.route.shortName ? o.route.shortName : o.route.longName)}</div>
         <div className="route-headsign">{o.headsign}</div>
       </div>));
     return routeDivs;

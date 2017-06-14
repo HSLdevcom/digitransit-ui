@@ -15,6 +15,7 @@ export default Relay.createContainer(Timetable, {
             route {
               id
               shortName
+              longName
               mode
               agency {
                 id

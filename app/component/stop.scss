@@ -407,15 +407,16 @@ hr.action-bar {
     }
 
     .route-number {
-      margin-top: 4px;
+      margin-top: 0.1em;
       margin-right: 2em;
-      width: 22px;
+      max-width: 4em;
+      max-height: 1.7em;
     }
 
     .route-headsign {
       font-family: $font-family-narrow;
-      margin-top: 4px;
       font-weight: 400;
+      margin-top: 0.1em;
     }
 }
 
