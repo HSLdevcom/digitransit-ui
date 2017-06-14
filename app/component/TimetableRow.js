@@ -6,7 +6,12 @@ const LONG_LINE_NAME = 5;
 
 const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
   <div>
-    <div className="timetable-row" style={{ display: timerows.filter(o => o === title).length === 0 && showRoutes.length > 0 && 'none' }}>
+    <div
+      className="timetable-row"
+      style={{
+        display: timerows.filter(o => o === title).length === 0 && showRoutes.length > 0 && 'none',
+      }}
+    >
       <h1 className="title bold">{title}:</h1>
       <div className="timetable-rowcontainer">
         {stoptimes.sort((time1, time2) =>
@@ -15,16 +20,18 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
             <div
               className="timetablerow-linetime"
               key={(time.name) + time.scheduledDeparture}
-              style={{ display: ((showRoutes.filter(o => o !== time.name).length > 0 &&
-              showRoutes.length > 0)) && 'none' }}
             >
               <span
                 className={cx({ 'overflow-fade': time.name && time.name.length > LONG_LINE_NAME })}
               >
-                <div className={cx({ 'overflow-fade': time.name && time.name.length > LONG_LINE_NAME })}>
-                  <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
-                  <span className={'line-name'} title={(time.name)}>/{(time.name)}</span>
-                </div>
+                {(showRoutes.filter(o => o === time.name).length > 0 && showRoutes.length > 0)
+                || (showRoutes.length === 0) ?
+                  <div>
+                    <span className="bold">{moment.unix(time.serviceDay + time.scheduledDeparture).format('mm')}</span>
+                    <span className="line-name" title={(time.name)}>/{(time.name)}</span>
+                  </div>
+               : null
+              }
               </span>
             </div>
         ))}
