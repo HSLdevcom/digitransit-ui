@@ -12,9 +12,11 @@ export default Relay.createContainer(Timetable, {
         stoptimesForServiceDate(date:$date) {
           pattern {
             headsign
+            code
             route {
               id
               shortName
+              longName
               mode
               agency {
                 id

@@ -54,6 +54,7 @@ class Timetable extends React.Component {
       stoptime.stoptimes
         .filter(st => st.pickupType !== 'NONE')
         .map(st => ({
+          id: stoptime.pattern.code,
           name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
@@ -101,7 +102,8 @@ class Timetable extends React.Component {
                 showRoutes={this.state.showRoutes}
                 timerows={(timetableMap[hour].sort((time1, time2) =>
                             (time1.scheduledDeparture - time2.scheduledDeparture)).map(time =>
-                              this.state.showRoutes.filter(o => o === time.name).length > 0 &&
+                              this.state.showRoutes.filter(o => o === time.name ||
+                              o === time.id).length > 0 &&
                                 (moment.unix(time.serviceDay + time.scheduledDeparture).format('HH')))
                                 .filter(o => o === (padStart(hour % 24, 2, '0'))))
                                 }

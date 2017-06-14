@@ -17,8 +17,25 @@ class TimeTableOptionsPanel extends React.Component {
     };
   }
 
+  getRouteNames = (routes) => {
+    const arr = [];
+    this.props.stop.stoptimesForServiceDate.forEach((o) => {
+      if (routes.filter(v => v === o.pattern.code).length > 0) {
+        console.log(o);
+        arr.push({
+          id: o.pattern.code,
+          shortName: o.pattern.route.shortName,
+          agencyName: o.pattern.route.agency.name,
+        });
+      }
+    });
+    return arr;
+  }
+
   render() {
-    const showRoutesDiv = this.props.showRoutes.map(o => <div key={o} className="showroute-number">{o}</div>);
+    const routeNames = this.getRouteNames(this.props.showRoutes);
+    console.log(routeNames);
+    const showRoutesDiv = routeNames.map(o => <div key={o.id} className="showroute-number">{o.shortName ? o.shortName : o.agencyName}</div>);
     const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
     return (<div className="timetable-options-panel">
       <div className="timetable-showroutes">

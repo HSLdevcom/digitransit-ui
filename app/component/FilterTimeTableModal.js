@@ -65,18 +65,18 @@ class FilterTimeTableModal extends React.Component {
     val.forEach(o =>
     routeDivs.push(
       <div
-        key={(o.route.shortName ? o.route.shortName : o.route.agency.name)}
+        key={(o.code)}
         className="route-row"
       >
         <div className="checkbox-container">
           <input
             type="checkbox"
             checked={this.state.showRoutes.filter(v =>
-            v === (o.route.shortName ? o.route.shortName : o.route.agency.name)).length > 0}
-            id={`input-${o.route.shortName ? o.route.shortName : o.route.agency.name}`}
-            onChange={() => this.handleCheckbox(o.route.shortName)}
+            v === (o.code)).length > 0}
+            id={`input-${o.code}`}
+            onChange={() => this.handleCheckbox(o.code)}
           />
-          <label htmlFor={`input-${(o.route.shortName ? o.route.shortName : o.route.agency.name)}`} />
+          <label htmlFor={`input-${(o.code)}`} />
         </div>
         <div className="route-mode">
           <Icon
