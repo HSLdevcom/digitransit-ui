@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import FilterTimeTableModal from './FilterTimeTableModal';
@@ -67,6 +68,7 @@ class Timetable extends React.Component {
   render() {
     const timetableMap = this.groupArrayByHour(
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
+
     return (
       <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column' }}>
         <div className="timetable" style={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
@@ -97,6 +99,12 @@ class Timetable extends React.Component {
                 title={padStart(hour % 24, 2, '0')}
                 stoptimes={timetableMap[hour]}
                 showRoutes={this.state.showRoutes}
+                timerows={(timetableMap[hour].sort((time1, time2) =>
+                            (time1.scheduledDeparture - time2.scheduledDeparture)).map(time =>
+                              this.state.showRoutes.filter(o => o === time.name).length > 0 &&
+                                (moment.unix(time.serviceDay + time.scheduledDeparture).format('HH')))
+                                .filter(o => o === (padStart(hour % 24, 2, '0'))))
+                                }
               />,
           )}
           </div>

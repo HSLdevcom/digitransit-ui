@@ -314,15 +314,21 @@ hr.action-bar {
     }
 
     .filter-stop-modal-return-icon {
-      margin-top: 19px;
-      margin-left: 14px;
-      margin-bottom: 16px;
+      margin-top: 1em;
+      margin-left: 1.3em;
+
+      & svg {
+        width: 0.9em;
+        height: 0.9em;
+        fill: #78909c;
+      }
     }
 
     .filter-stop-modal-return-header {
-      margin-top: 19px;
+      margin-top: 1.1em;
       margin-left: 17px;
       margin-bottom: 16px;
+      font-size: $font-size-small;
     }
 
     .all-routes-header {
@@ -421,7 +427,8 @@ hr.action-bar {
 .timetablerow-linetime {
   float: left;
   margin-right: 1.2em;
-  width: 4.1em;
+  min-width: 4.1em;
+  max-width: 6em;
 }
 
 .timetable-options-panel {
@@ -431,6 +438,7 @@ hr.action-bar {
 .timetable-showroutes {
   display: flex;
   width: 100%;
+  margin-bottom: 0.3em;
 }
 
 .showroutes-icon {
@@ -448,7 +456,7 @@ hr.action-bar {
   color: #80939d;
   font-weight: 700;
   cursor: pointer;
-  width: 41%;
+  width: 25%;
   font-size: 0.9em;
   & span {
     border-bottom: 2px #80939d dotted;
@@ -464,6 +472,7 @@ hr.action-bar {
   display: inline-block;
   font-size: $font-size-xxsmall;
   width: 66%;
+  margin-top: 0.1em;
 
   .showroute-number {
     margin-right: 15px;
@@ -486,5 +495,9 @@ hr.action-bar {
 
   .routes-container {
     height: 100%;
+  }
+
+  .showroutes-header {
+    width: 41%;
   }
 }

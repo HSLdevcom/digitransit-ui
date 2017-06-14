@@ -594,7 +594,7 @@ const translations = {
     'share': 'Share itinerary',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
-    'show-routes': 'Show lines',
+    'show-routes': 'Show routes',
     'skip-positioning': 'Skip',
     'slow': 'Slow',
     'specify-location': 'Specify location',
