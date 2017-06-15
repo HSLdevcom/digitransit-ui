@@ -1,13 +1,13 @@
 module.exports = {
   "rootUrl": "http://localhost:8080",
   "screenshotsDir": "./test/visual-images/",
-  "httpTimeout": 30000,
+  "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 2,
+  "sessionsPerBrowser": 1,
   "suitesPerSession": 10,
   "retry": 1,
   "system": {
-    "plugins": { "browserstack": { "localIdentifier": process.env.SNAP_COMMIT } },
+    "plugins": { "browserstack": { "localIdentifier": process.env.IDENTIFIER } },
     "parallelLimit": 3
   },
   "browsers": {
@@ -38,7 +38,10 @@ module.exports = {
         "os": "OS X",
         "os_version": "Sierra",
         "browserName": "safari",
-        "version": "10",
+        "version": "10.1",
+	"safari.options" : {
+           "technologyPreview": true
+	},
         "locationContextEnabled": false
       }
     },

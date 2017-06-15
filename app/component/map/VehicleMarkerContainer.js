@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
@@ -49,9 +50,9 @@ if (isBrowser) {
 }
 
 const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  // Note: We're not sure this is necessary, since context is  getting passed via props
+  // router: PropTypes.object.isRequired,
+  // config: React.PropTypes.object.isRequired,
 });
 
 export default class VehicleMarkerContainer extends React.PureComponent {
@@ -59,7 +60,8 @@ export default class VehicleMarkerContainer extends React.PureComponent {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {

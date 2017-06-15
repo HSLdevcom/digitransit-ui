@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';
+import escapeRegExp from 'lodash/escapeRegExp';
+import cloneDeep from 'lodash/cloneDeep';
 
 import StopCode from '../component/StopCode';
 
@@ -10,7 +12,32 @@ const getLocality = suggestion => suggestion.localadmin || suggestion.locality |
 
 memoize.Cache = Map;
 
-export const getLabel = memoize((suggestion) => {
+export const getStopCode = ({ id, code }) => {
+  if (code) {
+    return code;
+  }
+  if (id === undefined || id.indexOf('#') === -1) {
+    return undefined;
+  }
+  // id from pelias
+  return id.substring(id.indexOf('#') + 1);
+};
+
+export const getGTFSId = ({ id, gtfsId }) => {
+  if (gtfsId) {
+    return gtfsId;
+  }
+  if (id === undefined || id.indexOf('#') === -1) {
+    return undefined;
+  }
+  // id from pelias
+  return id.substring(5, id.indexOf('#'));
+};
+
+export const isStop = ({ layer }) =>
+  (layer === 'stop' || layer === 'favouriteStop');
+
+export const getLabel = memoize((suggestion, plain = false) => {
   switch (suggestion.layer) {
     case 'currentPosition':
       return [suggestion.labelId, null];
@@ -34,25 +61,34 @@ export const getLabel = memoize((suggestion) => {
       ), suggestion.longName] : [suggestion.longName, null];
     case 'venue':
     case 'address':
-      return [suggestion.name, suggestion.label.replace(new RegExp(`${suggestion.name}(,)?( )?`), '')];
+      return [
+        suggestion.name,
+        suggestion.label.replace(new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`), ''),
+      ];
 
     case 'favouriteStop':
     case 'stop':
-      return suggestion.source === 'gtfs' ?
+      return (plain) ?
         [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
           <span key={suggestion.id}>
-            {suggestion.code && <StopCode code={suggestion.code} />} {suggestion.desc}
+            {getStopCode(suggestion) && <StopCode code={getStopCode(suggestion)} />}
+            {suggestion.desc}
           </span>
         )];
     case 'station':
     default:
       return [suggestion.name || suggestion.label, getLocality(suggestion)];
   }
+}, (item, plain) => {
+  const i = cloneDeep(item);
+  i.plain = plain;
+  return i;
 });
 
 export function uniqByLabel(features) {
   return uniqWith(features, (feat1, feat2) =>
-    isEqual(getLabel(feat1.properties), getLabel(feat2.properties)),
+    (isEqual(getLabel(feat1.properties), getLabel(feat2.properties)) &&
+    feat1.properties.layer === feat2.properties.layer),
   );
 }
 

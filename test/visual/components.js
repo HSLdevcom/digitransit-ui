@@ -22,14 +22,16 @@ function testVariation(componentName, variationName = 'normal', captureOrExample
             capture = captureOrExampleNumber;
           }
           suite
-            .setUrl(`/styleguide/component/${componentName}?en`)
+            .setUrl(`/styleguide/component/${componentName}?enmock`)
+            .before((actions) => {
+              actions.wait(2000); // test additional delay
+            })
             .setCaptureElements(capture)
             .ignoreElements(ignoreElements || [])
             .capture(variationName, {}, fn);
           resolve(suite);
         } catch (error) {
           console.error('Error occurred while testing variation', variationName);
-          throw error;
         }
       });
     });
@@ -123,7 +125,7 @@ testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation');
-testVariation('RouteScheduleDateSelect');
+testVariation('DateSelect');
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
@@ -168,6 +170,7 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
 testVariation('StopCardHeader');
+testVariation('Timetable');
 testVariation('SplitBars');
 testVariation('Labeled');
 testVariation('Centered');
@@ -205,6 +208,7 @@ testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
 testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
+testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 

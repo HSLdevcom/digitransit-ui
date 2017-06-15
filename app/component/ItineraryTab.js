@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
 
@@ -19,8 +20,8 @@ class ItineraryTab extends React.Component {
   };
 
   static contextTypes = {
-    breakpoint: React.PropTypes.string.isRequired,
-    config: React.PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    config: PropTypes.object.isRequired,
   }
 
   state = {
@@ -28,8 +29,6 @@ class ItineraryTab extends React.Component {
     lat: undefined,
     lon: undefined,
   };
-
-  shouldComponentUpdate = () => false
 
   getState = () => ({
     lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
@@ -101,6 +100,9 @@ export default Relay.createContainer(ItineraryTab, {
           type
           currency
           cents
+          components {
+            fareId
+          }
         }
         legs {
           mode

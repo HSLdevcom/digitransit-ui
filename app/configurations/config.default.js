@@ -7,6 +7,7 @@ const PIWIK_ID = process.env.PIWIK_ID;
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
+const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 
 export default {
   PIWIK_ADDRESS,
@@ -14,7 +15,7 @@ export default {
   SENTRY_DSN,
   PORT,
   CONFIG,
-
+  OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
@@ -46,6 +47,13 @@ export default {
   shortName: 'Digitransit',
 
   searchParams: {},
+  feedIds: [],
+
+/*
+ * by default search endpoints from all but gtfs sources, correct gtfs source
+ * figured based on feedIds config variable
+ */
+  searchSources: ['oa', 'osm', 'nlsfi'],
 
   search: {
     suggestions: {
@@ -241,6 +249,7 @@ export default {
     walk: 'WALK',
     bicycle: 'BICYCLE',
     car: 'CAR',
+    car_park: 'CAR_PARK',
   },
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
@@ -508,4 +517,7 @@ export default {
   ],
 
   minutesToDepartureLimit: 9,
+
+  imperialEnabled: false,
+  // this flag when true enables imperial measurements  'feet/miles system'
 };

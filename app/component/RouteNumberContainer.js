@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
 
@@ -13,23 +14,22 @@ const getText = (route, config) => {
   return '';
 };
 
-const RouteNumberContainer = ({ className, route, isCallAgency, large, ...props }, { config }) =>
+const RouteNumberContainer = ({ className, route, isCallAgency, ...props }, { config }) =>
 (route && <RouteNumber
   className={className}
   isCallAgency={isCallAgency || route.type === 715}
   mode={route.mode}
-  large={large}
   text={getText(route, config)}
   {...props}
 />);
 
 
 RouteNumberContainer.propTypes = {
-  route: React.PropTypes.object.isRequired,
-  vertical: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  hasDisruption: React.PropTypes.bool,
-  fadeLong: React.PropTypes.bool,
+  route: PropTypes.object.isRequired,
+  vertical: PropTypes.bool,
+  className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
+  fadeLong: PropTypes.bool,
 };
 
 RouteNumberContainer.defaultProps = {
@@ -37,7 +37,7 @@ RouteNumberContainer.defaultProps = {
 };
 
 RouteNumberContainer.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 RouteNumberContainer.displayName = 'RouteNumberContainer';

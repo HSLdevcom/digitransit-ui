@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
@@ -102,10 +103,10 @@ const DepartureRow = (props) => {
 DepartureRow.displayName = 'DepartureRow';
 
 DepartureRow.propTypes = {
-  departure: React.PropTypes.object.isRequired,
-  distance: React.PropTypes.number.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  timeRange: React.PropTypes.number.isRequired,
+  departure: PropTypes.object.isRequired,
+  distance: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  timeRange: PropTypes.number.isRequired,
 };
 
 const exampleDeparture1 = {

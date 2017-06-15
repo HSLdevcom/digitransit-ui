@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import cx from 'classnames';
 import { Link, routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -20,7 +21,7 @@ export default function SummaryTitle(props) {
 }
 
 SummaryTitle.propTypes = {
-  params: React.PropTypes.shape({
-    hash: React.PropTypes.string,
+  params: PropTypes.shape({
+    hash: PropTypes.string,
   }).isRequired,
 };

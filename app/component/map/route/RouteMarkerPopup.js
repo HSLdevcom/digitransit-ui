@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { intlShape } from 'react-intl';
 
 import RouteHeader from '../../RouteHeader';
 
@@ -10,32 +12,32 @@ import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
 class RouteMarkerPopup extends React.Component {
   static childContextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    context: React.PropTypes.shape({
-      router: React.PropTypes.object.isRequired,
-      executeAction: React.PropTypes.func.isRequired,
+    context: PropTypes.shape({
+      router: PropTypes.object.isRequired,
+      intl: intlShape.isRequired,
+      executeAction: PropTypes.func.isRequired,
     }).isRequired,
-    trip: React.PropTypes.shape({
-      route: React.PropTypes.shape({
-        gtfsId: React.PropTypes.string.isRequired,
+    trip: PropTypes.shape({
+      route: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
       }).isRequired,
-      fuzzyTrip: React.PropTypes.shape({
-        gtfsId: React.PropTypes.string,
-        pattern: React.PropTypes.shape({
-          code: React.PropTypes.string.isRequired,
+      fuzzyTrip: PropTypes.shape({
+        gtfsId: PropTypes.string,
+        pattern: PropTypes.shape({
+          code: PropTypes.string.isRequired,
         }),
       }),
     }).isRequired,
-    favourite: React.PropTypes.bool,
-    message: React.PropTypes.shape({
-      mode: React.PropTypes.string.isRequired,
-      tripStartTime: React.PropTypes.string.isRequired,
+    favourite: PropTypes.bool,
+    message: PropTypes.shape({
+      mode: PropTypes.string.isRequired,
+      tripStartTime: PropTypes.string.isRequired,
     }).isRequired,
   }
-
 
   getChildContext() {
     return {
@@ -57,7 +59,6 @@ class RouteMarkerPopup extends React.Component {
       tripPath = `${patternPath}/${this.props.trip.fuzzyTrip.gtfsId}`;
     }
 
-
     return (
       <div className="card">
         <RouteHeader
@@ -69,11 +70,15 @@ class RouteMarkerPopup extends React.Component {
         />
         <div className="bottom location">
           <Link to={tripPath} >
-            Lähdön tiedot
+            {this.props.context.intl.formatMessage(
+              { id: 'trip-information', defaultMessage: 'Trip Information' },
+              )}
           </Link>
           <br />
           <Link to={patternPath} className="route" >
-            Linjan tiedot
+            {this.props.context.intl.formatMessage(
+              { id: 'view-route', defaultMessage: 'View Route' },
+              )}
           </Link>
         </div>
       </div>

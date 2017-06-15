@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -30,24 +31,24 @@ function TripStopsContainer(props, { breakpoint }) {
 }
 
 TripStopsContainer.propTypes = {
-  pattern: React.PropTypes.object.isRequired,
-  trip: React.PropTypes.shape({
-    stoptimesForDate: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        scheduledDeparture: React.PropTypes.number.isRequired,
+  pattern: PropTypes.object.isRequired,
+  trip: PropTypes.shape({
+    stoptimesForDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        scheduledDeparture: PropTypes.number.isRequired,
       }).isRequired,
     ).isRequired,
   }).isRequired,
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.bool,
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    fullscreenMap: PropTypes.bool,
   })).isRequired,
-  location: React.PropTypes.shape({
-    pathname: React.PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 TripStopsContainer.contextTypes = {
-  breakpoint: React.PropTypes.string,
+  breakpoint: PropTypes.string,
 };
 
 export default Relay.createContainer(TripStopsContainer, {

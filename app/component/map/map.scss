@@ -184,7 +184,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   }
   .card {
     border: none;
-
+    >a {
+      display: block;
+    }
     hr {
       height: 1px;
       color: #ddd;
@@ -205,7 +207,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     @include font-medium;
     font-size: $font-size-small;
     line-height: $line-height-normal;
-    color: $primary-color;
+    color: $link-color;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -250,7 +252,7 @@ div.origin-popup {
   .origin-popup-header {
     @include font-bold;
     text-transform: uppercase;
-    color: $primary-color;
+    color: $link-color;
 
     .icon {
       margin: 0 0 -2px 8px;

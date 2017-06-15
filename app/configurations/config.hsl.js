@@ -28,6 +28,8 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
+  feedIds: ['HSL'],
+
   preferredAgency: 'HSL',
   showAdformTrackingPixel: true,
 
@@ -91,11 +93,26 @@ export default {
   },
 
   showTicketInformation: true,
+  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
   transportModes: {
     airplane: {
       availableForSelection: false,
       defaultValue: false,
+    },
+  },
+
+  streetModes: {
+    car_park: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'car-withoutBox',
+    },
+
+    car: {
+      availableForSelection: false,
+      defaultValue: false,
+      icon: 'car_park-withoutBox',
     },
   },
 
@@ -170,6 +187,31 @@ export default {
         paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on JORE data of HSL.'],
       },
     ],
+  },
+
+  fareMapping: {
+    'HSL:hki': 'HSL:hki',
+    'HSL:esp': 'HSL:esp',
+    'HSL:van': 'HSL:van',
+    'HSL:ker': 'HSL:ker',
+    'HSL:kir': 'HSL:kir',
+    'HSL:seu': 'HSL:seu',
+    'HSL:seu2': 'HSL:seu',
+    'HSL:seu3': 'HSL:seu',
+    'HSL:seu4': 'HSL:seu',
+    'HSL:lse': 'HSL:lse2',
+    'HSL:lse2': 'HSL:lse2',
+    'HSL:lse3': 'HSL:lse2',
+    'HSL:lse4': 'HSL:lse2',
+    'HSL:lse5': 'HSL:lse2',
+    'HSL:kse': 'HSL:lse3',
+    'HSL:kse2': 'HSL:lse3',
+    'HSL:kse3': 'HSL:lse3',
+    'HSL:kse4': 'HSL:lse3',
+    'HSL:kse5': 'HSL:lse3',
+    'HSL:kse6': 'HSL:lse3',
+    'HSL:kse7': 'HSL:lse3',
+    'HSL:kse8': 'HSL:lse3',
   },
 
   staticMessages: [

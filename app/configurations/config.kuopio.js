@@ -56,6 +56,7 @@ export default configMerger(walttiConfig, {
     content: [
       { label: (function () { return `© Kuopio ${(1900 + new Date().getYear())}`; }()) },
       {},
+      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },

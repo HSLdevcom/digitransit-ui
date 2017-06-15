@@ -1,22 +1,27 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import ItineraryCircleLine from './ItineraryCircleLine';
+
 
 function AirportCollectLuggageLeg(props) {
+  const modeClassName = 'wait';
   return (
-    <div style={{ width: '100%' }} className="row itinerary-row" >
+    <div className="row itinerary-row" >
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.endTime).format('HH:mm')}
         </div>
         <RouteNumber mode="wait" vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className="small-10 columns itinerary-instruction-column wait"
+        className="small-9 columns itinerary-instruction-column wait"
       >
         <div className="itinerary-leg-first-row">
           <FormattedMessage
@@ -48,10 +53,11 @@ AirportCollectLuggageLeg.description = () => {
 };
 
 AirportCollectLuggageLeg.propTypes = {
-  leg: React.PropTypes.shape({
-    endTime: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
   }).isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default AirportCollectLuggageLeg;

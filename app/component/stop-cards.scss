@@ -40,9 +40,22 @@
   }
 }
 
+.stop-page-header_icon {
+  height: 41px;
+  width: 41px;
+  color: $black;
+  margin-right: 1.3em;
+  margin-top: 10px;
+}
+.mobile {
+  .stop-page-header_icon-container {
+    display: none;
+  }
+}
+
 .header-primary {
   @include font-bold;
   font-size: $font-size-small;
   text-transform: uppercase;
-  color: $primary-color;
+  color: $link-color;
 }

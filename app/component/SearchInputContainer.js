@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import find from 'lodash/find';
 import get from 'lodash/get';
-import cx from 'classnames';
+import cloneDeep from 'lodash/cloneDeep';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ReactAutowhatever from 'react-autowhatever';
 import NetworkError from './NetworkError';
 import SuggestionItem from './SuggestionItem';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import { executeSearch, executeSearchImmediate } from '../util/searchUtils';
-import { getLabel } from '../util/suggestionUtils';
+import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import { isBrowser } from '../util/browser';
 import Loading from './Loading';
@@ -29,10 +30,9 @@ export default class SearchInputContainer extends Component {
     className: PropTypes.string,
     id: PropTypes.string,
     placeholder: PropTypes.string,
-    children: PropTypes.node,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
-    layers: React.PropTypes.array,
+    layers: PropTypes.array,
   };
 
   state = {
@@ -59,7 +59,6 @@ export default class SearchInputContainer extends Component {
     if (inProgress && this.state.searchInProgress) {
       return;
     }
-
     this.setState({
       searchInProgress: inProgress,
       suggestions: results,
@@ -67,23 +66,28 @@ export default class SearchInputContainer extends Component {
     }, () => this.focusItem(0));
   }
 
-  onSwitchTab = (tab) => {
-    this.setState({
-      type: tab,
-      focusedItemIndex: 0,
-    }, () => {
-      this.focusItem(0);
-      this.focus();
-    });
-  }
-
   /**
    * Returns object containing results for specified type of undefined if no such results exist
    */
   getItems(typeParam) {
-    const type = typeParam || (this.props.type === 'all' ? this.state.type : this.props.type);
-    const result = find(this.state.suggestions, ['type', type]);
-    return result;
+    const type = typeParam || (this.props.type);
+
+    const endpoints = find(this.state.suggestions, ['type', 'endpoint']);
+
+    if (type === 'all') {
+      const all = {};
+      all.results = get(endpoints, 'results', []);
+      const search = find(this.state.suggestions, ['type', 'search']);
+      all.results = all.results.concat(get(search, 'results', []));
+      all.error = all.results.length === 0 && (get(endpoints, 'error') || get(search, 'error'));
+      return all;
+    }
+
+    return endpoints;
+  }
+
+  getInput() {
+    return get(this, 'autowhatever.input', null);
   }
 
   focusItem(i) {  // eslint-disable-line class-methods-use-this
@@ -109,11 +113,15 @@ export default class SearchInputContainer extends Component {
 
   blur() {
     // hide safari keyboard
-    this.autowhatever.input.blur();
+    if (this.getInput() != null) {
+      this.getInput().blur();
+    }
   }
 
   focus = () => {
-    this.autowhatever.input.focus();
+    if (this.getInput() != null) {
+      this.getInput().focus();
+    }
   }
 
   handleOnKeyDown = (event, eventProps) => {
@@ -157,7 +165,6 @@ export default class SearchInputContainer extends Component {
       }, this.currentItemSelected);
 
       this.blur();
-      event.preventDefault();
     }
   }
 
@@ -201,19 +208,32 @@ export default class SearchInputContainer extends Component {
           { id: 'own-position', defaultMessage: 'Your current location' },
         );
       } else {
-        const type = (this.props.type === 'all' && this.state.type) || this.props.type;
+          // type is destination unless timetable of route was clicked
+        let type = 'endpoint';
+        switch (item.type) {
+          case 'Stop': // stop can be timetable or
+            if (item.timetableClicked === true) {
+              type = 'search';
+            }
+            break;
+          case 'Route':
+            type = 'search';
+            break;
+          default:
+        }
+
         this.context.executeAction(saveSearch, { item, type });
-        name = item.properties.label || getLabel(item.properties).join(', ');
       }
 
-      this.props.onSuggestionSelected(name, item);
+      name = item.properties.label || getLabel(item.properties, true).join(', ');
+      const clone = cloneDeep(item);
+      if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
+        clone.properties.link = `/pysakit/${getGTFSId(clone.properties)}`;
+      }
+
+      this.props.onSuggestionSelected(name, clone);
     }
   }
-
-  clearInput = () => {
-    this.handleUpdateInputNow({ target: { value: '' } });
-    this.focus();
-  };
 
   renderItemsOrEmpty(children) {
     let elem;
@@ -257,38 +277,6 @@ export default class SearchInputContainer extends Component {
     </div>
   )
 
-  renderMultiWrapper = ({ children, ...rest }) => (
-    <div {...rest} >
-      <div className="react-autowhatever__type-selector">
-        <a
-          onClick={() => this.onSwitchTab('endpoint')}
-          className={cx({ selected: this.state.type === 'endpoint' })}
-          id="endpoint-tab"
-        >
-          <FormattedMessage id="destination" defaultMessage="Destination" />
-          {this.state.type !== 'endpoint' && (
-            <span className="item-count">
-              {get(this.getItems('endpoint'), 'results.length', 0)}
-            </span>
-          )}
-        </a>
-        <a
-          onClick={() => this.onSwitchTab('search')}
-          className={cx({ selected: this.state.type === 'search' })}
-          id="search-tab"
-        >
-          <FormattedMessage id="route-stop-or-keyword" defaultMessage="About the route or stop" />
-          {this.state.type !== 'search' && (
-            <span className="item-count">
-              {get(this.getItems('search'), 'results.length', 0)}
-            </span>
-          )}
-        </a>
-      </div>
-      {this.renderItemsOrEmpty(children)}
-    </div>
-  )
-
   renderItem = (item) => { // eslint-disable-line class-methods-use-this
     if (item.properties.layer === 'currentPosition') {
       return (
@@ -300,6 +288,7 @@ export default class SearchInputContainer extends Component {
     }
     return (
       <SuggestionItem
+        doNotShowLinkToStop={(this.props.type !== 'all')}
         ref={item.name}
         item={item}
         useTransportIconsconfig={this.context.config.search.suggestions.useTransportIcons}
@@ -339,7 +328,6 @@ export default class SearchInputContainer extends Component {
             onTouchStart: this.handleOnTouchStart,
           }}
         />
-        {this.props.children}
       </div>);
   }
 }

@@ -29,9 +29,11 @@ function parseLocation(location, input, config, next) {
         locationToOTP({ address: parsedFrom[1], lon: coords[0], lat: coords[1] }),
       );
     }
-    return getGeocodingResult(location, {}, null, config).then(parseGeocodingResults).catch(next);
+    return getGeocodingResult(location, {}, null, null, null, config)
+      .then(parseGeocodingResults).catch(next);
   } else if (input) {
-    return getGeocodingResult(input, {}, null, config).then(parseGeocodingResults).catch(next);
+    return getGeocodingResult(input, {}, null, null, null, config)
+      .then(parseGeocodingResults).catch(next);
   }
   return ' ';
 }
