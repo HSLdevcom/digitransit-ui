@@ -102,10 +102,10 @@ export default class ItineraryTimePicker extends React.Component {
       oldMinute: initMin,
     };
 
-    if (currentState.hours === undefined) {
+    if (Number(currentState.hours) !== Number(initHours)) {
       newState.hours = initHours;
     }
-    if (currentState.hours === undefined) {
+    if (Number(currentState.minutes) !== Number(initMin)) {
       newState.minutes = initMin;
     }
     return newState;
