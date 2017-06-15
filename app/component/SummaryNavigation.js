@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
@@ -11,13 +12,13 @@ import { otpToLocation } from '../util/otpStrings';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string,
-      to: React.PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
     }).isRequired,
-    hasDefaultPreferences: React.PropTypes.bool.isRequired,
-    startTime: React.PropTypes.number,
-    endTime: React.PropTypes.number,
+    hasDefaultPreferences: PropTypes.bool.isRequired,
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
   };
 
   static defaultProps = {
@@ -26,10 +27,10 @@ class SummaryNavigation extends React.Component {
   }
 
   static contextTypes = {
-    piwik: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string,
+    piwik: PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   componentDidMount() {

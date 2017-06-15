@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -21,7 +22,7 @@ RelativeDuration.contextTypes = {
 };
 
 RelativeDuration.propTypes = {
-  duration: React.PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
 };
 
 export default RelativeDuration;

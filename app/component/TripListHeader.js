@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -18,7 +19,7 @@ const TripListHeader = ({ className }) => (
 );
 
 TripListHeader.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default TripListHeader;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { Link } from 'react-router';
@@ -31,11 +32,11 @@ const AboutPage = ({ currentLanguage }, context) => {
 };
 
 AboutPage.propTypes = {
-  currentLanguage: React.PropTypes.string.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
 };
 
 AboutPage.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default connectToStores(AboutPage, ['PreferencesStore'], context => ({

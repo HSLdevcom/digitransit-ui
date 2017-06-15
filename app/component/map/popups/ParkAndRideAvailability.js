@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import mapProps from 'recompose/mapProps';
 import { FormattedMessage } from 'react-intl';
@@ -34,9 +35,9 @@ ParkAndRideAvailability.description = (
 );
 
 ParkAndRideAvailability.propTypes = {
-  realtime: React.PropTypes.bool,
-  maxCapacity: React.PropTypes.number.isRequired,
-  spacesAvailable: React.PropTypes.number.isRequired,
+  realtime: PropTypes.bool,
+  maxCapacity: PropTypes.number.isRequired,
+  spacesAvailable: PropTypes.number.isRequired,
 };
 
 export default ParkAndRideAvailability;

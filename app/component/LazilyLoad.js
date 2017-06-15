@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // From https://webpack.js.org/guides/lazy-load-react/
 
 class LazilyLoad extends React.Component {
   static propTypes = {
-    modules: React.PropTypes.objectOf(React.PropTypes.func.isRequired).isRequired,
+    modules: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
   }
 
   state = {
@@ -53,7 +54,7 @@ class LazilyLoad extends React.Component {
 }
 
 LazilyLoad.propTypes = {
-  children: React.PropTypes.func.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export const LazilyLoadFactory = (Component, modules) => props => (

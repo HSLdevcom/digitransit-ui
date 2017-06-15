@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -8,23 +9,23 @@ import Loading from './Loading';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
-    plan: React.PropTypes.object.isRequired,
-    itineraries: React.PropTypes.array.isRequired,
-    children: React.PropTypes.node,
-    error: React.PropTypes.string,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string.isRequired,
-      to: React.PropTypes.string.isRequired,
-      hash: React.PropTypes.string,
+    plan: PropTypes.object.isRequired,
+    itineraries: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    error: PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      hash: PropTypes.string,
     }).isRequired,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   onSelectActive = (index) => {

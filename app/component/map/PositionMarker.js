@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import pure from 'recompose/pure';
@@ -58,12 +59,12 @@ PositionMarker.contextTypes = {
 };
 
 PositionMarker.propTypes = {
-  coordinates: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.number),
-    React.PropTypes.oneOf([false]),
+  coordinates: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.number),
+    PropTypes.oneOf([false]),
   ]),
-  displayOriginPopup: React.PropTypes.bool,
-  useCurrentPosition: React.PropTypes.bool.isRequired,
+  displayOriginPopup: PropTypes.bool,
+  useCurrentPosition: PropTypes.bool.isRequired,
 };
 
 export default connectToStores(

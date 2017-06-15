@@ -3506,9 +3506,9 @@ gemini-configparser@^0.3.0:
     babel-runtime "^5.5.5"
     lodash "^3.9.3"
 
-gemini-core@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-1.2.0.tgz#34a5b89ff459f9ca39a6335930a55759c534039e"
+gemini-core@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-1.3.0.tgz#752f992b7890036121b2413aa5641071d1877f19"
   dependencies:
     bluebird "^3.4.6"
     debug "^2.2.0"
@@ -3527,9 +3527,9 @@ gemini-coverage@^1.0.0:
     q "^1.4.1"
     q-io "^2.0.6"
 
-gemini@5.0.0-alpha.1:
-  version "5.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-5.0.0-alpha.1.tgz#314792fdc08b9b6605bb69e72044445523206df7"
+gemini@5.0.0-alpha.2:
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-5.0.0-alpha.2.tgz#ef864b647058a26feddad14fdac79345cdc91a72"
   dependencies:
     aliasify "^1.7.2"
     bluebird "^3.4.6"
@@ -3542,7 +3542,7 @@ gemini@5.0.0-alpha.1:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^0.1.1"
-    gemini-core "^1.0.0"
+    gemini-core "^1.2.0"
     gemini-coverage "^1.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -5501,9 +5501,9 @@ mqtt-packet@^5.2.1:
     process-nextick-args "^1.0.7"
     safe-buffer "^5.0.1"
 
-mqtt@2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-2.8.1.tgz#73094950300ac5f7ce4e2814af3e9ce3c6f6a7c0"
+mqtt@2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-2.8.2.tgz#c5e95ad95784bbba19f2b6f0bb6dd9e5536dd7a8"
   dependencies:
     commist "^1.0.0"
     concat-stream "^1.6.0"
@@ -6846,7 +6846,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.4, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -7095,18 +7095,11 @@ react-addons-create-fragment@^15.0.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.0"
 
-react-addons-css-transition-group@15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-addons-css-transition-group/-/react-addons-css-transition-group-15.4.2.tgz#b7828834dfa14229fe07750e331e8a8cb6fb7745"
+react-addons-css-transition-group@15.6.0-rc.1:
+  version "15.6.0-rc.1"
+  resolved "https://registry.yarnpkg.com/react-addons-css-transition-group/-/react-addons-css-transition-group-15.6.0-rc.1.tgz#81c0152c02a21dfb49e88428d817856ac1e84bec"
   dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
-
-react-addons-perf@15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.4.2.tgz#110bdcf5c459c4f77cb85ed634bcd3397536383b"
-  dependencies:
-    fbjs "^0.8.4"
+    fbjs "^0.8.9"
     object-assign "^4.1.0"
 
 react-addons-shallow-compare@^15.4.1:
@@ -7144,13 +7137,14 @@ react-cookie@1.0.4:
     cookie "^0.3.1"
     object-assign "^4.1.0"
 
-react-dom@15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
+react-dom@15.6.0-rc.1:
+  version "15.6.0-rc.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.0-rc.1.tgz#d23aeef1d6ae5732b190c5a9a8a3dc38640c5b50"
   dependencies:
-    fbjs "^0.8.1"
+    fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "~15.5.7"
 
 react-event-listener@^0.4.0:
   version "0.4.5"
@@ -7286,13 +7280,14 @@ react-themeable@^1.1.0:
   dependencies:
     object-assign "^3.0.0"
 
-react@15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
+react@15.6.0-rc.1:
+  version "15.6.0-rc.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.0-rc.1.tgz#cb3c4531f673c6bb584822464c46a84aab09f958"
   dependencies:
-    fbjs "^0.8.4"
+    fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "^15.5.7"
 
 read-all-stream@^3.0.0:
   version "3.1.0"

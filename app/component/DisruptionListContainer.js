@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
@@ -46,8 +47,8 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
-  root: React.PropTypes.shape({
-    alerts: React.PropTypes.array,
+  root: PropTypes.shape({
+    alerts: PropTypes.array,
   }).isRequired,
 };
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
@@ -22,10 +23,10 @@ function RoutePatternSelect(props) {
 }
 
 RoutePatternSelect.propTypes = {
-  params: React.PropTypes.object,
-  route: React.PropTypes.object,
-  className: React.PropTypes.string,
-  onSelectChange: React.PropTypes.func.isRequired,
+  params: PropTypes.object,
+  route: PropTypes.object,
+  className: PropTypes.string,
+  onSelectChange: PropTypes.func.isRequired,
 };
 
 RoutePatternSelect.description = () =>
