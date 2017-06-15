@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Relay from 'react-relay';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';

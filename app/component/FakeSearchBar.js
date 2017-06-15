@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -18,11 +19,11 @@ const FakeSearchBar =
     );
 
 FakeSearchBar.propTypes = {
-  className: React.PropTypes.string,
-  endpointAddress: React.PropTypes.string,
-  id: React.PropTypes.string,
-  onClick: React.PropTypes.func,
-  placeholder: React.PropTypes.string.isRequired,
+  className: PropTypes.string,
+  endpointAddress: PropTypes.string,
+  id: PropTypes.string,
+  onClick: PropTypes.func,
+  placeholder: PropTypes.string.isRequired,
 };
 
 FakeSearchBar.displayName = 'FakeSearchBar';

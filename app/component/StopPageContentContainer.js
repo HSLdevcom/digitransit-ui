@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -13,19 +14,19 @@ import Error404 from './404';
 class StopPageContentOptions extends React.Component {
 
   static propTypes = {
-    printUrl: React.PropTypes.string,
-    departureProps: React.PropTypes.shape({
-      stop: React.PropTypes.shape({
-        stoptimes: React.PropTypes.array,
+    printUrl: PropTypes.string,
+    departureProps: PropTypes.shape({
+      stop: PropTypes.shape({
+        stoptimes: PropTypes.array,
       }).isRequired,
     }).isRequired,
-    relay: React.PropTypes.shape({
-      variables: React.PropTypes.shape({
-        date: React.PropTypes.string.isRequired,
+    relay: PropTypes.shape({
+      variables: PropTypes.shape({
+        date: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    initialDate: React.PropTypes.string.isRequired,
-    setDate: React.PropTypes.func.isRequired,
+    initialDate: PropTypes.string.isRequired,
+    setDate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -89,7 +90,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
   currentTime: props.relay.variables.startTime,
 }))(DepartureListContainer);
 
-const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
+const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <StopPageContentOptions
       printUrl={props.stop.url}
@@ -108,8 +109,8 @@ const StopPageContentOrEmpty = (props) => {
 };
 
 StopPageContentOrEmpty.propTypes = {
-  stop: React.PropTypes.shape({
-    url: React.PropTypes.string,
+  stop: PropTypes.shape({
+    url: PropTypes.string,
   }).isRequired,
 };
 

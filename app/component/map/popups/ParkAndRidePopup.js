@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
@@ -9,7 +10,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 
 export default class ParkAndRidePopup extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
     intl: intlShape,
   };
 
@@ -25,13 +26,13 @@ export default class ParkAndRidePopup extends React.Component {
   );
 
   static propTypes = {
-    realtime: React.PropTypes.bool.isRequired,
-    maxCapacity: React.PropTypes.number.isRequired,
-    spacesAvailable: React.PropTypes.number.isRequired,
-    context: React.PropTypes.object.isRequired,
-    name: React.PropTypes.string.isRequired,
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+    realtime: PropTypes.bool.isRequired,
+    maxCapacity: PropTypes.number.isRequired,
+    spacesAvailable: PropTypes.number.isRequired,
+    context: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   };
 
   render() {

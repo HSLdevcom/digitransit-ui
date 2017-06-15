@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
@@ -10,8 +11,8 @@ function ToggleMapTracking(props) {
 }
 
 ToggleMapTracking.propTypes = {
-  handleClick: React.PropTypes.func.isRequired,
-  className: React.PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default ToggleMapTracking;

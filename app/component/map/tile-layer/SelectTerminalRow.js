@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import routeCompare from '../../../util/route-compare';
@@ -65,10 +66,10 @@ SelectTerminalRow.description = (
 );
 
 SelectTerminalRow.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  selectRow: React.PropTypes.func.isRequired,
-  routes: React.PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  routes: PropTypes.string.isRequired,
 };
 
 export default SelectTerminalRow;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -43,10 +44,10 @@ EndLeg.description = () => {
 };
 
 EndLeg.propTypes = {
-  endTime: React.PropTypes.number.isRequired,
-  to: React.PropTypes.string.isRequired,
-  index: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  endTime: PropTypes.number.isRequired,
+  to: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default EndLeg;

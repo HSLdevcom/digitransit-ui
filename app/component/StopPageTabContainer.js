@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -6,7 +7,7 @@ import Icon from './Icon';
 class StopPageTabContainer extends React.Component {
 
   static propTypes = {
-    selectedTab: React.PropTypes.func.isRequired,
+    selectedTab: PropTypes.func.isRequired,
   };
 
   constructor(props) {

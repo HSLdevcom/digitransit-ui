@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
@@ -13,7 +14,7 @@ class MainMenuContainer extends Component {
     piwik: PropTypes.object,
     router: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   onRequestChange = newState => this.internalSetOffcanvas(newState);

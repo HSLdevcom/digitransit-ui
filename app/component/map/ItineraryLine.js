@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
@@ -27,7 +28,7 @@ const getLegText = (leg, config) => {
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   render() {
@@ -163,15 +164,15 @@ class ItineraryLine extends React.Component {
 }
 
 ItineraryLine.propTypes = {
-  legs: React.PropTypes.array,
-  passive: React.PropTypes.bool,
-  hash: React.PropTypes.number,
-  showTransferLabels: React.PropTypes.bool,
-  showIntermediateStops: React.PropTypes.bool,
+  legs: PropTypes.array,
+  passive: PropTypes.bool,
+  hash: PropTypes.number,
+  showTransferLabels: PropTypes.bool,
+  showIntermediateStops: PropTypes.bool,
 };
 
 ItineraryLine.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(ItineraryLine, {
