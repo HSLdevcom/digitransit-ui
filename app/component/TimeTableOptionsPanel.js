@@ -29,7 +29,7 @@ class TimeTableOptionsPanel extends React.Component {
         });
       }
     });
-    return uniqBy(arr, key => key.shortName);
+    return uniqBy(arr, key => (key.shortName === null ? key.agencyName : key.shortName));
   }
 
   render() {
