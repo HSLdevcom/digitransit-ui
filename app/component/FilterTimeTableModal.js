@@ -1,5 +1,7 @@
 import React from 'react';
-import uniqBy from 'lodash/uniqBy';
+import groupBy from 'lodash/groupBy';
+import intersection from 'lodash/intersection';
+import without from 'lodash/without';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -36,13 +38,13 @@ class FilterTimeTableModal extends React.Component {
     }
   }
 
-  handleCheckbox = (routeId) => {
+  handleCheckbox = (routesToAdd) => {
     const oldHiddenRoutes = this.state.showRoutes.length > 0 ? this.state.showRoutes.slice() : [];
-    let newVal = [routeId];
+    let newVal = routesToAdd;
     if (oldHiddenRoutes.length > 0) {
-      newVal = oldHiddenRoutes.filter(o => o === routeId).length === 0
-    ? oldHiddenRoutes.concat([routeId])
-    : oldHiddenRoutes.filter(o => o !== routeId);
+      newVal = intersection(oldHiddenRoutes, routesToAdd).length === 0
+    ? oldHiddenRoutes.concat(routesToAdd)
+    : oldHiddenRoutes.filter(o => routesToAdd.indexOf(o) < 0);
     }
     if (newVal.length === 0) {
       this.updateParent({ showRoutes: newVal, allRoutes: true });
@@ -65,29 +67,28 @@ class FilterTimeTableModal extends React.Component {
     val.forEach(o =>
     routeDivs.push(
       <div
-        key={(o.code)}
+        key={(o.codes[0])}
         className="route-row"
       >
         <div className="checkbox-container">
           <input
             type="checkbox"
-            checked={this.state.showRoutes.filter(v =>
-            v === (o.code)).length > 0}
-            id={`input-${o.code}`}
-            onChange={() => this.handleCheckbox(o.code)}
+            checked={intersection(this.state.showRoutes, o.codes).length > 0}
+            id={`input-${o.codes[0]}`}
+            onChange={() => this.handleCheckbox(o.codes)}
           />
-          <label htmlFor={`input-${(o.code)}`} />
+          <label htmlFor={`input-${(o.codes[0])}`} />
         </div>
         <div className="route-mode">
           <Icon
-            className={o.route.mode.toLowerCase()}
-            img={`icon-icon_${o.route.mode.toLowerCase()}`}
+            className={o.mode.toLowerCase()}
+            img={`icon-icon_${o.mode.toLowerCase()}`}
           />
         </div>
         <div
-          className={`route-number ${o.route.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.route.shortName ? o.route.shortName : o.route.agency.name)
-            && (o.route.shortName ? o.route.shortName : o.route.agency.name).length > LONG_LINE_NAME })}`}
-        >{(o.route.shortName ? o.route.shortName : o.route.agency.name)}</div>
+          className={`route-number ${o.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.shortName ? o.shortName : o.agency)
+            && (o.shortName ? o.shortName : o.agency).length > LONG_LINE_NAME })}`}
+        >{(o.shortName ? o.shortName : o.agency.name)}</div>
         <div className="route-headsign">{o.headsign}</div>
       </div>));
     return routeDivs;
@@ -99,13 +100,37 @@ class FilterTimeTableModal extends React.Component {
     }
   }
 
+  constructRoutes = () => {
+    const patternGroups = groupBy(this.props.stop.stoptimesForServiceDate.map(a =>
+    a.pattern), pattern =>
+    JSON.stringify([
+      pattern.headsign,
+      pattern.route.shortName,
+      pattern.route.mode,
+      pattern.route.agency.name]));
+
+    const mappedGroups = Object.entries(patternGroups).map(([key, group]) =>
+    [JSON.parse(key), group.map(pattern => pattern.code)]);
+    const cleanedUpavailableRoutes = mappedGroups.map((o) => {
+      const obj = {};
+      obj.headsign = o[0][0];
+      obj.shortName = o[0][1];
+      obj.mode = o[0][2];
+      obj.agency = o[0][3];
+      obj.codes = o[1];
+      return obj;
+    });
+
+    return cleanedUpavailableRoutes;
+  }
+
 
   render() {
-    const availableRoutes = (
-        this.props.stop.stoptimesForServiceDate).map(o => Object.assign(o.pattern),
-        );
-    const cleanedUpavailableRoutes = uniqBy(availableRoutes, 'route.id');
-    const routeList = this.constructRouteDivs(cleanedUpavailableRoutes);
+    // const availableRoutes = (
+    //    this.props.stop.stoptimesForServiceDate).map(o => Object.assign(o.pattern),
+    //    );
+    const routes = this.constructRoutes();
+    const routeList = this.constructRouteDivs(routes);
     return (<div>
       <div className="filter-stop-modal-overlay" />
       <div className="filter-stop-modal-fixed-container" onClick={e => this.closeModal(e)}>

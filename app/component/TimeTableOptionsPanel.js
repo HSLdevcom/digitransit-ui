@@ -21,7 +21,6 @@ class TimeTableOptionsPanel extends React.Component {
     const arr = [];
     this.props.stop.stoptimesForServiceDate.forEach((o) => {
       if (routes.filter(v => v === o.pattern.code).length > 0) {
-        console.log(o);
         arr.push({
           id: o.pattern.code,
           shortName: o.pattern.route.shortName,
@@ -34,7 +33,6 @@ class TimeTableOptionsPanel extends React.Component {
 
   render() {
     const routeNames = this.getRouteNames(this.props.showRoutes);
-    console.log(routeNames);
     const showRoutesDiv = routeNames.map(o => <div key={o.id} className="showroute-number">{o.shortName ? o.shortName : o.agencyName}</div>);
     const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
     return (<div className="timetable-options-panel">

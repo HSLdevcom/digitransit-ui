@@ -14,6 +14,7 @@ class Timetable extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
       url: PropTypes.string,
+      gtfsId: PropTypes.string,
       stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
         pattern: PropTypes.shape({
           route: PropTypes.shape({
@@ -39,11 +40,22 @@ class Timetable extends React.Component {
     this.state = {
       showRoutes: [],
       showFilterModal: false,
+      oldStopId: this.props.stop.gtfsId,
     };
+  }
+
+  componentWillReceiveProps = () => {
+    if (this.props.stop.gtfsId !== this.state.oldStopId) {
+      this.resetStopOptions(this.props.stop.gtfsId);
+    }
   }
 
   setRouteVisibilityState = (val) => {
     this.setState({ showRoutes: val.showRoutes });
+  }
+
+  resetStopOptions = (id) => {
+    this.setState({ showRoutes: [], showFilterModal: false, oldStopId: id });
   }
 
   showModal = (val) => {
@@ -69,7 +81,7 @@ class Timetable extends React.Component {
 
   render() {
     const timetableMap = this.groupArrayByHour(
-      this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
+    this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
 
     return (
       <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column' }}>
