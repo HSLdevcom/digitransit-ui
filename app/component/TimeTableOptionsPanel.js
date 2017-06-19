@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import uniqBy from 'lodash/uniqBy';
 import Icon from './Icon';
 
 class TimeTableOptionsPanel extends React.Component {
@@ -28,7 +29,7 @@ class TimeTableOptionsPanel extends React.Component {
         });
       }
     });
-    return arr;
+    return uniqBy(arr, key => key.shortName);
   }
 
   render() {

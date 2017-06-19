@@ -84,8 +84,8 @@ class Timetable extends React.Component {
     this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
 
     return (
-      <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column' }}>
-        <div className="timetable" style={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
+      <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
+        <div className="timetable" style={{ display: 'flex', flexDirection: 'column', maxHeight: '100%', flexGrow: '1' }}>
           {this.state.showFilterModal === true ?
             <FilterTimeTableModal
               stop={this.props.stop}

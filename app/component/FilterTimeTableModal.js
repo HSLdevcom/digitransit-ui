@@ -1,7 +1,6 @@
 import React from 'react';
 import groupBy from 'lodash/groupBy';
 import intersection from 'lodash/intersection';
-import without from 'lodash/without';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -88,7 +87,7 @@ class FilterTimeTableModal extends React.Component {
         <div
           className={`route-number ${o.mode.toLowerCase()} ${cx({ 'overflow-fade': (o.shortName ? o.shortName : o.agency)
             && (o.shortName ? o.shortName : o.agency).length > LONG_LINE_NAME })}`}
-        >{(o.shortName ? o.shortName : o.agency.name)}</div>
+        >{(o.shortName ? o.shortName : o.agency)}</div>
         <div className="route-headsign">{o.headsign}</div>
       </div>));
     return routeDivs;
