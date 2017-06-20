@@ -89,7 +89,7 @@
     "polyline-encoded": "0.0.8",
     "proj4": "^2.3.17",
     "prop-types": "^15.5.10",
-    "raven": "2.0.2",
+    "raven": "2.1.0",
     "raven-js": "3.15.0",
     "react": "15.6.0-rc.1",
     "react-addons-css-transition-group": "15.6.0-rc.1",
