@@ -55,6 +55,11 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
   ];
 
   const showScale = fullscreen || breakpoint === 'large';
+
+  let filteredPoints;
+  if (pattern.geometry) {
+    filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lon !== null);
+  }
   return (
     <Map
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
@@ -62,10 +67,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       className={'full'}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={(
-        pattern.geometry.filter(point => (point.lat !== null && point.lon !== null)) ||
-        pattern.stops).map(p => [p.lat, p.lon],
-      )}
+      bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
       showScaleBar={showScale}
     >
