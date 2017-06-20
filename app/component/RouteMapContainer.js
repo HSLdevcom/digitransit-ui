@@ -58,7 +58,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 
   let filteredPoints;
   if (pattern.geometry) {
-    filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lot !== null);
+    filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lon !== null);
   }
   return (
     <Map

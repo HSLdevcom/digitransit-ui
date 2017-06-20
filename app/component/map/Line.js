@@ -50,7 +50,8 @@ export default class Line extends React.Component {
 
     let filteredPoints;
     if (this.props.geometry) {
-      filteredPoints = this.props.geometry.filter(point => point.lat !== null && point.lot !== null);
+      filteredPoints =
+        this.props.geometry.filter(point => point.lat !== null && point.lon !== null);
     }
 
     const lineConfig = this.context.config.map.line;
