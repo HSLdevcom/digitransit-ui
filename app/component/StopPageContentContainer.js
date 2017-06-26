@@ -8,7 +8,6 @@ import getContext from 'recompose/getContext';
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
-import StopPageActionBar from './StopPageActionBar';
 import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
@@ -65,18 +64,16 @@ class StopPageContentOptions extends React.Component {
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div className="momentum-scroll">
-        <StopPageActionBar
-          printUrl={this.props.printUrl}
-          startDate={this.props.initialDate}
-          selectedDate={this.props.relay.variables.date}
-          onDateChange={this.onDateChange}
-        />
         <TimetableContainer
           stop={this.props.departureProps.stop}
           date={this.props.relay.variables.date}
+          propsForStopPageActionBar={{
+            printUrl: this.props.printUrl,
+            startDate: this.props.initialDate,
+            selectedDate: this.props.relay.variables.date,
+            onDateChange: this.onDateChange,
+          }}
         />
-      </div>
       }
     </div>);
   }
