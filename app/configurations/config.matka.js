@@ -71,22 +71,5 @@ export default {
     ],
   },
 
-  staticMessages: [
-    { id: 'juhannus-2017',
-      content: {
-        fi: [
-          { type: 'heading', content: 'Juhannusliikenteessä muutoksia.' },
-          { type: 'text', content: 'Tarkista aina aikataulut liikenteenharjoittajilta tai Matkahuollosta.' },
-        ],
-        en: [
-          { type: 'heading', content: 'Förändringar i midsommartrafiken.' },
-          { type: 'text', content: 'Kontrollera tidtabellerna hos trafikföretagen eller Matkahuolto.' },
-        ],
-        sv: [
-          { type: 'heading', content: 'Changes in midsummer traffic.' },
-          { type: 'text', content: 'Please check the timetables from the traffic operator or Matkahuolto.' },
-        ],
-      },
-    },
-  ],
+  staticMessages: [],
 };
