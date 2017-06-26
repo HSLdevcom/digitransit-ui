@@ -19,6 +19,7 @@ class Timetable extends React.Component {
         pattern: PropTypes.shape({
           route: PropTypes.shape({
             shortName: PropTypes.string,
+            mode: PropTypes.string.isRequired,
             agency: PropTypes.shape({
               name: PropTypes.string.isRequired,
             }).isRequired,
@@ -30,8 +31,12 @@ class Timetable extends React.Component {
         })).isRequired,
       })).isRequired,
     }).isRequired,
-    printUrl: PropTypes.string,
-    propsForStopPageActionBar: PropTypes.object,
+    propsForStopPageActionBar: PropTypes.shape({
+      printUrl: PropTypes.string.isRequired,
+      startDate: PropTypes.string,
+      selectedDate: PropTypes.string,
+      onDateChange: PropTypes.function,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -142,6 +147,7 @@ const exampleStop = {
         agency: {
           name: 'Helsingin seudun liikenne',
         },
+        mode: 'BUS',
       },
     },
     stoptimes: [{
@@ -151,6 +157,7 @@ const exampleStop = {
   }, {
     pattern: {
       route: {
+        mode: 'BUS',
         agency: {
           name: 'Helsingin seudun liikenne',
         },
@@ -167,7 +174,7 @@ Timetable.description = () =>
   <div>
     <p>Renders a timetable</p>
     <ComponentUsageExample description="">
-      <Timetable stop={exampleStop} />
+      <Timetable stop={exampleStop} propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }} />
     </ComponentUsageExample>
   </div>;
 
