@@ -6,8 +6,8 @@ import DateSelect from './DateSelect';
 const DATE_FORMAT = 'YYYYMMDD';
 
 const StopPageActionBar = ({ printUrl, startDate, selectedDate, onDateChange }) => (
-  printUrl &&
-    <div id="stop-page-action-bar">
+  (printUrl &&
+    (<div id="stop-page-action-bar">
       <DateSelect
         startDate={startDate}
         selectedDate={selectedDate}
@@ -15,7 +15,7 @@ const StopPageActionBar = ({ printUrl, startDate, selectedDate, onDateChange }) 
         onDateChange={onDateChange}
       />
       <PrintLink className="action-bar" href={printUrl} />
-    </div>
+    </div>)) || null
   );
 
 StopPageActionBar.displayName = 'StopPageActionBar';
