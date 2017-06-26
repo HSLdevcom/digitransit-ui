@@ -49,7 +49,6 @@ TimetableRow.propTypes = {
     scheduledDeparture: PropTypes.number.isRequired,
   })).isRequired,
   showRoutes: PropTypes.array,
-  hideAllRoutes: PropTypes.bool,
   timerows: PropTypes.array,
 };
 
