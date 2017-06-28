@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
@@ -12,6 +13,7 @@ import Slider from './Slider';
 import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
+import FareZoneSelector from './FareZoneSelector';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
 import { getCustomizedSettings, resetCustomizedSettings } from '../store/localStorage';
@@ -98,7 +100,6 @@ class CustomizeSearch extends React.Component {
   componentWillMount() {
     // Check if there are customized settings set
     const custSettings = getCustomizedSettings();
-
     /* Map sliders, if there are customized settings, prioritize them first,
     if there are query parameters, they come in second, if not, fall back to default values */
     this.walkReluctanceSliderValues =
@@ -311,21 +312,18 @@ class CustomizeSearch extends React.Component {
     </section>);
 
   getTicketSelector = () => (
-    <section className="offcanvas-section">
-      <Select
-        headerText={this.context.intl.formatMessage({
-          id: 'zones',
-          defaultMessage: 'Fare zones',
-        })}
-        name="ticket"
-        selected={this.context.location.query.ticketOption || '0'}
-        options={this.context.config.ticketOptions}
-        onSelectChange={e => this.updateSettings(
+    <FareZoneSelector
+      headerText={this.context.intl.formatMessage({
+        id: 'zones',
+        defaultMessage: 'Fare zones',
+      })}
+      options={get(this.context.config, 'fareMapping', {})}
+      currentOption={this.context.location.query.ticketOption || '0'}
+      updateValue={val => this.updateSettings(
           'ticketOption',
-          e.target.value,
+          val,
         )}
-      />
-    </section>);
+    />);
 
   getAccessibilityOption = () => {
     let accessibilityOption;

@@ -55,6 +55,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "ticketTypes",
+                        "description": "!!This api is experimental and might change without further notice!!\n Return list of available ticket types.",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "TicketType",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "agency",
                         "description": "Get a single agency based on agency ID",
                         "args": [
@@ -1410,6 +1426,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": null
+                            },
+                            {
+                                "name": "ticketTypes",
+                                "description": "Allowed ticket types",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
                             }
                         ],
                         "type": {
@@ -1490,6 +1516,11 @@
                     {
                         "kind": "OBJECT",
                         "name": "Alert",
+                        "ofType": null
+                    },
+                    {
+                        "kind": "OBJECT",
+                        "name": "TicketType",
                         "ofType": null
                     },
                     {
@@ -3949,6 +3980,67 @@
                 ],
                 "inputFields": null,
                 "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "TicketType",
+                "description": "!!This api is experimental and might change without further notice!!\n Describes ticket type",
+                "fields": [
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "fareId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "ID",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "price",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Float",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [
+                    {
+                        "kind": "INTERFACE",
+                        "name": "Node",
+                        "ofType": null
+                    }
+                ],
                 "enumValues": null,
                 "possibleTypes": null
             },
