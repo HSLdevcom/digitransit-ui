@@ -154,6 +154,8 @@ function getSettings() {
       : undefined,
     accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
       : undefined,
+    ticketTypes: custSettings.ticketTypes ? custSettings.ticketTypes
+      : undefined,
   };
 }
 
@@ -171,9 +173,11 @@ export default (config) => {
         minTransferTime,
         modes,
         accessibilityOption,
+        ticketTypes,
       } } },
   ) => {
     const settings = getSettings();
+    console.log(settings);
     return omitBy({
       fromPlace: from,
       toPlace: to,
@@ -199,6 +203,7 @@ export default (config) => {
         config.maxWalkDistance : config.maxBikingDistance,
       wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
+      ticketTypes: settings.ticketTypes,
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil);
   };

@@ -1063,6 +1063,16 @@
                                 },
                                 "defaultValue": null
                             },
+                             {
+                                "name": "ticketTypes",
+                                "description": "Allowed ticket types",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
                             {
                                 "name": "numItineraries",
                                 "description": "The maximum number of itineraries to return.",

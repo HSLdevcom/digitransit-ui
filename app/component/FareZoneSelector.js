@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import uniqBy from 'lodash/uniqBy';
 import { FormattedMessage } from 'react-intl';
 import Select from './Select';
 
@@ -17,20 +18,22 @@ class FareZoneSelector extends React.Component {
     const optionsArray = Object.values(options);
     const constructedOptions = optionsArray.map((o) => {
       const obj = {};
-      obj.displayName = <FormattedMessage defaultMessage={`ticket-type-${o}`} id={`ticket-type-${o}`} />;
-      obj.value = o;
+      obj.displayName = o.replace(':', '_');
+      obj.displayNameObject = <FormattedMessage defaultMessage={`ticket-type-${o}`} id={`ticket-type-${o}`} />;
+      obj.value = o.replace(':', '_');
       return obj;
     });
     constructedOptions.push({
-      displayName: <FormattedMessage defaultMessage="ticket-type-none" id="ticket-type-none" />,
+      displayName: 'none',
+      displayNameObject: <FormattedMessage defaultMessage="ticket-type-none" id="ticket-type-none" />,
       value: '0',
     });
-    return constructedOptions;
+    return uniqBy(constructedOptions, 'value');
   }
 
   render() {
-    console.log(this.props.options);
     const mappedOptions = this.createFareZoneObjects(this.props.options);
+    console.log(mappedOptions);
     return (<section className="offcanvas-section">
       <Select
         headerText={this.props.headerText}

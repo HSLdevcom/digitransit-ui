@@ -77,7 +77,10 @@ export function setCustomizedSettings(data) {
     : oldSettings.walkReluctance,
     walkSpeed: data.walkSpeed ? data.walkSpeed
     : oldSettings.walkSpeed,
+    ticketTypes: data.ticketTypes ? data.ticketTypes
+    : oldSettings.ticketTypes,
   };
+  console.log(newSettings);
   setItem('customizedSettings', newSettings);
 }
 

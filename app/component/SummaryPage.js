@@ -333,6 +333,7 @@ export default Relay.createContainer(SummaryPage, {
           walkSpeed: $walkSpeed,
           maxWalkDistance: $maxWalkDistance,
           wheelchair: $wheelchair,
+          ticketTypes: $ticketTypes,
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           preferred: $preferred)
@@ -371,6 +372,7 @@ export default Relay.createContainer(SummaryPage, {
     modes: null,
     maxWalkDistance: 0,
     preferred: null,
+    ticketTypes: 0,
   },
     ...SummaryPage.hcParameters },
 });

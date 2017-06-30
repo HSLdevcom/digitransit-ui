@@ -21,6 +21,7 @@ class SaveCustomizedSettingsButton extends React.Component {
 
   setSettingsData = () => {
     // Test if has new set values
+    console.log(this.context.location.query);
     const settings = {
       accessibilityOption: !(typeof this.context.location.query.accessibilityOption === 'undefined')
         ? this.context.location.query.accessibilityOption
@@ -40,6 +41,9 @@ class SaveCustomizedSettingsButton extends React.Component {
         : undefined,
       walkSpeed: this.context.location.query.walkSpeed
         ? this.context.location.query.walkSpeed
+        : undefined,
+      ticketTypes: this.context.location.query.ticketTypes
+        ? this.context.location.query.ticketTypes
         : undefined,
     };
 

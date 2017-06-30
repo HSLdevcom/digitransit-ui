@@ -46,6 +46,7 @@ const defaultSettings = {
   walkBoardCost: WALKBOARDCOST_DEFAULT,
   walkReluctance: 2,
   walkSpeed: 1.2,
+  ticketTypes: 0,
 };
 
 class CustomizeSearch extends React.Component {
@@ -93,6 +94,7 @@ class CustomizeSearch extends React.Component {
       walkBoardCost: 0,
       walkReluctance: 0,
       walkSpeed: 0,
+      ticketTypes: 0,
     };
   }
 
@@ -311,6 +313,18 @@ class CustomizeSearch extends React.Component {
       />
     </section>);
 
+  getTicketType = () => {
+    let ticketType;
+    if (!(typeof this.context.location.query.ticketTypes === 'undefined')) {
+      ticketType = this.context.location.query.ticketTypes;
+    } else if (!(typeof getCustomizedSettings().ticketTypes === 'undefined')) {
+      ticketType = getCustomizedSettings().ticketTypes;
+    } else {
+      ticketType = 0;
+    }
+    return ticketType;
+  }
+
   getTicketSelector = () => (
     <FareZoneSelector
       headerText={this.context.intl.formatMessage({
@@ -318,9 +332,9 @@ class CustomizeSearch extends React.Component {
         defaultMessage: 'Fare zones',
       })}
       options={get(this.context.config, 'fareMapping', {})}
-      currentOption={this.context.location.query.ticketOption || '0'}
+      currentOption={this.getTicketType()}
       updateValue={val => this.updateSettings(
-          'ticketOption',
+          'ticketTypes',
           val,
         )}
     />);
@@ -431,6 +445,7 @@ class CustomizeSearch extends React.Component {
             minTransferTime: defaultSettings.minTransferTime,
             accessibilityOption: defaultSettings.accessibilityOption,
             modes: this.getDefaultModes().toString(),
+            ticketTypes: defaultSettings.ticketTypes,
           },
         },
         router: this.context.router,
