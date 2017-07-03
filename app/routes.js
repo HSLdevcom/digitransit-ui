@@ -178,7 +178,7 @@ export default (config) => {
   ) => {
     const settings = getSettings();
     console.log(settings);
-    return omitBy({
+    return { ...omitBy({
       fromPlace: from,
       toPlace: to,
       from: otpToLocation(from),
@@ -203,9 +203,9 @@ export default (config) => {
         config.maxWalkDistance : config.maxBikingDistance,
       wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
-      ticketTypes: ticketTypes !== null ? ticketTypes : settings.ticketTypes,
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
-    }, isNil);
+    }, isNil),
+      ticketTypes: ticketTypes !== 'none' ? ticketTypes : null };
   };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
