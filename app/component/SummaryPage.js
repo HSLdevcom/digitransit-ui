@@ -372,7 +372,7 @@ export default Relay.createContainer(SummaryPage, {
     modes: null,
     maxWalkDistance: 0,
     preferred: null,
-    ticketTypes: 0,
+    ticketTypes: null,
   },
     ...SummaryPage.hcParameters },
 });

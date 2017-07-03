@@ -203,7 +203,7 @@ export default (config) => {
         config.maxWalkDistance : config.maxBikingDistance,
       wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
-      ticketTypes: settings.ticketTypes,
+      ticketTypes: ticketTypes !== null ? ticketTypes : settings.ticketTypes,
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil);
   };

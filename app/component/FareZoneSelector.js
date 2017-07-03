@@ -26,14 +26,13 @@ class FareZoneSelector extends React.Component {
     constructedOptions.push({
       displayName: 'none',
       displayNameObject: <FormattedMessage defaultMessage="ticket-type-none" id="ticket-type-none" />,
-      value: '0',
+      value: 'none',
     });
     return uniqBy(constructedOptions, 'value');
   }
 
   render() {
     const mappedOptions = this.createFareZoneObjects(this.props.options);
-    console.log(mappedOptions);
     return (<section className="offcanvas-section">
       <Select
         headerText={this.props.headerText}

@@ -46,7 +46,7 @@ const defaultSettings = {
   walkBoardCost: WALKBOARDCOST_DEFAULT,
   walkReluctance: 2,
   walkSpeed: 1.2,
-  ticketTypes: 0,
+  ticketTypes: null,
 };
 
 class CustomizeSearch extends React.Component {
@@ -94,7 +94,7 @@ class CustomizeSearch extends React.Component {
       walkBoardCost: 0,
       walkReluctance: 0,
       walkSpeed: 0,
-      ticketTypes: 0,
+      ticketTypes: null,
     };
   }
 
@@ -315,12 +315,13 @@ class CustomizeSearch extends React.Component {
 
   getTicketType = () => {
     let ticketType;
-    if (!(typeof this.context.location.query.ticketTypes === 'undefined')) {
+    if (typeof this.context.location.query.ticketTypes !== 'undefined'
+    && this.context.location.query.ticketTypes !== null) {
       ticketType = this.context.location.query.ticketTypes;
     } else if (!(typeof getCustomizedSettings().ticketTypes === 'undefined')) {
       ticketType = getCustomizedSettings().ticketTypes;
     } else {
-      ticketType = 0;
+      ticketType = 'none';
     }
     return ticketType;
   }
@@ -335,7 +336,7 @@ class CustomizeSearch extends React.Component {
       currentOption={this.getTicketType()}
       updateValue={val => this.updateSettings(
           'ticketTypes',
-          val,
+          (val === 'none' ? undefined : val),
         )}
     />);
 
@@ -429,6 +430,7 @@ class CustomizeSearch extends React.Component {
       walkReluctance: mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
       walkBoardCost: mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
       accessibilityOption: defaultSettings.accessibilityOption,
+      ticketTypes: defaultSettings.ticketTypes,
       minTransferTime: mapToSlider(defaultSettings.minTransferTime,
       this.transferMarginSliderValues),
     });
