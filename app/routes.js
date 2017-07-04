@@ -205,7 +205,7 @@ export default (config) => {
       preferred: { agencies: config.preferredAgency || '' },
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil),
-      ticketTypes: ticketTypes !== undefined && ticketTypes !== 'none' ? ticketTypes : null };
+      ticketTypes: ticketTypes !== undefined ? ticketTypes : null };
   };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
