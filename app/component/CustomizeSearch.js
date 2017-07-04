@@ -336,7 +336,7 @@ class CustomizeSearch extends React.Component {
       currentOption={this.getTicketType()}
       updateValue={val => this.updateSettings(
           'ticketTypes',
-          val,
+          (val === 'none' ? undefined : val),
         )}
     />);
 

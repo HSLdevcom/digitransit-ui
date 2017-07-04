@@ -160,7 +160,6 @@ function getSettings() {
 }
 
 function setTicketTypes(ticketType, settingsTicketType) {
-  // ticketTypes !== undefined && ticketTypes !== 'none' ? ticketTypes : null
   if (ticketType !== undefined && ticketType !== 'none') {
     return ticketType;
   } else if (settingsTicketType !== undefined && settingsTicketType !== 'none') {
@@ -187,7 +186,6 @@ export default (config) => {
       } } },
   ) => {
     const settings = getSettings();
-    console.log(settings);
     return { ...omitBy({
       fromPlace: from,
       toPlace: to,
