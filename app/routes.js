@@ -159,6 +159,16 @@ function getSettings() {
   };
 }
 
+function setTicketTypes(ticketType, settingsTicketType) {
+  // ticketTypes !== undefined && ticketTypes !== 'none' ? ticketTypes : null
+  if (ticketType !== undefined && ticketType !== 'none') {
+    return ticketType;
+  } else if (settingsTicketType !== undefined && settingsTicketType !== 'none') {
+    return settingsTicketType;
+  }
+  return null;
+}
+
 export default (config) => {
   const preparePlanParams = (
       { from, to },
@@ -205,7 +215,7 @@ export default (config) => {
       preferred: { agencies: config.preferredAgency || '' },
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil),
-      ticketTypes: ticketTypes !== undefined && ticketTypes !== 'none' ? ticketTypes : null };
+      ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes) };
   };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
