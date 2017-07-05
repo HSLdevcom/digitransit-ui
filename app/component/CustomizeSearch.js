@@ -335,8 +335,7 @@ class CustomizeSearch extends React.Component {
       options={get(this.context.config, 'fareMapping', {})}
       currentOption={this.getTicketType()}
       updateValue={val => this.updateSettings(
-          'ticketTypes',
-          (val === 'none' ? undefined : val),
+          'ticketTypes', val,
         )}
     />);
 
