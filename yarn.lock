@@ -323,9 +323,9 @@ async@0.2.x, async@~0.2.6:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
 
-async@2.4.1, async@^2.1.2, async@^2.1.5:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.4.1.tgz#62a56b279c98a11d0987096a01cc3eeb8eb7bbd7"
+async@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
     lodash "^4.14.0"
 
@@ -336,6 +336,12 @@ async@^0.9.0, async@~0.9.0:
 async@^1.3.0, async@^1.4.0, async@^1.5.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
+
+async@^2.1.2, async@^2.1.5:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.4.1.tgz#62a56b279c98a11d0987096a01cc3eeb8eb7bbd7"
+  dependencies:
+    lodash "^4.14.0"
 
 async@~1.0.0:
   version "1.0.0"
@@ -384,7 +390,7 @@ babel-code-frame@^6.11.0, babel-code-frame@^6.16.0, babel-code-frame@^6.22.0:
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-babel-core@6.23.1, babel-core@^6.23.1:
+babel-core@6.23.1:
   version "6.23.1"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.23.1.tgz#c143cb621bb2f621710c220c5d579d15b8a442df"
   dependencies:
@@ -408,7 +414,7 @@ babel-core@6.23.1, babel-core@^6.23.1:
     slash "^1.0.0"
     source-map "^0.5.0"
 
-babel-core@^6.24.1:
+babel-core@^6.23.1, babel-core@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.24.1.tgz#8c428564dce1e1f41fb337ec34f4c3b022b5ad83"
   dependencies:
@@ -2031,9 +2037,17 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2:
+create-react-class@^15.5.2:
   version "15.5.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.3.tgz#fb0f7cae79339e9a179e194ef466efa3923820fe"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
+create-react-class@^15.6.0:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
@@ -3299,11 +3313,10 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-fluxible-addons-react@0.2.12:
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/fluxible-addons-react/-/fluxible-addons-react-0.2.12.tgz#8bdb5798a4a6ec5f814955fb181bab61bd1d1537"
+fluxible-addons-react@0.2.13:
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/fluxible-addons-react/-/fluxible-addons-react-0.2.13.tgz#5c90b753cd4b924eb447a8aa894a905c2b08fc64"
   dependencies:
-    create-react-class "^15.5.1"
     hoist-non-react-statics "^1.0.4"
     inherits "^2.0.1"
     prop-types "^15.5.8"
@@ -4079,11 +4092,11 @@ hyphenate-style-name@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
 
-iconv-lite@0.4.15, iconv-lite@~0.4.13:
+iconv-lite@0.4.15, iconv-lite@^0.4.5, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
-iconv-lite@^0.4.17, iconv-lite@^0.4.5:
+iconv-lite@^0.4.17:
   version "0.4.17"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.17.tgz#4fdaa3b38acbc2c031b045d0edcdfe1ecab18c8d"
 
@@ -4792,9 +4805,9 @@ ldjson-stream@^1.2.1:
     split2 "^0.2.1"
     through2 "^0.6.1"
 
-leaflet@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
+leaflet@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.1.0.tgz#63246715cfc783dca6798b843a250e8e6fd84918"
 
 leven@^1.0.0:
   version "1.0.2"
@@ -6348,9 +6361,9 @@ point-in-polygon@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
 
-polyfill-service@3.18.0:
-  version "3.18.0"
-  resolved "https://registry.yarnpkg.com/polyfill-service/-/polyfill-service-3.18.0.tgz#8a4685a1299a3f28b1d9600ae34b48c3e4f91072"
+polyfill-service@3.20.0-0:
+  version "3.20.0-0"
+  resolved "https://registry.yarnpkg.com/polyfill-service/-/polyfill-service-3.20.0-0.tgz#1efdc92b21f0d098c2e880b402e1762d356bec15"
   dependencies:
     Base64 "^1.0.0"
     array.of "^0.1.1"
@@ -6399,10 +6412,11 @@ polyfill-service@3.18.0:
     shrink-ray "^0.1.3"
     stream-from-promise "^1.0.0"
     stream-to-string "^1.1.0"
-    string.fromcodepoint "^0.2.1"
+    string.fromcodepoint "0.2.1"
     tsort "0.0.1"
     useragent "^2.1.12"
     usertiming "^0.1.8"
+    web-animations-js "^2.2.5"
     whatwg-fetch "^2.0.3"
     yaku "0.17.11"
 
@@ -6846,7 +6860,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -7045,13 +7059,13 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-raven-js@3.15.0:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.15.0.tgz#ebf95466b7d40fbbc3d6a5085af7c1431607926c"
+raven-js@3.16.1:
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.16.1.tgz#4aab8ba7c57bc261604db970c41c49137340c450"
 
-raven@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/raven/-/raven-2.0.2.tgz#a43d3b8702ae6db2e91987628be8f289500810ae"
+raven@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/raven/-/raven-2.1.0.tgz#1b624e56374d9c9d93c74448461a2a356ce37527"
   dependencies:
     cookie "0.3.1"
     json-stringify-safe "5.0.1"
@@ -7137,14 +7151,14 @@ react-cookie@1.0.4:
     cookie "^0.3.1"
     object-assign "^4.1.0"
 
-react-dom@15.6.0-rc.1:
-  version "15.6.0-rc.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.0-rc.1.tgz#d23aeef1d6ae5732b190c5a9a8a3dc38640c5b50"
+react-dom@15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "~15.5.7"
+    prop-types "^15.5.10"
 
 react-event-listener@^0.4.0:
   version "0.4.5"
@@ -7280,14 +7294,15 @@ react-themeable@^1.1.0:
   dependencies:
     object-assign "^3.0.0"
 
-react@15.6.0-rc.1:
-  version "15.6.0-rc.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.0-rc.1.tgz#cb3c4531f673c6bb584822464c46a84aab09f958"
+react@15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
+    create-react-class "^15.6.0"
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.7"
+    prop-types "^15.5.10"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -8331,7 +8346,7 @@ string-width@^2.0.0:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^3.0.0"
 
-string.fromcodepoint@^0.2.1:
+string.fromcodepoint@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/string.fromcodepoint/-/string.fromcodepoint-0.2.1.tgz#8d978333c0bc92538f50f383e4888f3e5619d653"
 
@@ -9097,6 +9112,10 @@ wd@^0.4.0:
 weak-map@^1.0.4, weak-map@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/weak-map/-/weak-map-1.0.5.tgz#79691584d98607f5070bd3b70a40e6bb22e401eb"
+
+web-animations-js@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/web-animations-js/-/web-animations-js-2.2.5.tgz#26ca1b34c1347332a0813f8b2bfe69664efa80aa"
 
 webpack-core@~0.6.9:
   version "0.6.9"
