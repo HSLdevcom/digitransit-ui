@@ -80,7 +80,6 @@ export function setCustomizedSettings(data) {
     ticketTypes: data.ticketTypes ? data.ticketTypes
     : oldSettings.ticketTypes,
   };
-  console.log(newSettings);
   setItem('customizedSettings', newSettings);
 }
 
