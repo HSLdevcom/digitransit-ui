@@ -162,7 +162,11 @@ function getSettings() {
 function setTicketTypes(ticketType, settingsTicketType) {
   if (ticketType !== undefined && ticketType !== 'none') {
     return ticketType;
-  } else if (settingsTicketType !== undefined && settingsTicketType !== 'none') {
+  } else if (
+    settingsTicketType !== undefined &&
+    settingsTicketType !== 'none' &&
+    ticketType !== 'none'
+  ) {
     return settingsTicketType;
   }
   return null;
