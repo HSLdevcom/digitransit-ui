@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import { gql } from 'react-apollo';
 import { intlShape } from 'react-intl';
 
 import Distance from './Distance';
@@ -8,8 +8,9 @@ import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const bicycleRentalRowContainerFragment = () => Relay.QL`
-  fragment on BikeRentalStation {
+export const bicycleRentalRowContainerFragment = gql`
+  fragment bicycleRentalRowContainerFragment on BikeRentalStation {
+    id
     name
     stationId
     bikesAvailable
@@ -17,7 +18,7 @@ const bicycleRentalRowContainerFragment = () => Relay.QL`
   }
 `;
 
-const BicycleRentalStationRow = (props, context) => {
+export default function BicycleRentalStationRow(props, context) {
   let availabilityIcon = null;
 
   if (props.station.bikesAvailable === 0 && props.station.spacesAvailable === 0) {
@@ -54,7 +55,7 @@ const BicycleRentalStationRow = (props, context) => {
       </div>
     </div>
   );
-};
+}
 
 BicycleRentalStationRow.propTypes = {
   station: PropTypes.object.isRequired,
@@ -113,15 +114,3 @@ BicycleRentalStationRow.description = () =>
       />
     </ComponentUsageExample>
   </div>;
-
-export { BicycleRentalStationRow };
-
-export default Relay.createContainer(BicycleRentalStationRow, {
-  fragments: {
-    station: bicycleRentalRowContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-  },
-});

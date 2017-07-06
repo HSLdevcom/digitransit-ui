@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import { gql } from 'react-apollo';
 import { Link } from 'react-router';
 import filter from 'lodash/filter';
 
@@ -11,10 +11,12 @@ import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
 
-const departureRowContainerFragment = () => Relay.QL`
-  fragment on DepartureRow {
+export const departureRowContainerFragment = gql`
+  fragment departureRowContainerFragment on DepartureRow {
     pattern {
+      id
       route {
+        id
         gtfsId
         shortName
         longName
@@ -26,6 +28,7 @@ const departureRowContainerFragment = () => Relay.QL`
           effectiveEndDate
         }
         agency {
+          id
           name
         }
       }
@@ -42,10 +45,12 @@ const departureRowContainerFragment = () => Relay.QL`
       serviceDay
       stopHeadsign
       stop {
+        id
         code
         platformCode
       }
       trip {
+        id
         gtfsId
       }
     }
@@ -55,7 +60,7 @@ const departureRowContainerFragment = () => Relay.QL`
 const hasActiveDisruption = (t, alerts) =>
   filter(alerts, alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate).length > 0;
 
-const DepartureRow = (props) => {
+export default function DepartureRow(props) {
   const departure = props.departure;
   let departureTimes;
   let headsign;
@@ -98,7 +103,7 @@ const DepartureRow = (props) => {
       </Link>
     </div>
   );
-};
+}
 
 DepartureRow.displayName = 'DepartureRow';
 
@@ -175,17 +180,3 @@ DepartureRow.description = () =>
       />
     </ComponentUsageExample>
   </div>;
-
-
-export { DepartureRow };
-
-export default Relay.createContainer(DepartureRow, {
-  fragments: {
-    departure: departureRowContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
-});

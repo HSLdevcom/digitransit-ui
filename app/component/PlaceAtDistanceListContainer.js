@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
 import sortBy from 'lodash/sortBy';
+import { gql } from 'react-apollo';
 
-import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
+import PlaceAtDistanceContainer, { placeAtDistanceFragment } from './PlaceAtDistanceContainer';
 import { round } from './Distance';
 
-export const placeAtDistanceListContainerFragment = variables => Relay.QL`
-  fragment on placeAtDistanceConnection {
+export const placeAtDistanceListContainerFragment = gql`
+  fragment placeAtDistanceList on placeAtDistanceConnection {
     edges {
       node {
         distance
@@ -22,18 +22,17 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
             }
           }
         }
-        ${PlaceAtDistanceContainer.getFragment('placeAtDistance', {
-          currentTime: variables.currentTime,
-          timeRange: variables.timeRange })},
+        ...placeAtDistanceFragment
       }
     }
   }
+  ${placeAtDistanceFragment}
 `;
 
 const testStopTimes = stoptimes => (stoptimes && stoptimes.length > 0);
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
+export default function PlaceAtDistanceList({ data: { places }, currentTime, timeRange }) {
   if (places && places.edges) {
     return (<div>
       {sortBy(places.edges.filter(
@@ -54,22 +53,13 @@ const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
     </div>);
   }
   return null;
-};
+}
 /* eslint-enable no-underscore-dangle */
 
 PlaceAtDistanceList.propTypes = {
-  places: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    places: PropTypes.object.isRequired,
+  }).isRequired,
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
 };
-
-export default Relay.createContainer(PlaceAtDistanceList, {
-  fragments: {
-    places: placeAtDistanceListContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
-});

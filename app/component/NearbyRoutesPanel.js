@@ -4,10 +4,12 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import includes from 'lodash/includes';
 import pull from 'lodash/pull';
 import without from 'lodash/without';
+import { ApolloProvider } from 'react-apollo';
 
 import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
+import client from '../apolloClient';
 
 function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context) {
   return (
@@ -23,16 +25,18 @@ function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context
         className="scrollable momentum-scroll nearby"
         id="scrollable-routes"
       >
-        <NearestRoutesContainer
-          lat={location.lat}
-          lon={location.lon}
-          currentTime={currentTime}
-          modes={modes}
-          placeTypes={placeTypes}
-          maxDistance={context.config.nearbyRoutes.radius}
-          maxResults={context.config.nearbyRoutes.results || 50}
-          timeRange={context.config.nearbyRoutes.timeRange || 7200}
-        />
+        <ApolloProvider client={client}>
+          <NearestRoutesContainer
+            lat={location.lat}
+            lon={location.lon}
+            currentTime={currentTime}
+            modes={modes}
+            placeTypes={placeTypes}
+            maxDistance={context.config.nearbyRoutes.radius}
+            maxResults={context.config.nearbyRoutes.results || 50}
+            timeRange={context.config.nearbyRoutes.timeRange || 7200}
+          />
+        </ApolloProvider>
       </div>
     </div>
   );

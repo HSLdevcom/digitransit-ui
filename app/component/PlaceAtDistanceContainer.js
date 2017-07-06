@@ -1,29 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import { gql } from 'react-apollo';
 
-import DepartureRowContainer from './DepartureRowContainer';
-import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
+import DepartureRowContainer, { departureRowContainerFragment } from './DepartureRowContainer';
+import BicycleRentalStationRowContainer, { bicycleRentalRowContainerFragment } from './BicycleRentalStationRowContainer';
 
-const placeAtDistanceFragment = variables => Relay.QL`
-  fragment on placeAtDistance {
+export const placeAtDistanceFragment = gql`
+  fragment placeAtDistanceFragment on placeAtDistance {
     distance
     place {
       id
       __typename
-      ${DepartureRowContainer.getFragment('departure', {
-        currentTime: variables.currentTime,
-        timeRange: variables.timeRange,
-      })}
-      ${BicycleRentalStationRowContainer.getFragment('station', {
-        currentTime: variables.currentTime,
-      })}
+      ...departureRowContainerFragment
+      ...bicycleRentalRowContainerFragment
     }
   }
+  ${departureRowContainerFragment}
+  ${bicycleRentalRowContainerFragment}
 `;
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistance = (props) => {
+export default function PlaceAtDistance(props) {
   let place;
   if (props.placeAtDistance.place.__typename === 'DepartureRow') {
     place = (
@@ -44,7 +41,7 @@ const PlaceAtDistance = (props) => {
     );
   }
   return place;
-};
+}
 /* eslint-enable no-underscore-dangle */
 
 PlaceAtDistance.propTypes = {
@@ -52,14 +49,3 @@ PlaceAtDistance.propTypes = {
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
 };
-
-export default Relay.createContainer(PlaceAtDistance, {
-  fragments: {
-    placeAtDistance: placeAtDistanceFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
-});
