@@ -24,6 +24,9 @@ module.exports = {
     'graphql/template-strings': ['error', {
       'env': 'relay',
       'schemaJson': require('./build/schema.json'),
+    }, {
+      'env': 'apollo',
+      'schemaJson': require('./build/schema.json'),
     }],
   },
   'env': {

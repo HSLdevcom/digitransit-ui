@@ -1,5 +1,4 @@
-import Relay from 'react-relay';
-
+import { gql } from 'react-apollo';
 import get from 'lodash/get';
 import take from 'lodash/take';
 import orderBy from 'lodash/orderBy';
@@ -13,19 +12,7 @@ import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
 
-function getRelayQuery(query) {
-  return new Promise((resolve, reject) => {
-    const callback = (readyState) => {
-      if (readyState.error) {
-        reject(readyState.error);
-      } else if (readyState.done) {
-        resolve(Relay.Store.readQuery(query));
-      }
-    };
-
-    Relay.Store.primeCache({ query }, callback);
-  });
-}
+import ApolloClient from '../apolloClient';
 
 const mapRoute = item => ({
   type: 'Route',
@@ -149,21 +136,22 @@ export function getGeocodingResult(text, searchParams, lang, focusPoint, sources
 }
 
 function getFavouriteRoutes(favourites, input) {
-  const query = Relay.createQuery(Relay.QL`
-    query favouriteRoutes($ids: [String!]!) {
-      routes(ids: $ids ) {
-        gtfsId
-        agency { name }
-        shortName
-        mode
-        longName
-        patterns { code }
-      }
-    }`, { ids: favourites },
-  );
-
-  return getRelayQuery(query)
-    .then(favouriteRoutes => favouriteRoutes.map(mapRoute))
+  return ApolloClient.query({
+    query: gql`
+      query favouriteRoutes($ids: [String!]!) {
+        routes(ids: $ids ) {
+          id
+          gtfsId
+          agency { id, name }
+          shortName
+          mode
+          longName
+          patterns { id, code }
+        }
+      }`,
+    variables: { ids: favourites },
+  })
+    .then(({ data }) => data.routes.map(mapRoute))
     .then(routes => routes.map(favourite => ({
       ...favourite,
       properties: { ...favourite.properties, layer: 'favouriteRoute' },
@@ -176,24 +164,24 @@ function getFavouriteRoutes(favourites, input) {
 }
 
 function getFavouriteStops(favourites, input, origin) {
-  const query = Relay.createQuery(Relay.QL`
-    query favouriteStops($ids: [String!]!) {
-      stops(ids: $ids ) {
-        gtfsId
-        lat
-        lon
-        name
-        desc
-        code
-        routes { mode }
-      }
-    }`, { ids: favourites },
-  );
-
   const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
-
-  return getRelayQuery(query)
-    .then(favouriteStops => mapStops(favouriteStops).map(favourite => ({
+  return ApolloClient.query({
+    query: gql`
+      query favouriteStops($ids: [String!]!) {
+        stops(ids: $ids ) {
+          id
+          gtfsId
+          lat
+          lon
+          name
+          desc
+          code
+          routes { id, mode }
+        }
+      }`,
+    variables: { ids: favourites },
+  })
+    .then(({ data }) => mapStops(data.stops).map(favourite => ({
       ...favourite,
       properties: { ...favourite.properties, layer: 'favouriteStop' },
       type: 'FavouriteStop',
@@ -217,23 +205,22 @@ function getRoutes(input, config) {
     return Promise.resolve([]);
   }
 
-  const query = Relay.createQuery(Relay.QL`
-    query routes($name: String) {
-      viewer {
+  return ApolloClient.query({
+    query: gql`
+      query routes($name: String) {
         routes(name: $name ) {
+          id
           gtfsId
-          agency {name}
+          agency { id, name}
           shortName
           mode
           longName
-          patterns { code }
+          patterns { id, code }
         }
-      }
-    }`, { name: input },
-  );
-
-  return getRelayQuery(query).then(data =>
-    data[0].routes.filter(item => (
+      }`,
+    variables: { name: input },
+  }).then(({ data }) =>
+    data.routes.filter(item => (
       config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
       ))
     .map(mapRoute)
