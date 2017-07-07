@@ -152,6 +152,6 @@
     "stylelint-scss": "1.4.1",
     "url-loader": "0.5.8",
     "webpack": "2.6.1",
-    "webpack-dev-server": "2.4.1"
+    "webpack-dev-server": "2.5.1"
   }
 }
