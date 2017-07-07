@@ -147,6 +147,8 @@ export default {
         weight: 5,
         thinWeight: 2,
       },
+
+      passiveColor: '#758993',
     },
 
     useModeIconsInNonTileLayer: false,
