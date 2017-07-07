@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -31,17 +32,11 @@ function ViaLeg(props, context) {
       <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
-        className={'small-10 columns itinerary-instruction-column via'}
+        className={'small-9 columns itinerary-instruction-column via'}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.from.name}
-            {props.leg.from.stop && props.leg.from.stop.code && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
             <div className="itinerary-via-leg-duration">
               <FormattedMessage
                 id="via-leg-stop-duration"
@@ -95,25 +90,25 @@ ViaLeg.description = () => {
 };
 
 ViaLeg.propTypes = {
-  arrivalTime: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    duration: React.PropTypes.number.isRequired,
-    startTime: React.PropTypes.number.isRequired,
-    distance: React.PropTypes.number.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    from: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      stop: React.PropTypes.shape({
-        code: React.PropTypes.string,
+  arrivalTime: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    mode: PropTypes.string.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        code: PropTypes.string,
       }),
     }).isRequired,
   }).isRequired,
-  index: React.PropTypes.number.isRequired,
-  isVia: React.PropTypes.bool,
-  focusAction: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  index: PropTypes.number.isRequired,
+  isVia: PropTypes.bool,
+  focusAction: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
-ViaLeg.contextTypes = { config: React.PropTypes.object.isRequired };
+ViaLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default ViaLeg;

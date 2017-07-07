@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -30,10 +31,10 @@ GenericTable.description = () =>
   </div>;
 
 GenericTable.propTypes = {
-  showLabels: React.PropTypes.bool,
-  lowEndLabel: React.PropTypes.object,
-  highEndLabel: React.PropTypes.object,
-  children: React.PropTypes.node,
+  showLabels: PropTypes.bool,
+  lowEndLabel: PropTypes.object,
+  highEndLabel: PropTypes.object,
+  children: PropTypes.node,
 };
 
 export default GenericTable;

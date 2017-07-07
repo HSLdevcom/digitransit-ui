@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // Libraries
 import React from 'react';
 import Relay from 'react-relay';
@@ -213,8 +214,8 @@ export default (config) => {
   );
 
   SummaryPageWrapper.propTypes = {
-    props: React.PropTypes.object.isRequired,
-    routerProps: React.PropTypes.object.isRequired,
+    props: PropTypes.object.isRequired,
+    routerProps: PropTypes.object.isRequired,
   };
 
 

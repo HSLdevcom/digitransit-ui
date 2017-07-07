@@ -1,19 +1,19 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
-import ViewerRoute from '../../../route/ViewerRoute';
 
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
-const CityBikeMarkerWrapper = Relay.createContainer((({ alerts }) => (
+const CityBikeMarkerWrapper = Relay.createContainer((({ root }) => (
   <div>
-    {alerts && Array.isArray(alerts.stations) && alerts.stations.map(station => (
+    {root && Array.isArray(root.stations) && root.stations.map(station => (
       <CityBikeMarker station={station} key={station.stationId} />
     ))}
   </div>
 )), {
   fragments: {
-    alerts: () => Relay.QL`
+    root: () => Relay.QL`
       fragment on QueryType {
         stations: bikeRentalStations {
           ${CityBikeMarker.getFragment('station')}
@@ -36,8 +36,8 @@ class CityBikeMarkerContainer extends React.Component {
   );
 
   static contextTypes = {
-    map: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -57,7 +57,17 @@ class CityBikeMarkerContainer extends React.Component {
     return (
       <Relay.Renderer
         Container={CityBikeMarkerWrapper}
-        queryConfig={new ViewerRoute()}
+        queryConfig={{
+          name: 'ViewerRoute',
+          queries: {
+            root: () => Relay.QL`
+              query {
+                viewer
+              }
+           `,
+          },
+          params: {},
+        }}
         environment={Relay.Store}
       />
     );

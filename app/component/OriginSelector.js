@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape, locationShape } from 'react-router';
@@ -25,14 +26,14 @@ const OriginSelectorRow = ({ icon, label, lat, lon }, { executeAction, router, l
 );
 
 OriginSelectorRow.propTypes = {
-  icon: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  lat: React.PropTypes.number.isRequired,
-  lon: React.PropTypes.number.isRequired,
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  lat: PropTypes.number.isRequired,
+  lon: PropTypes.number.isRequired,
 };
 
 OriginSelectorRow.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
 };
@@ -51,23 +52,23 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         lon={f.lon}
       />)
       .concat(oldSearches.filter(notInFavourites).map(s => <OriginSelectorRow
-        key={`o-${s.properties.label}`}
+        key={`o-${s.properties.label || s.properties.name}`}
         icon={getIcon(s.properties.layer)}
-        label={s.properties.label}
-        lat={s.geometry.coordinates[1]}
-        lon={s.geometry.coordinates[0]}
+        label={s.properties.label || s.properties.name}
+        lat={(s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
+        lon={(s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
       />))
       .concat(config.defaultOrigins.map(o => <OriginSelectorRow key={`o-${o.label}`} {...o} />));
   return <ul>{names.slice(0, 3)}</ul>;
 };
 
 OriginSelector.propTypes = {
-  favourites: React.PropTypes.array.isRequired,
-  oldSearches: React.PropTypes.array.isRequired,
+  favourites: PropTypes.array.isRequired,
+  oldSearches: PropTypes.array.isRequired,
 };
 
 OriginSelector.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default connectToStores(

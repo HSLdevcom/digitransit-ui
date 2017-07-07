@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
@@ -12,18 +13,18 @@ import { getDistanceToNearestStop } from '../util/geo-utils';
 class TripStopListContainer extends React.Component {
 
   static propTypes = {
-    trip: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string,
-    vehicles: React.PropTypes.object,
-    locationState: React.PropTypes.object.isRequired,
-    currentTime: React.PropTypes.object.isRequired,
-    tripStart: React.PropTypes.string.isRequired,
-    fullscreenMap: React.PropTypes.bool,
+    trip: PropTypes.object.isRequired,
+    className: PropTypes.string,
+    vehicles: PropTypes.object,
+    locationState: PropTypes.object.isRequired,
+    currentTime: PropTypes.object.isRequired,
+    tripStart: PropTypes.string.isRequired,
+    fullscreenMap: PropTypes.bool,
   }
 
   static contextTypes = {
-    breakpoint: React.PropTypes.string,
-    config: React.PropTypes.object.isRequired,
+    breakpoint: PropTypes.string,
+    config: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

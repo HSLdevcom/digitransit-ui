@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
 
@@ -13,8 +14,7 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
         </div>
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
       </div>
-      <div className={`small-10 columns itinerary-instruction-column intermediate ${modeClassName}`}>
-
+      <div className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}>
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
             {name} <StopCode code={stopCode} />
@@ -28,12 +28,12 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
 }
 
 IntermediateLeg.propTypes = {
-  focusFunction: React.PropTypes.func.isRequired,
-  waitTime: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string.isRequired,
-  color: React.PropTypes.string,
-  stopCode: React.PropTypes.string.isRequired,
+  focusFunction: PropTypes.func.isRequired,
+  waitTime: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  stopCode: PropTypes.string.isRequired,
 };
 
 export default IntermediateLeg;

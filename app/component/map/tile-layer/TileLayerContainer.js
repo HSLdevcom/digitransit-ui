@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import Popup from 'react-leaflet/lib/Popup';
@@ -26,61 +27,61 @@ import Loading from '../../Loading';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -98,20 +99,20 @@ const PopupOptions = {
 /** @extends React.Component */
 class TileLayerContainer extends MapLayer {
   static propTypes = {
-    tileSize: React.PropTypes.number,
-    zoomOffset: React.PropTypes.number,
-    disableMapTracking: React.PropTypes.func,
+    tileSize: PropTypes.number,
+    zoomOffset: PropTypes.number,
+    disableMapTracking: PropTypes.func,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    map: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    route: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   state = {

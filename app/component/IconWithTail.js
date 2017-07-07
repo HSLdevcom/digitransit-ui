@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
@@ -32,7 +33,7 @@ const IconWithTail = ({
 /** Leaflet needs html as string */
 export const asString = (props) => {
   const element = window.document.createElement('div');
-  ReactDOM.render(React.createElement(IconWithTail, props), element);
+  ReactDOM.render(<IconWithTail {...props} />, element);
   const html = element.innerHTML;
   ReactDOM.unmountComponentAtNode(element);
   return html;
@@ -58,13 +59,13 @@ IconWithTail.description = () =>
   </div>;
 
 IconWithTail.propTypes = {
-  id: React.PropTypes.string,
-  className: React.PropTypes.string,
-  img: React.PropTypes.string.isRequired,
-  rotate: React.PropTypes.number,
-  children: React.PropTypes.element,
-  desaturate: React.PropTypes.bool,
-  scrollIntoView: React.PropTypes.bool,
+  id: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string.isRequired,
+  rotate: PropTypes.number,
+  children: PropTypes.element,
+  desaturate: PropTypes.bool,
+  scrollIntoView: PropTypes.bool,
 };
 
 export default IconWithTail;

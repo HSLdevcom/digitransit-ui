@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
 import { addFavouriteRoute } from '../action/FavouriteActions';

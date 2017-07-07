@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -14,10 +15,12 @@ import {
   urlMiddleware,
   gqErrorsMiddleware,
   retryMiddleware,
-} from 'react-relay-network-layer';
+  batchMiddleware,
+} from 'react-relay-network-layer/lib';
 import OfflinePlugin from 'offline-plugin/runtime';
 
 import Raven from './util/Raven';
+import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
@@ -94,11 +97,20 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   Relay.injectNetworkLayer(new RelayNetworkLayer([
     urlMiddleware({
       url: `${config.URL.OTP}index/graphql`,
+    }),
+    batchMiddleware({
       batchUrl: `${config.URL.OTP}index/graphql/batch`,
     }),
     gqErrorsMiddleware(),
-    retryMiddleware(),
-  ], { disableBatchQuery: false }));
+    retryMiddleware({
+      fetchTimeout: config.OTPTimeout + 1000,
+    }),
+    next => (req) => {
+      // eslint-disable-next-line no-param-reassign
+      req.headers.OTPTimeout = config.OTPTimeout;
+      return next(req);
+    },
+  ]));
 
   IsomorphicRelay.injectPreparedData(
     Relay.Store,
@@ -109,6 +121,12 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
     .getComponentContext()
     .getStore('MessageStore')
     .addConfigMessages(config);
+
+  const language = context
+      .getComponentContext()
+      .getStore('PreferencesStore').getLanguage();
+
+  configureMoment(language, config);
 
   const history = historyCreator(config);
 
@@ -136,11 +154,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    piwik: React.PropTypes.object,
-    raven: React.PropTypes.object,
-    url: React.PropTypes.string,
-    config: React.PropTypes.object,
-    headers: React.PropTypes.object,
+    piwik: PropTypes.object,
+    raven: PropTypes.object,
+    url: PropTypes.string,
+    config: PropTypes.object,
+    headers: PropTypes.object,
   });
 
   // init geolocation handling

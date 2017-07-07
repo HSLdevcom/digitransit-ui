@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -48,26 +49,26 @@ function ItinerarySummaryListContainer(props) {
 }
 
 ItinerarySummaryListContainer.propTypes = {
-  searchTime: React.PropTypes.number.isRequired,
-  itineraries: React.PropTypes.array,
-  activeIndex: React.PropTypes.number.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  onSelectImmediately: React.PropTypes.func.isRequired,
-  open: React.PropTypes.number,
-  children: React.PropTypes.node,
-  relay: React.PropTypes.shape({
-    route: React.PropTypes.shape({
-      params: React.PropTypes.shape({
-        to: React.PropTypes.shape({
-          lat: React.PropTypes.number,
-          lon: React.PropTypes.number,
-          address: React.PropTypes.string.isRequired,
+  searchTime: PropTypes.number.isRequired,
+  itineraries: PropTypes.array,
+  activeIndex: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onSelectImmediately: PropTypes.func.isRequired,
+  open: PropTypes.number,
+  children: PropTypes.node,
+  relay: PropTypes.shape({
+    route: PropTypes.shape({
+      params: PropTypes.shape({
+        to: PropTypes.shape({
+          lat: PropTypes.number,
+          lon: PropTypes.number,
+          address: PropTypes.string.isRequired,
         }).isRequired,
-        from: React.PropTypes.shape({
-          lat: React.PropTypes.number,
-          lon: React.PropTypes.number,
-          address: React.PropTypes.string.isRequired,
+        from: PropTypes.shape({
+          lat: PropTypes.number,
+          lon: PropTypes.number,
+          address: PropTypes.string.isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,

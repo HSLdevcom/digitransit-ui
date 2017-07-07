@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import MarkerPopupBottom from '../MarkerPopupBottom';
@@ -55,11 +56,11 @@ TicketSalesPopup.description = (
 );
 
 TicketSalesPopup.propTypes = {
-  TYYPPI: React.PropTypes.string.isRequired,
-  NIMI: React.PropTypes.string.isRequired,
-  OSOITE: React.PropTypes.string.isRequired,
-  LAT: React.PropTypes.number.isRequired,
-  LON: React.PropTypes.number.isRequired,
+  TYYPPI: PropTypes.string.isRequired,
+  NIMI: PropTypes.string.isRequired,
+  OSOITE: PropTypes.string.isRequired,
+  LAT: PropTypes.number.isRequired,
+  LON: PropTypes.number.isRequired,
 };
 
 export default TicketSalesPopup;

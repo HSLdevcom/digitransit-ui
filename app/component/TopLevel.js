@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
@@ -5,7 +6,6 @@ import some from 'lodash/some';
 import get from 'lodash/get';
 
 import meta from '../meta';
-import configureMoment from '../util/configure-moment';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -13,39 +13,38 @@ import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
 
 class TopLevel extends React.Component {
   static propTypes = {
-    location: React.PropTypes.object.isRequired,
-    children: React.PropTypes.node,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    header: React.PropTypes.node,
-    map: React.PropTypes.node,
-    content: React.PropTypes.node,
-    title: React.PropTypes.node,
-    meta: React.PropTypes.node,
-    routes: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        topBarOptions: React.PropTypes.object,
-        disableMapOnMobile: React.PropTypes.bool,
+    location: PropTypes.object.isRequired,
+    children: PropTypes.node,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    header: PropTypes.node,
+    map: PropTypes.node,
+    content: PropTypes.node,
+    title: PropTypes.node,
+    meta: PropTypes.node,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        topBarOptions: PropTypes.object,
+        disableMapOnMobile: PropTypes.bool,
       }).isRequired,
     ).isRequired,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
     intl: intlShape,
-    url: React.PropTypes.string.isRequired,
-    headers: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    url: PropTypes.string.isRequired,
+    headers: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static childContextTypes = {
-    location: React.PropTypes.object,
-    breakpoint: React.PropTypes.string.isRequired,
+    location: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
-    configureMoment(context.intl.locale, context.config);
     const host = context.headers && (context.headers['x-forwarded-host'] || context.headers.host);
     const url = context.url;
 

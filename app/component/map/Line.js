@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -13,15 +14,15 @@ if (isBrowser) {
 
 export default class Line extends React.Component {
   static propTypes = {
-    thin: React.PropTypes.bool,
-    passive: React.PropTypes.bool,
-    color: React.PropTypes.string,
-    mode: React.PropTypes.string.isRequired,
-    geometry: React.PropTypes.array.isRequired,
+    thin: PropTypes.bool,
+    passive: PropTypes.bool,
+    color: PropTypes.string,
+    mode: PropTypes.string.isRequired,
+    geometry: PropTypes.array.isRequired,
   }
 
   static contextTypes = {
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -48,6 +49,12 @@ export default class Line extends React.Component {
   render() {
     const className = cx([this.props.mode, { thin: this.props.thin }]);
 
+    let filteredPoints;
+    if (this.props.geometry) {
+      filteredPoints =
+        this.props.geometry.filter(point => point.lat !== null && point.lon !== null);
+    }
+
     const lineConfig = this.context.config.map.line;
     let haloWeight = this.props.thin ? lineConfig.halo.thinWeight : lineConfig.halo.weight;
     let legWeight = this.props.thin ? lineConfig.leg.thinWeight : lineConfig.leg.weight;
@@ -62,7 +69,7 @@ export default class Line extends React.Component {
         <Polyline
           key="halo"
           ref={(el) => { this.halo = el; }}
-          positions={this.props.geometry}
+          positions={filteredPoints}
           className={`leg-halo ${className}`}
           weight={haloWeight}
           interactive={false}
@@ -70,7 +77,7 @@ export default class Line extends React.Component {
         <Polyline
           key="line"
           ref={(el) => { this.line = el; }}
-          positions={this.props.geometry}
+          positions={filteredPoints}
           className={`leg ${className}`}
           color={this.props.color ? this.props.color : 'currentColor'}
           weight={legWeight}

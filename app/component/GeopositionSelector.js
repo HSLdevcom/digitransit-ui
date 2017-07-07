@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -75,13 +76,13 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
 };
 
 GeopositionSelector.propTypes = {
-  status: React.PropTypes.string.isRequired,
-  searchModalIsOpen: React.PropTypes.bool.isRequired,
-  origin: React.PropTypes.object,
+  status: PropTypes.string.isRequired,
+  searchModalIsOpen: PropTypes.bool.isRequired,
+  origin: PropTypes.object,
 };
 
 GeopositionSelector.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
 };

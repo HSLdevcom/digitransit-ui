@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import IconMarker from './IconMarker';
 
@@ -13,6 +14,6 @@ export default function LocationMarker({ position, className, noText }) {
 
 LocationMarker.propTypes = {
   position: IconMarker.position,
-  className: React.PropTypes.string,
-  noText: React.PropTypes.bool,
+  className: PropTypes.string,
+  noText: PropTypes.bool,
 };

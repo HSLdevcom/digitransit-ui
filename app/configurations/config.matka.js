@@ -4,6 +4,7 @@ const APP_TITLE = 'Matka.fi';
 
 export default {
   CONFIG,
+  OTPTimeout: process.env.OTP_TIMEOUT || 30000,
 
   contactName: {
     sv: 'Livin',
@@ -25,6 +26,8 @@ export default {
   title: APP_TITLE,
 
   favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
+
+  feedIds: ['MATKA'],
 
   sprites: 'svg-sprite.default.svg',
 

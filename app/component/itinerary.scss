@@ -3,7 +3,6 @@
 $topbar-height: 40px;
 $itinerary-summary-height: 40px;
 $itinerary-tab-switch-height: 48px;
-$itinerary-route-max-width: 420px;
 
 @mixin getCircleSvg($stroke, $fill) {
   svg {
@@ -72,12 +71,10 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-main {
-  width: 92%;
-  padding-top: 20px;
-
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding-top: 15px;
 
   div {
     flex-grow: 1;
@@ -97,10 +94,6 @@ $itinerary-route-max-width: 420px;
   }
 }
 
-.itinerary-main.bp-large {
-  padding-top: 15px;
-}
-
 .itinerary-summary {
   flex-grow: 0;
   flex-shrink: 0; //for ie mobile
@@ -118,7 +111,7 @@ $itinerary-route-max-width: 420px;
     position: absolute;
     width: 17px;
     height: 17px;
-    left: 0.1em;
+    left: 2px;
     z-index: 10;
 }
 
@@ -157,9 +150,6 @@ $itinerary-route-max-width: 420px;
 }
 
 .itinerary-search-icon {
-  position: absolute;
-  right: 15px;
-  top: 0px;
   color: $medium-gray;
 }
 
@@ -177,11 +167,10 @@ $itinerary-route-max-width: 420px;
   color: $gray;
   font-weight: $font-weight-book;
   font-size: $font-size-xxsmall;
-  margin: 0 auto;
+  margin: 0;
   border: 0px;
-  max-width: 500px;
   border-top: 1px solid #ddd;
-  padding: $padding-medium 0 $padding-large 0;
+  padding: $padding-medium;
   .itinerary-ticket-layout-left {
     display: inline-block;
     font-size: 2.4em;
@@ -193,7 +182,6 @@ $itinerary-route-max-width: 420px;
     flex-direction: row;
     align-items: center;
     padding: 0;
-    padding-right: 1em;
   }
 
   .itinerary-ticket-external-link {
@@ -254,8 +242,8 @@ $itinerary-route-max-width: 420px;
   display: flex;
 
   .leg-before {
-    min-width: 24px;
-    margin-right: 2.2%;
+    min-width: 15px;
+    max-width: 25px;
     position: relative;
   }
 
@@ -289,8 +277,8 @@ $itinerary-route-max-width: 420px;
 
     &.walk {
       background-image: url('../default/dotted-line-bg.png');
-      background-size: 90% auto;
-      background-position-y: 31px;
+      background-size: 100% auto;
+      background-position-y: -3px;
       background-position-x: 0px;
       background-repeat: no-repeat repeat;
       border: none;
@@ -313,6 +301,7 @@ $itinerary-route-max-width: 420px;
     text-align: center;
     color: $black;
     margin-bottom: 0.5em;
+    flex-grow: 0;
 
     a {
         text-decoration: none;
@@ -424,9 +413,9 @@ $itinerary-route-max-width: 420px;
     }
 
     .itinerary-leg-first-row {
-      display: block;
+      display: flex;
+      flex-direction: row;
       white-space: normal;
-      width: 90%;
       color: $black;
       @include font-medium;
 
@@ -437,6 +426,11 @@ $itinerary-route-max-width: 420px;
       }
       span.itinerary-stop-code {
         vertical-align: 2px;
+      }
+
+      > :first-child {
+        flex-grow: 1;
+        max-width: calc(100% - 20px);
       }
     }
 
@@ -478,12 +472,13 @@ $itinerary-route-max-width: 420px;
 
   }
 }
+
 .bp-large .row.itinerary-row .itinerary-instruction-column:not(.to)::after {
     left: 3px;
 }
 
 .bp-large .row.itinerary-row {
-  max-width: $itinerary-route-max-width;
+  padding-right: 3px;
   margin-left: 0;
 
  .itinerary-time-column {
@@ -541,7 +536,6 @@ $itinerary-route-max-width: 420px;
   border-top: solid 1px $light-gray;
   border-bottom: solid 1px $light-gray;
   width: calc(100% - 2em);
-  max-width: $itinerary-route-max-width;
   div {
     border-right: solid 1px $light-gray;
 
@@ -733,7 +727,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-call-agency-warning {
-  width: calc(100% - 20px);
+  width: calc(100% - 50px);
   height: calc(100% - 3em);
   background-color: rgba(254, 209, 0, 0.3);
   position:absolute;
@@ -795,8 +789,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-leg-container {
-  margin-left: 16.6%;
-  width: 70%;
+  margin-left: calc(100% / 6);
   }
 
 .vehicle-number-container-v {
@@ -804,12 +797,10 @@ div.itinerary-container-content {
   }
 
 .mobile {
-  .itinerary-leg-container {
-    margin-left: 20%;
+  .itinerary-main {
+    margin: 0 $padding-small;
   }
   .itinerary-row {
-    width: 90%;
-    display: flex;
    .leg-before-line {
     &.call {
       height: 105%;

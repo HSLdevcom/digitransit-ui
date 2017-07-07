@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import IconWithBigCaution from './IconWithBigCaution';
@@ -41,15 +42,13 @@ function RouteNumber(props) {
 
   // props.vertical is FALSE in Near you view
   // props.vertical is TRUE in itinerary view
-  const largeClass = props.large ? 'large' : '';
   return (
-
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
         { props.vertical === true ?
           <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
         : icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div style={{ color: color || 'currentColor' }} className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
+        {props.withBar && <div className="bar-container"><div style={{ color: color || 'currentColor' }} className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
       </span>
       {props.vertical === false ?
         <span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
@@ -119,23 +118,21 @@ RouteNumber.description = () =>
   </div>;
 
 RouteNumber.propTypes = {
-  mode: React.PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
   color: React.PropTypes.string,
-  text: React.PropTypes.node,
-  large: React.PropTypes.bool,
-  vertical: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  hasDisruption: React.PropTypes.bool,
-  fadeLong: React.PropTypes.bool,
-  withBar: React.PropTypes.bool.isRequired,
-  isCallAgency: React.PropTypes.bool.isRequired,
+  text: PropTypes.node,
+  vertical: PropTypes.bool,
+  className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
+  fadeLong: PropTypes.bool,
+  withBar: PropTypes.bool.isRequired,
+  isCallAgency: PropTypes.bool.isRequired,
 };
 
 RouteNumber.defaultProps = {
   withBar: false,
   className: '',
   vertical: false,
-  large: false,
   hasDisruption: false,
   fadeLong: false,
   text: '',

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -83,8 +84,8 @@ function RouteAlertsContainer({ route, currentTime }, { intl }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  route: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.object,
+  route: PropTypes.object.isRequired,
+  currentTime: PropTypes.object,
 };
 
 RouteAlertsContainer.contextTypes = {

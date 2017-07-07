@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
@@ -13,14 +14,14 @@ import SearchModalLarge from './SearchModalLarge';
 class ViaPointSearchModal extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object,
-    location: React.PropTypes.object,
-    breakpoint: React.PropTypes.string.isRequired,
+    router: PropTypes.object,
+    location: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidUpdate() {
     if (this.modalIsOpen() && this.searchInputContainer) {
-      this.searchInputContainer.autowhatever.input.focus();
+      this.searchInputContainer.focus();
     }
   }
 
