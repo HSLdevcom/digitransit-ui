@@ -54,8 +54,8 @@ class MainMenuContainer extends Component {
   }
 
   mainMenuModules = {
-    Drawer: () => importLazy(System.import('material-ui/Drawer')),
-    MainMenu: () => importLazy(System.import('./MainMenu')),
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    MainMenu: () => importLazy(import('./MainMenu')),
   }
 
   render() {
