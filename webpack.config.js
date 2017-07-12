@@ -243,7 +243,7 @@ function getPluginsConfig(env) {
     new OfflinePlugin({
       excludes: [
         '**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br',
-        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json',
+        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json', 'icons-*/*',
       ],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
@@ -253,7 +253,7 @@ function getPluginsConfig(env) {
           ':externals:',
           'js/+([a-z0-9]).js',
         ],
-        optional: ['*.png', 'css/*.css', '*.svg'],
+        optional: ['*.png', 'css/*.css', '*.svg', 'icons-*/*'],
       },
       externals: [/* '/' Can be re-added later when we want to cache index page */],
       safeToUseOptionalCaches: true,
