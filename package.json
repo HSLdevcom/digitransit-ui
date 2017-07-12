@@ -51,7 +51,8 @@
   "dependencies": {
     "@mapbox/sphericalmercator": "1.0.5",
     "babel-core": "6.25.0",
-    "babel-plugin-transform-system-import-commonjs": "1.0.3",
+    "babel-plugin-dynamic-import-node": "1.0.2",
+    "babel-plugin-transform-import-commonjs": "1.0.0",
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
@@ -152,6 +153,7 @@
     "stylelint-scss": "1.4.1",
     "url-loader": "0.5.8",
     "webpack": "2.6.1",
+    "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "2.5.1"
   }
 }
