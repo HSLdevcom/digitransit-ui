@@ -2,6 +2,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL = process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
+const YEAR = 1900 + new Date().getYear();
 
 export default {
   CONFIG,
@@ -128,7 +129,7 @@ export default {
 
   footer: {
     content: [
-      { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© HSL ${YEAR}` },
       {},
       { name: 'footer-faq', nameEn: 'FAQ', href: 'https://www.hsl.fi/ohjeita-ja-tietoja/reittiopas' },
       { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },

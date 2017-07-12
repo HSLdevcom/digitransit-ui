@@ -1,6 +1,7 @@
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Liikenneviraston Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
+const YEAR = 1900 + new Date().getYear();
 
 export default {
   CONFIG,
@@ -38,7 +39,7 @@ export default {
 
   footer: {
     content: [
-      { label: (function () { return `© Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Liikennevirasto ${YEAR}` },
       {},
       { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/matka.fi-palautesivu', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', href: 'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/tietoja-matka.fi-palvelusta', icon: 'icon-icon_info' },
