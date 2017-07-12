@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
@@ -8,9 +9,9 @@ class ItineraryCircleLine extends React.Component {
   };
 
   static propTypes = {
-    index: React.PropTypes.number.isRequired,
-    modeClassName: React.PropTypes.string.isRequired,
-    isVia: React.PropTypes.bool,
+    index: PropTypes.number.isRequired,
+    modeClassName: PropTypes.string.isRequired,
+    isVia: PropTypes.bool,
   };
 
   getMarker = () => {

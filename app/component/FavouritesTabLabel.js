@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
@@ -21,7 +22,7 @@ export default function FavouritesTabLabel({ hasDisruption, classes, onClick }) 
 }
 
 FavouritesTabLabel.propTypes = {
-  hasDisruption: React.PropTypes.bool,
-  classes: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func.isRequired,
+  hasDisruption: PropTypes.bool,
+  classes: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

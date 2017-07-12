@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
@@ -26,8 +27,8 @@ function TripLink(props) {
 }
 
 TripLink.propTypes = {
-  trip: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
+  trip: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default Relay.createContainer(TripLink, {

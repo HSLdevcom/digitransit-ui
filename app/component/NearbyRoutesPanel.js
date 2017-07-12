@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import includes from 'lodash/includes';
 import pull from 'lodash/pull';
@@ -48,7 +49,7 @@ NearbyRoutesPanel.propTypes = {
 };
 
 NearbyRoutesPanel.contextTypes = {
-  config: React.PropTypes.object,
+  config: PropTypes.object,
 };
 
 export default connectToStores(

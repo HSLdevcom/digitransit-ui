@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -58,14 +59,14 @@ AirportCheckInLeg.description = () => {
 };
 
 AirportCheckInLeg.propTypes = {
-  leg: React.PropTypes.shape({
-    agency: React.PropTypes.shape({
-      name: React.PropTypes.string,
+  leg: PropTypes.shape({
+    agency: PropTypes.shape({
+      name: PropTypes.string,
     }),
   }).isRequired,
-  startTime: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
-  index: React.PropTypes.number.isRequired,
+  startTime: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default AirportCheckInLeg;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -7,20 +8,20 @@ import RouteStopListContainer from './RouteStopListContainer';
 
 class PatternStopsContainer extends React.Component {
   static propTypes = {
-    pattern: React.PropTypes.shape({
-      code: React.PropTypes.string.isRequired,
+    pattern: PropTypes.shape({
+      code: PropTypes.string.isRequired,
     }).isRequired,
-    routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      fullscreenMap: React.PropTypes.bool,
+    routes: PropTypes.arrayOf(PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
     }).isRequired).isRequired,
-    location: React.PropTypes.shape({
-      pathname: React.PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
     }).isRequired,
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    router: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   }
 
   toggleFullscreenMap = () => {

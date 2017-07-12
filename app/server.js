@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -173,6 +174,7 @@ function getPolyfills(userAgent, config) {
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
+    es2017: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['gated'] },
     'Object.assign': { flags: ['gated'] },
@@ -217,9 +219,9 @@ function getScripts(req, config) {
 }
 
 const ContextProvider = provideContext(IntlProvider, {
-  config: React.PropTypes.object,
-  url: React.PropTypes.string,
-  headers: React.PropTypes.object,
+  config: PropTypes.object,
+  url: PropTypes.string,
+  headers: PropTypes.object,
 });
 
 function getContent(context, renderProps, locale, userAgent) {

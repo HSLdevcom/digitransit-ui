@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -38,7 +39,7 @@ const FavouriteRoutes = ({ routes }) => {
 };
 
 FavouriteRoutes.propTypes = {
-  routes: React.PropTypes.array.isRequired,
+  routes: PropTypes.array.isRequired,
 };
 
 const FavouritesPanel = ({
@@ -53,7 +54,7 @@ const FavouritesPanel = ({
   </div>);
 
 FavouritesPanel.propTypes = {
-  routes: React.PropTypes.array.isRequired,
+  routes: PropTypes.array.isRequired,
 };
 
 export default connectToStores(FavouritesPanel, ['FavouriteRoutesStore'], context =>
