@@ -201,6 +201,7 @@ function getPluginsConfig(env) {
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
+    new NameAllModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
       minimize: true,
@@ -224,7 +225,7 @@ function getPluginsConfig(env) {
       minChunks: 2,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
-    new NameAllModulesPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
