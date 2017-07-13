@@ -370,7 +370,6 @@ module.exports = {
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
       'lodash.merge': 'lodash/merge',
-      'lodash.keys': 'lodash/keys',
       'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
       moment$: 'moment/moment.js',
       'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
