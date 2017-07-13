@@ -209,12 +209,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 if (typeof window.Intl !== 'undefined') {
   callback();
 } else {
-  const modules = [System.import('intl')];
+  const modules = [import(/* webpackChunkName: "intl",  webpackMode: "lazy" */ 'intl')];
 
-  // TODO: re-enable this
-  // config.availableLanguages.forEach((language) => {
-  //  modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  // });
+  config.availableLanguages.forEach((language) => {
+    modules.push(import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`));
+  });
 
   Promise.all(modules).then(callback);
 }
