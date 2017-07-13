@@ -374,6 +374,7 @@ module.exports = {
       'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
       moment$: 'moment/moment.js',
       'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
+      lodash: 'lodash-es',
     },
   },
   resolveLoader: {
