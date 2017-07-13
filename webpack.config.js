@@ -376,6 +376,8 @@ module.exports = {
       'react-router-relay/lib/QueryAggregator': 'react-router-relay/es/QueryAggregator',
       moment$: 'moment/moment.js',
       lodash: 'lodash-es',
+      'babel-runtime/helpers/slicedToArray': path.join(__dirname, 'app/util/slicedToArray'),
+      'babel-runtime/core-js/get-iterator': path.join(__dirname, 'app/util/getIterator'),
     },
   },
   resolveLoader: {
