@@ -235,10 +235,12 @@ function getPluginsConfig(env) {
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'main',
       children: true,
       minChunks: 4,
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'main',
       children: true,
       async: true,
       minChunks: 2,
