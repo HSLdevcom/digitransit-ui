@@ -11,7 +11,7 @@ const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 const OfflinePlugin = require('offline-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-const GzipCompressionPlugin = require('compression-webpack-plugin');
+const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
 const BrotliCompressionPlugin = require('brotli-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const fs = require('fs');
@@ -201,6 +201,7 @@ function getPluginsConfig(env) {
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
+    new NameAllModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
       minimize: true,
@@ -224,7 +225,7 @@ function getPluginsConfig(env) {
       minChunks: 2,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
-    new NameAllModulesPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
@@ -271,9 +272,8 @@ function getPluginsConfig(env) {
       },
       version: '[hash]',
     }),
-    new GzipCompressionPlugin({
+    new ZopfliCompressionPlugin({
       asset: '[path].gz[query]',
-      algorithm: 'zopfli',
       test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),
