@@ -371,6 +371,9 @@ module.exports = {
     alias: {
       'lodash.merge': 'lodash/merge',
       'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
+      'react-router-relay/lib': 'react-router-relay/es',
+      'react-router-relay/lib/RelayRouterContext': 'react-router-relay/es/RelayRouterContext',
+      'react-router-relay/lib/QueryAggregator': 'react-router-relay/es/QueryAggregator',
       moment$: 'moment/moment.js',
       'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
       lodash: 'lodash-es',
