@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -21,18 +22,12 @@ function WaitLeg(props) {
       <ItineraryCircleLine modeClassName={modeClassName} index={props.index} />
       <div
         onClick={props.focusAction}
-        className="small-10 columns itinerary-instruction-column wait"
+        className="small-9 columns itinerary-instruction-column wait"
       >
         <div className="itinerary-leg-first-row">
           <div>
             {props.leg.to.name}
             {props.children}
-            {props.children && (
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                className="itinerary-leg-first-row__arrow"
-              />
-            )}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
@@ -69,14 +64,14 @@ WaitLeg.description = () => {
 };
 
 WaitLeg.propTypes = {
-  startTime: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
-  index: React.PropTypes.number.isRequired,
-  children: React.PropTypes.node,
-  waitTime: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    to: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
+  startTime: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  children: PropTypes.node,
+  waitTime: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

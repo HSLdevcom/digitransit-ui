@@ -28,6 +28,8 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
+  feedIds: ['HSL'],
+
   preferredAgency: 'HSL',
   showAdformTrackingPixel: true,
 
@@ -97,6 +99,20 @@ export default {
     airplane: {
       availableForSelection: false,
       defaultValue: false,
+    },
+  },
+
+  streetModes: {
+    car_park: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'car-withoutBox',
+    },
+
+    car: {
+      availableForSelection: false,
+      defaultValue: false,
+      icon: 'car_park-withoutBox',
     },
   },
 

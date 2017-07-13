@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -47,9 +48,9 @@ const PlaceAtDistance = (props) => {
 /* eslint-enable no-underscore-dangle */
 
 PlaceAtDistance.propTypes = {
-  placeAtDistance: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  timeRange: React.PropTypes.number.isRequired,
+  placeAtDistance: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  timeRange: PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistance, {

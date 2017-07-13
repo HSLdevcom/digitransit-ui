@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -16,6 +17,6 @@ export default function NearbyTabLabel({ classes, onClick }) {
 }
 
 NearbyTabLabel.propTypes = {
-  classes: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func.isRequired,
+  classes: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

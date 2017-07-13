@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -15,11 +16,11 @@ const Labeled = ({ children, onClick, className, label, showLabel }) => (
 
 
 Labeled.propTypes = {
-  label: React.PropTypes.node.isRequired,
-  children: React.PropTypes.node.isRequired,
-  onClick: React.PropTypes.func,
-  showLabel: React.PropTypes.bool,
-  className: React.PropTypes.string,
+  label: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+  showLabel: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 const exampleLabel = <span>Example label</span>;

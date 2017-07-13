@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -40,12 +41,12 @@ LangSelect.description = () => (
   </div>);
 
 LangSelect.propTypes = {
-  currentLanguage: React.PropTypes.string.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
 };
 
 LangSelect.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 const connected = connectToStores(LangSelect, ['PreferencesStore'], context => ({

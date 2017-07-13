@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -10,12 +11,12 @@ import Intro from './Intro';
 
 class Splash extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object,
-    location: React.PropTypes.object,
+    router: PropTypes.object,
+    location: PropTypes.object,
   };
   static propTypes = {
-    shouldShowIntro: React.PropTypes.bool.isRequired,
-    setIntroShown: React.PropTypes.func.isRequired,
+    shouldShowIntro: PropTypes.bool.isRequired,
+    setIntroShown: PropTypes.func.isRequired,
   }
 
   openModal = () => {

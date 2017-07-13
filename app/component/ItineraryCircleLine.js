@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
@@ -8,9 +9,9 @@ class ItineraryCircleLine extends React.Component {
   };
 
   static propTypes = {
-    index: React.PropTypes.number.isRequired,
-    modeClassName: React.PropTypes.string.isRequired,
-    isVia: React.PropTypes.bool,
+    index: PropTypes.number.isRequired,
+    modeClassName: PropTypes.string.isRequired,
+    isVia: PropTypes.bool,
   };
 
   getMarker = () => {
@@ -19,7 +20,14 @@ class ItineraryCircleLine extends React.Component {
     } else if (this.props.isVia === true) {
       return <div className="itinerary-icon-container"><Icon img="icon-icon_place" className="itinerary-icon via via-it" /></div>;
     }
-    return <div className={`leg-before-circle circle ${this.props.modeClassName}`} ><svg xmlns="http://www.w3.org/2000/svg" width={28} height={28}><circle strokeWidth="2" width={28} cx={11} cy={10} r={4} /></svg></div>;
+    return (
+      <div className={`leg-before-circle circle ${this.props.modeClassName}`} >
+        <svg xmlns="http://www.w3.org/2000/svg" width={28} height={28}>
+          <circle stroke="white" strokeWidth="2" width={28} cx={11} cy={10} r={6} />
+          <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
+        </svg>
+      </div>
+    );
   }
 
   render() {

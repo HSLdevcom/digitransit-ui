@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -19,9 +20,9 @@ function EndLeg(props) {
           <Icon img="icon-icon_mapMarker-point" className="itinerary-icon to to-it" />
         </div>
       </div>
-      <div onClick={props.focusAction} className="small-10 columns itinerary-instruction-column to end">
+      <div onClick={props.focusAction} className="small-9 columns itinerary-instruction-column to end">
         <div className="itinerary-leg-first-row">
-          {props.to}
+          <div>{props.to}</div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
       </div>
@@ -43,10 +44,10 @@ EndLeg.description = () => {
 };
 
 EndLeg.propTypes = {
-  endTime: React.PropTypes.number.isRequired,
-  to: React.PropTypes.string.isRequired,
-  index: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  endTime: PropTypes.number.isRequired,
+  to: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default EndLeg;

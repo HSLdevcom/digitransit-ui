@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import isFunction from 'lodash/isFunction';
 
 /*
@@ -21,7 +22,7 @@ const getDescription = (component, onlyComponent) => {
 export default class ComponentDocumentation extends React.Component {
 
   static childContextTypes = {
-    componentOnly: React.PropTypes.bool,
+    componentOnly: PropTypes.bool,
   }
 
   getChildContext = function getChildContext() {

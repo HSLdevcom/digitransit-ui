@@ -109,9 +109,17 @@
   display: inline-block;
 }
 
-.platform-number {
+.platform-short {
   @include font-narrow-book;
   width: 3em;
+  color: $gray;
+  font-size: $font-size-small;
+  text-align: right;
+}
+
+.platform-number {
+  @include font-narrow-book;
+  margin-left: 0.5em;
   color: $gray;
   font-size: $font-size-small;
   text-align: right;
@@ -315,6 +323,12 @@
     width: 3.5em;
     padding-right: $padding-medium;
     margin-right: $padding-medium;
+  }
+}
+
+.mobile {
+  .departure-list-header {
+     margin-top: 0em;
   }
 }
 

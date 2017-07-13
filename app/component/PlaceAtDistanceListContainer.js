@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import sortBy from 'lodash/sortBy';
@@ -57,9 +58,9 @@ const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
 /* eslint-enable no-underscore-dangle */
 
 PlaceAtDistanceList.propTypes = {
-  places: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  timeRange: React.PropTypes.number.isRequired,
+  places: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  timeRange: PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistanceList, {

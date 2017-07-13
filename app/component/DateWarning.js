@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -49,8 +50,8 @@ DateWarning.description = () => {
 
 
 DateWarning.propTypes = {
-  date: React.PropTypes.number.isRequired,
-  refTime: React.PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired,
+  refTime: PropTypes.number.isRequired,
 };
 
 DateWarning.displayName = 'DateWarning';

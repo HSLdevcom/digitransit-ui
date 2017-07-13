@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
@@ -63,9 +64,9 @@ PlaceMarker.contextTypes = {
 };
 
 PlaceMarker.propTypes = {
-  displayOriginPopup: React.PropTypes.bool,
-  position: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  displayOriginPopup: PropTypes.bool,
+  position: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }).isRequired,
 };

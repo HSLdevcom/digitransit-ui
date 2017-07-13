@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
@@ -9,19 +10,19 @@ import { getRoutePath } from '../util/path';
 
 export default class MobileItineraryWrapper extends React.Component {
   static propTypes = {
-    fullscreenMap: React.PropTypes.bool,
-    focus: React.PropTypes.func.isRequired,
-    children: React.PropTypes.arrayOf(React.PropTypes.node.isRequired).isRequired,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string.isRequired,
-      to: React.PropTypes.string.isRequired,
-      hash: React.PropTypes.string.isRequired,
+    fullscreenMap: PropTypes.bool,
+    focus: PropTypes.func.isRequired,
+    children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
+    params: PropTypes.shape({
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      hash: PropTypes.string.isRequired,
     }).isRequired,
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   static getTabs(itineraries, selectedIndex) {

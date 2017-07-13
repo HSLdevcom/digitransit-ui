@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -7,7 +8,7 @@ import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
-import RouteScheduleDateSelect from './RouteScheduleDateSelect';
+import DateSelect from './DateSelect';
 import PrintLink from './PrintLink';
 import Loading from './Loading';
 
@@ -117,7 +118,7 @@ class RouteScheduleContainer extends Component {
     return (
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
-          <RouteScheduleDateSelect
+          <DateSelect
             startDate={this.props.serviceDay}
             selectedDate={this.props.relay.variables.serviceDay}
             dateFormat={DATE_FORMAT}

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
@@ -31,9 +32,9 @@ export default function TicketInformation({ fares }, { config }) {
   const mappedFareId = fareId ? fareMapping[fareId] : null;
 
   return (
-    <div className="row itinerary-row itinerary-ticket-information">
-      <div className="columns small-2 itinerary-ticket-layout-left"><Icon img="icon-icon_ticket" /></div>
-      <div className="columns small-10 itinerary-ticket-layout-right">
+    <div className="row itinerary-ticket-information">
+      <div className="itinerary-ticket-layout-left"><Icon img="icon-icon_ticket" /></div>
+      <div className="itinerary-ticket-layout-right">
         <div className="itinerary-ticket-type">
           <div className="ticket-type-zone">
             {mappedFareId && <FormattedMessage id={`ticket-type-${mappedFareId}`} />}
@@ -61,12 +62,12 @@ export default function TicketInformation({ fares }, { config }) {
 }
 
 TicketInformation.propTypes = {
-  fares: React.PropTypes.array,
+  fares: PropTypes.array,
 };
 
 TicketInformation.contextTypes = {
-  config: React.PropTypes.object,
-  breakpoint: React.PropTypes.string,
+  config: PropTypes.object,
+  breakpoint: PropTypes.string,
 };
 
 TicketInformation.displayName = 'TicketInformation';

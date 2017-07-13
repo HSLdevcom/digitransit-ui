@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -20,7 +21,7 @@ function AirportCollectLuggageLeg(props) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className="small-10 columns itinerary-instruction-column wait"
+        className="small-9 columns itinerary-instruction-column wait"
       >
         <div className="itinerary-leg-first-row">
           <FormattedMessage
@@ -52,11 +53,11 @@ AirportCollectLuggageLeg.description = () => {
 };
 
 AirportCollectLuggageLeg.propTypes = {
-  index: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    endTime: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
   }).isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default AirportCollectLuggageLeg;

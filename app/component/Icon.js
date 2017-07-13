@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -12,10 +13,10 @@ function Icon(props) {
 }
 
 Icon.propTypes = {
-  id: React.PropTypes.string,
-  viewBox: React.PropTypes.string,
-  className: React.PropTypes.string,
-  img: React.PropTypes.string.isRequired,
+  id: PropTypes.string,
+  viewBox: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string.isRequired,
 };
 
 Icon.defaultProps = {
