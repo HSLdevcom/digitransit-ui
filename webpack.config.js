@@ -237,13 +237,13 @@ function getPluginsConfig(env) {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'main',
       children: true,
-      minChunks: 4,
+      minChunks: 5,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'main',
       children: true,
       async: true,
-      minChunks: 2,
+      minChunks: 3,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
     new webpack.optimize.ModuleConcatenationPlugin(),
