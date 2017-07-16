@@ -64,7 +64,7 @@
     "element-resize-detector": "1.1.10",
     "express": "4.15.0",
     "express-http-proxy": "^1.0.3",
-    "express-static-gzip": "0.2.2",
+    "express-static-gzip": "0.2.3",
     "favicons-webpack-plugin": "^0.0.7",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.13",
