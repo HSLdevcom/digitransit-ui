@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
@@ -61,9 +62,9 @@ const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) =
 });
 
 SuggestionItem.propTypes = {
-  item: React.PropTypes.object,
-  useTransportIcons: React.PropTypes.bool,
-  doNotShowLInkToStop: React.PropTypes.bool,
+  item: PropTypes.object,
+  useTransportIcons: PropTypes.bool,
+  doNotShowLInkToStop: PropTypes.bool,
 };
 
 SuggestionItem.displayName = 'SuggestionItem';

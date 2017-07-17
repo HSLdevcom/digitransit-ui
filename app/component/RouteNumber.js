@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import IconWithBigCaution from './IconWithBigCaution';
@@ -113,14 +114,14 @@ RouteNumber.description = () =>
   </div>;
 
 RouteNumber.propTypes = {
-  mode: React.PropTypes.string.isRequired,
-  text: React.PropTypes.node,
-  vertical: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  hasDisruption: React.PropTypes.bool,
-  fadeLong: React.PropTypes.bool,
-  withBar: React.PropTypes.bool.isRequired,
-  isCallAgency: React.PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  text: PropTypes.node,
+  vertical: PropTypes.bool,
+  className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
+  fadeLong: PropTypes.bool,
+  withBar: PropTypes.bool.isRequired,
+  isCallAgency: PropTypes.bool.isRequired,
 };
 
 RouteNumber.defaultProps = {

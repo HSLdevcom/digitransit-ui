@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import pure from 'recompose/pure';
 
@@ -7,14 +8,14 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 class ModeFilter extends React.Component {
   static propTypes = {
-    selectedModes: React.PropTypes.array.isRequired,
-    action: React.PropTypes.object.isRequired,
-    buttonClass: React.PropTypes.string,
+    selectedModes: PropTypes.array.isRequired,
+    action: PropTypes.object.isRequired,
+    buttonClass: PropTypes.string,
   };
 
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   availableModes = () => Object.keys(this.context.config.transportModes).filter(

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
@@ -153,11 +154,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
   }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    piwik: React.PropTypes.object,
-    raven: React.PropTypes.object,
-    url: React.PropTypes.string,
-    config: React.PropTypes.object,
-    headers: React.PropTypes.object,
+    piwik: PropTypes.object,
+    raven: PropTypes.object,
+    url: PropTypes.string,
+    config: PropTypes.object,
+    headers: PropTypes.object,
   });
 
   // init geolocation handling
@@ -208,12 +209,11 @@ const callback = () => app.rehydrate(window.state, (err, context) => {
 if (typeof window.Intl !== 'undefined') {
   callback();
 } else {
-  const modules = [System.import('intl')];
+  const modules = [import(/* webpackChunkName: "intl",  webpackMode: "lazy" */ 'intl')];
 
-  // TODO: re-enable this
-  // config.availableLanguages.forEach((language) => {
-  //  modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  // });
+  config.availableLanguages.forEach((language) => {
+    modules.push(import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`));
+  });
 
   Promise.all(modules).then(callback);
 }

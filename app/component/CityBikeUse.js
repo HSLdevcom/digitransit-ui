@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
@@ -31,11 +32,11 @@ CityBikeUse.description = () =>
   </div>;
 
 CityBikeUse.propTypes = {
-  lang: React.PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 CityBikeUse.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default CityBikeUse;

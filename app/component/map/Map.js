@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -32,25 +33,25 @@ if (isBrowser) {
 
 class Map extends React.Component {
   static propTypes = {
-    bounds: React.PropTypes.array,
-    boundsOptions: React.PropTypes.object,
-    center: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    disableMapTracking: React.PropTypes.func,
-    displayOriginPopup: React.PropTypes.bool,
-    fitBounds: React.PropTypes.bool,
-    hideOrigin: React.PropTypes.bool,
-    hilightedStops: React.PropTypes.array,
-    lat: React.PropTypes.number,
-    lon: React.PropTypes.number,
-    leafletEvents: React.PropTypes.object,
-    leafletObjs: React.PropTypes.array,
-    leafletOptions: React.PropTypes.object,
-    padding: React.PropTypes.array,
-    showStops: React.PropTypes.bool,
-    zoom: React.PropTypes.number,
-    showScaleBar: React.PropTypes.bool,
+    bounds: PropTypes.array,
+    boundsOptions: PropTypes.object,
+    center: PropTypes.bool,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    disableMapTracking: PropTypes.func,
+    displayOriginPopup: PropTypes.bool,
+    fitBounds: PropTypes.bool,
+    hideOrigin: PropTypes.bool,
+    hilightedStops: PropTypes.array,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    leafletEvents: PropTypes.object,
+    leafletObjs: PropTypes.array,
+    leafletOptions: PropTypes.object,
+    padding: PropTypes.array,
+    showStops: PropTypes.bool,
+    zoom: PropTypes.number,
+    showScaleBar: PropTypes.bool,
   };
 
   static defaultProps ={
@@ -58,11 +59,11 @@ class Map extends React.Component {
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    piwik: React.PropTypes.object,
-    config: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    piwik: PropTypes.object,
+    config: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidMount = () => {
@@ -88,15 +89,15 @@ class Map extends React.Component {
   }
 
   vectorTileLayerContainerModules = ({ VectorTileLayerContainer:
-    () => importLazy(System.import('./tile-layer/VectorTileLayerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './tile-layer/VectorTileLayerContainer')),
   })
 
   stopMarkerContainerModules = { StopMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/StopMarkerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/StopMarkerContainer')),
   }
 
   cityBikeMarkerContainerModules = { CityBikeMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/CityBikeMarkerContainer')),
   }
 
   renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (

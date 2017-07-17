@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';

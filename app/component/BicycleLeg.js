@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -139,20 +140,20 @@ BicycleLeg.description = () => {
 };
 
 BicycleLeg.propTypes = {
-  leg: React.PropTypes.shape({
-    duration: React.PropTypes.number.isRequired,
-    startTime: React.PropTypes.number.isRequired,
-    distance: React.PropTypes.number.isRequired,
-    from: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
+  leg: PropTypes.shape({
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
-    mode: React.PropTypes.string.isRequired,
-    rentedBike: React.PropTypes.bool.isRequired,
+    mode: PropTypes.string.isRequired,
+    rentedBike: PropTypes.bool.isRequired,
   }).isRequired,
-  index: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
-BicycleLeg.contextTypes = { config: React.PropTypes.object.isRequired };
+BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default BicycleLeg;

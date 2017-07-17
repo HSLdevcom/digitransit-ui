@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { routerShape, locationShape } from 'react-router';
@@ -49,8 +50,8 @@ function DisruptionInfoButtonContainer(outerProps, { router, location, config: {
 DisruptionInfoButtonContainer.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
-  config: React.PropTypes.shape({
-    feedIds: React.PropTypes.arrayOf(React.PropTypes.string.isRequired),
+  config: PropTypes.shape({
+    feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
 };
 

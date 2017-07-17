@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
@@ -56,7 +57,7 @@ MainMenu.defaultProps = {
 
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 

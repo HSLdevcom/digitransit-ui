@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
@@ -11,18 +12,18 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    origin: React.PropTypes.object,
-    destination: React.PropTypes.object,
-    originIsCurrent: React.PropTypes.bool,
-    destinationIsCurrent: React.PropTypes.bool,
+    className: PropTypes.string,
+    origin: PropTypes.object,
+    destination: PropTypes.object,
+    originIsCurrent: PropTypes.bool,
+    destinationIsCurrent: PropTypes.bool,
   }
 
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
 
   componentWillMount() {

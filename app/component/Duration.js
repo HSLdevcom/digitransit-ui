@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -20,8 +21,8 @@ Duration.description = () =>
   'Takes duration in seconds as props';
 
 Duration.propTypes = {
-  duration: React.PropTypes.number.isRequired,
-  className: React.PropTypes.string,
+  duration: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
 
 export default Duration;

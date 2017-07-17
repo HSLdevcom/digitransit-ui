@@ -11,7 +11,7 @@ const StatsPlugin = require('stats-webpack-plugin');
 // const OptimizeJsPlugin = require('optimize-js-plugin');
 const OfflinePlugin = require('offline-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
-const GzipCompressionPlugin = require('compression-webpack-plugin');
+const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
 const BrotliCompressionPlugin = require('brotli-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const fs = require('fs');
@@ -19,7 +19,7 @@ const fs = require('fs');
 require('babel-core/register')({
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-system-import-commonjs',
+    'dynamic-import-node',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [
@@ -48,7 +48,7 @@ function getRulesConfig(env) {
             'stage-2',
           ],
           plugins: [
-            'transform-system-import-commonjs',
+            'transform-import-commonjs',
             path.join(__dirname, 'build/babelRelayPlugin'),
             ['transform-runtime', {
               helpers: true,
@@ -183,6 +183,8 @@ function getPluginsConfig(env) {
       new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
       new webpack.ContextReplacementPlugin(themeExpression, selectedTheme),
       new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('development') } }),
+      new webpack.NamedChunksPlugin(),
+      new webpack.NamedModulesPlugin(),
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
@@ -199,6 +201,7 @@ function getPluginsConfig(env) {
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
     new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
+    new NameAllModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
       minimize: true,
@@ -214,11 +217,15 @@ function getPluginsConfig(env) {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       children: true,
-      async: true,
+      minChunks: 4,
     }),
-    new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.2 }),
-    new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 30000 }),
-    new NameAllModulesPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      children: true,
+      async: true,
+      minChunks: 2,
+    }),
+    new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
@@ -243,7 +250,7 @@ function getPluginsConfig(env) {
     new OfflinePlugin({
       excludes: [
         '**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br',
-        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json',
+        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json', 'icons-*/*',
       ],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
@@ -253,7 +260,7 @@ function getPluginsConfig(env) {
           ':externals:',
           'js/+([a-z0-9]).js',
         ],
-        optional: ['*.png', 'css/*.css', '*.svg'],
+        optional: ['*.png', 'css/*.css', '*.svg', 'icons-*/*'],
       },
       externals: [/* '/' Can be re-added later when we want to cache index page */],
       safeToUseOptionalCaches: true,
@@ -265,9 +272,8 @@ function getPluginsConfig(env) {
       },
       version: '[hash]',
     }),
-    new GzipCompressionPlugin({
+    new ZopfliCompressionPlugin({
       asset: '[path].gz[query]',
-      algorithm: 'zopfli',
       test: /\.(js|css|html|svg|ico)$/,
       minRatio: 0.95,
     }),

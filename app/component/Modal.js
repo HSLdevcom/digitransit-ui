@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
 
 class Modal extends React.Component {
   static propTypes = {
-    allowClicks: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    open: React.PropTypes.bool,
-    title: React.PropTypes.node,
-    toggleVisibility: React.PropTypes.func.isRequired,
+    allowClicks: PropTypes.bool,
+    children: PropTypes.node,
+    open: PropTypes.bool,
+    title: PropTypes.node,
+    toggleVisibility: PropTypes.func.isRequired,
   };
 
   stopClickPropagation = (e) => {

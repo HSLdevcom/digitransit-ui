@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { intlShape } from 'react-intl';
@@ -56,13 +57,13 @@ const BicycleRentalStationRow = (props, context) => {
 };
 
 BicycleRentalStationRow.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  distance: React.PropTypes.number.isRequired,
+  station: PropTypes.object.isRequired,
+  distance: PropTypes.number.isRequired,
 };
 
 BicycleRentalStationRow.contextTypes = {
   intl: intlShape.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 BicycleRentalStationRow.displayName = 'BicycleRentalStationRow';

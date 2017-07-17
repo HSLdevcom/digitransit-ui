@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { isMobile, isFirefox } from '../util/browser';
 
 export default function CustomInputTime({ changeTime, time }) {

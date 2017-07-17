@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
@@ -30,7 +31,7 @@ EmptyFavouriteLocationSlot.description = () =>
   </div>;
 
 EmptyFavouriteLocationSlot.propTypes = {
-  index: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 

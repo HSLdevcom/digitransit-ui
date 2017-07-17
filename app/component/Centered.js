@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -9,7 +10,7 @@ const Centered = ({ children }) => (
 );
 
 Centered.propTypes = {
-  children: React.PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 Centered.displayName = 'Centered';

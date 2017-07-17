@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import { displayImperialDistance } from '../util/geo-utils';
@@ -44,10 +45,10 @@ Distance.description = () =>
   </div>;
 
 Distance.propTypes = {
-  distance: React.PropTypes.number.isRequired,
+  distance: PropTypes.number.isRequired,
 };
 
-Distance.contextTypes = { config: React.PropTypes.object.isRequired };
+Distance.contextTypes = { config: PropTypes.object.isRequired };
 
 Distance.displayName = 'Distance';
 

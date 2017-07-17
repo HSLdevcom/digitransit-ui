@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
@@ -23,15 +24,15 @@ const RouteTitle = ({ route }, { breakpoint }) => (
 );
 
 RouteTitle.propTypes = {
-  route: React.PropTypes.shape({
-    gtfsId: React.PropTypes.string.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    shortName: React.PropTypes.string,
+  route: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    shortName: PropTypes.string,
   }),
 };
 
 RouteTitle.contextTypes = {
-  breakpoint: React.PropTypes.string,
+  breakpoint: PropTypes.string,
 };
 
 export default Relay.createContainer(RouteTitle, {

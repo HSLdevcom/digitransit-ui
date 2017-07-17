@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
@@ -94,17 +95,17 @@ DepartureTime.description = () =>
 DepartureTime.displayName = 'DepartureTime';
 
 DepartureTime.propTypes = {
-  className: React.PropTypes.string,
-  canceled: React.PropTypes.bool,
-  currentTime: React.PropTypes.number.isRequired,
-  departureTime: React.PropTypes.number.isRequired,
-  realtime: React.PropTypes.bool,
-  style: React.PropTypes.object,
-  useUTC: React.PropTypes.bool,
+  className: PropTypes.string,
+  canceled: PropTypes.bool,
+  currentTime: PropTypes.number.isRequired,
+  departureTime: PropTypes.number.isRequired,
+  realtime: PropTypes.bool,
+  style: PropTypes.object,
+  useUTC: PropTypes.bool,
 };
 
 DepartureTime.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default DepartureTime;

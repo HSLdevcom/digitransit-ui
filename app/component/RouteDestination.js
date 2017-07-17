@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';

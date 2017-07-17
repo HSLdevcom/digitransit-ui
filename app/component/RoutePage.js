@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -14,23 +15,23 @@ import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClien
 class RoutePage extends React.Component {
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.shape({
-      replace: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
     }).isRequired,
     intl: intlShape.isRequired,
-    breakpoint: React.PropTypes.string,
+    breakpoint: PropTypes.string,
   };
 
   static propTypes = {
-    history: React.PropTypes.object.isRequired,
-    route: React.PropTypes.object.isRequired,
-    location: React.PropTypes.shape({
-      pathname: React.PropTypes.string.isRequired,
+    history: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
     }).isRequired,
-    params: React.PropTypes.shape({
-      patternId: React.PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      patternId: PropTypes.string.isRequired,
     }).isRequired,
   };
 

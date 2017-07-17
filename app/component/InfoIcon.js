@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Icon from './Icon';
@@ -12,7 +13,7 @@ const InfoIcon = ({ stop }) => (
 );
 
 InfoIcon.propTypes = {
-  stop: React.PropTypes.object.isRequired,
+  stop: PropTypes.object.isRequired,
 };
 
 InfoIcon.displayName = 'InfoIcon';

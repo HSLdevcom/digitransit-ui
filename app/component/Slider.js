@@ -1,22 +1,23 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
 class Slider extends React.Component {
 
   static propTypes = {
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
-    defaultValue: React.PropTypes.number,
-    initialValue: React.PropTypes.number.isRequired,
-    onSliderChange: React.PropTypes.func.isRequired,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    step: React.PropTypes.number,
-    headerText: React.PropTypes.string,
-    minText: React.PropTypes.string,
-    maxText: React.PropTypes.string,
-    writtenValue: React.PropTypes.string,
-    value: React.PropTypes.number,
+    className: PropTypes.string,
+    id: PropTypes.string,
+    defaultValue: PropTypes.number,
+    initialValue: PropTypes.number.isRequired,
+    onSliderChange: PropTypes.func.isRequired,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    step: PropTypes.number,
+    headerText: PropTypes.string,
+    minText: PropTypes.string,
+    maxText: PropTypes.string,
+    writtenValue: PropTypes.string,
+    value: PropTypes.number,
   };
 
   static defaultProps = {

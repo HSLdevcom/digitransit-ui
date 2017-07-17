@@ -54,8 +54,9 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: (function () { return `© Hameenlinna ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Hameenlinna ${walttiConfig.YEAR}` },
       {},
+      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'http://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },

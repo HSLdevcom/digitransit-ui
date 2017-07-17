@@ -56,8 +56,9 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: (function () { return `© Lahti ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Lahti ${walttiConfig.YEAR}` },
       {},
+      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },

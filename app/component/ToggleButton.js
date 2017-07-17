@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -29,13 +30,13 @@ const ToggleButton = ({ checkedClass, state, icon, className, onBtnClick, style,
 
 
 ToggleButton.propTypes = {
-  onBtnClick: React.PropTypes.func,
-  checkedClass: React.PropTypes.string,
-  state: React.PropTypes.bool,
-  icon: React.PropTypes.string,
-  className: React.PropTypes.string,
-  style: React.PropTypes.object,
-  children: React.PropTypes.array,
+  onBtnClick: PropTypes.func,
+  checkedClass: PropTypes.string,
+  state: PropTypes.bool,
+  icon: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  children: PropTypes.array,
 };
 
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -7,26 +8,25 @@ import getContext from 'recompose/getContext';
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
-import StopPageActionBar from './StopPageActionBar';
 import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
 
 class StopPageContentOptions extends React.Component {
 
   static propTypes = {
-    printUrl: React.PropTypes.string,
-    departureProps: React.PropTypes.shape({
-      stop: React.PropTypes.shape({
-        stoptimes: React.PropTypes.array,
+    printUrl: PropTypes.string,
+    departureProps: PropTypes.shape({
+      stop: PropTypes.shape({
+        stoptimes: PropTypes.array,
       }).isRequired,
     }).isRequired,
-    relay: React.PropTypes.shape({
-      variables: React.PropTypes.shape({
-        date: React.PropTypes.string.isRequired,
+    relay: PropTypes.shape({
+      variables: PropTypes.shape({
+        date: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    initialDate: React.PropTypes.string.isRequired,
-    setDate: React.PropTypes.func.isRequired,
+    initialDate: PropTypes.string.isRequired,
+    setDate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -64,18 +64,16 @@ class StopPageContentOptions extends React.Component {
         </div>
       }
       {this.state.showTab === 'timetable' &&
-      <div className="momentum-scroll">
-        <StopPageActionBar
-          printUrl={this.props.printUrl}
-          startDate={this.props.initialDate}
-          selectedDate={this.props.relay.variables.date}
-          onDateChange={this.onDateChange}
-        />
         <TimetableContainer
           stop={this.props.departureProps.stop}
           date={this.props.relay.variables.date}
+          propsForStopPageActionBar={{
+            printUrl: this.props.printUrl,
+            startDate: this.props.initialDate,
+            selectedDate: this.props.relay.variables.date,
+            onDateChange: this.onDateChange,
+          }}
         />
-      </div>
       }
     </div>);
   }
@@ -92,7 +90,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
   currentTime: props.relay.variables.startTime,
 }))(DepartureListContainer);
 
-const StopPageContent = getContext({ breakpoint: React.PropTypes.string.isRequired })(props => (
+const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(props => (
   some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large' ? null : (
     <StopPageContentOptions
       printUrl={props.stop.url}
@@ -111,8 +109,8 @@ const StopPageContentOrEmpty = (props) => {
 };
 
 StopPageContentOrEmpty.propTypes = {
-  stop: React.PropTypes.shape({
-    url: React.PropTypes.string,
+  stop: PropTypes.shape({
+    url: PropTypes.string,
   }).isRequired,
 };
 

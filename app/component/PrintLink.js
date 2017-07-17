@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ExternalLink from './ExternalLink';
@@ -10,7 +11,7 @@ const PrintLink = ({ className, href }) => href && <ExternalLink className={clas
 PrintLink.displayName = 'PrintLink';
 
 PrintLink.propTypes = {
-  href: React.PropTypes.string,
-  className: React.PropTypes.string,
+  href: PropTypes.string,
+  className: PropTypes.string,
 };
 export default PrintLink;

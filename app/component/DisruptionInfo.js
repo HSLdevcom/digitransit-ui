@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -61,8 +62,8 @@ function DisruptionInfo(props, context) {
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
-  config: React.PropTypes.shape({
-    feedIds: React.PropTypes.arrayOf(React.PropTypes.string.isRequired),
+  config: PropTypes.shape({
+    feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
 };
 

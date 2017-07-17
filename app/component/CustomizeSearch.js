@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -51,13 +52,13 @@ class CustomizeSearch extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    isOpen: React.PropTypes.bool,
-    onToggleClick: React.PropTypes.func.isRequired,
+    isOpen: PropTypes.bool,
+    onToggleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

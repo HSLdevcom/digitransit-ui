@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -27,9 +28,9 @@ WalkDistance.description =
   'Requires walkDistance in meters as props. Displays distance in km if distance is 1000 or above';
 
 WalkDistance.propTypes = {
-  walkDistance: React.PropTypes.number.isRequired,
-  icon: React.PropTypes.string,
-  className: React.PropTypes.string,
+  walkDistance: PropTypes.number.isRequired,
+  icon: PropTypes.string,
+  className: PropTypes.string,
 };
 
 WalkDistance.displayName = 'WalkDistance';

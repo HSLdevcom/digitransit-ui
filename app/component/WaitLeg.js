@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -63,14 +64,14 @@ WaitLeg.description = () => {
 };
 
 WaitLeg.propTypes = {
-  startTime: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
-  index: React.PropTypes.number.isRequired,
-  children: React.PropTypes.node,
-  waitTime: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    to: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
+  startTime: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  children: PropTypes.node,
+  waitTime: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

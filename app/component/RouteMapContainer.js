@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -54,6 +55,11 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
   ];
 
   const showScale = fullscreen || breakpoint === 'large';
+
+  let filteredPoints;
+  if (pattern.geometry) {
+    filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lon !== null);
+  }
   return (
     <Map
       lat={(selectedVehicle && selectedVehicle.lat) || undefined}
@@ -61,7 +67,7 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       className={'full'}
       leafletObjs={leafletObjs}
       fitBounds={fitBounds}
-      bounds={(pattern.geometry || pattern.stops).map(p => [p.lat, p.lon])}
+      bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
       zoom={zoom}
       showScaleBar={showScale}
     >
@@ -78,22 +84,22 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 }
 
 RouteMapContainer.contextTypes = {
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  breakpoint: React.PropTypes.string.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 RouteMapContainer.propTypes = {
-  trip: React.PropTypes.shape({
-    stoptimesForDate: React.PropTypes.arrayOf(React.PropTypes.shape({
-      scheduledDeparture: React.PropTypes.number.isRequired,
+  trip: PropTypes.shape({
+    stoptimesForDate: PropTypes.arrayOf(PropTypes.shape({
+      scheduledDeparture: PropTypes.number.isRequired,
     })).isRequired,
   }),
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.bool,
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    fullscreenMap: PropTypes.bool,
   })).isRequired,
-  pattern: React.PropTypes.object.isRequired,
-  vehicles: React.PropTypes.object,
+  pattern: PropTypes.object.isRequired,
+  vehicles: PropTypes.object,
 };
 
 export const RouteMapFragments = {

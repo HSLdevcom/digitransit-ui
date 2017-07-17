@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -36,15 +37,15 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
-  stop: React.PropTypes.object,
-  distance: React.PropTypes.number,
-  className: React.PropTypes.string,
-  headingStyle: React.PropTypes.string,
-  icons: React.PropTypes.arrayOf(React.PropTypes.node),
+  stop: PropTypes.object,
+  distance: PropTypes.number,
+  className: PropTypes.string,
+  headingStyle: PropTypes.string,
+  icons: PropTypes.arrayOf(PropTypes.node),
 };
 
 StopCardHeader.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 const exampleStop = {

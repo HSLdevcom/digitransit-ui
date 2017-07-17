@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -31,7 +32,7 @@ export default class SearchInputContainer extends Component {
     placeholder: PropTypes.string,
     close: PropTypes.func.isRequired,
     sections: PropTypes.bool,
-    layers: React.PropTypes.array,
+    layers: PropTypes.array,
   };
 
   state = {

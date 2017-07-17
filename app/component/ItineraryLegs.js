@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
@@ -23,7 +24,7 @@ import { isCallAgencyPickupType } from '../util/legUtils';
 class ItineraryLegs extends React.Component {
 
   static childContextTypes = {
-    focusFunction: React.PropTypes.func,
+    focusFunction: PropTypes.func,
   };
 
   getChildContext() {
@@ -251,12 +252,12 @@ class ItineraryLegs extends React.Component {
 }
 
 ItineraryLegs.propTypes = {
-  itinerary: React.PropTypes.object,
-  focusMap: React.PropTypes.func,
+  itinerary: PropTypes.object,
+  focusMap: PropTypes.func,
 };
 
 ItineraryLegs.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ItineraryLegs;

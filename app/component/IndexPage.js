@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
@@ -9,7 +10,7 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import PageFooter from './PageFooter';
 
-const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
+const feedbackPanelMudules = { Panel: () => importLazy(import('./FeedbackPanel')) };
 
 const feedbackPanel = (
   <LazilyLoad modules={feedbackPanelMudules} >
@@ -17,7 +18,7 @@ const feedbackPanel = (
   </LazilyLoad>
 );
 
-const messageBarModules = { Bar: () => importLazy(System.import('./MessageBar')) };
+const messageBarModules = { Bar: () => importLazy(import('./MessageBar')) };
 
 const messageBar = (
   <LazilyLoad modules={messageBarModules} >
@@ -27,17 +28,17 @@ const messageBar = (
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     location: locationShape.isRequired,
     router: routerShape.isRequired,
-    piwik: React.PropTypes.object,
-    config: React.PropTypes.object.isRequired,
+    piwik: PropTypes.object,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    breakpoint: React.PropTypes.string.isRequired,
-    content: React.PropTypes.node,
-    routes: React.PropTypes.array,
+    breakpoint: PropTypes.string.isRequired,
+    content: PropTypes.node,
+    routes: PropTypes.array,
   }
 
   componentWillMount = () => {
@@ -226,6 +227,6 @@ class IndexPage extends React.Component {
 }
 
 const IndexPageWithBreakpoint =
-    getContext({ breakpoint: React.PropTypes.string.isRequired })(IndexPage);
+    getContext({ breakpoint: PropTypes.string.isRequired })(IndexPage);
 
 export default IndexPageWithBreakpoint;

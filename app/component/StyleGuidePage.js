@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 
@@ -524,8 +525,8 @@ function StyleGuidePage(props) {
 }
 
 StyleGuidePage.propTypes = {
-  params: React.PropTypes.shape({
-    componentName: React.PropTypes.string,
+  params: PropTypes.shape({
+    componentName: PropTypes.string,
   }).isRequired,
 };
 
