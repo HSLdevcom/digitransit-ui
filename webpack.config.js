@@ -69,7 +69,10 @@ function getRulesConfig(env) {
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
       loader: 'babel',
-      exclude: /node_modules/,
+      include: [
+        path.resolve(__dirname, 'app/'),
+        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
+      ],
       options: {
         // loose is needed by older Androids < 4.3 and IE10
         presets: [
