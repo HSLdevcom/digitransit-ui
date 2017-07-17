@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
@@ -18,7 +19,7 @@ const NetworkError = ({ retry }, { location }) => (
   </div>
 );
 
-NetworkError.propTypes = { retry: React.PropTypes.func.isRequired };
+NetworkError.propTypes = { retry: PropTypes.func.isRequired };
 NetworkError.contextTypes = { location: locationShape.isRequired };
 
 export default NetworkError;

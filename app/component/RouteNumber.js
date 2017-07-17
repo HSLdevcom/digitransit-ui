@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -29,26 +29,29 @@ function RouteNumber(props) {
       />);
     }
 
-    return (<Icon
+    return (<IconWithIcon
       className={mode}
       img={`icon-icon_${mode}`}
+      subIcon=""
     />);
   };
 
-  const largeClass = props.large ? 'large' : '';
+  // props.vertical is FALSE in Near you view
+  // props.vertical is TRUE in itinerary view
   return (
-
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        {icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode, largeClass)} ><div className="bar-inner" /></div></div>}
-
-        {props.vertical ? <br /> : null}
-
+        { props.vertical === true ?
+          <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
+        : icon(props.isCallAgency, props.hasDisruption)}
+        {props.withBar && <div className="bar-container"><div className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
       </span>
-      <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
-        {props.text}
-      </span>
+      {props.vertical === false ?
+        <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+          {props.text}</span>
+          : <div className="vehicle-number-container-v"><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+            {props.text}
+          </span></div> }
     </span>
   );
 }
@@ -111,26 +114,24 @@ RouteNumber.description = () =>
   </div>;
 
 RouteNumber.propTypes = {
-  mode: React.PropTypes.string.isRequired,
-  text: React.PropTypes.node,
-  large: React.PropTypes.bool,
-  vertical: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  hasDisruption: React.PropTypes.bool,
-  fadeLong: React.PropTypes.bool,
-  withBar: React.PropTypes.bool.isRequired,
-  isCallAgency: React.PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  text: PropTypes.node,
+  vertical: PropTypes.bool,
+  className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
+  fadeLong: PropTypes.bool,
+  withBar: PropTypes.bool.isRequired,
+  isCallAgency: PropTypes.bool.isRequired,
 };
 
 RouteNumber.defaultProps = {
   withBar: false,
   className: '',
   vertical: false,
-  large: false,
   hasDisruption: false,
   fadeLong: false,
   text: '',
-
+  isCallAgency: false,
 };
 
 RouteNumber.displayName = 'RouteNumber';

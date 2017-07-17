@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import filter from 'lodash/filter';
 import get from 'lodash/get';

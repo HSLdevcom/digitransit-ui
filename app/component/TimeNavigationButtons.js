@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -25,8 +26,8 @@ export default class TimeNavigationButtons extends React.Component {
     router: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
-    executeAction: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static displayName ='TimeNavigationButtons';

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
@@ -30,8 +31,8 @@ export default function RightOffcanvasToggle({ onToggleClick, hasChanges },
 }
 
 RightOffcanvasToggle.propTypes = {
-  onToggleClick: React.PropTypes.func.isRequired,
-  hasChanges: React.PropTypes.bool,
+  onToggleClick: PropTypes.func.isRequired,
+  hasChanges: PropTypes.bool,
 };
 
 RightOffcanvasToggle.contextTypes = {

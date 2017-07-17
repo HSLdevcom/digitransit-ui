@@ -773,7 +773,26 @@
                     {
                         "name": "alerts",
                         "description": "Get all alerts active in the graph",
-                        "args": [],
+                        "args": [
+                            {
+                                "name": "feeds",
+                                "description": null,
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    }
+                                },
+                                "defaultValue": null
+                            }
+                        ],
                         "type": {
                             "kind": "LIST",
                             "name": null,
@@ -1061,6 +1080,16 @@
                             {
                                 "name": "walkReluctance",
                                 "description": "A multiplier for how bad walking is, compared to being in transit for equal lengths of time. Defaults to 2. Empirically, values between 10 and 20 seem to correspond well to the concept of not wanting to walk too much without asking for totally ridiculous itineraries, but this observation should in no way be taken as scientific or definitive. Your mileage may vary.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Float",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "walkOnStreetReluctance",
+                                "description": "How much more reluctant is the user to walk on streets with car traffic allowed",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1404,7 +1433,7 @@
                 "fields": [
                     {
                         "name": "id",
-                        "description": null,
+                        "description": "The ID of an object",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -1762,15 +1791,15 @@
                     },
                     {
                         "name": "type",
-                        "description": null,
+                        "description": "The raw type integer form the GTFS source.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "String",
+                            "name": "Int",
                             "ofType": null
                         },
-                        "isDeprecated": true,
-                        "deprecationReason": "The meaning of the type field will be changed to v2. Please use the mode-field instead. Type will export the raw type integer form the GTFS source."
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     },
                     {
                         "name": "desc",
@@ -1905,6 +1934,16 @@
                         "ofType": null
                     }
                 ],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
+                "name": "Int",
+                "description": "Built-in Int",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -2150,16 +2189,6 @@
                         "ofType": null
                     }
                 ],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "SCALAR",
-                "name": "Int",
-                "description": "Built-in Int",
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
                 "enumValues": null,
                 "possibleTypes": null
             },
@@ -3649,6 +3678,18 @@
                                 "name": "ID",
                                 "ofType": null
                             }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "feed",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -6804,7 +6845,11 @@
             {
                 "name": "include",
                 "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
-                "locations": null,
+                "locations": [
+                    "FIELD",
+                    "FRAGMENT_SPREAD",
+                    "INLINE_FRAGMENT"
+                ],
                 "args": [
                     {
                         "name": "if",
@@ -6825,7 +6870,11 @@
             {
                 "name": "skip",
                 "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
-                "locations": null,
+                "locations": [
+                    "FIELD",
+                    "FRAGMENT_SPREAD",
+                    "INLINE_FRAGMENT"
+                ],
                 "args": [
                     {
                         "name": "if",

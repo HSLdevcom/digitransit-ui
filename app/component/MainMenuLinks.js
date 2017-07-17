@@ -1,16 +1,17 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
 
 const MainMenuLinks = ({ content }) => (<div id="page-m-footer">
 
   {content.map(link => ((Object.keys(link).length === 0) ?
-    (<span className="footer-separator" />) : <div className="offcanvas-section"><FooterItem key={link.label || link.name} {...link} /></div>))}
+    (<span key="separator" />) : <div key={link.label || link.name} className="offcanvas-section"><FooterItem {...link} /></div>))}
 </div>);
 
 
 MainMenuLinks.propTypes = {
-  content: PropTypes.arrayOf(FooterItem.propTypes),
+  content: PropTypes.arrayOf(PropTypes.shape(FooterItem.propTypes)),
 };
 
 MainMenuLinks.defaultProps = {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import CardHeader from './CardHeader';
@@ -51,11 +52,11 @@ CityBikeCard.description = () =>
 CityBikeCard.displayName = 'CityBikeCard';
 
 CityBikeCard.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string,
-  children: React.PropTypes.node.isRequired,
-  toggleFavourite: React.PropTypes.func,
-  isFavourite: React.PropTypes.bool,
+  station: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  toggleFavourite: PropTypes.func,
+  isFavourite: PropTypes.bool,
 };
 
 export default CityBikeCard;

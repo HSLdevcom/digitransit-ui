@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -6,7 +7,6 @@ import ViaPointSearchModal from './ViaPointSearchModal';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import ComponentUsageExample from './ComponentUsageExample';
-
 
 export default function ViaPointBar({
   intermediatePlaces, openSearchModal, removeViaPoint, className,
@@ -38,18 +38,19 @@ export default function ViaPointBar({
 }
 
 ViaPointBar.propTypes = {
-  className: React.PropTypes.string,
-  openSearchModal: React.PropTypes.func.isRequired,
-  removeViaPoint: React.PropTypes.func.isRequired,
-  intermediatePlaces: React.PropTypes.oneOfType([
-    React.PropTypes.oneOf([false]),
-    React.PropTypes.string,
-    React.PropTypes.arrayOf(React.PropTypes.string),
+  className: PropTypes.string,
+  openSearchModal: PropTypes.func.isRequired,
+  removeViaPoint: PropTypes.func.isRequired,
+  intermediatePlaces: PropTypes.oneOfType([
+    PropTypes.oneOf([false]),
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
 };
 
 ViaPointBar.defaultProps = {
   className: false,
+  intermediatePlaces: false,
 };
 
 const emptyFunction = () => {};

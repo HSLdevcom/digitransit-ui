@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -7,6 +8,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import Icon from './Icon';
 import { setUseCurrent } from '../action/EndpointActions';
+import Loading from './Loading';
 
 const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => {
   /* States:
@@ -23,6 +25,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
     && !searchModalIsOpen && !origin.userSetPosition && !origin.useCurrentPosition) {
     context.executeAction(setUseCurrent, {
       target: 'origin',
+      keepSelectedLocation: true, // don't overwrite if user has already set a location
       router: context.router,
       location: context.location,
     });
@@ -43,7 +46,7 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (
       <div id="geoposition-selector">
-        <div className="spinner-loader" />
+        <Loading />
         <div className="spinner-caption">
           <FormattedMessage id="splash-locating" defaultMessage="Detecting location" />…
         </div>
@@ -73,13 +76,13 @@ const GeopositionSelector = ({ origin, status, searchModalIsOpen }, context) => 
 };
 
 GeopositionSelector.propTypes = {
-  status: React.PropTypes.string.isRequired,
-  searchModalIsOpen: React.PropTypes.bool.isRequired,
-  origin: React.PropTypes.object,
+  status: PropTypes.string.isRequired,
+  searchModalIsOpen: PropTypes.bool.isRequired,
+  origin: PropTypes.object,
 };
 
 GeopositionSelector.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
 };

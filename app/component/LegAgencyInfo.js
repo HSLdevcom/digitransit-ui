@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
@@ -18,11 +19,11 @@ function LegAgencyInfo({ leg }, { config }) {
 
 LegAgencyInfo.contextTypes = {
   intl: intlShape.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 LegAgencyInfo.propTypes = {
-  leg: React.PropTypes.object,
+  leg: PropTypes.object,
 };
 
 export default Relay.createContainer(LegAgencyInfo, {

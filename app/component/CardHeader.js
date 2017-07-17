@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -26,6 +27,10 @@ const CardHeader = ({
         <Icon img={icon} />
       </div>
     ) : null}
+    {className === 'stop-page header' &&
+    <div className="stop-page-header_icon-container">
+      <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
+      </div>}
     <div className="card-header-wrapper">
       <span className={headingStyle || 'h4'}>
         {name}{unlinked ? null : <span className="link-arrow"> ›</span>}
@@ -63,15 +68,15 @@ CardHeader.description = () =>
   </div>;
 
 CardHeader.propTypes = {
-  className: React.PropTypes.string,
-  headingStyle: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
-  description: React.PropTypes.string.isRequired,
-  code: React.PropTypes.string,
-  icon: React.PropTypes.string,
-  icons: React.PropTypes.arrayOf(React.PropTypes.node),
-  children: React.PropTypes.node,
-  unlinked: React.PropTypes.bool,
+  className: PropTypes.string,
+  headingStyle: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  icon: PropTypes.string,
+  icons: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.node,
+  unlinked: PropTypes.bool,
 };
 
 export default CardHeader;

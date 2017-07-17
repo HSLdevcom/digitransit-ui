@@ -44,7 +44,7 @@ export function setEndpoint(actionContext, payload) {
 }
 
 export function setUseCurrent(actionContext, payload) {
-  actionContext.dispatch('useCurrentPosition', payload.target);
+  actionContext.dispatch('useCurrentPosition', payload);
   return actionContext.executeAction(route, payload);
 }
 

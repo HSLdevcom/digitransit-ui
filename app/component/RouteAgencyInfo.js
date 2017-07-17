@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
@@ -15,11 +16,11 @@ function RouteAgencyInfo({ route }, { config }) {
 }
 
 RouteAgencyInfo.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 RouteAgencyInfo.propTypes = {
-  route: React.PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default Relay.createContainer(RouteAgencyInfo, {

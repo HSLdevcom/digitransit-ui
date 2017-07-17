@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
@@ -7,6 +8,7 @@ import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeCl
 import RouteMarkerPopup from './route/RouteMarkerPopup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import { asString as iconAsString } from '../IconWithTail';
+import Loading from '../Loading';
 
 import { isBrowser } from '../../util/browser';
 
@@ -48,9 +50,9 @@ if (isBrowser) {
 }
 
 const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  // Note: We're not sure this is necessary, since context is  getting passed via props
+  // router: PropTypes.object.isRequired,
+  // config: React.PropTypes.object.isRequired,
 });
 
 export default class VehicleMarkerContainer extends React.PureComponent {
@@ -58,7 +60,8 @@ export default class VehicleMarkerContainer extends React.PureComponent {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -138,7 +141,7 @@ export default class VehicleMarkerContainer extends React.PureComponent {
             (message.tripStartTime.substring(2, 4) * 60),
         })}
         renderLoading={() => (
-          <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
+          <div className="card" style={{ height: '12rem' }}><Loading /></div>
         )}
         renderFetched={data => (
           <RouteMarkerPopupWithContext {...data} message={message} context={this.context} />

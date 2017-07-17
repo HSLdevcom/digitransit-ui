@@ -1,37 +1,41 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import pure from 'recompose/pure';
+import { Link } from 'react-router';
+import { FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 
 import Icon from './Icon';
-import { getLabel, getIcon } from '../util/suggestionUtils';
+import { getLabel, getIcon, isStop, getGTFSId } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SuggestionItem = pure((props) => {
+const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) => {
   let icon;
-  if (props.item.properties.mode && props.useTransportIcons) {
+  if (item.properties.mode && useTransportIcons) {
     icon = (
       <Icon
-        img={`icon-icon_${props.item.properties.mode}`}
-        className={props.item.properties.mode}
+        img={`icon-icon_${item.properties.mode}`}
+        className={item.properties.mode}
       />
     );
   } else {
     icon = (
       <Icon
-        img={getIcon(props.item.properties.layer)}
-        className={props.item.iconClass || ''}
+        img={getIcon(item.properties.layer)}
+        className={item.iconClass || ''}
       />
     );
   }
 
-  const label = getLabel(props.item.properties);
+  const label = getLabel(item.properties, false);
 
-  return (
+  const ri = (
     <div
       className={cx(
         'search-result',
-        props.item.type,
-        { favourite: props.item.type.startsWith('Favourite') },
+        item.type,
+        { favourite: item.type.startsWith('Favourite') },
       )}
     >
       <span className="autosuggestIcon">
@@ -42,13 +46,26 @@ const SuggestionItem = pure((props) => {
         <p className="suggestion-label" >{label[1]}</p>
       </div>
     </div>);
+  if (doNotShowLinkToStop === false && isStop(item.properties) && getGTFSId(item.properties) !== undefined && (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined) {
+    /* eslint no-param-reassign: ["error", { "props": false }]*/
+    return (<div className="suggestion-item-stop"><div><Link
+      onClick={() => {
+        item.timetableClicked = false;
+      }}
+    >{ri}</Link></div><div className="suggestion-item-timetable"><Link
+      onClick={() => {
+        item.timetableClicked = true;
+      }}
+    ><Icon img="icon-icon_schedule" /><div className="suggestion-item-timetable-label"><FormattedMessage id="timetable" defaultMessage="Timetable" /></div></Link></div></div>);
+  }
+  return ri;
 });
 
 SuggestionItem.propTypes = {
-  item: React.PropTypes.object,
-  useTransportIcons: React.PropTypes.bool,
+  item: PropTypes.object,
+  useTransportIcons: PropTypes.bool,
+  doNotShowLInkToStop: PropTypes.bool,
 };
-
 
 SuggestionItem.displayName = 'SuggestionItem';
 
@@ -93,7 +110,9 @@ const exampleRoute = {
 const exampleStop = {
   type: 'Stop',
   properties: {
+    source: 'gtfsHSL',
     gtfsId: 'HSL:1130446',
+    id: 'HSL:1130446#0221',
     name: 'Caloniuksenkatu',
     desc: 'Mechelininkatu 21',
     code: '0221',
@@ -115,7 +134,10 @@ SuggestionItem.description = () =>
       <SuggestionItem item={exampleRoute} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Stop">
-      <SuggestionItem item={exampleStop} />
+      <SuggestionItem item={exampleStop} doNotShowLinkToStop={false} />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Stop">
+      <SuggestionItem item={exampleStop} doNotShowLinkToStop />
     </ComponentUsageExample>
   </div>;
 

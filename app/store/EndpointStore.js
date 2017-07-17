@@ -138,10 +138,12 @@ class EndpointStore extends Store {
     }
   }
 
-  useCurrentPosition(target) {
-    if (target === 'destination') {
-      this.setDestinationToCurrent();
-    } else {
+  useCurrentPosition(payload) {
+    if (payload.target === 'destination') {
+      if (!this.destination.userSetPosition || !payload.keepSelectedLocation) {
+        this.setDestinationToCurrent();
+      }
+    } else if (!this.origin.userSetPosition || !payload.keepSelectedLocation) {
       this.setOriginToCurrent();
       this.emitChange('origin-use-current');
     }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router';
@@ -85,13 +86,13 @@ FavouriteLocation.description = () =>
   </div>;
 
 FavouriteLocation.propTypes = {
-  favourite: React.PropTypes.object,
-  addFavourite: React.PropTypes.func,
-  clickFavourite: React.PropTypes.func,
-  className: React.PropTypes.string,
-  departureTime: React.PropTypes.number,
-  currentTime: React.PropTypes.number,
-  firstTransitLeg: React.PropTypes.object,
+  favourite: PropTypes.object,
+  addFavourite: PropTypes.func,
+  clickFavourite: PropTypes.func,
+  className: PropTypes.string,
+  departureTime: PropTypes.number,
+  currentTime: PropTypes.number,
+  firstTransitLeg: PropTypes.object,
 };
 
 FavouriteLocation.displayName = 'FavouriteLocation';

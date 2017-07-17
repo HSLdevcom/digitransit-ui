@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { locationShape } from 'react-router';
 import Splash from './Splash';
 
 import { getIntroShown, setIntroShown } from '../store/localStorage';
@@ -7,12 +9,13 @@ import { isBrowser } from '../util/browser';
 
 class SplashOrComponent extends React.Component {
   static propTypes = {
-    displaySplash: React.PropTypes.bool.isRequired,
-    children: React.PropTypes.node.isRequired,
+    displaySplash: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   static contextTypes = {
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
+    location: locationShape.isRequired,
   };
 
   constructor(props, { config }) {
@@ -29,7 +32,10 @@ class SplashOrComponent extends React.Component {
   }
 
   render() {
-    if (!this.props.displaySplash && !this.state.shouldShowIntro) {
+    const location = this.context.location;
+    const searchOpen = location && location.state && location.state.oneTabSearchModalOpen;
+
+    if (!this.props.displaySplash && !searchOpen && !this.state.shouldShowIntro) {
       return this.props.children;
     }
     return (

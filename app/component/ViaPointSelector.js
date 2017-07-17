@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -41,13 +42,17 @@ export default function ViaPointSelector({ intermediatePlaces, openSearchModal, 
 }
 
 ViaPointSelector.propTypes = {
-  openSearchModal: React.PropTypes.func.isRequired,
-  removeViaPoint: React.PropTypes.func.isRequired,
-  intermediatePlaces: React.PropTypes.oneOfType([
-    React.PropTypes.oneOf([false]),
-    React.PropTypes.string,
-    React.PropTypes.arrayOf(React.PropTypes.string),
+  openSearchModal: PropTypes.func.isRequired,
+  removeViaPoint: PropTypes.func.isRequired,
+  intermediatePlaces: PropTypes.oneOfType([
+    PropTypes.oneOf([false]),
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
+};
+
+ViaPointSelector.defaultProps = {
+  intermediatePlaces: false,
 };
 
 const emptyFunction = () => {};

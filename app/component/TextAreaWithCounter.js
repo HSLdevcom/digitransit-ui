@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -29,13 +30,13 @@ const TextAreaWithCounter = (props) => {
 };
 
 TextAreaWithCounter.propTypes = {
-  showCounter: React.PropTypes.bool,
-  counterClassName: React.PropTypes.string,
-  maxLength: React.PropTypes.number,
-  areaClassName: React.PropTypes.string,
-  rows: React.PropTypes.number,
-  charLeft: React.PropTypes.number,
-  handleChange: React.PropTypes.func.isRequired,
+  showCounter: PropTypes.bool,
+  counterClassName: PropTypes.string,
+  maxLength: PropTypes.number,
+  areaClassName: PropTypes.string,
+  rows: PropTypes.number,
+  charLeft: PropTypes.number,
+  handleChange: PropTypes.func.isRequired,
 };
 
 TextAreaWithCounter.defaultProps = {
@@ -55,12 +56,12 @@ TextAreaWithCounter.description = () =>
   </div>;
 
 TextAreaWithCounter.PropTypes = {
-  showCounter: React.PropTypes.bool,
-  maxLength: React.PropTypes.number,
-  charLeft: React.PropTypes.number,
-  handleChange: React.PropTypes.func,
-  counterClassName: React.PropTypes.string,
-  areaClassName: React.PropTypes.string,
+  showCounter: PropTypes.bool,
+  maxLength: PropTypes.number,
+  charLeft: PropTypes.number,
+  handleChange: PropTypes.func,
+  counterClassName: PropTypes.string,
+  areaClassName: PropTypes.string,
 };
 
 export default TextAreaWithCounter;

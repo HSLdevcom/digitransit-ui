@@ -80,7 +80,7 @@
 
     // When we don't have a start date box, we can add some spacing
     .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
-      margin-top: -1px;
+      margin-top: -2px;
     }
 
     .itinerary-start-date {
@@ -161,7 +161,7 @@
     }
 
     .line.walk, .line.bicycle, .line.car {
-      &:after {
+      .bar-container {
         left: 2em;
       }
     }
@@ -173,42 +173,31 @@
     }
 
     div.bar-container {
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 100%;
-      width: 100%;
       display: flex;
       position:absolute;
       align-items: center;
     }
 
     div.bar {
-      height: 3px;
       width: calc(100% - 1px);
-      //position: absolute;
       z-index: -1;
-      //right: 1px;
-    //  height: 3px;
       background-color: currentColor;
       border: 1px solid currentColor;
-      border-radius: $border-radius-small;
+      height: 6px;
+      border-width: 2px;
+      border-radius: $border-radius;
       &.call {
         color: white;
         border-color: #aaa;
       }
       .bar-inner {
         width: 100%;
-        height: 1px;
-        background-color: rgba(255,255,255,0.25);
-      }
-    }
-
-    .bar.large {
-      height: 6px;
-      border-width: 2px;
-      border-radius: $border-radius;
-      .bar-inner {
         height: 2px;
+        background-color: rgba(255,255,255,0.25);
       }
     }
 
@@ -306,7 +295,7 @@
       padding-top: 17px;
 
       .itinerary-first-leg-start-time {
-        padding-top: 1px;
+        margin-top: -1px;
         font-size: $font-size-normal;
       }
       .itinerary-start-date {
@@ -324,7 +313,7 @@
 
     .itinerary-legs {
       padding-top: 0;
-      margin-top: 17px;
+      margin-top: 13px;
 
       .line .icon {
         margin-top: 0;
@@ -337,7 +326,7 @@
       .vehicle-number {
         font-size: $font-size-normal;
         margin-left: 6px;
-        margin-top: 3.5px;
+        margin-top: 1px;
       }
 
     }
@@ -365,14 +354,19 @@
         transform: rotate(-90deg);
       }
 
-      &.bp-large {
-        min-height: 75px;
-      }
+      min-height: 75px;
     }
   }
 
   .call {
     //text color
     color: $black;
+  }
+}
+
+@media print {
+  .itinerary-summary-row.bp-large.open {
+    height: auto;
+    display: block;
   }
 }

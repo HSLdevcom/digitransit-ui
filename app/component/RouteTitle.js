@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
 
 const RouteTitle = ({ route }, { breakpoint }) => (
   (breakpoint === 'large' || !route || !route.mode) ?
@@ -13,23 +14,25 @@ const RouteTitle = ({ route }, { breakpoint }) => (
     />
     :
     <Link to={`/linjat/${route.gtfsId}`}>
-      <RouteNumber
-        mode={route.mode}
+      <RouteNumberContainer
+        className="route-number-title"
+        route={route}
+        vertical={false}
         text={route.shortName}
       />
     </Link>
 );
 
 RouteTitle.propTypes = {
-  route: React.PropTypes.shape({
-    gtfsId: React.PropTypes.string.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    shortName: React.PropTypes.string,
+  route: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    shortName: PropTypes.string,
   }),
 };
 
 RouteTitle.contextTypes = {
-  breakpoint: React.PropTypes.string,
+  breakpoint: PropTypes.string,
 };
 
 export default Relay.createContainer(RouteTitle, {
@@ -40,6 +43,7 @@ export default Relay.createContainer(RouteTitle, {
         gtfsId
         shortName
         mode
+        type
       }
     `,
   },

@@ -7,6 +7,8 @@ const PIWIK_ID = process.env.PIWIK_ID;
 const SENTRY_DSN = process.env.SENTRY_DSN;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
+const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
+const YEAR = 1900 + new Date().getYear();
 
 export default {
   PIWIK_ADDRESS,
@@ -14,7 +16,7 @@ export default {
   SENTRY_DSN,
   PORT,
   CONFIG,
-
+  OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
@@ -46,6 +48,13 @@ export default {
   shortName: 'Digitransit',
 
   searchParams: {},
+  feedIds: [],
+
+/*
+ * by default search endpoints from all but gtfs sources, correct gtfs source
+ * figured based on feedIds config variable
+ */
+  searchSources: ['oa', 'osm', 'nlsfi'],
 
   search: {
     suggestions: {
@@ -157,9 +166,8 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch back in april
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/citybike',
@@ -242,6 +250,7 @@ export default {
     walk: 'WALK',
     bicycle: 'BICYCLE',
     car: 'CAR',
+    car_park: 'CAR_PARK',
   },
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
@@ -266,9 +275,8 @@ export default {
       defaultValue: true,
     },
 
-    // TODO: Switch back in april
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false,
     },
 
@@ -410,7 +418,7 @@ export default {
 
   footer: {
     content: [
-      { label: (function () { return `© HSL, Liikennevirasto ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© HSL, Liikennevirasto ${YEAR}` },
       {},
       { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://github.com/HSLdevcom/digitransit-ui/issues', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
@@ -437,11 +445,11 @@ export default {
       },
       {
         header: 'Digitransit palvelualusta',
-        paragraphs: ['Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote. Lähdekoodi tarjotaan EUPL v1.2 ja AGPLv3 lisensseillä. Tule mukaan kehittämään palvelusta entistä parempi: digitransit.fi.'],
+        paragraphs: ['Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote.'],
       },
       {
         header: 'Tietolähteet',
-        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors, ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä, ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan  mm. Liikenneviraston valtakunnallisesta joukkoliikenteen tietokannasta.'],
+        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Liikenneviraston valtakunnallisesta joukkoliikenteen tietokannasta.'],
       },
     ],
 
@@ -452,11 +460,11 @@ export default {
       },
       {
         header: 'Digitransit-plattformen',
-        paragraphs: ['Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket. Källkoden distribueras under EUPL v1.2 och AGPLv3 licenserna. Du är välkommen att delta i utvecklandet av plattformen. Mer information hittar du på addressen digitransit.fi.'],
+        paragraphs: ['Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket.'],
       },
       {
         header: 'Datakällor',
-        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas bl.a. från Trafikverkets landsomfattande kollektivtrafiksdatabas.'],
+        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller hämtas från Trafikverkets landsomfattande kollektivtrafiksdatabas.'],
       },
     ],
 
@@ -467,11 +475,11 @@ export default {
       },
       {
         header: 'Digitransit platform',
-        paragraphs: ['The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency. The source code is available with the EUPL v1.2 and AGPLv3 licenses. Join us to make the service even better: digitransit.fi.'],
+        paragraphs: ['The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency.'],
       },
       {
-        header: 'Datasources',
-        paragraphs: ["Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors and downloaded from Geofabrik. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database."],
+        header: 'Data sources',
+        paragraphs: ["Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Finnish Transport Agency's national public transit database."],
       },
     ],
     nb: {},
@@ -489,6 +497,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    kotka: 'kotka',
     jyvaskyla: 'jyvaskyla',
     lahti: 'lahti',
     kuopio: 'kuopio',
@@ -510,4 +519,7 @@ export default {
   ],
 
   minutesToDepartureLimit: 9,
+
+  imperialEnabled: false,
+  // this flag when true enables imperial measurements  'feet/miles system'
 };

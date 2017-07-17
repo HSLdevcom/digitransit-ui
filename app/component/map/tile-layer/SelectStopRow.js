@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
@@ -100,10 +101,10 @@ SelectStopRow.description = () =>
   </div>;
 
 SelectStopRow.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  selectRow: React.PropTypes.func.isRequired,
-  patterns: React.PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  patterns: PropTypes.string.isRequired,
 };
 
 export default SelectStopRow;

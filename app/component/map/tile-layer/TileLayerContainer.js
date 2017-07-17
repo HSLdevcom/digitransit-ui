@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
-import MapLayer from 'react-leaflet/lib/MapLayer';
-import omit from 'lodash/omit';
+import GridLayer from 'react-leaflet/lib/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -22,64 +22,65 @@ import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
 import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
+import Loading from '../../Loading';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -95,22 +96,22 @@ const PopupOptions = {
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
 /** @extends React.Component */
-class TileLayerContainer extends MapLayer {
+class TileLayerContainer extends GridLayer {
   static propTypes = {
-    tileSize: React.PropTypes.number,
-    zoomOffset: React.PropTypes.number,
-    disableMapTracking: React.PropTypes.func,
+    tileSize: PropTypes.number.isRequired,
+    zoomOffset: PropTypes.number.isRequired,
+    disableMapTracking: PropTypes.func,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    map: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    route: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   state = {
@@ -121,14 +122,6 @@ class TileLayerContainer extends MapLayer {
   componentWillMount() {
     super.componentWillMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
-
-    // TODO: Convert to use react-leaflet <GridLayer>
-    const Layer = L.GridLayer.extend({ createTile: this.createTile });
-
-    this.leafletElement = new Layer(omit(this.props, 'map'));
-    this.context.map.addEventParent(this.leafletElement);
-
-    this.leafletElement.on('click contextmenu', this.onClick);
   }
 
   componentDidUpdate() {
@@ -173,6 +166,16 @@ class TileLayerContainer extends MapLayer {
     /* eslint-enable no-underscore-dangle */
   }
 
+  createLeafletElement(props) {
+    const Layer = L.GridLayer.extend({ createTile: this.createTile });
+    const leafletElement = new Layer(this.getOptions(props));
+
+    this.context.map.addEventParent(leafletElement);
+    leafletElement.on('click contextmenu', this.onClick);
+
+    return leafletElement;
+  }
+
   merc = new SphericalMercator({
     size: this.props.tileSize || 256,
   });
@@ -202,7 +205,7 @@ class TileLayerContainer extends MapLayer {
 
     const loadingPopup = () =>
       <div className="card" style={{ height: '12rem' }}>
-        <div className="spinner-loader" />
+        <Loading />
       </div>;
 
     if (typeof this.state.selectableTargets !== 'undefined') {

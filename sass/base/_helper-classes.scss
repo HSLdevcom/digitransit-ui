@@ -101,6 +101,13 @@
   position: relative;
   height: 100%;
 }
+
+@media print {
+    .fullscreen {
+      height: auto;
+    }
+}
+
 .padding-small  {
   padding: 0.45em 1em;
 }

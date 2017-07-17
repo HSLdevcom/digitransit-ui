@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -29,11 +30,11 @@ function DisruptionRow({ routes, startTime, endTime, description, cause }) {
 }
 
 DisruptionRow.propTypes = {
-  routes: React.PropTypes.arrayOf(React.PropTypes.object.isRequired).isRequired,
-  startTime: React.PropTypes.instanceOf(moment).isRequired,
-  endTime: React.PropTypes.instanceOf(moment).isRequired,
-  description: React.PropTypes.node,
-  cause: React.PropTypes.node,
+  routes: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  startTime: PropTypes.instanceOf(moment).isRequired,
+  endTime: PropTypes.instanceOf(moment).isRequired,
+  description: PropTypes.node,
+  cause: PropTypes.node,
 };
 
 export default DisruptionRow;

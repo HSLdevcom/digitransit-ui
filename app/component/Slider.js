@@ -1,20 +1,23 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
 class Slider extends React.Component {
+
   static propTypes = {
-    className: React.PropTypes.string,
-    id: React.PropTypes.string,
-    defaultValue: React.PropTypes.number,
-    initialValue: React.PropTypes.number.isRequired,
-    onSliderChange: React.PropTypes.func.isRequired,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    step: React.PropTypes.number,
-    headerText: React.PropTypes.string,
-    minText: React.PropTypes.string,
-    maxText: React.PropTypes.string,
-    writtenValue: React.PropTypes.string,
+    className: PropTypes.string,
+    id: PropTypes.string,
+    defaultValue: PropTypes.number,
+    initialValue: PropTypes.number.isRequired,
+    onSliderChange: PropTypes.func.isRequired,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    step: PropTypes.number,
+    headerText: PropTypes.string,
+    minText: PropTypes.string,
+    maxText: PropTypes.string,
+    writtenValue: PropTypes.string,
+    value: PropTypes.number,
   };
 
   static defaultProps = {
@@ -30,21 +33,29 @@ class Slider extends React.Component {
   defaultValue = this.props.defaultValue != null ? this.props.defaultValue :
     Math.floor((this.props.min + this.props.max) / 2);
 
-  state = { modified: this.props.initialValue !== this.defaultValue }
+  state = {
+    modified: this.props.initialValue !== this.defaultValue,
+  }
+
+  componentWillMount = () =>
+    (this.props.value === this.defaultValue ? this.setState({ modified: false })
+    : this.setState({ modified: true }));
 
   componentDidMount = () =>
-    this.slider && this.slider.addEventListener('touchmove', e => e.stopPropagation());
+    this.slider && this.slider.addEventListener('touchmove', e => e.stopPropagation())
+    && (this.props.value === this.defaultValue ? this.setState({ modified: false })
+    : this.setState({ modified: true }));
 
-  componentWillUnmount = () =>
-    this.slider && this.slider.removeEventListener('touchmove', e => e.stopPropagation());
-
-  valueChanged = (e) => {
-    if (parseInt(e.target.value, 10) !== this.defaultValue) {
+  componentWillReceiveProps = () => {
+    if (parseInt(this.props.value, 10) !== this.defaultValue) {
       this.setState({ modified: true });
     } else {
       this.setState({ modified: false });
     }
   }
+
+  componentWillUnmount = () =>
+    this.slider && this.slider.removeEventListener('touchmove', e => e.stopPropagation());
 
   render() {
     let showWrittenValue;
@@ -68,13 +79,12 @@ class Slider extends React.Component {
           id={this.props.id}
           className={cx('slider')}
           type="range"
-          defaultValue={this.props.initialValue}
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          onMouseUp={this.props.onSliderChange}
-          onTouchEnd={this.props.onSliderChange}
-          onInput={this.valueChanged}
+          onMouseUp={(e) => { this.props.onSliderChange(e); }}
+          onChange={(e) => { this.props.onSliderChange(e); }}
+          value={this.props.value}
         />
         <span className="sub-header-h5 left">{this.props.minText}</span>
         <span className="sub-header-h5 right">{this.props.maxText}</span>

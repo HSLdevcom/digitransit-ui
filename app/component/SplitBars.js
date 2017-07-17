@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -18,7 +19,7 @@ const SplitBars = ({ children }) => {
 SplitBars.displayName = 'SplitBars';
 
 SplitBars.propTypes = {
-  children: React.PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 SplitBars.description = () =>

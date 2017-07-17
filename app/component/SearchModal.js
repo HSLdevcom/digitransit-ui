@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 
@@ -28,14 +29,14 @@ const SearchModal = (props, context) => {
 };
 
 SearchModal.propTypes = {
-  modalIsOpen: React.PropTypes.bool.isRequired,
-  closeModal: React.PropTypes.func.isRequired,
-  selectedTab: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node,
+  modalIsOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 SearchModal.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default SearchModal;

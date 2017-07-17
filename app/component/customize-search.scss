@@ -60,6 +60,51 @@
     padding: $padding-medium;
   }
 
+  .save-settings {
+    text-align: center;
+    hr {
+      height: 2px;
+      opacity: 0.1;
+      background-color: $white;
+      margin-bottom: 1.7em;
+    }
+  }
+
+  .save-settings-button {
+    width: 80%;
+    border-radius: 20px;
+    margin: 0;
+  }
+
+  .reset-settings {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 0;
+    background-color: transparent;
+    display: block;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .reset-settings-button {
+    @include font-book;
+    line-height: 1.5em;
+
+    span {
+      color: #aaaaaa;
+      border-bottom: 2px dotted #aaaaaa;
+      transition: all 300ms ease-out;
+    }
+
+    &:hover {
+      span {
+        color: $medium-gray;
+        border-bottom: 2px dotted $medium-gray;
+      }
+    }
+  }
+
   input[type="text"] {
     background-color: transparent;
     border: 1px solid $dark-gray;
@@ -135,4 +180,10 @@
 .via-point-modal div.search-modal {
   z-index: 1302;
   top: -40px;
+}
+
+.mobile {
+  .reset-settings {
+    max-width: 100%;
+  }
 }

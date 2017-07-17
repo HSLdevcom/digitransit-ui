@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // Libraries
 import React from 'react';
 import Relay from 'react-relay';
@@ -22,6 +23,9 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
+
+// Localstorage data
+import { getCustomizedSettings } from './store/localStorage';
 
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
@@ -130,6 +134,29 @@ function getIntermediatePlaces(intermediatePlaces) {
   return [];
 }
 
+function getSettings() {
+  const custSettings = getCustomizedSettings();
+
+  return {
+    walkSpeed: custSettings.walkSpeed ? Number(custSettings.walkSpeed)
+      : undefined,
+    walkReluctance: custSettings.walkReluctance ? Number(custSettings.walkReluctance)
+      : undefined,
+    walkBoardCost: custSettings.walkBoardCost ? Number(custSettings.walkBoardCost)
+      : undefined,
+    modes: custSettings.modes ? custSettings.modes
+        .toString()
+        .split(',')
+        .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
+        .join(',') : undefined,
+    minTransferTime: custSettings.minTransferTime ? Number(custSettings.minTransferTime)
+      : undefined,
+    accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
+      : undefined,
+  };
+}
+
 export default (config) => {
   const preparePlanParams = (
       { from, to },
@@ -145,7 +172,9 @@ export default (config) => {
         modes,
         accessibilityOption,
       } } },
-    ) => omitBy({
+  ) => {
+    const settings = getSettings();
+    return omitBy({
       fromPlace: from,
       toPlace: to,
       from: otpToLocation(from),
@@ -154,24 +183,25 @@ export default (config) => {
       numItineraries: numItineraries ? Number(numItineraries) : undefined,
       modes: modes ? modes
         .split(',')
-        .sort()
         .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+        .sort()
         .join(',')
-      : undefined,
+      : settings.modes,
       date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
       time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-      walkReluctance: walkReluctance ? Number(walkReluctance) : undefined,
-      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : undefined,
-      minTransferTime: minTransferTime ? Number(minTransferTime) : undefined,
-      walkSpeed: walkSpeed ? Number(walkSpeed) : undefined,
+      walkReluctance: walkReluctance ? Number(walkReluctance) : settings.walkReluctance,
+      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : settings.walkBoardCost,
+      minTransferTime: minTransferTime ? Number(minTransferTime) : settings.minTransferTime,
+      walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
       arriveBy: arriveBy ? arriveBy === 'true' : undefined,
       maxWalkDistance: (typeof modes === 'undefined' ||
         (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) ?
         config.maxWalkDistance : config.maxBikingDistance,
-      wheelchair: accessibilityOption === '1',
+      wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
       preferred: { agencies: config.preferredAgency || '' },
       disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
     }, isNil);
+  };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
     React.cloneElement(element, props) :
@@ -184,10 +214,9 @@ export default (config) => {
   );
 
   SummaryPageWrapper.propTypes = {
-    props: React.PropTypes.object.isRequired,
-    routerProps: React.PropTypes.object.isRequired,
+    props: PropTypes.object.isRequired,
+    routerProps: PropTypes.object.isRequired,
   };
-
 
   return (
     <Route
@@ -206,14 +235,14 @@ export default (config) => {
         <Route
           path="lahellasi"
           getComponents={(location, cb) =>
-            System.import('./component/NearbyRoutesPanel')
+            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
               .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
           }
         />
         <Route
           path="suosikit"
           getComponents={(location, cb) =>
-            System.import('./component/FavouritesPanel')
+            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
               .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
           }
         />
@@ -227,14 +256,14 @@ export default (config) => {
         <Route
           path="lahellasi"
           getComponents={(location, cb) =>
-            System.import('./component/NearbyRoutesPanel')
+            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
               .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
           }
         />
         <Route
           path="suosikit"
           getComponents={(location, cb) =>
-            System.import('./component/FavouritesPanel')
+            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
               .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
           }
         />
@@ -246,11 +275,11 @@ export default (config) => {
           path=":stopId"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/StopTitle').then(getDefault),
-              System.import('./component/StopPageHeaderContainer').then(getDefault),
-              System.import('./component/StopPage').then(getDefault),
-              System.import('./component/StopPageMap').then(getDefault),
-              System.import('./component/StopPageMeta').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopTitle').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPage').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(getDefault),
             ]).then(([title, header, content, map, meta]) =>
               cb(null, { title, header, content, map, meta },
             ));
@@ -271,11 +300,11 @@ export default (config) => {
           path=":terminalId"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/TerminalTitle').then(getDefault),
-              System.import('./component/StopPageHeaderContainer').then(getDefault),
-              System.import('./component/TerminalPage').then(getDefault),
-              System.import('./component/StopPageMap').then(getDefault),
-              System.import('./component/StopPageMeta').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/TerminalPage').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(getDefault),
             ]).then(([title, header, content, map, meta]) =>
               cb(null, { title, header, content, map, meta },
             ));
@@ -300,11 +329,11 @@ export default (config) => {
               <IndexRoute
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/PatternStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(getDefault),
                   ]).then(
                     ([title, header, map, content, meta]) =>
                       cb(null, { title, header, map, content, meta }),
@@ -323,11 +352,11 @@ export default (config) => {
                 path="kartta"
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/PatternStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(getDefault),
                   ]).then(
                     ([title, header, map, content, meta]) =>
                       cb(null, { title, header, map, content, meta }),
@@ -347,11 +376,11 @@ export default (config) => {
                 path=":tripId"
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/TripStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(getDefault),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(getDefault),
                   ]).then(
                     ([title, header, map, content, meta]) =>
                       cb(null, { title, header, map, content, meta }),
@@ -377,11 +406,11 @@ export default (config) => {
               disableMapOnMobile
               getComponents={(location, cb) => {
                 Promise.all([
-                  System.import('./component/RouteTitle').then(getDefault),
-                  System.import('./component/RoutePage').then(getDefault),
-                  System.import('./component/RouteMapContainer').then(getDefault),
-                  System.import('./component/RouteScheduleContainer').then(getDefault),
-                  System.import('./component/RoutePageMeta').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RouteTitle').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RoutePage').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(getDefault),
                 ]).then(([title, header, map, content, meta]) =>
                   cb(null, { title, header, map, content, meta }));
               }}
@@ -399,10 +428,10 @@ export default (config) => {
             path="hairiot"
             getComponents={(location, cb) => {
               Promise.all([
-                System.import('./component/RouteTitle').then(getDefault),
-                System.import('./component/RoutePage').then(getDefault),
-                System.import('./component/RouteAlertsContainer').then(getDefault),
-                System.import('./component/RoutePageMeta').then(getDefault),
+                import(/* webpackChunkName: "route" */ './component/RouteTitle').then(getDefault),
+                import(/* webpackChunkName: "route" */ './component/RoutePage').then(getDefault),
+                import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(getDefault),
+                import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(getDefault),
               ]).then(([title, header, content, meta]) =>
                 cb(null, { title, header, content, meta }));
             }}
@@ -420,9 +449,9 @@ export default (config) => {
         path="/reitti/:from/:to"
         getComponents={(location, cb) => {
           Promise.all([
-            System.import('./component/SummaryTitle').then(getDefault),
-            System.import('./component/SummaryPage').then(getDefault),
-            System.import('./component/SummaryPageMeta').then(getDefault),
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(getDefault),
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(getDefault),
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(getDefault),
           ]).then(([title, content, meta]) => cb(null, { title, content, meta }));
         }}
         queries={{ content: planQueries }}
@@ -433,8 +462,8 @@ export default (config) => {
           path=":hash"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/ItineraryTab').then(getDefault),
-              System.import('./component/ItineraryPageMap').then(getDefault),
+              import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(getDefault),
+              import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(getDefault),
             ]).then(([content, map]) => cb(null, { content, map }));
           }}
         >
@@ -444,26 +473,26 @@ export default (config) => {
       <Route
         path="/styleguide"
         getComponent={(location, cb) => {
-          System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
         }}
       />
       <Route
         path="/styleguide/component/:componentName"
         topBarOptions={{ hidden: true }}
         getComponent={(location, cb) => {
-          System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
         }}
       />
       <Route
         path="/suosikki/uusi"
         getComponent={(location, cb) => {
-          System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
         }}
       />
       <Route
         path="/suosikki/muokkaa/:id"
         getComponent={(location, cb) => {
-          System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
         }}
       />
       <Route
@@ -471,7 +500,7 @@ export default (config) => {
         getComponents={(location, cb) => {
           Promise.all([
             Promise.resolve(Title),
-            System.import('./component/AboutPage').then(getDefault),
+            import(/* webpackChunkName: "about" */ './component/AboutPage').then(getDefault),
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />

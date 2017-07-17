@@ -87,7 +87,7 @@ function drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 }
 
 /* eslint-disable no-param-reassign */
-export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
+export function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
   const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
   const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * scale;
@@ -135,67 +135,74 @@ export async function drawRoundIcon(tile, geom, type, large, platformNumber) {
   }
 }
 
-export async function drawTerminalIcon(tile, geom, type, name) {
+export function drawTerminalIcon(tile, geom, type, name) {
   const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
-  const image = await getImageFromSpriteCache(`icon-icon_${type.toLowerCase()}`, iconSize, iconSize);
+  getImageFromSpriteCache(`icon-icon_${type.split(',')[0].toLowerCase()}`, iconSize, iconSize).then(
+    (image) => {
+      tile.ctx.drawImage(
+        image,
+        (geom.x / tile.ratio) - (iconSize / 2),
+        (geom.y / tile.ratio) - (iconSize / 2),
+      );
 
-  tile.ctx.drawImage(
-    image,
-    (geom.x / tile.ratio) - (iconSize / 2),
-    (geom.y / tile.ratio) - (iconSize / 2),
-  );
-
-  if (name) {
-    /* eslint-disable no-param-reassign */
-    tile.ctx.fillStyle = '#333';
-    tile.ctx.strokeStyle = 'white';
-    tile.ctx.lineWidth = 2 * tile.scaleratio;
-    tile.ctx.textAlign = 'center';
-    tile.ctx.textBaseline = 'top';
-    tile.ctx.font = `500 ${FONT_SIZE * tile.scaleratio}px
-      Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
-    let y = ((iconSize / 2) + (2 * tile.scaleratio));
-    name.split(' ').forEach((part) => {
-      tile.ctx.strokeText(
-        part,
-        geom.x / tile.ratio,
-        (geom.y / tile.ratio) + y);
-      tile.ctx.fillText(
-        part,
-        geom.x / tile.ratio,
-        (geom.y / tile.ratio) + y);
-      y += (FONT_SIZE + 2) * tile.scaleratio;
+      if (name) {
+        /* eslint-disable no-param-reassign */
+        tile.ctx.fillStyle = '#333';
+        tile.ctx.strokeStyle = 'white';
+        tile.ctx.lineWidth = 2 * tile.scaleratio;
+        tile.ctx.textAlign = 'center';
+        tile.ctx.textBaseline = 'top';
+        tile.ctx.font = `500 ${FONT_SIZE * tile.scaleratio}px
+          Gotham Rounded SSm A, Gotham Rounded SSm B, Arial, Georgia, Serif`;
+        let y = ((iconSize / 2) + (2 * tile.scaleratio));
+        name.split(' ').forEach((part) => {
+          tile.ctx.strokeText(
+            part,
+            geom.x / tile.ratio,
+            (geom.y / tile.ratio) + y);
+          tile.ctx.fillText(
+            part,
+            geom.x / tile.ratio,
+            (geom.y / tile.ratio) + y);
+          y += (FONT_SIZE + 2) * tile.scaleratio;
+        });
+      }
     });
-  }
 }
 
-export async function drawParkAndRideIcon(tile, geom, width, height) {
-  const image = await getImageFromSpriteCache('icon-icon_park-and-ride', width, height);
-  drawIconImage(image, tile, geom, width, height);
+export function drawParkAndRideIcon(tile, geom, width, height) {
+  getImageFromSpriteCache('icon-icon_park-and-ride', width, height).then(
+    (image) => { drawIconImage(image, tile, geom, width, height); });
 }
 
-export async function drawCitybikeIcon(tile, geom, imageSize) {
-  const image = await getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize);
-  drawIconImage(image, tile, geom, imageSize, imageSize);
+export function drawCitybikeIcon(tile, geom, imageSize) {
+  getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize).then(
+    (image) => { drawIconImage(image, tile, geom, imageSize, imageSize); },
+  );
 }
 
-export async function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
-  const image = await getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize);
-  drawIconImage(image, tile, geom, imageSize, imageSize);
+export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
+  getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize).then(
+    (image) => { drawIconImage(image, tile, geom, imageSize, imageSize); },
+  );
 }
 
-export async function drawAvailabilityBadge(availability, tile, geom, imageSize,
+export function drawAvailabilityBadge(availability, tile, geom, imageSize,
   badgeSize, scaleratio) {
   if (availability !== 'good' && availability !== 'poor' && availability !== 'no') {
     throw Error("Supported badges are 'good', 'poor', and 'no'");
   }
 
-  const image = await getImageFromSpriteCache(`icon-icon_${availability}-availability`,
-    badgeSize, badgeSize);
-  drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
+  getImageFromSpriteCache(`icon-icon_${availability}-availability`,
+    badgeSize, badgeSize).then((image) => {
+      drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
+    });
 }
 
-export async function drawIcon(icon, tile, geom, imageSize) {
-  const image = await getImageFromSpriteCache(icon, imageSize, imageSize);
-  drawIconImage(image, tile, geom, imageSize, imageSize);
+export function drawIcon(icon, tile, geom, imageSize) {
+  getImageFromSpriteCache(icon, imageSize, imageSize).then(
+    (image) => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
 }

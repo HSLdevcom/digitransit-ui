@@ -2,6 +2,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL = process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
+const YEAR = 1900 + new Date().getYear();
 
 export default {
   CONFIG,
@@ -28,7 +29,10 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
+  feedIds: ['HSL'],
+
   preferredAgency: 'HSL',
+  showAdformTrackingPixel: true,
 
   searchParams: {
     'boundary.rect.min_lat': 59.9,
@@ -90,11 +94,26 @@ export default {
   },
 
   showTicketInformation: true,
+  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
   transportModes: {
     airplane: {
       availableForSelection: false,
       defaultValue: false,
+    },
+  },
+
+  streetModes: {
+    car_park: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'car-withoutBox',
+    },
+
+    car: {
+      availableForSelection: false,
+      defaultValue: false,
+      icon: 'car_park-withoutBox',
     },
   },
 
@@ -110,7 +129,7 @@ export default {
 
   footer: {
     content: [
-      { label: (function () { return `© HSL ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© HSL ${YEAR}` },
       {},
       { name: 'footer-faq', nameEn: 'FAQ', href: 'https://www.hsl.fi/ohjeita-ja-tietoja/reittiopas' },
       { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://www.hsl.fi/palaute', icon: 'icon-icon_speech-bubble' },
@@ -144,7 +163,7 @@ export default {
       },
       {
         header: 'Tietolähteet',
-        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors, ja ne ladataan Geofabrik palvelusta. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä, ja ne ladataan OpenAddresses-palvelusta. Joukkoliikenteen reitit ja aikataulut ladataan HSL:n dev.hsl.fi/gtfs palvelimelta.'],
+        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat HSL:n JORE-aineistoon.'],
       },
     ],
 
@@ -155,7 +174,7 @@ export default {
       },
       {
         header: 'Datakällor',
-        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors och hämtas från Geofabrik-tjänsten. Addressinformation hämtas från BRC:s byggnadsinformationsregister och hämtas från OpenAddresses-tjänsten. Kollektivtrafikens rutter och tidtabeller hämtas från HRT:s egna tjänst dev.hsl.fi/gtfs.'],
+        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på HRT:s JORE data.'],
       },
     ],
 
@@ -166,10 +185,57 @@ export default {
       },
       {
         header: 'Data sources',
-        paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors and downloaded from Geofabrik. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center and downloaded from the OpenAddresses service. Public transport routes and timetables are downloaded from HSL’s dev.hsl.fi/gtfs server.'],
+        paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on JORE data of HSL.'],
       },
     ],
   },
 
-  staticMessages: [],
-};
+  fareMapping: {
+    'HSL:hki': 'HSL:hki',
+    'HSL:esp': 'HSL:esp',
+    'HSL:van': 'HSL:van',
+    'HSL:ker': 'HSL:ker',
+    'HSL:kir': 'HSL:kir',
+    'HSL:seu': 'HSL:seu',
+    'HSL:seu2': 'HSL:seu',
+    'HSL:seu3': 'HSL:seu',
+    'HSL:seu4': 'HSL:seu',
+    'HSL:lse': 'HSL:lse2',
+    'HSL:lse2': 'HSL:lse2',
+    'HSL:lse3': 'HSL:lse2',
+    'HSL:lse4': 'HSL:lse2',
+    'HSL:lse5': 'HSL:lse2',
+    'HSL:kse': 'HSL:lse3',
+    'HSL:kse2': 'HSL:lse3',
+    'HSL:kse3': 'HSL:lse3',
+    'HSL:kse4': 'HSL:lse3',
+    'HSL:kse5': 'HSL:lse3',
+    'HSL:kse6': 'HSL:lse3',
+    'HSL:kse7': 'HSL:lse3',
+    'HSL:kse8': 'HSL:lse3',
+  },
+
+  staticMessages: [
+    { id: '2',
+      content: {
+        fi:
+        [
+            { type: 'text', content: 'Käytämme evästeitä palveluidemme kehitykseen. Käyttämällä sivustoa hyväksyt evästeiden käytön. Lue lisää: ' },
+            { type: 'a', content: 'Käyttöehdot', href: 'https://www.hsl.fi/kayttoehdot' },
+            { type: 'a', content: 'Tietosuojaseloste', href: 'https://www.hsl.fi/tietosuojaseloste' },
+        ],
+        en:
+        [
+            { type: 'text', content: 'We use cookies to improve our services. By using this site, you agree to its use of cookies. Read more: ' },
+            { type: 'a', content: 'Terms of use', href: 'https://www.hsl.fi/en/terms-of-use' },
+            { type: 'a', content: 'Privacy Statement', href: 'https://www.hsl.fi/en/description-of-the-file' },
+        ],
+        sv:
+        [
+            { type: 'text', content: 'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ' },
+            { type: 'a', content: 'Användarvillkor', href: 'https://www.hsl.fi/sv/anvandarvillkor' },
+            { type: 'a', content: 'Dataskyddsbeskrivning', href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning' },
+        ],
+      },
+    },
+  ] };

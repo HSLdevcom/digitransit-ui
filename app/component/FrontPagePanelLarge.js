@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import NearbyTabLabel from './NearbyTabLabel';
@@ -50,10 +51,10 @@ FrontPagePanelLarge.description = () =>
   </div>;
 
 FrontPagePanelLarge.propTypes = {
-  selectedPanel: React.PropTypes.number.isRequired,
-  nearbyClicked: React.PropTypes.func.isRequired,
-  favouritesClicked: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  selectedPanel: PropTypes.number.isRequired,
+  nearbyClicked: PropTypes.func.isRequired,
+  favouritesClicked: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 FrontPagePanelLarge.defaultProps = {

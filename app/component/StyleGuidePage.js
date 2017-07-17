@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 
@@ -34,7 +35,7 @@ import SelectParkAndRideRow from './map/tile-layer/SelectParkAndRideRow';
 import SelectStopRow from './map/tile-layer/SelectStopRow';
 import SelectTerminalRow from './map/tile-layer/SelectTerminalRow';
 import TicketInformation from './TicketInformation';
-import RouteScheduleDateSelect from './RouteScheduleDateSelect';
+import DateSelect from './DateSelect';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
@@ -85,6 +86,8 @@ import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
+import CallAgencyWarning from './CallAgencyWarning';
+import Timetable from './Timetable';
 
 const components = {
   Icon,
@@ -122,7 +125,7 @@ const components = {
   SelectStopRow,
   SelectTerminalRow,
   TicketInformation,
-  RouteScheduleDateSelect,
+  DateSelect,
   RouteScheduleHeader,
   RouteScheduleStopSelect,
   RouteScheduleTripRow,
@@ -171,6 +174,8 @@ const components = {
   CarLeg,
   ViaLeg,
   CallAgencyLeg,
+  CallAgencyWarning,
+  Timetable,
 };
 
 function getColors() {
@@ -520,8 +525,8 @@ function StyleGuidePage(props) {
 }
 
 StyleGuidePage.propTypes = {
-  params: React.PropTypes.shape({
-    componentName: React.PropTypes.string,
+  params: PropTypes.shape({
+    componentName: PropTypes.string,
   }).isRequired,
 };
 

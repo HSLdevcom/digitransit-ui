@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
@@ -12,8 +13,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 // import Favourite from './Favourite';
 
 const StopPageHeader = compose(
-  getContext({ executeAction: React.PropTypes.func.isRequired,
-    breakpoint: React.PropTypes.string.isRequired }),
+  getContext({ executeAction: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired }),
   mapProps(props => ({
     stop: props.stop,
     className: 'stop-page header',

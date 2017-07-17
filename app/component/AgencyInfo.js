@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ExternalLink from './ExternalLink';
@@ -18,8 +19,8 @@ function AgencyInfo({ agencyName, url }) {
 }
 
 AgencyInfo.propTypes = {
-  agencyName: React.PropTypes.string.isRequired,
-  url: React.PropTypes.string.isRequired,
+  agencyName: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default AgencyInfo;

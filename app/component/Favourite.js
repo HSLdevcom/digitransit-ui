@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -11,9 +12,9 @@ const Favourite = ({ addFavourite, favourite, className }) => (
 );
 
 Favourite.propTypes = {
-  addFavourite: React.PropTypes.func.isRequired,
-  favourite: React.PropTypes.bool,
-  className: React.PropTypes.string,
+  addFavourite: PropTypes.func.isRequired,
+  favourite: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 Favourite.description = () =>

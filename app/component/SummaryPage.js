@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
@@ -23,6 +24,7 @@ import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
+import Loading from './Loading';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -30,43 +32,44 @@ function getActiveIndex(state) {
 
 class SummaryPage extends React.Component {
   static contextTypes = {
-    breakpoint: React.PropTypes.string.isRequired,
-    queryAggregator: React.PropTypes.shape({
-      readyState: React.PropTypes.shape({
-        done: React.PropTypes.bool.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+    queryAggregator: PropTypes.shape({
+      readyState: PropTypes.shape({
+        done: PropTypes.bool.isRequired,
+        error: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    config: PropTypes.object,
   };
 
   static propTypes = {
-    location: React.PropTypes.shape({
-      state: React.PropTypes.object,
+    location: PropTypes.shape({
+      state: PropTypes.object,
     }).isRequired,
-    params: React.PropTypes.shape({
-      hash: React.PropTypes.string,
+    params: PropTypes.shape({
+      hash: PropTypes.string,
     }).isRequired,
-    plan: React.PropTypes.shape({
-      plan: React.PropTypes.shape({
-        itineraries: React.PropTypes.array,
+    plan: PropTypes.shape({
+      plan: PropTypes.shape({
+        itineraries: PropTypes.array,
       }).isRequired,
     }).isRequired,
-    content: React.PropTypes.node,
-    map: React.PropTypes.shape({
-      type: React.PropTypes.func.isRequired,
+    content: PropTypes.node,
+    map: PropTypes.shape({
+      type: PropTypes.func.isRequired,
     }),
-    from: React.PropTypes.shape({
-      lat: React.PropTypes.number.isRequired,
-      lon: React.PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
     }).isRequired,
-    to: React.PropTypes.shape({
-      lat: React.PropTypes.number.isRequired,
-      lon: React.PropTypes.number.isRequired,
+    to: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
     }).isRequired,
-    routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-      fullscreenMap: React.PropTypes.bool,
+    routes: PropTypes.arrayOf(PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
     }).isRequired).isRequired,
   };
 
@@ -104,7 +107,9 @@ class SummaryPage extends React.Component {
     };
   }
 
-  updateCenter = (lat, lon) => this.setState({ center: { lat, lon } })
+  updateCenter = (lat, lon) => {
+    this.setState({ center: { lat, lon } });
+  }
 
   hasDefaultPreferences = () => {
     const a = pick(this.customizableParameters, keys(this.props));
@@ -192,7 +197,7 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { breakpoint, queryAggregator: { readyState: { done } } } = this.context;
+    const { breakpoint, queryAggregator: { readyState: { done, error } } } = this.context;
     // Call props.map directly in order to render to same map instance
     const map = this.props.map ? this.props.map.type({
       itinerary: this.props.plan.plan.itineraries &&
@@ -201,17 +206,26 @@ class SummaryPage extends React.Component {
       ...this.props,
     }, this.context) : this.renderMap();
 
+    let earliestStartTime;
+    let latestArrivalTime;
+
+    if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries) {
+      earliestStartTime = Math.min(...this.props.plan.plan.itineraries.map(i => i.startTime));
+      latestArrivalTime = Math.max(...this.props.plan.plan.itineraries.map(i => i.endTime));
+    }
+
     const hasDefaultPreferences = this.hasDefaultPreferences();
 
     if (breakpoint === 'large') {
       let content;
 
-      if (done) {
+      if (done || error !== null) {
         content = (
           <SummaryPlanContainer
             plan={this.props.plan.plan}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
+            error={error}
           >
             {this.props.content && React.cloneElement(
               this.props.content,
@@ -225,7 +239,7 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <div style={{ position: 'relative', height: 200 }}>
-            <div className="spinner-loader" />
+            <Loading />
           </div>
         );
       }
@@ -238,9 +252,14 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           )}
-          header={<SummaryNavigation
-            params={this.props.params} hasDefaultPreferences={hasDefaultPreferences}
-          />}
+          header={(
+            <SummaryNavigation
+              params={this.props.params}
+              hasDefaultPreferences={hasDefaultPreferences}
+              startTime={earliestStartTime}
+              endTime={latestArrivalTime}
+            />
+          )}
           // TODO: Chceck preferences
           content={content}
           map={map}
@@ -250,10 +269,10 @@ class SummaryPage extends React.Component {
 
     let content;
 
-    if (!done) {
+    if (!done && !error) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
-          <div className="spinner-loader" />
+          <Loading />
         </div>
       );
     } else if (this.props.params.hash) {
@@ -283,7 +302,10 @@ class SummaryPage extends React.Component {
       <MobileView
         header={!this.props.params.hash ?
           <SummaryNavigation
-            hasDefaultPreferences={hasDefaultPreferences} params={this.props.params}
+            hasDefaultPreferences={hasDefaultPreferences}
+            params={this.props.params}
+            startTime={earliestStartTime}
+            endTime={latestArrivalTime}
           /> : false}
         content={content}
         map={map}
@@ -318,6 +340,8 @@ export default Relay.createContainer(SummaryPage, {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
           itineraries {
+            startTime
+            endTime
             ${ItineraryTab.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {

@@ -42,9 +42,8 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: (function () { return `© Joensuun kaupunki ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
       {},
-      { name: 'footer-feedback', nameEn: 'Submit feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
     ],
   },

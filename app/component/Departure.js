@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import RouteNumberContainer from './RouteNumberContainer';
@@ -94,13 +95,13 @@ Departure.description = () =>
 Departure.displayName = 'Departure';
 
 Departure.propTypes = {
-  canceled: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  currentTime: React.PropTypes.number.isRequired,
-  departure: React.PropTypes.object.isRequired,
-  isArrival: React.PropTypes.bool,
-  isTerminal: React.PropTypes.bool,
-  useUTC: React.PropTypes.bool,
+  canceled: PropTypes.bool,
+  className: PropTypes.string,
+  currentTime: PropTypes.number.isRequired,
+  departure: PropTypes.object.isRequired,
+  isArrival: PropTypes.bool,
+  isTerminal: PropTypes.bool,
+  useUTC: PropTypes.bool,
 };
 
 export default Departure;

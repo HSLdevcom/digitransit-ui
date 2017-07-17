@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
@@ -11,6 +12,7 @@ import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
+import Loading from '../../Loading';
 
 let L;
 
@@ -27,27 +29,27 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 class StopMarker extends React.Component {
   static propTypes = {
-    stop: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    renderName: React.PropTypes.bool,
-    disableModeIcons: React.PropTypes.bool,
-    selected: React.PropTypes.bool,
+    stop: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
+    renderName: PropTypes.bool,
+    disableModeIcons: PropTypes.bool,
+    selected: PropTypes.bool,
   };
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    route: React.PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
 
@@ -136,7 +138,7 @@ class StopMarker extends React.Component {
             currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
           })}
           renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}><div className="spinner-loader" /></div>
+            <div className="card" style={{ height: '12rem' }}><Loading /></div>
           }
           renderFetched={data =>
             <StopMarkerPopupWithContext {...data} context={this.context} />

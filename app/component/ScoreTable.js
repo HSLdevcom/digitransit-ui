@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import range from 'lodash/range';
@@ -15,10 +16,10 @@ const Column = ({ i, columnWidth, handleClick, selectedScore }) => (
 );
 
 Column.propTypes = {
-  i: React.PropTypes.number.isRequired,
-  columnWidth: React.PropTypes.number.isRequired,
-  handleClick: React.PropTypes.func.isRequired,
-  selectedScore: React.PropTypes.number,
+  i: PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  selectedScore: PropTypes.number,
 };
 
 function ScoreTable(props) {
@@ -53,12 +54,12 @@ ScoreTable.description = () =>
   </div>;
 
 ScoreTable.propTypes = {
-  lowestScore: React.PropTypes.number.isRequired,
-  highestScore: React.PropTypes.number.isRequired,
-  handleClick: React.PropTypes.func.isRequired,
-  showLabels: React.PropTypes.bool,
-  lowEndLabel: React.PropTypes.object,
-  highEndLabel: React.PropTypes.object,
+  lowestScore: PropTypes.number.isRequired,
+  highestScore: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  showLabels: PropTypes.bool,
+  lowEndLabel: PropTypes.object,
+  highEndLabel: PropTypes.object,
 };
 
 export default ScoreTable;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
@@ -33,9 +34,9 @@ SelectTicketSalesRow.description = () => (
   );
 
 SelectTicketSalesRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  TYYPPI: React.PropTypes.string.isRequired,
-  NIMI: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  TYYPPI: PropTypes.string.isRequired,
+  NIMI: PropTypes.string.isRequired,
 };
 
 export default SelectTicketSalesRow;

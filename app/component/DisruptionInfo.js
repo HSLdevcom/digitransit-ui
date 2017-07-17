@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
 import Modal from './Modal';
-import ViewerRoute from '../route/ViewerRoute';
+import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
@@ -37,8 +38,20 @@ function DisruptionInfo(props, context) {
         <Relay.RootContainer
           Component={DisruptionListContainer}
           forceFetch
-          route={new ViewerRoute()}
-          renderLoading={() => <div className="spinner-loader" />}
+          route={{
+            name: 'ViewerRoute',
+            queries: {
+              root: (Component, { feedIds }) => Relay.QL`
+                query {
+                  viewer {
+                    ${Component.getFragment('root', { feedIds })}
+                  }
+                }
+             `,
+            },
+            params: { feedIds: context.config.feedIds },
+          }}
+          renderLoading={() => <Loading />}
         />
       </Modal>);
   }
@@ -49,6 +62,9 @@ function DisruptionInfo(props, context) {
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
+  config: PropTypes.shape({
+    feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
+  }).isRequired,
 };
 
 DisruptionInfo.description = () =>

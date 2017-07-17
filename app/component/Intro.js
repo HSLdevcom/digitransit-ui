@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
@@ -17,13 +18,13 @@ if (typeof window !== 'undefined') {
 
 export default class Intro extends React.Component {
   static propTypes = {
-    onIntroFinished: React.PropTypes.func.isRequired,
-    finalSlide: React.PropTypes.node.isRequired,
+    onIntroFinished: PropTypes.func.isRequired,
+    finalSlide: PropTypes.node.isRequired,
   }
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   }
 
   state = { slideIndex: 0 }

@@ -46,7 +46,6 @@ function mapStops(stops) {
       ...item,
       mode: item.routes.length > 0 && item.routes[0].mode.toLowerCase(),
       layer: 'stop',
-      link: `/pysakit/${item.gtfsId}`,
     },
     geometry: {
       coordinates: [item.lon, item.lat],
@@ -54,14 +53,33 @@ function mapStops(stops) {
   }));
 }
 
+function filterMatchingToInput(list, Input, fields) {
+  if (typeof Input === 'string' && Input.length > 0) {
+    const input = Input.toLowerCase().trim();
 
-function filterMatchingToInput(list, input, fields) {
-  if (typeof input === 'string' && input.length > 0) {
     return list.filter((item) => {
-      const parts = fields.map(pName => get(item, pName));
+      let parts = [];
+      fields.forEach((pName) => {
+        let value = get(item, pName);
 
-      const test = parts.join(' ').toLowerCase();
-      return test.includes(input.toLowerCase());
+        if ((pName === 'properties.label' || pName === 'address') && value) {
+          // special case: drop last part i.e. city, because it is too coarse match target
+          value = value.split(',');
+          if (value.length > 1) {
+            value.splice(value.length - 1, 1);
+          }
+          value = value.join();
+        }
+        if (value) {
+          parts = parts.concat(value.toLowerCase().replace(/,/g, ' ').split(' '));
+        }
+      });
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i].indexOf(input) === 0) { // accept match only at word start
+          return true;
+        }
+      }
+      return false;
     });
   }
 
@@ -87,7 +105,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
       'properties.label',
       'properties.shortName',
       'properties.longName',
-      'properties.name',
       'properties.desc',
     ]);
 
@@ -119,18 +136,12 @@ function getFavouriteLocations(favourites, input) {
   ));
 }
 
-export function getGeocodingResult(input, geolocation, language, config) {
-  // TODO: minimum length should be in config
-  if (input === undefined || input === null || input.trim().length < 3) {
+export function getGeocodingResult(text, searchParams, lang, focusPoint, sources, config) {
+  if (text === undefined || text === null || text.trim().length < 3) {
     return Promise.resolve([]);
   }
 
-  const focusPoint = (config.autoSuggest.locationAware && geolocation.hasLocation) ? {
-    // Round coordinates to approx 1 km, in order to improve caching
-    'focus.point.lat': geolocation.lat.toFixed(2), 'focus.point.lon': geolocation.lon.toFixed(2),
-  } : {};
-
-  const opts = { text: input, ...config.searchParams, ...focusPoint, lang: language };
+  const opts = { text, ...searchParams, ...focusPoint, lang, sources };
 
   return getJson(config.URL.PELIAS, opts)
     .then(res => orderBy(res.features, feature => feature.properties.confidence, 'desc'))
@@ -224,53 +235,15 @@ function getRoutes(input, config) {
   return getRelayQuery(query).then(data =>
     data[0].routes.filter(item => (
       config.feedIds === undefined || config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1
-    ))
+      ))
     .map(mapRoute)
     .sort((x, y) => routeCompare(x.properties, y.properties)),
   ).then(suggestions => take(suggestions, 10));
 }
 
-function getStops(input, origin, config) {
-  if (typeof input !== 'string' || input.trim().length === 0 || config.search.usePeliasStops) {
-    return Promise.resolve([]);
-  }
-  const number = input.match(/^\d+$/);
-  if (number && number[0].length !== 4) {
-    return Promise.resolve([]);
-  }
-
-  const query = Relay.createQuery(Relay.QL`
-    query stops($name: String) {
-      viewer {
-        stops(name: $name ) {
-          gtfsId
-          lat
-          lon
-          name
-          desc
-          code
-          routes { mode }
-        }
-      }
-    }`, { name: input },
-  );
-
-  const refLatLng = origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
-
-  return getRelayQuery(query).then(data => mapStops(data[0].stops)).then(stops => (
-    refLatLng ?
-    sortBy(stops, item =>
-      Math.round(
-        getLatLng(item.geometry.coordinates[1], item.geometry.coordinates[0])
-        .distanceTo(refLatLng) / 50000), // divide in 50km buckets
-    ) : stops
-  )).then(suggestions => take(suggestions, 10));
-}
-
 export const getAllEndpointLayers = () => (
-  ['CurrentPosition', 'FavouritePlace', 'OldSearch', 'Geocoding']
+  ['CurrentPosition', 'FavouritePlace', 'OldSearch', 'Geocoding', 'Stops']
 );
-
 
 export function executeSearchImmediate(getStore, { input, type, layers, config }, callback) {
   const position = getStore('PositionStore').getLocationState();
@@ -301,11 +274,44 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       }
       searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
     }
+
     if (endpointLayers.includes('Geocoding')) {
-      searchComponents.push(getGeocodingResult(input, position, language, config));
+      const focusPoint = (config.autoSuggest.locationAware && position.hasLocation) ? {
+        // Round coordinates to approx 1 km, in order to improve caching
+        'focus.point.lat': position.lat.toFixed(2), 'focus.point.lon': position.lon.toFixed(2),
+      } : {};
+
+      const sources = get(config, 'searchSources', '').join(',');
+
+      searchComponents.push(getGeocodingResult(
+        input, config.searchParams, language, focusPoint, sources, config));
+    }
+
+    if (endpointLayers.includes('Stops')) {
+      const focusPoint = (config.autoSuggest.locationAware && position.hasLocation) ? {
+        // Round coordinates to approx 1 km, in order to improve caching
+        'focus.point.lat': position.lat.toFixed(2), 'focus.point.lon': position.lon.toFixed(2),
+      } : {};
+      const sources = get(config, 'feedIds', []).map(v => (`gtfs${v}`)).join(',');
+
+      searchComponents.push(getGeocodingResult(
+        input, undefined, language, focusPoint, sources, config));
     }
 
     endpointSearchesPromise = Promise.all(searchComponents)
+    .then((resultsArray) => {
+      if (endpointLayers.includes('Stops') && endpointLayers.includes('Geocoding')) {
+        // sort & combine pelias results into single array
+        const modifiedResultsArray = [];
+        for (let i = 0; i < resultsArray.length - 2; i++) {
+          modifiedResultsArray.push(resultsArray[i]);
+        }
+        const sorted = orderBy(resultsArray[resultsArray.length - 1].concat(resultsArray[resultsArray.length - 2]), [u => u.properties.confidence], ['desc']);
+        modifiedResultsArray.push(sorted);
+        return modifiedResultsArray;
+      }
+      return resultsArray;
+    })
       .then(flatten)
       .then(uniqByLabel)
       .then((results) => { endpointSearches.results = results; })
@@ -320,7 +326,6 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
   if (type === 'search' || type === 'all') {
     searchSearches = { type: 'search', term: input, results: [] };
     const origin = getStore('EndpointStore').getOrigin();
-    const location = origin.lat ? origin : position;
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
     const favouriteStops = getStore('FavouriteStopsStore').getStops();
@@ -330,7 +335,6 @@ export function executeSearchImmediate(getStore, { input, type, layers, config }
       getFavouriteStops(favouriteStops, input, origin),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
-      getStops(input, location, config),
     ])
     .then(flatten)
     .then(uniqByLabel)
@@ -354,9 +358,15 @@ export const executeSearch = (getStore, data, callback) => {
   debouncedSearch(getStore, data, callback);
 };
 
-export const withCurrentTime = (getStore, location) => ({
-  ...location,
-  query: {
-    time: getStore('TimeStore').getCurrentTime().unix(),
-  },
-});
+
+export const withCurrentTime = (getStore, location) => {
+  const query = (location && location.query) || {};
+
+  return {
+    ...location,
+    query: {
+      ...query,
+      time: query.time ? query.time : getStore('TimeStore').getCurrentTime().unix(),
+    },
+  };
+};
