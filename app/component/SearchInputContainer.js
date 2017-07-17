@@ -36,7 +36,7 @@ export default class SearchInputContainer extends Component {
   };
 
   state = {
-    focusedItemIndex: 0,
+    highlightedItemIndex: 0,
     suggestions: [],
     type: 'endpoint',
   };
@@ -62,7 +62,7 @@ export default class SearchInputContainer extends Component {
     this.setState({
       searchInProgress: inProgress,
       suggestions: results,
-      focusedItemIndex: 0,
+      highlightedItemIndex: 0,
     }, () => this.focusItem(0));
   }
 
@@ -102,9 +102,9 @@ export default class SearchInputContainer extends Component {
 
   handleOnMouseEnter = (event, eventProps) => {
     if (eventProps.itemIndex != null) {
-      if (eventProps.itemIndex !== this.state.focusedItemIndex) {
+      if (eventProps.itemIndex !== this.state.highlightedItemIndex) {
         this.setState({
-          focusedItemIndex: eventProps.itemIndex,
+          highlightedItemIndex: eventProps.itemIndex,
         });
       }
       event.preventDefault();
@@ -151,7 +151,7 @@ export default class SearchInputContainer extends Component {
 
     if (eventProps.newFocusedItemIndex != null) {
       this.setState({
-        focusedItemIndex: eventProps.newFocusedItemIndex,
+        highlightedItemIndex: eventProps.newFocusedItemIndex,
       }, () => this.focusItem(eventProps.newFocusedItemIndex));
 
       event.preventDefault();
@@ -161,7 +161,7 @@ export default class SearchInputContainer extends Component {
   handleOnMouseDown = (event, eventProps) => {
     if (eventProps.itemIndex != null) {
       this.setState({
-        focusedItemIndex: eventProps.itemIndex,
+        highlightedItemIndex: eventProps.itemIndex,
       }, this.currentItemSelected);
 
       this.blur();
@@ -197,8 +197,8 @@ export default class SearchInputContainer extends Component {
   }
 
   currentItemSelected = () => {
-    if (this.state.focusedItemIndex >= 0 && get(this.getItems(), 'results.length', 0) > 0) {
-      const item = this.getItems().results[this.state.focusedItemIndex];
+    if (this.state.highlightedItemIndex >= 0 && get(this.getItems(), 'results.length', 0) > 0) {
+      const item = this.getItems().results[this.state.highlightedItemIndex];
       let name;
 
       if (item.type === 'CurrentLocation') {
@@ -271,8 +271,8 @@ export default class SearchInputContainer extends Component {
     );
   }
 
-  renderSimpleWrapper = ({ children, ...rest }) => (
-    <div {...rest} >
+  renderSimpleWrapper = ({ children, containerProps }) => (
+    <div {...containerProps} >
       {this.renderItemsOrEmpty(children)}
     </div>
   )
@@ -311,9 +311,9 @@ export default class SearchInputContainer extends Component {
           id="suggest"
           items={get(this.getItems(), 'results', [])}
           renderItem={this.renderItem}
-          renderItemsContainer={this.props.type === 'all' ? this.renderMultiWrapper : this.renderSimpleWrapper}
+          renderItemsContainer={this.renderSimpleWrapper}
           onSuggestionSelected={this.currentItemSelected}
-          focusedItemIndex={this.state.focusedItemIndex}
+          highlightedItemIndex={this.state.highlightedItemIndex}
           inputProps={{
             id: this.props.id,
             value: inputValue,
