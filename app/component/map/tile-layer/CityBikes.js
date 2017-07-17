@@ -1,7 +1,7 @@
-import { VectorTile } from 'vector-tile';
+import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import Relay from 'react-relay';
-import glfun from 'mapbox-gl-function';
+import glfun from '@mapbox/mapbox-gl-style-spec/function';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
@@ -15,9 +15,8 @@ import {
 const getScale = glfun({
   type: 'exponential',
   base: 1,
-  domain: [13, 20],
-  range: [0.8, 1.6],
-});
+  stops: [[13, 0.8], [20, 1.6]],
+}, {});
 
 const timeOfLastFetch = {};
 
@@ -27,9 +26,9 @@ class CityBikes {
     this.config = config;
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
-    this.citybikeImageSize = 16 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
-    this.availabilityImageSize = 8 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
-    this.notInUseImageSize = 12 * this.scaleratio * getScale({ $zoom: this.tile.coords.z });
+    this.citybikeImageSize = 16 * this.scaleratio * getScale(this.tile.coords.z);
+    this.availabilityImageSize = 8 * this.scaleratio * getScale(this.tile.coords.z);
+    this.notInUseImageSize = 12 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.addFeature);
   }
