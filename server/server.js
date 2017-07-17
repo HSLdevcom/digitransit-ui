@@ -8,7 +8,7 @@ const path = require('path');
 require('babel-core/register')({
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-system-import-commonjs',
+    'dynamic-import-node',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [

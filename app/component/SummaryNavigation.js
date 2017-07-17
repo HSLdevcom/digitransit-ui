@@ -90,8 +90,8 @@ class SummaryNavigation extends React.Component {
   }
 
   customizeSearchModules = {
-    Drawer: () => importLazy(System.import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
   }
 
   renderTimeSelectorContainer = ({ done, props }) => (done ? (

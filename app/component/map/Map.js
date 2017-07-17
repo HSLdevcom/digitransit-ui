@@ -89,15 +89,15 @@ class Map extends React.Component {
   }
 
   vectorTileLayerContainerModules = ({ VectorTileLayerContainer:
-    () => importLazy(System.import('./tile-layer/VectorTileLayerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './tile-layer/VectorTileLayerContainer')),
   })
 
   stopMarkerContainerModules = { StopMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/StopMarkerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/StopMarkerContainer')),
   }
 
   cityBikeMarkerContainerModules = { CityBikeMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')),
+    () => importLazy(import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/CityBikeMarkerContainer')),
   }
 
   renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (

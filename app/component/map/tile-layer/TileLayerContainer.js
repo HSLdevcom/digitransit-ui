@@ -3,8 +3,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
-import MapLayer from 'react-leaflet/lib/MapLayer';
-import omit from 'lodash/omit';
+import GridLayer from 'react-leaflet/lib/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -97,10 +96,10 @@ const PopupOptions = {
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
 /** @extends React.Component */
-class TileLayerContainer extends MapLayer {
+class TileLayerContainer extends GridLayer {
   static propTypes = {
-    tileSize: PropTypes.number,
-    zoomOffset: PropTypes.number,
+    tileSize: PropTypes.number.isRequired,
+    zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
   }
 
@@ -123,14 +122,6 @@ class TileLayerContainer extends MapLayer {
   componentWillMount() {
     super.componentWillMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
-
-    // TODO: Convert to use react-leaflet <GridLayer>
-    const Layer = L.GridLayer.extend({ createTile: this.createTile });
-
-    this.leafletElement = new Layer(omit(this.props, 'map'));
-    this.context.map.addEventParent(this.leafletElement);
-
-    this.leafletElement.on('click contextmenu', this.onClick);
   }
 
   componentDidUpdate() {
@@ -173,6 +164,16 @@ class TileLayerContainer extends MapLayer {
       ),
     );
     /* eslint-enable no-underscore-dangle */
+  }
+
+  createLeafletElement(props) {
+    const Layer = L.GridLayer.extend({ createTile: this.createTile });
+    const leafletElement = new Layer(this.getOptions(props));
+
+    this.context.map.addEventParent(leafletElement);
+    leafletElement.on('click contextmenu', this.onClick);
+
+    return leafletElement;
   }
 
   merc = new SphericalMercator({

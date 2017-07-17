@@ -10,7 +10,7 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import PageFooter from './PageFooter';
 
-const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
+const feedbackPanelMudules = { Panel: () => importLazy(import('./FeedbackPanel')) };
 
 const feedbackPanel = (
   <LazilyLoad modules={feedbackPanelMudules} >
@@ -18,7 +18,7 @@ const feedbackPanel = (
   </LazilyLoad>
 );
 
-const messageBarModules = { Bar: () => importLazy(System.import('./MessageBar')) };
+const messageBarModules = { Bar: () => importLazy(import('./MessageBar')) };
 
 const messageBar = (
   <LazilyLoad modules={messageBarModules} >

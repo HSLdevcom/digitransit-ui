@@ -137,7 +137,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 
 export function drawTerminalIcon(tile, geom, type, name) {
   const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
-  getImageFromSpriteCache(`icon-icon_${type.toLowerCase()}`, iconSize, iconSize).then(
+  getImageFromSpriteCache(`icon-icon_${type.split(',')[0].toLowerCase()}`, iconSize, iconSize).then(
     (image) => {
       tile.ctx.drawImage(
         image,
