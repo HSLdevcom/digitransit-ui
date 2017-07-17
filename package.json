@@ -69,7 +69,7 @@
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.13",
     "foundation-apps": "1.2.0",
-    "history": "2.1.2",
+    "history": "4.6.0",
     "htm-to-json": "^0.1.4",
     "intl": "1.2.5",
     "isomorphic-relay": "0.7.4",
