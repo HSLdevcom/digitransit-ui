@@ -8,6 +8,7 @@ import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isCallAgencyDeparture } from '../util/legUtils';
 
 const departureRowContainerFragment = () => Relay.QL`
   fragment on DepartureRow {
@@ -35,6 +36,7 @@ const departureRowContainerFragment = () => Relay.QL`
       scheduledDeparture
       realtimeArrival
       scheduledArrival
+      pickupType
       realtime
       serviceDay
       stopHeadsign
@@ -85,6 +87,7 @@ const DepartureRow = (props) => {
         <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
+          isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
         />
         <RouteDestination
           mode={departure.pattern.route.mode}

@@ -47,6 +47,8 @@ export default class MobileItineraryWrapper extends React.Component {
     lon: undefined,
   };
 
+  itineraryTabs = [];
+
   toggleFullscreenMap = () => {
     if (this.props.fullscreenMap) {
       this.context.router.goBack();
@@ -65,7 +67,7 @@ export default class MobileItineraryWrapper extends React.Component {
       ...this.context.location,
       pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`,
     });
-    const itineraryTab = this.refs[`itineraryTab${index}`];
+    const itineraryTab = this.itineraryTabs[index];
 
     if (itineraryTab) {
       const coords = itineraryTab.refs.component.getState();
@@ -102,7 +104,7 @@ export default class MobileItineraryWrapper extends React.Component {
         {React.Children.map(this.props.children, (el, i) =>
           React.cloneElement(el, {
             focus: this.focusMap,
-            ref: `itineraryTab${i}`,
+            ref: (innerElement) => { this.itineraryTabs[i] = innerElement; },
           }),
         )}
       </SwipeableViews>);

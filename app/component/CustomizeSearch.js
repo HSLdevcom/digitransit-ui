@@ -80,7 +80,7 @@ class CustomizeSearch extends React.Component {
       10;
 
     this.transferMarginSliderValues =
-       CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
+      CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
     this.transferMarginInitVal = this.context.location.query.minTransferTime ?
       mapToSlider(this.context.location.query.minTransferTime, this.transferMarginSliderValues) :
       10;
@@ -186,6 +186,8 @@ class CustomizeSearch extends React.Component {
         )}
         min={0}
         max={20}
+        writtenValue={isNaN(this.context.location.query.minTransferTime) === false ?
+          `${(Math.round(this.context.location.query.minTransferTime / 60))} min` : `${3} min`}
         initialValue={this.transferMarginInitVal}
         step={1}
         minText={this.context.intl.formatMessage({
@@ -214,6 +216,8 @@ class CustomizeSearch extends React.Component {
         max={20}
         initialValue={this.walkingSpeedInitVal}
         step={1}
+        writtenValue={isNaN(this.context.location.query.walkSpeed) === false ?
+          `${(Math.floor(this.context.location.query.walkSpeed * 60))} m/min` : `${72} m/min`}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
@@ -278,17 +282,17 @@ class CustomizeSearch extends React.Component {
   }
 
   openSearchModal = () =>
-    this.context.router.push({
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        viaPointSearchModalOpen: 2,
-      },
-    });
+  this.context.router.push({
+    ...this.context.location,
+    state: {
+      ...this.context.location.state,
+      viaPointSearchModalOpen: 2,
+    },
+  });
 
   updateSettings(name, value) {
     this.context.executeAction(
-      route,
+    route,
       {
         location: {
           ...this.context.location,
@@ -304,7 +308,7 @@ class CustomizeSearch extends React.Component {
 
   toggleTransportMode(mode, otpMode) {
     this.context.executeAction(
-      route,
+    route,
       {
         location: {
           ...this.context.location,
@@ -320,18 +324,18 @@ class CustomizeSearch extends React.Component {
 
   toggleStreetMode(mode) {
     this.context.executeAction(
-      route,
+    route,
       {
         location: {
           ...this.context.location,
           query: {
             ...this.context.location.query,
             modes:
-              without(
-                this.getModes(),
-                ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
-              .concat(mode.toUpperCase())
-              .join(','),
+    without(
+      this.getModes(),
+      ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
+      .concat(mode.toUpperCase())
+      .join(','),
           },
         },
         router: this.context.router,
@@ -355,7 +359,7 @@ class CustomizeSearch extends React.Component {
       <div
         aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
-        // Clicks to the transparent area and close arrow should close the offcanvas
+      // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}
       >
         <div className="offcanvas-close">
@@ -365,13 +369,13 @@ class CustomizeSearch extends React.Component {
         </div>
         <div
           className="customize-search"
-          // Clicks musn't bubble to prevent wrapper from closing the offcanvas
+        // Clicks musn't bubble to prevent wrapper from closing the offcanvas
           onClick={e => e.stopPropagation()}
         >
           <section className="offcanvas-section">
             <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
             <div className="row btn-bar">
-              {this.getStreetModesToggleButtons()}
+              {this.getStreetModesToggleButtons() }
             </div>
           </section>
 
@@ -388,11 +392,11 @@ class CustomizeSearch extends React.Component {
               action={this.actions}
               buttonClass="mode-icon"
               selectedModes={
-                Object.keys(config.transportModes)
-                  .filter(mode => config.transportModes[mode].availableForSelection)
-                  .filter(mode => this.getMode(mode))
-                  .map(mode => mode.toUpperCase())
-              }
+              Object.keys(config.transportModes)
+                .filter(mode => config.transportModes[mode].availableForSelection)
+                .filter(mode => this.getMode(mode))
+                .map(mode => mode.toUpperCase())
+            }
             />
           </section>
 
@@ -402,7 +406,7 @@ class CustomizeSearch extends React.Component {
           {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
           <ViaPointSelector
             intermediatePlaces={
-              this.context.location.query && this.context.location.query.intermediatePlaces}
+            this.context.location.query && this.context.location.query.intermediatePlaces}
             openSearchModal={this.openSearchModal}
             removeViaPoint={this.removeViaPoint}
           />

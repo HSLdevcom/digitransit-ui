@@ -27,12 +27,12 @@ const parseValue = (x) => {
 class TimeInput extends Component {
   componentWillUpdate(nextProps) {
     if (nextProps.value !== this.props.value) {
-      this.refs.time.value = nextProps.value;
+      this.time.value = nextProps.value;
     }
   }
 
   onChange = debounce(() => {
-    const { parsed, hours, minutes } = parseValue(this.refs.time.value);
+    const { parsed, hours, minutes } = parseValue(this.time.value);
     if (parsed) {
       console.log('callback');
       this.props.changeTime({ target: { value: `${hours} ${minutes}` } });
@@ -42,13 +42,13 @@ class TimeInput extends Component {
   render() {
     return (
       <input
-        ref="time"
+        ref={(el) => { this.time = el; }}
         name="time"
         type="text"
         className="text-time-selector"
         defaultValue={this.props.value}
         onChange={this.onChange}
-        onFocus={() => { this.refs.time.select(); }}
+        onFocus={() => { this.time.select(); }}
         maxLength="5"
         size="5"
         style={{

@@ -3,6 +3,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
+import isEqual from 'lodash/isEqual';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -11,9 +12,10 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isCallAgencyPickupType } from '../util/legUtils';
 
 const Leg = ({ routeNumber, leg, large }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className="leg">
+  <div key={`${leg.mode}_${leg.startTime}`} className={`leg ${large ? 'large' : ''}`}>
     { large &&
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
@@ -29,21 +31,41 @@ Leg.propTypes = {
   large: React.PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, mode, large }) => {
-  const routeNumber = (
-    <RouteNumberContainer
-      route={leg.route}
-      className={cx('line', mode.toLowerCase())}
+const RouteLeg = ({ leg, large, intl }) => {
+  const isCallAgency = isCallAgencyPickupType(leg);
+
+  let routeNumber;
+  if (isCallAgency) {
+    const message = intl.formatMessage({
+      id: 'pay-attention',
+      defaultMessage: 'Pay Attention',
+    });
+    routeNumber = (<RouteNumber
+      large={large}
+      mode="call"
+      text={message}
+      className={cx('line', 'call')}
       vertical
-    />
-  );
+      withBar
+    />);
+  } else {
+    routeNumber =
+    (<RouteNumberContainer
+      route={leg.route}
+      className={cx('line', leg.mode.toLowerCase())}
+      large={large}
+      vertical
+      withBar
+    />);
+  }
+
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
 };
 
 RouteLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired,
   large: React.PropTypes.bool.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const ModeLeg = ({ leg, mode, large }) => {
@@ -84,7 +106,7 @@ ViaLeg.propTypes = {
   leg: React.PropTypes.object.isRequired,
 };
 
-const SummaryRow = (props, { intl: { formatMessage } }) => {
+const SummaryRow = (props, { intl, intl: { formatMessage } }) => {
   const data = props.data;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
@@ -120,7 +142,13 @@ const SummaryRow = (props, { intl: { formatMessage } }) => {
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg leg={leg} />);
       } else if (leg.route) {
-        legs.push(<RouteLeg leg={leg} mode={leg.mode} large={large} />);
+        if (props.intermediatePlaces && props.intermediatePlaces.length > 0 && isEqual(
+          [leg.from.lat, leg.from.lon],
+          [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon])
+        ) {
+          legs.push(<ViaLeg leg={leg} />);
+        }
+        legs.push(<RouteLeg leg={leg} intl={intl} large={large} />);
       } else {
         legs.push(<ModeLeg leg={leg} mode={leg.mode} large={large} />);
       }
@@ -239,6 +267,7 @@ SummaryRow.propTypes = {
   children: React.PropTypes.node,
   open: React.PropTypes.bool,
   breakpoint: React.PropTypes.string.isRequired,
+  intermediatePlaces: React.PropTypes.array,
 };
 
 SummaryRow.contextTypes = {
@@ -359,6 +388,58 @@ const exampleDataVia = t1 => ({
     },
   ],
 });
+
+const exampleDataCallAgency = t1 => ({
+  startTime: t1,
+  endTime: t1 + 10000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 10000,
+      endTime: t1 + 20000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: true,
+      startTime: t1 + 20000,
+      endTime: t1 + 30000,
+      mode: 'BUS',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: { shortName: '57', mode: 'BUS' },
+      from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
+      to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
+      trip: {
+        stoptimes: [
+          { pickupType: 'CALL_AGENCY',
+            stop: { gtfsId: 'start' } },
+        ],
+      },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 30000,
+      endTime: t1 + 40000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Veturitie' },
+    },
+  ],
+});
+
 
 const nop = () => {};
 
@@ -493,6 +574,27 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleDataVia(today)}
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-small-call-agency">
+        <SummaryRow
+          refTime={today}
+          breakpoint="small"
+          data={exampleDataCallAgency(today)}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="active-large-call-agency">
+        <SummaryRow
+          refTime={today}
+          breakpoint="large"
+          data={exampleDataCallAgency(today)}
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}

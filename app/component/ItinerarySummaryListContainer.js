@@ -16,6 +16,7 @@ function ItinerarySummaryListContainer(props) {
         currentTime={props.currentTime}
         onSelect={props.onSelect}
         onSelectImmediately={props.onSelectImmediately}
+        intermediatePlaces={props.relay.route.params.intermediatePlaces}
       >
         {i === open && props.children}
       </SummaryRow>
@@ -97,8 +98,26 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
               name
             }
           }
+          trip {
+            stoptimes {
+              stop {
+                gtfsId
+              }
+              pickupType
+            }
+          }
           from {
             name
+            lat
+            lon
+            stop {
+              gtfsId
+            }
+          }
+          to {
+            stop {
+              gtfsId
+            }
           }
         }
       }

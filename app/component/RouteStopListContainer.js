@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Relay from 'react-relay';
-import toClass from 'recompose/toClass';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -9,8 +7,6 @@ import cx from 'classnames';
 
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import RouteStop from './RouteStop';
-
-const RouteStopClass = toClass(RouteStop);
 
 class RouteStopListContainer extends React.Component {
   static propTypes = {
@@ -27,14 +23,16 @@ class RouteStopListContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.refs.nearestStop) {
-      ReactDOM.findDOMNode(this.refs.nearestStop).scrollIntoView(false);
+    if (this.nearestStop) {
+      this.nearestStop.element.scrollIntoView(false);
     }
   }
 
   componentWillReceiveProps({ relay, currentTime }) {
     relay.setVariables({ currentTime: currentTime.unix() });
   }
+
+  setNearestStop = (element) => { this.nearestStop = element; };
 
   getStops() {
     const position = this.props.position;
@@ -62,13 +60,13 @@ class RouteStopListContainer extends React.Component {
       ) === stop.gtfsId;
 
       return (
-        <RouteStopClass
+        <RouteStop
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
           vehicles={vehicleStops[stop.gtfsId]}
           distance={isNearest ? nearest.distance : null}
-          ref={isNearest ? 'nearestStop' : null}
+          ref={isNearest ? this.setNearestStop : null}
           currentTime={this.props.currentTime.unix()}
           last={i === stops.length - 1}
           first={i === 0}

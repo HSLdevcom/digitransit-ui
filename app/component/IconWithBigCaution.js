@@ -1,36 +1,35 @@
 import React from 'react';
-import cx from 'classnames';
+import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithBigCaution = props => (
-  <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
-    <use
-      transform="scale(0.9,0.9)"
-      x="5"
-      xlinkHref={`#${props.img}`}
-    />
-    <use
-      xlinkHref="#icon-icon_caution"
-      transform="scale(0.7,0.7)"
-      y="20"
-      style={{ color: 'white', fill: 'red' }}
-    />
-  </svg>
+const IconWithBigCaution = ({ id, img, className }) => (
+  <IconWithIcon
+    id={id}
+    className={className}
+    img={img}
+    subIcon="icon-icon_caution"
+    subIconClassName="subicon-caution"
+  />
 );
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 
-
 IconWithBigCaution.description = () =>
   <ComponentUsageExample description="Bus with caution">
-    <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+    <div style={{ paddingLeft: '5px' }}>
+      <IconWithBigCaution className="bus" img={'icon-icon_bus'} />
+    </div>
   </ComponentUsageExample>;
-
 
 IconWithBigCaution.propTypes = {
   id: React.PropTypes.string,
   className: React.PropTypes.string,
   img: React.PropTypes.string.isRequired,
+};
+
+IconWithBigCaution.defaultProps = {
+  id: 'IconWithBigCaution-default-id',
+  className: '',
 };
 
 export default IconWithBigCaution;

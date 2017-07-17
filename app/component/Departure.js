@@ -5,6 +5,7 @@ import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
+import { isCallAgencyDeparture } from '../util/legUtils';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -30,6 +31,7 @@ function Departure(props) {
       />
       <RouteNumberContainer
         route={props.departure.pattern.route}
+        isCallAgency={isCallAgencyDeparture(props.departure)}
         fadeLong
       />
       <RouteDestination

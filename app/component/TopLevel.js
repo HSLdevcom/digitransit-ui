@@ -92,7 +92,7 @@ class TopLevel extends React.Component {
       <div className="fullscreen">
         {!topBarOptions.hidden && <AppBarContainer title={this.props.title} {...topBarOptions} />}
         <Helmet {...metadata} />
-        <section ref="content" className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
+        <section className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
           {this.props.meta}
           { content }
         </section>

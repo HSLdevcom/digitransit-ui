@@ -206,3 +206,10 @@ body select  {
 .leaflet-container a {
   color: currentColor;
 }
+
+.subicon-caution {
+  .icon {
+    fill: red;
+    color: white;
+  }
+}

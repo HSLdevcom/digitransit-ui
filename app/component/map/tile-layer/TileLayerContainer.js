@@ -132,8 +132,8 @@ class TileLayerContainer extends MapLayer {
   }
 
   componentDidUpdate() {
-    if (this.refs.popup != null) {
-      this.refs.popup.leafletElement.openOn(this.context.map);
+    if (this.context.popupContainer != null) {
+      this.context.popupContainer.openPopup();
     }
   }
 
