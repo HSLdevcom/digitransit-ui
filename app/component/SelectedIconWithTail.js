@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import IconWithTail from './IconWithTail';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -28,8 +29,8 @@ SelectedIconWithTail.description = () =>
   </div>;
 
 SelectedIconWithTail.propTypes = {
-  img: React.PropTypes.string.isRequired,
-  fullscreenMap: React.PropTypes.bool,
+  img: PropTypes.string.isRequired,
+  fullscreenMap: PropTypes.bool,
 };
 
 export default SelectedIconWithTail;

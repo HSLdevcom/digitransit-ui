@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -74,11 +75,11 @@ FrontPagePanelSmall.description = () =>
   </div>;
 
 FrontPagePanelSmall.propTypes = {
-  selectedPanel: React.PropTypes.number,
-  nearbyClicked: React.PropTypes.func.isRequired,
-  favouritesClicked: React.PropTypes.func.isRequired,
-  closePanel: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  selectedPanel: PropTypes.number,
+  nearbyClicked: PropTypes.func.isRequired,
+  favouritesClicked: PropTypes.func.isRequired,
+  closePanel: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 export default FrontPagePanelSmall;

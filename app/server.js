@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -8,7 +9,13 @@ import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import Relay from 'react-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
-import { RelayNetworkLayer, urlMiddleware, gqErrorsMiddleware, retryMiddleware } from 'react-relay-network-layer';
+import {
+  RelayNetworkLayer,
+  urlMiddleware,
+  gqErrorsMiddleware,
+  retryMiddleware,
+  batchMiddleware,
+} from 'react-relay-network-layer/lib';
 import provideContext from 'fluxible-addons-react/provideContext';
 
 // Libraries
@@ -28,8 +35,6 @@ import MUITheme from './MuiTheme';
 
 // configuration
 import { getConfiguration } from './config';
-
-const port = process.env.HOT_LOAD_PORT || 9000;
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
@@ -58,10 +63,12 @@ function getRobotNetworkLayer(config) {
       retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
+      }),
+      batchMiddleware({
         batchUrl: `${config.URL.OTP}index/graphql/batch`,
       }),
       gqErrorsMiddleware(),
-    ], { disableBatchQuery: false });
+    ]);
   }
   return robotLayers[config.CONFIG];
 }
@@ -71,13 +78,15 @@ const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 function getNetworkLayer(config) {
   if (!networkLayers[config.CONFIG]) {
     networkLayers[config.CONFIG] = new RelayNetworkLayer([
-      retryMiddleware({ RELAY_FETCH_TIMEOUT, retryDelays: [] }),
+      retryMiddleware({ fetchTimeout: RELAY_FETCH_TIMEOUT, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
+      }),
+      batchMiddleware({
         batchUrl: `${config.URL.OTP}index/graphql/batch`,
       }),
       gqErrorsMiddleware(),
-    ], { disableBatchQuery: false },
+    ],
     );
   }
   return networkLayers[config.CONFIG];
@@ -165,15 +174,16 @@ function getPolyfills(userAgent, config) {
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
+    es2017: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
-    Intl: { flags: ['always'] },
+    Intl: { flags: ['gated'] },
     'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
 
   config.availableLanguages.forEach((language) => {
     features[`Intl.~locale.${language}`] = {
-      flags: ['always'],
+      flags: ['gated'],
     };
   });
 
@@ -189,10 +199,7 @@ function getPolyfills(userAgent, config) {
 
 function getScripts(req, config) {
   if (process.env.NODE_ENV === 'development') {
-    const host =
-      (req.headers.host && req.headers.host.split(':')[0]) || 'localhost';
-
-    return <script async src={`//${host}:${port}/js/bundle.js`} />;
+    return <script async src={'/proxy/js/bundle.js'} />;
   }
   return [
     <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
@@ -212,9 +219,9 @@ function getScripts(req, config) {
 }
 
 const ContextProvider = provideContext(IntlProvider, {
-  config: React.PropTypes.object,
-  url: React.PropTypes.string,
-  headers: React.PropTypes.object,
+  config: PropTypes.object,
+  url: PropTypes.string,
+  headers: PropTypes.object,
 });
 
 function getContent(context, renderProps, locale, userAgent) {

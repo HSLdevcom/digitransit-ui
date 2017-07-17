@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-
+import cloneDeep from 'lodash/cloneDeep';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -23,7 +24,7 @@ import { isCallAgencyPickupType } from '../util/legUtils';
 class ItineraryLegs extends React.Component {
 
   static childContextTypes = {
-    focusFunction: React.PropTypes.func,
+    focusFunction: PropTypes.func,
   };
 
   getChildContext() {
@@ -82,10 +83,10 @@ class ItineraryLegs extends React.Component {
           }
 
           compressedLegs.push(compressLeg);
-          compressLeg = cleg;
+          compressLeg = cloneDeep(cleg);
         }
       } else {
-        compressLeg = cleg;
+        compressLeg = cloneDeep(cleg);
       }
     });
 
@@ -251,12 +252,12 @@ class ItineraryLegs extends React.Component {
 }
 
 ItineraryLegs.propTypes = {
-  itinerary: React.PropTypes.object,
-  focusMap: React.PropTypes.func,
+  itinerary: PropTypes.object,
+  focusMap: PropTypes.func,
 };
 
 ItineraryLegs.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ItineraryLegs;

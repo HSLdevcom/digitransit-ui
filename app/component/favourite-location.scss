@@ -122,22 +122,20 @@
   background: $background-color;
   width: 95%;
   min-height: 65px;
+  color: $link-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
 
   .add-location-text {
     @include font-bold;
-    color: $primary-color;
+    color: $link-color;
     font-size: $font-size-xxsmall;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 0.5em;
   }
-
-
-    color: $primary-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em;
 }
 
 .favourite-locations-container > div {
@@ -196,7 +194,7 @@
 }
 
 .fav-location-nav-button {
-  color: $primary-color;
+  color: $link-color;
   font-size: 20px;
 }
 

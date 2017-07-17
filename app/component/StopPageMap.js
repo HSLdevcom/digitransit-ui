@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -76,25 +77,25 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 };
 
 StopPageMap.contextTypes = {
-  breakpoint: React.PropTypes.string.isRequired,
-  router: React.PropTypes.shape({
-    replace: React.PropTypes.func.isRequired,
-    push: React.PropTypes.func.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  router: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
 StopPageMap.propTypes = {
-  stop: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
-    platformCode: React.PropTypes.string,
+  stop: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
+    platformCode: PropTypes.string,
   }).isRequired,
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.string,
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    fullscreenMap: PropTypes.string,
   }).isRequired).isRequired,
-  params: React.PropTypes.oneOfType([
-    React.PropTypes.shape({ stopId: React.PropTypes.string.isRequired }).isRequired,
-    React.PropTypes.shape({ terminalId: React.PropTypes.string.isRequired }).isRequired,
+  params: PropTypes.oneOfType([
+    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
+    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
   ]).isRequired,
 };
 

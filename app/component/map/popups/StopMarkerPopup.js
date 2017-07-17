@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import StopCardContainer from '../../StopCardContainer';
@@ -34,11 +35,11 @@ function StopMarkerPopup(props) {
 }
 
 StopMarkerPopup.propTypes = {
-  stop: React.PropTypes.object,
-  terminal: React.PropTypes.object,
-  relay: React.PropTypes.shape({
-    variables: React.PropTypes.shape({
-      currentTime: React.PropTypes.number.isRequired,
+  stop: PropTypes.object,
+  terminal: PropTypes.object,
+  relay: PropTypes.shape({
+    variables: PropTypes.shape({
+      currentTime: PropTypes.number.isRequired,
     }).isRequired,
   }).isRequired,
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -28,7 +29,7 @@ ExternalLinkDecoration.description = () =>
 ExternalLinkDecoration.displayName = 'IconWithCaution';
 
 ExternalLinkDecoration.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default ExternalLinkDecoration;

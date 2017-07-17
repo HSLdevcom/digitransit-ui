@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import MaterialModal from 'material-ui/Dialog';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -12,14 +13,14 @@ const FEEDBACK_OPEN_AREA_MAX_CHARS = 200;
 
 class FeedbackPanel extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    piwik: React.PropTypes.object,
+    piwik: PropTypes.object,
   };
 
   static propTypes = {
-    onClose: React.PropTypes.func,
+    onClose: PropTypes.func,
   }
 
   static defaultProps= {

@@ -39,6 +39,7 @@ $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
 
 $standalone-btn-color: $primary-color;
+$link-color: $primary-color;
 
 `;
 

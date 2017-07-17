@@ -20,6 +20,7 @@ $search-form-input-overlay-border-color: #E1E1E1;
 $search-form-input-overlay-background-color: #EEF1F3;
 $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
+$item-border-color: #eee;
 
 .search-form {
   top: 0;
@@ -90,7 +91,7 @@ $search-header-height: 45px;
 
     input[type="text"].react-autowhatever__input {
       flex: 0 0 auto;
-      border: 1px solid $primary-color;
+      border: 1px solid $link-color;
       border-radius: 4px;
       height: 3em;
       width: 100%;
@@ -208,6 +209,7 @@ $search-header-height: 45px;
   flex-direction: column;
 }
 
+
 .react-autowhatever__container {
   height: 100%;
   display: flex;
@@ -250,7 +252,7 @@ $search-header-height: 45px;
   z-index: 1;
 
   a {
-    color: $primary-color;
+    color: $link-color;
     height: 100%;
     padding: 10px 10px;
     margin: 0 3px;
@@ -269,7 +271,7 @@ $search-header-height: 45px;
     }
 
     .item-count {
-      background-color: $primary-color;
+      background-color: $link-color;
       color: $primary-font-color;
       font-size: 0.8em;
       margin-left: 0.5em;
@@ -295,7 +297,7 @@ ul.react-autowhatever__items-list {
     overflow: hidden;
 
     &:not(:last-child) {
-      border-bottom: solid 1px #eee;
+      border-bottom: solid 1px $item-border-color;
     }
   }
 }
@@ -321,7 +323,7 @@ ul.react-autowhatever__items-list {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
   letter-spacing: $search-result-text-letter-spacing;
-  padding: 0.2em;
+  padding: 0;
 }
 
 .react-autowhatever__item--focused {
@@ -406,6 +408,7 @@ ul.react-autowhatever__items-list {
     }
   }
 
+
   &.OldSearch, &.FavouritePlace {
     p.suggestion-name, span.suggestion-type {
       color: $visited-link-color;
@@ -417,6 +420,50 @@ ul.react-autowhatever__items-list {
     color: $gray;
   }
 }
+
+.suggestion-item-stop {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  > div {
+    flex-grow: 1;
+  }
+  .suggestion-item-timetable {
+    margin: 1px 0px 1px 0px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-left: 1px solid $item-border-color;
+    a {
+      display: flex;
+      align-items: center;
+    }
+    span { //icon span
+      display: inline-block;
+      padding-right: $padding-small;
+      color: $link-color;
+    }
+    div.suggestion-item-timetable-label {
+
+      display:inline-block;
+      @include font-bold;
+      color: $link-color;
+      text-transform: uppercase;
+      font-size: $font-size-xxxsmall;
+    }
+  }
+}
+
+.suggestion-label {
+  .itinerary-stop-code {
+    display: inline-block;
+    margin-right: 4px;
+  }
+}
+
 
 
 .bp-large .search-result {
@@ -475,7 +522,7 @@ div.search-modal {
 
     &:focus {
       box-shadow: none;
-      border-color: $primary-color
+      border-color: $link-color;
     }
   }
 }

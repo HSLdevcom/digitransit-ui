@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -7,6 +8,14 @@ import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
+import { isBrowser } from '../util/browser';
+
+let L;
+
+if (isBrowser) {
+  // eslint-disable-next-line
+  L = require('leaflet');
+}
 
 export default function ItineraryPageMap(
   { itinerary, params, from, to, routes, center },
@@ -81,6 +90,27 @@ export default function ItineraryPageMap(
 
   const showScale = fullscreen || breakpoint === 'large';
 
+// onCenterMap() used to check if the layer has a marker for an itinerary
+// stop, emulate a click on the map to open up the popup
+  const onCenterMap = (element) => {
+    if (!element || !center) {
+      return;
+    }
+    element.map.leafletElement.closePopup();
+    if (fullscreen || breakpoint === 'large') {
+      const latlngPoint = new L.LatLng(center.lat, center.lon);
+      element.map.leafletElement.eachLayer((layer) => {
+        if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
+          layer.fireEvent('click', {
+            latlng: latlngPoint,
+            layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
+            containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
+          });
+        }
+      });
+    }
+  };
+
   return (
     <Map
       className="full itinerary"
@@ -92,6 +122,7 @@ export default function ItineraryPageMap(
       fitBounds={Boolean(bounds)}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
+      ref={onCenterMap}
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
@@ -111,24 +142,24 @@ export default function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itinerary: React.PropTypes.object,
-  params: React.PropTypes.shape({
-    from: React.PropTypes.string.isRequired,
-    to: React.PropTypes.string.isRequired,
+  itinerary: PropTypes.object,
+  params: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
   }).isRequired,
-  from: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  from: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  to: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  to: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  center: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  center: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.bool,
+  routes: PropTypes.arrayOf(PropTypes.shape({
+    fullscreenMap: PropTypes.bool,
   }).isRequired).isRequired,
 };

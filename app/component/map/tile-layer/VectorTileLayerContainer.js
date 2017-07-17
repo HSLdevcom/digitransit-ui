@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
@@ -44,5 +45,5 @@ VectorTileLayerContainer.propTypes = {
 };
 
 VectorTileLayerContainer.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };

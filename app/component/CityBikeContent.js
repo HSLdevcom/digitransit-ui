@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
@@ -25,12 +26,12 @@ CityBikeContent.description = () =>
   </div>;
 
 CityBikeContent.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  lang: React.PropTypes.string.isRequired,
+  station: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 CityBikeContent.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default CityBikeContent;

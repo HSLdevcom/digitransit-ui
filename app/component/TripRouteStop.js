@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
@@ -81,27 +82,27 @@ const TripRouteStop = (props) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: React.PropTypes.array,
-  mode: React.PropTypes.string.isRequired,
-  stopPassed: React.PropTypes.bool,
-  realtimeDeparture: React.PropTypes.number,
-  stop: React.PropTypes.object.isRequired,
-  distance: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.oneOf([false]),
+  vehicles: PropTypes.array,
+  mode: PropTypes.string.isRequired,
+  stopPassed: PropTypes.bool,
+  realtimeDeparture: PropTypes.number,
+  stop: PropTypes.object.isRequired,
+  distance: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf([false]),
   ]).isRequired,
-  stoptime: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  pattern: React.PropTypes.string.isRequired,
-  route: React.PropTypes.string.isRequired,
-  className: React.PropTypes.string,
-  selectedVehicle: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.oneOf([false]),
+  stoptime: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  pattern: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  selectedVehicle: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.oneOf([false]),
   ]).isRequired,
-  first: React.PropTypes.bool,
-  last: React.PropTypes.bool,
-  fullscreenMap: React.PropTypes.bool,
+  first: PropTypes.bool,
+  last: PropTypes.bool,
+  fullscreenMap: PropTypes.bool,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

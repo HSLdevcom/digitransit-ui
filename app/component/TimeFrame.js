@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -36,10 +37,10 @@ const TimeFrame = ({ className, startTime, endTime, refTime }) => {
 TimeFrame.description = 'Displays the time frame of interval (example: 15:55 - 16:15)';
 
 TimeFrame.propTypes = {
-  startTime: React.PropTypes.number.isRequired,
-  endTime: React.PropTypes.number.isRequired,
-  refTime: React.PropTypes.number.isRequired,
-  className: React.PropTypes.string,
+  startTime: PropTypes.number.isRequired,
+  endTime: PropTypes.number.isRequired,
+  refTime: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
 
 TimeFrame.displayName = 'TimeFrame';

@@ -39,6 +39,7 @@
         "path": "test_output/screenshots/"
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "firefox",
         "javascriptEnabled": true,
         "acceptSslCerts": true
@@ -61,6 +62,7 @@
         "path": "test_output/screenshots/"
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "firefox",
         "javascriptEnabled": true,
 
@@ -93,6 +95,7 @@
       "default_path_prefix" : "",
 
       "desiredCapabilities": {
+          "resolution": "1280x800",
           "browserName": "chrome",
           "chromeOptions" : {
             "args" : ["--no-sandbox"]
@@ -105,6 +108,7 @@
       "selenium_port": 4444,
       "selenium_host": "localhost",
         "desiredCapabilities": {
+          "resolution": "1280x800",
           "browserName": "phantomjs",
           "javascriptEnabled": true,
           "acceptSslCerts": true,
@@ -119,6 +123,7 @@
         "start_process": false
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "firefox",
         "version": 47,
         "os": "WINDOWS",
@@ -138,6 +143,7 @@
         "start_process": false
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "chrome",
         "os": "WINDOWS",
         "os_version": "10",
@@ -156,6 +162,7 @@
         "start_process": false
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "edge",
         "browser": "Edge",
         "browser_version": "13",
@@ -163,7 +170,6 @@
         "os_version": "10",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
-        "resolution": "1280x800",
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
@@ -177,6 +183,7 @@
         "start_process": false
       },
       "desiredCapabilities": {
+        "resolution": "1280x800",
         "browserName": "internet explorer",
         "browser": "IE",
         "browser_version": "11",
@@ -184,7 +191,6 @@
         "os_version": "8.1",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
-        "resolution": "1280x800",
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,

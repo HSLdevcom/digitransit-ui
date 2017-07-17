@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
@@ -38,8 +39,8 @@ SelectParkAndRideRow.description = (
   );
 
 SelectParkAndRideRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 SelectParkAndRideRow.contextTypes = {

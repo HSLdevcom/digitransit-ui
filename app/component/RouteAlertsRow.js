@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import RouteNumber from './RouteNumber';
@@ -33,13 +34,13 @@ export default function RouteAlertsRow({
 }
 
 RouteAlertsRow.propTypes = {
-  header: React.PropTypes.string,
-  description: React.PropTypes.string.isRequired,
-  startTime: React.PropTypes.string.isRequired,
-  endTime: React.PropTypes.string.isRequired,
-  routeMode: React.PropTypes.string.isRequired,
-  routeLine: React.PropTypes.string.isRequired,
-  expired: React.PropTypes.bool.isRequired,
+  header: PropTypes.string,
+  description: PropTypes.string.isRequired,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  routeMode: PropTypes.string.isRequired,
+  routeLine: PropTypes.string.isRequired,
+  expired: PropTypes.bool.isRequired,
 };
 
 RouteAlertsRow.description = () =>

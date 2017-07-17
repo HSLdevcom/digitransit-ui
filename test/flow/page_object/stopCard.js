@@ -23,8 +23,14 @@ module.exports = {
     cluster: {
       selector: '.leaflet-popup-content .card',
     },
+    clusterLink: {
+      selector: '.leaflet-popup-content .card a',
+    },
     clusterStop: {
       selector: '.card .cursor-pointer',
+    },
+    clusterHeader: {
+      selector: '.card .header-primary',
     },
     cardHeader: {
       selector: '.card-header .sub-header-h4',
@@ -35,5 +41,15 @@ module.exports = {
     departure: {
       selector: '.route-detail-text',
     },
+    inactiveTab: {
+      selector: '.stop-tab-singletab.inactive',
+    },
+    timetable: {
+      selector: '.timetable',
+    },
+    timetableRow: {
+      selector: '.timetable-row',
+    },
+
   },
 };

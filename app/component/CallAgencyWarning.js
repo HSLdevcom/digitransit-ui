@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import get from 'lodash/get';
@@ -32,10 +33,10 @@ CallAgencyWarning.description = () => (
   );
 
 CallAgencyWarning.propTypes = {
-  route: React.PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
 };
 CallAgencyWarning.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default CallAgencyWarning;

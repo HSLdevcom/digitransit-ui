@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
@@ -5,8 +6,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
 import DisruptionRow from './DisruptionRow';
 
-function DisruptionListContainer({ alerts }, { intl }) {
-  if (!alerts || !alerts.alerts || alerts.alerts.length === 0) {
+function DisruptionListContainer({ root }, { intl }) {
+  if (!root || !root.alerts || root.alerts.length === 0) {
     return (
       <FormattedMessage
         id="disruption-info-no-alerts"
@@ -15,7 +16,7 @@ function DisruptionListContainer({ alerts }, { intl }) {
     );
   }
 
-  const alertElements = alerts.alerts.map((alert) => {
+  const alertElements = root.alerts.map((alert) => {
     const { id } = alert;
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);
@@ -46,35 +47,39 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
-  alerts: React.PropTypes.object,
+  root: PropTypes.shape({
+    alerts: PropTypes.array,
+  }).isRequired,
 };
 
-export const relayFragment = {
-  alerts: () => Relay.QL`
-  fragment on QueryType {
-    alerts {
-      id
-      alertHeaderText
-      alertHeaderTextTranslations {
-        text
-        language
-      }
-      alertDescriptionText
-      alertDescriptionTextTranslations {
-        text
-        language
-      }
-      effectiveStartDate
-      effectiveEndDate
-      route {
-        shortName
-        mode
+const relayFragment = {
+  root: () => Relay.QL`
+    fragment on QueryType {
+      alerts(feeds:$feedIds) {
+        id
+        feed
+        alertHeaderText
+        alertHeaderTextTranslations {
+          text
+          language
+        }
+        alertDescriptionText
+        alertDescriptionTextTranslations {
+          text
+          language
+        }
+        effectiveStartDate
+        effectiveEndDate
+        route {
+          shortName
+          mode
+        }
       }
     }
-  }
   `,
 };
 
 export default Relay.createContainer(DisruptionListContainer, {
   fragments: relayFragment,
+  initialVariables: { feedIds: null },
 });

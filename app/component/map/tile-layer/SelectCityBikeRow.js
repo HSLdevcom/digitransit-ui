@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
@@ -31,8 +32,8 @@ SelectCityBikeRow.description = (
   );
 
 SelectCityBikeRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default SelectCityBikeRow;

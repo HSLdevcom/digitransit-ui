@@ -8,7 +8,7 @@ const path = require('path');
 require('babel-core/register')({
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
-    'transform-system-import-commonjs',
+    'dynamic-import-node',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
   ignore: [
@@ -18,6 +18,7 @@ require('babel-core/register')({
 });
 
 global.fetch = require('node-fetch');
+const proxy = require('express-http-proxy');
 
 global.self = { fetch: global.fetch };
 
@@ -63,6 +64,11 @@ function setUpStaticFolders() {
 function setUpMiddleware() {
   app.use(cookieParser());
   app.use(bodyParser.raw());
+  if (process.env.NODE_ENV === 'development') {
+    const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
+    // proxy for dev-bundle
+    app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
+  }
 }
 
 function onError(err, req, res) {

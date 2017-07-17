@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -10,16 +11,16 @@ import RouteStop from './RouteStop';
 
 class RouteStopListContainer extends React.Component {
   static propTypes = {
-    pattern: React.PropTypes.object.isRequired,
-    className: React.PropTypes.string,
-    vehicles: React.PropTypes.object,
-    position: React.PropTypes.object.isRequired,
-    currentTime: React.PropTypes.object.isRequired,
+    pattern: PropTypes.object.isRequired,
+    className: PropTypes.string,
+    vehicles: PropTypes.object,
+    position: PropTypes.object.isRequired,
+    currentTime: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
-    breakpoint: React.PropTypes.string,
-    config: React.PropTypes.object.isRequired,
+    breakpoint: PropTypes.string,
+    config: PropTypes.object.isRequired,
   }
 
   componentDidMount() {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -17,18 +18,18 @@ import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
 
 class SearchMainContainer extends React.Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static propTypes = {
-    className: React.PropTypes.string,
-    searchModalIsOpen: React.PropTypes.bool.isRequired,
-    selectedTab: React.PropTypes.string.isRequired,
+    className: PropTypes.string,
+    searchModalIsOpen: PropTypes.bool.isRequired,
+    selectedTab: PropTypes.string.isRequired,
   }
 
   componentDidUpdate() {
@@ -97,9 +98,8 @@ class SearchMainContainer extends React.Component {
     });
   }
 
-  focusInput = value => (
-    // this.searchInputs[value] is a hack
-    this.searchInputs[value] && this.searchInputs[value].autowhatever.input.focus()
+  focusInput = tab => (
+    this.searchInputs[tab] && this.searchInputs[tab].focus()
   )
 
   closeModal = () => this.context.router.goBack()

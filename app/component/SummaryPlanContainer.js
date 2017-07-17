@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -8,22 +9,23 @@ import Loading from './Loading';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
-    plan: React.PropTypes.object.isRequired,
-    itineraries: React.PropTypes.array.isRequired,
-    children: React.PropTypes.node,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string.isRequired,
-      to: React.PropTypes.string.isRequired,
-      hash: React.PropTypes.string,
+    plan: PropTypes.object.isRequired,
+    itineraries: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    error: PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      hash: PropTypes.string,
     }).isRequired,
   }
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   onSelectActive = (index) => {
@@ -69,17 +71,24 @@ class SummaryPlanContainer extends React.Component {
   }
 
   getActiveIndex() {
-    const state = this.context.location.state || {};
-    return state.summaryPageSelected || 0;
+    if (this.context.location.state) {
+      return this.context.location.state.summaryPageSelected || 0;
+    }
+    /*
+     * If state does not exist, for example when accessing the summary
+     * page by an external link, we check if an itinerary selection is
+     * supplied in URL and make that the active selection.
+     */
+    const lastURLSegment = this.context.location.pathname.split('/').pop();
+    return isNaN(lastURLSegment) ? 0 : Number(lastURLSegment);
   }
 
   render() {
     const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
     const activeIndex = this.getActiveIndex();
-    if (!this.props.itineraries) {
+    if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
-
     return (
       <div className="summary">
         <ItinerarySummaryListContainer

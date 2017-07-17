@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -22,9 +23,9 @@ IconWithBigCaution.description = () =>
   </ComponentUsageExample>;
 
 IconWithBigCaution.propTypes = {
-  id: React.PropTypes.string,
-  className: React.PropTypes.string,
-  img: React.PropTypes.string.isRequired,
+  id: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string.isRequired,
 };
 
 IconWithBigCaution.defaultProps = {

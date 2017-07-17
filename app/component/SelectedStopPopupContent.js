@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -24,7 +25,7 @@ const SelectedStopPopupContent = ({ stop }) => (
 );
 
 SelectedStopPopupContent.propTypes = {
-  stop: React.PropTypes.object.isRequired,
+  stop: PropTypes.object.isRequired,
 };
 
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';

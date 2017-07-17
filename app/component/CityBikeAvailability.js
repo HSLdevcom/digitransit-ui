@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import mapProps from 'recompose/mapProps';
 import { FormattedMessage } from 'react-intl';
@@ -30,9 +31,9 @@ CityBikeAvailability.description = () =>
   </div>;
 
 CityBikeAvailability.propTypes = {
-  bikesAvailable: React.PropTypes.number.isRequired,
-  totalSpaces: React.PropTypes.number.isRequired,
-  fewAvailableCount: React.PropTypes.number.isRequired,
+  bikesAvailable: PropTypes.number.isRequired,
+  totalSpaces: PropTypes.number.isRequired,
+  fewAvailableCount: PropTypes.number.isRequired,
 };
 
 export default CityBikeAvailability;

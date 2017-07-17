@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
@@ -28,8 +29,8 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 // Small icon for zoom levels <= 15
@@ -52,18 +53,18 @@ class CityBikeMarker extends React.Component {
   static displayName = 'CityBikeMarker';
 
   static propTypes = {
-    station: React.PropTypes.object.isRequired,
-    transit: React.PropTypes.bool,
+    station: PropTypes.object.isRequired,
+    transit: PropTypes.bool,
   };
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    route: React.PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    config: React.PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   getIcon = zoom => (

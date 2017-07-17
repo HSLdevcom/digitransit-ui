@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
@@ -10,17 +11,17 @@ const Popup = isBrowser ?
 class OriginPopup extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    popupContainer: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    popupContainer: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    shouldOpen: React.PropTypes.bool,
-    yOffset: React.PropTypes.number.isRequired,
-    text: React.PropTypes.string.isRequired,
-    header: React.PropTypes.string.isRequired,
+    shouldOpen: PropTypes.bool,
+    yOffset: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    header: PropTypes.string.isRequired,
   };
 
   componentDidMount() {

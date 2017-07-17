@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -46,7 +47,7 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
 }
 
 FavouritesTabLabelContainer.propTypes = {
-  routes: React.PropTypes.array.isRequired,
+  routes: PropTypes.array.isRequired,
 };
 
 export default connectToStores(

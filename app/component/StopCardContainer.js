@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -20,8 +21,8 @@ const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (co
 );
 
 StopCardContainer.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-  getStore: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 export default Relay.createContainer(StopCardContainer, {

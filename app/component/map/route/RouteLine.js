@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -10,9 +11,9 @@ import { isBrowser } from '../../../util/browser';
 
 class RouteLine extends React.Component {
   static propTypes = {
-    pattern: React.PropTypes.object.isRequired,
-    thin: React.PropTypes.bool,
-    filteredStops: React.PropTypes.array,
+    pattern: PropTypes.object.isRequired,
+    thin: PropTypes.bool,
+    filteredStops: PropTypes.array,
   }
 
   render() {

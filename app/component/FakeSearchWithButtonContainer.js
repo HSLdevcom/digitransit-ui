@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import getContext from 'recompose/getContext';
 import Icon from './Icon';
@@ -25,9 +26,9 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => 
 );
 
 FakeSearchWithButton.propTypes = {
-  fakeSearchBar: React.PropTypes.object.isRequired,
-  onClick: React.PropTypes.func,
-  breakpoint: React.PropTypes.string,
+  fakeSearchBar: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  breakpoint: PropTypes.string,
 };
 
 FakeSearchWithButton.defaultProps = {
@@ -52,4 +53,4 @@ FakeSearchWithButton.description = () => (
   </div>);
 
 export default getContext(
-  { breakpoint: React.PropTypes.string.isRequired })(FakeSearchWithButton);
+  { breakpoint: PropTypes.string.isRequired })(FakeSearchWithButton);

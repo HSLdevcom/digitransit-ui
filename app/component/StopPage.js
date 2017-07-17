@@ -1,8 +1,11 @@
 import React from 'react';
 import Relay, { Route } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
+import withState from 'recompose/withState';
+import moment from 'moment';
 import StopPageContentContainer from './StopPageContentContainer';
+
+const initialDate = moment().format('YYYYMMDD');
 
 class StopPageContainerRoute extends Route {
   static queries = {
@@ -30,10 +33,15 @@ const StopPageRootContainer = routeProps => (
       ...routeProps,
     })}
     environment={Relay.Store}
+    render={({ props, done }) => (done ? (
+      <StopPageContentContainer {...props} initialDate={initialDate} setDate={routeProps.setDate} />
+    ) : undefined)}
   />
 );
 
-export default connectToStores(StopPageRootContainer, ['TimeStore', 'FavouriteStopsStore'],
+const StopPageContainerWithState = withState('date', 'setDate', initialDate)(StopPageRootContainer);
+
+export default connectToStores(StopPageContainerWithState, ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
     startTime: getStore('TimeStore').getCurrentTime().unix(),
     timeRange: 3600 * 12,

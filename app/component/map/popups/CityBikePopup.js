@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import MarkerPopupBottom from '../MarkerPopupBottom';
@@ -8,7 +9,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 
 class CityBikePopup extends React.Component {
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static description = (
@@ -24,8 +25,8 @@ class CityBikePopup extends React.Component {
   static displayName = 'CityBikePopup';
 
   static propTypes = {
-    station: React.PropTypes.object.isRequired,
-    context: React.PropTypes.object.isRequired,
+    station: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
   };
 
   render() {
