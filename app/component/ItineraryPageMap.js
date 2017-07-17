@@ -17,6 +17,8 @@ if (isBrowser) {
   L = require('leaflet');
 }
 
+let timeout;
+
 export default function ItineraryPageMap(
   { itinerary, params, from, to, routes, center },
   { breakpoint, router, location },
@@ -97,15 +99,18 @@ export default function ItineraryPageMap(
       return;
     }
     element.map.leafletElement.closePopup();
+    clearTimeout(timeout);
     if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
       element.map.leafletElement.eachLayer((layer) => {
         if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
-          layer.fireEvent('click', {
+          timeout = setTimeout(() => layer.fireEvent('click', {
             latlng: latlngPoint,
             layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
             containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
-          });
+          }), 250);
+          // Timout duration comes from
+          // https://github.com/Leaflet/Leaflet/blob/v1.1.0/src/dom/PosAnimation.js#L35
         }
       });
     }
