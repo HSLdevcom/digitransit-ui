@@ -30,8 +30,6 @@ export default {
 
   feedIds: ['MATKA'],
 
-  sprites: 'svg-sprite.default.svg',
-
   meta: {
     description: APP_DESCRIPTION,
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',

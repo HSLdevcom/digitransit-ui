@@ -206,6 +206,8 @@ export default {
     primary: '#00AFFF',
   },
 
+  sprites: 'svg-sprite.default.svg',
+
   disruption: {
     showInfoButton: true,
   },

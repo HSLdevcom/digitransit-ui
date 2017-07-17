@@ -335,7 +335,7 @@ function getEntry() {
       themeCss = './sass/themes/default/main.scss';
     }
     entry[theme + '_theme'] = [themeCss];
-    entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+    entry[sprites] = ['./static/' + sprites];
   };
 
   if (process.env.CONFIG && process.env.CONFIG !== '') {
