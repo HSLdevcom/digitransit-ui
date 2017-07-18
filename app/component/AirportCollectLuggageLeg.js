@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
@@ -6,11 +7,10 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-
 function AirportCollectLuggageLeg(props) {
   const modeClassName = 'wait';
   return (
-    <div className="row itinerary-row" >
+    <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.endTime).format('HH:mm')}
@@ -39,24 +39,26 @@ const exampleLeg = t1 => ({
 });
 
 AirportCollectLuggageLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                            .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary airport collect luggage leg.</p>
       <ComponentUsageExample>
-        <AirportCollectLuggageLeg leg={exampleLeg(today)} focusAction={() => {}} />
+        <AirportCollectLuggageLeg
+          leg={exampleLeg(today)}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );
 };
 
 AirportCollectLuggageLeg.propTypes = {
-  index: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    endTime: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    endTime: PropTypes.number.isRequired,
   }).isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
 
 export default AirportCollectLuggageLeg;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { isBrowser } from '../../../util/browser';
 
@@ -9,7 +10,9 @@ const L = isBrowser && require('leaflet');
 /* eslint-enable global-require */
 
 function fixName(name) {
-  if (!name) return '';
+  if (!name) {
+    return '';
+  }
 
   // minimum size can't be set because of flex bugs
   // so add whitespace to make the name wider
@@ -22,15 +25,14 @@ function fixName(name) {
   return name;
 }
 
-
 export default class LegMarker extends React.Component {
   static contextTypes = {
-    map: React.PropTypes.object.isRequired,
-  }
+    map: PropTypes.object.isRequired,
+  };
 
   static propTypes = {
-    leg: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.string.isRequired,
+    leg: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -39,11 +41,11 @@ export default class LegMarker extends React.Component {
 
   componentWillUnmount = () => {
     this.context.map.off('zoomend', this.onMapZoom);
-  }
+  };
 
   onMapZoom = () => {
     this.forceUpdate();
-  }
+  };
 
   getLegMarker() {
     return (

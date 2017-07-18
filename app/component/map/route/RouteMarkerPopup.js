@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
@@ -8,35 +9,34 @@ import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
-
 class RouteMarkerPopup extends React.Component {
   static childContextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    context: React.PropTypes.shape({
-      router: React.PropTypes.object.isRequired,
+    context: PropTypes.shape({
+      router: PropTypes.object.isRequired,
       intl: intlShape.isRequired,
-      executeAction: React.PropTypes.func.isRequired,
+      executeAction: PropTypes.func.isRequired,
     }).isRequired,
-    trip: React.PropTypes.shape({
-      route: React.PropTypes.shape({
-        gtfsId: React.PropTypes.string.isRequired,
+    trip: PropTypes.shape({
+      route: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
       }).isRequired,
-      fuzzyTrip: React.PropTypes.shape({
-        gtfsId: React.PropTypes.string,
-        pattern: React.PropTypes.shape({
-          code: React.PropTypes.string.isRequired,
+      fuzzyTrip: PropTypes.shape({
+        gtfsId: PropTypes.string,
+        pattern: PropTypes.shape({
+          code: PropTypes.string.isRequired,
         }),
       }),
     }).isRequired,
-    favourite: React.PropTypes.bool,
-    message: React.PropTypes.shape({
-      mode: React.PropTypes.string.isRequired,
-      tripStartTime: React.PropTypes.string.isRequired,
+    favourite: PropTypes.bool,
+    message: PropTypes.shape({
+      mode: PropTypes.string.isRequired,
+      tripStartTime: PropTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
   getChildContext() {
     return {
@@ -44,10 +44,13 @@ class RouteMarkerPopup extends React.Component {
     };
   }
 
-  addAsFavouriteRoute = (e) => {
+  addAsFavouriteRoute = e => {
     e.stopPropagation();
-    this.props.context.executeAction(addFavouriteRoute, this.props.trip.route.gtfsId);
-  }
+    this.props.context.executeAction(
+      addFavouriteRoute,
+      this.props.trip.route.gtfsId,
+    );
+  };
 
   render() {
     let patternPath = `/linjat/${this.props.trip.route.gtfsId}/pysakit`;
@@ -62,22 +65,26 @@ class RouteMarkerPopup extends React.Component {
       <div className="card">
         <RouteHeader
           route={this.props.trip.route}
-          pattern={this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern}
+          pattern={
+            this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern
+          }
           trip={this.props.message.tripStartTime}
           favourite={this.props.favourite}
           addFavouriteRoute={this.addAsFavouriteRoute}
         />
         <div className="bottom location">
-          <Link to={tripPath} >
-            {this.props.context.intl.formatMessage(
-              { id: 'trip-information', defaultMessage: 'Trip Information' },
-              )}
+          <Link to={tripPath}>
+            {this.props.context.intl.formatMessage({
+              id: 'trip-information',
+              defaultMessage: 'Trip Information',
+            })}
           </Link>
           <br />
-          <Link to={patternPath} className="route" >
-            {this.props.context.intl.formatMessage(
-              { id: 'view-route', defaultMessage: 'View Route' },
-              )}
+          <Link to={patternPath} className="route">
+            {this.props.context.intl.formatMessage({
+              id: 'view-route',
+              defaultMessage: 'View Route',
+            })}
           </Link>
         </div>
       </div>
@@ -89,7 +96,9 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   RouteMarkerPopup,
   ['FavouriteRoutesStore'],
   (context, props) => ({
-    favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.trip.route.gtfsId),
+    favourite: context
+      .getStore('FavouriteRoutesStore')
+      .isFavourite(props.trip.route.gtfsId),
   }),
 );
 

@@ -6,15 +6,25 @@ export function route(actionContext, payload, done) {
   let to;
   let from;
   let geoString;
-  const geolocation = actionContext.getStore('PositionStore').getLocationState();
+  const geolocation = actionContext
+    .getStore('PositionStore')
+    .getLocationState();
   const origin = actionContext.getStore('EndpointStore').getOrigin();
   const destination = actionContext.getStore('EndpointStore').getDestination();
 
-  if ((origin.lat || (origin.useCurrentPosition && geolocation.hasLocation)) &&
-      (destination.lat || (destination.useCurrentPosition && geolocation.hasLocation))) {
-    geoString = locationToOTP(Object.assign({
-      address: 'Oma sijainti',
-    }, geolocation));
+  if (
+    (origin.lat || (origin.useCurrentPosition && geolocation.hasLocation)) &&
+    (destination.lat ||
+      (destination.useCurrentPosition && geolocation.hasLocation))
+  ) {
+    geoString = locationToOTP(
+      Object.assign(
+        {
+          address: 'Oma sijainti',
+        },
+        geolocation,
+      ),
+    );
 
     if (origin.useCurrentPosition) {
       from = geoString;
@@ -35,7 +45,8 @@ export function route(actionContext, payload, done) {
       if (payload.location.pathname.indexOf('/reitti') === 0) {
         payload.router.replace({
           ...payload.location,
-          state: {  // reset back to 1st alternative at reroute
+          state: {
+            // reset back to 1st alternative at reroute
             ...payload.location.state,
             summaryPageSelected: 0,
           },
@@ -43,7 +54,7 @@ export function route(actionContext, payload, done) {
         });
       } else {
         // Will be ran when doing the first search from the main page
-        payload.router.push(({ ...payload.location, pathname: path }));
+        payload.router.push({ ...payload.location, pathname: path });
       }
     }
   }

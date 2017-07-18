@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
@@ -7,7 +8,6 @@ import reject from 'lodash/reject';
 import RouteDestination from '../../RouteDestination';
 import routeCompare from '../../../util/route-compare';
 import ComponentUsageExample from '../../ComponentUsageExample';
-
 
 function getName(pattern) {
   if (pattern.shortName) {
@@ -28,17 +28,25 @@ function SelectStopRow(props) {
   const patterns = [];
 
   patterns.push(
-    <div key="first" className="route-detail-text" >
-      <span className={`${patternData[0].type.toLowerCase()} vehicle-number no-padding`} >
+    <div key="first" className="route-detail-text">
+      <span
+        className={`${patternData[0].type.toLowerCase()} vehicle-number no-padding`}
+      >
         {patternData[0].shortName}
       </span>
       {'\u00a0'}
-      <RouteDestination mode={patternData[0].type} destination={patternData[0].headsign} />
+      <RouteDestination
+        mode={patternData[0].type}
+        destination={patternData[0].headsign}
+      />
     </div>,
   );
 
   if (patternData.length > 1) {
-    const otherPatterns = reject(patternData, ['shortName', patternData[0].shortName]);
+    const otherPatterns = reject(patternData, [
+      'shortName',
+      patternData[0].shortName,
+    ]);
     if (otherPatterns.length > 0) {
       patterns.push(
         <div key="second" className="route-detail-text">
@@ -46,7 +54,8 @@ function SelectStopRow(props) {
             <FormattedMessage id="in-addition" defaultMessage="In addition" />
           </span>
           {uniqBy(otherPatterns, pattern => pattern.shortName).map(getName)}
-        </div>);
+        </div>,
+      );
     }
   }
 
@@ -72,7 +81,7 @@ function SelectStopRow(props) {
           </svg>
         </div>
         <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color" >
+          <span className="header-primary no-margin link-color">
             {props.name} ›
           </span>
           {patterns}
@@ -94,16 +103,18 @@ SelectStopRow.description = () =>
         name={'DIAKONIAPUISTO'}
         selectRow={() => {}}
         type={'BUS'}
-        patterns={'[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'}
+        patterns={
+          '[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'
+        }
       />
     </ComponentUsageExample>
   </div>;
 
 SelectStopRow.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  selectRow: React.PropTypes.func.isRequired,
-  patterns: React.PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  patterns: PropTypes.string.isRequired,
 };
 
 export default SelectStopRow;

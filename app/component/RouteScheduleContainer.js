@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -28,13 +29,15 @@ class RouteScheduleContainer extends Component {
     if (trips == null) {
       return null;
     }
-    let transformedTrips = trips.map((trip) => {
+    let transformedTrips = trips.map(trip => {
       const newTrip = { ...trip };
       newTrip.stoptimes = keyBy(trip.stoptimes, 'stop.id');
       return newTrip;
     });
-    transformedTrips = sortBy(transformedTrips,
-      trip => trip.stoptimes[stops[0].id].scheduledDeparture);
+    transformedTrips = sortBy(
+      transformedTrips,
+      trip => trip.stoptimes[stops[0].id].scheduledDeparture,
+    );
     return transformedTrips;
   }
 
@@ -46,50 +49,63 @@ class RouteScheduleContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     // If route has changed, reset state.
-    if (nextProps.relay.route.params.patternId !== this.props.relay.route.params.patternId) {
+    if (
+      nextProps.relay.route.params.patternId !==
+      this.props.relay.route.params.patternId
+    ) {
       this.initState(nextProps, false);
       nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
     }
   }
 
-  onFromSelectChange = (event) => {
+  onFromSelectChange = event => {
     const from = Number(event.target.value);
     const to = this.state.to > from ? this.state.to : from + 1;
     this.setState({ ...this.state, from, to });
-  }
+  };
 
-  onToSelectChange = (event) => {
+  onToSelectChange = event => {
     const to = Number(event.target.value);
     this.setState({ ...this.state, to });
-  }
+  };
 
   getTrips = (from, to) => {
     const { stops } = this.props.pattern;
-    const trips = RouteScheduleContainer.transformTrips(this.props.pattern.tripsForDate, stops);
+    const trips = RouteScheduleContainer.transformTrips(
+      this.props.pattern.tripsForDate,
+      stops,
+    );
     if (trips == null) {
       return <Loading />;
     } else if (trips.length === 0) {
       return (
         <div className="text-center">
-          {this.context.intl.formatMessage(
-            { id: 'no-trips-found', defaultMessage: 'No journeys found for the selected date.' },
-          )}
-        </div>);
+          {this.context.intl.formatMessage({
+            id: 'no-trips-found',
+            defaultMessage: 'No journeys found for the selected date.',
+          })}
+        </div>
+      );
     }
-    return trips.map((trip) => {
+    return trips.map(trip => {
       const fromSt = trip.stoptimes[stops[from].id];
       const toSt = trip.stoptimes[stops[to].id];
-      const departureTime = this.formatTime(fromSt.serviceDay + fromSt.scheduledDeparture);
-      const arrivalTime = this.formatTime(toSt.serviceDay + toSt.scheduledArrival);
+      const departureTime = this.formatTime(
+        fromSt.serviceDay + fromSt.scheduledDeparture,
+      );
+      const arrivalTime = this.formatTime(
+        toSt.serviceDay + toSt.scheduledArrival,
+      );
 
       return (
         <RouteScheduleTripRow
           key={trip.id}
           departureTime={departureTime}
           arrivalTime={arrivalTime}
-        />);
+        />
+      );
     });
-  }
+  };
 
   initState(props, isInitialState) {
     const state = {
@@ -123,7 +139,10 @@ class RouteScheduleContainer extends Component {
             dateFormat={DATE_FORMAT}
             onDateChange={this.changeDate}
           />
-          <PrintLink className="action-bar" href={this.props.pattern.route.url} />
+          <PrintLink
+            className="action-bar"
+            href={this.props.pattern.route.url}
+          />
         </div>
         <div className="route-schedule-list-wrapper">
           <RouteScheduleHeader
@@ -137,7 +156,8 @@ class RouteScheduleContainer extends Component {
             {this.getTrips(this.state.from, this.state.to)}
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -174,7 +194,12 @@ export default connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
     initialVariables: relayInitialVariables,
     fragments: relayFragment,
-  }), [], context => ({
-    serviceDay: context.getStore('TimeStore').getCurrentTime().format(DATE_FORMAT),
+  }),
+  [],
+  context => ({
+    serviceDay: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .format(DATE_FORMAT),
   }),
 );

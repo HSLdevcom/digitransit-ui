@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import RouteNumberContainer from './RouteNumberContainer';
@@ -17,7 +18,9 @@ function Departure(props) {
 
   let platformNumber = false;
   if (props.isTerminal) {
-    platformNumber = <PlatformNumber number={props.departure.stop.platformCode} />;
+    platformNumber = (
+      <PlatformNumber number={props.departure.stop.platformCode} />
+    );
   }
 
   return (
@@ -36,20 +39,21 @@ function Departure(props) {
       />
       <RouteDestination
         mode={mode}
-        destination={props.departure.headsign ||
-                     props.departure.pattern.headsign ||
-                     props.departure.pattern.route.longName}
+        destination={
+          props.departure.headsign ||
+          props.departure.pattern.headsign ||
+          props.departure.pattern.route.longName
+        }
         isArrival={props.isArrival}
       />
       {platformNumber}
-    </p>);
+    </p>
+  );
 }
 
 Departure.description = () =>
   <div>
-    <p>
-      Display a departure row using react components
-    </p>
+    <p>Display a departure row using react components</p>
     <ComponentUsageExample>
       <Departure
         departure={exampleRealtimeDeparture}
@@ -57,9 +61,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="adding padding classes"
-    >
+    <ComponentUsageExample description="adding padding classes">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -67,9 +69,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="with platform number"
-    >
+    <ComponentUsageExample description="with platform number">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -78,9 +78,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="isArrival true"
-    >
+    <ComponentUsageExample description="isArrival true">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -94,13 +92,13 @@ Departure.description = () =>
 Departure.displayName = 'Departure';
 
 Departure.propTypes = {
-  canceled: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  currentTime: React.PropTypes.number.isRequired,
-  departure: React.PropTypes.object.isRequired,
-  isArrival: React.PropTypes.bool,
-  isTerminal: React.PropTypes.bool,
-  useUTC: React.PropTypes.bool,
+  canceled: PropTypes.bool,
+  className: PropTypes.string,
+  currentTime: PropTypes.number.isRequired,
+  departure: PropTypes.object.isRequired,
+  isArrival: PropTypes.bool,
+  isTerminal: PropTypes.bool,
+  useUTC: PropTypes.bool,
 };
 
 export default Departure;

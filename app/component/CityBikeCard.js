@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import CardHeader from './CardHeader';
@@ -6,7 +7,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Card from './Card';
 import Favourite from './Favourite';
 
-const CityBikeCard = ({ station, children, className, isFavourite, toggleFavourite }) => {
+const CityBikeCard = ({
+  station,
+  children,
+  className,
+  isFavourite,
+  toggleFavourite,
+}) => {
   if (!station || !children || children.length === 0) {
     return false;
   }
@@ -18,11 +25,12 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
         description={station.stationId}
         icon="icon-icon_citybike"
         unlinked
-        icons={[<Favourite
-          key="favourite"
-          favourite={isFavourite}
-          addFavourite={toggleFavourite}
-        />,
+        icons={[
+          <Favourite
+            key="favourite"
+            favourite={isFavourite}
+            addFavourite={toggleFavourite}
+          />,
         ]}
       />
       {children}
@@ -41,7 +49,9 @@ CityBikeCard.description = () =>
     <ComponentUsageExample description="Selected as favourite">
       <CityBikeCard
         className="padding-small"
-        toggleFavourite={() => {}} isFavourite station={exampleStation}
+        toggleFavourite={() => {}}
+        isFavourite
+        station={exampleStation}
       >
         Im content of the favourite citybike card
       </CityBikeCard>
@@ -51,11 +61,11 @@ CityBikeCard.description = () =>
 CityBikeCard.displayName = 'CityBikeCard';
 
 CityBikeCard.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string,
-  children: React.PropTypes.node.isRequired,
-  toggleFavourite: React.PropTypes.func,
-  isFavourite: React.PropTypes.bool,
+  station: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  toggleFavourite: PropTypes.func,
+  isFavourite: PropTypes.bool,
 };
 
 export default CityBikeCard;

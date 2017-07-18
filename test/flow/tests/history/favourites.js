@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['history'],
 
-  'Back button works on add favourite page': (browser) => {
+  'Back button works on add favourite page': browser => {
     browser.url(browser.launch_url);
 
     const favourites = browser.page.myFavourites();
@@ -15,5 +15,4 @@ module.exports = {
 
     browser.end();
   },
-
 };

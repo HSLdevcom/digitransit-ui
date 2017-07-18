@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
@@ -11,35 +12,41 @@ import { otpToLocation } from '../util/otpStrings';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string,
-      to: React.PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
     }).isRequired,
-    hasDefaultPreferences: React.PropTypes.bool.isRequired,
-    startTime: React.PropTypes.number,
-    endTime: React.PropTypes.number,
+    hasDefaultPreferences: PropTypes.bool.isRequired,
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
   };
 
   static defaultProps = {
     startTime: null,
     endTime: null,
-  }
+  };
 
   static contextTypes = {
-    piwik: React.PropTypes.object,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string,
+    piwik: PropTypes.object,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   componentDidMount() {
-    this.unlisten = this.context.router.listen((location) => {
-      if (this.context.location.state && this.context.location.state.customizeSearchOffcanvas &&
-        (!location.state || !location.state.customizeSearchOffcanvas)
-        && !this.transitionDone && location.pathname.startsWith('/reitti/')) {
+    this.unlisten = this.context.router.listen(location => {
+      if (
+        this.context.location.state &&
+        this.context.location.state.customizeSearchOffcanvas &&
+        (!location.state || !location.state.customizeSearchOffcanvas) &&
+        !this.transitionDone &&
+        location.pathname.startsWith('/reitti/')
+      ) {
         this.transitionDone = true;
-        const newLocation = { ...this.context.location,
-          state: { ...this.context.location.state,
+        const newLocation = {
+          ...this.context.location,
+          state: {
+            ...this.context.location.state,
             customizeSearchOffcanvas: false,
             viaPointSearchModalOpen: false,
           },
@@ -55,14 +62,16 @@ class SummaryNavigation extends React.Component {
     this.unlisten();
   }
 
-  onRequestChange = (newState) => {
+  onRequestChange = newState => {
     this.internalSetOffcanvas(newState);
-  }
+  };
 
   getOffcanvasState = () =>
-    (this.context.location.state && this.context.location.state.customizeSearchOffcanvas) || false;
+    (this.context.location.state &&
+      this.context.location.state.customizeSearchOffcanvas) ||
+    false;
 
-  internalSetOffcanvas = (newState) => {
+  internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Offcanvas',
@@ -82,36 +91,40 @@ class SummaryNavigation extends React.Component {
     } else {
       this.context.router.goBack();
     }
-  }
+  };
 
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
-  }
+  };
 
   customizeSearchModules = {
-    Drawer: () => importLazy(System.import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(System.import('./CustomizeSearch')),
-  }
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
+  };
 
-  renderTimeSelectorContainer = ({ done, props }) => (done ? (
-    <TimeSelectorContainer
-      {...props}
-      startTime={this.props.startTime}
-      endTime={this.props.endTime}
-    />
-  ) : undefined)
+  renderTimeSelectorContainer = ({ done, props }) =>
+    done
+      ? <TimeSelectorContainer
+          {...props}
+          startTime={this.props.startTime}
+          endTime={this.props.endTime}
+        />
+      : undefined;
 
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
-      drawerWidth = 0.5 * window.innerWidth > 291 ? Math.min(600, 0.5 * window.innerWidth) : 291;
+      drawerWidth =
+        0.5 * window.innerWidth > 291
+          ? Math.min(600, 0.5 * window.innerWidth)
+          : 291;
     }
 
     return (
       <div>
-        <LazilyLoad modules={this.customizeSearchModules} >
-          {({ Drawer, CustomizeSearch }) => (
+        <LazilyLoad modules={this.customizeSearchModules}>
+          {({ Drawer, CustomizeSearch }) =>
             <Drawer
               className="offcanvas"
               disableSwipeToOpen
@@ -128,8 +141,7 @@ class SummaryNavigation extends React.Component {
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />
-            </Drawer>
-          )}
+            </Drawer>}
         </LazilyLoad>
         <OriginDestinationBar
           className={className}
@@ -143,7 +155,9 @@ class SummaryNavigation extends React.Component {
             queryConfig={{
               params: {},
               name: 'ServiceTimeRangRoute',
-              queries: { serviceTimeRange: () => Relay.QL`query { serviceTimeRange }` },
+              queries: {
+                serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
+              },
             }}
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}

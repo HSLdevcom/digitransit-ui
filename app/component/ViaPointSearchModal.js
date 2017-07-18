@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-
 
 import { getAllEndpointLayers } from '../util/searchUtils';
 import { locationToOTP } from '../util/otpStrings';
@@ -13,9 +13,9 @@ import SearchModalLarge from './SearchModalLarge';
 class ViaPointSearchModal extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: React.PropTypes.object,
-    location: React.PropTypes.object,
-    breakpoint: React.PropTypes.string.isRequired,
+    router: PropTypes.object,
+    location: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidUpdate() {
@@ -40,13 +40,17 @@ class ViaPointSearchModal extends React.Component {
         }),
       },
     });
-    setTimeout(this.context.router.go, 0, this.context.location.state.viaPointSearchModalOpen * -1);
+    setTimeout(
+      this.context.router.go,
+      0,
+      this.context.location.state.viaPointSearchModalOpen * -1,
+    );
   };
 
-  modalIsOpen = () => (
-    this.context.location.state ?
-      Boolean(this.context.location.state.viaPointSearchModalOpen) : false
-  )
+  modalIsOpen = () =>
+    this.context.location.state
+      ? Boolean(this.context.location.state.viaPointSearchModalOpen)
+      : false;
 
   render() {
     if (!this.modalIsOpen()) {
@@ -75,16 +79,28 @@ class ViaPointSearchModal extends React.Component {
     }
 
     return (
-      <div className={cx('onetab-search-modal-container', 'via-point-modal', responsiveClass)}>
+      <div
+        className={cx(
+          'onetab-search-modal-container',
+          'via-point-modal',
+          responsiveClass,
+        )}
+      >
         <div className={cx('fake-search-container', responsiveClass)}>
           <Component
             selectedTab="tab"
             modalIsOpen
             closeModal={this.context.router.goBack}
           >
-            <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
+            <Tab
+              className="search-header__button--selected"
+              label={searchTabLabel}
+              value="tab"
+            >
               <SearchInputContainer
-                ref={(c) => { this.searchInputContainer = c; }}
+                ref={c => {
+                  this.searchInputContainer = c;
+                }}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={getAllEndpointLayers()}

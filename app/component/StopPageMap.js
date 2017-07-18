@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import some from 'lodash/some';
@@ -8,11 +9,9 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
-  `/${
-    params.stopId ? 'pysakit' : 'terminaalit'
-  }/${
-    params.stopId ? params.stopId : params.terminalId
-  }${fullscreenMap ? '' : '/kartta'}`;
+  `/${params.stopId ? 'pysakit' : 'terminaalit'}/${params.stopId
+    ? params.stopId
+    : params.terminalId}${fullscreenMap ? '' : '/kartta'}`;
 
 const toggleFullscreenMap = (fullscreenMap, params, router) => {
   if (fullscreenMap) {
@@ -22,29 +21,34 @@ const toggleFullscreenMap = (fullscreenMap, params, router) => {
   router.push(getFullscreenTogglePath(fullscreenMap, params));
 };
 
-const fullscreenMapOverlay = (fullscreenMap, params, router) => (
-  !fullscreenMap && (
-    <div
-      className="map-click-prevent-overlay"
-      key="overlay"
-      onClick={() => { toggleFullscreenMap(fullscreenMap, params, router); }}
-    />
-  )
-);
+const fullscreenMapOverlay = (fullscreenMap, params, router) =>
+  !fullscreenMap &&
+  <div
+    className="map-click-prevent-overlay"
+    key="overlay"
+    onClick={() => {
+      toggleFullscreenMap(fullscreenMap, params, router);
+    }}
+  />;
 
-const fullscreenMapToggle = (fullscreenMap, params, router) => (
-  <div className="fullscreen-toggle" onClick={() => { toggleFullscreenMap(fullscreenMap, params, router); }}>
+const fullscreenMapToggle = (fullscreenMap, params, router) =>
+  <div
+    className="fullscreen-toggle"
+    onClick={() => {
+      toggleFullscreenMap(fullscreenMap, params, router);
+    }}
+  >
     <Icon img="icon-icon_maximize" className="cursor-pointer" />
-  </div>
-);
+  </div>;
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
-  if (!stop) return false;
+  if (!stop) {
+    return false;
+  }
 
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
-
 
   if (breakpoint === 'large') {
     leafletObjs.push(
@@ -64,7 +68,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
       className="full"
       lat={stop.lat}
       lon={stop.lon}
-      zoom={!(params.stopId) || stop.platformCode ? 18 : 16}
+      zoom={!params.stopId || stop.platformCode ? 18 : 16}
       showStops
       hilightedStops={[params.stopId]}
       leafletObjs={leafletObjs}
@@ -76,25 +80,27 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 };
 
 StopPageMap.contextTypes = {
-  breakpoint: React.PropTypes.string.isRequired,
-  router: React.PropTypes.shape({
-    replace: React.PropTypes.func.isRequired,
-    push: React.PropTypes.func.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  router: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
 StopPageMap.propTypes = {
-  stop: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
-    platformCode: React.PropTypes.string,
+  stop: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
+    platformCode: PropTypes.string,
   }).isRequired,
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.string,
-  }).isRequired).isRequired,
-  params: React.PropTypes.oneOfType([
-    React.PropTypes.shape({ stopId: React.PropTypes.string.isRequired }).isRequired,
-    React.PropTypes.shape({ terminalId: React.PropTypes.string.isRequired }).isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullscreenMap: PropTypes.string,
+    }).isRequired,
+  ).isRequired,
+  params: PropTypes.oneOfType([
+    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
+    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
   ]).isRequired,
 };
 

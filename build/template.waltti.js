@@ -53,7 +53,7 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: (function () { return `© __Theme__ ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© __Theme__ ${walttiConfig.YEAR}` },
       {},
       { name: 'footer-feedback', nameEn: 'Send feedback', type: 'feedback', icon: 'icon-icon_speech-bubble' },
       { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },

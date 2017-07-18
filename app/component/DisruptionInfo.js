@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -10,7 +11,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-  const isOpen = () => (context.location.state ? context.location.state.disruptionInfoOpen : false);
+  const isOpen = () =>
+    context.location.state ? context.location.state.disruptionInfoOpen : false;
 
   const toggleVisibility = () => {
     if (isOpen()) {
@@ -31,7 +33,11 @@ function DisruptionInfo(props, context) {
       <Modal
         open
         title={
-          <FormattedMessage id="disruption-info" defaultMessage="Disruption info" />}
+          <FormattedMessage
+            id="disruption-info"
+            defaultMessage="Disruption info"
+          />
+        }
         toggleVisibility={toggleVisibility}
       >
         <Relay.RootContainer
@@ -52,26 +58,27 @@ function DisruptionInfo(props, context) {
           }}
           renderLoading={() => <Loading />}
         />
-      </Modal>);
+      </Modal>
+    );
   }
   return <div />;
 }
 
-
 DisruptionInfo.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
-  config: React.PropTypes.shape({
-    feedIds: React.PropTypes.arrayOf(React.PropTypes.string.isRequired),
+  config: PropTypes.shape({
+    feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
 };
 
 DisruptionInfo.description = () =>
   <div>
     <p>
-      Modal that shows all available disruption info.
-      Opened by DisruptionInfoButton.
-      <strong>Deprecated:</strong> Will be removed in short future in favor of announcements page.
+      Modal that shows all available disruption info. Opened by
+      DisruptionInfoButton.
+      <strong>Deprecated:</strong> Will be removed in short future in favor of
+      announcements page.
     </p>
     <ComponentUsageExample>
       <DisruptionInfo />

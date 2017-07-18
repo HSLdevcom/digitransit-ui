@@ -1,9 +1,8 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import ComponentUsageExample from './ComponentUsageExample';
-import {
-  routeScheduleHeaderStops as exampleStops,
-} from './ExampleData';
+import { routeScheduleHeaderStops as exampleStops } from './ExampleData';
 
 function RouteScheduleHeader(props) {
   const options = props.stops.map((stop, index) => {
@@ -32,7 +31,8 @@ function RouteScheduleHeader(props) {
           options={toOptions}
         />
       </div>
-    </div>);
+    </div>
+  );
 }
 RouteScheduleHeader.propTypes = {
   stops: PropTypes.array.isRequired,
@@ -46,9 +46,7 @@ RouteScheduleHeader.displayName = 'RouteScheduleHeader';
 
 RouteScheduleHeader.description = () =>
   <div>
-    <p>
-      Display a route schedule header using react components
-    </p>
+    <p>Display a route schedule header using react components</p>
     <ComponentUsageExample>
       <RouteScheduleHeader
         stops={exampleStops}

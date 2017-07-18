@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import AddIcon from './AddIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const EmptyFavouriteLocationSlot = ({ index }) => (
+const EmptyFavouriteLocationSlot = ({ index }) =>
   <Link
     id={`add-new-favourite-${index}`}
     to="/suosikki/uusi"
@@ -17,7 +18,7 @@ const EmptyFavouriteLocationSlot = ({ index }) => (
         <FormattedMessage id="add-location" defaultMessage="Add location" />
       </p>
     </div>
-  </Link>);
+  </Link>;
 
 EmptyFavouriteLocationSlot.displayName = 'EmptyFavouriteLocationSlot';
 
@@ -30,8 +31,7 @@ EmptyFavouriteLocationSlot.description = () =>
   </div>;
 
 EmptyFavouriteLocationSlot.propTypes = {
-  index: React.PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
-
 
 export default EmptyFavouriteLocationSlot;

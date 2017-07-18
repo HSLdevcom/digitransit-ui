@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import pure from 'recompose/pure';
@@ -17,13 +18,18 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const currentLocationIcon = isBrowser ? L.divIcon({
-  html: Icon.asString('icon-icon_mapMarker-location-animated'),
-  className: 'current-location-marker',
-  iconSize: [40, 40],
-}) : null;
+const currentLocationIcon = isBrowser
+  ? L.divIcon({
+      html: Icon.asString('icon-icon_mapMarker-location-animated'),
+      className: 'current-location-marker',
+      iconSize: [40, 40],
+    })
+  : null;
 
-function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup }, { intl }) {
+function PositionMarker(
+  { coordinates, useCurrentPosition, displayOriginPopup },
+  { intl },
+) {
   let popup;
 
   if (!coordinates) {
@@ -35,7 +41,10 @@ function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup },
       <OriginPopup
         shouldOpen={useCurrentPosition}
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        text={intl.formatMessage({ id: 'own-position', defaultMessage: 'Your current location' })}
+        text={intl.formatMessage({
+          id: 'own-position',
+          defaultMessage: 'Your current location',
+        })}
         yOffset={20}
       />
     );
@@ -58,22 +67,26 @@ PositionMarker.contextTypes = {
 };
 
 PositionMarker.propTypes = {
-  coordinates: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.number),
-    React.PropTypes.oneOf([false]),
+  coordinates: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.number),
+    PropTypes.oneOf([false]),
   ]),
-  displayOriginPopup: React.PropTypes.bool,
-  useCurrentPosition: React.PropTypes.bool.isRequired,
+  displayOriginPopup: PropTypes.bool,
+  useCurrentPosition: PropTypes.bool.isRequired,
 };
 
 export default connectToStores(
   pure(PositionMarker),
   ['PositionStore', 'EndpointStore'],
-  (context) => {
+  context => {
     const coordinates = context.getStore('PositionStore').getLocationState();
 
     return {
-      useCurrentPosition: context.getStore('EndpointStore').getOrigin().useCurrentPosition,
-      coordinates: coordinates.hasLocation ? [coordinates.lat, coordinates.lon] : false,
+      useCurrentPosition: context.getStore('EndpointStore').getOrigin()
+        .useCurrentPosition,
+      coordinates: coordinates.hasLocation
+        ? [coordinates.lat, coordinates.lon]
+        : false,
     };
-  });
+  },
+);

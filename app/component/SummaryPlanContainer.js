@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
@@ -8,26 +9,26 @@ import Loading from './Loading';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
-    plan: React.PropTypes.object.isRequired,
-    itineraries: React.PropTypes.array.isRequired,
-    children: React.PropTypes.node,
-    error: React.PropTypes.string,
-    params: React.PropTypes.shape({
-      from: React.PropTypes.string.isRequired,
-      to: React.PropTypes.string.isRequired,
-      hash: React.PropTypes.string,
+    plan: PropTypes.object.isRequired,
+    itineraries: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    error: PropTypes.string,
+    params: PropTypes.shape({
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      hash: PropTypes.string,
     }).isRequired,
-  }
-
-  static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
   };
 
-  onSelectActive = (index) => {
+  static contextTypes = {
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+  };
+
+  onSelectActive = index => {
     if (this.getActiveIndex() === index) {
       this.onSelectImmediately(index);
     } else {
@@ -39,7 +40,7 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  onSelectImmediately = (index) => {
+  onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
       if (this.context.breakpoint === 'large') {
         this.context.router.replace({
@@ -54,8 +55,14 @@ class SummaryPlanContainer extends React.Component {
         ...this.context.location,
         state: { summaryPageSelected: index },
       };
-      const basePath = getRoutePath(this.props.params.from, this.props.params.to);
-      const indexPath = `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`;
+      const basePath = getRoutePath(
+        this.props.params.from,
+        this.props.params.to,
+      );
+      const indexPath = `${getRoutePath(
+        this.props.params.from,
+        this.props.params.to,
+      )}/${index}`;
 
       if (this.context.breakpoint === 'large') {
         newState.pathname = indexPath;
@@ -67,7 +74,7 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.push(newState);
       }
     }
-  }
+  };
 
   getActiveIndex() {
     if (this.context.location.state) {
@@ -83,7 +90,10 @@ class SummaryPlanContainer extends React.Component {
   }
 
   render() {
-    const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
+    const currentTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .valueOf();
     const activeIndex = this.getActiveIndex();
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;

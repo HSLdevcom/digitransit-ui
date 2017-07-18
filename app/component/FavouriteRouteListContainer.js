@@ -2,39 +2,41 @@ import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList, {
-   relayFragment as NextDeparturesListRelayFragment,
+  relayFragment as NextDeparturesListRelayFragment,
 } from './NextDeparturesList';
 import { getDistanceToNearestStop } from '../util/geo-utils';
-
 
 const getNextDepartures = (routes, lat, lon) => {
   const nextDepartures = [];
   const seenDepartures = {};
 
-  routes.forEach((route) => {
+  routes.forEach(route => {
     const hasDisruption = route.alerts.length > 0;
 
-    route.patterns.forEach((pattern) => {
+    route.patterns.forEach(pattern => {
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
-      closest.stop.stoptimes.filter((stoptime) => {
-        const seenKey = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern.headsign}`;
-        const isSeen = seenDepartures[seenKey];
-        const isFavourite =
-          stoptime.pattern.route.gtfsId === route.gtfsId &&
-          stoptime.pattern.headsign === pattern.headsign;
+      closest.stop.stoptimes
+        .filter(stoptime => {
+          const seenKey = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern
+            .headsign}`;
+          const isSeen = seenDepartures[seenKey];
+          const isFavourite =
+            stoptime.pattern.route.gtfsId === route.gtfsId &&
+            stoptime.pattern.headsign === pattern.headsign;
 
-        if (!isSeen && isFavourite) {
-          seenDepartures[seenKey] = true;
-          return true;
-        }
-        return false;
-      }).forEach((stoptime) => {
-        nextDepartures.push({
-          distance: closest.distance,
-          stoptime,
-          hasDisruption,
+          if (!isSeen && isFavourite) {
+            seenDepartures[seenKey] = true;
+            return true;
+          }
+          return false;
+        })
+        .forEach(stoptime => {
+          nextDepartures.push({
+            distance: closest.distance,
+            stoptime,
+            hasDisruption,
+          });
         });
-      });
     });
   });
 
@@ -57,7 +59,6 @@ const FavouriteRouteListContainer = connectToStores(
     };
   },
 );
-
 
 // TODO: Add filtering in stoptimesForPatterns for route gtfsId
 export default Relay.createContainer(FavouriteRouteListContainer, {

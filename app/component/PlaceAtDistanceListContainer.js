@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import sortBy from 'lodash/sortBy';
@@ -23,43 +24,52 @@ export const placeAtDistanceListContainerFragment = variables => Relay.QL`
         }
         ${PlaceAtDistanceContainer.getFragment('placeAtDistance', {
           currentTime: variables.currentTime,
-          timeRange: variables.timeRange })},
+          timeRange: variables.timeRange,
+        })},
       }
     }
   }
 `;
 
-const testStopTimes = stoptimes => (stoptimes && stoptimes.length > 0);
+const testStopTimes = stoptimes => stoptimes && stoptimes.length > 0;
 
 /* eslint-disable no-underscore-dangle */
 const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
   if (places && places.edges) {
-    return (<div>
-      {sortBy(places.edges.filter(
-          ({ node }) => node.place.__typename !== 'DepartureRow' ||
-          testStopTimes(node.place.stoptimes),
-        ), [({ node }) => round(node.distance), ({ node }) =>
-          (testStopTimes(node.place.stoptimes) &&
-            (node.place.stoptimes[0].serviceDay +
-            node.place.stoptimes[0].realtimeDeparture))])
-      .map(({ node }) =>
-        <PlaceAtDistanceContainer
-          key={node.place.id}
-          currentTime={currentTime}
-          timeRange={timeRange}
-          placeAtDistance={node}
-        />,
-      )}
-    </div>);
+    return (
+      <div>
+        {sortBy(
+          places.edges.filter(
+            ({ node }) =>
+              node.place.__typename !== 'DepartureRow' ||
+              testStopTimes(node.place.stoptimes),
+          ),
+          [
+            ({ node }) => round(node.distance),
+            ({ node }) =>
+              testStopTimes(node.place.stoptimes) &&
+              node.place.stoptimes[0].serviceDay +
+                node.place.stoptimes[0].realtimeDeparture,
+          ],
+        ).map(({ node }) =>
+          <PlaceAtDistanceContainer
+            key={node.place.id}
+            currentTime={currentTime}
+            timeRange={timeRange}
+            placeAtDistance={node}
+          />,
+        )}
+      </div>
+    );
   }
   return null;
 };
 /* eslint-enable no-underscore-dangle */
 
 PlaceAtDistanceList.propTypes = {
-  places: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  timeRange: React.PropTypes.number.isRequired,
+  places: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  timeRange: PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(PlaceAtDistanceList, {

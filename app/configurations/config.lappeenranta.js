@@ -35,26 +35,50 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': 28.329905,
   },
 
-  areaPolygon: [[28.031, 61.017], [28.031, 61.1028], [28.33, 61.1028], [28.33, 61.017]],
+  areaPolygon: [
+    [28.031, 61.017],
+    [28.031, 61.1028],
+    [28.33, 61.1028],
+    [28.33, 61.017],
+  ],
 
   defaultEndpoint: {
     address: 'Oleksin ja Koulukadun risteys',
     lat: 61.059097,
-    lon: 28.185720,
+    lon: 28.18572,
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_city', label: 'Oleksi/Koulukatu', lat: 61.059097, lon: 28.185720 },
-    { icon: 'icon-icon_rail', label: 'Matkakeskus', lat: 61.0483, lon: 28.1945 },
-    { icon: 'icon-icon_school', label: 'Lappeenrannan teknillinen yliopisto', lat: 61.065, lon: 28.0949 },
+    {
+      icon: 'icon-icon_city',
+      label: 'Oleksi/Koulukatu',
+      lat: 61.059097,
+      lon: 28.18572,
+    },
+    {
+      icon: 'icon-icon_rail',
+      label: 'Matkakeskus',
+      lat: 61.0483,
+      lon: 28.1945,
+    },
+    {
+      icon: 'icon-icon_school',
+      label: 'Lappeenrannan teknillinen yliopisto',
+      lat: 61.065,
+      lon: 28.0949,
+    },
   ],
-
 
   footer: {
     content: [
-      { label: (function () { return `© Lappeenranta ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Lappeenranta ${walttiConfig.YEAR}` },
       {},
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -62,23 +86,28 @@ export default configMerger(walttiConfig, {
     fi: [
       {
         header: 'Tietoja palvelusta',
-        paragraphs: ['Tämän palvelun tarjoaa Lappeenrannan kaupungin joukkoliikenne joukkoliikenteen reittisuunnittelua varten Lappeenrannan paikallisliikenteen alueella. Palvelu perustuu Digitransit palvelualustaan.'],
+        paragraphs: [
+          'Tämän palvelun tarjoaa Lappeenrannan kaupungin joukkoliikenne joukkoliikenteen reittisuunnittelua varten Lappeenrannan paikallisliikenteen alueella. Palvelu perustuu Digitransit palvelualustaan.',
+        ],
       },
     ],
 
     sv: [
       {
         header: 'Om tjänsten',
-        paragraphs: ['Den här tjänsten erbjuds av Lappeenrannan kaupungin joukkoliikenne för lokal reseplanering inom Lappeenranta region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+        paragraphs: [
+          'Den här tjänsten erbjuds av Lappeenrannan kaupungin joukkoliikenne för lokal reseplanering inom Lappeenranta region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
       },
     ],
 
     en: [
       {
         header: 'About this service',
-        paragraphs: ['This service is provided by Lappeenrannan kaupungin joukkoliikenne for local route planning in Lappenranta region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+        paragraphs: [
+          'This service is provided by Lappeenrannan kaupungin joukkoliikenne for local route planning in Lappenranta region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
       },
     ],
   },
-
 });

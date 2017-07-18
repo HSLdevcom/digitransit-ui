@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -25,117 +26,120 @@ export default class TimeNavigationButtons extends React.Component {
     router: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
-    executeAction: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
-  static displayName ='TimeNavigationButtons';
+  static displayName = 'TimeNavigationButtons';
 
   static description = () =>
     <div>
       <p>
-        Shows buttons for changing the itinerary search time to show previous or next deaprtures or
-        reset the time.
+        Shows buttons for changing the itinerary search time to show previous or
+        next deaprtures or reset the time.
       </p>
       <ComponentUsageExample>
         <TimeNavigationButtons itineraries={examplePlan.itineraries} />
       </ComponentUsageExample>
-    </div>
+    </div>;
 
   setEarlierSelectedTime() {
-    const earliestArrivalTime = this.props.itineraries.reduce((previous, current) => {
-      const endTime = moment(current.endTime);
+    const earliestArrivalTime = this.props.itineraries.reduce(
+      (previous, current) => {
+        const endTime = moment(current.endTime);
 
-      if (previous == null) {
-        return endTime;
-      } else if (endTime.isBefore(previous)) {
-        return endTime;
-      }
-      return previous;
-    }, null);
+        if (previous == null) {
+          return endTime;
+        } else if (endTime.isBefore(previous)) {
+          return endTime;
+        }
+        return previous;
+      },
+      null,
+    );
 
     earliestArrivalTime.subtract(1, 'minutes');
 
-    this.context.executeAction(
-      route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            time: earliestArrivalTime.unix(),
-            arriveBy: true,
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: earliestArrivalTime.unix(),
+          arriveBy: true,
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
   }
 
   setLaterSelectedTime() {
-    const latestDepartureTime = this.props.itineraries.reduce((previous, current) => {
-      const startTime = moment(current.startTime);
+    const latestDepartureTime = this.props.itineraries.reduce(
+      (previous, current) => {
+        const startTime = moment(current.startTime);
 
-      if (previous == null) {
-        return startTime;
-      } else if (startTime.isAfter(previous)) {
-        return startTime;
-      }
-      return previous;
-    }, null);
-
+        if (previous == null) {
+          return startTime;
+        } else if (startTime.isAfter(previous)) {
+          return startTime;
+        }
+        return previous;
+      },
+      null,
+    );
 
     latestDepartureTime.add(1, 'minutes');
 
-    this.context.executeAction(
-      route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            time: latestDepartureTime.unix(),
-            arriveBy: false,
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: latestDepartureTime.unix(),
+          arriveBy: false,
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
   }
 
   setSelectedTimeToNow() {
-    this.context.executeAction(
-      route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            time: moment().unix(),
-            arriveBy: false,
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: moment().unix(),
+          arriveBy: false,
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
   }
 
   render() {
     const config = this.context.config;
 
-    if (!this.props.itineraries || !this.props.itineraries[0]) { return null; }
-    const itineraryFeedback = config.itinerary.enableFeedback ? <ItineraryFeedback /> : null;
-    const enableButtonArrows = config.itinerary.timeNavigation.enableButtonArrows;
-    const leftArrow = enableButtonArrows ?
-      <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" /> : null;
-    const rightArrow = enableButtonArrows ?
-      <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" /> : null;
+    if (!this.props.itineraries || !this.props.itineraries[0]) {
+      return null;
+    }
+    const itineraryFeedback = config.itinerary.enableFeedback
+      ? <ItineraryFeedback />
+      : null;
+    const enableButtonArrows =
+      config.itinerary.timeNavigation.enableButtonArrows;
+    const leftArrow = enableButtonArrows
+      ? <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
+      : null;
+    const rightArrow = enableButtonArrows
+      ? <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" />
+      : null;
 
     return (
       <div
-        className={
-          cx('time-navigation-buttons', { 'bp-large': this.context.breakpoint === 'large' })
-        }
+        className={cx('time-navigation-buttons', {
+          'bp-large': this.context.breakpoint === 'large',
+        })}
       >
         {itineraryFeedback}
         <button

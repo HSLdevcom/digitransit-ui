@@ -11,7 +11,10 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['OULU'],
 
-  appBarLink: { name: 'Oulun joukkoliikenne', href: 'http://www.oulunjoukkoliikenne.fi' },
+  appBarLink: {
+    name: 'Oulun joukkoliikenne',
+    href: 'http://www.oulunjoukkoliikenne.fi',
+  },
 
   colors: {
     primary: '#c40065',
@@ -43,16 +46,42 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Kauppatori, Oulu', lat: 65.013559, lon: 25.465032 },
-    { icon: 'icon-icon_rail', label: 'Rautatieasema, Oulu', lat: 65.011523, lon: 25.483571 },
-    { icon: 'icon-icon_airplane', label: 'Lentoasema, Oulu', lat: 64.928808, lon: 25.373296 },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Kauppatori, Oulu',
+      lat: 65.013559,
+      lon: 25.465032,
+    },
+    {
+      icon: 'icon-icon_rail',
+      label: 'Rautatieasema, Oulu',
+      lat: 65.011523,
+      lon: 25.483571,
+    },
+    {
+      icon: 'icon-icon_airplane',
+      label: 'Lentoasema, Oulu',
+      lat: 64.928808,
+      lon: 25.373296,
+    },
   ],
 
   footer: {
     content: [
-      { label: (function () { return `© Oulu ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Oulu ${walttiConfig.YEAR}` },
       {},
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'footer-feedback',
+        nameEn: 'Submit feedback',
+        href: 'http://www.oulunjoukkoliikenne.fi/palautteet',
+        icon: 'icon-icon_speech-bubble',
+      },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -60,23 +89,28 @@ export default configMerger(walttiConfig, {
     fi: [
       {
         header: 'Tietoja palvelusta',
-        paragraphs: ['Tämän palvelun tarjoaa Oulun joukkoliikenne joukkoliikenteen reittisuunnittelua varten Oulun, Iin, Kempeleen, Limingan, Lumijoen, Muhoksen ja Tyrnävän alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+        paragraphs: [
+          'Tämän palvelun tarjoaa Oulun joukkoliikenne joukkoliikenteen reittisuunnittelua varten Oulun, Iin, Kempeleen, Limingan, Lumijoen, Muhoksen ja Tyrnävän alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+        ],
       },
     ],
 
     sv: [
       {
         header: 'Om tjänsten',
-        paragraphs: ['Den här tjänsten erbjuds av Oulun joukkoliikenne för reseplanering inom Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos och Tyrnävä region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+        paragraphs: [
+          'Den här tjänsten erbjuds av Oulun joukkoliikenne för reseplanering inom Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos och Tyrnävä region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
       },
     ],
 
     en: [
       {
         header: 'About this service',
-        paragraphs: ['This service is provided by Oulun joukkoliikenne for route planning in Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos and Tyrnävä region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+        paragraphs: [
+          'This service is provided by Oulun joukkoliikenne for route planning in Oulu, Ii, Kempele, Liminka, Lumijoki, Muhos and Tyrnävä region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
       },
     ],
   },
-
 });

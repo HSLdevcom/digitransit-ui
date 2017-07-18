@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -16,6 +17,8 @@ if (isBrowser) {
   L = require('leaflet');
 }
 
+let timeout;
+
 export default function ItineraryPageMap(
   { itinerary, params, from, to, routes, center },
   { breakpoint, router, location },
@@ -30,20 +33,23 @@ export default function ItineraryPageMap(
       key="toMarker"
       position={to || otpToLocation(params.to)}
       className="to"
-    />];
+    />,
+  ];
 
   if (location.query && location.query.intermediatePlaces) {
     if (Array.isArray(location.query.intermediatePlaces)) {
-      location.query.intermediatePlaces.map(otpToLocation).forEach((markerLocation, i) => {
-        leafletObjs.push(
-          <LocationMarker
-            key={`via_${i}`} // eslint-disable-line react/no-array-index-key
-            position={markerLocation}
-            className="via"
-            noText
-          />,
+      location.query.intermediatePlaces
+        .map(otpToLocation)
+        .forEach((markerLocation, i) => {
+          leafletObjs.push(
+            <LocationMarker
+              key={`via_${i}`} // eslint-disable-line react/no-array-index-key
+              position={markerLocation}
+              className="via"
+              noText
+            />,
           );
-      });
+        });
     } else {
       leafletObjs.push(
         <LocationMarker
@@ -52,7 +58,7 @@ export default function ItineraryPageMap(
           className="via"
           noText
         />,
-        );
+      );
     }
   }
 
@@ -68,18 +74,20 @@ export default function ItineraryPageMap(
   }
   const fullscreen = some(routes.map(route => route.fullscreenMap));
 
-  const toggleFullscreenMap = fullscreen ?
-    router.goBack :
-        () => router.push({
+  const toggleFullscreenMap = fullscreen
+    ? router.goBack
+    : () =>
+        router.push({
           ...location,
           pathname: `${location.pathname}/kartta`,
         });
 
-  const overlay = fullscreen ? undefined : (
-    <div
-      className="map-click-prevent-overlay"
-      onClick={toggleFullscreenMap}
-    />);
+  const overlay = fullscreen
+    ? undefined
+    : <div
+        className="map-click-prevent-overlay"
+        onClick={toggleFullscreenMap}
+      />;
 
   let bounds;
 
@@ -89,22 +97,36 @@ export default function ItineraryPageMap(
 
   const showScale = fullscreen || breakpoint === 'large';
 
-// onCenterMap() used to check if the layer has a marker for an itinerary
-// stop, emulate a click on the map to open up the popup
-  const onCenterMap = (element) => {
+  // onCenterMap() used to check if the layer has a marker for an itinerary
+  // stop, emulate a click on the map to open up the popup
+  const onCenterMap = element => {
     if (!element || !center) {
       return;
     }
     element.map.leafletElement.closePopup();
+    clearTimeout(timeout);
     if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
-      element.map.leafletElement.eachLayer((layer) => {
-        if (layer instanceof L.Marker && layer.getLatLng().equals(latlngPoint)) {
-          layer.fireEvent('click', {
-            latlng: latlngPoint,
-            layerPoint: element.map.leafletElement.latLngToLayerPoint(latlngPoint),
-            containerPoint: element.map.leafletElement.latLngToContainerPoint(latlngPoint),
-          });
+      element.map.leafletElement.eachLayer(layer => {
+        if (
+          layer instanceof L.Marker &&
+          layer.getLatLng().equals(latlngPoint)
+        ) {
+          timeout = setTimeout(
+            () =>
+              layer.fireEvent('click', {
+                latlng: latlngPoint,
+                layerPoint: element.map.leafletElement.latLngToLayerPoint(
+                  latlngPoint,
+                ),
+                containerPoint: element.map.leafletElement.latLngToContainerPoint(
+                  latlngPoint,
+                ),
+              }),
+            250,
+          );
+          // Timout duration comes from
+          // https://github.com/Leaflet/Leaflet/blob/v1.1.0/src/dom/PosAnimation.js#L35
         }
       });
     }
@@ -125,40 +147,35 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-      {breakpoint !== 'large' && (
-        <div
-          className="fullscreen-toggle"
-          onClick={toggleFullscreenMap}
-        >
-          <Icon
-            img="icon-icon_maximize"
-            className="cursor-pointer"
-          />
-        </div>
-      )}
+      {breakpoint !== 'large' &&
+        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        </div>}
     </Map>
   );
 }
 
 ItineraryPageMap.propTypes = {
-  itinerary: React.PropTypes.object,
-  params: React.PropTypes.shape({
-    from: React.PropTypes.string.isRequired,
-    to: React.PropTypes.string.isRequired,
+  itinerary: PropTypes.object,
+  params: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
   }).isRequired,
-  from: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  from: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  to: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  to: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  center: React.PropTypes.shape({
-    lat: React.PropTypes.number.isRequired,
-    lon: React.PropTypes.number.isRequired,
+  center: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
   }),
-  routes: React.PropTypes.arrayOf(React.PropTypes.shape({
-    fullscreenMap: React.PropTypes.bool,
-  }).isRequired).isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
+    }).isRequired,
+  ).isRequired,
 };

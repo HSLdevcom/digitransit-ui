@@ -29,7 +29,7 @@ export default class BackButton extends React.Component {
         this.context.router.push('/');
       }
     }, 0);
-  }
+  };
 
   render() {
     return (
@@ -41,13 +41,17 @@ export default class BackButton extends React.Component {
           height: '40px',
           alignSelf: 'stretch',
         }}
-        icon={<Icon img="icon-icon_arrow-left" className="cursor-pointer back" />}
-      ><span
-        title={this.context.intl.formatMessage({
-          id: 'back-button-title',
-          defaultMessage: 'Go back to previous page',
-        })}
-      /></FlatButton>
+        icon={
+          <Icon img="icon-icon_arrow-left" className="cursor-pointer back" />
+        }
+      >
+        <span
+          title={this.context.intl.formatMessage({
+            id: 'back-button-title',
+            defaultMessage: 'Go back to previous page',
+          })}
+        />
+      </FlatButton>
     );
   }
 }

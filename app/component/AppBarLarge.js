@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
@@ -20,22 +21,25 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
   return (
     <div>
       <div className="top-bar bp-large flex-horizontal">
-        <a onClick={titleClicked} >
-          {config.textLogo ?
-            <section className="title">
-              <span className="title">{config.title}</span>
-            </section> :
-            <div className="navi-logo" />
-          }
+        <a onClick={titleClicked}>
+          {config.textLogo
+            ? <section className="title">
+                <span className="title">
+                  {config.title}
+                </span>
+              </section>
+            : <div className="navi-logo" />}
         </a>
         <div className="empty-space flex-grow" />
-        <div className="navi-languages right-border navi-margin"><LangSelect /></div>
+        <div className="navi-languages right-border navi-margin">
+          <LangSelect />
+        </div>
         <div className="navi-icons navi-margin padding-horizontal-large">
           <a onClick={openDisruptionInfo}>
             <Icon img="icon-icon_caution" />
           </a>
         </div>
-        <div className="padding-horizontal-large navi-margin" >
+        <div className="padding-horizontal-large navi-margin">
           <ExternalLink className="external-top-bar" {...config.appBarLink} />
         </div>
       </div>
@@ -56,14 +60,12 @@ AppBarLarge.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-AppBarLarge.description = () => (
+AppBarLarge.description = () =>
   <div>
-    <p>
-      AppBar of application for large display
-    </p>
+    <p>AppBar of application for large display</p>
     <ComponentUsageExample description="">
       <AppBarLarge titleClicked={() => {}} />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
 export default AppBarLarge;

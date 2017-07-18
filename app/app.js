@@ -15,7 +15,7 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore';
 
-export default (config) => {
+export default config => {
   const app = new Fluxible({
     component: routes(config),
   });
@@ -36,10 +36,10 @@ export default (config) => {
 
   app.plug({
     name: 'extra-context-plugin',
-    plugContext: (options) => {
+    plugContext: options => {
       let { url, headers } = options;
       return {
-        plugComponentContext: (componentContext) => {
+        plugComponentContext: componentContext => {
           // eslint-disable-next-line no-param-reassign
           componentContext.config = config;
           // eslint-disable-next-line no-param-reassign
@@ -47,11 +47,11 @@ export default (config) => {
           // eslint-disable-next-line no-param-reassign
           componentContext.headers = headers;
         },
-        plugActionContext: (actionContext) => {
+        plugActionContext: actionContext => {
           // eslint-disable-next-line no-param-reassign
           actionContext.config = config;
         },
-        plugStoreContext: (storeContext) => {
+        plugStoreContext: storeContext => {
           // eslint-disable-next-line no-param-reassign
           storeContext.config = config;
         },
