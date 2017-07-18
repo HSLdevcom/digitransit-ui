@@ -13,7 +13,11 @@ export function storeEndpoint(actionContext, { target, endpoint }, done) {
   return done();
 }
 
-export function storeEndpointIfNotCurrent(actionContext, { target, endpoint }, done) {
+export function storeEndpointIfNotCurrent(
+  actionContext,
+  { target, endpoint },
+  done,
+) {
   actionContext.dispatch('setEndpointIfNotCurrent', {
     target,
     value: {
@@ -26,15 +30,14 @@ export function storeEndpointIfNotCurrent(actionContext, { target, endpoint }, d
   return done();
 }
 
-
 export function setEndpoint(actionContext, payload) {
-  return actionContext.executeAction(storeEndpoint, payload, (e) => {
+  return actionContext.executeAction(storeEndpoint, payload, e => {
     if (e) {
       // Todo: Show there shrow instead
       return console.error('Could not store endpoint: ', e);
     }
 
-    return actionContext.executeAction(route, payload, (e2) => {
+    return actionContext.executeAction(route, payload, e2 => {
       if (e2) {
         return console.error('Could not route:', e2);
       }
@@ -51,7 +54,7 @@ export function setUseCurrent(actionContext, payload) {
 export function swapEndpoints(actionContext, payload) {
   actionContext.dispatch('swapEndpoints');
 
-  return actionContext.executeAction(route, payload, (e) => {
+  return actionContext.executeAction(route, payload, e => {
     if (e) {
       return console.error('Could not route:', e);
     }

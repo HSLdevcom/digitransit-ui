@@ -14,15 +14,23 @@ function EndLeg(props) {
           {moment(props.endTime).format('HH:mm')}
         </div>
       </div>
-      <div className={`leg-before ${modeClassName}`} >
+      <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle ${modeClassName}`} />
         <div className="itinerary-icon-container">
-          <Icon img="icon-icon_mapMarker-point" className="itinerary-icon to to-it" />
+          <Icon
+            img="icon-icon_mapMarker-point"
+            className="itinerary-icon to to-it"
+          />
         </div>
       </div>
-      <div onClick={props.focusAction} className="small-9 columns itinerary-instruction-column to end">
+      <div
+        onClick={props.focusAction}
+        className="small-9 columns itinerary-instruction-column to end"
+      >
         <div className="itinerary-leg-first-row">
-          <div>{props.to}</div>
+          <div>
+            {props.to}
+          </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
       </div>
@@ -31,13 +39,17 @@ function EndLeg(props) {
 }
 
 EndLeg.description = () => {
-  const endTime = moment().hour(12).minute(34).second(0)
-                          .valueOf();
+  const endTime = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary end leg.</p>
       <ComponentUsageExample>
-        <EndLeg endTime={endTime} to="Veturitie" index={3} focusAction={() => {}} />
+        <EndLeg
+          endTime={endTime}
+          to="Veturitie"
+          index={3}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );

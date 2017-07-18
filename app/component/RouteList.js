@@ -9,23 +9,27 @@ import routeCompare from '../util/route-compare';
 import RouteNumber from './RouteNumber';
 
 function RouteList(props) {
-  const routeObjs =
-    toPairs(groupBy(props.routes, route => route.mode.toLowerCase()))
-      .map(([mode, routes]) => (
-        <div key={mode} className={mode}>
-          <RouteNumber
-            mode={mode}
-            text={` ${
-              uniq(routes.sort(routeCompare)
-                .filter(route => route.shortName)
-                .map(route => route.shortName))
-                .join(', ')
-              }`}
-          />
-        </div>
-      ));
+  const routeObjs = toPairs(
+    groupBy(props.routes, route => route.mode.toLowerCase()),
+  ).map(([mode, routes]) =>
+    <div key={mode} className={mode}>
+      <RouteNumber
+        mode={mode}
+        text={` ${uniq(
+          routes
+            .sort(routeCompare)
+            .filter(route => route.shortName)
+            .map(route => route.shortName),
+        ).join(', ')}`}
+      />
+    </div>,
+  );
 
-  return <div className={cx('route-list', props.className)}>{routeObjs}</div>;
+  return (
+    <div className={cx('route-list', props.className)}>
+      {routeObjs}
+    </div>
+  );
 }
 
 RouteList.propTypes = {

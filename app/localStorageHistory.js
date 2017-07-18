@@ -3,7 +3,7 @@ import { setHistory, getHistory } from './store/localStorage';
 
 function getHistoryConsideringTime() {
   const history = getHistory();
-  if (history.time > Date.now() - (60 * 60 * 1000)) {
+  if (history.time > Date.now() - 60 * 60 * 1000) {
     return history;
   }
   return { entries: ['/'], index: 0, time: 0 };
@@ -18,13 +18,12 @@ const saveHistory = () => {
   setHistory({ ...history, time: Date.now() });
 };
 
-const PUSH = (entry) => {
+const PUSH = entry => {
   history.entries.splice(history.index + 1);
   history.entries.push(entry);
   history.index += 1;
   saveHistory();
 };
-
 
 const POP = () => {
   if (isInitialized && history.index > 0) {
@@ -35,25 +34,31 @@ const POP = () => {
   }
 };
 
-const REPLACE = (entry) => {
+const REPLACE = entry => {
   history.entries.splice(history.index);
   history.entries.push(entry);
   saveHistory();
 };
 
-const getEntries = () => (history.entries);
-const getIndex = () => (history.index);
+const getEntries = () => history.entries;
+const getIndex = () => history.index;
 
 const createLocalStorageHistory = () => {
   const hist = createMemoryHistory({
     current: getIndex(),
     entries: getEntries(),
   });
-  hist.listen((event) => {
+  hist.listen(event => {
     switch (event.action) {
-      case 'POP': POP(event); break;
-      case 'REPLACE': REPLACE(event); break;
-      case 'PUSH': PUSH(event); break;
+      case 'POP':
+        POP(event);
+        break;
+      case 'REPLACE':
+        REPLACE(event);
+        break;
+      case 'PUSH':
+        PUSH(event);
+        break;
       default:
         console.error('unhandled history event:', event);
     }

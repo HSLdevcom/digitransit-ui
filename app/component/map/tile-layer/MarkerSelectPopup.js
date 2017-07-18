@@ -10,9 +10,8 @@ import SelectTicketSalesRow from './SelectTicketSalesRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { options } from '../../ExampleData';
 
-
 function MarkerSelectPopup(props) {
-  const rows = props.options.map((option) => {
+  const rows = props.options.map(option => {
     if (option.layer === 'stop' && option.feature.properties.stops) {
       return (
         <SelectTerminalRow
@@ -63,9 +62,7 @@ function MarkerSelectPopup(props) {
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
-      <div
-        className="scrollable momentum-scroll card-row"
-      >
+      <div className="scrollable momentum-scroll card-row">
         {rows}
       </div>
     </div>
@@ -78,10 +75,7 @@ MarkerSelectPopup.description = (
   <div>
     <p>Renders a marker select popup</p>
     <ComponentUsageExample description="">
-      <MarkerSelectPopup
-        options={options}
-        selectRow={() => {}}
-      />
+      <MarkerSelectPopup options={options} selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
 );

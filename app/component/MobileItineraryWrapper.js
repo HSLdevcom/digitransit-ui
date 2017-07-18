@@ -18,7 +18,7 @@ export default class MobileItineraryWrapper extends React.Component {
       to: PropTypes.string.isRequired,
       hash: PropTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
   static contextTypes = {
     router: PropTypes.object.isRequired,
@@ -26,21 +26,25 @@ export default class MobileItineraryWrapper extends React.Component {
   };
 
   static getTabs(itineraries, selectedIndex) {
-    return itineraries.map((itinerary, i) => (
+    return itineraries.map((itinerary, i) =>
       <Tab
         selected={i === selectedIndex}
         key={i} // eslint-disable-line react/no-array-index-key
         label="•"
         value={i}
-        className={i === selectedIndex ? 'itinerary-tab-root--selected' : 'itinerary-tab-root'}
+        className={
+          i === selectedIndex
+            ? 'itinerary-tab-root--selected'
+            : 'itinerary-tab-root'
+        }
         style={{
           height: 'auto',
           color: i === selectedIndex ? '#007ac9' : '#ddd',
           fontSize: '34px',
           padding: '0px',
         }}
-      />
-    ));
+      />,
+    );
   }
 
   state = {
@@ -61,12 +65,15 @@ export default class MobileItineraryWrapper extends React.Component {
     }
   };
 
-  focusMap = (lat, lon) => this.props.focus(lat, lon)
+  focusMap = (lat, lon) => this.props.focus(lat, lon);
 
-  switchSlide = (index) => {
+  switchSlide = index => {
     this.context.router.replace({
       ...this.context.location,
-      pathname: `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`,
+      pathname: `${getRoutePath(
+        this.props.params.from,
+        this.props.params.to,
+      )}/${index}`,
     });
     const itineraryTab = this.itineraryTabs[index];
 
@@ -74,7 +81,7 @@ export default class MobileItineraryWrapper extends React.Component {
       const coords = itineraryTab.refs.component.getState();
       this.focusMap(coords.lat, coords.lon);
     }
-  }
+  };
 
   render() {
     const index = parseInt(this.props.params.hash, 10) || 0;
@@ -93,39 +100,43 @@ export default class MobileItineraryWrapper extends React.Component {
       );
     }
 
-    const swipe = this.props.fullscreenMap ? undefined : (
-      <SwipeableViews
-        index={index}
-        key="swipe"
-        className="itinerary-swipe-views-root"
-        slideStyle={{ minHeight: '100%' }}
-        containerStyle={{ minHeight: '100%' }}
-        onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
-      >
-        {React.Children.map(this.props.children, (el, i) =>
-          React.cloneElement(el, {
-            focus: this.focusMap,
-            ref: (innerElement) => { this.itineraryTabs[i] = innerElement; },
-          }),
-        )}
-      </SwipeableViews>);
-    const tabs = this.props.fullscreenMap ? undefined : (
-      <div className="itinerary-tabs-container" key="tabs">
-        <Tabs
-          onChange={this.switchSlide}
-          value={index}
-          tabItemContainerStyle={{
-            backgroundColor: '#eef1f3',
-            lineHeight: '18px',
-            width: '60px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-          inkBarStyle={{ display: 'none' }}
+    const swipe = this.props.fullscreenMap
+      ? undefined
+      : <SwipeableViews
+          index={index}
+          key="swipe"
+          className="itinerary-swipe-views-root"
+          slideStyle={{ minHeight: '100%' }}
+          containerStyle={{ minHeight: '100%' }}
+          onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
         >
-          {MobileItineraryWrapper.getTabs(this.props.children, index)}
-        </Tabs>
-      </div>);
+          {React.Children.map(this.props.children, (el, i) =>
+            React.cloneElement(el, {
+              focus: this.focusMap,
+              ref: innerElement => {
+                this.itineraryTabs[i] = innerElement;
+              },
+            }),
+          )}
+        </SwipeableViews>;
+    const tabs = this.props.fullscreenMap
+      ? undefined
+      : <div className="itinerary-tabs-container" key="tabs">
+          <Tabs
+            onChange={this.switchSlide}
+            value={index}
+            tabItemContainerStyle={{
+              backgroundColor: '#eef1f3',
+              lineHeight: '18px',
+              width: '60px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+            inkBarStyle={{ display: 'none' }}
+          >
+            {MobileItineraryWrapper.getTabs(this.props.children, index)}
+          </Tabs>
+        </div>;
 
     return (
       <ReactCSSTransitionGroup

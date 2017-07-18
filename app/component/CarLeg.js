@@ -11,13 +11,16 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 function CarLeg(props, context) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    context.config,
+  );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 
   return (
-    <div key={props.index} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
@@ -57,8 +60,7 @@ const exampleLeg = t1 => ({
 });
 
 CarLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary car leg.</p>

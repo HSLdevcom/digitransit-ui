@@ -5,7 +5,6 @@ import pure from 'recompose/pure';
 import ToggleButton from './ToggleButton';
 import ComponentUsageExample from './ComponentUsageExample';
 
-
 class ModeFilter extends React.Component {
   static propTypes = {
     selectedModes: PropTypes.array.isRequired,
@@ -18,52 +17,62 @@ class ModeFilter extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  availableModes = () => Object.keys(this.context.config.transportModes).filter(
-    mode => (this.context.config.transportModes[mode].availableForSelection))
+  availableModes = () =>
+    Object.keys(this.context.config.transportModes).filter(
+      mode => this.context.config.transportModes[mode].availableForSelection,
+    );
 
   render = () => {
     const widthPercentage = 100 / this.availableModes().length;
     const ModeToggleButton = ({ type, stateName }) => {
       if (this.context.config.transportModes[type].availableForSelection) {
         const action = this.props.action[
-          `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`];
+          `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`
+        ];
         const selectedModes = this.props.selectedModes;
-        const isEnabled = selectedModes.includes(stateName) ||
+        const isEnabled =
+          selectedModes.includes(stateName) ||
           selectedModes.includes(type.toUpperCase());
-        return (<ToggleButton
-          icon={`${type}-withoutBox`}
-          onBtnClick={() => {
-            this.context.executeAction(action);
-          }}
-          state={isEnabled}
-          checkedClass={type}
-          style={{
-            width: `${widthPercentage}%`,
-          }}
-          className={this.props.buttonClass}
-        />);
+        return (
+          <ToggleButton
+            icon={`${type}-withoutBox`}
+            onBtnClick={() => {
+              this.context.executeAction(action);
+            }}
+            state={isEnabled}
+            checkedClass={type}
+            style={{
+              width: `${widthPercentage}%`,
+            }}
+            className={this.props.buttonClass}
+          />
+        );
       }
       return null;
     };
 
     // TODO we could build the filter strictly based on config
-    return (<div className="btn-bar mode-filter no-select">
-      <ModeToggleButton type="bus" />
-      <ModeToggleButton type="tram" />
-      <ModeToggleButton type="rail" />
-      <ModeToggleButton type="subway" />
-      <ModeToggleButton type="ferry" />
-      <ModeToggleButton type="airplane" />
-      <ModeToggleButton type="citybike" stateName="BICYCLE_RENT" />
-    </div>);
-  }
+    return (
+      <div className="btn-bar mode-filter no-select">
+        <ModeToggleButton type="bus" />
+        <ModeToggleButton type="tram" />
+        <ModeToggleButton type="rail" />
+        <ModeToggleButton type="subway" />
+        <ModeToggleButton type="ferry" />
+        <ModeToggleButton type="airplane" />
+        <ModeToggleButton type="citybike" stateName="BICYCLE_RENT" />
+      </div>
+    );
+  };
 }
 
 const pureModeFilter = pure(ModeFilter);
 
 pureModeFilter.description = () =>
   <div>
-    <p>ModeFilter displays row of transport mode icons that can be used to select transport modes
+    <p>
+      ModeFilter displays row of transport mode icons that can be used to select
+      transport modes
     </p>
     <ComponentUsageExample>
       <ModeFilter

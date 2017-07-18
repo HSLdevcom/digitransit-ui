@@ -5,7 +5,11 @@ import cx from 'classnames';
 function Icon(props) {
   return (
     <span aria-hidden>
-      <svg id={props.id} viewBox={props.viewBox} className={cx('icon', props.className)}>
+      <svg
+        id={props.id}
+        viewBox={props.viewBox}
+        className={cx('icon', props.className)}
+      >
         <use xlinkHref={`#${props.img}`} />
       </svg>
     </span>
@@ -25,7 +29,10 @@ Icon.defaultProps = {
 
 Icon.asString = (img, className, id) => `
   <span>
-    <svg${id ? ` id=${id}` : ''} viewBox="0 0 40 40" class="${cx('icon', className)}">
+    <svg${id ? ` id=${id}` : ''} viewBox="0 0 40 40" class="${cx(
+  'icon',
+  className,
+)}">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
     </svg>
   </span>

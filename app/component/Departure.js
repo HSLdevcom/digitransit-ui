@@ -18,7 +18,9 @@ function Departure(props) {
 
   let platformNumber = false;
   if (props.isTerminal) {
-    platformNumber = <PlatformNumber number={props.departure.stop.platformCode} />;
+    platformNumber = (
+      <PlatformNumber number={props.departure.stop.platformCode} />
+    );
   }
 
   return (
@@ -37,20 +39,21 @@ function Departure(props) {
       />
       <RouteDestination
         mode={mode}
-        destination={props.departure.headsign ||
-                     props.departure.pattern.headsign ||
-                     props.departure.pattern.route.longName}
+        destination={
+          props.departure.headsign ||
+          props.departure.pattern.headsign ||
+          props.departure.pattern.route.longName
+        }
         isArrival={props.isArrival}
       />
       {platformNumber}
-    </p>);
+    </p>
+  );
 }
 
 Departure.description = () =>
   <div>
-    <p>
-      Display a departure row using react components
-    </p>
+    <p>Display a departure row using react components</p>
     <ComponentUsageExample>
       <Departure
         departure={exampleRealtimeDeparture}
@@ -58,9 +61,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="adding padding classes"
-    >
+    <ComponentUsageExample description="adding padding classes">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -68,9 +69,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="with platform number"
-    >
+    <ComponentUsageExample description="with platform number">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -79,9 +78,7 @@ Departure.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="isArrival true"
-    >
+    <ComponentUsageExample description="isArrival true">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}

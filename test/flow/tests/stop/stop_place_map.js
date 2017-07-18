@@ -1,6 +1,6 @@
 module.exports = {
   tags: ['stops', 'map', 'geolocation'],
-  'Open Ruoholahden villat cluster, select stop to show its departures': (browser) => {
+  'Open Ruoholahden villat cluster, select stop to show its departures': browser => {
     browser.url(browser.launch_url);
     browser.setGeolocation(60.1659488, 24.92693);
 
@@ -12,7 +12,10 @@ module.exports = {
     marker.waitForPopupPaneHeaderVisible();
 
     const stop = browser.page.stopCard();
-    stop.waitForElementVisible('@cluster', browser.globals.itinerarySearchTimeout);
+    stop.waitForElementVisible(
+      '@cluster',
+      browser.globals.itinerarySearchTimeout,
+    );
     stop.click('@clusterStop');
     stop.expectCardHeaderDescription('Ruoholahdenkatu');
     stop.waitForDepartureVisible();

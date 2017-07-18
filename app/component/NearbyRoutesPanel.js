@@ -9,20 +9,20 @@ import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 
-function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context) {
+function NearbyRoutesPanel(
+  { location, currentTime, modes, placeTypes },
+  context,
+) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
       {context.config.showModeFilter &&
-        (<div className="row border-bottom">
+        <div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
-        </div>)}
+        </div>}
       <NextDeparturesListHeader />
-      <div
-        className="scrollable momentum-scroll nearby"
-        id="scrollable-routes"
-      >
+      <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
           lat={location.lat}
           lon={location.lon}
@@ -55,7 +55,7 @@ NearbyRoutesPanel.contextTypes = {
 export default connectToStores(
   NearbyRoutesPanel,
   ['EndpointStore', 'TimeStore', 'ModeStore'],
-  (context) => {
+  context => {
     const position = context.getStore('PositionStore').getLocationState();
     const origin = context.getStore('EndpointStore').getOrigin();
     const modes = context.getStore('ModeStore').getMode();

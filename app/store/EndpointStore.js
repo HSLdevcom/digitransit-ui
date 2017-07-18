@@ -14,7 +14,9 @@ class EndpointStore extends Store {
   }
 
   isCurrentPositionInUse() {
-    return this.origin.useCurrentPosition || this.destination.useCurrentPosition;
+    return (
+      this.origin.useCurrentPosition || this.destination.useCurrentPosition
+    );
   }
 
   clearOrigin() {

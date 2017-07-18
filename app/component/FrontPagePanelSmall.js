@@ -8,8 +8,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 
-const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
-   favouritesClicked, closePanel, children }) => {
+const FrontPagePanelSmall = ({
+  selectedPanel,
+  nearbyClicked,
+  favouritesClicked,
+  closePanel,
+  children,
+}) => {
   let heading;
   const tabClasses = ['hover'];
   const nearbyClasses = ['nearby-routes', 'h4'];
@@ -19,14 +24,18 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
     heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
     nearbyClasses.push('selected');
   } else if (selectedPanel === 2) {
-    heading = <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />;
+    heading = (
+      <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />
+    );
     favouritesClasses.push('selected');
   }
 
   const top = (
     <div className="panel-top">
       <div className="panel-heading">
-        <h2>{heading}</h2>
+        <h2>
+          {heading}
+        </h2>
       </div>
       <div className="close-icon" onClick={closePanel}>
         <Icon img="icon-icon_close" />
@@ -34,8 +43,12 @@ const FrontPagePanelSmall = ({ selectedPanel, nearbyClicked,
     </div>
   );
 
-  const content = selectedPanel ?
-    <div className="frontpage-panel-wrapper" key="panel">{top}{children}</div> : undefined;
+  const content = selectedPanel
+    ? <div className="frontpage-panel-wrapper" key="panel">
+        {top}
+        {children}
+      </div>
+    : undefined;
 
   return (
     <div className="frontpage-panel-container no-select">
@@ -66,11 +79,13 @@ FrontPagePanelSmall.displayName = 'FrontPagePanelSmall';
 
 FrontPagePanelSmall.description = () =>
   <div>
-    <p>
-      Front page tabs for small display.
-    </p>
+    <p>Front page tabs for small display.</p>
     <ComponentUsageExample description="Front page tabs">
-      <FrontPagePanelSmall closePanel={noop} favouritesClicked={noop} nearbyClicked={noop} />
+      <FrontPagePanelSmall
+        closePanel={noop}
+        favouritesClicked={noop}
+        nearbyClicked={noop}
+      />
     </ComponentUsageExample>
   </div>;
 

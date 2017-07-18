@@ -13,8 +13,9 @@ if (isIOSApp) {
   createHistoryFunction = createMemoryHistory;
 }
 
-const history = config => useRouterHistory(useQueries(createHistoryFunction))({
-  basename: config.APP_PATH,
-});
+const history = config =>
+  useRouterHistory(useQueries(createHistoryFunction))({
+    basename: config.APP_PATH,
+  });
 
 export default history;

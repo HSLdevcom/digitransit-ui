@@ -15,7 +15,7 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   noInfo: true,
   hot: true,
-}).listen(port, '0.0.0.0', (err) => {
+}).listen(port, '0.0.0.0', err => {
   if (err) {
     console.log(err);
   }

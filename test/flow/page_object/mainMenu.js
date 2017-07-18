@@ -1,4 +1,3 @@
-
 function clickMenuToggle() {
   this.api.debug('clicking menu toggle');
   return this.api.checkedClick(this.elements.mainMenuToggle.selector);
@@ -15,11 +14,13 @@ function openAbout() {
 }
 
 module.exports = {
-  commands: [{
-    clickMenuToggle,
-    clickSelectEnglish,
-    openAbout,
-  }],
+  commands: [
+    {
+      clickMenuToggle,
+      clickSelectEnglish,
+      openAbout,
+    },
+  ],
   elements: {
     mainMenuToggle: '.main-menu-toggle',
     langEn: '#lang-en',

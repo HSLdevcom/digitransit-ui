@@ -35,10 +35,12 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': 29.013261,
   },
 
-  areaPolygon: [[26.163918, 62.454915],
-                [26.163918, 63.469325],
-                [29.013261, 63.469325],
-                [29.013261, 62.454915]],
+  areaPolygon: [
+    [26.163918, 62.454915],
+    [26.163918, 63.469325],
+    [29.013261, 63.469325],
+    [29.013261, 62.454915],
+  ],
 
   defaultEndpoint: {
     address: 'Kuopion tori',
@@ -47,17 +49,42 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Linja-autoasema, Kuopio', lat: 62.898516, lon: 27.679409 },
-    { icon: 'icon-icon_rail', label: 'Rautatieasema, Kuopio', lat: 62.896875, lon: 27.680523 },
-    { icon: 'icon-icon_school', label: 'Itä-Suomen yliopisto, Kuopio', lat: 62.894982, lon: 27.640932 },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Linja-autoasema, Kuopio',
+      lat: 62.898516,
+      lon: 27.679409,
+    },
+    {
+      icon: 'icon-icon_rail',
+      label: 'Rautatieasema, Kuopio',
+      lat: 62.896875,
+      lon: 27.680523,
+    },
+    {
+      icon: 'icon-icon_school',
+      label: 'Itä-Suomen yliopisto, Kuopio',
+      lat: 62.894982,
+      lon: 27.640932,
+    },
   ],
 
   footer: {
     content: [
       { label: `© Kuopio ${walttiConfig.YEAR}` },
       {},
-      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054', icon: 'icon-icon_speech-bubble' },
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'footer-feedback',
+        nameEn: 'Submit feedback',
+        href: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+        icon: 'icon-icon_speech-bubble',
+      },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -65,33 +92,45 @@ export default configMerger(walttiConfig, {
     fi: [
       {
         header: 'Tietoja palvelusta',
-        paragraphs: ['Tämän palvelun tarjoaa Kuopion seudun joukkoliikenne reittisuunnittelua varten Kuopion ja Siilinjärven alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+        paragraphs: [
+          'Tämän palvelun tarjoaa Kuopion seudun joukkoliikenne reittisuunnittelua varten Kuopion ja Siilinjärven alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+        ],
       },
       {
         header: 'Tietolähteet',
-        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kuopion tuottamaan GTFS-aineistoon.'],
+        paragraphs: [
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Kuopion tuottamaan GTFS-aineistoon.',
+        ],
       },
     ],
 
     sv: [
       {
         header: 'Om tjänsten',
-        paragraphs: ['Den här tjänsten erbjuds av Kuopion seudun joukkoliikenne för reseplanering inom Kuopio och Siilinjärvi region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+        paragraphs: [
+          'Den här tjänsten erbjuds av Kuopion seudun joukkoliikenne för reseplanering inom Kuopio och Siilinjärvi region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
       },
       {
         header: 'Datakällor',
-        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på GTFS data från Kuopio.'],
+        paragraphs: [
+          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på GTFS data från Kuopio.',
+        ],
       },
     ],
 
     en: [
       {
         header: 'About this service',
-        paragraphs: ['This service is provided by Kuopion seudun joukkoliikenne for route planning in Kuopio and Siilinjärvi region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+        paragraphs: [
+          'This service is provided by Kuopion seudun joukkoliikenne for route planning in Kuopio and Siilinjärvi region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
       },
       {
         header: 'Data sources',
-        paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Kuopio.'],
+        paragraphs: [
+          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Kuopio.',
+        ],
       },
     ],
   },

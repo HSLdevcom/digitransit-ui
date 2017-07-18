@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const NoFavouritesPanel = () => (
+const NoFavouritesPanel = () =>
   <div className="nofavs row">
     <div className="small-12 columns">
       <div className="nofavs-p black text-center">
@@ -12,8 +12,6 @@ const NoFavouritesPanel = () => (
         />
       </div>
     </div>
-  </div>
-);
-
+  </div>;
 
 export default NoFavouritesPanel;

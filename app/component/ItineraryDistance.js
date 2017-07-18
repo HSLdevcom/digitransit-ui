@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const Distance = (props) => {
+const Distance = props => {
   let approxDistance;
 
   if (this.props.distance > 0) {
