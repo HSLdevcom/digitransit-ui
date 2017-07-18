@@ -1,26 +1,37 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 import GenericTable from './GenericTable';
 import Icon from './Icon';
 
-const FavouriteIconTable = ({ favouriteIconIds, selectedIconId, handleClick }) => {
+const FavouriteIconTable = ({
+  favouriteIconIds,
+  selectedIconId,
+  handleClick,
+}) => {
   const columnWidth = {
     width: `${100 / favouriteIconIds.length}%`,
   };
 
-  const columns = favouriteIconIds.map(value => (
+  const columns = favouriteIconIds.map(value =>
     <div
       key={value}
-      className={cx('favourite-icon-table-column', { 'selected-icon': value === selectedIconId })}
+      className={cx('favourite-icon-table-column', {
+        'selected-icon': value === selectedIconId,
+      })}
       style={columnWidth}
       onClick={() => handleClick(value)}
     >
       <Icon img={value} />
-    </div>
-  ));
+    </div>,
+  );
 
-  return <GenericTable showLabels={false}>{columns}</GenericTable>;
+  return (
+    <GenericTable showLabels={false}>
+      {columns}
+    </GenericTable>
+  );
 };
 
 FavouriteIconTable.displayName = 'FavouriteIconTable';
@@ -34,9 +45,9 @@ FavouriteIconTable.description = () =>
   </div>;
 
 FavouriteIconTable.propTypes = {
-  handleClick: React.PropTypes.func.isRequired,
-  favouriteIconIds: React.PropTypes.array,
-  selectedIconId: React.PropTypes.string,
+  handleClick: PropTypes.func.isRequired,
+  favouriteIconIds: PropTypes.array,
+  selectedIconId: PropTypes.string,
 };
 
 export default FavouriteIconTable;

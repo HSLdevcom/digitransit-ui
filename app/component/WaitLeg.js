@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -42,35 +43,38 @@ function WaitLeg(props) {
   );
 }
 
-
 const exampleLeg = () => ({
   to: { name: 'Ilmattarentie' },
 });
 
 WaitLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   const leg = exampleLeg();
   const duration = moment.duration(17, 'minutes').asMilliseconds();
   return (
     <div>
       <p>Displays an itinerary wait leg.</p>
       <ComponentUsageExample>
-        <WaitLeg startTime={today} focusAction={() => {}} waitTime={duration} leg={leg} />
+        <WaitLeg
+          startTime={today}
+          focusAction={() => {}}
+          waitTime={duration}
+          leg={leg}
+        />
       </ComponentUsageExample>
     </div>
   );
 };
 
 WaitLeg.propTypes = {
-  startTime: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
-  index: React.PropTypes.number.isRequired,
-  children: React.PropTypes.node,
-  waitTime: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    to: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
+  startTime: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  children: PropTypes.node,
+  waitTime: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    to: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

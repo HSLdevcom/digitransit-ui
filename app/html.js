@@ -1,19 +1,18 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-const Application = (
-  {
-    fonts,
-    svgSprite,
-    css,
-    content,
-    polyfill,
-    state,
-    locale,
-    scripts,
-    relayData,
-    head,
-  },
-) => (
+const Application = ({
+  fonts,
+  svgSprite,
+  css,
+  content,
+  polyfill,
+  state,
+  locale,
+  scripts,
+  relayData,
+  head,
+}) =>
   <html lang={locale}>
     <head>
       {head !== null ? head.title.toComponent() : false}
@@ -34,20 +33,19 @@ const Application = (
       />
       {scripts}
     </body>
-  </html>
-);
+  </html>;
 
 Application.propTypes = {
-  fonts: React.PropTypes.string,
-  svgSprite: React.PropTypes.node,
-  css: React.PropTypes.node,
-  content: React.PropTypes.string,
-  polyfill: React.PropTypes.string,
-  state: React.PropTypes.string,
-  locale: React.PropTypes.string,
-  scripts: React.PropTypes.node,
-  relayData: React.PropTypes.any,
-  head: React.PropTypes.object.isRequired,
+  fonts: PropTypes.string,
+  svgSprite: PropTypes.node,
+  css: PropTypes.node,
+  content: PropTypes.string,
+  polyfill: PropTypes.string,
+  state: PropTypes.string,
+  locale: PropTypes.string,
+  scripts: PropTypes.node,
+  relayData: PropTypes.any,
+  head: PropTypes.object.isRequired,
 };
 
 export default Application;

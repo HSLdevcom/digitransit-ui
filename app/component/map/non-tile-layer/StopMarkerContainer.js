@@ -1,10 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 
 import StopMarkerLayer from './StopMarkerLayer';
 import StopMarkerLayerRoute from '../../../route/StopMarkerLayerRoute';
 
-export default function StopMarkerContainer({ hilightedStops }, { map, config }) {
+export default function StopMarkerContainer(
+  { hilightedStops },
+  { map, config },
+) {
   let bounds;
   let maxLon;
   let maxLat;
@@ -27,14 +31,16 @@ export default function StopMarkerContainer({ hilightedStops }, { map, config })
   return (
     <Relay.RootContainer
       Component={StopMarkerLayer}
-      route={new StopMarkerLayerRoute({
-        minLat,
-        minLon,
-        maxLat,
-        maxLon,
-        agency: config.preferredAgency || null,
-      })}
-      renderFetched={data => (
+      route={
+        new StopMarkerLayerRoute({
+          minLat,
+          minLon,
+          maxLat,
+          maxLon,
+          agency: config.preferredAgency || null,
+        })
+      }
+      renderFetched={data =>
         <StopMarkerLayer
           {...data}
           hilightedStops={hilightedStops}
@@ -43,17 +49,16 @@ export default function StopMarkerContainer({ hilightedStops }, { map, config })
           maxLat={maxLat}
           maxLon={maxLon}
           agency={config.preferredAgency || null}
-        />
-      )}
+        />}
     />
   );
 }
 
 StopMarkerContainer.propTypes = {
-  hilightedStops: React.PropTypes.array,
+  hilightedStops: PropTypes.array,
 };
 
 StopMarkerContainer.contextTypes = {
-  map: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };

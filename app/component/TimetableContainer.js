@@ -1,20 +1,23 @@
 import Relay from 'react-relay';
-import moment from 'moment';
 
 import Timetable from './Timetable';
-
-const date = moment().format('YYYYMMDD');
 
 export default Relay.createContainer(Timetable, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
+        gtfsId
         name
+        url
         stoptimesForServiceDate(date:$date) {
           pattern {
             headsign
+            code
             route {
+              id
               shortName
+              longName
+              mode
               agency {
                 id
                 name
@@ -31,5 +34,5 @@ export default Relay.createContainer(Timetable, {
       }
     `,
   },
-  initialVariables: { date },
+  initialVariables: { date: null },
 });

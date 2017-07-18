@@ -1,8 +1,11 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const MAP_URL = process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const MAP_URL =
+  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_DESCRIPTION = 'Uusi Reittiopas';
+const YEAR = 1900 + new Date().getYear();
 
 export default {
+  YEAR,
   URL: {
     OTP: `${API_URL}/routing/v1/routers/waltti/`,
     STOP_MAP: `${MAP_URL}/map/v1/waltti-stop-map/`,
@@ -23,8 +26,6 @@ export default {
   agency: {
     show: false,
   },
-
-  sprites: 'svg-sprite.default.svg', // use default set
 
   meta: {
     description: APP_DESCRIPTION,

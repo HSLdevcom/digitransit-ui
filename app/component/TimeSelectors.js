@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
@@ -6,7 +7,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
 export default function TimeSelectors(
-  { arriveBy, time, dates, setArriveBy, changeTime, changeDate }, { intl },
+  { arriveBy, time, dates, setArriveBy, changeTime, changeDate },
+  { intl },
 ) {
   // const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
@@ -38,7 +40,11 @@ export default function TimeSelectors(
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
-      <ItineraryTimePicker initHours={time.format('HH')} initMin={time.format('mm')} changeTime={changeTime} />
+      <ItineraryTimePicker
+        initHours={time.format('HH')}
+        initMin={time.format('mm')}
+        changeTime={changeTime}
+      />
     </div>
   );
 }
@@ -60,9 +66,7 @@ TimeSelectors.displayName = 'TimeSelectors';
 
 TimeSelectors.description = () =>
   <div>
-    <p>
-      A toolbar for changing arriveBy/departAt, date and time
-    </p>
+    <p>A toolbar for changing arriveBy/departAt, date and time</p>
     <ComponentUsageExample>
       <TimeSelectors
         arriveBy={false}
@@ -70,7 +74,11 @@ TimeSelectors.description = () =>
         setArriveBy={() => {}}
         changeTime={() => {}}
         changeDate={() => {}}
-        dates={[<option value={'2016-05-18'} key={'2016-05-18'} >Today</option>]}
+        dates={[
+          <option value={'2016-05-18'} key={'2016-05-18'}>
+            Today
+          </option>,
+        ]}
       />
     </ComponentUsageExample>
   </div>;

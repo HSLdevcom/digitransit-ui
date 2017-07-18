@@ -16,11 +16,16 @@ function setItem(key, value) {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
-        console.log('[localStorage]' + // eslint-disable-line no-console
-          ' Unable to save state; localStorage is not available in Safari private mode');
+        console.log(
+          '[localStorage]' + // eslint-disable-line no-console
+            ' Unable to save state; localStorage is not available in Safari private mode',
+        );
       } else {
-        handleSecurityError(error, '[localStorage]' +
-          ' Unable to save state; access to localStorage denied by browser settings');
+        handleSecurityError(
+          error,
+          '[localStorage]' +
+            ' Unable to save state; access to localStorage denied by browser settings',
+        );
       }
     }
   }
@@ -65,18 +70,20 @@ export function setCustomizedSettings(data) {
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
   const newSettings = {
-    accessibilityOption: !(typeof data.accessibilityOption === 'undefined') ? data.accessibilityOption
-    : oldSettings.accessibilityOption,
-    minTransferTime: data.minTransferTime ? data.minTransferTime
-    : oldSettings.minTransferTime,
-    modes: data.modes ? data.modes
-    : oldSettings.modes,
-    walkBoardCost: data.walkBoardCost ? data.walkBoardCost
-    : oldSettings.walkBoardCost,
-    walkReluctance: data.walkReluctance ? data.walkReluctance
-    : oldSettings.walkReluctance,
-    walkSpeed: data.walkSpeed ? data.walkSpeed
-    : oldSettings.walkSpeed,
+    accessibilityOption: !(typeof data.accessibilityOption === 'undefined')
+      ? data.accessibilityOption
+      : oldSettings.accessibilityOption,
+    minTransferTime: data.minTransferTime
+      ? data.minTransferTime
+      : oldSettings.minTransferTime,
+    modes: data.modes ? data.modes : oldSettings.modes,
+    walkBoardCost: data.walkBoardCost
+      ? data.walkBoardCost
+      : oldSettings.walkBoardCost,
+    walkReluctance: data.walkReluctance
+      ? data.walkReluctance
+      : oldSettings.walkReluctance,
+    walkSpeed: data.walkSpeed ? data.walkSpeed : oldSettings.walkSpeed,
   };
   setItem('customizedSettings', newSettings);
 }

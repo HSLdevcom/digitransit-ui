@@ -1,6 +1,6 @@
 module.exports = {
   tags: ['favourite', 'search'],
-  'Add favourite should offer current location': (browser) => {
+  'Add favourite should offer current location': browser => {
     browser.url(browser.launch_url);
 
     const myFavourites = browser.page.myFavourites();
@@ -15,4 +15,3 @@ module.exports = {
     browser.end();
   },
 };
-

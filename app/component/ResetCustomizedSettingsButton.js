@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 class ResetCustomizedSettingsButton extends React.Component {
-
   static propTypes = {
-    onReset: React.PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
   };
 
   resetSettings = () => {

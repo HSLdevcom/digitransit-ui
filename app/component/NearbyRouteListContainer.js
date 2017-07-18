@@ -1,19 +1,19 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import PlaceAtDistanceListContainer from './PlaceAtDistanceListContainer';
 
-const NearbyRouteList = props => (
+const NearbyRouteList = props =>
   <PlaceAtDistanceListContainer
     currentTime={props.currentTime}
     timeRange={props.timeRange}
     places={props.nearest.places}
-  />
-);
+  />;
 
 NearbyRouteList.propTypes = {
-  nearest: React.PropTypes.object.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  timeRange: React.PropTypes.number.isRequired,
+  nearest: PropTypes.object.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  timeRange: PropTypes.number.isRequired,
 };
 
 export default Relay.createContainer(NearbyRouteList, {

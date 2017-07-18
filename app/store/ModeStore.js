@@ -2,7 +2,6 @@ import Store from 'fluxible/addons/BaseStore';
 import { setModeStorage, getModeStorage } from './localStorage';
 
 class ModeStore extends Store {
-
   static storeName = 'ModeStore';
 
   constructor(dispatcher) {
@@ -61,11 +60,11 @@ class ModeStore extends Store {
 
     this.mode = mode;
     this.modeString = mode.join(',');
-  }
+  };
 
-  getMode = () => this.mode
+  getMode = () => this.mode;
 
-  getModeString = () => this.modeString
+  getModeString = () => this.modeString;
 
   getBusState() {
     return this.data.busState;
@@ -103,9 +102,9 @@ class ModeStore extends Store {
     this.data.railState = false;
     this.data.tramState = false;
     this.data.busState = false;
-  }
+  };
 
-  doToggle = (name) => {
+  doToggle = name => {
     if (this.data.selected !== name) {
       this.clearState();
       this.data[name] = true;
@@ -117,7 +116,7 @@ class ModeStore extends Store {
     this.storeMode();
     this.generateMode();
     this.emitChange();
-  }
+  };
 
   toggleBusState() {
     this.doToggle('busState');
@@ -137,11 +136,11 @@ class ModeStore extends Store {
 
   toggleFerryState = () => {
     this.doToggle('ferryState');
-  }
+  };
 
   toggleAirplaneState = () => {
     this.doToggle('airplaneState');
-  }
+  };
 
   toggleCitybikeState() {
     this.doToggle('citybikeState');
@@ -149,13 +148,13 @@ class ModeStore extends Store {
 
   storeMode = () => {
     setModeStorage(this.data);
-  }
+  };
 
   dehydrate = () => this.data;
 
-  rehydrate = (data) => {
+  rehydrate = data => {
     this.data = data;
-  }
+  };
 
   static handlers = {
     ToggleNearbyRouteBusState: 'toggleBusState',

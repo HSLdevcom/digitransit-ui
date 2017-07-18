@@ -1,20 +1,22 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithCaution = props => (
-  <svg id={props.id} viewBox="0 0 40 40" className={cx('icon', props.className)}>
-    <use
-      xlinkHref={`#${props.img}`}
-    />
+const IconWithCaution = props =>
+  <svg
+    id={props.id}
+    viewBox="0 0 40 40"
+    className={cx('icon', props.className)}
+  >
+    <use xlinkHref={`#${props.img}`} />
     <use
       xlinkHref="#icon-icon_caution"
       transform="scale(0.6,0.6)"
       y="30"
       style={{ color: 'white', fill: 'red' }}
     />
-  </svg>
-);
+  </svg>;
 
 IconWithCaution.description = () =>
   <ComponentUsageExample description="Bus with caution">
@@ -24,9 +26,9 @@ IconWithCaution.description = () =>
 IconWithCaution.displayName = 'IconWithCaution';
 
 IconWithCaution.propTypes = {
-  id: React.PropTypes.string,
-  className: React.PropTypes.string,
-  img: React.PropTypes.string.isRequired,
+  id: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string.isRequired,
 };
 
 export default IconWithCaution;

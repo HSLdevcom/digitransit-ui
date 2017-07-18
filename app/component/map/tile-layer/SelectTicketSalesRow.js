@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { getIcon } from '../popups/TicketSalesPopup';
-
 
 function SelectTicketSalesRow(props) {
   return (
@@ -12,7 +12,9 @@ function SelectTicketSalesRow(props) {
           <Icon img={getIcon(props.TYYPPI)} />
         </div>
         <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">{props.NIMI} ›</span>
+          <span className="header-primary no-margin link-color">
+            {props.NIMI} ›
+          </span>
         </div>
         <div className="clear" />
       </div>
@@ -23,19 +25,18 @@ function SelectTicketSalesRow(props) {
 
 SelectTicketSalesRow.displayName = 'SelectTicketSalesRow';
 
-SelectTicketSalesRow.description = () => (
+SelectTicketSalesRow.description = () =>
   <div>
     <p>Renders a select ticket sales row</p>
     <ComponentUsageExample description="">
       <SelectTicketSalesRow selectRow={() => {}} />
     </ComponentUsageExample>
-  </div>
-  );
+  </div>;
 
 SelectTicketSalesRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  TYYPPI: React.PropTypes.string.isRequired,
-  NIMI: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  TYYPPI: PropTypes.string.isRequired,
+  NIMI: PropTypes.string.isRequired,
 };
 
 export default SelectTicketSalesRow;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import IconWithBigCaution from './IconWithBigCaution';
@@ -18,21 +19,22 @@ function RouteNumber(props) {
 
   const icon = (isCallAgency, hasDisruption) => {
     if (isCallAgency) {
-      return (<IconWithIcon className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
+      return (
+        <IconWithIcon
+          className={`${mode} call`}
+          img={`icon-icon_${mode}`}
+          subIcon="icon-icon_call"
+        />
+      );
     }
 
     if (hasDisruption) {
-      return (<IconWithBigCaution
-        className={mode}
-        img={`icon-icon_${mode}`}
-      />);
+      return <IconWithBigCaution className={mode} img={`icon-icon_${mode}`} />;
     }
 
-    return (<IconWithIcon
-      className={mode}
-      img={`icon-icon_${mode}`}
-      subIcon=""
-    />);
+    return (
+      <IconWithIcon className={mode} img={`icon-icon_${mode}`} subIcon="" />
+    );
   };
 
   // props.vertical is FALSE in Near you view
@@ -40,17 +42,37 @@ function RouteNumber(props) {
   return (
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        { props.vertical === true ?
-          <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
-        : icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
+        {props.vertical === true
+          ? <div className={`special-icon ${mode}`}>
+              {icon(props.isCallAgency, props.hasDisruption)}
+            </div>
+          : icon(props.isCallAgency, props.hasDisruption)}
+        {props.withBar &&
+          <div className="bar-container">
+            <div className={cx('bar', mode)}>
+              <div className="bar-inner" />
+            </div>
+          </div>}
       </span>
-      {props.vertical === false ?
-        <span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
-          {props.text}</span>
-          : <div className="vehicle-number-container-v"><span className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+      {props.vertical === false
+        ? <span
+            className={cx('vehicle-number', mode, {
+              'overflow-fade': longText && props.fadeLong,
+              long: longText,
+            })}
+          >
             {props.text}
-          </span></div> }
+          </span>
+        : <div className="vehicle-number-container-v">
+            <span
+              className={cx('vehicle-number', mode, {
+                'overflow-fade': longText && props.fadeLong,
+                long: longText,
+              })}
+            >
+              {props.text}
+            </span>
+          </div>}
     </span>
   );
 }
@@ -83,7 +105,6 @@ RouteNumber.description = () =>
       </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
-
       <RouteNumber
         mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}
@@ -113,14 +134,14 @@ RouteNumber.description = () =>
   </div>;
 
 RouteNumber.propTypes = {
-  mode: React.PropTypes.string.isRequired,
-  text: React.PropTypes.node,
-  vertical: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  hasDisruption: React.PropTypes.bool,
-  fadeLong: React.PropTypes.bool,
-  withBar: React.PropTypes.bool.isRequired,
-  isCallAgency: React.PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  text: PropTypes.node,
+  vertical: PropTypes.bool,
+  className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
+  fadeLong: PropTypes.bool,
+  withBar: PropTypes.bool.isRequired,
+  isCallAgency: PropTypes.bool.isRequired,
 };
 
 RouteNumber.defaultProps = {

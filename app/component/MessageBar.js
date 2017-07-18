@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -6,7 +7,6 @@ import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
-
 
 /* Small version has constant height,
  * big version has max height of half but can be
@@ -30,23 +30,21 @@ class MessageBar extends Component {
     visible: true,
   };
 
-  getTabContent = () => (
-    this.unreadMessages().map(el => (
+  getTabContent = () =>
+    this.unreadMessages().map(el =>
       <MessageBarMessage
         key={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang]}
-      />
-    ))
-  )
+      />,
+    );
 
-  getTabs = () => (
-
-    this.unreadMessages().map((el, i) => (
+  getTabs = () =>
+    this.unreadMessages().map((el, i) =>
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
-        icon={(
+        icon={
           // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
           <span>
             <span
@@ -61,9 +59,11 @@ class MessageBar extends Component {
                 id: 'messagebar-label-page',
                 defaultMessage: 'Page',
               })} ${i + 1}`}
-            >•</span>
+            >
+              •
+            </span>
           </span>
-        )}
+        }
         value={i}
         style={{
           height: '18px',
@@ -71,9 +71,8 @@ class MessageBar extends Component {
           fontSize: '18px',
           padding: '0px',
         }}
-      />
-    ))
-  );
+      />,
+    );
 
   maximize = () => {
     this.setState({
@@ -82,25 +81,30 @@ class MessageBar extends Component {
     });
   };
 
-  unreadMessages = () => this.props.messages.filter((el) => {
-    if (el.read === true) {
+  unreadMessages = () =>
+    this.props.messages.filter(el => {
+      if (el.read === true) {
+        return false;
+      }
+      if (el.content[this.props.lang] != null) {
+        return true;
+      }
+      /* eslint-disable no-console */
+      console.error(
+        `Message ${el.id} doesn't have translation for ${this.props.lang}`,
+      );
+      /* eslint-enable no-console */
       return false;
-    }
-    if (el.content[this.props.lang] != null) {
-      return true;
-    }
-    /* eslint-disable no-console */
-    console.error(`Message ${el.id} doesn't have translation for ${this.props.lang}`);
-    /* eslint-enable no-console */
-    return false;
-  });
+    });
 
   /* Find the id of nth unread (we don't show read messages) and mark it as read */
-  markRead = (value) => {
-    this.context.getStore('MessageStore').markMessageAsRead(this.unreadMessages()[value].id);
+  markRead = value => {
+    this.context
+      .getStore('MessageStore')
+      .markMessageAsRead(this.unreadMessages()[value].id);
   };
 
-  handleChange = (value) => {
+  handleChange = value => {
     this.markRead(value);
     this.setState({
       ...this.state,
@@ -157,25 +161,29 @@ class MessageBar extends Component {
           </div>
           <div>
             <button
-              id="close-message-bar" title={this.context.intl.formatMessage({
+              id="close-message-bar"
+              title={this.context.intl.formatMessage({
                 id: 'messagebar-label-close-message-bar',
                 defaultMessage: 'Close banner',
               })}
-              onClick={this.handleClose} className="noborder close-button cursor-pointer"
+              onClick={this.handleClose}
+              className="noborder close-button cursor-pointer"
             >
               <Icon img="icon-icon_close" className="close" />
             </button>
           </div>
-        </section>);
+        </section>
+      );
     }
     return null;
-  }
+  };
 }
 
 export default connectToStores(
   MessageBar,
   ['MessageStore', 'PreferencesStore'],
-  context => (
-    { lang: context.getStore('PreferencesStore').getLanguage(),
-      messages: Array.from(context.getStore('MessageStore').messages.values()) }),
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+    messages: Array.from(context.getStore('MessageStore').messages.values()),
+  }),
 );

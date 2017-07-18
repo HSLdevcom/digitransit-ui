@@ -1,17 +1,32 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 
-export default function DesktopView({ title, header, map, content }, { intl: { formatMessage } }) {
+export default function DesktopView(
+  { title, header, map, content },
+  { intl: { formatMessage } },
+) {
   return (
     <div className="desktop">
       <div className="main-content">
         <div className="desktop-title">
           <h2>
-            <Link title={formatMessage({ id: 'back-to-front-page', defaultMessage: 'Back to the front page' })} to="/"><Icon img="icon-icon_home" className="home-icon" /></Link>
-            <Icon img="icon-icon_arrow-collapse--right" className="arrow-icon" />
+            <Link
+              title={formatMessage({
+                id: 'back-to-front-page',
+                defaultMessage: 'Back to the front page',
+              })}
+              to="/"
+            >
+              <Icon img="icon-icon_home" className="home-icon" />
+            </Link>
+            <Icon
+              img="icon-icon_arrow-collapse--right"
+              className="arrow-icon"
+            />
             {title}
           </h2>
         </div>
@@ -26,10 +41,10 @@ export default function DesktopView({ title, header, map, content }, { intl: { f
 }
 
 DesktopView.propTypes = {
-  title: React.PropTypes.node,
-  header: React.PropTypes.node,
-  map: React.PropTypes.node,
-  content: React.PropTypes.node,
+  title: PropTypes.node,
+  header: PropTypes.node,
+  map: PropTypes.node,
+  content: PropTypes.node,
 };
 
 DesktopView.contextTypes = {

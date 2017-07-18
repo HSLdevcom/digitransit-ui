@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import get from 'lodash/get';
@@ -9,20 +10,22 @@ function LegAgencyInfo({ leg }, { config }) {
   const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
   const show = get(config, 'agency.show', false);
   if (show) {
-    return (<div className="itinerary-leg-agency">
-      <AgencyInfo url={url} agencyName={agencyName} />
-    </div>);
+    return (
+      <div className="itinerary-leg-agency">
+        <AgencyInfo url={url} agencyName={agencyName} />
+      </div>
+    );
   }
   return null;
 }
 
 LegAgencyInfo.contextTypes = {
   intl: intlShape.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 LegAgencyInfo.propTypes = {
-  leg: React.PropTypes.object,
+  leg: PropTypes.object,
 };
 
 export default Relay.createContainer(LegAgencyInfo, {

@@ -1,18 +1,18 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const InfoIcon = ({ stop }) => (
+const InfoIcon = ({ stop }) =>
   <Link href={`/pysakit/${stop.gtfsId}/info`}>
     <span className="cursor-pointer">
       <Icon className="info" img="icon-icon_info" />
     </span>
-  </Link>
-);
+  </Link>;
 
 InfoIcon.propTypes = {
-  stop: React.PropTypes.object.isRequired,
+  stop: PropTypes.object.isRequired,
 };
 
 InfoIcon.displayName = 'InfoIcon';

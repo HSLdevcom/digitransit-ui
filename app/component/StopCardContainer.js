@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -6,27 +7,30 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import DepartureListContainer from './DepartureListContainer';
 import StopCard from './StopCard';
 
-const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
-  ({
+const StopCardContainer = connectToStores(
+  StopCard,
+  ['FavouriteStopsStore'],
+  (context, props) => ({
     isTerminal: props.isTerminal,
-    children: <DepartureListContainer
-      rowClasses="no-padding no-margin"
-      stoptimes={props.stop.stoptimes}
-      limit={props.limit}
-      isTerminal={props.isTerminal}
-      currentTime={props.relay.variables.startTime}
-    />,
+    children: (
+      <DepartureListContainer
+        rowClasses="no-padding no-margin"
+        stoptimes={props.stop.stoptimes}
+        limit={props.limit}
+        isTerminal={props.isTerminal}
+        currentTime={props.relay.variables.startTime}
+      />
+    ),
   }),
 );
 
 StopCardContainer.contextTypes = {
-  executeAction: React.PropTypes.func.isRequired,
-  getStore: React.PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 export default Relay.createContainer(StopCardContainer, {
-  fragments:
-  {
+  fragments: {
     stop: () => Relay.QL`
       fragment on Stop{
         gtfsId

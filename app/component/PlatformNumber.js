@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -31,8 +32,8 @@ function PlatformNumber({ number, short }) {
 }
 
 PlatformNumber.propTypes = {
-  number: React.PropTypes.string,
-  short: React.PropTypes.bool,
+  number: PropTypes.string,
+  short: PropTypes.bool,
 };
 
 PlatformNumber.defaultProps = {
@@ -44,13 +45,9 @@ PlatformNumber.displayName = 'PlatformNumber';
 
 PlatformNumber.description = () =>
   <div>
-    <p>
-      Displays the platform number for a specific departure
-    </p>
-    <ComponentUsageExample >
-      <PlatformNumber
-        number="2"
-      />
+    <p>Displays the platform number for a specific departure</p>
+    <ComponentUsageExample>
+      <PlatformNumber number="2" />
     </ComponentUsageExample>
   </div>;
 

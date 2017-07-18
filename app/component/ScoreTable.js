@@ -1,35 +1,40 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import range from 'lodash/range';
 import ComponentUsageExample from './ComponentUsageExample';
 import GenericTable from './GenericTable';
 
-const Column = ({ i, columnWidth, handleClick, selectedScore }) => (
+const Column = ({ i, columnWidth, handleClick, selectedScore }) =>
   <div
-    className={cx('score-table-column', { 'selected-score': i === selectedScore })}
+    className={cx('score-table-column', {
+      'selected-score': i === selectedScore,
+    })}
     style={{ width: `${columnWidth}%` }}
     onClick={handleClick.bind(this, i)} // eslint-disable-line react/jsx-no-bind
   >
     {i}
-  </div>
-);
+  </div>;
 
 Column.propTypes = {
-  i: React.PropTypes.number.isRequired,
-  columnWidth: React.PropTypes.number.isRequired,
-  handleClick: React.PropTypes.func.isRequired,
-  selectedScore: React.PropTypes.number,
+  i: PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  selectedScore: PropTypes.number,
 };
 
 function ScoreTable(props) {
-  const columnWidth = 100 / ((props.highestScore - props.lowestScore) + 1);
+  const columnWidth = 100 / (props.highestScore - props.lowestScore + 1);
 
-  const columns = range(props.lowestScore, props.highestScore + 1).map(i => (
+  const columns = range(props.lowestScore, props.highestScore + 1).map(i =>
     <Column
-      i={i} key={i} columnWidth={columnWidth}
-      selectedScore={props.selectedScore} handleClick={props.handleClick}
-    />
-  ));
+      i={i}
+      key={i}
+      columnWidth={columnWidth}
+      selectedScore={props.selectedScore}
+      handleClick={props.handleClick}
+    />,
+  );
 
   return (
     <GenericTable
@@ -53,12 +58,12 @@ ScoreTable.description = () =>
   </div>;
 
 ScoreTable.propTypes = {
-  lowestScore: React.PropTypes.number.isRequired,
-  highestScore: React.PropTypes.number.isRequired,
-  handleClick: React.PropTypes.func.isRequired,
-  showLabels: React.PropTypes.bool,
-  lowEndLabel: React.PropTypes.object,
-  highEndLabel: React.PropTypes.object,
+  lowestScore: PropTypes.number.isRequired,
+  highestScore: PropTypes.number.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  showLabels: PropTypes.bool,
+  lowEndLabel: PropTypes.object,
+  highEndLabel: PropTypes.object,
 };
 
 export default ScoreTable;

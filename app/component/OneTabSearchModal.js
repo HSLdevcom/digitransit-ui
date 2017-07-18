@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
@@ -10,19 +11,19 @@ import SearchModalLarge from './SearchModalLarge';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: React.PropTypes.object,
-    location: React.PropTypes.object,
-    breakpoint: React.PropTypes.string.isRequired,
+    router: PropTypes.object,
+    location: PropTypes.object,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static propTypes = {
-    customOnSuggestionSelected: React.PropTypes.func,
-    customTabLabel: React.PropTypes.string,
-    target: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.string]),
-    layers: React.PropTypes.array,
-    responsive: React.PropTypes.bool, // a switch to force use of fullscreen modal
+    customOnSuggestionSelected: PropTypes.func,
+    customTabLabel: PropTypes.string,
+    target: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    layers: PropTypes.array,
+    responsive: PropTypes.bool, // a switch to force use of fullscreen modal
   };
 
   componentDidUpdate() {
@@ -61,22 +62,22 @@ class OneTabSearchModal extends React.Component {
     this.context.router.goBack();
   };
 
-  modalIsOpen = () => (
-    this.context.location.state ?
-      Boolean(this.context.location.state.oneTabSearchModalOpen) : false
-  )
+  modalIsOpen = () =>
+    this.context.location.state
+      ? Boolean(this.context.location.state.oneTabSearchModalOpen)
+      : false;
 
   render() {
     if (!this.modalIsOpen()) {
       return false;
     }
 
-    let label = (this.props.customTabLabel ?
-      this.props.customTabLabel :
-      this.context.intl.formatMessage({
-        id: this.props.target || 'Origin',
-        defaultMessage: this.props.target || 'Origin',
-      }));
+    let label = this.props.customTabLabel
+      ? this.props.customTabLabel
+      : this.context.intl.formatMessage({
+          id: this.props.target || 'Origin',
+          defaultMessage: this.props.target || 'Origin',
+        });
 
     label = label.charAt(0).toUpperCase() + label.slice(1);
     let searchTabLabel;
@@ -102,14 +103,22 @@ class OneTabSearchModal extends React.Component {
             modalIsOpen
             closeModal={this.context.router.goBack}
           >
-            <Tab className="search-header__button--selected" label={searchTabLabel} value="tab">
+            <Tab
+              className="search-header__button--selected"
+              label={searchTabLabel}
+              value="tab"
+            >
               <SearchInputContainer
-                ref={(c) => { this.searchInputContainer = c; }}
+                ref={c => {
+                  this.searchInputContainer = c;
+                }}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}
                 onSuggestionSelected={
-                  this.props.customOnSuggestionSelected || this.onSuggestionSelected}
+                  this.props.customOnSuggestionSelected ||
+                  this.onSuggestionSelected
+                }
                 close={this.context.router.goBack}
               />
             </Tab>

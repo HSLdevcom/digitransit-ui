@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -10,12 +11,17 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 function ViaLeg(props, context) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    context.config,
+  );
   const duration = durationToString(props.leg.duration * 1000);
-  const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
+  const stayDuration = durationToString(
+    props.leg.startTime - props.arrivalTime,
+  );
 
   return (
-    <div key={props.index} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column via-time-column">
         <div className="itinerary-time-column-time via-arrival-time">
           {moment(props.arrivalTime).format('HH:mm')}
@@ -69,12 +75,12 @@ const exampleLeg = t1 => ({
 });
 
 ViaLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
-      <p>Displays an itinerary via leg.
-         Note that the times are supposed to go on top of the previous leg.
+      <p>
+        Displays an itinerary via leg. Note that the times are supposed to go on
+        top of the previous leg.
       </p>
       <ComponentUsageExample>
         <ViaLeg
@@ -89,25 +95,25 @@ ViaLeg.description = () => {
 };
 
 ViaLeg.propTypes = {
-  arrivalTime: React.PropTypes.number.isRequired,
-  leg: React.PropTypes.shape({
-    duration: React.PropTypes.number.isRequired,
-    startTime: React.PropTypes.number.isRequired,
-    distance: React.PropTypes.number.isRequired,
-    mode: React.PropTypes.string.isRequired,
-    from: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      stop: React.PropTypes.shape({
-        code: React.PropTypes.string,
+  arrivalTime: PropTypes.number.isRequired,
+  leg: PropTypes.shape({
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    mode: PropTypes.string.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      stop: PropTypes.shape({
+        code: PropTypes.string,
       }),
     }).isRequired,
   }).isRequired,
-  index: React.PropTypes.number.isRequired,
-  isVia: React.PropTypes.bool,
-  focusAction: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  index: PropTypes.number.isRequired,
+  isVia: PropTypes.bool,
+  focusAction: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
-ViaLeg.contextTypes = { config: React.PropTypes.object.isRequired };
+ViaLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default ViaLeg;

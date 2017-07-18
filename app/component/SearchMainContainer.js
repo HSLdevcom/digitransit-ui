@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -14,22 +15,21 @@ import SearchModalLarge from './SearchModalLarge';
 import Icon from './Icon';
 import { getAllEndpointLayers, withCurrentTime } from '../util/searchUtils';
 
-
 class SearchMainContainer extends React.Component {
   static contextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static propTypes = {
-    className: React.PropTypes.string,
-    searchModalIsOpen: React.PropTypes.bool.isRequired,
-    selectedTab: React.PropTypes.string.isRequired,
-  }
+    className: PropTypes.string,
+    searchModalIsOpen: PropTypes.bool.isRequired,
+    selectedTab: PropTypes.string.isRequired,
+  };
 
   componentDidUpdate() {
     if (this.props.searchModalIsOpen) {
@@ -37,7 +37,7 @@ class SearchMainContainer extends React.Component {
     }
   }
 
-  onTabChange = tab => this.changeToTab(tab.props.value)
+  onTabChange = tab => this.changeToTab(tab.props.value);
 
   onSuggestionSelected = (name, item) => {
     if (item.properties.link) {
@@ -52,7 +52,10 @@ class SearchMainContainer extends React.Component {
       return this.context.router.replace(newLocation);
     }
 
-    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.location,
+    );
 
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
@@ -74,19 +77,22 @@ class SearchMainContainer extends React.Component {
     }
 
     return this.closeModal();
-  }
+  };
 
   searchInputs = [];
 
   clickSearch = () => {
     const origin = this.context.getStore('EndpointStore').getOrigin();
-    const geolocation = this.context.getStore('PositionStore').getLocationState();
-    const hasOrigin = origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
+    const geolocation = this.context
+      .getStore('PositionStore')
+      .getLocationState();
+    const hasOrigin =
+      origin.lat || (origin.useCurrentPosition && geolocation.hasLocation);
 
     this.openDialog(hasOrigin ? 'destination' : 'origin');
-  }
+  };
 
-  openDialog = (tab) => {
+  openDialog = tab => {
     this.context.router.push({
       ...this.context.location,
       state: {
@@ -95,13 +101,11 @@ class SearchMainContainer extends React.Component {
         selectedTab: tab,
       },
     });
-  }
+  };
 
-  focusInput = tab => (
-    this.searchInputs[tab] && this.searchInputs[tab].focus()
-  )
+  focusInput = tab => this.searchInputs[tab] && this.searchInputs[tab].focus();
 
-  closeModal = () => this.context.router.goBack()
+  closeModal = () => this.context.router.goBack();
 
   changeToTab(tabname) {
     this.context.router.replace({
@@ -114,25 +118,29 @@ class SearchMainContainer extends React.Component {
     this.focusInput(tabname);
   }
 
-  renderEndpointTab = (tabname, tablabel, placeholder, type, layers) => (
+  renderEndpointTab = (tabname, tablabel, placeholder, type, layers) =>
     <Tab
-      className={`search-header__button${this.props.selectedTab === tabname ? '--selected' : ''}`}
+      className={`search-header__button${this.props.selectedTab === tabname
+        ? '--selected'
+        : ''}`}
       label={tablabel}
       value={tabname}
       id={tabname}
       onActive={this.onTabChange}
-    >{this.props.selectedTab === tabname &&
-      <SearchInputContainer
-        ref={(c) => { this.searchInputs[tabname] = c; }}
-        id={`search-${tabname}`}
-        placeholder={placeholder}
-        type={type}
-        layers={layers}
-        close={this.closeModal}
-        onSuggestionSelected={this.onSuggestionSelected}
-      />}
-    </Tab>
-  );
+    >
+      {this.props.selectedTab === tabname &&
+        <SearchInputContainer
+          ref={c => {
+            this.searchInputs[tabname] = c;
+          }}
+          id={`search-${tabname}`}
+          placeholder={placeholder}
+          type={type}
+          layers={layers}
+          close={this.closeModal}
+          onSuggestionSelected={this.onSuggestionSelected}
+        />}
+    </Tab>;
 
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({
@@ -144,23 +152,31 @@ class SearchMainContainer extends React.Component {
       <FakeSearchBar
         placeholder={destinationPlaceholder}
         id="front-page-search-bar"
-      />);
+      />
+    );
 
-    const Component = this.context.breakpoint === 'large' ? SearchModalLarge : SearchModal;
+    const Component =
+      this.context.breakpoint === 'large' ? SearchModalLarge : SearchModal;
 
     const origin = this.context.getStore('EndpointStore').getOrigin();
     let searchLayers = getAllEndpointLayers();
-    if (origin.useCurrentPosition) { // currpos-currpos routing not allowed
+    if (origin.useCurrentPosition) {
+      // currpos-currpos routing not allowed
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
     return (
       <div
         className={cx(
-          'fake-search-container', `bp-${this.context.breakpoint}`, this.props.className,
+          'fake-search-container',
+          `bp-${this.context.breakpoint}`,
+          this.props.className,
         )}
       >
-        <FakeSearchWithButtonContainer fakeSearchBar={fakeSearchBar} onClick={this.clickSearch} />
+        <FakeSearchWithButtonContainer
+          fakeSearchBar={fakeSearchBar}
+          onClick={this.clickSearch}
+        />
         <Component
           selectedTab={this.props.selectedTab}
           modalIsOpen={this.props.searchModalIsOpen}
@@ -172,14 +188,16 @@ class SearchMainContainer extends React.Component {
               <FormattedMessage id="origin" defaultMessage="Origin" />
               <br />
               <span className="search-current-origin-tip">
-                {!origin.useCurrentPosition ? origin.address : [
-                  <Icon img="icon-icon_position" key="icon" />,
-                  <FormattedMessage
-                    key="text"
-                    id="own-position"
-                    defaultMessage="Your current location"
-                  />,
-                ]}
+                {!origin.useCurrentPosition
+                  ? origin.address
+                  : [
+                      <Icon img="icon-icon_position" key="icon" />,
+                      <FormattedMessage
+                        key="text"
+                        id="own-position"
+                        defaultMessage="Your current location"
+                      />,
+                    ]}
               </span>
             </div>,
             this.context.intl.formatMessage({

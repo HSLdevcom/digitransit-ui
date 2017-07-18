@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
@@ -8,39 +9,58 @@ import { route } from '../action/ItinerarySearchActions';
 
 import TimeSelectors from './TimeSelectors';
 
-
 class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     location: locationShape.isRequired,
     router: routerShape.isRequired,
     getStore: PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
-    serviceTimeRange: React.PropTypes.shape({
-      start: React.PropTypes.number.isRequired,
-      end: React.PropTypes.number.isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
     }).isRequired,
   };
 
-  state = { time: this.context.location.query.time ?
-    moment(this.context.location.query.time * 1000) :
-    moment(),
+  state = {
+    time: this.context.location.query.time
+      ? moment.unix(this.context.location.query.time)
+      : moment(),
+    arriveBy: this.context.location.query.arriveBy === 'true',
+    setTimefromProps: false,
   };
 
   componentDidMount() {
-    this.context.router.listen(location =>
-      location.query.time && Number(location.query.time) !== this.state.time.unix() &&
-        this.setState({ time: moment(location.query.time * 1000) }),
-    );
+    this.context.router.listen(location => {
+      if (
+        location.query.time &&
+        Number(location.query.time) !== this.state.time.unix() &&
+        location.query.arriveBy === 'true' === this.state.arriveBy
+      ) {
+        this.setState({ time: moment.unix(location.query.time) });
+      } else if (location.query.arriveBy === 'true' !== this.state.arriveBy) {
+        this.setState({ setTimefromProps: true });
+      }
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.state.setTimefromProps && newProps.startTime && newProps.endTime) {
+      this.setState({
+        time: moment(
+          this.state.arriveBy ? newProps.endTime : newProps.startTime,
+        ),
+        setTimefromProps: false,
+      });
+    }
   }
 
   setArriveBy = ({ target }) =>
-    this.context.executeAction(
-      route,
-      {
+    this.setState({ arriveBy: target.value === 'true' }, () =>
+      this.context.executeAction(route, {
         location: {
           ...this.context.location,
           query: {
@@ -49,7 +69,7 @@ class TimeSelectorContainer extends Component {
           },
         },
         router: this.context.router,
-      },
+      }),
     );
 
   getDates() {
@@ -62,7 +82,7 @@ class TimeSelectorContainer extends Component {
     let start = moment.unix(range.start);
     start = moment.min(moment.max(start, START), now); // always include today!
     let end = moment.unix(range.end);
-    end = moment.max(moment.min(end, END), now);  // always include today!
+    end = moment.max(moment.min(end, END), now); // always include today!
     const dayform = 'YYYY-MM-DD';
     const today = now.format(dayform);
     const tomorrow = now.add(1, 'd').format(dayform);
@@ -74,14 +94,20 @@ class TimeSelectorContainer extends Component {
       let label;
       value = day.format(dayform);
       if (value === today) {
-        label = this.context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' });
+        label = this.context.intl.formatMessage({
+          id: 'today',
+          defaultMessage: 'Today',
+        });
       } else if (value === tomorrow) {
-        label = this.context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' });
+        label = this.context.intl.formatMessage({
+          id: 'tomorrow',
+          defaultMessage: 'Tomorrow',
+        });
       } else {
         label = day.format('dd D.M');
       }
       dates.push(
-        <option value={value} key={value} >
+        <option value={value} key={value}>
           {label}
         </option>,
       );
@@ -93,35 +119,55 @@ class TimeSelectorContainer extends Component {
 
   dispatchChangedtime = debounce(
     () =>
-      this.context.executeAction(
-        route,
-        {
-          location: {
-            ...this.context.location,
-            query: {
-              ...this.context.location.query,
-              time: this.state.time.unix(),
-            },
+      this.context.executeAction(route, {
+        location: {
+          ...this.context.location,
+          query: {
+            ...this.context.location.query,
+            time: this.state.time.unix(),
+            arriveBy: this.state.arriveBy,
           },
-          router: this.context.router,
         },
-      ),
-    500);
-
-  changeTime = ({ target }) => (target.value ? this.setState(
-    { time: moment(`${target.value} ${this.state.time.format('YYYY-MM-DD')}`, 'H:m YYYY-MM-DD') },
-    this.dispatchChangedtime,
-  ) : {});
-
-  changeDate = ({ target }) => this.setState(
-    { time: moment(`${this.state.time.format('H:m')} ${target.value}`, 'H:m YYYY-MM-DD') },
-    this.dispatchChangedtime,
+        router: this.context.router,
+      }),
+    500,
   );
+
+  changeTime = ({ target }, callback) =>
+    target.value
+      ? this.setState(
+          {
+            time: moment(
+              `${target.value} ${this.state.time.format('YYYY-MM-DD')}`,
+              'H:m YYYY-MM-DD',
+            ),
+            setTimefromProps: false,
+          },
+          () => {
+            if (typeof callback === 'function') {
+              callback();
+            }
+            this.dispatchChangedtime();
+          },
+        )
+      : {};
+
+  changeDate = ({ target }) =>
+    this.setState(
+      {
+        time: moment(
+          `${this.state.time.format('H:m')} ${target.value}`,
+          'H:m YYYY-MM-DD',
+        ),
+        setTimefromProps: false,
+      },
+      this.dispatchChangedtime,
+    );
 
   render() {
     return (
       <TimeSelectors
-        arriveBy={this.context.location.query.arriveBy === 'true'}
+        arriveBy={this.state.arriveBy}
         time={this.state.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}
