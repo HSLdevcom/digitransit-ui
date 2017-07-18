@@ -40,7 +40,9 @@ function getRulesConfig(env) {
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
       { test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, 'app/'),
+        ],
         options: {
           presets: [
             ['env', { targets: { browsers: prodBrowsers }, modules: false }],
@@ -71,7 +73,6 @@ function getRulesConfig(env) {
       loader: 'babel',
       include: [
         path.resolve(__dirname, 'app/'),
-        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
       ],
       options: {
         // loose is needed by older Androids < 4.3 and IE10
@@ -91,6 +92,21 @@ function getRulesConfig(env) {
         ],
         ignore: [
           'app/util/piwik.js',
+        ],
+      },
+    },
+    { test: /\.js$/,
+      loader: 'babel',
+      include: [
+        // https://github.com/mapbox/mapbox-gl-js/issues/3368
+        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
+      ],
+      options: {
+        plugins: [
+          'transform-es2015-block-scoping',
+          'transform-es2015-arrow-functions',
+          'transform-es2015-for-of',
+          'transform-es2015-template-literals',
         ],
       },
     },
