@@ -6,7 +6,8 @@ import Icon from './Icon';
 
 export default function NearbyTabLabel({ classes, onClick }) {
   return (
-    <li className={classes} onClick={onClick}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+    <li className={classes} onClick={onClick} role="button">
       <Icon className="prefix-icon nearby-icon" img="icon-icon_nearby" />
       <FormattedMessage id="near-you" defaultMessage="Near you" />
     </li>

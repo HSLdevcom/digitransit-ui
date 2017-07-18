@@ -168,7 +168,7 @@ export class Contour {
     let p1;
     let p2;
 
-    // eslint-disable--next-line no-plusplus
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < nPts; j = i++) {
       p1 = pts[i];
       p2 = pts[j];

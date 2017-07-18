@@ -48,7 +48,7 @@ export default class Intro extends React.Component {
       tabIndex={0}
       onClick={this.onNextClick}
     >
-      <img alt="" aria-hidden="true" src={content.image} role="presentation" />
+      <img alt="" aria-hidden="true" src={content.image} />
       <h3>
         {content.header[this.context.intl.locale]}
       </h3>

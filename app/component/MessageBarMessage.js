@@ -39,7 +39,8 @@ const renderContent = content =>
  * Renders message
  */
 const MessageBarMessage = ({ key, content, onMaximize }) =>
-  <div tabIndex={0} role="banner" key={key} onClick={onMaximize}>
+  // TOOD: find out how this should be accessible
+  <div tabIndex={0} role="button" key={key} onClick={onMaximize}>
     {renderContent(content)}
   </div>;
 

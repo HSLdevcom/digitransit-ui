@@ -10,7 +10,8 @@ export default function FavouritesTabLabel({
   onClick,
 }) {
   return (
-    <li className={classes} onClick={onClick}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+    <li className={classes} onClick={onClick} role="button">
       {hasDisruption
         ? <IconWithCaution
             className="prefix-icon favourites-icon"
