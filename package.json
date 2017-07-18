@@ -133,7 +133,7 @@
     "eslint-plugin-graphql": "0.6.1",
     "eslint-plugin-import": "2.3.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
-    "eslint-plugin-react": "6.10.0",
+    "eslint-plugin-react": "6.10.1",
     "exports-loader": "0.6.4",
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.10.1",
