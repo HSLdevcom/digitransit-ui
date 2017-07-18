@@ -168,8 +168,8 @@ export class Contour {
     let p1;
     let p2;
 
+    // eslint-disable--next-line no-plusplus
     for (let i = 0; i < nPts; j = i++) {
-      // eslint-disable-line no-plusplus
       p1 = pts[i];
       p2 = pts[j];
       area += p1.x * p2.y;
@@ -189,8 +189,8 @@ export class Contour {
     let p1;
     let p2;
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < nPts; j = i++) {
-      // eslint-disable-line no-plusplus
       p1 = pts[i];
       p2 = pts[j];
       f = p1.x * p2.y - p2.x * p1.y;
