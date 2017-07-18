@@ -153,7 +153,7 @@
     "stylelint-scss": "1.4.1",
     "url-loader": "0.5.8",
     "webpack": "3.3.0",
-    "webpack-bundle-analyzer": "2.8.2",
+    "webpack-bundle-analyzer": "2.8.3",
     "webpack-dev-server": "2.5.1",
     "zopfli-webpack-plugin": "0.1.0"
   }
