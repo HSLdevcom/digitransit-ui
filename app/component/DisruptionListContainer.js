@@ -16,16 +16,20 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   }
 
-  const alertElements = root.alerts.map((alert) => {
+  const alertElements = root.alerts.map(alert => {
     const { id } = alert;
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);
     const cause = 'because';
     const routes = [alert.route];
-    const translation = find(alert.alertDescriptionTextTranslations, ['language', intl.locale]);
+    const translation = find(alert.alertDescriptionTextTranslations, [
+      'language',
+      intl.locale,
+    ]);
 
-    const description = translation ? translation.text : alert.alertDescriptionText;
-
+    const description = translation
+      ? translation.text
+      : alert.alertDescriptionText;
 
     return (
       <DisruptionRow
@@ -39,7 +43,11 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   });
 
-  return <div>{alertElements}</div>;
+  return (
+    <div>
+      {alertElements}
+    </div>
+  );
 }
 
 DisruptionListContainer.contextTypes = {

@@ -3,9 +3,16 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const AddIcon = ({ id }) => (
+const AddIcon = ({ id }) =>
   <svg id={id} viewBox="0 0 40 40" className={cx('icon')}>
-    <circle strokeWidth="2" stroke="currentColor" fill="currentColor" cx="20" cy="20" r="19" />
+    <circle
+      strokeWidth="2"
+      stroke="currentColor"
+      fill="currentColor"
+      cx="20"
+      cy="20"
+      r="19"
+    />
     <use
       xlinkHref="#icon-icon_plus"
       transform="scale(0.7,0.7)"
@@ -13,8 +20,7 @@ const AddIcon = ({ id }) => (
       x="8"
       style={{ color: 'white', fill: 'white' }}
     />
-  </svg>
-);
+  </svg>;
 
 AddIcon.description = () =>
   <ComponentUsageExample description="Add icon">

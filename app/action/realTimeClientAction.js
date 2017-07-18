@@ -7,7 +7,9 @@ import { getJson } from '../util/xhrPromise';
 function getTopic(options) {
   const route = options.route ? options.route : '+';
 
-  const direction = options.direction ? parseInt(options.direction, 10) + 1 : '+';
+  const direction = options.direction
+    ? parseInt(options.direction, 10) + 1
+    : '+';
 
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   return `/hfp/journey/+/+/${route}/${direction}/+/${tripStartTime}/#`;
@@ -15,8 +17,19 @@ function getTopic(options) {
 
 function parseMessage(topic, message, actionContext) {
   let parsedMessage;
-  const [, , , mode, id, line, dir, /* headsign*/ , startTime, nextStop] /* ...geohash */
-    = topic.split('/');
+  const [
+    ,
+    ,
+    ,
+    mode,
+    id,
+    line,
+    dir,
+    headsign, // eslint-disable-line no-unused-vars
+    startTime,
+    nextStop,
+    ...geohash // eslint-disable-line no-unused-vars
+  ] = topic.split('/');
 
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
@@ -29,8 +42,10 @@ function parseMessage(topic, message, actionContext) {
     route: `HSL:${line}`,
     direction: parseInt(dir, 10) - 1,
     tripStartTime: startTime,
-    operatingDay: parsedMessage.oday && parsedMessage.oday !== 'XXX' ? parsedMessage.oday :
-      moment().format('YYYYMMDD'),
+    operatingDay:
+      parsedMessage.oday && parsedMessage.oday !== 'XXX'
+        ? parsedMessage.oday
+        : moment().format('YYYYMMDD'),
     mode,
     delay: parsedMessage.dl,
     next_stop: nextStop,
@@ -41,28 +56,37 @@ function parseMessage(topic, message, actionContext) {
     heading: parsedMessage.hdg,
   };
 
-  actionContext.dispatch('RealTimeClientMessage', { id, message: messageContents });
+  actionContext.dispatch('RealTimeClientMessage', {
+    id,
+    message: messageContents,
+  });
 }
 
 function getInitialData(topic, actionContext) {
-  getJson(actionContext.config.URL.REALTIME + topic.replace('#', '')).then((data) => {
-    Object.keys(data).forEach((resTopic) => {
+  getJson(
+    actionContext.config.URL.REALTIME + topic.replace('#', ''),
+  ).then(data => {
+    Object.keys(data).forEach(resTopic => {
       parseMessage(resTopic, data[resTopic], actionContext);
     });
   });
 }
 
 export function startRealTimeClient(actionContext, originalOptions, done) {
-  const options = !Array.isArray(originalOptions) ? [originalOptions] : originalOptions;
+  const options = !Array.isArray(originalOptions)
+    ? [originalOptions]
+    : originalOptions;
 
   const topics = options.map(option => getTopic(option));
 
   topics.forEach(topic => getInitialData(topic, actionContext));
 
-  System.import('mqtt').then((mqtt) => {
+  import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     const client = mqtt.connect(actionContext.config.URL.MQTT);
     client.on('connect', () => client.subscribe(topics));
-    client.on('message', (topic, message) => parseMessage(topic, message, actionContext));
+    client.on('message', (topic, message) =>
+      parseMessage(topic, message, actionContext),
+    );
     actionContext.dispatch('RealTimeClientStarted', { client, topics });
     done();
   });
@@ -71,8 +95,9 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
 export function updateTopic(actionContext, options, done) {
   options.client.unsubscribe(options.oldTopics);
 
-  const newTopics = !Array.isArray(options.newTopic) ? [getTopic(options.newTopic)] :
-    options.newTopic.map(topic => getTopic(topic));
+  const newTopics = !Array.isArray(options.newTopic)
+    ? [getTopic(options.newTopic)]
+    : options.newTopic.map(topic => getTopic(topic));
 
   options.client.subscribe(newTopics);
   actionContext.dispatch('RealTimeClientTopicChanged', newTopics);

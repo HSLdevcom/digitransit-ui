@@ -10,56 +10,82 @@ import Icon from './Icon';
 import { getLabel, getIcon, isStop, getGTFSId } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SuggestionItem = pure(({ item, useTransportIcons, doNotShowLinkToStop }) => {
-  let icon;
-  if (item.properties.mode && useTransportIcons) {
-    icon = (
-      <Icon
-        img={`icon-icon_${item.properties.mode}`}
-        className={item.properties.mode}
-      />
-    );
-  } else {
-    icon = (
-      <Icon
-        img={getIcon(item.properties.layer)}
-        className={item.iconClass || ''}
-      />
-    );
-  }
+const SuggestionItem = pure(
+  ({ item, useTransportIcons, doNotShowLinkToStop }) => {
+    let icon;
+    if (item.properties.mode && useTransportIcons) {
+      icon = (
+        <Icon
+          img={`icon-icon_${item.properties.mode}`}
+          className={item.properties.mode}
+        />
+      );
+    } else {
+      icon = (
+        <Icon
+          img={getIcon(item.properties.layer)}
+          className={item.iconClass || ''}
+        />
+      );
+    }
 
-  const label = getLabel(item.properties, false);
+    const label = getLabel(item.properties, false);
 
-  const ri = (
-    <div
-      className={cx(
-        'search-result',
-        item.type,
-        { favourite: item.type.startsWith('Favourite') },
-      )}
-    >
-      <span className="autosuggestIcon">
-        {icon}
-      </span>
-      <div>
-        <p className="suggestion-name" >{label[0]}</p>
-        <p className="suggestion-label" >{label[1]}</p>
+    const ri = (
+      <div
+        className={cx('search-result', item.type, {
+          favourite: item.type.startsWith('Favourite'),
+        })}
+      >
+        <span className="autosuggestIcon">
+          {icon}
+        </span>
+        <div>
+          <p className="suggestion-name">
+            {label[0]}
+          </p>
+          <p className="suggestion-label">
+            {label[1]}
+          </p>
+        </div>
       </div>
-    </div>);
-  if (doNotShowLinkToStop === false && isStop(item.properties) && getGTFSId(item.properties) !== undefined && (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined) {
-    /* eslint no-param-reassign: ["error", { "props": false }]*/
-    return (<div className="suggestion-item-stop"><div><Link
-      onClick={() => {
-        item.timetableClicked = false;
-      }}
-    >{ri}</Link></div><div className="suggestion-item-timetable"><Link
-      onClick={() => {
-        item.timetableClicked = true;
-      }}
-    ><Icon img="icon-icon_schedule" /><div className="suggestion-item-timetable-label"><FormattedMessage id="timetable" defaultMessage="Timetable" /></div></Link></div></div>);
-  }
-  return ri;
-});
+    );
+    if (
+      doNotShowLinkToStop === false &&
+      isStop(item.properties) &&
+      getGTFSId(item.properties) !== undefined &&
+      (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined
+    ) {
+      /* eslint no-param-reassign: ["error", { "props": false }]*/
+      return (
+        <div className="suggestion-item-stop">
+          <div>
+            <Link
+              onClick={() => {
+                item.timetableClicked = false;
+              }}
+            >
+              {ri}
+            </Link>
+          </div>
+          <div className="suggestion-item-timetable">
+            <Link
+              onClick={() => {
+                item.timetableClicked = true;
+              }}
+            >
+              <Icon img="icon-icon_schedule" />
+              <div className="suggestion-item-timetable-label">
+                <FormattedMessage id="timetable" defaultMessage="Timetable" />
+              </div>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    return ri;
+  },
+);
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
@@ -71,7 +97,11 @@ SuggestionItem.displayName = 'SuggestionItem';
 
 const exampleFavourite = {
   type: 'FavouritePlace',
-  properties: { locationName: 'HSL', address: 'Opastinsilta 6, Helsinki', layer: 'favouritePlace' },
+  properties: {
+    locationName: 'HSL',
+    address: 'Opastinsilta 6, Helsinki',
+    layer: 'favouritePlace',
+  },
 };
 
 const exampleAddress = {

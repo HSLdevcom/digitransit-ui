@@ -86,8 +86,7 @@ function getNetworkLayer(config) {
         batchUrl: `${config.URL.OTP}index/graphql/batch`,
       }),
       gqErrorsMiddleware(),
-    ],
-    );
+    ]);
   }
   return networkLayers[config.CONFIG];
 }
@@ -98,7 +97,10 @@ let manifest;
 if (process.env.NODE_ENV !== 'development') {
   stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
 
-  const manifestFile = getStringOrArrayElement(stats.assetsByChunkName.manifest, 0);
+  const manifestFile = getStringOrArrayElement(
+    stats.assetsByChunkName.manifest,
+    0,
+  );
   manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
 }
 
@@ -109,15 +111,19 @@ function getCss(config) {
         key="main_css"
         rel="stylesheet"
         type="text/css"
-        href={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 1)}`}
+        href={`${config.APP_PATH}/${getStringOrArrayElement(
+          stats.assetsByChunkName.main,
+          1,
+        )}`}
       />,
       <link
         key="theme_css"
         rel="stylesheet"
         type="text/css"
-        href={`${config.APP_PATH}/${
-          getStringOrArrayElement(stats.assetsByChunkName[`${config.CONFIG}_theme`], 1)
-        }`}
+        href={`${config.APP_PATH}/${getStringOrArrayElement(
+          stats.assetsByChunkName[`${config.CONFIG}_theme`],
+          1,
+        )}`}
       />,
     ];
   }
@@ -127,27 +133,32 @@ function getCss(config) {
 function getSprite(config) {
   if (!sprites[config.CONFIG]) {
     let svgSprite;
-    const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
+    const spriteName = config.sprites;
 
     if (process.env.NODE_ENV !== 'development') {
       svgSprite = (
         <script
-          dangerouslySetInnerHTML={{ __html: `
-            fetch('${
-              config.APP_PATH}/${find(stats.modules, { name: `./static/${spriteName}` }).assets[0]
-            }').then(function(response) {return response.text();}).then(function(blob) {
+          dangerouslySetInnerHTML={{
+            __html: `
+            fetch('${config.APP_PATH}/${find(stats.modules, {
+              name: `./static/${spriteName}`,
+            })
+              .assets[0]}').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;
               document.body.insertBefore(div, document.body.childNodes[0]);
             })
-        ` }}
+        `,
+          }}
         />
       );
     } else {
       svgSprite = (
         <div
           dangerouslySetInnerHTML={{
-            __html: fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
+            __html: fs
+              .readFileSync(`${appRoot}_static/${spriteName}`)
+              .toString(),
           }}
         />
       );
@@ -162,8 +173,11 @@ function getPolyfills(userAgent, config) {
   // see https://digitransit.atlassian.net/browse/DT-360
   // https://digitransit.atlassian.net/browse/DT-445
   // Also https://github.com/Financial-Times/polyfill-service/issues/727
-  if (!userAgent ||
-    /(IEMobile|LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(userAgent)
+  if (
+    !userAgent ||
+    /(IEMobile|LG-|GT-|SM-|SamsungBrowser|Google Page Speed Insights)/.test(
+      userAgent,
+    )
   ) {
     userAgent = ''; // eslint-disable-line no-param-reassign
   }
@@ -174,26 +188,30 @@ function getPolyfills(userAgent, config) {
     es5: { flags: ['gated'] },
     es6: { flags: ['gated'] },
     es7: { flags: ['gated'] },
+    es2017: { flags: ['gated'] },
     fetch: { flags: ['gated'] },
     Intl: { flags: ['gated'] },
     'Object.assign': { flags: ['gated'] },
     matchMedia: { flags: ['gated'] },
   };
 
-  config.availableLanguages.forEach((language) => {
+  config.availableLanguages.forEach(language => {
     features[`Intl.~locale.${language}`] = {
       flags: ['gated'],
     };
   });
 
-  return polyfillService.getPolyfillString({
-    uaString: userAgent,
-    features,
-    minify: process.env.NODE_ENV !== 'development',
-    unknown: 'polyfill',
-  }).then(polyfills =>
-    // no sourcemaps for inlined js
-    polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''));
+  return polyfillService
+    .getPolyfillString({
+      uaString: userAgent,
+      features,
+      minify: process.env.NODE_ENV !== 'development',
+      unknown: 'polyfill',
+    })
+    .then(polyfills =>
+      // no sourcemaps for inlined js
+      polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''),
+    );
 }
 
 function getScripts(req, config) {
@@ -201,18 +219,27 @@ function getScripts(req, config) {
     return <script async src={'/proxy/js/bundle.js'} />;
   }
   return [
-    <script key="manifest "dangerouslySetInnerHTML={{ __html: manifest }} />,
+    <script key="manifest " dangerouslySetInnerHTML={{ __html: manifest }} />,
     <script
       key="common_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.common, 0)}`}
+      src={`${config.APP_PATH}/${getStringOrArrayElement(
+        stats.assetsByChunkName.common,
+        0,
+      )}`}
     />,
     <script
       key="leaflet_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.leaflet, 0)}`}
+      src={`${config.APP_PATH}/${getStringOrArrayElement(
+        stats.assetsByChunkName.leaflet,
+        0,
+      )}`}
     />,
     <script
       key="min_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(stats.assetsByChunkName.main, 0)}`}
+      src={`${config.APP_PATH}/${getStringOrArrayElement(
+        stats.assetsByChunkName.main,
+        0,
+      )}`}
     />,
   ];
 }
@@ -232,7 +259,9 @@ function getContent(context, renderProps, locale, userAgent) {
       context={context.getComponentContext()}
     >
       <MuiThemeProvider
-        muiTheme={getMuiTheme(MUITheme(context.getComponentContext().config), { userAgent })}
+        muiTheme={getMuiTheme(MUITheme(context.getComponentContext().config), {
+          userAgent,
+        })}
       >
         {IsomorphicRouter.render(renderProps)}
       </MuiThemeProvider>
@@ -243,7 +272,10 @@ function getContent(context, renderProps, locale, userAgent) {
 function getHtml(application, context, locale, [polyfills, relayData], req) {
   const config = context.getComponentContext().config;
   // eslint-disable-next-line no-unused-vars
-  const content = relayData != null ? getContent(context, relayData.props, locale, req.headers['user-agent']) : undefined;
+  const content =
+    relayData != null
+      ? getContent(context, relayData.props, locale, req.headers['user-agent'])
+      : undefined;
   const head = Helmet.rewind();
   return ReactDOM.renderToStaticMarkup(
     <ApplicationHtml
@@ -266,17 +298,16 @@ function getHtml(application, context, locale, [polyfills, relayData], req) {
 
 const isRobotRequest = agent =>
   agent &&
-  (agent.indexOf('facebook') !== -1 ||
-   agent.indexOf('Twitterbot') !== -1);
+  (agent.indexOf('facebook') !== -1 || agent.indexOf('Twitterbot') !== -1);
 
-export default function (req, res, next) {
+export default function(req, res, next) {
   const config = getConfiguration(req);
   const application = appCreator(config);
 
   // TODO: Move this to PreferencesStore
-   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
-  let locale = req.cookies.lang ||
-    req.acceptsLanguages(config.availableLanguages);
+  // 1. use locale from cookie (user selected) 2. browser preferred 3. default
+  let locale =
+    req.cookies.lang || req.acceptsLanguages(config.availableLanguages);
 
   if (config.availableLanguages.indexOf(locale) === -1) {
     locale = config.defaultLanguage;
@@ -285,7 +316,11 @@ export default function (req, res, next) {
   if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
-  const context = application.createContext({ url: req.url, headers: req.headers, config });
+  const context = application.createContext({
+    url: req.url,
+    headers: req.headers,
+    config,
+  });
 
   context
     .getComponentContext()
@@ -296,42 +331,62 @@ export default function (req, res, next) {
   const agent = req.headers['user-agent'];
   global.navigator = { userAgent: agent };
 
-  const location = createHistory({ basename: config.APP_PATH }).createLocation(req.url);
+  const location = createHistory({ basename: config.APP_PATH }).createLocation(
+    req.url,
+  );
 
-  match({
-    routes: context.getComponent(),
-    location,
-  }, (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      next(error);
-    } else if (!renderProps) {
-      res.status(404).send('Not found');
-    } else {
-      if (
-        renderProps.components
-          .filter(component => component && component.displayName === 'Error404').length > 0
-      ) {
-        res.status(404);
-      }
-      let networkLayer;
-      if (isRobotRequest(agent)) {
-        networkLayer = getRobotNetworkLayer(config);
+  match(
+    {
+      routes: context.getComponent(),
+      location,
+    },
+    (error, redirectLocation, renderProps) => {
+      if (redirectLocation) {
+        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+      } else if (error) {
+        next(error);
+      } else if (!renderProps) {
+        res.status(404).send('Not found');
       } else {
-        networkLayer = getNetworkLayer(config);
-      }
-      const promises = [
-        getPolyfills(agent, config),
-        // Isomorphic rendering is ok to fail due timeout
-        IsomorphicRouter.prepareData(renderProps, networkLayer).catch(() => null),
-      ];
+        if (
+          renderProps.components.filter(
+            component => component && component.displayName === 'Error404',
+          ).length > 0
+        ) {
+          res.status(404);
+        }
+        let networkLayer;
+        if (isRobotRequest(agent)) {
+          networkLayer = getRobotNetworkLayer(config);
+        } else {
+          networkLayer = getNetworkLayer(config);
+        }
+        const promises = [
+          getPolyfills(agent, config),
+          // Isomorphic rendering is ok to fail due timeout
+          IsomorphicRouter.prepareData(renderProps, networkLayer).catch(
+            () => null,
+          ),
+        ];
 
-      Promise.all(promises).then(results =>
-        res.send(`<!doctype html>${getHtml(application, context, locale, results, req)}`),
-      ).catch((err) => {
-        if (err) { next(err); }
-      });
-    }
-  });
+        Promise.all(promises)
+          .then(results =>
+            res.send(
+              `<!doctype html>${getHtml(
+                application,
+                context,
+                locale,
+                results,
+                req,
+              )}`,
+            ),
+          )
+          .catch(err => {
+            if (err) {
+              next(err);
+            }
+          });
+      }
+    },
+  );
 }

@@ -11,20 +11,32 @@ function DateSelect(props, context) {
   const date = moment(props.startDate, props.dateFormat);
 
   dates.push(
-    <option value={date.format(props.dateFormat)} key={date.format(props.dateFormat)} >
+    <option
+      value={date.format(props.dateFormat)}
+      key={date.format(props.dateFormat)}
+    >
       {context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' })}
     </option>,
   );
 
   dates.push(
-    <option value={date.add(1, 'd').format(props.dateFormat)} key={date.format(props.dateFormat)} >
-      {context.intl.formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' })}
+    <option
+      value={date.add(1, 'd').format(props.dateFormat)}
+      key={date.format(props.dateFormat)}
+    >
+      {context.intl.formatMessage({
+        id: 'tomorrow',
+        defaultMessage: 'Tomorrow',
+      })}
     </option>,
   );
 
   for (let i = 0; i < 28; i++) {
     dates.push(
-      <option value={date.add(1, 'd').format(props.dateFormat)} key={date.format(props.dateFormat)}>
+      <option
+        value={date.add(1, 'd').format(props.dateFormat)}
+        key={date.format(props.dateFormat)}
+      >
         {date.format('dd D.M')}
       </option>,
     );
@@ -33,13 +45,11 @@ function DateSelect(props, context) {
   return (
     <div className="route-schedule-date">
       <Icon img="icon-icon_time" />
-      <select
-        value={props.selectedDate}
-        onChange={props.onDateChange}
-      >
+      <select value={props.selectedDate} onChange={props.onDateChange}>
         {dates}
       </select>
-    </div>);
+    </div>
+  );
 }
 DateSelect.propTypes = {
   startDate: PropTypes.string.isRequired,
@@ -54,9 +64,7 @@ DateSelect.displayName = 'DateSelect';
 
 DateSelect.description = () =>
   <div>
-    <p>
-      Display a date selection using react components
-    </p>
+    <p>Display a date selection using react components</p>
     <ComponentUsageExample>
       <DateSelect
         startDate={'19700101'}

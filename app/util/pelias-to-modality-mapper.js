@@ -2,11 +2,12 @@
 
 // Example configuration for config.*.js to enable pelias search and mapping functionality
 const exampleConfig = {
-// ...
+  // ...
   search: {
     usePeliasStops: true, // enable to use pelias to search for stops
     mapPeliasModality: true, // enable to map pelias stops to otp
-    peliasMapping: { // mapping values
+    peliasMapping: {
+      // mapping values
       onstreetBus: 'BUS',
       onstreetTram: 'TRAM',
       airport: 'AIRPORT',
@@ -20,15 +21,17 @@ const exampleConfig = {
       liftStation: 'FUNICULAR',
     },
     peliasLayer: () => 'stop', // function to change layer
-    peliasLocalization: (feature) => {
+    peliasLocalization: feature => {
       // localization example; showing locality (county) in label and name
       const localized = { ...feature };
-      localized.properties.label = `${feature.properties.name}, ${feature.properties.locality}`;
-      localized.properties.name = `${feature.properties.name}, ${feature.properties.locality}`;
+      localized.properties.label = `${feature.properties.name}, ${feature
+        .properties.locality}`;
+      localized.properties.name = `${feature.properties.name}, ${feature
+        .properties.locality}`;
       return localized;
     },
   },
-// ...
+  // ...
 };
 
 export default (features, config) => {
@@ -37,7 +40,7 @@ export default (features, config) => {
   }
 
   const mapping = config.search.peliasMapping;
-  return features.map((feature) => {
+  return features.map(feature => {
     const mappedFeature = { ...feature };
     const categories = feature.properties.category;
     if (categories) {
@@ -47,7 +50,9 @@ export default (features, config) => {
           mappedFeature.properties.mode = mapping[category];
 
           if (config.search.peliasLayer) {
-            mappedFeature.properties.layer = config.search.peliasLayer(category);
+            mappedFeature.properties.layer = config.search.peliasLayer(
+              category,
+            );
           }
           break;
         }

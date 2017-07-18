@@ -7,30 +7,32 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 
+const CallAgencyWarning = ({ route }) =>
+  <div className="route-warning-message padding-normal">
+    <div className="upper">
+      <Icon className="warning-message-icon" img="icon-icon_call" />
+      <FormattedMessage
+        id="warning-call-agency-no-route"
+        defaultMessage="Only on demand. Needs to be booked in advance."
+      />
+    </div>
+    {get(route, 'agency.phone', false)
+      ? <div className="call-button">
+          <Link href={`tel:${route.agency.phone}`}>
+            <FormattedMessage id="call" defaultMessage="Call" />
+            {route.agency.phone}
+          </Link>
+        </div>
+      : ''}
+  </div>;
 
-const CallAgencyWarning = ({ route }) => (
-  <div className="route-warning-message padding-normal"><div className="upper">
-    <Icon className="warning-message-icon" img="icon-icon_call" />
-    <FormattedMessage id="warning-call-agency-no-route" defaultMessage="Only on demand. Needs to be booked in advance." /></div>
-    {get(route, 'agency.phone', false) ? (
-      <div className="call-button">
-        <Link href={`tel:${route.agency.phone}`}>
-          <FormattedMessage id="call" defaultMessage="Call" />
-          {route.agency.phone}
-        </Link>
-      </div>) : ''}
-  </div>
-);
-
-
-CallAgencyWarning.description = () => (
+CallAgencyWarning.description = () =>
   <div>
     <p>Displays a warning message.</p>
     <ComponentUsageExample description="normal">
       <CallAgencyWarning />
     </ComponentUsageExample>
-  </div>
-  );
+  </div>;
 
 CallAgencyWarning.propTypes = {
   route: PropTypes.object.isRequired,

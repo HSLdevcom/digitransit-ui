@@ -21,11 +21,11 @@ class FeedbackPanel extends React.Component {
 
   static propTypes = {
     onClose: PropTypes.func,
-  }
+  };
 
-  static defaultProps= {
+  static defaultProps = {
     onClose: () => {},
-  }
+  };
 
   static isInitialState(state) {
     return (
@@ -44,7 +44,9 @@ class FeedbackPanel extends React.Component {
   };
 
   componentDidMount() {
-    this.context.getStore('FeedbackStore').addChangeListener(this.onFeedbackModalChange);
+    this.context
+      .getStore('FeedbackStore')
+      .addChangeListener(this.onFeedbackModalChange);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,21 +54,23 @@ class FeedbackPanel extends React.Component {
   }
 
   componentWillUnmount() {
-    this.context.getStore('FeedbackStore').removeChangeListener(this.onFeedbackModalChange);
+    this.context
+      .getStore('FeedbackStore')
+      .removeChangeListener(this.onFeedbackModalChange);
   }
 
   onFeedbackModalChange = () => this.forceUpdate();
 
-  onOpenTextAreaChange = (event) => {
+  onOpenTextAreaChange = event => {
     const input = event.target.value;
 
     this.setState({
       openText: input,
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS - input.length,
     });
-  }
+  };
 
-  answerFirstQuestion = (answer) => {
+  answerFirstQuestion = answer => {
     this.setState({
       postFirstQuestion: true,
       selectedNPS: answer,
@@ -77,13 +81,13 @@ class FeedbackPanel extends React.Component {
       this.context.getStore('TimeStore').getCurrentTime().valueOf(),
       answer,
     );
-  }
+  };
 
-  answerSecondQuestion = (answer) => {
+  answerSecondQuestion = answer => {
     this.setState({
       useThisMoreLikely: answer,
     });
-  }
+  };
 
   sendAll = () => {
     recordResult(
@@ -95,12 +99,15 @@ class FeedbackPanel extends React.Component {
     );
 
     this.closeModal();
-  }
+  };
 
   closeModal = () => {
     this.context.executeAction(closeFeedbackModal);
 
-    recordResult(this.context.piwik, this.context.getStore('TimeStore').getCurrentTime().valueOf());
+    recordResult(
+      this.context.piwik,
+      this.context.getStore('TimeStore').getCurrentTime().valueOf(),
+    );
 
     this.props.onClose();
     return this.setState({
@@ -110,15 +117,19 @@ class FeedbackPanel extends React.Component {
       charLeft: FEEDBACK_OPEN_AREA_MAX_CHARS,
       postFirstQuestion: false,
     });
-  }
+  };
 
   render() {
     let supplementaryQuestions;
     const isModalOpen = this.context.getStore('FeedbackStore').isModalOpen();
 
-    const lowEndLabel = <FormattedMessage id="very-unlikely" defaultMessage="Very unlikely" />;
+    const lowEndLabel = (
+      <FormattedMessage id="very-unlikely" defaultMessage="Very unlikely" />
+    );
 
-    const highEndLabel = <FormattedMessage id="very-likely" defaultMessage="Very likely" />;
+    const highEndLabel = (
+      <FormattedMessage id="very-likely" defaultMessage="Very likely" />
+    );
 
     if (this.state.postFirstQuestion) {
       supplementaryQuestions = (
@@ -163,11 +174,15 @@ class FeedbackPanel extends React.Component {
       <div>
         <MaterialModal
           className="feedback-modal"
-          contentClassName={this.state.postFirstQuestion ?
-            'feedback-modal__container--post-first-question' : 'feedback-modal__container'
+          contentClassName={
+            this.state.postFirstQuestion
+              ? 'feedback-modal__container--post-first-question'
+              : 'feedback-modal__container'
           }
-          bodyClassName={this.state.postFirstQuestion ?
-            'feedback-modal__body--post-first-question' : 'feedback-modal__body'
+          bodyClassName={
+            this.state.postFirstQuestion
+              ? 'feedback-modal__body--post-first-question'
+              : 'feedback-modal__body'
           }
           autoScrollBodyContent
           modal

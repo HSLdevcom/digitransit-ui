@@ -45,8 +45,11 @@ function mapStateReducer(state, action) {
   }
 }
 
-const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer, () =>
-  ({
+const withMapStateTracking = withReducer(
+  'mapState',
+  'dispatch',
+  mapStateReducer,
+  () => ({
     initialZoom: true,
     mapTracking: true,
     focusOnOrigin: false,
@@ -56,107 +59,124 @@ const withMapStateTracking = withReducer('mapState', 'dispatch', mapStateReducer
 const onlyUpdateCoordChanges = onlyUpdateForKeys(
   // searchModalIsOpen and selectedTab keys here's just to get map updated
   // when those props change (in large view tabs are inside map)
-  ['breakpoint', 'lat', 'lon', 'zoom', 'mapTracking', 'lang', 'tab', 'searchModalIsOpen', 'selectedTab']);
+  [
+    'breakpoint',
+    'lat',
+    'lon',
+    'zoom',
+    'mapTracking',
+    'lang',
+    'tab',
+    'searchModalIsOpen',
+    'selectedTab',
+  ],
+);
 
-const MapWithTracking =
-  withMapStateTracking(
-    connectToStores(
-      onlyUpdateCoordChanges(Map),
-      ['PositionStore', 'EndpointStore', 'PreferencesStore'],
-      (context, props) => {
-        const { mapTracking } = props.mapState;
-        const PositionStore = context.getStore('PositionStore');
-        const position = PositionStore.getLocationState();
-        const origin = context.getStore('EndpointStore').getOrigin();
-        const language = context.getStore('PreferencesStore').getLanguage();
+const MapWithTracking = withMapStateTracking(
+  connectToStores(
+    onlyUpdateCoordChanges(Map),
+    ['PositionStore', 'EndpointStore', 'PreferencesStore'],
+    (context, props) => {
+      const { mapTracking } = props.mapState;
+      const PositionStore = context.getStore('PositionStore');
+      const position = PositionStore.getLocationState();
+      const origin = context.getStore('EndpointStore').getOrigin();
+      const language = context.getStore('PreferencesStore').getLanguage();
 
-        let location = (() => {
-          if (props.mapState.focusOnOrigin && !origin.useCurrentPosition) {
-            return origin;
-          } else if (mapTracking && position.hasLocation) {
-            return position;
-          }
-          return false;
-        })();
+      let location = (() => {
+        if (props.mapState.focusOnOrigin && !origin.useCurrentPosition) {
+          return origin;
+        } else if (mapTracking && position.hasLocation) {
+          return position;
+        }
+        return false;
+      })();
 
-        if (!origin.useCurrentPosition && origin !== props.mapState.previousOrigin) {
-          setTimeout(props.dispatch, 0, {
-            type: 'useOrigin',
-            origin,
+      if (
+        !origin.useCurrentPosition &&
+        origin !== props.mapState.previousOrigin
+      ) {
+        setTimeout(props.dispatch, 0, {
+          type: 'useOrigin',
+          origin,
+        });
+        location = origin;
+      } else if (
+        origin.useCurrentPosition &&
+        props.mapState.previousOrigin &&
+        origin !== props.mapState.previousOrigin
+      ) {
+        setTimeout(props.dispatch, 0, {
+          type: 'usePosition',
+          origin,
+        });
+        location = position;
+      }
+
+      function enableMapTracking() {
+        if (!mapTracking) {
+          props.dispatch({
+            type: 'enable',
           });
-          location = origin;
-        } else if (
-          origin.useCurrentPosition &&
-          props.mapState.previousOrigin &&
-          origin !== props.mapState.previousOrigin
-        ) {
-          setTimeout(props.dispatch, 0, {
-            type: 'usePosition',
-            origin,
+        }
+      }
+
+      function disableMapTracking() {
+        if (mapTracking) {
+          props.dispatch({
+            type: 'disable',
           });
-          location = position;
         }
+      }
 
-        function enableMapTracking() {
-          if (!mapTracking) {
-            props.dispatch({
-              type: 'enable',
-            });
-          }
-        }
+      const children = React.Children.toArray(props.children);
 
-        function disableMapTracking() {
-          if (mapTracking) {
-            props.dispatch({
-              type: 'disable',
-            });
-          }
-        }
+      const mapToggle = (
+        <ToggleMapTracking
+          key="toggleMapTracking"
+          handleClick={mapTracking ? disableMapTracking : enableMapTracking}
+          className={`icon-mapMarker-toggle-positioning-${mapTracking
+            ? 'online'
+            : 'offline'}`}
+        />
+      );
 
-        const children = React.Children.toArray(props.children);
+      if (position.hasLocation) {
+        children.push(mapToggle);
+      }
 
-        const mapToggle =
-          (<ToggleMapTracking
-            key="toggleMapTracking"
-            handleClick={mapTracking ? disableMapTracking : enableMapTracking}
-            className={`icon-mapMarker-toggle-positioning-${mapTracking ? 'online' : 'offline'}`}
-          />);
-
-        if (position.hasLocation) {
-          children.push(mapToggle);
-        }
-
-        return {
-          lat: location ? location.lat : null,
-          lon: location ? location.lon : null,
-          zoom: (props.mapState.initialZoom && 16) || undefined,
-          lang: language, // passing this prop just because we want map to
-                          // update on lang changes, lang is not used
-          mapTracking,
-          position,
-          className: 'flex-grow',
-          displayOriginPopup: true,
-          leafletEvents: {
-            onDragstart: disableMapTracking,
-            onZoomend: disableMapTracking,
-          },
-          disableMapTracking,
-          children,
-        };
-      },
-    ),
-  );
+      return {
+        lat: location ? location.lat : null,
+        lon: location ? location.lon : null,
+        zoom: (props.mapState.initialZoom && 16) || undefined,
+        lang: language, // passing this prop just because we want map to
+        // update on lang changes, lang is not used
+        mapTracking,
+        position,
+        className: 'flex-grow',
+        displayOriginPopup: true,
+        leafletEvents: {
+          onDragstart: disableMapTracking,
+          onZoomend: disableMapTracking,
+        },
+        disableMapTracking,
+        children,
+      };
+    },
+  ),
+);
 
 MapWithTracking.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-MapWithTracking.description =
-  (<div>
+MapWithTracking.description = (
+  <div>
     <p>Renders a map with map-tracking functionality</p>
     <ComponentUsageExample description="">
       <MapWithTracking />
     </ComponentUsageExample>
-  </div>);
+  </div>
+);
 
 export default MapWithTracking;

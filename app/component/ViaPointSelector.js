@@ -6,7 +6,11 @@ import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import ComponentUsageExample from './ComponentUsageExample';
 
-export default function ViaPointSelector({ intermediatePlaces, openSearchModal, removeViaPoint }) {
+export default function ViaPointSelector({
+  intermediatePlaces,
+  openSearchModal,
+  removeViaPoint,
+}) {
   return (
     <section className="offcanvas-section">
       <FormattedMessage
@@ -14,29 +18,27 @@ export default function ViaPointSelector({ intermediatePlaces, openSearchModal, 
         defaultMessage="Via point"
         id="via-point"
       />
-      { intermediatePlaces ?
-        <div className="via-point">
-          <button className="noborder link-name" onClick={openSearchModal}>
-            <span>
-              {otpToLocation(intermediatePlaces).address}
-            </span>
-          </button>
-          <button className="noborder icon-button" onClick={removeViaPoint}>
-            <Icon img="icon-icon_close" />
-          </button>
-        </div>
-         :
-        <button className="noborder cursor-pointer" onClick={openSearchModal}>
-          <div className="add-via-point-button-label">
-            <Icon img="icon-icon_plus" />
-            {'\u00A0\u00A0'}
-            <FormattedMessage
-              id="add-itinerary-via-point"
-              defaultMessage="Add via point for itinerary"
-            />
+      {intermediatePlaces
+        ? <div className="via-point">
+            <button className="noborder link-name" onClick={openSearchModal}>
+              <span>
+                {otpToLocation(intermediatePlaces).address}
+              </span>
+            </button>
+            <button className="noborder icon-button" onClick={removeViaPoint}>
+              <Icon img="icon-icon_close" />
+            </button>
           </div>
-        </button>
-      }
+        : <button className="noborder cursor-pointer" onClick={openSearchModal}>
+            <div className="add-via-point-button-label">
+              <Icon img="icon-icon_plus" />
+              {'\u00A0\u00A0'}
+              <FormattedMessage
+                id="add-itinerary-via-point"
+                defaultMessage="Add via point for itinerary"
+              />
+            </div>
+          </button>}
     </section>
   );
 }
@@ -57,11 +59,9 @@ ViaPointSelector.defaultProps = {
 
 const emptyFunction = () => {};
 
-ViaPointSelector.description = () => (
+ViaPointSelector.description = () =>
   <div>
-    <p>
-      Via point selector
-    </p>
+    <p>Via point selector</p>
     <div className="customize-search">
       <ComponentUsageExample description="empty">
         <ViaPointSelector
@@ -78,5 +78,4 @@ ViaPointSelector.description = () => (
         />
       </ComponentUsageExample>
     </div>
-  </div>
-);
+  </div>;

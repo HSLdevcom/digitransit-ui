@@ -9,12 +9,15 @@ import { otpToLocation } from '../util/otpStrings';
 import ComponentUsageExample from './ComponentUsageExample';
 
 export default function ViaPointBar({
-  intermediatePlaces, openSearchModal, removeViaPoint, className,
+  intermediatePlaces,
+  openSearchModal,
+  removeViaPoint,
+  className,
 }) {
   return (
     <div>
       <div className={cx('via-point-bar', className)}>
-        { intermediatePlaces && (
+        {intermediatePlaces &&
           <div className="via-point">
             <FormattedMessage
               id="via-point"
@@ -29,8 +32,7 @@ export default function ViaPointBar({
             <button className="noborder icon-button" onClick={removeViaPoint}>
               <Icon img="icon-icon_close" />
             </button>
-          </div>
-        )}
+          </div>}
       </div>
       <ViaPointSearchModal />
     </div>
@@ -55,11 +57,9 @@ ViaPointBar.defaultProps = {
 
 const emptyFunction = () => {};
 
-ViaPointBar.description = () => (
+ViaPointBar.description = () =>
   <div>
-    <p>
-      Via point selector
-    </p>
+    <p>Via point selector</p>
     <ComponentUsageExample description="empty">
       <ViaPointBar
         openSearchModal={emptyFunction}
@@ -74,5 +74,4 @@ ViaPointBar.description = () => (
         intermediatePlaces={'Opastinsilta 6, Helsinki::60.199087,24.940641'}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;

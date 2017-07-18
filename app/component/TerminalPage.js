@@ -25,26 +25,38 @@ class TerminalPageContainerRoute extends Route {
   static routeName = 'StopPageContainerRoute';
 }
 
-const TerminalPageRootContainer = routeProps => (
+const TerminalPageRootContainer = routeProps =>
   <Relay.Renderer
     Container={StopPageContentContainer}
-    queryConfig={new TerminalPageContainerRoute({
-      terminalId: routeProps.params.terminalId,
-      ...routeProps,
-    })}
+    queryConfig={
+      new TerminalPageContainerRoute({
+        terminalId: routeProps.params.terminalId,
+        ...routeProps,
+      })
+    }
     environment={Relay.Store}
-    render={({ props, done }) => (done ? (
-      <StopPageContentContainer {...props} initialDate={initialDate} setDate={routeProps.setDate} />
-    ) : undefined)}
-  />
-);
+    render={({ props, done }) =>
+      done
+        ? <StopPageContentContainer
+            {...props}
+            initialDate={initialDate}
+            setDate={routeProps.setDate}
+          />
+        : undefined}
+  />;
 
-const TerminalPageContainerWithState =
-  withState('date', 'setDate', initialDate)(TerminalPageRootContainer);
+const TerminalPageContainerWithState = withState(
+  'date',
+  'setDate',
+  initialDate,
+)(TerminalPageRootContainer);
 
-export default connectToStores(TerminalPageContainerWithState, ['TimeStore', 'FavouriteStopsStore'],
+export default connectToStores(
+  TerminalPageContainerWithState,
+  ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
     startTime: getStore('TimeStore').getCurrentTime().unix(),
     timeRange: 3600,
     numberOfDepartures: 100,
-  }));
+  }),
+);

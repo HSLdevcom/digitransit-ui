@@ -18,7 +18,7 @@ class SummaryPlanContainer extends React.Component {
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
     }).isRequired,
-  }
+  };
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
@@ -28,7 +28,7 @@ class SummaryPlanContainer extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
-  onSelectActive = (index) => {
+  onSelectActive = index => {
     if (this.getActiveIndex() === index) {
       this.onSelectImmediately(index);
     } else {
@@ -40,7 +40,7 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  onSelectImmediately = (index) => {
+  onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
       if (this.context.breakpoint === 'large') {
         this.context.router.replace({
@@ -55,8 +55,14 @@ class SummaryPlanContainer extends React.Component {
         ...this.context.location,
         state: { summaryPageSelected: index },
       };
-      const basePath = getRoutePath(this.props.params.from, this.props.params.to);
-      const indexPath = `${getRoutePath(this.props.params.from, this.props.params.to)}/${index}`;
+      const basePath = getRoutePath(
+        this.props.params.from,
+        this.props.params.to,
+      );
+      const indexPath = `${getRoutePath(
+        this.props.params.from,
+        this.props.params.to,
+      )}/${index}`;
 
       if (this.context.breakpoint === 'large') {
         newState.pathname = indexPath;
@@ -68,7 +74,7 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.push(newState);
       }
     }
-  }
+  };
 
   getActiveIndex() {
     if (this.context.location.state) {
@@ -84,7 +90,10 @@ class SummaryPlanContainer extends React.Component {
   }
 
   render() {
-    const currentTime = this.context.getStore('TimeStore').getCurrentTime().valueOf();
+    const currentTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .valueOf();
     const activeIndex = this.getActiveIndex();
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;

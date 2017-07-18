@@ -3,15 +3,14 @@ import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithBigCaution = ({ id, img, className }) => (
+const IconWithBigCaution = ({ id, img, className }) =>
   <IconWithIcon
     id={id}
     className={className}
     img={img}
     subIcon="icon-icon_caution"
     subIconClassName="subicon-caution"
-  />
-);
+  />;
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 

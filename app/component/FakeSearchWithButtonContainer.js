@@ -5,10 +5,15 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
-export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => (
+export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) =>
   <div className={`row search-form bp-${breakpoint}`}>
     <div className="small-12 columns search-form-map-overlay">
-      <button title="haku" tabIndex="0" onClick={onClick} className="noborder search-button flex-horisontal">
+      <button
+        title="haku"
+        tabIndex="0"
+        onClick={onClick}
+        className="noborder search-button flex-horisontal"
+      >
         <div className="flex-grow row collapse postfix-radius">
           <div className="small-11 columns">
             {fakeSearchBar}
@@ -21,9 +26,7 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) => 
         </div>
       </button>
     </div>
-  </div>
-
-);
+  </div>;
 
 FakeSearchWithButton.propTypes = {
   fakeSearchBar: PropTypes.object.isRequired,
@@ -37,20 +40,22 @@ FakeSearchWithButton.defaultProps = {
 
 FakeSearchWithButton.displayName = 'FakeSearchWithButton';
 
-FakeSearchWithButton.description = () => (
+FakeSearchWithButton.description = () =>
   <div>
-    <p>
-    Visual search component that acts as a link to search dialog.
-  </p>
+    <p>Visual search component that acts as a link to search dialog.</p>
     <ComponentUsageExample description="Centered fake search field with search icon button">
-      <FakeSearchWithButton fakeSearchBar={<FakeSearchBar placeholder="Enter address" />} />
+      <FakeSearchWithButton
+        fakeSearchBar={<FakeSearchBar placeholder="Enter address" />}
+      />
     </ComponentUsageExample>
     <ComponentUsageExample description="Centered fake search field with search icon button">
       <FakeSearchWithButton
-        breakpoint="large" fakeSearchBar={<FakeSearchBar placeholder="Enter address" />}
+        breakpoint="large"
+        fakeSearchBar={<FakeSearchBar placeholder="Enter address" />}
       />
     </ComponentUsageExample>
-  </div>);
+  </div>;
 
-export default getContext(
-  { breakpoint: PropTypes.string.isRequired })(FakeSearchWithButton);
+export default getContext({ breakpoint: PropTypes.string.isRequired })(
+  FakeSearchWithButton,
+);

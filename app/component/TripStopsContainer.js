@@ -9,7 +9,9 @@ import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 
 function TripStopsContainer(props, { breakpoint }) {
-  const tripStartTime = getStartTime(props.trip.stoptimesForDate[0].scheduledDeparture);
+  const tripStartTime = getStartTime(
+    props.trip.stoptimesForDate[0].scheduledDeparture,
+  );
 
   const fullscreen = some(props.routes, route => route.fullscreenMap);
 
@@ -19,7 +21,10 @@ function TripStopsContainer(props, { breakpoint }) {
         'fullscreen-map': fullscreen && breakpoint !== 'large',
       })}
     >
-      <TripListHeader key="header" className={breakpoint === 'large' && 'bp-large'} />
+      <TripListHeader
+        key="header"
+        className={breakpoint === 'large' && 'bp-large'}
+      />
       <TripStopListContainer
         key="list"
         trip={props.trip}
@@ -39,9 +44,11 @@ TripStopsContainer.propTypes = {
       }).isRequired,
     ).isRequired,
   }).isRequired,
-  routes: PropTypes.arrayOf(PropTypes.shape({
-    fullscreenMap: PropTypes.bool,
-  })).isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
+    }),
+  ).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,

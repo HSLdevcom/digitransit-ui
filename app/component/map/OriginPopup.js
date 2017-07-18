@@ -5,8 +5,7 @@ import { intlShape } from 'react-intl';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
-const Popup = isBrowser ?
-  require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
 
 class OriginPopup extends React.Component {
   static contextTypes = {
@@ -30,14 +29,15 @@ class OriginPopup extends React.Component {
 
   display = () => this.context.popupContainer.openPopup();
 
-  openDialog = () => this.context.router.push({
-    ...this.context.location,
-    state: {
-      ...this.context.location.state,
-      searchModalIsOpen: true,
-      selectedTab: 'origin',
-    },
-  });
+  openDialog = () =>
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        searchModalIsOpen: true,
+        selectedTab: 'origin',
+      },
+    });
 
   render() {
     return (
@@ -55,8 +55,11 @@ class OriginPopup extends React.Component {
             <Icon className="icon-edit" img="icon-icon_edit" />
           </div>
           <div>
-            <div className="origin-popup-name">{this.props.text}</div>
-            <div className="shade-to-white" /></div>
+            <div className="origin-popup-name">
+              {this.props.text}
+            </div>
+            <div className="shade-to-white" />
+          </div>
         </div>
       </Popup>
     );

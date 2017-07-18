@@ -18,11 +18,11 @@ export default class Line extends React.Component {
     passive: PropTypes.bool,
     mode: PropTypes.string.isRequired,
     geometry: PropTypes.array.isRequired,
-  }
+  };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-  }
+  };
 
   componentDidMount() {
     // If we accidently draw the thin line over a normal one,
@@ -48,9 +48,20 @@ export default class Line extends React.Component {
   render() {
     const className = cx([this.props.mode, { thin: this.props.thin }]);
 
+    let filteredPoints;
+    if (this.props.geometry) {
+      filteredPoints = this.props.geometry.filter(
+        point => point.lat !== null && point.lon !== null,
+      );
+    }
+
     const lineConfig = this.context.config.map.line;
-    let haloWeight = this.props.thin ? lineConfig.halo.thinWeight : lineConfig.halo.weight;
-    let legWeight = this.props.thin ? lineConfig.leg.thinWeight : lineConfig.leg.weight;
+    let haloWeight = this.props.thin
+      ? lineConfig.halo.thinWeight
+      : lineConfig.halo.weight;
+    let legWeight = this.props.thin
+      ? lineConfig.leg.thinWeight
+      : lineConfig.leg.weight;
 
     if (this.props.passive) {
       haloWeight *= 0.5;
@@ -61,16 +72,20 @@ export default class Line extends React.Component {
       <div style={{ display: 'none' }}>
         <Polyline
           key="halo"
-          ref={(el) => { this.halo = el; }}
-          positions={this.props.geometry.filter(point => point.lat !== null && point.lon !== null)}
+          ref={el => {
+            this.halo = el;
+          }}
+          positions={filteredPoints}
           className={`leg-halo ${className}`}
           weight={haloWeight}
           interactive={false}
         />
         <Polyline
           key="line"
-          ref={(el) => { this.line = el; }}
-          positions={this.props.geometry.filter(point => point.lat !== null && point.lon !== null)}
+          ref={el => {
+            this.line = el;
+          }}
+          positions={filteredPoints}
           className={`leg ${className}`}
           color={this.props.passive ? '#758993' : 'currentColor'}
           weight={legWeight}

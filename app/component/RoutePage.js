@@ -10,10 +10,12 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import { startRealTimeClient, stopRealTimeClient } from '../action/realTimeClientAction';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../action/realTimeClientAction';
 
 class RoutePage extends React.Component {
-
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -36,7 +38,9 @@ class RoutePage extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.route == null) { return; }
+    if (this.props.route == null) {
+      return;
+    }
     const route = this.props.route.gtfsId.split(':');
 
     if (route[0].toLowerCase() === 'hsl') {
@@ -54,16 +58,18 @@ class RoutePage extends React.Component {
     }
   }
 
-  onPatternChange = (e) => {
+  onPatternChange = e => {
     this.context.router.replace(
-      decodeURIComponent(this.props.location.pathname)
-        .replace(new RegExp(`${this.props.params.patternId}(.*)`), e.target.value),
+      decodeURIComponent(this.props.location.pathname).replace(
+        new RegExp(`${this.props.params.patternId}(.*)`),
+        e.target.value,
+      ),
     );
-  }
+  };
 
-  changeTab = (path) => {
+  changeTab = path => {
     this.context.router.replace(path);
-  }
+  };
 
   render() {
     if (this.props.route == null) {
@@ -84,15 +90,28 @@ class RoutePage extends React.Component {
     }
 
     return (
-      <div>{this.props.route.type === 715 && <CallAgencyWarning route={this.props.route} />}
+      <div>
+        {this.props.route.type === 715 &&
+          <CallAgencyWarning route={this.props.route} />}
         <div className="tabs route-tabs">
-          <nav className={cx('tabs-navigation', { 'bp-large': this.context.breakpoint === 'large' })}>
-            { this.context.breakpoint === 'large' && (
-            <RouteNumber mode={this.props.route.mode} text={this.props.route.shortName} />
-          )}
+          <nav
+            className={cx('tabs-navigation', {
+              'bp-large': this.context.breakpoint === 'large',
+            })}
+          >
+            {this.context.breakpoint === 'large' &&
+              <RouteNumber
+                mode={this.props.route.mode}
+                text={this.props.route.shortName}
+              />}
             <a
               className={cx({ 'is-active': activeTab === 'pysakit' })}
-              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/pysakit/${this.props.params.patternId || ''}`); }}
+              onClick={() => {
+                this.changeTab(
+                  `/linjat/${this.props.route.gtfsId}/pysakit/${this.props
+                    .params.patternId || ''}`,
+                );
+              }}
             >
               <div>
                 <Icon img="icon-icon_bus-stop" />
@@ -101,7 +120,12 @@ class RoutePage extends React.Component {
             </a>
             <a
               className={cx({ 'is-active': activeTab === 'aikataulu' })}
-              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/aikataulu/${this.props.params.patternId || ''}`); }}
+              onClick={() => {
+                this.changeTab(
+                  `/linjat/${this.props.route.gtfsId}/aikataulu/${this.props
+                    .params.patternId || ''}`,
+                );
+              }}
             >
               <div>
                 <Icon img="icon-icon_schedule" />
@@ -110,14 +134,20 @@ class RoutePage extends React.Component {
             </a>
             <a
               className={cx({
-                activeAlert: this.props.route.alerts && this.props.route.alerts.length > 0,
+                activeAlert:
+                  this.props.route.alerts && this.props.route.alerts.length > 0,
                 'is-active': activeTab === 'hairiot',
               })}
-              onClick={() => { this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`); }}
+              onClick={() => {
+                this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`);
+              }}
             >
               <div>
                 <Icon img="icon-icon_caution" />
-                <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
+                <FormattedMessage
+                  id="disruptions"
+                  defaultMessage="Disruptions"
+                />
               </div>
             </a>
             <FavouriteRouteContainer
@@ -125,14 +155,18 @@ class RoutePage extends React.Component {
               gtfsId={this.props.route.gtfsId}
             />
           </nav>
-          {this.props.params.patternId && <RoutePatternSelect
-            params={this.props.params}
-            route={this.props.route}
-            onSelectChange={this.onPatternChange}
-            className={cx({ 'bp-large': this.context.breakpoint === 'large' })}
-          />}
+          {this.props.params.patternId &&
+            <RoutePatternSelect
+              params={this.props.params}
+              route={this.props.route}
+              onSelectChange={this.onPatternChange}
+              className={cx({
+                'bp-large': this.context.breakpoint === 'large',
+              })}
+            />}
           <RouteAgencyInfo route={this.props.route} />
-        </div></div>
+        </div>
+      </div>
     );
   }
 }

@@ -3,7 +3,6 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 class ResetCustomizedSettingsButton extends React.Component {
-
   static propTypes = {
     onReset: PropTypes.func.isRequired,
   };

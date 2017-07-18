@@ -1,5 +1,8 @@
 import Store from 'fluxible/addons/BaseStore';
-import { getPositioningHasSucceeded, setPositioningHasSucceeded } from './localStorage';
+import {
+  getPositioningHasSucceeded,
+  setPositioningHasSucceeded,
+} from './localStorage';
 
 export default class PositionStore extends Store {
   static storeName = 'PositionStore';
@@ -13,7 +16,6 @@ export default class PositionStore extends Store {
   static STATUS_GEOLOCATION_TIMEOUT = 'geolocation-timeout';
   static STATUS_GEOLOCATION_WATCH_TIMEOUT = 'geolocation-watch-timeout';
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
-
 
   constructor(dispatcher) {
     super(dispatcher);
@@ -91,7 +93,8 @@ export default class PositionStore extends Store {
     this.emitChange();
   }
 
-  hasStatusChanged = hasLocation => hasLocation !== this.getLocationState().hasLocation;
+  hasStatusChanged = hasLocation =>
+    hasLocation !== this.getLocationState().hasLocation;
 
   getLocationState() {
     return {
@@ -106,7 +109,8 @@ export default class PositionStore extends Store {
       // Locationing is in progress when browser is:
       //   searching address or
       //   reverse geocoding is in progress
-      isLocationingInProgress: this.status === PositionStore.STATUS_SEARCHING_LOCATION,
+      isLocationingInProgress:
+        this.status === PositionStore.STATUS_SEARCHING_LOCATION,
     };
   }
 

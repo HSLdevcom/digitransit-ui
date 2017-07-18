@@ -24,30 +24,20 @@ const DateWarning = ({ date, refTime }) => {
 };
 
 DateWarning.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-    .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   const date = 1478611781000;
   return (
     <div>
-      <p>
-        Displays a warning if the date is not today.
-      </p>
+      <p>Displays a warning if the date is not today.</p>
       <ComponentUsageExample description="today-show-nothing">
-        <DateWarning
-          date={today}
-          refTime={today + 1000}
-        />
+        <DateWarning date={today} refTime={today + 1000} />
       </ComponentUsageExample>
       <ComponentUsageExample description="tomorrow-show-warning">
-        <DateWarning
-          date={date}
-          refTime={today}
-        />
+        <DateWarning date={date} refTime={today} />
       </ComponentUsageExample>
     </div>
   );
 };
-
 
 DateWarning.propTypes = {
   date: PropTypes.number.isRequired,
