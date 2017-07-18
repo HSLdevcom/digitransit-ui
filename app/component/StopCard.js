@@ -6,13 +6,20 @@ import Card from './Card';
 
 class StopCard extends React.Component {
   render() {
-    if (!this.props.stop || !this.props.children || this.props.children.length === 0) {
+    if (
+      !this.props.stop ||
+      !this.props.children ||
+      this.props.children.length === 0
+    ) {
       return false;
     }
     const prefix = this.props.isTerminal ? 'terminaalit' : 'pysakit';
 
     return (
-      <Link to={`/${prefix}/${this.props.stop.gtfsId}`} className="no-decoration">
+      <Link
+        to={`/${prefix}/${this.props.stop.gtfsId}`}
+        className="no-decoration"
+      >
         <Card className={this.props.className}>
           <StopCardHeaderContainer
             stop={this.props.stop}

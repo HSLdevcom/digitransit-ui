@@ -1,7 +1,5 @@
 import React from 'react';
 
-const Loading = () => (
-  <div className="spinner-loader" />
-);
+const Loading = () => <div className="spinner-loader" />;
 
 export default Loading;

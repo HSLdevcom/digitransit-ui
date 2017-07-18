@@ -10,18 +10,27 @@ import MainMenuLinks from './MainMenuLinks';
 
 function MainMenu(props, context) {
   const inquiry = (
-    <p style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }} >
+    <p
+      style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }}
+    >
       <span onClick={props.openFeedback}>
-        <FormattedMessage id="inquiry" defaultMessage="How did you find the new Journey Planner? Please tell us!" />
+        <FormattedMessage
+          id="inquiry"
+          defaultMessage="How did you find the new Journey Planner? Please tell us!"
+        />
         <Icon img="icon-icon_arrow-right" className="small" />
       </span>
-    </p>);
+    </p>
+  );
 
   const config = context.config;
 
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
-      <div onClick={props.toggleVisibility} className="close-button cursor-pointer">
+      <div
+        onClick={props.toggleVisibility}
+        className="close-button cursor-pointer"
+      >
         <Icon img="icon-icon_close" className="medium" />
       </div>
       <header className="offcanvas-section">
@@ -34,14 +43,18 @@ function MainMenu(props, context) {
         </Link>
       </div>
       <div className="offcanvas-section">
-        {config.mainMenu.showDisruptions && props.showDisruptionInfo &&
+        {config.mainMenu.showDisruptions &&
+          props.showDisruptionInfo &&
           <DisruptionInfoButtonContainer />}
       </div>
       <MainMenuLinks
-        content={([config.appBarLink].concat(config.footer && config.footer.content) || [])
-        .filter((item => item.href || item.route))}
+        content={([config.appBarLink].concat(
+          config.footer && config.footer.content,
+        ) || [])
+          .filter(item => item.href || item.route)}
       />
-    </div>);
+    </div>
+  );
 }
 
 MainMenu.propTypes = {
@@ -59,6 +72,5 @@ MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 };
-
 
 export default MainMenu;

@@ -13,8 +13,10 @@ import ComponentUsageExample from './ComponentUsageExample';
 // import Favourite from './Favourite';
 
 const StopPageHeader = compose(
-  getContext({ executeAction: PropTypes.func.isRequired,
-    breakpoint: PropTypes.string.isRequired }),
+  getContext({
+    executeAction: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired,
+  }),
   mapProps(props => ({
     stop: props.stop,
     className: 'stop-page header',

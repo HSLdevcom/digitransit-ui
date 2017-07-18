@@ -10,7 +10,11 @@ import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
-import { getCaseRadius, getStopRadius, getHubRadius } from '../../../util/mapIconUtils';
+import {
+  getCaseRadius,
+  getStopRadius,
+  getHubRadius,
+} from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
 
@@ -52,8 +56,7 @@ class StopMarker extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-
-  getModeIcon = (zoom) => {
+  getModeIcon = zoom => {
     const iconId = `icon-icon_${this.props.mode}`;
     const icon = Icon.asString(iconId, 'mode-icon');
     let size;
@@ -73,11 +76,14 @@ class StopMarker extends React.Component {
         selected: this.props.selected,
       }),
     });
-  }
+  };
 
-  getIcon = (zoom) => {
+  getIcon = zoom => {
     const scale = this.props.stop.transfer || this.props.selected ? 1.5 : 1;
-    const calcZoom = this.props.stop.transfer || this.props.selected ? Math.max(zoom, 15) : zoom;
+    const calcZoom =
+      this.props.stop.transfer || this.props.selected
+        ? Math.max(zoom, 15)
+        : zoom;
 
     const radius = getCaseRadius(calcZoom) * scale;
     const stopRadius = getStopRadius(calcZoom) * scale;
@@ -91,8 +97,8 @@ class StopMarker extends React.Component {
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
-        ${inner > 7 && this.props.stop.platformCode ?
-          `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
+        ${inner > 7 && this.props.stop.platformCode
+          ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
             fill="#333" font-size="${1.2 * inner}px"
             font-family="Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif"
             >${this.props.stop.platformCode}</text>`
@@ -109,7 +115,7 @@ class StopMarker extends React.Component {
       iconSize: [radius * 2, radius * 2],
       className: `${this.props.mode} cursor-pointer`,
     });
-  }
+  };
 
   render() {
     if (!isBrowser) {
@@ -123,8 +129,10 @@ class StopMarker extends React.Component {
           lon: this.props.stop.lon,
         }}
         getIcon={
-          this.context.config.map.useModeIconsInNonTileLayer && !this.props.disableModeIcons ?
-          this.getModeIcon : this.getIcon
+          this.context.config.map.useModeIconsInNonTileLayer &&
+          !this.props.disableModeIcons
+            ? this.getModeIcon
+            : this.getIcon
         }
         id={this.props.stop.gtfsId}
         renderName={this.props.renderName}
@@ -132,17 +140,25 @@ class StopMarker extends React.Component {
       >
         <Relay.RootContainer
           Component={StopMarkerPopup}
-          route={new StopRoute({
-            stopId: this.props.stop.gtfsId,
-            date: this.context.getStore('TimeStore').getCurrentTime().format('YYYYMMDD'),
-            currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
-          })}
+          route={
+            new StopRoute({
+              stopId: this.props.stop.gtfsId,
+              date: this.context
+                .getStore('TimeStore')
+                .getCurrentTime()
+                .format('YYYYMMDD'),
+              currentTime: this.context
+                .getStore('TimeStore')
+                .getCurrentTime()
+                .unix(),
+            })
+          }
           renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}><Loading /></div>
-          }
+            <div className="card" style={{ height: '12rem' }}>
+              <Loading />
+            </div>}
           renderFetched={data =>
-            <StopMarkerPopupWithContext {...data} context={this.context} />
-          }
+            <StopMarkerPopupWithContext {...data} context={this.context} />}
         />
       </GenericMarker>
     );

@@ -16,7 +16,10 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-export default function PlaceMarker({ displayOriginPopup, position }, { intl }) {
+export default function PlaceMarker(
+  { displayOriginPopup, position },
+  { intl },
+) {
   let popup;
 
   if (displayOriginPopup) {

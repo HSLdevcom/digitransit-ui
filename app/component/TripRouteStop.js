@@ -15,8 +15,8 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 
-const getRouteStopSvg = (first, last) => (
-  <svg className="route-stop-schematized" >
+const getRouteStopSvg = (first, last) =>
+  <svg className="route-stop-schematized">
     <line
       x1="6"
       x2="6"
@@ -34,26 +34,43 @@ const getRouteStopSvg = (first, last) => (
       stroke="white"
       opacity="0.2"
     />
-    <circle strokeWidth="2" stroke="currentColor" fill="white" cx="6" cy="13" r="5" />
-  </svg>
-);
+    <circle
+      strokeWidth="2"
+      stroke="currentColor"
+      fill="white"
+      cx="6"
+      cy="13"
+      r="5"
+    />
+  </svg>;
 
-const TripRouteStop = (props) => {
-  const vehicles = props.vehicles && props.vehicles.map(
-      vehicle => (<PatternLink
+const TripRouteStop = props => {
+  const vehicles =
+    props.vehicles &&
+    props.vehicles.map(vehicle =>
+      <PatternLink
         key={vehicle.id}
         mode={vehicle.mode}
         pattern={props.pattern}
         route={props.route}
-        selected={props.selectedVehicle && props.selectedVehicle.id === vehicle.id}
+        selected={
+          props.selectedVehicle && props.selectedVehicle.id === vehicle.id
+        }
         fullscreenMap={props.fullscreenMap}
-      />
-    ),
-  );
+      />,
+    );
 
   return (
-    <div className={cx('route-stop row', { passed: props.stopPassed }, props.className)}>
-      <div className="columns route-stop-now">{vehicles}</div>
+    <div
+      className={cx(
+        'route-stop row',
+        { passed: props.stopPassed },
+        props.className,
+      )}
+    >
+      <div className="columns route-stop-now">
+        {vehicles}
+      </div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
           {getRouteStopSvg(props.first, props.last)}
@@ -61,15 +78,16 @@ const TripRouteStop = (props) => {
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
             {props.stop.code && <StopCode code={props.stop.code} />}
-            <span className="route-stop-address">{props.stop.desc}</span>
+            <span className="route-stop-address">
+              {props.stop.desc}
+            </span>
             {'\u2002'}
             {props.distance &&
               <WalkDistance
                 className="nearest-route-stop"
                 icon="icon_location-with-user"
                 walkDistance={props.distance}
-              />
-            }
+              />}
           </div>
         </div>
         <div className="columns route-stop-time">
@@ -87,10 +105,8 @@ TripRouteStop.propTypes = {
   stopPassed: PropTypes.bool,
   realtimeDeparture: PropTypes.number,
   stop: PropTypes.object.isRequired,
-  distance: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.oneOf([false]),
-  ]).isRequired,
+  distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
+    .isRequired,
   stoptime: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,
@@ -110,8 +126,8 @@ TripRouteStop.displayName = 'TripRouteStop';
 TripRouteStop.description = () =>
   <div>
     <p>
-      Renders a row intended to for use in a trip route stop list.
-      The row contains the information of a single stop along a certain route.
+      Renders a row intended to for use in a trip route stop list. The row
+      contains the information of a single stop along a certain route.
     </p>
     <ComponentUsageExample description="Not realtime, no vehicle info:">
       <TripRouteStop

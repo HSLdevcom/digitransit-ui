@@ -7,11 +7,15 @@ export default [
       sv: 'Välkommen till den nya Matka.fi',
     },
     text: {
-      fi: 'Nykyinen sijaintisi on avain uusiin ominaisuuksiin. Sallithan paikannuksen!',
-      en: 'Your current location enables new features. Please allow browser to know your location!',
-      sv: 'Din position är nyckeln till nya egenskaper. Tillåt gärna att dela din plats!',
+      fi:
+        'Nykyinen sijaintisi on avain uusiin ominaisuuksiin. Sallithan paikannuksen!',
+      en:
+        'Your current location enables new features. Please allow browser to know your location!',
+      sv:
+        'Din position är nyckeln till nya egenskaper. Tillåt gärna att dela din plats!',
     },
-  }, {
+  },
+  {
     image: require('../../sass/themes/matka/matka-origin.png'), // eslint-disable-line global-require
     header: {
       fi: 'Missä oletkin',
@@ -19,11 +23,15 @@ export default [
       sv: 'Där du är',
     },
     text: {
-      fi: 'Nykyinen sijaintisi toimii lähtöpaikkanasi. Saat reitityksen kertomalla määränpään.',
-      en: 'Your current location works as a starting point. You get route suggestions by writing your destination.',
-      sv: 'Din position fungerar som avfärdsplats. Resan planerar du genom att berätta vart du är på väg.',
+      fi:
+        'Nykyinen sijaintisi toimii lähtöpaikkanasi. Saat reitityksen kertomalla määränpään.',
+      en:
+        'Your current location works as a starting point. You get route suggestions by writing your destination.',
+      sv:
+        'Din position fungerar som avfärdsplats. Resan planerar du genom att berätta vart du är på väg.',
     },
-  }, {
+  },
+  {
     image: require('../../sass/themes/matka/matka-nearyou.png'), // eslint-disable-line global-require
     header: {
       fi: 'Milloin lähdet?',

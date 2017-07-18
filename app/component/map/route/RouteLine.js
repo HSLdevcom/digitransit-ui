@@ -14,7 +14,7 @@ class RouteLine extends React.Component {
     pattern: PropTypes.object.isRequired,
     thin: PropTypes.bool,
     filteredStops: PropTypes.array,
-  }
+  };
 
   render() {
     if (!isBrowser || !this.props.pattern) {
@@ -38,26 +38,29 @@ class RouteLine extends React.Component {
       objs.push(
         <LocationMarker
           key="to"
-          position={this.props.pattern.stops[this.props.pattern.stops.length - 1]}
+          position={
+            this.props.pattern.stops[this.props.pattern.stops.length - 1]
+          }
           className="to"
         />,
       );
     }
 
-    const filteredIds = this.props.filteredStops ?
-      this.props.filteredStops.map(stop => stop.stopId) : [];
+    const filteredIds = this.props.filteredStops
+      ? this.props.filteredStops.map(stop => stop.stopId)
+      : [];
 
-    const markers = this.props.pattern ?
-      this.props.pattern.stops
-        .filter(stop => !filteredIds.includes(stop.gtfsId))
-        .map(stop => (
-          <StopMarker
-            stop={stop}
-            key={stop.gtfsId}
-            mode={modeClass + (this.props.thin ? ' thin' : '')}
-            thin={this.props.thin}
-          />
-        ))
+    const markers = this.props.pattern
+      ? this.props.pattern.stops
+          .filter(stop => !filteredIds.includes(stop.gtfsId))
+          .map(stop =>
+            <StopMarker
+              stop={stop}
+              key={stop.gtfsId}
+              mode={modeClass + (this.props.thin ? ' thin' : '')}
+              thin={this.props.thin}
+            />,
+          )
       : false;
 
     return (

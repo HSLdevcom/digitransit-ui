@@ -8,7 +8,8 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import StopCode from '../component/StopCode';
 
-const getLocality = suggestion => suggestion.localadmin || suggestion.locality || '';
+const getLocality = suggestion =>
+  suggestion.localadmin || suggestion.locality || '';
 
 memoize.Cache = Map;
 
@@ -35,60 +36,76 @@ export const getGTFSId = ({ id, gtfsId }) => {
 };
 
 export const isStop = ({ layer }) =>
-  (layer === 'stop' || layer === 'favouriteStop');
+  layer === 'stop' || layer === 'favouriteStop';
 
-export const getLabel = memoize((suggestion, plain = false) => {
-  switch (suggestion.layer) {
-    case 'currentPosition':
-      return [suggestion.labelId, null];
-    case 'favouritePlace':
-      return [suggestion.locationName, suggestion.address];
-    case 'favouriteRoute':
-    case 'route-BUS':
-    case 'route-TRAM':
-    case 'route-RAIL':
-    case 'route-SUBWAY':
-    case 'route-FERRY':
-    case 'route-AIRPLANE':
-      return suggestion.shortName ? [(
-        <span key={suggestion.gtfsId}>
-          <span className={suggestion.mode.toLowerCase()}>{suggestion.shortName}</span>
-          <span className="suggestion-type">
-            &nbsp;-&nbsp;
-            <FormattedMessage id="route" defaultMessage="Route" />
-          </span>
-        </span>
-      ), suggestion.longName] : [suggestion.longName, null];
-    case 'venue':
-    case 'address':
-      return [
-        suggestion.name,
-        suggestion.label.replace(new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`), ''),
-      ];
+export const getLabel = memoize(
+  (suggestion, plain = false) => {
+    switch (suggestion.layer) {
+      case 'currentPosition':
+        return [suggestion.labelId, null];
+      case 'favouritePlace':
+        return [suggestion.locationName, suggestion.address];
+      case 'favouriteRoute':
+      case 'route-BUS':
+      case 'route-TRAM':
+      case 'route-RAIL':
+      case 'route-SUBWAY':
+      case 'route-FERRY':
+      case 'route-AIRPLANE':
+        return suggestion.shortName
+          ? [
+              <span key={suggestion.gtfsId}>
+                <span className={suggestion.mode.toLowerCase()}>
+                  {suggestion.shortName}
+                </span>
+                <span className="suggestion-type">
+                  &nbsp;-&nbsp;
+                  <FormattedMessage id="route" defaultMessage="Route" />
+                </span>
+              </span>,
+              suggestion.longName,
+            ]
+          : [suggestion.longName, null];
+      case 'venue':
+      case 'address':
+        return [
+          suggestion.name,
+          suggestion.label.replace(
+            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+            '',
+          ),
+        ];
 
-    case 'favouriteStop':
-    case 'stop':
-      return (plain) ?
-        [suggestion.name || suggestion.label, getLocality(suggestion)] : [suggestion.name, (
-          <span key={suggestion.id}>
-            {getStopCode(suggestion) && <StopCode code={getStopCode(suggestion)} />}
-            {suggestion.desc}
-          </span>
-        )];
-    case 'station':
-    default:
-      return [suggestion.name || suggestion.label, getLocality(suggestion)];
-  }
-}, (item, plain) => {
-  const i = cloneDeep(item);
-  i.plain = plain;
-  return i;
-});
+      case 'favouriteStop':
+      case 'stop':
+        return plain
+          ? [suggestion.name || suggestion.label, getLocality(suggestion)]
+          : [
+              suggestion.name,
+              <span key={suggestion.id}>
+                {getStopCode(suggestion) &&
+                  <StopCode code={getStopCode(suggestion)} />}
+                {suggestion.desc}
+              </span>,
+            ];
+      case 'station':
+      default:
+        return [suggestion.name || suggestion.label, getLocality(suggestion)];
+    }
+  },
+  (item, plain) => {
+    const i = cloneDeep(item);
+    i.plain = plain;
+    return i;
+  },
+);
 
 export function uniqByLabel(features) {
-  return uniqWith(features, (feat1, feat2) =>
-    (isEqual(getLabel(feat1.properties), getLabel(feat2.properties)) &&
-    feat1.properties.layer === feat2.properties.layer),
+  return uniqWith(
+    features,
+    (feat1, feat2) =>
+      isEqual(getLabel(feat1.properties), getLabel(feat2.properties)) &&
+      feat1.properties.layer === feat2.properties.layer,
   );
 }
 
@@ -109,7 +126,8 @@ export function getIcon(layer) {
     ['route-RAIL', 'icon-icon_rail-withoutBox'],
     ['route-SUBWAY', 'icon-icon_subway-withoutBox'],
     ['route-FERRY', 'icon-icon_ferry-withoutBox'],
-    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox']]);
+    ['route-AIRPLANE', 'icon-icon_airplane-withoutBox'],
+  ]);
 
   const defaultIcon = 'icon-icon_place';
   return layerIcon.get(layer) || defaultIcon;

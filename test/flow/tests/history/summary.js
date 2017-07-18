@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['back button'],
 
-  'History works on itinerary summary page': (browser) => {
+  'History works on itinerary summary page': browser => {
     browser.url(browser.launch_url);
 
     const searchFields = browser.page.searchFields();
@@ -31,7 +31,7 @@ module.exports = {
     browser.end();
   },
 
-  'Itinerary selection changes do not accumulate into history': (browser) => {
+  'Itinerary selection changes do not accumulate into history': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();
     splash.waitClose();

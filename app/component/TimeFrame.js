@@ -4,7 +4,10 @@ import moment from 'moment';
 
 import { TIME_PATTERN, DATE_PATTERN } from '../util/timeUtils';
 
-const time = momentTime => (<span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>);
+const time = momentTime =>
+  <span className="capitalize">
+    {momentTime.format(TIME_PATTERN)}
+  </span>;
 
 /**
  * Returns date time or time if same day as reference
@@ -15,7 +18,9 @@ const dateTime = (momentTime, momentRefTime) => {
   }
   return (
     <span className="capitalize">
-      <span className="timeframe-nextday">{momentTime.format(DATE_PATTERN)}</span>
+      <span className="timeframe-nextday">
+        {momentTime.format(DATE_PATTERN)}
+      </span>
       &nbsp;
       <span>{momentTime.format(TIME_PATTERN)}</span>
     </span>
@@ -34,7 +39,8 @@ const TimeFrame = ({ className, startTime, endTime, refTime }) => {
   );
 };
 
-TimeFrame.description = 'Displays the time frame of interval (example: 15:55 - 16:15)';
+TimeFrame.description =
+  'Displays the time frame of interval (example: 15:55 - 16:15)';
 
 TimeFrame.propTypes = {
   startTime: PropTypes.number.isRequired,

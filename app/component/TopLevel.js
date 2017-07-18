@@ -28,7 +28,7 @@ class TopLevel extends React.Component {
         disableMapOnMobile: PropTypes.bool,
       }).isRequired,
     ).isRequired,
-  }
+  };
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
@@ -45,13 +45,30 @@ class TopLevel extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    const host = context.headers && (context.headers['x-forwarded-host'] || context.headers.host);
+    const host =
+      context.headers &&
+      (context.headers['x-forwarded-host'] || context.headers.host);
     const url = context.url;
 
-    const hasTrackingPixel = get(context, 'config.showAdformTrackingPixel', false);
-    this.trackingPixel = host && host.indexOf('127.0.0.1') === -1 && host.indexOf('localhost') === -1 && hasTrackingPixel ? <HSLAdformTrackingPixel /> : undefined;
+    const hasTrackingPixel = get(
+      context,
+      'config.showAdformTrackingPixel',
+      false,
+    );
+    this.trackingPixel =
+      host &&
+      host.indexOf('127.0.0.1') === -1 &&
+      host.indexOf('localhost') === -1 &&
+      hasTrackingPixel
+        ? <HSLAdformTrackingPixel />
+        : undefined;
 
-    this.metadata = meta(this.context.intl.locale, host, url, this.context.config);
+    this.metadata = meta(
+      this.context.intl.locale,
+      host,
+      url,
+      this.context.config,
+    );
   }
 
   getChildContext() {
@@ -65,11 +82,17 @@ class TopLevel extends React.Component {
     (!this.props.width && 'none') ||
     (this.props.width < 400 && 'small') ||
     (this.props.width < 900 && 'medium') ||
-    'large'
+    'large';
 
   render() {
-    this.topBarOptions = Object.assign({}, ...this.props.routes.map(route => route.topBarOptions));
-    this.disableMapOnMobile = some(this.props.routes, route => route.disableMapOnMobile);
+    this.topBarOptions = Object.assign(
+      {},
+      ...this.props.routes.map(route => route.topBarOptions),
+    );
+    this.disableMapOnMobile = some(
+      this.props.routes,
+      route => route.disableMapOnMobile,
+    );
 
     let content;
 
@@ -82,7 +105,7 @@ class TopLevel extends React.Component {
           content={this.props.content}
           header={this.props.header}
         />
-     );
+      );
     } else if (this.props.width >= 900) {
       content = (
         <DesktopView
@@ -101,9 +124,12 @@ class TopLevel extends React.Component {
         {!this.topBarOptions.hidden &&
           <AppBarContainer title={this.props.title} {...this.topBarOptions} />}
         <Helmet {...this.metadata} />
-        <section className="content" style={{ height: `calc(100% - ${menuHeight})` }}>
+        <section
+          className="content"
+          style={{ height: `calc(100% - ${menuHeight})` }}
+        >
           {this.props.meta}
-          { content }
+          {content}
         </section>
         {this.trackingPixel}
       </div>

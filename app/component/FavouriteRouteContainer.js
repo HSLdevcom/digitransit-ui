@@ -3,7 +3,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
 import { addFavouriteRoute } from '../action/FavouriteActions';
 
-const FavouriteRouteContainer = connectToStores(Favourite, ['FavouriteRoutesStore'],
+const FavouriteRouteContainer = connectToStores(
+  Favourite,
+  ['FavouriteRoutesStore'],
   (context, { gtfsId }) => ({
     favourite: context.getStore('FavouriteRoutesStore').isFavourite(gtfsId),
     addFavourite: () => context.executeAction(addFavouriteRoute, gtfsId),

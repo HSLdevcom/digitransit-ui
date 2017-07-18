@@ -6,22 +6,17 @@ import { FormattedMessage } from 'react-intl';
 
 import RouteNumberContainer from './RouteNumberContainer';
 
-const RouteTitle = ({ route }, { breakpoint }) => (
-  (breakpoint === 'large' || !route || !route.mode) ?
-    <FormattedMessage
-      id="route-page.title-short"
-      defaultMessage="Route"
-    />
-    :
-    <Link to={`/linjat/${route.gtfsId}`}>
-      <RouteNumberContainer
-        className="route-number-title"
-        route={route}
-        vertical={false}
-        text={route.shortName}
-      />
-    </Link>
-);
+const RouteTitle = ({ route }, { breakpoint }) =>
+  breakpoint === 'large' || !route || !route.mode
+    ? <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
+    : <Link to={`/linjat/${route.gtfsId}`}>
+        <RouteNumberContainer
+          className="route-number-title"
+          route={route}
+          vertical={false}
+          text={route.shortName}
+        />
+      </Link>;
 
 RouteTitle.propTypes = {
   route: PropTypes.shape({

@@ -19,7 +19,6 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-
 export default class GenericMarker extends React.Component {
   static description = (
     <div>
@@ -67,7 +66,7 @@ export default class GenericMarker extends React.Component {
 
   onMapMove = () => this.forceUpdate();
 
-  getMarker = () => (
+  getMarker = () =>
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.context.map.getZoom())}
@@ -81,13 +80,13 @@ export default class GenericMarker extends React.Component {
       >
         {this.props.children}
       </Popup>
-    </Marker>
-  );
+    </Marker>;
 
   getNameMarker() {
     if (
       !this.props.renderName ||
-      this.context.map.getZoom() < this.context.config.map.genericMarker.nameMarkerMinZoom
+      this.context.map.getZoom() <
+        this.context.config.map.genericMarker.nameMarkerMinZoom
     ) {
       return false;
     }
@@ -95,7 +94,10 @@ export default class GenericMarker extends React.Component {
     return (
       <Marker
         key={`${this.props.name}_text`}
-        position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
+        position={{
+          lat: this.props.position.lat,
+          lng: this.props.position.lon,
+        }}
         interactive={false}
         icon={L.divIcon({
           html: `<div>${this.props.name}</div>`,

@@ -17,14 +17,19 @@ class DisruptionInfoButton extends React.Component {
   };
 
   render() {
-    if (!this.context.config.disruption || this.context.config.disruption.showInfoButton) {
+    if (
+      !this.context.config.disruption ||
+      this.context.config.disruption.showInfoButton
+    ) {
       return (
         <div
           className={'cursor-pointer disruption-info'}
           onClick={this.props.toggleDisruptionInfo}
         >
           <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-          {this.props.root && this.props.root.alerts && this.props.root.alerts.length > 0 &&
+          {this.props.root &&
+            this.props.root.alerts &&
+            this.props.root.alerts.length > 0 &&
             <Icon img={'icon-icon_caution'} className={'disruption-info'} />}
         </div>
       );

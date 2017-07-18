@@ -7,16 +7,20 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import DepartureListContainer from './DepartureListContainer';
 import StopCard from './StopCard';
 
-const StopCardContainer = connectToStores(StopCard, ['FavouriteStopsStore'], (context, props) =>
-  ({
+const StopCardContainer = connectToStores(
+  StopCard,
+  ['FavouriteStopsStore'],
+  (context, props) => ({
     isTerminal: props.isTerminal,
-    children: <DepartureListContainer
-      rowClasses="no-padding no-margin"
-      stoptimes={props.stop.stoptimes}
-      limit={props.limit}
-      isTerminal={props.isTerminal}
-      currentTime={props.relay.variables.startTime}
-    />,
+    children: (
+      <DepartureListContainer
+        rowClasses="no-padding no-margin"
+        stoptimes={props.stop.stoptimes}
+        limit={props.limit}
+        isTerminal={props.isTerminal}
+        currentTime={props.relay.variables.startTime}
+      />
+    ),
   }),
 );
 
@@ -26,8 +30,7 @@ StopCardContainer.contextTypes = {
 };
 
 export default Relay.createContainer(StopCardContainer, {
-  fragments:
-  {
+  fragments: {
     stop: () => Relay.QL`
       fragment on Stop{
         gtfsId

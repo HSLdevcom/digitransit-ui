@@ -11,10 +11,7 @@ require('babel-core/register')({
     'dynamic-import-node',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
-  ignore: [
-    /node_modules/,
-    'app/util/piwik.js',
-  ],
+  ignore: [/node_modules/, 'app/util/piwik.js'],
 });
 
 global.fetch = require('node-fetch');
@@ -28,7 +25,9 @@ let Raven;
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   Raven = require('raven');
-  Raven.config(process.env.SENTRY_SECRET_DSN, { captureUnhandledRejections: true }).install();
+  Raven.config(process.env.SENTRY_SECRET_DSN, {
+    captureUnhandledRejections: true,
+  }).install();
 }
 
 /* ********* Server **********/
@@ -46,19 +45,22 @@ function setUpStaticFolders() {
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
   const oneDay = 86400000;
-  app.use(config.APP_PATH, expressStaticGzip(staticFolder, {
-    enableBrotli: true,
-    indexFromEmptyFile: false,
-    maxAge: 30 * oneDay,
-    setHeaders(res, reqPath) {
-      if (
-        reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
-        reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
-      ) {
-        res.setHeader('Cache-Control', 'public, max-age=0');
-      }
-    },
-  }));
+  app.use(
+    config.APP_PATH,
+    expressStaticGzip(staticFolder, {
+      enableBrotli: true,
+      indexFromEmptyFile: false,
+      maxAge: 30 * oneDay,
+      setHeaders(res, reqPath) {
+        if (
+          reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
+          reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
+        ) {
+          res.setHeader('Cache-Control', 'public, max-age=0');
+        }
+      },
+    }),
+  );
 }
 
 function setUpMiddleware() {
@@ -91,13 +93,20 @@ function setupErrorHandling() {
 }
 
 function setUpRoutes() {
-  app.use(['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'], require('./reittiopasParameterMiddleware').default);
-  app.use('/search/', (req, res) => res.redirect(`http://classic.reittiopas.fi/search${req.url}`));
+  app.use(
+    ['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'],
+    require('./reittiopasParameterMiddleware').default,
+  );
+  app.use('/search/', (req, res) =>
+    res.redirect(`http://classic.reittiopas.fi/search${req.url}`),
+  );
   app.use(require('../app/server').default);
 }
 
 function startServer() {
-  const server = app.listen(port, () => console.log('Digitransit-ui available on port %d', server.address().port));
+  const server = app.listen(port, () =>
+    console.log('Digitransit-ui available on port %d', server.address().port),
+  );
 }
 
 /* ********* Init **********/

@@ -68,9 +68,11 @@ class SummaryPage extends React.Component {
       lat: PropTypes.number.isRequired,
       lon: PropTypes.number.isRequired,
     }).isRequired,
-    routes: PropTypes.arrayOf(PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired).isRequired,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        fullscreenMap: PropTypes.bool,
+      }).isRequired,
+    ).isRequired,
   };
 
   static hcParameters = {
@@ -81,9 +83,10 @@ class SummaryPage extends React.Component {
     wheelchair: false,
   };
 
-  state = { center: null }
+  state = { center: null };
 
-  componentWillMount = () => this.initCustomizableParameters(this.context.config)
+  componentWillMount = () =>
+    this.initCustomizableParameters(this.context.config);
 
   componentWillReceiveProps(newProps, newContext) {
     if (newContext.breakpoint === 'large' && this.state.center) {
@@ -91,65 +94,60 @@ class SummaryPage extends React.Component {
     }
   }
 
-  initCustomizableParameters = (config) => {
+  initCustomizableParameters = config => {
     this.customizableParameters = {
       ...SummaryPage.hcParameters,
       modes: Object.keys(config.transportModes)
         .filter(mode => config.transportModes[mode].defaultValue === true)
         .map(mode => config.modeToOTP[mode])
-        .concat((Object.keys(config.streetModes)
-          .filter(mode => config.streetModes[mode].defaultValue === true)
-          .map(mode => config.modeToOTP[mode])))
+        .concat(
+          Object.keys(config.streetModes)
+            .filter(mode => config.streetModes[mode].defaultValue === true)
+            .map(mode => config.modeToOTP[mode]),
+        )
         .sort()
         .join(','),
       maxWalkDistance: config.maxWalkDistance,
       preferred: { agencies: config.preferredAgency || '' },
     };
-  }
+  };
 
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
-  }
+  };
 
   hasDefaultPreferences = () => {
     const a = pick(this.customizableParameters, keys(this.props));
     const b = pick(this.props, keys(this.customizableParameters));
     return isMatch(a, b);
-  }
+  };
   renderMap() {
     const { plan: { plan }, location: { state, query }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
     const itineraries = plan.itineraries || [];
 
     const leafletObjs = sortBy(
-      itineraries.map((itinerary, i) => (
+      itineraries.map((itinerary, i) =>
         <ItineraryLine
           key={i}
           hash={i}
           legs={itinerary.legs}
           passive={i !== activeIndex}
-        />
-      )),
+        />,
+      ),
       // Make sure active line isn't rendered over
-      i => i.props.passive === false);
+      i => i.props.passive === false,
+    );
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker
-          key="fromMarker"
-          position={from}
-          className="from"
-        />,
+        <LocationMarker key="fromMarker" position={from} className="from" />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker
-          key="toMarker"
-          position={to}
-          className="to"
-        />,
+        <LocationMarker key="toMarker" position={to} className="to" />,
       );
     }
 
@@ -179,10 +177,13 @@ class SummaryPage extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds =
-      [].concat([[from.lat, from.lon], [to.lat, to.lon]], ...itineraries.map(itinerary => (
-        [].concat(...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)))
-      )),
+    const bounds = [].concat(
+      [[from.lat, from.lon], [to.lat, to.lon]],
+      ...itineraries.map(itinerary =>
+        [].concat(
+          ...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)),
+        ),
+      ),
     );
 
     return (
@@ -197,21 +198,38 @@ class SummaryPage extends React.Component {
   }
 
   render() {
-    const { breakpoint, queryAggregator: { readyState: { done, error } } } = this.context;
+    const {
+      breakpoint,
+      queryAggregator: { readyState: { done, error } },
+    } = this.context;
     // Call props.map directly in order to render to same map instance
-    const map = this.props.map ? this.props.map.type({
-      itinerary: this.props.plan.plan.itineraries &&
-        this.props.plan.plan.itineraries[this.props.params.hash],
-      center: this.state.center,
-      ...this.props,
-    }, this.context) : this.renderMap();
+    const map = this.props.map
+      ? this.props.map.type(
+          {
+            itinerary:
+              this.props.plan.plan.itineraries &&
+              this.props.plan.plan.itineraries[this.props.params.hash],
+            center: this.state.center,
+            ...this.props,
+          },
+          this.context,
+        )
+      : this.renderMap();
 
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (this.props.plan && this.props.plan.plan && this.props.plan.plan.itineraries) {
-      earliestStartTime = Math.min(...this.props.plan.plan.itineraries.map(i => i.startTime));
-      latestArrivalTime = Math.max(...this.props.plan.plan.itineraries.map(i => i.endTime));
+    if (
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries
+    ) {
+      earliestStartTime = Math.min(
+        ...this.props.plan.plan.itineraries.map(i => i.startTime),
+      );
+      latestArrivalTime = Math.max(
+        ...this.props.plan.plan.itineraries.map(i => i.endTime),
+      );
     }
 
     const hasDefaultPreferences = this.hasDefaultPreferences();
@@ -227,13 +245,13 @@ class SummaryPage extends React.Component {
             params={this.props.params}
             error={error}
           >
-            {this.props.content && React.cloneElement(
-              this.props.content,
-              {
-                itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
+            {this.props.content &&
+              React.cloneElement(this.props.content, {
+                itinerary: this.props.plan.plan.itineraries[
+                  this.props.params.hash
+                ],
                 focus: this.updateCenter,
-              },
-            )}
+              })}
           </SummaryPlanContainer>
         );
       } else {
@@ -246,20 +264,20 @@ class SummaryPage extends React.Component {
 
       return (
         <DesktopView
-          title={(
+          title={
             <FormattedMessage
               id="summary-page.title"
               defaultMessage="Itinerary suggestions"
             />
-          )}
-          header={(
+          }
+          header={
             <SummaryNavigation
               params={this.props.params}
               hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
             />
-          )}
+          }
           // TODO: Chceck preferences
           content={content}
           map={map}
@@ -280,12 +298,15 @@ class SummaryPage extends React.Component {
         <MobileItineraryWrapper
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
-          fullscreenMap={some(this.props.routes.map(route => route.fullscreenMap))}
+          fullscreenMap={some(
+            this.props.routes.map(route => route.fullscreenMap),
+          )}
           focus={this.updateCenter}
         >
-          {this.props.content && this.props.plan.plan.itineraries.map((itinerary, i) =>
-            React.cloneElement(this.props.content, { key: i, itinerary }),
-          )}
+          {this.props.content &&
+            this.props.plan.plan.itineraries.map((itinerary, i) =>
+              React.cloneElement(this.props.content, { key: i, itinerary }),
+            )}
         </MobileItineraryWrapper>
       );
     } else {
@@ -300,20 +321,22 @@ class SummaryPage extends React.Component {
 
     return (
       <MobileView
-        header={!this.props.params.hash ?
-          <SummaryNavigation
-            hasDefaultPreferences={hasDefaultPreferences}
-            params={this.props.params}
-            startTime={earliestStartTime}
-            endTime={latestArrivalTime}
-          /> : false}
+        header={
+          !this.props.params.hash
+            ? <SummaryNavigation
+                hasDefaultPreferences={hasDefaultPreferences}
+                params={this.props.params}
+                startTime={earliestStartTime}
+                endTime={latestArrivalTime}
+              />
+            : false
+        }
         content={content}
         map={map}
       />
     );
   }
 }
-
 
 export default Relay.createContainer(SummaryPage, {
   fragments: {
@@ -356,21 +379,26 @@ export default Relay.createContainer(SummaryPage, {
       }
     `,
   },
-  initialVariables: { ...{
-    from: null,
-    to: null,
-    fromPlace: null,
-    toPlace: null,
-    intermediatePlaces: null,
-    numItineraries: typeof matchMedia !== 'undefined' &&
-      matchMedia('(min-width: 900px)').matches ? 5 : 3,
-    date: moment().format('YYYY-MM-DD'),
-    time: moment().format('HH:mm:ss'),
-    arriveBy: false,
-    disableRemainingWeightHeuristic: false,
-    modes: null,
-    maxWalkDistance: 0,
-    preferred: null,
+  initialVariables: {
+    ...{
+      from: null,
+      to: null,
+      fromPlace: null,
+      toPlace: null,
+      intermediatePlaces: null,
+      numItineraries:
+        typeof matchMedia !== 'undefined' &&
+        matchMedia('(min-width: 900px)').matches
+          ? 5
+          : 3,
+      date: moment().format('YYYY-MM-DD'),
+      time: moment().format('HH:mm:ss'),
+      arriveBy: false,
+      disableRemainingWeightHeuristic: false,
+      modes: null,
+      maxWalkDistance: 0,
+      preferred: null,
+    },
+    ...SummaryPage.hcParameters,
   },
-    ...SummaryPage.hcParameters },
 });

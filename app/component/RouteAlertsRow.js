@@ -45,18 +45,16 @@ RouteAlertsRow.propTypes = {
 
 RouteAlertsRow.description = () =>
   <div>
-    <p>
-      Display a disruption alert for a specific route.
-    </p>
+    <p>Display a disruption alert for a specific route.</p>
     <div className="route-alerts-list">
-      <ComponentUsageExample
-        description="Currently active disruption"
-      >
+      <ComponentUsageExample description="Currently active disruption">
         <RouteAlertsRow
           header={'Raitiolinja 2 - Myöhästyy'}
-          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          description={
+            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'}
+            'Arvioitu kesto: 14:29 - 15:20.'
+          }
           startTime={'11:32'}
           endTime={'12:20'}
           routeMode={'tram'}
@@ -65,12 +63,14 @@ RouteAlertsRow.description = () =>
           expired={false}
         />
       </ComponentUsageExample>
-      <ComponentUsageExample description="Past disruption" >
+      <ComponentUsageExample description="Past disruption">
         <RouteAlertsRow
           header={'Raitiolinja 2 - Myöhästyy'}
-          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          description={
+            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'}
+            'Arvioitu kesto: 14:29 - 15:20.'
+          }
           startTime={'11:32'}
           endTime={'12:20'}
           routeMode={'tram'}

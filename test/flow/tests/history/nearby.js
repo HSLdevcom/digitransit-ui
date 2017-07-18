@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['history'],
-  'Route page tab selection does not accumulate into history': (browser) => {
+  'Route page tab selection does not accumulate into history': browser => {
     browser.url(browser.launch_url);
 
     const nearby = browser.page.nearby();
@@ -17,5 +17,4 @@ module.exports = {
 
     browser.end();
   },
-
 };

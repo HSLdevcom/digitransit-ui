@@ -5,7 +5,7 @@ import CityBikeUse from './CityBikeUse';
 import ComponentUsageExample from './ComponentUsageExample';
 import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
-const CityBikeContent = ({ station, lang }, { config }) => (
+const CityBikeContent = ({ station, lang }, { config }) =>
   <div className="city-bike-container">
     <CityBikeAvailability
       bikesAvailable={station.bikesAvailable}
@@ -13,7 +13,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
       fewAvailableCount={config.cityBike.fewAvailableCount}
     />
     <CityBikeUse lang={lang} />
-  </div>);
+  </div>;
 
 CityBikeContent.displayName = 'CityBikeContent';
 

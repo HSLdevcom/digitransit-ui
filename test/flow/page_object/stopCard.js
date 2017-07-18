@@ -1,24 +1,35 @@
 function expectCardHeaderDescription(expected) {
-  this.waitForElementVisible('@cardHeader', this.api.globals.itinerarySearchTimeout);
+  this.waitForElementVisible(
+    '@cardHeader',
+    this.api.globals.itinerarySearchTimeout,
+  );
   return this.assert.containsText('@cardHeader', expected);
 }
 
 function waitForDepartureVisible() {
-  return this.waitForElementVisible('@departure', this.api.globals.itinerarySearchTimeout);
+  return this.waitForElementVisible(
+    '@departure',
+    this.api.globals.itinerarySearchTimeout,
+  );
 }
 
 function navigateToStopPage() {
-  return this.api.checkedClick(this.elements.cardName.selector)
-  .waitForElementVisible('div.card-header.stop-page.header',
-      this.api.globals.itinerarySearchTimeout);
+  return this.api
+    .checkedClick(this.elements.cardName.selector)
+    .waitForElementVisible(
+      'div.card-header.stop-page.header',
+      this.api.globals.itinerarySearchTimeout,
+    );
 }
 
 module.exports = {
-  commands: [{
-    expectCardHeaderDescription,
-    waitForDepartureVisible,
-    navigateToStopPage,
-  }],
+  commands: [
+    {
+      expectCardHeaderDescription,
+      waitForDepartureVisible,
+      navigateToStopPage,
+    },
+  ],
   elements: {
     cluster: {
       selector: '.leaflet-popup-content .card',
@@ -50,6 +61,5 @@ module.exports = {
     timetableRow: {
       selector: '.timetable-row',
     },
-
   },
 };

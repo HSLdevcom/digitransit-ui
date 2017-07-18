@@ -1,38 +1,47 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const heading = (e) => {
+const heading = e => {
   if (e.type === 'heading') {
-    return (<h2>{e.content}</h2>);
+    return (
+      <h2>
+        {e.content}
+      </h2>
+    );
   }
   return null;
 };
 
-const span = (e) => {
+const span = e => {
   if (e.type === 'text') {
-    return (e.content);
+    return e.content;
   }
   return null;
 };
 
-const a = (e) => {
+const a = e => {
   if (e.type === 'a') {
-    return (<a href={e.href}>{e.content}</a>);
+    return (
+      <a href={e.href}>
+        {e.content}
+      </a>
+    );
   }
   return null;
 };
 
 const elements = [heading, span, a];
 
-const renderContent = content => content.map(fragment => elements.map(t => t(fragment)));
+const renderContent = content =>
+  content.map(fragment => elements.map(t => t(fragment)));
 
 /*
  * Renders message
  */
-const MessageBarMessage = ({ key, content, onMaximize }) => (
+const MessageBarMessage = ({ key, content, onMaximize }) =>
   <div tabIndex={0} role="banner" key={key} onClick={onMaximize}>
     {renderContent(content)}
-  </div>);
+  </div>;
 
 MessageBarMessage.propTypes = {
   key: PropTypes.string.isRequired,

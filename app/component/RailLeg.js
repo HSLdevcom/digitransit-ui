@@ -6,21 +6,17 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const RailLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg
-    mode="RAIL"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-  ><FormattedMessage
-    id="train-with-route-number"
-    values={{
-      routeNumber: leg.route && leg.route.shortName,
-      headSign: leg.trip && leg.trip.tripHeadsign,
-    }}
-    defaultMessage="Train {routeNumber} {headSign}"
-  /></TransitLeg>
-);
+const RailLeg = ({ leg, focusAction, index }) =>
+  <TransitLeg mode="RAIL" leg={leg} focusAction={focusAction} index={index}>
+    <FormattedMessage
+      id="train-with-route-number"
+      values={{
+        routeNumber: leg.route && leg.route.shortName,
+        headSign: leg.trip && leg.trip.tripHeadsign,
+      }}
+      defaultMessage="Train {routeNumber} {headSign}"
+    />
+  </TransitLeg>;
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -39,8 +35,7 @@ const exampleLeg = t1 => ({
 });
 
 RailLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary rail leg.</p>

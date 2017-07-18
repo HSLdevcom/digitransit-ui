@@ -58,14 +58,17 @@ const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   config: PropTypes.object.isRequired,
 });
 
-const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const ParkAndRideFacilityPopupWithContext = provideContext(
+  ParkAndRideFacilityPopup,
+  {
+    intl: intlShape.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+  },
+);
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   intl: intlShape.isRequired,
@@ -101,7 +104,7 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
-  }
+  };
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
@@ -135,36 +138,44 @@ class TileLayerContainer extends GridLayer {
     this.leafletElement.off('click contextmenu', this.onClick);
   }
 
-  onTimeChange = (e) => {
+  onTimeChange = e => {
     let activeTiles;
 
     if (e.currentTime) {
       /* eslint-disable no-underscore-dangle */
-      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
+      activeTiles = lodashFilter(
+        this.leafletElement._tiles,
+        tile => tile.active,
+      );
       /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach(tile =>
-        tile.el.layers && tile.el.layers.forEach((layer) => {
-          if (layer.onTimeChange) {
-            layer.onTimeChange();
-          }
-        }),
+      activeTiles.forEach(
+        tile =>
+          tile.el.layers &&
+          tile.el.layers.forEach(layer => {
+            if (layer.onTimeChange) {
+              layer.onTimeChange();
+            }
+          }),
       );
     }
-  }
+  };
 
-  onClick = (e) => {
+  onClick = e => {
     /* eslint-disable no-underscore-dangle */
     Object.keys(this.leafletElement._tiles)
       .filter(key => this.leafletElement._tiles[key].active)
       .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
-      .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
-        e,
-        this.merc.px([e.latlng.lng, e.latlng.lat],
-        Number(key.split(':')[2]) + this.props.zoomOffset),
-      ),
-    );
+      .forEach(key =>
+        this.leafletElement._tiles[key].el.onMapClick(
+          e,
+          this.merc.px(
+            [e.latlng.lng, e.latlng.lat],
+            Number(key.split(':')[2]) + this.props.zoomOffset,
+          ),
+        ),
+      );
     /* eslint-enable no-underscore-dangle */
-  }
+  };
 
   createLeafletElement(props) {
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
@@ -181,7 +192,12 @@ class TileLayerContainer extends GridLayer {
   });
 
   createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props, this.context.config);
+    const tile = new TileContainer(
+      tileCoords,
+      done,
+      this.props,
+      this.context.config,
+    );
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
       if (selectableTargets && this.props.disableMapTracking) {
@@ -195,9 +211,9 @@ class TileLayerContainer extends GridLayer {
     };
 
     return tile.el;
-  }
+  };
 
-  selectRow = option => this.setState({ selectableTargets: [option] })
+  selectRow = option => this.setState({ selectableTargets: [option] });
 
   render() {
     let popup = null;
@@ -216,21 +232,26 @@ class TileLayerContainer extends GridLayer {
           contents = (
             <Relay.RootContainer
               Component={StopMarkerPopup}
-              route={this.state.selectableTargets[0].feature.properties.stops ?
-                new TerminalRoute({
-                  terminalId: id,
-                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
-                })
-                :
-                new StopRoute({
-                  stopId: id,
-                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
-                })
+              route={
+                this.state.selectableTargets[0].feature.properties.stops
+                  ? new TerminalRoute({
+                      terminalId: id,
+                      currentTime: this.context
+                        .getStore('TimeStore')
+                        .getCurrentTime()
+                        .unix(),
+                    })
+                  : new StopRoute({
+                      stopId: id,
+                      currentTime: this.context
+                        .getStore('TimeStore')
+                        .getCurrentTime()
+                        .unix(),
+                    })
               }
               renderLoading={loadingPopup}
               renderFetched={data =>
-                <StopMarkerPopupWithContext {...data} context={this.context} />
-              }
+                <StopMarkerPopupWithContext {...data} context={this.context} />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
@@ -239,11 +260,14 @@ class TileLayerContainer extends GridLayer {
             <Relay.RootContainer
               Component={CityBikePopup}
               forceFetch
-              route={new CityBikeRoute({
-                stationId: id,
-              })}
+              route={
+                new CityBikeRoute({
+                  stationId: id,
+                })
+              }
               renderLoading={loadingPopup}
-              renderFetched={data => <CityBikePopupWithContext {...data} context={this.context} />}
+              renderFetched={data =>
+                <CityBikePopupWithContext {...data} context={this.context} />}
             />
           );
         } else if (
@@ -257,7 +281,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
               renderLoading={loadingPopup}
-              renderFetched={data => (
+              renderFetched={data =>
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
@@ -268,8 +292,7 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />
-              )}
+                />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -280,7 +303,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideFacilityRoute({ id })}
               renderLoading={loadingPopup}
-              renderFetched={data => (
+              renderFetched={data =>
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
@@ -291,8 +314,7 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />
-              )}
+                />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
@@ -305,14 +327,10 @@ class TileLayerContainer extends GridLayer {
           );
         }
         popup = (
-          <Popup
-            {...PopupOptions}
-            key={id}
-            position={this.state.coords}
-          >
+          <Popup {...PopupOptions} key={id} position={this.state.coords}>
             {contents}
           </Popup>
-          );
+        );
       } else if (this.state.selectableTargets.length > 1) {
         popup = (
           <Popup
