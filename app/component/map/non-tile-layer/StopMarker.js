@@ -79,9 +79,9 @@ class StopMarker extends React.Component {
     const scale = this.props.stop.transfer || this.props.selected ? 1.5 : 1;
     const calcZoom = this.props.stop.transfer || this.props.selected ? Math.max(zoom, 15) : zoom;
 
-    const radius = getCaseRadius({ $zoom: calcZoom }) * scale;
-    const stopRadius = getStopRadius({ $zoom: calcZoom }) * scale;
-    const hubRadius = getHubRadius({ $zoom: calcZoom }) * scale;
+    const radius = getCaseRadius(calcZoom) * scale;
+    const stopRadius = getStopRadius(calcZoom) * scale;
+    const hubRadius = getHubRadius(calcZoom) * scale;
 
     const inner = (stopRadius + hubRadius) / 2;
     const stroke = stopRadius - hubRadius;

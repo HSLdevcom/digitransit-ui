@@ -1,4 +1,4 @@
-import { VectorTile } from 'vector-tile';
+import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 

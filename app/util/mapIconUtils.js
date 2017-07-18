@@ -1,5 +1,5 @@
 import memoize from 'lodash/memoize';
-import glfun from 'mapbox-gl-function';
+import glfun from '@mapbox/mapbox-gl-style-spec/function';
 import getSelector from './get-selector';
 
 const FONT_SIZE = 11;
@@ -7,23 +7,22 @@ const FONT_SIZE = 11;
 export const getCaseRadius = memoize(glfun({
   type: 'exponential',
   base: 1.15,
-  domain: [11.9, 12, 22],
-  range: [0, 1.5, 26],
-}), ({ $zoom }) => $zoom);
+  stops: [[11.9, 0], [12, 1.5], [22, 26]],
+}, {}));
 
 export const getStopRadius = memoize(glfun({
   type: 'exponential',
   base: 1.15,
-  domain: [11.9, 12, 22],
+  stops: [[11.9, 0], [12, 1], [22, 24]],
   range: [0, 1, 24],
-}), ({ $zoom }) => $zoom);
+}, {}));
 
 export const getHubRadius = memoize(glfun({
   type: 'exponential',
   base: 1.15,
-  domain: [14, 14.1, 22],
+  stops: [[14, 0], [14.1, 2], [22, 20]],
   range: [0, 2, 20],
-}), ({ $zoom }) => $zoom);
+}, {}));
 
 export const getColor = memoize((mode) => {
   const cssRule = mode && getSelector(`.${mode.toLowerCase()}`);
@@ -89,9 +88,9 @@ function drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio)
 /* eslint-disable no-param-reassign */
 export function drawRoundIcon(tile, geom, type, large, platformNumber) {
   const scale = large ? 2 : 1;
-  const caseRadius = getCaseRadius({ $zoom: tile.coords.z }) * scale;
-  const stopRadius = getStopRadius({ $zoom: tile.coords.z }) * scale;
-  const hubRadius = getHubRadius({ $zoom: tile.coords.z }) * scale;
+  const caseRadius = getCaseRadius(tile.coords.z) * scale;
+  const stopRadius = getStopRadius(tile.coords.z) * scale;
+  const hubRadius = getHubRadius(tile.coords.z) * scale;
 
   if (caseRadius > 0) {
     tile.ctx.beginPath();
@@ -136,7 +135,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 }
 
 export function drawTerminalIcon(tile, geom, type, name) {
-  const iconSize = ((getStopRadius({ $zoom: tile.coords.z }) * 2.5) + 8) * tile.scaleratio;
+  const iconSize = ((getStopRadius(tile.coords.z) * 2.5) + 8) * tile.scaleratio;
   getImageFromSpriteCache(`icon-icon_${type.split(',')[0].toLowerCase()}`, iconSize, iconSize).then(
     (image) => {
       tile.ctx.drawImage(

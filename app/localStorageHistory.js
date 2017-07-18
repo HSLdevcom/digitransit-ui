@@ -20,7 +20,7 @@ const saveHistory = () => {
 
 const PUSH = (entry) => {
   history.entries.splice(history.index + 1);
-  history.entries.push(entry.pathname);
+  history.entries.push(entry);
   history.index += 1;
   saveHistory();
 };
@@ -37,7 +37,7 @@ const POP = () => {
 
 const REPLACE = (entry) => {
   history.entries.splice(history.index);
-  history.entries.push(entry.pathname);
+  history.entries.push(entry);
   saveHistory();
 };
 

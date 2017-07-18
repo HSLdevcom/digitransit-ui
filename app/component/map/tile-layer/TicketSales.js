@@ -1,4 +1,4 @@
-import { VectorTile } from 'vector-tile';
+import { VectorTile } from '@mapbox/vector-tile';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
@@ -59,7 +59,7 @@ export default class TicketSales {
                 TicketSales.getIcon(feature.properties.TYYPPI),
                 this.tile,
                 feature.geom,
-                getStopRadius({ $zoom: this.tile.coords.z }) * 2.5 * this.scaleratio,
+                getStopRadius(this.tile.coords.z) * 2.5 * this.scaleratio,
               );
             }
           }

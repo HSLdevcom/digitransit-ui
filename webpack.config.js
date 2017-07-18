@@ -40,7 +40,9 @@ function getRulesConfig(env) {
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
       { test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, 'app/'),
+        ],
         options: {
           presets: [
             ['env', { targets: { browsers: prodBrowsers }, modules: false }],
@@ -69,7 +71,9 @@ function getRulesConfig(env) {
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
     { test: /\.js$/,
       loader: 'babel',
-      exclude: /node_modules/,
+      include: [
+        path.resolve(__dirname, 'app/'),
+      ],
       options: {
         // loose is needed by older Androids < 4.3 and IE10
         presets: [
@@ -88,6 +92,21 @@ function getRulesConfig(env) {
         ],
         ignore: [
           'app/util/piwik.js',
+        ],
+      },
+    },
+    { test: /\.js$/,
+      loader: 'babel',
+      include: [
+        // https://github.com/mapbox/mapbox-gl-js/issues/3368
+        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
+      ],
+      options: {
+        plugins: [
+          'transform-es2015-block-scoping',
+          'transform-es2015-arrow-functions',
+          'transform-es2015-for-of',
+          'transform-es2015-template-literals',
         ],
       },
     },
@@ -350,13 +369,7 @@ module.exports = {
     alias: {
       'lodash.merge': 'lodash/merge',
       'lodash.keys': 'lodash/keys',
-      'history/lib/Actions': 'history/es6/Actions',
-      'history/lib/createBrowserHistory': 'history/es6/createBrowserHistory',
-      'history/lib/createHashHistory': 'history/es6/createHashHistory',
-      'history/lib/createMemoryHistory': 'history/es6/createMemoryHistory',
-      'history/lib/useBasename': 'history/es6/useBasename',
-      'history/lib/useQueries': 'history/es6/useQueries',
-      'react-router/lib/getRouteParams': 'react-router/es6/getRouteParams',
+      'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
       moment$: 'moment/moment.js',
       'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
     },
