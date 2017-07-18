@@ -5,8 +5,12 @@ import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const FrontPagePanelLarge = ({ selectedPanel, nearbyClicked,
-   favouritesClicked, children }) => {
+const FrontPagePanelLarge = ({
+  selectedPanel,
+  nearbyClicked,
+  favouritesClicked,
+  children,
+}) => {
   const tabClasses = ['bp-large', 'h4'];
   const nearbyClasses = ['nearby-routes'];
   const favouritesClasses = ['favourites'];
@@ -40,12 +44,14 @@ FrontPagePanelLarge.displayName = 'FrontPagePanelLarge';
 
 FrontPagePanelLarge.description = () =>
   <div>
-    <p>
-      Front page tabs for large display.
-    </p>
+    <p>Front page tabs for large display.</p>
     <div style={{ width: '340px' }}>
       <ComponentUsageExample description="Front page tabs">
-        <FrontPagePanelLarge selectedPanel={2} nearbyClicked={noop} favouritesClicked={noop} />
+        <FrontPagePanelLarge
+          selectedPanel={2}
+          nearbyClicked={noop}
+          favouritesClicked={noop}
+        />
       </ComponentUsageExample>
     </div>
   </div>;

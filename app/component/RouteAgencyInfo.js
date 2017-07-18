@@ -9,10 +9,14 @@ function RouteAgencyInfo({ route }, { config }) {
   const url = get(route, 'agency.fareUrl') || get(route, 'agency.url');
   const show = get(config, 'agency.show', false);
 
-
   if (show) {
-    return <div className="route-agency"><AgencyInfo url={url} agencyName={agencyName} /></div>;
-  } return null;
+    return (
+      <div className="route-agency">
+        <AgencyInfo url={url} agencyName={agencyName} />
+      </div>
+    );
+  }
+  return null;
 }
 
 RouteAgencyInfo.contextTypes = {

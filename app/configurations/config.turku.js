@@ -58,7 +58,12 @@ export default configMerger(walttiConfig, {
     content: [
       { label: `© Turun seudun joukkoliikenne ${walttiConfig.YEAR}` },
       {},
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -69,46 +74,72 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Kauppatori, Turku', lat: 60.451159, lon: 22.267633 },
-    { icon: 'icon-icon_rail', label: 'Rautatieasema, Turku', lat: 60.453537, lon: 22.253379 },
-    { icon: 'icon-icon_airplane', label: 'Lentoasema, Turku', lat: 60.511092, lon: 22.274211 },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Kauppatori, Turku',
+      lat: 60.451159,
+      lon: 22.267633,
+    },
+    {
+      icon: 'icon-icon_rail',
+      label: 'Rautatieasema, Turku',
+      lat: 60.453537,
+      lon: 22.253379,
+    },
+    {
+      icon: 'icon-icon_airplane',
+      label: 'Lentoasema, Turku',
+      lat: 60.511092,
+      lon: 22.274211,
+    },
   ],
 
   aboutThisService: {
     fi: [
       {
         header: 'Tietoja palvelusta',
-        paragraphs: ['Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.'],
+        paragraphs: [
+          'Kuuden kunnan yhdessä järjestämä joukkoliikenne Turun seudulla alkoi 1.7.2014. Turun seudun joukkoliikenteessä eli Fölissä ovat mukana Turku, Kaarina, Raisio, Naantali, Lieto ja Rusko. Seudullisen joukkoliikenteen alkamisen myötä joukkoliikenteen käyttö on helppoa ja edullista riippumatta kuntarajoista.',
+        ],
       },
       {
         header: 'Tietolähteet',
-        paragraphs: ['Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Fölin tuottamaan GTFS-aineistoon.'],
+        paragraphs: [
+          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Väestörekisterikeskuksen rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Fölin tuottamaan GTFS-aineistoon.',
+        ],
       },
     ],
 
     sv: [
       {
         header: 'Om tjänsten',
-        paragraphs: ['Kollektivtrafiken i Åboregionen inleds den 1 juli 2014 och ordnas samfällt av sex kommuner. Åbo, S:t Karins, Reso, Nådendal, Lundo och Rusko deltar i Föli, dvs. kollektivtrafiken i Åboregionen. När den regionala kollektivtrafiken startar blir det lätt och förmånligt att använda kollektivtrafiken i regionen kring Åbo stad oberoende av kommungränserna.'],
+        paragraphs: [
+          'Kollektivtrafiken i Åboregionen inleds den 1 juli 2014 och ordnas samfällt av sex kommuner. Åbo, S:t Karins, Reso, Nådendal, Lundo och Rusko deltar i Föli, dvs. kollektivtrafiken i Åboregionen. När den regionala kollektivtrafiken startar blir det lätt och förmånligt att använda kollektivtrafiken i regionen kring Åbo stad oberoende av kommungränserna.',
+        ],
       },
       {
         header: 'Datakällor',
-        paragraphs: ['Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på Fölis GTFS data.'],
+        paragraphs: [
+          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på Fölis GTFS data.',
+        ],
       },
     ],
 
     en: [
       {
         header: 'About this service',
-        paragraphs: ['Public transport organised jointly between six municipalities in the Turku region will start on 1 July 2014. Turku region public transport, under the name of Föli, is a collaboration between Turku, Kaarina, Raisio, Naantali, Lieto, and Rusko. With regional public transport, using the public transport system in Turku city region will be easy and inexpensive, regardless of municipal borders. Public transport service points will be introduced in each of the six municipalities. You can use any of the service points.'],
+        paragraphs: [
+          'Public transport organised jointly between six municipalities in the Turku region will start on 1 July 2014. Turku region public transport, under the name of Föli, is a collaboration between Turku, Kaarina, Raisio, Naantali, Lieto, and Rusko. With regional public transport, using the public transport system in Turku city region will be easy and inexpensive, regardless of municipal borders. Public transport service points will be introduced in each of the six municipalities. You can use any of the service points.',
+        ],
       },
       {
         header: 'Data sources',
-        paragraphs: ['Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Föli.'],
+        paragraphs: [
+          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Föli.',
+        ],
       },
     ],
   },
 
   staticMessages: [],
-
 });

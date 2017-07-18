@@ -13,7 +13,11 @@ class OldSearchesStore extends Store {
     super(dispatcher);
 
     const oldSearches = getOldSearchesStorage();
-    if (!oldSearches || oldSearches.version == null || oldSearches.version < 2) {
+    if (
+      !oldSearches ||
+      oldSearches.version == null ||
+      oldSearches.version < 2
+    ) {
       setOldSearchesStorage({
         version: 2,
         items: [],
@@ -25,7 +29,11 @@ class OldSearchesStore extends Store {
     let searches = getOldSearchesStorage().items;
 
     const found = find(searches, oldItem =>
-        isEqual(getLabel(destination.item.properties), getLabel(oldItem.item.properties)));
+      isEqual(
+        getLabel(destination.item.properties),
+        getLabel(oldItem.item.properties),
+      ),
+    );
 
     if (found != null) {
       found.count += 1;
@@ -33,17 +41,23 @@ class OldSearchesStore extends Store {
       searches.push({ count: 1, ...destination });
     }
 
-    setOldSearchesStorage({ version: 2, items: orderBy(searches, 'count', 'desc') });
+    setOldSearchesStorage({
+      version: 2,
+      items: orderBy(searches, 'count', 'desc'),
+    });
     searches = this.getOldSearches();
     this.emitChange(destination);
   }
 
   // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
-    return (getOldSearchesStorage().items &&
-      getOldSearchesStorage().items
-      .filter(item => (type ? item.type === type : true))
-      .map(item => item.item)) || [];
+    return (
+      (getOldSearchesStorage().items &&
+        getOldSearchesStorage().items
+          .filter(item => (type ? item.type === type : true))
+          .map(item => item.item)) ||
+      []
+    );
   }
 
   static handlers = {

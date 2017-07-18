@@ -12,10 +12,17 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 
 function BicycleLeg(props, context) {
   let stopsDescription;
-  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    context.config,
+  );
   const duration = durationToString(props.leg.duration * 1000);
   let { mode } = props.leg;
-  let legDescription = <span>{props.leg.from.name}</span>;
+  let legDescription = (
+    <span>
+      {props.leg.from.name}
+    </span>
+  );
   const firstLegClassName = props.index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
@@ -118,8 +125,7 @@ const exampleLegCitybikeWalkingBike = t1 => ({
 });
 
 BicycleLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bicycle leg.</p>
@@ -127,13 +133,25 @@ BicycleLeg.description = () => {
         <BicycleLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-walking-bike">
-        <BicycleLeg leg={exampleLegWalkingBike(today)} index={0} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegWalkingBike(today)}
+          index={0}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-citybike">
-        <BicycleLeg leg={exampleLegCitybike(today)} index={0} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegCitybike(today)}
+          index={0}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
-        <BicycleLeg leg={exampleLegCitybikeWalkingBike(today)} index={1} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegCitybikeWalkingBike(today)}
+          index={1}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );

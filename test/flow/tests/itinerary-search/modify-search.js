@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['itinerary tuning'],
 
-  'Custom search options are not forgotten if endpoint changes': (browser) => {
+  'Custom search options are not forgotten if endpoint changes': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();
     splash.waitClose();
@@ -29,12 +29,13 @@ module.exports = {
     browser.end();
   },
 
-  'Current location is updated in searches triggered by a parameter change': (browser) => {
+  'Current location is updated in searches triggered by a parameter change': browser => {
     browser.url(browser.launch_url).setGeolocation(60.17, 24.941); // from railway station
     const splash = browser.page.splash();
     splash.waitClose();
 
-    browser.page.searchFields()
+    browser.page
+      .searchFields()
       .useCurrentLocationInOrigin()
       .setDestination('Opastinsilta 6, Helsinki')
       .enterKeyDestination();
@@ -42,7 +43,7 @@ module.exports = {
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
 
-    browser.setGeolocation(60.199100, 24.936155); // LIVI opastinsilta 12
+    browser.setGeolocation(60.1991, 24.936155); // LIVI opastinsilta 12
 
     itinerarySummary.clickLater(); // triggers new routing
 
@@ -52,5 +53,4 @@ module.exports = {
 
     browser.end();
   },
-
 };

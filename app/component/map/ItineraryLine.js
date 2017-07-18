@@ -16,7 +16,9 @@ import { isCallAgencyPickupType } from '../../util/legUtils';
 import IconMarker from './IconMarker';
 
 const getLegText = (leg, config) => {
-  if (!leg.route) return '';
+  if (!leg.route) {
+    return '';
+  }
   const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.route.shortName) {
     return leg.route.shortName;
@@ -32,15 +34,16 @@ class ItineraryLine extends React.Component {
   };
 
   render() {
-    if (!isBrowser) { return false; }
+    if (!isBrowser) {
+      return false;
+    }
 
     const objs = [];
 
-    const usingOwnBicycle = (
-      (this.props.legs[0] != null
-        && this.props.legs[0].mode === 'BICYCLE')
-      && !(this.props.legs[0].rentedBike)
-    );
+    const usingOwnBicycle =
+      this.props.legs[0] != null &&
+      this.props.legs[0].mode === 'BICYCLE' &&
+      !this.props.legs[0].rentedBike;
 
     this.props.legs.forEach((leg, i) => {
       if (leg.mode === 'WAIT') {
@@ -57,8 +60,8 @@ class ItineraryLine extends React.Component {
         mode = 'BICYCLE_WALK';
       }
 
-
-      const modePlusClass = mode.toLowerCase() + (this.props.passive ? ' passive' : '');
+      const modePlusClass =
+        mode.toLowerCase() + (this.props.passive ? ' passive' : '');
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
       const middle = getMiddleOf(geometry);
@@ -69,7 +72,8 @@ class ItineraryLine extends React.Component {
           geometry={geometry}
           mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
           passive={this.props.passive}
-        />);
+        />,
+      );
 
       if (!this.props.passive) {
         if (this.props.showIntermediateStops && leg.intermediateStops != null) {
@@ -81,8 +85,9 @@ class ItineraryLine extends React.Component {
                 key={`intermediate-${stop.gtfsId}`}
                 mode={modePlusClass}
                 thin
-              />),
-            );
+              />,
+            ),
+          );
         }
 
         if (leg.from.vertexType === 'BIKESHARE') {
@@ -91,7 +96,8 @@ class ItineraryLine extends React.Component {
               key={leg.from.bikeRentalStation.stationId}
               transit
               station={leg.from.bikeRentalStation}
-            />);
+            />,
+          );
         } else if (leg.transitLeg) {
           const name = getLegText(leg, this.context.config);
           if (isCallAgencyPickupType(leg)) {
@@ -104,7 +110,8 @@ class ItineraryLine extends React.Component {
                 }}
                 className="call"
                 icon="icon-icon_call"
-              />);
+              />,
+            );
           } else {
             objs.push(
               <LegMarker
@@ -122,7 +129,7 @@ class ItineraryLine extends React.Component {
                 }}
                 mode={mode.toLowerCase()}
               />,
-          );
+            );
 
             objs.push(
               <StopMarker
@@ -138,7 +145,7 @@ class ItineraryLine extends React.Component {
                 mode={mode.toLowerCase()}
                 renderText={leg.transitLeg && this.props.showTransferLabels}
               />,
-          );
+            );
             objs.push(
               <StopMarker
                 key={`${i},${leg.mode}marker,to`}
@@ -153,13 +160,17 @@ class ItineraryLine extends React.Component {
                 mode={mode.toLowerCase()}
                 renderText={leg.transitLeg && this.props.showTransferLabels}
               />,
-          );
+            );
           }
         }
       }
     });
 
-    return (<div style={{ display: 'none' }}>{objs}</div>);
+    return (
+      <div style={{ display: 'none' }}>
+        {objs}
+      </div>
+    );
   }
 }
 

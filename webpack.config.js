@@ -22,10 +22,7 @@ require('babel-core/register')({
     'dynamic-import-node',
     path.join(process.cwd(), 'build/babelRelayPlugin'),
   ],
-  ignore: [
-    /node_modules/,
-    'app/util/piwik.js',
-  ],
+  ignore: [/node_modules/, 'app/util/piwik.js'],
 });
 
 const port = process.env.HOT_LOAD_PORT || 9000;
@@ -34,15 +31,14 @@ const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions', 'iOS 8'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
-    return ([
+    return [
       { test: /\.css$/, loaders: ['style', 'css', 'postcss'] },
       { test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass'] },
       { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'file' },
-      { test: /\.js$/,
+      {
+        test: /\.js$/,
         loader: 'babel',
-        include: [
-          path.resolve(__dirname, 'app/'),
-        ],
+        include: [path.resolve(__dirname, 'app/')],
         options: {
           presets: [
             ['env', { targets: { browsers: prodBrowsers }, modules: false }],
@@ -52,50 +48,59 @@ function getRulesConfig(env) {
           plugins: [
             'transform-import-commonjs',
             path.join(__dirname, 'build/babelRelayPlugin'),
-            ['transform-runtime', {
-              helpers: true,
-              polyfill: false,
-              regenerator: true,
-            }],
+            [
+              'transform-runtime',
+              {
+                helpers: true,
+                polyfill: false,
+                regenerator: true,
+              },
+            ],
           ],
-          ignore: [
-            'app/util/piwik.js',
-          ],
+          ignore: ['app/util/piwik.js'],
         },
       },
-    ]);
+    ];
   }
-  return ([
+  return [
     { test: /\.css$/, loader: ExtractTextPlugin.extract('css!postcss') },
     { test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss!sass') },
     { test: /\.(eot|png|ttf|woff|svg)$/, loader: 'url-loader?limit=10000' },
-    { test: /\.js$/,
+    {
+      test: /\.js$/,
       loader: 'babel',
-      include: [
-        path.resolve(__dirname, 'app/'),
-      ],
+      include: [path.resolve(__dirname, 'app/')],
       options: {
         // loose is needed by older Androids < 4.3 and IE10
         presets: [
-          ['env', { targets: { browsers: prodBrowsers }, loose: true, modules: false }],
+          [
+            'env',
+            {
+              targets: { browsers: prodBrowsers },
+              loose: true,
+              modules: false,
+            },
+          ],
           'react',
           'stage-2',
         ],
         plugins: [
           'transform-react-remove-prop-types',
           path.join(__dirname, 'build/babelRelayPlugin'),
-          ['transform-runtime', {
-            helpers: true,
-            polyfill: false,
-            regenerator: true,
-          }],
+          [
+            'transform-runtime',
+            {
+              helpers: true,
+              polyfill: false,
+              regenerator: true,
+            },
+          ],
         ],
-        ignore: [
-          'app/util/piwik.js',
-        ],
+        ignore: ['app/util/piwik.js'],
       },
     },
-    { test: /\.js$/,
+    {
+      test: /\.js$/,
       loader: 'babel',
       include: [
         // https://github.com/mapbox/mapbox-gl-js/issues/3368
@@ -110,7 +115,7 @@ function getRulesConfig(env) {
         ],
       },
     },
-  ]);
+  ];
 }
 
 function getAllConfigs() {
@@ -119,22 +124,28 @@ function getAllConfigs() {
   }
 
   const srcDirectory = 'app/configurations';
-  return fs.readdirSync(srcDirectory)
+  return fs
+    .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map((file) => {
+    .map(file => {
       const theme = file.replace('config.', '').replace('.js', '');
       return require('./app/config').getNamedConfiguration(theme);
     });
 }
 
 function getAllPossibleLanguages() {
-  return getAllConfigs().map(config => config.availableLanguages)
+  return getAllConfigs()
+    .map(config => config.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2))
-    .filter((language, position, languages) => languages.indexOf(language) === position);
+    .filter(
+      (language, position, languages) =>
+        languages.indexOf(language) === position,
+    );
 }
 
 function faviconPluginFromConfig(config) {
-  let logo = config.favicon || './sass/themes/' + config.CONFIG + '/favicon.png';
+  let logo =
+    config.favicon || './sass/themes/' + config.CONFIG + '/favicon.png';
   if (!fs.existsSync(logo)) {
     logo = './sass/themes/default/favicon.png';
   }
@@ -150,7 +161,7 @@ function faviconPluginFromConfig(config) {
     statsFilename: 'iconstats-' + config.CONFIG + '.json',
     // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
     background: config.colors ? config.colors.primary : '#ffffff',
-      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
     title: config.title,
     appName: config.title,
     appDescription: config.meta.description,
@@ -187,21 +198,33 @@ function getSourceMapPlugin(testPattern, prefix) {
 }
 
 function getPluginsConfig(env) {
-  const languageExpression = new RegExp('^./(' + getAllPossibleLanguages().join('|') + ')$');
+  const languageExpression = new RegExp(
+    '^./(' + getAllPossibleLanguages().join('|') + ')$',
+  );
   const momentExpression = /moment[/\\]locale$/;
   const reactIntlExpression = /react-intl[/\\]locale-data$/;
   const intlExpression = /intl[/\\]locale-data[/\\]jsonp$/;
   const themeExpression = /sass[/\\]themes$/;
-  const selectedTheme = new RegExp(`^./(${process.env.CONFIG || 'default'})/main.scss$`);
+  const selectedTheme = new RegExp(
+    `^./(${process.env.CONFIG || 'default'})/main.scss$`,
+  );
 
   if (env === 'development') {
-    return ([
+    return [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
-      new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+      new webpack.ContextReplacementPlugin(
+        momentExpression,
+        languageExpression,
+      ),
+      new webpack.ContextReplacementPlugin(
+        reactIntlExpression,
+        languageExpression,
+      ),
       new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
       new webpack.ContextReplacementPlugin(themeExpression, selectedTheme),
-      new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('development') } }),
+      new webpack.DefinePlugin({
+        'process.env': { NODE_ENV: JSON.stringify('development') },
+      }),
       new webpack.NamedChunksPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.LoaderOptionsPlugin({
@@ -211,13 +234,18 @@ function getPluginsConfig(env) {
         },
       }),
       new webpack.NoEmitOnErrorsPlugin(),
-    ]);
+    ];
   }
-  return ([
+  return [
     new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
-    new webpack.ContextReplacementPlugin(reactIntlExpression, languageExpression),
+    new webpack.ContextReplacementPlugin(
+      reactIntlExpression,
+      languageExpression,
+    ),
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
-    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify('production') },
+    }),
     new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
     new NameAllModulesPlugin(),
@@ -270,20 +298,26 @@ function getPluginsConfig(env) {
     }),
     new OfflinePlugin({
       excludes: [
-        '**/.*', '**/*.map', '../stats.json', '**/*.gz', '**/*.br',
-        'js/*_theme.*.js', 'js/*_sprite.*.js', 'iconstats-*.json', 'icons-*/*',
+        '**/.*',
+        '**/*.map',
+        '../stats.json',
+        '**/*.gz',
+        '**/*.br',
+        'js/*_theme.*.js',
+        'js/*_sprite.*.js',
+        'iconstats-*.json',
+        'icons-*/*',
       ],
       // TODO: Can be enabled after cors headers have been added
       // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
         main: [':rest:'],
-        additional: [
-          ':externals:',
-          'js/+([a-z0-9]).js',
-        ],
+        additional: [':externals:', 'js/+([a-z0-9]).js'],
         optional: ['*.png', 'css/*.css', '*.svg', 'icons-*/*'],
       },
-      externals: [/* '/' Can be re-added later when we want to cache index page */],
+      externals: [
+        /* '/' Can be re-added later when we want to cache index page */
+      ],
       safeToUseOptionalCaches: true,
       ServiceWorker: {
         entry: './app/util/font-sw.js',
@@ -304,7 +338,7 @@ function getPluginsConfig(env) {
       minRatio: 0.95,
     }),
     new webpack.NoEmitOnErrorsPlugin(),
-  ]);
+  ];
 }
 
 function getDevelopmentEntry() {
@@ -318,7 +352,8 @@ function getDevelopmentEntry() {
 
 function getEntry() {
   const entry = {
-    common: [ // These come from all imports in client.js
+    common: [
+      // These come from all imports in client.js
       'react',
       'react-dom',
       'react-relay',
@@ -339,12 +374,14 @@ function getEntry() {
   };
 
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    const config = require('./app/config').getNamedConfiguration(process.env.CONFIG);
+    const config = require('./app/config').getNamedConfiguration(
+      process.env.CONFIG,
+    );
 
     addEntry('default');
     addEntry(process.env.CONFIG, config.sprites);
   } else {
-    getAllConfigs().forEach((config) => {
+    getAllConfigs().forEach(config => {
       addEntry(config.CONFIG, config.sprites);
     });
   }
@@ -354,16 +391,21 @@ function getEntry() {
 
 module.exports = {
   // prod mode sourcemaps are hand defined in plugins.
-  devtool: (process.env.NODE_ENV === 'development') ? 'eval' : false,
+  devtool: process.env.NODE_ENV === 'development' ? 'eval' : false,
   cache: true,
-  entry: (process.env.NODE_ENV === 'development') ? getDevelopmentEntry() : getEntry(),
+  entry:
+    process.env.NODE_ENV === 'development' ? getDevelopmentEntry() : getEntry(),
   output: {
     path: path.join(__dirname, '_static'),
-    filename: (process.env.NODE_ENV === 'development') ?
-      'js/bundle.js' : 'js/[name].[chunkhash].js',
+    filename:
+      process.env.NODE_ENV === 'development'
+        ? 'js/bundle.js'
+        : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
-    publicPath: ((process.env.NODE_ENV === 'development') ?
-      'http://localhost:' + port : (process.env.APP_PATH || '')) + '/',
+    publicPath:
+      (process.env.NODE_ENV === 'development'
+        ? 'http://localhost:' + port
+        : process.env.APP_PATH || '') + '/',
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
   resolve: {
@@ -372,12 +414,20 @@ module.exports = {
       'lodash.merge': 'lodash-es/merge',
       'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
       'react-router-relay/lib': 'react-router-relay/es',
-      'react-router-relay/lib/RelayRouterContext': 'react-router-relay/es/RelayRouterContext',
-      'react-router-relay/lib/QueryAggregator': 'react-router-relay/es/QueryAggregator',
+      'react-router-relay/lib/RelayRouterContext':
+        'react-router-relay/es/RelayRouterContext',
+      'react-router-relay/lib/QueryAggregator':
+        'react-router-relay/es/QueryAggregator',
       moment$: 'moment/moment.js',
       lodash: 'lodash-es',
-      'babel-runtime/helpers/slicedToArray': path.join(__dirname, 'app/util/slicedToArray'),
-      'babel-runtime/core-js/get-iterator': path.join(__dirname, 'app/util/getIterator'),
+      'babel-runtime/helpers/slicedToArray': path.join(
+        __dirname,
+        'app/util/slicedToArray',
+      ),
+      'babel-runtime/core-js/get-iterator': path.join(
+        __dirname,
+        'app/util/getIterator',
+      ),
     },
   },
   resolveLoader: {
@@ -403,10 +453,13 @@ module.exports = {
     'babel-runtime/core-js/object/entries': 'var Object.entries',
     'babel-runtime/core-js/object/freeze': 'var Object.freeze',
     'babel-runtime/core-js/object/keys': 'var Object.keys',
-    '../core-js/object/get-own-property-descriptor': 'var Object.getOwnPropertyDescriptor',
-    'babel-runtime/core-js/object/get-prototype-of': 'var Object.getPrototypeOf',
+    '../core-js/object/get-own-property-descriptor':
+      'var Object.getOwnPropertyDescriptor',
+    'babel-runtime/core-js/object/get-prototype-of':
+      'var Object.getPrototypeOf',
     '../core-js/object/get-prototype-of': 'var Object.getPrototypeOf',
-    'babel-runtime/core-js/object/set-prototype-of': 'var Object.setPrototypeOf',
+    'babel-runtime/core-js/object/set-prototype-of':
+      'var Object.setPrototypeOf',
     '../core-js/object/set-prototype-of': 'var Object.setPrototypeOf',
     'babel-runtime/core-js/promise': 'var Promise',
     '../core-js/symbol': 'var Symbol',
@@ -420,6 +473,6 @@ module.exports = {
     'simple-assign': 'var Object.assign',
   },
   performance: {
-    hints: (process.env.NODE_ENV === 'development') ? false : 'warning',
+    hints: process.env.NODE_ENV === 'development' ? false : 'warning',
   },
 };

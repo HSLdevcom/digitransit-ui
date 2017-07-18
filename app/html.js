@@ -1,20 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Application = (
-  {
-    fonts,
-    svgSprite,
-    css,
-    content,
-    polyfill,
-    state,
-    locale,
-    scripts,
-    relayData,
-    head,
-  },
-) => (
+const Application = ({
+  fonts,
+  svgSprite,
+  css,
+  content,
+  polyfill,
+  state,
+  locale,
+  scripts,
+  relayData,
+  head,
+}) =>
   <html lang={locale}>
     <head>
       {head !== null ? head.title.toComponent() : false}
@@ -35,8 +33,7 @@ const Application = (
       />
       {scripts}
     </body>
-  </html>
-);
+  </html>;
 
 Application.propTypes = {
   fonts: PropTypes.string,

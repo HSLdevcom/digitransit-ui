@@ -3,7 +3,15 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
 
-const ToggleButton = ({ checkedClass, state, icon, className, onBtnClick, style, children }) => {
+const ToggleButton = ({
+  checkedClass,
+  state,
+  icon,
+  className,
+  onBtnClick,
+  style,
+  children,
+}) => {
   let iconTag;
 
   const classes = {
@@ -15,19 +23,26 @@ const ToggleButton = ({ checkedClass, state, icon, className, onBtnClick, style,
   }
 
   if (icon) {
-    iconTag = <div className="icon-holder"><Icon img={`icon-icon_${icon}`} className="" /></div>;
+    iconTag = (
+      <div className="icon-holder">
+        <Icon img={`icon-icon_${icon}`} className="" />
+      </div>
+    );
   }
 
-  return (<div
-    className={cx('cursor-pointer', classes, className)}
-    onClick={onBtnClick}
-    style={style}
-  >
-    {iconTag}
-    <div>{children}</div>
-  </div>);
+  return (
+    <div
+      className={cx('cursor-pointer', classes, className)}
+      onClick={onBtnClick}
+      style={style}
+    >
+      {iconTag}
+      <div>
+        {children}
+      </div>
+    </div>
+  );
 };
-
 
 ToggleButton.propTypes = {
   onBtnClick: PropTypes.func,
@@ -38,6 +53,5 @@ ToggleButton.propTypes = {
   style: PropTypes.object,
   children: PropTypes.array,
 };
-
 
 export default ToggleButton;

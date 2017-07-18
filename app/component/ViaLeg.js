@@ -11,12 +11,17 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 function ViaLeg(props, context) {
-  const distance = displayDistance(parseInt(props.leg.distance, 10), context.config);
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    context.config,
+  );
   const duration = durationToString(props.leg.duration * 1000);
-  const stayDuration = durationToString(props.leg.startTime - props.arrivalTime);
+  const stayDuration = durationToString(
+    props.leg.startTime - props.arrivalTime,
+  );
 
   return (
-    <div key={props.index} className="row itinerary-row" >
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column via-time-column">
         <div className="itinerary-time-column-time via-arrival-time">
           {moment(props.arrivalTime).format('HH:mm')}
@@ -70,12 +75,12 @@ const exampleLeg = t1 => ({
 });
 
 ViaLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
-      <p>Displays an itinerary via leg.
-         Note that the times are supposed to go on top of the previous leg.
+      <p>
+        Displays an itinerary via leg. Note that the times are supposed to go on
+        top of the previous leg.
       </p>
       <ComponentUsageExample>
         <ViaLeg

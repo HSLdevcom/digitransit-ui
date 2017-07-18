@@ -1,5 +1,5 @@
 function clickSouthOfCurrentLocation() {
-  this.api.element('class name', 'current-location-marker', (result) => {
+  this.api.element('class name', 'current-location-marker', result => {
     this.api.debug('Clicking on map');
     this.api.moveTo(result.value.ELEMENT, 20, 70); // 50 px south of current position
   });
@@ -11,24 +11,29 @@ function clickSouthOfCurrentLocation() {
 function waitForVectorLayerLoaded() {
   this.waitForElementPresent(
     '.leaflet-layer canvas.leaflet-tile-loaded',
-    this.api.globals.elementVisibleTimeout);
+    this.api.globals.elementVisibleTimeout,
+  );
   return this.waitForElementNotPresent(
     '.leaflet-layer canvas.leaflet-tile:not(.leaflet-tile-loaded)',
-    this.api.globals.elementVisibleTimeout);
+    this.api.globals.elementVisibleTimeout,
+  );
 }
 
 function waitForPopupPaneHeaderVisible() {
   return this.waitForElementVisible(
     '@popupPaneHeader',
-    this.api.globals.itinerarySearchTimeout);
+    this.api.globals.itinerarySearchTimeout,
+  );
 }
 
 module.exports = {
-  commands: [{
-    clickSouthOfCurrentLocation,
-    waitForPopupPaneHeaderVisible,
-    waitForVectorLayerLoaded,
-  }],
+  commands: [
+    {
+      clickSouthOfCurrentLocation,
+      waitForPopupPaneHeaderVisible,
+      waitForVectorLayerLoaded,
+    },
+  ],
   elements: {
     currentLocationMarker: {
       selector: '.current-location-marker',

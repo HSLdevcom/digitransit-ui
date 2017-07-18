@@ -5,11 +5,16 @@ import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const Favourite = ({ addFavourite, favourite, className }) => (
-  <span className={cx('cursor-pointer favourite-icon', className)} onClick={addFavourite}>
-    <Icon className={cx('favourite', { selected: favourite })} img="icon-icon_star" />
-  </span>
-);
+const Favourite = ({ addFavourite, favourite, className }) =>
+  <span
+    className={cx('cursor-pointer favourite-icon', className)}
+    onClick={addFavourite}
+  >
+    <Icon
+      className={cx('favourite', { selected: favourite })}
+      img="icon-icon_star"
+    />
+  </span>;
 
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,

@@ -6,13 +6,8 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const AirplaneLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg
-    mode="AIRPLANE"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-  >
+const AirplaneLeg = ({ leg, focusAction, index }) =>
+  <TransitLeg mode="AIRPLANE" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="airplane-with-route-number"
       values={{
@@ -20,8 +15,7 @@ const AirplaneLeg = ({ leg, focusAction, index }) => (
       }}
       defaultMessage="Flight {routeNumber}"
     />
-  </TransitLeg>
-);
+  </TransitLeg>;
 
 AirplaneLeg.propTypes = {
   leg: PropTypes.object.isRequired,
@@ -46,8 +40,7 @@ const exampleLeg = t1 => ({
 });
 
 AirplaneLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary airplane leg.</p>

@@ -1,6 +1,9 @@
 import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
-import { getFavouriteStopsStorage, setFavouriteStopsStorage } from './localStorage';
+import {
+  getFavouriteStopsStorage,
+  setFavouriteStopsStorage,
+} from './localStorage';
 
 class FavouriteStopsStore extends Store {
   static storeName = 'FavouriteStopsStore';

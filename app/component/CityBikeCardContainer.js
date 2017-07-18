@@ -3,13 +3,20 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import CityBikeCard from './CityBikeCard';
 import { toggleFavouriteCityBikeStation } from '../action/FavouriteActions';
 
-const CityBikeCardContainer = connectToStores(CityBikeCard, ['FavouriteCityBikeStationStore'],
+const CityBikeCardContainer = connectToStores(
+  CityBikeCard,
+  ['FavouriteCityBikeStationStore'],
   (context, props) => ({
-    isFavourite:
-      context.getStore('FavouriteCityBikeStationStore').isFavourite(props.station.stationId),
-    toggleFavourite: (e) => { // TODO: this is bad in terms of performance, consider reselect
+    isFavourite: context
+      .getStore('FavouriteCityBikeStationStore')
+      .isFavourite(props.station.stationId),
+    toggleFavourite: e => {
+      // TODO: this is bad in terms of performance, consider reselect
       e.preventDefault();
-      context.executeAction(toggleFavouriteCityBikeStation, props.station.stationId);
+      context.executeAction(
+        toggleFavouriteCityBikeStation,
+        props.station.stationId,
+      );
     },
   }),
 );

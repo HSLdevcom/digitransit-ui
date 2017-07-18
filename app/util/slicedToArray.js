@@ -20,24 +20,34 @@ function sliceIterator(arr, i) {
   let _s;
 
   try {
-    for (_i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (
+      _i = arr[Symbol.iterator](), _s;
+      !(_n = (_s = _i.next()).done);
+      _n = true
+    ) {
       _arr.push(_s.value);
-      if (i && _arr.length === i) break;
+      if (i && _arr.length === i) {
+        break;
+      }
     }
   } catch (err) {
     _d = true;
     _e = err;
   } finally {
     try {
-      if (!_n && _i.return) _i.return();
+      if (!_n && _i.return) {
+        _i.return();
+      }
     } finally {
-      if (_d) throw _e;
+      if (_d) {
+        throw _e;
+      }
     }
   }
   return _arr;
 }
 
-export default function (arr, i) {
+export default function(arr, i) {
   if (Array.isArray(arr)) {
     return arr;
   } else if (Symbol.iterator in Object(arr)) {

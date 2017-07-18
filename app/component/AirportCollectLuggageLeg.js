@@ -7,11 +7,10 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-
 function AirportCollectLuggageLeg(props) {
   const modeClassName = 'wait';
   return (
-    <div className="row itinerary-row" >
+    <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.endTime).format('HH:mm')}
@@ -40,13 +39,15 @@ const exampleLeg = t1 => ({
 });
 
 AirportCollectLuggageLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                            .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary airport collect luggage leg.</p>
       <ComponentUsageExample>
-        <AirportCollectLuggageLeg leg={exampleLeg(today)} focusAction={() => {}} />
+        <AirportCollectLuggageLeg
+          leg={exampleLeg(today)}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );

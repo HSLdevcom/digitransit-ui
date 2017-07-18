@@ -17,7 +17,7 @@ class TimeStore extends Store {
     this.emitChange({
       currentTime: this.currentTime,
     });
-  }
+  };
 
   getCurrentTime() {
     return this.currentTime.clone();

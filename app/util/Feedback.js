@@ -6,16 +6,25 @@ function updateStorage(updates) {
   setFeedbackStorage({ ...getFeedbackStorage(), ...updates });
 }
 
-const shouldDisplayPopup = (time) => {
+const shouldDisplayPopup = time => {
   if (isBrowser) {
     const NOW = moment(time);
     if (getFeedbackStorage().appUseStarted === undefined) {
       // initialize localstorage if needed
-      updateStorage({ feedbackInteractionDate: 0, appUseStarted: NOW.valueOf() });
+      updateStorage({
+        feedbackInteractionDate: 0,
+        appUseStarted: NOW.valueOf(),
+      });
     }
 
-    const appInUseDays = NOW.diff(moment(getFeedbackStorage().appUseStarted), 'days');
-    const lastFeedbackDays = NOW.diff(moment(getFeedbackStorage().feedbackInteractionDate), 'days');
+    const appInUseDays = NOW.diff(
+      moment(getFeedbackStorage().appUseStarted),
+      'days',
+    );
+    const lastFeedbackDays = NOW.diff(
+      moment(getFeedbackStorage().feedbackInteractionDate),
+      'days',
+    );
 
     if (appInUseDays >= 2 && lastFeedbackDays > 30) {
       return true;

@@ -7,9 +7,7 @@ export default class RoutesRoute extends Relay.Route {
         routes (ids:$ids) {
           ${Component.getFragment('routes', {
             ids: variables.ids,
-          },
-        )
-      }
+          })}
     }}`,
   };
   static paramDefinitions = {

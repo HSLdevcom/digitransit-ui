@@ -1,7 +1,10 @@
 import Store from 'fluxible/addons/BaseStore';
 import maxBy from 'lodash/maxBy';
 import find from 'lodash/find';
-import { getFavouriteLocationsStorage, setFavouriteLocationsStorage } from './localStorage';
+import {
+  getFavouriteLocationsStorage,
+  setFavouriteLocationsStorage,
+} from './localStorage';
 
 class FavouriteLocationStore extends Store {
   static storeName = 'FavouriteLocationStore';
@@ -24,26 +27,27 @@ class FavouriteLocationStore extends Store {
    */
   migrate = () => {
     this.migrateAndSave(this.migrate01(this.locations));
-  }
+  };
 
-  migrateAndSave = (migrationResult) => {
+  migrateAndSave = migrationResult => {
     if (migrationResult !== null) {
       this.locations = migrationResult;
       this.save();
     }
-  }
+  };
 
-  getMaxId = collection => (
-    (maxBy(collection, location => location.id) || { id: 0 }).id
-  );
+  getMaxId = collection =>
+    (maxBy(collection, location => location.id) || { id: 0 }).id;
 
-  migrate01 = (locations) => {
+  migrate01 = locations => {
     const matchF = favourite => favourite.version === undefined;
-    if (locations.filter(matchF).length === 0) return null; // nothing to migrate
+    if (locations.filter(matchF).length === 0) {
+      return null;
+    } // nothing to migrate
 
     let maxId = this.getMaxId(locations);
 
-    const modified = locations.map((favourite) => {
+    const modified = locations.map(favourite => {
       maxId += 1;
       if (matchF(favourite)) {
         const migrated = { ...favourite, version: 1, id: maxId };
@@ -52,12 +56,11 @@ class FavouriteLocationStore extends Store {
       return { favourite };
     });
     return modified;
-  }
-
+  };
 
   save = () => {
     setFavouriteLocationsStorage(this.locations);
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
   getLocations() {
@@ -71,10 +74,13 @@ class FavouriteLocationStore extends Store {
 
     if (location.id === undefined) {
       // new
-      this.locations.push({ ...location, id: (1 + this.getMaxId(this.locations)) });
+      this.locations.push({
+        ...location,
+        id: 1 + this.getMaxId(this.locations),
+      });
     } else {
       // update
-      this.locations = this.locations.map((currentLocation) => {
+      this.locations = this.locations.map(currentLocation => {
         if (currentLocation.id === location.id) {
           return location;
         }
@@ -86,8 +92,9 @@ class FavouriteLocationStore extends Store {
   }
 
   deleteFavouriteLocation(location) {
-    this.locations = this.locations.filter(currentLocation =>
-      (currentLocation.id !== location.id));
+    this.locations = this.locations.filter(
+      currentLocation => currentLocation.id !== location.id,
+    );
     this.save();
     this.emitChange();
   }
