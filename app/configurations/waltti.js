@@ -26,8 +26,6 @@ export default {
     show: false,
   },
 
-  sprites: 'svg-sprite.default.svg', // use default set
-
   meta: {
     description: APP_DESCRIPTION,
   },

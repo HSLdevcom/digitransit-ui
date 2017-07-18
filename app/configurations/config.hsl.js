@@ -67,6 +67,8 @@ export default {
     primary: '#007ac9',
   },
 
+  sprites: 'svg-sprite.hsl.svg',
+
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
   agency: {

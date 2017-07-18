@@ -127,7 +127,7 @@ function getCss(config) {
 function getSprite(config) {
   if (!sprites[config.CONFIG]) {
     let svgSprite;
-    const spriteName = config.sprites || `svg-sprite.${config.CONFIG}.svg`;
+    const spriteName = config.sprites;
 
     if (process.env.NODE_ENV !== 'development') {
       svgSprite = (

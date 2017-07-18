@@ -235,13 +235,15 @@ function getPluginsConfig(env) {
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'main',
       children: true,
-      minChunks: 4,
+      minChunks: 5,
     }),
     new webpack.optimize.CommonsChunkPlugin({
+      name: 'main',
       children: true,
       async: true,
-      minChunks: 2,
+      minChunks: 3,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
     new webpack.optimize.ModuleConcatenationPlugin(),
@@ -333,7 +335,7 @@ function getEntry() {
       themeCss = './sass/themes/default/main.scss';
     }
     entry[theme + '_theme'] = [themeCss];
-    entry[theme + '_sprite'] = ['./static/' + (sprites || '/svg-sprite.' + theme + '.svg')];
+    entry[sprites] = ['./static/' + sprites];
   };
 
   if (process.env.CONFIG && process.env.CONFIG !== '') {
@@ -367,11 +369,15 @@ module.exports = {
   resolve: {
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     alias: {
-      'lodash.merge': 'lodash/merge',
-      'lodash.keys': 'lodash/keys',
+      'lodash.merge': 'lodash-es/merge',
       'react-router/lib/getRouteParams': 'react-router/es/getRouteParams',
+      'react-router-relay/lib': 'react-router-relay/es',
+      'react-router-relay/lib/RelayRouterContext': 'react-router-relay/es/RelayRouterContext',
+      'react-router-relay/lib/QueryAggregator': 'react-router-relay/es/QueryAggregator',
       moment$: 'moment/moment.js',
-      'core-js/library/fn/weak-map': path.join(__dirname, 'app/util/WeakMap'),
+      lodash: 'lodash-es',
+      'babel-runtime/helpers/slicedToArray': path.join(__dirname, 'app/util/slicedToArray'),
+      'babel-runtime/core-js/get-iterator': path.join(__dirname, 'app/util/getIterator'),
     },
   },
   resolveLoader: {
@@ -384,7 +390,35 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
   },
-  externals: {},
+  externals: {
+    'babel-runtime/core-js/array/from': 'var Array.from',
+    '../core-js/array/from': 'var Array.from',
+    'babel-runtime/core-js/json/stringify': 'var JSON.stringify',
+    'babel-runtime/core-js/map': 'var Map',
+    'babel-runtime/core-js/object/assign': 'var Object.assign',
+    'babel-runtime/core-js/object/create': 'var Object.create',
+    '../core-js/object/create': 'var Object.create',
+    'babel-runtime/core-js/object/define-property': 'var Object.defineProperty',
+    '../core-js/object/define-property': 'var Object.defineProperty',
+    'babel-runtime/core-js/object/entries': 'var Object.entries',
+    'babel-runtime/core-js/object/freeze': 'var Object.freeze',
+    'babel-runtime/core-js/object/keys': 'var Object.keys',
+    '../core-js/object/get-own-property-descriptor': 'var Object.getOwnPropertyDescriptor',
+    'babel-runtime/core-js/object/get-prototype-of': 'var Object.getPrototypeOf',
+    '../core-js/object/get-prototype-of': 'var Object.getPrototypeOf',
+    'babel-runtime/core-js/object/set-prototype-of': 'var Object.setPrototypeOf',
+    '../core-js/object/set-prototype-of': 'var Object.setPrototypeOf',
+    'babel-runtime/core-js/promise': 'var Promise',
+    '../core-js/symbol': 'var Symbol',
+    '../core-js/symbol/iterator': 'var Symbol.iterator',
+    'babel-runtime/core-js/weak-map': 'var WeakMap',
+    'babel-runtime/helpers/extends': 'var Object.assign',
+    'fbjs/lib/fetch': 'var fetch',
+    './fetch': 'var fetch',
+    'fbjs/lib/Map': 'var Map',
+    'object-assign': 'var Object.assign',
+    'simple-assign': 'var Object.assign',
+  },
   performance: {
     hints: (process.env.NODE_ENV === 'development') ? false : 'warning',
   },
