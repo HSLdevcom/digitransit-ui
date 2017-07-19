@@ -79,7 +79,7 @@
     "htm-to-json": "^0.1.4",
     "intl": "1.2.5",
     "isomorphic-relay": "hannesj/isomorphic-relay#feature-relay-1-public",
-    "isomorphic-relay-router": "0.8.6",
+    "isomorphic-relay-router": "michaelstockton/isomorphic-relay-router#feature-relay-1-public",
     "leaflet": "1.1.0",
     "lodash": "4.17.4",
     "lodash-es": "4.17.4",
