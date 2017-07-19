@@ -7416,13 +7416,15 @@ react-relay-network-layer@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.0.1.tgz#6db91b199f74733e980d0776ec6fa7961e0154d0"
 
-react-relay@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-0.10.0.tgz#4b19c4450e0140b9f04fd6fe96d8f451f0804078"
+react-relay@1.2.0-rc1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-1.1.0.tgz#56cd76885a886d93dd052efebbc0af5b6ceea998"
   dependencies:
-    babel-runtime "^6.6.1"
+    babel-runtime "^6.23.0"
     fbjs "^0.8.1"
+    prop-types "^15.5.8"
     react-static-container "^1.0.1"
+    relay-runtime "1.1.0"
 
 react-router-relay@0.13.5:
   version "0.13.5"
@@ -7762,6 +7764,13 @@ regjsparser@^0.1.4:
 reinterval@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/reinterval/-/reinterval-1.1.0.tgz#3361ecfa3ca6c18283380dd0bb9546f390f5ece7"
+
+relay-runtime@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-1.1.0.tgz#2441a97c18e3c9035960cad48414a95844623b69"
+  dependencies:
+    babel-runtime "^6.23.0"
+    fbjs "^0.8.1"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.2"
