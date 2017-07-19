@@ -26,7 +26,7 @@ fetch(
     return response.json();
   })
   .then(json => {
-    fs.writeFile(outputFilename, JSON.stringify(json.data, null, 4), err => {
+    fs.writeFile(outputFilename, JSON.stringify(json, null, 4), err => {
       if (err) {
         console.log(err);
       } else {
