@@ -127,7 +127,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.5",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-runtime": "6.23.0",
-    "brotli-webpack-plugin": "0.3.0",
+    "brotli-webpack-plugin": "0.4.0",
     "css-loader": "0.28.4",
     "csswring": "5.1.1",
     "eslint": "3.19.0",
