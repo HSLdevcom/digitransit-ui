@@ -4,10 +4,14 @@ import Relay from 'react-relay';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';
 
-
-const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favourite }) => {
+const FavouriteLocationContainer = ({
+  currentTime,
+  onClickFavourite,
+  plan,
+  favourite,
+}) => {
   const itinerary = (plan && plan.plan.itineraries[0]) || {};
-  const firstTransitLeg = find(itinerary.legs, leg => (leg.transitLeg));
+  const firstTransitLeg = find(itinerary.legs, leg => leg.transitLeg);
 
   let departureTime;
   // We might not have any transit legs, just walking
@@ -15,15 +19,17 @@ const FavouriteLocationContainer = ({ currentTime, onClickFavourite, plan, favou
     departureTime = firstTransitLeg.startTime / 1000;
   }
 
-  return (<FavouriteLocation
-    favourite={favourite}
-    clickFavourite={onClickFavourite}
-    {...{
-      departureTime,
-      currentTime,
-      firstTransitLeg,
-    }}
-  />);
+  return (
+    <FavouriteLocation
+      favourite={favourite}
+      clickFavourite={onClickFavourite}
+      {...{
+        departureTime,
+        currentTime,
+        firstTransitLeg,
+      }}
+    />
+  );
 };
 
 FavouriteLocationContainer.propTypes = {

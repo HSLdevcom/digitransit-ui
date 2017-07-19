@@ -21,7 +21,7 @@ class RouteStopListContainer extends React.Component {
   static contextTypes = {
     breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
-  }
+  };
 
   componentDidMount() {
     if (this.nearestStop) {
@@ -33,32 +33,45 @@ class RouteStopListContainer extends React.Component {
     relay.setVariables({ currentTime: currentTime.unix() });
   }
 
-  setNearestStop = (element) => { this.nearestStop = element; };
+  setNearestStop = element => {
+    this.nearestStop = element;
+  };
 
   getStops() {
     const position = this.props.position;
     const stops = this.props.pattern.stops;
-    const nearest = position.hasLocation === true ?
-      getDistanceToNearestStop(position.lat, position.lon, stops) : null;
+    const nearest =
+      position.hasLocation === true
+        ? getDistanceToNearestStop(position.lat, position.lon, stops)
+        : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicles = groupBy(
       values(this.props.vehicles)
-        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (5 * 60 * 1000))
-        .filter(vehicle => vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined')
-      , vehicle => vehicle.direction);
+        .filter(
+          vehicle =>
+            this.props.currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+        )
+        .filter(
+          vehicle =>
+            vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined',
+        ),
+      vehicle => vehicle.direction,
+    );
 
-    const vehicleStops = groupBy(vehicles[this.props.pattern.directionId], vehicle =>
-      `HSL:${vehicle.next_stop}`,
+    const vehicleStops = groupBy(
+      vehicles[this.props.pattern.directionId],
+      vehicle => `HSL:${vehicle.next_stop}`,
     );
 
     const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
 
     return stops.map((stop, i) => {
-      const isNearest = (
-        nearest && nearest.distance < this.context.config.nearestStopDistance.maxShownDistance &&
-          nearest.stop.gtfsId
-      ) === stop.gtfsId;
+      const isNearest =
+        (nearest &&
+          nearest.distance <
+            this.context.config.nearestStopDistance.maxShownDistance &&
+          nearest.stop.gtfsId) === stop.gtfsId;
 
       return (
         <RouteStop
@@ -80,9 +93,12 @@ class RouteStopListContainer extends React.Component {
 
   render() {
     return (
-      <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
+      <div
+        className={cx('route-stop-list momentum-scroll', this.props.className)}
+      >
         {this.getStops()}
-      </div>);
+      </div>
+    );
   }
 }
 

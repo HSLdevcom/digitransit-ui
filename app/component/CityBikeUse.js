@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import { lang as exampleLang } from './ExampleData';
 
-const CityBikeUse = ({ lang }, context) => (
+const CityBikeUse = ({ lang }, context) =>
   <div className="city-bike-use-container">
     <p className="sub-header-h4 text-center">
       <FormattedMessage
@@ -19,7 +19,7 @@ const CityBikeUse = ({ lang }, context) => (
         <FormattedMessage id="use-citybike" defaultMessage="Start using" />
       </button>
     </a>
-  </div>);
+  </div>;
 
 CityBikeUse.displayName = 'CityBikeUse';
 

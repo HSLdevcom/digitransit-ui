@@ -3,13 +3,12 @@ import React from 'react';
 import Relay from 'react-relay';
 import PlaceAtDistanceListContainer from './PlaceAtDistanceListContainer';
 
-const NearbyRouteList = props => (
+const NearbyRouteList = props =>
   <PlaceAtDistanceListContainer
     currentTime={props.currentTime}
     timeRange={props.timeRange}
     places={props.nearest.places}
-  />
-);
+  />;
 
 NearbyRouteList.propTypes = {
   nearest: PropTypes.object.isRequired,

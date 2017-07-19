@@ -9,21 +9,21 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteAlertsRow from './RouteAlertsRow';
 
-
 const getAlerts = (route, currentTime, intl) => {
   const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
   const color = route.color;
 
-  return route.alerts.map((alert) => {
+  return route.alerts.map(alert => {
     // Try to find the alert in user's language, or failing in English, or failing in any language
     // TODO: This should be a util function that we use everywhere
     // TODO: We should match to all languages user's browser lists as acceptable
-    let header = find(alert.alertHeaderTextTranslations,
-                      ['language', intl.locale]);
+    let header = find(alert.alertHeaderTextTranslations, [
+      'language',
+      intl.locale,
+    ]);
     if (!header) {
-      header = find(alert.alertHeaderTextTranslations,
-                    ['language', 'en']);
+      header = find(alert.alertHeaderTextTranslations, ['language', 'en']);
     }
     if (!header) {
       header = alert.alertHeaderTextTranslations[0];
@@ -34,11 +34,15 @@ const getAlerts = (route, currentTime, intl) => {
 
     // Unfortunately nothing in GTFS-RT specifies that if there's one string in a language then
     // all other strings would also be available in the same language...
-    let description = find(alert.alertDescriptionTextTranslations,
-                      ['language', intl.locale]);
+    let description = find(alert.alertDescriptionTextTranslations, [
+      'language',
+      intl.locale,
+    ]);
     if (!description) {
-      description = find(alert.alertDescriptionTextTranslations,
-                    ['language', 'en']);
+      description = find(alert.alertDescriptionTextTranslations, [
+        'language',
+        'en',
+      ]);
     }
     if (!description) {
       description = alert.alertDescriptionTextTranslations[0];
@@ -59,10 +63,15 @@ const getAlerts = (route, currentTime, intl) => {
         routeLine={routeLine}
         header={header}
         description={description}
-        endTime={sameDay ? intl.formatTime(endTime) : upperFirst(endTime.calendar(currentTime))}
+        endTime={
+          sameDay
+            ? intl.formatTime(endTime)
+            : upperFirst(endTime.calendar(currentTime))
+        }
         startTime={upperFirst(startTime.calendar(currentTime))}
         expired={startTime > currentTime || currentTime > endTime}
-      />);
+      />
+    );
   });
 };
 
@@ -74,13 +83,15 @@ function RouteAlertsContainer({ route, currentTime }, { intl }) {
           id="disruption-info-route-no-alerts"
           defaultMessage="No known disruptions or diversions for route."
         />
-      </div>);
+      </div>
+    );
   }
 
   return (
     <div className="route-alerts-list momentum-scroll">
       {getAlerts(route, currentTime, intl)}
-    </div>);
+    </div>
+  );
 }
 
 RouteAlertsContainer.propTypes = {
@@ -100,11 +111,9 @@ const RouteAlertsContainerWithTime = connectToStores(
   }),
 );
 
-
-export default Relay.createContainer(RouteAlertsContainerWithTime,
-  {
-    fragments: {
-      route: () => Relay.QL`
+export default Relay.createContainer(RouteAlertsContainerWithTime, {
+  fragments: {
+    route: () => Relay.QL`
         fragment on Route {
           mode
           color
@@ -124,6 +133,5 @@ export default Relay.createContainer(RouteAlertsContainerWithTime,
           }
         }
       `,
-    },
   },
-);
+});

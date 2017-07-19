@@ -5,7 +5,10 @@ import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 
-const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl, config }) => {
+const SearchModal = (
+  { modalIsOpen, closeModal, selectedTab, children },
+  { intl, config },
+) => {
   if (!modalIsOpen) {
     return false;
   }
@@ -22,12 +25,16 @@ const SearchModal = ({ modalIsOpen, closeModal, selectedTab, children }, { intl,
                 height: '4px',
               }}
               value={selectedTab}
-            >{children}</Tabs>
-            <div id="close-search-button-container" >
+            >
+              {children}
+            </Tabs>
+            <div id="close-search-button-container">
               <button
-                onClick={closeModal} title={intl.formatMessage({
+                onClick={closeModal}
+                title={intl.formatMessage({
                   id: 'close',
-                  defaultMessage: 'Close' })}
+                  defaultMessage: 'Close',
+                })}
                 className="noborder"
               >
                 <Icon img="icon-icon_close" />

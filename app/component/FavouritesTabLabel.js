@@ -4,18 +4,20 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import IconWithCaution from './IconWithCaution';
 
-export default function FavouritesTabLabel({ hasDisruption, classes, onClick }) {
+export default function FavouritesTabLabel({
+  hasDisruption,
+  classes,
+  onClick,
+}) {
   return (
-    <li className={classes} onClick={onClick}>
-      {hasDisruption ?
-        <IconWithCaution
-          className="prefix-icon favourites-icon"
-          img="icon-icon_star"
-        /> :
-        <Icon
-          className="prefix-icon favourites-icon"
-          img="icon-icon_star"
-        />}
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+    <li className={classes} onClick={onClick} role="button">
+      {hasDisruption
+        ? <IconWithCaution
+            className="prefix-icon favourites-icon"
+            img="icon-icon_star"
+          />
+        : <Icon className="prefix-icon favourites-icon" img="icon-icon_star" />}
       <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
     </li>
   );

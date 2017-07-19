@@ -10,18 +10,20 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import PageFooter from './PageFooter';
 
-const feedbackPanelMudules = { Panel: () => importLazy(System.import('./FeedbackPanel')) };
+const feedbackPanelMudules = {
+  Panel: () => importLazy(import('./FeedbackPanel')),
+};
 
 const feedbackPanel = (
-  <LazilyLoad modules={feedbackPanelMudules} >
+  <LazilyLoad modules={feedbackPanelMudules}>
     {({ Panel }) => <Panel />}
   </LazilyLoad>
 );
 
-const messageBarModules = { Bar: () => importLazy(System.import('./MessageBar')) };
+const messageBarModules = { Bar: () => importLazy(import('./MessageBar')) };
 
 const messageBar = (
-  <LazilyLoad modules={messageBarModules} >
+  <LazilyLoad modules={messageBarModules}>
     {({ Bar }) => <Bar />}
   </LazilyLoad>
 );
@@ -39,11 +41,11 @@ class IndexPage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     content: PropTypes.node,
     routes: PropTypes.array,
-  }
+  };
 
   componentWillMount = () => {
     this.resetToCleanState();
-  }
+  };
 
   componentDidMount() {
     const search = this.context.location.search;
@@ -53,13 +55,15 @@ class IndexPage extends React.Component {
     }
 
     // auto select nearby tab if none selected and bp=large
-    if (this.props.breakpoint === 'large' &&
-      this.getSelectedTab() === undefined) {
+    if (
+      this.props.breakpoint === 'large' &&
+      this.getSelectedTab() === undefined
+    ) {
       this.clickNearby();
     }
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     const frombp = this.props.breakpoint;
     const tobp = nextProps.breakpoint;
 
@@ -74,7 +78,7 @@ class IndexPage extends React.Component {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
-  }
+  };
 
   getSelectedTab = (props = this.props) => {
     if (props.routes && props.routes.length > 0) {
@@ -88,17 +92,17 @@ class IndexPage extends React.Component {
     }
 
     return undefined;
-  }
+  };
 
   resetToCleanState = () => {
     this.context.executeAction(clearDestination);
-  }
+  };
 
   trackEvent = (...args) => {
     if (typeof this.context.piwik === 'object') {
       this.context.piwik.trackEvent(...args);
     }
-  }
+  };
 
   clickNearby = () => {
     // tab click logic is different in large vs the rest!
@@ -109,7 +113,11 @@ class IndexPage extends React.Component {
       } else {
         this.openNearby(selected === 2);
       }
-      this.trackEvent('Front page tabs', 'Nearby', selected === 1 ? 'close' : 'open');
+      this.trackEvent(
+        'Front page tabs',
+        'Nearby',
+        selected === 1 ? 'close' : 'open',
+      );
     } else {
       this.openNearby(true);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
@@ -125,28 +133,32 @@ class IndexPage extends React.Component {
       } else {
         this.openFavourites(selected === 1);
       }
-      this.trackEvent('Front page tabs', 'Favourites', selected === 2 ? 'close' : 'open');
+      this.trackEvent(
+        'Front page tabs',
+        'Favourites',
+        selected === 2 ? 'close' : 'open',
+      );
     } else {
       this.openFavourites(true);
       this.trackEvent('Front page tabs', 'Favourites', 'open');
     }
   };
 
-  openFavourites = (replace) => {
+  openFavourites = replace => {
     if (replace) {
       this.context.router.replace('/suosikit');
     } else {
       this.context.router.push('/suosikit');
     }
-  }
+  };
 
-  openNearby = (replace) => {
+  openNearby = replace => {
     if (replace) {
       this.context.router.replace('/lahellasi');
     } else {
       this.context.router.push('/lahellasi');
     }
-  }
+  };
 
   // used only in mobile with fullscreen tabs
   closeTab = () => {
@@ -156,77 +168,92 @@ class IndexPage extends React.Component {
     } else {
       this.context.router.replace('/');
     }
-  }
+  };
 
   render() {
     const selectedMainTab = this.getSelectedTab();
-    const selectedSearchTab = this.context.location.state &&
-          this.context.location.state.selectedTab ?
-          this.context.location.state.selectedTab : 'destination';
-    const searchModalIsOpen = this.context.location.state ?
-          Boolean(this.context.location.state.searchModalIsOpen) : false;
-    return (this.props.breakpoint === 'large' ? (
-      <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-        {messageBar}
-        <MapWithTracking
-          breakpoint={this.props.breakpoint}
-          showStops
-          showScaleBar
-          searchModalIsOpen={searchModalIsOpen}
-          selectedTab={selectedSearchTab}
-          tab={selectedMainTab}
+    const selectedSearchTab =
+      this.context.location.state && this.context.location.state.selectedTab
+        ? this.context.location.state.selectedTab
+        : 'destination';
+    const searchModalIsOpen = this.context.location.state
+      ? Boolean(this.context.location.state.searchModalIsOpen)
+      : false;
+    return this.props.breakpoint === 'large'
+      ? <div
+          className={`front-page flex-vertical fullscreen bp-${this.props
+            .breakpoint}`}
         >
-          <SearchMainContainer
-            searchModalIsOpen={searchModalIsOpen}
-            selectedTab={selectedSearchTab}
-          />
-          <div key="foo" className="fpccontainer">
-            <FrontPagePanelLarge
-              selectedPanel={selectedMainTab}
-              nearbyClicked={this.clickNearby}
-              favouritesClicked={this.clickFavourites}
-            >{this.props.content}</FrontPagePanelLarge>
-          </div>
-        </MapWithTracking>
-        <div id="page-footer-container">
-          <PageFooter
-            content={(this.context.config.footer && this.context.config.footer.content) || []}
-          />
-        </div>
-        {feedbackPanel}
-      </div>
-    ) : (
-      <div className={`front-page flex-vertical fullscreen bp-${this.props.breakpoint}`} >
-        <div className="flex-grow map-container">
+          {messageBar}
           <MapWithTracking
             breakpoint={this.props.breakpoint}
             showStops
             showScaleBar
             searchModalIsOpen={searchModalIsOpen}
             selectedTab={selectedSearchTab}
+            tab={selectedMainTab}
           >
-            {messageBar}
             <SearchMainContainer
               searchModalIsOpen={searchModalIsOpen}
               selectedTab={selectedSearchTab}
             />
+            <div key="foo" className="fpccontainer">
+              <FrontPagePanelLarge
+                selectedPanel={selectedMainTab}
+                nearbyClicked={this.clickNearby}
+                favouritesClicked={this.clickFavourites}
+              >
+                {this.props.content}
+              </FrontPagePanelLarge>
+            </div>
           </MapWithTracking>
-        </div>
-        <div>
-          <FrontPagePanelSmall
-            selectedPanel={selectedMainTab}
-            nearbyClicked={this.clickNearby}
-            favouritesClicked={this.clickFavourites}
-            closePanel={this.closeTab}
-          >{this.props.content}</FrontPagePanelSmall>
+          <div id="page-footer-container">
+            <PageFooter
+              content={
+                (this.context.config.footer &&
+                  this.context.config.footer.content) ||
+                []
+              }
+            />
+          </div>
           {feedbackPanel}
         </div>
-      </div>
-    ));
+      : <div
+          className={`front-page flex-vertical fullscreen bp-${this.props
+            .breakpoint}`}
+        >
+          <div className="flex-grow map-container">
+            <MapWithTracking
+              breakpoint={this.props.breakpoint}
+              showStops
+              showScaleBar
+              searchModalIsOpen={searchModalIsOpen}
+              selectedTab={selectedSearchTab}
+            >
+              {messageBar}
+              <SearchMainContainer
+                searchModalIsOpen={searchModalIsOpen}
+                selectedTab={selectedSearchTab}
+              />
+            </MapWithTracking>
+          </div>
+          <div>
+            <FrontPagePanelSmall
+              selectedPanel={selectedMainTab}
+              nearbyClicked={this.clickNearby}
+              favouritesClicked={this.clickFavourites}
+              closePanel={this.closeTab}
+            >
+              {this.props.content}
+            </FrontPagePanelSmall>
+            {feedbackPanel}
+          </div>
+        </div>;
   }
 }
 
-const IndexPageWithBreakpoint =
-    getContext({ breakpoint: PropTypes.string.isRequired })(IndexPage);
+const IndexPageWithBreakpoint = getContext({
+  breakpoint: PropTypes.string.isRequired,
+})(IndexPage);
 
 export default IndexPageWithBreakpoint;

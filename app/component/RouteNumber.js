@@ -20,24 +20,34 @@ function RouteNumber(props) {
 
   const icon = (isCallAgency, hasDisruption) => {
     if (isCallAgency) {
-      return (<IconWithIcon color={color} className={`${mode} call`} img={`icon-icon_${mode}`} subIcon="icon-icon_call" />);
+      return (
+        <IconWithIcon
+          color={color}
+          className={`${mode} call`}
+          img={`icon-icon_${mode}`}
+          subIcon="icon-icon_call"
+        />
+      );
     }
 
     if (hasDisruption) {
-      return (<IconWithBigCaution
+      return (
+        <IconWithBigCaution
+          color={color}
+          className={mode}
+          img={`icon-icon_${mode}`}
+        />
+      );
+    }
+
+    return (
+      <IconWithIcon
         color={color}
         className={mode}
         img={`icon-icon_${mode}`}
-      />);
-    }
-
-
-    return (<IconWithIcon
-      color={color}
-      className={mode}
-      img={`icon-icon_${mode}`}
-      subIcon=""
-    />);
+        subIcon=""
+      />
+    );
   };
 
   // props.vertical is FALSE in Near you view
@@ -45,17 +55,42 @@ function RouteNumber(props) {
   return (
     <span className={cx('route-number', { vertical: props.vertical })}>
       <span className={cx('vcenter-children', props.className)}>
-        { props.vertical === true ?
-          <div className={`special-icon ${mode}`}>{icon(props.isCallAgency, props.hasDisruption)}</div>
-        : icon(props.isCallAgency, props.hasDisruption)}
-        {props.withBar && <div className="bar-container"><div style={{ color: color || 'currentColor' }} className={cx('bar', mode)} ><div className="bar-inner" /></div></div>}
+        {props.vertical === true
+          ? <div className={`special-icon ${mode}`}>
+              {icon(props.isCallAgency, props.hasDisruption)}
+            </div>
+          : icon(props.isCallAgency, props.hasDisruption)}
+        {props.withBar &&
+          <div className="bar-container">
+            <div
+              style={{ color: color || 'currentColor' }}
+              className={cx('bar', mode)}
+            >
+              <div className="bar-inner" />
+            </div>
+          </div>}
       </span>
-      {props.vertical === false ?
-        <span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
-          {props.text}</span>
-          : <div className="vehicle-number-container-v"><span style={{ color: props.color ? props.color : null }} className={cx('vehicle-number', mode, { 'overflow-fade': longText && props.fadeLong, long: longText })}>
+      {props.vertical === false
+        ? <span
+            style={{ color: props.color ? props.color : null }}
+            className={cx('vehicle-number', mode, {
+              'overflow-fade': longText && props.fadeLong,
+              long: longText,
+            })}
+          >
             {props.text}
-          </span></div> }
+          </span>
+        : <div className="vehicle-number-container-v">
+            <span
+              style={{ color: props.color ? props.color : null }}
+              className={cx('vehicle-number', mode, {
+                'overflow-fade': longText && props.fadeLong,
+                long: longText,
+              })}
+            >
+              {props.text}
+            </span>
+          </div>}
     </span>
   );
 }
@@ -88,7 +123,6 @@ RouteNumber.description = () =>
       </div>
     </ComponentUsageExample>
     <ComponentUsageExample description="in vertical configuration">
-
       <RouteNumber
         mode={exampleRealtimeDeparture.pattern.route.mode}
         text={exampleRealtimeDeparture.pattern.route.shortName}

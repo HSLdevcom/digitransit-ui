@@ -30,9 +30,9 @@ class RealTimeInformationStore extends Store {
     this.emitChange(message.id);
   }
 
-  getVehicle = id => this.vehicles[id]
+  getVehicle = id => this.vehicles[id];
 
-  getSubscriptions = () => this.subscriptions
+  getSubscriptions = () => this.subscriptions;
 
   static handlers = {
     RealTimeClientStarted: 'storeClient',

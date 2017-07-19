@@ -18,14 +18,18 @@ const SearchModal = (props, context) => {
           </div>
           <Tabs
             className="search-header__tabs-root"
-            inkBarStyle={{ backgroundColor: context.config.colors.primary, height: 4 }}
+            inkBarStyle={{
+              backgroundColor: context.config.colors.primary,
+              height: 4,
+            }}
             value={props.selectedTab}
           >
             {props.children}
           </Tabs>
         </div>
       </div>
-    </div>);
+    </div>
+  );
 };
 
 SearchModal.propTypes = {

@@ -17,15 +17,21 @@ function RouteDestination(props, context) {
             defaultMessage: 'Arrives / Terminus',
           })}
         </span>
-      </span>);
+      </span>
+    );
   } else {
-    destination = <span className="destination">{props.destination}</span>;
+    destination = (
+      <span className="destination">
+        {props.destination}
+      </span>
+    );
   }
 
   return (
     <span className={cx('route-destination', 'overflow-fade', props.className)}>
       {destination}
-    </span>);
+    </span>
+  );
 }
 
 RouteDestination.description = () =>
@@ -34,17 +40,17 @@ RouteDestination.description = () =>
     <ComponentUsageExample>
       <RouteDestination
         mode={ExampleData.pattern.route.mode}
-        destination={ExampleData.pattern.headsign ||
-            ExampleData.pattern.route.longName}
+        destination={
+          ExampleData.pattern.headsign || ExampleData.pattern.route.longName
+        }
       />
     </ComponentUsageExample>
-    <ComponentUsageExample
-      description="isArrival true"
-    >
+    <ComponentUsageExample description="isArrival true">
       <RouteDestination
         mode={ExampleData.pattern.route.mode}
-        destination={ExampleData.pattern.headsign ||
-            ExampleData.pattern.route.longName}
+        destination={
+          ExampleData.pattern.headsign || ExampleData.pattern.route.longName
+        }
         isArrival
       />
     </ComponentUsageExample>

@@ -7,7 +7,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Card from './Card';
 import Favourite from './Favourite';
 
-const CityBikeCard = ({ station, children, className, isFavourite, toggleFavourite }) => {
+const CityBikeCard = ({
+  station,
+  children,
+  className,
+  isFavourite,
+  toggleFavourite,
+}) => {
   if (!station || !children || children.length === 0) {
     return false;
   }
@@ -19,11 +25,12 @@ const CityBikeCard = ({ station, children, className, isFavourite, toggleFavouri
         description={station.stationId}
         icon="icon-icon_citybike"
         unlinked
-        icons={[<Favourite
-          key="favourite"
-          favourite={isFavourite}
-          addFavourite={toggleFavourite}
-        />,
+        icons={[
+          <Favourite
+            key="favourite"
+            favourite={isFavourite}
+            addFavourite={toggleFavourite}
+          />,
         ]}
       />
       {children}
@@ -42,7 +49,9 @@ CityBikeCard.description = () =>
     <ComponentUsageExample description="Selected as favourite">
       <CityBikeCard
         className="padding-small"
-        toggleFavourite={() => {}} isFavourite station={exampleStation}
+        toggleFavourite={() => {}}
+        isFavourite
+        station={exampleStation}
       >
         Im content of the favourite citybike card
       </CityBikeCard>

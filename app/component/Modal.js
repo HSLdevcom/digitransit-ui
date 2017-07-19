@@ -12,12 +12,12 @@ class Modal extends React.Component {
     toggleVisibility: PropTypes.func.isRequired,
   };
 
-  stopClickPropagation = (e) => {
+  stopClickPropagation = e => {
     if (this.props.allowClicks !== true) {
       e.preventDefault();
       e.stopPropagation();
     }
-  }
+  };
 
   render() {
     const isActive = {
@@ -46,10 +46,14 @@ class Modal extends React.Component {
           onClick={this.stopClickPropagation}
         >
           <div className="row">
-            <h2 className="left">{this.props.title}
+            <h2 className="left">
+              {this.props.title}
             </h2>
             <div className="small-1 columns right text-right modal-top-nav">
-              <a onClick={this.props.toggleVisibility} className="close-button cursor-pointer">
+              <a
+                onClick={this.props.toggleVisibility}
+                className="close-button cursor-pointer"
+              >
                 <Icon img="icon-icon_close" />
               </a>
             </div>
@@ -60,7 +64,8 @@ class Modal extends React.Component {
             </div>
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

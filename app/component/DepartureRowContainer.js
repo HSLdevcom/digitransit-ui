@@ -53,23 +53,29 @@ const departureRowContainerFragment = () => Relay.QL`
 `;
 
 const hasActiveDisruption = (t, alerts) =>
-  filter(alerts, alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate).length > 0;
+  filter(
+    alerts,
+    alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
+  ).length > 0;
 
-const DepartureRow = (props) => {
+const DepartureRow = props => {
   const departure = props.departure;
   let departureTimes;
   let headsign;
   if (departure.stoptimes) {
-    departureTimes = departure.stoptimes.map((departureTime) => {
+    departureTimes = departure.stoptimes.map(departureTime => {
       headsign = departureTime.stopHeadsign;
       const canceled = departureTime.realtimeState === 'CANCELED';
-      const key = `${departure.pattern.route.gtfsId}:${departure.pattern.headsign}:
+      const key = `${departure.pattern.route.gtfsId}:${departure.pattern
+        .headsign}:
         ${departureTime.realtimeDeparture}`;
 
       return (
         <DepartureTime
           key={key}
-          departureTime={departureTime.serviceDay + departureTime.realtimeDeparture}
+          departureTime={
+            departureTime.serviceDay + departureTime.realtimeDeparture
+          }
           realtime={departureTime.realtime}
           currentTime={props.currentTime}
           canceled={canceled}
@@ -81,13 +87,17 @@ const DepartureRow = (props) => {
   return (
     <div className="next-departure-row padding-vertical-normal border-bottom">
       <Link
-        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern.code}`}
+        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
+          .pattern.code}`}
         key={departure.pattern.code}
       >
         <Distance distance={props.distance} />
         <RouteNumberContainer
           route={departure.pattern.route}
-          hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
+          hasDisruption={hasActiveDisruption(
+            props.currentTime,
+            departure.pattern.route.alerts,
+          )}
           isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
         />
         <RouteDestination
@@ -175,7 +185,6 @@ DepartureRow.description = () =>
       />
     </ComponentUsageExample>
   </div>;
-
 
 export { DepartureRow };
 

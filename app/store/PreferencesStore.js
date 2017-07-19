@@ -20,7 +20,8 @@ class PreferencesStore extends Store {
     }
 
     const language = reactCookie.load('lang');
-    if (this.availableLanguages.indexOf(language) === -1) { // illegal selection, use default
+    if (this.availableLanguages.indexOf(language) === -1) {
+      // illegal selection, use default
       this.language = this.defaultLanguage;
     } else {
       this.language = language;
@@ -46,7 +47,6 @@ class PreferencesStore extends Store {
   }
 
   static handlers = {
-
     SetLanguage: 'setLanguage',
   };
 }

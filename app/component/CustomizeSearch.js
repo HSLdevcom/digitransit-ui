@@ -14,7 +14,10 @@ import ModeFilter from './ModeFilter';
 import Select from './Select';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
-import { getCustomizedSettings, resetCustomizedSettings } from '../store/localStorage';
+import {
+  getCustomizedSettings,
+  resetCustomizedSettings,
+} from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 
@@ -47,7 +50,6 @@ const defaultSettings = {
 };
 
 class CustomizeSearch extends React.Component {
-
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
@@ -63,7 +65,7 @@ class CustomizeSearch extends React.Component {
 
   static defaultProps = {
     isOpen: false,
-  }
+  };
 
   /*
       This function is used to map our desired min, max, and default values to a standard
@@ -94,69 +96,115 @@ class CustomizeSearch extends React.Component {
     };
   }
 
-
   componentWillMount() {
     // Check if there are customized settings set
     const custSettings = getCustomizedSettings();
 
     /* Map sliders, if there are customized settings, prioritize them first,
     if there are query parameters, they come in second, if not, fall back to default values */
-    this.walkReluctanceSliderValues =
-      CustomizeSearch.getSliderStepsArray(0.8, 10, 2).reverse();
+    this.walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(
+      0.8,
+      10,
+      2,
+    ).reverse();
     if (custSettings.walkReluctance) {
-      this.walkReluctanceInitVal = custSettings.walkReluctance
-      && mapToSlider(custSettings.walkReluctance, this.walkReluctanceSliderValues);
+      this.walkReluctanceInitVal =
+        custSettings.walkReluctance &&
+        mapToSlider(
+          custSettings.walkReluctance,
+          this.walkReluctanceSliderValues,
+        );
     } else if (this.context.location.query.walkReluctance) {
-      this.walkReluctanceInitVal = this.context.location.query.walkReluctance
-      && mapToSlider(this.context.location.query.walkReluctance, this.walkReluctanceSliderValues);
+      this.walkReluctanceInitVal =
+        this.context.location.query.walkReluctance &&
+        mapToSlider(
+          this.context.location.query.walkReluctance,
+          this.walkReluctanceSliderValues,
+        );
     } else {
-      this.walkReluctanceInitVal = defaultSettings.walkReluctance
-      && mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues);
+      this.walkReluctanceInitVal =
+        defaultSettings.walkReluctance &&
+        mapToSlider(
+          defaultSettings.walkReluctance,
+          this.walkReluctanceSliderValues,
+        );
     }
 
-    this.walkBoardCostSliderValues =
-      CustomizeSearch.getSliderStepsArray(WALKBOARDCOST_MIN, WALKBOARDCOST_MAX,
-        WALKBOARDCOST_DEFAULT).reverse().map(num => Math.round(num));
+    this.walkBoardCostSliderValues = CustomizeSearch.getSliderStepsArray(
+      WALKBOARDCOST_MIN,
+      WALKBOARDCOST_MAX,
+      WALKBOARDCOST_DEFAULT,
+    )
+      .reverse()
+      .map(num => Math.round(num));
     if (custSettings.walkBoardCost) {
-      this.walkBoardCostInitVal = custSettings.walkBoardCost
-        && mapToSlider(
-          custSettings.walkBoardCost, this.walkBoardCostSliderValues);
+      this.walkBoardCostInitVal =
+        custSettings.walkBoardCost &&
+        mapToSlider(custSettings.walkBoardCost, this.walkBoardCostSliderValues);
     } else if (this.context.location.query.walkBoardCost) {
-      this.walkBoardCostInitVal = this.context.location.query.walkBoardCost
-        && mapToSlider(
-          this.context.location.query.walkBoardCost, this.walkBoardCostSliderValues);
+      this.walkBoardCostInitVal =
+        this.context.location.query.walkBoardCost &&
+        mapToSlider(
+          this.context.location.query.walkBoardCost,
+          this.walkBoardCostSliderValues,
+        );
     } else {
-      this.walkBoardCostInitVal = defaultSettings.walkBoardCost
-      && mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues);
+      this.walkBoardCostInitVal =
+        defaultSettings.walkBoardCost &&
+        mapToSlider(
+          defaultSettings.walkBoardCost,
+          this.walkBoardCostSliderValues,
+        );
     }
 
-    this.transferMarginSliderValues =
-       CustomizeSearch.getSliderStepsArray(60, 720, 180).map(num => Math.round(num));
+    this.transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(
+      60,
+      720,
+      180,
+    ).map(num => Math.round(num));
     if (custSettings.minTransferTime) {
-      this.transferMarginInitVal = custSettings.minTransferTime
-        && mapToSlider(
-          custSettings.minTransferTime, this.transferMarginSliderValues);
+      this.transferMarginInitVal =
+        custSettings.minTransferTime &&
+        mapToSlider(
+          custSettings.minTransferTime,
+          this.transferMarginSliderValues,
+        );
     } else if (this.context.location.query.minTransferTime) {
-      this.transferMarginInitVal = this.context.location.query.minTransferTime
-        && mapToSlider(
-          this.context.location.query.minTransferTime, this.transferMarginSliderValues);
+      this.transferMarginInitVal =
+        this.context.location.query.minTransferTime &&
+        mapToSlider(
+          this.context.location.query.minTransferTime,
+          this.transferMarginSliderValues,
+        );
     } else {
-      this.transferMarginInitVal = defaultSettings.minTransferTime
-      && mapToSlider(defaultSettings.minTransferTime, this.transferMarginSliderValues);
+      this.transferMarginInitVal =
+        defaultSettings.minTransferTime &&
+        mapToSlider(
+          defaultSettings.minTransferTime,
+          this.transferMarginSliderValues,
+        );
     }
 
-    this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(0.5, 3, 1.2);
+    this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(
+      0.5,
+      3,
+      1.2,
+    );
     if (custSettings.walkSpeed) {
-      this.walkingSpeedInitVal = custSettings.walkSpeed
-        && mapToSlider(
-          custSettings.walkSpeed, this.walkingSpeedSliderValues);
+      this.walkingSpeedInitVal =
+        custSettings.walkSpeed &&
+        mapToSlider(custSettings.walkSpeed, this.walkingSpeedSliderValues);
     } else if (this.context.location.query.walkSpeed) {
-      this.walkingSpeedInitVal = this.context.location.query.walkSpeed
-        && mapToSlider(
-          this.context.location.query.walkSpeed, this.walkingSpeedSliderValues);
+      this.walkingSpeedInitVal =
+        this.context.location.query.walkSpeed &&
+        mapToSlider(
+          this.context.location.query.walkSpeed,
+          this.walkingSpeedSliderValues,
+        );
     } else {
-      this.walkingSpeedInitVal = defaultSettings.walkSpeed
-      && mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues);
+      this.walkingSpeedInitVal =
+        defaultSettings.walkSpeed &&
+        mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues);
     }
 
     // Set the states accordingly to send as Slider values
@@ -168,48 +216,55 @@ class CustomizeSearch extends React.Component {
     });
   }
 
-  getDefaultModes = () =>
-    [
-      ...Object.keys(this.context.config.transportModes)
-        .filter(mode => this.context.config.transportModes[mode].defaultValue)
-        .map(mode => mode.toUpperCase()),
-      ...Object.keys(this.context.config.streetModes)
-        .filter(mode => this.context.config.streetModes[mode].defaultValue)
-        .map(mode => mode.toUpperCase()),
-    ]
+  getDefaultModes = () => [
+    ...Object.keys(this.context.config.transportModes)
+      .filter(mode => this.context.config.transportModes[mode].defaultValue)
+      .map(mode => mode.toUpperCase()),
+    ...Object.keys(this.context.config.streetModes)
+      .filter(mode => this.context.config.streetModes[mode].defaultValue)
+      .map(mode => mode.toUpperCase()),
+  ];
 
   getStreetModesToggleButtons = () => {
-    const availableStreetModes = Object.keys(this.context.config.streetModes)
-      .filter(streetMode => this.context.config.streetModes[streetMode].availableForSelection);
+    const availableStreetModes = Object.keys(
+      this.context.config.streetModes,
+    ).filter(
+      streetMode =>
+        this.context.config.streetModes[streetMode].availableForSelection,
+    );
 
-    if (!availableStreetModes.length) return null;
+    if (!availableStreetModes.length) {
+      return null;
+    }
 
-    return availableStreetModes.map((streetMode, index) => (
+    return availableStreetModes.map((streetMode, index) =>
       <ToggleButton
         key={`toggle-button-${streetMode}`}
         icon={this.context.config.streetModes[streetMode].icon}
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
-        className={cx('small-4',
-          { 'first-btn': index === 0, 'last-btn': index === availableStreetModes.length - 1 },
-        )}
-      />
-    ));
-  }
+        className={cx('small-4', {
+          'first-btn': index === 0,
+          'last-btn': index === availableStreetModes.length - 1,
+        })}
+      />,
+    );
+  };
 
-  getWalkReluctanceSlider = () => (
+  getWalkReluctanceSlider = () =>
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'walking',
           defaultMessage: 'Walking',
         })}
-        onSliderChange={e => this.updateSettings(
-          'walkReluctance',
-          this.walkReluctanceSliderValues[e.target.value],
-          this.walkReluctanceSliderValues,
-        )}
+        onSliderChange={e =>
+          this.updateSettings(
+            'walkReluctance',
+            this.walkReluctanceSliderValues[e.target.value],
+            this.walkReluctanceSliderValues,
+          )}
         min={0}
         max={20}
         value={this.state.walkReluctance}
@@ -223,20 +278,21 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Prefer walking',
         })}
       />
-    </section>);
+    </section>;
 
-  getWalkBoardCostSlider = () => (
+  getWalkBoardCostSlider = () =>
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'transfers',
           defaultMessage: 'Transfers',
         })}
-        onSliderChange={e => this.updateSettings(
-          'walkBoardCost',
-          this.walkBoardCostSliderValues[e.target.value],
-          this.walkBoardCostSliderValues,
-        )}
+        onSliderChange={e =>
+          this.updateSettings(
+            'walkBoardCost',
+            this.walkBoardCostSliderValues[e.target.value],
+            this.walkBoardCostSliderValues,
+          )}
         min={0}
         max={20}
         value={this.state.walkBoardCost}
@@ -250,24 +306,30 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfers allowed',
         })}
       />
-    </section>);
+    </section>;
 
-  getTransferMarginSlider = () => (
+  getTransferMarginSlider = () =>
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'transfers-margin',
           defaultMessage: 'Transfer margin at least',
         })}
-        onSliderChange={e => this.updateSettings(
-          'minTransferTime',
-          this.transferMarginSliderValues[e.target.value],
-          this.transferMarginSliderValues,
-        )}
+        onSliderChange={e =>
+          this.updateSettings(
+            'minTransferTime',
+            this.transferMarginSliderValues[e.target.value],
+            this.transferMarginSliderValues,
+          )}
         min={0}
         max={20}
-        writtenValue={isNaN(this.context.location.query.minTransferTime) === false ?
-          `${(Math.round(this.context.location.query.minTransferTime / 60))} min` : `${3} min`}
+        writtenValue={
+          isNaN(this.context.location.query.minTransferTime) === false
+            ? `${Math.round(
+                this.context.location.query.minTransferTime / 60,
+              )} min`
+            : `${3} min`
+        }
         value={this.state.minTransferTime}
         step={1}
         minText={this.context.intl.formatMessage({
@@ -279,26 +341,30 @@ class CustomizeSearch extends React.Component {
           defaultMessage: '12 min',
         })}
       />
-    </section>);
+    </section>;
 
-  getWalkSpeedSlider = () => (
+  getWalkSpeedSlider = () =>
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
           id: 'walking-speed',
           defaultMessage: 'Walking speed',
         })}
-        onSliderChange={e => this.updateSettings(
-          'walkSpeed',
-          this.walkingSpeedSliderValues[e.target.value],
-          this.walkingSpeedSliderValues,
-        )}
+        onSliderChange={e =>
+          this.updateSettings(
+            'walkSpeed',
+            this.walkingSpeedSliderValues[e.target.value],
+            this.walkingSpeedSliderValues,
+          )}
         min={0}
         max={20}
         value={this.state.walkSpeed}
         step={1}
-        writtenValue={isNaN(this.context.location.query.walkSpeed) === false ?
-          `${(Math.floor(this.context.location.query.walkSpeed * 60))} m/min` : `${72} m/min`}
+        writtenValue={
+          isNaN(this.context.location.query.walkSpeed) === false
+            ? `${Math.floor(this.context.location.query.walkSpeed * 60)} m/min`
+            : `${72} m/min`
+        }
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
@@ -308,9 +374,9 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Run',
         })}
       />
-    </section>);
+    </section>;
 
-  getTicketSelector = () => (
+  getTicketSelector = () =>
     <section className="offcanvas-section">
       <Select
         headerText={this.context.intl.formatMessage({
@@ -320,26 +386,28 @@ class CustomizeSearch extends React.Component {
         name="ticket"
         selected={this.context.location.query.ticketOption || '0'}
         options={this.context.config.ticketOptions}
-        onSelectChange={e => this.updateSettings(
-          'ticketOption',
-          e.target.value,
-        )}
+        onSelectChange={e =>
+          this.updateSettings('ticketOption', e.target.value)}
       />
-    </section>);
+    </section>;
 
   getAccessibilityOption = () => {
     let accessibilityOption;
-    if (!(typeof this.context.location.query.accessibilityOption === 'undefined')) {
+    if (
+      !(typeof this.context.location.query.accessibilityOption === 'undefined')
+    ) {
       accessibilityOption = this.context.location.query.accessibilityOption;
-    } else if (!(typeof getCustomizedSettings().accessibilityOption === 'undefined')) {
+    } else if (
+      !(typeof getCustomizedSettings().accessibilityOption === 'undefined')
+    ) {
       accessibilityOption = getCustomizedSettings().accessibilityOption;
     } else {
       accessibilityOption = 0;
     }
     return accessibilityOption;
-  }
+  };
 
-  getAccessibilitySelector = () => (
+  getAccessibilitySelector = () =>
     <section className="offcanvas-section">
       <Select
         headerText={this.context.intl.formatMessage({
@@ -349,16 +417,16 @@ class CustomizeSearch extends React.Component {
         name="accessible"
         selected={this.getAccessibilityOption()}
         options={this.context.config.accessibilityOptions}
-        onSelectChange={e => this.updateSettings(
-          'accessibilityOption',
-          e.target.value,
-        )}
+        onSelectChange={e =>
+          this.updateSettings('accessibilityOption', e.target.value)}
       />
-    </section>);
+    </section>;
 
   getModes() {
     if (this.context.location.query.modes) {
-      return decodeURI(this.context.location.query.modes).split('?')[0].split(',');
+      return decodeURI(this.context.location.query.modes)
+        .split('?')[0]
+        .split(',');
     } else if (getCustomizedSettings().modes) {
       return getCustomizedSettings().modes;
     }
@@ -374,31 +442,28 @@ class CustomizeSearch extends React.Component {
       ...this.context.location,
       query: without(this.context.location.query, 'intermediatePlaces'),
     });
-  }
+  };
 
   openSearchModal = () =>
-  this.context.router.push({
-    ...this.context.location,
-    state: {
-      ...this.context.location.state,
-      viaPointSearchModalOpen: 2,
-    },
-  });
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        viaPointSearchModalOpen: 2,
+      },
+    });
 
   updateSettings(name, value, sliderValues) {
-    this.context.executeAction(
-    route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            [name]: value,
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          [name]: value,
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
     if (!(typeof sliderValues === 'undefined')) {
       this.setState({
         [name]: value && mapToSlider(value, sliderValues),
@@ -413,68 +478,74 @@ class CustomizeSearch extends React.Component {
   resetParameters = () => {
     resetCustomizedSettings();
     this.setState({
-      walkSpeed: mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues),
-      walkReluctance: mapToSlider(defaultSettings.walkReluctance, this.walkReluctanceSliderValues),
-      walkBoardCost: mapToSlider(defaultSettings.walkBoardCost, this.walkBoardCostSliderValues),
+      walkSpeed: mapToSlider(
+        defaultSettings.walkSpeed,
+        this.walkingSpeedSliderValues,
+      ),
+      walkReluctance: mapToSlider(
+        defaultSettings.walkReluctance,
+        this.walkReluctanceSliderValues,
+      ),
+      walkBoardCost: mapToSlider(
+        defaultSettings.walkBoardCost,
+        this.walkBoardCostSliderValues,
+      ),
       accessibilityOption: defaultSettings.accessibilityOption,
-      minTransferTime: mapToSlider(defaultSettings.minTransferTime,
-      this.transferMarginSliderValues),
+      minTransferTime: mapToSlider(
+        defaultSettings.minTransferTime,
+        this.transferMarginSliderValues,
+      ),
     });
-    this.context.executeAction(
-    route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            time: this.context.location.query.time,
-            walkSpeed: defaultSettings.walkSpeed,
-            walkReluctance: defaultSettings.walkReluctance,
-            walkBoardCost: defaultSettings.walkBoardCost,
-            minTransferTime: defaultSettings.minTransferTime,
-            accessibilityOption: defaultSettings.accessibilityOption,
-            modes: this.getDefaultModes().toString(),
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          time: this.context.location.query.time,
+          walkSpeed: defaultSettings.walkSpeed,
+          walkReluctance: defaultSettings.walkReluctance,
+          walkBoardCost: defaultSettings.walkBoardCost,
+          minTransferTime: defaultSettings.minTransferTime,
+          accessibilityOption: defaultSettings.accessibilityOption,
+          modes: this.getDefaultModes().toString(),
         },
-        router: this.context.router,
       },
-    );
-  }
+      router: this.context.router,
+    });
+  };
 
   toggleTransportMode(mode, otpMode) {
-    this.context.executeAction(
-    route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+            ',',
+          ),
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
   }
 
   toggleStreetMode(mode) {
-    this.context.executeAction(
-    route,
-      {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            modes:
-    without(
-      this.getModes(),
-      ...Object.keys(this.context.config.streetModes).map(m => m.toUpperCase()))
-      .concat(mode.toUpperCase())
-      .join(','),
-          },
+    this.context.executeAction(route, {
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: without(
+            this.getModes(),
+            ...Object.keys(this.context.config.streetModes).map(m =>
+              m.toUpperCase(),
+            ),
+          )
+            .concat(mode.toUpperCase())
+            .join(','),
         },
-        router: this.context.router,
       },
-    );
+      router: this.context.router,
+    });
   }
 
   actions = {
@@ -485,7 +556,7 @@ class CustomizeSearch extends React.Component {
     toggleFerryState: () => this.toggleTransportMode('ferry'),
     toggleCitybikeState: () => this.toggleTransportMode('citybike'),
     toggleAirplaneState: () => this.toggleTransportMode('airplane'),
-  }
+  };
 
   render() {
     const config = this.context.config;
@@ -493,7 +564,7 @@ class CustomizeSearch extends React.Component {
       <div
         aria-hidden={!this.props.isOpen}
         className="customize-search-wrapper"
-      // Clicks to the transparent area and close arrow should close the offcanvas
+        // Clicks to the transparent area and close arrow should close the offcanvas
         onClick={this.props.onToggleClick}
       >
         <div className="offcanvas-close">
@@ -503,51 +574,76 @@ class CustomizeSearch extends React.Component {
         </div>
         <div
           className="customize-search"
-        // Clicks musn't bubble to prevent wrapper from closing the offcanvas
+          // Clicks musn't bubble to prevent wrapper from closing the offcanvas
           onClick={e => e.stopPropagation()}
         >
           <section className="offcanvas-section">
-            <h4><FormattedMessage id="main-mode" defaultMessage="I'm travelling by" /></h4>
+            <h4>
+              <FormattedMessage
+                id="main-mode"
+                defaultMessage="I'm travelling by"
+              />
+            </h4>
             <div className="row btn-bar">
-              {this.getStreetModesToggleButtons() }
+              {this.getStreetModesToggleButtons()}
             </div>
           </section>
 
-          {config.customizeSearch.walkReluctance.available ? this.getWalkReluctanceSlider() : null}
-          {config.customizeSearch.walkingSpeed.available ? this.getWalkSpeedSlider() : null}
+          {config.customizeSearch.walkReluctance.available
+            ? this.getWalkReluctanceSlider()
+            : null}
+          {config.customizeSearch.walkingSpeed.available
+            ? this.getWalkSpeedSlider()
+            : null}
 
           <section className="offcanvas-section">
             <hr />
           </section>
 
           <section className="offcanvas-section">
-            <h4><FormattedMessage id="using-modes" defaultMessage="I want to travel by" /></h4>
+            <h4>
+              <FormattedMessage
+                id="using-modes"
+                defaultMessage="I want to travel by"
+              />
+            </h4>
             <ModeFilter
               action={this.actions}
               buttonClass="mode-icon"
-              selectedModes={
-              Object.keys(config.transportModes)
-                .filter(mode => config.transportModes[mode].availableForSelection)
+              selectedModes={Object.keys(config.transportModes)
+                .filter(
+                  mode => config.transportModes[mode].availableForSelection,
+                )
                 .filter(mode => this.getMode(mode))
-                .map(mode => mode.toUpperCase())
-            }
+                .map(mode => mode.toUpperCase())}
             />
           </section>
 
-          {config.customizeSearch.walkBoardCost.available ? this.getWalkBoardCostSlider() : null}
-          {config.customizeSearch.transferMargin.available ? this.getTransferMarginSlider() : null}
-          {config.customizeSearch.ticketOptions.available ? this.getTicketSelector() : null}
-          {config.customizeSearch.accessibility.available ? this.getAccessibilitySelector() : null}
+          {config.customizeSearch.walkBoardCost.available
+            ? this.getWalkBoardCostSlider()
+            : null}
+          {config.customizeSearch.transferMargin.available
+            ? this.getTransferMarginSlider()
+            : null}
+          {config.customizeSearch.ticketOptions.available
+            ? this.getTicketSelector()
+            : null}
+          {config.customizeSearch.accessibility.available
+            ? this.getAccessibilitySelector()
+            : null}
           <ViaPointSelector
             intermediatePlaces={
-            this.context.location.query && this.context.location.query.intermediatePlaces}
+              this.context.location.query &&
+              this.context.location.query.intermediatePlaces
+            }
             openSearchModal={this.openSearchModal}
             removeViaPoint={this.removeViaPoint}
           />
           <SaveCustomizedSettingsButton />
           <ResetCustomizedSettingsButton onReset={this.resetParameters} />
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

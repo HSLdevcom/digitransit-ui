@@ -1,4 +1,4 @@
-import { createHistory, createMemoryHistory } from 'history';
+import { createHistory, createMemoryHistory, useQueries } from 'history';
 import { useRouterHistory } from 'react-router';
 import createLocalStorageHistory from './localStorageHistory';
 import { isIOSApp, isBrowser } from './util/browser';
@@ -13,8 +13,9 @@ if (isIOSApp) {
   createHistoryFunction = createMemoryHistory;
 }
 
-const history = config => useRouterHistory(createHistoryFunction)({
-  basename: config.APP_PATH,
-});
+const history = config =>
+  useRouterHistory(useQueries(createHistoryFunction))({
+    basename: config.APP_PATH,
+  });
 
 export default history;

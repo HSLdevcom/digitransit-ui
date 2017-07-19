@@ -17,17 +17,20 @@ const alertReducer = mapProps(({ routes, ...rest }) => ({
   ...rest,
 }));
 
-const FavouritesTabLabelRelayConnector = Relay.createContainer(alertReducer(FavouritesTabLabel), {
-  fragments: {
-    routes: () => Relay.QL`
+const FavouritesTabLabelRelayConnector = Relay.createContainer(
+  alertReducer(FavouritesTabLabel),
+  {
+    fragments: {
+      routes: () => Relay.QL`
     fragment on Route @relay(plural:true) {
       alerts {
         id
       }
     }
  `,
+    },
   },
-});
+);
 
 function FavouritesTabLabelContainer({ routes, ...rest }) {
   if (isBrowser) {
@@ -36,12 +39,12 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
         Container={FavouritesTabLabelRelayConnector}
         queryConfig={new RoutesRoute({ ids: routes })}
         environment={Relay.Store}
-        render={({ done, props }) => (done ? (
-          <FavouritesTabLabelRelayConnector {...props} {...rest} />
-        ) : (
-          <FavouritesTabLabel {...rest} />
-        ))}
-      />);
+        render={({ done, props }) =>
+          done
+            ? <FavouritesTabLabelRelayConnector {...props} {...rest} />
+            : <FavouritesTabLabel {...rest} />}
+      />
+    );
   }
   return <div />;
 }
@@ -55,4 +58,5 @@ export default connectToStores(
   ['FavouriteRoutesStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
-  }));
+  }),
+);

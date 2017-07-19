@@ -18,13 +18,18 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const currentLocationIcon = isBrowser ? L.divIcon({
-  html: Icon.asString('icon-icon_mapMarker-location-animated'),
-  className: 'current-location-marker',
-  iconSize: [40, 40],
-}) : null;
+const currentLocationIcon = isBrowser
+  ? L.divIcon({
+      html: Icon.asString('icon-icon_mapMarker-location-animated'),
+      className: 'current-location-marker',
+      iconSize: [40, 40],
+    })
+  : null;
 
-function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup }, { intl }) {
+function PositionMarker(
+  { coordinates, useCurrentPosition, displayOriginPopup },
+  { intl },
+) {
   let popup;
 
   if (!coordinates) {
@@ -36,7 +41,10 @@ function PositionMarker({ coordinates, useCurrentPosition, displayOriginPopup },
       <OriginPopup
         shouldOpen={useCurrentPosition}
         header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        text={intl.formatMessage({ id: 'own-position', defaultMessage: 'Your current location' })}
+        text={intl.formatMessage({
+          id: 'own-position',
+          defaultMessage: 'Your current location',
+        })}
         yOffset={20}
       />
     );
@@ -70,11 +78,15 @@ PositionMarker.propTypes = {
 export default connectToStores(
   pure(PositionMarker),
   ['PositionStore', 'EndpointStore'],
-  (context) => {
+  context => {
     const coordinates = context.getStore('PositionStore').getLocationState();
 
     return {
-      useCurrentPosition: context.getStore('EndpointStore').getOrigin().useCurrentPosition,
-      coordinates: coordinates.hasLocation ? [coordinates.lat, coordinates.lon] : false,
+      useCurrentPosition: context.getStore('EndpointStore').getOrigin()
+        .useCurrentPosition,
+      coordinates: coordinates.hasLocation
+        ? [coordinates.lat, coordinates.lon]
+        : false,
     };
-  });
+  },
+);

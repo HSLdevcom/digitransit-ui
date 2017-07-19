@@ -16,11 +16,15 @@ function DisruptionRow({ routes, startTime, endTime, description, cause }) {
           </span>
         </div>
         <div className="disruption-content">
-          <p>{description}</p>
+          <p>
+            {description}
+          </p>
         </div>
         <div className="disruption-details hide">
           <span>
-            <b className="uppercase"><FormattedMessage id="cause" defaultMessage="cause" />:</b>
+            <b className="uppercase">
+              <FormattedMessage id="cause" defaultMessage="cause" />:
+            </b>
             {cause}
           </span>
         </div>

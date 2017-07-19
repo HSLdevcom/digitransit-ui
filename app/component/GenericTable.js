@@ -7,9 +7,17 @@ function GenericTable(props) {
   let lowEndLabel;
 
   if (props.showLabels) {
-    lowEndLabel = <span className="left">{props.lowEndLabel}</span>;
+    lowEndLabel = (
+      <span className="left">
+        {props.lowEndLabel}
+      </span>
+    );
 
-    highEndLabel = <span className="right">{props.highEndLabel}</span>;
+    highEndLabel = (
+      <span className="right">
+        {props.highEndLabel}
+      </span>
+    );
   }
 
   return (
@@ -17,7 +25,10 @@ function GenericTable(props) {
       <div className="row">
         {props.children}
       </div>
-      <div className="generic-table__label-container">{lowEndLabel}{highEndLabel}</div>
+      <div className="generic-table__label-container">
+        {lowEndLabel}
+        {highEndLabel}
+      </div>
     </div>
   );
 }
@@ -27,7 +38,9 @@ GenericTable.displayName = 'GenericTable';
 GenericTable.description = () =>
   <div>
     <p>Renders a score table</p>
-    <ComponentUsageExample description=""><GenericTable /></ComponentUsageExample>
+    <ComponentUsageExample description="">
+      <GenericTable />
+    </ComponentUsageExample>
   </div>;
 
 GenericTable.propTypes = {

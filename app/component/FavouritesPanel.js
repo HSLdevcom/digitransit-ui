@@ -15,9 +15,7 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
         routes (ids:$ids) {
           ${Component.getFragment('routes', {
             ids: variables.ids,
-          },
-        )
-      }
+          })}
     }}`,
   };
   static paramDefinitions = {
@@ -28,12 +26,18 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
 
 const FavouriteRoutes = ({ routes }) => {
   if (routes.length > 0) {
-    return (<Relay.RootContainer
-      Component={FavouriteRouteListContainer}
-      forceFetch route={new FavouriteRouteListContainerRoute({
-        ids: routes,
-      })} renderLoading={Loading}
-    />);
+    return (
+      <Relay.RootContainer
+        Component={FavouriteRouteListContainer}
+        forceFetch
+        route={
+          new FavouriteRouteListContainerRoute({
+            ids: routes,
+          })
+        }
+        renderLoading={Loading}
+      />
+    );
   }
   return <NoFavouritesPanel />;
 };
@@ -42,23 +46,23 @@ FavouriteRoutes.propTypes = {
   routes: PropTypes.array.isRequired,
 };
 
-const FavouritesPanel = ({
-  routes,
-}) => (
+const FavouritesPanel = ({ routes }) =>
   <div className="frontpage-panel">
     <FavouriteLocationsContainer />
     <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
     </div>
-  </div>);
+  </div>;
 
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,
 };
 
-export default connectToStores(FavouritesPanel, ['FavouriteRoutesStore'], context =>
-  ({
+export default connectToStores(
+  FavouritesPanel,
+  ['FavouriteRoutesStore'],
+  context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
   }),
 );

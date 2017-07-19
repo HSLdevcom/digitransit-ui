@@ -23,7 +23,7 @@ const placeAtDistanceFragment = variables => Relay.QL`
 `;
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistance = (props) => {
+const PlaceAtDistance = props => {
   let place;
   if (props.placeAtDistance.place.__typename === 'DepartureRow') {
     place = (
