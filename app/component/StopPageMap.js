@@ -34,6 +34,7 @@ const fullscreenMapOverlay = (fullscreenMap, params, router) =>
 const fullscreenMapToggle = (fullscreenMap, params, router) =>
   <div
     className="fullscreen-toggle"
+    key="fullscreen-toggle"
     onClick={() => {
       toggleFullscreenMap(fullscreenMap, params, router);
     }}

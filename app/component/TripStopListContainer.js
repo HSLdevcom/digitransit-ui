@@ -127,7 +127,7 @@ class TripStopListContainer extends React.Component {
           last={index === this.props.trip.stoptimesForDate.length - 1}
           first={index === 0}
           fullscreenMap={this.props.fullscreenMap}
-          className={this.context.breakpoint === 'large' && 'bp-large'}
+          className={`bp-${this.context.breakpoint}`}
         />
       );
     });

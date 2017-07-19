@@ -26,7 +26,13 @@ DisruptionInfoButton.propTypes = {
   toggleDisruptionInfo: PropTypes.func.isRequired,
   root: PropTypes.shape({
     alerts: PropTypes.array,
-  }).isRequired,
+  }),
+};
+
+DisruptionInfoButton.defaultProps = {
+  root: {
+    alerts: [],
+  },
 };
 
 DisruptionInfoButton.contextTypes = {
