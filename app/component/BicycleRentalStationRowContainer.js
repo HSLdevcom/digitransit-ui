@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { intlShape } from 'react-intl';
 
 import Distance from './Distance';
@@ -119,19 +119,13 @@ BicycleRentalStationRow.description = () =>
 
 export { BicycleRentalStationRow };
 
-export default Relay.createContainer(BicycleRentalStationRow, {
-  fragments: {
-    station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        name
-        stationId
-        bikesAvailable
-        spacesAvailable
-      }
-    `,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-  },
+export default createFragmentContainer(BicycleRentalStationRow, {
+  station: graphql`
+    fragment BicycleRentalStationRowContainer_station on BikeRentalStation {
+      name
+      stationId
+      bikesAvailable
+      spacesAvailable
+    }
+  `,
 });

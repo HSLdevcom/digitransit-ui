@@ -47,6 +47,12 @@ class SummaryPage extends React.Component {
   static propTypes = {
     location: PropTypes.shape({
       state: PropTypes.object,
+      query: PropTypes.shape({
+        intermediatePlaces: PropTypes.oneOfType([
+          PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+          PropTypes.string.isRequired,
+        ]),
+      }).isRequired,
     }).isRequired,
     params: PropTypes.shape({
       hash: PropTypes.string,
@@ -234,6 +240,17 @@ class SummaryPage extends React.Component {
 
     const hasDefaultPreferences = this.hasDefaultPreferences();
 
+    let intermediatePlaces = [];
+    const query = this.props.location.query;
+
+    if (query && query.intermediatePlaces) {
+      if (Array.isArray(query.intermediatePlaces)) {
+        intermediatePlaces = query.intermediatePlaces.map(otpToLocation);
+      } else {
+        intermediatePlaces = [otpToLocation(query.intermediatePlaces)];
+      }
+    }
+
     if (breakpoint === 'large') {
       let content;
 
@@ -244,6 +261,9 @@ class SummaryPage extends React.Component {
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
             error={error}
+            from={this.props.from}
+            to={this.props.to}
+            intermediatePlaces={intermediatePlaces}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
@@ -251,6 +271,7 @@ class SummaryPage extends React.Component {
                   this.props.params.hash
                 ],
                 focus: this.updateCenter,
+                plan: this.props.plan.plan,
               })}
           </SummaryPlanContainer>
         );
@@ -305,7 +326,11 @@ class SummaryPage extends React.Component {
         >
           {this.props.content &&
             this.props.plan.plan.itineraries.map((itinerary, i) =>
-              React.cloneElement(this.props.content, { key: i, itinerary }),
+              React.cloneElement(this.props.content, {
+                key: i,
+                itinerary,
+                plan: this.props.plan.plan,
+              }),
             )}
         </MobileItineraryWrapper>
       );
@@ -315,6 +340,9 @@ class SummaryPage extends React.Component {
           plan={this.props.plan.plan}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
+          from={this.props.from}
+          to={this.props.to}
+          intermediatePlaces={intermediatePlaces}
         />
       );
     }
@@ -361,7 +389,7 @@ export default Relay.createContainer(SummaryPage, {
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
-          ${ItineraryTab.getFragment('searchTime')}
+          ${ItineraryTab.getFragment('plan')}
           itineraries {
             startTime
             endTime

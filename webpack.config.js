@@ -357,6 +357,7 @@ function getEntry() {
       'react',
       'react-dom',
       'react-relay/classic',
+      'react-relay/compat',
       'react-tap-event-plugin',
       'moment',
     ],

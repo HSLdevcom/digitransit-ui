@@ -7,8 +7,8 @@
   "scripts": {
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
-    "prebuild": "npm run static",
-    "predev": "npm run static",
+    "prebuild": "npm run static && npm run relay",
+    "predev": "npm run static && npm run relay-watch &",
     "predev-win-hsl": "npm run win-static",
     "predev-win-national": "npm run win-static",
     "dev": "PID=$$; trap 'pkill -QUIT -P $PID > /dev/null' EXIT; NODE_ENV=development nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development node server/hotLoadServer.js",
@@ -28,7 +28,9 @@
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
-    "add-theme": "node build/add-theme"
+    "add-theme": "node build/add-theme",
+    "relay": "relay-compiler --src ./app/ --schema ./build/schema.json",
+    "relay-watch": "relay-compiler --src ./app/ --schema ./build/schema.json --watch"
   },
   "main": "server.js",
   "repository": {

@@ -248,6 +248,7 @@ class ItineraryLegs extends React.Component {
               startTime={leg.endTime}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
+              index={j}
             >
               {this.stopCode(leg.to.stop)}
             </WaitLeg>,

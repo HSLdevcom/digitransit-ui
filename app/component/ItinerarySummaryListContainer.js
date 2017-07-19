@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { FormattedMessage } from 'react-intl';
 import SummaryRow from './SummaryRow';
 
@@ -17,7 +17,7 @@ function ItinerarySummaryListContainer(props) {
         currentTime={props.currentTime}
         onSelect={props.onSelect}
         onSelectImmediately={props.onSelectImmediately}
-        intermediatePlaces={props.relay.route.params.intermediatePlaces}
+        intermediatePlaces={props.intermediatePlaces}
       >
         {i === open && props.children}
       </SummaryRow>,
@@ -29,10 +29,10 @@ function ItinerarySummaryListContainer(props) {
       </div>
     );
   } else if (
-    !props.relay.route.params.from.lat ||
-    !props.relay.route.params.from.lon ||
-    !props.relay.route.params.to.lat ||
-    !props.relay.route.params.to.lon
+    !props.from.lat ||
+    !props.from.lon ||
+    !props.to.lat ||
+    !props.to.lon
   ) {
     return (
       <div className="summary-list-container summary-no-route-found">
@@ -65,72 +65,66 @@ ItinerarySummaryListContainer.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   open: PropTypes.number,
   children: PropTypes.node,
-  relay: PropTypes.shape({
-    route: PropTypes.shape({
-      params: PropTypes.shape({
-        to: PropTypes.shape({
-          lat: PropTypes.number,
-          lon: PropTypes.number,
-          address: PropTypes.string.isRequired,
-        }).isRequired,
-        from: PropTypes.shape({
-          lat: PropTypes.number,
-          lon: PropTypes.number,
-          address: PropTypes.string.isRequired,
-        }).isRequired,
-      }).isRequired,
-    }).isRequired,
+  intermediatePlaces: PropTypes.array,
+  to: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    address: PropTypes.string.isRequired,
+  }).isRequired,
+  from: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    address: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default Relay.createContainer(ItinerarySummaryListContainer, {
-  fragments: {
-    itineraries: () => Relay.QL`
-      fragment on Itinerary @relay(plural:true){
-        walkDistance
+export default createFragmentContainer(ItinerarySummaryListContainer, {
+  itineraries: graphql`
+    fragment ItinerarySummaryListContainer_itineraries on Itinerary
+      @relay(plural: true) {
+      walkDistance
+      startTime
+      endTime
+      legs {
+        realTime
+        transitLeg
         startTime
         endTime
-        legs {
-          realTime
-          transitLeg
-          startTime
-          endTime
+        mode
+        distance
+        duration
+        rentedBike
+        intermediatePlace
+        route {
           mode
-          distance
-          duration
-          rentedBike
-          intermediatePlace
-          route {
-            mode
-            shortName
-            color
-            agency {
-              name
-            }
-          }
-          trip {
-            stoptimes {
-              stop {
-                gtfsId
-              }
-              pickupType
-            }
-          }
-          from {
+          shortName
+          color
+          agency {
             name
-            lat
-            lon
-            stop {
-              gtfsId
-            }
           }
-          to {
+        }
+        trip {
+          stoptimes {
             stop {
               gtfsId
             }
+            pickupType
+          }
+        }
+        from {
+          name
+          lat
+          lon
+          stop {
+            gtfsId
+          }
+        }
+        to {
+          stop {
+            gtfsId
           }
         }
       }
-    `,
-  },
+    }
+  `,
 });

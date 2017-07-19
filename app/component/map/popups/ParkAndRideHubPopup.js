@@ -1,11 +1,11 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import withProps from 'recompose/withProps';
 import compact from 'lodash/compact';
 import every from 'lodash/every';
 import sumBy from 'lodash/sumBy';
 import ParkAndRidePopup from './ParkAndRidePopup';
 
-export default Relay.createContainer(
+export default createFragmentContainer(
   withProps(({ facilities }) => ({
     // compact removes any falseisch values from the array
     // (bike parks are included in the hub but return null from graphQL carParks)
@@ -14,14 +14,12 @@ export default Relay.createContainer(
     spacesAvailable: sumBy(compact(facilities), 'spacesAvailable'),
   }))(ParkAndRidePopup),
   {
-    fragments: {
-      facilities: () => Relay.QL`
-      fragment on CarPark @relay(plural:true) {
+    facilities: graphql`
+      fragment ParkAndRideHubPopup_facilities on CarPark @relay(plural: true) {
         spacesAvailable
         maxCapacity
         realtime
       }
     `,
-    },
   },
 );

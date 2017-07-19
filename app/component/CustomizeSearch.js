@@ -402,7 +402,7 @@ class CustomizeSearch extends React.Component {
     ) {
       accessibilityOption = getCustomizedSettings().accessibilityOption;
     } else {
-      accessibilityOption = 0;
+      accessibilityOption = '0';
     }
     return accessibilityOption;
   };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import StopMarker from '../non-tile-layer/StopMarker';
 import StopCardHeaderContainer from '../../StopCardHeaderContainer';
@@ -99,27 +99,25 @@ RouteLine.defaultProps = {
   filteredStops: [],
 };
 
-export default Relay.createContainer(RouteLine, {
-  fragments: {
-    pattern: () => Relay.QL`
-      fragment on Pattern {
-        geometry {
-          lat
-          lon
-        }
-        route {
-          mode
-          color
-        }
-        stops {
-          lat
-          lon
-          name
-          gtfsId
-          platformCode
-          ${StopCardHeaderContainer.getFragment('stop')}
-        }
+export default createFragmentContainer(RouteLine, {
+  pattern: graphql`
+    fragment RouteLine_pattern on Pattern {
+      geometry {
+        lat
+        lon
       }
-    `,
-  },
+      route {
+        mode
+        color
+      }
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        platformCode
+        ...StopCardHeaderContainer_stop
+      }
+    }
+  `,
 });

@@ -1,26 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
 import DepartureRowContainer from './DepartureRowContainer';
 import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
-
-const placeAtDistanceFragment = variables => Relay.QL`
-  fragment on placeAtDistance {
-    distance
-    place {
-      id
-      __typename
-      ${DepartureRowContainer.getFragment('departure', {
-        currentTime: variables.currentTime,
-        timeRange: variables.timeRange,
-      })}
-      ${BicycleRentalStationRowContainer.getFragment('station', {
-        currentTime: variables.currentTime,
-      })}
-    }
-  }
-`;
 
 /* eslint-disable no-underscore-dangle */
 const PlaceAtDistance = props => {
@@ -53,13 +36,16 @@ PlaceAtDistance.propTypes = {
   timeRange: PropTypes.number.isRequired,
 };
 
-export default Relay.createContainer(PlaceAtDistance, {
-  fragments: {
-    placeAtDistance: placeAtDistanceFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
+export default createFragmentContainer(PlaceAtDistance, {
+  placeAtDistance: graphql`
+    fragment PlaceAtDistanceContainer_placeAtDistance on placeAtDistance {
+      distance
+      place {
+        id
+        __typename
+        ...DepartureRowContainer_departure
+        ...BicycleRentalStationRowContainer_station
+      }
+    }
+  `,
 });

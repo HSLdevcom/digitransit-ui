@@ -15,5 +15,6 @@ test/binaries
 test/flow/binaries
 selenium-debug.log
 gemini-report
+app/**/__generated__
 
 tags

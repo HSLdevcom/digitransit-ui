@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
+import { RootContainer } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -97,7 +98,7 @@ class CityBikeMarker extends React.Component {
         getIcon={this.getIcon}
         id={this.props.station.stationId}
       >
-        <Relay.RootContainer
+        <RootContainer
           Component={CityBikePopup}
           route={new CityBikeRoute({ stationId: this.props.station.stationId })}
           renderLoading={() =>
@@ -112,14 +113,12 @@ class CityBikeMarker extends React.Component {
   }
 }
 
-export default Relay.createContainer(CityBikeMarker, {
-  fragments: {
-    station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        lat
-        lon
-        stationId
-      }
-    `,
-  },
+export default createFragmentContainer(CityBikeMarker, {
+  station: graphql`
+    fragment CityBikeMarker_station on BikeRentalStation {
+      lat
+      lon
+      stationId
+    }
+  `,
 });
