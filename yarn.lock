@@ -7416,7 +7416,7 @@ react-relay-network-layer@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.0.1.tgz#6db91b199f74733e980d0776ec6fa7961e0154d0"
 
-react-relay@1.2.0-rc1:
+react-relay@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-1.1.0.tgz#56cd76885a886d93dd052efebbc0af5b6ceea998"
   dependencies:
@@ -7433,6 +7433,16 @@ react-router-relay@0.13.5:
     babel-runtime "^6.11.6"
     invariant "^2.2.1"
     lodash "^4.15.0"
+    react-static-container "^1.0.1"
+
+react-router-relay@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/react-router-relay/-/react-router-relay-0.14.0.tgz#0120904651225505fd5d100f1ee6c5b79bb66e20"
+  dependencies:
+    babel-runtime "^6.23.0"
+    invariant "^2.2.2"
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
     react-static-container "^1.0.1"
 
 react-router@3.0.5:
