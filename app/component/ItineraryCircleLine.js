@@ -54,7 +54,7 @@ class ItineraryCircleLine extends React.Component {
   };
 
   render() {
-    const marker = this.getMarker(this.props);
+    const marker = this.getMarker();
     return (
       <div className={`leg-before ${this.props.modeClassName}`}>
         {marker}
