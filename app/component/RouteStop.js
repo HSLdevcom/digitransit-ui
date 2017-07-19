@@ -11,7 +11,7 @@ import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const getRouteStopSvg = (first, last) =>
+const getRouteStopSvg = (first, last, color) =>
   <svg className="route-stop-schematized">
     <line
       x1="6"
@@ -19,7 +19,7 @@ const getRouteStopSvg = (first, last) =>
       y1={first ? 13 : 0}
       y2={last ? 13 : 67}
       strokeWidth="5"
-      stroke="currentColor"
+      stroke={color || 'currentColor'}
     />
     <line
       x1="6"
@@ -32,7 +32,7 @@ const getRouteStopSvg = (first, last) =>
     />
     <circle
       strokeWidth="2"
-      stroke="currentColor"
+      stroke={color || 'currentColor'}
       fill="white"
       cx="6"
       cy="13"
@@ -42,6 +42,7 @@ const getRouteStopSvg = (first, last) =>
 
 class RouteStop extends React.Component {
   static propTypes = {
+    color: PropTypes.string,
     vehicles: PropTypes.array,
     stop: PropTypes.object,
     mode: PropTypes.string,
@@ -96,6 +97,7 @@ class RouteStop extends React.Component {
       first,
       currentTime,
       className,
+      color,
     } = this.props;
 
     const vehicleTripLinks =
@@ -128,7 +130,7 @@ class RouteStop extends React.Component {
         </div>
         <Link to={`/pysakit/${stop.gtfsId}`}>
           <div className={`columns route-stop-name ${mode}`}>
-            {getRouteStopSvg(first, last)}
+            {getRouteStopSvg(first, last, color || 'currentColor')}
             {stop.name}
             <br />
             <div style={{ whiteSpace: 'nowrap' }}>

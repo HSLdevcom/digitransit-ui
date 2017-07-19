@@ -12,6 +12,7 @@ const RouteTitle = ({ route }, { breakpoint }) =>
     : <Link to={`/linjat/${route.gtfsId}`}>
         <RouteNumberContainer
           className="route-number-title"
+          color={route.color}
           route={route}
           vertical={false}
           text={route.shortName}
@@ -23,6 +24,7 @@ RouteTitle.propTypes = {
     gtfsId: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string,
+    color: PropTypes.string,
   }),
 };
 
@@ -37,6 +39,7 @@ export default Relay.createContainer(RouteTitle, {
       fragment on Route {
         gtfsId
         shortName
+        color
         mode
         type
       }

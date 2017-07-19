@@ -16,6 +16,7 @@ export default class Line extends React.Component {
   static propTypes = {
     thin: PropTypes.bool,
     passive: PropTypes.bool,
+    color: PropTypes.string,
     mode: PropTypes.string.isRequired,
     geometry: PropTypes.array.isRequired,
   };
@@ -56,6 +57,8 @@ export default class Line extends React.Component {
     }
 
     const lineConfig = this.context.config.map.line;
+
+    let color = this.props.color ? this.props.color : 'currentColor';
     let haloWeight = this.props.thin
       ? lineConfig.halo.thinWeight
       : lineConfig.halo.weight;
@@ -66,6 +69,9 @@ export default class Line extends React.Component {
     if (this.props.passive) {
       haloWeight *= 0.5;
       legWeight *= 0.5;
+      if (lineConfig.passiveColor) {
+        color = lineConfig.passiveColor;
+      }
     }
 
     return (
@@ -87,7 +93,7 @@ export default class Line extends React.Component {
           }}
           positions={filteredPoints}
           className={`leg ${className}`}
-          color={this.props.passive ? '#758993' : 'currentColor'}
+          color={color}
           weight={legWeight}
           interactive={false}
         />

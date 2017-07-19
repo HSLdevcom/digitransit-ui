@@ -137,7 +137,7 @@
     "eslint-plugin-compat": "1.0.4",
     "eslint-plugin-graphql": "1.2.0",
     "eslint-plugin-import": "2.7.0",
-    "eslint-plugin-jsx-a11y": "5.1.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-prettier": "2.1.2",
     "eslint-plugin-react": "7.1.0",
     "exports-loader": "0.6.4",

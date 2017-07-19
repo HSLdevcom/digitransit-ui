@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
 
-function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
-  const modeClassName = `${mode.toLowerCase()}`;
+function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
+  const modeClassName = mode.toLowerCase();
 
   return (
     <div
@@ -13,11 +13,16 @@ function IntermediateLeg({ mode, name, stopCode, focusFunction }) {
     >
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" width={28} height={28}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={28}
+            height={28}
+            style={{ fill: color, stroke: color }}
+          >
             <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
           </svg>
         </div>
-        <div className={`leg-before-line ${modeClassName}`} />
+        <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
@@ -38,6 +43,7 @@ IntermediateLeg.propTypes = {
   waitTime: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
+  color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
 };
 

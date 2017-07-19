@@ -162,6 +162,7 @@ export default Relay.createContainer(ItineraryTab, {
           intermediatePlace
           route {
             shortName
+            color
             gtfsId
             longName
             agency {

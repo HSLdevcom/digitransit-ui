@@ -10,10 +10,17 @@ const subIconTemplate = {
   bottom: '-0.3em',
   left: '-0.3em',
 };
-const IconWithIcon = ({ id, className, img, subIcon, subIconClassName }) =>
+const IconWithIcon = ({
+  id,
+  className,
+  img,
+  subIcon,
+  subIconClassName,
+  color,
+}) =>
   <span style={{ position: 'relative' }} id={id} className={className}>
     <span>
-      <Icon img={img} />
+      <Icon color={color} img={img} />
     </span>
     {subIcon &&
       <span className={subIconClassName} style={subIconTemplate}>
@@ -61,6 +68,7 @@ IconWithIcon.propTypes = {
   img: PropTypes.string.isRequired,
   subIcon: PropTypes.string,
   subIconClassName: PropTypes.string,
+  color: PropTypes.string,
 };
 
 IconWithIcon.defaultProps = {

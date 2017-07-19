@@ -11,6 +11,7 @@ class ItineraryCircleLine extends React.Component {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
+    color: PropTypes.string.isRequired,
   };
 
   getMarker = () => {
@@ -32,7 +33,12 @@ class ItineraryCircleLine extends React.Component {
     }
     return (
       <div className={`leg-before-circle circle ${this.props.modeClassName}`}>
-        <svg xmlns="http://www.w3.org/2000/svg" width={28} height={28}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={28}
+          height={28}
+          style={{ fill: this.props.color, stroke: this.props.color }}
+        >
           <circle
             stroke="white"
             strokeWidth="2"
@@ -52,7 +58,10 @@ class ItineraryCircleLine extends React.Component {
     return (
       <div className={`leg-before ${this.props.modeClassName}`}>
         {marker}
-        <div className={`leg-before-line ${this.props.modeClassName}`} />
+        <div
+          style={{ color: this.props.color }}
+          className={`leg-before-line ${this.props.modeClassName}`}
+        />
       </div>
     );
   }

@@ -101,6 +101,9 @@ class RoutePage extends React.Component {
           >
             {this.context.breakpoint === 'large' &&
               <RouteNumber
+                color={
+                  this.props.route.color ? `#${this.props.route.color}` : null
+                }
                 mode={this.props.route.mode}
                 text={this.props.route.shortName}
               />}
@@ -177,6 +180,7 @@ export default Relay.createContainer(RoutePage, {
       Relay.QL`
       fragment on Route {
         gtfsId
+        color
         shortName
         longName
         mode

@@ -7,6 +7,7 @@ function Icon(props) {
     <span aria-hidden>
       <svg
         id={props.id}
+        style={{ fill: props.color ? props.color : null }}
         viewBox={props.viewBox}
         className={cx('icon', props.className)}
       >
@@ -19,6 +20,7 @@ function Icon(props) {
 Icon.propTypes = {
   id: PropTypes.string,
   viewBox: PropTypes.string,
+  color: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
 };
@@ -29,10 +31,11 @@ Icon.defaultProps = {
 
 Icon.asString = (img, className, id) => `
   <span>
-    <svg${id ? ` id=${id}` : ''} viewBox="0 0 40 40" class="${cx(
-  'icon',
-  className,
-)}">
+    <svg
+      ${id ? ` id=${id}` : ''}
+      viewBox="0 0 40 40"
+      class="${cx('icon', className)}"
+    >
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
     </svg>
   </span>
