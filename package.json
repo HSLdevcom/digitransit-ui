@@ -147,7 +147,7 @@
     "gemini-browserstack": "1.1.0",
     "iltorb": "1.3.5",
     "imports-loader": "0.7.1",
-    "nightwatch": "0.9.15",
+    "nightwatch": "0.9.16",
     "node-sass": "4.5.3",
     "nodemon": "1.11.0",
     "postcss-loader": "1.3.3",
