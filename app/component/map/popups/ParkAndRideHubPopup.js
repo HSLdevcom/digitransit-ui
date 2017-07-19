@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import withProps from 'recompose/withProps';
 import compact from 'lodash/compact';
 import every from 'lodash/every';

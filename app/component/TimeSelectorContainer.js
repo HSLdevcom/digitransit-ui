@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';

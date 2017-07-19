@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';

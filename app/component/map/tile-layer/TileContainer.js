@@ -64,7 +64,7 @@ class TileContainer {
 
   project = point => {
     const size =
-      this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
+      this.extent * (2 ** (this.coords.z + (this.props.zoomOffset || 0)));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
     const y1 = 180 - (point.y + y0) * 360 / size;

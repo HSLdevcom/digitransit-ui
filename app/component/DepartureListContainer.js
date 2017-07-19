@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import moment from 'moment';

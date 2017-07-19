@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { routerShape, locationShape, Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';

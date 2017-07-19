@@ -1,5 +1,5 @@
 import React from 'react';
-import Relay, { Route } from 'react-relay';
+import Relay, { Route } from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withState from 'recompose/withState';
 import moment from 'moment';

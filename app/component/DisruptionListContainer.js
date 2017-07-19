@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
@@ -60,34 +60,32 @@ DisruptionListContainer.propTypes = {
   }).isRequired,
 };
 
-const relayFragment = {
-  root: () => Relay.QL`
-    fragment on QueryType {
-      alerts(feeds:$feedIds) {
-        id
-        feed
-        alertHeaderText
-        alertHeaderTextTranslations {
-          text
-          language
-        }
-        alertDescriptionText
-        alertDescriptionTextTranslations {
-          text
-          language
-        }
-        effectiveStartDate
-        effectiveEndDate
-        route {
-          shortName
-          mode
+export default Relay.createContainer(DisruptionListContainer, {
+  fragments: {
+    root: () => Relay.QL`
+      fragment on QueryType {
+        alerts(feeds:$feedIds) {
+          id
+          feed
+          alertHeaderText
+          alertHeaderTextTranslations {
+            text
+            language
+          }
+          alertDescriptionText
+          alertDescriptionTextTranslations {
+            text
+            language
+          }
+          effectiveStartDate
+          effectiveEndDate
+          route {
+            shortName
+            mode
+          }
         }
       }
-    }
-  `,
-};
-
-export default Relay.createContainer(DisruptionListContainer, {
-  fragments: relayFragment,
+    `,
+  },
   initialVariables: { feedIds: null },
 });

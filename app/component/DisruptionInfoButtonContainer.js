@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { routerShape, locationShape } from 'react-router';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';

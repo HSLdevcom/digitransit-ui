@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import CityBikeContent from '../../CityBikeContent';
 import CityBikeCardContainer from '../../CityBikeCardContainer';

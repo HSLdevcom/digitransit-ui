@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import StopCardHeader from './StopCardHeader';
 
 export default Relay.createContainer(StopCardHeader, {
