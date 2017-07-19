@@ -75,7 +75,11 @@ class RouteStopListContainer extends React.Component {
 
       return (
         <RouteStop
-          color={(this.props.pattern.route && this.props.pattern.route.color) ? `#${this.props.pattern.route.color}` : null}
+          color={
+            this.props.pattern.route && this.props.pattern.route.color
+              ? `#${this.props.pattern.route.color}`
+              : null
+          }
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
