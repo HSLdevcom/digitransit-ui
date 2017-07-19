@@ -473,6 +473,6 @@ module.exports = {
     'simple-assign': 'var Object.assign',
   },
   performance: {
-    hints: process.env.NODE_ENV === 'development' ? false : 'warning',
+    hints: false,
   },
 };
