@@ -50,7 +50,7 @@ class PatternStopsContainer extends React.Component {
       <div className="route-page-content">
         <RouteListHeader
           key="header"
-          className={this.context.breakpoint === 'large' && 'bp-large'}
+          className={`bp-${this.context.breakpoint}`}
         />
         <RouteStopListContainer
           key="list"

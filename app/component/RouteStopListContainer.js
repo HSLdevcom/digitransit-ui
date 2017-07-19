@@ -64,7 +64,7 @@ class RouteStopListContainer extends React.Component {
       vehicle => `HSL:${vehicle.next_stop}`,
     );
 
-    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+    const rowClassName = `bp-${this.context.breakpoint}`;
 
     return stops.map((stop, i) => {
       const isNearest =
