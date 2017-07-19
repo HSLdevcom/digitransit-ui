@@ -356,7 +356,7 @@ function getEntry() {
       // These come from all imports in client.js
       'react',
       'react-dom',
-      'react-relay',
+      'react-relay/classic',
       'react-tap-event-plugin',
       'moment',
     ],
