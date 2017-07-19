@@ -78,7 +78,7 @@
     "history": "3.3.0",
     "htm-to-json": "^0.1.4",
     "intl": "1.2.5",
-    "isomorphic-relay": "0.7.4",
+    "isomorphic-relay": "hannesj/isomorphic-relay#feature-relay-1-public",
     "isomorphic-relay-router": "0.8.6",
     "leaflet": "1.1.0",
     "lodash": "4.17.4",

@@ -4687,11 +4687,12 @@ isomorphic-relay-router@0.8.6:
     babel-runtime "^6.3.19"
     react-router-relay "0.13.5"
 
-isomorphic-relay@0.7.4:
+isomorphic-relay@hannesj/isomorphic-relay#feature-relay-1-public:
   version "0.7.4"
-  resolved "https://registry.yarnpkg.com/isomorphic-relay/-/isomorphic-relay-0.7.4.tgz#40702fa50d172a69e4f60228aa6d1220c264ed2c"
+  resolved "https://codeload.github.com/hannesj/isomorphic-relay/tar.gz/a04f02e58e56192b6947953c26485d56c2da00b4"
   dependencies:
     babel-runtime "^6.6.1"
+    prop-types "^15.5.10"
 
 isstream@~0.1.1, isstream@~0.1.2:
   version "0.1.2"
