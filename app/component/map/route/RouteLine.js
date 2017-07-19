@@ -60,13 +60,11 @@ function RouteLine(props) {
       <Line
         key="line"
         color={
-          this.props.pattern.route.color
-            ? `#${this.props.pattern.route.color}`
-            : null
+          props.pattern.route.color ? `#${props.pattern.route.color}` : null
         }
-        geometry={this.props.pattern.geometry || this.props.pattern.stops}
+        geometry={props.pattern.geometry || props.pattern.stops}
         mode={modeClass}
-        thin={this.props.thin}
+        thin={props.thin}
       />
       {markers}
     </div>
@@ -77,6 +75,7 @@ RouteLine.propTypes = {
   pattern: PropTypes.shape({
     route: PropTypes.shape({
       mode: PropTypes.string.isRequired,
+      color: PropTypes.string,
     }).isRequired,
     stops: PropTypes.arrayOf(
       PropTypes.shape({

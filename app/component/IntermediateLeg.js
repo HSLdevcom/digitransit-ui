@@ -14,10 +14,10 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
           <svg
-            style={{ fill: color, stroke: color }}
             xmlns="http://www.w3.org/2000/svg"
             width={28}
             height={28}
+            style={{ fill: color, stroke: color }}
           >
             <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
           </svg>
