@@ -11,7 +11,11 @@ class ItineraryCircleLine extends React.Component {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
-    color: PropTypes.string.isRequired,
+    color: PropTypes.string,
+  };
+
+  static defaultProps = {
+    color: 'currentColor',
   };
 
   getMarker = () => {
