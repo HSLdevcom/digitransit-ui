@@ -1,17 +1,13 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const FerryLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg
-    mode="FERRY"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-  >
+const FerryLeg = ({ leg, focusAction, index }) =>
+  <TransitLeg mode="FERRY" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="ferry-with-route-number"
       values={{
@@ -19,7 +15,8 @@ const FerryLeg = ({ leg, focusAction, index }) => (
         headSign: leg.trip && leg.trip.tripHeadsign,
       }}
       defaultMessage="Ferry {routeNumber} {headSign}"
-    /></TransitLeg>);
+    />
+  </TransitLeg>;
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -38,8 +35,7 @@ const exampleLeg = t1 => ({
 });
 
 FerryLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary ferry leg.</p>

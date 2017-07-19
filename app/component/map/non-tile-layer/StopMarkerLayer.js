@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import uniq from 'lodash/uniq';
@@ -9,23 +10,23 @@ import TerminalMarker from './TerminalMarker';
 class StopMarkerLayer extends React.Component {
   static contextTypes = {
     // Needed for passing context to dynamic popup, maybe should be done in there?
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    route: React.PropTypes.object.isRequired,
-    map: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    relay: React.PropTypes.shape({
-      setVariables: React.PropTypes.func.isRequired,
+    relay: PropTypes.shape({
+      setVariables: PropTypes.func.isRequired,
     }).isRequired,
-    stopsInRectangle: React.PropTypes.shape({
-      stopsByBbox: React.PropTypes.array.isRequired,
+    stopsInRectangle: PropTypes.shape({
+      stopsByBbox: PropTypes.array.isRequired,
     }).isRequired,
-    hilightedStops: React.PropTypes.array,
-  }
+    hilightedStops: PropTypes.array,
+  };
 
   componentDidMount() {
     this.context.map.on('moveend', this.onMapMove);
@@ -50,22 +51,26 @@ class StopMarkerLayer extends React.Component {
       });
     }
     this.forceUpdate();
-  }
+  };
 
   getStops() {
     const stops = [];
     const renderedNames = [];
 
-    this.props.stopsInRectangle.stopsByBbox.forEach((stop) => {
+    this.props.stopsInRectangle.stopsByBbox.forEach(stop => {
       if (stop.routes.length === 0) {
         return;
       }
 
       const modeClass = stop.routes[0].mode.toLowerCase();
-      const selected = this.props.hilightedStops && this.props.hilightedStops.includes(stop.gtfsId);
+      const selected =
+        this.props.hilightedStops &&
+        this.props.hilightedStops.includes(stop.gtfsId);
 
-      if (stop.parentStation &&
-          this.context.map.getZoom() <= this.context.config.terminalStopsMaxZoom) {
+      if (
+        stop.parentStation &&
+        this.context.map.getZoom() <= this.context.config.terminalStopsMaxZoom
+      ) {
         stops.push(
           <TerminalMarker
             key={stop.parentStation.gtfsId}
@@ -96,7 +101,9 @@ class StopMarkerLayer extends React.Component {
   render() {
     return (
       <div>
-        {this.context.map.getZoom() >= this.context.config.stopsMinZoom ? this.getStops() : false}
+        {this.context.map.getZoom() >= this.context.config.stopsMinZoom
+          ? this.getStops()
+          : false}
       </div>
     );
   }

@@ -144,7 +144,7 @@ $heading-color: #858585;
     list-style: none;
     height: 100%;
     width: 100%;
-    color: $primary-color;
+    color: $link-color;
     position: relative;
     text-align: center;
     font-size: $font-size-normal;
@@ -155,7 +155,7 @@ $heading-color: #858585;
     }
 
     .icon {
-      color: $primary-color;
+      color: $link-color;
       vertical-align: middle;
 
       &.nearby-icon {
@@ -183,7 +183,7 @@ $heading-color: #858585;
       }
 
       &.selected:before {
-        background: $primary-color;
+        background: $link-color;
         content: '';
         height: 3px;
         position: absolute;
@@ -211,7 +211,7 @@ $heading-color: #858585;
     }
 
     &.selected:before {
-      background: $primary-color;
+      background: $link-color;
       content: '';
       height: 3px;
       position: absolute;
@@ -403,12 +403,12 @@ div.route-tabs .tabs-navigation.bp-large {
     @include font-medium;
     font-size: $font-size-small;
   }
-  color: $primary-color;
+  color: $link-color;
   margin-left:10px;
   margin-right:10px;
   a {
     text-decoration:none;
-    color: $primary-color;
+    color: $link-color;
   }
 }
 

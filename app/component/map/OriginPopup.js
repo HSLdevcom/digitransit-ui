@@ -1,26 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
-const Popup = isBrowser ?
-  require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
 
 class OriginPopup extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    popupContainer: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    popupContainer: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    shouldOpen: React.PropTypes.bool,
-    yOffset: React.PropTypes.number.isRequired,
-    text: React.PropTypes.string.isRequired,
-    header: React.PropTypes.string.isRequired,
+    shouldOpen: PropTypes.bool,
+    yOffset: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    header: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -29,14 +29,15 @@ class OriginPopup extends React.Component {
 
   display = () => this.context.popupContainer.openPopup();
 
-  openDialog = () => this.context.router.push({
-    ...this.context.location,
-    state: {
-      ...this.context.location.state,
-      searchModalIsOpen: true,
-      selectedTab: 'origin',
-    },
-  });
+  openDialog = () =>
+    this.context.router.push({
+      ...this.context.location,
+      state: {
+        ...this.context.location.state,
+        searchModalIsOpen: true,
+        selectedTab: 'origin',
+      },
+    });
 
   render() {
     return (
@@ -54,8 +55,11 @@ class OriginPopup extends React.Component {
             <Icon className="icon-edit" img="icon-icon_edit" />
           </div>
           <div>
-            <div className="origin-popup-name">{this.props.text}</div>
-            <div className="shade-to-white" /></div>
+            <div className="origin-popup-name">
+              {this.props.text}
+            </div>
+            <div className="shade-to-white" />
+          </div>
         </div>
       </Popup>
     );

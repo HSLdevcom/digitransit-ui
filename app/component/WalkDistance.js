@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
@@ -7,8 +8,10 @@ function WalkDistance(props) {
   const roundedWalkDistanceInM = Math.round(props.walkDistance / 100) * 100;
   const roundedWalkDistanceInKm = (roundedWalkDistanceInM / 1000).toFixed(1);
 
-  const walkDistance = roundedWalkDistanceInM < 1000 ?
-    `${roundedWalkDistanceInM}m` : `${roundedWalkDistanceInKm}km`;
+  const walkDistance =
+    roundedWalkDistanceInM < 1000
+      ? `${roundedWalkDistanceInM}m`
+      : `${roundedWalkDistanceInKm}km`;
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
 
@@ -27,9 +30,9 @@ WalkDistance.description =
   'Requires walkDistance in meters as props. Displays distance in km if distance is 1000 or above';
 
 WalkDistance.propTypes = {
-  walkDistance: React.PropTypes.number.isRequired,
-  icon: React.PropTypes.string,
-  className: React.PropTypes.string,
+  walkDistance: PropTypes.number.isRequired,
+  icon: PropTypes.string,
+  className: PropTypes.string,
 };
 
 WalkDistance.displayName = 'WalkDistance';

@@ -29,7 +29,7 @@ class MessageStore extends Store {
    * }
    */
   // TODO: Generate message id if missing
-  addMessage = (msg) => {
+  addMessage = msg => {
     const message = { ...msg };
     if (this.messages.has(message.id)) {
       return;
@@ -39,19 +39,19 @@ class MessageStore extends Store {
     this.messages.set(message.id, message);
     saveMapToStorage(this.messages);
     this.emitChange();
-  }
+  };
 
-  addConfigMessages = (config) => {
+  addConfigMessages = config => {
     if (config.staticMessages) {
       config.staticMessages.forEach(this.addMessage);
     }
-  }
+  };
 
-  markMessageAsRead = (id) => {
+  markMessageAsRead = id => {
     this.messages.get(id).read = true;
     saveMapToStorage(this.messages);
     this.emitChange();
-  }
+  };
 }
 
 export default MessageStore;

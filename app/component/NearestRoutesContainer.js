@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay, { Route } from 'react-relay';
 import NearbyRouteListContainer from './NearbyRouteListContainer';
 import NetworkError from './NetworkError';
@@ -46,7 +47,6 @@ export default class NearestRoutesContainer extends Component {
     this.useSpinner = true;
   }
 
-
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.lat !== this.props.lat ||
@@ -64,18 +64,19 @@ export default class NearestRoutesContainer extends Component {
     return (
       <Relay.Renderer
         Container={NearbyRouteListContainer}
-        queryConfig={new NearbyRouteListContainerRoute({
-          lat: this.props.lat,
-          lon: this.props.lon,
-          currentTime: this.props.currentTime,
-          modes: this.props.modes,
-          placeTypes: this.props.placeTypes,
-          maxDistance: this.props.maxDistance,
-          maxResults: this.props.maxResults,
-          timeRange: this.props.timeRange,
-        })}
+        queryConfig={
+          new NearbyRouteListContainerRoute({
+            lat: this.props.lat,
+            lon: this.props.lon,
+            currentTime: this.props.currentTime,
+            modes: this.props.modes,
+            placeTypes: this.props.placeTypes,
+            maxDistance: this.props.maxDistance,
+            maxResults: this.props.maxResults,
+            timeRange: this.props.timeRange,
+          })
+        }
         environment={Relay.Store}
-
         render={({ error, props, retry }) => {
           if (error) {
             this.useSpinner = true;

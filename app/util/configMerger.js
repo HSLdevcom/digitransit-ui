@@ -13,7 +13,8 @@ function aboutMerger(objValue, srcValue) {
           break;
         }
       }
-      if (!merged[i].paragraphs) { // not found from srcValue
+      if (!merged[i].paragraphs) {
+        // not found from srcValue
         merged[i].paragraphs = objValue[i].paragraphs;
       }
     }
@@ -27,11 +28,16 @@ function aboutMerger(objValue, srcValue) {
 }
 
 function merger(objValue, srcValue, key) {
-  if (key === 'aboutThisService') { // property inheritance from objValue to srcValue
+  if (key === 'aboutThisService') {
+    // property inheritance from objValue to srcValue
     return mergeWith({}, objValue, srcValue, aboutMerger);
   }
-  if (Array.isArray(srcValue)) { return srcValue; } // Return only latest if array
-  if (Array.isArray(objValue)) { return objValue; }
+  if (Array.isArray(srcValue)) {
+    return srcValue;
+  } // Return only latest if array
+  if (Array.isArray(objValue)) {
+    return objValue;
+  }
 
   return undefined; // Otherwise use default customizer
 }

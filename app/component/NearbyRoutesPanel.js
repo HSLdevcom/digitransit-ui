@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import includes from 'lodash/includes';
 import pull from 'lodash/pull';
@@ -8,20 +9,20 @@ import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 
-function NearbyRoutesPanel({ location, currentTime, modes, placeTypes }, context) {
+function NearbyRoutesPanel(
+  { location, currentTime, modes, placeTypes },
+  context,
+) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
       {context.config.showModeFilter &&
-        (<div className="row border-bottom">
+        <div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
-        </div>)}
+        </div>}
       <NextDeparturesListHeader />
-      <div
-        className="scrollable momentum-scroll nearby"
-        id="scrollable-routes"
-      >
+      <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
           lat={location.lat}
           lon={location.lon}
@@ -48,13 +49,13 @@ NearbyRoutesPanel.propTypes = {
 };
 
 NearbyRoutesPanel.contextTypes = {
-  config: React.PropTypes.object,
+  config: PropTypes.object,
 };
 
 export default connectToStores(
   NearbyRoutesPanel,
   ['EndpointStore', 'TimeStore', 'ModeStore'],
-  (context) => {
+  context => {
     const position = context.getStore('PositionStore').getLocationState();
     const origin = context.getStore('EndpointStore').getOrigin();
     const modes = context.getStore('ModeStore').getMode();

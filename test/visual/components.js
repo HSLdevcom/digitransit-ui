@@ -1,6 +1,5 @@
 /* global gemini */
 
-
 /**
  * Customizable test function
  * @componentName the component name to test
@@ -11,35 +10,49 @@
  * @fn callback(actions, find) –  Optional callback describes a sequence of actions to bring the
  * page to this state, starting from a previous state of the suite.
 **/
-function testVariation(componentName, variationName = 'normal', captureOrExampleNumber = 1,
-  ignoreElements, fn = () => {}) {
-  return new Promise(
-    (resolve) => {
-      gemini.suite(`${componentName}_${variationName}`, (suite) => {
-        try {
-          let capture = `.component-example:nth-of-type(${captureOrExampleNumber}) .component`;
-          if (captureOrExampleNumber instanceof Array) {
-            capture = captureOrExampleNumber;
-          }
-          suite
-            .setUrl(`/styleguide/component/${componentName}?en`)
-            .setCaptureElements(capture)
-            .ignoreElements(ignoreElements || [])
-            .capture(variationName, {}, fn);
-          resolve(suite);
-        } catch (error) {
-          console.error('Error occurred while testing variation', variationName);
-          throw error;
+function testVariation(
+  componentName,
+  variationName = 'normal',
+  captureOrExampleNumber = 1,
+  ignoreElements,
+  fn = () => {},
+) {
+  return new Promise(resolve => {
+    gemini.suite(`${componentName}_${variationName}`, suite => {
+      try {
+        let capture = `.component-example:nth-of-type(${captureOrExampleNumber}) .component`;
+        if (captureOrExampleNumber instanceof Array) {
+          capture = captureOrExampleNumber;
         }
-      });
+        suite
+          .setUrl(`/styleguide/component/${componentName}?enmock`)
+          .before(actions => {
+            actions.wait(2000); // test additional delay
+          })
+          .setCaptureElements(capture)
+          .ignoreElements(ignoreElements || [])
+          .capture(variationName, {}, fn);
+        resolve(suite);
+      } catch (error) {
+        console.error('Error occurred while testing variation', variationName);
+      }
     });
+  });
 }
 
-const skip = (browsers => (suite) => { suite.skip(browsers); });
-
+const skip = browsers => suite => {
+  suite.skip(browsers);
+};
 
 // tests//
-testVariation('Departure', 'normal', 1, '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11')).catch(() => {});
+testVariation(
+  'Departure',
+  'normal',
+  1,
+  '.component-example:nth-of-type(1) .component .realtime-icon',
+)
+  .then(skip('ie11'))
+  .catch(() => {});
 testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
 testVariation('Departure', 'isArrival', 4);
@@ -54,7 +67,6 @@ testVariation('RouteNumber', 'vertical-with-disruption', 5);
 
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'isArrival', 2);
-
 
 testVariation('Distance', 'zero');
 testVariation('Distance', 'meters', 2);
@@ -74,24 +86,32 @@ testVariation('Availability');
 testVariation('ParkAndRideAvailability', 'non-realtime');
 testVariation('ParkAndRideAvailability', 'realtime', 2);
 
-testVariation('FavouriteLocation', 'normal', 1,
-      '.component-example:nth-of-type(1) .component .realtime-icon').then(skip('ie11'));
+testVariation(
+  'FavouriteLocation',
+  'normal',
+  1,
+  '.component-example:nth-of-type(1) .component .realtime-icon',
+).then(skip('ie11'));
 testVariation('NoFavouriteLocations');
 
 testVariation('EmptyFavouriteLocationSlot');
 
 testVariation('TripRouteStop', 'non-realtime');
-testVariation('TripRouteStop', 'realtime', [
-  '.component-example:nth-of-type(2) .component',
-], '.component-example:nth-of-type(2) .component svg.realtime').then(skip('ie11'));
+testVariation(
+  'TripRouteStop',
+  'realtime',
+  ['.component-example:nth-of-type(2) .component'],
+  '.component-example:nth-of-type(2) .component svg.realtime',
+).then(skip('ie11'));
 
 testVariation('Favourite', 'normal');
-testVariation('Favourite', 'hovered', 1, [], actions => actions.mouseMove(
-      '.component-example:nth-of-type(1) .component svg'));
+testVariation('Favourite', 'hovered', 1, [], actions =>
+  actions.mouseMove('.component-example:nth-of-type(1) .component svg'),
+);
 testVariation('Favourite', 'not-favourite', 2);
-testVariation('Favourite', 'not-favourite-hovered', 2, [], actions => actions.mouseMove(
-      '.component-example:nth-of-type(2) .component svg'));
-
+testVariation('Favourite', 'not-favourite-hovered', 2, [], actions =>
+  actions.mouseMove('.component-example:nth-of-type(2) .component svg'),
+);
 
 testVariation('IconWithTail', 'normal');
 testVariation('IconWithTail', 'rotate', 2);
@@ -105,11 +125,13 @@ testVariation('IconWithIcon', 'customStyle', 1);
 testVariation('IconWithIcon', 'normal', 2);
 
 testVariation('TimeNavigationButtons', 'normal');
-testVariation('TimeNavigationButtons', 'hovered', 1, [], (actions) => {
-  actions.mouseMove(
-         // eslint-disable-next-line comma-dangle
-        '.component-example:nth-of-type(1) .component button:first-of-type'
-      ).wait(400); // Wait for animation to happen
+testVariation('TimeNavigationButtons', 'hovered', 1, [], actions => {
+  actions
+    .mouseMove(
+      // eslint-disable-next-line comma-dangle
+      '.component-example:nth-of-type(1) .component button:first-of-type',
+    )
+    .wait(400); // Wait for animation to happen
 });
 
 testVariation('TimeSelectors');
@@ -123,7 +145,7 @@ testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation');
-testVariation('RouteScheduleDateSelect');
+testVariation('DateSelect');
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
@@ -137,7 +159,6 @@ testVariation('AppBarLarge');
 testVariation('FakeSearchWithButton', 'basic');
 testVariation('FakeSearchWithButton', 'large', 2);
 
-
 testVariation('FrontPagePanelLarge');
 testVariation('FrontPagePanelSmall');
 testVariation('ExternalLink');
@@ -149,11 +170,12 @@ testVariation('ModeFilter', 'white-buttons', [
   '.nearby-routes .component-example:nth-of-type(1) .component',
 ]);
 
-
-testVariation('RouteStop', 'normal', [
-  '.component-example:nth-of-type(1) .component',
-], '.component-example:nth-of-type(1) .component svg.realtime').then(skip('ie11'));
-
+testVariation(
+  'RouteStop',
+  'normal',
+  ['.component-example:nth-of-type(1) .component'],
+  '.component-example:nth-of-type(1) .component svg.realtime',
+).then(skip('ie11'));
 
 testVariation('DepartureRow', 'normal', 1, [
   '.component-example:nth-of-type(1) .component .realtime-icon',
@@ -161,13 +183,13 @@ testVariation('DepartureRow', 'normal', 1, [
 
 testVariation('DepartureRow', 'with-cancelation', 2);
 
-
 testVariation('BicycleRentalStationRow', 'plenty-of-bikes');
 testVariation('BicycleRentalStationRow', 'few-bikes', 2);
 testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
 testVariation('StopCardHeader');
+testVariation('Timetable');
 testVariation('SplitBars');
 testVariation('Labeled');
 testVariation('Centered');
@@ -179,7 +201,6 @@ testVariation('PageFooter');
 
 testVariation('FooterItem', 'basic');
 testVariation('FooterItem', 'with-icon', 2);
-
 
 testVariation('SummaryRow', 'passive-small-today');
 testVariation('SummaryRow', 'active-small-today', 2);
@@ -205,6 +226,7 @@ testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
 testVariation('SuggestionItem', 'Route', 3);
 testVariation('SuggestionItem', 'Stop', 4);
+testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
@@ -223,9 +245,9 @@ testVariation('EndLeg');
 testVariation('AirportCheckInLeg');
 testVariation('AirportCollectLuggageLeg');
 testVariation('BusLeg', 'scheduled');
-testVariation('BusLeg', 'realtime', 2, [
-  'svg.realtime-icon',
-]).then(skip('ie11'));
+testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']).then(
+  skip('ie11'),
+);
 testVariation('AirplaneLeg');
 testVariation('SubwayLeg');
 testVariation('TramLeg');

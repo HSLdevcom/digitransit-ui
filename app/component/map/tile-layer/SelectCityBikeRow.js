@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
@@ -10,7 +11,9 @@ function SelectCityBikeRow(props) {
           <Icon img="icon-icon_citybike" />
         </div>
         <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color">{props.name} ›</span>
+          <span className="header-primary no-margin link-color">
+            {props.name} ›
+          </span>
         </div>
         <div className="clear" />
       </div>
@@ -28,11 +31,11 @@ SelectCityBikeRow.description = (
       <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
-  );
+);
 
 SelectCityBikeRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default SelectCityBikeRow;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
@@ -8,7 +9,7 @@ function SelectParkAndRideRow(props, { intl }) {
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
-        <div className="padding-vertical-normal select-row-icon" >
+        <div className="padding-vertical-normal select-row-icon">
           <Icon img="icon-icon_car" />
         </div>
         <div className="padding-vertical-normal select-row-text">
@@ -35,11 +36,11 @@ SelectParkAndRideRow.description = (
       />
     </ComponentUsageExample>
   </div>
-  );
+);
 
 SelectParkAndRideRow.propTypes = {
-  selectRow: React.PropTypes.func.isRequired,
-  name: React.PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 SelectParkAndRideRow.contextTypes = {

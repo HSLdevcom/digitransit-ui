@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import routeCompare from '../../../util/route-compare';
@@ -34,7 +35,7 @@ function SelectTerminalRow(props) {
           <Icon img={`icon-icon_${props.type.toLowerCase()}`} />
         </div>
         <div className="padding-vertical-normal select-row-text">
-          <span className="header-primary no-margin link-color" >
+          <span className="header-primary no-margin link-color">
             {props.name} ›
           </span>
           <div className="route-detail-text">
@@ -58,17 +59,19 @@ SelectTerminalRow.description = (
         name={'Pasilan Asema'}
         selectRow={() => {}}
         type={'BUS'}
-        routes={'[{"mode":"BUS","shortName":"154"},{"mode":"BUS","shortName":"111T"}]'}
+        routes={
+          '[{"mode":"BUS","shortName":"154"},{"mode":"BUS","shortName":"111T"}]'
+        }
       />
     </ComponentUsageExample>
   </div>
 );
 
 SelectTerminalRow.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  selectRow: React.PropTypes.func.isRequired,
-  routes: React.PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  selectRow: PropTypes.func.isRequired,
+  routes: PropTypes.string.isRequired,
 };
 
 export default SelectTerminalRow;

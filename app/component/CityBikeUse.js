@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
@@ -5,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import { lang as exampleLang } from './ExampleData';
 
-const CityBikeUse = ({ lang }, context) => (
+const CityBikeUse = ({ lang }, context) =>
   <div className="city-bike-use-container">
     <p className="sub-header-h4 text-center">
       <FormattedMessage
@@ -18,7 +19,7 @@ const CityBikeUse = ({ lang }, context) => (
         <FormattedMessage id="use-citybike" defaultMessage="Start using" />
       </button>
     </a>
-  </div>);
+  </div>;
 
 CityBikeUse.displayName = 'CityBikeUse';
 
@@ -31,11 +32,11 @@ CityBikeUse.description = () =>
   </div>;
 
 CityBikeUse.propTypes = {
-  lang: React.PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 CityBikeUse.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default CityBikeUse;

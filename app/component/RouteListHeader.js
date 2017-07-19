@@ -1,9 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
-const RouteListHeader = ({ className }) => (
-  <div className={cx('route-list-header route-stop row padding-vertical-small', className)}>
+const RouteListHeader = ({ className }) =>
+  <div
+    className={cx(
+      'route-list-header route-stop row padding-vertical-small',
+      className,
+    )}
+  >
     <div className="columns route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
@@ -16,12 +22,10 @@ const RouteListHeader = ({ className }) => (
     <div className="columns route-stop-time">
       <FormattedMessage id="next" defaultMessage="Next" />
     </div>
-  </div>
-);
-
+  </div>;
 
 RouteListHeader.propTypes = {
-  className: React.PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default RouteListHeader;

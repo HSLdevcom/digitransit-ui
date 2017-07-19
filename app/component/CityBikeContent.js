@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
 import ComponentUsageExample from './ComponentUsageExample';
 import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
-const CityBikeContent = ({ station, lang }, { config }) => (
+const CityBikeContent = ({ station, lang }, { config }) =>
   <div className="city-bike-container">
     <CityBikeAvailability
       bikesAvailable={station.bikesAvailable}
@@ -12,7 +13,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
       fewAvailableCount={config.cityBike.fewAvailableCount}
     />
     <CityBikeUse lang={lang} />
-  </div>);
+  </div>;
 
 CityBikeContent.displayName = 'CityBikeContent';
 
@@ -25,12 +26,12 @@ CityBikeContent.description = () =>
   </div>;
 
 CityBikeContent.propTypes = {
-  station: React.PropTypes.object.isRequired,
-  lang: React.PropTypes.string.isRequired,
+  station: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 CityBikeContent.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default CityBikeContent;

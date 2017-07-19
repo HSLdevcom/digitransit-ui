@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ComponentUsageExample from '../ComponentUsageExample';
@@ -17,7 +18,6 @@ if (isBrowser) {
   L = require('leaflet');
 }
 /* eslint-enable global-require */
-
 
 export default class GenericMarker extends React.Component {
   static description = (
@@ -39,17 +39,17 @@ export default class GenericMarker extends React.Component {
   static displayName = 'GenericMarker';
 
   static contextTypes = {
-    map: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
-    position: React.PropTypes.object.isRequired,
-    getIcon: React.PropTypes.func.isRequired,
-    id: React.PropTypes.string,
-    renderName: React.PropTypes.bool,
-    name: React.PropTypes.string,
-    children: React.PropTypes.node,
+    position: PropTypes.object.isRequired,
+    getIcon: PropTypes.func.isRequired,
+    id: PropTypes.string,
+    renderName: PropTypes.bool,
+    name: PropTypes.string,
+    children: PropTypes.node,
   };
 
   componentDidMount() {
@@ -66,7 +66,7 @@ export default class GenericMarker extends React.Component {
 
   onMapMove = () => this.forceUpdate();
 
-  getMarker = () => (
+  getMarker = () =>
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.context.map.getZoom())}
@@ -80,13 +80,13 @@ export default class GenericMarker extends React.Component {
       >
         {this.props.children}
       </Popup>
-    </Marker>
-  );
+    </Marker>;
 
   getNameMarker() {
     if (
       !this.props.renderName ||
-      this.context.map.getZoom() < this.context.config.map.genericMarker.nameMarkerMinZoom
+      this.context.map.getZoom() <
+        this.context.config.map.genericMarker.nameMarkerMinZoom
     ) {
       return false;
     }
@@ -94,7 +94,10 @@ export default class GenericMarker extends React.Component {
     return (
       <Marker
         key={`${this.props.name}_text`}
-        position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
+        position={{
+          lat: this.props.position.lat,
+          lng: this.props.position.lon,
+        }}
         interactive={false}
         icon={L.divIcon({
           html: `<div>${this.props.name}</div>`,

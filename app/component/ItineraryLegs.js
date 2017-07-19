@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-
+import cloneDeep from 'lodash/cloneDeep';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -21,30 +22,28 @@ import CallAgencyLeg from './CallAgencyLeg';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
 class ItineraryLegs extends React.Component {
-
   static childContextTypes = {
-    focusFunction: React.PropTypes.func,
+    focusFunction: PropTypes.func,
   };
 
   getChildContext() {
     return { focusFunction: this.focus };
   }
 
-  focus = position => (e) => {
+  focus = position => e => {
     e.stopPropagation();
     this.props.focusMap(position.lat, position.lon);
   };
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  continueWithBicycle = (leg1, leg2) => (
-    (leg1 != null && (leg1.mode === 'BICYCLE' || leg1.mode === 'WALK')) &&
-      (leg2 != null && (leg2.mode === 'BICYCLE' || leg2.mode === 'WALK'))
-  );
+  continueWithBicycle = (leg1, leg2) =>
+    leg1 != null &&
+    (leg1.mode === 'BICYCLE' || leg1.mode === 'WALK') &&
+    (leg2 != null && (leg2.mode === 'BICYCLE' || leg2.mode === 'WALK'));
 
-  continueWithRentedBicycle = (leg1, leg2) => (
-    (leg1 != null && leg1.rentedBike) && (leg2 != null && leg2.rentedBike)
-  );
+  continueWithRentedBicycle = (leg1, leg2) =>
+    leg1 != null && leg1.rentedBike && (leg2 != null && leg2.rentedBike);
 
   render() {
     let waitTime;
@@ -53,16 +52,15 @@ class ItineraryLegs extends React.Component {
     let nextLeg;
     const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const legs = [];
-    const usingOwnBicycle = (
-      ((this.props.itinerary.legs[0]) != null) &&
+    const usingOwnBicycle =
+      this.props.itinerary.legs[0] != null &&
       (this.props.itinerary.legs[0].mode === 'BICYCLE' &&
-      !this.props.itinerary.legs[0].rentedBike)
-    );
+        !this.props.itinerary.legs[0].rentedBike);
     const originalLegs = this.props.itinerary.legs;
     const compressedLegs = [];
     let compressLeg = false;
 
-    originalLegs.forEach((cleg) => {
+    originalLegs.forEach(cleg => {
       if (compressLeg) {
         if (usingOwnBicycle && this.continueWithBicycle(compressLeg, cleg)) {
           compressLeg.duration += cleg.duration;
@@ -70,7 +68,10 @@ class ItineraryLegs extends React.Component {
           compressLeg.to = cleg.to;
           compressLeg.endTime = cleg.endTime;
           compressLeg.mode = 'BICYCLE';
-        } else if (cleg.rentedBike && this.continueWithRentedBicycle(compressLeg, cleg)) {
+        } else if (
+          cleg.rentedBike &&
+          this.continueWithRentedBicycle(compressLeg, cleg)
+        ) {
           compressLeg.duration += cleg.duration;
           compressLeg.distance += cleg.distance;
           compressLeg.to = cleg.to;
@@ -82,10 +83,10 @@ class ItineraryLegs extends React.Component {
           }
 
           compressedLegs.push(compressLeg);
-          compressLeg = cleg;
+          compressLeg = cloneDeep(cleg);
         }
       } else {
-        compressLeg = cleg;
+        compressLeg = cloneDeep(cleg);
       }
     });
 
@@ -94,7 +95,6 @@ class ItineraryLegs extends React.Component {
     }
 
     const numberOfLegs = compressedLegs.length;
-
 
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
@@ -106,12 +106,14 @@ class ItineraryLegs extends React.Component {
       }
 
       if (isCallAgencyPickupType(leg)) {
-        legs.push(<CallAgencyLeg
-          key={j}
-          index={j}
-          leg={leg}
-          focusAction={this.focus(leg.from)}
-        />);
+        legs.push(
+          <CallAgencyLeg
+            key={j}
+            index={j}
+            leg={leg}
+            focusAction={this.focus(leg.from)}
+          />,
+        );
       } else if (leg.mode === 'BUS') {
         legs.push(
           <BusLeg
@@ -119,7 +121,8 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'TRAM') {
         legs.push(
           <TramLeg
@@ -127,7 +130,8 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'FERRY') {
         legs.push(
           <FerryLeg
@@ -135,7 +139,8 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'RAIL') {
         legs.push(
           <RailLeg
@@ -143,7 +148,8 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'SUBWAY') {
         legs.push(
           <SubwayLeg
@@ -151,7 +157,8 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'AIRPLANE') {
         startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
@@ -161,7 +168,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             startTime={startTime}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
 
         legs.push(
           <AirplaneLeg
@@ -169,22 +177,29 @@ class ItineraryLegs extends React.Component {
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
 
         legs.push(
           <AirportCollectLuggageLeg
             key={`${j}cl`}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
-      } else if (leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'BICYCLE_WALK') {
+          />,
+        );
+      } else if (
+        leg.rentedBike ||
+        leg.mode === 'BICYCLE' ||
+        leg.mode === 'BICYCLE_WALK'
+      ) {
         legs.push(
           <BicycleLeg
             key={j}
             index={j}
             leg={leg}
             focusAction={this.focus(leg.from)}
-          />);
+          />,
+        );
       } else if (leg.mode === 'CAR') {
         legs.push(
           <CarLeg
@@ -194,7 +209,8 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
-          </CarLeg>);
+          </CarLeg>,
+        );
       } else if (leg.intermediatePlace) {
         legs.push(
           <ViaLeg
@@ -213,14 +229,16 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
-          </WalkLeg>);
+          </WalkLeg>,
+        );
       }
-
 
       if (nextLeg) {
         waitTime = nextLeg.startTime - leg.endTime;
-        if (waitTime > waitThreshold &&
-          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' && leg.mode !== 'AIRPLANE' &&
+        if (
+          waitTime > waitThreshold &&
+          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
+          leg.mode !== 'AIRPLANE' &&
           !nextLeg.intermediatePlace
         ) {
           legs.push(
@@ -232,7 +250,8 @@ class ItineraryLegs extends React.Component {
               focusAction={this.focus(leg.to)}
             >
               {this.stopCode(leg.to.stop)}
-            </WaitLeg>);
+            </WaitLeg>,
+          );
         }
       }
     });
@@ -244,19 +263,24 @@ class ItineraryLegs extends React.Component {
         endTime={this.props.itinerary.endTime}
         focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to.name}
-      />);
+      />,
+    );
 
-    return <div>{legs}</div>;
+    return (
+      <div>
+        {legs}
+      </div>
+    );
   }
 }
 
 ItineraryLegs.propTypes = {
-  itinerary: React.PropTypes.object,
-  focusMap: React.PropTypes.func,
+  itinerary: PropTypes.object,
+  focusMap: PropTypes.func,
 };
 
 ItineraryLegs.contextTypes = {
-  config: React.PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ItineraryLegs;

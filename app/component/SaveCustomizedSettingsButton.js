@@ -22,16 +22,20 @@ class SaveCustomizedSettingsButton extends React.Component {
   setSettingsData = () => {
     // Test if has new set values
     const settings = {
-      accessibilityOption: !(typeof this.context.location.query.accessibilityOption === 'undefined')
+      accessibilityOption: !(
+        typeof this.context.location.query.accessibilityOption === 'undefined'
+      )
         ? this.context.location.query.accessibilityOption
         : undefined,
       minTransferTime: this.context.location.query.minTransferTime
         ? this.context.location.query.minTransferTime
         : undefined,
-      modes: decodeURI(this.context.location.query.modes) !== 'undefined' &&
-        decodeURI(this.context.location.query.modes) !== 'TRAM,RAIL,SUBWAY,FERRY,WALK,BUS'
-        ? decodeURI(this.context.location.query.modes).split(',')
-        : undefined,
+      modes:
+        decodeURI(this.context.location.query.modes) !== 'undefined' &&
+        decodeURI(this.context.location.query.modes) !==
+          'TRAM,RAIL,SUBWAY,FERRY,WALK,BUS'
+          ? decodeURI(this.context.location.query.modes).split(',')
+          : undefined,
       walkBoardCost: this.context.location.query.walkBoardCost
         ? this.context.location.query.walkBoardCost
         : undefined,
@@ -53,8 +57,11 @@ class SaveCustomizedSettingsButton extends React.Component {
     // Since the settings container gets its dimensions dynamically the Snackbar modal
     // has to be calculated by javascript watching the settings container's width
     let containerStyles;
-    const containerWidth =
-      document.getElementsByClassName('customize-search')[0] ? (document.getElementsByClassName('customize-search')[0].parentElement.offsetWidth) * 0.7428
+    const containerWidth = document.getElementsByClassName(
+      'customize-search',
+    )[0]
+      ? document.getElementsByClassName('customize-search')[0].parentElement
+          .offsetWidth * 0.7428
       : null;
     if (window.innerWidth <= 320) {
       containerStyles = {
@@ -90,14 +97,26 @@ class SaveCustomizedSettingsButton extends React.Component {
         <section className="offcanvas-section">
           <div className="save-settings">
             <hr />
-            <button className="save-settings-button" onClick={this.setSettingsData}>
-              <FormattedMessage tagName="h4" defaultMessage="Tallenna asetukset" id="settings-savebutton" />
+            <button
+              className="save-settings-button"
+              onClick={this.setSettingsData}
+            >
+              <FormattedMessage
+                defaultMessage="Tallenna asetukset"
+                id="settings-savebutton"
+              />
             </button>
           </div>
         </section>
         <Snackbar
           open={this.state.open}
-          message={<FormattedMessage tagName="span" defaultMessage="Tallenna asetukset" id="settings-saved" />}
+          message={
+            <FormattedMessage
+              tagName="span"
+              defaultMessage="Tallenna asetukset"
+              id="settings-saved"
+            />
+          }
           autoHideDuration={this.state.autoHideDuration}
           onRequestClose={this.handleRequestClose}
           style={containerStyles}
@@ -107,7 +126,8 @@ class SaveCustomizedSettingsButton extends React.Component {
             textAlign: 'center',
             width: containerStyles.width,
             fontSize: '0.8rem',
-            fontFamily: '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif',
+            fontFamily:
+              '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif',
           }}
         />
       </div>

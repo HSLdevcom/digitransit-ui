@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Relay from 'react-relay';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
@@ -8,36 +9,37 @@ import cx from 'classnames';
 import Departure from './Departure';
 import { isBrowser } from '../util/browser';
 
-const asDepartures = stoptimes => (
-  !stoptimes ? [] : stoptimes.map((stoptime) => {
-    const isArrival = stoptime.pickupType === 'NONE';
-      /* OTP returns either scheduled time or realtime prediction in
+const asDepartures = stoptimes =>
+  !stoptimes
+    ? []
+    : stoptimes.map(stoptime => {
+        const isArrival = stoptime.pickupType === 'NONE';
+        /* OTP returns either scheduled time or realtime prediction in
        * 'realtimeDeparture' and 'realtimeArrival' fields.
        * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-    const canceled = stoptime.realtimeState === 'CANCELED';
-    const arrivalTime = stoptime.serviceDay +
-        (!canceled
-          ? stoptime.realtimeArrival
-          : stoptime.scheduledArrival);
-    const departureTime = stoptime.serviceDay +
-        (!canceled
-          ? stoptime.realtimeDeparture
-          : stoptime.scheduledDeparture);
-    const stoptimeTime = isArrival ? arrivalTime : departureTime;
+        const canceled = stoptime.realtimeState === 'CANCELED';
+        const arrivalTime =
+          stoptime.serviceDay +
+          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
+        const departureTime =
+          stoptime.serviceDay +
+          (!canceled
+            ? stoptime.realtimeDeparture
+            : stoptime.scheduledDeparture);
+        const stoptimeTime = isArrival ? arrivalTime : departureTime;
 
-    return {
-      canceled,
-      isArrival,
-      stoptime: stoptimeTime,
-      stop: stoptime.stop,
-      realtime: stoptime.realtime,
-      pattern: stoptime.trip.pattern,
-      headsign: stoptime.stopHeadsign,
-      trip: stoptime.trip,
-      pickupType: stoptime.pickupType,
-    };
-  })
-);
+        return {
+          canceled,
+          isArrival,
+          stoptime: stoptimeTime,
+          stop: stoptime.stop,
+          realtime: stoptime.realtime,
+          pattern: stoptime.trip.pattern,
+          headsign: stoptime.stopHeadsign,
+          trip: stoptime.trip,
+          pickupType: stoptime.pickupType,
+        };
+      });
 
 class DepartureListContainer extends Component {
   static propTypes = {
@@ -62,10 +64,9 @@ class DepartureListContainer extends Component {
   render() {
     const departureObjs = [];
     const currentTime = this.props.currentTime;
-    let currentDate = moment.unix(this.props.currentTime)
-      .startOf('day')
-      .unix();
-    let tomorrow = moment.unix(this.props.currentTime)
+    let currentDate = moment.unix(this.props.currentTime).startOf('day').unix();
+    let tomorrow = moment
+      .unix(this.props.currentTime)
       .add(1, 'day')
       .startOf('day')
       .unix();
@@ -75,7 +76,7 @@ class DepartureListContainer extends Component {
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, this.props.limit);
 
-    departures.forEach((departure) => {
+    departures.forEach(departure => {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
           <div
@@ -83,13 +84,11 @@ class DepartureListContainer extends Component {
             className="date-row border-bottom"
           >
             {moment.unix(departure.stoptime).format('dddd D.M.YYYY')}
-          </div>);
+          </div>,
+        );
 
         currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate)
-          .add(1, 'day')
-          .startOf('day')
-          .unix();
+        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;
@@ -98,12 +97,11 @@ class DepartureListContainer extends Component {
         disruption:
           filter(
             departure.pattern.alerts,
-            alert => (
-              (alert.effectiveStartDate <= departure.stoptime) &&
-              (departure.stoptime <= alert.effectiveEndDate) &&
+            alert =>
+              alert.effectiveStartDate <= departure.stoptime &&
+              departure.stoptime <= alert.effectiveEndDate &&
               (get(alert.trip.gtfsId) === null ||
-              get(alert.trip.gtfsId) === get(departure.trip.gtfsId))
-            ),
+                get(alert.trip.gtfsId) === get(departure.trip.gtfsId)),
           ).length > 0,
         canceled: departure.canceled,
       };
@@ -124,7 +122,8 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern.code}`}
+            to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
+              .pattern.code}`}
             key={id}
           >
             {departureObj}
@@ -141,10 +140,10 @@ class DepartureListContainer extends Component {
         onScroll={this.onScroll()}
       >
         {departureObjs}
-      </div>);
+      </div>
+    );
   }
 }
-
 
 export default Relay.createContainer(DepartureListContainer, {
   fragments: {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
@@ -7,14 +8,23 @@ import ComponentUsageExample from './ComponentUsageExample';
 
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import ItineraryCircleLine from './ItineraryCircleLine';
 
-function BicycleLeg(props) {
+function BicycleLeg(props, context) {
   let stopsDescription;
-  const distance = displayDistance(parseInt(props.leg.distance, 10));
+  const distance = displayDistance(
+    parseInt(props.leg.distance, 10),
+    context.config,
+  );
   const duration = durationToString(props.leg.duration * 1000);
   let { mode } = props.leg;
-  let legDescription = <span>{props.leg.from.name}</span>;
+  let legDescription = (
+    <span>
+      {props.leg.from.name}
+    </span>
+  );
   const firstLegClassName = props.index === 0 ? 'start' : '';
+  let modeClassName = 'bicycle';
 
   if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
     stopsDescription = (
@@ -35,6 +45,7 @@ function BicycleLeg(props) {
   }
 
   if (props.leg.rentedBike === true) {
+    modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
         id="rent-cycle-at"
@@ -53,25 +64,23 @@ function BicycleLeg(props) {
   }
 
   return (
-    <div key={props.index} style={{ width: '100%' }} className="row itinerary-row">
+    <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
           {moment(props.leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber mode={mode} vertical />
       </div>
+      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-10 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
-          {props.index === 0 && (
-            <div><Icon img="icon-icon_mapMarker-point" className="itinerary-icon from" /></div>
-          )}
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div>
+        <div className="itinerary-leg-action">
           {stopsDescription}
         </div>
       </div>
@@ -116,8 +125,7 @@ const exampleLegCitybikeWalkingBike = t1 => ({
 });
 
 BicycleLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bicycle leg.</p>
@@ -125,31 +133,45 @@ BicycleLeg.description = () => {
         <BicycleLeg leg={exampleLeg(today)} index={0} focusAction={() => {}} />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-walking-bike">
-        <BicycleLeg leg={exampleLegWalkingBike(today)} index={0} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegWalkingBike(today)}
+          index={0}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-citybike">
-        <BicycleLeg leg={exampleLegCitybike(today)} index={0} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegCitybike(today)}
+          index={0}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
       <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
-        <BicycleLeg leg={exampleLegCitybikeWalkingBike(today)} index={1} focusAction={() => {}} />
+        <BicycleLeg
+          leg={exampleLegCitybikeWalkingBike(today)}
+          index={1}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );
 };
 
 BicycleLeg.propTypes = {
-  leg: React.PropTypes.shape({
-    duration: React.PropTypes.number.isRequired,
-    startTime: React.PropTypes.number.isRequired,
-    distance: React.PropTypes.number.isRequired,
-    from: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
+  leg: PropTypes.shape({
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired,
+    from: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
-    mode: React.PropTypes.string.isRequired,
-    rentedBike: React.PropTypes.bool.isRequired,
+    mode: PropTypes.string.isRequired,
+    rentedBike: PropTypes.bool.isRequired,
   }).isRequired,
-  index: React.PropTypes.number.isRequired,
-  focusAction: React.PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  focusAction: PropTypes.func.isRequired,
 };
+
+BicycleLeg.contextTypes = { config: PropTypes.object.isRequired };
 
 export default BicycleLeg;

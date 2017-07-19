@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Relay from 'react-relay';
 import cx from 'classnames';
 
@@ -19,17 +20,15 @@ class ItineraryTab extends React.Component {
   };
 
   static contextTypes = {
-    breakpoint: React.PropTypes.string.isRequired,
-    config: React.PropTypes.object.isRequired,
-  }
+    breakpoint: PropTypes.string.isRequired,
+    config: PropTypes.object.isRequired,
+  };
 
   state = {
     fullscreen: false,
     lat: undefined,
     lon: undefined,
   };
-
-  shouldComponentUpdate = () => false
 
   getState = () => ({
     lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
@@ -43,11 +42,12 @@ class ItineraryTab extends React.Component {
       lat,
       lon,
     });
-  }
+  };
 
   render() {
     const config = this.context.config;
-    const routeInformation = config.showRouteInformation && <RouteInformation />;
+    const routeInformation =
+      config.showRouteInformation && <RouteInformation />;
 
     return (
       <div className="itinerary-tab">
@@ -59,16 +59,19 @@ class ItineraryTab extends React.Component {
               refTime={this.props.searchTime}
               className="timeframe--itinerary-summary"
             />
-          </ItinerarySummary>
-        }
+          </ItinerarySummary>}
         {this.context.breakpoint === 'large' &&
           <div className="itinerary-timeframe">
-            <DateWarning date={this.props.itinerary.startTime} refTime={this.props.searchTime} />
-          </div>
-        }
+            <DateWarning
+              date={this.props.itinerary.startTime}
+              refTime={this.props.searchTime}
+            />
+          </div>}
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div
-            className={cx('itinerary-main', { 'bp-large': this.context.breakpoint === 'large' })}
+            className={cx('itinerary-main', {
+              'bp-large': this.context.breakpoint === 'large',
+            })}
           >
             <ItineraryLegs
               itinerary={this.props.itinerary}
@@ -101,6 +104,9 @@ export default Relay.createContainer(ItineraryTab, {
           type
           currency
           cents
+          components {
+            fareId
+          }
         }
         legs {
           mode

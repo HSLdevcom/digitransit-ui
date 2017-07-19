@@ -2,6 +2,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow-x: auto;
 }
 
 @media print {
@@ -18,12 +19,12 @@
 .time-selectors {
   @include font-book;
   font-size: $font-size-small;
-  background-color: $secondary-color;
+  background-color: $background-color-darker;
   display: flex;
   flex-direction: row;
   align-items: stretch;
 
-  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
+  input[type="date"], input[type="time"].time-selector, input[type="text"], input[type="tel"],select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
     height: 2.6em;
@@ -32,25 +33,21 @@
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
-    background-color: $primary-color;
-    box-shadow: none;
-    color: $secondary-font-color;
+    background-color: $white;
+    color: $link-color;
     border: none;
     border-radius: $border-radius;
     appearance: none;
     @include font-book;
-    cursor: pointer;
 
     &:hover {
-      background-color: $primary-color;
+      background-color: $white;
       //outline: none;
-      box-shadow: none;
     }
 
     &:focus {
-      background-color: $primary-color;
+      background-color: $white;
       //outline: none;
-      box-shadow: none;
     }
 
     &.text-time-selector, &.desktop {
@@ -64,7 +61,7 @@
     flex-direction: row;
     align-items: center;
     border-radius: $border-radius;
-    background: $primary-color;
+    background: $background-color-darker;
     margin-right: 1px;
 
     > span {
@@ -72,11 +69,17 @@
       pointer-events: none;
     }
   }
+  .time-box-shadow input {
+    box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+    &:focus {
+      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+    }
+  }
 
   .fake-select-arrow {
     font-size: 0.5rem;
     width: 2em;
-    color: #fff;
+    color: $link-color;
   }
 
   .time-selector {
@@ -84,6 +87,7 @@
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
+    border: solid 1px $light-gray;
     input {
       font-size: $font-size-xxsmall !important;
     }
@@ -102,13 +106,70 @@
   .arrive {
     width: auto;
     text-align: left;
- }
+  }
+
+  .arrive, .date, input[type="time"].time-selector {
+    border: solid 1px $light-gray;
+    box-shadow: none;
+  }
+
+  select {
+    &:hover {
+      border: solid 1px $link-color;
+    }
+  }
+}
+.time-input-container {
+  display: flex;
+  background: $white;
+  padding: 0 calc(0.7em + 1.5rem) 0 0.7em;
+  box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+  border-radius: 3px;
+  .time-input-field {
+    width: 1.5em;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    box-shadow: none;
+    background-color: transparent !important;
+    &:focus {
+      box-shadow: none !important;
+      border-color: none !important;
+    }
+    &#inputMinutes{
+      text-align: left;
+    }
+    &#inputHours{
+      text-align: right;
+    }
+  }
+  .digit-separator {
+    margin: 0.35em 3px;
+    color: $link-color;
+  }
+}
+
+.time-button-container {
+  width: 10px;
+  button {
+    width: 12px;
+    background: #fff;
+    border: 1px solid #c3e1ec;
+    text-align: center;
+    height: 18px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 7px;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0;
+  }
 }
 
 .time-selector-settings-row {
   padding: $padding-small 6px;
   overflow-x: hidden;
-  background-color: $secondary-color;
+  background-color: $background-color-darker;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -135,7 +196,7 @@
     max-width: 6.5em;
   }
 
-  input[type="date"], input[type="time"], input[type="text"], select, .time-mui > input {
+  input[type="date"], input[type="time"], input[type="text"], input[type="tel"], select, .time-mui > input {
     font-size: $font-size-normal !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
@@ -147,7 +208,7 @@
 
   .right-offcanvas-toggle {
       span {
-        color: $primary-font-color;
+        color: $link-color;
         font-size: $font-size-small;
       }
       border-radius: $border-radius;
@@ -157,19 +218,20 @@
 .right-offcanvas-toggle {
 
   &:hover {
-    background-color: $primary-color;
+    background-color: $white;
+    border: solid 1px $link-color;
     //outline: none;
     box-shadow: none;
   }
 
   &:focus {
-    background-color: $primary-color;
+    background-color: $white;
     //outline: none;
     box-shadow: none;
   }
 
   span {
-    color: $primary-font-color;
+    color: $link-color;
     @include font-bold;
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
@@ -178,9 +240,10 @@
   }
   width: auto;
   margin: 0;
-  background-color: $primary-color;
+  background-color: $white;
+  border: solid 1px $light-gray;
   border-radius: $border-radius-small;
-  color: $primary-font-color;
+  color: $link-color;
   display: flex;
   align-items: center;
   min-height: 30px;
@@ -199,7 +262,6 @@
     line-height: 0;
 
     .icon {
-      fill: $white;
       font-size: $font-size-large;
     }
 

@@ -1,5 +1,8 @@
 import Store from 'fluxible/addons/BaseStore';
-import { getFavouriteCityBikeStations, setFavouriteCityBikeStations } from './localStorage';
+import {
+  getFavouriteCityBikeStations,
+  setFavouriteCityBikeStations,
+} from './localStorage';
 
 class FavouriteCityBikeStationStore extends Store {
   static storeName = 'FavouriteCityBikeStationStore';
@@ -20,7 +23,7 @@ class FavouriteCityBikeStationStore extends Store {
 
   removeFavouriteCityBikeStation(id) {
     const favourites = getFavouriteCityBikeStations();
-    const newFavourites = favourites.filter(fav => (fav !== id));
+    const newFavourites = favourites.filter(fav => fav !== id);
 
     if (newFavourites.length !== favourites.length) {
       setFavouriteCityBikeStations(newFavourites);
@@ -35,7 +38,6 @@ class FavouriteCityBikeStationStore extends Store {
       this.addFavouriteCityBikeStation(id);
     }
   }
-
 
   static handlers = {
     ToggleFavouriteCityBikeStation: 'toggleFavouriteCityBikeStation',

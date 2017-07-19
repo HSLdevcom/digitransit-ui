@@ -1,5 +1,5 @@
 import unzip from 'lodash/unzip';
-import { isBrowser } from './browser';
+import { isBrowser, isImperial } from './browser';
 
 /* eslint-disable global-require */
 const L = isBrowser ? require('leaflet') : null;
@@ -29,7 +29,7 @@ export function getDistanceToNearestStop(lat, lon, stops) {
   let minDist = Number.MAX_VALUE;
   let minStop = null;
 
-  stops.forEach((stop) => {
+  stops.forEach(stop => {
     const stopPos = new L.LatLng(stop.lat, stop.lon);
     const distance = myPos.distanceTo(stopPos);
 
@@ -43,52 +43,78 @@ export function getDistanceToNearestStop(lat, lon, stops) {
 }
 
 export function getDistanceToFurthestStop(coordinates, stops) {
-  return stops.map(stop =>
-    ({
+  return stops
+    .map(stop => ({
       stop,
       distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    }),
-  ).reduce((previous, current) => (current.distance > previous.distance ? current : previous),
-           { stop: null, distance: 0 });
+    }))
+    .reduce(
+      (previous, current) =>
+        current.distance > previous.distance ? current : previous,
+      { stop: null, distance: 0 },
+    );
 }
 
-export function displayDistance(meters) {
+export function displayImperialDistance(meters) {
+  const feet = meters * 3.2808399;
+
   /* eslint-disable yoda */
+
+  if (feet < 100) {
+    return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
+  } else if (feet < 1000) {
+    return `${Math.round(feet / 50) * 50} ft`; // fifty feet
+  }
+  return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
+}
+
+export function displayDistance(meters, config) {
+  if (isImperial(config)) {
+    return displayImperialDistance(meters);
+  }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
   } else if (meters < 1000) {
     return `${Math.round(meters / 50) * 50} m`; // fifty meters
   } else if (meters < 10000) {
-    return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
+    return `${Math.round(meters / 100) * 100 / 1000} km`; // hudreds of meters
   } else if (meters < 100000) {
     return `${Math.round(meters / 1000)} km`; // kilometers
   }
   return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
-  /* eslint-enable yoda */
 }
+
+/* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
 // If the box is smaller than 0.002x0.002, add padding
 export function boundWithMinimumArea(points) {
-  if (!points || !points[0]) { return null; }
-  const [lats, lons] = unzip(points.filter(([lat, lon]) => (!isNaN(lat) && !isNaN(lon))));
+  if (!points || !points[0]) {
+    return null;
+  }
+  const [lats, lons] = unzip(
+    points.filter(([lat, lon]) => !isNaN(lat) && !isNaN(lon)),
+  );
   const minlat = Math.min(...lats);
   const minlon = Math.min(...lons);
   const maxlat = Math.max(...lats);
   const maxlon = Math.max(...lons);
   const missingHeight = Math.max(0, 0.002 - (maxlat - minlat));
   const missingWidth = Math.max(0, 0.002 - (maxlon - minlon));
-  return [[minlat - (missingHeight / 2), minlon - (missingWidth / 2)],
-          [maxlat + (missingHeight / 2), maxlon + (missingWidth / 2)]];
+  return [
+    [minlat - missingHeight / 2, minlon - missingWidth / 2],
+    [maxlat + missingHeight / 2, maxlon + missingWidth / 2],
+  ];
 }
 
 function getLengthOf(geometry) {
   let d = 0;
 
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];
-    d += Math.sqrt((dlat * dlat) + (dlon * dlon));
+    d += Math.sqrt(dlat * dlat + dlon * dlon);
   }
 
   return d;
@@ -99,10 +125,11 @@ function getMiddleIndexOf(geometry) {
   let distanceSoFar = 0;
   const distanceToHalf = getLengthOf(geometry) * 0.5;
 
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];
-    distanceSoFar += Math.sqrt((dlat * dlat) + (dlon * dlon));
+    distanceSoFar += Math.sqrt(dlat * dlat + dlon * dlon);
     if (distanceSoFar >= distanceToHalf) {
       middleIndex = i;
       break;
@@ -112,14 +139,18 @@ function getMiddleIndexOf(geometry) {
 }
 
 export function getMiddleOf(geometry) {
-  if (geometry.length <= 0) return { lat: 0, lon: 0 };
-  if (geometry.length === 1) return { lat: geometry[0][0], lon: geometry[0][1] };
+  if (geometry.length <= 0) {
+    return { lat: 0, lon: 0 };
+  }
+  if (geometry.length === 1) {
+    return { lat: geometry[0][0], lon: geometry[0][1] };
+  }
 
   const i = Math.max(1, getMiddleIndexOf(geometry));
 
   return {
-    lat: geometry[i - 1][0] + (0.5 * (geometry[i][0] - geometry[i - 1][0])),
-    lon: geometry[i - 1][1] + (0.5 * (geometry[i][1] - geometry[i - 1][1])),
+    lat: geometry[i - 1][0] + 0.5 * (geometry[i][0] - geometry[i - 1][0]),
+    lon: geometry[i - 1][1] + 0.5 * (geometry[i][1] - geometry[i - 1][1]),
   };
 }
 
@@ -137,8 +168,10 @@ export class Contour {
     let p1;
     let p2;
 
-    for (let i = 0; i < nPts; j = i++) { // eslint-disable-line no-plusplus
-      p1 = pts[i]; p2 = pts[j];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < nPts; j = i++) {
+      p1 = pts[i];
+      p2 = pts[j];
       area += p1.x * p2.y;
       area -= p1.y * p2.x;
     }
@@ -156,9 +189,11 @@ export class Contour {
     let p1;
     let p2;
 
-    for (let i = 0; i < nPts; j = i++) { // eslint-disable-line no-plusplus
-      p1 = pts[i]; p2 = pts[j];
-      f = (p1.x * p2.y) - (p2.x * p1.y);
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < nPts; j = i++) {
+      p1 = pts[i];
+      p2 = pts[j];
+      f = p1.x * p2.y - p2.x * p1.y;
       x += (p1.x + p2.x) * f;
       y += (p1.y + p2.y) * f;
     }

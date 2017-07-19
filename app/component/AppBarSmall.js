@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import BackButton from './BackButton';
 import DisruptionInfo from './DisruptionInfo';
@@ -11,10 +12,11 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) =>
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {(showLogo && !config.textLogo) ?
-          <div className="logo" /> :
-          <span className="title">{title}</span>
-        }
+        {showLogo && !config.textLogo
+          ? <div className="logo" />
+          : <span className="title">
+              {title}
+            </span>}
       </section>
       <MainMenuContainer />
     </nav>
@@ -22,22 +24,28 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) =>
 
 AppBarSmall.displayName = 'AppBarSmall';
 
-AppBarSmall.description = () => (
+AppBarSmall.description = () =>
   <div>
-    <p>
-      AppBar of application for small display
-    </p>
+    <p>AppBar of application for small display</p>
     <ComponentUsageExample description="">
       <AppBarSmall title="Reittiopas.fi" className="fullscreen" />
     </ComponentUsageExample>
     <ComponentUsageExample description="no back button">
-      <AppBarSmall disableBackButton title="Reittiopas.fi" className="fullscreen" />
+      <AppBarSmall
+        disableBackButton
+        title="Reittiopas.fi"
+        className="fullscreen"
+      />
     </ComponentUsageExample>
     <ComponentUsageExample description="Show logo">
-      <AppBarSmall showLogo disableBackButton title="Reittiopas.fi" className="fullscreen" />
+      <AppBarSmall
+        showLogo
+        disableBackButton
+        title="Reittiopas.fi"
+        className="fullscreen"
+      />
     </ComponentUsageExample>
-  </div>);
-
+  </div>;
 
 AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,

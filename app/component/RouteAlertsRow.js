@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import RouteNumber from './RouteNumber';
@@ -33,29 +34,27 @@ export default function RouteAlertsRow({
 }
 
 RouteAlertsRow.propTypes = {
-  header: React.PropTypes.string,
-  description: React.PropTypes.string.isRequired,
-  startTime: React.PropTypes.string.isRequired,
-  endTime: React.PropTypes.string.isRequired,
-  routeMode: React.PropTypes.string.isRequired,
-  routeLine: React.PropTypes.string.isRequired,
-  expired: React.PropTypes.bool.isRequired,
+  header: PropTypes.string,
+  description: PropTypes.string.isRequired,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  routeMode: PropTypes.string.isRequired,
+  routeLine: PropTypes.string.isRequired,
+  expired: PropTypes.bool.isRequired,
 };
 
 RouteAlertsRow.description = () =>
   <div>
-    <p>
-      Display a disruption alert for a specific route.
-    </p>
+    <p>Display a disruption alert for a specific route.</p>
     <div className="route-alerts-list">
-      <ComponentUsageExample
-        description="Currently active disruption"
-      >
+      <ComponentUsageExample description="Currently active disruption">
         <RouteAlertsRow
           header={'Raitiolinja 2 - Myöhästyy'}
-          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          description={
+            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'}
+            'Arvioitu kesto: 14:29 - 15:20.'
+          }
           startTime={'11:32'}
           endTime={'12:20'}
           routeMode={'tram'}
@@ -64,12 +63,14 @@ RouteAlertsRow.description = () =>
           expired={false}
         />
       </ComponentUsageExample>
-      <ComponentUsageExample description="Past disruption" >
+      <ComponentUsageExample description="Past disruption">
         <RouteAlertsRow
           header={'Raitiolinja 2 - Myöhästyy'}
-          description={'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
+          description={
+            'Raitiolinjat: 2 Kaivopuiston suuntaan ja 3 Nordenskiöldinkadun ' +
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
-            'Arvioitu kesto: 14:29 - 15:20.'}
+            'Arvioitu kesto: 14:29 - 15:20.'
+          }
           startTime={'11:32'}
           endTime={'12:20'}
           routeMode={'tram'}

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -5,7 +6,7 @@ import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { isBrowser } from '../../util/browser';
+import { isBrowser, isDebugTiles } from '../../util/browser';
 import Icon from '../Icon';
 
 /* eslint-disable global-require */
@@ -32,48 +33,48 @@ if (isBrowser) {
 
 class Map extends React.Component {
   static propTypes = {
-    bounds: React.PropTypes.array,
-    boundsOptions: React.PropTypes.object,
-    center: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    disableMapTracking: React.PropTypes.func,
-    displayOriginPopup: React.PropTypes.bool,
-    fitBounds: React.PropTypes.bool,
-    hideOrigin: React.PropTypes.bool,
-    hilightedStops: React.PropTypes.array,
-    lat: React.PropTypes.number,
-    lon: React.PropTypes.number,
-    leafletEvents: React.PropTypes.object,
-    leafletObjs: React.PropTypes.array,
-    leafletOptions: React.PropTypes.object,
-    padding: React.PropTypes.array,
-    showStops: React.PropTypes.bool,
-    zoom: React.PropTypes.number,
-    showScaleBar: React.PropTypes.bool,
+    bounds: PropTypes.array,
+    boundsOptions: PropTypes.object,
+    center: PropTypes.bool,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    disableMapTracking: PropTypes.func,
+    displayOriginPopup: PropTypes.bool,
+    fitBounds: PropTypes.bool,
+    hideOrigin: PropTypes.bool,
+    hilightedStops: PropTypes.array,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    leafletEvents: PropTypes.object,
+    leafletObjs: PropTypes.array,
+    leafletOptions: PropTypes.object,
+    padding: PropTypes.array,
+    showStops: PropTypes.bool,
+    zoom: PropTypes.number,
+    showScaleBar: PropTypes.bool,
   };
 
-  static defaultProps ={
+  static defaultProps = {
     showScaleBar: false,
-  }
+  };
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
-    piwik: React.PropTypes.object,
-    config: React.PropTypes.object.isRequired,
-    breakpoint: React.PropTypes.string.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
+    piwik: PropTypes.object,
+    config: PropTypes.object.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidMount = () => {
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
     this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
-  }
+  };
 
   componentWillUnmount = () => {
     this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
-  }
+  };
 
   resizeMap = () => {
     if (this.map) {
@@ -85,37 +86,45 @@ class Map extends React.Component {
         );
       }
     }
-  }
+  };
 
-  vectorTileLayerContainerModules = ({ VectorTileLayerContainer:
-    () => importLazy(System.import('./tile-layer/VectorTileLayerContainer')),
-  })
+  vectorTileLayerContainerModules = {
+    VectorTileLayerContainer: () =>
+      importLazy(
+        import(/* webpackChunkName: "vector-tiles" */ './tile-layer/VectorTileLayerContainer'),
+      ),
+  };
 
-  stopMarkerContainerModules = { StopMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/StopMarkerContainer')),
-  }
+  stopMarkerContainerModules = {
+    StopMarkerContainer: () =>
+      importLazy(
+        import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/StopMarkerContainer'),
+      ),
+  };
 
-  cityBikeMarkerContainerModules = { CityBikeMarkerContainer:
-    () => importLazy(System.import('./non-tile-layer/CityBikeMarkerContainer')),
-  }
+  cityBikeMarkerContainerModules = {
+    CityBikeMarkerContainer: () =>
+      importLazy(
+        import(/* webpackChunkName: "vector-tiles" */ './non-tile-layer/CityBikeMarkerContainer'),
+      ),
+  };
 
-  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (
+  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) =>
     <VectorTileLayerContainer
       hilightedStops={this.props.hilightedStops}
       showStops={this.props.showStops}
       disableMapTracking={this.props.disableMapTracking}
-    />
-  )
+    />;
 
-  renderStopMarkerContainer = ({ StopMarkerContainer }) => (
+  renderStopMarkerContainer = ({ StopMarkerContainer }) =>
     <StopMarkerContainer
       hilightedStops={this.props.hilightedStops}
       disableMapTracking={this.props.disableMapTracking}
       updateWhenIdle={false}
-    />
-  )
+    />;
 
-  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) => (<CityBikeMarkerContainer />)
+  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) =>
+    <CityBikeMarkerContainer />;
 
   render = () => {
     let map;
@@ -129,22 +138,32 @@ class Map extends React.Component {
 
       if (config.map.useVectorTiles) {
         leafletObjs.push(
-          <LazilyLoad key="vector-tiles" modules={this.vectorTileLayerContainerModules}>
+          <LazilyLoad
+            key="vector-tiles"
+            modules={this.vectorTileLayerContainerModules}
+          >
             {this.renderVectorTileLayerContainer}
           </LazilyLoad>,
         );
       } else if (this.props.showStops) {
         leafletObjs.push(
-          <LazilyLoad key="stop-layer" modules={this.stopMarkerContainerModules}>
+          <LazilyLoad
+            key="stop-layer"
+            modules={this.stopMarkerContainerModules}
+          >
             {this.renderStopMarkerContainer}
           </LazilyLoad>,
-          );
+        );
 
         if (config.cityBike.showCityBikes) {
           leafletObjs.push(
-            <LazilyLoad key="citybikes" modules={this.cityBikeMarkerContainerModules}>
+            <LazilyLoad
+              key="citybikes"
+              modules={this.cityBikeMarkerContainerModules}
+            >
               {this.renderCityBikeMarkerContainer}
-            </LazilyLoad>);
+            </LazilyLoad>,
+          );
         }
       }
 
@@ -156,14 +175,22 @@ class Map extends React.Component {
             position={origin}
             key="from"
             displayOriginPopup={this.props.displayOriginPopup}
-          />);
+          />,
+        );
       }
 
       leafletObjs.push(
-        <PositionMarker key="position" displayOriginPopup={this.props.displayOriginPopup} />);
+        <PositionMarker
+          key="position"
+          displayOriginPopup={this.props.displayOriginPopup}
+        />,
+      );
 
-      const center = (!this.props.fitBounds && this.props.lat && this.props.lon &&
-        [this.props.lat, this.props.lon]) || null;
+      const center =
+        (!this.props.fitBounds &&
+        this.props.lat &&
+        this.props.lon && [this.props.lat, this.props.lon]) ||
+        null;
 
       ({ zoom } = this.props);
 
@@ -173,22 +200,31 @@ class Map extends React.Component {
         boundsOptions.paddingTopLeft = this.props.padding;
       }
 
-      let mapUrl = config.URL.MAP;
+      let mapUrl =
+        (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
+        config.URL.MAP;
       if (mapUrl !== null && typeof mapUrl === 'object') {
-        mapUrl = mapUrl[this.context.getStore('PreferencesStore').getLanguage()] || config.URL.MAP.default;
+        mapUrl =
+          mapUrl[this.context.getStore('PreferencesStore').getLanguage()] ||
+          config.URL.MAP.default;
       }
 
       map = (
         <LeafletMap
           keyboard={false}
-          ref={(el) => { this.map = el; }}
+          ref={el => {
+            this.map = el;
+          }}
           center={center}
           zoom={zoom}
           minZoom={this.context.config.map.minZoom}
           maxZoom={this.context.config.map.maxZoom}
           zoomControl={false}
           attributionControl={false}
-          bounds={(this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) || undefined}
+          bounds={
+            (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
+            undefined
+          }
           animate
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
@@ -199,35 +235,43 @@ class Map extends React.Component {
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
             updateWhenIdle={false}
-            size={(config.map.useRetinaTiles && L.Browser.retina) ? '@2x' : ''}
+            size={
+              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
+                ? '@2x'
+                : ''
+            }
             minZoom={this.context.config.map.minZoom}
             maxZoom={this.context.config.map.maxZoom}
           />
           <AttributionControl
             position="bottomleft"
-            prefix='&copy; <a tabindex="-1" href="http://osm.org/copyright">OpenStreetMap</a>'
+            prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
           />
           {this.props.showScaleBar &&
-            <ScaleControl imperial={false} position={config.map.controls.scale.position} />
-          }
-          {this.context.breakpoint === 'large' && (
+            <ScaleControl
+              imperial={false}
+              position={config.map.controls.scale.position}
+            />}
+          {this.context.breakpoint === 'large' &&
             <ZoomControl
               position={config.map.controls.zoom.position}
               zoomInText={Icon.asString('icon-icon_plus')}
               zoomOutText={Icon.asString('icon-icon_minus')}
-            />
-          )}
+            />}
           {leafletObjs}
         </LeafletMap>
       );
     }
     return (
-      <div className={`map ${this.props.className ? this.props.className : ''}`}>
+      <div
+        className={`map ${this.props.className ? this.props.className : ''}`}
+      >
         {map}
         <div className="background-gradient" />
         {this.props.children}
-      </div>);
-  }
+      </div>
+    );
+  };
 }
 
 export default Map;

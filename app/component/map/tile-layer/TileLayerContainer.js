@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
-import MapLayer from 'react-leaflet/lib/MapLayer';
-import omit from 'lodash/omit';
+import GridLayer from 'react-leaflet/lib/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -26,61 +26,64 @@ import Loading from '../../Loading';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
-const ParkAndRideFacilityPopupWithContext = provideContext(ParkAndRideFacilityPopup, {
-  intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
-});
+const ParkAndRideFacilityPopupWithContext = provideContext(
+  ParkAndRideFacilityPopup,
+  {
+    intl: intlShape.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    getStore: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+  },
+);
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  route: React.PropTypes.object.isRequired,
-  getStore: React.PropTypes.func.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
-  router: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 });
 
 const PopupOptions = {
@@ -96,22 +99,22 @@ const PopupOptions = {
 // TODO eslint doesn't know that TileLayerContainer is a react component,
 //      because it doesn't inherit it directly. This will force the detection
 /** @extends React.Component */
-class TileLayerContainer extends MapLayer {
+class TileLayerContainer extends GridLayer {
   static propTypes = {
-    tileSize: React.PropTypes.number,
-    zoomOffset: React.PropTypes.number,
-    disableMapTracking: React.PropTypes.func,
-  }
+    tileSize: PropTypes.number.isRequired,
+    zoomOffset: PropTypes.number.isRequired,
+    disableMapTracking: PropTypes.func,
+  };
 
   static contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    map: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired,
-    location: React.PropTypes.object.isRequired,
-    route: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   state = {
@@ -122,14 +125,6 @@ class TileLayerContainer extends MapLayer {
   componentWillMount() {
     super.componentWillMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
-
-    // TODO: Convert to use react-leaflet <GridLayer>
-    const Layer = L.GridLayer.extend({ createTile: this.createTile });
-
-    this.leafletElement = new Layer(omit(this.props, 'map'));
-    this.context.map.addEventParent(this.leafletElement);
-
-    this.leafletElement.on('click contextmenu', this.onClick);
   }
 
   componentDidUpdate() {
@@ -143,35 +138,53 @@ class TileLayerContainer extends MapLayer {
     this.leafletElement.off('click contextmenu', this.onClick);
   }
 
-  onTimeChange = (e) => {
+  onTimeChange = e => {
     let activeTiles;
 
     if (e.currentTime) {
       /* eslint-disable no-underscore-dangle */
-      activeTiles = lodashFilter(this.leafletElement._tiles, tile => tile.active);
+      activeTiles = lodashFilter(
+        this.leafletElement._tiles,
+        tile => tile.active,
+      );
       /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach(tile =>
-        tile.el.layers && tile.el.layers.forEach((layer) => {
-          if (layer.onTimeChange) {
-            layer.onTimeChange();
-          }
-        }),
+      activeTiles.forEach(
+        tile =>
+          tile.el.layers &&
+          tile.el.layers.forEach(layer => {
+            if (layer.onTimeChange) {
+              layer.onTimeChange();
+            }
+          }),
       );
     }
-  }
+  };
 
-  onClick = (e) => {
+  onClick = e => {
     /* eslint-disable no-underscore-dangle */
     Object.keys(this.leafletElement._tiles)
       .filter(key => this.leafletElement._tiles[key].active)
       .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
-      .forEach(key => this.leafletElement._tiles[key].el.onMapClick(
-        e,
-        this.merc.px([e.latlng.lng, e.latlng.lat],
-        Number(key.split(':')[2]) + this.props.zoomOffset),
-      ),
-    );
+      .forEach(key =>
+        this.leafletElement._tiles[key].el.onMapClick(
+          e,
+          this.merc.px(
+            [e.latlng.lng, e.latlng.lat],
+            Number(key.split(':')[2]) + this.props.zoomOffset,
+          ),
+        ),
+      );
     /* eslint-enable no-underscore-dangle */
+  };
+
+  createLeafletElement(props) {
+    const Layer = L.GridLayer.extend({ createTile: this.createTile });
+    const leafletElement = new Layer(this.getOptions(props));
+
+    this.context.map.addEventParent(leafletElement);
+    leafletElement.on('click contextmenu', this.onClick);
+
+    return leafletElement;
   }
 
   merc = new SphericalMercator({
@@ -179,7 +192,12 @@ class TileLayerContainer extends MapLayer {
   });
 
   createTile = (tileCoords, done) => {
-    const tile = new TileContainer(tileCoords, done, this.props, this.context.config);
+    const tile = new TileContainer(
+      tileCoords,
+      done,
+      this.props,
+      this.context.config,
+    );
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
       if (selectableTargets && this.props.disableMapTracking) {
@@ -193,9 +211,9 @@ class TileLayerContainer extends MapLayer {
     };
 
     return tile.el;
-  }
+  };
 
-  selectRow = option => this.setState({ selectableTargets: [option] })
+  selectRow = option => this.setState({ selectableTargets: [option] });
 
   render() {
     let popup = null;
@@ -214,21 +232,26 @@ class TileLayerContainer extends MapLayer {
           contents = (
             <Relay.RootContainer
               Component={StopMarkerPopup}
-              route={this.state.selectableTargets[0].feature.properties.stops ?
-                new TerminalRoute({
-                  terminalId: id,
-                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
-                })
-                :
-                new StopRoute({
-                  stopId: id,
-                  currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
-                })
+              route={
+                this.state.selectableTargets[0].feature.properties.stops
+                  ? new TerminalRoute({
+                      terminalId: id,
+                      currentTime: this.context
+                        .getStore('TimeStore')
+                        .getCurrentTime()
+                        .unix(),
+                    })
+                  : new StopRoute({
+                      stopId: id,
+                      currentTime: this.context
+                        .getStore('TimeStore')
+                        .getCurrentTime()
+                        .unix(),
+                    })
               }
               renderLoading={loadingPopup}
               renderFetched={data =>
-                <StopMarkerPopupWithContext {...data} context={this.context} />
-              }
+                <StopMarkerPopupWithContext {...data} context={this.context} />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
@@ -237,11 +260,14 @@ class TileLayerContainer extends MapLayer {
             <Relay.RootContainer
               Component={CityBikePopup}
               forceFetch
-              route={new CityBikeRoute({
-                stationId: id,
-              })}
+              route={
+                new CityBikeRoute({
+                  stationId: id,
+                })
+              }
               renderLoading={loadingPopup}
-              renderFetched={data => <CityBikePopupWithContext {...data} context={this.context} />}
+              renderFetched={data =>
+                <CityBikePopupWithContext {...data} context={this.context} />}
             />
           );
         } else if (
@@ -255,7 +281,7 @@ class TileLayerContainer extends MapLayer {
               forceFetch
               route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
               renderLoading={loadingPopup}
-              renderFetched={data => (
+              renderFetched={data =>
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
@@ -266,8 +292,7 @@ class TileLayerContainer extends MapLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />
-              )}
+                />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -278,7 +303,7 @@ class TileLayerContainer extends MapLayer {
               forceFetch
               route={new ParkAndRideFacilityRoute({ id })}
               renderLoading={loadingPopup}
-              renderFetched={data => (
+              renderFetched={data =>
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
@@ -289,8 +314,7 @@ class TileLayerContainer extends MapLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />
-              )}
+                />}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
@@ -303,14 +327,10 @@ class TileLayerContainer extends MapLayer {
           );
         }
         popup = (
-          <Popup
-            {...PopupOptions}
-            key={id}
-            position={this.state.coords}
-          >
+          <Popup {...PopupOptions} key={id} position={this.state.coords}>
             {contents}
           </Popup>
-          );
+        );
       } else if (this.state.selectableTargets.length > 1) {
         popup = (
           <Popup

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -6,7 +7,7 @@ import SummaryRow from './SummaryRow';
 function ItinerarySummaryListContainer(props) {
   if (props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
-    const summaries = props.itineraries.map((itinerary, i) => (
+    const summaries = props.itineraries.map((itinerary, i) =>
       <SummaryRow
         refTime={props.searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
@@ -19,13 +20,19 @@ function ItinerarySummaryListContainer(props) {
         intermediatePlaces={props.relay.route.params.intermediatePlaces}
       >
         {i === open && props.children}
-      </SummaryRow>
-    ));
+      </SummaryRow>,
+    );
 
-    return <div className="summary-list-container momentum-scroll">{summaries}</div>;
+    return (
+      <div className="summary-list-container momentum-scroll">
+        {summaries}
+      </div>
+    );
   } else if (
-    !props.relay.route.params.from.lat || !props.relay.route.params.from.lon ||
-    !props.relay.route.params.to.lat || !props.relay.route.params.to.lon
+    !props.relay.route.params.from.lat ||
+    !props.relay.route.params.from.lon ||
+    !props.relay.route.params.to.lat ||
+    !props.relay.route.params.to.lon
   ) {
     return (
       <div className="summary-list-container summary-no-route-found">
@@ -40,34 +47,36 @@ function ItinerarySummaryListContainer(props) {
     <div className="summary-list-container summary-no-route-found">
       <FormattedMessage
         id="no-route-msg"
-        defaultMessage={'Unfortunately no routes were found for your journey. ' +
-          'Please change your origin or destination address.'}
+        defaultMessage={
+          'Unfortunately no routes were found for your journey. ' +
+          'Please change your origin or destination address.'
+        }
       />
     </div>
   );
 }
 
 ItinerarySummaryListContainer.propTypes = {
-  searchTime: React.PropTypes.number.isRequired,
-  itineraries: React.PropTypes.array,
-  activeIndex: React.PropTypes.number.isRequired,
-  currentTime: React.PropTypes.number.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  onSelectImmediately: React.PropTypes.func.isRequired,
-  open: React.PropTypes.number,
-  children: React.PropTypes.node,
-  relay: React.PropTypes.shape({
-    route: React.PropTypes.shape({
-      params: React.PropTypes.shape({
-        to: React.PropTypes.shape({
-          lat: React.PropTypes.number,
-          lon: React.PropTypes.number,
-          address: React.PropTypes.string.isRequired,
+  searchTime: PropTypes.number.isRequired,
+  itineraries: PropTypes.array,
+  activeIndex: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onSelectImmediately: PropTypes.func.isRequired,
+  open: PropTypes.number,
+  children: PropTypes.node,
+  relay: PropTypes.shape({
+    route: PropTypes.shape({
+      params: PropTypes.shape({
+        to: PropTypes.shape({
+          lat: PropTypes.number,
+          lon: PropTypes.number,
+          address: PropTypes.string.isRequired,
         }).isRequired,
-        from: React.PropTypes.shape({
-          lat: React.PropTypes.number,
-          lon: React.PropTypes.number,
-          address: React.PropTypes.string.isRequired,
+        from: PropTypes.shape({
+          lat: PropTypes.number,
+          lon: PropTypes.number,
+          address: PropTypes.string.isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,

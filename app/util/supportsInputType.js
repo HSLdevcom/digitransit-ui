@@ -8,7 +8,7 @@ export default function supportsInputType(inputType) {
       supported = true;
     }
     input.value = 'Hello world';
-    const helloWorldAccepted = (input.value === 'Hello world');
+    const helloWorldAccepted = input.value === 'Hello world';
     switch (desiredType) {
       case 'email':
       case 'url':

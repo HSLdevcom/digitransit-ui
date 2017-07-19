@@ -14,7 +14,9 @@ const StopPageHeaderContainer = Relay.createContainer(StopPageHeader, {
   },
 });
 
-export default connectToStores(StopPageHeaderContainer, ['FavouriteStopsStore'],
+export default connectToStores(
+  StopPageHeaderContainer,
+  ['FavouriteStopsStore'],
   ({ getStore }, { params }) => ({
     favourite: getStore('FavouriteStopsStore').isFavourite(params.stopId),
   }),
