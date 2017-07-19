@@ -20,7 +20,7 @@ require('babel-core/register')({
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
     'dynamic-import-node',
-    path.join(process.cwd(), 'build/babelRelayPlugin'),
+    ['relay', { compat: true, schema: 'build/schema.json' }],
   ],
   ignore: [/node_modules/, 'app/util/piwik.js'],
 });
@@ -47,7 +47,7 @@ function getRulesConfig(env) {
           ],
           plugins: [
             'transform-import-commonjs',
-            path.join(__dirname, 'build/babelRelayPlugin'),
+            ['relay', { compat: true, schema: 'build/schema.json' }],
             [
               'transform-runtime',
               {
@@ -86,7 +86,7 @@ function getRulesConfig(env) {
         ],
         plugins: [
           'transform-react-remove-prop-types',
-          path.join(__dirname, 'build/babelRelayPlugin'),
+          ['relay', { compat: true, schema: 'build/schema.json' }],
           [
             'transform-runtime',
             {
