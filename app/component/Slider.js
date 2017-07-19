@@ -6,8 +6,6 @@ class Slider extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     id: PropTypes.string,
-    defaultValue: PropTypes.number,
-    initialValue: PropTypes.number.isRequired,
     onSliderChange: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
@@ -29,12 +27,10 @@ class Slider extends React.Component {
   };
 
   // eslint-disable-next-line
-  defaultValue = this.props.defaultValue != null
-    ? this.props.defaultValue
-    : Math.floor((this.props.min + this.props.max) / 2);
+  defaultValue = Math.floor((this.props.min + this.props.max) / 2);
 
   state = {
-    modified: this.props.initialValue !== this.defaultValue,
+    modified: false,
   };
 
   componentWillMount = () =>
