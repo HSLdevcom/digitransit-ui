@@ -56,7 +56,7 @@ const RouteMarkerPopupWithContext = provideContext(
   {
     // Note: We're not sure this is necessary, since context is  getting passed via props
     // router: PropTypes.object.isRequired,
-    // config: React.PropTypes.object.isRequired,
+    // config: PropTypes.object.isRequired,
   },
 );
 

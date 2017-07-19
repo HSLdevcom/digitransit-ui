@@ -155,7 +155,7 @@ RouteNumber.description = () =>
 
 RouteNumber.propTypes = {
   mode: PropTypes.string.isRequired,
-  color: React.PropTypes.string,
+  color: PropTypes.string,
   text: PropTypes.node,
   vertical: PropTypes.bool,
   className: PropTypes.string,

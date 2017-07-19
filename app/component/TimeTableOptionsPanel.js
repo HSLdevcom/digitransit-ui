@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
@@ -5,9 +6,9 @@ import Icon from './Icon';
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
-    stop: React.PropTypes.object,
-    showRoutes: React.PropTypes.array,
-    showFilterModal: React.PropTypes.func,
+    stop: PropTypes.object,
+    showRoutes: PropTypes.array,
+    showFilterModal: PropTypes.func,
   };
 
   constructor(props) {
