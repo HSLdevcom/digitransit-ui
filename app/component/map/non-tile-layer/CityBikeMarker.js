@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
-import { RootContainer } from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -11,7 +11,6 @@ import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
-import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
 
@@ -98,15 +97,23 @@ export default class CityBikeMarker extends React.Component {
         getIcon={this.getIcon}
         id={this.props.station.stationId}
       >
-        <RootContainer
-          Component={CityBikePopup}
-          route={new CityBikeRoute({ stationId: this.props.station.stationId })}
-          renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}>
-              <Loading />
-            </div>}
-          renderFetched={data =>
-            <CityBikePopupWithContext {...data} context={this.context} />}
+        <QueryRenderer
+          query={graphql`
+            query CityBikeMarkerQuery($stationId: String!) {
+              station: bikeRentalStation(id: $stationId) {
+                ...CityBikePopup_station
+              }
+            }
+          `}
+          cacheConfig={{ force: true, poll: 30 * 1000 }}
+          variables={{ stationId: this.props.station.stationId }}
+          environment={Store}
+          render={({ props }) =>
+            props
+              ? <CityBikePopupWithContext {...props} context={this.context} />
+              : <div className="card" style={{ height: '12rem' }}>
+                  <Loading />
+                </div>}
         />
       </GenericMarker>
     );
