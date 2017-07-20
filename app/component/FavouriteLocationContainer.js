@@ -7,10 +7,10 @@ import FavouriteLocation from './FavouriteLocation';
 const FavouriteLocationContainer = ({
   currentTime,
   onClickFavourite,
-  plan,
+  viewer: { plan },
   favourite,
 }) => {
-  const itinerary = (plan && plan.plan.itineraries[0]) || {};
+  const itinerary = (plan && plan.itineraries[0]) || {};
   const firstTransitLeg = find(itinerary.legs, leg => leg.transitLeg);
 
   let departureTime;
@@ -23,35 +23,42 @@ const FavouriteLocationContainer = ({
     <FavouriteLocation
       favourite={favourite}
       clickFavourite={onClickFavourite}
-      {...{
-        departureTime,
-        currentTime,
-        firstTransitLeg,
-      }}
+      departureTime={departureTime}
+      currentTime={currentTime}
+      firstTransitLeg={firstTransitLeg}
     />
   );
 };
 
 FavouriteLocationContainer.propTypes = {
-  plan: PropTypes.object.isRequired,
+  viewer: PropTypes.shape({
+    plan: PropTypes.object.isRequired,
+  }).isRequired,
   favourite: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   onClickFavourite: PropTypes.func.isRequired,
 };
 
 export default createFragmentContainer(FavouriteLocationContainer, {
-  plan: graphql`
-    fragment FavouriteLocationContainer_plan on QueryType {
+  viewer: graphql.experimental`
+    fragment FavouriteLocationContainer_viewer on QueryType
+      @argumentDefinitions(
+        # TODO: get these from stored default parameters
+        from: { type: "InputCoordinates!" }
+        to: { type: "InputCoordinates!" }
+        maxWalkDistance: { type: "Float" }
+        wheelchair: { type: "Boolean" }
+        preferred: { type: "InputPreferred" }
+        arriveBy: { type: "Boolean!", defaultValue: false }
+      ) {
       plan(
         from: $from
         to: $to
-        numItineraries: 1
-        walkReluctance: $walkReluctance
-        walkBoardCost: $walkBoardCost
-        minTransferTime: $minTransferTime
-        walkSpeed: $walkSpeed
-        arriveBy: false
+        maxWalkDistance: $maxWalkDistance
+        wheelchair: $wheelchair
         preferred: $preferred
+        arriveBy: $arriveBy
+        numItineraries: 1
       ) {
         itineraries {
           startTime

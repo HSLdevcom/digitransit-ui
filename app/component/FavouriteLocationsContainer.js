@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import { routerShape, locationShape, Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
@@ -15,31 +16,6 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { setEndpoint } from '../action/EndpointActions';
 import NoFavouriteLocations from './NoFavouriteLocations';
 import { isMobile } from '../util/browser';
-
-class FavouriteLocationContainerRoute extends Relay.Route {
-  static queries = {
-    plan: (Component, variables) => Relay.QL`
-    query {
-      viewer {
-        ${Component.getFragment('plan', {
-          from: variables.from,
-          to: variables.to,
-          maxWalkDistance: variables.maxWalkDistance,
-          wheelchair: variables.wheelchair,
-          preferred: variables.preferred,
-          arriveBy: variables.arriveBy,
-          disableRemainingWeightHeuristic:
-            variables.disableRemainingWeightHeuristic,
-        })}
-      }
-    }`,
-  };
-  static paramDefinitions = {
-    from: { required: true },
-    to: { required: true },
-  };
-  static routeName = 'FavouriteLocationsContainerRoute';
-}
 
 const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
@@ -138,40 +114,61 @@ class FavouriteLocationsContainer extends React.Component {
       const config = this.context.config;
 
       return (
-        <Relay.RootContainer
-          Component={FavouriteLocationContainer}
-          forceFetch
-          route={
-            new FavouriteLocationContainerRoute({
-              from: {
-                lat: this.props.location.lat,
-                lon: this.props.location.lon,
-              },
+        <QueryRenderer
+          key={key}
+          cacheConfig={{ force: true, poll: 30 * 1000 }}
+          query={graphql.experimental`
+            query FavouriteLocationsContainerQuery(
+              $from: InputCoordinates!
+              $to: InputCoordinates!
+              $maxWalkDistance: Float
+              $wheelchair: Boolean
+              $preferred: InputPreferred
+              $arriveBy: Boolean!
+            ) {
+              viewer {
+                ...FavouriteLocationContainer_viewer
+                  @arguments(
+                    from: $from
+                    to: $to
+                    maxWalkDistance: $maxWalkDistance
+                    wheelchair: $wheelchair
+                    preferred: $preferred
+                    arriveBy: $arriveBy
+                  )
+              }
+            }
+          `}
+          variables={{
+            from: {
+              lat: this.props.location.lat,
+              lon: this.props.location.lon,
+            },
 
-              to: {
-                lat: favourite.lat,
-                lon: favourite.lon,
-              },
+            to: {
+              lat: favourite.lat,
+              lon: favourite.lon,
+            },
 
-              maxWalkDistance: config.maxWalkDistance + 0.1,
-              wheelchair: false,
+            maxWalkDistance: config.maxWalkDistance + 0.1,
+            wheelchair: false,
 
-              preferred: {
-                agencies: config.preferredAgency || '',
-              },
+            preferred: {
+              agencies: config.preferredAgency || '',
+            },
 
-              arriveBy: false,
-              disableRemainingWeightHeuristic: false,
-            })
-          }
-          renderLoading={() => favouriteLocation}
-          renderFetched={data =>
-            <FavouriteLocationContainer
-              favourite={favourite}
-              onClickFavourite={this.setDestination}
-              currentTime={this.props.currentTime.unix()}
-              {...data}
-            />}
+            arriveBy: false,
+          }}
+          environment={Store}
+          render={({ props }) =>
+            props
+              ? <FavouriteLocationContainer
+                  favourite={favourite}
+                  onClickFavourite={this.setDestination}
+                  currentTime={this.props.currentTime.unix()}
+                  {...props}
+                />
+              : favouriteLocation}
         />
       );
     }
