@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import cx from 'classnames';
 
 import OriginDestinationBar from './OriginDestinationBar';
@@ -102,15 +103,6 @@ class SummaryNavigation extends React.Component {
     CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
   };
 
-  renderTimeSelectorContainer = ({ done, props }) =>
-    done
-      ? <TimeSelectorContainer
-          {...props}
-          startTime={this.props.startTime}
-          endTime={this.props.endTime}
-        />
-      : undefined;
-
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -150,17 +142,23 @@ class SummaryNavigation extends React.Component {
         />
         <ViaPointBarContainer className={className} />
         <div className={cx('time-selector-settings-row', className)}>
-          <Relay.Renderer
-            Container={TimeSelectorContainer}
-            queryConfig={{
-              params: {},
-              name: 'ServiceTimeRangRoute',
-              queries: {
-                serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-              },
-            }}
-            environment={Relay.Store}
-            render={this.renderTimeSelectorContainer}
+          <QueryRenderer
+            query={graphql`
+              query SummaryNavigationQuery {
+                serviceTimeRange {
+                  start
+                  end
+                }
+              }
+            `}
+            environment={Store}
+            render={({ props }) =>
+              props &&
+              <TimeSelectorContainer
+                {...props}
+                startTime={this.props.startTime}
+                endTime={this.props.endTime}
+              />}
           />
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}

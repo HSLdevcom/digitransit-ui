@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
@@ -9,7 +8,7 @@ import { route } from '../action/ItinerarySearchActions';
 
 import TimeSelectors from './TimeSelectors';
 
-class TimeSelectorContainer extends Component {
+export default class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     location: locationShape.isRequired,
@@ -177,12 +176,3 @@ class TimeSelectorContainer extends Component {
     );
   }
 }
-
-export default createFragmentContainer(TimeSelectorContainer, {
-  serviceTimeRange: graphql`
-    fragment TimeSelectorContainer_serviceTimeRange on serviceTimeRange {
-      start
-      end
-    }
-  `,
-});

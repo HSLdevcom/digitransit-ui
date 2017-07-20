@@ -10,7 +10,6 @@ import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
-import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -118,7 +117,9 @@ export default createFragmentContainer(ItineraryTab, {
           name
           vertexType
           bikeRentalStation {
-            ...CityBikeMarker_station
+            lat
+            lon
+            stationId
           }
           stop {
             gtfsId
@@ -132,7 +133,9 @@ export default createFragmentContainer(ItineraryTab, {
           name
           vertexType
           bikeRentalStation {
-            ...CityBikeMarker_station
+            lat
+            lon
+            stationId
           }
           stop {
             gtfsId
