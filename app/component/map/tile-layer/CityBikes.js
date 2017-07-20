@@ -1,6 +1,7 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
-import Relay from 'react-relay/classic';
+import { fetchQuery, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import glfun from '@mapbox/mapbox-gl-style-spec/function';
 import pick from 'lodash/pick';
 
@@ -22,6 +23,15 @@ const getScale = glfun(
 );
 
 const timeOfLastFetch = {};
+
+const query = graphql`
+  query CityBikesQuery($id: String!) {
+    station: bikeRentalStation(id: $id) {
+      bikesAvailable
+      spacesAvailable
+    }
+  }
+`;
 
 class CityBikes {
   constructor(tile, config) {
@@ -75,74 +85,52 @@ class CityBikes {
 
   fetchAndDrawStatus = feature => {
     const geom = feature.geom;
-    const query = Relay.createQuery(
-      Relay.QL`
-    query Test($id: String!){
-      bikeRentalStation(id: $id) {
-        bikesAvailable
-        spacesAvailable
-      }
-    }`,
-      { id: feature.properties.id },
-    );
+    const id = feature.properties.id;
 
-    const lastFetch = timeOfLastFetch[feature.properties.id];
+    const lastFetch = timeOfLastFetch[id];
     const currentTime = new Date().getTime();
 
-    const callback = readyState => {
-      if (readyState.done) {
-        timeOfLastFetch[feature.properties.id] = new Date().getTime();
-        const result = Relay.Store.readQuery(query)[0];
+    const callback = ({ station: result }) => {
+      timeOfLastFetch[id] = new Date().getTime();
 
-        if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
-          drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
-        } else if (
-          result.bikesAvailable > this.config.cityBike.fewAvailableCount
-        ) {
-          drawAvailabilityBadge(
-            'good',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
-        } else if (result.bikesAvailable > 0) {
-          drawAvailabilityBadge(
-            'poor',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
-        } else {
-          drawAvailabilityBadge(
-            'no',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
-        }
+      if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+        drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
+      } else if (
+        result.bikesAvailable > this.config.cityBike.fewAvailableCount
+      ) {
+        drawAvailabilityBadge(
+          'good',
+          this.tile,
+          geom,
+          this.citybikeImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      } else if (result.bikesAvailable > 0) {
+        drawAvailabilityBadge(
+          'poor',
+          this.tile,
+          geom,
+          this.citybikeImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
+      } else {
+        drawAvailabilityBadge(
+          'no',
+          this.tile,
+          geom,
+          this.citybikeImageSize,
+          this.availabilityImageSize,
+          this.scaleratio,
+        );
       }
     };
 
     if (lastFetch && currentTime - lastFetch <= 30000) {
-      Relay.Store.primeCache(
-        {
-          query,
-        },
-        callback,
-      );
+      fetchQuery(Store, query, { id }).then(callback);
     } else {
-      Relay.Store.forceFetch(
-        {
-          query,
-        },
-        callback,
-      );
+      fetchQuery(Store, query, { id }, { force: true }).then(callback);
     }
   };
 
