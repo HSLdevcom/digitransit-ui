@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import some from 'lodash/some';
 
 import Map from './map/Map';
@@ -105,17 +105,15 @@ StopPageMap.propTypes = {
   ]).isRequired,
 };
 
-export default Relay.createContainer(StopPageMap, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        lat
-        lon
-        platformCode
-        name
-        code
-        desc
-      }
-    `,
-  },
+export default createFragmentContainer(StopPageMap, {
+  stop: graphql`
+    fragment StopPageMap_stop on Stop {
+      lat
+      lon
+      platformCode
+      name
+      code
+      desc
+    }
+  `,
 });

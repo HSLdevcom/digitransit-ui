@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
@@ -178,13 +178,11 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-export default Relay.createContainer(TimeSelectorContainer, {
-  fragments: {
-    serviceTimeRange: () => Relay.QL`
-      fragment on serviceTimeRange {
-        start
-        end
-      }
-    `,
-  },
+export default createFragmentContainer(TimeSelectorContainer, {
+  serviceTimeRange: graphql`
+    fragment TimeSelectorContainer_serviceTimeRange on serviceTimeRange {
+      start
+      end
+    }
+  `,
 });

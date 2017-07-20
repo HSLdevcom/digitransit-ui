@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import some from 'lodash/some';
 import cx from 'classnames';
 
@@ -55,21 +55,18 @@ TripStopsContainer.contextTypes = {
   breakpoint: PropTypes.string,
 };
 
-export default Relay.createContainer(TripStopsContainer, {
-  fragments: {
-    trip: () =>
-      Relay.QL`
-      fragment on Trip {
-        stoptimesForDate {
-          scheduledDeparture
-        }
-        ${TripStopListContainer.getFragment('trip')}
+export default createFragmentContainer(TripStopsContainer, {
+  trip: graphql`
+    fragment TripStopsContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
       }
-    `,
-    pattern: () => Relay.QL`
-      fragment on Pattern {
-        id
-      }
-    `,
-  },
+      ...TripStopListContainer_trip
+    }
+  `,
+  pattern: graphql`
+    fragment TripStopsContainer_pattern on Pattern {
+      id
+    }
+  `,
 });

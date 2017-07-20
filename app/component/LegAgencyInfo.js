@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import AgencyInfo from './AgencyInfo';
@@ -28,17 +28,14 @@ LegAgencyInfo.propTypes = {
   leg: PropTypes.object,
 };
 
-export default Relay.createContainer(LegAgencyInfo, {
-  fragments: {
-    leg: () =>
-      Relay.QL`
-      fragment on Leg {
-        agency {
-          name
-          url
-          fareUrl
-        }
+export default createFragmentContainer(LegAgencyInfo, {
+  leg: graphql`
+    fragment LegAgencyInfo_leg on Leg {
+      agency {
+        name
+        url
+        fareUrl
       }
-    `,
-  },
+    }
+  `,
 });
