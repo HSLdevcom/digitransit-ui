@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import uniq from 'lodash/uniq';
 import { routerShape } from 'react-router';
 
@@ -19,45 +19,16 @@ class StopMarkerLayer extends React.Component {
   };
 
   static propTypes = {
-    relay: PropTypes.shape({
-      setVariables: PropTypes.func.isRequired,
-    }).isRequired,
-    stopsInRectangle: PropTypes.shape({
-      stopsByBbox: PropTypes.array.isRequired,
-    }).isRequired,
+    stops: PropTypes.array.isRequired,
     hilightedStops: PropTypes.array,
   };
 
-  componentDidMount() {
-    this.context.map.on('moveend', this.onMapMove);
-    this.onMapMove();
-  }
-
-  componentWillUnmount() {
-    this.context.map.off('moveend', this.onMapMove);
-  }
-
-  onMapMove = () => {
-    let bounds;
-
-    if (this.context.map.getZoom() >= this.context.config.stopsMinZoom) {
-      bounds = this.context.map.getBounds();
-
-      this.props.relay.setVariables({
-        minLat: bounds.getSouth(),
-        minLon: bounds.getWest(),
-        maxLat: bounds.getNorth(),
-        maxLon: bounds.getEast(),
-      });
-    }
-    this.forceUpdate();
-  };
-
-  getStops() {
+  render() {
     const stops = [];
     const renderedNames = [];
+    const seen = [];
 
-    this.props.stopsInRectangle.stopsByBbox.forEach(stop => {
+    this.props.stops.forEach(stop => {
       if (stop.routes.length === 0) {
         return;
       }
@@ -69,7 +40,9 @@ class StopMarkerLayer extends React.Component {
 
       if (
         stop.parentStation &&
-        this.context.map.getZoom() <= this.context.config.terminalStopsMaxZoom
+        this.context.map.getZoom() <=
+          this.context.config.terminalStopsMaxZoom &&
+        !seen.includes(stop.parentStation.gtfsId)
       ) {
         stops.push(
           <TerminalMarker
@@ -80,6 +53,7 @@ class StopMarkerLayer extends React.Component {
             renderName={false}
           />,
         );
+        seen.push(stop.parentStation.gtfsId);
         return;
       }
       stops.push(
@@ -95,57 +69,37 @@ class StopMarkerLayer extends React.Component {
       renderedNames.push(stop.name);
     });
 
-    return uniq(stops, 'key');
-  }
-
-  render() {
     return (
       <div>
-        {this.context.map.getZoom() >= this.context.config.stopsMinZoom
-          ? this.getStops()
-          : false}
+        {uniq(stops, 'key')}
       </div>
     );
   }
 }
 
-export default Relay.createContainer(StopMarkerLayer, {
-  fragments: {
-    stopsInRectangle: () => Relay.QL`
-      fragment on QueryType {
-        stopsByBbox(
-          minLat: $minLat, minLon: $minLon, maxLat: $maxLat, maxLon: $maxLon, agency: $agency
-        ) {
+export default createFragmentContainer(StopMarkerLayer, {
+  stops: graphql`
+    fragment StopMarkerLayer_stops on Stop @relay(plural: true) {
+      lat
+      lon
+      gtfsId
+      name
+      locationType
+      platformCode
+      parentStation {
+        gtfsId
+        name
+        lat
+        lon
+        stops {
+          gtfsId
           lat
           lon
-          gtfsId
-          name
-          locationType
-          platformCode
-          parentStation {
-            gtfsId
-            name
-            lat
-            lon
-            stops {
-              gtfsId
-              lat
-              lon
-            }
-          }
-          routes {
-            mode
-          }
         }
       }
-    `,
-  },
-
-  initialVariables: {
-    minLat: null,
-    minLon: null,
-    maxLat: null,
-    maxLon: null,
-    agency: null,
-  },
+      routes {
+        mode
+      }
+    }
+  `,
 });

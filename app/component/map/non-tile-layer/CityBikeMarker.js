@@ -41,7 +41,7 @@ const smallIconSvg = `
   </svg>
 `;
 
-class CityBikeMarker extends React.Component {
+export default class CityBikeMarker extends React.Component {
   static description = (
     <div>
       <p>Renders a citybike marker</p>
@@ -112,13 +112,3 @@ class CityBikeMarker extends React.Component {
     );
   }
 }
-
-export default createFragmentContainer(CityBikeMarker, {
-  station: graphql`
-    fragment CityBikeMarker_station on BikeRentalStation {
-      lat
-      lon
-      stationId
-    }
-  `,
-});
