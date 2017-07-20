@@ -44,7 +44,7 @@ const getNextDepartures = (routes, lat, lon) => {
 // TODO: This should be moved above in the component hierarchy
 const FavouriteRouteListContainer = connectToStores(
   NextDeparturesList,
-  ['TimeStore'],
+  [],
   (context, { routes }) => {
     const PositionStore = context.getStore('PositionStore');
     const position = PositionStore.getLocationState();
@@ -52,7 +52,6 @@ const FavouriteRouteListContainer = connectToStores(
     const location = origin.useCurrentPosition ? position : origin;
 
     return {
-      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
       departures: getNextDepartures(routes, location.lat, location.lon),
     };
   },
@@ -60,8 +59,10 @@ const FavouriteRouteListContainer = connectToStores(
 
 // TODO: Add filtering in stoptimesForPatterns for route gtfsId
 export default createFragmentContainer(FavouriteRouteListContainer, {
-  routes: graphql`
-    fragment FavouriteRouteListContainer_routes on Route @relay(plural: true) {
+  routes: graphql.experimental`
+    fragment FavouriteRouteListContainer_routes on Route
+      @relay(plural: true)
+      @argumentDefinitions(currentTime: { type: "Long" }) {
       alerts {
         id
       }
