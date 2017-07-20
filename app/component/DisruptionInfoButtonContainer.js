@@ -24,10 +24,10 @@ function DisruptionInfoButtonContainer(
     return (
       <QueryRenderer
         cacheConfig={{ force: true, poll: 30 * 1000 }}
-        query={graphql`
-          query DisruptionInfoButtonContainerQuery {
+        query={graphql.experimental`
+          query DisruptionInfoButtonContainerQuery($feedIds: [String!]) {
             viewer {
-              ...DisruptionInfoButton_viewer
+              ...DisruptionInfoButton_viewer @arguments(feedIds: $feedIds)
             }
           }
         `}
