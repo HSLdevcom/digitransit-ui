@@ -12,9 +12,9 @@ function DisruptionInfoButton(props, { config }) {
         onClick={props.toggleDisruptionInfo}
       >
         <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
-        {props.root &&
-          props.root.alerts &&
-          props.root.alerts.length > 0 &&
+        {props.viewer &&
+          props.viewer.alerts &&
+          props.viewer.alerts.length > 0 &&
           <Icon img={'icon-icon_caution'} className={'disruption-info'} />}
       </div>
     );
@@ -24,13 +24,13 @@ function DisruptionInfoButton(props, { config }) {
 
 DisruptionInfoButton.propTypes = {
   toggleDisruptionInfo: PropTypes.func.isRequired,
-  root: PropTypes.shape({
+  viewer: PropTypes.shape({
     alerts: PropTypes.array,
   }),
 };
 
 DisruptionInfoButton.defaultProps = {
-  root: {
+  viewer: {
     alerts: [],
   },
 };
@@ -40,8 +40,8 @@ DisruptionInfoButton.contextTypes = {
 };
 
 export default createFragmentContainer(DisruptionInfoButton, {
-  root: graphql`
-    fragment DisruptionInfoButton_root on QueryType {
+  viewer: graphql`
+    fragment DisruptionInfoButton_viewer on QueryType {
       alerts(feeds: $feedIds) {
         id
       }
