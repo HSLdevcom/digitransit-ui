@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
@@ -40,23 +41,21 @@ function DisruptionInfo(props, context) {
         }
         toggleVisibility={toggleVisibility}
       >
-        <Relay.RootContainer
-          Component={DisruptionListContainer}
-          forceFetch
-          route={{
-            name: 'ViewerRoute',
-            queries: {
-              root: (Component, { feedIds }) => Relay.QL`
-                query {
-                  viewer {
-                    ${Component.getFragment('root', { feedIds })}
-                  }
-                }
-             `,
-            },
-            params: { feedIds: context.config.feedIds },
-          }}
-          renderLoading={() => <Loading />}
+        <QueryRenderer
+          cacheConfig={{ force: true, poll: 30 * 1000 }}
+          query={graphql.experimental`
+            query DisruptionInfoQuery($feedIds: [String!]) {
+              viewer {
+                ...DisruptionListContainer_viewer @arguments(feedIds: $feedIds)
+              }
+            }
+          `}
+          variables={{ feedIds: context.config.feedIds }}
+          environment={Store}
+          render={({ props: innerProps }) =>
+            innerProps
+              ? <DisruptionListContainer {...innerProps} />
+              : <Loading />}
         />
       </Modal>
     );

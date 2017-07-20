@@ -6,8 +6,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
 import DisruptionRow from './DisruptionRow';
 
-function DisruptionListContainer({ root }, { intl }) {
-  if (!root || !root.alerts || root.alerts.length === 0) {
+function DisruptionListContainer({ viewer }, { intl }) {
+  if (!viewer || !viewer.alerts || viewer.alerts.length === 0) {
     return (
       <FormattedMessage
         id="disruption-info-no-alerts"
@@ -16,7 +16,7 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   }
 
-  const alertElements = root.alerts.map(alert => {
+  const alertElements = viewer.alerts.map(alert => {
     const { id } = alert;
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);
@@ -55,14 +55,15 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
-  root: PropTypes.shape({
+  viewer: PropTypes.shape({
     alerts: PropTypes.array,
   }).isRequired,
 };
 
 export default createFragmentContainer(DisruptionListContainer, {
-  root: graphql`
-    fragment DisruptionListContainer_root on QueryType {
+  viewer: graphql.experimental`
+    fragment DisruptionListContainer_viewer on QueryType
+      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
       alerts(feeds: $feedIds) {
         id
         feed
