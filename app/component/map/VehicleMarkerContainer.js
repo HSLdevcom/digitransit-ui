@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 
@@ -9,7 +10,6 @@ import {
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
 import RouteMarkerPopup from './route/RouteMarkerPopup';
-import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import { asString as iconAsString } from '../IconWithTail';
 import Loading from '../Loading';
 
@@ -146,28 +146,49 @@ export default class VehicleMarkerContainer extends React.PureComponent {
 
   updateVehicle(id, message) {
     const popup = (
-      <Relay.RootContainer
-        Component={RouteMarkerPopup}
-        route={
-          new FuzzyTripRoute({
-            route: message.route,
-            direction: message.direction,
-            date: message.operatingDay,
-            time:
-              message.tripStartTime.substring(0, 2) * 60 * 60 +
-              message.tripStartTime.substring(2, 4) * 60,
-          })
-        }
-        renderLoading={() =>
-          <div className="card" style={{ height: '12rem' }}>
-            <Loading />
-          </div>}
-        renderFetched={data =>
-          <RouteMarkerPopupWithContext
-            {...data}
-            message={message}
-            context={this.context}
-          />}
+      <QueryRenderer
+        query={graphql`
+          query VehicleMarkerContainerQuery(
+            $route: String!
+            $routeId: String!
+            $direction: Int!
+            $time: Int!
+            $date: String!
+          ) {
+            trip: fuzzyTrip(
+              route: $route
+              direction: $direction
+              time: $time
+              date: $date
+            ) {
+              ...RouteMarkerPopup_trip
+            }
+            route: route(id: $routeId) {
+              ...RouteMarkerPopup_route
+            }
+          }
+        `}
+        variables={{
+          // TODO: https://github.com/facebook/relay/issues/1981
+          route: message.route,
+          routeId: message.route,
+          direction: message.direction,
+          date: message.operatingDay,
+          time:
+            message.tripStartTime.substring(0, 2) * 60 * 60 +
+            message.tripStartTime.substring(2, 4) * 60,
+        }}
+        environment={Store}
+        render={({ props }) =>
+          props
+            ? <RouteMarkerPopupWithContext
+                {...props}
+                message={message}
+                context={this.context}
+              />
+            : <div className="card" style={{ height: '12rem' }}>
+                <Loading />
+              </div>}
       />
     );
 
