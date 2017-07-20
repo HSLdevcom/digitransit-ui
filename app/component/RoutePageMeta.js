@@ -1,4 +1,4 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Helmet from 'react-helmet';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
@@ -54,13 +54,11 @@ const RoutePageMeta = compose(
   }),
 )(Helmet);
 
-export default Relay.createContainer(RoutePageMeta, {
-  fragments: {
-    route: () => Relay.QL`
-      fragment on Route {
-        shortName
-        longName
-      }
-    `,
-  },
+export default createFragmentContainer(RoutePageMeta, {
+  route: graphql`
+    fragment RoutePageMeta_route on Route {
+      shortName
+      longName
+    }
+  `,
 });

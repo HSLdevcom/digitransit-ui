@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 
@@ -121,9 +121,17 @@ RouteMapContainer.propTypes = {
   vehicles: PropTypes.object,
 };
 
-export const RouteMapFragments = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
+const RouteMapContainerWithVehicles = connectToStores(
+  RouteMapContainer,
+  ['RealTimeInformationStore'],
+  ({ getStore }) => ({
+    vehicles: getStore('RealTimeInformationStore').vehicles,
+  }),
+);
+
+export default createFragmentContainer(RouteMapContainerWithVehicles, {
+  pattern: graphql`
+    fragment RouteMapContainer_pattern on Pattern {
       code
       directionId
       geometry {
@@ -135,28 +143,16 @@ export const RouteMapFragments = {
         lon
         name
         gtfsId
-        ${StopCardHeaderContainer.getFragment('stop')}
+        ...StopCardHeaderContainer_stop
       }
-      ${RouteLine.getFragment('pattern')}
+      ...RouteLine_pattern
     }
   `,
-  trip: () => Relay.QL`
-    fragment on Trip {
+  trip: graphql`
+    fragment RouteMapContainer_trip on Trip {
       stoptimesForDate {
         scheduledDeparture
       }
     }
   `,
-};
-
-const RouteMapContainerWithVehicles = connectToStores(
-  RouteMapContainer,
-  ['RealTimeInformationStore'],
-  ({ getStore }) => ({
-    vehicles: getStore('RealTimeInformationStore').vehicles,
-  }),
-);
-
-export default Relay.createContainer(RouteMapContainerWithVehicles, {
-  fragments: RouteMapFragments,
 });
