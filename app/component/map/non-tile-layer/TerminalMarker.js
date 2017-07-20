@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -9,7 +10,6 @@ import { getDistanceToFurthestStop } from '../../../util/geo-utils';
 import Icon from '../../Icon';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
-import TerminalRoute from '../../../route/TerminalRoute';
 import Loading from '../../Loading';
 
 import { isBrowser } from '../../../util/browser';
@@ -53,7 +53,10 @@ class TerminalMarker extends React.Component {
     }).isRequired,
     mode: PropTypes.string.isRequired,
     selected: PropTypes.bool,
-    renderName: PropTypes.string,
+    renderName: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.oneOf([false]),
+    ]).isRequired,
   };
 
   getIcon = () =>
@@ -67,6 +70,11 @@ class TerminalMarker extends React.Component {
     });
 
   getTerminalMarker() {
+    const currentTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix();
+
     return (
       <GenericMarker
         position={{
@@ -78,30 +86,41 @@ class TerminalMarker extends React.Component {
         renderName={this.props.renderName}
         name={this.props.terminal.name}
       >
-        <Relay.RootContainer
-          Component={StopMarkerPopup}
-          route={
-            new TerminalRoute({
-              terminalId: this.props.terminal.gtfsId,
-              date: this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .format('YYYYMMDD'),
-            })
-          }
-          renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}>
-              <Loading />
-            </div>}
-          renderFetched={data =>
-            <StopMarkerPopupWithContext
-              {...data}
-              context={this.context}
-              currentTime={this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .unix()}
-            />}
+        <QueryRenderer
+          query={graphql.experimental`
+            query TerminalMarkerQuery(
+              $terminalId: String!
+              $startTime: Long!
+              $timeRange: Int!
+              $numberOfDepartures: Int!
+            ) {
+              terminal: station(id: $terminalId) {
+                ...StopMarkerPopup_terminal
+                  @arguments(
+                    startTime: $startTime
+                    timeRange: $timeRange
+                    numberOfDepartures: $numberOfDepartures
+                  )
+              }
+            }
+          `}
+          variables={{
+            terminalId: this.props.terminal.gtfsId,
+            currentTime,
+            timeRange: 60 * 60,
+            numberOfDepartures: 3 * 5,
+          }}
+          environment={Store}
+          render={({ props }) =>
+            props
+              ? <StopMarkerPopupWithContext
+                  {...props}
+                  context={this.context}
+                  currentTime={currentTime}
+                />
+              : <div className="card" style={{ height: '12rem' }}>
+                  <Loading />
+                </div>}
         />
       </GenericMarker>
     );

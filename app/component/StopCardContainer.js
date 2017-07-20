@@ -18,7 +18,7 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={props.startTime}
+        currentTime={props.currentTime}
       />
     ),
   }),
@@ -32,7 +32,11 @@ StopCardContainer.contextTypes = {
 export default createFragmentContainer(StopCardContainer, {
   stop: graphql.experimental`
     fragment StopCardContainer_stop on Stop
-      @argumentDefinitions(startTime: { type: "Long", defaultValue: 123 }) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int" }
+        numberOfDepartures: { type: "Int", defaultValue: 5 }
+      ) {
       gtfsId
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime

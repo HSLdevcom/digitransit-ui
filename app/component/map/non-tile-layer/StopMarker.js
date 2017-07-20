@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer, graphql } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
 
-import StopRoute from '../../../route/StopRoute';
 import StopMarkerPopup from '../popups/StopMarkerPopup';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
@@ -122,6 +122,11 @@ class StopMarker extends React.Component {
       return '';
     }
 
+    const currentTime = this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix();
+
     return (
       <GenericMarker
         position={{
@@ -138,34 +143,41 @@ class StopMarker extends React.Component {
         renderName={this.props.renderName}
         name={this.props.stop.name}
       >
-        <Relay.RootContainer
-          Component={StopMarkerPopup}
-          route={
-            new StopRoute({
-              stopId: this.props.stop.gtfsId,
-              date: this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .format('YYYYMMDD'),
-              currentTime: this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .unix(),
-            })
-          }
-          renderLoading={() =>
-            <div className="card" style={{ height: '12rem' }}>
-              <Loading />
-            </div>}
-          renderFetched={data =>
-            <StopMarkerPopupWithContext
-              {...data}
-              context={this.context}
-              currentTime={this.context
-                .getStore('TimeStore')
-                .getCurrentTime()
-                .unix()}
-            />}
+        <QueryRenderer
+          query={graphql.experimental`
+            query StopMarkerQuery(
+              $stopId: String!
+              $startTime: Long!
+              $timeRange: Int!
+              $numberOfDepartures: Int!
+            ) {
+              stop(id: $stopId) {
+                ...StopMarkerPopup_stop
+                  @arguments(
+                    startTime: $startTime
+                    timeRange: $timeRange
+                    numberOfDepartures: $numberOfDepartures
+                  )
+              }
+            }
+          `}
+          variables={{
+            stopId: this.props.stop.gtfsId,
+            currentTime,
+            timeRange: 12 * 60 * 60,
+            numberOfDepartures: 5,
+          }}
+          environment={Store}
+          render={({ props }) =>
+            props
+              ? <StopMarkerPopupWithContext
+                  {...props}
+                  context={this.context}
+                  currentTime={currentTime}
+                />
+              : <div className="card" style={{ height: '12rem' }}>
+                  <Loading />
+                </div>}
         />
       </GenericMarker>
     );

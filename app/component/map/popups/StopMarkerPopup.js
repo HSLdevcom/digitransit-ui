@@ -5,8 +5,6 @@ import StopCardContainer from '../../StopCardContainer';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
 const NUMBER_OF_DEPARTURES = 5;
-const STOP_TIME_RANGE = 12 * 60 * 60;
-const TERMINAL_TIME_RANGE = 60 * 60;
 
 function StopMarkerPopup(props) {
   const stop = props.stop || props.terminal;
@@ -16,10 +14,8 @@ function StopMarkerPopup(props) {
     <div className="card">
       <StopCardContainer
         stop={stop}
-        numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-        startTime={props.currentTime}
+        currentTime={props.currentTime}
         isTerminal={terminal}
-        timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
         limit={NUMBER_OF_DEPARTURES}
         className="padding-small cursor-pointer"
       />
@@ -43,22 +39,40 @@ StopMarkerPopup.propTypes = {
 export default createFragmentContainer(StopMarkerPopup, {
   stop: graphql.experimental`
     fragment StopMarkerPopup_stop on Stop
-      @argumentDefinitions(startTime: { type: "Long", defaultValue: 123 }) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 43200 }
+        numberOfDepartures: { type: "Int", defaultValue: 5 }
+      ) {
       gtfsId
       lat
       lon
       name
-      ...StopCardContainer_stop @arguments(startTime: $startTime)
+      ...StopCardContainer_stop
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
     }
   `,
   terminal: graphql.experimental`
     fragment StopMarkerPopup_terminal on Stop
-      @argumentDefinitions(startTime: { type: "Long", defaultValue: 123 }) {
+      @argumentDefinitions(
+        startTime: { type: "Long" }
+        timeRange: { type: "Int", defaultValue: 3600 }
+        numberOfDepartures: { type: "Int", defaultValue: 5 }
+      ) {
       gtfsId
       lat
       lon
       name
-      ...StopCardContainer_stop @arguments(startTime: $startTime)
+      ...StopCardContainer_stop
+        @arguments(
+          startTime: $startTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
     }
   `,
 });
