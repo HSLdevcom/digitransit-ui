@@ -94,7 +94,14 @@ class TerminalMarker extends React.Component {
               <Loading />
             </div>}
           renderFetched={data =>
-            <StopMarkerPopupWithContext {...data} context={this.context} />}
+            <StopMarkerPopupWithContext
+              {...data}
+              context={this.context}
+              currentTime={this.context
+                .getStore('TimeStore')
+                .getCurrentTime()
+                .unix()}
+            />}
         />
       </GenericMarker>
     );

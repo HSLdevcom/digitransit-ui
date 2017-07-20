@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
@@ -32,17 +32,14 @@ RouteTitle.contextTypes = {
   breakpoint: PropTypes.string,
 };
 
-export default Relay.createContainer(RouteTitle, {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        gtfsId
-        shortName
-        color
-        mode
-        type
-      }
-    `,
-  },
+export default createFragmentContainer(RouteTitle, {
+  route: graphql`
+    fragment RouteTitle_route on Route {
+      gtfsId
+      shortName
+      color
+      mode
+      type
+    }
+  `,
 });

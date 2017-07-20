@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -30,7 +30,8 @@ class RouteStopListContainer extends React.Component {
   }
 
   componentWillReceiveProps({ relay, currentTime }) {
-    relay.setVariables({ currentTime: currentTime.unix() });
+    // TODO: re-enable this
+    // relay.setVariables({ currentTime: currentTime.unix() });
   }
 
   setNearestStop = element => {
@@ -106,7 +107,7 @@ class RouteStopListContainer extends React.Component {
   }
 }
 
-export default Relay.createContainer(
+export default createFragmentContainer(
   connectToStores(
     RouteStopListContainer,
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
@@ -117,35 +118,29 @@ export default Relay.createContainer(
     }),
   ),
   {
-    initialVariables: {
-      patternId: null,
-      currentTime: 0,
-    },
-    fragments: {
-      pattern: () => Relay.QL`
-        fragment on Pattern {
-          directionId
-          route {
-            mode
-            color
-          }
-          stops {
-            stopTimesForPattern(id: $patternId, startTime: $currentTime) {
-              realtime
-              realtimeState
-              realtimeDeparture
-              serviceDay
-              scheduledDeparture
-            }
-            gtfsId
-            lat
-            lon
-            name
-            desc
-            code
-          }
+    pattern: graphql`
+      fragment RouteStopListContainer_pattern on Pattern {
+        directionId
+        route {
+          mode
+          color
         }
-      `,
-    },
+        stops {
+          stopTimesForPattern(id: $patternId, startTime: $currentTime) {
+            realtime
+            realtimeState
+            realtimeDeparture
+            serviceDay
+            scheduledDeparture
+          }
+          gtfsId
+          lat
+          lon
+          name
+          desc
+          code
+        }
+      }
+    `,
   },
 );

@@ -1,35 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import sortBy from 'lodash/sortBy';
 
 import PlaceAtDistanceContainer from './PlaceAtDistanceContainer';
 import { round } from './Distance';
-
-export const placeAtDistanceListContainerFragment = variables => Relay.QL`
-  fragment on placeAtDistanceConnection {
-    edges {
-      node {
-        distance
-        place {
-          id
-          __typename
-          ... on DepartureRow {
-            stoptimes (startTime:$currentTime, timeRange: $timeRange, numberOfDepartures:2) {
-              pickupType
-              serviceDay
-              realtimeDeparture
-            }
-          }
-        }
-        ${PlaceAtDistanceContainer.getFragment('placeAtDistance', {
-          currentTime: variables.currentTime,
-          timeRange: variables.timeRange,
-        })},
-      }
-    }
-  }
-`;
 
 const testStopTimes = stoptimes => stoptimes && stoptimes.length > 0;
 
@@ -72,13 +47,30 @@ PlaceAtDistanceList.propTypes = {
   timeRange: PropTypes.number.isRequired,
 };
 
-export default Relay.createContainer(PlaceAtDistanceList, {
-  fragments: {
-    places: placeAtDistanceListContainerFragment,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
+export default createFragmentContainer(PlaceAtDistanceList, {
+  places: graphql`
+    fragment PlaceAtDistanceListContainer_places on placeAtDistanceConnection {
+      edges {
+        node {
+          distance
+          place {
+            id
+            __typename
+            ... on DepartureRow {
+              stoptimes(
+                startTime: $currentTime
+                timeRange: $timeRange
+                numberOfDepartures: 2
+              ) {
+                pickupType
+                serviceDay
+                realtimeDeparture
+              }
+            }
+          }
+          ...PlaceAtDistanceContainer_placeAtDistance
+        }
+      }
+    }
+  `,
 });

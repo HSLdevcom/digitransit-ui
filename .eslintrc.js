@@ -24,6 +24,10 @@ module.exports = {
       'env': 'relay',
       'schemaJson': require('./build/schema.json').data,
       'tagName': 'graphql'
+    }, {
+      'env': 'relay',
+      'schemaJson': require('./build/schema.json').data,
+      'tagName': 'graphql.experimental'
     }],
     'prettier/prettier': ['error', {
       'singleQuote': true,

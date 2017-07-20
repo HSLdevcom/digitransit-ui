@@ -30,8 +30,9 @@ StopCardContainer.contextTypes = {
 };
 
 export default createFragmentContainer(StopCardContainer, {
-  stop: graphql`
-    fragment StopCardContainer_stop on Stop {
+  stop: graphql.experimental`
+    fragment StopCardContainer_stop on Stop
+      @argumentDefinitions(startTime: { type: "Long", defaultValue: 123 }) {
       gtfsId
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
