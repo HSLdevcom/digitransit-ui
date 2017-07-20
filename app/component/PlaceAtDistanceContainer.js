@@ -14,7 +14,6 @@ const PlaceAtDistance = props => {
         distance={props.placeAtDistance.distance}
         departure={props.placeAtDistance.place}
         currentTime={props.currentTime}
-        timeRange={props.timeRange}
       />
     );
   } else if (props.placeAtDistance.place.__typename === 'BikeRentalStation') {
@@ -33,17 +32,21 @@ const PlaceAtDistance = props => {
 PlaceAtDistance.propTypes = {
   placeAtDistance: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
-  timeRange: PropTypes.number.isRequired,
 };
 
 export default createFragmentContainer(PlaceAtDistance, {
-  placeAtDistance: graphql`
-    fragment PlaceAtDistanceContainer_placeAtDistance on placeAtDistance {
+  placeAtDistance: graphql.experimental`
+    fragment PlaceAtDistanceContainer_placeAtDistance on placeAtDistance
+      @argumentDefinitions(
+        currentTime: { type: "Long" }
+        timeRange: { type: "Int" }
+      ) {
       distance
       place {
         id
         __typename
         ...DepartureRowContainer_departure
+          @arguments(currentTime: $currentTime, timeRange: $timeRange)
         ...BicycleRentalStationRowContainer_station
       }
     }

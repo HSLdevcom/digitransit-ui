@@ -9,7 +9,7 @@ import { round } from './Distance';
 const testStopTimes = stoptimes => stoptimes && stoptimes.length > 0;
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
+const PlaceAtDistanceList = ({ places, currentTime }) => {
   if (places && places.edges) {
     return (
       <div>
@@ -30,7 +30,6 @@ const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
           <PlaceAtDistanceContainer
             key={node.place.id}
             currentTime={currentTime}
-            timeRange={timeRange}
             placeAtDistance={node}
           />,
         )}
@@ -44,12 +43,15 @@ const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
 PlaceAtDistanceList.propTypes = {
   places: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
-  timeRange: PropTypes.number.isRequired,
 };
 
 export default createFragmentContainer(PlaceAtDistanceList, {
-  places: graphql`
-    fragment PlaceAtDistanceListContainer_places on placeAtDistanceConnection {
+  places: graphql.experimental`
+    fragment PlaceAtDistanceListContainer_places on placeAtDistanceConnection
+      @argumentDefinitions(
+        currentTime: { type: "Long" }
+        timeRange: { type: "Int" }
+      ) {
       edges {
         node {
           distance
@@ -69,6 +71,7 @@ export default createFragmentContainer(PlaceAtDistanceList, {
             }
           }
           ...PlaceAtDistanceContainer_placeAtDistance
+            @arguments(currentTime: $currentTime, timeRange: $timeRange)
         }
       }
     }

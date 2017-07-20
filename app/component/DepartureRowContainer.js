@@ -75,7 +75,6 @@ DepartureRow.propTypes = {
   departure: PropTypes.object.isRequired,
   distance: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  timeRange: PropTypes.number.isRequired,
 };
 
 const exampleDeparture1 = {
@@ -148,8 +147,12 @@ DepartureRow.description = () =>
 export { DepartureRow };
 
 export default createFragmentContainer(DepartureRow, {
-  departure: graphql`
-    fragment DepartureRowContainer_departure on DepartureRow {
+  departure: graphql.experimental`
+    fragment DepartureRowContainer_departure on DepartureRow
+      @argumentDefinitions(
+        currentTime: { type: "Long" }
+        timeRange: { type: "Int" }
+      ) {
       pattern {
         route {
           gtfsId
