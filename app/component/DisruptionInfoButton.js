@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
@@ -39,15 +39,12 @@ DisruptionInfoButton.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default Relay.createContainer(DisruptionInfoButton, {
-  fragments: {
-    root: () => Relay.QL`
-      fragment on QueryType {
-        alerts(feeds:$feedIds) {
-          id
-        }
+export default createFragmentContainer(DisruptionInfoButton, {
+  root: graphql`
+    fragment DisruptionInfoButton_root on QueryType {
+      alerts(feeds: $feedIds) {
+        id
       }
-    `,
-  },
-  initialVariables: { feedIds: null },
+    }
+  `,
 });
