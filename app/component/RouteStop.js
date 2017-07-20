@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import cx from 'classnames';
 
-import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from './TripLink';
 import WalkDistance from './WalkDistance';
 import StopCode from './StopCode';
@@ -102,23 +100,7 @@ class RouteStop extends React.Component {
 
     const vehicleTripLinks =
       vehicles &&
-      vehicles.map(vehicle =>
-        <Relay.RootContainer
-          key={vehicle.id}
-          Component={TripLink}
-          route={
-            new FuzzyTripRoute({
-              route: vehicle.route,
-              direction: vehicle.direction,
-              date: vehicle.operatingDay,
-              time:
-                vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-                vehicle.tripStartTime.substring(2, 4) * 60,
-            })
-          }
-          renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
-        />,
-      );
+      vehicles.map(vehicle => <TripLink key={vehicle.id} vehicle={vehicle} />);
 
     return (
       <div
