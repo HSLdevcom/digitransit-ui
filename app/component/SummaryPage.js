@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer, graphql } from 'react-relay/compat';
 
-import moment from 'moment';
 import isMatch from 'lodash/isMatch';
 import keys from 'lodash/keys';
 import pick from 'lodash/pick';
@@ -366,47 +365,8 @@ class SummaryPage extends React.Component {
   }
 }
 
-export default Relay.createContainer(SummaryPage, {
-  fragments: {
-    plan: () => Relay.QL`
-      fragment on QueryType {
-        plan(
-          fromPlace: $fromPlace,
-          toPlace: $toPlace,
-          intermediatePlaces: $intermediatePlaces,
-          numItineraries: $numItineraries,
-          modes: $modes,
-          date: $date,
-          time: $time,
-          walkReluctance: $walkReluctance,
-          walkBoardCost: $walkBoardCost,
-          minTransferTime: $minTransferTime,
-          walkSpeed: $walkSpeed,
-          maxWalkDistance: $maxWalkDistance,
-          wheelchair: $wheelchair,
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
-          arriveBy: $arriveBy,
-          preferred: $preferred)
-        {
-          ${SummaryPlanContainer.getFragment('plan')}
-          ${ItineraryTab.getFragment('plan')}
-          itineraries {
-            startTime
-            endTime
-            ${ItineraryTab.getFragment('itinerary')}
-            ${SummaryPlanContainer.getFragment('itineraries')}
-            legs {
-              ${ItineraryLine.getFragment('legs')}
-              transitLeg
-              legGeometry {
-                points
-              }
-            }
-          }
-        }
-      }
-    `,
-  },
+export default createFragmentContainer(SummaryPage, {
+  /* TODO manually deal with:
   initialVariables: {
     ...{
       from: null,
@@ -428,5 +388,44 @@ export default Relay.createContainer(SummaryPage, {
       preferred: null,
     },
     ...SummaryPage.hcParameters,
-  },
+  }
+  */
+  plan: graphql`
+    fragment SummaryPage_plan on QueryType {
+      plan(
+        fromPlace: $fromPlace
+        toPlace: $toPlace
+        intermediatePlaces: $intermediatePlaces
+        numItineraries: $numItineraries
+        modes: $modes
+        date: $date
+        time: $time
+        walkReluctance: $walkReluctance
+        walkBoardCost: $walkBoardCost
+        minTransferTime: $minTransferTime
+        walkSpeed: $walkSpeed
+        maxWalkDistance: $maxWalkDistance
+        wheelchair: $wheelchair
+        disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+        arriveBy: $arriveBy
+        preferred: $preferred
+      ) {
+        ...SummaryPlanContainer_plan
+        ...ItineraryTab_plan
+        itineraries {
+          startTime
+          endTime
+          ...ItineraryTab_itinerary
+          ...SummaryPlanContainer_itineraries
+          legs {
+            ...ItineraryLine_legs
+            transitLeg
+            legGeometry {
+              points
+            }
+          }
+        }
+      }
+    }
+  `,
 });
