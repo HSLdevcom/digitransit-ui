@@ -1,4 +1,5 @@
-import Relay from 'react-relay/classic';
+import { fetchQuery } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 
 import get from 'lodash/get';
 import take from 'lodash/take';
@@ -12,20 +13,9 @@ import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
-
-function getRelayQuery(query) {
-  return new Promise((resolve, reject) => {
-    const callback = readyState => {
-      if (readyState.error) {
-        reject(readyState.error);
-      } else if (readyState.done) {
-        resolve(Relay.Store.readQuery(query));
-      }
-    };
-
-    Relay.Store.primeCache({ query }, callback);
-  });
-}
+import searchRoutesQuery from './searchRoutes';
+import favouriteStopsQuery from './favouriteStops';
+import favouriteRoutesQuery from './favouriteRoutes';
 
 const mapRoute = item => ({
   type: 'Route',
@@ -165,23 +155,8 @@ export function getGeocodingResult(
 }
 
 function getFavouriteRoutes(favourites, input) {
-  const query = Relay.createQuery(
-    Relay.QL`
-    query favouriteRoutes($ids: [String!]!) {
-      routes(ids: $ids ) {
-        gtfsId
-        agency { name }
-        shortName
-        mode
-        longName
-        patterns { code }
-      }
-    }`,
-    { ids: favourites },
-  );
-
-  return getRelayQuery(query)
-    .then(favouriteRoutes => favouriteRoutes.map(mapRoute))
+  return fetchQuery(Store, favouriteRoutesQuery, { ids: favourites })
+    .then(data => data.routes.map(mapRoute))
     .then(routes =>
       routes.map(favourite => ({
         ...favourite,
@@ -201,28 +176,12 @@ function getFavouriteRoutes(favourites, input) {
 }
 
 function getFavouriteStops(favourites, input, origin) {
-  const query = Relay.createQuery(
-    Relay.QL`
-    query favouriteStops($ids: [String!]!) {
-      stops(ids: $ids ) {
-        gtfsId
-        lat
-        lon
-        name
-        desc
-        code
-        routes { mode }
-      }
-    }`,
-    { ids: favourites },
-  );
-
   const refLatLng =
     origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
 
-  return getRelayQuery(query)
-    .then(favouriteStops =>
-      mapStops(favouriteStops).map(favourite => ({
+  return fetchQuery(Store, favouriteStopsQuery, { ids: favourites })
+    .then(data =>
+      mapStops(data.stops).map(favourite => ({
         ...favourite,
         properties: { ...favourite.properties, layer: 'favouriteStop' },
         type: 'FavouriteStop',
@@ -256,26 +215,9 @@ function getRoutes(input, config) {
     return Promise.resolve([]);
   }
 
-  const query = Relay.createQuery(
-    Relay.QL`
-    query routes($name: String) {
-      viewer {
-        routes(name: $name ) {
-          gtfsId
-          agency {name}
-          shortName
-          mode
-          longName
-          patterns { code }
-        }
-      }
-    }`,
-    { name: input },
-  );
-
-  return getRelayQuery(query)
+  return fetchQuery(Store, searchRoutesQuery, { name: input })
     .then(data =>
-      data[0].routes
+      data.viewer.routes
         .filter(
           item =>
             config.feedIds === undefined ||
