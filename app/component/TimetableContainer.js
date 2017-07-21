@@ -3,11 +3,9 @@ import { createFragmentContainer, graphql } from 'react-relay/compat';
 import Timetable from './Timetable';
 
 export default createFragmentContainer(Timetable, {
-  /* TODO manually deal with:
-  initialVariables: { date: null }
-  */
-  stop: graphql`
-    fragment TimetableContainer_stop on Stop {
+  stop: graphql.experimental`
+    fragment TimetableContainer_stop on Stop
+      @argumentDefinitions(date: { type: "String" }) {
       gtfsId
       name
       url
