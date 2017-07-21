@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { QueryRenderer, graphql } from 'react-relay/compat';
-import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
-import CityBikePopup from '../popups/CityBikePopup';
+import CityBikePopup from '../popups/CityBikePopupContainer';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import { station as exampleStation } from '../../ExampleData';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { isBrowser } from '../../../util/browser';
-import Loading from '../../Loading';
 
 let L;
 
@@ -25,7 +22,7 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const CityBikePopupWithContext = provideContext(CityBikePopup, {
+const CityBikePopupContainer = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
@@ -97,24 +94,7 @@ export default class CityBikeMarker extends React.Component {
         getIcon={this.getIcon}
         id={this.props.station.stationId}
       >
-        <QueryRenderer
-          query={graphql`
-            query CityBikeMarkerQuery($stationId: String!) {
-              station: bikeRentalStation(id: $stationId) {
-                ...CityBikePopup_station
-              }
-            }
-          `}
-          cacheConfig={{ force: true, poll: 30 * 1000 }}
-          variables={{ stationId: this.props.station.stationId }}
-          environment={Store}
-          render={({ props }) =>
-            props
-              ? <CityBikePopupWithContext {...props} context={this.context} />
-              : <div className="card" style={{ height: '12rem' }}>
-                  <Loading />
-                </div>}
-        />
+        <CityBikePopupContainer stationId={this.props.station.stationId} />
       </GenericMarker>
     );
   }

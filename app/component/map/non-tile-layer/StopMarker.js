@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { QueryRenderer, graphql } from 'react-relay/compat';
-import { Store } from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
 
-import StopMarkerPopup from '../popups/StopMarkerPopup';
+import StopMarkerPopup from '../popups/StopMarkerPopupContainer';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -16,7 +14,6 @@ import {
   getHubRadius,
 } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
-import Loading from '../../Loading';
 
 let L;
 
@@ -29,7 +26,7 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
+const StopMarkerPopupContainer = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
@@ -143,41 +140,9 @@ class StopMarker extends React.Component {
         renderName={this.props.renderName}
         name={this.props.stop.name}
       >
-        <QueryRenderer
-          query={graphql.experimental`
-            query StopMarkerQuery(
-              $stopId: String!
-              $startTime: Long!
-              $timeRange: Int!
-              $numberOfDepartures: Int!
-            ) {
-              stop(id: $stopId) {
-                ...StopMarkerPopup_stop
-                  @arguments(
-                    startTime: $startTime
-                    timeRange: $timeRange
-                    numberOfDepartures: $numberOfDepartures
-                  )
-              }
-            }
-          `}
-          variables={{
-            stopId: this.props.stop.gtfsId,
-            currentTime,
-            timeRange: 12 * 60 * 60,
-            numberOfDepartures: 5,
-          }}
-          environment={Store}
-          render={({ props }) =>
-            props
-              ? <StopMarkerPopupWithContext
-                  {...props}
-                  context={this.context}
-                  currentTime={currentTime}
-                />
-              : <div className="card" style={{ height: '12rem' }}>
-                  <Loading />
-                </div>}
+        <StopMarkerPopupContainer
+          stopId={this.props.stop.gtfsId}
+          currentTime={currentTime}
         />
       </GenericMarker>
     );

@@ -1,90 +1,65 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
 import GridLayer from 'react-leaflet/lib/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import L from 'leaflet';
 
-import StopRoute from '../../../route/StopRoute';
-import TerminalRoute from '../../../route/TerminalRoute';
-import CityBikeRoute from '../../../route/CityBikeRoute';
-import StopMarkerPopup from '../popups/StopMarkerPopup';
+import TerminalMarkerPopup from '../popups/TerminalMarkerPopupContainer';
+import StopMarkerPopup from '../popups/StopMarkerPopupContainer';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import CityBikePopup from '../popups/CityBikePopup';
-import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
-import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
-import ParkAndRideHubRoute from '../../../route/ParkAndRideHubRoute';
-import ParkAndRideFacilityRoute from '../../../route/ParkAndRideFacilityRoute';
+import CityBikePopup from '../popups/CityBikePopupContainer';
+import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopupContainer';
+import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopupContainer';
 import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
-import Loading from '../../Loading';
 
-const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
+const contextTypes = {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
+  location: locationShape.isRequired,
   route: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-});
+};
 
-const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const StopMarkerPopupWithContext = provideContext(
+  StopMarkerPopup,
+  contextTypes,
+);
 
-const CityBikePopupWithContext = provideContext(CityBikePopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const TerminalMarkerPopupWithContext = provideContext(
+  TerminalMarkerPopup,
+  contextTypes,
+);
 
-const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const MarkerSelectPopupWithContext = provideContext(
+  MarkerSelectPopup,
+  contextTypes,
+);
+
+const CityBikePopupWithContext = provideContext(CityBikePopup, contextTypes);
+
+const ParkAndRideHubPopupWithContext = provideContext(
+  ParkAndRideHubPopup,
+  contextTypes,
+);
 
 const ParkAndRideFacilityPopupWithContext = provideContext(
   ParkAndRideFacilityPopup,
-  {
-    intl: intlShape.isRequired,
-    router: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
-    getStore: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
-  },
+  contextTypes,
 );
 
-const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const TicketSalesPopupWithContext = provideContext(
+  TicketSalesPopup,
+  contextTypes,
+);
 
-const LocationPopupWithContext = provideContext(LocationPopup, {
-  intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-});
+const LocationPopupWithContext = provideContext(LocationPopup, contextTypes);
 
 const PopupOptions = {
   offset: [110, 16],
@@ -219,63 +194,38 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let contents;
 
-    const loadingPopup = () =>
-      <div className="card" style={{ height: '12rem' }}>
-        <Loading />
-      </div>;
-
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
-        if (this.state.selectableTargets[0].layer === 'stop') {
+        const currentTime = this.context
+          .getStore('TimeStore')
+          .getCurrentTime()
+          .unix();
+        if (
+          this.state.selectableTargets[0].layer === 'stop' &&
+          this.state.selectableTargets[0].feature.properties.stops
+        ) {
           id = this.state.selectableTargets[0].feature.properties.gtfsId;
           contents = (
-            <Relay.RootContainer
-              Component={StopMarkerPopup}
-              route={
-                this.state.selectableTargets[0].feature.properties.stops
-                  ? new TerminalRoute({
-                      terminalId: id,
-                      currentTime: this.context
-                        .getStore('TimeStore')
-                        .getCurrentTime()
-                        .unix(),
-                    })
-                  : new StopRoute({
-                      stopId: id,
-                      currentTime: this.context
-                        .getStore('TimeStore')
-                        .getCurrentTime()
-                        .unix(),
-                    })
-              }
-              renderLoading={loadingPopup}
-              renderFetched={data =>
-                <StopMarkerPopupWithContext
-                  {...data}
-                  context={this.context}
-                  currentTime={this.context
-                    .getStore('TimeStore')
-                    .getCurrentTime()
-                    .unix()}
-                />}
+            <TerminalMarkerPopupWithContext
+              terminalId={id}
+              currentTime={currentTime}
+              context={this.context}
+            />
+          );
+        } else if (this.state.selectableTargets[0].layer === 'stop') {
+          id = this.state.selectableTargets[0].feature.properties.gtfsId;
+          contents = (
+            <StopMarkerPopupWithContext
+              stopId={id}
+              currentTime={currentTime}
+              context={this.context}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
           id = this.state.selectableTargets[0].feature.properties.id;
           contents = (
-            <Relay.RootContainer
-              Component={CityBikePopup}
-              forceFetch
-              route={
-                new CityBikeRoute({
-                  stationId: id,
-                })
-              }
-              renderLoading={loadingPopup}
-              renderFetched={data =>
-                <CityBikePopupWithContext {...data} context={this.context} />}
-            />
+            <CityBikePopupWithContext stationId={id} context={this.context} />
           );
         } else if (
           this.state.selectableTargets[0].layer === 'parkAndRide' &&
@@ -283,45 +233,29 @@ class TileLayerContainer extends GridLayer {
         ) {
           id = this.state.selectableTargets[0].feature.properties.facilityIds;
           contents = (
-            <Relay.RootContainer
-              Component={ParkAndRideHubPopup}
-              forceFetch
-              route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
-              renderLoading={loadingPopup}
-              renderFetched={data =>
-                <ParkAndRideHubPopupWithContext
-                  name={
-                    JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name,
-                    )[this.context.intl.locale]
-                  }
-                  lat={this.state.coords.lat}
-                  lon={this.state.coords.lng}
-                  {...data}
-                  context={this.context}
-                />}
+            <ParkAndRideHubPopupWithContext
+              ids={JSON.parse(id).map(i => i.toString())}
+              name={
+                JSON.parse(
+                  this.state.selectableTargets[0].feature.properties.name,
+                )[this.context.intl.locale]
+              }
+              coords={this.state.coords}
+              context={this.context}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           id = this.state.selectableTargets[0].feature.id;
           contents = (
-            <Relay.RootContainer
-              Component={ParkAndRideFacilityPopup}
-              forceFetch
-              route={new ParkAndRideFacilityRoute({ id })}
-              renderLoading={loadingPopup}
-              renderFetched={data =>
-                <ParkAndRideFacilityPopupWithContext
-                  name={
-                    JSON.parse(
-                      this.state.selectableTargets[0].feature.properties.name,
-                    )[this.context.intl.locale]
-                  }
-                  lat={this.state.coords.lat}
-                  lon={this.state.coords.lng}
-                  {...data}
-                  context={this.context}
-                />}
+            <ParkAndRideFacilityPopupWithContext
+              id={id.toString()}
+              name={
+                JSON.parse(
+                  this.state.selectableTargets[0].feature.properties.name,
+                )[this.context.intl.locale]
+              }
+              coords={this.state.coords}
+              context={this.context}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {

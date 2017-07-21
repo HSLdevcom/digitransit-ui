@@ -29,7 +29,6 @@ export default class ParkAndRidePopup extends React.Component {
     realtime: PropTypes.bool.isRequired,
     maxCapacity: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
-    context: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
