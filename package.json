@@ -162,7 +162,7 @@
     "url-loader": "0.5.8",
     "webpack": "3.3.0",
     "webpack-bundle-analyzer": "2.8.3",
-    "webpack-dev-server": "2.5.1",
+    "webpack-dev-server": "2.6.0",
     "zopfli-webpack-plugin": "0.1.0"
   }
 }
