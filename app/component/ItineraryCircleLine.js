@@ -15,7 +15,7 @@ class ItineraryCircleLine extends React.Component {
   };
 
   static defaultProps = {
-    color: 'currentColor',
+    color: null,
   };
 
   getMarker = () => {
