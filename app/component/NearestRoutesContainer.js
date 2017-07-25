@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay, { Route } from 'react-relay';
+import Relay, { Route } from 'react-relay/classic';
 import NearbyRouteListContainer from './NearbyRouteListContainer';
 import NetworkError from './NetworkError';
 import Loading from './Loading';

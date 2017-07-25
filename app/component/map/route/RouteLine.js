@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import StopMarker from '../non-tile-layer/StopMarker';
 import StopCardHeaderContainer from '../../StopCardHeaderContainer';

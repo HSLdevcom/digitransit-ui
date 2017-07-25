@@ -5,13 +5,14 @@ import Icon from './Icon';
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
     isVia: false,
+    color: null,
   };
 
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
     isVia: PropTypes.bool,
-    color: PropTypes.string.isRequired,
+    color: PropTypes.string,
   };
 
   getMarker = () => {

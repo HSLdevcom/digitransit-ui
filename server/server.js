@@ -9,7 +9,7 @@ require('babel-core/register')({
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
     'dynamic-import-node',
-    path.join(process.cwd(), 'build/babelRelayPlugin'),
+    ['relay', { compat: true, schema: 'build/schema.json' }],
   ],
   ignore: [/node_modules/, 'app/util/piwik.js'],
 });

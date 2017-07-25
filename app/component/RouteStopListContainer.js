@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -64,7 +64,7 @@ class RouteStopListContainer extends React.Component {
       vehicle => `HSL:${vehicle.next_stop}`,
     );
 
-    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+    const rowClassName = `bp-${this.context.breakpoint}`;
 
     return stops.map((stop, i) => {
       const isNearest =

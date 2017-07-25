@@ -1,4 +1,4 @@
-import Relay, { Route } from 'react-relay';
+import Relay, { Route } from 'react-relay/classic';
 
 export default class TripRoute extends Route {
   static queries = {

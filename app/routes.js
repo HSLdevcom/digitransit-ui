@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // Libraries
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
 

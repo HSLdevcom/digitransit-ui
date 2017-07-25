@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
@@ -161,39 +161,35 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-const relayInitialVariables = {
-  serviceDay: '19700101',
-};
-
-export const relayFragment = {
-  pattern: () => Relay.QL`
-    fragment on Pattern {
-      stops {
-        id
-        name
-      }
-      route {
-        url
-      }
-      tripsForDate(serviceDay: $serviceDay) {
-        id
-        stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
-          scheduledArrival
-          scheduledDeparture
-          serviceDay
-          stop {
-            id
-          }
-        }
-      }
-    }
-  `,
-};
-
 export default connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
-    initialVariables: relayInitialVariables,
-    fragments: relayFragment,
+    initialVariables: {
+      serviceDay: '19700101',
+    },
+    fragments: {
+      pattern: () => Relay.QL`
+        fragment on Pattern {
+          stops {
+            id
+            name
+          }
+          route {
+            url
+          }
+          tripsForDate(serviceDay: $serviceDay) {
+            id
+            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
+              stop {
+                id
+              }
+            }
+          }
+        }
+      `,
+    },
   }),
   [],
   context => ({

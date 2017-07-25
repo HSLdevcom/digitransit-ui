@@ -1,9 +1,7 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import NextDeparturesList, {
-  relayFragment as NextDeparturesListRelayFragment,
-} from './NextDeparturesList';
+import NextDeparturesList from './NextDeparturesList';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 
 const getNextDepartures = (routes, lat, lon) => {
@@ -76,7 +74,23 @@ export default Relay.createContainer(FavouriteRouteListContainer, {
             stoptimes: stoptimesForPatterns (
                 numberOfDepartures:2, startTime: $currentTime, timeRange: 7200
             ) {
-              ${NextDeparturesListRelayFragment}
+              pattern {
+                code
+                headsign
+                route {
+                  gtfsId
+                  shortName
+                  longName
+                  mode
+                }
+              }
+              stoptimes {
+                realtimeState
+                realtimeDeparture
+                scheduledDeparture
+                realtime
+                serviceDay
+              }
               pattern {
                 headsign
                 route { gtfsId }

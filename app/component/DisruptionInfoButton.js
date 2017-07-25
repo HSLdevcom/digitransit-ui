@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
@@ -26,7 +26,13 @@ DisruptionInfoButton.propTypes = {
   toggleDisruptionInfo: PropTypes.func.isRequired,
   root: PropTypes.shape({
     alerts: PropTypes.array,
-  }).isRequired,
+  }),
+};
+
+DisruptionInfoButton.defaultProps = {
+  root: {
+    alerts: [],
+  },
 };
 
 DisruptionInfoButton.contextTypes = {

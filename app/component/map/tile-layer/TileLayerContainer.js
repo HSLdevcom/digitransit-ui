@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import Popup from 'react-leaflet/lib/Popup';
 import { intlShape } from 'react-intl';
 import GridLayer from 'react-leaflet/lib/GridLayer';

@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { intlShape } from 'react-intl';
 
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-
-const bicycleRentalRowContainerFragment = () => Relay.QL`
-  fragment on BikeRentalStation {
-    name
-    stationId
-    bikesAvailable
-    spacesAvailable
-  }
-`;
 
 const BicycleRentalStationRow = (props, context) => {
   let availabilityIcon = null;
@@ -130,7 +121,14 @@ export { BicycleRentalStationRow };
 
 export default Relay.createContainer(BicycleRentalStationRow, {
   fragments: {
-    station: bicycleRentalRowContainerFragment,
+    station: () => Relay.QL`
+      fragment on BikeRentalStation {
+        name
+        stationId
+        bikesAvailable
+        spacesAvailable
+      }
+    `,
   },
 
   initialVariables: {

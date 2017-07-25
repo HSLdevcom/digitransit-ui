@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import get from 'lodash/get';
 import take from 'lodash/take';

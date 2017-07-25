@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import groupBy from 'lodash/groupBy';
 import intersection from 'lodash/intersection';
@@ -7,10 +8,10 @@ import Icon from './Icon';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
-    stop: React.PropTypes.object,
-    setRoutes: React.PropTypes.func,
-    showFilterModal: React.PropTypes.func,
-    showRoutesList: React.PropTypes.array,
+    stop: PropTypes.object,
+    setRoutes: PropTypes.func,
+    showFilterModal: PropTypes.func,
+    showRoutesList: PropTypes.array,
   };
 
   constructor(props) {

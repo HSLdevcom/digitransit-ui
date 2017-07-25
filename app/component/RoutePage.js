@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 
@@ -27,7 +27,6 @@ class RoutePage extends React.Component {
   };
 
   static propTypes = {
-    history: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -76,7 +75,7 @@ class RoutePage extends React.Component {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      this.props.history.replace('/linjat');
+      this.context.router.replace('/linjat');
       return null;
     }
 

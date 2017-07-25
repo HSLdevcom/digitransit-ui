@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 
 import Map from './map/Map';
@@ -34,6 +34,7 @@ const fullscreenMapOverlay = (fullscreenMap, params, router) =>
 const fullscreenMapToggle = (fullscreenMap, params, router) =>
   <div
     className="fullscreen-toggle"
+    key="fullscreen-toggle"
     onClick={() => {
       toggleFullscreenMap(fullscreenMap, params, router);
     }}

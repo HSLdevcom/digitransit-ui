@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 
 import RouteListHeader from './RouteListHeader';
@@ -50,7 +50,7 @@ class PatternStopsContainer extends React.Component {
       <div className="route-page-content">
         <RouteListHeader
           key="header"
-          className={this.context.breakpoint === 'large' && 'bp-large'}
+          className={`bp-${this.context.breakpoint}`}
         />
         <RouteStopListContainer
           key="list"

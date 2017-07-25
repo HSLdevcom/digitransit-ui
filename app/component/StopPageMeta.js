@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import Helmet from 'react-helmet';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';

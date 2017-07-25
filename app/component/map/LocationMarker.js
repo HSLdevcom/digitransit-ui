@@ -13,7 +13,7 @@ export default function LocationMarker({ position, className, noText }) {
 }
 
 LocationMarker.propTypes = {
-  position: IconMarker.position,
+  position: IconMarker.propTypes.position,
   className: PropTypes.string,
   noText: PropTypes.bool,
 };

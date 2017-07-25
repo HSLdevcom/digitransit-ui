@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -127,7 +127,7 @@ class TripStopListContainer extends React.Component {
           last={index === this.props.trip.stoptimesForDate.length - 1}
           first={index === 0}
           fullscreenMap={this.props.fullscreenMap}
-          className={this.context.breakpoint === 'large' && 'bp-large'}
+          className={`bp-${this.context.breakpoint}`}
         />
       );
     });

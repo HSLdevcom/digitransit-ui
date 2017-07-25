@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import cx from 'classnames';
 
@@ -21,10 +21,7 @@ function TripStopsContainer(props, { breakpoint }) {
         'fullscreen-map': fullscreen && breakpoint !== 'large',
       })}
     >
-      <TripListHeader
-        key="header"
-        className={breakpoint === 'large' && 'bp-large'}
-      />
+      <TripListHeader key="header" className={`bp-${breakpoint}`} />
       <TripStopListContainer
         key="list"
         trip={props.trip}

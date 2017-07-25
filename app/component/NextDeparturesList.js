@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
 import { Link } from 'react-router';
 import sortBy from 'lodash/sortBy';
 import Distance from './Distance';
@@ -104,24 +103,3 @@ NextDeparturesList.propTypes = {
 };
 
 export default NextDeparturesList;
-
-export const relayFragment = Relay.QL`
-  fragment on StoptimesInPattern{
-    pattern {
-      code
-      headsign
-      route {
-        gtfsId
-        shortName
-        longName
-        mode
-      }
-    }
-    stoptimes {
-      realtimeState
-      realtimeDeparture
-      scheduledDeparture
-      realtime
-      serviceDay
-    }
-  }`;

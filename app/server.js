@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
 import Helmet from 'react-helmet';
 import createHistory from 'react-router/lib/createMemoryHistory';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import {
   RelayNetworkLayer,

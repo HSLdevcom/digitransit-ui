@@ -33,7 +33,11 @@ export default class LegMarker extends React.Component {
   static propTypes = {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
+    color: PropTypes.string,
+  };
+
+  static defaultProps = {
+    color: 'currentColor',
   };
 
   componentDidMount() {
