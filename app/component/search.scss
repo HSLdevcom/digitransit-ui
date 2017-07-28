@@ -51,6 +51,12 @@ $item-border-color: #eee;
     border-top-left-radius: $input-border-radius;
     border-bottom-left-radius: $input-border-radius;
     box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+
+    input {
+      width: 100%;
+      font-size: inherit;
+    }
+
   }
 
   .address-placeholder {
@@ -63,6 +69,16 @@ $item-border-color: #eee;
     line-height: $search-form-input-overlay-height;
     overflow: hidden;
   }
+}
+
+.address-input {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  border: none;
+  width: 100%;
+  padding-left: calc(#{$padding-large} - 10px)
 }
 
 .fake-search-container.bp-large {

@@ -59,7 +59,7 @@ $add-favourite-input-overlay-height: 27px;
         font-weight: inherit;
         border: none;
         width: 100%;
-        padding-left: 7px;
+        padding-left: calc(#{$padding-large} - 10px);
         &:focus {
           border: none;
           outline: none;

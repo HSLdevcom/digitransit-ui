@@ -151,6 +151,7 @@ class SearchMainContainer extends React.Component {
     const fakeSearchBar = (
       <FakeSearchBar
         placeholder={destinationPlaceholder}
+        onClick={this.clickSearch}
         id="front-page-search-bar"
       />
     );
