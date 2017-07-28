@@ -15,6 +15,9 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   noInfo: true,
   hot: true,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
 }).listen(port, '0.0.0.0', err => {
   if (err) {
     console.log(err);
