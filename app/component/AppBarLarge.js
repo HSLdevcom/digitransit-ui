@@ -21,7 +21,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
   return (
     <div>
       <div className="top-bar bp-large flex-horizontal">
-        <a onClick={titleClicked}>
+        <button className="noborder" onClick={titleClicked}>
           {config.textLogo
             ? <section className="title">
                 <span className="title">
@@ -29,15 +29,15 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
                 </span>
               </section>
             : <div className="navi-logo" />}
-        </a>
+        </button>
         <div className="empty-space flex-grow" />
         <div className="navi-languages right-border navi-margin">
           <LangSelect />
         </div>
         <div className="navi-icons navi-margin padding-horizontal-large">
-          <a onClick={openDisruptionInfo}>
+          <button className="noborder" onClick={openDisruptionInfo}>
             <Icon img="icon-icon_caution" />
-          </a>
+          </button>
         </div>
         <div className="padding-horizontal-large navi-margin">
           <ExternalLink className="external-top-bar" {...config.appBarLink} />
