@@ -73,7 +73,7 @@ class StopMarkerLayer extends React.Component {
       ) {
         stops.push(
           <TerminalMarker
-            key={stop.parentStation.gtfsId}
+            key={stop.gtfsId}
             terminal={stop.parentStation}
             selected={selected}
             mode={modeClass}
