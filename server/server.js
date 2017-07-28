@@ -2,7 +2,7 @@
 
 'use strict';
 
-/* ********* Polyfills (for node) **********/
+/* ********* Polyfills (for node) ********* */
 const path = require('path');
 
 require('babel-core/register')({
@@ -30,13 +30,13 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   }).install();
 }
 
-/* ********* Server **********/
+/* ********* Server ********* */
 const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-/* ********* Global **********/
+/* ********* Global ********* */
 const port = config.PORT || 8080;
 const app = express();
 
@@ -109,7 +109,7 @@ function startServer() {
   );
 }
 
-/* ********* Init **********/
+/* ********* Init ********* */
 setupRaven();
 setUpStaticFolders();
 setUpMiddleware();

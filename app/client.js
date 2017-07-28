@@ -55,7 +55,9 @@ if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
   piwik.trackPageView = () => {};
 }
 
-const addPiwik = c => (c.piwik = piwik); // eslint-disable-line no-param-reassign
+const addPiwik = c => {
+  c.piwik = piwik; // eslint-disable-line no-param-reassign
+};
 
 const piwikPlugin = {
   name: 'PiwikPlugin',
@@ -64,8 +66,9 @@ const piwikPlugin = {
 
 const raven = Raven(config.SENTRY_DSN, piwik.getVisitorId());
 
-// eslint-disable-next-line no-param-reassign
-const addRaven = c => (c.raven = raven);
+const addRaven = c => {
+  c.raven = raven; // eslint-disable-line no-param-reassign
+};
 
 const ravenPlugin = {
   name: 'RavenPlugin',
