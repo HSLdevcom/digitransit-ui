@@ -220,31 +220,31 @@ class AddFavouriteContainer extends React.Component {
                 />
               </div>
               <div className="add-favourite-container__save">
-                <div
+                <button
                   className={`add-favourite-container-button ${this.canSave()
                     ? ''
                     : 'disabled'}`}
                   onClick={this.save}
                 >
                   <FormattedMessage id="save" defaultMessage="Save" />
-                </div>
+                </button>
               </div>
               {this.isEdit() && [
                 <div key="delete" className="add-favourite-container__save">
-                  <div
+                  <button
                     className="add-favourite-container-button delete"
                     onClick={this.delete}
                   >
                     <FormattedMessage id="delete" defaultMessage="Delete" />
-                  </div>
+                  </button>
                 </div>,
                 <div key="cancel" className="add-favourite-container__save">
-                  <div
+                  <button
                     className="add-favourite-container-button cancel"
                     onClick={this.quit}
                   >
                     <FormattedMessage id="cancel" defaultMessage="Cancel" />
-                  </div>
+                  </button>
                 </div>,
               ]}
             </div>
