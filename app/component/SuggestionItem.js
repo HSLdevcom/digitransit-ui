@@ -56,7 +56,7 @@ const SuggestionItem = pure(
       getGTFSId(item.properties) !== undefined &&
       (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined
     ) {
-      /* eslint no-param-reassign: ["error", { "props": false }]*/
+      /* eslint no-param-reassign: ["error", { "props": false }] */
       return (
         <div className="suggestion-item-stop">
           <div>
