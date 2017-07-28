@@ -9,7 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 const RailLeg = ({ leg, focusAction, index }) =>
   <TransitLeg mode="RAIL" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
-      id="train-with-route-number"
+      id="rail-with-route-number"
       values={{
         routeNumber: leg.route && leg.route.shortName,
         headSign: leg.trip && leg.trip.tripHeadsign,

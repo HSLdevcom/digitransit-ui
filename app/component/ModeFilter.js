@@ -23,7 +23,6 @@ class ModeFilter extends React.Component {
     );
 
   render = () => {
-    const widthPercentage = 100 / this.availableModes().length;
     const ModeToggleButton = ({ type, stateName }) => {
       if (this.context.config.transportModes[type].availableForSelection) {
         const action = this.props.action[
@@ -41,10 +40,8 @@ class ModeFilter extends React.Component {
             }}
             state={isEnabled}
             checkedClass={type}
-            style={{
-              width: `${widthPercentage}%`,
-            }}
             className={this.props.buttonClass}
+            label={type}
           />
         );
       }

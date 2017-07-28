@@ -58,6 +58,14 @@
     transition: background-color 300ms ease-out;
     border-radius: $border-radius;
     padding: $padding-medium;
+
+    &.noborder {
+      padding: 0;
+    }
+
+    &.btn {
+      height: 53px;
+    }
   }
 
   .save-settings {
