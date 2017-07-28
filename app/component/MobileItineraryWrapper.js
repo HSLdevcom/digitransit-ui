@@ -3,7 +3,7 @@ import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 
 import { getRoutePath } from '../util/path';
@@ -23,9 +23,15 @@ export default class MobileItineraryWrapper extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
-  static getTabs(itineraries, selectedIndex) {
+  state = {
+    lat: undefined,
+    lon: undefined,
+  };
+
+  getTabs(itineraries, selectedIndex) {
     return itineraries.map((itinerary, i) =>
       <Tab
         selected={i === selectedIndex}
@@ -43,14 +49,13 @@ export default class MobileItineraryWrapper extends React.Component {
           fontSize: '34px',
           padding: '0px',
         }}
+        aria-label={`${this.context.intl.formatMessage({
+          id: 'itinerary-page.title',
+          defaultMessage: 'Itinerary',
+        })} ${i + 1}`}
       />,
     );
   }
-
-  state = {
-    lat: undefined,
-    lon: undefined,
-  };
 
   itineraryTabs = [];
 
@@ -134,7 +139,7 @@ export default class MobileItineraryWrapper extends React.Component {
             }}
             inkBarStyle={{ display: 'none' }}
           >
-            {MobileItineraryWrapper.getTabs(this.props.children, index)}
+            {this.getTabs(this.props.children, index)}
           </Tabs>
         </div>;
 
