@@ -56,7 +56,7 @@ export default configMerger(walttiConfig, {
       lon: 27.679409,
     },
     {
-      icon: 'icon-icon_bus',
+      icon: 'icon-icon_shopping',
       label: 'Kuopion tori',
       lat: 62.892511,
       lon: 27.678136,
