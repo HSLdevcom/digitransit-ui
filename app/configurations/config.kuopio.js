@@ -56,16 +56,16 @@ export default configMerger(walttiConfig, {
       lon: 27.679409,
     },
     {
-      icon: 'icon-icon_rail',
-      label: 'Rautatieasema, Kuopio',
-      lat: 62.896875,
-      lon: 27.680523,
+      icon: 'icon-icon_bus',
+      label: 'Kuopion tori',
+      lat: 62.892511,
+      lon: 27.678136,
     },
     {
       icon: 'icon-icon_school',
-      label: 'Itä-Suomen yliopisto, Kuopio',
-      lat: 62.894982,
-      lon: 27.640932,
+      label: 'Kuopion yliopisto',
+      lat: 62.896885,
+      lon: 27.651042,
     },
   ],
 
