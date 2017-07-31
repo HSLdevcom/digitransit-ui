@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import AgencyInfo from './AgencyInfo';
@@ -10,9 +10,11 @@ function LegAgencyInfo({ leg }, { config }) {
   const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
   const show = get(config, 'agency.show', false);
   if (show) {
-    return (<div className="itinerary-leg-agency">
-      <AgencyInfo url={url} agencyName={agencyName} />
-    </div>);
+    return (
+      <div className="itinerary-leg-agency">
+        <AgencyInfo url={url} agencyName={agencyName} />
+      </div>
+    );
   }
   return null;
 }

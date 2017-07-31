@@ -6,7 +6,6 @@ import Icon from './Icon';
 import { openFeedbackModal } from '../action/feedbackActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
-
 class MainMenuContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
@@ -20,19 +19,25 @@ class MainMenuContainer extends Component {
   onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
-    if (this.context.location.state != null &&
-        this.context.location.state.offcanvasVisible != null) {
+    if (
+      this.context.location.state != null &&
+      this.context.location.state.offcanvasVisible != null
+    ) {
       return this.context.location.state.offcanvasVisible;
     }
     // If the state is missing or doesn't have offcanvasVisible, it's not set
     return false;
-  }
+  };
 
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
 
-  internalSetOffcanvas = (newState) => {
+  internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
-      this.context.piwik.trackEvent('Offcanvas', 'Index', newState ? 'open' : 'close');
+      this.context.piwik.trackEvent(
+        'Offcanvas',
+        'Index',
+        newState ? 'open' : 'close',
+      );
     }
 
     if (newState) {
@@ -46,23 +51,23 @@ class MainMenuContainer extends Component {
     } else {
       this.context.router.goBack();
     }
-  }
+  };
 
   openFeedback = () => {
     this.context.executeAction(openFeedbackModal);
     this.toggleOffcanvas();
-  }
+  };
 
   mainMenuModules = {
-    Drawer: () => importLazy(System.import('material-ui/Drawer')),
-    MainMenu: () => importLazy(System.import('./MainMenu')),
-  }
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    MainMenu: () => importLazy(import('./MainMenu')),
+  };
 
   render() {
     return (
       <div>
         <LazilyLoad modules={this.mainMenuModules}>
-          {({ Drawer, MainMenu }) => (
+          {({ Drawer, MainMenu }) =>
             <Drawer
               className="offcanvas"
               disableSwipeToOpen
@@ -77,24 +82,24 @@ class MainMenuContainer extends Component {
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
               />
-            </Drawer>
-          )}
+            </Drawer>}
         </LazilyLoad>
-        {this.context.config.mainMenu.show ? (
-          <div className="icon-holder cursor-pointer main-menu-toggle">
-            <button
-              aria-label={this.context.intl.formatMessage({
-                id: 'main-menu-label-open',
-                defaultMessage: 'Open the main menu',
-              })}
-              onClick={this.toggleOffcanvas}
-              className="noborder cursor-pointer"
-            >
-              <Icon img={'icon-icon_menu'} className="icon" />
-            </button>
-          </div>
-        ) : null}
-      </div>);
+        {this.context.config.mainMenu.show
+          ? <div className="icon-holder cursor-pointer main-menu-toggle">
+              <button
+                aria-label={this.context.intl.formatMessage({
+                  id: 'main-menu-label-open',
+                  defaultMessage: 'Open the main menu',
+                })}
+                onClick={this.toggleOffcanvas}
+                className="noborder cursor-pointer"
+              >
+                <Icon img={'icon-icon_menu'} className="icon" />
+              </button>
+            </div>
+          : null}
+      </div>
+    );
   }
 }
 

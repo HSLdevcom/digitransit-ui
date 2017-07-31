@@ -43,21 +43,24 @@ function WaitLeg(props) {
   );
 }
 
-
 const exampleLeg = () => ({
   to: { name: 'Ilmattarentie' },
 });
 
 WaitLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   const leg = exampleLeg();
   const duration = moment.duration(17, 'minutes').asMilliseconds();
   return (
     <div>
       <p>Displays an itinerary wait leg.</p>
       <ComponentUsageExample>
-        <WaitLeg startTime={today} focusAction={() => {}} waitTime={duration} leg={leg} />
+        <WaitLeg
+          startTime={today}
+          focusAction={() => {}}
+          waitTime={duration}
+          leg={leg}
+        />
       </ComponentUsageExample>
     </div>
   );

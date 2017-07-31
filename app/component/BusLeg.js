@@ -6,22 +6,17 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const BusLeg = ({ leg, focusAction, index }) => (
-  <TransitLeg
-    mode="BUS"
-    leg={leg}
-    focusAction={focusAction}
-    index={index}
-  >
+const BusLeg = ({ leg, focusAction, index }) =>
+  <TransitLeg mode="BUS" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="bus-with-route-number"
       values={{
         routeNumber: leg.route && leg.route.shortName,
         headSign: leg.trip && leg.trip.tripHeadsign,
-      }} defaultMessage="Bus {routeNumber} {headSign}"
+      }}
+      defaultMessage="Bus {routeNumber} {headSign}"
     />
-  </TransitLeg>
-);
+  </TransitLeg>;
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -56,8 +51,7 @@ const exampleLegRealtime = t1 => ({
 });
 
 BusLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0)
-                        .valueOf();
+  const today = moment().hour(12).minute(34).second(0).valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>
@@ -65,7 +59,11 @@ BusLeg.description = () => {
         <BusLeg leg={exampleLeg(today)} index={1} focusAction={() => {}} />
       </ComponentUsageExample>
       <ComponentUsageExample description="realtime">
-        <BusLeg leg={exampleLegRealtime(today)} index={1} focusAction={() => {}} />
+        <BusLeg
+          leg={exampleLegRealtime(today)}
+          index={1}
+          focusAction={() => {}}
+        />
       </ComponentUsageExample>
     </div>
   );

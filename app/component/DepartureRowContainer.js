@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import filter from 'lodash/filter';
 
@@ -11,65 +11,30 @@ import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
 
-const departureRowContainerFragment = () => Relay.QL`
-  fragment on DepartureRow {
-    pattern {
-      route {
-        gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts {
-          id
-          effectiveStartDate
-          effectiveEndDate
-        }
-        agency {
-          name
-        }
-      }
-      code
-    }
-    stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
-      realtimeState
-      realtimeDeparture
-      scheduledDeparture
-      realtimeArrival
-      scheduledArrival
-      pickupType
-      realtime
-      serviceDay
-      stopHeadsign
-      stop {
-        code
-        platformCode
-      }
-      trip {
-        gtfsId
-      }
-    }
-  }
-`;
-
 const hasActiveDisruption = (t, alerts) =>
-  filter(alerts, alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate).length > 0;
+  filter(
+    alerts,
+    alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
+  ).length > 0;
 
-const DepartureRow = (props) => {
+const DepartureRow = props => {
   const departure = props.departure;
   let departureTimes;
   let headsign;
   if (departure.stoptimes) {
-    departureTimes = departure.stoptimes.map((departureTime) => {
+    departureTimes = departure.stoptimes.map(departureTime => {
       headsign = departureTime.stopHeadsign;
       const canceled = departureTime.realtimeState === 'CANCELED';
-      const key = `${departure.pattern.route.gtfsId}:${departure.pattern.headsign}:
+      const key = `${departure.pattern.route.gtfsId}:${departure.pattern
+        .headsign}:
         ${departureTime.realtimeDeparture}`;
 
       return (
         <DepartureTime
           key={key}
-          departureTime={departureTime.serviceDay + departureTime.realtimeDeparture}
+          departureTime={
+            departureTime.serviceDay + departureTime.realtimeDeparture
+          }
           realtime={departureTime.realtime}
           currentTime={props.currentTime}
           canceled={canceled}
@@ -81,13 +46,17 @@ const DepartureRow = (props) => {
   return (
     <div className="next-departure-row padding-vertical-normal border-bottom">
       <Link
-        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern.code}`}
+        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
+          .pattern.code}`}
         key={departure.pattern.code}
       >
         <Distance distance={props.distance} />
         <RouteNumberContainer
           route={departure.pattern.route}
-          hasDisruption={hasActiveDisruption(props.currentTime, departure.pattern.route.alerts)}
+          hasDisruption={hasActiveDisruption(
+            props.currentTime,
+            departure.pattern.route.alerts,
+          )}
           isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
         />
         <RouteDestination
@@ -176,12 +145,50 @@ DepartureRow.description = () =>
     </ComponentUsageExample>
   </div>;
 
-
 export { DepartureRow };
 
 export default Relay.createContainer(DepartureRow, {
   fragments: {
-    departure: departureRowContainerFragment,
+    departure: () => Relay.QL`
+      fragment on DepartureRow {
+        pattern {
+          route {
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+            alerts {
+              id
+              effectiveStartDate
+              effectiveEndDate
+            }
+            agency {
+              name
+            }
+          }
+          code
+        }
+        stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
+          realtimeState
+          realtimeDeparture
+          scheduledDeparture
+          realtimeArrival
+          scheduledArrival
+          pickupType
+          realtime
+          serviceDay
+          stopHeadsign
+          stop {
+            code
+            platformCode
+          }
+          trip {
+            gtfsId
+          }
+        }
+      }
+    `,
   },
 
   initialVariables: {

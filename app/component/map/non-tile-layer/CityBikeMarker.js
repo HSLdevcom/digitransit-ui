@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
@@ -45,7 +45,11 @@ class CityBikeMarker extends React.Component {
     <div>
       <p>Renders a citybike marker</p>
       <ComponentUsageExample description="">
-        <CityBikeMarker key={exampleStation.id} map="leaflet map here" station={exampleStation} />
+        <CityBikeMarker
+          key={exampleStation.id}
+          map="leaflet map here"
+          station={exampleStation}
+        />
       </ComponentUsageExample>
     </div>
   );
@@ -67,23 +71,23 @@ class CityBikeMarker extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  getIcon = zoom => (
-    (!this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom) ?
-      L.divIcon({
-        html: smallIconSvg,
-        iconSize: [8, 8],
-        className: 'citybike cursor-pointer',
-      })
-    :
-      L.divIcon({
-        html: Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
-        iconSize: [20, 20],
-        className: 'citybike cursor-pointer',
-      })
-    )
+  getIcon = zoom =>
+    !this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom
+      ? L.divIcon({
+          html: smallIconSvg,
+          iconSize: [8, 8],
+          className: 'citybike cursor-pointer',
+        })
+      : L.divIcon({
+          html: Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
+          iconSize: [20, 20],
+          className: 'citybike cursor-pointer',
+        });
 
   render() {
-    if (!isBrowser) return false;
+    if (!isBrowser) {
+      return false;
+    }
     return (
       <GenericMarker
         position={{
@@ -96,12 +100,12 @@ class CityBikeMarker extends React.Component {
         <Relay.RootContainer
           Component={CityBikePopup}
           route={new CityBikeRoute({ stationId: this.props.station.stationId })}
-          renderLoading={() => (
+          renderLoading={() =>
             <div className="card" style={{ height: '12rem' }}>
               <Loading />
-            </div>
-          )}
-          renderFetched={data => (<CityBikePopupWithContext {...data} context={this.context} />)}
+            </div>}
+          renderFetched={data =>
+            <CityBikePopupWithContext {...data} context={this.context} />}
         />
       </GenericMarker>
     );

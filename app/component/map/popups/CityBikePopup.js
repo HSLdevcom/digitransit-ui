@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import CityBikeContent from '../../CityBikeContent';
 import CityBikeCardContainer from '../../CityBikeCardContainer';
@@ -20,7 +20,8 @@ class CityBikePopup extends React.Component {
           Im content of a citybike card
         </CityBikePopup>
       </ComponentUsageExample>
-    </div>);
+    </div>
+  );
 
   static displayName = 'CityBikePopup';
 
@@ -32,7 +33,10 @@ class CityBikePopup extends React.Component {
   render() {
     return (
       <div className="card">
-        <CityBikeCardContainer className="padding-small" station={this.props.station}>
+        <CityBikeCardContainer
+          className="padding-small"
+          station={this.props.station}
+        >
           <CityBikeContent
             lang={this.context.getStore('PreferencesStore').getLanguage()}
             station={this.props.station}

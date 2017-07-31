@@ -3,15 +3,15 @@ import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithBigCaution = ({ id, img, className }) => (
+const IconWithBigCaution = ({ id, img, className, color }) =>
   <IconWithIcon
     id={id}
     className={className}
+    color={color}
     img={img}
     subIcon="icon-icon_caution"
     subIconClassName="subicon-caution"
-  />
-);
+  />;
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 
@@ -24,6 +24,7 @@ IconWithBigCaution.description = () =>
 
 IconWithBigCaution.propTypes = {
   id: PropTypes.string,
+  color: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
 };

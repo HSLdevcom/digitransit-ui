@@ -23,7 +23,12 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': maxLon,
   },
 
-  areaPolygon: [[minLon, minLat], [minLon, maxLat], [maxLon, maxLat], [maxLon, minLat]],
+  areaPolygon: [
+    [minLon, minLat],
+    [minLon, maxLat],
+    [maxLon, maxLat],
+    [maxLon, minLat],
+  ],
 
   defaultEndpoint: {
     address: 'Jyväskylän paikallisliikenneterminaali',
@@ -32,12 +37,30 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Paikallisliikenneterminaali, Jyväskylä', lat: 62.2410157, lon: 25.7485346 },
-    { icon: 'icon-icon_bus', label: 'Kauppatori, Jyväskylä', lat: 62.244958, lon: 25.746471 },
-    { icon: 'icon-icon_bus', label: 'Keski-Suomen keskussairaala, Jyväskylä', lat: 62.229935, lon: 25.710604 },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Paikallisliikenneterminaali, Jyväskylä',
+      lat: 62.2410157,
+      lon: 25.7485346,
+    },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Kauppatori, Jyväskylä',
+      lat: 62.244958,
+      lon: 25.746471,
+    },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Keski-Suomen keskussairaala, Jyväskylä',
+      lat: 62.229935,
+      lon: 25.710604,
+    },
   ],
 
-  appBarLink: { name: 'Jyväskylän seudun joukkoliikenne', href: 'http://linkki.jyvaskyla.fi/' },
+  appBarLink: {
+    name: 'Jyväskylän seudun joukkoliikenne',
+    href: 'http://linkki.jyvaskyla.fi/',
+  },
 
   colors: {
     primary: '#7DC02D',
@@ -54,10 +77,20 @@ export default configMerger(walttiConfig, {
 
   footer: {
     content: [
-      { label: (function () { return `© Jyvaskyla ${(1900 + new Date().getYear())}`; }()) },
+      { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
       {},
-      { name: 'footer-feedback', nameEn: 'Submit feedback', href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/24/113', icon: 'icon-icon_speech-bubble' },
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'footer-feedback',
+        nameEn: 'Submit feedback',
+        href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/24/113',
+        icon: 'icon-icon_speech-bubble',
+      },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -65,23 +98,28 @@ export default configMerger(walttiConfig, {
     fi: [
       {
         header: 'Tietoja palvelusta',
-        paragraphs: ['Tämän palvelun tarjoaa Jyväskylän seudun joukkoliikenne reittisuunnittelua varten Jyväskylän, Laukaan ja Muuramen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'],
+        paragraphs: [
+          'Tämän palvelun tarjoaa Jyväskylän seudun joukkoliikenne reittisuunnittelua varten Jyväskylän, Laukaan ja Muuramen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+        ],
       },
     ],
 
     sv: [
       {
         header: 'Om tjänsten',
-        paragraphs: ['Den här tjänsten erbjuds av Jyväskylän seudun joukkoliikenne för reseplanering inom Jyväskylä, Laukaa och Muurame region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'],
+        paragraphs: [
+          'Den här tjänsten erbjuds av Jyväskylän seudun joukkoliikenne för reseplanering inom Jyväskylä, Laukaa och Muurame region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
       },
     ],
 
     en: [
       {
         header: 'About this service',
-        paragraphs: ['This service is provided by Jyväskylän seudun joukkoliikenne for route planning in Jyväskylä, Laukaa and Muurame region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'],
+        paragraphs: [
+          'This service is provided by Jyväskylän seudun joukkoliikenne for route planning in Jyväskylä, Laukaa and Muurame region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
       },
     ],
   },
-
 });

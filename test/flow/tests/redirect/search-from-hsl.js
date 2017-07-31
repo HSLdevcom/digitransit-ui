@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['smoke'],
-  OldSearchShouldRedirect: (browser) => {
+  OldSearchShouldRedirect: browser => {
     const date = new Date();
 
     const day = date.getDate();

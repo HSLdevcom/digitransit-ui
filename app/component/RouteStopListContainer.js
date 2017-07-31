@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -21,7 +21,7 @@ class RouteStopListContainer extends React.Component {
   static contextTypes = {
     breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
-  }
+  };
 
   componentDidMount() {
     if (this.nearestStop) {
@@ -33,35 +33,53 @@ class RouteStopListContainer extends React.Component {
     relay.setVariables({ currentTime: currentTime.unix() });
   }
 
-  setNearestStop = (element) => { this.nearestStop = element; };
+  setNearestStop = element => {
+    this.nearestStop = element;
+  };
 
   getStops() {
     const position = this.props.position;
     const stops = this.props.pattern.stops;
-    const nearest = position.hasLocation === true ?
-      getDistanceToNearestStop(position.lat, position.lon, stops) : null;
+    const nearest =
+      position.hasLocation === true
+        ? getDistanceToNearestStop(position.lat, position.lon, stops)
+        : null;
     const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicles = groupBy(
       values(this.props.vehicles)
-        .filter(vehicle => (this.props.currentTime - (vehicle.timestamp * 1000)) < (5 * 60 * 1000))
-        .filter(vehicle => vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined')
-      , vehicle => vehicle.direction);
-
-    const vehicleStops = groupBy(vehicles[this.props.pattern.directionId], vehicle =>
-      `HSL:${vehicle.next_stop}`,
+        .filter(
+          vehicle =>
+            this.props.currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+        )
+        .filter(
+          vehicle =>
+            vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined',
+        ),
+      vehicle => vehicle.direction,
     );
 
-    const rowClassName = this.context.breakpoint === 'large' && 'bp-large';
+    const vehicleStops = groupBy(
+      vehicles[this.props.pattern.directionId],
+      vehicle => `HSL:${vehicle.next_stop}`,
+    );
+
+    const rowClassName = `bp-${this.context.breakpoint}`;
 
     return stops.map((stop, i) => {
-      const isNearest = (
-        nearest && nearest.distance < this.context.config.nearestStopDistance.maxShownDistance &&
-          nearest.stop.gtfsId
-      ) === stop.gtfsId;
+      const isNearest =
+        (nearest &&
+          nearest.distance <
+            this.context.config.nearestStopDistance.maxShownDistance &&
+          nearest.stop.gtfsId) === stop.gtfsId;
 
       return (
         <RouteStop
+          color={
+            this.props.pattern.route && this.props.pattern.route.color
+              ? `#${this.props.pattern.route.color}`
+              : null
+          }
           key={stop.gtfsId}
           stop={stop}
           mode={mode}
@@ -79,9 +97,12 @@ class RouteStopListContainer extends React.Component {
 
   render() {
     return (
-      <div className={cx('route-stop-list momentum-scroll', this.props.className)}>
+      <div
+        className={cx('route-stop-list momentum-scroll', this.props.className)}
+      >
         {this.getStops()}
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -106,6 +127,7 @@ export default Relay.createContainer(
           directionId
           route {
             mode
+            color
           }
           stops {
             stopTimesForPattern(id: $patternId, startTime: $currentTime) {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
 
@@ -11,8 +11,13 @@ import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 
-function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, location, breakpoint }) {
-  if (!pattern) return false;
+function RouteMapContainer(
+  { pattern, trip, vehicles, routes },
+  { router, location, breakpoint },
+) {
+  if (!pattern) {
+    return false;
+  }
 
   let selectedVehicle;
   let fitBounds = true;
@@ -21,11 +26,14 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 
   if (trip) {
     tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
-    const vehiclesWithCorrectStartTime = Object.keys(vehicles).map(key => (vehicles[key]))
-      .filter(vehicle => (vehicle.tripStartTime === tripStart));
+    const vehiclesWithCorrectStartTime = Object.keys(vehicles)
+      .map(key => vehicles[key])
+      .filter(vehicle => vehicle.tripStartTime === tripStart);
 
-    selectedVehicle = (vehiclesWithCorrectStartTime && vehiclesWithCorrectStartTime.length > 0)
-      && vehiclesWithCorrectStartTime[0];
+    selectedVehicle =
+      vehiclesWithCorrectStartTime &&
+      vehiclesWithCorrectStartTime.length > 0 &&
+      vehiclesWithCorrectStartTime[0];
 
     if (selectedVehicle) {
       fitBounds = false;
@@ -58,7 +66,9 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
 
   let filteredPoints;
   if (pattern.geometry) {
-    filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lon !== null);
+    filteredPoints = pattern.geometry.filter(
+      point => point.lat !== null && point.lon !== null,
+    );
   }
   return (
     <Map
@@ -71,16 +81,21 @@ function RouteMapContainer({ pattern, trip, vehicles, routes }, { router, locati
       zoom={zoom}
       showScaleBar={showScale}
     >
-      {breakpoint !== 'large' && !fullscreen &&
-        <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} key="overlay" />}
-      {breakpoint !== 'large' && (
-        <div className="fullscreen-toggle" onClick={toggleFullscreenMap} >
-          {fullscreen ?
-            <Icon img="icon-icon_minimize" className="cursor-pointer" /> :
-            <Icon img="icon-icon_maximize" className="cursor-pointer" />}
-        </div>
-      )}
-    </Map>);
+      {breakpoint !== 'large' &&
+        !fullscreen &&
+        <div
+          className="map-click-prevent-overlay"
+          onClick={toggleFullscreenMap}
+          key="overlay"
+        />}
+      {breakpoint !== 'large' &&
+        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
+          {fullscreen
+            ? <Icon img="icon-icon_minimize" className="cursor-pointer" />
+            : <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+        </div>}
+    </Map>
+  );
 }
 
 RouteMapContainer.contextTypes = {
@@ -91,13 +106,17 @@ RouteMapContainer.contextTypes = {
 
 RouteMapContainer.propTypes = {
   trip: PropTypes.shape({
-    stoptimesForDate: PropTypes.arrayOf(PropTypes.shape({
-      scheduledDeparture: PropTypes.number.isRequired,
-    })).isRequired,
+    stoptimesForDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        scheduledDeparture: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
   }),
-  routes: PropTypes.arrayOf(PropTypes.shape({
-    fullscreenMap: PropTypes.bool,
-  })).isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
+    }),
+  ).isRequired,
   pattern: PropTypes.object.isRequired,
   vehicles: PropTypes.object,
 };
@@ -136,8 +155,7 @@ const RouteMapContainerWithVehicles = connectToStores(
   ({ getStore }) => ({
     vehicles: getStore('RealTimeInformationStore').vehicles,
   }),
-)
-;
+);
 
 export default Relay.createContainer(RouteMapContainerWithVehicles, {
   fragments: RouteMapFragments,

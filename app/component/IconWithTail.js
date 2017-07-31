@@ -5,8 +5,14 @@ import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const IconWithTail = ({
-  className, id, img, rotate, children, desaturate = false, scrollIntoView = false,
-}) => (
+  className,
+  id,
+  img,
+  rotate,
+  children,
+  desaturate = false,
+  scrollIntoView = false,
+}) =>
   <span>
     <svg
       id={id}
@@ -14,24 +20,23 @@ const IconWithTail = ({
       className={cx('icon', 'tail-icon', className)}
       ref={el => scrollIntoView && el && el.scrollIntoView()}
     >
-      {rotate !== undefined && (
+      {rotate !== undefined &&
         <use
           filter={desaturate && 'url(#desaturate)'}
           xlinkHref="#icon-icon_vehicle-live-shadow"
           transform={`rotate(${rotate} 40 40)`}
-        />
-      )}
+        />}
       <use
-        filter={desaturate && 'url(#desaturate)'} xlinkHref={`#${img}`}
+        filter={desaturate && 'url(#desaturate)'}
+        xlinkHref={`#${img}`}
         transform="translate(26 26) scale(0.35)  "
       />
       {children}
     </svg>
-  </span>
-);
+  </span>;
 
 /** Leaflet needs html as string */
-export const asString = (props) => {
+export const asString = props => {
   const element = window.document.createElement('div');
   ReactDOM.render(<IconWithTail {...props} />, element);
   const html = element.innerHTML;

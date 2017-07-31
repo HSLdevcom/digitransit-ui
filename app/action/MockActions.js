@@ -27,11 +27,11 @@ export function createMock(actionContext, payload, done) {
       };
 
       const steps = 180;
-      const track = range(steps).map((i) => {
+      const track = range(steps).map(i => {
         const f = i / steps;
-        const variation = (Math.random() * 0.0001) - 0.00005;
-        const lat = ((f * to.latitude) + ((1 - f) * from.latitude)) + variation;
-        const lon = ((f * to.longitude) + ((1 - f) * from.longitude)) + variation;
+        const variation = Math.random() * 0.0001 - 0.00005;
+        const lat = f * to.latitude + (1 - f) * from.latitude + variation;
+        const lon = f * to.longitude + (1 - f) * from.longitude + variation;
 
         return {
           latitude: lat,
@@ -53,7 +53,10 @@ export function createMock(actionContext, payload, done) {
       if (follow.track && i < follow.track.length) {
         position = follow.track[i];
         follow.index += 1;
-        window.mock.geolocation.setCurrentPosition(position.latitude, position.longitude);
+        window.mock.geolocation.setCurrentPosition(
+          position.latitude,
+          position.longitude,
+        );
       } else {
         clearInterval(follow.interval);
         follow = false;
@@ -82,11 +85,12 @@ export function createMock(actionContext, payload, done) {
       window.mock.geolocation.notify(disableDebounce);
     },
 
-    notify: (disableDebounce, notifyDone) => actionContext.executeAction(
-      geolocatonCallback,
-      { pos: window.mock.data.position, disableDebounce },
-      notifyDone,
-    ),
+    notify: (disableDebounce, notifyDone) =>
+      actionContext.executeAction(
+        geolocatonCallback,
+        { pos: window.mock.data.position, disableDebounce },
+        notifyDone,
+      ),
   };
 
   window.mock.geolocation.notify(true, done);

@@ -1,13 +1,15 @@
 module.exports = {
   '@tags': ['itinerary'],
-  'Origin and destination exists in instructions if suggestion is chosen': (browser) => {
+  'Origin and destination exists in instructions if suggestion is chosen': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();
     splash.waitClose();
-//    const messagebar = browser.page.messageBar();
-//    messagebar.close();
+    //    const messagebar = browser.page.messageBar();
+    //    messagebar.close();
 
-    browser.page.searchFields().itinerarySearch('helsingin rautatieasema', 'Narinkkatori');
+    browser.page
+      .searchFields()
+      .itinerarySearch('helsingin rautatieasema', 'Narinkkatori');
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
@@ -20,13 +22,15 @@ module.exports = {
     browser.end();
   },
 
-  'From Kuninkaanportti to Pohjolanaukio': (browser) => {
+  'From Kuninkaanportti to Pohjolanaukio': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();
     splash.waitClose();
-//    const messagebar = browser.page.messageBar();
-//    messagebar.close();
-    browser.page.searchFields().itinerarySearch('kuninkaanportti', 'Pohjolanaukio');
+    //    const messagebar = browser.page.messageBar();
+    //    messagebar.close();
+    browser.page
+      .searchFields()
+      .itinerarySearch('kuninkaanportti', 'Pohjolanaukio');
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const itinerarySummary = browser.page.itinerarySummary();
@@ -39,5 +43,4 @@ module.exports = {
     itineraryInstructions.verifyDestination('Pohjolanaukio');
     browser.end();
   },
-
 };

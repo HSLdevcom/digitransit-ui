@@ -32,10 +32,8 @@ const mapFunctions = mapProps(({ className, router, location }) => ({
   intermediatePlaces: location.query && location.query.intermediatePlaces,
 }));
 
-
-const ViaPointBarContainer = compose(
-  getRouterContext,
-  mapFunctions,
-)(ViaPointBar);
+const ViaPointBarContainer = compose(getRouterContext, mapFunctions)(
+  ViaPointBar,
+);
 
 export default ViaPointBarContainer;

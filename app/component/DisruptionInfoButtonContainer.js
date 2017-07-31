@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { routerShape, locationShape } from 'react-router';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { isBrowser } from '../util/browser';
 
-function DisruptionInfoButtonContainer(outerProps, { router, location, config: { feedIds } }) {
+function DisruptionInfoButtonContainer(
+  outerProps,
+  { router, location, config: { feedIds } },
+) {
   if (isBrowser) {
     const openDisruptionInfo = () => {
       router.push({
@@ -35,14 +38,14 @@ function DisruptionInfoButtonContainer(outerProps, { router, location, config: {
           params: { feedIds },
         }}
         environment={Relay.Store}
-        render={({ renderProps, props }) => (
+        render={({ renderProps, props }) =>
           <DisruptionInfoButton
             {...renderProps}
             {...props}
             toggleDisruptionInfo={openDisruptionInfo}
-          />
-        )}
-      />);
+          />}
+      />
+    );
   }
   return <div />;
 }

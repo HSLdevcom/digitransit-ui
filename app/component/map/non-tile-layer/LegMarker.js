@@ -10,7 +10,9 @@ const L = isBrowser && require('leaflet');
 /* eslint-enable global-require */
 
 function fixName(name) {
-  if (!name) return '';
+  if (!name) {
+    return '';
+  }
 
   // minimum size can't be set because of flex bugs
   // so add whitespace to make the name wider
@@ -23,15 +25,19 @@ function fixName(name) {
   return name;
 }
 
-
 export default class LegMarker extends React.Component {
   static contextTypes = {
     map: PropTypes.object.isRequired,
-  }
+  };
 
   static propTypes = {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
+    color: PropTypes.string,
+  };
+
+  static defaultProps = {
+    color: 'currentColor',
   };
 
   componentDidMount() {
@@ -40,11 +46,11 @@ export default class LegMarker extends React.Component {
 
   componentWillUnmount = () => {
     this.context.map.off('zoomend', this.onMapZoom);
-  }
+  };
 
   onMapZoom = () => {
     this.forceUpdate();
-  }
+  };
 
   getLegMarker() {
     return (
@@ -56,7 +62,10 @@ export default class LegMarker extends React.Component {
         }}
         interactive={false}
         icon={L.divIcon({
-          html: `<div>${fixName(this.props.leg.name)}</div>`,
+          html: `
+            <div style='color: ${this.props.color}'>
+              ${fixName(this.props.leg.name)}
+            </div>`,
           className: `legmarker ${this.props.mode}`,
           iconSize: null,
         })}

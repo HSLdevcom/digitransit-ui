@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
@@ -8,7 +8,6 @@ import { intlShape } from 'react-intl';
 import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
-
 
 class RouteMarkerPopup extends React.Component {
   static childContextTypes = {
@@ -37,7 +36,7 @@ class RouteMarkerPopup extends React.Component {
       mode: PropTypes.string.isRequired,
       tripStartTime: PropTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
   getChildContext() {
     return {
@@ -45,10 +44,13 @@ class RouteMarkerPopup extends React.Component {
     };
   }
 
-  addAsFavouriteRoute = (e) => {
+  addAsFavouriteRoute = e => {
     e.stopPropagation();
-    this.props.context.executeAction(addFavouriteRoute, this.props.trip.route.gtfsId);
-  }
+    this.props.context.executeAction(
+      addFavouriteRoute,
+      this.props.trip.route.gtfsId,
+    );
+  };
 
   render() {
     let patternPath = `/linjat/${this.props.trip.route.gtfsId}/pysakit`;
@@ -63,22 +65,26 @@ class RouteMarkerPopup extends React.Component {
       <div className="card">
         <RouteHeader
           route={this.props.trip.route}
-          pattern={this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern}
+          pattern={
+            this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern
+          }
           trip={this.props.message.tripStartTime}
           favourite={this.props.favourite}
           addFavouriteRoute={this.addAsFavouriteRoute}
         />
         <div className="bottom location">
-          <Link to={tripPath} >
-            {this.props.context.intl.formatMessage(
-              { id: 'trip-information', defaultMessage: 'Trip Information' },
-              )}
+          <Link to={tripPath}>
+            {this.props.context.intl.formatMessage({
+              id: 'trip-information',
+              defaultMessage: 'Trip Information',
+            })}
           </Link>
           <br />
-          <Link to={patternPath} className="route" >
-            {this.props.context.intl.formatMessage(
-              { id: 'view-route', defaultMessage: 'View Route' },
-              )}
+          <Link to={patternPath} className="route">
+            {this.props.context.intl.formatMessage({
+              id: 'view-route',
+              defaultMessage: 'View Route',
+            })}
           </Link>
         </div>
       </div>
@@ -90,7 +96,9 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   RouteMarkerPopup,
   ['FavouriteRoutesStore'],
   (context, props) => ({
-    favourite: context.getStore('FavouriteRoutesStore').isFavourite(props.trip.route.gtfsId),
+    favourite: context
+      .getStore('FavouriteRoutesStore')
+      .isFavourite(props.trip.route.gtfsId),
   }),
 );
 

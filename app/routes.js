@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 // Libraries
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
 
@@ -31,8 +31,9 @@ const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
   header: ({ error, props, element, retry }) => {
     if (error) {
-      if (error.message === 'Failed to fetch' // Chrome
-        || error.message === 'Network request failed' // Safari && FF && IE
+      if (
+        error.message === 'Failed to fetch' || // Chrome
+        error.message === 'Network request failed' // Safari && FF && IE
       ) {
         return <NetworkError retry={retry} />;
       }
@@ -50,10 +51,10 @@ const ComponentLoading404Renderer = {
     }
     return undefined;
   },
-  title: ({ props, element }) => React.cloneElement(element, { route: null, ...props }),
-  content: ({ props, element }) => (
-    props ? React.cloneElement(element, props) : <div className="flex-grow" />
-  ),
+  title: ({ props, element }) =>
+    React.cloneElement(element, { route: null, ...props }),
+  content: ({ props, element }) =>
+    props ? React.cloneElement(element, props) : <div className="flex-grow" />,
   /* eslint-enable react/prop-types */
 };
 
@@ -138,23 +139,31 @@ function getSettings() {
   const custSettings = getCustomizedSettings();
 
   return {
-    walkSpeed: custSettings.walkSpeed ? Number(custSettings.walkSpeed)
+    walkSpeed: custSettings.walkSpeed
+      ? Number(custSettings.walkSpeed)
       : undefined,
-    walkReluctance: custSettings.walkReluctance ? Number(custSettings.walkReluctance)
+    walkReluctance: custSettings.walkReluctance
+      ? Number(custSettings.walkReluctance)
       : undefined,
-    walkBoardCost: custSettings.walkBoardCost ? Number(custSettings.walkBoardCost)
+    walkBoardCost: custSettings.walkBoardCost
+      ? Number(custSettings.walkBoardCost)
       : undefined,
-    modes: custSettings.modes ? custSettings.modes
-        .toString()
-        .split(',')
-        .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
-        .sort()
-        .join(',') : undefined,
-    minTransferTime: custSettings.minTransferTime ? Number(custSettings.minTransferTime)
+    modes: custSettings.modes
+      ? custSettings.modes
+          .toString()
+          .split(',')
+          .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+          .sort()
+          .join(',')
       : undefined,
-    accessibilityOption: custSettings.accessibilityOption ? custSettings.accessibilityOption
+    minTransferTime: custSettings.minTransferTime
+      ? Number(custSettings.minTransferTime)
       : undefined,
-    ticketTypes: custSettings.ticketTypes ? custSettings.ticketTypes
+    accessibilityOption: custSettings.accessibilityOption
+      ? custSettings.accessibilityOption
+      : undefined,
+    ticketTypes: custSettings.ticketTypes
+      ? custSettings.ticketTypes
       : undefined,
   };
 }
@@ -172,135 +181,182 @@ function setTicketTypes(ticketType, settingsTicketType) {
   return null;
 }
 
-export default (config) => {
+export default config => {
   const preparePlanParams = (
-      { from, to },
-      { location: { query: {
-        intermediatePlaces,
-        numItineraries,
-        time,
-        arriveBy,
-        walkReluctance,
-        walkSpeed,
-        walkBoardCost,
-        minTransferTime,
-        modes,
-        accessibilityOption,
-        ticketTypes,
-      } } },
+    { from, to },
+    {
+      location: {
+        query: {
+          intermediatePlaces,
+          numItineraries,
+          time,
+          arriveBy,
+          walkReluctance,
+          walkSpeed,
+          walkBoardCost,
+          minTransferTime,
+          modes,
+          accessibilityOption,
+          ticketTypes,
+        },
+      },
+    },
   ) => {
     const settings = getSettings();
-    return { ...omitBy({
-      fromPlace: from,
-      toPlace: to,
-      from: otpToLocation(from),
-      to: otpToLocation(to),
-      intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
-      numItineraries: numItineraries ? Number(numItineraries) : undefined,
-      modes: modes ? modes
-        .split(',')
-        .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
-        .sort()
-        .join(',')
-      : settings.modes,
-      date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
-      time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-      walkReluctance: walkReluctance ? Number(walkReluctance) : settings.walkReluctance,
-      walkBoardCost: walkBoardCost ? Number(walkBoardCost) : settings.walkBoardCost,
-      minTransferTime: minTransferTime ? Number(minTransferTime) : settings.minTransferTime,
-      walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
-      arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-      maxWalkDistance: (typeof modes === 'undefined' ||
-        (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) ?
-        config.maxWalkDistance : config.maxBikingDistance,
-      wheelchair: accessibilityOption === '1' ? true : settings.accessibilityOption === '1',
-      preferred: { agencies: config.preferredAgency || '' },
-      disableRemainingWeightHeuristic: modes && modes.split(',').includes('CITYBIKE'),
-    }, isNil),
-      ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes) };
+    return {
+      ...omitBy(
+        {
+          fromPlace: from,
+          toPlace: to,
+          from: otpToLocation(from),
+          to: otpToLocation(to),
+          intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
+          numItineraries: numItineraries ? Number(numItineraries) : undefined,
+          modes: modes
+            ? modes
+                .split(',')
+                .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+                .sort()
+                .join(',')
+            : settings.modes,
+          date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+          time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+          walkReluctance: walkReluctance
+            ? Number(walkReluctance)
+            : settings.walkReluctance,
+          walkBoardCost: walkBoardCost
+            ? Number(walkBoardCost)
+            : settings.walkBoardCost,
+          minTransferTime: minTransferTime
+            ? Number(minTransferTime)
+            : settings.minTransferTime,
+          walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
+          arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+          maxWalkDistance:
+            typeof modes === 'undefined' ||
+            (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
+              ? config.maxWalkDistance
+              : config.maxBikingDistance,
+          wheelchair:
+            accessibilityOption === '1'
+              ? true
+              : settings.accessibilityOption === '1',
+          preferred: { agencies: config.preferredAgency || '' },
+          disableRemainingWeightHeuristic:
+            modes && modes.split(',').includes('CITYBIKE'),
+        },
+        isNil,
+      ),
+      ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
+    };
   };
 
-  const SummaryPageWrapper = ({ props, routerProps, element }) => (props ?
-    React.cloneElement(element, props) :
-    React.cloneElement(element, {
-      ...routerProps,
-      ...preparePlanParams(routerProps.params, routerProps),
-      plan: { plan: { } },
-      loading: true,
-    })
-  );
+  const SummaryPageWrapper = ({ props, routerProps, element }) =>
+    props
+      ? React.cloneElement(element, props)
+      : React.cloneElement(element, {
+          ...routerProps,
+          ...preparePlanParams(routerProps.params, routerProps),
+          plan: { plan: {} },
+          loading: true,
+        });
 
   SummaryPageWrapper.propTypes = {
     props: PropTypes.object.isRequired,
     routerProps: PropTypes.object.isRequired,
   };
 
-
   return (
     <Route
-      component={props => (isBrowser ?
-        <ContainerDimensions><TopLevel {...props} /></ContainerDimensions> :
-        <TopLevel {...props} />
-      )}
+      component={props =>
+        isBrowser
+          ? <ContainerDimensions>
+              <TopLevel {...props} />
+            </ContainerDimensions>
+          : <TopLevel {...props} />}
     >
       <Route
-        path="/" topBarOptions={{ disableBackButton: true }} components={{
+        path="/"
+        topBarOptions={{ disableBackButton: true }}
+        components={{
           title: Title,
-          content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>
-          ,
+          content: props =>
+            <SplashOrChildren>
+              <IndexPage {...props} />
+            </SplashOrChildren>,
         }}
       >
         <Route
           path="lahellasi"
           getComponents={(location, cb) =>
-            System.import('./component/NearbyRoutesPanel')
-              .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
-          }
+            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
+              .then(getDefault)
+              .then(content => cb(null, { content }))
+              .catch(errorLoading)}
         />
         <Route
           path="suosikit"
           getComponents={(location, cb) =>
-            System.import('./component/FavouritesPanel')
-              .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
-          }
+            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
+              .then(getDefault)
+              .then(content => cb(null, { content }))
+              .catch(errorLoading)}
         />
       </Route>
       <Route
-        path="/?mock" topBarOptions={{ disableBackButton: true }} components={{
+        path="/?mock"
+        topBarOptions={{ disableBackButton: true }}
+        components={{
           title: Title,
-          content: props => <SplashOrChildren><IndexPage {...props} /></SplashOrChildren>,
+          content: props =>
+            <SplashOrChildren>
+              <IndexPage {...props} />
+            </SplashOrChildren>,
         }}
       >
         <Route
           path="lahellasi"
           getComponents={(location, cb) =>
-            System.import('./component/NearbyRoutesPanel')
-              .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
-          }
+            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
+              .then(getDefault)
+              .then(content => cb(null, { content }))
+              .catch(errorLoading)}
         />
         <Route
           path="suosikit"
           getComponents={(location, cb) =>
-            System.import('./component/FavouritesPanel')
-              .then(getDefault).then(content => cb(null, { content })).catch(errorLoading)
-          }
+            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
+              .then(getDefault)
+              .then(content => cb(null, { content }))
+              .catch(errorLoading)}
         />
       </Route>
 
       <Route path="/pysakit">
-        <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes*/}
+        <IndexRoute component={Error404} />{' '}
+        {/* TODO: Should return list of all routes */}
         <Route
           path=":stopId"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/StopTitle').then(getDefault),
-              System.import('./component/StopPageHeaderContainer').then(getDefault),
-              System.import('./component/StopPage').then(getDefault),
-              System.import('./component/StopPageMap').then(getDefault),
-              System.import('./component/StopPageMeta').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPage').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
+                getDefault,
+              ),
             ]).then(([title, header, content, map, meta]) =>
-              cb(null, { title, header, content, map, meta },
-            ));
+              cb(null, { title, header, content, map, meta }),
+            );
           }}
           queries={{
             header: StopQueries,
@@ -313,19 +369,30 @@ export default (config) => {
         </Route>
       </Route>
       <Route path="/terminaalit">
-        <IndexRoute component={Error404} /> {/* TODO: Should return list of all terminals*/}
+        <IndexRoute component={Error404} />{' '}
+        {/* TODO: Should return list of all terminals */}
         <Route
           path=":terminalId"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/TerminalTitle').then(getDefault),
-              System.import('./component/StopPageHeaderContainer').then(getDefault),
-              System.import('./component/TerminalPage').then(getDefault),
-              System.import('./component/StopPageMap').then(getDefault),
-              System.import('./component/StopPageMeta').then(getDefault),
+              import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/TerminalPage').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
+                getDefault,
+              ),
             ]).then(([title, header, content, map, meta]) =>
-              cb(null, { title, header, content, map, meta },
-            ));
+              cb(null, { title, header, content, map, meta }),
+            );
           }}
           queries={{
             header: terminalQueries,
@@ -338,23 +405,34 @@ export default (config) => {
         </Route>
       </Route>
       <Route path="/linjat">
-        <IndexRoute component={Error404} /> {/* TODO: Should return list of all routes */}
+        <IndexRoute component={Error404} />{' '}
+        {/* TODO: Should return list of all routes */}
         <Route path=":routeId">
           <IndexRedirect to="pysakit" />
           <Route path="pysakit">
-            <IndexRedirect to=":routeId%3A0%3A01" /> {/* Redirect to first pattern of route*/}
+            <IndexRedirect to=":routeId%3A0%3A01" />{' '}
+            {/* Redirect to first pattern of route */}
             <Route path=":patternId">
               <IndexRoute
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/PatternStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
-                  ]).then(
-                    ([title, header, map, content, meta]) =>
-                      cb(null, { title, header, map, content, meta }),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                      getDefault,
+                    ),
+                  ]).then(([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                   );
                 }}
                 queries={{
@@ -370,14 +448,23 @@ export default (config) => {
                 path="kartta"
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/PatternStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
-                  ]).then(
-                    ([title, header, map, content, meta]) =>
-                      cb(null, { title, header, map, content, meta }),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/PatternStopsContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                      getDefault,
+                    ),
+                  ]).then(([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                   );
                 }}
                 queries={{
@@ -394,14 +481,23 @@ export default (config) => {
                 path=":tripId"
                 getComponents={(location, cb) => {
                   Promise.all([
-                    System.import('./component/RouteTitle').then(getDefault),
-                    System.import('./component/RoutePage').then(getDefault),
-                    System.import('./component/RouteMapContainer').then(getDefault),
-                    System.import('./component/TripStopsContainer').then(getDefault),
-                    System.import('./component/RoutePageMeta').then(getDefault),
-                  ]).then(
-                    ([title, header, map, content, meta]) =>
-                      cb(null, { title, header, map, content, meta }),
+                    import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/TripStopsContainer').then(
+                      getDefault,
+                    ),
+                    import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                      getDefault,
+                    ),
+                  ]).then(([title, header, map, content, meta]) =>
+                    cb(null, { title, header, map, content, meta }),
                   );
                 }}
                 queries={{
@@ -417,20 +513,31 @@ export default (config) => {
               </Route>
             </Route>
           </Route>
-          <Route path="aikataulu" >
+          <Route path="aikataulu">
             <IndexRedirect to=":routeId%3A0%3A01" />
             <Route
               path=":patternId"
               disableMapOnMobile
               getComponents={(location, cb) => {
                 Promise.all([
-                  System.import('./component/RouteTitle').then(getDefault),
-                  System.import('./component/RoutePage').then(getDefault),
-                  System.import('./component/RouteMapContainer').then(getDefault),
-                  System.import('./component/RouteScheduleContainer').then(getDefault),
-                  System.import('./component/RoutePageMeta').then(getDefault),
+                  import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                    getDefault,
+                  ),
+                  import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                    getDefault,
+                  ),
+                  import(/* webpackChunkName: "route" */ './component/RouteMapContainer').then(
+                    getDefault,
+                  ),
+                  import(/* webpackChunkName: "route" */ './component/RouteScheduleContainer').then(
+                    getDefault,
+                  ),
+                  import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                    getDefault,
+                  ),
                 ]).then(([title, header, map, content, meta]) =>
-                  cb(null, { title, header, map, content, meta }));
+                  cb(null, { title, header, map, content, meta }),
+                );
               }}
               queries={{
                 title: RouteQueries,
@@ -446,12 +553,21 @@ export default (config) => {
             path="hairiot"
             getComponents={(location, cb) => {
               Promise.all([
-                System.import('./component/RouteTitle').then(getDefault),
-                System.import('./component/RoutePage').then(getDefault),
-                System.import('./component/RouteAlertsContainer').then(getDefault),
-                System.import('./component/RoutePageMeta').then(getDefault),
+                import(/* webpackChunkName: "route" */ './component/RouteTitle').then(
+                  getDefault,
+                ),
+                import(/* webpackChunkName: "route" */ './component/RoutePage').then(
+                  getDefault,
+                ),
+                import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
+                  getDefault,
+                ),
+                import(/* webpackChunkName: "route" */ './component/RoutePageMeta').then(
+                  getDefault,
+                ),
               ]).then(([title, header, content, meta]) =>
-                cb(null, { title, header, content, meta }));
+                cb(null, { title, header, content, meta }),
+              );
             }}
             queries={{
               title: RouteQueries,
@@ -467,10 +583,18 @@ export default (config) => {
         path="/reitti/:from/:to"
         getComponents={(location, cb) => {
           Promise.all([
-            System.import('./component/SummaryTitle').then(getDefault),
-            System.import('./component/SummaryPage').then(getDefault),
-            System.import('./component/SummaryPageMeta').then(getDefault),
-          ]).then(([title, content, meta]) => cb(null, { title, content, meta }));
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
+              getDefault,
+            ),
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryPage').then(
+              getDefault,
+            ),
+            import(/* webpackChunkName: "itinerary" */ './component/SummaryPageMeta').then(
+              getDefault,
+            ),
+          ]).then(([title, content, meta]) =>
+            cb(null, { title, content, meta }),
+          );
         }}
         queries={{ content: planQueries }}
         prepareParams={preparePlanParams}
@@ -480,8 +604,12 @@ export default (config) => {
           path=":hash"
           getComponents={(location, cb) => {
             Promise.all([
-              System.import('./component/ItineraryTab').then(getDefault),
-              System.import('./component/ItineraryPageMap').then(getDefault),
+              import(/* webpackChunkName: "itinerary" */ './component/ItineraryTab').then(
+                getDefault,
+              ),
+              import(/* webpackChunkName: "itinerary" */ './component/ItineraryPageMap').then(
+                getDefault,
+              ),
             ]).then(([content, map]) => cb(null, { content, map }));
           }}
         >
@@ -491,26 +619,34 @@ export default (config) => {
       <Route
         path="/styleguide"
         getComponent={(location, cb) => {
-          System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
       />
       <Route
         path="/styleguide/component/:componentName"
         topBarOptions={{ hidden: true }}
         getComponent={(location, cb) => {
-          System.import('./component/StyleGuidePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
       />
       <Route
         path="/suosikki/uusi"
         getComponent={(location, cb) => {
-          System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
       />
       <Route
         path="/suosikki/muokkaa/:id"
         getComponent={(location, cb) => {
-          System.import('./component/AddFavouritePage').then(loadRoute(cb)).catch(errorLoading);
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
       />
       <Route
@@ -518,7 +654,9 @@ export default (config) => {
         getComponents={(location, cb) => {
           Promise.all([
             Promise.resolve(Title),
-            System.import('./component/AboutPage').then(getDefault),
+            import(/* webpackChunkName: "about" */ './component/AboutPage').then(
+              getDefault,
+            ),
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />

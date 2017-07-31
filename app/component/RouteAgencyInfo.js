@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import get from 'lodash/get';
 import AgencyInfo from './AgencyInfo';
 
@@ -9,10 +9,14 @@ function RouteAgencyInfo({ route }, { config }) {
   const url = get(route, 'agency.fareUrl') || get(route, 'agency.url');
   const show = get(config, 'agency.show', false);
 
-
   if (show) {
-    return <div className="route-agency"><AgencyInfo url={url} agencyName={agencyName} /></div>;
-  } return null;
+    return (
+      <div className="route-agency">
+        <AgencyInfo url={url} agencyName={agencyName} />
+      </div>
+    );
+  }
+  return null;
 }
 
 RouteAgencyInfo.contextTypes = {

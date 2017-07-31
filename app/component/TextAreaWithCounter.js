@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 
-const TextAreaWithCounter = (props) => {
+const TextAreaWithCounter = props => {
   let counter;
 
   if (props.showCounter) {
@@ -51,7 +51,12 @@ TextAreaWithCounter.description = () =>
   <div>
     <p>Renders a text area. Counter is optional</p>
     <ComponentUsageExample description="">
-      <TextAreaWithCounter showCounter maxLength={200} handleChange={() => {}} charLeft={200} />
+      <TextAreaWithCounter
+        showCounter
+        maxLength={200}
+        handleChange={() => {}}
+        charLeft={200}
+      />
     </ComponentUsageExample>
   </div>;
 

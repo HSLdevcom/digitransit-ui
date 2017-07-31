@@ -1,5 +1,10 @@
 export default function routeCompare(routea, routeb) {
-  if (routea.agency && routea.agency.name && routeb.agency && routeb.agency.name) {
+  if (
+    routea.agency &&
+    routea.agency.name &&
+    routeb.agency &&
+    routeb.agency.name
+  ) {
     const agencyCompare = routea.agency.name.localeCompare(routeb.agency.name);
     if (agencyCompare !== 0) {
       return agencyCompare;
@@ -17,8 +22,9 @@ export default function routeCompare(routea, routeb) {
   }
   const numberA = parseInt(partsA[2] || '0', 10);
   const numberB = parseInt(partsB[2] || '0', 10);
-  return numberA - numberB ||
-    (routea.shortName || '')
-    .localeCompare(routeb.shortName || '') || (routea.longName || '')
-    .localeCompare(routeb.longName || '');
+  return (
+    numberA - numberB ||
+    (routea.shortName || '').localeCompare(routeb.shortName || '') ||
+    (routea.longName || '').localeCompare(routeb.longName || '')
+  );
 }

@@ -8,11 +8,17 @@ class StopCardHeader extends React.Component {
   getDescription() {
     let description = '';
 
-    if (this.context.config.stopCard.header.showDescription && this.props.stop.desc) {
+    if (
+      this.context.config.stopCard.header.showDescription &&
+      this.props.stop.desc
+    ) {
       description += this.props.stop.desc;
     }
 
-    if (this.context.config.stopCard.header.showDistance && this.props.distance) {
+    if (
+      this.context.config.stopCard.header.showDistance &&
+      this.props.distance
+    ) {
       description += ` // ${Math.round(this.props.distance)} m`;
     }
 
@@ -20,7 +26,9 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    if (!this.props.stop) return false;
+    if (!this.props.stop) {
+      return false;
+    }
 
     return (
       <CardHeader
@@ -28,8 +36,12 @@ class StopCardHeader extends React.Component {
         headingStyle={this.props.headingStyle}
         name={this.props.stop.name}
         description={this.getDescription()}
-        code={this.context.config.stopCard.header.showStopCode && this.props.stop.code ?
-              this.props.stop.code : null}
+        code={
+          this.context.config.stopCard.header.showStopCode &&
+          this.props.stop.code
+            ? this.props.stop.code
+            : null
+        }
         icons={this.props.icons}
       />
     );
@@ -65,7 +77,11 @@ StopCardHeader.description = () =>
       <StopCardHeader stop={exampleStop} distance={345.6} />
     </ComponentUsageExample>
     <ComponentUsageExample description="with icons">
-      <StopCardHeader stop={exampleStop} distance={345.6} icons={exampleIcons} />
+      <StopCardHeader
+        stop={exampleStop}
+        distance={345.6}
+        icons={exampleIcons}
+      />
     </ComponentUsageExample>
   </div>;
 

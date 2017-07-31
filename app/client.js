@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import { Router, match } from 'react-router';
 import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
@@ -55,7 +55,9 @@ if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
   piwik.trackPageView = () => {};
 }
 
-const addPiwik = c => (c.piwik = piwik); // eslint-disable-line no-param-reassign
+const addPiwik = c => {
+  c.piwik = piwik; // eslint-disable-line no-param-reassign
+};
 
 const piwikPlugin = {
   name: 'PiwikPlugin',
@@ -64,8 +66,9 @@ const piwikPlugin = {
 
 const raven = Raven(config.SENTRY_DSN, piwik.getVisitorId());
 
-// eslint-disable-next-line no-param-reassign
-const addRaven = c => (c.raven = raven);
+const addRaven = c => {
+  c.raven = raven; // eslint-disable-line no-param-reassign
+};
 
 const ravenPlugin = {
   name: 'RavenPlugin',
@@ -77,144 +80,166 @@ app.plug(ravenPlugin);
 app.plug(piwikPlugin);
 
 // Run application
-const callback = () => app.rehydrate(window.state, (err, context) => {
-  if (err) {
-    throw err;
-  }
-
-  window.context = context;
-
-  if (process.env.NODE_ENV === 'development') {
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
+const callback = () =>
+  app.rehydrate(window.state, (err, context) => {
+    if (err) {
+      throw err;
     }
-  }
 
-  Relay.injectNetworkLayer(new RelayNetworkLayer([
-    urlMiddleware({
-      url: `${config.URL.OTP}index/graphql`,
-    }),
-    batchMiddleware({
-      batchUrl: `${config.URL.OTP}index/graphql/batch`,
-    }),
-    gqErrorsMiddleware(),
-    retryMiddleware({
-      fetchTimeout: config.OTPTimeout + 1000,
-    }),
-    next => (req) => {
-      // eslint-disable-next-line no-param-reassign
-      req.headers.OTPTimeout = config.OTPTimeout;
-      return next(req);
-    },
-  ]));
+    window.context = context;
 
-  IsomorphicRelay.injectPreparedData(
-    Relay.Store,
-    JSON.parse(document.getElementById('relayData').textContent),
-  );
-
-  context
-    .getComponentContext()
-    .getStore('MessageStore')
-    .addConfigMessages(config);
-
-  const language = context
-      .getComponentContext()
-      .getStore('PreferencesStore').getLanguage();
-
-  configureMoment(language, config);
-
-  const history = historyCreator(config);
-
-
-  function track() {
-    // track "getting back to home"
-    const newHref = this.props.router.createHref(this.state.location);
-
-    if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-      if (config.feedback.enable && shouldDisplayPopup(
-        context
-          .getComponentContext()
-          .getStore('TimeStore')
-          .getCurrentTime()
-          .valueOf(),
-        )
-      ) {
-        context.executeAction(openFeedbackModal);
+    if (process.env.NODE_ENV === 'development') {
+      try {
+        // eslint-disable-next-line global-require, import/no-dynamic-require
+        require(`../sass/themes/${config.CONFIG}/main.scss`);
+      } catch (error) {
+        // eslint-disable-next-line global-require, import/no-dynamic-require
+        require('../sass/themes/default/main.scss');
       }
     }
 
-    this.href = newHref;
-    piwik.setCustomUrl(this.props.router.createHref(this.state.location));
-    piwik.trackPageView();
-  }
+    Relay.injectNetworkLayer(
+      new RelayNetworkLayer([
+        urlMiddleware({
+          url: `${config.URL.OTP}index/graphql`,
+        }),
+        batchMiddleware({
+          batchUrl: `${config.URL.OTP}index/graphql/batch`,
+        }),
+        gqErrorsMiddleware(),
+        retryMiddleware({
+          fetchTimeout: config.OTPTimeout + 1000,
+        }),
+        next => req => {
+          // eslint-disable-next-line no-param-reassign
+          req.headers.OTPTimeout = config.OTPTimeout;
+          return next(req);
+        },
+      ]),
+    );
 
-  const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    piwik: PropTypes.object,
-    raven: PropTypes.object,
-    url: PropTypes.string,
-    config: PropTypes.object,
-    headers: PropTypes.object,
-  });
+    IsomorphicRelay.injectPreparedData(
+      Relay.Store,
+      JSON.parse(document.getElementById('relayData').textContent),
+    );
 
-  // init geolocation handling
-  context.executeAction(initGeolocation).then(() => {
-    match({ routes: app.getComponent(), history }, (error, redirectLocation, renderProps) => {
-      IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then((props) => {
-        ReactDOM.render(
-          <ContextProvider translations={translations} context={context.getComponentContext()}>
-            <MuiThemeProvider
-              muiTheme={getMuiTheme(MUITheme(config), { userAgent: navigator.userAgent })}
-            >
-              <Router {...props} onUpdate={track} />
-            </MuiThemeProvider>
-          </ContextProvider>,
-          document.getElementById('app'),
-          () => {
-            // Run only in production mode and when built in a docker container
-            if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-              OfflinePlugin.install();
-            }
-          },
-        );
-      });
-    });
-  });
+    context
+      .getComponentContext()
+      .getStore('MessageStore')
+      .addConfigMessages(config);
 
-  // Listen for Web App Install Banner events
-  window.addEventListener('beforeinstallprompt', (e) => {
-    piwik.trackEvent('installprompt', 'fired');
+    const language = context
+      .getComponentContext()
+      .getStore('PreferencesStore')
+      .getLanguage();
 
-    // e.userChoice will return a Promise. (Only in chrome, not IE)
-    if (e.userChoice) {
-      e.userChoice.then(choiceResult =>
-        piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
-      );
+    configureMoment(language, config);
+
+    const history = historyCreator(config);
+
+    function track() {
+      // track "getting back to home"
+      const newHref = this.props.router.createHref(this.state.location);
+
+      if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
+        if (
+          config.feedback.enable &&
+          shouldDisplayPopup(
+            context
+              .getComponentContext()
+              .getStore('TimeStore')
+              .getCurrentTime()
+              .valueOf(),
+          )
+        ) {
+          context.executeAction(openFeedbackModal);
+        }
+      }
+
+      this.href = newHref;
+      piwik.setCustomUrl(this.props.router.createHref(this.state.location));
+      piwik.trackPageView();
     }
+
+    const ContextProvider = provideContext(StoreListeningIntlProvider, {
+      piwik: PropTypes.object,
+      raven: PropTypes.object,
+      url: PropTypes.string,
+      config: PropTypes.object,
+      headers: PropTypes.object,
+    });
+
+    // init geolocation handling
+    context.executeAction(initGeolocation).then(() => {
+      match(
+        { routes: app.getComponent(), history },
+        (error, redirectLocation, renderProps) => {
+          IsomorphicRouter.prepareInitialRender(
+            Relay.Store,
+            renderProps,
+          ).then(props => {
+            ReactDOM.render(
+              <ContextProvider
+                translations={translations}
+                context={context.getComponentContext()}
+              >
+                <MuiThemeProvider
+                  muiTheme={getMuiTheme(MUITheme(config), {
+                    userAgent: navigator.userAgent,
+                  })}
+                >
+                  <Router {...props} onUpdate={track} />
+                </MuiThemeProvider>
+              </ContextProvider>,
+              document.getElementById('app'),
+              () => {
+                // Run only in production mode and when built in a docker container
+                if (
+                  process.env.NODE_ENV === 'production' &&
+                  BUILD_TIME !== 'unset'
+                ) {
+                  OfflinePlugin.install();
+                }
+              },
+            );
+          });
+        },
+      );
+    });
+
+    // Listen for Web App Install Banner events
+    window.addEventListener('beforeinstallprompt', e => {
+      piwik.trackEvent('installprompt', 'fired');
+
+      // e.userChoice will return a Promise. (Only in chrome, not IE)
+      if (e.userChoice) {
+        e.userChoice.then(choiceResult =>
+          piwik.trackEvent('installprompt', 'result', choiceResult.outcome),
+        );
+      }
+    });
+
+    piwik.enableLinkTracking();
+
+    // Send perf data after React has compared real and shadow DOMs
+    // and started positioning
+    piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
+    piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
   });
-
-  piwik.enableLinkTracking();
-
-  // Send perf data after React has compared real and shadow DOMs
-  // and started positioning
-  piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
-  piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
-});
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
 if (typeof window.Intl !== 'undefined') {
   callback();
 } else {
-  const modules = [System.import('intl')];
+  const modules = [
+    import(/* webpackChunkName: "intl",  webpackMode: "lazy" */ 'intl'),
+  ];
 
-  // TODO: re-enable this
-  // config.availableLanguages.forEach((language) => {
-  //  modules.push(System.import(`intl/locale-data/jsonp/${language}`));
-  // });
+  config.availableLanguages.forEach(language => {
+    modules.push(
+      import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`),
+    );
+  });
 
   Promise.all(modules).then(callback);
 }

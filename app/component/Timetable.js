@@ -10,26 +10,29 @@ import StopPageActionBar from './StopPageActionBar';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class Timetable extends React.Component {
-
   static propTypes = {
     stop: PropTypes.shape({
       url: PropTypes.string,
       gtfsId: PropTypes.string,
-      stoptimesForServiceDate: PropTypes.arrayOf(PropTypes.shape({
-        pattern: PropTypes.shape({
-          route: PropTypes.shape({
-            shortName: PropTypes.string,
-            mode: PropTypes.string.isRequired,
-            agency: PropTypes.shape({
-              name: PropTypes.string.isRequired,
+      stoptimesForServiceDate: PropTypes.arrayOf(
+        PropTypes.shape({
+          pattern: PropTypes.shape({
+            route: PropTypes.shape({
+              shortName: PropTypes.string,
+              mode: PropTypes.string.isRequired,
+              agency: PropTypes.shape({
+                name: PropTypes.string.isRequired,
+              }).isRequired,
             }).isRequired,
           }).isRequired,
-        }).isRequired,
-        stoptimes: PropTypes.arrayOf(PropTypes.shape({
-          scheduledDeparture: PropTypes.number.isRequired,
-          serviceDay: PropTypes.number.isRequired,
-        })).isRequired,
-      })).isRequired,
+          stoptimes: PropTypes.arrayOf(
+            PropTypes.shape({
+              scheduledDeparture: PropTypes.number.isRequired,
+              serviceDay: PropTypes.number.isRequired,
+            }),
+          ).isRequired,
+        }),
+      ).isRequired,
     }).isRequired,
     propsForStopPageActionBar: PropTypes.shape({
       printUrl: PropTypes.string.isRequired,
@@ -53,51 +56,70 @@ class Timetable extends React.Component {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
-  }
+  };
 
-  setRouteVisibilityState = (val) => {
+  setRouteVisibilityState = val => {
     this.setState({ showRoutes: val.showRoutes });
-  }
+  };
 
-  resetStopOptions = (id) => {
+  resetStopOptions = id => {
     this.setState({ showRoutes: [], showFilterModal: false, oldStopId: id });
-  }
+  };
 
-  showModal = (val) => {
+  showModal = val => {
     this.setState({ showFilterModal: val });
-  }
+  };
 
   mapStopTimes = stoptimesObject =>
-    stoptimesObject.map(stoptime =>
-      stoptime.stoptimes
-        .filter(st => st.pickupType !== 'NONE')
-        .map(st => ({
+    stoptimesObject
+      .map(stoptime =>
+        stoptime.stoptimes.filter(st => st.pickupType !== 'NONE').map(st => ({
           id: stoptime.pattern.code,
-          name: stoptime.pattern.route.shortName || stoptime.pattern.route.agency.name,
+          name:
+            stoptime.pattern.route.shortName ||
+            stoptime.pattern.route.agency.name,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
         })),
-    ).reduce((acc, val) => acc.concat(val), []);
+      )
+      .reduce((acc, val) => acc.concat(val), []);
 
   groupArrayByHour = stoptimesArray =>
     groupBy(stoptimesArray, stoptime =>
-    Math.floor(stoptime.scheduledDeparture / (60 * 60)),
-  );
+      Math.floor(stoptime.scheduledDeparture / (60 * 60)),
+    );
 
   render() {
     const timetableMap = this.groupArrayByHour(
-    this.mapStopTimes(this.props.stop.stoptimesForServiceDate));
+      this.mapStopTimes(this.props.stop.stoptimesForServiceDate),
+    );
 
     return (
-      <div style={{ maxHeight: '100%', display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
-        <div className="timetable" style={{ display: 'flex', flexDirection: 'column', maxHeight: '100%', flexGrow: '1' }}>
-          {this.state.showFilterModal === true ?
-            <FilterTimeTableModal
-              stop={this.props.stop}
-              setRoutes={this.setRouteVisibilityState}
-              showFilterModal={this.showModal}
-              showRoutesList={this.state.showRoutes}
-            /> : null}
+      <div
+        style={{
+          maxHeight: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: '1',
+        }}
+      >
+        <div
+          className="timetable"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: '100%',
+            flexGrow: '1',
+          }}
+        >
+          {this.state.showFilterModal === true
+            ? <FilterTimeTableModal
+                stop={this.props.stop}
+                setRoutes={this.setRouteVisibilityState}
+                showFilterModal={this.showModal}
+                showRoutesList={this.state.showRoutes}
+              />
+            : null}
           <div className="timetable-topbar">
             <TimeTableOptionsPanel
               showRoutes={this.state.showRoutes}
@@ -112,21 +134,31 @@ class Timetable extends React.Component {
             />
           </div>
           <div className="momentum-scroll" style={{ flex: '1' }}>
-            {Object.keys(timetableMap).sort((a, b) => a - b).map(hour =>
-              <TimetableRow
-                key={hour}
-                title={padStart(hour % 24, 2, '0')}
-                stoptimes={timetableMap[hour]}
-                showRoutes={this.state.showRoutes}
-                timerows={(timetableMap[hour].sort((time1, time2) =>
-                            (time1.scheduledDeparture - time2.scheduledDeparture)).map(time =>
-                              this.state.showRoutes.filter(o => o === time.name ||
-                              o === time.id).length > 0 &&
-                                (moment.unix(time.serviceDay + time.scheduledDeparture).format('HH')))
-                                .filter(o => o === (padStart(hour % 24, 2, '0'))))
-                                }
-              />,
-          )}
+            {Object.keys(timetableMap)
+              .sort((a, b) => a - b)
+              .map(hour =>
+                <TimetableRow
+                  key={hour}
+                  title={padStart(hour % 24, 2, '0')}
+                  stoptimes={timetableMap[hour]}
+                  showRoutes={this.state.showRoutes}
+                  timerows={timetableMap[hour]
+                    .sort(
+                      (time1, time2) =>
+                        time1.scheduledDeparture - time2.scheduledDeparture,
+                    )
+                    .map(
+                      time =>
+                        this.state.showRoutes.filter(
+                          o => o === time.name || o === time.id,
+                        ).length > 0 &&
+                        moment
+                          .unix(time.serviceDay + time.scheduledDeparture)
+                          .format('HH'),
+                    )
+                    .filter(o => o === padStart(hour % 24, 2, '0'))}
+                />,
+              )}
           </div>
         </div>
       </div>
@@ -139,42 +171,52 @@ const exampleStop = {
   gtfsId: '123124234',
   name: '1231213',
   url: '1231231',
-  stoptimesForServiceDate: [{
-    pattern: {
-      headsign: 'Pornainen',
-      route: {
-        shortName: '787K',
-        agency: {
-          name: 'Helsingin seudun liikenne',
-        },
-        mode: 'BUS',
-      },
-    },
-    stoptimes: [{
-      scheduledDeparture: 60180,
-      serviceDay: 1495659600,
-    }],
-  }, {
-    pattern: {
-      route: {
-        mode: 'BUS',
-        agency: {
-          name: 'Helsingin seudun liikenne',
+  stoptimesForServiceDate: [
+    {
+      pattern: {
+        headsign: 'Pornainen',
+        route: {
+          shortName: '787K',
+          agency: {
+            name: 'Helsingin seudun liikenne',
+          },
+          mode: 'BUS',
         },
       },
+      stoptimes: [
+        {
+          scheduledDeparture: 60180,
+          serviceDay: 1495659600,
+        },
+      ],
     },
-    stoptimes: [{
-      scheduledDeparture: 61180,
-      serviceDay: 1495659600,
-    }],
-  }],
+    {
+      pattern: {
+        route: {
+          mode: 'BUS',
+          agency: {
+            name: 'Helsingin seudun liikenne',
+          },
+        },
+      },
+      stoptimes: [
+        {
+          scheduledDeparture: 61180,
+          serviceDay: 1495659600,
+        },
+      ],
+    },
+  ],
 };
 
 Timetable.description = () =>
   <div>
     <p>Renders a timetable</p>
     <ComponentUsageExample description="">
-      <Timetable stop={exampleStop} propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }} />
+      <Timetable
+        stop={exampleStop}
+        propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }}
+      />
     </ComponentUsageExample>
   </div>;
 

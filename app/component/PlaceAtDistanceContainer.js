@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 import DepartureRowContainer from './DepartureRowContainer';
 import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
@@ -23,7 +23,7 @@ const placeAtDistanceFragment = variables => Relay.QL`
 `;
 
 /* eslint-disable no-underscore-dangle */
-const PlaceAtDistance = (props) => {
+const PlaceAtDistance = props => {
   let place;
   if (props.placeAtDistance.place.__typename === 'DepartureRow') {
     place = (

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 
 import RouteListHeader from './RouteListHeader';
@@ -11,18 +11,20 @@ class PatternStopsContainer extends React.Component {
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
     }).isRequired,
-    routes: PropTypes.arrayOf(PropTypes.shape({
-      fullscreenMap: PropTypes.bool,
-    }).isRequired).isRequired,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        fullscreenMap: PropTypes.bool,
+      }).isRequired,
+    ).isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
   static contextTypes = {
     router: PropTypes.object.isRequired,
     breakpoint: PropTypes.string.isRequired,
-  }
+  };
 
   toggleFullscreenMap = () => {
     if (some(this.props.routes, route => route.fullscreenMap)) {
@@ -30,10 +32,12 @@ class PatternStopsContainer extends React.Component {
       return;
     }
     this.context.router.push(`${this.props.location.pathname}/kartta`);
-  }
+  };
 
   render() {
-    if (!this.props.pattern) return false;
+    if (!this.props.pattern) {
+      return false;
+    }
 
     if (
       some(this.props.routes, route => route.fullscreenMap) &&
@@ -46,7 +50,7 @@ class PatternStopsContainer extends React.Component {
       <div className="route-page-content">
         <RouteListHeader
           key="header"
-          className={this.context.breakpoint === 'large' && 'bp-large'}
+          className={`bp-${this.context.breakpoint}`}
         />
         <RouteStopListContainer
           key="list"

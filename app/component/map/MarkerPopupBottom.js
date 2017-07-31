@@ -20,35 +20,45 @@ class MarkerPopupBottom extends React.Component {
   };
 
   routeFrom = () => {
-    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.location,
+    );
     this.context.executeAction(setEndpoint, {
       target: 'origin',
       endpoint: this.props.location,
       router: this.context.router,
       location: locationWithTime,
     });
-  }
+  };
 
   routeTo = () => {
-    const locationWithTime = withCurrentTime(this.context.getStore, this.context.location);
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.location,
+    );
     this.context.executeAction(setEndpoint, {
       target: 'destination',
       endpoint: this.props.location,
       router: this.context.router,
       location: locationWithTime,
     });
-  }
+  };
 
   render() {
     return (
       <div className="bottom location">
         <div onClick={() => this.routeFrom()} className="route cursor-pointer">
-          <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
+          <FormattedMessage
+            id="route-from-here"
+            defaultMessage="Route from here"
+          />
         </div>
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 

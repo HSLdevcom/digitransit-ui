@@ -19,37 +19,52 @@ export default class ItineraryFeedback extends React.Component {
   };
 
   sendFeedback = () => {
-    this.context.piwik.setCustomVariable(3, 'feedback', this.state.feedbackText, 'page');
-    this.context.piwik.trackEvent('Feedback', 'Itinerary', 'Feedback', 'submitted');
+    this.context.piwik.setCustomVariable(
+      3,
+      'feedback',
+      this.state.feedbackText,
+      'page',
+    );
+    this.context.piwik.trackEvent(
+      'Feedback',
+      'Itinerary',
+      'Feedback',
+      'submitted',
+    );
     this.setState({ feedbackText: '', feedbackFormOpen: false });
-  }
+  };
 
-  updateText = (event) => {
+  updateText = event => {
     this.setState({ feedbackText: event.target.value });
-  }
+  };
 
   toggleFeedbackForm = () => {
     this.setState({ feedbackFormOpen: !this.state.feedbackFormOpen });
-  }
+  };
 
   render() {
-    const placeholder = this.context.intl.formatMessage(
-      { id: 'itinerary-feedback-placeholder', defaultMessage: 'Description (optional)' });
-    const buttonText = this.context.intl.formatMessage(
-      { id: 'itinerary-feedback-button', defaultMessage: 'Send feedback' });
+    const placeholder = this.context.intl.formatMessage({
+      id: 'itinerary-feedback-placeholder',
+      defaultMessage: 'Description (optional)',
+    });
+    const buttonText = this.context.intl.formatMessage({
+      id: 'itinerary-feedback-button',
+      defaultMessage: 'Send feedback',
+    });
     return (
       <span className="itinerary-feedback-container">
         <button
-          className={
-            cx('standalone-btn itinerary-feedback-btn',
-              { active: this.state.feedbackFormOpen })}
+          className={cx('standalone-btn itinerary-feedback-btn', {
+            active: this.state.feedbackFormOpen,
+          })}
           onClick={this.toggleFeedbackForm}
         >
           <Icon img="icon-icon_speech-bubble" />
         </button>
         <div
-          className={
-            cx('form-container', { open: this.state.feedbackFormOpen })}
+          className={cx('form-container', {
+            open: this.state.feedbackFormOpen,
+          })}
         >
           <div className="form">
             <div className="form-message">

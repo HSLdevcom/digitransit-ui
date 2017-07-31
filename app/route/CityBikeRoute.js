@@ -1,4 +1,4 @@
-import Relay from 'react-relay';
+import Relay from 'react-relay/classic';
 
 export default class CityBikeRoute extends Relay.Route {
   static queries = {

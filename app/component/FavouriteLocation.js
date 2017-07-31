@@ -9,14 +9,19 @@ import DepartureTime from './DepartureTime';
 import RouteNumber from './RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from './ExampleData';
 
-const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
-  firstTransitLeg, clickFavourite }) => {
+const FavouriteLocation = ({
+  favourite,
+  className,
+  currentTime,
+  departureTime,
+  firstTransitLeg,
+  clickFavourite,
+}) => {
   const { locationName, id, lat, lon, selectedIconId } = favourite;
 
-
   let departureTimeComponent;
-  if (departureTime &&
-      (currentTime < departureTime)) {  // Departure is in the future
+  if (departureTime && currentTime < departureTime) {
+    // Departure is in the future
     departureTimeComponent = (
       <DepartureTime
         departureTime={departureTime}
@@ -26,8 +31,11 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
       />
     );
   } else {
-    departureTimeComponent =
-      <div className="favourite-location-content-placeholder time--small">--:--</div>;
+    departureTimeComponent = (
+      <div className="favourite-location-content-placeholder time--small">
+        --:--
+      </div>
+    );
   }
 
   // Show either route number and when it departs from nearest stop,
@@ -57,12 +65,16 @@ const FavouriteLocation = ({ favourite, className, currentTime, departureTime,
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
-        <div className="favourite-location-name">{locationName}</div>
+        <div className="favourite-location-name">
+          {locationName}
+        </div>
       </div>
 
       {info}
       <Link
-        onClick={(e) => { e.stopPropagation(); }}
+        onClick={e => {
+          e.stopPropagation();
+        }}
         to={`/suosikki/muokkaa/${id}`}
         className="cursor-pointer no-decoration"
       >

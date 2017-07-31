@@ -3,11 +3,10 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const Card = ({ className, children }) => (
+const Card = ({ className, children }) =>
   <div className={cx('card', className)}>
     {children}
-  </div>
-);
+  </div>;
 Card.displayName = 'Card';
 Card.description = () =>
   <div>
