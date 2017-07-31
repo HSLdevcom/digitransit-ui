@@ -114,7 +114,13 @@ class FavouriteLocationsContainer extends React.Component {
       target: 'destination',
       endpoint: location,
       router: this.context.router,
-      location: this.context.location,
+      location: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: this.props.currentTime.unix(),
+        },
+      },
     });
   };
 
