@@ -123,7 +123,9 @@ class RouteStop extends React.Component {
     return (
       <div
         className={cx('route-stop row', className)}
-        ref={el => (this.element = el)}
+        ref={el => {
+          this.element = el;
+        }}
       >
         <div className="columns route-stop-now">
           {vehicleTripLinks}

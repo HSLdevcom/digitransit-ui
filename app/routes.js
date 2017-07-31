@@ -314,7 +314,7 @@ export default config => {
 
       <Route path="/pysakit">
         <IndexRoute component={Error404} />{' '}
-        {/* TODO: Should return list of all routes*/}
+        {/* TODO: Should return list of all routes */}
         <Route
           path=":stopId"
           getComponents={(location, cb) => {
@@ -350,7 +350,7 @@ export default config => {
       </Route>
       <Route path="/terminaalit">
         <IndexRoute component={Error404} />{' '}
-        {/* TODO: Should return list of all terminals*/}
+        {/* TODO: Should return list of all terminals */}
         <Route
           path=":terminalId"
           getComponents={(location, cb) => {
@@ -391,7 +391,7 @@ export default config => {
           <IndexRedirect to="pysakit" />
           <Route path="pysakit">
             <IndexRedirect to=":routeId%3A0%3A01" />{' '}
-            {/* Redirect to first pattern of route*/}
+            {/* Redirect to first pattern of route */}
             <Route path=":patternId">
               <IndexRoute
                 getComponents={(location, cb) => {
