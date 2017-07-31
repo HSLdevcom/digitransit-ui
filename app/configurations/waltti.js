@@ -66,6 +66,6 @@ export default {
   },
 
   showModeFilter: false,
-  
+
   redirectReittiopasParams: true,
 };
