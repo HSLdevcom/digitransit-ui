@@ -339,7 +339,6 @@ class SummaryPage extends React.Component {
   }
 }
 
-
 export default Relay.createContainer(SummaryPage, {
   fragments: {
     plan: () => Relay.QL`
@@ -403,5 +402,6 @@ export default Relay.createContainer(SummaryPage, {
       preferred: null,
       ticketTypes: null,
     },
-    ...SummaryPage.hcParameters },
+    ...SummaryPage.hcParameters,
+  },
 });
