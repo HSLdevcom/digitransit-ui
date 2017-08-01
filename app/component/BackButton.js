@@ -44,14 +44,11 @@ export default class BackButton extends React.Component {
         icon={
           <Icon img="icon-icon_arrow-left" className="cursor-pointer back" />
         }
-      >
-        <span
-          title={this.context.intl.formatMessage({
-            id: 'back-button-title',
-            defaultMessage: 'Go back to previous page',
-          })}
-        />
-      </FlatButton>
+        aria-label={this.context.intl.formatMessage({
+          id: 'back-button-title',
+          defaultMessage: 'Go back to previous page',
+        })}
+      />
     );
   }
 }
