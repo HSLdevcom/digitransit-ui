@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import ExternalLink from './ExternalLink';
 import DisruptionInfo from './DisruptionInfo';
@@ -7,7 +8,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 
-const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
+const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -35,7 +36,14 @@ const AppBarLarge = ({ titleClicked }, { router, location, config }) => {
           <LangSelect />
         </div>
         <div className="navi-icons navi-margin padding-horizontal-large">
-          <button className="noborder" onClick={openDisruptionInfo}>
+          <button
+            className="noborder"
+            onClick={openDisruptionInfo}
+            aria-label={intl.formatMessage({
+              id: 'disruptions',
+              defaultMessage: 'Disruptions',
+            })}
+          >
             <Icon img="icon-icon_caution" />
           </button>
         </div>
@@ -58,6 +66,7 @@ AppBarLarge.contextTypes = {
   router: routerShape.isRequired,
   location: locationShape.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 AppBarLarge.description = () =>
