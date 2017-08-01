@@ -1,8 +1,8 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'kuopio';
-const APP_TITLE = 'kuopio.digitransit.fi';
-const APP_DESCRIPTION = 'Kuopion uusi reittiopas';
+const APP_TITLE = 'Reittiopas Kuopio';
+const APP_DESCRIPTION = 'Reittiopas Kuopio';
 
 const walttiConfig = require('./waltti').default;
 
