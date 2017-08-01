@@ -1055,7 +1055,7 @@
                             },
                             {
                                 "name": "wheelchair",
-                                "description": "Whether the trip must be wheelchair accessible.",
+                                "description": "Whether the trip must be wheelchair accessible. Default value: false",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1063,19 +1063,9 @@
                                 },
                                 "defaultValue": null
                             },
-                             {
-                                "name": "ticketTypes",
-                                "description": "Allowed ticket types",
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            },
                             {
                                 "name": "numItineraries",
-                                "description": "The maximum number of itineraries to return.",
+                                "description": "The maximum number of itineraries to return. Default value: 3.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1085,7 +1075,7 @@
                             },
                             {
                                 "name": "maxWalkDistance",
-                                "description": "The maximum distance (in meters) the user is willing to walk. Defaults to unlimited.",
+                                "description": "The maximum distance (in meters) the user is willing to walk. Defaults  to unlimited (Double.MAX_VALUE)",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1095,7 +1085,7 @@
                             },
                             {
                                 "name": "maxPreTransitTime",
-                                "description": "The maximum time (in seconds) of pre-transit travel when using drive-to-transit (park and ride or kiss and ride). Defaults to unlimited.",
+                                "description": "The maximum time (in seconds) of pre-transit travel when using drive-to-transit (park and ride or kiss and ride). Default value: 1800.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1105,7 +1095,7 @@
                             },
                             {
                                 "name": "walkReluctance",
-                                "description": "A multiplier for how bad walking is, compared to being in transit for equal lengths of time. Defaults to 2. Empirically, values between 10 and 20 seem to correspond well to the concept of not wanting to walk too much without asking for totally ridiculous itineraries, but this observation should in no way be taken as scientific or definitive. Your mileage may vary.",
+                                "description": "A multiplier for how bad walking is, compared to being in transit for equal lengths of time.Empirically, values between 10 and 20 seem to correspond well to the concept of not wanting to walk too much without asking for totally ridiculous itineraries, but this observation should in no way be taken as scientific or definitive. Your mileage may vary. Default value: 2.0 ",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1115,7 +1105,7 @@
                             },
                             {
                                 "name": "walkOnStreetReluctance",
-                                "description": "How much more reluctant is the user to walk on streets with car traffic allowed",
+                                "description": "How much more reluctant is the user to walk on streets with car traffic allowed. Default value: 1.0",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1125,7 +1115,7 @@
                             },
                             {
                                 "name": "waitReluctance",
-                                "description": "How much worse is waiting for a transit vehicle than being on a transit vehicle, as a multiplier. The default value treats wait and on-vehicle time as the same. It may be tempting to set this higher than walkReluctance (as studies often find this kind of preferences among riders) but the planner will take this literally and walk down a transit line to avoid waiting at a stop. This used to be set less than 1 (0.95) which would make waiting offboard preferable to waiting onboard in an interlined trip. That is also undesirable. If we only tried the shortest possible transfer at each stop to neighboring stop patterns, this problem could disappear.",
+                                "description": "How much worse is waiting for a transit vehicle than being on a transit vehicle, as a multiplier. The default value treats wait and on-vehicle time as the same. It may be tempting to set this higher than walkReluctance (as studies often find this kind of preferences among riders) but the planner will take this literally and walk down a transit line to avoid waiting at a stop. This used to be set less than 1 (0.95) which would make waiting offboard preferable to waiting onboard in an interlined trip. That is also undesirable. If we only tried the shortest possible transfer at each stop to neighboring stop patterns, this problem could disappear. Default value: 1.0.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1135,7 +1125,7 @@
                             },
                             {
                                 "name": "waitAtBeginningFactor",
-                                "description": "How much less bad is waiting at the beginning of the trip (replaces waitReluctance on the first boarding)",
+                                "description": "How much less bad is waiting at the beginning of the trip (replaces waitReluctance on the first boarding). Default value: 0.4.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1145,7 +1135,7 @@
                             },
                             {
                                 "name": "walkSpeed",
-                                "description": "max walk speed along streets, in meters per second",
+                                "description": "Max walk speed along streets, in meters per second Default value: 1.33.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1155,7 +1145,7 @@
                             },
                             {
                                 "name": "bikeSpeed",
-                                "description": "max bike speed along streets, in meters per second",
+                                "description": "Max bike speed along streets, in meters per second. default value: 5.0.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -1165,7 +1155,7 @@
                             },
                             {
                                 "name": "bikeSwitchTime",
-                                "description": "Time to get on and off your own bike",
+                                "description": "Time to get on and off your own bike, in seconds. Default Value: 0",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1175,7 +1165,7 @@
                             },
                             {
                                 "name": "bikeSwitchCost",
-                                "description": "Cost of getting on and off your own bike",
+                                "description": "Cost of getting on and off your own bike. Default value: 0",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1185,7 +1175,7 @@
                             },
                             {
                                 "name": "optimize",
-                                "description": "The set of characteristics that the user wants to optimize for -- defaults to QUICK, or optimize for transit time.",
+                                "description": "The set of characteristics ( QUICK, SAFE, FLAT, GREENWAYS, TRIANGLE, TRANSFERS) that the user wants to optimize for . Default value: QUICK",
                                 "type": {
                                     "kind": "ENUM",
                                     "name": "OptimizeType",
@@ -1205,7 +1195,7 @@
                             },
                             {
                                 "name": "arriveBy",
-                                "description": "Whether the trip should depart at dateTime (false, the default), or arrive at dateTime.",
+                                "description": "Whether the trip should depart at dateTime (false), or arrive at dateTime (true). Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1249,7 +1239,7 @@
                             },
                             {
                                 "name": "walkBoardCost",
-                                "description": "This prevents unnecessary transfers by adding a cost for boarding a vehicle.",
+                                "description": "This prevents unnecessary transfers by adding a cost for boarding a vehicle. Default value: 600.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1259,7 +1249,7 @@
                             },
                             {
                                 "name": "bikeBoardCost",
-                                "description": "Separate cost for boarding a vehicle with a bicycle, which is more difficult than on foot.",
+                                "description": "Separate cost for boarding a vehicle with a bicycle, which is more difficult than on foot. Default value: 600.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1279,7 +1269,7 @@
                             },
                             {
                                 "name": "transferPenalty",
-                                "description": "An extra penalty added on transfers (i.e. all boardings except the first one). Not to be confused with bikeBoardCost and walkBoardCost, which are the cost of boarding a vehicle with and without a bicycle. The boardCosts are used to model the 'usual' perceived cost of using a transit vehicle, and the transferPenalty is used when a user requests even less transfers. In the latter case, we don't actually optimize for fewest transfers, as this can lead to absurd results. Consider a trip in New York from Grand Army Plaza (the one in Brooklyn) to Kalustyan's at noon. The true lowest transfers route is to wait until midnight, when the 4 train runs local the whole way. The actual fastest route is the 2/3 to the 4/5 at Nevins to the 6 at Union Square, which takes half an hour. Even someone optimizing for fewest transfers doesn't want to wait until midnight. Maybe they would be willing to walk to 7th Ave and take the Q to Union Square, then transfer to the 6. If this takes less than optimize_transfer_penalty seconds, then that's what we'll return.",
+                                "description": "An extra penalty added on transfers (i.e. all boardings except the first one). Not to be confused with bikeBoardCost and walkBoardCost, which are the cost of boarding a vehicle with and without a bicycle. The boardCosts are used to model the 'usual' perceived cost of using a transit vehicle, and the transferPenalty is used when a user requests even less transfers. In the latter case, we don't actually optimize for fewest transfers, as this can lead to absurd results. Consider a trip in New York from Grand Army Plaza (the one in Brooklyn) to Kalustyan's at noon. The true lowest transfers route is to wait until midnight, when the 4 train runs local the whole way. The actual fastest route is the 2/3 to the 4/5 at Nevins to the 6 at Union Square, which takes half an hour. Even someone optimizing for fewest transfers doesn't want to wait until midnight. Maybe they would be willing to walk to 7th Ave and take the Q to Union Square, then transfer to the 6. If this takes less than optimize_transfer_penalty seconds, then that's what we'll return. Default value: 0.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1289,7 +1279,7 @@
                             },
                             {
                                 "name": "batch",
-                                "description": "when true, do not use goal direction or stop at the target, build a full SPT",
+                                "description": "When true, do not use goal direction or stop at the target, build a full SPT. Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1299,7 +1289,7 @@
                             },
                             {
                                 "name": "modes",
-                                "description": "The set of TraverseModes that a user is willing to use. Defaults to WALK | TRANSIT.",
+                                "description": "The set of TraverseModes that a user is willing to use. Default value: WALK | TRANSIT.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "String",
@@ -1309,7 +1299,7 @@
                             },
                             {
                                 "name": "allowBikeRental",
-                                "description": "Is bike rental allowed?",
+                                "description": "Is bike rental allowed? Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1319,7 +1309,7 @@
                             },
                             {
                                 "name": "boardSlack",
-                                "description": "Invariant: boardSlack + alightSlack <= transferSlack.",
+                                "description": "Invariant: boardSlack + alightSlack <= transferSlack. Default value: 0.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1329,7 +1319,7 @@
                             },
                             {
                                 "name": "alightSlack",
-                                "description": "Invariant: boardSlack + alightSlack <= transferSlack.",
+                                "description": "Invariant: boardSlack + alightSlack <= transferSlack. Default value: 0.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1339,7 +1329,7 @@
                             },
                             {
                                 "name": "minTransferTime",
-                                "description": "A global minimum transfer time (in seconds) that specifies the minimum amount of time that must pass between exiting one transit vehicle and boarding another. This time is in addition to time it might take to walk between transit stops. This time should also be overridden by specific transfer timing information in transfers.txt",
+                                "description": "A global minimum transfer time (in seconds) that specifies the minimum amount of time that must pass between exiting one transit vehicle and boarding another. This time is in addition to time it might take to walk between transit stops. This time should also be overridden by specific transfer timing information in transfers.txt. Default value: 0",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1349,7 +1339,7 @@
                             },
                             {
                                 "name": "nonpreferredTransferPenalty",
-                                "description": "Penalty for using a non-preferred transfer",
+                                "description": "Penalty for using a non-preferred transfer. Default value: 180.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1359,7 +1349,7 @@
                             },
                             {
                                 "name": "maxTransfers",
-                                "description": "Maximum number of transfers",
+                                "description": "Maximum number of transfers. Default value: 2.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -1399,7 +1389,7 @@
                             },
                             {
                                 "name": "reverseOptimizeOnTheFly",
-                                "description": "When true, reverse optimize this search on the fly whenever needed, rather than reverse-optimizing the entire path when it's done.",
+                                "description": "When true, reverse optimize this search on the fly whenever needed, rather than reverse-optimizing the entire path when it's done. Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1409,7 +1399,7 @@
                             },
                             {
                                 "name": "ignoreRealtimeUpdates",
-                                "description": "When true, realtime updates are ignored during this search.",
+                                "description": "When true, realtime updates are ignored during this search. Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -1419,7 +1409,7 @@
                             },
                             {
                                 "name": "disableRemainingWeightHeuristic",
-                                "description": "If true, the remaining weight heuristic is disabled. Currently only implemented for the long distance path service.",
+                                "description": "If true, the remaining weight heuristic is disabled. Currently only implemented for the long distance path service. Default value: false.",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -2132,6 +2122,16 @@
                         "args": [
                             {
                                 "name": "serviceDay",
+                                "description": "Deprecated, please switch to serviceDate instead",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "serviceDate",
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
@@ -2492,6 +2492,16 @@
                         "args": [
                             {
                                 "name": "serviceDay",
+                                "description": "Deprecated, please switch to serviceDate instead",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "serviceDate",
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",
@@ -5314,6 +5324,38 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "arrivalTime",
+                        "description": "The time the rider will arrive at the place.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Long",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "departureTime",
+                        "description": "The time the rider will depart the place.",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Long",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "stop",
                         "description": "The stop related to the place.",
                         "args": [],
@@ -5557,6 +5599,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "departureDelay",
+                        "description": "For transit leg, the offset from the scheduled departure-time of the boarding stop in this leg. \"scheduled time of departure at boarding stop\" = startTime - departureDelay",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "arrivalDelay",
+                        "description": "For transit leg, the offset from the scheduled arrival-time of the alighting stop in this leg. \"scheduled time of arrival at alighting stop\" = endTime - arrivalDelay",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "mode",
                         "description": "The mode (e.g., Walk) used when traversing this leg.",
                         "args": [],
@@ -5709,8 +5775,20 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "serviceDate",
+                        "description": "For transit legs, the serviceDate. For non-transit legs, null.",
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "intermediateStops",
-                        "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null.",
+                        "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null. Returns Stop type",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -5718,6 +5796,22 @@
                             "ofType": {
                                 "kind": "OBJECT",
                                 "name": "Stop",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "intermediatePlaces",
+                        "description": "For transit legs, intermediate stops between the Place where the leg originates and the Place where the leg ends. For non-transit legs, null. Returns Place type, which can be queried eg. for departure and arrival times",
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Place",
                                 "ofType": null
                             }
                         },
