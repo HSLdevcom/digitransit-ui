@@ -1087,9 +1087,9 @@ babel-register@^6.24.1:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@6.23.0, babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.3.19, babel-runtime@^6.6.1:
-  version "6.23.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
+babel-runtime@6.25.0:
+  version "6.25.0"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
@@ -1099,6 +1099,13 @@ babel-runtime@^5.5.5:
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-5.8.38.tgz#1c0b02eb63312f5f087ff20450827b425c9d4c19"
   dependencies:
     core-js "^1.0.0"
+
+babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.3.19, babel-runtime@^6.6.1:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
+  dependencies:
+    core-js "^2.4.0"
+    regenerator-runtime "^0.10.0"
 
 babel-template@^6.24.1, babel-template@^6.25.0, babel-template@^6.9.0:
   version "6.25.0"
@@ -2139,7 +2146,7 @@ cross-spawn@^3.0.0:
     lru-cache "^4.0.1"
     which "^1.2.9"
 
-cross-spawn@^5.1.0:
+cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
   dependencies:
@@ -7607,13 +7614,6 @@ react-static-container@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
-react-swipeable-views-core@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.11.1.tgz#61d046799f90725bbf91a0eb3abcab805c774cac"
-  dependencies:
-    babel-runtime "^6.23.0"
-    warning "^3.0.0"
-
 react-swipeable-views-core@^0.12.5:
   version "0.12.5"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.12.5.tgz#7113f3a5c84f85042447a7c49e3f2a206eab7931"
@@ -7621,7 +7621,7 @@ react-swipeable-views-core@^0.12.5:
     babel-runtime "^6.23.0"
     warning "^3.0.0"
 
-react-swipeable-views-utils@0.12.5:
+react-swipeable-views-utils@0.12.5, react-swipeable-views-utils@^0.12.5:
   version "0.12.5"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.12.5.tgz#878de2108c8fb5160cc3122de10c3ff741a28801"
   dependencies:
@@ -7632,26 +7632,15 @@ react-swipeable-views-utils@0.12.5:
     react-event-listener "^0.4.5"
     react-swipeable-views-core "^0.12.5"
 
-react-swipeable-views-utils@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.12.0.tgz#4ff11f20a8da0561f623876d9fd691116e1a6a03"
-  dependencies:
-    babel-runtime "^6.23.0"
-    fbjs "^0.8.4"
-    keycode "^2.1.7"
-    prop-types "^15.5.4"
-    react-event-listener "^0.4.5"
-    react-swipeable-views-core "^0.11.1"
-
-react-swipeable-views@0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.4.tgz#0c97bdad9dd709c1eacd7839478fa70d4241adb6"
+react-swipeable-views@0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.5.tgz#ff43b35e05c56614bb63ab032769ec8fe9259b0e"
   dependencies:
     babel-runtime "^6.23.0"
     dom-helpers "^3.2.1"
     prop-types "^15.5.4"
-    react-swipeable-views-core "^0.11.1"
-    react-swipeable-views-utils "^0.12.0"
+    react-swipeable-views-core "^0.12.5"
+    react-swipeable-views-utils "^0.12.5"
     warning "^3.0.0"
 
 react-tap-event-plugin@2.0.1:
@@ -7809,20 +7798,6 @@ readdirp@^2.0.0:
     minimatch "^3.0.2"
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
-
-readline2@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/readline2/-/readline2-1.0.1.tgz#41059608ffc154757b715d9989d199ffbf372e35"
-  dependencies:
-    code-point-at "^1.0.0"
-    is-fullwidth-code-point "^1.0.0"
-    mute-stream "0.0.5"
-
-rechoir@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
-  dependencies:
-    resolve "^1.1.6"
 
 recompose@0.24.0:
   version "0.24.0"
