@@ -63,9 +63,9 @@ export default configMerger(walttiConfig, {
     },
     {
       icon: 'icon-icon_school',
-      label: 'Kuopion yliopisto',
-      lat: 62.896885,
-      lon: 27.651042,
+      label: 'Itä-Suomen yliopisto, Kuopio',
+      lat: 62.89189166,
+      lon: 27.63598893,
     },
   ],
 
