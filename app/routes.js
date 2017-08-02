@@ -162,7 +162,23 @@ function getSettings() {
     accessibilityOption: custSettings.accessibilityOption
       ? custSettings.accessibilityOption
       : undefined,
+    ticketTypes: custSettings.ticketTypes
+      ? custSettings.ticketTypes
+      : undefined,
   };
+}
+
+function setTicketTypes(ticketType, settingsTicketType) {
+  if (ticketType !== undefined && ticketType !== 'none') {
+    return ticketType;
+  } else if (
+    settingsTicketType !== undefined &&
+    settingsTicketType !== 'none' &&
+    ticketType !== 'none'
+  ) {
+    return settingsTicketType;
+  }
+  return null;
 }
 
 export default config => {
@@ -181,54 +197,58 @@ export default config => {
           minTransferTime,
           modes,
           accessibilityOption,
+          ticketTypes,
         },
       },
     },
   ) => {
     const settings = getSettings();
-    return omitBy(
-      {
-        fromPlace: from,
-        toPlace: to,
-        from: otpToLocation(from),
-        to: otpToLocation(to),
-        intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
-        numItineraries: numItineraries ? Number(numItineraries) : undefined,
-        modes: modes
-          ? modes
-              .split(',')
-              .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
-              .sort()
-              .join(',')
-          : settings.modes,
-        date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
-        time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-        walkReluctance: walkReluctance
-          ? Number(walkReluctance)
-          : settings.walkReluctance,
-        walkBoardCost: walkBoardCost
-          ? Number(walkBoardCost)
-          : settings.walkBoardCost,
-        minTransferTime: minTransferTime
-          ? Number(minTransferTime)
-          : settings.minTransferTime,
-        walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
-        arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        maxWalkDistance:
-          typeof modes === 'undefined' ||
-          (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
-            ? config.maxWalkDistance
-            : config.maxBikingDistance,
-        wheelchair:
-          accessibilityOption === '1'
-            ? true
-            : settings.accessibilityOption === '1',
-        preferred: { agencies: config.preferredAgency || '' },
-        disableRemainingWeightHeuristic:
-          modes && modes.split(',').includes('CITYBIKE'),
-      },
-      isNil,
-    );
+    return {
+      ...omitBy(
+        {
+          fromPlace: from,
+          toPlace: to,
+          from: otpToLocation(from),
+          to: otpToLocation(to),
+          intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
+          numItineraries: numItineraries ? Number(numItineraries) : undefined,
+          modes: modes
+            ? modes
+                .split(',')
+                .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
+                .sort()
+                .join(',')
+            : settings.modes,
+          date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
+          time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
+          walkReluctance: walkReluctance
+            ? Number(walkReluctance)
+            : settings.walkReluctance,
+          walkBoardCost: walkBoardCost
+            ? Number(walkBoardCost)
+            : settings.walkBoardCost,
+          minTransferTime: minTransferTime
+            ? Number(minTransferTime)
+            : settings.minTransferTime,
+          walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
+          arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+          maxWalkDistance:
+            typeof modes === 'undefined' ||
+            (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
+              ? config.maxWalkDistance
+              : config.maxBikingDistance,
+          wheelchair:
+            accessibilityOption === '1'
+              ? true
+              : settings.accessibilityOption === '1',
+          preferred: { agencies: config.preferredAgency || '' },
+          disableRemainingWeightHeuristic:
+            modes && modes.split(',').includes('CITYBIKE'),
+        },
+        isNil,
+      ),
+      ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
+    };
   };
 
   const SummaryPageWrapper = ({ props, routerProps, element }) =>

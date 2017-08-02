@@ -45,6 +45,9 @@ class SaveCustomizedSettingsButton extends React.Component {
       walkSpeed: this.context.location.query.walkSpeed
         ? this.context.location.query.walkSpeed
         : undefined,
+      ticketTypes: this.context.location.query.ticketTypes
+        ? this.context.location.query.ticketTypes
+        : undefined,
     };
 
     setCustomizedSettings(settings);

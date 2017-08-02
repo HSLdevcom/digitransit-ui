@@ -9,6 +9,7 @@ class Select extends React.Component {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         displayName: PropTypes.string.isRequired,
+        displayNameObject: PropTypes.object,
         value: PropTypes.string.isRequired,
       }).isRequired,
     ).isRequired,
@@ -17,7 +18,9 @@ class Select extends React.Component {
   static getOptionTags(options) {
     return options.map(option =>
       <option key={option.displayName + option.value} value={option.value}>
-        {option.displayName}
+        {option.displayNameObject
+          ? option.displayNameObject
+          : option.displayName}
       </option>,
     );
   }
