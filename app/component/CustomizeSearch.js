@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
@@ -12,6 +13,7 @@ import Slider from './Slider';
 import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
+import FareZoneSelector from './FareZoneSelector';
 import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
 import {
@@ -47,6 +49,7 @@ const defaultSettings = {
   walkBoardCost: WALKBOARDCOST_DEFAULT,
   walkReluctance: 2,
   walkSpeed: 1.2,
+  ticketTypes: null,
 };
 
 class CustomizeSearch extends React.Component {
@@ -93,13 +96,13 @@ class CustomizeSearch extends React.Component {
       walkBoardCost: 0,
       walkReluctance: 0,
       walkSpeed: 0,
+      ticketTypes: null,
     };
   }
 
   componentWillMount() {
     // Check if there are customized settings set
     const custSettings = getCustomizedSettings();
-
     /* Map sliders, if there are customized settings, prioritize them first,
     if there are query parameters, they come in second, if not, fall back to default values */
     this.walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(
@@ -376,20 +379,31 @@ class CustomizeSearch extends React.Component {
       />
     </section>;
 
+  getTicketType = () => {
+    let ticketType;
+    if (
+      typeof this.context.location.query.ticketTypes !== 'undefined' &&
+      this.context.location.query.ticketTypes !== null
+    ) {
+      ticketType = this.context.location.query.ticketTypes;
+    } else if (!(typeof getCustomizedSettings().ticketTypes === 'undefined')) {
+      ticketType = getCustomizedSettings().ticketTypes;
+    } else {
+      ticketType = 'none';
+    }
+    return ticketType;
+  };
+
   getTicketSelector = () =>
-    <section className="offcanvas-section">
-      <Select
-        headerText={this.context.intl.formatMessage({
-          id: 'zones',
-          defaultMessage: 'Fare zones',
-        })}
-        name="ticket"
-        selected={this.context.location.query.ticketOption || '0'}
-        options={this.context.config.ticketOptions}
-        onSelectChange={e =>
-          this.updateSettings('ticketOption', e.target.value)}
-      />
-    </section>;
+    <FareZoneSelector
+      headerText={this.context.intl.formatMessage({
+        id: 'zones',
+        defaultMessage: 'Fare zones',
+      })}
+      options={get(this.context.config, 'fareMapping', {})}
+      currentOption={this.getTicketType()}
+      updateValue={val => this.updateSettings('ticketTypes', val)}
+    />;
 
   getAccessibilityOption = () => {
     let accessibilityOption;
@@ -491,6 +505,7 @@ class CustomizeSearch extends React.Component {
         this.walkBoardCostSliderValues,
       ),
       accessibilityOption: defaultSettings.accessibilityOption,
+      ticketTypes: defaultSettings.ticketTypes,
       minTransferTime: mapToSlider(
         defaultSettings.minTransferTime,
         this.transferMarginSliderValues,
@@ -507,6 +522,7 @@ class CustomizeSearch extends React.Component {
           minTransferTime: defaultSettings.minTransferTime,
           accessibilityOption: defaultSettings.accessibilityOption,
           modes: this.getDefaultModes().toString(),
+          ticketTypes: defaultSettings.ticketTypes,
         },
       },
       router: this.context.router,

@@ -17,7 +17,7 @@ export default configMerger(walttiConfig, {
   },
 
   colors: {
-    primary: '#c40065',
+    primary: '#e10069',
   },
 
   socialMedia: {
@@ -48,15 +48,15 @@ export default configMerger(walttiConfig, {
   defaultOrigins: [
     {
       icon: 'icon-icon_bus',
-      label: 'Kauppatori, Oulu',
-      lat: 65.013559,
-      lon: 25.465032,
+      label: 'Rotuaari, Oulu',
+      lat: 65.012338,
+      lon: 25.471333,
     },
     {
       icon: 'icon-icon_rail',
       label: 'Rautatieasema, Oulu',
-      lat: 65.011523,
-      lon: 25.483571,
+      lat: 65.01014,
+      lon: 25.483349,
     },
     {
       icon: 'icon-icon_airplane',

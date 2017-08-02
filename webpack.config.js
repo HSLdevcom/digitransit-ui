@@ -404,7 +404,7 @@ module.exports = {
     chunkFilename: 'js/[chunkhash].js',
     publicPath:
       (process.env.NODE_ENV === 'development'
-        ? 'http://localhost:' + port
+        ? '/proxy'
         : process.env.APP_PATH || '') + '/',
   },
   plugins: getPluginsConfig(process.env.NODE_ENV),
