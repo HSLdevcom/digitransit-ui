@@ -34,11 +34,25 @@ function parseLocation(location, input, config, next) {
         }),
       );
     }
-    return getGeocodingResult(location, {}, null, null, null, config)
+    return getGeocodingResult(
+      location,
+      config.searchParams,
+      null,
+      null,
+      null,
+      config,
+    )
       .then(parseGeocodingResults)
       .catch(next);
   } else if (input) {
-    return getGeocodingResult(input, {}, null, null, null, config)
+    return getGeocodingResult(
+      input,
+      config.searchParams,
+      null,
+      null,
+      null,
+      config,
+    )
       .then(parseGeocodingResults)
       .catch(next);
   }
