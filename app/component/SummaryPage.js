@@ -121,6 +121,7 @@ class SummaryPage extends React.Component {
     const b = pick(this.props, keys(this.customizableParameters));
     return isMatch(a, b);
   };
+
   renderMap() {
     const { plan: { plan }, location: { state, query }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
@@ -356,6 +357,7 @@ export default Relay.createContainer(SummaryPage, {
           walkSpeed: $walkSpeed,
           maxWalkDistance: $maxWalkDistance,
           wheelchair: $wheelchair,
+          ticketTypes: $ticketTypes,
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           preferred: $preferred)
@@ -398,6 +400,7 @@ export default Relay.createContainer(SummaryPage, {
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
+      ticketTypes: null,
     },
     ...SummaryPage.hcParameters,
   },

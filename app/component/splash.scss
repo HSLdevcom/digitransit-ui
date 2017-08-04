@@ -146,7 +146,7 @@
 }
 
 #splash-map {
-  background-image: url('../../../sass/themes/default/background-map.png');
+  background: $splash-background-img;
   background-position: center;
   background-size: cover;
   overflow: hidden;
