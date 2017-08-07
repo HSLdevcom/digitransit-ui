@@ -1,3 +1,7 @@
+.generic-table > .row {
+  display: flex;
+}
+
 .generic-table__label-container{
   font-size: $font-size-xxsmall;
   margin-top: 3px;

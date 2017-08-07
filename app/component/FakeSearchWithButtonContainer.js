@@ -10,9 +10,9 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) =>
     <div className="small-12 columns search-form-map-overlay">
       <button
         title="haku"
-        tabIndex="0"
+        tabIndex="-1"
         onClick={onClick}
-        className="noborder search-button flex-horisontal"
+        className="noborder search-button"
       >
         <div className="flex-grow row collapse postfix-radius">
           <div className="small-11 columns">

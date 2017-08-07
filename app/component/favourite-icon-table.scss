@@ -8,10 +8,13 @@ $selected-icon-background-color: $dark-gray;
 $not-selected-icon-background-color: $white;
 
 .favourite-icon-table-column {
+  flex: 1;
+  padding: 0;
   background: $not-selected-icon-background-color;
   float: left;
   height: 40px;
   line-height: 45px;
+  margin-bottom: 0;
   vertical-align: middle;
   text-align: center;
   @include font-medium;
@@ -19,6 +22,7 @@ $not-selected-icon-background-color: $white;
   border-top: solid 1px $favourite-icon-column-border-color;
   border-bottom: solid 1px $favourite-icon-column-border-color;
   border-right: solid 1px $favourite-icon-column-border-color;
+  border-left: none;
   color: $not-selected-icon-font-color;
 }
 

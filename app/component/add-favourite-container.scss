@@ -59,7 +59,7 @@ $add-favourite-input-overlay-height: 27px;
         font-weight: inherit;
         border: none;
         width: 100%;
-        padding-left: 7px;
+        padding-left: calc(#{$padding-large} - 10px);
         &:focus {
           border: none;
           outline: none;
@@ -67,8 +67,15 @@ $add-favourite-input-overlay-height: 27px;
       }
     }
 
+    .add-favourite-container__save {
+      display: flex;
+    }
+
     .add-favourite-container-button {
       @include font-medium;
+      width: 100%;
+      height: 40px;
+      opacity: inherit;
       color: white;
       background: $standalone-btn-color;
       vertical-align: middle;
@@ -76,8 +83,8 @@ $add-favourite-input-overlay-height: 27px;
       padding: 0.5em 1.5em;
       text-align: center;
       max-width: 500px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
       margin-left: auto;
       margin-right: auto;
       cursor: pointer;
@@ -106,6 +113,7 @@ $add-favourite-input-overlay-height: 27px;
         background: $background-color;
         color: $gray-blue;
         max-width: 200px;
+
         border-radius: 0;
         span {
           border-bottom: 2px dotted $gray-blue;
