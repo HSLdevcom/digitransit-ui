@@ -29,7 +29,7 @@ export default function ViaPointSelector({
               <Icon img="icon-icon_close" />
             </button>
           </div>
-        : <button className="noborder cursor-pointer" onClick={openSearchModal}>
+        : <button className="cursor-pointer" onClick={openSearchModal}>
             <div className="add-via-point-button-label">
               <Icon img="icon-icon_plus" />
               {'\u00A0\u00A0'}

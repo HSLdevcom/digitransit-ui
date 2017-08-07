@@ -50,8 +50,9 @@
     font-size: $font-size-small;
     width: 100%;
     height: auto;
+    margin: 0;
     background-color: $dark-gray;
-    color:$white;
+    color: $white;
     &:hover {
       background-color: darken($dark-gray, 10%);
     }
@@ -81,7 +82,6 @@
   .save-settings-button {
     width: 80%;
     border-radius: 20px;
-    margin: 0;
   }
 
   .reset-settings {
