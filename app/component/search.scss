@@ -66,7 +66,7 @@ $item-border-color: #eee;
     border-radius: $form-input-border-radius;
     border: 0px;
     padding-left: calc(#{$padding-large} - 10px);
-    line-height: $search-form-input-overlay-height;
+    line-height: 0;
     overflow: hidden;
   }
 }
@@ -237,6 +237,7 @@ $item-border-color: #eee;
   max-width: 720px;
   .address-placeholder {
     padding-left: 18px;
+    line-height: $search-form-input-overlay-height;
   }
   .postfix {
     height: 60px;
