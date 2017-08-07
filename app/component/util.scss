@@ -234,6 +234,7 @@ $btn-heigth: 17px;
     flex: 1;
     border-radius: 0;
     border-right: 1px solid $offcanvas-background;
+    padding: 0;
     &:first-child {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;

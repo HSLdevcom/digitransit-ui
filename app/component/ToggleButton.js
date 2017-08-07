@@ -36,7 +36,7 @@ const ToggleButton = ({
 
   return (
     <button
-      className={cx('cursor-pointer', 'noborder', classes, className)}
+      className={cx('cursor-pointer', classes, className)}
       onClick={onBtnClick}
       style={style}
       aria-label={intl.formatMessage({ id: label })}
