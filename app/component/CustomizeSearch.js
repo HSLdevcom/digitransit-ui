@@ -247,6 +247,7 @@ class CustomizeSearch extends React.Component {
         onBtnClick={() => this.toggleStreetMode(streetMode)}
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
+        label={streetMode}
         className={cx('small-4', {
           'first-btn': index === 0,
           'last-btn': index === availableStreetModes.length - 1,

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import { intlShape } from 'react-intl';
+import getContext from 'recompose/getContext';
 import Icon from './Icon';
 
 const ToggleButton = ({
@@ -10,6 +12,8 @@ const ToggleButton = ({
   className,
   onBtnClick,
   style,
+  label,
+  intl,
   children,
 }) => {
   let iconTag;
@@ -31,27 +35,32 @@ const ToggleButton = ({
   }
 
   return (
-    <div
+    <button
       className={cx('cursor-pointer', classes, className)}
       onClick={onBtnClick}
       style={style}
+      aria-label={intl.formatMessage({ id: label })}
     >
       {iconTag}
       <div>
         {children}
       </div>
-    </div>
+    </button>
   );
 };
 
 ToggleButton.propTypes = {
-  onBtnClick: PropTypes.func,
+  onBtnClick: PropTypes.func.isRequired,
   checkedClass: PropTypes.string,
   state: PropTypes.bool,
   icon: PropTypes.string,
   className: PropTypes.string,
+  label: PropTypes.string.isRequired,
   style: PropTypes.object,
+  intl: intlShape.isRequired,
   children: PropTypes.array,
 };
 
-export default ToggleButton;
+export default getContext({
+  intl: intlShape.isRequired,
+})(ToggleButton);
