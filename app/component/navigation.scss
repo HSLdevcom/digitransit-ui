@@ -202,6 +202,10 @@ $content-background-color: $background-color;
     padding: 5px 20px;
     float: right;
   }
+
+  button.noborder {
+    @include font-medium;
+  }
 }
 
 .offcanvas-section {
