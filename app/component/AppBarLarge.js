@@ -36,7 +36,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
           <LangSelect />
         </div>
         <div className="navi-icons navi-margin padding-horizontal-large">
-          <button
+          <a
             className="noborder"
             onClick={openDisruptionInfo}
             aria-label={intl.formatMessage({
@@ -45,7 +45,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
             })}
           >
             <Icon img="icon-icon_caution" />
-          </button>
+          </a>
         </div>
         <div className="padding-horizontal-large navi-margin">
           <ExternalLink className="external-top-bar" {...config.appBarLink} />
