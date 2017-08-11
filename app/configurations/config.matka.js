@@ -98,6 +98,10 @@ export default {
       content: {
         fi: [
           {
+            type: 'heading',
+            content: 'Huom.',
+          },
+          {
             type: 'text',
             content:
               'Kouluvuoden alkaessa tarkista aikataulut liikenteenharjoittajalta tai Matkahuollosta.',
@@ -105,12 +109,20 @@ export default {
         ],
         sv: [
           {
+            type: 'heading',
+            content: 'Obs.',
+          },
+          {
             type: 'text',
             content:
               'Vid skolstart var vänlig kontrollera tidtabellerna hos trafikföretagen eller Matkahuolto.',
           },
         ],
         en: [
+          {
+            type: 'heading',
+            content: 'Note',
+          },
           {
             type: 'text',
             content:
