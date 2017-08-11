@@ -92,5 +92,32 @@ export default {
     ],
   },
 
-  staticMessages: [],
+  staticMessages: [
+    {
+      id: 'kouluvuosi-2017',
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Kouluvuoden alkaessa tarkista aikataulut liikenteenharjoittajalta tai Matkahuollosta.',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Vid skolstart var vänlig kontrollera tidtabellerna hos trafikföretagen eller Matkahuolto.',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'Changes in timetables due to school start. Please check the schedules from the traffic operator or Matkahuolto.',
+          },
+        ],
+      },
+    },
+  ],
 };
