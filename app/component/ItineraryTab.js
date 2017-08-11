@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
+import { routerShape, locationShape } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -11,6 +13,7 @@ import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import Icon from './Icon';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -22,6 +25,8 @@ class ItineraryTab extends React.Component {
   static contextTypes = {
     breakpoint: PropTypes.string.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
   };
 
   state = {
@@ -80,6 +85,21 @@ class ItineraryTab extends React.Component {
             {config.showTicketInformation &&
               <TicketInformation fares={this.props.itinerary.fares} />}
             {routeInformation}
+          </div>
+          <div className="print-itinerary-container">
+            <div
+              className="print-itinerary"
+              onClick={e => {
+                e.stopPropagation();
+                this.context.router.push({
+                  pathname: '/tulosta',
+                  state: { itineraryObj: this.props.itinerary },
+                });
+              }}
+            >
+              <Icon img="icon-icon_print" />{' '}
+              <FormattedMessage id="print" defaultMessage="Print" />
+            </div>
           </div>
         </div>
       </div>
