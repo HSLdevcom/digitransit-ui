@@ -154,7 +154,6 @@ class PrintableItinerary extends React.Component {
         </div>
       </div>,
     );
-    console.log(legs);
 
     return (
       <div className="print-itinerary-container">
