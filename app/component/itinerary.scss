@@ -259,7 +259,7 @@ $itinerary-tab-switch-height: 48px;
     &.rail { @include setModeCircles($rail-color); }
     &.ferry { @include setModeCircles($ferry-color); }
     &.citybike { @include setModeCircles($citybike-color); }
-    &.walk { @include setModeCircles($walk-color); }
+    & { @include setModeCircles($walk-color); }
     &.wait { @include setModeCircles($wait-color); }
     &.bicycle { @include setModeCircles($bicycle-color); }
     &.car { @include setModeCircles($car-color); }
@@ -806,6 +806,115 @@ div.itinerary-container-content {
     border-radius: 4px;
     color: #222;
     float: right;
+  }
+
+  .print-itinerary-container {
+    background-color: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  .print-itinerary-allLegs {
+    margin-left: 3em;
+  }
+
+  .print-itinerary-leg {
+    display: flex;
+
+  .itinerary-left {
+    width: 2.6em;
+    margin-right: 1em;
+    text-align: center;
+  }
+
+    .itinerary-icon {
+      position: initial;
+      margin-left: 0;
+      margin-top: 0;
+
+      .vehicle-number {
+        margin-top: -0.6em;
+      }
+          .icon {
+            width: 1.75em;
+            height: 1.75em;
+           }
+    }
+
+    .itinerary-timestamp {
+      color: $black;
+      font-weight: 500;
+    }
+
+    .itinerary-circleline {
+      position: relative;
+      width: 2em;
+
+      .from {
+        width: 1.8em;
+        height: 1.8em;
+      }
+      .to {
+        width: 1.8em;
+        height: 1.8em;
+      }
+    }
+
+    .leg-before-line {
+      height: 93%;
+      top: 2.4em;
+      position: absolute;
+      left: 0.8em;
+      border-left: 6px solid;
+
+        &.walk {
+        background-image: url('../default/dotted-line-bg.png');
+        background-size: 100% auto;
+        background-position-y: -3px;
+        background-position-x: 0px;
+        background-repeat: no-repeat repeat;
+        border: none;
+        width: 8px;
+        left: 7px;
+      }
+    }
+
+    .intermediate-stops {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    .itinerary-leg-stopname {
+      font-family: $font-family;
+      font-weight: 700;
+      font-size: 1.1em;
+      color: $black;
+
+      .stop-code {
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    .itinerary-center {
+      margin-left: 1em;
+    }
+
+    .itinerary-instruction {
+      color: $black;
+    }
+
+    .intermediate-stops-count {
+      font-weight: 700;
+      font-size: 0.8em;
+    }
+    .intermediate-stops-duration {
+      font-weight: $font-weight-medium;
+      font-size: 1em;
+    }
+
+    .intermediate-stop-single {
+      font-size: 0.7em;
+    }
   }
 
 .mobile {

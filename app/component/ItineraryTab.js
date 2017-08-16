@@ -19,6 +19,7 @@ class ItineraryTab extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
+    location: PropTypes.object,
     focus: PropTypes.func.isRequired,
   };
 
@@ -91,9 +92,10 @@ class ItineraryTab extends React.Component {
               className="print-itinerary"
               onClick={e => {
                 e.stopPropagation();
+                const printPath = `${this.props.location.pathname}/tulosta
+                ${this.props.location.search}`;
                 this.context.router.push({
-                  pathname: '/tulosta',
-                  state: { itineraryObj: this.props.itinerary },
+                  pathname: printPath,
                 });
               }}
             >
