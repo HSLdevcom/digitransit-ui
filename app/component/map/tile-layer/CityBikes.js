@@ -94,37 +94,39 @@ class CityBikes {
         timeOfLastFetch[feature.properties.id] = new Date().getTime();
         const result = Relay.Store.readQuery(query)[0];
 
-        if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
-          drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
-        } else if (
-          result.bikesAvailable > this.config.cityBike.fewAvailableCount
-        ) {
-          drawAvailabilityBadge(
-            'good',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
-        } else if (result.bikesAvailable > 0) {
-          drawAvailabilityBadge(
-            'poor',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
-        } else {
-          drawAvailabilityBadge(
-            'no',
-            this.tile,
-            geom,
-            this.citybikeImageSize,
-            this.availabilityImageSize,
-            this.scaleratio,
-          );
+        if (result) {
+          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+            drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
+          } else if (
+            result.bikesAvailable > this.config.cityBike.fewAvailableCount
+          ) {
+            drawAvailabilityBadge(
+              'good',
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
+            );
+          } else if (result.bikesAvailable > 0) {
+            drawAvailabilityBadge(
+              'poor',
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
+            );
+          } else {
+            drawAvailabilityBadge(
+              'no',
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
+            );
+          }
         }
       }
     };
