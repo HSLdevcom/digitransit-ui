@@ -617,6 +617,14 @@ export default config => {
         </Route>
       </Route>
       <Route
+        path="/tulosta"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "route" */ './component/PrintableItinerary')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route
         path="/styleguide"
         getComponent={(location, cb) => {
           import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')

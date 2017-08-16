@@ -796,6 +796,18 @@ div.itinerary-container-content {
         margin-top: 4px;
   }
 
+.print-itinerary {
+    min-width: 4.3em;
+    max-width: 7em;
+    margin-bottom: 1.2em;
+    margin-right: 0.6em;
+    padding: 0px 6px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    color: #222;
+    float: right;
+  }
+
 .mobile {
   .itinerary-main {
     margin: 0 $padding-small;
@@ -819,5 +831,8 @@ div.itinerary-container-content {
   }
   .vehicle-number-container-v {
       margin-top: 0;
+    }
+    .print-itinerary {
+      margin-right: 1em;
     }
 }
