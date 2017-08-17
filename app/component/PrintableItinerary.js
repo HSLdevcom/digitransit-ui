@@ -19,19 +19,13 @@ class PrintableItinerary extends React.Component {
     };
   }
 
-  compressLegs = originalLeg => {
-    console.log(originalLeg);
-    return originalLeg;
-  };
-
   render() {
     console.log(this.props.itinerary);
     // return null;
     // const fare = this.state.itineraryObj.fares ? this.state.itineraryObj.fares[0].components[0].fareId : 0;
     // const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
-    const originalLegs = this.props.itinerary.legs;
-    const newLegs = originalLegs.filter(o => o.duration > 10);
-    const legs = newLegs.map((o, i) =>
+    const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
+    const legs = originalLegs.map((o, i) =>
       <div
         key={o.client}
         className={`print-itinerary-leg
@@ -87,7 +81,9 @@ class PrintableItinerary extends React.Component {
                   values={{ station: o.from.name }}
                 />}
             {o.from.stop !== null &&
-              <span className="stop-code">{`[${o.from.stop.code}]`}</span>}
+              <span className="stop-code">
+                {o.from.stop.code ? `[${o.from.stop.code}]` : ``}
+              </span>}
           </div>
           <div className="itinerary-instruction">
             {o.mode === 'WALK' &&
@@ -149,7 +145,9 @@ class PrintableItinerary extends React.Component {
                   defaultMessage="mode"
                 />
                 <span>
-                  {` ${o.route.shortName} - ${o.trip.tripHeadsign}`}
+                  {` ${o.route.shortName
+                    ? o.route.shortName
+                    : o.route.longName} - ${o.trip.tripHeadsign}`}
                 </span>
               </div>}
             {o.intermediateStops.length > 0 &&
@@ -174,7 +172,7 @@ class PrintableItinerary extends React.Component {
                       {o2.name}
                     </span>
                     <span className="print-itinerary-stop-code">
-                      {` [${o2.code}]`}
+                      {o2.code !== null ? ` [${o2.code}]` : ``}
                     </span>
                   </div>,
                 )}
@@ -197,7 +195,7 @@ class PrintableItinerary extends React.Component {
             className="itinerary-icon to to-it"
           />
         </div>
-        <div className="itinerary-center">
+        <div className="itinerary-center end">
           <div className="itinerary-leg-stopname">
             {
               this.props.itinerary.legs[this.props.itinerary.legs.length - 1].to

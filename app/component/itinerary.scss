@@ -902,6 +902,9 @@ div.itinerary-container-content {
       width: 100%;
       border-bottom: 2px dotted #1b1a18;
       margin-bottom: 1em;
+      &.end {
+        border-bottom: none;
+      }
     }
 
     .itinerary-instruction {
