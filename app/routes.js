@@ -601,7 +601,7 @@ export default config => {
         render={{ content: SummaryPageWrapper }}
       >
         <Route
-          path=":hash/tulosta:searchParams"
+          path=":hash/tulosta"
           getComponents={(location, cb) => {
             import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary')
               .then(content => cb(null, { content: content.default }))

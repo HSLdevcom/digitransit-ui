@@ -92,9 +92,9 @@ class ItineraryTab extends React.Component {
               className="print-itinerary"
               onClick={e => {
                 e.stopPropagation();
-                const printPath = `${this.props.location.pathname}/tulosta
-                ${this.props.location.search}`;
+                const printPath = `${this.props.location.pathname}/tulosta`;
                 this.context.router.push({
+                  ...this.props.location,
                   pathname: printPath,
                 });
               }}

@@ -18,17 +18,24 @@ class PrintableItinerary extends React.Component {
       itineraryObj: this.props.itinerary,
     };
   }
+
+  compressLegs = originalLeg => {
+    console.log(originalLeg);
+    return originalLeg;
+  };
+
   render() {
     console.log(this.props.itinerary);
     // return null;
     // const fare = this.state.itineraryObj.fares ? this.state.itineraryObj.fares[0].components[0].fareId : 0;
     // const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
-    const legs = this.props.itinerary.legs.map((o, i) =>
+    const originalLegs = this.props.itinerary.legs;
+    const newLegs = originalLegs.filter(o => o.duration > 10);
+    const legs = newLegs.map((o, i) =>
       <div
         key={o.client}
         className={`print-itinerary-leg
         ${o.mode.toLowerCase()}
-        ${i === 0 ? 'first' : ''}
         `}
       >
         <div className="itinerary-left">
@@ -73,32 +80,78 @@ class PrintableItinerary extends React.Component {
         </div>
         <div className="itinerary-center">
           <div className="itinerary-leg-stopname">
-            {o.from.name}{' '}
+            {o.rentedBike !== true
+              ? `${o.from.name} `
+              : <FormattedMessage
+                  id="rent-cycle-at"
+                  values={{ station: o.from.name }}
+                />}
             {o.from.stop !== null &&
               <span className="stop-code">{`[${o.from.stop.code}]`}</span>}
           </div>
           <div className="itinerary-instruction">
-            {o.mode === 'WALK'
-              ? <FormattedMessage
-                  id="walk-distance-duration"
-                  defaultMessage="Walk {distance} ({duration})"
-                  values={{
-                    distance: displayDistance(
-                      parseInt(o.distance, 10),
-                      this.context.config,
-                    ),
-                    duration: durationToString(o.duration * 1000),
-                  }}
+            {o.mode === 'WALK' &&
+              <FormattedMessage
+                id="walk-distance-duration"
+                defaultMessage="Walk {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(o.distance, 10),
+                    this.context.config,
+                  ),
+                  duration: durationToString(o.duration * 1000),
+                }}
+              />}
+            {o.mode === 'BICYCLE' &&
+              o.rentedBike === false &&
+              <FormattedMessage
+                id="cycle-distance-duration"
+                defaultMessage="Cycle {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(o.distance, 10),
+                    this.context.config,
+                  ),
+                  duration: durationToString(o.duration * 1000),
+                }}
+              />}
+            {o.mode === 'BICYCLE' &&
+              o.rentedBike === true &&
+              <FormattedMessage
+                id="cycle-distance-duration"
+                defaultMessage="Cycle {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(o.distance, 10),
+                    this.context.config,
+                  ),
+                  duration: durationToString(o.duration * 1000),
+                }}
+              />}
+            {o.mode === 'CAR' &&
+              <FormattedMessage
+                id="car-distance-duration"
+                defaultMessage="Drive {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(o.distance, 10),
+                    this.context.config,
+                  ),
+                  duration: durationToString(o.duration * 1000),
+                }}
+              />}
+            {o.mode !== 'WALK' &&
+              o.mode !== 'BICYCLE' &&
+              o.mode !== 'CAR' &&
+              <div className="">
+                <FormattedMessage
+                  id={o.mode.toLowerCase()}
+                  defaultMessage="mode"
                 />
-              : <div className="">
-                  <FormattedMessage
-                    id={o.mode.toLowerCase()}
-                    defaultMessage="mode"
-                  />
-                  <span>
-                    {` ${o.route.shortName} - ${o.trip.tripHeadsign}`}
-                  </span>
-                </div>}
+                <span>
+                  {` ${o.route.shortName} - ${o.trip.tripHeadsign}`}
+                </span>
+              </div>}
             {o.intermediateStops.length > 0 &&
               <div className="intermediate-stops">
                 <div className="intermediate-stops-count">
