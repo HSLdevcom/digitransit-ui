@@ -813,6 +813,7 @@ div.itinerary-container-content {
     padding-top: 1em;
     padding-bottom: 1em;
     padding-left: 3em;
+    padding-right: 3em;
   }
 
   .print-itinerary-allLegs {
@@ -820,7 +821,12 @@ div.itinerary-container-content {
   }
 
   .print-itinerary-leg {
-    display: flex;
+    display: block;
+
+    .print-itinerary-leg-container {
+      width: 100%;
+      display: flex;
+    }
 
   .itinerary-left {
     width: 4.3em;

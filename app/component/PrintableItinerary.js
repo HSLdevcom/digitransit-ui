@@ -11,6 +11,181 @@ import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 
+function PrintableLeg(props) {
+  return (
+    <div className="print-itinerary-leg-container">
+      <div className="itinerary-left">
+        <div className="itinerary-timestamp">
+          {moment(props.legObj.startTime).format('HH:mm')}
+        </div>
+        <div className="itinerary-icon">
+          <div className={`special-icon ${props.legObj.mode.toLowerCase()}`}>
+            <RouteNumber
+              mode={props.legObj.mode.toLowerCase()}
+              vertical={`${true}`}
+              text={
+                props.legObj.route !== null
+                  ? props.legObj.route.shortName
+                  : null
+              }
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className={`itinerary-circleline ${props.legObj.mode.toLowerCase()}`}
+      >
+        <div className="line-circle">
+          {props.index === 0
+            ? <Icon
+                img="icon-icon_mapMarker-point"
+                className="itinerary-icon from from-it"
+              />
+            : <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={35}
+                height={35}
+                style={{ fill: '#fff', stroke: 'currentColor' }}
+              >
+                <circle
+                  stroke="white"
+                  strokeWidth="9"
+                  width={28}
+                  cx={17}
+                  cy={20}
+                  r={13}
+                />
+                <circle strokeWidth="6" width={28} cx={17} cy={20} r={11} />
+              </svg>}
+        </div>
+        <div className={`leg-before-line ${props.legObj.mode.toLowerCase()}`} />
+      </div>
+      <div className="itinerary-center">
+        <div className="itinerary-leg-stopname">
+          {props.legObj.rentedBike !== true
+            ? `${props.legObj.from.name} `
+            : <FormattedMessage
+                id="rent-cycle-at"
+                values={{ station: props.legObj.from.name }}
+              />}
+          {props.legObj.from.stop !== null &&
+            <span className="stop-code">
+              {props.legObj.from.stop.code
+                ? `[${props.legObj.from.stop.code}]`
+                : ``}
+            </span>}
+        </div>
+        <div className="itinerary-instruction">
+          {props.legObj.mode === 'WALK' &&
+            <FormattedMessage
+              id="walk-distance-duration"
+              defaultMessage="Walk {distance} ({duration})"
+              values={{
+                distance: displayDistance(
+                  parseInt(props.legObj.distance, 10),
+                  props.context.config,
+                ),
+                duration: durationToString(props.legObj.duration * 1000),
+              }}
+            />}
+          {props.legObj.mode === 'BICYCLE' &&
+            props.legObj.rentedBike === false &&
+            <FormattedMessage
+              id="cycle-distance-duration"
+              defaultMessage="Cycle {distance} ({duration})"
+              values={{
+                distance: displayDistance(
+                  parseInt(props.legObj.distance, 10),
+                  props.context.config,
+                ),
+                duration: durationToString(props.legObj.duration * 1000),
+              }}
+            />}
+          {props.legObj.mode === 'BICYCLE' &&
+            props.legObj.rentedBike === true &&
+            <FormattedMessage
+              id="cycle-distance-duration"
+              defaultMessage="Cycle {distance} ({duration})"
+              values={{
+                distance: displayDistance(
+                  parseInt(props.legObj.distance, 10),
+                  props.context.config,
+                ),
+                duration: durationToString(props.legObj.duration * 1000),
+              }}
+            />}
+          {props.legObj.mode === 'CAR' &&
+            <FormattedMessage
+              id="car-distance-duration"
+              defaultMessage="Drive {distance} ({duration})"
+              values={{
+                distance: displayDistance(
+                  parseInt(props.legObj.distance, 10),
+                  props.context.config,
+                ),
+                duration: durationToString(props.legObj.duration * 1000),
+              }}
+            />}
+          {props.legObj.mode !== 'WALK' &&
+            props.legObj.mode !== 'BICYCLE' &&
+            props.legObj.mode !== 'CAR' &&
+            <div className="">
+              <FormattedMessage
+                id={props.legObj.mode.toLowerCase()}
+                defaultMessage="mode"
+              />
+              <span>
+                {` ${props.legObj.route.shortName
+                  ? props.legObj.route.shortName
+                  : props.legObj.route.longName} - ${props.legObj.trip
+                  .tripHeadsign}`}
+                {props.legObj.isCheckin && `Tee lähtöselvitys`}
+              </span>
+            </div>}
+          {props.legObj.intermediateStops.length > 0 &&
+            <div className="intermediate-stops">
+              <div className="intermediate-stops-count">
+                <FormattedMessage
+                  id="number-of-intermediate-stops"
+                  defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
+                  values={{
+                    number:
+                      (props.legObj.intermediateStops &&
+                        props.legObj.intermediateStops.length) ||
+                      0,
+                  }}
+                />
+                <span className="intermediate-stops-duration">
+                  {` (${durationToString(props.legObj.duration * 1000)})`}
+                </span>
+              </div>
+              {props.legObj.intermediateStops.map(o2 =>
+                <div key={o2.gtfsId} className="intermediate-stop-single">
+                  <span className="print-itinerary-stop-shortname">
+                    {o2.name}
+                  </span>
+                  <span className="print-itinerary-stop-code">
+                    {o2.code !== null ? ` [${o2.code}]` : ``}
+                  </span>
+                </div>,
+              )}
+            </div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+PrintableLeg.propTypes = {
+  location: PropTypes.object,
+  itinerary: PropTypes.object.isRequired,
+  legObj: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  context: PropTypes.object.isRequired,
+  originalLegs: PropTypes.array.isRequired,
+  endTime: PropTypes.number.isRequired,
+};
+
 class PrintableItinerary extends React.Component {
   constructor(props) {
     super(props);
@@ -25,162 +200,61 @@ class PrintableItinerary extends React.Component {
     // const fare = this.state.itineraryObj.fares ? this.state.itineraryObj.fares[0].components[0].fareId : 0;
     // const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
-    const legs = originalLegs.map((o, i) =>
-      <div
-        key={o.client}
-        className={`print-itinerary-leg
+    const legs = originalLegs.map((o, i) => {
+      if (o.mode !== 'AIRPLANE') {
+        return (
+          <div
+            key={o.client}
+            className={`print-itinerary-leg
+                ${o.mode.toLowerCase()}
+                `}
+          >
+            <PrintableLeg
+              legObj={o}
+              index={i}
+              originalLegs={originalLegs}
+              context={this.context}
+            />
+          </div>
+        );
+      }
+      const checkin = Object.assign({}, o);
+      checkin.mode = 'WAIT';
+      checkin.startTime = originalLegs[i - 1].endTime;
+      checkin.from.name = originalLegs[i - 1].from.name;
+      checkin.isCheckin = true;
+      const luggage = Object.assignx({}, o);
+      luggage.mode = 'WAIT';
+      luggage.startTime = o.endTime;
+      luggage.isLuggage = true;
+      return (
+        <div
+          key={o.client}
+          className={`print-itinerary-leg
         ${o.mode.toLowerCase()}
         `}
-      >
-        <div className="itinerary-left">
-          <div className="itinerary-timestamp">
-            {moment(o.startTime).format('HH:mm')}
-          </div>
-          <div className="itinerary-icon">
-            <div className={`special-icon ${o.mode.toLowerCase()}`}>
-              <RouteNumber
-                mode={o.mode.toLowerCase()}
-                vertical={`${true}`}
-                text={o.route !== null ? o.route.shortName : null}
-              />
-            </div>
-          </div>
+        >
+          <PrintableLeg
+            legObj={checkin}
+            index={i}
+            originalLegs={originalLegs}
+            context={this.context}
+          />
+          <PrintableLeg
+            legObj={o}
+            index={i}
+            originalLegs={originalLegs}
+            context={this.context}
+          />
+          <PrintableLeg
+            legObj={luggage}
+            index={i}
+            originalLegs={originalLegs}
+            context={this.context}
+          />
         </div>
-        <div className={`itinerary-circleline ${o.mode.toLowerCase()}`}>
-          <div className="line-circle">
-            {i === 0
-              ? <Icon
-                  img="icon-icon_mapMarker-point"
-                  className="itinerary-icon from from-it"
-                />
-              : <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={35}
-                  height={35}
-                  style={{ fill: '#fff', stroke: 'currentColor' }}
-                >
-                  <circle
-                    stroke="white"
-                    strokeWidth="9"
-                    width={28}
-                    cx={17}
-                    cy={20}
-                    r={13}
-                  />
-                  <circle strokeWidth="6" width={28} cx={17} cy={20} r={11} />
-                </svg>}
-          </div>
-          <div className={`leg-before-line ${o.mode.toLowerCase()}`} />
-        </div>
-        <div className="itinerary-center">
-          <div className="itinerary-leg-stopname">
-            {o.rentedBike !== true
-              ? `${o.from.name} `
-              : <FormattedMessage
-                  id="rent-cycle-at"
-                  values={{ station: o.from.name }}
-                />}
-            {o.from.stop !== null &&
-              <span className="stop-code">
-                {o.from.stop.code ? `[${o.from.stop.code}]` : ``}
-              </span>}
-          </div>
-          <div className="itinerary-instruction">
-            {o.mode === 'WALK' &&
-              <FormattedMessage
-                id="walk-distance-duration"
-                defaultMessage="Walk {distance} ({duration})"
-                values={{
-                  distance: displayDistance(
-                    parseInt(o.distance, 10),
-                    this.context.config,
-                  ),
-                  duration: durationToString(o.duration * 1000),
-                }}
-              />}
-            {o.mode === 'BICYCLE' &&
-              o.rentedBike === false &&
-              <FormattedMessage
-                id="cycle-distance-duration"
-                defaultMessage="Cycle {distance} ({duration})"
-                values={{
-                  distance: displayDistance(
-                    parseInt(o.distance, 10),
-                    this.context.config,
-                  ),
-                  duration: durationToString(o.duration * 1000),
-                }}
-              />}
-            {o.mode === 'BICYCLE' &&
-              o.rentedBike === true &&
-              <FormattedMessage
-                id="cycle-distance-duration"
-                defaultMessage="Cycle {distance} ({duration})"
-                values={{
-                  distance: displayDistance(
-                    parseInt(o.distance, 10),
-                    this.context.config,
-                  ),
-                  duration: durationToString(o.duration * 1000),
-                }}
-              />}
-            {o.mode === 'CAR' &&
-              <FormattedMessage
-                id="car-distance-duration"
-                defaultMessage="Drive {distance} ({duration})"
-                values={{
-                  distance: displayDistance(
-                    parseInt(o.distance, 10),
-                    this.context.config,
-                  ),
-                  duration: durationToString(o.duration * 1000),
-                }}
-              />}
-            {o.mode !== 'WALK' &&
-              o.mode !== 'BICYCLE' &&
-              o.mode !== 'CAR' &&
-              <div className="">
-                <FormattedMessage
-                  id={o.mode.toLowerCase()}
-                  defaultMessage="mode"
-                />
-                <span>
-                  {` ${o.route.shortName
-                    ? o.route.shortName
-                    : o.route.longName} - ${o.trip.tripHeadsign}`}
-                </span>
-              </div>}
-            {o.intermediateStops.length > 0 &&
-              <div className="intermediate-stops">
-                <div className="intermediate-stops-count">
-                  <FormattedMessage
-                    id="number-of-intermediate-stops"
-                    defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
-                    values={{
-                      number:
-                        (o.intermediateStops && o.intermediateStops.length) ||
-                        0,
-                    }}
-                  />
-                  <span className="intermediate-stops-duration">
-                    {` (${durationToString(o.duration * 1000)})`}
-                  </span>
-                </div>
-                {o.intermediateStops.map(o2 =>
-                  <div key={o2.gtfsId} className="intermediate-stop-single">
-                    <span className="print-itinerary-stop-shortname">
-                      {o2.name}
-                    </span>
-                    <span className="print-itinerary-stop-code">
-                      {o2.code !== null ? ` [${o2.code}]` : ``}
-                    </span>
-                  </div>,
-                )}
-              </div>}
-          </div>
-        </div>
-      </div>,
-    );
+      );
+    });
     legs.push(
       <div className={`print-itinerary-leg end`}>
         <div className="itinerary-left">
