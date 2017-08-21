@@ -846,6 +846,9 @@ div.itinerary-container-content {
             width: 1.75em;
             height: 1.75em;
            }
+      .wait {
+        color: $black;
+      }
     }
 
     .itinerary-timestamp {
@@ -866,10 +869,13 @@ div.itinerary-container-content {
         width: 1.8em;
         height: 1.8em;
       }
+      &.wait {
+        color: $wait-color;
+      }
     }
 
     .leg-before-line {
-      height: 83%;
+      height: 96%;
       top: 2.4em;
       position: absolute;
       left: 0.8em;
@@ -884,6 +890,9 @@ div.itinerary-container-content {
         border: none;
         width: 8px;
         left: 7px;
+      }
+       &.wait {
+        color: $wait-color;
       }
     }
 
