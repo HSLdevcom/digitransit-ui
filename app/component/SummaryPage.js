@@ -73,6 +73,7 @@ class SummaryPage extends React.Component {
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
+        printPage: PropTypes.object,
       }).isRequired,
     ).isRequired,
   };
