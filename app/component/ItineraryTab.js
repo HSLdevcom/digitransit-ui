@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -28,6 +28,7 @@ class ItineraryTab extends React.Component {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   state = {
@@ -87,9 +88,13 @@ class ItineraryTab extends React.Component {
               <TicketInformation fares={this.props.itinerary.fares} />}
             {routeInformation}
           </div>
-          <div className="print-itinerary-container">
-            <div
+          <div className="print-itinerary-button-container">
+            <button
               className="print-itinerary"
+              aria-label={this.context.intl.formatMessage({
+                id: 'print',
+                defaultMessage: 'print',
+              })}
               onClick={e => {
                 e.stopPropagation();
                 const printPath = `${this.props.location.pathname}/tulosta`;
@@ -101,7 +106,7 @@ class ItineraryTab extends React.Component {
             >
               <Icon img="icon-icon_print" />{' '}
               <FormattedMessage id="print" defaultMessage="Print" />
-            </div>
+            </button>
           </div>
         </div>
       </div>

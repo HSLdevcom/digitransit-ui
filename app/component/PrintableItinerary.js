@@ -151,7 +151,7 @@ function PrintableLeg(props) {
               />
             : <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width={35}
+                width={32}
                 height={35}
                 style={{ fill: '#fff', stroke: 'currentColor' }}
               >
@@ -163,7 +163,7 @@ function PrintableLeg(props) {
                   cy={20}
                   r={13}
                 />
-                <circle strokeWidth="6" width={28} cx={17} cy={20} r={11} />
+                <circle strokeWidth="6" width={28} cx={16} cy={20} r={11} />
               </svg>}
         </div>
         <div className={`leg-before-line ${props.legObj.mode.toLowerCase()}`} />
@@ -250,7 +250,6 @@ class PrintableItinerary extends React.Component {
   }
 
   render() {
-    console.log(this.props.itinerary);
     // return null;
     // const fare = this.state.itineraryObj.fares ? this.state.itineraryObj.fares[0].components[0].fareId : 0;
     // const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
