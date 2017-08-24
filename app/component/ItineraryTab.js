@@ -88,7 +88,7 @@ class ItineraryTab extends React.Component {
               <TicketInformation fares={this.props.itinerary.fares} />}
             {routeInformation}
           </div>
-          <div className="print-itinerary-button-container">
+          <div className="row print-itinerary-button-container">
             <button
               className="print-itinerary"
               aria-label={this.context.intl.formatMessage({

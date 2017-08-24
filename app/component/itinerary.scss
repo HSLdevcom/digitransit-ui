@@ -797,27 +797,19 @@ div.itinerary-container-content {
   }
 
 .print-itinerary-button-container {
-  position: relative;
-  width: 100%;
-  min-height: 3.6em;
+  display: flex;
+  padding: 0 $padding-medium;
+  justify-content: flex-end;
 }
 
 .print-itinerary {
-  min-width: 4.3em;
-  max-width: 7em;
-  padding: 0px 6px;
+  padding: 3px 6px;
   border: 1px solid rgb(132, 132, 132);
   border-radius: 0.25rem;
   color: rgb(132, 132, 132);
-  position: absolute;
-  right: 0.55em;
   background-color: #fff;
-  letter-spacing: -0.025em;
-  font-family: $font-family;
   font-size: $font-size-small;
   font-weight: $font-narrow-weight-medium;
-  padding-top: 3px;
-  padding-bottom: 3px;
 
   &:hover, &:focus {
     background-color: #fff;
