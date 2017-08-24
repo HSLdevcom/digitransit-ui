@@ -886,11 +886,12 @@ div.itinerary-container-content {
       width: 1.8em;
       height: 1.8em;
 
-    &.end {
-      background: #fff;
-    }
-    &.wait {
-      color: $wait-color;
+      &.end {
+        background: #fff;
+      }
+      &.wait {
+        color: $wait-color;
+      }
     }
   }
 
