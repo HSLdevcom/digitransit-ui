@@ -264,22 +264,20 @@ $btn-heigth: 17px;
 }
 
 .secondary-button {
-  width: 10.35em;
-  height: 2.8em;
   border-radius: 4px;
   background-color: #ffffff;
   border: solid 1px #b7b7b7;
   font-family: $font-family;
   font-weight: $font-narrow-weight-medium;
   text-align: center;
-  color: #007ac9;
-  font-size: 1em;
-  padding-top: 0.7em;
+  color: $link-color;
+  font-size: $font-size-normal;
+  padding: 0.92em $padding-large;
 
-  &:hover {
-    color: #007ac9;
+  &:hover, &:focus, &:active {
+    color: $link-color;
     background-color: #ffffff;
-    border: solid 1px #007ac9;
+    border: solid 1px $link-color;
   }
   .icon {
     margin-right: 4px;
@@ -289,10 +287,8 @@ $btn-heigth: 17px;
 
 .mobile {
   .secondary-button {
-    padding-left: 0em;
-    padding-right: 0em;
-    width: 9.5em;
-    height: 2.7em;
+    font-size: $font-size-small;
+    padding: 0.85em 1em;
   }
 }
 
