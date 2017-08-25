@@ -13,6 +13,7 @@ import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import SecondaryButton from './SecondaryButton';
 import Icon from './Icon';
 
 class ItineraryTab extends React.Component {
@@ -48,6 +49,15 @@ class ItineraryTab extends React.Component {
     return this.setState({
       lat,
       lon,
+    });
+  };
+
+  printItinerary = e => {
+    e.stopPropagation();
+    const printPath = `${this.props.location.pathname}/tulosta`;
+    this.context.router.push({
+      ...this.props.location,
+      pathname: printPath,
     });
   };
 
@@ -89,24 +99,14 @@ class ItineraryTab extends React.Component {
             {routeInformation}
           </div>
           <div className="row print-itinerary-button-container">
-            <button
-              className="print-itinerary"
-              aria-label={this.context.intl.formatMessage({
-                id: 'print',
-                defaultMessage: 'print',
-              })}
-              onClick={e => {
-                e.stopPropagation();
-                const printPath = `${this.props.location.pathname}/tulosta`;
-                this.context.router.push({
-                  ...this.props.location,
-                  pathname: printPath,
-                });
+            <SecondaryButton
+              buttonParams={{
+                ariaLabel: 'print',
+                buttonName: 'print',
+                buttonIcon: 'icon-icon_print',
+                buttonClickAction: e => this.printItinerary(e),
               }}
-            >
-              <Icon img="icon-icon_print" />{' '}
-              <FormattedMessage id="print" defaultMessage="Print" />
-            </button>
+            />
           </div>
         </div>
       </div>
