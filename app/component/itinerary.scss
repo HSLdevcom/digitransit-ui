@@ -802,24 +802,6 @@ div.itinerary-container-content {
   justify-content: flex-end;
 }
 
-.print-itinerary {
-  padding: 3px 6px;
-  border: 1px solid rgb(132, 132, 132);
-  border-radius: 0.25rem;
-  color: rgb(132, 132, 132);
-  background-color: #fff;
-  font-size: $font-size-small;
-  font-weight: $font-narrow-weight-medium;
-
-  &:hover, &:focus {
-    background-color: #fff;
-    color: rgb(132, 132, 132);
-  }
-  span {
-    vertical-align: middle;
-  }
-}
-
 .print-itinerary-container {
   background-color: #fff;
   padding-bottom: 2em;
