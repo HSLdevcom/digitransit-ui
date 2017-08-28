@@ -828,6 +828,84 @@ div.itinerary-container-content {
   padding-top: 2em;
 }
 
+.print-itinerary-header-container {
+  width: 100%;
+  display: block;
+  padding-bottom: $padding-xlarge;
+
+  .header {
+    font-size: $font-size-xlarge;
+  }
+}
+
+.print-itinerary-header-top {
+  display: flex;
+  .header {
+    font-size: 1.62rem;
+    font-weight: $font-weight-bold;
+  }
+
+  .subheader {
+  padding-bottom: $padding-large;
+  }
+
+  .headers-container {
+    display: block;
+  }
+
+  .print-itinerary-header-logo {
+    margin-left: auto;
+    width: 9.45em;
+    height: 3.5em;
+  }
+}
+
+.print-itinerary-header-bottom {
+  display: flex;
+  border-top: 1px solid #1b1a18;
+  border-bottom: 1px solid #1b1a18;
+  padding-top: $padding-medium;
+  padding-bottom: $padding-medium;
+
+  .print-itinerary-header-single {
+    display: flex;
+    margin-right: 2em;
+  }
+
+  .header-icon {
+    margin-right: 1em;
+  }
+
+  .icon, .header-icon {
+    color: $black;
+    height: 2.45em;
+    min-width: 2.4em;
+    max-width: 3em;
+    text-align: center;
+  }
+
+  .header-details-title {
+    font-size: $font-size-small;
+  }
+  .header-details-content {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-large;
+  }
+
+  .faretype-span {
+    background-color: $black;
+    color: #fff;
+    border-radius: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    display: initial;
+    padding: 0.1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    span { font-size: $font-size-small; }
+  }
+}
+
 .print-itinerary-allLegs {
   width: 100%;
 }

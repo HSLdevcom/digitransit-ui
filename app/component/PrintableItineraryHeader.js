@@ -5,94 +5,127 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import get from 'lodash/get';
 import RelativeDuration from './RelativeDuration';
 import Icon from './Icon';
 
 export default class PrintableItineraryHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      itineraryObj: this.props.itinerary,
-    };
-  }
+  getFareId = () => {
+    const fareId = this.props.itinerary.fares
+      ? this.props.itinerary.fares[0].components[0].fareId
+      : null;
+    const fareMapping = get(this.context.config, 'fareMapping', {});
+    const mappedFareId = fareId ? fareMapping[fareId] : null;
+    return mappedFareId;
+  };
+
+  createHeaderBlock = obj =>
+    <div className={`print-itinerary-header-single itinerary-${obj.name}`}>
+      <div className="header-icon">
+        <Icon
+          img={`icon-icon_${obj.name}`}
+          className={`itinerary-icon ${obj.name}`}
+        />
+      </div>
+      <div className="header-details">
+        <div className="header-details-title">
+          <FormattedMessage
+            id={`itinerary-${obj.name}.title`}
+            defaultMessage={`${obj.name}`}
+          />
+        </div>
+        <div className={obj.name === 'ticket' && `faretype-span`}>
+          <span className="header-details-content">
+            {obj.contentDetails}
+          </span>
+        </div>
+      </div>
+    </div>;
 
   render() {
     console.log(this.props.itinerary);
+    const fare = this.getFareId();
     const duration = moment(this.props.itinerary.endTime).diff(
       moment(this.props.itinerary.startTime),
     );
     const language = this.context.getStore('PreferencesStore').getLanguage();
+    const weekDay = moment(this.props.itinerary.startTime)
+      .lang(language)
+      .format('dddd');
+    const weekDayUpperCase = weekDay.charAt(0).toUpperCase() + weekDay.slice(1);
+
     return (
       <div className="print-itinerary-header-container">
         <div className="print-itinerary-header-top">
-          <div className="header">
-            <FormattedMessage
-              id="journeyplanner.title"
-              defaultMessage="Journey Planner"
-            />
-            -
-            <FormattedMessage
-              id="itinerary-page.title"
-              defaultMessage="Itinerary"
-            />
+          <div className="headers-container">
+            <div className="header">
+              <FormattedMessage
+                id="journeyplanner.title"
+                defaultMessage="Journey Planner"
+              />
+              {` — `}
+              <FormattedMessage
+                id="itinerary-page.title"
+                defaultMessage="Itinerary"
+              />
+            </div>
+            <div className="subheader">
+              <span>
+                {this.props.itinerary.legs[0].from.name}
+              </span>
+              {` - `}
+              <span>
+                {
+                  this.props.itinerary.legs[
+                    this.props.itinerary.legs.length - 1
+                  ].to.name
+                }
+              </span>
+              {` | `}
+              <span>
+                {weekDayUpperCase}
+              </span>
+              {` `}
+              <span>
+                {moment(this.props.itinerary.startTime)
+                  .lang(language)
+                  .format('DD.M.YYYY')}
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="print-itinerary-header-logo">Logo</div>
-        <div className="print-itinerary-header-middle">
-          <span>{this.props.itinerary.legs[0].from.name}</span>
-          -
-          <span>
-            {
-              this.props.itinerary.legs[this.props.itinerary.legs.length - 1].to
-                .name
-            }
-          </span>
-          |
-          <span>
-            {moment(this.props.itinerary.startTime)
-              .lang(language)
-              .format('dddd')}
-          </span>
-          <span>
-            {moment(this.props.itinerary.startTime)
-              .lang(language)
-              .format('DD.M.YYYY')}
-          </span>
+          <div className="print-itinerary-header-logo">Logo</div>
         </div>
         <div className="print-itinerary-header-bottom">
-          <div className="itinerary-time">
-            <div className="header-time-icon">
-              <Icon img="icon-icon_time" className="itinerary-icon time" />
-            </div>
-            <div className="header-time-details">
-              <FormattedMessage
-                id="itinerary-duration"
-                defaultMessage="Duration"
-              />
+          {this.createHeaderBlock({
+            name: 'time',
+            contentDetails: (
               <span>
                 <RelativeDuration duration={duration} />
+                <span style={{ fontWeight: '400' }}>
+                  {` // ${moment(this.props.itinerary.startTime).format(
+                    'HH:mm',
+                  )}`}
+                  {` - ${moment(this.props.itinerary.endTime).format('HH:mm')}`}
+                </span>
               </span>
-              <span>
-                {` // ${moment(this.props.itinerary.startTime).format(
-                  'HH:mm',
-                )}`}
-              </span>
-              {` - ${moment(this.props.itinerary.endTime).format('HH:mm')}`}
-            </div>
-          </div>
-          <div className="walking-amount" />
-          <div className="header-walk-icon">
-            <Icon img="icon-icon_time" className="itinerary-icon time" />
-          </div>
-          <div className="header-time-details">
-            <FormattedMessage
-              id="itinerary-walk.title"
-              defaultMessage="Total walking distance"
-            />
-            <span>
-              {displayDistance(this.props.itinerary.walkDistance, this.context.config)}
-            </span>
-          </div>
+            ),
+          })}
+          {this.createHeaderBlock({
+            name: 'walk',
+            contentDetails: displayDistance(
+              this.props.itinerary.walkDistance,
+              this.context.config,
+            ),
+          })}
+          {this.createHeaderBlock({
+            name: 'ticket',
+            contentDetails: (
+              <FormattedMessage
+                id={`ticket-type-${fare}`}
+                defaultMessage={fare}
+              />
+            ),
+          })}
         </div>
       </div>
     );
