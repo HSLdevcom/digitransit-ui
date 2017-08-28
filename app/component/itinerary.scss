@@ -882,6 +882,7 @@ div.itinerary-container-content {
     height: 95%;
     margin: -4px 0;
     border-left: 6px solid;
+    flex-grow: 1;
 
     &.walk {
       border-color: transparent $walk-color transparent transparent;
