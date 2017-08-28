@@ -873,17 +873,21 @@ div.itinerary-container-content {
     }
   }
 
+  .line-circle {
+    // We need to hide the end of the dotted line behind the markers
+    z-index: 1;
+  }
+
   .leg-before-line {
     height: 95%;
     margin: -4px 0;
     border-left: 6px solid;
 
     &.walk {
-      background-image: url('../default/dotted-line-bg.png');
-      background-size: 100% auto;
-      background-repeat: no-repeat repeat;
-      border: none;
-      width: 8px;
+      border-color: transparent $walk-color transparent transparent;
+      border-style: dotted;
+      border-width: 8px;
+      margin: -19px 0 -16px -8px;
     }
     &.wait {
       color: $wait-color;
