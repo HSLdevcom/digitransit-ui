@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import get from 'lodash/get';
 
 import { FormattedMessage } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
-import get from 'lodash/get';
 import RelativeDuration from './RelativeDuration';
 import Icon from './Icon';
 
@@ -43,7 +42,6 @@ export default class PrintableItineraryHeader extends React.Component {
     </div>;
 
   render() {
-    console.log(this.props.itinerary);
     const fare = this.getFareId();
     const duration = moment(this.props.itinerary.endTime).diff(
       moment(this.props.itinerary.startTime),
@@ -63,7 +61,7 @@ export default class PrintableItineraryHeader extends React.Component {
                 id="journeyplanner.title"
                 defaultMessage="Journey Planner"
               />
-              {` — `}
+              {` - `}
               <FormattedMessage
                 id="itinerary-page.title"
                 defaultMessage="Itinerary"
@@ -73,7 +71,7 @@ export default class PrintableItineraryHeader extends React.Component {
               <span>
                 {this.props.itinerary.legs[0].from.name}
               </span>
-              {` - `}
+              {` — `}
               <span>
                 {
                   this.props.itinerary.legs[
