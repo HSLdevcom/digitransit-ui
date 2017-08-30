@@ -858,6 +858,11 @@ div.itinerary-container-content {
     margin-left: auto;
     width: 9.45em;
     height: 3.5em;
+    background-image: $nav-logo;
+    background-position: left center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: invert(100%);
   }
 }
 
@@ -883,6 +888,7 @@ div.itinerary-container-content {
     min-width: 2.4em;
     max-width: 3em;
     text-align: center;
+    margin-top: 0.2em;
   }
 
   .header-details-title {

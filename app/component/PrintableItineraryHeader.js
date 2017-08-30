@@ -91,7 +91,7 @@ export default class PrintableItineraryHeader extends React.Component {
               </span>
             </div>
           </div>
-          <div className="print-itinerary-header-logo">Logo</div>
+          <div className="print-itinerary-header-logo" />
         </div>
         <div className="print-itinerary-header-bottom">
           {this.createHeaderBlock({
@@ -115,15 +115,16 @@ export default class PrintableItineraryHeader extends React.Component {
               this.context.config,
             ),
           })}
-          {this.createHeaderBlock({
-            name: 'ticket',
-            contentDetails: (
-              <FormattedMessage
-                id={`ticket-type-${fare}`}
-                defaultMessage={fare}
-              />
-            ),
-          })}
+          {fare !== null &&
+            this.createHeaderBlock({
+              name: 'ticket',
+              contentDetails: (
+                <FormattedMessage
+                  id={`ticket-type-${fare}`}
+                  defaultMessage={fare}
+                />
+              ),
+            })}
         </div>
       </div>
     );
