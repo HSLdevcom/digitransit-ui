@@ -857,6 +857,9 @@ div.itinerary-container-content {
 
   .print-itinerary-header-single {
     display: flex;
+  }
+
+  .print-itinerary-header-single:not(:last-child) {
     margin-right: 2em;
   }
 
