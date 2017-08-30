@@ -891,6 +891,7 @@ div.itinerary-container-content {
     padding: 0.1em;
     padding-right: 0.5em;
     padding-left: 0.5em;
+    -webkit-print-color-adjust: exact;
     span { font-size: $font-size-small; }
   }
 }
