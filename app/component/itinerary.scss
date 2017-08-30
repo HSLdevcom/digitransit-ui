@@ -854,17 +854,14 @@ div.itinerary-container-content {
   border-bottom: 1px solid #1b1a18;
   padding-top: $padding-medium;
   padding-bottom: $padding-medium;
+  justify-content: space-between;
 
   .print-itinerary-header-single {
     display: flex;
   }
 
-  .print-itinerary-header-single:not(:last-child) {
-    margin-right: 2em;
-  }
-
   .header-icon {
-    margin-right: 1em;
+    margin-right: 0.5em;
   }
 
   .icon, .header-icon {
