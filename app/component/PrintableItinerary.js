@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import Relay from 'react-relay/classic';
+import polyline from 'polyline-encoded';
 
 import { FormattedMessage } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
@@ -12,6 +13,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
+import Map from './map/Map';
 
 const getHeadSignFormat = sentLegObj => {
   const stopcode =
@@ -120,6 +122,30 @@ const getItineraryStops = sentLegObj =>
     )}
   </div>;
 
+function TransferMap(props) {
+  const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
+ // const bounds = [].concat(polyline.decode(props.legObj.from.stop.lat));
+  console.log(props.legObj);
+  console.log(bounds);
+  return (
+    <div className="transfermap-container">
+      <Map
+        bounds={bounds}
+        className="print-itinerary-map"
+        fitBounds={bounds}
+        zoom={17}
+        showScaleBar={false}
+        showStops
+      />
+    </div>
+  );
+}
+
+TransferMap.propTypes = {
+  itineraries: PropTypes.object.isRequired,
+  legObj: PropTypes.object.isRequired,
+};
+
 function PrintableLeg(props) {
   return (
     <div className="print-itinerary-leg-container">
@@ -169,65 +195,74 @@ function PrintableLeg(props) {
         </div>
         <div className={`leg-before-line ${props.legObj.mode.toLowerCase()}`} />
       </div>
-      <div className="itinerary-center">
-        {getHeadSignFormat(props.legObj)}
-        <div className="itinerary-instruction">
-          {props.legObj.mode === 'WALK' &&
-            <FormattedMessage
-              id="walk-distance-duration"
-              defaultMessage="Walk {distance} ({duration})"
-              values={{
-                distance: displayDistance(
-                  parseInt(props.legObj.distance, 10),
-                  props.context.config,
-                ),
-                duration: durationToString(props.legObj.duration * 1000),
-              }}
-            />}
-          {props.legObj.mode === 'BICYCLE' &&
-            <FormattedMessage
-              id="cycle-distance-duration"
-              defaultMessage="Cycle {distance} ({duration})"
-              values={{
-                distance: displayDistance(
-                  parseInt(props.legObj.distance, 10),
-                  props.context.config,
-                ),
-                duration: durationToString(props.legObj.duration * 1000),
-              }}
-            />}
-          {props.legObj.mode === 'citybike' &&
-            <FormattedMessage
-              id="cycle-distance-duration"
-              defaultMessage="Cycle {distance} ({duration})"
-              values={{
-                distance: displayDistance(
-                  parseInt(props.legObj.distance, 10),
-                  props.context.config,
-                ),
-                duration: durationToString(props.legObj.duration * 1000),
-              }}
-            />}
-          {props.legObj.mode === 'CAR' &&
-            <FormattedMessage
-              id="car-distance-duration"
-              defaultMessage="Drive {distance} ({duration})"
-              values={{
-                distance: displayDistance(
-                  parseInt(props.legObj.distance, 10),
-                  props.context.config,
-                ),
-                duration: durationToString(props.legObj.duration * 1000),
-              }}
-            />}
-          {props.legObj.mode !== 'WALK' &&
-            props.legObj.mode !== 'BICYCLE' &&
-            props.legObj.mode !== 'CAR' &&
-            props.legObj.mode !== 'citybike' &&
-            getHeadSignDetails(props.legObj)}
-          {props.legObj.intermediateStops.length > 0 &&
-            getItineraryStops(props.legObj)}
+      <div className={`itinerary-center ${props.legObj.mode.toLowerCase()}`}>
+        <div className="itinerary-center-left">
+          {getHeadSignFormat(props.legObj)}
+          <div className="itinerary-instruction">
+            {props.legObj.mode === 'WALK' &&
+              <FormattedMessage
+                id="walk-distance-duration"
+                defaultMessage="Walk {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(props.legObj.distance, 10),
+                    props.context.config,
+                  ),
+                  duration: durationToString(props.legObj.duration * 1000),
+                }}
+              />}
+            {props.legObj.mode === 'BICYCLE' &&
+              <FormattedMessage
+                id="cycle-distance-duration"
+                defaultMessage="Cycle {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(props.legObj.distance, 10),
+                    props.context.config,
+                  ),
+                  duration: durationToString(props.legObj.duration * 1000),
+                }}
+              />}
+            {props.legObj.mode === 'citybike' &&
+              <FormattedMessage
+                id="cycle-distance-duration"
+                defaultMessage="Cycle {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(props.legObj.distance, 10),
+                    props.context.config,
+                  ),
+                  duration: durationToString(props.legObj.duration * 1000),
+                }}
+              />}
+            {props.legObj.mode === 'CAR' &&
+              <FormattedMessage
+                id="car-distance-duration"
+                defaultMessage="Drive {distance} ({duration})"
+                values={{
+                  distance: displayDistance(
+                    parseInt(props.legObj.distance, 10),
+                    props.context.config,
+                  ),
+                  duration: durationToString(props.legObj.duration * 1000),
+                }}
+              />}
+            {props.legObj.mode !== 'WALK' &&
+              props.legObj.mode !== 'BICYCLE' &&
+              props.legObj.mode !== 'CAR' &&
+              props.legObj.mode !== 'citybike' &&
+              getHeadSignDetails(props.legObj)}
+            {props.legObj.intermediateStops.length > 0 &&
+              getItineraryStops(props.legObj)}
+          </div>
         </div>
+        {props.legObj.mode === 'WALK' &&
+          <div className="itinerary-center-right">
+            <TransferMap
+              itineraries={props.originalLegs}
+              legObj={props.legObj}
+            />
+          </div>}
       </div>
     </div>
   );
@@ -251,9 +286,6 @@ class PrintableItinerary extends React.Component {
   }
 
   render() {
-    // return null;
-    // const fare = this.state.itineraryObj.fares ? this.state.itineraryObj.fares[0].components[0].fareId : 0;
-    // const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
     const legs = originalLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {

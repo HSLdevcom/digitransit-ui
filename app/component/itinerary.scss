@@ -1002,7 +1002,12 @@ div.itinerary-container-content {
     width: 100%;
     border-bottom: 2px dotted #1b1a18;
     margin-bottom: 1em;
+    display: flex;
     &.end {
+      border-bottom: none;
+      min-height: 23em;
+    }
+    &.walk {
       border-bottom: none;
     }
   }
@@ -1024,6 +1029,23 @@ div.itinerary-container-content {
 
   .intermediate-stop-single {
     font-size: $font-size-normal;
+  }
+
+  .itinerary-center-right {
+    margin-left: auto;
+    margin-bottom: 1em;
+  }
+
+  .transfermap-container {
+    width: 23em;
+    height: 23em;
+    position: absolute;
+    right: 3em;
+    background: beige;
+    .print-itinerary-map {
+      min-width: 23em;
+      min-height: 23em;
+    }
   }
 }
 
