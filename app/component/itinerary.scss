@@ -1034,6 +1034,9 @@ div.itinerary-container-content {
   .itinerary-center-right {
     margin-left: auto;
     margin-bottom: 1em;
+    position: relative;
+    width: 50%;
+    height: 23em;
   }
 
   .transfermap-container {
@@ -1045,6 +1048,7 @@ div.itinerary-container-content {
     .print-itinerary-map {
       min-width: 23em;
       min-height: 23em;
+      pointer-events: none;
     }
   }
 }

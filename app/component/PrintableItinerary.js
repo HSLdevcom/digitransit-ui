@@ -14,6 +14,9 @@ import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
 import Map from './map/Map';
+import ItineraryLine from './map/ItineraryLine';
+import RouteLine from './map/route/RouteLine';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 
 const getHeadSignFormat = sentLegObj => {
   const stopcode =
@@ -124,13 +127,20 @@ const getItineraryStops = sentLegObj =>
 
 function TransferMap(props) {
   const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
- // const bounds = [].concat(polyline.decode(props.legObj.from.stop.lat));
-  console.log(props.legObj);
-  console.log(bounds);
+  const leafletObjs = [
+    <ItineraryLine
+      key={'line'}
+      legs={props.itineraries}
+      showTransferLabitineraryels
+      showIntermediateStops
+    />,
+  ];
+  console.log(leafletObjs);
   return (
     <div className="transfermap-container">
       <Map
         bounds={bounds}
+        leafletObjs={leafletObjs}
         className="print-itinerary-map"
         fitBounds={bounds}
         zoom={17}
@@ -144,6 +154,7 @@ function TransferMap(props) {
 TransferMap.propTypes = {
   itineraries: PropTypes.object.isRequired,
   legObj: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 function PrintableLeg(props) {
@@ -260,6 +271,7 @@ function PrintableLeg(props) {
           <div className="itinerary-center-right">
             <TransferMap
               itineraries={props.originalLegs}
+              index={props.index}
               legObj={props.legObj}
             />
           </div>}
@@ -287,6 +299,7 @@ class PrintableItinerary extends React.Component {
 
   render() {
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
+    console.log(this.props.itinerary);
     const legs = originalLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
         const cloneObj = Object.assign({}, o);
@@ -479,6 +492,18 @@ export default Relay.createContainer(PrintableItinerary, {
             tripHeadsign
             pattern {
               code
+              directionId
+              geometry {
+                lat
+                lon
+              }
+              stops {
+                lat
+                lon
+                name
+                gtfsId
+                }
+              ${RouteLine.getFragment('pattern')}
             }
             stoptimes {
               pickupType
