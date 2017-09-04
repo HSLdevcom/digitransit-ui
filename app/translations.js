@@ -563,7 +563,7 @@ const translations = {
     'itinerary-page.title': 'Itinerary',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
-    'itinerary-ticket.title': 'Necessary ticket',
+    'itinerary-ticket.title': 'Required ticket',
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
