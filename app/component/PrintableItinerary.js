@@ -10,6 +10,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
 const getHeadSignFormat = sentLegObj => {
@@ -348,6 +349,7 @@ class PrintableItinerary extends React.Component {
 
     return (
       <div className="print-itinerary-container">
+        <PrintableItineraryHeader itinerary={this.props.itinerary} />
         <div className="print-itinerary-allLegs">
           {legs}
         </div>
