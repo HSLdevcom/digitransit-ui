@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import { isBrowser } from '../util/browser';
 import { getMessagesStorage, setMessagesStorage } from './localStorage';
 
 // Save to local storage as an array of key, value pairs
@@ -42,8 +43,23 @@ class MessageStore extends Store {
   };
 
   addConfigMessages = config => {
-    if (config.staticMessages) {
-      config.staticMessages.forEach(this.addMessage);
+    const processStaticMessages = root => {
+      if (root.staticMessages) {
+        root.staticMessages.forEach(this.addMessage);
+      }
+    };
+
+    if (isBrowser && config.staticMessagesUrl !== undefined) {
+      fetch(config.staticMessagesUrl, {
+        mode: 'cors',
+        cache: 'reload',
+      }).then(response =>
+        response.json().then(json => {
+          processStaticMessages(json);
+        }),
+      );
+    } else {
+      processStaticMessages(config.staticMessages);
     }
   };
 
