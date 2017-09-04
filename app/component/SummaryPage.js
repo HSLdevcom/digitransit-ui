@@ -190,9 +190,6 @@ class SummaryPage extends React.Component {
       ),
     );
 
-    console.log(bounds);
-    console.log(leafletObjs);
-
     return (
       <Map
         className="summary-map"

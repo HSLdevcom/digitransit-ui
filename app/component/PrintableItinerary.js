@@ -16,7 +16,7 @@ import { isCallAgencyPickupType } from '../util/legUtils';
 import Map from './map/Map';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
-import VehicleMarkerContainer from './map/VehicleMarkerContainer';
+import LocationMarker from '../component/map/LocationMarker';
 
 const getHeadSignFormat = sentLegObj => {
   const stopcode =
@@ -135,7 +135,25 @@ function TransferMap(props) {
       showIntermediateStops
     />,
   ];
-  console.log(leafletObjs);
+  if (props.index === 0) {
+    leafletObjs.push(
+      <LocationMarker
+        key="fromMarker"
+        position={props.legObj.from}
+        className="from"
+      />,
+    );
+  }
+
+  if (props.index === props.itineraries.length - 1) {
+    leafletObjs.push(
+      <LocationMarker
+        key="toMarker"
+        position={props.legObj.to}
+        className="to"
+      />,
+    );
+  }
   return (
     <div className="transfermap-container">
       <Map
@@ -267,14 +285,14 @@ function PrintableLeg(props) {
               getItineraryStops(props.legObj)}
           </div>
         </div>
-        {props.legObj.mode === 'WALK' &&
-          <div className="itinerary-center-right">
+        <div className="itinerary-center-right">
+          {props.legObj.mode === 'WALK' &&
             <TransferMap
               itineraries={props.originalLegs}
               index={props.index}
               legObj={props.legObj}
-            />
-          </div>}
+            />}
+        </div>
       </div>
     </div>
   );
@@ -299,7 +317,6 @@ class PrintableItinerary extends React.Component {
 
   render() {
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
-    console.log(this.props.itinerary);
     const legs = originalLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
         const cloneObj = Object.assign({}, o);

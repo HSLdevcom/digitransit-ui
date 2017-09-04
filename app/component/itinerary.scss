@@ -1005,11 +1005,14 @@ div.itinerary-container-content {
     display: flex;
     &.end {
       border-bottom: none;
-      min-height: 23em;
+      min-height: 11em;
     }
     &.walk {
       border-bottom: none;
     }
+    .itinerary-leg-stopname {
+        max-width: 44%;
+      }
   }
 
   .itinerary-instruction {
@@ -1031,24 +1034,32 @@ div.itinerary-container-content {
     font-size: $font-size-normal;
   }
 
+  .itinerary-center-left {
+    width: 66%;
+  }
+
   .itinerary-center-right {
     margin-left: auto;
     margin-bottom: 1em;
     position: relative;
-    width: 50%;
-    height: 23em;
+    width: 44%;
   }
 
   .transfermap-container {
-    width: 23em;
-    height: 23em;
+    width: 100%;
+    height: 100%;
+    width: 17em;
+    height: 17em;
     position: absolute;
-    right: 3em;
-    background: beige;
+    right: 0;
     .print-itinerary-map {
-      min-width: 23em;
-      min-height: 23em;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
+
+      .background-gradient {
+        background: none;
+      }
     }
   }
 }
