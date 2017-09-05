@@ -105,6 +105,24 @@ export function getFavouriteStopsStorage() {
   return getItemAsJson('favouriteStops');
 }
 
+export function setReadMessageIds(data) {
+  setItem('readMessages', data);
+}
+
+export function getReadMessageIds() {
+  /* Migrate old data */
+  const oldMessages = getItemAsJson('messages', '[]');
+  if (oldMessages.length !== 0) {
+    const readMessageIds = oldMessages
+      .filter(message => message[1].read)
+      .map(message => message[0]);
+    setReadMessageIds(readMessageIds);
+    removeItem('messages');
+  }
+
+  return getItemAsJson('readMessages', '[]');
+}
+
 export function setFavouriteStopsStorage(data) {
   setItem('favouriteStops', data);
 }
@@ -123,14 +141,6 @@ export function getFavouriteRoutesStorage() {
 
 export function setFavouriteRoutesStorage(data) {
   setItem('favouriteRoutes', data);
-}
-
-export function getMessagesStorage() {
-  return getItemAsJson('messages');
-}
-
-export function setMessagesStorage(data) {
-  setItem('messages', data);
 }
 
 export function getModeStorage() {
