@@ -313,7 +313,16 @@ class PrintableItinerary extends React.Component {
     this.state = {
       itineraryObj: this.props.itinerary,
     };
+    this.handleLoad = this.handleLoad.bind(this);
   }
+
+  componentDidMount() {
+    window.addEventListener('load', this.handleLoad());
+  }
+
+  handleLoad = () => {
+    window.print();
+  };
 
   render() {
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
