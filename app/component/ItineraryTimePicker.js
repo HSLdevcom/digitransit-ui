@@ -29,7 +29,6 @@ export default class ItineraryTimePicker extends React.Component {
   onChangeTime = event => {
     const isHour = this.isHours(event.target.id);
     const timePropertyId = isHour ? 'hours' : 'minutes';
-    const oldPropertyId = isHour ? 'oldHour' : 'oldMinute';
     const focusropertyId = isHour ? 'focusHours' : 'focusMinutes';
 
     if (this.state[focusropertyId] === true) {
