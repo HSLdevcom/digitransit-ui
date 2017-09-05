@@ -11,12 +11,12 @@ function tagandpush {
 
 if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
   docker pull $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
-  docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_AUTH
+  docker login -u $DOCKER_USER -p $DOCKER_AUTH
   if [ -n "$TRAVIS_TAG" ]; then
     echo "Pushing :prod release to Docker Hub"
     tagandpush prod
   else
-    if ["$TRAVIS_BRANCH" = "master"]; then
+    if [ "$TRAVIS_BRANCH" = "master" ]; then
       echo Pushing latest tag to Docker Hub
       tagandpush latest
     else
