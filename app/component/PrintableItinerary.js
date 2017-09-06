@@ -164,6 +164,7 @@ function TransferMap(props) {
         zoom={17}
         showScaleBar={false}
         showStops
+        loaded={() => props.mapsLoaded()}
       />
     </div>
   );
@@ -173,6 +174,7 @@ TransferMap.propTypes = {
   itineraries: PropTypes.object.isRequired,
   legObj: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  mapsLoaded: PropTypes.func,
 };
 
 function PrintableLeg(props) {
@@ -291,6 +293,7 @@ function PrintableLeg(props) {
               itineraries={props.originalLegs}
               index={props.index}
               legObj={props.legObj}
+              mapsLoaded={() => props.mapsLoaded()}
             />}
         </div>
       </div>
@@ -305,6 +308,7 @@ PrintableLeg.propTypes = {
   index: PropTypes.number.isRequired,
   context: PropTypes.object.isRequired,
   originalLegs: PropTypes.array.isRequired,
+  mapsLoaded: PropTypes.function,
 };
 
 class PrintableItinerary extends React.Component {
@@ -312,17 +316,9 @@ class PrintableItinerary extends React.Component {
     super(props);
     this.state = {
       itineraryObj: this.props.itinerary,
+      mapsLoaded: 0,
     };
-    this.handleLoad = this.handleLoad.bind(this);
   }
-
-  componentDidMount() {
-    window.addEventListener('load', this.handleLoad());
-  }
-
-  handleLoad = () => {
-    window.print();
-  };
 
   render() {
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
@@ -350,6 +346,15 @@ class PrintableItinerary extends React.Component {
               index={i}
               originalLegs={originalLegs}
               context={this.context}
+              mapsLoaded={() => {
+                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 });
+                if (
+                  this.state.mapsLoaded + 1 ===
+                  originalLegs.filter(o2 => o2.mode === 'WALK').length
+                ) {
+                  setTimeout(() => window.print(), 1000);
+                }
+              }}
             />
           </div>
         );
@@ -417,7 +422,6 @@ class PrintableItinerary extends React.Component {
         </div>
       </div>,
     );
-
     return (
       <div className="print-itinerary-container">
         <PrintableItineraryHeader itinerary={this.props.itinerary} />

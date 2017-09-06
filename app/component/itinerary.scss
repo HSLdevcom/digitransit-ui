@@ -802,6 +802,8 @@ div.itinerary-container-content {
   justify-content: flex-end;
 }
 
+$font-print-decrease: 0.7;
+
 .print-itinerary-container {
   background-color: #fff;
   padding-bottom: 2em;
@@ -879,6 +881,7 @@ div.itinerary-container-content {
   .header-details-content {
     font-weight: $font-weight-bold;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .faretype-span {
@@ -940,6 +943,7 @@ div.itinerary-container-content {
     color: $black;
     font-weight: 500;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .itinerary-circleline {
@@ -1000,6 +1004,7 @@ div.itinerary-container-content {
     .stop-code {
       font-weight: $font-weight-medium;
     }
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .itinerary-center {
@@ -1023,20 +1028,24 @@ div.itinerary-container-content {
   .itinerary-instruction {
     color: $black;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .intermediate-stops-count {
     font-weight: 700;
     font-size: $font-size-large;
+   @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .intermediate-stops-duration {
     font-weight: $font-weight-medium;
     font-size: $font-size-normal;
+    @media print { font-size: $font-size-normal * $font-print-decrease; }
   }
 
   .intermediate-stop-single {
     font-size: $font-size-normal;
+    @media print { font-size: $font-size-normal * $font-print-decrease; }
   }
 
   .itinerary-center-left {
