@@ -5,8 +5,8 @@ DOCKER_IMAGE=digitransit-ui
 
 
 function tagandpush {
-  echo docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/$DOCKER_IMAGE:$1
-  echo docker push $ORG/$DOCKER_IMAGE:$1
+  docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/$DOCKER_IMAGE:$1
+  docker push $ORG/$DOCKER_IMAGE:$1
 }
 
 if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
