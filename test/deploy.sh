@@ -16,6 +16,10 @@ if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
     echo "Pushing :prod release to Docker Hub"
     tagandpush prod
   else
+    if [ "$TRAVIS_BRANCH" = "prod" ]; then
+      echo Not Pushing :prod tag to Docker Hub
+      exit 0
+    fi
     if [ "$TRAVIS_BRANCH" = "master" ]; then
       echo Pushing latest tag to Docker Hub
       tagandpush latest
