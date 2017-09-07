@@ -127,10 +127,22 @@ const getItineraryStops = sentLegObj =>
 
 function TransferMap(props) {
   const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
+  const nextLeg = props.originalLegs[props.index + 1];
+  const previousLeg = props.originalLegs[props.index - 1];
+
+  let itineraryLine;
+  if (!nextLeg) {
+    itineraryLine = [previousLeg, props.legObj];
+  } else if (nextLeg && nextLeg.intermediatePlace) {
+    itineraryLine = [props.legObj];
+  } else {
+    itineraryLine = [props.legObj, nextLeg];
+  }
+
   const leafletObjs = [
     <ItineraryLine
       key={'line'}
-      legs={props.itineraries}
+      legs={itineraryLine}
       showTransferLabitineraryels
       showIntermediateStops
     />,
@@ -145,12 +157,34 @@ function TransferMap(props) {
     );
   }
 
-  if (props.index === props.itineraries.length - 1) {
+  if (!nextLeg) {
     leafletObjs.push(
       <LocationMarker
         key="toMarker"
         position={props.legObj.to}
         className="to"
+      />,
+    );
+  }
+
+  if (nextLeg) {
+    if (nextLeg.intermediatePlace === true) {
+      leafletObjs.push(
+        <LocationMarker
+          key={'via'}
+          position={props.legObj.to}
+          className="via"
+        />,
+      );
+    }
+  }
+
+  if (props.legObj.intermediatePlace === true) {
+    leafletObjs.push(
+      <LocationMarker
+        key={'via'}
+        position={props.legObj.from}
+        className="via"
       />,
     );
   }
@@ -165,13 +199,14 @@ function TransferMap(props) {
         showScaleBar={false}
         showStops
         loaded={() => props.mapsLoaded()}
+        disableZoom
       />
     </div>
   );
 }
 
 TransferMap.propTypes = {
-  itineraries: PropTypes.object.isRequired,
+  originalLegs: PropTypes.object.isRequired,
   legObj: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   mapsLoaded: PropTypes.func,
@@ -290,7 +325,7 @@ function PrintableLeg(props) {
         <div className="itinerary-center-right">
           {props.legObj.mode === 'WALK' &&
             <TransferMap
-              itineraries={props.originalLegs}
+              originalLegs={props.originalLegs}
               index={props.index}
               legObj={props.legObj}
               mapsLoaded={() => props.mapsLoaded()}

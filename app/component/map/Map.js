@@ -53,6 +53,7 @@ class Map extends React.Component {
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.function,
+    disableZoom: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -258,7 +259,7 @@ class Map extends React.Component {
               imperial={false}
               position={config.map.controls.scale.position}
             />}
-          {this.context.breakpoint === 'large' &&
+          {(this.context.breakpoint === 'large' && !this.props.disableZoom) &&
             <ZoomControl
               position={config.map.controls.zoom.position}
               zoomInText={Icon.asString('icon-icon_plus')}

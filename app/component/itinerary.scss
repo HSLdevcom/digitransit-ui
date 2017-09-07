@@ -906,10 +906,6 @@ $font-print-decrease: 0.7;
 .print-itinerary-leg {
   display: block;
 
-  &.walk {
-    height: 11em;
-  }
-
   .print-itinerary-leg-container {
     width: 100%;
     height: 100%;
@@ -1055,17 +1051,14 @@ $font-print-decrease: 0.7;
   .itinerary-center-right {
     margin-left: auto;
     margin-bottom: 1em;
-    position: relative;
-    width: 44%;
+    height: 19em;
+    width: 40%;
   }
 
   .transfermap-container {
     width: 100%;
     height: 100%;
-    width: 17em;
-    height: 17em;
-    position: absolute;
-    right: 0;
+    margin-right: auto;
     .print-itinerary-map {
       width: 100%;
       height: 100%;
