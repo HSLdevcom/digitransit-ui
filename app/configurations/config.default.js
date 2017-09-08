@@ -545,8 +545,8 @@ export default {
   staticMessages: [],
 
   themeMap: {
-    turku: 'turku',
     hsl: 'reittiopas',
+    turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
     oulu: 'oulu',
@@ -563,7 +563,7 @@ export default {
     { id: '10', expr: 'dev-joensuu' },
     { id: '11', expr: 'joensuu' },
     { id: '12', expr: 'dev-turku' },
-    { id: '13', expr: 'turku' },
+    { id: '13', expr: '(turku|foli)' },
     { id: '14', expr: 'hameenlinna' },
     { id: '15', expr: 'jyvaskyla' },
     { id: '16', expr: 'kuopio' },
