@@ -259,7 +259,8 @@ class Map extends React.Component {
               imperial={false}
               position={config.map.controls.scale.position}
             />}
-          {(this.context.breakpoint === 'large' && !this.props.disableZoom) &&
+          {this.context.breakpoint === 'large' &&
+            !this.props.disableZoom &&
             <ZoomControl
               position={config.map.controls.zoom.position}
               zoomInText={Icon.asString('icon-icon_plus')}

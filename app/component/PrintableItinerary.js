@@ -322,7 +322,9 @@ function PrintableLeg(props) {
               getItineraryStops(props.legObj)}
           </div>
         </div>
-        <div className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}>
+        <div
+          className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}
+        >
           {props.legObj.mode === 'WALK' &&
             <TransferMap
               originalLegs={props.originalLegs}
