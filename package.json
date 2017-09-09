@@ -63,7 +63,7 @@
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
-    "body-parser": "1.17.2",
+    "body-parser": "1.18.0",
     "classnames": "2.2.5",
     "cookie-parser": "1.4.3",
     "debug": "2.6.8",
