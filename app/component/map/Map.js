@@ -52,12 +52,13 @@ class Map extends React.Component {
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
-    loaded: PropTypes.function,
+    loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
   };
 
   static defaultProps = {
     showScaleBar: false,
+    loaded: () => {},
   };
 
   static contextTypes = {
