@@ -58,7 +58,7 @@ class Map extends React.Component {
 
   static defaultProps = {
     showScaleBar: false,
-    loaded: () => undefined,
+    loaded: () => {},
   };
 
   static contextTypes = {
