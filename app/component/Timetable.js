@@ -6,10 +6,10 @@ import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import Icon from './Icon';
+import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import SecondaryButton from './SecondaryButton';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class Timetable extends React.Component {
@@ -98,11 +98,6 @@ class Timetable extends React.Component {
       Math.floor(stoptime.scheduledDeparture / (60 * 60)),
     );
 
-  printStop = e => {
-    e.stopPropagation();
-    window.print();
-  };
-
   dateForPrinting = () => {
     const selectedDate = moment(
       this.props.propsForStopPageActionBar.selectedDate,
@@ -161,13 +156,11 @@ class Timetable extends React.Component {
               showFilterModal={this.showModal}
               stop={this.props.stop}
             />
-            <SecondaryButton
-              buttonParams={{
-                ariaLabel: 'print',
-                buttonName: 'print',
-                buttonClickAction: e => this.printStop(e),
-                buttonIcon: 'print',
-              }}
+            <StopPageActionBar
+              printUrl={this.props.propsForStopPageActionBar.printUrl}
+              startDate={this.props.propsForStopPageActionBar.startDate}
+              selectedDate={this.props.propsForStopPageActionBar.selectedDate}
+              onDateChange={this.props.propsForStopPageActionBar.onDateChange}
             />
           </div>
           <div className="timetable-for-printing-header">

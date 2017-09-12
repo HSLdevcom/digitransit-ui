@@ -464,6 +464,15 @@ hr.action-bar {
   }
 }
 
+.print-button-container {
+  width: 100%;
+  display: flex;
+  button {
+  margin-right: 1em;
+  margin-left: auto;
+  }
+}
+
 .timetable-for-printing {
   display: none;
   @media print {
