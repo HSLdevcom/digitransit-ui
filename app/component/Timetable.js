@@ -3,10 +3,13 @@ import React from 'react';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
+import { FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
+import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import StopPageActionBar from './StopPageActionBar';
+import SecondaryButton from './SecondaryButton';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class Timetable extends React.Component {
@@ -40,6 +43,12 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.function,
     }).isRequired,
+    location: PropTypes.object,
+  };
+
+  static contextTypes = {
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   constructor(props) {
@@ -89,6 +98,32 @@ class Timetable extends React.Component {
       Math.floor(stoptime.scheduledDeparture / (60 * 60)),
     );
 
+  printStop = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
+  dateForPrinting = () => {
+    const selectedDate = moment(
+      this.props.propsForStopPageActionBar.selectedDate,
+    );
+    return (
+      <div className="printable-date-container">
+        <div className="printable-date-icon">
+          <Icon className="large-icon" img="icon-icon_schedule" />
+        </div>
+        <div className="printable-date-right">
+          <div className="printable-date-header">
+            <FormattedMessage id="date" defaultMessage="Date" />
+          </div>
+          <div className="printable-date-content">
+            {moment(selectedDate).format('dd DD.MM.YYYY')}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const timetableMap = this.groupArrayByHour(
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate),
@@ -126,12 +161,22 @@ class Timetable extends React.Component {
               showFilterModal={this.showModal}
               stop={this.props.stop}
             />
-            <StopPageActionBar
-              printUrl={this.props.propsForStopPageActionBar.printUrl}
-              startDate={this.props.propsForStopPageActionBar.startDate}
-              selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-              onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+            <SecondaryButton
+              buttonParams={{
+                ariaLabel: 'print',
+                buttonName: 'print',
+                buttonClickAction: e => this.printStop(e),
+                buttonIcon: 'print',
+              }}
             />
+          </div>
+          <div className="timetable-for-printing-header">
+            <h1>
+              <FormattedMessage id="timetable" defaultMessage="Timetable" />
+            </h1>
+          </div>
+          <div className="timetable-for-printing">
+            {this.dateForPrinting()}
           </div>
           <div className="momentum-scroll" style={{ flex: '1' }}>
             {Object.keys(timetableMap)

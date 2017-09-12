@@ -6,7 +6,7 @@ import Icon from './Icon';
 
 const secondaryButton = (props, context) =>
   <button
-    className="secondary-button"
+    className={`secondary-button ${props.buttonParams.buttonName}`}
     aria-label={context.intl.formatMessage({
       id: props.buttonParams.ariaLabel,
       defaultMessage: props.buttonParams.ariaLabel,
