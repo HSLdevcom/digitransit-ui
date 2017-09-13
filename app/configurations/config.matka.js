@@ -32,7 +32,7 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
 
-  feedIds: ['MATKA'],
+  feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
 
   meta: {
     description: APP_DESCRIPTION,

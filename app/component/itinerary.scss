@@ -802,6 +802,8 @@ div.itinerary-container-content {
   justify-content: flex-end;
 }
 
+$font-print-decrease: 0.7;
+
 .print-itinerary-container {
   background-color: #fff;
   padding-bottom: 2em;
@@ -879,6 +881,7 @@ div.itinerary-container-content {
   .header-details-content {
     font-weight: $font-weight-bold;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .faretype-span {
@@ -905,6 +908,7 @@ div.itinerary-container-content {
 
   .print-itinerary-leg-container {
     width: 100%;
+    height: 100%;
     display: flex;
   }
 
@@ -935,6 +939,7 @@ div.itinerary-container-content {
     color: $black;
     font-weight: 500;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .itinerary-circleline {
@@ -995,6 +1000,7 @@ div.itinerary-container-content {
     .stop-code {
       font-weight: $font-weight-medium;
     }
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .itinerary-center {
@@ -1002,28 +1008,70 @@ div.itinerary-container-content {
     width: 100%;
     border-bottom: 2px dotted #1b1a18;
     margin-bottom: 1em;
+    display: flex;
     &.end {
       border-bottom: none;
+      min-height: 11em;
     }
+    &.walk {
+      border-bottom: none;
+    }
+    .itinerary-leg-stopname {
+        max-width: 90%;
+      }
   }
 
   .itinerary-instruction {
     color: $black;
     font-size: $font-size-large;
+    @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .intermediate-stops-count {
     font-weight: 700;
     font-size: $font-size-large;
+   @media print { font-size: $font-size-large * $font-print-decrease; }
   }
 
   .intermediate-stops-duration {
     font-weight: $font-weight-medium;
     font-size: $font-size-normal;
+    @media print { font-size: $font-size-normal * $font-print-decrease; }
   }
 
   .intermediate-stop-single {
     font-size: $font-size-normal;
+    @media print { font-size: $font-size-normal * $font-print-decrease; }
+  }
+
+  .itinerary-center-left {
+    width: 66%;
+    @media print { width: 50%; }
+  }
+
+  .itinerary-center-right {
+    display: none;
+    &.walk {
+      display: block;
+      margin-left: auto;
+      height: 16em;
+      width: 16em;
+      @media print { width: 250px; height: 250px; }
+    }
+  }
+
+  .transfermap-container {
+    width: 100%;
+    height: 100%;
+    .print-itinerary-map {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+
+      .background-gradient {
+        background: none;
+      }
+    }
   }
 }
 
