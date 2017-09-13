@@ -89,6 +89,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
 const initialState = {
   selectableTargets: undefined,
   coords: undefined,
+  showSpinner: true,
 };
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
@@ -137,7 +138,7 @@ class TileLayerContainer extends GridLayer {
     let activeTiles;
 
     if (e.currentTime) {
-      this.setState({ currentTime: e.currentTime.unix() });
+      this.setState({ currentTime: e.currentTime.unix(), showSpinner: false });
 
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(
@@ -217,13 +218,15 @@ class TileLayerContainer extends GridLayer {
       this.setState({
         selectableTargets,
         coords,
+        showSpinner: true,
       });
     };
 
     return tile.el;
   };
 
-  selectRow = option => this.setState({ selectableTargets: [option] });
+  selectRow = option =>
+    this.setState({ selectableTargets: [option], showSpinner: true });
 
   render() {
     let popup = null;
@@ -253,7 +256,7 @@ class TileLayerContainer extends GridLayer {
                       currentTime: this.state.currentTime,
                     })
               }
-              renderLoading={loadingPopup}
+              renderLoading={this.state.showSpinner ? loadingPopup : undefined}
               renderFetched={data =>
                 <StopMarkerPopupWithContext {...data} context={this.context} />}
             />
