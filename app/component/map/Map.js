@@ -232,7 +232,7 @@ class Map extends React.Component {
             (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
             undefined
           }
-          animate={false}
+          animate
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
