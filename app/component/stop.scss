@@ -473,6 +473,12 @@ hr.action-bar {
   }
 }
 
+.mobile {
+  .print-button-container {
+    display: none;
+  }
+}
+
 .timetable-for-printing {
   display: none;
   @media print {
