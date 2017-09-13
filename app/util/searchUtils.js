@@ -151,7 +151,7 @@ export function getGeocodingResult(
   sources,
   config,
 ) {
-  if (text === undefined || text === null || text.trim().length < 3) {
+  if (text === undefined || text === null || text.trim().length < 1) {
     return Promise.resolve([]);
   }
 
