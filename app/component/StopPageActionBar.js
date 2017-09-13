@@ -31,6 +31,7 @@ const StopPageActionBar = ({
             buttonName: 'print',
             buttonClickAction: e => printStop(e),
             buttonIcon: 'icon-icon_print',
+            smallSize: true,
           }}
         />
       </div>

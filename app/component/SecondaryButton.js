@@ -6,7 +6,8 @@ import Icon from './Icon';
 
 const secondaryButton = (props, context) =>
   <button
-    className={`secondary-button ${props.buttonParams.buttonName}`}
+    className={`secondary-button ${props.buttonParams.buttonName} ${props
+      .buttonParams.smallSize && `small`}`}
     aria-label={context.intl.formatMessage({
       id: props.buttonParams.ariaLabel,
       defaultMessage: props.buttonParams.ariaLabel,
@@ -27,6 +28,7 @@ secondaryButton.propTypes = {
     buttonName: PropTypes.string.isRequired,
     buttonClickAction: PropTypes.function,
     buttonIcon: PropTypes.string,
+    smallSize: PropTypes.bool,
   }),
 };
 
