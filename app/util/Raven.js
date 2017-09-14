@@ -9,6 +9,7 @@ export default function getRaven(sentryDsn, piwikId) {
     Raven.config(sentryDsn, {
       release: COMMIT_ID,
       stacktrace: true,
+      sampleRate: 0.1,
     }).install();
 
     if (piwikId) {
