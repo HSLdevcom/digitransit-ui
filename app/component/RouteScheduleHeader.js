@@ -3,6 +3,7 @@ import React from 'react';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import ComponentUsageExample from './ComponentUsageExample';
 import { routeScheduleHeaderStops as exampleStops } from './ExampleData';
+import Icon from './Icon';
 
 function RouteScheduleHeader(props) {
   const options = props.stops.map((stop, index) => {
@@ -14,9 +15,36 @@ function RouteScheduleHeader(props) {
   });
   const fromOptions = options.slice(0, props.to);
   const toOptions = options.slice(props.from + 1);
+  const fromDisplayName = fromOptions.filter(o => o.value === props.from)[0]
+    .displayName;
+  const toDisplayName = toOptions.filter(o => o.value === props.to)[0]
+    .displayName;
+
+  const stopHeadersForPrinting = (
+    <div className="printable-stop-header">
+      <div className="printable-stop-header_icon-from">
+        <Icon img="icon-icon_mapMarker-point" />
+      </div>
+      <div className="printable-stop-header_from">
+        <span>
+          {fromDisplayName}
+        </span>
+      </div>
+      <div className="printable-stop-header_line" />
+      <div className="printable-stop-header_icon-to">
+        <Icon img="icon-icon_mapMarker-point" />
+      </div>
+      <div className="printable-stop-header_to">
+        <span>
+          {toDisplayName}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <div className="route-schedule-header row padding-vertical-normal">
+      {stopHeadersForPrinting}
       <div className="columns small-6">
         <RouteScheduleStopSelect
           onSelectChange={props.onFromSelectChange}

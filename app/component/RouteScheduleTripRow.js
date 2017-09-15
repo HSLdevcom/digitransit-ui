@@ -6,11 +6,11 @@ function RouteScheduleTripRow(props) {
   return (
     <div className="row">
       <div className="trip-column">
-        <div className="trip-from trip-label left">
+        <div className="trip-from trip-label">
           {props.departureTime}
         </div>
         <div className="trip-separator" />
-        <div className="trip-to trip-label right text-right">
+        <div className="trip-to trip-label">
           {props.arrivalTime}
         </div>
       </div>
