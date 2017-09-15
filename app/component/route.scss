@@ -314,7 +314,7 @@ $route-schedule-date-height: 36px;
     font-weight: 700;
     .printable-stop-header_from {
       margin-right: 1em;
-      max-width: 8.4em;
+      width: 8.4em;
     }
   .printable-stop-header_icon-from {
     margin-right: 0.7em;
@@ -333,13 +333,12 @@ $route-schedule-date-height: 36px;
   .printable-stop-header_line {
     background-image: url('../default/dotted-line-bg-2.png');
     background-size: 80% auto;
-    background-position-y: 0px;
-    background-position-x: 0px;
+    background-position-y: 1px;
+    background-position-x: 5px;
     margin-right: 1em;
-    margin-left: 1em;
     margin-top: 0.6em;
-    height: 11px;
-    width: 13.7em;
+    height: 10px;
+    width: 11.6em;
   }
   }
 }
@@ -397,10 +396,12 @@ $route-schedule-date-height: 36px;
 }
 
 .trip-separator {
-  width: 100%;
-  background-color:  $light-gray;
-  height: 1px;
-  margin-top: 0.7em;
+    width: 66%;
+    border-top: 2px dotted $black;
+    height: 1px;
+    margin-top: 0.8em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
 }
 /*
 .trip-separator:after {
