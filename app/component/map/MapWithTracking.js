@@ -99,7 +99,8 @@ const MapWithTracking = connectToStores(
       location = position;
       zoom = 16;
     } else {
-      location = context.config.defaultMapCenter || context.config.defaultEndpoint;
+      location =
+        context.config.defaultMapCenter || context.config.defaultEndpoint;
       zoom = 14;
     }
 
