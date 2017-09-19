@@ -52,10 +52,13 @@ class Map extends React.Component {
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
+    loaded: PropTypes.func,
+    disableZoom: PropTypes.bool,
   };
 
   static defaultProps = {
     showScaleBar: false,
+    loaded: () => {},
   };
 
   static contextTypes = {
@@ -74,6 +77,10 @@ class Map extends React.Component {
 
   componentWillUnmount = () => {
     this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
+  };
+
+  setLoaded = () => {
+    this.props.loaded();
   };
 
   resizeMap = () => {
@@ -225,12 +232,13 @@ class Map extends React.Component {
             (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
             undefined
           }
-          animate
+          animate={false}
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
         >
           <TileLayer
+            onLoad={() => this.setLoaded()}
             url={`${mapUrl}{z}/{x}/{y}{size}.png`}
             tileSize={config.map.tileSize || 256}
             zoomOffset={config.map.zoomOffset || 0}
@@ -253,6 +261,7 @@ class Map extends React.Component {
               position={config.map.controls.scale.position}
             />}
           {this.context.breakpoint === 'large' &&
+            !this.props.disableZoom &&
             <ZoomControl
               position={config.map.controls.zoom.position}
               zoomInText={Icon.asString('icon-icon_plus')}
