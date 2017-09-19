@@ -15,7 +15,6 @@ import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
-import SplashOrChildren from './component/SplashOrChildren';
 
 import { otpToLocation } from './util/otpStrings';
 
@@ -280,10 +279,7 @@ export default config => {
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props =>
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>,
+          content: IndexPage,
         }}
       >
         <Route
@@ -308,10 +304,7 @@ export default config => {
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props =>
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>,
+          content: IndexPage,
         }}
       >
         <Route
