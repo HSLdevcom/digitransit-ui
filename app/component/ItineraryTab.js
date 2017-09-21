@@ -99,12 +99,10 @@ class ItineraryTab extends React.Component {
           </div>
           <div className="row print-itinerary-button-container">
             <SecondaryButton
-              buttonParams={{
-                ariaLabel: 'print',
-                buttonName: 'print',
-                buttonIcon: 'icon-icon_print',
-                buttonClickAction: e => this.printItinerary(e),
-              }}
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => this.printItinerary(e)}
+              buttonIcon="icon-icon_print"
             />
           </div>
         </div>
