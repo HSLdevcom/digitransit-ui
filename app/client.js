@@ -113,6 +113,7 @@ const callback = () =>
         next => req => {
           // eslint-disable-next-line no-param-reassign
           req.headers.OTPTimeout = config.OTPTimeout;
+          req.headers.id = piwik.getVisitorId();
           return next(req);
         },
       ]),

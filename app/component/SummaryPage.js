@@ -17,6 +17,7 @@ import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
 import ItineraryTab from './ItineraryTab';
+import PrintableItinerary from './PrintableItinerary';
 
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
@@ -45,6 +46,7 @@ class SummaryPage extends React.Component {
   };
 
   static propTypes = {
+    printPage: PropTypes.object,
     location: PropTypes.shape({
       state: PropTypes.object,
     }).isRequired,
@@ -71,6 +73,7 @@ class SummaryPage extends React.Component {
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
+        printPage: PropTypes.object,
       }).isRequired,
     ).isRequired,
   };
@@ -203,6 +206,19 @@ class SummaryPage extends React.Component {
       breakpoint,
       queryAggregator: { readyState: { done, error } },
     } = this.context;
+
+    if (
+      this.props.routes[this.props.routes.length - 1].printPage &&
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries
+    ) {
+      return React.cloneElement(this.props.content, {
+        itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
+        focus: this.updateCenter,
+      });
+    }
+
     // Call props.map directly in order to render to same map instance
     const map = this.props.map
       ? this.props.map.type(
@@ -368,6 +384,7 @@ export default Relay.createContainer(SummaryPage, {
             startTime
             endTime
             ${ItineraryTab.getFragment('itinerary')}
+            ${PrintableItinerary.getFragment('itinerary')}
             ${SummaryPlanContainer.getFragment('itineraries')}
             legs {
               ${ItineraryLine.getFragment('legs')}

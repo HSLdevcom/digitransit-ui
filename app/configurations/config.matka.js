@@ -32,7 +32,7 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
 
-  feedIds: ['MATKA'],
+  feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
 
   meta: {
     description: APP_DESCRIPTION,
@@ -91,45 +91,6 @@ export default {
       },
     ],
   },
-
-  staticMessages: [
-    {
-      id: 'kouluvuosi-2017',
-      content: {
-        fi: [
-          {
-            type: 'heading',
-            content: 'Huom.',
-          },
-          {
-            type: 'text',
-            content:
-              'Kouluvuoden alkaessa tarkista aikataulut liikenteenharjoittajalta tai Matkahuollosta.',
-          },
-        ],
-        sv: [
-          {
-            type: 'heading',
-            content: 'Obs.',
-          },
-          {
-            type: 'text',
-            content:
-              'Vid skolstart var vänlig kontrollera tidtabellerna hos trafikföretagen eller Matkahuolto.',
-          },
-        ],
-        en: [
-          {
-            type: 'heading',
-            content: 'Note',
-          },
-          {
-            type: 'text',
-            content:
-              'Changes in timetables due to school start. Please check the schedules from the traffic operator or Matkahuolto.',
-          },
-        ],
-      },
-    },
-  ],
+  staticMessagesUrl:
+    'https://beta.liikennevirasto.fi/joukkoliikenne/yleisviesti/',
 };

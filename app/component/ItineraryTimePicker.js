@@ -19,14 +19,16 @@ export default class ItineraryTimePicker extends React.Component {
       Number(this.state.initHours) !== Number(initHours) ||
       Number(this.state.initMin) !== Number(initMin)
     ) {
-      this.setState(this.getState({ initHours, initMin }, this.state));
+      this.setState({
+        initHours: this.padDigits(initHours),
+        initMin: this.padDigits(initMin),
+      });
     }
   }
 
   onChangeTime = event => {
     const isHour = this.isHours(event.target.id);
     const timePropertyId = isHour ? 'hours' : 'minutes';
-    const oldPropertyId = isHour ? 'oldHour' : 'oldMinute';
     const focusropertyId = isHour ? 'focusHours' : 'focusMinutes';
 
     if (this.state[focusropertyId] === true) {
@@ -39,9 +41,11 @@ export default class ItineraryTimePicker extends React.Component {
         return;
       }
       this.setState({ [focusropertyId]: false });
-    } else if (this.state[timePropertyId].length > event.target.value.length) {
+    }
+    // accept empty value
+    if (event.target.value === '') {
       this.setState({
-        [timePropertyId]: '',
+        [timePropertyId]: event.target.value,
       });
       return;
     }
@@ -79,17 +83,6 @@ export default class ItineraryTimePicker extends React.Component {
         this.setState({
           [timePropertyId]: newTime,
         });
-      } else if (input.length === 3) {
-        const requestString = isHour
-          ? `${event.target.value.slice(-1)} ${this.state.minutes}`
-          : `${this.state.hours} ${event.target.value.slice(-1)}`;
-        this.props.changeTime({ target: { value: requestString } });
-        this.setState({
-          [timePropertyId]: event.target.value.slice(-1),
-          [oldPropertyId]: event.target.value.slice(-1),
-        });
-      } else {
-        this.event.target.value = this.state[timePropertyId];
       }
     }
   };
@@ -107,15 +100,15 @@ export default class ItineraryTimePicker extends React.Component {
 
   getState = ({ initHours, initMin }, currentState) => {
     const newState = {
-      oldHour: initHours,
-      oldMinute: initMin,
+      oldHour: this.padDigits(initHours),
+      oldMinute: this.padDigits(initMin),
     };
 
     if (Number(currentState.hours) !== Number(initHours)) {
-      newState.hours = initHours;
+      newState.hours = this.padDigits(initHours);
     }
     if (Number(currentState.minutes) !== Number(initMin)) {
-      newState.minutes = initMin;
+      newState.minutes = this.padDigits(initMin);
     }
     return newState;
   };
@@ -242,7 +235,7 @@ export default class ItineraryTimePicker extends React.Component {
           id="inputHours"
           className="time-input-field"
           value={this.state.hours}
-          maxLength={3}
+          maxLength={2}
           onChange={this.onChangeTime}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
@@ -260,7 +253,7 @@ export default class ItineraryTimePicker extends React.Component {
           id="inputMinutes"
           className="time-input-field"
           value={this.state.minutes}
-          maxLength={3}
+          maxLength={2}
           onChange={this.onChangeTime}
           onClick={this.setSelectionRange}
           onFocus={this.handleFocus}
