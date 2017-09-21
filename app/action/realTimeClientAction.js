@@ -41,7 +41,7 @@ function parseMessage(topic, message, actionContext) {
     id,
     route: `HSL:${line}`,
     direction: parseInt(dir, 10) - 1,
-    tripStartTime: startTime,
+    tripStartTime: startTime.replace(/:/g, ''),
     operatingDay:
       parsedMessage.oday && parsedMessage.oday !== 'XXX'
         ? parsedMessage.oday

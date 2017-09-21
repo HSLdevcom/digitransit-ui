@@ -5,6 +5,7 @@ import intersection from 'lodash/intersection';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
+import routeCompare from '../util/route-compare';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
@@ -133,7 +134,7 @@ class FilterTimeTableModal extends React.Component {
       return obj;
     });
 
-    return cleanedUpavailableRoutes;
+    return cleanedUpavailableRoutes.sort(routeCompare);
   };
 
   render() {

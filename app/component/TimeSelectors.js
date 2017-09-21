@@ -41,8 +41,8 @@ export default function TimeSelectors(
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
       <ItineraryTimePicker
-        initHours={time.format('HH')}
-        initMin={time.format('mm')}
+        initHours={time.format('H')}
+        initMin={time.format('m')}
         changeTime={changeTime}
       />
     </div>
