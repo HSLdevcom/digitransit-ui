@@ -607,7 +607,7 @@ export default config => {
               .then(content => cb(null, { content: content.default }))
               .catch(errorLoading);
           }}
-          printPageprintPage
+          printPage
         >
           <Route path="kartta" fullscreenMap />
         </Route>

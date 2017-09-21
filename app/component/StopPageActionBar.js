@@ -26,13 +26,11 @@ const StopPageActionBar = ({
       />
       <div className="print-button-container">
         <SecondaryButton
-          buttonParams={{
-            ariaLabel: 'print',
-            buttonName: 'print',
-            buttonClickAction: e => printStop(e),
-            buttonIcon: 'icon-icon_print',
-            smallSize: true,
-          }}
+          ariaLabel="print"
+          buttonName="print"
+          buttonClickAction={e => printStop(e)}
+          buttonIcon="icon-icon_print"
+          smallSize
         />
       </div>
     </div>) ||
