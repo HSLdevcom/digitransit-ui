@@ -263,6 +263,35 @@ $btn-heigth: 17px;
   }
 }
 
+.secondary-button {
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: solid 1px #b7b7b7;
+  font-family: $font-family;
+  font-weight: $font-narrow-weight-medium;
+  text-align: center;
+  color: $link-color;
+  font-size: $font-size-normal;
+  padding: 0.92em $padding-large;
+
+  &:hover, &:focus, &:active {
+    color: $link-color;
+    background-color: #ffffff;
+    border: solid 1px $link-color;
+  }
+  .icon {
+    margin-right: 4px;
+    width: 1.1em;
+  }
+}
+
+.mobile {
+  .secondary-button {
+    font-size: $font-size-small;
+    padding: 0.85em 1em;
+  }
+}
+
 .first-btn {
   border-top-left-radius: $border-radius;
   border-bottom-left-radius: $border-radius;

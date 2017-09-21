@@ -601,6 +601,17 @@ export default config => {
         render={{ content: SummaryPageWrapper }}
       >
         <Route
+          path=":hash/tulosta"
+          getComponents={(location, cb) => {
+            import(/* webpackChunkName: "itinerary" */ './component/PrintableItinerary')
+              .then(content => cb(null, { content: content.default }))
+              .catch(errorLoading);
+          }}
+          printPage
+        >
+          <Route path="kartta" fullscreenMap />
+        </Route>
+        <Route
           path=":hash"
           getComponents={(location, cb) => {
             Promise.all([

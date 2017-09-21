@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
+import { routerShape, locationShape } from 'react-router';
+import { intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -11,17 +13,22 @@ import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import SecondaryButton from './SecondaryButton';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
     itinerary: PropTypes.object.isRequired,
+    location: PropTypes.object,
     focus: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     breakpoint: PropTypes.string.isRequired,
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: locationShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   state = {
@@ -41,6 +48,15 @@ class ItineraryTab extends React.Component {
     return this.setState({
       lat,
       lon,
+    });
+  };
+
+  printItinerary = e => {
+    e.stopPropagation();
+    const printPath = `${this.props.location.pathname}/tulosta`;
+    this.context.router.push({
+      ...this.props.location,
+      pathname: printPath,
     });
   };
 
@@ -80,6 +96,16 @@ class ItineraryTab extends React.Component {
             {config.showTicketInformation &&
               <TicketInformation fares={this.props.itinerary.fares} />}
             {routeInformation}
+          </div>
+          <div className="row print-itinerary-button-container">
+            <SecondaryButton
+              buttonParams={{
+                ariaLabel: 'print',
+                buttonName: 'print',
+                buttonIcon: 'icon-icon_print',
+                buttonClickAction: e => this.printItinerary(e),
+              }}
+            />
           </div>
         </div>
       </div>
