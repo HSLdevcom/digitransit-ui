@@ -166,13 +166,11 @@ class RouteScheduleContainer extends Component {
           />
           {this.dateForPrinting()}
           <SecondaryButton
-            buttonParams={{
-              ariaLabel: 'print',
-              buttonName: 'print',
-              buttonClickAction: e => this.printRouteTimetable(e),
-              buttonIcon: 'icon-icon_print',
-              smallSize: true,
-            }}
+            ariaLabel="print"
+            buttonName="print"
+            buttonClickAction={e => this.printRouteTimetable(e)}
+            buttonIcon="icon-icon_print"
+            smallSize
           />
         </div>
         <div className="route-schedule-list-wrapper">
