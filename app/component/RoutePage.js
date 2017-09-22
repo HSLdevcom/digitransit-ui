@@ -90,6 +90,16 @@ class RoutePage extends React.Component {
 
     return (
       <div>
+        <div className="header-for-printing">
+          <h1>
+            <FormattedMessage
+              id="journeyplanner.title"
+              defaultMessage="HSL Journey Planner"
+            />
+            {` - `}
+            <FormattedMessage id="route-guide" defaultMessage="Route guide" />
+          </h1>
+        </div>
         {this.props.route.type === 715 &&
           <CallAgencyWarning route={this.props.route} />}
         <div className="tabs route-tabs">
