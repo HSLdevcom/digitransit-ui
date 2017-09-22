@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { routerShape } from 'react-router';
 import { doRouteSearch } from '../util/searchUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
@@ -10,10 +11,7 @@ import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-    }).isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {

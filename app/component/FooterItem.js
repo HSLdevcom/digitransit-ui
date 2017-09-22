@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { routerShape } from 'react-router';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { openFeedbackModal } from '../action/feedbackActions';
@@ -88,7 +89,7 @@ FooterItem.propTypes = {
 };
 
 FooterItem.contextTypes = {
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 

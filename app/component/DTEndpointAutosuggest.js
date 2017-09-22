@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import { setEndpoint } from '../action/EndpointActions';
 import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
@@ -9,7 +10,7 @@ import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 class DTAutosuggestContainer extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { routerShape } from 'react-router';
 import DTSearchAutosuggest from './DTSearchAutosuggest';
 import { saveSearch } from '../action/SearchActions';
 
@@ -8,7 +9,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {

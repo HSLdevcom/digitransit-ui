@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import { routerShape } from 'react-router';
 
 import Icon from './Icon';
 import CallAgencyWarning from './CallAgencyWarning';
@@ -19,9 +20,7 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
+    router: routerShape.isRequired,
     intl: intlShape.isRequired,
     breakpoint: PropTypes.string,
   };

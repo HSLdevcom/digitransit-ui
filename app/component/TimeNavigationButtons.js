@@ -3,8 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
+import { routerShape } from 'react-router';
 import { route } from '../action/ItinerarySearchActions';
-
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
@@ -23,7 +23,7 @@ export default class TimeNavigationButtons extends React.Component {
   };
 
   static contextTypes = {
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
     executeAction: PropTypes.func.isRequired,

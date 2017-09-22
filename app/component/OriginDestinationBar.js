@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { routerShape } from 'react-router';
 import cx from 'classnames';
 import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
 import {
   storeEndpointIfNotCurrent,
   swapEndpoints,
@@ -25,7 +25,7 @@ class OriginDestinationBar extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
   };
 

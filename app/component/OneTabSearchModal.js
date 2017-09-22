@@ -3,7 +3,7 @@ import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-
+import { routerShape } from 'react-router';
 import SearchInputContainer from './SearchInputContainer';
 import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
@@ -13,7 +13,7 @@ class OneTabSearchModal extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: PropTypes.object,
+    router: routerShape,
     location: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
   };

@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
-
+import { routerShape } from 'react-router';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -51,20 +51,13 @@ if (isBrowser) {
   /* eslint-enable global-require */
 }
 
-const RouteMarkerPopupWithContext = provideContext(
-  RouteMarkerPopup,
-  {
-    // Note: We're not sure this is necessary, since context is  getting passed via props
-    // router: PropTypes.object.isRequired,
-    // config: PropTypes.object.isRequired,
-  },
-);
+const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {});
 
 export default class VehicleMarkerContainer extends React.PureComponent {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
