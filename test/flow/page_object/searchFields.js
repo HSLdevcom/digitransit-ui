@@ -81,12 +81,14 @@ function enterKeyDestination() {
 }
 
 function enterKeySearch() {
-  this.api.debug('hit enter search');
+  this.api.debug('click on first route suggestion');
   this.waitForElementPresent(
     'li#react-autowhatever-suggest--item-0',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.setValue('@searchDestination', this.api.Keys.ENTER);
+  return this.checkedClick(
+    '.react-autowhatever__items-list .search-result.Route',
+  );
 }
 
 function itinerarySearch(origin, destination) {
