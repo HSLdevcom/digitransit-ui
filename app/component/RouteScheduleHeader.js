@@ -79,7 +79,7 @@ RouteScheduleHeader.description = () =>
       <RouteScheduleHeader
         stops={exampleStops}
         from={0}
-        to={4}
+        to={1}
         onFromSelectChange={event => event.target.value}
         onToSelectChange={event => event.target.value}
       />
