@@ -5,20 +5,26 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { routeScheduleHeaderStops as exampleStops } from './ExampleData';
 import Icon from './Icon';
 
-function RouteScheduleHeader(props) {
-  const options = props.stops.map((stop, index) => {
+function RouteScheduleHeader({
+  stops,
+  from,
+  to,
+  onFromSelectChange,
+  onToSelectChange,
+}) {
+  const options = stops.map((stop, index) => {
     const option = {
       displayName: stop.name,
       value: index,
     };
     return option;
   });
-  const fromOptions = options.slice(0, props.to);
-  const toOptions = options.slice(props.from + 1);
-  const fromDisplayName = fromOptions.filter(o => o.value === props.from)[0]
+  const fromOptions = options.slice(0, to);
+  const toOptions = options.slice(from + 1);
+
+  const fromDisplayName = fromOptions.filter(o => o.value === from)[0]
     .displayName;
-  const toDisplayName = toOptions.filter(o => o.value === props.to)[0]
-    .displayName;
+  const toDisplayName = toOptions.filter(o => o.value === to)[0].displayName;
 
   const stopHeadersForPrinting = (
     <div className="printable-stop-header">
@@ -47,15 +53,15 @@ function RouteScheduleHeader(props) {
       {stopHeadersForPrinting}
       <div className="columns small-6">
         <RouteScheduleStopSelect
-          onSelectChange={props.onFromSelectChange}
-          selected={props.from}
+          onSelectChange={onFromSelectChange}
+          selected={from}
           options={fromOptions}
         />
       </div>
       <div className="columns small-6">
         <RouteScheduleStopSelect
-          onSelectChange={props.onToSelectChange}
-          selected={props.to}
+          onSelectChange={onToSelectChange}
+          selected={to}
           options={toOptions}
         />
       </div>
