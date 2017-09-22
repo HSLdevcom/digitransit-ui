@@ -130,6 +130,7 @@ class DTAutosuggest extends React.Component {
         renderSuggestion={renderItem}
         inputProps={inputProps}
         onSuggestionSelected={this.props.selectedFunction}
+        highlightFirstSuggestion
       />
     );
   };
