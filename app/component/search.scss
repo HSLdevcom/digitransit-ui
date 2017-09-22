@@ -22,6 +22,44 @@ $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 $item-border-color: #eee;
 
+
+
+  input.react-autosuggest__input
+ {
+    border: 1px solid $gray;
+    border-radius: 4px;
+    height: $search-form-input-height;
+    padding: 10px;
+    outline: 0;
+    appearance: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: $link-color;
+    }
+  }
+
+
+.react-autosuggest__suggestions-container {
+  background-color: white;
+
+  .suggestion-name {
+    span {
+      .bus, .tram, .rail, .subway, .ferry, .airplane {
+        font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+}
+
 .search-form {
   top: 0;
   padding-top: 10px;
@@ -105,7 +143,7 @@ $item-border-color: #eee;
     margin-right: auto;
     position: relative;
 
-    input[type="text"].react-autowhatever__input {
+    input[type="text"].xreact-autowhatever__input {
       flex: 0 0 auto;
       border: 1px solid $link-color;
       border-radius: 4px;
@@ -121,11 +159,11 @@ $item-border-color: #eee;
     .search-header {
       padding: 0 15px;
 
-      .react-autowhatever__container {
+      .xreact-autowhatever__container {
         max-height: calc(85vh - 50px);
       }
 
-      ul.react-autowhatever__items-list {
+      ul.xreact-autowhatever__items-list {
         padding: 10px 16px;
         width: calc(100% + 32px);
         margin: 0 -16px;
@@ -142,7 +180,7 @@ $item-border-color: #eee;
       }
     }
 
-    .react-autowhatever__type-selector {
+    .xreact-autowhatever__type-selector {
       font-size: 13px;
 
       a {
@@ -185,9 +223,10 @@ $item-border-color: #eee;
     width: 660px;
   }
 
+
   .search-modal {
 
-    input[type="text"].react-autowhatever__input {
+    input[type="text"].xreact-autowhatever__input {
       width: calc(100% - 50px);
     }
 
@@ -204,7 +243,7 @@ $item-border-color: #eee;
         }
       }
 
-      .react-autowhatever__container {
+      .xreact-autowhatever__container {
         max-height: calc(85vh - 150px);
       }
 
@@ -219,14 +258,14 @@ $item-border-color: #eee;
   }
 }
 
-.react-autowhatever__items-container {
+.xreact-autowhatever__items-container {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
 }
 
 
-.react-autowhatever__container {
+.xreact-autowhatever__container {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -260,7 +299,7 @@ $item-border-color: #eee;
   }
 }
 
-.react-autowhatever__type-selector {
+.xreact-autowhatever__type-selector {
   font-size: $font-size-xxsmall;
   line-height: 1;
   display: flex;
@@ -336,14 +375,14 @@ ul.react-autowhatever__items-list {
   }
 }
 
-.react-autowhatever__item {
+.xreact-autowhatever__item {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
   letter-spacing: $search-result-text-letter-spacing;
   padding: 0;
 }
 
-.react-autowhatever__item--highlighted {
+.react-autosuggest__suggestion--highlighted {
   color: $search-result-text-highlight-color;
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
@@ -355,7 +394,7 @@ ul.react-autowhatever__items-list {
   padding: 0px 0 5px 0;
   margin: 0;
   cursor: pointer;
-  height: 1.9em;
+  //height: 1.9em;
   overflow-x: hidden;
   white-space: nowrap;
 }
@@ -364,12 +403,23 @@ ul.react-autowhatever__items-list {
   margin-right: 4px;
   fill: $search-result-icon-color;
 }
+.autosuggestIcon {
+  color: $medium-gray;
+  padding: 0 0.6em;
+  font-size: $font-size-large;
+
+  svg.havePosition {
+    vertical-align: -0.15em;
+  }
+
+}
 
 .search-result {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  line-height: 1.2;
-  min-height: 2.5em;
+  //line-height: 1.2;
+  //min-height: 2.5em;
 
 
   .havePosition {
@@ -382,17 +432,6 @@ ul.react-autowhatever__items-list {
 
   .search-position {
     color: $primary-color;
-  }
-
-  .autosuggestIcon {
-    color: $medium-gray;
-    padding: 0 0.6em;
-    font-size: $font-size-large;
-
-    svg.havePosition {
-      vertical-align: -0.15em;
-    }
-
   }
 
   &.favourite svg.icon {
@@ -529,19 +568,7 @@ div.search-modal {
   left: 0px;
   bottom: 0px;
 
-  input[type="text"].react-autowhatever__input {
-    border: 1px solid $gray;
-    border-radius: 4px;
-    height: $search-form-input-height;
-    padding: 10px;
-    outline: 0;
-    appearance: none;
 
-    &:focus {
-      box-shadow: none;
-      border-color: $link-color;
-    }
-  }
 }
 
 div.map {
