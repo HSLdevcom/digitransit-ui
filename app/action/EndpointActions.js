@@ -10,7 +10,9 @@ export function storeEndpoint(actionContext, { target, endpoint }, done) {
     },
   });
 
-  return done();
+  if (done !== undefined) {
+    done();
+  }
 }
 
 export function storeEndpointIfNotCurrent(
@@ -31,18 +33,11 @@ export function storeEndpointIfNotCurrent(
 }
 
 export function setEndpoint(actionContext, payload) {
-  return actionContext.executeAction(storeEndpoint, payload, e => {
+  actionContext.executeAction(storeEndpoint, payload, e => {
     if (e) {
-      // Todo: Show there shrow instead
-      return console.error('Could not store endpoint: ', e);
+      // Todo: Show error to user instead
+      console.error('Could maybe not store endpoint: ', e);
     }
-
-    return actionContext.executeAction(route, payload, e2 => {
-      if (e2) {
-        return console.error('Could not route:', e2);
-      }
-      return undefined;
-    });
   });
 }
 
@@ -56,9 +51,8 @@ export function swapEndpoints(actionContext, payload) {
 
   return actionContext.executeAction(route, payload, e => {
     if (e) {
-      return console.error('Could not route:', e);
+      console.error('Could not route:', e);
     }
-    return undefined;
   });
 }
 
