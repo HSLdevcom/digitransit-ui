@@ -1,9 +1,19 @@
 import Store from 'fluxible/addons/BaseStore';
 
+/* Stores the user selections for the origin and destination (endpoint).
+ * One of them can optionally and be set to track the current geolocation.
+ * Endpoint is object with following properties;
+ *
+ * {
+ *   useCurrentPosition: currentPosition means the endpoint should track
+                         the GPS position from the browser, boolean
+ *   userSetPosition: did the user set the position, boolean,
+ *   lat: coordinte, number
+ *   lon: coordinate, number
+ *   address: textual presentation of address, string
+ * }
+ */
 class EndpointStore extends Store {
-  // Store the user selections for the origin and destination.
-  // Both can optionally be set to track the current geolocation.
-
   static storeName = 'EndpointStore';
 
   constructor(dispatcher) {
@@ -16,6 +26,21 @@ class EndpointStore extends Store {
   isCurrentPositionInUse() {
     return (
       this.origin.useCurrentPosition || this.destination.useCurrentPosition
+    );
+  }
+
+  isOriginSet() {
+    const origin = this.origin;
+    return (
+      origin.useCurrentPosition === true || origin.userSetPosition === true
+    );
+  }
+
+  isDestinationSet() {
+    const destination = this.destination;
+    return (
+      destination.useCurrentPosition === true ||
+      destination.userSetPosition === true
     );
   }
 
@@ -118,9 +143,8 @@ class EndpointStore extends Store {
     this.destination = data.destination;
   }
 
-  setEndpoint(props) {
-    const { target, value } = props;
-
+  setEndpoint({ target, value }) {
+    console.log('store setting endpoint', target, value);
     if (target === 'destination') {
       this.setDestination(value);
     } else {
@@ -128,9 +152,7 @@ class EndpointStore extends Store {
     }
   }
 
-  setEndpointIfNotCurrent(props) {
-    const { target, value } = props;
-
+  setEndpointIfNotCurrent({ target, value }) {
     if (target === 'destination') {
       if (!this.destination.useCurrentPosition) {
         this.setDestination(value);
