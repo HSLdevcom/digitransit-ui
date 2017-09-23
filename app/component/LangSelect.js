@@ -7,7 +7,7 @@ import { setLanguage } from '../action/userPreferencesActions';
 const selectLanguage = (executeAction, lang) => () =>
   executeAction(setLanguage, lang);
 
-const language = (lang, currentLanguage, highlight, executeAction) =>
+const language = (lang, currentLanguage, highlight, executeAction) => (
   <button
     id={`lang-${lang}`}
     key={lang}
@@ -15,18 +15,20 @@ const language = (lang, currentLanguage, highlight, executeAction) =>
     onClick={selectLanguage(executeAction, lang)}
   >
     {lang}
-  </button>;
+  </button>
+);
 
-const LangSelect = ({ currentLanguage }, { executeAction, config }) =>
+const LangSelect = ({ currentLanguage }, { executeAction, config }) => (
   <div key="lang-select" id="lang-select">
     {config.availableLanguages.map(lang =>
       language(lang, currentLanguage, lang === currentLanguage, executeAction),
     )}
-  </div>;
+  </div>
+);
 
 LangSelect.displayName = 'LangSelect';
 
-LangSelect.description = () =>
+LangSelect.description = () => (
   <div>
     <p>Language selection component, language selection comes from config.</p>
     <ComponentUsageExample description="">
@@ -34,7 +36,8 @@ LangSelect.description = () =>
         <LangSelect currentLanguage="en" />
       </div>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 LangSelect.propTypes = {
   currentLanguage: PropTypes.string.isRequired,

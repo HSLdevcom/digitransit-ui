@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const ExternalLinkDecoration = ({ className }) =>
+const ExternalLinkDecoration = ({ className }) => (
   <svg
     viewBox="0 0 40 40"
     className={cx('icon', 'external-link-decoration', className)}
@@ -19,9 +19,10 @@ const ExternalLinkDecoration = ({ className }) =>
       y="0"
       x="4"
     />
-  </svg>;
+  </svg>
+);
 
-ExternalLinkDecoration.description = () =>
+ExternalLinkDecoration.description = () => (
   <ComponentUsageExample description="Bus with caution">
     <div
       className="external-top-bar"
@@ -34,7 +35,8 @@ ExternalLinkDecoration.description = () =>
     >
       <ExternalLinkDecoration />
     </div>
-  </ComponentUsageExample>;
+  </ComponentUsageExample>
+);
 
 ExternalLinkDecoration.displayName = 'IconWithCaution';
 

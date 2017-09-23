@@ -21,10 +21,11 @@ const FakeSearchBar = ({
   className,
   endpointAddress,
   placeholder,
-}) =>
+}) => (
   <div id={id} className={cx('input-placeholder', className)}>
     {inputOrPlaceholder(endpointAddress, placeholder, onClick)}
-  </div>;
+  </div>
+);
 
 FakeSearchBar.propTypes = {
   className: PropTypes.string,

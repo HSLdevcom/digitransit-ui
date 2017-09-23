@@ -8,22 +8,24 @@ import RouteNumber from './RouteNumber';
 export default function RouteHeader(props) {
   const mode = props.route.mode.toLowerCase();
 
-  const trip = props.trip
-    ? <span className="route-header-trip">
-        {props.trip.substring(0, 2)}:{props.trip.substring(2, 4)} →
-      </span>
-    : '';
+  const trip = props.trip ? (
+    <span className="route-header-trip">
+      {props.trip.substring(0, 2)}:{props.trip.substring(2, 4)} →
+    </span>
+  ) : (
+    ''
+  );
 
   const routeLineText = ` ${props.route.shortName || ''}`;
 
   const routeLine =
-    props.trip && props.pattern
-      ? <Link
-          to={`/linjat/${props.route.gtfsId}/pysakit/${props.pattern.code}`}
-        >
-          {routeLineText}
-        </Link>
-      : routeLineText;
+    props.trip && props.pattern ? (
+      <Link to={`/linjat/${props.route.gtfsId}/pysakit/${props.pattern.code}`}>
+        {routeLineText}
+      </Link>
+    ) : (
+      routeLineText
+    );
 
   return (
     <div className={cx('route-header', props.className)}>

@@ -31,16 +31,16 @@ class MessageBar extends Component {
   };
 
   getTabContent = () =>
-    this.unreadMessages().map(el =>
+    this.unreadMessages().map(el => (
       <MessageBarMessage
         key={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang]}
-      />,
-    );
+      />
+    ));
 
   getTabs = () =>
-    this.unreadMessages().map((el, i) =>
+    this.unreadMessages().map((el, i) => (
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
@@ -71,8 +71,8 @@ class MessageBar extends Component {
           fontSize: '18px',
           padding: '0px',
         }}
-      />,
-    );
+      />
+    ));
 
   maximize = () => {
     this.setState({

@@ -12,7 +12,7 @@ const IconWithTail = ({
   children,
   desaturate = false,
   scrollIntoView = false,
-}) =>
+}) => (
   <span>
     <svg
       id={id}
@@ -20,12 +20,13 @@ const IconWithTail = ({
       className={cx('icon', 'tail-icon', className)}
       ref={el => scrollIntoView && el && el.scrollIntoView()}
     >
-      {rotate !== undefined &&
+      {rotate !== undefined && (
         <use
           filter={desaturate && 'url(#desaturate)'}
           xlinkHref="#icon-icon_vehicle-live-shadow"
           transform={`rotate(${rotate} 40 40)`}
-        />}
+        />
+      )}
       <use
         filter={desaturate && 'url(#desaturate)'}
         xlinkHref={`#${img}`}
@@ -33,7 +34,8 @@ const IconWithTail = ({
       />
       {children}
     </svg>
-  </span>;
+  </span>
+);
 
 /** Leaflet needs html as string */
 export const asString = props => {
@@ -46,7 +48,7 @@ export const asString = props => {
 
 IconWithTail.displayName = 'IconWithTail';
 
-IconWithTail.description = () =>
+IconWithTail.description = () => (
   <div>
     <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
@@ -61,7 +63,8 @@ IconWithTail.description = () =>
     <ComponentUsageExample description="no tail">
       <IconWithTail desaturate img="icon-icon_bus-live" />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 IconWithTail.propTypes = {
   id: PropTypes.string,

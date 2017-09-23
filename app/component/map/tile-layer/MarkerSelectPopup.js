@@ -62,9 +62,7 @@ function MarkerSelectPopup(props) {
         <FormattedMessage id="choose-stop" defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
-      <div className="scrollable momentum-scroll card-row">
-        {rows}
-      </div>
+      <div className="scrollable momentum-scroll card-row">{rows}</div>
     </div>
   );
 }

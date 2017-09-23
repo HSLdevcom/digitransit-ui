@@ -66,7 +66,7 @@ export default class GenericMarker extends React.Component {
 
   onMapMove = () => this.forceUpdate();
 
-  getMarker = () =>
+  getMarker = () => (
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.context.map.getZoom())}
@@ -80,7 +80,8 @@ export default class GenericMarker extends React.Component {
       >
         {this.props.children}
       </Popup>
-    </Marker>;
+    </Marker>
+  );
 
   getNameMarker() {
     if (

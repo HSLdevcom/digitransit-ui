@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const RouteInformation = () =>
+const RouteInformation = () => (
   <div className="itinerary-route-information row">
     <div className="small-6 columns">
       <FormattedMessage
@@ -15,6 +15,7 @@ const RouteInformation = () =>
         defaultMessage="CO2 emissions of the journey"
       />
     </div>
-  </div>;
+  </div>
+);
 
 export default RouteInformation;

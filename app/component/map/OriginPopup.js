@@ -55,9 +55,7 @@ class OriginPopup extends React.Component {
             <Icon className="icon-edit" img="icon-icon_edit" />
           </div>
           <div>
-            <div className="origin-popup-name">
-              {this.props.text}
-            </div>
+            <div className="origin-popup-name">{this.props.text}</div>
             <div className="shade-to-white" />
           </div>
         </div>

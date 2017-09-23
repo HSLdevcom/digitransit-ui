@@ -15,7 +15,10 @@ export default function getSelector(mode) {
             // A bug in minifier messes the selectors in production mode...
             if (
               ref &&
-              ref.split(',').map(s => s.trim()).indexOf(selector) > -1
+              ref
+                .split(',')
+                .map(s => s.trim())
+                .indexOf(selector) > -1
             ) {
               return document.styleSheets[index].cssRules[index2];
             }

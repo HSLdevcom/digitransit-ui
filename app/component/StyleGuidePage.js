@@ -336,9 +336,7 @@ function getTextStyles() {
     <section>
       <p>
         <a>This is a link</a>
-        <span className="code">
-          {'<a />'}
-        </span>
+        <span className="code">{'<a />'}</span>
       </p>
       <p>
         <span className="dotted-link cursor-pointer">
@@ -371,9 +369,7 @@ function getIcon(id) {
   return (
     <div key={id}>
       <Icon img={id} />
-      <span className="code">
-        {id}
-      </span>
+      <span className="code">{id}</span>
       <br />
     </div>
   );
@@ -515,11 +511,11 @@ function getHelpers() {
 }
 
 function getComponents() {
-  return Object.keys(components).map(component =>
+  return Object.keys(components).map(component => (
     <div key={component}>
       <ComponentDocumentation component={components[component]} />
-    </div>,
-  );
+    </div>
+  ));
 }
 
 function StyleGuidePage(props) {

@@ -5,19 +5,20 @@ import Icon from './Icon';
 import ExternalLinkDecoration from './ExternalLinkDecoration';
 
 const ExternalLink = ({ name, children, href, className }) =>
-  (name || children !== undefined) &&
-  <span className={className}>
-    <span className="external-link-container">
-      <a
-        onClick={e => e.stopPropagation()}
-        className="external-link"
-        href={href}
-      >
-        {name || children}
-      </a>
-      <ExternalLinkDecoration />
+  (name || children !== undefined) && (
+    <span className={className}>
+      <span className="external-link-container">
+        <a
+          onClick={e => e.stopPropagation()}
+          className="external-link"
+          href={href}
+        >
+          {name || children}
+        </a>
+        <ExternalLinkDecoration />
+      </span>
     </span>
-  </span>;
+  );
 
 ExternalLink.propTypes = {
   name: PropTypes.string,
@@ -31,7 +32,7 @@ ExternalLink.defaultProps = {
 
 ExternalLink.displayName = 'ExternalLink';
 
-ExternalLink.description = () =>
+ExternalLink.description = () => (
   <div>
     <p>Link to external url</p>
     <ComponentUsageExample description="with text only">
@@ -50,6 +51,7 @@ ExternalLink.description = () =>
         </ExternalLink>
       </span>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default ExternalLink;

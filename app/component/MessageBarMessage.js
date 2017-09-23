@@ -3,11 +3,7 @@ import React from 'react';
 
 const heading = e => {
   if (e.type === 'heading') {
-    return (
-      <h2>
-        {e.content}
-      </h2>
-    );
+    return <h2>{e.content}</h2>;
   }
   return null;
 };
@@ -21,11 +17,7 @@ const span = e => {
 
 const a = e => {
   if (e.type === 'a') {
-    return (
-      <a href={e.href}>
-        {e.content}
-      </a>
-    );
+    return <a href={e.href}>{e.content}</a>;
   }
   return null;
 };
@@ -38,11 +30,12 @@ const renderContent = content =>
 /*
  * Renders message
  */
-const MessageBarMessage = ({ key, content, onMaximize }) =>
+const MessageBarMessage = ({ key, content, onMaximize }) => (
   // TOOD: find out how this should be accessible
   <div tabIndex={0} role="button" key={key} onClick={onMaximize}>
     {renderContent(content)}
-  </div>;
+  </div>
+);
 
 MessageBarMessage.propTypes = {
   key: PropTypes.string.isRequired,

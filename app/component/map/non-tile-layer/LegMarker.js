@@ -83,10 +83,6 @@ export default class LegMarker extends React.Component {
     const distance = p1.distanceTo(p2);
     const minDistanceToShow = 64;
 
-    return (
-      <div>
-        {distance >= minDistanceToShow && this.getLegMarker()}
-      </div>
-    );
+    return <div>{distance >= minDistanceToShow && this.getLegMarker()}</div>;
   }
 }

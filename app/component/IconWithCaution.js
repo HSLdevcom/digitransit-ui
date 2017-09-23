@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithCaution = props =>
+const IconWithCaution = props => (
   <svg
     id={props.id}
     viewBox="0 0 40 40"
@@ -16,12 +16,14 @@ const IconWithCaution = props =>
       y="30"
       style={{ color: 'white', fill: 'red' }}
     />
-  </svg>;
+  </svg>
+);
 
-IconWithCaution.description = () =>
+IconWithCaution.description = () => (
   <ComponentUsageExample description="Bus with caution">
     <IconWithCaution className="bus" img={'icon-icon_bus'} />
-  </ComponentUsageExample>;
+  </ComponentUsageExample>
+);
 
 IconWithCaution.displayName = 'IconWithCaution';
 

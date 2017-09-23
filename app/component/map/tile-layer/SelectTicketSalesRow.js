@@ -25,13 +25,14 @@ function SelectTicketSalesRow(props) {
 
 SelectTicketSalesRow.displayName = 'SelectTicketSalesRow';
 
-SelectTicketSalesRow.description = () =>
+SelectTicketSalesRow.description = () => (
   <div>
     <p>Renders a select ticket sales row</p>
     <ComponentUsageExample description="">
       <SelectTicketSalesRow selectRow={() => {}} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 SelectTicketSalesRow.propTypes = {
   selectRow: PropTypes.func.isRequired,

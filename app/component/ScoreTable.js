@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import ComponentUsageExample from './ComponentUsageExample';
 import GenericTable from './GenericTable';
 
-const Column = ({ i, columnWidth, handleClick, selectedScore }) =>
+const Column = ({ i, columnWidth, handleClick, selectedScore }) => (
   <div
     className={cx('score-table-column', {
       'selected-score': i === selectedScore,
@@ -14,7 +14,8 @@ const Column = ({ i, columnWidth, handleClick, selectedScore }) =>
     onClick={handleClick.bind(this, i)} // eslint-disable-line react/jsx-no-bind
   >
     {i}
-  </div>;
+  </div>
+);
 
 Column.propTypes = {
   i: PropTypes.number.isRequired,
@@ -26,15 +27,15 @@ Column.propTypes = {
 function ScoreTable(props) {
   const columnWidth = 100 / (props.highestScore - props.lowestScore + 1);
 
-  const columns = range(props.lowestScore, props.highestScore + 1).map(i =>
+  const columns = range(props.lowestScore, props.highestScore + 1).map(i => (
     <Column
       i={i}
       key={i}
       columnWidth={columnWidth}
       selectedScore={props.selectedScore}
       handleClick={props.handleClick}
-    />,
-  );
+    />
+  ));
 
   return (
     <GenericTable
@@ -49,18 +50,20 @@ function ScoreTable(props) {
 
 ScoreTable.displayName = 'ScoreTable';
 
-ScoreTable.description = () =>
+ScoreTable.description = () => (
   <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description="">
       <ScoreTable lowestScore={0} highestScore={5} handleClick={() => {}} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 ScoreTable.propTypes = {
   lowestScore: PropTypes.number.isRequired,
   highestScore: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
+  selectedScore: PropTypes.number,
   showLabels: PropTypes.bool,
   lowEndLabel: PropTypes.object,
   highEndLabel: PropTypes.object,

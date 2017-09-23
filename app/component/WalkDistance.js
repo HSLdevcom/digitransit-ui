@@ -18,9 +18,7 @@ function WalkDistance(props) {
   return (
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
       <Icon img={icon} />
-      <span className="walk-distance">
-        &nbsp;{walkDistance}
-      </span>
+      <span className="walk-distance">&nbsp;{walkDistance}</span>
     </span>
   );
 }

@@ -170,11 +170,7 @@ class ItineraryLine extends React.Component {
       }
     });
 
-    return (
-      <div style={{ display: 'none' }}>
-        {objs}
-      </div>
-    );
+    return <div style={{ display: 'none' }}>{objs}</div>;
   }
 }
 

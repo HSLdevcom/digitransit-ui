@@ -27,7 +27,7 @@ const CityBikeAvailability = mapProps(
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';
 
-CityBikeAvailability.description = () =>
+CityBikeAvailability.description = () => (
   <div>
     <p>Renders information about citybike availability</p>
     <ComponentUsageExample description="">
@@ -37,7 +37,8 @@ CityBikeAvailability.description = () =>
         fewAvailableCount={3}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 CityBikeAvailability.propTypes = {
   bikesAvailable: PropTypes.number.isRequired,

@@ -5,14 +5,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import { openFeedbackModal } from '../action/feedbackActions';
 
-const mapToLink = (href, children) =>
+const mapToLink = (href, children) => (
   <span className="cursor-pointer">
-    <a href={href}>
-      {children}
-    </a>
-  </span>;
+    <a href={href}>{children}</a>
+  </span>
+);
 
-const mapToFn = (fn, children) =>
+const mapToFn = (fn, children) => (
   <span className="cursor-pointer">
     <a
       onClick={() => {
@@ -22,9 +21,10 @@ const mapToFn = (fn, children) =>
     >
       {children}
     </a>
-  </span>;
+  </span>
+);
 
-const mapToRoute = (router, route, children) =>
+const mapToRoute = (router, route, children) => (
   <button
     className="noborder button cursor-pointer"
     onClick={() => {
@@ -32,7 +32,8 @@ const mapToRoute = (router, route, children) =>
     }}
   >
     {children}
-  </button>;
+  </button>
+);
 
 const getFuntionForType = (type, executeAction) => {
   switch (type) {
@@ -49,8 +50,9 @@ const FooterItem = (
 ) => {
   const displayIcon =
     (icon && <Icon className="footer-icon" img={icon} />) || undefined;
-  const displayLabel =
-    label || <FormattedMessage id={name} defaultMessage={nameEn || name} />;
+  const displayLabel = label || (
+    <FormattedMessage id={name} defaultMessage={nameEn || name} />
+  );
   let item = (
     <span id={name}>
       {displayIcon}
@@ -64,17 +66,9 @@ const FooterItem = (
   } else if (route) {
     item = mapToRoute(router, route, item);
   } else {
-    item = (
-      <span className="footer-text">
-        {item}
-      </span>
-    );
+    item = <span className="footer-text">{item}</span>;
   }
-  return (
-    <span className="footer-item">
-      {item}
-    </span>
-  );
+  return <span className="footer-item">{item}</span>;
 };
 
 FooterItem.propTypes = {
@@ -98,7 +92,7 @@ FooterItem.defaultProps = {
 
 FooterItem.displayName = 'FooterItem';
 
-FooterItem.description = () =>
+FooterItem.description = () => (
   <div>
     <p>Front page footer item</p>
     <ComponentUsageExample description="external">
@@ -107,6 +101,7 @@ FooterItem.description = () =>
     <ComponentUsageExample description="with icon">
       <FooterItem icon="icon-icon_speech-bubble" name="Feedback" route="/" />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default FooterItem;

@@ -16,7 +16,7 @@ const StopPageActionBar = ({
   selectedDate,
   onDateChange,
 }) =>
-  (printUrl &&
+  (printUrl && (
     <div id="stop-page-action-bar">
       <DateSelect
         startDate={startDate}
@@ -33,7 +33,8 @@ const StopPageActionBar = ({
           smallSize
         />
       </div>
-    </div>) ||
+    </div>
+  )) ||
   null;
 
 StopPageActionBar.displayName = 'StopPageActionBar';

@@ -32,18 +32,14 @@ function RouteScheduleHeader({
         <Icon img="icon-icon_mapMarker-point" />
       </div>
       <div className="printable-stop-header_from">
-        <span>
-          {fromDisplayName}
-        </span>
+        <span>{fromDisplayName}</span>
       </div>
       <div className="printable-stop-header_line" />
       <div className="printable-stop-header_icon-to">
         <Icon img="icon-icon_mapMarker-point" />
       </div>
       <div className="printable-stop-header_to">
-        <span>
-          {toDisplayName}
-        </span>
+        <span>{toDisplayName}</span>
       </div>
     </div>
   );
@@ -78,7 +74,7 @@ RouteScheduleHeader.propTypes = {
 
 RouteScheduleHeader.displayName = 'RouteScheduleHeader';
 
-RouteScheduleHeader.description = () =>
+RouteScheduleHeader.description = () => (
   <div>
     <p>Display a route schedule header using react components</p>
     <ComponentUsageExample>
@@ -90,6 +86,7 @@ RouteScheduleHeader.description = () =>
         onToSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default RouteScheduleHeader;

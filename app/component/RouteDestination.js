@@ -20,11 +20,7 @@ function RouteDestination(props, context) {
       </span>
     );
   } else {
-    destination = (
-      <span className="destination">
-        {props.destination}
-      </span>
-    );
+    destination = <span className="destination">{props.destination}</span>;
   }
 
   return (
@@ -34,7 +30,7 @@ function RouteDestination(props, context) {
   );
 }
 
-RouteDestination.description = () =>
+RouteDestination.description = () => (
   <div>
     <p>Display the destination of the route (headsign)</p>
     <ComponentUsageExample>
@@ -54,7 +50,8 @@ RouteDestination.description = () =>
         isArrival
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 RouteDestination.propTypes = {
   mode: PropTypes.string,

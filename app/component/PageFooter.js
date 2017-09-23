@@ -3,16 +3,19 @@ import React from 'react';
 import ComponentUsageExample from './ComponentUsageExample';
 import FooterItem from './FooterItem';
 
-const PageFooter = ({ content }) =>
+const PageFooter = ({ content }) => (
   <div id="page-footer">
     {content.map(
       (link, i) =>
-        Object.keys(link).length === 0
-          ? // eslint-disable-next-line react/no-array-index-key
-            <span className="footer-separator" key={i} />
-          : <FooterItem key={link.label || link.name} {...link} />,
+        Object.keys(link).length === 0 ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <span className="footer-separator" key={i} />
+        ) : (
+          <FooterItem key={link.label || link.name} {...link} />
+        ),
     )}
-  </div>;
+  </div>
+);
 
 PageFooter.propTypes = {
   content: PropTypes.arrayOf(PropTypes.shape(FooterItem.propTypes)),
@@ -24,7 +27,7 @@ PageFooter.defaultProps = {
 
 PageFooter.displayName = 'PageFooter';
 
-PageFooter.description = () =>
+PageFooter.description = () => (
   <div>
     <p>Front page footer for large display</p>
     <ComponentUsageExample description="">
@@ -38,6 +41,7 @@ PageFooter.description = () =>
         ]}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default PageFooter;
