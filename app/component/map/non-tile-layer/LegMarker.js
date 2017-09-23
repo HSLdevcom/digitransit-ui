@@ -4,7 +4,7 @@ import { isBrowser } from '../../../util/browser';
 
 /* eslint-disable global-require */
 
-const Marker = isBrowser && require('react-leaflet/lib/Marker').default;
+const Marker = isBrowser && require('react-leaflet/es/Marker').default;
 const L = isBrowser && require('leaflet');
 
 /* eslint-enable global-require */

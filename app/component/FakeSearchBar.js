@@ -10,6 +10,7 @@ const inputOrPlaceholder = (value, placeholder, onClick) => {
       onKeyPress={onClick}
       className={`no-select address-${hasInput ? 'input' : 'placeholder'}`}
       value={hasInput ? value : placeholder}
+      readOnly
     />
   );
 };

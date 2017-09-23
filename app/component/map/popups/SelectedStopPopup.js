@@ -3,7 +3,7 @@ import React from 'react';
 
 import { isBrowser } from '../../../util/browser';
 
-const Popup = isBrowser ? require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
 
 class SelectedStopPopup extends React.Component {
   static propTypes = {

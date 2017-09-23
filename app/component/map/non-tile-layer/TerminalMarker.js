@@ -19,7 +19,7 @@ let L;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  Circle = require('react-leaflet/lib/Circle').default;
+  Circle = require('react-leaflet/es/Circle').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */

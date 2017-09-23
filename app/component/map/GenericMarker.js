@@ -13,8 +13,8 @@ let L;
 //      these need to be loaded only when isBrowser is true.
 //      Perhaps still using the require from webpack?
 if (isBrowser) {
-  Marker = require('react-leaflet/lib/Marker').default;
-  Popup = require('react-leaflet/lib/Popup').default;
+  Marker = require('react-leaflet/es/Marker').default;
+  Popup = require('react-leaflet/es/Popup').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */

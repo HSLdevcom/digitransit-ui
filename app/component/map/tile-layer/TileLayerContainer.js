@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import Popup from 'react-leaflet/lib/Popup';
+import Popup from 'react-leaflet/es/Popup';
 import { intlShape } from 'react-intl';
-import GridLayer from 'react-leaflet/lib/GridLayer';
+import GridLayer from 'react-leaflet/es/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
