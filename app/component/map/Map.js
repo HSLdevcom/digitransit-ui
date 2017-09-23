@@ -21,11 +21,11 @@ let ZoomControl;
 let L;
 
 if (isBrowser) {
-  LeafletMap = require('react-leaflet/lib/Map').default;
-  TileLayer = require('react-leaflet/lib/TileLayer').default;
-  AttributionControl = require('react-leaflet/lib/AttributionControl').default;
-  ScaleControl = require('react-leaflet/lib/ScaleControl').default;
-  ZoomControl = require('react-leaflet/lib/ZoomControl').default;
+  LeafletMap = require('react-leaflet/es/Map').default;
+  TileLayer = require('react-leaflet/es/TileLayer').default;
+  AttributionControl = require('react-leaflet/es/AttributionControl').default;
+  ScaleControl = require('react-leaflet/es/ScaleControl').default;
+  ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');

@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
-const Popup = isBrowser ? require('react-leaflet/lib/Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
 
 class OriginPopup extends React.Component {
   static contextTypes = {
