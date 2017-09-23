@@ -25,7 +25,7 @@ class StopPageContainerRoute extends Route {
   static routeName = 'StopPageContainerRoute';
 }
 
-const StopPageRootContainer = routeProps =>
+const StopPageRootContainer = routeProps => (
   <Relay.Renderer
     Container={StopPageContentContainer}
     queryConfig={
@@ -36,14 +36,17 @@ const StopPageRootContainer = routeProps =>
     }
     environment={Relay.Store}
     render={({ props, done }) =>
-      done
-        ? <StopPageContentContainer
-            {...props}
-            initialDate={initialDate}
-            setDate={routeProps.setDate}
-          />
-        : undefined}
-  />;
+      done ? (
+        <StopPageContentContainer
+          {...props}
+          initialDate={initialDate}
+          setDate={routeProps.setDate}
+        />
+      ) : (
+        undefined
+      )}
+  />
+);
 
 const StopPageContainerWithState = withState('date', 'setDate', initialDate)(
   StopPageRootContainer,
@@ -53,7 +56,9 @@ export default connectToStores(
   StopPageContainerWithState,
   ['TimeStore', 'FavouriteStopsStore'],
   ({ getStore }) => ({
-    startTime: getStore('TimeStore').getCurrentTime().unix(),
+    startTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
     timeRange: 3600 * 12,
     numberOfDepartures: 100,
   }),

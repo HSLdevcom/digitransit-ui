@@ -61,9 +61,7 @@ class Slider extends React.Component {
     let showWrittenValue;
     if (this.props.writtenValue) {
       showWrittenValue = (
-        <div className="sub-header-h5 right">
-          {this.props.writtenValue}
-        </div>
+        <div className="sub-header-h5 right">{this.props.writtenValue}</div>
       );
     }
 
@@ -80,9 +78,7 @@ class Slider extends React.Component {
       >
         <div className="slider-container-headers">
           <div className="left">
-            <h4>
-              {this.props.headerText}
-            </h4>
+            <h4>{this.props.headerText}</h4>
           </div>
           {showWrittenValue}
         </div>
@@ -101,12 +97,8 @@ class Slider extends React.Component {
           }}
           value={this.props.value}
         />
-        <span className="sub-header-h5 left">
-          {this.props.minText}
-        </span>
-        <span className="sub-header-h5 right">
-          {this.props.maxText}
-        </span>
+        <span className="sub-header-h5 left">{this.props.minText}</span>
+        <span className="sub-header-h5 right">{this.props.maxText}</span>
       </div>
     );
   }

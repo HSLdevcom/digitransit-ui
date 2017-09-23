@@ -6,7 +6,7 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const RailLeg = ({ leg, focusAction, index }) =>
+const RailLeg = ({ leg, focusAction, index }) => (
   <TransitLeg mode="RAIL" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="rail-with-route-number"
@@ -16,7 +16,8 @@ const RailLeg = ({ leg, focusAction, index }) =>
       }}
       defaultMessage="Train {routeNumber} {headSign}"
     />
-  </TransitLeg>;
+  </TransitLeg>
+);
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -35,7 +36,11 @@ const exampleLeg = t1 => ({
 });
 
 RailLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary rail leg.</p>

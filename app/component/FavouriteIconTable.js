@@ -10,7 +10,7 @@ const FavouriteIconTable = ({
   selectedIconId,
   handleClick,
 }) => {
-  const columns = favouriteIconIds.map(value =>
+  const columns = favouriteIconIds.map(value => (
     <button
       key={value}
       className={cx('favourite-icon-table-column', {
@@ -19,25 +19,22 @@ const FavouriteIconTable = ({
       onClick={() => handleClick(value)}
     >
       <Icon img={value} />
-    </button>,
-  );
+    </button>
+  ));
 
-  return (
-    <GenericTable showLabels={false}>
-      {columns}
-    </GenericTable>
-  );
+  return <GenericTable showLabels={false}>{columns}</GenericTable>;
 };
 
 FavouriteIconTable.displayName = 'FavouriteIconTable';
 
-FavouriteIconTable.description = () =>
+FavouriteIconTable.description = () => (
   <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description="">
       <FavouriteIconTable handleClick={() => {}} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,

@@ -38,7 +38,7 @@ const CityBikeCard = ({
   );
 };
 
-CityBikeCard.description = () =>
+CityBikeCard.description = () => (
   <div>
     <p>Renders a citybike card with header and child props as content</p>
     <ComponentUsageExample description="Basic">
@@ -56,7 +56,8 @@ CityBikeCard.description = () =>
         Im content of the favourite citybike card
       </CityBikeCard>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 CityBikeCard.displayName = 'CityBikeCard';
 

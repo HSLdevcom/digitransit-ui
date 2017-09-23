@@ -40,7 +40,7 @@ export default function StopMarkerContainer(
           agency: config.preferredAgency || null,
         })
       }
-      renderFetched={data =>
+      renderFetched={data => (
         <StopMarkerLayer
           {...data}
           hilightedStops={hilightedStops}
@@ -49,7 +49,8 @@ export default function StopMarkerContainer(
           maxLat={maxLat}
           maxLon={maxLon}
           agency={config.preferredAgency || null}
-        />}
+        />
+      )}
     />
   );
 }

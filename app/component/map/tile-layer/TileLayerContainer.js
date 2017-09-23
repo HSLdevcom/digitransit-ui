@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import Popup from 'react-leaflet/lib/Popup';
+import Popup from 'react-leaflet/es/Popup';
 import { intlShape } from 'react-intl';
-import GridLayer from 'react-leaflet/lib/GridLayer';
+import GridLayer from 'react-leaflet/es/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -115,7 +115,10 @@ class TileLayerContainer extends GridLayer {
 
   state = {
     ...initialState,
-    currentTime: this.context.getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   };
 
   componentWillMount() {
@@ -232,10 +235,11 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let contents;
 
-    const loadingPopup = () =>
+    const loadingPopup = () => (
       <div className="card" style={{ height: '12rem' }}>
         <Loading />
-      </div>;
+      </div>
+    );
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
@@ -257,8 +261,9 @@ class TileLayerContainer extends GridLayer {
                     })
               }
               renderLoading={this.state.showSpinner ? loadingPopup : undefined}
-              renderFetched={data =>
-                <StopMarkerPopupWithContext {...data} context={this.context} />}
+              renderFetched={data => (
+                <StopMarkerPopupWithContext {...data} context={this.context} />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
@@ -273,8 +278,9 @@ class TileLayerContainer extends GridLayer {
                 })
               }
               renderLoading={loadingPopup}
-              renderFetched={data =>
-                <CityBikePopupWithContext {...data} context={this.context} />}
+              renderFetched={data => (
+                <CityBikePopupWithContext {...data} context={this.context} />
+              )}
             />
           );
         } else if (
@@ -288,7 +294,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
               renderLoading={loadingPopup}
-              renderFetched={data =>
+              renderFetched={data => (
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
@@ -299,7 +305,8 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />}
+                />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -310,7 +317,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideFacilityRoute({ id })}
               renderLoading={loadingPopup}
-              renderFetched={data =>
+              renderFetched={data => (
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
@@ -321,7 +328,8 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />}
+                />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {

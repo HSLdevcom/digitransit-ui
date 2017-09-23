@@ -13,8 +13,8 @@ let L;
 //      these need to be loaded only when isBrowser is true.
 //      Perhaps still using the require from webpack?
 if (isBrowser) {
-  Marker = require('react-leaflet/lib/Marker').default;
-  Popup = require('react-leaflet/lib/Popup').default;
+  Marker = require('react-leaflet/es/Marker').default;
+  Popup = require('react-leaflet/es/Popup').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */
@@ -66,7 +66,7 @@ export default class GenericMarker extends React.Component {
 
   onMapMove = () => this.forceUpdate();
 
-  getMarker = () =>
+  getMarker = () => (
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
       icon={this.props.getIcon(this.context.map.getZoom())}
@@ -80,7 +80,8 @@ export default class GenericMarker extends React.Component {
       >
         {this.props.children}
       </Popup>
-    </Marker>;
+    </Marker>
+  );
 
   getNameMarker() {
     if (

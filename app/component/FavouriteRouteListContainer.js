@@ -52,7 +52,10 @@ const FavouriteRouteListContainer = connectToStores(
     const location = origin.useCurrentPosition ? position : origin;
 
     return {
-      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
       departures: getNextDepartures(routes, location.lat, location.lon),
     };
   },

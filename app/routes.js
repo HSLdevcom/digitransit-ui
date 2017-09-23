@@ -269,21 +269,24 @@ export default config => {
   return (
     <Route
       component={props =>
-        isBrowser
-          ? <ContainerDimensions>
-              <TopLevel {...props} />
-            </ContainerDimensions>
-          : <TopLevel {...props} />}
+        isBrowser ? (
+          <ContainerDimensions>
+            <TopLevel {...props} />
+          </ContainerDimensions>
+        ) : (
+          <TopLevel {...props} />
+        )}
     >
       <Route
         path="/"
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props =>
+          content: props => (
             <SplashOrChildren>
               <IndexPage {...props} />
-            </SplashOrChildren>,
+            </SplashOrChildren>
+          ),
         }}
       >
         <Route
@@ -308,10 +311,11 @@ export default config => {
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props =>
+          content: props => (
             <SplashOrChildren>
               <IndexPage {...props} />
-            </SplashOrChildren>,
+            </SplashOrChildren>
+          ),
         }}
       >
         <Route

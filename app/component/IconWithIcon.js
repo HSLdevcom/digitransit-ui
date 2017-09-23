@@ -17,18 +17,20 @@ const IconWithIcon = ({
   subIcon,
   subIconClassName,
   color,
-}) =>
+}) => (
   <span style={{ position: 'relative' }} id={id} className={className}>
     <span>
       <Icon color={color} img={img} />
     </span>
-    {subIcon &&
+    {subIcon && (
       <span className={subIconClassName} style={subIconTemplate}>
         <Icon img={subIcon} />
-      </span>}
-  </span>;
+      </span>
+    )}
+  </span>
+);
 
-IconWithIcon.description = () =>
+IconWithIcon.description = () => (
   <div>
     <ComponentUsageExample description="Bus with caution">
       <div style={{ paddingLeft: '5px' }}>
@@ -58,7 +60,8 @@ IconWithIcon.description = () =>
         />
       </div>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 IconWithIcon.displayName = 'IconWithIcon';
 

@@ -100,22 +100,24 @@ class RoutePage extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {this.props.route.type === 715 &&
-          <CallAgencyWarning route={this.props.route} />}
+        {this.props.route.type === 715 && (
+          <CallAgencyWarning route={this.props.route} />
+        )}
         <div className="tabs route-tabs">
           <nav
             className={cx('tabs-navigation', {
               'bp-large': this.context.breakpoint === 'large',
             })}
           >
-            {this.context.breakpoint === 'large' &&
+            {this.context.breakpoint === 'large' && (
               <RouteNumber
                 color={
                   this.props.route.color ? `#${this.props.route.color}` : null
                 }
                 mode={this.props.route.mode}
                 text={this.props.route.shortName}
-              />}
+              />
+            )}
             <a
               className={cx({ 'is-active': activeTab === 'pysakit' })}
               onClick={() => {
@@ -167,7 +169,7 @@ class RoutePage extends React.Component {
               gtfsId={this.props.route.gtfsId}
             />
           </nav>
-          {this.props.params.patternId &&
+          {this.props.params.patternId && (
             <RoutePatternSelect
               params={this.props.params}
               route={this.props.route}
@@ -175,7 +177,8 @@ class RoutePage extends React.Component {
               className={cx({
                 'bp-large': this.context.breakpoint === 'large',
               })}
-            />}
+            />
+          )}
           <RouteAgencyInfo route={this.props.route} />
         </div>
       </div>

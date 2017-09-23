@@ -6,25 +6,26 @@ import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) =>
+const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) => (
   <div>
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {showLogo && !config.textLogo
-          ? <div className="logo" />
-          : <span className="title">
-              {title}
-            </span>}
+        {showLogo && !config.textLogo ? (
+          <div className="logo" />
+        ) : (
+          <span className="title">{title}</span>
+        )}
       </section>
       <MainMenuContainer />
     </nav>
-  </div>;
+  </div>
+);
 
 AppBarSmall.displayName = 'AppBarSmall';
 
-AppBarSmall.description = () =>
+AppBarSmall.description = () => (
   <div>
     <p>AppBar of application for small display</p>
     <ComponentUsageExample description="">
@@ -45,7 +46,8 @@ AppBarSmall.description = () =>
         className="fullscreen"
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,

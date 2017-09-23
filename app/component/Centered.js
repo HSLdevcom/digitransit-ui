@@ -3,12 +3,11 @@ import React from 'react';
 
 import ComponentUsageExample from './ComponentUsageExample';
 
-const Centered = ({ children }) =>
+const Centered = ({ children }) => (
   <div className="centered">
-    <div className="centered--item">
-      {children}
-    </div>
-  </div>;
+    <div className="centered--item">{children}</div>
+  </div>
+);
 
 Centered.propTypes = {
   children: PropTypes.node.isRequired,
@@ -16,12 +15,13 @@ Centered.propTypes = {
 
 Centered.displayName = 'Centered';
 
-Centered.description = () =>
+Centered.description = () => (
   <div>
     <p>This component centers other components using flex.</p>
     <ComponentUsageExample description="basic">
       <Centered>Center this</Centered>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default Centered;

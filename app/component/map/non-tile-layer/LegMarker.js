@@ -4,7 +4,7 @@ import { isBrowser } from '../../../util/browser';
 
 /* eslint-disable global-require */
 
-const Marker = isBrowser && require('react-leaflet/lib/Marker').default;
+const Marker = isBrowser && require('react-leaflet/es/Marker').default;
 const L = isBrowser && require('leaflet');
 
 /* eslint-enable global-require */
@@ -83,10 +83,6 @@ export default class LegMarker extends React.Component {
     const distance = p1.distanceTo(p2);
     const minDistanceToShow = 64;
 
-    return (
-      <div>
-        {distance >= minDistanceToShow && this.getLegMarker()}
-      </div>
-    );
+    return <div>{distance >= minDistanceToShow && this.getLegMarker()}</div>;
   }
 }

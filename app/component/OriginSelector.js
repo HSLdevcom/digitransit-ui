@@ -10,7 +10,7 @@ import { getIcon } from '../util/suggestionUtils';
 const OriginSelectorRow = (
   { icon, label, lat, lon },
   { executeAction, router, location },
-) =>
+) => (
   <li>
     <button
       className="noborder"
@@ -26,7 +26,8 @@ const OriginSelectorRow = (
       <Icon className={`splash-icon ${icon}`} img={icon} />
       {label}
     </button>
-  </li>;
+  </li>
+);
 
 OriginSelectorRow.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -50,38 +51,34 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
     ).length === 0;
 
   const names = favourites
-    .map(f =>
+    .map(f => (
       <OriginSelectorRow
         key={`f-${f.locationName}`}
         icon={getIcon('favourite')}
         label={f.locationName}
         lat={f.lat}
         lon={f.lon}
-      />,
-    )
+      />
+    ))
     .concat(
       oldSearches
         .filter(notInFavourites)
-        .map(s =>
+        .map(s => (
           <OriginSelectorRow
             key={`o-${s.properties.label || s.properties.name}`}
             icon={getIcon(s.properties.layer)}
             label={s.properties.label || s.properties.name}
             lat={(s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
             lon={(s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
-          />,
-        ),
+          />
+        )),
     )
     .concat(
-      config.defaultOrigins.map(o =>
-        <OriginSelectorRow key={`o-${o.label}`} {...o} />,
-      ),
+      config.defaultOrigins.map(o => (
+        <OriginSelectorRow key={`o-${o.label}`} {...o} />
+      )),
     );
-  return (
-    <ul>
-      {names.slice(0, 3)}
-    </ul>
-  );
+  return <ul>{names.slice(0, 3)}</ul>;
 };
 
 OriginSelector.propTypes = {

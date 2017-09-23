@@ -46,9 +46,7 @@ class Modal extends React.Component {
           onClick={this.stopClickPropagation}
         >
           <div className="row">
-            <h2 className="left">
-              {this.props.title}
-            </h2>
+            <h2 className="left">{this.props.title}</h2>
             <div className="small-1 columns right text-right modal-top-nav">
               <a
                 onClick={this.props.toggleVisibility}
