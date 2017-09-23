@@ -283,6 +283,10 @@ $btn-heigth: 17px;
     margin-right: 4px;
     width: 1.1em;
   }
+
+  &.small {
+    padding: 0.7em $padding-medium;
+  }
 }
 
 .mobile {

@@ -16,6 +16,9 @@
 .stop-page.header {
   background-color: $background-color;
   @include font-bold;
+  @media print {
+    padding-left: 0;
+  }
 }
 
 .desktop .stop-page.header {
@@ -133,6 +136,10 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
     background-color: $background-color;
     border-top: 4px solid $background-color;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 .stop-tab-singletab-container {
@@ -223,6 +230,9 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
         margin-left: 0.5em;
         margin-right: 1.4em;
     }
+  }
+  @media print {
+    display: none;
   }
 }
 
@@ -431,8 +441,73 @@ hr.action-bar {
   max-width: 6em;
 }
 
+.timetable-topbar {
+  .secondary-button.print {
+    @media print {
+      display: none;
+    }
+  }
+}
+
 .timetable-options-panel {
   display: flex;
+}
+
+.timetable-for-printing-header {
+  display: none;
+  @media print {
+    display: block;
+    h1 {
+      font-size: 20px;
+      font-family: $font-family;
+    }
+  }
+}
+
+.print-button-container {
+  display: flex;
+    button {
+    margin-right: 1em;
+    margin-left: auto;
+    margin-bottom: $padding-medium;
+    }
+}
+
+.mobile {
+  .print-button-container {
+    display: none;
+  }
+}
+
+.timetable-for-printing {
+  display: none;
+  @media print {
+    display: block;
+    padding-top: $padding-medium;
+    padding-bottom: $padding-medium;
+    background: $white;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+
+    .printable-date-container {
+      display: flex;
+
+      .printable-date-icon {
+        margin-right: 0.8em;
+        svg {
+        width: 47.3px;
+        height: 42px;
+      }
+      }
+      .printable-date-header {
+        font-size: 14px;
+      }
+      .printable-date-content {
+         font-size: 20px;
+         font-weight: 700;
+      }
+    }
+  }
 }
 
 .timetable-showroutes {
@@ -449,6 +524,9 @@ hr.action-bar {
   width: 24px;
   height: 24px;
   }
+@media print {
+  margin-left: 0;
+}
 }
 
 .showroutes-header {

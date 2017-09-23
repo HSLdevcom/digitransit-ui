@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import DateSelect from './DateSelect';
-import PrintLink from './PrintLink';
+import SecondaryButton from './SecondaryButton';
 import Loading from './Loading';
+import Icon from './Icon';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -129,6 +130,30 @@ class RouteScheduleContainer extends Component {
     });
   };
 
+  dateForPrinting = () => {
+    const selectedDate = moment(this.props.relay.variables.serviceDay);
+    return (
+      <div className="printable-date-container">
+        <div className="printable-date-icon">
+          <Icon className="large-icon" img="icon-icon_schedule" />
+        </div>
+        <div className="printable-date-right">
+          <div className="printable-date-header">
+            <FormattedMessage id="date" defaultMessage="Date" />
+          </div>
+          <div className="printable-date-content">
+            {moment(selectedDate).format('dd DD.MM.YYYY')}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  printRouteTimetable = e => {
+    e.stopPropagation();
+    window.print();
+  };
+
   render() {
     return (
       <div className="route-schedule-content-wrapper">
@@ -139,9 +164,13 @@ class RouteScheduleContainer extends Component {
             dateFormat={DATE_FORMAT}
             onDateChange={this.changeDate}
           />
-          <PrintLink
-            className="action-bar"
-            href={this.props.pattern.route.url}
+          {this.dateForPrinting()}
+          <SecondaryButton
+            ariaLabel="print"
+            buttonName="print"
+            buttonClickAction={e => this.printRouteTimetable(e)}
+            buttonIcon="icon-icon_print"
+            smallSize
           />
         </div>
         <div className="route-schedule-list-wrapper">
