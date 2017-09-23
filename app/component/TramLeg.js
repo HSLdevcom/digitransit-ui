@@ -6,7 +6,7 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const TramLeg = ({ leg, focusAction, index }) =>
+const TramLeg = ({ leg, focusAction, index }) => (
   <TransitLeg mode="TRAM" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="tram-with-route-number"
@@ -16,7 +16,8 @@ const TramLeg = ({ leg, focusAction, index }) =>
       }}
       defaultMessage="Tram {routeNumber} {headSign}"
     />
-  </TransitLeg>;
+  </TransitLeg>
+);
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -35,7 +36,11 @@ const exampleLeg = t1 => ({
 });
 
 TramLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary tram leg.</p>

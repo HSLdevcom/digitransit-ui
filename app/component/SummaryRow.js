@@ -15,14 +15,16 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
-const Leg = ({ routeNumber, leg, large }) =>
+const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
-    {large &&
+    {large && (
       <div className="departure-stop overflow-fade">
         &nbsp;{(leg.transitLeg || leg.rentedBike) && leg.from.name}
-      </div>}
+      </div>
+    )}
     {routeNumber}
-  </div>;
+  </div>
+);
 
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
@@ -87,8 +89,9 @@ ModeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const CityBikeLeg = ({ leg, large }) =>
-  <ModeLeg leg={leg} mode="CITYBIKE" large={large} />;
+const CityBikeLeg = ({ leg, large }) => (
+  <ModeLeg leg={leg} mode="CITYBIKE" large={large} />
+);
 
 CityBikeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
@@ -96,10 +99,11 @@ CityBikeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const ViaLeg = ({ leg }) =>
+const ViaLeg = ({ leg }) => (
   <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
     <Icon img="icon-icon_place" className="itinerary-icon place" />
-  </div>;
+  </div>
+);
 
 ViaLeg.propTypes = {
   leg: PropTypes.object.isRequired,
@@ -204,11 +208,9 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
             realtime: realTimeAvailable,
           })}
         >
-          {realTimeAvailable &&
-            <Icon
-              img="icon-icon_realtime"
-              className="realtime-icon realtime"
-            />}
+          {realTimeAvailable && (
+            <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
+          )}
           {moment(firstDeparture).format('HH:mm')}
         </div>
       );
@@ -275,9 +277,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
                   nobg: sameDay(startTime, refTime),
                 })}
               >
-                <span>
-                  {dateOrEmpty(startTime, refTime)}
-                </span>
+                <span>{dateOrEmpty(startTime, refTime)}</span>
               </span>
               {startTime.format('HH:mm')}
               {firstLegStartTime}
@@ -495,7 +495,11 @@ const exampleDataCallAgency = t1 => ({
 const nop = () => {};
 
 SummaryRow.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   const date = 1478611781000;
   return (
     <div>

@@ -12,12 +12,14 @@ export default function FavouritesTabLabel({
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
     <li className={classes} onClick={onClick} role="button">
-      {hasDisruption
-        ? <IconWithCaution
-            className="prefix-icon favourites-icon"
-            img="icon-icon_star"
-          />
-        : <Icon className="prefix-icon favourites-icon" img="icon-icon_star" />}
+      {hasDisruption ? (
+        <IconWithCaution
+          className="prefix-icon favourites-icon"
+          img="icon-icon_star"
+        />
+      ) : (
+        <Icon className="prefix-icon favourites-icon" img="icon-icon_star" />
+      )}
       <FormattedMessage id="your-favourites" defaultMessage="Favourites" />
     </li>
   );

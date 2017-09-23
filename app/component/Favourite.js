@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const Favourite = ({ addFavourite, favourite, className }) =>
+const Favourite = ({ addFavourite, favourite, className }) => (
   <span
     className={cx('cursor-pointer favourite-icon', className)}
     onClick={addFavourite}
@@ -14,7 +14,8 @@ const Favourite = ({ addFavourite, favourite, className }) =>
       className={cx('favourite', { selected: favourite })}
       img="icon-icon_star"
     />
-  </span>;
+  </span>
+);
 
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,
@@ -22,7 +23,7 @@ Favourite.propTypes = {
   className: PropTypes.string,
 };
 
-Favourite.description = () =>
+Favourite.description = () => (
   <div>
     <p>
       {`This component shows whether an entity is a favourite
@@ -34,7 +35,8 @@ Favourite.description = () =>
     <ComponentUsageExample description="entity is not favourite">
       <Favourite addFavourite={() => {}} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 Favourite.displayName = 'Favourite';
 

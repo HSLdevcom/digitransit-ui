@@ -103,13 +103,15 @@ class SummaryNavigation extends React.Component {
   };
 
   renderTimeSelectorContainer = ({ done, props }) =>
-    done
-      ? <TimeSelectorContainer
-          {...props}
-          startTime={this.props.startTime}
-          endTime={this.props.endTime}
-        />
-      : undefined;
+    done ? (
+      <TimeSelectorContainer
+        {...props}
+        startTime={this.props.startTime}
+        endTime={this.props.endTime}
+      />
+    ) : (
+      undefined
+    );
 
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
@@ -124,7 +126,7 @@ class SummaryNavigation extends React.Component {
     return (
       <div>
         <LazilyLoad modules={this.customizeSearchModules}>
-          {({ Drawer, CustomizeSearch }) =>
+          {({ Drawer, CustomizeSearch }) => (
             <Drawer
               className="offcanvas"
               disableSwipeToOpen
@@ -141,7 +143,8 @@ class SummaryNavigation extends React.Component {
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />
-            </Drawer>}
+            </Drawer>
+          )}
         </LazilyLoad>
         <OriginDestinationBar
           className={className}

@@ -48,7 +48,11 @@ const exampleLeg = () => ({
 });
 
 WaitLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   const leg = exampleLeg();
   const duration = moment.duration(17, 'minutes').asMilliseconds();
   return (

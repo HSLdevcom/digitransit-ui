@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import Popup from 'react-leaflet/lib/Popup';
+import Popup from 'react-leaflet/es/Popup';
 import { intlShape } from 'react-intl';
-import GridLayer from 'react-leaflet/lib/GridLayer';
+import GridLayer from 'react-leaflet/es/GridLayer';
 import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
@@ -86,14 +86,10 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   config: PropTypes.object.isRequired,
 });
 
-const PopupOptions = {
-  offset: [110, 16],
-  closeButton: false,
-  minWidth: 260,
-  maxWidth: 260,
-  autoPanPaddingTopLeft: [5, 125],
-  className: 'popup',
-  ref: 'popup',
+const initialState = {
+  selectableTargets: undefined,
+  coords: undefined,
+  showSpinner: true,
 };
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
@@ -118,8 +114,11 @@ class TileLayerContainer extends GridLayer {
   };
 
   state = {
-    stops: undefined,
-    coords: undefined,
+    ...initialState,
+    currentTime: this.context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   };
 
   componentWillMount() {
@@ -142,6 +141,8 @@ class TileLayerContainer extends GridLayer {
     let activeTiles;
 
     if (e.currentTime) {
+      this.setState({ currentTime: e.currentTime.unix(), showSpinner: false });
+
       /* eslint-disable no-underscore-dangle */
       activeTiles = lodashFilter(
         this.leafletElement._tiles,
@@ -177,6 +178,19 @@ class TileLayerContainer extends GridLayer {
     /* eslint-enable no-underscore-dangle */
   };
 
+  onPopupclose = () => this.setState(initialState);
+
+  PopupOptions = {
+    offset: [110, 16],
+    closeButton: false,
+    minWidth: 260,
+    maxWidth: 260,
+    autoPanPaddingTopLeft: [5, 125],
+    className: 'popup',
+    ref: 'popup',
+    onClose: this.onPopupclose,
+  };
+
   createLeafletElement(props) {
     const Layer = L.GridLayer.extend({ createTile: this.createTile });
     const leafletElement = new Layer(this.getOptions(props));
@@ -207,22 +221,25 @@ class TileLayerContainer extends GridLayer {
       this.setState({
         selectableTargets,
         coords,
+        showSpinner: true,
       });
     };
 
     return tile.el;
   };
 
-  selectRow = option => this.setState({ selectableTargets: [option] });
+  selectRow = option =>
+    this.setState({ selectableTargets: [option], showSpinner: true });
 
   render() {
     let popup = null;
     let contents;
 
-    const loadingPopup = () =>
+    const loadingPopup = () => (
       <div className="card" style={{ height: '12rem' }}>
         <Loading />
-      </div>;
+      </div>
+    );
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
@@ -236,22 +253,17 @@ class TileLayerContainer extends GridLayer {
                 this.state.selectableTargets[0].feature.properties.stops
                   ? new TerminalRoute({
                       terminalId: id,
-                      currentTime: this.context
-                        .getStore('TimeStore')
-                        .getCurrentTime()
-                        .unix(),
+                      currentTime: this.state.currentTime,
                     })
                   : new StopRoute({
                       stopId: id,
-                      currentTime: this.context
-                        .getStore('TimeStore')
-                        .getCurrentTime()
-                        .unix(),
+                      currentTime: this.state.currentTime,
                     })
               }
-              renderLoading={loadingPopup}
-              renderFetched={data =>
-                <StopMarkerPopupWithContext {...data} context={this.context} />}
+              renderLoading={this.state.showSpinner ? loadingPopup : undefined}
+              renderFetched={data => (
+                <StopMarkerPopupWithContext {...data} context={this.context} />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
@@ -266,8 +278,9 @@ class TileLayerContainer extends GridLayer {
                 })
               }
               renderLoading={loadingPopup}
-              renderFetched={data =>
-                <CityBikePopupWithContext {...data} context={this.context} />}
+              renderFetched={data => (
+                <CityBikePopupWithContext {...data} context={this.context} />
+              )}
             />
           );
         } else if (
@@ -281,7 +294,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideHubRoute({ stationIds: JSON.parse(id) })}
               renderLoading={loadingPopup}
-              renderFetched={data =>
+              renderFetched={data => (
                 <ParkAndRideHubPopupWithContext
                   name={
                     JSON.parse(
@@ -292,7 +305,8 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />}
+                />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
@@ -303,7 +317,7 @@ class TileLayerContainer extends GridLayer {
               forceFetch
               route={new ParkAndRideFacilityRoute({ id })}
               renderLoading={loadingPopup}
-              renderFetched={data =>
+              renderFetched={data => (
                 <ParkAndRideFacilityPopupWithContext
                   name={
                     JSON.parse(
@@ -314,7 +328,8 @@ class TileLayerContainer extends GridLayer {
                   lon={this.state.coords.lng}
                   {...data}
                   context={this.context}
-                />}
+                />
+              )}
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'ticketSales') {
@@ -327,7 +342,7 @@ class TileLayerContainer extends GridLayer {
           );
         }
         popup = (
-          <Popup {...PopupOptions} key={id} position={this.state.coords}>
+          <Popup {...this.PopupOptions} key={id} position={this.state.coords}>
             {contents}
           </Popup>
         );
@@ -335,7 +350,7 @@ class TileLayerContainer extends GridLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            {...PopupOptions}
+            {...this.PopupOptions}
             maxHeight={220}
             position={this.state.coords}
           >
@@ -350,7 +365,7 @@ class TileLayerContainer extends GridLayer {
         popup = (
           <Popup
             key={this.state.coords.toString()}
-            {...PopupOptions}
+            {...this.PopupOptions}
             maxHeight={220}
             position={this.state.coords}
           >

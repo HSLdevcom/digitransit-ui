@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const NextDeparturesListHeader = () =>
+const NextDeparturesListHeader = () => (
   <div className="next-departures-list-header padding-vertical-small">
     <span className="time-header">
       <FormattedMessage id="next" defaultMessage="Next" />
@@ -19,15 +19,17 @@ const NextDeparturesListHeader = () =>
     <span className="route-destination-header">
       <FormattedMessage id="destination" defaultMessage="Destination" />
     </span>
-  </div>;
+  </div>
+);
 
 NextDeparturesListHeader.displayName = 'NextDeparturesListHeader';
 
-NextDeparturesListHeader.description = () =>
+NextDeparturesListHeader.description = () => (
   <div>
     <ComponentUsageExample>
       <NextDeparturesListHeader />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default NextDeparturesListHeader;

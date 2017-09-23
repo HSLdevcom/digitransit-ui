@@ -22,12 +22,14 @@ export default function RightOffcanvasToggle(
       >
         <div>
           <div className="icon-holder">
-            {hasChanges
-              ? <Icon img="icon-icon_settings-adjusted" />
-              : <Icon img="icon-icon_settings" />}
-            {hasChanges
-              ? <Icon img="icon-icon_attention" className="super-icon" />
-              : null}
+            {hasChanges ? (
+              <Icon img="icon-icon_settings-adjusted" />
+            ) : (
+              <Icon img="icon-icon_settings" />
+            )}
+            {hasChanges ? (
+              <Icon img="icon-icon_attention" className="super-icon" />
+            ) : null}
           </div>
           <div>
             <FormattedMessage id="settings" defaultMessage="Settings" />
@@ -49,7 +51,7 @@ RightOffcanvasToggle.contextTypes = {
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
 
-RightOffcanvasToggle.description = () =>
+RightOffcanvasToggle.description = () => (
   <div>
     <p>A toggle for the itinerary search preferences.</p>
     <ComponentUsageExample description="Preferences are default preferences">
@@ -58,4 +60,5 @@ RightOffcanvasToggle.description = () =>
     <ComponentUsageExample description="User has modified the preferences">
       <RightOffcanvasToggle onToggleClick={() => {}} hasChanges />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);

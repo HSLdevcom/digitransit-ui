@@ -19,7 +19,7 @@ let L;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  Circle = require('react-leaflet/lib/Circle').default;
+  Circle = require('react-leaflet/es/Circle').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */
@@ -89,12 +89,14 @@ class TerminalMarker extends React.Component {
                 .format('YYYYMMDD'),
             })
           }
-          renderLoading={() =>
+          renderLoading={() => (
             <div className="card" style={{ height: '12rem' }}>
               <Loading />
-            </div>}
-          renderFetched={data =>
-            <StopMarkerPopupWithContext {...data} context={this.context} />}
+            </div>
+          )}
+          renderFetched={data => (
+            <StopMarkerPopupWithContext {...data} context={this.context} />
+          )}
         />
       </GenericMarker>
     );

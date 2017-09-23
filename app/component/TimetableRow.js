@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 const LONG_LINE_NAME = 5;
 
-const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) =>
+const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
   <div>
     <div
       className="timetable-row"
@@ -16,16 +16,14 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) =>
           'none',
       }}
     >
-      <h1 className="title bold">
-        {title}:
-      </h1>
+      <h1 className="title bold">{title}:</h1>
       <div className="timetable-rowcontainer">
         {stoptimes
           .sort(
             (time1, time2) =>
               time1.scheduledDeparture - time2.scheduledDeparture,
           )
-          .map(time =>
+          .map(time => (
             <div
               className="timetablerow-linetime"
               key={time.name + time.scheduledDeparture}
@@ -38,29 +36,30 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) =>
               >
                 {(showRoutes.filter(o => o === time.id).length > 0 &&
                   showRoutes.length > 0) ||
-                showRoutes.length === 0
-                  ? <div
-                      className={cx({
-                        'overflow-fade':
-                          time.name && time.name.length > LONG_LINE_NAME,
-                      })}
-                    >
-                      <span className="bold">
-                        {moment
-                          .unix(time.serviceDay + time.scheduledDeparture)
-                          .format('mm')}
-                      </span>
-                      <span className="line-name" title={time.name}>
-                        /{time.name}
-                      </span>
-                    </div>
-                  : null}
+                showRoutes.length === 0 ? (
+                  <div
+                    className={cx({
+                      'overflow-fade':
+                        time.name && time.name.length > LONG_LINE_NAME,
+                    })}
+                  >
+                    <span className="bold">
+                      {moment
+                        .unix(time.serviceDay + time.scheduledDeparture)
+                        .format('mm')}
+                    </span>
+                    <span className="line-name" title={time.name}>
+                      /{time.name}
+                    </span>
+                  </div>
+                ) : null}
               </span>
-            </div>,
-          )}
+            </div>
+          ))}
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 TimetableRow.propTypes = {
   title: PropTypes.string.isRequired,

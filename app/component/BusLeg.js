@@ -6,7 +6,7 @@ import moment from 'moment';
 import TransitLeg from './TransitLeg';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const BusLeg = ({ leg, focusAction, index }) =>
+const BusLeg = ({ leg, focusAction, index }) => (
   <TransitLeg mode="BUS" leg={leg} focusAction={focusAction} index={index}>
     <FormattedMessage
       id="bus-with-route-number"
@@ -16,7 +16,8 @@ const BusLeg = ({ leg, focusAction, index }) =>
       }}
       defaultMessage="Bus {routeNumber} {headSign}"
     />
-  </TransitLeg>;
+  </TransitLeg>
+);
 
 const exampleLeg = t1 => ({
   realTime: false,
@@ -51,7 +52,11 @@ const exampleLegRealtime = t1 => ({
 });
 
 BusLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>

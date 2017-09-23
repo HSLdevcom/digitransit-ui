@@ -16,15 +16,15 @@ class CallAgencyLeg extends React.Component {
 
   render() {
     const originalTime = this.props.leg.realTime &&
-    this.props.leg.departureDelay >=
-      this.context.config.itinerary.delayThreshold && [
-      <br key="br" />,
-      <span key="time" className="original-time">
-        {moment(this.props.leg.startTime)
-          .subtract(this.props.leg.departureDelay, 's')
-          .format('HH:mm')}
-      </span>,
-    ];
+      this.props.leg.departureDelay >=
+        this.context.config.itinerary.delayThreshold && [
+        <br key="br" />,
+        <span key="time" className="original-time">
+          {moment(this.props.leg.startTime)
+            .subtract(this.props.leg.departureDelay, 's')
+            .format('HH:mm')}
+        </span>,
+      ];
 
     const firstLegClassName = this.props.index === 0 ? ' start' : '';
     const modeClassName = 'call';
@@ -42,11 +42,12 @@ class CallAgencyLeg extends React.Component {
           >
             <div className="itinerary-time-column-time">
               <span className={this.props.leg.realTime ? 'realtime' : ''}>
-                {this.props.leg.realTime &&
+                {this.props.leg.realTime && (
                   <Icon
                     img="icon-icon_realtime"
                     className="realtime-icon realtime"
-                  />}
+                  />
+                )}
                 {moment(this.props.leg.startTime).format('HH:mm')}
               </span>
               {originalTime}
@@ -98,14 +99,16 @@ class CallAgencyLeg extends React.Component {
               <div className="itinerary-warning-agency-container">
                 <LegAgencyInfo leg={this.props.leg} />
               </div>
-              {this.props.leg.route.agency.phone
-                ? <div className="call-button">
-                    <Link href={`tel:${this.props.leg.route.agency.phone}`}>
-                      <FormattedMessage id="call" defaultMessage="Call" />{' '}
-                      {this.props.leg.route.agency.phone}
-                    </Link>
-                  </div>
-                : ''}
+              {this.props.leg.route.agency.phone ? (
+                <div className="call-button">
+                  <Link href={`tel:${this.props.leg.route.agency.phone}`}>
+                    <FormattedMessage id="call" defaultMessage="Call" />{' '}
+                    {this.props.leg.route.agency.phone}
+                  </Link>
+                </div>
+              ) : (
+                ''
+              )}
             </span>
           </div>
         </div>
@@ -147,7 +150,11 @@ const exampleData = t1 => ({
 });
 
 CallAgencyLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary bus leg.</p>

@@ -11,7 +11,7 @@ import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const getRouteStopSvg = (first, last, color) =>
+const getRouteStopSvg = (first, last, color) => (
   <svg className="route-stop-schematized">
     <line
       x1="6"
@@ -38,7 +38,8 @@ const getRouteStopSvg = (first, last, color) =>
       cy="13"
       r="5"
     />
-  </svg>;
+  </svg>
+);
 
 class RouteStop extends React.Component {
   static propTypes = {
@@ -53,7 +54,7 @@ class RouteStop extends React.Component {
     last: PropTypes.bool,
   };
 
-  static description = () =>
+  static description = () => (
     <ComponentUsageExample description="basic">
       <RouteStop
         stop={{
@@ -85,7 +86,8 @@ class RouteStop extends React.Component {
         last={false}
         currentTime={1471515614}
       />
-    </ComponentUsageExample>;
+    </ComponentUsageExample>
+  );
 
   render() {
     const {
@@ -102,7 +104,7 @@ class RouteStop extends React.Component {
 
     const vehicleTripLinks =
       vehicles &&
-      vehicles.map(vehicle =>
+      vehicles.map(vehicle => (
         <Relay.RootContainer
           key={vehicle.id}
           Component={TripLink}
@@ -117,8 +119,8 @@ class RouteStop extends React.Component {
             })
           }
           renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
-        />,
-      );
+        />
+      ));
 
     return (
       <div
@@ -127,9 +129,7 @@ class RouteStop extends React.Component {
           this.element = el;
         }}
       >
-        <div className="columns route-stop-now">
-          {vehicleTripLinks}
-        </div>
+        <div className="columns route-stop-now">{vehicleTripLinks}</div>
         <Link to={`/pysakit/${stop.gtfsId}`}>
           <div className={`columns route-stop-name ${mode}`}>
             {getRouteStopSvg(first, last, color || 'currentColor')}
@@ -137,28 +137,27 @@ class RouteStop extends React.Component {
             <br />
             <div style={{ whiteSpace: 'nowrap' }}>
               {stop.code && <StopCode code={stop.code} />}
-              <span className="route-stop-address">
-                {stop.desc}
-              </span>
+              <span className="route-stop-address">{stop.desc}</span>
               {'\u2002'}
-              {distance &&
+              {distance && (
                 <WalkDistance
                   className="nearest-route-stop"
                   icon="icon_location-with-user"
                   walkDistance={distance}
-                />}
+                />
+              )}
             </div>
           </div>
           {stop.stopTimesForPattern &&
             stop.stopTimesForPattern.length > 0 &&
-            stop.stopTimesForPattern.map(stopTime =>
+            stop.stopTimesForPattern.map(stopTime => (
               <div
                 key={stopTime.scheduledDeparture}
                 className="columns route-stop-time"
               >
                 {fromStopTime(stopTime, currentTime)}
-              </div>,
-            )}
+              </div>
+            ))}
         </Link>
         <div className="route-stop-row-divider" />
       </div>

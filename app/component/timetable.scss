@@ -19,5 +19,18 @@
       .line-name {
         white-space: nowrap;
       }
+  @media print {
+    border-bottom: 1px dotted $black;
+    border-left: none;
+    border-right: none;
+    padding-left: 0;
+    h1.title {
+      font-size: 32px;
+    }
+    span {
+      font-size: 21px;
+      font-weight: 400;
+    }
+  }
   }
 }

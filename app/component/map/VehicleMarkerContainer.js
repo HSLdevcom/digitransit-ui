@@ -45,20 +45,17 @@ function getVehicleIcon(mode, heading, useSmallIcon = false) {
 
 if (isBrowser) {
   /* eslint-disable global-require */
-  Popup = require('react-leaflet/lib/Popup').default;
-  Marker = require('react-leaflet/lib/Marker').default;
+  Popup = require('react-leaflet/es/Popup').default;
+  Marker = require('react-leaflet/es/Marker').default;
   L = require('leaflet');
   /* eslint-enable global-require */
 }
 
-const RouteMarkerPopupWithContext = provideContext(
-  RouteMarkerPopup,
-  {
-    // Note: We're not sure this is necessary, since context is  getting passed via props
-    // router: PropTypes.object.isRequired,
-    // config: PropTypes.object.isRequired,
-  },
-);
+const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {
+  // Note: We're not sure this is necessary, since context is  getting passed via props
+  // router: PropTypes.object.isRequired,
+  // config: PropTypes.object.isRequired,
+});
 
 export default class VehicleMarkerContainer extends React.PureComponent {
   static contextTypes = {
@@ -158,16 +155,18 @@ export default class VehicleMarkerContainer extends React.PureComponent {
               message.tripStartTime.substring(2, 4) * 60,
           })
         }
-        renderLoading={() =>
+        renderLoading={() => (
           <div className="card" style={{ height: '12rem' }}>
             <Loading />
-          </div>}
-        renderFetched={data =>
+          </div>
+        )}
+        renderFetched={data => (
           <RouteMarkerPopupWithContext
             {...data}
             message={message}
             context={this.context}
-          />}
+          />
+        )}
       />
     );
 
@@ -199,9 +198,7 @@ export default class VehicleMarkerContainer extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        {Object.keys(this.vehicles).map(key => this.vehicles[key])}
-      </div>
+      <div>{Object.keys(this.vehicles).map(key => this.vehicles[key])}</div>
     );
   }
 }

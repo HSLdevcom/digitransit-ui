@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HSLAdformTrackingPixel = () =>
+const HSLAdformTrackingPixel = () => (
   <div style={{ width: 0, height: 0 }}>
     <img
       id=""
@@ -9,7 +9,8 @@ const HSLAdformTrackingPixel = () =>
       height="1"
       alt=""
     />
-  </div>;
+  </div>
+);
 
 HSLAdformTrackingPixel.displayName = 'HSLAdformTrackingPixel';
 

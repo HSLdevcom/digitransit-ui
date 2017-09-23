@@ -38,12 +38,13 @@ function DisruptionInfoButtonContainer(
           params: { feedIds },
         }}
         environment={Relay.Store}
-        render={({ renderProps, props }) =>
+        render={({ renderProps, props }) => (
           <DisruptionInfoButton
             {...renderProps}
             {...props}
             toggleDisruptionInfo={openDisruptionInfo}
-          />}
+          />
+        )}
       />
     );
   }

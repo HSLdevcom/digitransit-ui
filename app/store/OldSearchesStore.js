@@ -53,8 +53,8 @@ class OldSearchesStore extends Store {
   getOldSearches(type) {
     return (
       (getOldSearchesStorage().items &&
-        getOldSearchesStorage().items
-          .filter(item => (type ? item.type === type : true))
+        getOldSearchesStorage()
+          .items.filter(item => (type ? item.type === type : true))
           .map(item => item.item)) ||
       []
     );

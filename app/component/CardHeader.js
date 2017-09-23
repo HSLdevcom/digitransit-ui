@@ -16,43 +16,35 @@ const CardHeader = ({
   icon,
   icons,
   unlinked,
-}) =>
+}) => (
   <div className={cx('card-header', className)}>
     {children}
-    {icon
-      ? <div
-          className="left"
-          style={{ fontSize: 32, paddingRight: 10, height: 32 }}
-        >
-          <Icon img={icon} />
-        </div>
-      : null}
-    {className === 'stop-page header' &&
+    {icon ? (
+      <div
+        className="left"
+        style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+      >
+        <Icon img={icon} />
+      </div>
+    ) : null}
+    {className === 'stop-page header' && (
       <div className="stop-page-header_icon-container">
         <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
-      </div>}
+      </div>
+    )}
     <div className="card-header-wrapper">
       <span className={headingStyle || 'h4'}>
         {name}
         {unlinked ? null : <span className="link-arrow"> ›</span>}
       </span>
       <div className="card-sub-header">
-        {code != null
-          ? <p className="card-code">
-              {code}
-            </p>
-          : null}
-        <p className="sub-header-h4">
-          {description}
-        </p>
+        {code != null ? <p className="card-code">{code}</p> : null}
+        <p className="sub-header-h4">{description}</p>
       </div>
     </div>
-    {icons
-      ? <SplitBars>
-          {icons}
-        </SplitBars>
-      : null}
-  </div>;
+    {icons ? <SplitBars>{icons}</SplitBars> : null}
+  </div>
+);
 
 const emptyFunction = () => {};
 const exampleIcons = [
@@ -61,7 +53,7 @@ const exampleIcons = [
 
 CardHeader.displayName = 'CardHeader';
 
-CardHeader.description = () =>
+CardHeader.description = () => (
   <div>
     <p>
       Generic card header, which displays card name, description, favourite star
@@ -76,7 +68,8 @@ CardHeader.description = () =>
         headingStyle="header-primary"
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 CardHeader.propTypes = {
   className: PropTypes.string,
