@@ -291,6 +291,14 @@ export default config => {
             : <TopLevel {...props} />}
       >
         <Route
+          path="/suosikki/uusi"
+          getComponent={(location, cb) => {
+            import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+              .then(loadRoute(cb))
+              .catch(errorLoading);
+          }}
+        />
+        <Route
           path={'/(:origin)(/:destination)'}
           topBarOptions={{ disableBackButton: true }}
           components={{
@@ -653,14 +661,7 @@ export default config => {
               .catch(errorLoading);
           }}
         />
-        <Route
-          path="/suosikki/uusi"
-          getComponent={(location, cb) => {
-            import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-              .then(loadRoute(cb))
-              .catch(errorLoading);
-          }}
-        />
+
         <Route
           path="/suosikki/muokkaa/:id"
           getComponent={(location, cb) => {
