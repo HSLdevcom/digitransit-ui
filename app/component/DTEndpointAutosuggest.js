@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
-import { setEndpoint } from '../action/EndpointActions';
 import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 
 class DTAutosuggestContainer extends React.Component {
@@ -14,9 +13,10 @@ class DTAutosuggestContainer extends React.Component {
   };
 
   static propTypes = {
-    target: PropTypes.string.isRequired,
     searchType: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
+    onLocationSelected: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -43,23 +43,22 @@ class DTAutosuggestContainer extends React.Component {
       return;
     }
 
-    this.context.executeAction(setEndpoint, {
-      target: this.props.target,
-      endpoint: {
-        lat: item.geometry.coordinates[1],
-        lon: item.geometry.coordinates[0],
-        address: name,
-      },
-      router: this.context.router,
-    });
+    const location = {
+      address: name,
+      lat: item.geometry.coordinates[1],
+      lon: item.geometry.coordinates[0],
+    };
+
+    this.props.onLocationSelected(location);
   };
 
   render = () =>
     <DTOldSearchSavingAutosuggest
       autoFocus={this.props.autoFocus}
-      placeholder="Kirjoita"
+      placeholder="TODO Kirjoita"
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}
+      value={this.props.value}
     />;
 }
 
