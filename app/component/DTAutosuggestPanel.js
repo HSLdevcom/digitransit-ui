@@ -35,9 +35,15 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   render = () =>
-    <div style={{ position: 'relative', zIndex: 1000 }}>
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 1000,
+      }}
+    >
       <DTEndpointAutosuggest
         searchType="all"
+        placeholder="give-origin"
         value={(this.props.origin && this.props.origin.address) || ''}
         onLocationSelected={location => {
           let [
@@ -56,6 +62,7 @@ class DTAutosuggestPanel extends React.Component {
       {this.props.origin !== undefined || this.props.destination !== undefined
         ? <DTEndpointAutosuggest
             searchType="endpoint"
+            placeholder="give-destination"
             value={
               (this.props.destination && this.props.destination.address) || ''
             }

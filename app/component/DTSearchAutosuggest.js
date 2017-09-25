@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intl, intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '../util/searchUtils';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
@@ -36,11 +37,12 @@ class DTAutosuggest extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
     selectedFunction: PropTypes.func,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.string.isRequired,
     value: PropTypes.string,
     autoFocus: PropTypes.bool,
     searchType: PropTypes.string.isRequired,
@@ -121,7 +123,10 @@ class DTAutosuggest extends React.Component {
   render = () => {
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: this.props.placeholder,
+      placeholder: this.context.intl.formatMessage({
+        id: this.props.placeholder,
+        defaultMessage: 'TODO',
+      }),
       value,
       onChange: this.onChange,
       autoFocus: this.props.autoFocus,

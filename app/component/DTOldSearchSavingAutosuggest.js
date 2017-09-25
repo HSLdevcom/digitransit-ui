@@ -16,13 +16,13 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     onSelect: PropTypes.func.isRequired,
     searchType: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
-    placeHolder: PropTypes.string,
+    placeholder: PropTypes.string,
     value: PropTypes.string,
   };
 
   static defaultProps = {
     autoFocus: false,
-    placeHolder: '',
+    placeholder: '',
   };
 
   onSelect = item => {
@@ -47,7 +47,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
   render = () =>
     <DTSearchAutosuggest
       autoFocus={this.props.autoFocus}
-      placeholder={this.props.placeHolder}
+      placeholder={this.props.placeholder}
       searchType={this.props.searchType}
       value={this.props.value}
       selectedFunction={(event, { suggestion }) => {

@@ -17,6 +17,7 @@ class DTAutosuggestContainer extends React.Component {
     autoFocus: PropTypes.bool,
     onLocationSelected: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -55,7 +56,7 @@ class DTAutosuggestContainer extends React.Component {
   render = () =>
     <DTOldSearchSavingAutosuggest
       autoFocus={this.props.autoFocus}
-      placeholder="TODO Kirjoita"
+      placeholder={this.props.placeholder}
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}
       value={this.props.value}
