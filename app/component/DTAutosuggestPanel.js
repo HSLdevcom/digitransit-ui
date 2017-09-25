@@ -4,6 +4,7 @@ import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
+import { getRoutePath } from '../util/path';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -35,7 +36,7 @@ class DTAutosuggestPanel extends React.Component {
           this.context.router.replace(`/${originString}`);
         }}
       />
-      {this.props.origin !== undefined
+      {this.props.origin !== undefined || this.props.destination !== undefined
         ? <DTEndpointAutosuggest
             searchType="endpoint"
             value={
@@ -47,10 +48,10 @@ class DTAutosuggestPanel extends React.Component {
               const destinationString = locationToOTP(location);
 
               this.context.router.push(
-                `/reitti/${originString}/${destinationString}`,
+                getRoutePath(originString, destinationString),
               );
             }}
-            autoFocus
+            autoFocus={this.props.destination === undefined}
           />
         : undefined}
     </div>;

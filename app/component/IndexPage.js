@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
-import { clearDestination } from '../action/EndpointActions';
+import { storeEndpoint, clearDestination } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
+import { otpToLocation } from '../util/otpStrings';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -41,6 +42,7 @@ class IndexPage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     content: PropTypes.node,
     routes: PropTypes.array,
+    params: PropTypes.object,
   };
 
   componentWillMount = () => {
@@ -61,9 +63,44 @@ class IndexPage extends React.Component {
     ) {
       this.clickNearby();
     }
+    if (this.props.params.origin !== undefined) {
+      console.log('props set');
+      const location = otpToLocation(this.props.params.origin);
+      if (location.lon && location.lat) {
+        console.log('clearing destination');
+        this.context.executeAction(clearDestination);
+        // set origin
+        this.context.executeAction(storeEndpoint, {
+          target: 'origin',
+          endpoint: location,
+        });
+      } else {
+        console.log('could not parse params.origin:', this.props.params.origin);
+        // unable to parse origin redirect to front page
+      }
+    }
   }
 
   componentWillReceiveProps = nextProps => {
+    this.handleBreakpointProps(nextProps);
+    this.handleOriginProps(nextProps);
+  };
+
+  getSelectedTab = (props = this.props) => {
+    if (props.routes && props.routes.length > 0) {
+      const routePath = props.routes[props.routes.length - 1].path;
+
+      if (routePath === 'suosikit') {
+        return 2;
+      } else if (routePath === 'lahellasi') {
+        return 1;
+      }
+    }
+
+    return undefined;
+  };
+
+  handleBreakpointProps = nextProps => {
     const frombp = this.props.breakpoint;
     const tobp = nextProps.breakpoint;
 
@@ -80,18 +117,27 @@ class IndexPage extends React.Component {
     }
   };
 
-  getSelectedTab = (props = this.props) => {
-    if (props.routes && props.routes.length > 0) {
-      const routePath = props.routes[props.routes.length - 1].path;
+  handleOriginProps = nextProps => {
+    console.log('handling Origin props');
+    const fromOrigin = this.props.params.origin;
+    const toOrigin = nextProps.params.origin;
 
-      if (routePath === 'suosikit') {
-        return 2;
-      } else if (routePath === 'lahellasi') {
-        return 1;
-      }
+    if (fromOrigin === toOrigin) {
+      return; // we're there already
     }
 
-    return undefined;
+    if (nextProps.params.origin !== undefined) {
+      // origin is set
+      const location = otpToLocation(nextProps.params.origin);
+      // console.log(`parsed location:${location}`);
+      // clear destination
+      // console.log('setting origin', location);
+      this.context.executeAction(storeEndpoint, {
+        target: 'origin',
+        endpoint: location,
+      });
+      // this.resetToCleanState();
+    }
   };
 
   resetToCleanState = () => {
@@ -145,18 +191,24 @@ class IndexPage extends React.Component {
   };
 
   openFavourites = replace => {
+    const url = `/${this.props.params.origin
+      ? `${this.props.params.origin || '-'}/`
+      : ''}suosikit`;
     if (replace) {
-      this.context.router.replace('/suosikit');
+      this.context.router.replace(url);
     } else {
-      this.context.router.push('/suosikit');
+      this.context.router.push(url);
     }
   };
 
   openNearby = replace => {
+    const url = `/${this.props.params.origin
+      ? `${this.props.params.origin || '-'}/`
+      : ''}lahellasi`;
     if (replace) {
-      this.context.router.replace('/lahellasi');
+      this.context.router.replace(url);
     } else {
-      this.context.router.push('/lahellasi');
+      this.context.router.push(url);
     }
   };
 
@@ -168,6 +220,28 @@ class IndexPage extends React.Component {
     } else {
       this.context.router.replace('/');
     }
+  };
+
+  getOrigin = () => {
+    console.log('getting origin');
+    if (this.props.params.origin) {
+      const location = otpToLocation(this.props.params.origin);
+      if (location.lon && location.lat) {
+        console.log('returning location', location);
+        return location;
+      }
+    }
+    return undefined;
+  };
+
+  getDestination = () => {
+    if (this.props.params.destination) {
+      const location = otpToLocation(this.props.params.destination);
+      if (location.lon && location.lat) {
+        return location;
+      }
+    }
+    return undefined;
   };
 
   render() {
@@ -193,7 +267,10 @@ class IndexPage extends React.Component {
             selectedTab={selectedSearchTab}
             tab={selectedMainTab}
           >
-            <DTAutosuggestPanel />
+            <DTAutosuggestPanel
+              origin={this.getOrigin()}
+              destination={this.getDestination()}
+            />
 
             <div key="foo" className="fpccontainer">
               <FrontPagePanelLarge
@@ -229,7 +306,10 @@ class IndexPage extends React.Component {
               selectedTab={selectedSearchTab}
             >
               {messageBar}
-              <DTAutosuggestPanel />
+              <DTAutosuggestPanel
+                origin={this.getOrigin()}
+                destination={this.getDestination()}
+              />
             </MapWithTracking>
           </div>
           <div>
