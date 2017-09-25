@@ -61,6 +61,12 @@ class DTAutosuggest extends React.Component {
     };
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+    }
+  };
+
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue,

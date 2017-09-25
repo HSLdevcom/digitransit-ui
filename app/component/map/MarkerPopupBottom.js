@@ -4,6 +4,7 @@ import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { setEndpoint } from '../../action/EndpointActions';
 import { withCurrentTime } from '../../util/searchUtils';
+import { locationToOTP } from '../../util/otpStrings';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
@@ -24,15 +25,16 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'origin',
-      endpoint: this.props.location,
-      router: this.context.router,
-      location: locationWithTime,
-    });
+
+    const destinationString = locationToOTP(this.props.location);
+    const url = `/${destinationString}`;
+    console.log('replacing url', url);
+    this.context.router.replace(url);
   };
 
   routeTo = () => {
+    console.log('this.context.router', this.context.router);
+    console.log('locationToOtp', locationToOtp);
     const locationWithTime = withCurrentTime(
       this.context.getStore,
       this.context.location,
