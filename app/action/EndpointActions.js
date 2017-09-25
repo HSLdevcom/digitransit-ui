@@ -46,16 +46,6 @@ export function setUseCurrent(actionContext, payload) {
   return actionContext.executeAction(route, payload);
 }
 
-export function swapEndpoints(actionContext, payload) {
-  actionContext.dispatch('swapEndpoints');
-
-  return actionContext.executeAction(route, payload, e => {
-    if (e) {
-      console.error('Could not route:', e);
-    }
-  });
-}
-
 export function clearOrigin(actionContext) {
   return actionContext.dispatch('clearOrigin');
 }

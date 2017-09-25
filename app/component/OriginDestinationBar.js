@@ -6,10 +6,7 @@ import cx from 'classnames';
 import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { dtLocationShape } from '../util/shapes';
-import {
-  storeEndpointIfNotCurrent,
-  swapEndpoints,
-} from '../action/EndpointActions';
+import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
@@ -30,17 +27,6 @@ class OriginDestinationBar extends React.Component {
     location: PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'origin',
-      endpoint: this.props.origin,
-    });
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'destination',
-      endpoint: this.props.destination,
-    });
-  }
-
   getSearchModalState = () => {
     if (
       this.context.location.state != null &&
@@ -52,10 +38,10 @@ class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    this.context.executeAction(swapEndpoints, {
-      router: this.context.router,
-      location: this.context.location,
-    });
+    const destinationString = locationToOTP(this.props.origin);
+    const originString = locationToOTP(this.props.destination);
+
+    this.context.router.replace(`/reitti/${originString}/${destinationString}`);
   };
 
   openSearchModal = tab => {

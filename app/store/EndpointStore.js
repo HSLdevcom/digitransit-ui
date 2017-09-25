@@ -54,11 +54,6 @@ class EndpointStore extends Store {
     this.emitChange();
   }
 
-  swapEndpoints() {
-    [this.destination, this.origin] = [this.origin, this.destination];
-    this.emitChange();
-  }
-
   setOriginToCurrent() {
     if (this.destination.useCurrentPosition === true) {
       this.clearDestination();
@@ -152,16 +147,6 @@ class EndpointStore extends Store {
     }
   }
 
-  setEndpointIfNotCurrent({ target, value }) {
-    if (target === 'destination') {
-      if (!this.destination.useCurrentPosition) {
-        this.setDestination(value);
-      }
-    } else if (!this.origin.useCurrentPosition) {
-      this.setOrigin(value);
-    }
-  }
-
   useCurrentPosition(payload) {
     if (payload.target === 'destination') {
       if (!this.destination.userSetPosition || !payload.keepSelectedLocation) {
@@ -175,7 +160,6 @@ class EndpointStore extends Store {
 
   static handlers = {
     setEndpoint: 'setEndpoint',
-    setEndpointIfNotCurrent: 'setEndpointIfNotCurrent',
     useCurrentPosition: 'useCurrentPosition',
     swapEndpoints: 'swapEndpoints',
     clearOrigin: 'clearOrigin',
