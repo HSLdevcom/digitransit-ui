@@ -11,6 +11,7 @@ import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
+import { dtLocationShape } from '../util/shapes';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
@@ -58,15 +59,9 @@ class SummaryPage extends React.Component {
     content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
-    }),
-    from: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
     }).isRequired,
-    to: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-    }).isRequired,
+    from: dtLocationShape.isRequired,
+    to: dtLocationShape.isRequired,
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
