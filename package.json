@@ -68,7 +68,7 @@
     "cookie-parser": "1.4.3",
     "debug": "2.6.8",
     "element-resize-detector": "1.1.12",
-    "express": "4.15.3",
+    "express": "5.0.0-alpha.6",
     "express-http-proxy": "1.0.6",
     "express-static-gzip": "0.3.0",
     "favicons-webpack-plugin": "^0.0.7",
