@@ -53,15 +53,6 @@ class MarkerPopupBottom extends React.Component {
       destinationString,
     ] = this.context.location.pathname.split('/');
 
-    if (
-      originString === undefined ||
-      originString === null ||
-      originString.trim() === ''
-    ) {
-      originString = undefined;
-    }
-
-    console.log('routing to and origin=', originString);
     destinationString = locationToOTP(this.props.location);
     const url = getPathWithEndpoints(originString, destinationString);
     this.navigate(url, !isItinerarySearch(originString, destinationString));

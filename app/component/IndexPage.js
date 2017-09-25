@@ -64,12 +64,9 @@ class IndexPage extends React.Component {
       this.clickNearby();
     }
     if (this.props.params.origin !== undefined) {
-      console.log('props set');
       const location = otpToLocation(this.props.params.origin);
       if (location.lon && location.lat) {
-        console.log('clearing destination');
-        this.context.executeAction(clearDestination);
-        // set origin
+        console.log('setting origin with action:', location);
         this.context.executeAction(storeEndpoint, {
           target: 'origin',
           endpoint: location,
@@ -126,12 +123,16 @@ class IndexPage extends React.Component {
       return; // we're there already
     }
 
-    if (nextProps.params.origin !== undefined) {
+    if (
+      nextProps.params.origin !== undefined &&
+      nextProps.params.origin !== '-'
+    ) {
       // origin is set
       const location = otpToLocation(nextProps.params.origin);
       // console.log(`parsed location:${location}`);
       // clear destination
       // console.log('setting origin', location);
+      console.log('setting origin #2');
       this.context.executeAction(storeEndpoint, {
         target: 'origin',
         endpoint: location,

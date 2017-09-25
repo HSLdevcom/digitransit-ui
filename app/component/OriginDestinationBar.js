@@ -21,7 +21,6 @@ class OriginDestinationBar extends React.Component {
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
