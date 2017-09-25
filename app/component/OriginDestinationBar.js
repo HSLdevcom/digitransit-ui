@@ -5,6 +5,7 @@ import { routerShape } from 'react-router';
 import cx from 'classnames';
 import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { dtLocationShape } from '../util/shapes';
 import {
   storeEndpointIfNotCurrent,
   swapEndpoints,
@@ -16,8 +17,8 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: PropTypes.object,
-    destination: PropTypes.object,
+    origin: dtLocationShape,
+    destination: dtLocationShape,
     originIsCurrent: PropTypes.bool,
     destinationIsCurrent: PropTypes.bool,
   };
