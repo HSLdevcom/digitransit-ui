@@ -15,23 +15,7 @@ export function storeEndpoint(actionContext, { target, endpoint }, done) {
   }
 }
 
-export function storeEndpointIfNotCurrent(
-  actionContext,
-  { target, endpoint },
-  done,
-) {
-  actionContext.dispatch('setEndpointIfNotCurrent', {
-    target,
-    value: {
-      lat: endpoint.lat,
-      lon: endpoint.lon,
-      address: endpoint.address,
-    },
-  });
-
-  return done();
-}
-
+// XXX setEndpoint is only used for map currently
 export function setEndpoint(actionContext, payload) {
   actionContext.executeAction(storeEndpoint, payload, e => {
     if (e) {

@@ -10,6 +10,7 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { otpToLocation } from '../util/otpStrings';
+import { getEndpointPath, isEmpty } from '../util/path';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -123,10 +124,7 @@ class IndexPage extends React.Component {
       return; // we're there already
     }
 
-    if (
-      nextProps.params.origin !== undefined &&
-      nextProps.params.origin !== '-'
-    ) {
+    if (!isEmpty(nextProps.params.origin)) {
       // origin is set
       const location = otpToLocation(nextProps.params.origin);
       // console.log(`parsed location:${location}`);
@@ -192,9 +190,8 @@ class IndexPage extends React.Component {
   };
 
   openFavourites = replace => {
-    const url = `/${this.props.params.origin
-      ? `${this.props.params.origin || '-'}/`
-      : ''}suosikit`;
+    const [, origin, destination] = this.context.location.pathname.split('/');
+    const url = `${getEndpointPath(origin, destination)}/suosikit`;
     if (replace) {
       this.context.router.replace(url);
     } else {
@@ -203,9 +200,9 @@ class IndexPage extends React.Component {
   };
 
   openNearby = replace => {
-    const url = `/${this.props.params.origin
-      ? `${this.props.params.origin || '-'}/`
-      : ''}lahellasi`;
+    const [, origin, destination] = this.context.location.pathname.split('/');
+    const url = `${getEndpointPath(origin, destination)}/lahellasi`;
+
     if (replace) {
       this.context.router.replace(url);
     } else {
