@@ -41,6 +41,7 @@ class DTAutosuggest extends React.Component {
   static propTypes = {
     selectedFunction: PropTypes.func,
     placeholder: PropTypes.string,
+    value: PropTypes.string,
     autoFocus: PropTypes.bool,
     searchType: PropTypes.string.isRequired,
   };
@@ -51,11 +52,11 @@ class DTAutosuggest extends React.Component {
     autoFocus: false,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      value: '',
+      value: props.value,
       suggestions: [],
     };
   }
@@ -101,7 +102,6 @@ class DTAutosuggest extends React.Component {
         if (res1 && res1.results) {
           res = res.concat(res1.results);
         }
-        console.log('got results:', res);
         cb(res);
       },
     );
