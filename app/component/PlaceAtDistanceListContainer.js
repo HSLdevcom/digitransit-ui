@@ -51,14 +51,14 @@ const PlaceAtDistanceList = ({ places, currentTime, timeRange }) => {
               node.place.stoptimes[0].serviceDay +
                 node.place.stoptimes[0].realtimeDeparture,
           ],
-        ).map(({ node }) =>
+        ).map(({ node }) => (
           <PlaceAtDistanceContainer
             key={node.place.id}
             currentTime={currentTime}
             timeRange={timeRange}
             placeAtDistance={node}
-          />,
-        )}
+          />
+        ))}
       </div>
     );
   }

@@ -21,11 +21,11 @@ let ZoomControl;
 let L;
 
 if (isBrowser) {
-  LeafletMap = require('react-leaflet/lib/Map').default;
-  TileLayer = require('react-leaflet/lib/TileLayer').default;
-  AttributionControl = require('react-leaflet/lib/AttributionControl').default;
-  ScaleControl = require('react-leaflet/lib/ScaleControl').default;
-  ZoomControl = require('react-leaflet/lib/ZoomControl').default;
+  LeafletMap = require('react-leaflet/es/Map').default;
+  TileLayer = require('react-leaflet/es/TileLayer').default;
+  AttributionControl = require('react-leaflet/es/AttributionControl').default;
+  ScaleControl = require('react-leaflet/es/ScaleControl').default;
+  ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
@@ -116,22 +116,25 @@ class Map extends React.Component {
       ),
   };
 
-  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) =>
+  renderVectorTileLayerContainer = ({ VectorTileLayerContainer }) => (
     <VectorTileLayerContainer
       hilightedStops={this.props.hilightedStops}
       showStops={this.props.showStops}
       disableMapTracking={this.props.disableMapTracking}
-    />;
+    />
+  );
 
-  renderStopMarkerContainer = ({ StopMarkerContainer }) =>
+  renderStopMarkerContainer = ({ StopMarkerContainer }) => (
     <StopMarkerContainer
       hilightedStops={this.props.hilightedStops}
       disableMapTracking={this.props.disableMapTracking}
       updateWhenIdle={false}
-    />;
+    />
+  );
 
-  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) =>
-    <CityBikeMarkerContainer />;
+  renderCityBikeMarkerContainer = ({ CityBikeMarkerContainer }) => (
+    <CityBikeMarkerContainer />
+  );
 
   render = () => {
     let map;
@@ -195,8 +198,8 @@ class Map extends React.Component {
 
       const center =
         (!this.props.fitBounds &&
-        this.props.lat &&
-        this.props.lon && [this.props.lat, this.props.lon]) ||
+          this.props.lat &&
+          this.props.lon && [this.props.lat, this.props.lon]) ||
         null;
 
       ({ zoom } = this.props);
@@ -255,18 +258,20 @@ class Map extends React.Component {
             position="bottomleft"
             prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
           />
-          {this.props.showScaleBar &&
+          {this.props.showScaleBar && (
             <ScaleControl
               imperial={false}
               position={config.map.controls.scale.position}
-            />}
+            />
+          )}
           {this.context.breakpoint === 'large' &&
-            !this.props.disableZoom &&
-            <ZoomControl
-              position={config.map.controls.zoom.position}
-              zoomInText={Icon.asString('icon-icon_plus')}
-              zoomOutText={Icon.asString('icon-icon_minus')}
-            />}
+            !this.props.disableZoom && (
+              <ZoomControl
+                position={config.map.controls.zoom.position}
+                zoomInText={Icon.asString('icon-icon_plus')}
+                zoomOutText={Icon.asString('icon-icon_minus')}
+              />
+            )}
           {leafletObjs}
         </LeafletMap>
       );

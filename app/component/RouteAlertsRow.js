@@ -23,12 +23,8 @@ export default function RouteAlertsRow({
         <div className="route-alert-duration">
           {startTime} – {endTime}
         </div>
-        <div className={cx('route-alert-header', routeMode)}>
-          {header}
-        </div>
-        <div className="route-alert-body">
-          {description}
-        </div>
+        <div className={cx('route-alert-header', routeMode)}>{header}</div>
+        <div className="route-alert-body">{description}</div>
       </div>
     </div>
   );
@@ -45,7 +41,7 @@ RouteAlertsRow.propTypes = {
   color: PropTypes.string.isRequired,
 };
 
-RouteAlertsRow.description = () =>
+RouteAlertsRow.description = () => (
   <div>
     <p>Display a disruption alert for a specific route.</p>
     <div className="route-alerts-list">
@@ -82,4 +78,5 @@ RouteAlertsRow.description = () =>
         />
       </ComponentUsageExample>
     </div>
-  </div>;
+  </div>
+);

@@ -82,12 +82,11 @@ export default function ItineraryPageMap(
           pathname: `${location.pathname}/kartta`,
         });
 
-  const overlay = fullscreen
-    ? undefined
-    : <div
-        className="map-click-prevent-overlay"
-        onClick={toggleFullscreenMap}
-      />;
+  const overlay = fullscreen ? (
+    undefined
+  ) : (
+    <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
+  );
 
   let bounds;
 
@@ -147,10 +146,11 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-      {breakpoint !== 'large' &&
+      {breakpoint !== 'large' && (
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
           <Icon img="icon-icon_maximize" className="cursor-pointer" />
-        </div>}
+        </div>
+      )}
     </Map>
   );
 }

@@ -65,9 +65,7 @@ const FavouriteLocation = ({
     >
       <div className="favourite-location-arrival">
         <Icon className="favourite-location-icon" img={selectedIconId} />
-        <div className="favourite-location-name">
-          {locationName}
-        </div>
+        <div className="favourite-location-name">{locationName}</div>
       </div>
 
       {info}
@@ -86,7 +84,7 @@ const FavouriteLocation = ({
   );
 };
 
-FavouriteLocation.description = () =>
+FavouriteLocation.description = () => (
   <div>
     <p>Renders a favourite location component</p>
     <ComponentUsageExample description="first leg is with a bus">
@@ -95,7 +93,8 @@ FavouriteLocation.description = () =>
         {...favouriteLocationExample}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 FavouriteLocation.propTypes = {
   favourite: PropTypes.object,

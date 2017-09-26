@@ -307,17 +307,14 @@ export default class SearchInputContainer extends Component {
 
     return (
       <ul className="search-no-results">
-        <li>
-          {elem}
-        </li>
+        <li>{elem}</li>
       </ul>
     );
   }
 
-  renderSimpleWrapper = ({ children, containerProps }) =>
-    <div {...containerProps}>
-      {this.renderItemsOrEmpty(children)}
-    </div>;
+  renderSimpleWrapper = ({ children, containerProps }) => (
+    <div {...containerProps}>{this.renderItemsOrEmpty(children)}</div>
+  );
 
   renderItem = item => {
     // eslint-disable-line class-methods-use-this

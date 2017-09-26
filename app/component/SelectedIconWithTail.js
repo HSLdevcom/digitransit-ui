@@ -3,7 +3,7 @@ import React from 'react';
 import IconWithTail from './IconWithTail';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const SelectedIconWithTail = ({ img, fullscreenMap }) =>
+const SelectedIconWithTail = ({ img, fullscreenMap }) => (
   <IconWithTail
     img={img}
     className="selected-tail-icon"
@@ -32,11 +32,12 @@ const SelectedIconWithTail = ({ img, fullscreenMap }) =>
         stroke="#fff"
       />
     </svg>
-  </IconWithTail>;
+  </IconWithTail>
+);
 
 SelectedIconWithTail.displayName = 'SelectedIconWithTail';
 
-SelectedIconWithTail.description = () =>
+SelectedIconWithTail.description = () => (
   <div>
     <p>
       Shows an selected (vehicle) icon that cconsists of IconWithTail and a
@@ -48,7 +49,8 @@ SelectedIconWithTail.description = () =>
         img="icon-icon_bus-live"
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 SelectedIconWithTail.propTypes = {
   img: PropTypes.string.isRequired,

@@ -118,7 +118,7 @@ class SearchMainContainer extends React.Component {
     this.focusInput(tabname);
   }
 
-  renderEndpointTab = (tabname, tablabel, placeholder, type, layers) =>
+  renderEndpointTab = (tabname, tablabel, placeholder, type, layers) => (
     <Tab
       className={`search-header__button${this.props.selectedTab === tabname
         ? '--selected'
@@ -128,7 +128,7 @@ class SearchMainContainer extends React.Component {
       id={tabname}
       onActive={this.onTabChange}
     >
-      {this.props.selectedTab === tabname &&
+      {this.props.selectedTab === tabname && (
         <SearchInputContainer
           ref={c => {
             this.searchInputs[tabname] = c;
@@ -139,8 +139,10 @@ class SearchMainContainer extends React.Component {
           layers={layers}
           close={this.closeModal}
           onSuggestionSelected={this.onSuggestionSelected}
-        />}
-    </Tab>;
+        />
+      )}
+    </Tab>
+  );
 
   render() {
     const destinationPlaceholder = this.context.intl.formatMessage({

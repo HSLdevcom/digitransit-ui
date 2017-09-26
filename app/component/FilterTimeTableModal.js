@@ -93,9 +93,7 @@ class FilterTimeTableModal extends React.Component {
           >
             {o.shortName ? o.shortName : o.agency}
           </div>
-          <div className="route-headsign">
-            {o.headsign}
-          </div>
+          <div className="route-headsign">{o.headsign}</div>
         </div>,
       ),
     );

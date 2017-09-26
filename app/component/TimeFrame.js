@@ -4,10 +4,9 @@ import moment from 'moment';
 
 import { TIME_PATTERN, DATE_PATTERN } from '../util/timeUtils';
 
-const time = momentTime =>
-  <span className="capitalize">
-    {momentTime.format(TIME_PATTERN)}
-  </span>;
+const time = momentTime => (
+  <span className="capitalize">{momentTime.format(TIME_PATTERN)}</span>
+);
 
 /**
  * Returns date time or time if same day as reference

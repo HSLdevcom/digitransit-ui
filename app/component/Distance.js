@@ -28,14 +28,10 @@ const Distance = (props, context) => {
     distance = '';
   }
 
-  return (
-    <span className="distance">
-      {distance}
-    </span>
-  );
+  return <span className="distance">{distance}</span>;
 };
 
-Distance.description = () =>
+Distance.description = () => (
   <div>
     <p>
       Display distance in correct format. Rounds to 10s of meters or if above
@@ -50,7 +46,8 @@ Distance.description = () =>
     <ComponentUsageExample description="distance in km">
       <Distance distance={3040} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 Distance.propTypes = {
   distance: PropTypes.number.isRequired,

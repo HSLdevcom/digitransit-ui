@@ -44,14 +44,13 @@ function MainMenu(props, context) {
       </div>
       <div className="offcanvas-section">
         {config.mainMenu.showDisruptions &&
-          props.showDisruptionInfo &&
-          <DisruptionInfoButtonContainer />}
+          props.showDisruptionInfo && <DisruptionInfoButtonContainer />}
       </div>
       <MainMenuLinks
         content={([config.appBarLink].concat(
           config.footer && config.footer.content,
-        ) || [])
-          .filter(item => item.href || item.route)}
+        ) || []
+        ).filter(item => item.href || item.route)}
       />
     </div>
   );

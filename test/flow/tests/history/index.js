@@ -10,7 +10,10 @@ module.exports = {
     searchFields.waitSearchClosing(); // back closes modal
 
     // make sure we are on the front page, and nearby is available
-    browser.page.nearby().openNearbyRoutes().waitForRoutes();
+    browser.page
+      .nearby()
+      .openNearbyRoutes()
+      .waitForRoutes();
 
     browser.end();
   },

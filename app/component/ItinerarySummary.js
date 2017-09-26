@@ -3,7 +3,7 @@ import React from 'react';
 import Duration from './Duration';
 import WalkDistance from './WalkDistance';
 
-const ItinerarySummary = ({ itinerary, children }) =>
+const ItinerarySummary = ({ itinerary, children }) => (
   <div className="itinerary-summary">
     <Duration
       duration={itinerary.duration}
@@ -11,7 +11,8 @@ const ItinerarySummary = ({ itinerary, children }) =>
     />
     {children}
     <WalkDistance walkDistance={itinerary.walkDistance} />
-  </div>;
+  </div>
+);
 
 ItinerarySummary.description = () =>
   "Displays itinerary summary row; itinerary's duration and walk distance";

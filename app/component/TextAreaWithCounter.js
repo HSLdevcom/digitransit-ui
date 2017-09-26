@@ -47,7 +47,7 @@ TextAreaWithCounter.defaultProps = {
 
 TextAreaWithCounter.displayName = 'TextAreaWithCounter';
 
-TextAreaWithCounter.description = () =>
+TextAreaWithCounter.description = () => (
   <div>
     <p>Renders a text area. Counter is optional</p>
     <ComponentUsageExample description="">
@@ -58,7 +58,8 @@ TextAreaWithCounter.description = () =>
         charLeft={200}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 TextAreaWithCounter.PropTypes = {
   showCounter: PropTypes.bool,

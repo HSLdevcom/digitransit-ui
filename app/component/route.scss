@@ -254,6 +254,9 @@ $route-schedule-date-height: 36px;
   right: 20px;
   height: 22px;
   width: 22px;
+  @media print {
+    display: none;
+  }
 }
 
 // Schedule list
@@ -271,12 +274,73 @@ $route-schedule-date-height: 36px;
 
   .route-schedule-header {
     min-height: 52px;
+    @media print {
+      margin-left: 0;
+      margin-right: auto;
+    }
   }
 }
 
+
 .route-schedule-list {
   padding-bottom: 0.7em;
-  flex: 1
+  flex: 1;
+
+  @media print {
+    .row {
+      margin-left: 0;
+    }
+  }
+}
+
+.header-for-printing {
+  display:none;
+  @media print {
+    display: block;
+    h1 {
+      font-size: 26px;
+      font-weight: 500;
+      font-family: $font-family;
+  }
+  }
+}
+
+.printable-stop-header {
+  display: none;
+  @media print {
+    margin-top: 1em;
+    display:flex;
+    font-size: 24px;
+    font-weight: 700;
+    .printable-stop-header_from {
+      margin-right: 1em;
+      width: 8.4em;
+    }
+  .printable-stop-header_icon-from {
+    margin-right: 0.7em;
+    svg {
+      fill: $from-color;
+      color: $from-color;
+    }
+  }
+  .printable-stop-header_icon-to {
+    margin-right: 0.7em;
+    svg {
+      fill: $to-color;
+      color: $to-color;
+    }
+  }
+  .printable-stop-header_line {
+    background-image: url('../default/dotted-line-bg2.png');
+    background-size: 80% auto;
+    background-position-y: 0px;
+    background-position-x: 7px;
+    margin-right: 1em;
+    margin-top: 0.6em;
+    height: 6px;
+    width: 6.6em;
+  }
+  }
 }
 
 .route-schedule-stop-select {
@@ -313,18 +377,33 @@ $route-schedule-date-height: 36px;
     border-right: 7px solid transparent;
     border-top: 7px solid $link-color;
   }
+  @media print {
+    display: none;
+  }
 }
 
 .trip-column {
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
   line-height: 1.5;
+  display: flex;
+  @media print {
+    width: 69%;
+    margin-left: 28px;
+    margin-right: auto;
+    font-size: 21px;
+  }
 }
 
 .trip-separator {
-  position: relative;
+    width: 297px;
+    border-top: 2px dotted $black;
+    height: 1px;
+    margin-top: 0.8em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
 }
-
+/*
 .trip-separator:after {
   content: "";
   width: 100%;
@@ -333,21 +412,26 @@ $route-schedule-date-height: 36px;
   left: 0;
   border-top: 1px solid $light-gray;
 }
-
+*/
 .trip-from, .trip-to {
   background: #fff;
   width: 50px;
-  position: relative;
-  z-index: 1;
   font-size: $font-size-small;
+  text-align: left;
+  min-width: 3em;
+  @media print {
+    font-size: 21px;
+    font-weight: 400;
+  }
 }
 
 .trip-from {
-  transform: translateX(-50%);
+  margin-right: 1em;
+  margin-left: 0.6em;
 }
 
 .trip-to {
-  transform: translateX(50%);
+  margin-left: 1em;
 }
 
 .route-page-action-bar {
@@ -356,10 +440,46 @@ $route-schedule-date-height: 36px;
   flex-direction: row;
   padding: 0 15px;
   background-color: #eef1f3;
+
+      .printable-date-container {
+      display: none;
+      @media print { display: flex; }
+
+      .printable-date-icon {
+        margin-right: 0.8em;
+        svg {
+        width: 47.3px;
+        height: 42px;
+      }
+      }
+      .printable-date-header {
+        font-size: 14px;
+      }
+      .printable-date-content {
+         font-size: 20px;
+         font-weight: 700;
+      }
+    }
+    .secondary-button.print {
+      @media print {
+        display: none;
+      }
+    }
+    @media print {
+      padding-left: 0;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      background-color: $white;
+      border-top: 1px solid $light-gray;
+      border-bottom: 1px solid $light-gray;
+    }
 }
 
 .route-schedule-date {
   @include font-book;
+  @media print {
+    display: none;
+  }
 
   min-height: $route-schedule-date-height;
   margin: 0;
@@ -395,9 +515,6 @@ $route-schedule-date-height: 36px;
 
 // Tabs
 div.route-tabs {
-
-
-
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
@@ -408,6 +525,14 @@ div.route-tabs {
     margin: 0 10px;
     padding: 0 3px;
     border-bottom: 1px solid $light-gray;
+    @media print {
+      padding-left: 0 !important;
+      margin-left: 0 !important;
+      border: none;
+      .route-number {
+        margin-left: 0 !important;
+      }
+    }
 
     a {
       @include font-bold;
@@ -418,6 +543,9 @@ div.route-tabs {
       text-decoration: none;
       font-size: $font-size-xxsmall;
       min-width: 6em;
+      @media print {
+        display: none;
+      }
 
       &.activeAlert, &.activeAlert.is-active, &.activeAlert:hover {
         .icon {
@@ -540,6 +668,10 @@ div.route-tabs {
       outline: none;
       border: 1px solid $light-gray;
     }
+    @media print {
+      border: 0;
+      padding-left: 0;
+    }
   }
   .icon {
     color: $gray-blue;
@@ -547,10 +679,16 @@ div.route-tabs {
     right: 23px;
     top: 1.25rem;
     pointer-events: none;
+    @media print {
+      display: none;
+    }
   }
 
   &.bp-large {
     padding: 10px 20px;
+    @media print {
+      padding-left: 0;
+    }
 
     select {
       height: 40px;
@@ -558,6 +696,9 @@ div.route-tabs {
       padding:0 48px 0 20px;
       -webkit-padding-end: 48px;
       -webkit-padding-start: 20px;
+      @media print {
+      padding-left: 0;
+    }
     }
 
     .icon {

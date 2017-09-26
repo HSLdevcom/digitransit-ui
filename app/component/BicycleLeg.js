@@ -18,11 +18,7 @@ function BicycleLeg(props, context) {
   );
   const duration = durationToString(props.leg.duration * 1000);
   let { mode } = props.leg;
-  let legDescription = (
-    <span>
-      {props.leg.from.name}
-    </span>
-  );
+  let legDescription = <span>{props.leg.from.name}</span>;
   const firstLegClassName = props.index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
@@ -80,9 +76,7 @@ function BicycleLeg(props, context) {
           {legDescription}
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
-          {stopsDescription}
-        </div>
+        <div className="itinerary-leg-action">{stopsDescription}</div>
       </div>
     </div>
   );
@@ -125,7 +119,11 @@ const exampleLegCitybikeWalkingBike = t1 => ({
 });
 
 BicycleLeg.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   return (
     <div>
       <p>Displays an itinerary bicycle leg.</p>

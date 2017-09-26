@@ -127,7 +127,7 @@ const exampleDeparture2 = {
   ],
 };
 
-DepartureRow.description = () =>
+DepartureRow.description = () => (
   <div>
     <ComponentUsageExample description="example">
       <DepartureRow
@@ -143,7 +143,8 @@ DepartureRow.description = () =>
         currentTime={1473676196}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export { DepartureRow };
 

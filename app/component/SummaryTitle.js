@@ -5,15 +5,17 @@ import { FormattedMessage } from 'react-intl';
 export default function SummaryTitle(props) {
   return (
     <span>
-      {props.params.hash == null
-        ? <FormattedMessage
-            id="summary-page.title"
-            defaultMessage="Itinerary suggestions"
-          />
-        : <FormattedMessage
-            id="itinerary-page.title"
-            defaultMessage="Itinerary"
-          />}
+      {props.params.hash == null ? (
+        <FormattedMessage
+          id="summary-page.title"
+          defaultMessage="Itinerary suggestions"
+        />
+      ) : (
+        <FormattedMessage
+          id="itinerary-page.title"
+          defaultMessage="Itinerary"
+        />
+      )}
     </span>
   );
 }
