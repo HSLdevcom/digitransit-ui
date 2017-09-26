@@ -18,6 +18,7 @@ class DTAutosuggestContainer extends React.Component {
     onLocationSelected: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -60,6 +61,8 @@ class DTAutosuggestContainer extends React.Component {
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}
       value={this.props.value}
+      id={this.props.id}
+      className="location"
     />;
 }
 

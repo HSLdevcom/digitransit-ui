@@ -18,11 +18,14 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     value: PropTypes.string,
+    className: PropTypes.string,
+    id: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     autoFocus: false,
     placeholder: '',
+    className: '',
   };
 
   onSelect = item => {
@@ -53,6 +56,8 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       selectedFunction={(event, { suggestion }) => {
         this.onSelect(suggestion);
       }}
+      id={this.props.id}
+      className={this.props.className}
     />;
 }
 

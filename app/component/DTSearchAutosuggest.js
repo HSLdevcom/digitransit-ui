@@ -46,6 +46,8 @@ class DTAutosuggest extends React.Component {
     value: PropTypes.string,
     autoFocus: PropTypes.bool,
     searchType: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
@@ -130,10 +132,12 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       autoFocus: this.props.autoFocus,
+      className: `react-autosuggest__input ${this.props.className}`,
     };
 
     return (
       <Autosuggest
+        id={this.props.id}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
