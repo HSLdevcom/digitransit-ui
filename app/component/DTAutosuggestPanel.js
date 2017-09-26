@@ -74,7 +74,7 @@ class DTAutosuggestPanel extends React.Component {
             }}
             autoFocus={this.props.destination === undefined}
           />
-        : undefined}
+        : null}
     </div>;
 }
 

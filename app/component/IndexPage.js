@@ -264,6 +264,8 @@ class IndexPage extends React.Component {
             searchModalIsOpen={searchModalIsOpen}
             selectedTab={selectedSearchTab}
             tab={selectedMainTab}
+            origin={this.getOrigin()}
+            destination={this.getDestination()}
           >
             <DTAutosuggestPanel
               origin={this.getOrigin()}
@@ -302,6 +304,8 @@ class IndexPage extends React.Component {
               showScaleBar
               searchModalIsOpen={searchModalIsOpen}
               selectedTab={selectedSearchTab}
+              origin={this.getOrigin()}
+              destination={this.getDestination()}
             >
               {messageBar}
               <DTAutosuggestPanel
