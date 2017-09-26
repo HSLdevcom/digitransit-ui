@@ -24,20 +24,7 @@ $item-border-color: #eee;
 
 
 
-  input.react-autosuggest__input
- {
-    border: 1px solid $gray;
-    border-radius: 4px;
-    height: $search-form-input-height;
-    padding: 10px;
-    outline: 0;
-    appearance: none;
 
-    &:focus {
-      box-shadow: none;
-      border-color: $link-color;
-    }
-  }
 
 
 .react-autosuggest__suggestions-container {
@@ -700,3 +687,28 @@ div.origin-destination-bar {
     font-size: 24px;
   }
 }
+ // used styles start from here:
+
+
+div.autosuggest-panel {
+  position: relative;
+  z-index: 1000;
+  padding-left: 11pt;
+  padding-right: 11pt;
+  padding-top: 25pt;
+}
+
+input.react-autosuggest__input
+{
+   border: 1px solid #fff;
+   border-radius: 4px;
+   height: $search-form-input-height;
+   padding: 10px;
+   outline: 0;
+   appearance: none;
+   box-shadow: none;
+
+   &:focus {
+     box-shadow: none;
+   }
+ }
