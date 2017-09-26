@@ -1,5 +1,3 @@
-import { route } from './ItinerarySearchActions';
-
 export function storeEndpoint(actionContext, { target, endpoint }, done) {
   actionContext.dispatch('setEndpoint', {
     target,
@@ -27,7 +25,6 @@ export function setEndpoint(actionContext, payload) {
 
 export function setUseCurrent(actionContext, payload) {
   actionContext.dispatch('useCurrentPosition', payload);
-  return actionContext.executeAction(route, payload);
 }
 
 export function clearOrigin(actionContext) {
