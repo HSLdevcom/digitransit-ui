@@ -67,7 +67,6 @@ class IndexPage extends React.Component {
     if (this.props.params.origin !== undefined) {
       const location = otpToLocation(this.props.params.origin);
       if (location.lon && location.lat) {
-        console.log('setting origin with action:', location);
         this.context.executeAction(storeEndpoint, {
           target: 'origin',
           endpoint: location,
