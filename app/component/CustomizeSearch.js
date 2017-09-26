@@ -14,7 +14,6 @@ import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
 import FareZoneSelector from './FareZoneSelector';
-import { route } from '../action/ItinerarySearchActions';
 import ViaPointSelector from './ViaPointSelector';
 import {
   getCustomizedSettings,
@@ -469,16 +468,14 @@ class CustomizeSearch extends React.Component {
     });
 
   updateSettings(name, value, sliderValues) {
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          [name]: value,
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        [name]: value,
       },
-      router: this.context.router,
     });
+
     if (!(typeof sliderValues === 'undefined')) {
       this.setState({
         [name]: value && mapToSlider(value, sliderValues),
@@ -512,56 +509,48 @@ class CustomizeSearch extends React.Component {
         this.transferMarginSliderValues,
       ),
     });
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          time: this.context.location.query.time,
-          walkSpeed: defaultSettings.walkSpeed,
-          walkReluctance: defaultSettings.walkReluctance,
-          walkBoardCost: defaultSettings.walkBoardCost,
-          minTransferTime: defaultSettings.minTransferTime,
-          accessibilityOption: defaultSettings.accessibilityOption,
-          modes: this.getDefaultModes().toString(),
-          ticketTypes: defaultSettings.ticketTypes,
-        },
+
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        time: this.context.location.query.time,
+        walkSpeed: defaultSettings.walkSpeed,
+        walkReluctance: defaultSettings.walkReluctance,
+        walkBoardCost: defaultSettings.walkBoardCost,
+        minTransferTime: defaultSettings.minTransferTime,
+        accessibilityOption: defaultSettings.accessibilityOption,
+        modes: this.getDefaultModes().toString(),
+        ticketTypes: defaultSettings.ticketTypes,
       },
-      router: this.context.router,
     });
   };
 
   toggleTransportMode(mode, otpMode) {
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-            ',',
-          ),
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+          ',',
+        ),
       },
-      router: this.context.router,
     });
   }
 
   toggleStreetMode(mode) {
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          modes: without(
-            this.getModes(),
-            ...Object.keys(this.context.config.streetModes).map(m =>
-              m.toUpperCase(),
-            ),
-          )
-            .concat(mode.toUpperCase())
-            .join(','),
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        modes: without(
+          this.getModes(),
+          ...Object.keys(this.context.config.streetModes).map(m =>
+            m.toUpperCase(),
+          ),
+        )
+          .concat(mode.toUpperCase())
+          .join(','),
       },
-      router: this.context.router,
     });
   }
 
