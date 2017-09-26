@@ -43,6 +43,7 @@ class OneTabSearchModal extends React.Component {
       },
     };
 
+    // TODO should not be here anymore:
     if (item.type === 'CurrentLocation') {
       this.context.executeAction(setUseCurrent, {
         target: this.props.target,
