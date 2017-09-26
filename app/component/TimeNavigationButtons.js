@@ -4,7 +4,6 @@ import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
-import { route } from '../action/ItinerarySearchActions';
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
@@ -60,16 +59,13 @@ export default class TimeNavigationButtons extends React.Component {
 
     earliestArrivalTime.subtract(1, 'minutes');
 
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: earliestArrivalTime.unix(),
-          arriveBy: true,
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        time: earliestArrivalTime.unix(),
+        arriveBy: true,
       },
-      router: this.context.router,
     });
   }
 
@@ -90,30 +86,24 @@ export default class TimeNavigationButtons extends React.Component {
 
     latestDepartureTime.add(1, 'minutes');
 
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: latestDepartureTime.unix(),
-          arriveBy: false,
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        time: latestDepartureTime.unix(),
+        arriveBy: false,
       },
-      router: this.context.router,
     });
   }
 
   setSelectedTimeToNow() {
-    this.context.executeAction(route, {
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: moment().unix(),
-          arriveBy: false,
-        },
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        time: moment().unix(),
+        arriveBy: false,
       },
-      router: this.context.router,
     });
   }
 
