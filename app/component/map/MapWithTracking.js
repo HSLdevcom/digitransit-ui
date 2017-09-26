@@ -85,8 +85,6 @@ const MapWithTracking = connectToStores(
     let location;
     let zoom;
 
-    console.log(context);
-
     if (
       props.mapState.focusOnOrigin &&
       !origin.useCurrentPosition &&
