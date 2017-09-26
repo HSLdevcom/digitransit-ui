@@ -17,8 +17,6 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   static propTypes = {
-    hasOrigin: PropTypes.bool.isRequired,
-    hasDestination: PropTypes.bool.isRequired,
     origin: dtLocationShape,
     destination: dtLocationShape,
     geolocation: PropTypes.object,
@@ -64,12 +62,16 @@ class DTAutosuggestPanel extends React.Component {
               (this.props.destination && this.props.destination.address) || ''
             }
             onLocationSelected={location => {
-              // TODO check if origin is set!!
-              const originString = locationToOTP(this.props.origin);
-              const destinationString = locationToOTP(location);
+              let [
+                ,
+                originString,
+                destinationString,
+              ] = this.context.location.pathname.split('/');
+              destinationString = locationToOTP(location);
 
-              this.context.router.push(
+              this.navigate(
                 getPathWithEndpoints(originString, destinationString),
+                !isItinerarySearch(originString, destinationString),
               );
             }}
             autoFocus={this.props.destination === undefined}
