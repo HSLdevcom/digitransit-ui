@@ -84,6 +84,26 @@ class IndexPage extends React.Component {
     this.handleOriginProps(nextProps);
   };
 
+  getOrigin = () => {
+    if (this.props.params.origin) {
+      const location = otpToLocation(this.props.params.origin);
+      if (location.lon && location.lat) {
+        return location;
+      }
+    }
+    return undefined;
+  };
+
+  getDestination = () => {
+    if (this.props.params.destination) {
+      const location = otpToLocation(this.props.params.destination);
+      if (location.lon && location.lat) {
+        return location;
+      }
+    }
+    return undefined;
+  };
+
   getSelectedTab = (props = this.props) => {
     if (props.routes && props.routes.length > 0) {
       const routePath = props.routes[props.routes.length - 1].path;
@@ -116,7 +136,6 @@ class IndexPage extends React.Component {
   };
 
   handleOriginProps = nextProps => {
-    console.log('handling Origin props');
     const fromOrigin = this.props.params.origin;
     const toOrigin = nextProps.params.origin;
 
@@ -127,10 +146,7 @@ class IndexPage extends React.Component {
     if (!isEmpty(nextProps.params.origin)) {
       // origin is set
       const location = otpToLocation(nextProps.params.origin);
-      // console.log(`parsed location:${location}`);
-      // clear destination
-      // console.log('setting origin', location);
-      console.log('setting origin #2');
+
       this.context.executeAction(storeEndpoint, {
         target: 'origin',
         endpoint: location,
@@ -218,28 +234,6 @@ class IndexPage extends React.Component {
     } else {
       this.context.router.replace('/');
     }
-  };
-
-  getOrigin = () => {
-    console.log('getting origin');
-    if (this.props.params.origin) {
-      const location = otpToLocation(this.props.params.origin);
-      if (location.lon && location.lat) {
-        console.log('returning location', location);
-        return location;
-      }
-    }
-    return undefined;
-  };
-
-  getDestination = () => {
-    if (this.props.params.destination) {
-      const location = otpToLocation(this.props.params.destination);
-      if (location.lon && location.lat) {
-        return location;
-      }
-    }
-    return undefined;
   };
 
   render() {
