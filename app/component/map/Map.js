@@ -33,6 +33,7 @@ if (isBrowser) {
 
 class Map extends React.Component {
   static propTypes = {
+    animate: PropTypes.bool,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
     center: PropTypes.bool,
@@ -58,6 +59,7 @@ class Map extends React.Component {
 
   static defaultProps = {
     showScaleBar: false,
+    animate: true,
     loaded: () => {},
   };
 
@@ -235,7 +237,7 @@ class Map extends React.Component {
             (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
             undefined
           }
-          animate
+          animate={this.props.animate}
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
