@@ -187,9 +187,6 @@ class IndexPage extends React.Component {
           breakpoint={this.props.breakpoint}
           showStops
           showScaleBar
-          searchModalIsOpen={searchModalIsOpen}
-          selectedTab={selectedSearchTab}
-          tab={selectedMainTab}
         >
           <SearchMainContainer
             searchModalIsOpen={searchModalIsOpen}
@@ -226,8 +223,6 @@ class IndexPage extends React.Component {
             breakpoint={this.props.breakpoint}
             showStops
             showScaleBar
-            searchModalIsOpen={searchModalIsOpen}
-            selectedTab={selectedSearchTab}
           >
             {messageBar}
             <SearchMainContainer
