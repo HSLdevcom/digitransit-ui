@@ -79,14 +79,14 @@ class TransitLeg extends React.Component {
           defaultMessage="Hide stops"
         />
       )) || (
-          <FormattedMessage
-            id="number-of-intermediate-stops"
-            values={{
-              number: (stops && stops.length) || 0,
-            }}
-            defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
-          />
-        );
+        <FormattedMessage
+          id="number-of-intermediate-stops"
+          values={{
+            number: (stops && stops.length) || 0,
+          }}
+          defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
+        />
+      );
       return (
         <div className="intermediate-stop-info-container">
           {stopCount === 0 ? (
