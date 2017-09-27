@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intl, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '../util/searchUtils';
 import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
@@ -77,24 +77,20 @@ class DTAutosuggest extends React.Component {
     });
   };
 
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.fetchFunction(value, this.suggestionsDataReceived);
-  };
-
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
     });
   };
 
-  fetchFunction = (input, cb) => {
+  fetchFunction = ({ value }) => {
     const getStore = this.context.getStore;
     const config = this.context.config;
 
     executeSearch(
       getStore,
       {
-        input,
+        value,
         type: this.props.searchType,
         config,
       },
@@ -105,23 +101,20 @@ class DTAutosuggest extends React.Component {
         }
         const [res1, res2] = result;
 
-        let res = [];
+        let suggestions = [];
         if (res2 && res2.results) {
-          res = res.concat(res2.results);
+          suggestions = suggestions.concat(res2.results);
         }
         if (res1 && res1.results) {
-          res = res.concat(res1.results);
+          suggestions = suggestions.concat(res1.results);
         }
-        cb(res);
+        this.setState({
+          suggestions,
+        });
       },
     );
   };
 
-  suggestionsDataReceived = suggestions => {
-    this.setState({
-      suggestions,
-    });
-  };
   render = () => {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -139,7 +132,7 @@ class DTAutosuggest extends React.Component {
       <Autosuggest
         id={this.props.id}
         suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderItem}
