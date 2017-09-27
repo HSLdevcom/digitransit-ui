@@ -3,7 +3,6 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '../util/searchUtils';
-import CurrentPositionSuggestionItem from './CurrentPositionSuggestionItem';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 
@@ -12,26 +11,18 @@ function getSuggestionValue(suggestion) {
   return value;
 }
 
-const renderItem = item => {
-  // eslint-disable-line class-methods-use-this
-  if (item.properties.layer === 'currentPosition') {
-    // todo this is not needed
-    return <CurrentPositionSuggestionItem ref={item.name} item={item} />;
-  }
-  return (
-    <SuggestionItem
-      doNotShowLinkToStop={
-        false
-        // todo convert to component prop!! this.props.type !== 'all'
-      }
-      ref={item.name}
-      item={item}
-      useTransportIconsconfig={
-        false // this.context.config.search.suggestions.useTransportIcons
-      }
-    />
-  );
-};
+const renderItem = item =>
+  <SuggestionItem
+    doNotShowLinkToStop={
+      false
+      // todo convert to component prop!! this.props.type !== 'all'
+    }
+    ref={item.name}
+    item={item}
+    useTransportIconsconfig={
+      false // this.context.config.search.suggestions.useTransportIcons
+    }
+  />;
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -84,19 +75,16 @@ class DTAutosuggest extends React.Component {
   };
 
   fetchFunction = ({ value }) => {
-    const getStore = this.context.getStore;
-    const config = this.context.config;
-
+    console.log(this.props.searchType, value);
     executeSearch(
-      getStore,
+      this.context.getStore,
       {
-        value,
+        input: value,
         type: this.props.searchType,
-        config,
+        config: this.context.config,
       },
       result => {
         if (result == null) {
-          // cb([]);
           return;
         }
         const [res1, res2] = result;
@@ -108,6 +96,7 @@ class DTAutosuggest extends React.Component {
         if (res1 && res1.results) {
           suggestions = suggestions.concat(res1.results);
         }
+        console.log('setting suggestions', suggestions);
         this.setState({
           suggestions,
         });
