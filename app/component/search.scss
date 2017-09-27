@@ -692,19 +692,26 @@ div.origin-destination-bar {
 
 div.autosuggest-panel {
   position: relative;
-  z-index: 1000;
+  // TODO fix z-index
+  z-index: 3000;
   padding-left: 11pt;
   padding-right: 11pt;
   padding-top: 25pt;
 }
 
-input.react-autosuggest__input
-{
-   border: 1px solid #fff;
-   border-radius: 4px;
-   height: $search-form-input-height;
-   padding: 10px;
-   outline: 0;
-   appearance: none;
-   box-shadow: none;
- }
+input.react-autosuggest__input{
+  &.location {
+    padding: 10px 10px 10px 40px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>") no-repeat scroll 7px 7px;
+    background-color: white;
+  }
+  background-color: white;
+  @include font-medium;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  height: $search-form-input-height;
+  padding: 10px;
+  outline: 0;
+  appearance: none;
+  box-shadow: none;
+}

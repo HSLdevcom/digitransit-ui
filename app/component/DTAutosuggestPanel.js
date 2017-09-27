@@ -36,6 +36,7 @@ class DTAutosuggestPanel extends React.Component {
     <div className="autosuggest-panel">
       <DTEndpointAutosuggest
         id="origin"
+        className="location"
         searchType="all"
         placeholder="give-origin"
         value={(this.props.origin && this.props.origin.address) || ''}
@@ -58,6 +59,7 @@ class DTAutosuggestPanel extends React.Component {
             id="destination"
             searchType="endpoint"
             placeholder="give-destination"
+            className="location"
             value={
               (this.props.destination && this.props.destination.address) || ''
             }

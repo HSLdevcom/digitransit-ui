@@ -19,10 +19,12 @@ class DTAutosuggestContainer extends React.Component {
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
     autoFocus: false,
+    className: '',
   };
 
   constructor() {
@@ -62,7 +64,7 @@ class DTAutosuggestContainer extends React.Component {
       onSelect={this.onSuggestionSelected}
       value={this.props.value}
       id={this.props.id}
-      className="location"
+      className={this.props.value !== '' ? this.props.className : ''}
     />;
 }
 
