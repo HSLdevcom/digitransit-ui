@@ -75,7 +75,6 @@ class DTAutosuggest extends React.Component {
   };
 
   fetchFunction = ({ value }) => {
-    console.log(this.props.searchType, value);
     executeSearch(
       this.context.getStore,
       {
@@ -120,6 +119,7 @@ class DTAutosuggest extends React.Component {
     return (
       <Autosuggest
         id={this.props.id}
+        shouldRenderSuggestions={() => true}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}

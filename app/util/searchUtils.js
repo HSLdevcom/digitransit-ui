@@ -450,7 +450,9 @@ export function executeSearchImmediate(
   );
 }
 
-const debouncedSearch = debounce(executeSearchImmediate, 300);
+const debouncedSearch = debounce(executeSearchImmediate, 300, {
+  leading: true,
+});
 
 export const executeSearch = (getStore, data, callback) => {
   callback(null); // This means 'we are searching'
