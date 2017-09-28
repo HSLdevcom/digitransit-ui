@@ -44,28 +44,34 @@ const DepartureRow = props => {
   }
 
   return (
-    <div className="next-departure-row padding-vertical-normal border-bottom">
+    <tr>
       <Link
         to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
           .pattern.code}`}
         key={departure.pattern.code}
       >
-        <Distance distance={props.distance} />
-        <RouteNumberContainer
-          route={departure.pattern.route}
-          hasDisruption={hasActiveDisruption(
-            props.currentTime,
-            departure.pattern.route.alerts,
-          )}
-          isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
-        />
-        <RouteDestination
-          mode={departure.pattern.route.mode}
-          destination={headsign || departure.pattern.route.longName}
-        />
-        {departureTimes}
+        <td>
+          <Distance distance={props.distance} />
+        </td>
+        <td>
+          <RouteNumberContainer
+            route={departure.pattern.route}
+            hasDisruption={hasActiveDisruption(
+              props.currentTime,
+              departure.pattern.route.alerts,
+            )}
+            isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
+          />
+        </td>
+        <td>
+          <RouteDestination
+            mode={departure.pattern.route.mode}
+            destination={headsign || departure.pattern.route.longName}
+          />
+          {departureTimes}
+        </td>
       </Link>
-    </div>
+    </tr>
   );
 };
 
