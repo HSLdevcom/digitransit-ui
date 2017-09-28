@@ -14,18 +14,12 @@ function NearbyRoutesPanel(
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      {context.config.showModeFilter && (
+      {context.config.showModeFilter &&
         <div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
-<<<<<<< HEAD
         </div>}
-=======
-        </div>
-      )}
-      <NextDeparturesListHeader />
->>>>>>> 4bbf5b4bc2360793da28b313bdf462b7b69ded8c
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
           lat={location.lat}
@@ -75,10 +69,7 @@ export default connectToStores(
 
     return {
       location: origin.useCurrentPosition ? position : origin,
-      currentTime: context
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
+      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
       modes: modeFilter,
       placeTypes: placeTypeFilter,
     };
