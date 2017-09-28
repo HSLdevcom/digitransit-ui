@@ -38,8 +38,9 @@ export default function TicketInformation({ fares }, { config }) {
       <div className="itinerary-ticket-layout-right">
         <div className="itinerary-ticket-type">
           <div className="ticket-type-zone">
-            {mappedFareId &&
-              <FormattedMessage id={`ticket-type-${mappedFareId}`} />}
+            {mappedFareId && (
+              <FormattedMessage id={`ticket-type-${mappedFareId}`} />
+            )}
           </div>
           <div>
             <span className="ticket-type-group">
@@ -53,7 +54,7 @@ export default function TicketInformation({ fares }, { config }) {
             </span>
           </div>
         </div>
-        {config.ticketLink &&
+        {config.ticketLink && (
           <ExternalLink
             className="itinerary-ticket-external-link"
             href={config.ticketLink}
@@ -62,7 +63,8 @@ export default function TicketInformation({ fares }, { config }) {
               id="buy-ticket"
               defaultMessage="How to buy a ticket"
             />
-          </ExternalLink>}
+          </ExternalLink>
+        )}
       </div>
     </div>
   );
@@ -79,10 +81,11 @@ TicketInformation.contextTypes = {
 
 TicketInformation.displayName = 'TicketInformation';
 
-TicketInformation.description = () =>
+TicketInformation.description = () => (
   <div>
     <p>Information about the required ticket for the itinerary.</p>
     <ComponentUsageExample>
       <TicketInformation fares={examplePlan.itineraries[0].fares} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);

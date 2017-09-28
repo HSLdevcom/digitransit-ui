@@ -62,12 +62,13 @@ class ItineraryTab extends React.Component {
 
   render() {
     const config = this.context.config;
-    const routeInformation =
-      config.showRouteInformation && <RouteInformation />;
+    const routeInformation = config.showRouteInformation && (
+      <RouteInformation />
+    );
 
     return (
       <div className="itinerary-tab">
-        {this.context.breakpoint !== 'large' &&
+        {this.context.breakpoint !== 'large' && (
           <ItinerarySummary itinerary={this.props.itinerary}>
             <TimeFrame
               startTime={this.props.itinerary.startTime}
@@ -75,14 +76,16 @@ class ItineraryTab extends React.Component {
               refTime={this.props.searchTime}
               className="timeframe--itinerary-summary"
             />
-          </ItinerarySummary>}
-        {this.context.breakpoint === 'large' &&
+          </ItinerarySummary>
+        )}
+        {this.context.breakpoint === 'large' && (
           <div className="itinerary-timeframe">
             <DateWarning
               date={this.props.itinerary.startTime}
               refTime={this.props.searchTime}
             />
-          </div>}
+          </div>
+        )}
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div
             className={cx('itinerary-main', {
@@ -93,18 +96,17 @@ class ItineraryTab extends React.Component {
               itinerary={this.props.itinerary}
               focusMap={this.handleFocus}
             />
-            {config.showTicketInformation &&
-              <TicketInformation fares={this.props.itinerary.fares} />}
+            {config.showTicketInformation && (
+              <TicketInformation fares={this.props.itinerary.fares} />
+            )}
             {routeInformation}
           </div>
           <div className="row print-itinerary-button-container">
             <SecondaryButton
-              buttonParams={{
-                ariaLabel: 'print',
-                buttonName: 'print',
-                buttonIcon: 'icon-icon_print',
-                buttonClickAction: e => this.printItinerary(e),
-              }}
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => this.printItinerary(e)}
+              buttonIcon="icon-icon_print"
             />
           </div>
         </div>

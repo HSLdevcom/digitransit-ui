@@ -27,11 +27,7 @@ function TripLink(props) {
   }
 
   console.warn('Unable to match trip', props);
-  return (
-    <span className="route-now-content">
-      {icon}
-    </span>
-  );
+  return <span className="route-now-content">{icon}</span>;
 }
 
 TripLink.propTypes = {

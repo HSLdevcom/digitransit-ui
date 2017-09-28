@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import AddIcon from './AddIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const EmptyFavouriteLocationSlot = ({ index }) =>
+const EmptyFavouriteLocationSlot = ({ index }) => (
   <Link
     id={`add-new-favourite-${index}`}
     to="/suosikki/uusi"
@@ -18,17 +18,19 @@ const EmptyFavouriteLocationSlot = ({ index }) =>
         <FormattedMessage id="add-location" defaultMessage="Add location" />
       </p>
     </div>
-  </Link>;
+  </Link>
+);
 
 EmptyFavouriteLocationSlot.displayName = 'EmptyFavouriteLocationSlot';
 
-EmptyFavouriteLocationSlot.description = () =>
+EmptyFavouriteLocationSlot.description = () => (
   <div>
     <p>Renders a empty favourite location slot component</p>
     <ComponentUsageExample description="none">
       <EmptyFavouriteLocationSlot />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 EmptyFavouriteLocationSlot.propTypes = {
   index: PropTypes.number.isRequired,

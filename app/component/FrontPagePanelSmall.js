@@ -33,9 +33,7 @@ const FrontPagePanelSmall = ({
   const top = (
     <div className="panel-top">
       <div className="panel-heading">
-        <h2>
-          {heading}
-        </h2>
+        <h2>{heading}</h2>
       </div>
       <div className="close-icon" onClick={closePanel}>
         <Icon img="icon-icon_close" />
@@ -43,12 +41,14 @@ const FrontPagePanelSmall = ({
     </div>
   );
 
-  const content = selectedPanel
-    ? <div className="frontpage-panel-wrapper" key="panel">
-        {top}
-        {children}
-      </div>
-    : undefined;
+  const content = selectedPanel ? (
+    <div className="frontpage-panel-wrapper" key="panel">
+      {top}
+      {children}
+    </div>
+  ) : (
+    undefined
+  );
 
   return (
     <div className="frontpage-panel-container no-select">
@@ -77,7 +77,7 @@ const noop = () => {};
 
 FrontPagePanelSmall.displayName = 'FrontPagePanelSmall';
 
-FrontPagePanelSmall.description = () =>
+FrontPagePanelSmall.description = () => (
   <div>
     <p>Front page tabs for small display.</p>
     <ComponentUsageExample description="Front page tabs">
@@ -87,7 +87,8 @@ FrontPagePanelSmall.description = () =>
         nearbyClicked={noop}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 FrontPagePanelSmall.propTypes = {
   selectedPanel: PropTypes.number,

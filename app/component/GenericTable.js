@@ -7,24 +7,14 @@ function GenericTable(props) {
   let lowEndLabel;
 
   if (props.showLabels) {
-    lowEndLabel = (
-      <span className="left">
-        {props.lowEndLabel}
-      </span>
-    );
+    lowEndLabel = <span className="left">{props.lowEndLabel}</span>;
 
-    highEndLabel = (
-      <span className="right">
-        {props.highEndLabel}
-      </span>
-    );
+    highEndLabel = <span className="right">{props.highEndLabel}</span>;
   }
 
   return (
     <div className="generic-table">
-      <div className="row">
-        {props.children}
-      </div>
+      <div className="row">{props.children}</div>
       <div className="generic-table__label-container">
         {lowEndLabel}
         {highEndLabel}
@@ -35,13 +25,14 @@ function GenericTable(props) {
 
 GenericTable.displayName = 'GenericTable';
 
-GenericTable.description = () =>
+GenericTable.description = () => (
   <div>
     <p>Renders a score table</p>
     <ComponentUsageExample description="">
       <GenericTable />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 GenericTable.propTypes = {
   showLabels: PropTypes.bool,

@@ -12,10 +12,9 @@ function PatternLink({
   selected = false,
 }) {
   const imgName = `icon-icon_${mode}-live`;
-  const icon =
-    (selected &&
-      <SelectedIconWithTail img={imgName} fullscreenMap={fullscreenMap} />) ||
-    <IconWithTail desaturate img={imgName} rotate={180} />;
+  const icon = (selected && (
+    <SelectedIconWithTail img={imgName} fullscreenMap={fullscreenMap} />
+  )) || <IconWithTail desaturate img={imgName} rotate={180} />;
 
   return (
     <Link

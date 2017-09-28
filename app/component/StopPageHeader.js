@@ -49,11 +49,12 @@ const exampleStop = {
 
 StopPageHeader.displayName = 'StopPageHeader';
 
-StopPageHeader.description = () =>
+StopPageHeader.description = () => (
   <div>
     <ComponentUsageExample description="basic">
       <StopPageHeader stop={exampleStop} params={{ stopId: 123 }} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default StopPageHeader;

@@ -7,7 +7,7 @@ export const DATE_PATTERN = 'dd D.M.';
 // Input: time - seconds since midnight
 export function getStartTime(time) {
   const hours = `0${Math.floor(time / 60 / 60)}`.slice(-2);
-  const mins = `0${time / 60 % 60}`.slice(-2);
+  const mins = `0${(time / 60) % 60}`.slice(-2);
   return hours + mins;
 }
 

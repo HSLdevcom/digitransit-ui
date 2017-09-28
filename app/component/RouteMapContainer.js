@@ -82,18 +82,22 @@ function RouteMapContainer(
       showScaleBar={showScale}
     >
       {breakpoint !== 'large' &&
-        !fullscreen &&
-        <div
-          className="map-click-prevent-overlay"
-          onClick={toggleFullscreenMap}
-          key="overlay"
-        />}
-      {breakpoint !== 'large' &&
+        !fullscreen && (
+          <div
+            className="map-click-prevent-overlay"
+            onClick={toggleFullscreenMap}
+            key="overlay"
+          />
+        )}
+      {breakpoint !== 'large' && (
         <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
-          {fullscreen
-            ? <Icon img="icon-icon_minimize" className="cursor-pointer" />
-            : <Icon img="icon-icon_maximize" className="cursor-pointer" />}
-        </div>}
+          {fullscreen ? (
+            <Icon img="icon-icon_minimize" className="cursor-pointer" />
+          ) : (
+            <Icon img="icon-icon_maximize" className="cursor-pointer" />
+          )}
+        </div>
+      )}
     </Map>
   );
 }

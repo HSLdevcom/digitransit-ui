@@ -12,7 +12,7 @@ const Application = ({
   scripts,
   relayData,
   head,
-}) =>
+}) => (
   <html lang={locale}>
     <head>
       {head !== null ? head.title.toComponent() : false}
@@ -33,7 +33,8 @@ const Application = ({
       />
       {scripts}
     </body>
-  </html>;
+  </html>
+);
 
 Application.propTypes = {
   fonts: PropTypes.string,

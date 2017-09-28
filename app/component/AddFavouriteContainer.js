@@ -144,15 +144,17 @@ class AddFavouriteContainer extends React.Component {
                 </div>
                 <div className="add-favourite-container__header-text small-11 columns">
                   <h3>
-                    {(!this.isEdit() &&
+                    {(!this.isEdit() && (
                       <FormattedMessage
                         id="add-location-to-favourites"
                         defaultMessage="Add an important location to your Favorites"
-                      />) ||
+                      />
+                    )) || (
                       <FormattedMessage
                         id="edit-favourites"
                         defaultMessage="Edit the location in the Favorites"
-                      />}
+                      />
+                    )}
                   </h3>
                 </div>
               </header>

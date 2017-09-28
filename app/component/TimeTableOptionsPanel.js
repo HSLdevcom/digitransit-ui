@@ -37,11 +37,11 @@ class TimeTableOptionsPanel extends React.Component {
 
   render() {
     const routeNames = this.getRouteNames(this.props.showRoutes);
-    const showRoutesDiv = routeNames.map(o =>
+    const showRoutesDiv = routeNames.map(o => (
       <div key={o.id} className="showroute-number">
         {o.shortName ? o.shortName : o.agencyName}
-      </div>,
-    );
+      </div>
+    ));
     const stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
     return (
       <div className="timetable-options-panel">
@@ -60,8 +60,9 @@ class TimeTableOptionsPanel extends React.Component {
           </div>
           <div className="showroutes-list">
             {showRoutesDiv.length > 0 && showRoutesDiv}
-            {showRoutesDiv.length === 0 &&
-              <FormattedMessage id="all-routes" defaultMessage="All Lines" />}
+            {showRoutesDiv.length === 0 && (
+              <FormattedMessage id="all-routes" defaultMessage="All Lines" />
+            )}
           </div>
         </div>
       </div>

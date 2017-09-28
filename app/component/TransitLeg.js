@@ -32,7 +32,7 @@ class TransitLeg extends React.Component {
       this.props.leg.intermediateStops.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
-      const stopList = this.props.leg.intermediateStops.map(stop =>
+      const stopList = this.props.leg.intermediateStops.map(stop => (
         <IntermediateLeg
           color={
             this.props.leg.route
@@ -47,28 +47,24 @@ class TransitLeg extends React.Component {
             lat: stop.lat,
             lon: stop.lon,
           })}
-        />,
-      );
-      return (
-        <div className="itinerary-leg-container">
-          {stopList}
-        </div>
-      );
+        />
+      ));
+      return <div className="itinerary-leg-container">{stopList}</div>;
     }
     return null;
   }
 
   renderMain = () => {
     const originalTime = this.props.leg.realTime &&
-    this.props.leg.departureDelay >=
-      this.context.config.itinerary.delayThreshold && [
-      <br key="br" />,
-      <span key="time" className="original-time">
-        {moment(this.props.leg.startTime)
-          .subtract(this.props.leg.departureDelay, 's')
-          .format('HH:mm')}
-      </span>,
-    ];
+      this.props.leg.departureDelay >=
+        this.context.config.itinerary.delayThreshold && [
+        <br key="br" />,
+        <span key="time" className="original-time">
+          {moment(this.props.leg.startTime)
+            .subtract(this.props.leg.departureDelay, 's')
+            .format('HH:mm')}
+        </span>,
+      ];
 
     const firstLegClassName = this.props.index === 0 ? ' start' : '';
     /* const modeClassName =
@@ -77,34 +73,35 @@ class TransitLeg extends React.Component {
     const modeClassName = this.props.mode.toLowerCase();
     const StopInfo = ({ stops, leg, toggleFunction }) => {
       const stopCount = (stops && stops.length) || 0;
-      const message =
-        (this.state.showIntermediateStops &&
-          <FormattedMessage
-            id="itinerary-hide-stops"
-            defaultMessage="Hide stops"
-          />) ||
+      const message = (this.state.showIntermediateStops && (
+        <FormattedMessage
+          id="itinerary-hide-stops"
+          defaultMessage="Hide stops"
+        />
+      )) || (
         <FormattedMessage
           id="number-of-intermediate-stops"
           values={{
             number: (stops && stops.length) || 0,
           }}
           defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
-        />;
+        />
+      );
       return (
         <div className="intermediate-stop-info-container">
-          {stopCount === 0
-            ? <span className="intermediate-stop-no-stops">
-                {message}
-              </span>
-            : <span
-                className="intermediate-stops-link pointer-cursor"
-                onClick={event => {
-                  event.stopPropagation();
-                  toggleFunction();
-                }}
-              >
-                {message}
-              </span>}{' '}
+          {stopCount === 0 ? (
+            <span className="intermediate-stop-no-stops">{message}</span>
+          ) : (
+            <span
+              className="intermediate-stops-link pointer-cursor"
+              onClick={event => {
+                event.stopPropagation();
+                toggleFunction();
+              }}
+            >
+              {message}
+            </span>
+          )}{' '}
           <span className="intermediate-stops-duration">
             ({durationToString(leg.duration * 1000)})
           </span>
@@ -124,11 +121,12 @@ class TransitLeg extends React.Component {
           >
             <div className="itinerary-time-column-time">
               <span className={this.props.leg.realTime ? 'realtime' : ''}>
-                {this.props.leg.realTime &&
+                {this.props.leg.realTime && (
                   <Icon
                     img="icon-icon_realtime"
                     className="realtime-icon realtime"
-                  />}
+                  />
+                )}
                 {moment(this.props.leg.startTime).format('HH:mm')}
               </span>
               {originalTime}

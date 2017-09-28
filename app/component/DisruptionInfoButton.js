@@ -14,8 +14,9 @@ function DisruptionInfoButton(props, { config }) {
         <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
         {props.root &&
           props.root.alerts &&
-          props.root.alerts.length > 0 &&
-          <Icon img={'icon-icon_caution'} className={'disruption-info'} />}
+          props.root.alerts.length > 0 && (
+            <Icon img={'icon-icon_caution'} className={'disruption-info'} />
+          )}
       </button>
     );
   }

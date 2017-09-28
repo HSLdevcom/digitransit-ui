@@ -42,9 +42,7 @@ const ToggleButton = ({
       aria-label={intl.formatMessage({ id: label })}
     >
       {iconTag}
-      <div>
-        {children}
-      </div>
+      <div>{children}</div>
     </button>
   );
 };

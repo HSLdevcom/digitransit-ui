@@ -22,7 +22,7 @@ fi
 if [ -n "$NWENV" ]; then
   docker build -t hsldevcom/digitransit-ui:ci-$TRAVIS_COMMIT .
   docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 hsldevcom/digitransit-ui:ci-$TRAVIS_COMMIT
-  wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+  wget -N https://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
   CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
   RESULT=$?
