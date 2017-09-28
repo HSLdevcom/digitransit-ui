@@ -1,0 +1,35 @@
+.nearby-departures-table {
+    table-layout: fixed;
+    display: inline-table;
+    width: 100%;
+    th {
+        background: #eef1f3;
+        padding: 6px 14px;
+        color: #888;
+        font-family: Gotham XNarrow SSm A,Gotham XNarrow SSm B,Arial,Georgia,Serif;
+        font-weight: 400;
+        letter-spacing: 0;
+        font-size: 1rem;
+        white-space: nowrap;
+        margin: 0;
+        line-height: 1em;
+    }
+
+    tr {
+    }
+    td {
+
+        .distance {
+
+        }
+        .route-number {
+
+        }
+        .route-destination {
+            width: 4em;
+        }
+        .time {
+
+        }
+    }
+}
