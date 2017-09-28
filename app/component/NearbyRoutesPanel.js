@@ -7,7 +7,6 @@ import without from 'lodash/without';
 
 import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
-import NextDeparturesListHeader from './NextDeparturesListHeader';
 
 function NearbyRoutesPanel(
   { location, currentTime, modes, placeTypes },
@@ -22,7 +21,6 @@ function NearbyRoutesPanel(
           </div>
         </div>
       )}
-      <NextDeparturesListHeader />
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
           lat={location.lat}

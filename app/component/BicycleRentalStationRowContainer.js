@@ -29,17 +29,23 @@ const BicycleRentalStationRow = (props, context) => {
   // TODO implement disruption checking
 
   return (
-    <div className="next-departure-row padding-vertical-normal border-bottom">
-      <Distance distance={props.distance} />
-      <div className="bicycle-rental-station">
+    <tr>
+      <td>
+        <Distance distance={props.distance} />
+      </td>
+      <td>
         <RouteNumber
           mode="citybike"
           text={props.station.stationId}
           hasDisruption={false}
         />
+      </td>
+      <td>
         <span className="city-bike-station-name overflow-fade">
           {props.station.name}
         </span>
+      </td>
+      <td>
         <span className="city-bike-station-availability">
           <span className="bikes-label">
             {context.intl.formatMessage({
@@ -54,8 +60,8 @@ const BicycleRentalStationRow = (props, context) => {
           {props.station.bikesAvailable + props.station.spacesAvailable}
           {availabilityIcon}
         </span>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 
