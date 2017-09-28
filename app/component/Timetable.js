@@ -142,14 +142,14 @@ class Timetable extends React.Component {
             flexGrow: '1',
           }}
         >
-          {this.state.showFilterModal === true ? (
-            <FilterTimeTableModal
-              stop={this.props.stop}
-              setRoutes={this.setRouteVisibilityState}
-              showFilterModal={this.showModal}
-              showRoutesList={this.state.showRoutes}
-            />
-          ) : null}
+          {this.state.showFilterModal === true
+            ? <FilterTimeTableModal
+                stop={this.props.stop}
+                setRoutes={this.setRouteVisibilityState}
+                showFilterModal={this.showModal}
+                showRoutesList={this.state.showRoutes}
+              />
+            : null}
           <div className="timetable-topbar">
             <TimeTableOptionsPanel
               showRoutes={this.state.showRoutes}
@@ -168,11 +168,13 @@ class Timetable extends React.Component {
               <FormattedMessage id="timetable" defaultMessage="Timetable" />
             </h1>
           </div>
-          <div className="timetable-for-printing">{this.dateForPrinting()}</div>
+          <div className="timetable-for-printing">
+            {this.dateForPrinting()}
+          </div>
           <div className="momentum-scroll" style={{ flex: '1' }}>
             {Object.keys(timetableMap)
               .sort((a, b) => a - b)
-              .map(hour => (
+              .map(hour =>
                 <TimetableRow
                   key={hour}
                   title={padStart(hour % 24, 2, '0')}
@@ -193,8 +195,8 @@ class Timetable extends React.Component {
                           .format('HH'),
                     )
                     .filter(o => o === padStart(hour % 24, 2, '0'))}
-                />
-              ))}
+                />,
+              )}
           </div>
         </div>
       </div>
@@ -245,7 +247,7 @@ const exampleStop = {
   ],
 };
 
-Timetable.description = () => (
+Timetable.description = () =>
   <div>
     <p>Renders a timetable</p>
     <ComponentUsageExample description="">
@@ -254,7 +256,6 @@ Timetable.description = () => (
         propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export default Timetable;

@@ -10,32 +10,24 @@ const printStop = e => {
   window.print();
 };
 
-const StopPageActionBar = ({
-  printUrl,
-  startDate,
-  selectedDate,
-  onDateChange,
-}) =>
-  (printUrl && (
-    <div id="stop-page-action-bar">
-      <DateSelect
-        startDate={startDate}
-        selectedDate={selectedDate}
-        dateFormat={DATE_FORMAT}
-        onDateChange={onDateChange}
+const StopPageActionBar = ({ startDate, selectedDate, onDateChange }) =>
+  <div id="stop-page-action-bar">
+    <DateSelect
+      startDate={startDate}
+      selectedDate={selectedDate}
+      dateFormat={DATE_FORMAT}
+      onDateChange={onDateChange}
+    />
+    <div className="print-button-container">
+      <SecondaryButton
+        ariaLabel="print"
+        buttonName="print"
+        buttonClickAction={e => printStop(e)}
+        buttonIcon="icon-icon_print"
+        smallSize
       />
-      <div className="print-button-container">
-        <SecondaryButton
-          ariaLabel="print"
-          buttonName="print"
-          buttonClickAction={e => printStop(e)}
-          buttonIcon="icon-icon_print"
-          smallSize
-        />
-      </div>
     </div>
-  )) ||
-  null;
+  </div>;
 
 StopPageActionBar.displayName = 'StopPageActionBar';
 
