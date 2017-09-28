@@ -30,26 +30,28 @@ const DepartureRow = props => {
         ${departureTime.realtimeDeparture}`;
 
       return (
-        <DepartureTime
-          key={key}
-          departureTime={
-            departureTime.serviceDay + departureTime.realtimeDeparture
-          }
-          realtime={departureTime.realtime}
-          currentTime={props.currentTime}
-          canceled={canceled}
-        />
+        <td key={`${key}-td`}>
+          <DepartureTime
+            key={key}
+            departureTime={
+              departureTime.serviceDay + departureTime.realtimeDeparture
+            }
+            realtime={departureTime.realtime}
+            currentTime={props.currentTime}
+            canceled={canceled}
+          />
+        </td>
       );
     });
   }
 
   return (
-    <tr>
-      <Link
-        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
-          .pattern.code}`}
-        key={departure.pattern.code}
-      >
+    <Link
+      to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern
+        .code}`}
+      key={departure.pattern.code}
+    >
+      <tr className="next-departure-row">
         <td>
           <Distance distance={props.distance} />
         </td>
@@ -68,10 +70,10 @@ const DepartureRow = props => {
             mode={departure.pattern.route.mode}
             destination={headsign || departure.pattern.route.longName}
           />
-          {departureTimes}
         </td>
-      </Link>
-    </tr>
+        {departureTimes}
+      </tr>
+    </Link>
   );
 };
 
@@ -133,7 +135,7 @@ const exampleDeparture2 = {
   ],
 };
 
-DepartureRow.description = () => (
+DepartureRow.description = () =>
   <div>
     <ComponentUsageExample description="example">
       <DepartureRow
@@ -149,8 +151,7 @@ DepartureRow.description = () => (
         currentTime={1473676196}
       />
     </ComponentUsageExample>
-  </div>
-);
+  </div>;
 
 export { DepartureRow };
 

@@ -29,7 +29,7 @@ const BicycleRentalStationRow = (props, context) => {
   // TODO implement disruption checking
 
   return (
-    <tr>
+    <tr className="next-departure-row">
       <td>
         <Distance distance={props.distance} />
       </td>
