@@ -10,7 +10,7 @@ const printStop = e => {
   window.print();
 };
 
-const StopPageActionBar = ({ startDate, selectedDate, onDateChange }) =>
+const StopPageActionBar = ({ startDate, selectedDate, onDateChange }) => (
   <div id="stop-page-action-bar">
     <DateSelect
       startDate={startDate}
@@ -27,7 +27,8 @@ const StopPageActionBar = ({ startDate, selectedDate, onDateChange }) =>
         smallSize
       />
     </div>
-  </div>;
+  </div>
+);
 
 StopPageActionBar.displayName = 'StopPageActionBar';
 
