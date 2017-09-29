@@ -60,26 +60,35 @@ const PlaceAtDistanceList = ({
 }) => {
   if (places && places.edges) {
     return (
-      <table className="nearby-departures-table">
-        <tr>
-          <th>
-            <FormattedMessage id="to-stop" defaultMessage="To stop" />
-          </th>
-          <th>
-            <FormattedMessage id="route" defaultMessage="Route" />
-          </th>
-          <th>
-            <FormattedMessage id="destination" defaultMessage="Destination" />
-          </th>
-          <th>
-            <FormattedMessage id="leaves" defaultMessage="Leaves" />
-          </th>
-          <th>
-            <FormattedMessage id="next" defaultMessage="Next" />
-          </th>
-        </tr>
-        {constructPlacesList({ places, currentTime, timeRange })}
-      </table>
+      <div className="nearby-table-container">
+        <table className="nearby-departures-table">
+          <thead>
+            <tr className="header-tr">
+              <th>
+                <FormattedMessage id="to-stop" defaultMessage="To stop" />
+              </th>
+              <th>
+                <FormattedMessage id="route" defaultMessage="Route" />
+              </th>
+              <th>
+                <FormattedMessage
+                  id="destination"
+                  defaultMessage="Destination"
+                />
+              </th>
+              <th>
+                <FormattedMessage id="leaves" defaultMessage="Leaves" />
+              </th>
+              <th>
+                <FormattedMessage id="next" defaultMessage="Next" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {constructPlacesList({ places, currentTime, timeRange })}
+          </tbody>
+        </table>
+      </div>
     );
   }
   return null;

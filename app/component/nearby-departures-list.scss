@@ -1,9 +1,15 @@
+.nearby-table-container {
+    height: 90%;
+}
 .nearby-departures-table {
     table-layout: fixed;
-    display: inline-table;
     width: 100%;
-    th {
+    height: 93.5%;
+    thead {
         background: #eef1f3;
+        display: block;
+    }
+    th {
         padding: 6px 14px;
         color: #888;
         font-family: Gotham XNarrow SSm A,Gotham XNarrow SSm B,Arial,Georgia,Serif;
@@ -15,7 +21,21 @@
         line-height: 1em;
     }
 
-    tr {
+    tbody {
+        max-height: 100%;
+        width: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+
+        tr {
+            padding: .6em 0;
+            padding-left: 20px;
+            padding-right: 5px;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+            display: block;
+        }
     }
     td {
 
@@ -26,7 +46,7 @@
 
         }
         .route-destination {
-            width: 4em;
+            width: 100%;
         }
         .time {
 

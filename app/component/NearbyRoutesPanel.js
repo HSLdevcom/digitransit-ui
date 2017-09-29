@@ -21,18 +21,16 @@ function NearbyRoutesPanel(
           </div>
         </div>
       )}
-      <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
-        <NearestRoutesContainer
-          lat={location.lat}
-          lon={location.lon}
-          currentTime={currentTime}
-          modes={modes}
-          placeTypes={placeTypes}
-          maxDistance={context.config.nearbyRoutes.radius}
-          maxResults={context.config.nearbyRoutes.results || 50}
-          timeRange={context.config.nearbyRoutes.timeRange || 7200}
-        />
-      </div>
+      <NearestRoutesContainer
+        lat={location.lat}
+        lon={location.lon}
+        currentTime={currentTime}
+        modes={modes}
+        placeTypes={placeTypes}
+        maxDistance={context.config.nearbyRoutes.radius}
+        maxResults={context.config.nearbyRoutes.results || 50}
+        timeRange={context.config.nearbyRoutes.timeRange || 7200}
+      />
     </div>
   );
 }
