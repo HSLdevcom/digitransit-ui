@@ -154,7 +154,14 @@ export function getGeocodingResult(
   sources,
   config,
 ) {
-  if (text === undefined || text === null || text.trim().length < 1) {
+  if (
+    text === undefined ||
+    text === null ||
+    text.trim().length < 1 ||
+    (config.search &&
+      config.search.minimalRegexp &&
+      !config.search.minimalRegexp.test(text))
+  ) {
     return Promise.resolve([]);
   }
 

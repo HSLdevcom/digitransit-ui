@@ -42,6 +42,10 @@ export default {
     'boundary.rect.max_lon': 25.5,
   },
 
+  search: {
+    minimalRegexp: new RegExp('.{3,}'),
+  },
+
   nearbyRoutes: {
     radius: 2000,
     bucketSize: 100,
