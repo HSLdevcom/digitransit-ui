@@ -147,17 +147,14 @@ function getFavouriteLocations(favourites, input) {
 }
 
 export function getGeocodingResult(
-  text,
+  _text,
   searchParams,
   lang,
   focusPoint,
   sources,
   config,
 ) {
-
-  if (text) {
-    text = text.trim();
-  }
+  const text = _text ? _text.trim() : null;
   if (
     text === undefined ||
     text === null ||
@@ -169,7 +166,10 @@ export function getGeocodingResult(
     return Promise.resolve([]);
   }
 
-  const opts = { text, ...searchParams, ...focusPoint, lang, sources };
+  let opts = { text, ...searchParams, ...focusPoint, lang };
+  if (sources) {
+    opts = { ...opts, sources };
+  }
 
   return getJson(config.URL.PELIAS, opts)
     .then(res =>
