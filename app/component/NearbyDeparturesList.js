@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import sortBy from 'lodash/sortBy';
-import { FormattedMessage } from 'react-intl';
 
+import DeparturesTable from './DeparturesTable';
 import DepartureRowContainer from './DepartureRowContainer';
 import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
 import { round } from './Distance';
@@ -60,35 +60,27 @@ const PlaceAtDistanceList = ({
 }) => {
   if (places && places.edges) {
     return (
-      <div className="nearby-table-container">
-        <table className="nearby-departures-table">
-          <thead>
-            <tr className="header-tr">
-              <th>
-                <FormattedMessage id="to-stop" defaultMessage="To stop" />
-              </th>
-              <th>
-                <FormattedMessage id="route" defaultMessage="Route" />
-              </th>
-              <th>
-                <FormattedMessage
-                  id="destination"
-                  defaultMessage="Destination"
-                />
-              </th>
-              <th>
-                <FormattedMessage id="leaves" defaultMessage="Leaves" />
-              </th>
-              <th>
-                <FormattedMessage id="next" defaultMessage="Next" />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {constructPlacesList({ places, currentTime, timeRange })}
-          </tbody>
-        </table>
-      </div>
+      <DeparturesTable
+        headers={[
+          {
+            id: 'to-stop',
+            defaultMessage: 'To Stop',
+          },
+          {
+            id: 'route',
+            defaultMessage: 'Route',
+          },
+          {
+            id: 'leaves',
+            defaultMessage: 'Leaves',
+          },
+          {
+            id: 'next',
+            defaultMessage: 'Next',
+          },
+        ]}
+        content={constructPlacesList({ places, currentTime, timeRange })}
+      />
     );
   }
   return null;
