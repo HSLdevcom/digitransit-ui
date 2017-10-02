@@ -5,7 +5,7 @@ import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { getPathWithEndpoints, isItinerarySearch } from '../util/path';
-import GeolocationStart from './GeolocationStart';
+import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 import { setUseCurrent } from '../action/EndpointActions';
 
@@ -67,7 +67,7 @@ class DTAutosuggestPanel extends React.Component {
           }}
         />
         {this.props.origin === undefined
-          ? <GeolocationStart
+          ? <GeolocationStartButton
               onClick={() => {
                 this.context.executeAction(startLocationWatch);
                 const destinationString = this.context.location.pathname.split(
