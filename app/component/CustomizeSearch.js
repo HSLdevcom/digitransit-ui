@@ -469,7 +469,7 @@ class CustomizeSearch extends React.Component {
 
   updateSettings(name, value, sliderValues) {
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         [name]: value,
@@ -511,7 +511,7 @@ class CustomizeSearch extends React.Component {
     });
 
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         time: this.context.location.query.time,
         walkSpeed: defaultSettings.walkSpeed,
@@ -527,7 +527,7 @@ class CustomizeSearch extends React.Component {
 
   toggleTransportMode(mode, otpMode) {
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
@@ -539,7 +539,7 @@ class CustomizeSearch extends React.Component {
 
   toggleStreetMode(mode) {
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         modes: without(
