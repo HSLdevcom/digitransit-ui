@@ -114,19 +114,6 @@ class FavouriteLocationsContainer extends React.Component {
     destination = locationToOTP(location);
     const url = `${getPathWithEndpoints(origin, destination)}`;
     this.context.router.push(url);
-    /*
-    this.context.executeAction(setEndpoint, {
-      target: 'destination',
-      endpoint: location,
-      router: this.context.router,
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: this.props.currentTime.unix(),
-        },
-      },
-    }); */
   };
 
   slideRenderer = ({ key, index }) => {
