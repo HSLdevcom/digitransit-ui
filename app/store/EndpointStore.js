@@ -139,7 +139,6 @@ class EndpointStore extends Store {
   }
 
   setEndpoint({ target, value }) {
-    console.log('store setting endpoint', target, value);
     if (target === 'destination') {
       this.setDestination(value);
     } else {

@@ -31,12 +31,19 @@ class MarkerPopupBottom extends React.Component {
     let [
       ,
       originString,
-      destinationString,
+      destinationString, // eslint-disable-line prefer-const
     ] = this.context.location.pathname.split('/');
 
     originString = locationToOTP(this.props.location);
-    const url = getPathWithEndpoints(originString, destinationString);
-    this.navigate(url, !isItinerarySearch(originString, destinationString));
+
+    locationWithTime.pathname = getPathWithEndpoints(
+      originString,
+      destinationString,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearch(originString, destinationString),
+    );
   };
 
   routeTo = () => {
@@ -49,13 +56,19 @@ class MarkerPopupBottom extends React.Component {
 
     let [
       ,
-      originString,
+      originString, // eslint-disable-line prefer-const
       destinationString,
     ] = this.context.location.pathname.split('/');
 
     destinationString = locationToOTP(this.props.location);
-    const url = getPathWithEndpoints(originString, destinationString);
-    this.navigate(url, !isItinerarySearch(originString, destinationString));
+    locationWithTime.pathname = getPathWithEndpoints(
+      originString,
+      destinationString,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearch(originString, destinationString),
+    );
   };
 
   navigate = (url, replace) => {
