@@ -31,7 +31,7 @@ export default class TimeNavigationButtons extends React.Component {
 
   static displayName = 'TimeNavigationButtons';
 
-  static description = () => (
+  static description = () =>
     <div>
       <p>
         Shows buttons for changing the itinerary search time to show previous or
@@ -40,8 +40,7 @@ export default class TimeNavigationButtons extends React.Component {
       <ComponentUsageExample>
         <TimeNavigationButtons itineraries={examplePlan.itineraries} />
       </ComponentUsageExample>
-    </div>
-  );
+    </div>;
 
   setEarlierSelectedTime() {
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -61,7 +60,7 @@ export default class TimeNavigationButtons extends React.Component {
     earliestArrivalTime.subtract(1, 'minutes');
 
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         time: earliestArrivalTime.unix(),
@@ -88,7 +87,7 @@ export default class TimeNavigationButtons extends React.Component {
     latestDepartureTime.add(1, 'minutes');
 
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         time: latestDepartureTime.unix(),
@@ -99,7 +98,7 @@ export default class TimeNavigationButtons extends React.Component {
 
   setSelectedTimeToNow() {
     this.context.router.replace({
-      pathname: this.context.location.pathname,
+      ...this.context.location,
       query: {
         ...this.context.location.query,
         time: moment().unix(),
@@ -114,17 +113,17 @@ export default class TimeNavigationButtons extends React.Component {
     if (!this.props.itineraries || !this.props.itineraries[0]) {
       return null;
     }
-    const itineraryFeedback = config.itinerary.enableFeedback ? (
-      <ItineraryFeedback />
-    ) : null;
+    const itineraryFeedback = config.itinerary.enableFeedback
+      ? <ItineraryFeedback />
+      : null;
     const enableButtonArrows =
       config.itinerary.timeNavigation.enableButtonArrows;
-    const leftArrow = enableButtonArrows ? (
-      <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
-    ) : null;
-    const rightArrow = enableButtonArrows ? (
-      <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" />
-    ) : null;
+    const leftArrow = enableButtonArrows
+      ? <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
+      : null;
+    const rightArrow = enableButtonArrows
+      ? <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" />
+      : null;
 
     return (
       <div
