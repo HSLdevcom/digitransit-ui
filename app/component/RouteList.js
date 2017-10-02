@@ -11,7 +11,7 @@ import RouteNumber from './RouteNumber';
 function RouteList(props) {
   const routeObjs = toPairs(
     groupBy(props.routes, route => route.mode.toLowerCase()),
-  ).map(([mode, routes]) =>
+  ).map(([mode, routes]) => (
     <div key={mode} className={mode}>
       <RouteNumber
         mode={mode}
@@ -22,14 +22,10 @@ function RouteList(props) {
             .map(route => route.shortName),
         ).join(', ')}`}
       />
-    </div>,
-  );
-
-  return (
-    <div className={cx('route-list', props.className)}>
-      {routeObjs}
     </div>
-  );
+  ));
+
+  return <div className={cx('route-list', props.className)}>{routeObjs}</div>;
 }
 
 RouteList.propTypes = {

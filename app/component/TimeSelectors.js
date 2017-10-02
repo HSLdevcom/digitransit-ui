@@ -64,7 +64,7 @@ TimeSelectors.contextTypes = {
 
 TimeSelectors.displayName = 'TimeSelectors';
 
-TimeSelectors.description = () =>
+TimeSelectors.description = () => (
   <div>
     <p>A toolbar for changing arriveBy/departAt, date and time</p>
     <ComponentUsageExample>
@@ -81,4 +81,5 @@ TimeSelectors.description = () =>
         ]}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);

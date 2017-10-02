@@ -5,19 +5,11 @@ import ComponentUsageExample from './ComponentUsageExample';
 const SplitBars = ({ children }) => {
   let splits = [];
   children.forEach(child => {
-    splits.push(
-      <div className="split-bar">
-        {child}
-      </div>,
-    );
+    splits.push(<div className="split-bar">{child}</div>);
     splits.push(<div className="split-bar--bar" />);
   });
   splits = splits.splice(0, splits.length - 1);
-  return (
-    <div className="split-bars">
-      {splits}
-    </div>
-  );
+  return <div className="split-bars">{splits}</div>;
 };
 
 SplitBars.displayName = 'SplitBars';
@@ -26,7 +18,7 @@ SplitBars.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-SplitBars.description = () =>
+SplitBars.description = () => (
   <div>
     <p>Splits its children with a vertical bar.</p>
     <ComponentUsageExample>
@@ -36,6 +28,7 @@ SplitBars.description = () =>
         <span>3</span>
       </SplitBars>
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default SplitBars;

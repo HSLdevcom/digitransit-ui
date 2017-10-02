@@ -40,9 +40,11 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
         queryConfig={new RoutesRoute({ ids: routes })}
         environment={Relay.Store}
         render={({ done, props }) =>
-          done
-            ? <FavouritesTabLabelRelayConnector {...props} {...rest} />
-            : <FavouritesTabLabel {...rest} />}
+          done ? (
+            <FavouritesTabLabelRelayConnector {...props} {...rest} />
+          ) : (
+            <FavouritesTabLabel {...rest} />
+          )}
       />
     );
   }

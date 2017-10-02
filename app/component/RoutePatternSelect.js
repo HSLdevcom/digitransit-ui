@@ -9,11 +9,11 @@ import { routePatterns as exampleRoutePatterns } from './ExampleData';
 function RoutePatternSelect(props) {
   const options =
     props.route &&
-    props.route.patterns.map(pattern =>
+    props.route.patterns.map(pattern => (
       <option key={pattern.code} value={pattern.code}>
         {pattern.stops[0].name} ➔ {pattern.headsign}
-      </option>,
-    );
+      </option>
+    ));
 
   return (
     <div className={cx('route-pattern-select', props.className)}>
@@ -35,7 +35,7 @@ RoutePatternSelect.propTypes = {
   onSelectChange: PropTypes.func.isRequired,
 };
 
-RoutePatternSelect.description = () =>
+RoutePatternSelect.description = () => (
   <div>
     <p>Display a dropdown to select the pattern for a route</p>
     <ComponentUsageExample>
@@ -44,7 +44,8 @@ RoutePatternSelect.description = () =>
         onSelectChange={() => {}}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default Relay.createContainer(RoutePatternSelect, {
   fragments: {

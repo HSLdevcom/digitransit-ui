@@ -5,7 +5,11 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import FakeSearchBar from './FakeSearchBar';
 
-export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) =>
+export const FakeSearchWithButton = ({
+  fakeSearchBar,
+  onClick,
+  breakpoint,
+}) => (
   <div className={`row search-form bp-${breakpoint}`}>
     <div className="small-12 columns search-form-map-overlay">
       <button
@@ -15,9 +19,7 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) =>
         className="noborder search-button"
       >
         <div className="flex-grow row collapse postfix-radius">
-          <div className="small-11 columns">
-            {fakeSearchBar}
-          </div>
+          <div className="small-11 columns">{fakeSearchBar}</div>
           <div className="small-1 columns">
             <span className="postfix search cursor-pointer button-icon">
               <Icon img="icon-icon_search" />
@@ -26,7 +28,8 @@ export const FakeSearchWithButton = ({ fakeSearchBar, onClick, breakpoint }) =>
         </div>
       </button>
     </div>
-  </div>;
+  </div>
+);
 
 FakeSearchWithButton.propTypes = {
   fakeSearchBar: PropTypes.object.isRequired,
@@ -40,7 +43,7 @@ FakeSearchWithButton.defaultProps = {
 
 FakeSearchWithButton.displayName = 'FakeSearchWithButton';
 
-FakeSearchWithButton.description = () =>
+FakeSearchWithButton.description = () => (
   <div>
     <p>Visual search component that acts as a link to search dialog.</p>
     <ComponentUsageExample description="Centered fake search field with search icon button">
@@ -54,7 +57,8 @@ FakeSearchWithButton.description = () =>
         fakeSearchBar={<FakeSearchBar placeholder="Enter address" />}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default getContext({ breakpoint: PropTypes.string.isRequired })(
   FakeSearchWithButton,

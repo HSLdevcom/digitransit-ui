@@ -78,7 +78,10 @@ class FeedbackPanel extends React.Component {
 
     recordResult(
       this.context.piwik,
-      this.context.getStore('TimeStore').getCurrentTime().valueOf(),
+      this.context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .valueOf(),
       answer,
     );
   };
@@ -92,7 +95,10 @@ class FeedbackPanel extends React.Component {
   sendAll = () => {
     recordResult(
       this.context.piwik,
-      this.context.getStore('TimeStore').getCurrentTime().valueOf(),
+      this.context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .valueOf(),
       this.state.selectedNPS,
       this.state.useThisMoreLikely,
       this.state.openText,
@@ -106,7 +112,10 @@ class FeedbackPanel extends React.Component {
 
     recordResult(
       this.context.piwik,
-      this.context.getStore('TimeStore').getCurrentTime().valueOf(),
+      this.context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .valueOf(),
     );
 
     this.props.onClose();

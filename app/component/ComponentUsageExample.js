@@ -47,9 +47,7 @@ function getChild(child) {
           child.props,
         )}/>`}
       </span>
-      <div className="component border-dashed">
-        {child}
-      </div>
+      <div className="component border-dashed">{child}</div>
     </div>
   );
 }
@@ -61,9 +59,7 @@ export default function ComponentUsageExample(
   if (componentOnly) {
     return (
       <div className="component-example component-example-large-vertical-padding">
-        <div className="component">
-          {children}
-        </div>
+        <div className="component">{children}</div>
       </div>
     );
   }
@@ -71,11 +67,7 @@ export default function ComponentUsageExample(
   let wrappedDescription = '';
 
   if (description) {
-    wrappedDescription = (
-      <p>
-        {description}
-      </p>
-    );
+    wrappedDescription = <p>{description}</p>;
   }
 
   return (

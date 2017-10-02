@@ -20,11 +20,7 @@ const getDescription = (component, onlyComponent) => {
   } else if (component.description) {
     return component.description;
   }
-  return (
-    <div>
-      Component {getName(component)} has no description
-    </div>
-  );
+  return <div>Component {getName(component)} has no description</div>;
 };
 
 export default class ComponentDocumentation extends React.Component {
@@ -48,39 +44,27 @@ export default class ComponentDocumentation extends React.Component {
     }
     return (
       <div className="card padding-normal" id={getName(this.props.component)}>
-        <h2>
-          {getName(this.props.component)}
-        </h2>
-        <div>
-          {getDescription(this.props.component)}{' '}
-        </div>
+        <h2>{getName(this.props.component)}</h2>
+        <div>{getDescription(this.props.component)} </div>
         <p>Required props:</p>
         <ul>
           {Object.keys(this.props.component.propTypes || {})
             .filter(key => !this.props.component.propTypes[key].isRequired)
-            .map(key =>
-              <li key={key}>
-                {key}
-              </li>,
-            )}
+            .map(key => <li key={key}>{key}</li>)}
         </ul>
         <p>Optional props:</p>
         <ul>
           {Object.keys(this.props.component.propTypes || {})
             .filter(key => this.props.component.propTypes[key].isRequired)
-            .map(key =>
-              <li key={key}>
-                {key}
-              </li>,
-            )}
+            .map(key => <li key={key}>{key}</li>)}
         </ul>
         <p>Default props:</p>
         <ul>
-          {Object.keys(this.props.component.defaultProps || {}).map(key =>
+          {Object.keys(this.props.component.defaultProps || {}).map(key => (
             <li key={key}>
               {key}={JSON.stringify(this.props.component.defaultProps[key])}
-            </li>,
-          )}
+            </li>
+          ))}
         </ul>
         {this.props.children}
       </div>

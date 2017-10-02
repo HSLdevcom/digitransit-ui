@@ -5,11 +5,11 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { routeScheduleStopSelectOptions as exampleOptions } from './ExampleData';
 
 function RouteScheduleStopSelect(props) {
-  const options = props.options.map(option =>
+  const options = props.options.map(option => (
     <option key={option.displayName + option.value} value={option.value}>
       {option.displayName}
-    </option>,
-  );
+    </option>
+  ));
 
   return (
     <div className="route-schedule-stop-select">
@@ -29,7 +29,7 @@ RouteScheduleStopSelect.propTypes = {
 };
 RouteScheduleStopSelect.displayName = 'RouteScheduleStopSelect';
 
-RouteScheduleStopSelect.description = () =>
+RouteScheduleStopSelect.description = () => (
   <div>
     <p>Display a route schedule stop select using react components</p>
     <ComponentUsageExample>
@@ -39,6 +39,7 @@ RouteScheduleStopSelect.description = () =>
         onSelectChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default RouteScheduleStopSelect;

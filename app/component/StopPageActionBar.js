@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import PrintLink from './PrintLink';
 import DateSelect from './DateSelect';
+import SecondaryButton from './SecondaryButton';
 
 const DATE_FORMAT = 'YYYYMMDD';
+
+const printStop = e => {
+  e.stopPropagation();
+  window.print();
+};
 
 const StopPageActionBar = ({
   printUrl,
@@ -11,7 +16,7 @@ const StopPageActionBar = ({
   selectedDate,
   onDateChange,
 }) =>
-  (printUrl &&
+  (printUrl && (
     <div id="stop-page-action-bar">
       <DateSelect
         startDate={startDate}
@@ -19,8 +24,17 @@ const StopPageActionBar = ({
         dateFormat={DATE_FORMAT}
         onDateChange={onDateChange}
       />
-      <PrintLink className="action-bar" href={printUrl} />
-    </div>) ||
+      <div className="print-button-container">
+        <SecondaryButton
+          ariaLabel="print"
+          buttonName="print"
+          buttonClickAction={e => printStop(e)}
+          buttonIcon="icon-icon_print"
+          smallSize
+        />
+      </div>
+    </div>
+  )) ||
   null;
 
 StopPageActionBar.displayName = 'StopPageActionBar';

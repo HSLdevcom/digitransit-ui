@@ -42,7 +42,7 @@ const noop = () => {};
 
 FrontPagePanelLarge.displayName = 'FrontPagePanelLarge';
 
-FrontPagePanelLarge.description = () =>
+FrontPagePanelLarge.description = () => (
   <div>
     <p>Front page tabs for large display.</p>
     <div style={{ width: '340px' }}>
@@ -54,7 +54,8 @@ FrontPagePanelLarge.description = () =>
         />
       </ComponentUsageExample>
     </div>
-  </div>;
+  </div>
+);
 
 FrontPagePanelLarge.propTypes = {
   selectedPanel: PropTypes.number.isRequired,

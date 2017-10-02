@@ -33,9 +33,7 @@ export default function DesktopView(
         {header}
         {content}
       </div>
-      <div className="map-content">
-        {map}
-      </div>
+      <div className="map-content">{map}</div>
     </div>
   );
 }

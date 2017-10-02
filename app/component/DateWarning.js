@@ -24,7 +24,11 @@ const DateWarning = ({ date, refTime }) => {
 };
 
 DateWarning.description = () => {
-  const today = moment().hour(12).minute(34).second(0).valueOf();
+  const today = moment()
+    .hour(12)
+    .minute(34)
+    .second(0)
+    .valueOf();
   const date = 1478611781000;
   return (
     <div>

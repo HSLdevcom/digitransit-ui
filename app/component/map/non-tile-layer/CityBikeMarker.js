@@ -100,12 +100,14 @@ class CityBikeMarker extends React.Component {
         <Relay.RootContainer
           Component={CityBikePopup}
           route={new CityBikeRoute({ stationId: this.props.station.stationId })}
-          renderLoading={() =>
+          renderLoading={() => (
             <div className="card" style={{ height: '12rem' }}>
               <Loading />
-            </div>}
-          renderFetched={data =>
-            <CityBikePopupWithContext {...data} context={this.context} />}
+            </div>
+          )}
+          renderFetched={data => (
+            <CityBikePopupWithContext {...data} context={this.context} />
+          )}
         />
       </GenericMarker>
     );

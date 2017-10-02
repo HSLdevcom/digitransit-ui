@@ -18,7 +18,7 @@ export default class PrintableItineraryHeader extends React.Component {
     return mappedFareId;
   };
 
-  createHeaderBlock = obj =>
+  createHeaderBlock = obj => (
     <div className={`print-itinerary-header-single itinerary-${obj.name}`}>
       <div className="header-icon">
         <Icon
@@ -34,12 +34,11 @@ export default class PrintableItineraryHeader extends React.Component {
           />
         </div>
         <div className={obj.name === 'ticket' && `faretype-span`}>
-          <span className="header-details-content">
-            {obj.contentDetails}
-          </span>
+          <span className="header-details-content">{obj.contentDetails}</span>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 
   render() {
     const config = this.context.config;
@@ -69,9 +68,7 @@ export default class PrintableItineraryHeader extends React.Component {
               />
             </div>
             <div className="subheader">
-              <span>
-                {this.props.itinerary.legs[0].from.name}
-              </span>
+              <span>{this.props.itinerary.legs[0].from.name}</span>
               {` — `}
               <span>
                 {
@@ -81,9 +78,7 @@ export default class PrintableItineraryHeader extends React.Component {
                 }
               </span>
               {` | `}
-              <span>
-                {weekDayUpperCase}
-              </span>
+              <span>{weekDayUpperCase}</span>
               {` `}
               <span>
                 {moment(this.props.itinerary.startTime)

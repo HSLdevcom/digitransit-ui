@@ -64,7 +64,10 @@ class DepartureListContainer extends Component {
   render() {
     const departureObjs = [];
     const currentTime = this.props.currentTime;
-    let currentDate = moment.unix(this.props.currentTime).startOf('day').unix();
+    let currentDate = moment
+      .unix(this.props.currentTime)
+      .startOf('day')
+      .unix();
     let tomorrow = moment
       .unix(this.props.currentTime)
       .add(1, 'day')
@@ -88,7 +91,11 @@ class DepartureListContainer extends Component {
         );
 
         currentDate = tomorrow;
-        tomorrow = moment.unix(currentDate).add(1, 'day').startOf('day').unix();
+        tomorrow = moment
+          .unix(currentDate)
+          .add(1, 'day')
+          .startOf('day')
+          .unix();
       }
 
       const id = `${departure.pattern.code}:${departure.stoptime}`;

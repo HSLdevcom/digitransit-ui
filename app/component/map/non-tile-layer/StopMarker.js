@@ -153,12 +153,14 @@ class StopMarker extends React.Component {
                 .unix(),
             })
           }
-          renderLoading={() =>
+          renderLoading={() => (
             <div className="card" style={{ height: '12rem' }}>
               <Loading />
-            </div>}
-          renderFetched={data =>
-            <StopMarkerPopupWithContext {...data} context={this.context} />}
+            </div>
+          )}
+          renderFetched={data => (
+            <StopMarkerPopupWithContext {...data} context={this.context} />
+          )}
         />
       </GenericMarker>
     );

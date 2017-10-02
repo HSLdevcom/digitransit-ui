@@ -3,10 +3,13 @@ import React from 'react';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
+import { FormattedMessage } from 'react-intl';
+import { routerShape, locationShape } from 'react-router';
+import Icon from './Icon';
+import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import StopPageActionBar from './StopPageActionBar';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class Timetable extends React.Component {
@@ -40,6 +43,12 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.function,
     }).isRequired,
+    location: PropTypes.object,
+  };
+
+  static contextTypes = {
+    location: locationShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   constructor(props) {
@@ -89,6 +98,27 @@ class Timetable extends React.Component {
       Math.floor(stoptime.scheduledDeparture / (60 * 60)),
     );
 
+  dateForPrinting = () => {
+    const selectedDate = moment(
+      this.props.propsForStopPageActionBar.selectedDate,
+    );
+    return (
+      <div className="printable-date-container">
+        <div className="printable-date-icon">
+          <Icon className="large-icon" img="icon-icon_schedule" />
+        </div>
+        <div className="printable-date-right">
+          <div className="printable-date-header">
+            <FormattedMessage id="date" defaultMessage="Date" />
+          </div>
+          <div className="printable-date-content">
+            {moment(selectedDate).format('dd DD.MM.YYYY')}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const timetableMap = this.groupArrayByHour(
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate),
@@ -112,14 +142,14 @@ class Timetable extends React.Component {
             flexGrow: '1',
           }}
         >
-          {this.state.showFilterModal === true
-            ? <FilterTimeTableModal
-                stop={this.props.stop}
-                setRoutes={this.setRouteVisibilityState}
-                showFilterModal={this.showModal}
-                showRoutesList={this.state.showRoutes}
-              />
-            : null}
+          {this.state.showFilterModal === true ? (
+            <FilterTimeTableModal
+              stop={this.props.stop}
+              setRoutes={this.setRouteVisibilityState}
+              showFilterModal={this.showModal}
+              showRoutesList={this.state.showRoutes}
+            />
+          ) : null}
           <div className="timetable-topbar">
             <TimeTableOptionsPanel
               showRoutes={this.state.showRoutes}
@@ -133,10 +163,16 @@ class Timetable extends React.Component {
               onDateChange={this.props.propsForStopPageActionBar.onDateChange}
             />
           </div>
+          <div className="timetable-for-printing-header">
+            <h1>
+              <FormattedMessage id="timetable" defaultMessage="Timetable" />
+            </h1>
+          </div>
+          <div className="timetable-for-printing">{this.dateForPrinting()}</div>
           <div className="momentum-scroll" style={{ flex: '1' }}>
             {Object.keys(timetableMap)
               .sort((a, b) => a - b)
-              .map(hour =>
+              .map(hour => (
                 <TimetableRow
                   key={hour}
                   title={padStart(hour % 24, 2, '0')}
@@ -157,8 +193,8 @@ class Timetable extends React.Component {
                           .format('HH'),
                     )
                     .filter(o => o === padStart(hour % 24, 2, '0'))}
-                />,
-              )}
+                />
+              ))}
           </div>
         </div>
       </div>
@@ -209,7 +245,7 @@ const exampleStop = {
   ],
 };
 
-Timetable.description = () =>
+Timetable.description = () => (
   <div>
     <p>Renders a timetable</p>
     <ComponentUsageExample description="">
@@ -218,6 +254,7 @@ Timetable.description = () =>
         propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default Timetable;

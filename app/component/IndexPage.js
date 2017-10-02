@@ -23,9 +23,7 @@ const feedbackPanel = (
 const messageBarModules = { Bar: () => importLazy(import('./MessageBar')) };
 
 const messageBar = (
-  <LazilyLoad modules={messageBarModules}>
-    {({ Bar }) => <Bar />}
-  </LazilyLoad>
+  <LazilyLoad modules={messageBarModules}>{({ Bar }) => <Bar />}</LazilyLoad>
 );
 
 class IndexPage extends React.Component {
@@ -179,76 +177,78 @@ class IndexPage extends React.Component {
     const searchModalIsOpen = this.context.location.state
       ? Boolean(this.context.location.state.searchModalIsOpen)
       : false;
-    return this.props.breakpoint === 'large'
-      ? <div
-          className={`front-page flex-vertical fullscreen bp-${this.props
-            .breakpoint}`}
+    return this.props.breakpoint === 'large' ? (
+      <div
+        className={`front-page flex-vertical fullscreen bp-${this.props
+          .breakpoint}`}
+      >
+        {messageBar}
+        <MapWithTracking
+          breakpoint={this.props.breakpoint}
+          showStops
+          showScaleBar
+          searchModalIsOpen={searchModalIsOpen}
+          selectedTab={selectedSearchTab}
+          tab={selectedMainTab}
         >
-          {messageBar}
+          <SearchMainContainer
+            searchModalIsOpen={searchModalIsOpen}
+            selectedTab={selectedSearchTab}
+          />
+          <div key="foo" className="fpccontainer">
+            <FrontPagePanelLarge
+              selectedPanel={selectedMainTab}
+              nearbyClicked={this.clickNearby}
+              favouritesClicked={this.clickFavourites}
+            >
+              {this.props.content}
+            </FrontPagePanelLarge>
+          </div>
+        </MapWithTracking>
+        <div id="page-footer-container">
+          <PageFooter
+            content={
+              (this.context.config.footer &&
+                this.context.config.footer.content) ||
+              []
+            }
+          />
+        </div>
+        {feedbackPanel}
+      </div>
+    ) : (
+      <div
+        className={`front-page flex-vertical fullscreen bp-${this.props
+          .breakpoint}`}
+      >
+        <div className="flex-grow map-container">
           <MapWithTracking
             breakpoint={this.props.breakpoint}
             showStops
             showScaleBar
             searchModalIsOpen={searchModalIsOpen}
             selectedTab={selectedSearchTab}
-            tab={selectedMainTab}
           >
+            {messageBar}
             <SearchMainContainer
               searchModalIsOpen={searchModalIsOpen}
               selectedTab={selectedSearchTab}
             />
-            <div key="foo" className="fpccontainer">
-              <FrontPagePanelLarge
-                selectedPanel={selectedMainTab}
-                nearbyClicked={this.clickNearby}
-                favouritesClicked={this.clickFavourites}
-              >
-                {this.props.content}
-              </FrontPagePanelLarge>
-            </div>
           </MapWithTracking>
-          <div id="page-footer-container">
-            <PageFooter
-              content={
-                (this.context.config.footer &&
-                  this.context.config.footer.content) ||
-                []
-              }
-            />
-          </div>
+        </div>
+        <div>
+          <FrontPagePanelSmall
+            selectedPanel={selectedMainTab}
+            nearbyClicked={this.clickNearby}
+            favouritesClicked={this.clickFavourites}
+            closePanel={this.closeTab}
+          >
+            {this.props.content}
+          </FrontPagePanelSmall>
           {feedbackPanel}
         </div>
-      : <div
-          className={`front-page flex-vertical fullscreen bp-${this.props
-            .breakpoint}`}
-        >
-          <div className="flex-grow map-container">
-            <MapWithTracking
-              breakpoint={this.props.breakpoint}
-              showStops
-              showScaleBar
-              searchModalIsOpen={searchModalIsOpen}
-              selectedTab={selectedSearchTab}
-            >
-              {messageBar}
-              <SearchMainContainer
-                searchModalIsOpen={searchModalIsOpen}
-                selectedTab={selectedSearchTab}
-              />
-            </MapWithTracking>
-          </div>
-          <div>
-            <FrontPagePanelSmall
-              selectedPanel={selectedMainTab}
-              nearbyClicked={this.clickNearby}
-              favouritesClicked={this.clickFavourites}
-              closePanel={this.closeTab}
-            >
-              {this.props.content}
-            </FrontPagePanelSmall>
-            {feedbackPanel}
-          </div>
-        </div>;
+      </div>
+    );
   }
 }
 

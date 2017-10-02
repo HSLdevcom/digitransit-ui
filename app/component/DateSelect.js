@@ -62,7 +62,7 @@ DateSelect.contextTypes = {
 };
 DateSelect.displayName = 'DateSelect';
 
-DateSelect.description = () =>
+DateSelect.description = () => (
   <div>
     <p>Display a date selection using react components</p>
     <ComponentUsageExample>
@@ -73,6 +73,7 @@ DateSelect.description = () =>
         onDateChange={event => event.target.value}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default DateSelect;

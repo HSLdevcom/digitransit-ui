@@ -38,10 +38,10 @@ class TimeSelectorContainer extends Component {
       if (
         location.query.time &&
         Number(location.query.time) !== this.state.time.unix() &&
-        location.query.arriveBy === 'true' === this.state.arriveBy
+        (location.query.arriveBy === 'true') === this.state.arriveBy
       ) {
         this.setState({ time: moment.unix(location.query.time) });
-      } else if (location.query.arriveBy === 'true' !== this.state.arriveBy) {
+      } else if ((location.query.arriveBy === 'true') !== this.state.arriveBy) {
         this.setState({ setTimefromProps: true });
       }
     });

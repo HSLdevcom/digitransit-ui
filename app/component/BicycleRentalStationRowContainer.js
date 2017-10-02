@@ -92,7 +92,7 @@ const exampleStation3 = {
   spacesAvailable: 16,
 };
 
-BicycleRentalStationRow.description = () =>
+BicycleRentalStationRow.description = () => (
   <div>
     <ComponentUsageExample description="plenty of bikes available">
       <BicycleRentalStationRow
@@ -115,7 +115,8 @@ BicycleRentalStationRow.description = () =>
         currentTime={1473676196}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export { BicycleRentalStationRow };
 

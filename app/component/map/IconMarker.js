@@ -10,7 +10,7 @@ let Marker;
 /* eslint-disable global-require */
 if (isBrowser) {
   L = require('leaflet');
-  Marker = require('react-leaflet/lib/Marker').default;
+  Marker = require('react-leaflet/es/Marker').default;
 }
 /* eslint-enaable global-require */
 
