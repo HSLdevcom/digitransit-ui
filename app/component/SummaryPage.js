@@ -123,14 +123,14 @@ class SummaryPage extends React.Component {
     const itineraries = plan.itineraries || [];
 
     const leafletObjs = sortBy(
-      itineraries.map((itinerary, i) =>
+      itineraries.map((itinerary, i) => (
         <ItineraryLine
           key={i}
           hash={i}
           legs={itinerary.legs}
           passive={i !== activeIndex}
-        />,
-      ),
+        />
+      )),
       // Make sure active line isn't rendered over
       i => i.props.passive === false,
     );
@@ -331,14 +331,16 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !this.props.params.hash
-            ? <SummaryNavigation
-                hasDefaultPreferences={hasDefaultPreferences}
-                params={this.props.params}
-                startTime={earliestStartTime}
-                endTime={latestArrivalTime}
-              />
-            : false
+          !this.props.params.hash ? (
+            <SummaryNavigation
+              hasDefaultPreferences={hasDefaultPreferences}
+              params={this.props.params}
+              startTime={earliestStartTime}
+              endTime={latestArrivalTime}
+            />
+          ) : (
+            false
+          )
         }
         content={content}
         map={map}

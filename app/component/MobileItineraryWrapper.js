@@ -33,7 +33,7 @@ export default class MobileItineraryWrapper extends React.Component {
   };
 
   getTabs(itineraries, selectedIndex) {
-    return itineraries.map((itinerary, i) =>
+    return itineraries.map((itinerary, i) => (
       <Tab
         selected={i === selectedIndex}
         key={i} // eslint-disable-line react/no-array-index-key
@@ -54,8 +54,8 @@ export default class MobileItineraryWrapper extends React.Component {
           id: 'itinerary-page.title',
           defaultMessage: 'Itinerary',
         })} ${i + 1}`}
-      />,
-    );
+      />
+    ));
   }
 
   itineraryTabs = [];
@@ -106,43 +106,47 @@ export default class MobileItineraryWrapper extends React.Component {
       );
     }
 
-    const swipe = this.props.fullscreenMap
-      ? undefined
-      : <SwipeableViews
-          index={index}
-          key="swipe"
-          className="itinerary-swipe-views-root"
-          slideStyle={{ minHeight: '100%' }}
-          containerStyle={{ minHeight: '100%' }}
-          onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
+    const swipe = this.props.fullscreenMap ? (
+      undefined
+    ) : (
+      <SwipeableViews
+        index={index}
+        key="swipe"
+        className="itinerary-swipe-views-root"
+        slideStyle={{ minHeight: '100%' }}
+        containerStyle={{ minHeight: '100%' }}
+        onChangeIndex={idx => setTimeout(this.switchSlide, 500, idx)}
+      >
+        {React.Children.map(this.props.children, (el, i) =>
+          React.cloneElement(el, {
+            focus: this.focusMap,
+            ref: innerElement => {
+              this.itineraryTabs[i] = innerElement;
+            },
+          }),
+        )}
+      </SwipeableViews>
+    );
+    const tabs = this.props.fullscreenMap ? (
+      undefined
+    ) : (
+      <div className="itinerary-tabs-container" key="tabs">
+        <Tabs
+          onChange={this.switchSlide}
+          value={index}
+          tabItemContainerStyle={{
+            backgroundColor: '#eef1f3',
+            lineHeight: '18px',
+            width: '60px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          inkBarStyle={{ display: 'none' }}
         >
-          {React.Children.map(this.props.children, (el, i) =>
-            React.cloneElement(el, {
-              focus: this.focusMap,
-              ref: innerElement => {
-                this.itineraryTabs[i] = innerElement;
-              },
-            }),
-          )}
-        </SwipeableViews>;
-    const tabs = this.props.fullscreenMap
-      ? undefined
-      : <div className="itinerary-tabs-container" key="tabs">
-          <Tabs
-            onChange={this.switchSlide}
-            value={index}
-            tabItemContainerStyle={{
-              backgroundColor: '#eef1f3',
-              lineHeight: '18px',
-              width: '60px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            inkBarStyle={{ display: 'none' }}
-          >
-            {this.getTabs(this.props.children, index)}
-          </Tabs>
-        </div>;
+          {this.getTabs(this.props.children, index)}
+        </Tabs>
+      </div>
+    );
 
     return (
       <ReactCSSTransitionGroup

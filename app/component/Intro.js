@@ -41,7 +41,7 @@ export default class Intro extends React.Component {
 
   handleChange = value => this.setState({ slideIndex: value });
 
-  renderSlide = (content, i) =>
+  renderSlide = (content, i) => (
     <button
       className="intro-slide noborder"
       key={i}
@@ -49,21 +49,19 @@ export default class Intro extends React.Component {
       onClick={this.onNextClick}
     >
       <img alt="" aria-hidden="true" src={content.image} />
-      <h3>
-        {content.header[this.context.intl.locale]}
-      </h3>
-      <span>
-        {content.text[this.context.intl.locale]}
-      </span>
-    </button>;
+      <h3>{content.header[this.context.intl.locale]}</h3>
+      <span>{content.text[this.context.intl.locale]}</span>
+    </button>
+  );
 
-  renderDot = (text, i) =>
+  renderDot = (text, i) => (
     <span
       key={i}
       className={cx('dot', { active: i === this.state.slideIndex })}
     >
       •
-    </span>;
+    </span>
+  );
 
   render() {
     const themeSlides = slides[this.context.config.CONFIG] || [];

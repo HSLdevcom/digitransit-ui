@@ -45,13 +45,20 @@ function getVehicleIcon(mode, heading, useSmallIcon = false) {
 
 if (isBrowser) {
   /* eslint-disable global-require */
-  Popup = require('react-leaflet/lib/Popup').default;
-  Marker = require('react-leaflet/lib/Marker').default;
+  Popup = require('react-leaflet/es/Popup').default;
+  Marker = require('react-leaflet/es/Marker').default;
   L = require('leaflet');
   /* eslint-enable global-require */
 }
 
-const RouteMarkerPopupWithContext = provideContext(RouteMarkerPopup, {});
+const RouteMarkerPopupWithContext = provideContext(
+  RouteMarkerPopup,
+  {
+    // Note: We're not sure this is necessary, since context is  getting passed via props
+    // router: PropTypes.object.isRequired,
+    // config: PropTypes.object.isRequired,
+  },
+);
 
 export default class VehicleMarkerContainer extends React.PureComponent {
   static contextTypes = {

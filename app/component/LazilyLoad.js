@@ -65,10 +65,11 @@ LazilyLoad.propTypes = {
   children: PropTypes.func.isRequired,
 };
 
-export const LazilyLoadFactory = (Component, modules) => props =>
+export const LazilyLoadFactory = (Component, modules) => props => (
   <LazilyLoad modules={modules}>
     {mods => <Component {...mods} {...props} />}
-  </LazilyLoad>;
+  </LazilyLoad>
+);
 
 export const importLazy = promise => promise.then(result => result.default);
 

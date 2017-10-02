@@ -15,7 +15,7 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 
-const getRouteStopSvg = (first, last, color) =>
+const getRouteStopSvg = (first, last, color) => (
   <svg className="route-stop-schematized">
     <line
       x1="6"
@@ -43,12 +43,13 @@ const getRouteStopSvg = (first, last, color) =>
       cy="13"
       r="5"
     />
-  </svg>;
+  </svg>
+);
 
 const TripRouteStop = props => {
   const vehicles =
     props.vehicles &&
-    props.vehicles.map(vehicle =>
+    props.vehicles.map(vehicle => (
       <PatternLink
         key={vehicle.id}
         mode={vehicle.mode}
@@ -58,8 +59,8 @@ const TripRouteStop = props => {
           props.selectedVehicle && props.selectedVehicle.id === vehicle.id
         }
         fullscreenMap={props.fullscreenMap}
-      />,
-    );
+      />
+    ));
 
   return (
     <div
@@ -69,9 +70,7 @@ const TripRouteStop = props => {
         props.className,
       )}
     >
-      <div className="columns route-stop-now">
-        {vehicles}
-      </div>
+      <div className="columns route-stop-now">{vehicles}</div>
       <Link to={`/pysakit/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
           {getRouteStopSvg(
@@ -83,16 +82,15 @@ const TripRouteStop = props => {
           <br />
           <div style={{ whiteSpace: 'nowrap' }}>
             {props.stop.code && <StopCode code={props.stop.code} />}
-            <span className="route-stop-address">
-              {props.stop.desc}
-            </span>
+            <span className="route-stop-address">{props.stop.desc}</span>
             {'\u2002'}
-            {props.distance &&
+            {props.distance && (
               <WalkDistance
                 className="nearest-route-stop"
                 icon="icon_location-with-user"
                 walkDistance={props.distance}
-              />}
+              />
+            )}
           </div>
         </div>
         <div className="columns route-stop-time">
@@ -129,7 +127,7 @@ TripRouteStop.propTypes = {
 
 TripRouteStop.displayName = 'TripRouteStop';
 
-TripRouteStop.description = () =>
+TripRouteStop.description = () => (
   <div>
     <p>
       Renders a row intended to for use in a trip route stop list. The row
@@ -169,6 +167,7 @@ TripRouteStop.description = () =>
         selectedVehicle={exampleVehicle}
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default TripRouteStop;

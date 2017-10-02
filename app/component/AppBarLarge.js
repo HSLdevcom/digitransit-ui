@@ -23,13 +23,13 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
     <div>
       <div className="top-bar bp-large flex-horizontal">
         <button className="noborder" onClick={titleClicked}>
-          {config.textLogo
-            ? <section className="title">
-                <span className="title">
-                  {config.title}
-                </span>
-              </section>
-            : <div className="navi-logo" />}
+          {config.textLogo ? (
+            <section className="title">
+              <span className="title">{config.title}</span>
+            </section>
+          ) : (
+            <div className="navi-logo" />
+          )}
         </button>
         <div className="empty-space flex-grow" />
         <div className="navi-languages right-border navi-margin">
@@ -69,12 +69,13 @@ AppBarLarge.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-AppBarLarge.description = () =>
+AppBarLarge.description = () => (
   <div>
     <p>AppBar of application for large display</p>
     <ComponentUsageExample description="">
       <AppBarLarge titleClicked={() => {}} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default AppBarLarge;

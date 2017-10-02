@@ -16,21 +16,19 @@ class Select extends React.Component {
   };
 
   static getOptionTags(options) {
-    return options.map(option =>
+    return options.map(option => (
       <option key={option.displayName + option.value} value={option.value}>
         {option.displayNameObject
           ? option.displayNameObject
           : option.displayName}
-      </option>,
-    );
+      </option>
+    ));
   }
 
   render() {
     return (
       <div>
-        <h4>
-          {this.props.headerText}
-        </h4>
+        <h4>{this.props.headerText}</h4>
         <select
           onChange={this.props.onSelectChange}
           value={this.props.selected}

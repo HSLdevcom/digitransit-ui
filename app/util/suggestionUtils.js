@@ -82,8 +82,9 @@ export const getNameLabel = memoize(
           : [
               suggestion.name,
               <span key={suggestion.id}>
-                {getStopCode(suggestion) &&
-                  <StopCode code={getStopCode(suggestion)} />}
+                {getStopCode(suggestion) && (
+                  <StopCode code={getStopCode(suggestion)} />
+                )}
                 {suggestion.desc}
               </span>,
             ];

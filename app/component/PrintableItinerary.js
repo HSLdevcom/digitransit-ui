@@ -19,11 +19,11 @@ import RouteLine from './map/route/RouteLine';
 import LocationMarker from '../component/map/LocationMarker';
 
 const getHeadSignFormat = sentLegObj => {
-  const stopcode =
-    sentLegObj.from.stop !== null &&
+  const stopcode = sentLegObj.from.stop !== null && (
     <span className="stop-code">
       {sentLegObj.from.stop.code ? `[${sentLegObj.from.stop.code}]` : ``}
-    </span>;
+    </span>
+  );
   let headSignFormat;
 
   if (sentLegObj.rentedBike === true) {
@@ -86,17 +86,13 @@ const getHeadSignDetails = sentLegObj => {
 
   return (
     <div>
-      <span>
-        {transitMode}
-      </span>
-      <span>
-        {headSignDetails}
-      </span>
+      <span>{transitMode}</span>
+      <span>{headSignDetails}</span>
     </div>
   );
 };
 
-const getItineraryStops = sentLegObj =>
+const getItineraryStops = sentLegObj => (
   <div className="intermediate-stops">
     <div className="intermediate-stops-count">
       <FormattedMessage
@@ -113,17 +109,16 @@ const getItineraryStops = sentLegObj =>
         {` (${durationToString(sentLegObj.duration * 1000)})`}
       </span>
     </div>
-    {sentLegObj.intermediateStops.map(o2 =>
+    {sentLegObj.intermediateStops.map(o2 => (
       <div key={o2.gtfsId} className="intermediate-stop-single">
-        <span className="print-itinerary-stop-shortname">
-          {o2.name}
-        </span>
+        <span className="print-itinerary-stop-shortname">{o2.name}</span>
         <span className="print-itinerary-stop-code">
           {o2.code !== null ? ` [${o2.code}]` : ``}
         </span>
-      </div>,
-    )}
-  </div>;
+      </div>
+    ))}
+  </div>
+);
 
 function TransferMap(props) {
   const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
@@ -237,27 +232,29 @@ function PrintableLeg(props) {
         className={`itinerary-circleline ${props.legObj.mode.toLowerCase()}`}
       >
         <div className="line-circle">
-          {props.index === 0
-            ? <Icon
-                img="icon-icon_mapMarker-point"
-                className="itinerary-icon from from-it"
+          {props.index === 0 ? (
+            <Icon
+              img="icon-icon_mapMarker-point"
+              className="itinerary-icon from from-it"
+            />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={32}
+              height={35}
+              style={{ fill: '#fff', stroke: 'currentColor' }}
+            >
+              <circle
+                stroke="white"
+                strokeWidth="9"
+                width={28}
+                cx={17}
+                cy={20}
+                r={13}
               />
-            : <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={32}
-                height={35}
-                style={{ fill: '#fff', stroke: 'currentColor' }}
-              >
-                <circle
-                  stroke="white"
-                  strokeWidth="9"
-                  width={28}
-                  cx={17}
-                  cy={20}
-                  r={13}
-                />
-                <circle strokeWidth="6" width={28} cx={16} cy={20} r={11} />
-              </svg>}
+              <circle strokeWidth="6" width={28} cx={16} cy={20} r={11} />
+            </svg>
+          )}
         </div>
         <div className={`leg-before-line ${props.legObj.mode.toLowerCase()}`} />
       </div>
@@ -265,7 +262,7 @@ function PrintableLeg(props) {
         <div className="itinerary-center-left">
           {getHeadSignFormat(props.legObj)}
           <div className="itinerary-instruction">
-            {props.legObj.mode === 'WALK' &&
+            {props.legObj.mode === 'WALK' && (
               <FormattedMessage
                 id="walk-distance-duration"
                 defaultMessage="Walk {distance} ({duration})"
@@ -276,8 +273,9 @@ function PrintableLeg(props) {
                   ),
                   duration: durationToString(props.legObj.duration * 1000),
                 }}
-              />}
-            {props.legObj.mode === 'BICYCLE' &&
+              />
+            )}
+            {props.legObj.mode === 'BICYCLE' && (
               <FormattedMessage
                 id="cycle-distance-duration"
                 defaultMessage="Cycle {distance} ({duration})"
@@ -288,8 +286,9 @@ function PrintableLeg(props) {
                   ),
                   duration: durationToString(props.legObj.duration * 1000),
                 }}
-              />}
-            {props.legObj.mode === 'citybike' &&
+              />
+            )}
+            {props.legObj.mode === 'citybike' && (
               <FormattedMessage
                 id="cycle-distance-duration"
                 defaultMessage="Cycle {distance} ({duration})"
@@ -300,8 +299,9 @@ function PrintableLeg(props) {
                   ),
                   duration: durationToString(props.legObj.duration * 1000),
                 }}
-              />}
-            {props.legObj.mode === 'CAR' &&
+              />
+            )}
+            {props.legObj.mode === 'CAR' && (
               <FormattedMessage
                 id="car-distance-duration"
                 defaultMessage="Drive {distance} ({duration})"
@@ -312,7 +312,8 @@ function PrintableLeg(props) {
                   ),
                   duration: durationToString(props.legObj.duration * 1000),
                 }}
-              />}
+              />
+            )}
             {props.legObj.mode !== 'WALK' &&
               props.legObj.mode !== 'BICYCLE' &&
               props.legObj.mode !== 'CAR' &&
@@ -325,13 +326,14 @@ function PrintableLeg(props) {
         <div
           className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}
         >
-          {props.legObj.mode === 'WALK' &&
+          {props.legObj.mode === 'WALK' && (
             <TransferMap
               originalLegs={props.originalLegs}
               index={props.index}
               legObj={props.legObj}
               mapsLoaded={() => props.mapsLoaded()}
-            />}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -462,9 +464,7 @@ class PrintableItinerary extends React.Component {
     return (
       <div className="print-itinerary-container">
         <PrintableItineraryHeader itinerary={this.props.itinerary} />
-        <div className="print-itinerary-allLegs">
-          {legs}
-        </div>
+        <div className="print-itinerary-allLegs">{legs}</div>
       </div>
     );
   }

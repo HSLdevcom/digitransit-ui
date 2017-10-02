@@ -72,7 +72,7 @@ DisruptionInfo.contextTypes = {
   }).isRequired,
 };
 
-DisruptionInfo.description = () =>
+DisruptionInfo.description = () => (
   <div>
     <p>
       Modal that shows all available disruption info. Opened by
@@ -83,6 +83,7 @@ DisruptionInfo.description = () =>
     <ComponentUsageExample>
       <DisruptionInfo />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default DisruptionInfo;

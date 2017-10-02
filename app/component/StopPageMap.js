@@ -22,16 +22,17 @@ const toggleFullscreenMap = (fullscreenMap, params, router) => {
 };
 
 const fullscreenMapOverlay = (fullscreenMap, params, router) =>
-  !fullscreenMap &&
-  <div
-    className="map-click-prevent-overlay"
-    key="overlay"
-    onClick={() => {
-      toggleFullscreenMap(fullscreenMap, params, router);
-    }}
-  />;
+  !fullscreenMap && (
+    <div
+      className="map-click-prevent-overlay"
+      key="overlay"
+      onClick={() => {
+        toggleFullscreenMap(fullscreenMap, params, router);
+      }}
+    />
+  );
 
-const fullscreenMapToggle = (fullscreenMap, params, router) =>
+const fullscreenMapToggle = (fullscreenMap, params, router) => (
   <div
     className="fullscreen-toggle"
     key="fullscreen-toggle"
@@ -40,7 +41,8 @@ const fullscreenMapToggle = (fullscreenMap, params, router) =>
     }}
   >
     <Icon img="icon-icon_maximize" className="cursor-pointer" />
-  </div>;
+  </div>
+);
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
   if (!stop) {

@@ -67,7 +67,7 @@ class MainMenuContainer extends Component {
     return (
       <div>
         <LazilyLoad modules={this.mainMenuModules}>
-          {({ Drawer, MainMenu }) =>
+          {({ Drawer, MainMenu }) => (
             <Drawer
               className="offcanvas"
               disableSwipeToOpen
@@ -82,22 +82,23 @@ class MainMenuContainer extends Component {
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
               />
-            </Drawer>}
+            </Drawer>
+          )}
         </LazilyLoad>
-        {this.context.config.mainMenu.show
-          ? <div className="icon-holder cursor-pointer main-menu-toggle">
-              <button
-                aria-label={this.context.intl.formatMessage({
-                  id: 'main-menu-label-open',
-                  defaultMessage: 'Open the main menu',
-                })}
-                onClick={this.toggleOffcanvas}
-                className="noborder cursor-pointer"
-              >
-                <Icon img={'icon-icon_menu'} className="icon" />
-              </button>
-            </div>
-          : null}
+        {this.context.config.mainMenu.show ? (
+          <div className="icon-holder cursor-pointer main-menu-toggle">
+            <button
+              aria-label={this.context.intl.formatMessage({
+                id: 'main-menu-label-open',
+                defaultMessage: 'Open the main menu',
+              })}
+              onClick={this.toggleOffcanvas}
+              className="noborder cursor-pointer"
+            >
+              <Icon img={'icon-icon_menu'} className="icon" />
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }

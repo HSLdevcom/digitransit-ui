@@ -10,6 +10,7 @@ const inputOrPlaceholder = (value, placeholder, onClick) => {
       onKeyPress={onClick}
       className={`no-select address-${hasInput ? 'input' : 'placeholder'}`}
       value={hasInput ? value : placeholder}
+      readOnly
     />
   );
 };
@@ -20,10 +21,11 @@ const FakeSearchBar = ({
   className,
   endpointAddress,
   placeholder,
-}) =>
+}) => (
   <div id={id} className={cx('input-placeholder', className)}>
     {inputOrPlaceholder(endpointAddress, placeholder, onClick)}
-  </div>;
+  </div>
+);
 
 FakeSearchBar.propTypes = {
   className: PropTypes.string,

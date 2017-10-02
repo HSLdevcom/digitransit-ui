@@ -267,11 +267,13 @@ export default config => {
   return (
     <Route
       component={props =>
-        isBrowser
-          ? <ContainerDimensions>
-              <TopLevel {...props} />
-            </ContainerDimensions>
-          : <TopLevel {...props} />}
+        isBrowser ? (
+          <ContainerDimensions>
+            <TopLevel {...props} />
+          </ContainerDimensions>
+        ) : (
+          <TopLevel {...props} />
+        )}
     >
       <Route
         path="/styleguide"

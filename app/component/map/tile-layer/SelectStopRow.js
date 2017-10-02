@@ -95,7 +95,7 @@ function SelectStopRow(props) {
 
 SelectStopRow.displayName = 'SelectStopRow';
 
-SelectStopRow.description = () =>
+SelectStopRow.description = () => (
   <div>
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
@@ -108,7 +108,8 @@ SelectStopRow.description = () =>
         }
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 SelectStopRow.propTypes = {
   type: PropTypes.string.isRequired,

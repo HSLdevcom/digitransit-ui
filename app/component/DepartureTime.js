@@ -66,7 +66,7 @@ DepartureTime.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-DepartureTime.description = () =>
+DepartureTime.description = () => (
   <div>
     <p>
       Display time in correct format. Displays minutes for 20 minutes, otherwise
@@ -98,7 +98,8 @@ DepartureTime.description = () =>
         useUTC
       />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 DepartureTime.displayName = 'DepartureTime';
 
@@ -144,9 +145,10 @@ export const mapStopTime = (stoptime, pattern) => ({
  *  @param stoptime stoptime from graphql
  *  @param currentTime
  */
-export const fromStopTime = (stoptime, currentTime) =>
+export const fromStopTime = (stoptime, currentTime) => (
   <DepartureTime
     currentTime={currentTime}
     {...mapStopTime(stoptime)}
     style={{ whiteSpace: 'nowrap' }}
-  />;
+  />
+);

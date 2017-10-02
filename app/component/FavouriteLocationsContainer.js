@@ -163,13 +163,14 @@ class FavouriteLocationsContainer extends React.Component {
             })
           }
           renderLoading={() => favouriteLocation}
-          renderFetched={data =>
+          renderFetched={data => (
             <FavouriteLocationContainer
               favourite={favourite}
               onClickFavourite={this.setDestination}
               currentTime={this.props.currentTime.unix()}
               {...data}
-            />}
+            />
+          )}
         />
       );
     }
@@ -231,7 +232,7 @@ class FavouriteLocationsContainer extends React.Component {
             </SwipeableViewsKB>
           </div>
         </div>
-        {displayLeft &&
+        {displayLeft && (
           <Link
             className="fav-location-nav-button-container-left"
             onClick={this.onPrev}
@@ -239,8 +240,9 @@ class FavouriteLocationsContainer extends React.Component {
             <span className="fav-location-nav-button">
               <Icon img="icon-icon_arrow-collapse--left" />
             </span>
-          </Link>}
-        {displayRight &&
+          </Link>
+        )}
+        {displayRight && (
           <Link
             className="fav-location-nav-button-container-right"
             onClick={this.onNext}
@@ -248,7 +250,8 @@ class FavouriteLocationsContainer extends React.Component {
             <span className="fav-location-nav-button">
               <Icon img="icon-icon_arrow-collapse--right" />
             </span>
-          </Link>}
+          </Link>
+        )}
       </div>
     );
   }

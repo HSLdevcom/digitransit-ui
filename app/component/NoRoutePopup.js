@@ -6,13 +6,14 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
 class NoRoutePopup extends React.Component {
-  static description = () =>
+  static description = () => (
     <div>
       <p>Popup informing the user that no route was found.</p>
       <ComponentUsageExample>
         <NoRoutePopup />
       </ComponentUsageExample>
-    </div>;
+    </div>
+  );
 
   state = {
     open: true,

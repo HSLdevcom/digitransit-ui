@@ -521,6 +521,7 @@ const translations = {
     'cycle-distance-duration': 'Cycle {distance} ({duration})',
     'cyclewalk-distance-duration': 'Walk your bike {distance} ({duration})',
     datasources: 'Data sources',
+    date: 'Date',
     delete: 'Delete',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Departures',
@@ -636,6 +637,7 @@ const translations = {
     route: 'Route',
     'route-destination-arrives': 'Arrives / Terminus',
     'route-from-here': 'Route from here',
+    'route-guide': 'Route guide',
     'route-here': 'Route here',
     'route-not-possible':
       'Unfortunately, your route is not available. Technical error: "{error}"',
@@ -790,6 +792,7 @@ const translations = {
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
     datasources: 'Tietolähteet',
+    date: 'Päivämäärä',
     delete: 'Poista',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
@@ -907,6 +910,7 @@ const translations = {
     route: 'Linja',
     'route-destination-arrives': 'Saapuu / Päätepysäkki',
     'route-from-here': 'Reititä täältä',
+    'route-guide': 'Linjaohje',
     'route-here': 'Reititä tänne',
     'route-not-possible':
       'Valitettavasti reittisi ei ole mahdollinen. Tekninen virhe: "{error}"',
@@ -1562,6 +1566,7 @@ const translations = {
     'cycle-distance-duration': 'Cykla {distance} ({duration})',
     'cyclewalk-distance-duration': 'Led cykeln {distance} ({duration})',
     datasources: 'Datakällor',
+    date: 'Datum',
     delete: 'Ta bort',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Avgångar',
@@ -1680,6 +1685,7 @@ const translations = {
     route: 'Linje',
     'route-destination-arrives': 'Ankomst / Ändhållplats',
     'route-from-here': 'Sök rutt härifrån',
+    'route-guide': 'Linjeguide',
     'route-here': 'Sök rutt hit',
     'route-not-possible':
       'Tyvärr är din rutt inte möjlig. Tekniskt fel: "{error}"',

@@ -239,7 +239,7 @@ class CustomizeSearch extends React.Component {
       return null;
     }
 
-    return availableStreetModes.map((streetMode, index) =>
+    return availableStreetModes.map((streetMode, index) => (
       <ToggleButton
         key={`toggle-button-${streetMode}`}
         icon={this.context.config.streetModes[streetMode].icon}
@@ -251,11 +251,11 @@ class CustomizeSearch extends React.Component {
           'first-btn': index === 0,
           'last-btn': index === availableStreetModes.length - 1,
         })}
-      />,
-    );
+      />
+    ));
   };
 
-  getWalkReluctanceSlider = () =>
+  getWalkReluctanceSlider = () => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -281,9 +281,10 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Prefer walking',
         })}
       />
-    </section>;
+    </section>
+  );
 
-  getWalkBoardCostSlider = () =>
+  getWalkBoardCostSlider = () => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -309,9 +310,10 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfers allowed',
         })}
       />
-    </section>;
+    </section>
+  );
 
-  getTransferMarginSlider = () =>
+  getTransferMarginSlider = () => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -344,9 +346,10 @@ class CustomizeSearch extends React.Component {
           defaultMessage: '12 min',
         })}
       />
-    </section>;
+    </section>
+  );
 
-  getWalkSpeedSlider = () =>
+  getWalkSpeedSlider = () => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -377,7 +380,8 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Run',
         })}
       />
-    </section>;
+    </section>
+  );
 
   getTicketType = () => {
     let ticketType;
@@ -394,7 +398,7 @@ class CustomizeSearch extends React.Component {
     return ticketType;
   };
 
-  getTicketSelector = () =>
+  getTicketSelector = () => (
     <FareZoneSelector
       headerText={this.context.intl.formatMessage({
         id: 'zones',
@@ -403,7 +407,8 @@ class CustomizeSearch extends React.Component {
       options={get(this.context.config, 'fareMapping', {})}
       currentOption={this.getTicketType()}
       updateValue={val => this.updateSettings('ticketTypes', val)}
-    />;
+    />
+  );
 
   getAccessibilityOption = () => {
     let accessibilityOption;
@@ -421,7 +426,7 @@ class CustomizeSearch extends React.Component {
     return accessibilityOption;
   };
 
-  getAccessibilitySelector = () =>
+  getAccessibilitySelector = () => (
     <section className="offcanvas-section">
       <Select
         headerText={this.context.intl.formatMessage({
@@ -434,7 +439,8 @@ class CustomizeSearch extends React.Component {
         onSelectChange={e =>
           this.updateSettings('accessibilityOption', e.target.value)}
       />
-    </section>;
+    </section>
+  );
 
   getModes() {
     if (this.context.location.query.modes) {

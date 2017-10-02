@@ -85,12 +85,14 @@ class Splash extends React.Component {
         </div>
         <div id="splash-wrapper">
           <div id="splash">
-            {this.props.shouldShowIntro
-              ? <Intro
-                  onIntroFinished={this.props.setIntroShown}
-                  finalSlide={this.renderContents()}
-                />
-              : this.renderContents()}
+            {this.props.shouldShowIntro ? (
+              <Intro
+                onIntroFinished={this.props.setIntroShown}
+                finalSlide={this.renderContents()}
+              />
+            ) : (
+              this.renderContents()
+            )}
           </div>
         </div>
       </div>

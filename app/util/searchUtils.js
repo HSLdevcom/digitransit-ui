@@ -71,7 +71,10 @@ function filterMatchingToInput(list, Input, fields) {
         }
         if (value) {
           parts = parts.concat(
-            value.toLowerCase().replace(/,/g, ' ').split(' '),
+            value
+              .toLowerCase()
+              .replace(/,/g, ' ')
+              .split(' '),
           );
         }
       });
@@ -363,7 +366,9 @@ export function executeSearchImmediate(
               'focus.point.lon': position.lon.toFixed(2),
             }
           : {};
-      const sources = get(config, 'feedIds', []).map(v => `gtfs${v}`).join(',');
+      const sources = get(config, 'feedIds', [])
+        .map(v => `gtfs${v}`)
+        .join(',');
 
       searchComponents.push(
         getGeocodingResult(
@@ -468,7 +473,9 @@ export const withCurrentTime = (getStore, location) => {
       ...query,
       time: query.time
         ? query.time
-        : getStore('TimeStore').getCurrentTime().unix(),
+        : getStore('TimeStore')
+            .getCurrentTime()
+            .unix(),
     },
   };
 };

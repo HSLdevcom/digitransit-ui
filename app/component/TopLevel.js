@@ -59,9 +59,11 @@ class TopLevel extends React.Component {
       host &&
       host.indexOf('127.0.0.1') === -1 &&
       host.indexOf('localhost') === -1 &&
-      hasTrackingPixel
-        ? <HSLAdformTrackingPixel />
-        : undefined;
+      hasTrackingPixel ? (
+        <HSLAdformTrackingPixel />
+      ) : (
+        undefined
+      );
 
     this.metadata = meta(
       this.context.intl.locale,
@@ -121,8 +123,9 @@ class TopLevel extends React.Component {
 
     return (
       <div className="fullscreen">
-        {!this.topBarOptions.hidden &&
-          <AppBarContainer title={this.props.title} {...this.topBarOptions} />}
+        {!this.topBarOptions.hidden && (
+          <AppBarContainer title={this.props.title} {...this.topBarOptions} />
+        )}
         <Helmet {...this.metadata} />
         <section
           className="content"

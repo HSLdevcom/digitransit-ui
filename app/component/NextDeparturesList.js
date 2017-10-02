@@ -90,11 +90,7 @@ function NextDeparturesList(props) {
     );
   });
 
-  return (
-    <div>
-      {departureObjs}
-    </div>
-  );
+  return <div>{departureObjs}</div>;
 }
 
 NextDeparturesList.propTypes = {

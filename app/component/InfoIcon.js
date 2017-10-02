@@ -4,12 +4,13 @@ import { Link } from 'react-router';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const InfoIcon = ({ stop }) =>
+const InfoIcon = ({ stop }) => (
   <Link href={`/pysakit/${stop.gtfsId}/info`}>
     <span className="cursor-pointer">
       <Icon className="info" img="icon-icon_info" />
     </span>
-  </Link>;
+  </Link>
+);
 
 InfoIcon.propTypes = {
   stop: PropTypes.object.isRequired,
@@ -24,11 +25,12 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-InfoIcon.description = () =>
+InfoIcon.description = () => (
   <div>
     <ComponentUsageExample description="basic">
       <InfoIcon stop={exampleStop} />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default InfoIcon;

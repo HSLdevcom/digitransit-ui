@@ -44,14 +44,14 @@ function RouteLine(props) {
   const markers = props.pattern
     ? props.pattern.stops
         .filter(stop => !filteredIds.includes(stop.gtfsId))
-        .map(stop =>
+        .map(stop => (
           <StopMarker
             stop={stop}
             key={stop.gtfsId}
             mode={modeClass + (props.thin ? ' thin' : '')}
             thin={props.thin}
-          />,
-        )
+          />
+        ))
     : false;
 
   return (

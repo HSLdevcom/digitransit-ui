@@ -58,11 +58,12 @@ class StopPageContentOptions extends React.Component {
           <div className="stop-tabs-fillerline" />
           {this.state.showTab === 'right-now' && <DepartureListHeader />}
         </div>
-        {this.state.showTab === 'right-now' &&
+        {this.state.showTab === 'right-now' && (
           <div className="stop-scroll-container momentum-scroll">
             <DepartureListContainerWithProps {...this.props.departureProps} />
-          </div>}
-        {this.state.showTab === 'timetable' &&
+          </div>
+        )}
+        {this.state.showTab === 'timetable' && (
           <TimetableContainer
             stop={this.props.departureProps.stop}
             date={this.props.relay.variables.date}
@@ -72,7 +73,8 @@ class StopPageContentOptions extends React.Component {
               selectedDate: this.props.relay.variables.date,
               onDateChange: this.onDateChange,
             }}
-          />}
+          />
+        )}
       </div>
     );
   }
@@ -91,15 +93,16 @@ const DepartureListContainerWithProps = mapProps(props => ({
 
 const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(
   props =>
-    some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large'
-      ? null
-      : <StopPageContentOptions
-          printUrl={props.stop.url}
-          departureProps={props}
-          relay={props.relay}
-          initialDate={props.initialDate}
-          setDate={props.setDate}
-        />,
+    some(props.routes, 'fullscreenMap') &&
+    props.breakpoint !== 'large' ? null : (
+      <StopPageContentOptions
+        printUrl={props.stop.url}
+        departureProps={props}
+        relay={props.relay}
+        initialDate={props.initialDate}
+        setDate={props.setDate}
+      />
+    ),
 );
 
 const StopPageContentOrEmpty = props => {

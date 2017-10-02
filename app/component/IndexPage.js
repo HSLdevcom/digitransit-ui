@@ -259,14 +259,11 @@ class IndexPage extends React.Component {
             searchModalIsOpen={searchModalIsOpen}
             selectedTab={selectedSearchTab}
             tab={selectedMainTab}
-            origin={this.getOrigin()}
-            destination={this.getDestination()}
           >
             <DTAutosuggestPanel
               origin={this.getOrigin()}
               destination={this.getDestination()}
             />
-
             <div key="foo" className="fpccontainer">
               <FrontPagePanelLarge
                 selectedPanel={selectedMainTab}
@@ -299,8 +296,6 @@ class IndexPage extends React.Component {
               showScaleBar
               searchModalIsOpen={searchModalIsOpen}
               selectedTab={selectedSearchTab}
-              origin={this.getOrigin()}
-              destination={this.getDestination()}
             >
               {messageBar}
               <DTAutosuggestPanel
