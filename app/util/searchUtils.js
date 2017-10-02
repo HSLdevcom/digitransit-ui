@@ -378,16 +378,18 @@ export function executeSearchImmediate(
         .map(v => `gtfs${v}`)
         .join(',');
 
-      searchComponents.push(
-        getGeocodingResult(
-          input,
-          undefined,
-          language,
-          focusPoint,
-          sources,
-          config,
-        ),
-      );
+      if (sources) {
+        searchComponents.push(
+          getGeocodingResult(
+            input,
+            undefined,
+            language,
+            focusPoint,
+            sources,
+            config,
+          ),
+        );
+      }
     }
 
     endpointSearchesPromise = Promise.all(searchComponents)
