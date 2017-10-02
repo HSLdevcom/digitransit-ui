@@ -154,10 +154,14 @@ export function getGeocodingResult(
   sources,
   config,
 ) {
+
+  if (text) {
+    text = text.trim();
+  }
   if (
     text === undefined ||
     text === null ||
-    text.trim().length < 1 ||
+    text.length < 1 ||
     (config.search &&
       config.search.minimalRegexp &&
       !config.search.minimalRegexp.test(text))
