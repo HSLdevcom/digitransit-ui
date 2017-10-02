@@ -5,6 +5,9 @@ import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import { getPathWithEndpoints, isItinerarySearch } from '../util/path';
+import GeolocationStart from './GeolocationStart';
+import { startLocationWatch } from '../action/PositionActions';
+import { setUseCurrent } from '../action/EndpointActions';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -32,41 +35,70 @@ class DTAutosuggestPanel extends React.Component {
     }
   };
 
+  value = location =>
+    (location && location.address) ||
+    (location && location.gps && 'Nykyinen sijainti') ||
+    '';
+
+  class = location =>
+    location && location.gps === true ? 'position' : 'location';
+
   render = () =>
     <div className="autosuggest-panel">
-      <DTEndpointAutosuggest
-        id="origin"
-        className="location"
-        searchType="all"
-        placeholder="give-origin"
-        value={(this.props.origin && this.props.origin.address) || ''}
-        onLocationSelected={location => {
-          let [
-            ,
-            originString,
-            destinationString,
-          ] = this.context.location.pathname.split('/');
-          originString = locationToOTP(location);
+      <span style={{ position: 'relative', display: 'block' }}>
+        <DTEndpointAutosuggest
+          id="origin"
+          className={this.class(this.props.origin)}
+          searchType="all"
+          placeholder="give-origin"
+          value={this.value(this.props.origin)}
+          onLocationSelected={location => {
+            let [
+              ,
+              originString,
+              destinationString, // eslint-disable-line prefer-const
+            ] = this.context.location.pathname.split('/');
+            originString = locationToOTP(location);
 
-          this.navigate(
-            getPathWithEndpoints(originString, destinationString),
-            !isItinerarySearch(originString, destinationString),
-          );
-        }}
-      />
+            this.navigate(
+              getPathWithEndpoints(originString, destinationString),
+              !isItinerarySearch(originString, destinationString),
+            );
+          }}
+        />
+        {this.props.origin === undefined
+          ? <GeolocationStart
+              onClick={() => {
+                this.context.executeAction(startLocationWatch);
+                const destinationString = this.context.location.pathname.split(
+                  '/',
+                )[3];
+
+                this.navigate(
+                  getPathWithEndpoints('POS', destinationString),
+                  !isItinerarySearch('POS', destinationString),
+                );
+
+                this.context.executeAction(setUseCurrent, {
+                  target: 'origin',
+                  router: this.context.router,
+                  location: this.context.location,
+                });
+              }}
+            />
+          : null}
+      </span>
       {this.props.origin !== undefined || this.props.destination !== undefined
         ? <DTEndpointAutosuggest
             id="destination"
             searchType="endpoint"
             placeholder="give-destination"
-            className="location"
-            value={
-              (this.props.destination && this.props.destination.address) || ''
-            }
+            className={this.class(this.props.destination)}
+            value={this.value(this.props.destination)}
             onLocationSelected={location => {
               let [
                 ,
-                originString,
+                originString, // eslint-disable-line prefer-const
                 destinationString,
               ] = this.context.location.pathname.split('/');
               destinationString = locationToOTP(location);
@@ -76,7 +108,7 @@ class DTAutosuggestPanel extends React.Component {
                 !isItinerarySearch(originString, destinationString),
               );
             }}
-            autoFocus={this.props.destination === undefined}
+            autoFocus={false && this.props.destination === undefined}
           />
         : null}
     </div>;

@@ -10,7 +10,7 @@ import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { otpToLocation } from '../util/otpStrings';
-import { getEndpointPath, isEmpty } from '../util/path';
+import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -65,12 +65,14 @@ class IndexPage extends React.Component {
       this.clickNearby();
     }
     if (this.props.params.origin !== undefined) {
-      const location = otpToLocation(this.props.params.origin);
+      const location = parseLocation(this.props.params.origin);
       if (location.lon && location.lat) {
         this.context.executeAction(storeEndpoint, {
           target: 'origin',
           endpoint: location,
         });
+      } else if (location.set) {
+        console.log('gps', location.gps);
       } else {
         console.log('could not parse params.origin:', this.props.params.origin);
         // unable to parse origin redirect to front page
@@ -85,8 +87,8 @@ class IndexPage extends React.Component {
 
   getOrigin = () => {
     if (this.props.params.origin) {
-      const location = otpToLocation(this.props.params.origin);
-      if (location.lon && location.lat) {
+      const location = parseLocation(this.props.params.origin);
+      if (location.set) {
         return location;
       }
     }
@@ -95,8 +97,8 @@ class IndexPage extends React.Component {
 
   getDestination = () => {
     if (this.props.params.destination) {
-      const location = otpToLocation(this.props.params.destination);
-      if (location.lon && location.lat) {
+      const location = parseLocation(this.props.params.destination);
+      if (location.set) {
         return location;
       }
     }

@@ -30,20 +30,20 @@ export const getPathWithEndpoints = (origin, destination) =>
 /**
  Parses current location from string to location object
 */
-export const parseLocation = s => {
-  if (s === undefined || s === null || s.trim() === '-') {
+export const parseLocation = location => {
+  if (isEmpty(location)) {
     return { set: false };
   }
-  if (s === 'x') {
+  if (location === 'POS') {
     return {
       set: true,
-      geoLocation: true,
+      gps: true,
     };
   }
-  const location = otpToLocation(s);
+  const parsed = otpToLocation(location);
 
-  if (location.lat && location.lon) {
-    location.set = true;
+  if (parsed.lat && parsed.lon) {
+    parsed.set = true;
   }
-  return location;
+  return parsed;
 };
