@@ -92,7 +92,7 @@
     "offline-plugin": "4.8.4",
     "pbf": "3.0.5",
     "point-in-polygon": "1.0.1",
-    "polyfill-service": "3.21.4",
+    "polyfill-service": "3.22.0",
     "polyline-encoded": "0.0.8",
     "proj4": "^2.3.17",
     "prop-types": "15.5.10",
