@@ -80,7 +80,7 @@
     "intl": "1.2.5",
     "isomorphic-relay": "hannesj/isomorphic-relay#feature-relay-1-public",
     "isomorphic-relay-router": "michaelstockton/isomorphic-relay-router#feature-relay-1-public",
-    "leaflet": "1.2.0",
+    "leaflet": "1.0.3",
     "lodash": "4.17.4",
     "lodash-es": "4.17.4",
     "material-ui": "0.18.7",
