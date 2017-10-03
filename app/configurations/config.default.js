@@ -67,6 +67,7 @@ export default {
     peliasMapping: {},
     peliasLayer: null,
     peliasLocalization: null,
+    minimalRegexp: new RegExp('.{3,}'),
   },
 
   nearbyRoutes: {
