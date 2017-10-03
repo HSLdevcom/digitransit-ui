@@ -8,13 +8,12 @@ class DeparturesTable extends React.Component {
     content: PropTypes.array,
   };
   checkContent = () => (this.props.content ? this.props.content : null);
-  constructHeaders = headers => {
-    return headers.map(o => (
-      <th key={`${o.id}-${o.defaultMessage}`}>
+  constructHeaders = headers =>
+    headers.map(o => (
+      <th key={`${o.id}-${o.defaultMessage}`} className={`th-${o.id}`}>
         <FormattedMessage id={o.id} defaultMessage={o.defaultMessage} />
       </th>
     ));
-  };
 
   render() {
     return (
