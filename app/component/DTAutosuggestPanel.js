@@ -43,7 +43,7 @@ class DTAutosuggestPanel extends React.Component {
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
-  render = () =>
+  render = () => (
     <div className="autosuggest-panel">
       <span style={{ position: 'relative', display: 'block' }}>
         <DTEndpointAutosuggest
@@ -66,52 +66,54 @@ class DTAutosuggestPanel extends React.Component {
             );
           }}
         />
-        {this.props.origin === undefined
-          ? <GeolocationStartButton
-              onClick={() => {
-                this.context.executeAction(startLocationWatch);
-                const destinationString = this.context.location.pathname.split(
-                  '/',
-                )[3];
-
-                this.navigate(
-                  getPathWithEndpoints('POS', destinationString),
-                  !isItinerarySearch('POS', destinationString),
-                );
-
-                this.context.executeAction(setUseCurrent, {
-                  target: 'origin',
-                  router: this.context.router,
-                  location: this.context.location,
-                });
-              }}
-            />
-          : null}
-      </span>
-      {this.props.origin !== undefined || this.props.destination !== undefined
-        ? <DTEndpointAutosuggest
-            id="destination"
-            searchType="endpoint"
-            placeholder="give-destination"
-            className={this.class(this.props.destination)}
-            value={this.value(this.props.destination)}
-            onLocationSelected={location => {
-              let [
-                ,
-                originString, // eslint-disable-line prefer-const
-                destinationString,
-              ] = this.context.location.pathname.split('/');
-              destinationString = locationToOTP(location);
+        {this.props.origin === undefined ? (
+          <GeolocationStartButton
+            onClick={() => {
+              this.context.executeAction(startLocationWatch);
+              const destinationString = this.context.location.pathname.split(
+                '/',
+              )[3];
 
               this.navigate(
-                getPathWithEndpoints(originString, destinationString),
-                !isItinerarySearch(originString, destinationString),
+                getPathWithEndpoints('POS', destinationString),
+                !isItinerarySearch('POS', destinationString),
               );
+
+              this.context.executeAction(setUseCurrent, {
+                target: 'origin',
+                router: this.context.router,
+                location: this.context.location,
+              });
             }}
-            autoFocus={false && this.props.destination === undefined}
           />
-        : null}
-    </div>;
+        ) : null}
+      </span>
+      {this.props.origin !== undefined ||
+      this.props.destination !== undefined ? (
+        <DTEndpointAutosuggest
+          id="destination"
+          searchType="endpoint"
+          placeholder="give-destination"
+          className={this.class(this.props.destination)}
+          value={this.value(this.props.destination)}
+          onLocationSelected={location => {
+            let [
+              ,
+              originString, // eslint-disable-line prefer-const
+              destinationString,
+            ] = this.context.location.pathname.split('/');
+            destinationString = locationToOTP(location);
+
+            this.navigate(
+              getPathWithEndpoints(originString, destinationString),
+              !isItinerarySearch(originString, destinationString),
+            );
+          }}
+          autoFocus={false && this.props.destination === undefined}
+        />
+      ) : null}
+    </div>
+  );
 }
 
 export default DTAutosuggestPanel;

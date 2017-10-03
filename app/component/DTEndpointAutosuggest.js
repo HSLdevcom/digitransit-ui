@@ -56,7 +56,7 @@ class DTAutosuggestContainer extends React.Component {
     this.props.onLocationSelected(location);
   };
 
-  render = () =>
+  render = () => (
     <DTOldSearchSavingAutosuggest
       autoFocus={this.props.autoFocus}
       placeholder={this.props.placeholder}
@@ -65,7 +65,8 @@ class DTAutosuggestContainer extends React.Component {
       value={this.props.value}
       id={this.props.id}
       className={this.props.value !== '' ? this.props.className : ''}
-    />;
+    />
+  );
 }
 
 export default DTAutosuggestContainer;

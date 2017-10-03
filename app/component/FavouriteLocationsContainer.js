@@ -110,8 +110,8 @@ class FavouriteLocationsContainer extends React.Component {
       address: locationName,
     };
 
-    let [, origin, destination] = this.context.location.pathname.split('/');
-    destination = locationToOTP(location);
+    const [, origin] = this.context.location.pathname.split('/');
+    const destination = locationToOTP(location);
     const url = `${getPathWithEndpoints(origin, destination)}`;
     this.context.router.push(url);
   };

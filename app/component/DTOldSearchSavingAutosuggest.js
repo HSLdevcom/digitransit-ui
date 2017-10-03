@@ -47,7 +47,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     this.props.onSelect(item, type);
   };
 
-  render = () =>
+  render = () => (
     <DTSearchAutosuggest
       autoFocus={this.props.autoFocus}
       placeholder={this.props.placeholder}
@@ -58,7 +58,8 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       }}
       id={this.props.id}
       className={this.props.className}
-    />;
+    />
+  );
 }
 
 export default DTOldSearchSavingAutosuggest;

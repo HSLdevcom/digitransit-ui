@@ -4,7 +4,7 @@ import React from 'react';
 /**
  * TODO make this appear like it should
 */
-const GeolocationStartButton = ({ onClick }) =>
+const GeolocationStartButton = ({ onClick }) => (
   <a
     style={{
       position: 'absolute',
@@ -15,7 +15,8 @@ const GeolocationStartButton = ({ onClick }) =>
     onClick={onClick}
   >
     Geolocate!
-  </a>;
+  </a>
+);
 
 GeolocationStartButton.propTypes = {
   onClick: PropTypes.func.isRequired,

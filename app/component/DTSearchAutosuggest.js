@@ -11,7 +11,7 @@ function getSuggestionValue(suggestion) {
   return value;
 }
 
-const renderItem = item =>
+const renderItem = item => (
   <SuggestionItem
     doNotShowLinkToStop={
       false
@@ -22,7 +22,8 @@ const renderItem = item =>
     useTransportIconsconfig={
       false // this.context.config.search.suggestions.useTransportIcons
     }
-  />;
+  />
+);
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {

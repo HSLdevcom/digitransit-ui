@@ -42,16 +42,10 @@ const SuggestionItem = pure(
           favourite: item.type.startsWith('Favourite'),
         })}
       >
-        <span className="autosuggestIcon">
-          {icon}
-        </span>
+        <span className="autosuggestIcon">{icon}</span>
         <div>
-          <p className="suggestion-name">
-            {name}
-          </p>
-          <p className="suggestion-label">
-            {label}
-          </p>
+          <p className="suggestion-name">{name}</p>
+          <p className="suggestion-label">{label}</p>
         </div>
       </div>
     );
@@ -157,7 +151,7 @@ const exampleStop = {
   },
 };
 
-SuggestionItem.description = () =>
+SuggestionItem.description = () => (
   <div>
     <ComponentUsageExample description="Favourite">
       <SuggestionItem item={exampleFavourite} />
@@ -174,6 +168,7 @@ SuggestionItem.description = () =>
     <ComponentUsageExample description="Stop">
       <SuggestionItem item={exampleStop} doNotShowLinkToStop />
     </ComponentUsageExample>
-  </div>;
+  </div>
+);
 
 export default SuggestionItem;
