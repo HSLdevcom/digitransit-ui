@@ -2,6 +2,7 @@
     height: 90%;
     position: relative;
 }
+
 .nearby-departures-table {
     table-layout: fixed;
     width: 100%;
@@ -10,17 +11,29 @@
         background: #eef1f3;
         display: block;
     }
+    .header-tr {
     th {
         padding: 6px 14px;
         color: #888;
         font-family: Gotham XNarrow SSm A,Gotham XNarrow SSm B,Arial,Georgia,Serif;
         font-weight: 400;
         letter-spacing: 0;
-        font-size: 1rem;
+        font-size: $font-size-small;
         white-space: nowrap;
         margin: 0;
         line-height: 1em;
+        padding-left: 0;
+        text-align: left;
+
+        &:first-child {
+            padding-left: 14px;
+        }
+
+        &.th-destination {
+            width: 63%;
+        }
     }
+}
 
     tbody {
         max-height: 100%;
@@ -39,18 +52,24 @@
         }
     }
     td {
+        max-width: 4em;
 
-        .distance {
-
-        }
-        .route-number {
-
+        &.td-destination {
+            width: 63%;
         }
         .route-destination {
             width: 100%;
         }
-        .time {
+    }
+}
 
+.mobile .nearby-departures-table {
+    th {
+        &.th-destination {
+            text-align: left;
         }
+    }
+    td {
+        max-width: 100%;
     }
 }

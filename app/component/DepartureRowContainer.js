@@ -65,7 +65,7 @@ const DepartureRow = props => {
             isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
           />
         </td>
-        <td>
+        <td className="td-destination">
           <RouteDestination
             mode={departure.pattern.route.mode}
             destination={headsign || departure.pattern.route.longName}

@@ -71,6 +71,10 @@ const PlaceAtDistanceList = ({
             defaultMessage: 'Route',
           },
           {
+            id: 'destination',
+            defaultMessage: 'Destination',
+          },
+          {
             id: 'leaves',
             defaultMessage: 'Leaves',
           },
