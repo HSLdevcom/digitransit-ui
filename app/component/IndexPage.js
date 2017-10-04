@@ -237,13 +237,7 @@ class IndexPage extends React.Component {
 
   render() {
     const selectedMainTab = this.getSelectedTab();
-    const selectedSearchTab =
-      this.context.location.state && this.context.location.state.selectedTab
-        ? this.context.location.state.selectedTab
-        : 'destination';
-    const searchModalIsOpen = this.context.location.state
-      ? Boolean(this.context.location.state.searchModalIsOpen)
-      : false;
+
     return this.props.breakpoint === 'large' ? (
       <div
         className={`front-page flex-vertical fullscreen bp-${this.props
