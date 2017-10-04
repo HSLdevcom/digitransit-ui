@@ -25,8 +25,6 @@ class DTAutosuggestPanel extends React.Component {
     geolocation: PropTypes.object,
   };
 
-  state = {}; // todo
-
   navigate = (url, replace) => {
     if (replace) {
       this.context.router.replace(url);
@@ -43,51 +41,52 @@ class DTAutosuggestPanel extends React.Component {
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
+  geolocateButton = () =>
+    this.props.origin === undefined ? (
+      <GeolocationStartButton
+        onClick={() => {
+          this.context.executeAction(startLocationWatch);
+          const destinationString = this.context.location.pathname.split(
+            '/',
+          )[3];
+
+          this.navigate(
+            getPathWithEndpoints('POS', destinationString),
+            !isItinerarySearch('POS', destinationString),
+          );
+
+          this.context.executeAction(setUseCurrent, {
+            target: 'origin',
+            router: this.context.router,
+            location: this.context.location,
+          });
+        }}
+      />
+    ) : null;
+
   render = () => (
     <div className="autosuggest-panel">
-      <span style={{ position: 'relative', display: 'block' }}>
-        <DTEndpointAutosuggest
-          id="origin"
-          className={this.class(this.props.origin)}
-          searchType="all"
-          placeholder="give-origin"
-          value={this.value(this.props.origin)}
-          onLocationSelected={location => {
-            let [
-              ,
-              originString,
-              destinationString, // eslint-disable-line prefer-const
-            ] = this.context.location.pathname.split('/');
-            originString = locationToOTP(location);
+      <DTEndpointAutosuggest
+        id="origin"
+        className={this.class(this.props.origin)}
+        searchType="all"
+        placeholder="give-origin"
+        value={this.value(this.props.origin)}
+        onLocationSelected={location => {
+          let [
+            ,
+            originString,
+            destinationString, // eslint-disable-line prefer-const
+          ] = this.context.location.pathname.split('/');
+          originString = locationToOTP(location);
 
-            this.navigate(
-              getPathWithEndpoints(originString, destinationString),
-              !isItinerarySearch(originString, destinationString),
-            );
-          }}
-        />
-        {this.props.origin === undefined ? (
-          <GeolocationStartButton
-            onClick={() => {
-              this.context.executeAction(startLocationWatch);
-              const destinationString = this.context.location.pathname.split(
-                '/',
-              )[3];
-
-              this.navigate(
-                getPathWithEndpoints('POS', destinationString),
-                !isItinerarySearch('POS', destinationString),
-              );
-
-              this.context.executeAction(setUseCurrent, {
-                target: 'origin',
-                router: this.context.router,
-                location: this.context.location,
-              });
-            }}
-          />
-        ) : null}
-      </span>
+          this.navigate(
+            getPathWithEndpoints(originString, destinationString),
+            !isItinerarySearch(originString, destinationString),
+          );
+        }}
+        renderPostInput={this.geolocateButton()}
+      />
       {this.props.origin !== undefined ||
       this.props.destination !== undefined ? (
         <DTEndpointAutosuggest

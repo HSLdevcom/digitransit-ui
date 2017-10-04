@@ -39,13 +39,16 @@ class DTAutosuggest extends React.Component {
     autoFocus: PropTypes.bool,
     searchType: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    renderPostInput: PropTypes.node,
   };
 
   static defaultProps = {
     placeholder: '',
     clickFunction: () => {},
     autoFocus: false,
+    postInput: null,
+    id: 1,
   };
 
   constructor(props) {
@@ -127,6 +130,12 @@ class DTAutosuggest extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderItem}
         inputProps={inputProps}
+        renderInputComponent={p => (
+          <div style={{ position: 'relative', display: 'block' }}>
+            <input {...p} />
+            {this.props.renderPostInput}
+          </div>
+        )}
         onSuggestionSelected={this.props.selectedFunction}
         highlightFirstSuggestion
       />
