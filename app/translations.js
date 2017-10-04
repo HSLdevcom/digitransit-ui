@@ -820,7 +820,7 @@ const translations = {
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
-    'geolocate-yourself': 'Paikanna itsesi',
+    'geolocate-yourself': 'Paikanna',
     'give-destination': 'Määränpää, linja tai pysäkki',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka, linja tai pysäkki',
