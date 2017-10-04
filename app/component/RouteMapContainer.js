@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
-
 import Icon from './Icon';
 import Map from './map/Map';
 import RouteLine from './map/route/RouteLine';
@@ -103,7 +103,7 @@ function RouteMapContainer(
 }
 
 RouteMapContainer.contextTypes = {
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };

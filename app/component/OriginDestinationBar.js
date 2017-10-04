@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { routerShape } from 'react-router';
 import cx from 'classnames';
 import without from 'lodash/without';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
-import {
-  storeEndpointIfNotCurrent,
-  swapEndpoints,
-} from '../action/EndpointActions';
+import { dtLocationShape } from '../util/shapes';
+import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
@@ -16,29 +14,17 @@ import { getAllEndpointLayers } from '../util/searchUtils';
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: PropTypes.object,
-    destination: PropTypes.object,
+    origin: dtLocationShape,
+    destination: dtLocationShape,
     originIsCurrent: PropTypes.bool,
     destinationIsCurrent: PropTypes.bool,
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
   };
-
-  componentWillMount() {
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'origin',
-      endpoint: this.props.origin,
-    });
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'destination',
-      endpoint: this.props.destination,
-    });
-  }
 
   getSearchModalState = () => {
     if (
@@ -51,10 +37,10 @@ class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    this.context.executeAction(swapEndpoints, {
-      router: this.context.router,
-      location: this.context.location,
-    });
+    const destinationString = locationToOTP(this.props.origin);
+    const originString = locationToOTP(this.props.destination);
+
+    this.context.router.replace(`/reitti/${originString}/${destinationString}`);
   };
 
   openSearchModal = tab => {

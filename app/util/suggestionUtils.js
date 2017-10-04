@@ -38,7 +38,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
 export const isStop = ({ layer }) =>
   layer === 'stop' || layer === 'favouriteStop';
 
-export const getLabel = memoize(
+export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
       case 'currentPosition':
@@ -75,7 +75,6 @@ export const getLabel = memoize(
             '',
           ),
         ];
-
       case 'favouriteStop':
       case 'stop':
         return plain
@@ -105,9 +104,13 @@ export function uniqByLabel(features) {
   return uniqWith(
     features,
     (feat1, feat2) =>
-      isEqual(getLabel(feat1.properties), getLabel(feat2.properties)) &&
+      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
       feat1.properties.layer === feat2.properties.layer,
   );
+}
+
+export function getLabel(properties) {
+  return getNameLabel(properties, true).join(', ');
 }
 
 export function getIcon(layer) {

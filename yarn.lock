@@ -7626,7 +7626,15 @@ react-addons-css-transition-group@15.6.0:
   dependencies:
     react-transition-group "^1.2.0"
 
-react-autowhatever@10.1.0:
+react-autosuggest@^9.3.2:
+  version "9.3.2"
+  resolved "https://registry.yarnpkg.com/react-autosuggest/-/react-autosuggest-9.3.2.tgz#dd8c0fbe9c25aa94afe296180353647f6ecc10a7"
+  dependencies:
+    prop-types "^15.5.10"
+    react-autowhatever "^10.1.0"
+    shallow-equal "^1.0.0"
+
+react-autowhatever@10.1.0, react-autowhatever@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/react-autowhatever/-/react-autowhatever-10.1.0.tgz#41f6d69382437d3447a0a3c8913bb8ca2feaabc1"
   dependencies:
@@ -8491,6 +8499,10 @@ shallow-clone@^0.1.2:
     kind-of "^2.0.1"
     lazy-cache "^0.2.3"
     mixin-object "^2.0.1"
+
+shallow-equal@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.0.0.tgz#508d1838b3de590ab8757b011b25e430900945f7"
 
 shallowequal@^1.0.1:
   version "1.0.2"
