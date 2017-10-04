@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { Link, routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
 
@@ -11,12 +11,12 @@ import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
 class RouteMarkerPopup extends React.Component {
   static childContextTypes = {
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
 
   static propTypes = {
     context: PropTypes.shape({
-      router: PropTypes.object.isRequired,
+      router: routerShape.isRequired,
       intl: intlShape.isRequired,
       executeAction: PropTypes.func.isRequired,
     }).isRequired,
