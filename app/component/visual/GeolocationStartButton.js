@@ -1,21 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Icon from '../Icon';
 
-/**
- * TODO make this appear like it should
-*/
 const GeolocationStartButton = ({ onClick }) => (
-  <a
-    style={{
-      position: 'absolute',
-      display: 'inline-block',
-      right: '8px',
-      top: '8px',
-    }}
+  <div
+    role="button"
+    className="geolocation-start-button"
+    tabIndex={0}
     onClick={onClick}
   >
-    Geolocate!
-  </a>
+    <Icon img="icon-icon_position" className="geolocation-start-button-icon" />
+    <FormattedMessage id="geolocate-yourself" defaultMessage="Geolocate" />
+  </div>
 );
 
 GeolocationStartButton.propTypes = {
