@@ -65,7 +65,13 @@
         &.td-destination {
             width: 63%;
         }
+        &.td-bikestation {
+            width: 51%;
+        }
         .route-destination {
+            width: 100%;
+        }
+        .city-bike-station-name {
             width: 100%;
         }
         .time {
@@ -78,9 +84,13 @@
     th {
         &.th-destination {
             text-align: left;
+            width: 62%;
         }
     }
     td {
         max-width: 100%;
+        &.td-bikestation {
+            width: 63%;
+        }
     }
 }
