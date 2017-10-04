@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
+import { routerShape } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
@@ -21,7 +22,7 @@ export default class MobileItineraryWrapper extends React.Component {
   };
 
   static contextTypes = {
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };

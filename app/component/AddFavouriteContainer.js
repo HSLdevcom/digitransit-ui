@@ -98,7 +98,7 @@ class AddFavouriteContainer extends React.Component {
   };
 
   quit = () => {
-    this.context.router.replace('/suosikit');
+    this.context.router.goBack();
   };
 
   specifyName = event => {

@@ -3,10 +3,10 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
-
 import ComponentUsageExample from '../ComponentUsageExample';
 import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
+import { dtLocationShape } from '../../util/shapes';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'breakpoint',
@@ -35,14 +35,8 @@ class MapWithTrackingStateHandler extends React.Component {
       lon: PropTypes.number.isRequired,
     }).isRequired,
     config: PropTypes.shape({
-      defaultMapCenter: PropTypes.shape({
-        lon: PropTypes.number.isRequired,
-        lat: PropTypes.number.isRequired,
-      }),
-      defaultEndpoint: PropTypes.shape({
-        lon: PropTypes.number.isRequired,
-        lat: PropTypes.number.isRequired,
-      }).isRequired,
+      defaultMapCenter: dtLocationShape,
+      defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
     children: PropTypes.element.isRequired,
   };
