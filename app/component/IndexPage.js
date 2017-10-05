@@ -11,6 +11,7 @@ import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { otpToLocation } from '../util/otpStrings';
 import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
+import OverlayWithSpinner from './visual/OverlayWithSpinner';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -263,6 +264,7 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
+        <OverlayWithSpinner />
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -285,6 +287,7 @@ class IndexPage extends React.Component {
             showStops
             showScaleBar
           >
+            <OverlayWithSpinner />
             {messageBar}
             <DTAutosuggestPanel
               origin={this.getOrigin()}
