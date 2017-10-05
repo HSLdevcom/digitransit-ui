@@ -73,13 +73,8 @@ class DTAutosuggestPanel extends React.Component {
         placeholder="give-origin"
         value={this.value(this.props.origin)}
         onLocationSelected={location => {
-          let [
-            ,
-            originString,
-            destinationString, // eslint-disable-line prefer-const
-          ] = this.context.location.pathname.split('/');
-          originString = locationToOTP(location);
-
+          const destinationString = locationToOTP(this.props.destination);
+          const originString = locationToOTP(location);
           this.navigate(
             getPathWithEndpoints(originString, destinationString),
             !isItinerarySearch(originString, destinationString),
@@ -96,13 +91,8 @@ class DTAutosuggestPanel extends React.Component {
           className={this.class(this.props.destination)}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
-            let [
-              ,
-              originString, // eslint-disable-line prefer-const
-              destinationString,
-            ] = this.context.location.pathname.split('/');
-            destinationString = locationToOTP(location);
-
+            const destinationString = locationToOTP(location);
+            const originString = locationToOTP(this.props.origin);
             this.navigate(
               getPathWithEndpoints(originString, destinationString),
               !isItinerarySearch(originString, destinationString),
