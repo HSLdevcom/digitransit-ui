@@ -175,7 +175,6 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
-    console.log('togglePanelExpanded', this.state);
     this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
   };
 
@@ -189,8 +188,6 @@ class IndexPage extends React.Component {
       ? Boolean(this.context.location.state.searchModalIsOpen)
       : false;
 
-    console.log('IndexPage', 'state', this.state);
-    const a = this;
     return this.props.breakpoint === 'large'
       ? <div
           className={`front-page flex-vertical fullscreen bp-${this.props
