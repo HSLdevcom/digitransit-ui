@@ -17,13 +17,6 @@ function NearbyRoutesPanel(
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      {context.config.showModeFilter &&
-        false &&
-        <div className="row border-bottom">
-          <div className="small-12 column">
-            <ModeFilterContainer id="nearby-routes-mode" />
-          </div>
-        </div>}
       <NextDeparturesListHeader />,
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
