@@ -126,11 +126,9 @@ class IndexPage extends React.Component {
 
     if (!isEmpty(nextProps.params.origin)) {
       // origin is set
-      const location = otpToLocation(nextProps.params.origin);
-
       this.context.executeAction(storeEndpoint, {
         target: 'origin',
-        endpoint: location,
+        endpoint: nextProps.origin,
       });
       // this.resetToCleanState();
     }
