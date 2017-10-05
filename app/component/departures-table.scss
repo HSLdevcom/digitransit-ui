@@ -33,7 +33,7 @@
         width: 14%;
 
         &:first-child {
-            padding-left: 14px;
+            padding-left: 0.6em;
         }
 
         &.th-destination {
@@ -78,25 +78,25 @@
         padding-right: 1em;
 
         &.td-distance {
-            min-width: 4.2em;
-            max-width: 4.2em;
+            width: 18%
         }
-
         &.td-destination {
             width: 63%;
         }
         &.td-bikestation {
-            max-width: 63%;
-            min-width: 30%;
+            width: 50%;
         }
         &.td-route-number {
-            min-width: 3.5em;
-            max-width: 3.5em;
+            width: 16%;
+        }
+        &.td-bikes-available {
+            width: 15%;
+            max-width: none;
+        }
+        &.td-departure-times {
+            width: 15%;
         }
         .route-destination {
-            width: 100%;
-        }
-        .city-bike-station-name {
             width: 100%;
         }
         .bikes-label {

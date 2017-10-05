@@ -45,7 +45,7 @@ const BicycleRentalStationRow = (props, context) => {
           {props.station.name}
         </span>
       </td>
-      <td>
+      <td className="td-bikes-available">
         <span className="city-bike-station-availability">
           <span className="bikes-label">
             {context.intl.formatMessage({

@@ -30,7 +30,7 @@ const DepartureRow = props => {
         ${departureTime.realtimeDeparture}`;
 
       return (
-        <td key={`${key}-td`}>
+        <td key={`${key}-td`} className="td-departure-times">
           <DepartureTime
             key={key}
             departureTime={
