@@ -304,11 +304,17 @@ const IndexPageWithPosition = connectToStores(
 
     const newProps = {};
 
+    // todo extract function:
     if (props.params.origin) {
       newProps.origin = parseLocation(props.params.origin);
+
       if (newProps.origin.gps === true) {
-        if (locationState.lat && locationState.lan && locationState.address) {
+        console.log('checking state', locationState);
+        if (locationState.lat && locationState.lon && locationState.address) {
           newProps.origin.ready = true;
+          newProps.origin.lat = locationState.lat;
+          newProps.origin.lon = locationState.lon;
+          newProps.origin.address = locationState.address;
           console.log('origin is position and ready');
         }
       }
@@ -317,7 +323,10 @@ const IndexPageWithPosition = connectToStores(
     if (props.params.destination) {
       newProps.destination = parseLocation(props.params.destination);
       if (newProps.destination.gps === true) {
-        if (locationState.lat && locationState.lan && locationState.address) {
+        if (locationState.lat && locationState.lon && locationState.address) {
+          newProps.destination.lat = locationState.lat;
+          newProps.destination.lon = locationState.lon;
+          newProps.destination.address = locationState.address;
           newProps.destination.ready = true;
           console.log('destination is position and ready');
         }
