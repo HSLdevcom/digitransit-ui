@@ -7,6 +7,11 @@ class DeparturesTable extends React.Component {
     headers: PropTypes.array.isRequired,
     content: PropTypes.array,
   };
+
+  static contextTypes = {
+    breakpoint: PropTypes.string,
+  };
+
   checkContent = () => (this.props.content ? this.props.content : null);
   constructHeaders = headers =>
     headers.map(o => (
@@ -17,7 +22,10 @@ class DeparturesTable extends React.Component {
 
   render() {
     return (
-      <div className="nearby-table-container">
+      <div
+        className={`nearby-table-container ${this.context.breakpoint !==
+          'large' && `mobile`}`}
+      >
         <table className="nearby-departures-table">
           <thead>
             <tr className="header-tr">

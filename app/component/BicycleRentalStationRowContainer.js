@@ -40,7 +40,7 @@ const BicycleRentalStationRow = (props, context) => {
           hasDisruption={false}
         />
       </td>
-      <td>
+      <td className="td-bikestation">
         <span className="city-bike-station-name overflow-fade">
           {props.station.name}
         </span>
