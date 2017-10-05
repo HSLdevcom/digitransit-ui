@@ -292,37 +292,32 @@ class IndexPage extends React.Component {
               destination={this.getDestination()}
             />
             {
-                <div
-                  className="fullscreen-toggle"
-                  onClick={this.togglePanelExpanded}
-                >
-                  {!this.state.panelExpanded
-                    ? <Icon
-                        img="icon-icon_minimize"
-                        className="cursor-pointer"
-                      />
-                    : <Icon
-                        img="icon-icon_maximize"
-                        className="cursor-pointer"
-                      />}
-                </div>
-              }}
+              <div
+                className="fullscreen-toggle"
+                onClick={this.togglePanelExpanded}
+              >
+                {!this.state.panelExpanded ? (
+                  <Icon img="icon-icon_minimize" className="cursor-pointer" />
+                ) : (
+                  <Icon img="icon-icon_maximize" className="cursor-pointer" />
+                )}
+              </div>
+            }}
           </MapWithTracking>
         </div>
-          <div>
-            <FrontPagePanelSmall
-              selectedPanel={selectedMainTab}
-              nearbyClicked={this.clickNearby}
-              favouritesClicked={this.clickFavourites}
-              closePanel={this.closeTab}
-              panelExpanded={this.state.panelExpanded}
-              searchModalIsOpen={searchModalIsOpen}
-            >
-              {this.props.content}
-            </FrontPagePanelSmall>
-            {feedbackPanel}
-          </div>
+        <div>
+          <FrontPagePanelSmall
+            selectedPanel={selectedMainTab}
+            nearbyClicked={this.clickNearby}
+            favouritesClicked={this.clickFavourites}
+            closePanel={this.closeTab}
+            panelExpanded={this.state.panelExpanded}
+          >
+            {this.props.content}
+          </FrontPagePanelSmall>
+          {feedbackPanel}
         </div>
+      </div>
     );
   }
 }
