@@ -131,7 +131,7 @@ class DTAutosuggest extends React.Component {
         renderSuggestion={renderItem}
         inputProps={inputProps}
         renderInputComponent={p => (
-          <div style={{ position: 'relative', display: 'block' }}>
+          <div style={{ position: 'relative', display: 'flex' }}>
             <input {...p} />
             {this.props.renderPostInput}
           </div>

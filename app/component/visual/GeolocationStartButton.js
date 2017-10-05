@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../Icon';
+import SVGIcon from './SVGIcon';
 
 const GeolocationStartButton = ({ onClick }) => (
-  <div
-    role="button"
-    className="geolocation-start-button"
-    tabIndex={0}
-    onClick={onClick}
-  >
-    <Icon img="icon-icon_position" className="geolocation-start-button-icon" />
+  <button className="geolocation-start-button" tabIndex={0} onClick={onClick}>
+    <SVGIcon
+      img="icon-icon_position"
+      className="geolocation-start-button-icon"
+    />
     <FormattedMessage id="geolocate-yourself" defaultMessage="Geolocate" />
-  </div>
+  </button>
 );
 
 GeolocationStartButton.propTypes = {
