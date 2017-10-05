@@ -306,7 +306,6 @@ class IndexPage extends React.Component {
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            closePanel={this.closeTab}
             panelExpanded={this.state.panelExpanded}
           >
             {this.props.content}
