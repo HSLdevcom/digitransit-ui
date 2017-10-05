@@ -7,6 +7,7 @@ import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 import NoFavouritesPanel from './NoFavouritesPanel';
 import Loading from './Loading';
+import PanelOrSelectLocation from './PanelOrSelectLocation';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -60,7 +61,7 @@ FavouritesPanel.propTypes = {
 };
 
 export default connectToStores(
-  FavouritesPanel,
+  ctx => <PanelOrSelectLocation panel={FavouritesPanel} panelctx={{ ...ctx }} />,
   ['FavouriteRoutesStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),

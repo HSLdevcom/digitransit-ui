@@ -948,6 +948,7 @@ const translations = {
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
+    'splash-choose': 'Valitse lähtöpaikka',
     'splash-please-allow-positioning':
       'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
     'splash-use-positioning': 'Käytä paikannusta',

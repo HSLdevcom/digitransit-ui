@@ -9,6 +9,7 @@ import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import SearchMainContainer from './SearchMainContainer';
 import PageFooter from './PageFooter';
+import Icon from './Icon';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -28,6 +29,13 @@ const messageBar = (
   </LazilyLoad>
 );
 
+const fullscreentoggle = props =>
+  <div className="fullscreen-toggle" onClick={props.toggleFullscreenMap}>
+    {props.fullscreen
+      ? <Icon img="icon-icon_minimize" className="cursor-pointer" />
+      : <Icon img="icon-icon_maximize" className="cursor-pointer" />}
+  </div>;
+
 class IndexPage extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
@@ -43,6 +51,13 @@ class IndexPage extends React.Component {
     routes: PropTypes.array,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      panelExpanded: false, // Show right-now as default
+    };
+  }
+
   componentWillMount = () => {
     this.resetToCleanState();
   };
@@ -53,12 +68,8 @@ class IndexPage extends React.Component {
     if (search && search.indexOf('citybikes') >= -1) {
       this.context.config.transportModes.citybike.defaultValue = true;
     }
-
     // auto select nearby tab if none selected and bp=large
-    if (
-      this.props.breakpoint === 'large' &&
-      this.getSelectedTab() === undefined
-    ) {
+    if (this.getSelectedTab() === undefined) {
       this.clickNearby();
     }
   }
@@ -72,9 +83,7 @@ class IndexPage extends React.Component {
     }
 
     // auto close any tab on bp change from large
-    if (this.getSelectedTab() !== undefined && frombp === 'large') {
-      this.closeTab();
-    } else if (this.getSelectedTab() === undefined && tobp === 'large') {
+    if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
@@ -108,11 +117,8 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 1) {
-        this.closeTab();
-      } else {
-        this.openNearby(selected === 2);
-      }
+      this.openNearby(selected === 2);
+
       this.trackEvent(
         'Front page tabs',
         'Nearby',
@@ -128,11 +134,9 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 2) {
-        this.closeTab();
-      } else {
-        this.openFavourites(selected === 1);
-      }
+
+      this.openFavourites(selected === 1);
+
       this.trackEvent(
         'Front page tabs',
         'Favourites',
@@ -170,6 +174,11 @@ class IndexPage extends React.Component {
     }
   };
 
+  togglePanelExpanded = () => {
+    console.log('togglePanelExpanded', this.state);
+    this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
+  };
+
   render() {
     const selectedMainTab = this.getSelectedTab();
     const selectedSearchTab =
@@ -179,6 +188,9 @@ class IndexPage extends React.Component {
     const searchModalIsOpen = this.context.location.state
       ? Boolean(this.context.location.state.searchModalIsOpen)
       : false;
+
+    console.log('IndexPage', 'state', this.state);
+    const a = this;
     return this.props.breakpoint === 'large'
       ? <div
           className={`front-page flex-vertical fullscreen bp-${this.props
@@ -226,7 +238,6 @@ class IndexPage extends React.Component {
             <MapWithTracking
               breakpoint={this.props.breakpoint}
               showStops
-              showScaleBar
               searchModalIsOpen={searchModalIsOpen}
               selectedTab={selectedSearchTab}
             >
@@ -235,14 +246,33 @@ class IndexPage extends React.Component {
                 searchModalIsOpen={searchModalIsOpen}
                 selectedTab={selectedSearchTab}
               />
+              {
+                <div
+                  className="fullscreen-toggle"
+                  onClick={this.togglePanelExpanded}
+                >
+                  {!this.state.panelExpanded
+                    ? <Icon
+                        img="icon-icon_minimize"
+                        className="cursor-pointer"
+                      />
+                    : <Icon
+                        img="icon-icon_maximize"
+                        className="cursor-pointer"
+                      />}
+                </div>
+              }}
             </MapWithTracking>
           </div>
+
           <div>
             <FrontPagePanelSmall
               selectedPanel={selectedMainTab}
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
               closePanel={this.closeTab}
+              panelExpanded={this.state.panelExpanded}
+              searchModalIsOpen={searchModalIsOpen}
             >
               {this.props.content}
             </FrontPagePanelSmall>
