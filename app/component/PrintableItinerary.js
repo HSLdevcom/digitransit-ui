@@ -195,6 +195,7 @@ function TransferMap(props) {
         showStops
         loaded={() => props.mapsLoaded()}
         disableZoom
+        animate={false}
       />
     </div>
   );

@@ -6,13 +6,13 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
-
+import { getPathWithEndpoints } from '../util/path';
+import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
-import { setEndpoint } from '../action/EndpointActions';
 import NoFavouriteLocations from './NoFavouriteLocations';
 import { isMobile } from '../util/browser';
 
@@ -110,18 +110,10 @@ class FavouriteLocationsContainer extends React.Component {
       address: locationName,
     };
 
-    this.context.executeAction(setEndpoint, {
-      target: 'destination',
-      endpoint: location,
-      router: this.context.router,
-      location: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: this.props.currentTime.unix(),
-        },
-      },
-    });
+    const [, origin] = this.context.location.pathname.split('/');
+    const destination = locationToOTP(location);
+    const url = `${getPathWithEndpoints(origin, destination)}`;
+    this.context.router.push(url);
   };
 
   slideRenderer = ({ key, index }) => {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
-
+import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
@@ -28,7 +28,7 @@ class SummaryNavigation extends React.Component {
 
   static contextTypes = {
     piwik: PropTypes.object,
-    router: PropTypes.object.isRequired,
+    router: routerShape,
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
   };

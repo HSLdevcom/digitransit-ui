@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import { setEndpoint } from '../../action/EndpointActions';
+
+import { getPathWithEndpoints, isItinerarySearch } from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
+import { locationToOTP } from '../../util/otpStrings';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
@@ -13,7 +15,6 @@ class MarkerPopupBottom extends React.Component {
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
@@ -24,12 +25,25 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'origin',
-      endpoint: this.props.location,
-      router: this.context.router,
-      location: locationWithTime,
-    });
+
+    // todo restore time
+
+    let [
+      ,
+      originString,
+      destinationString, // eslint-disable-line prefer-const
+    ] = this.context.location.pathname.split('/');
+
+    originString = locationToOTP(this.props.location);
+
+    locationWithTime.pathname = getPathWithEndpoints(
+      originString,
+      destinationString,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearch(originString, destinationString),
+    );
   };
 
   routeTo = () => {
@@ -37,12 +51,32 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'destination',
-      endpoint: this.props.location,
-      router: this.context.router,
-      location: locationWithTime,
-    });
+
+    // todo restore time
+
+    let [
+      ,
+      originString, // eslint-disable-line prefer-const
+      destinationString,
+    ] = this.context.location.pathname.split('/');
+
+    destinationString = locationToOTP(this.props.location);
+    locationWithTime.pathname = getPathWithEndpoints(
+      originString,
+      destinationString,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearch(originString, destinationString),
+    );
+  };
+
+  navigate = (url, replace) => {
+    if (replace) {
+      this.context.router.replace(url);
+    } else {
+      this.context.router.push(url);
+    }
   };
 
   render() {

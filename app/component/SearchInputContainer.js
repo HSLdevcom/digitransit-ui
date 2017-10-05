@@ -251,8 +251,7 @@ export default class SearchInputContainer extends Component {
         this.context.executeAction(saveSearch, { item, type });
       }
 
-      name =
-        item.properties.label || getLabel(item.properties, true).join(', ');
+      name = item.properties.label || getLabel(item.properties);
       const clone = cloneDeep(item);
       if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
         clone.properties.link = `/pysakit/${getGTFSId(clone.properties)}`;
