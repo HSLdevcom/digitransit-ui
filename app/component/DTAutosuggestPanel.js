@@ -35,14 +35,15 @@ class DTAutosuggestPanel extends React.Component {
 
   value = location =>
     (location && location.address) ||
-    (location && location.gps && 'Nykyinen sijainti') ||
+    (location && location.gps && location.ready && 'Nykyinen sijainti') ||
     '';
 
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
   geolocateButton = () =>
-    this.props.origin === undefined ? (
+    this.props.origin === undefined ||
+    (this.props.origin.gps && !this.props.origin.ready) ? (
       <GeolocationStartButton
         onClick={() => {
           this.context.executeAction(startLocationWatch);
@@ -87,8 +88,8 @@ class DTAutosuggestPanel extends React.Component {
         }}
         renderPostInput={this.geolocateButton()}
       />
-      {this.props.origin !== undefined ||
-      this.props.destination !== undefined ? (
+      {(this.props.destination && this.props.destination.set) ||
+      (this.props.origin && this.props.origin.ready) ? (
         <DTEndpointAutosuggest
           id="destination"
           searchType="endpoint"

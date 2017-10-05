@@ -37,6 +37,7 @@ export const parseLocation = location => {
   if (location === 'POS') {
     return {
       set: true,
+      ready: false, // state ready=true will only be set when we have the actual position too
       gps: true,
     };
   }
@@ -44,6 +45,7 @@ export const parseLocation = location => {
 
   if (parsed.lat && parsed.lon) {
     parsed.set = true;
+    parsed.ready = true;
   }
   return parsed;
 };

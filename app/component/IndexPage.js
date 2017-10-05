@@ -12,6 +12,7 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { otpToLocation } from '../util/otpStrings';
 import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -82,26 +83,6 @@ class IndexPage extends React.Component {
   componentWillReceiveProps = nextProps => {
     this.handleBreakpointProps(nextProps);
     this.handleOriginProps(nextProps);
-  };
-
-  getOrigin = () => {
-    if (this.props.params.origin) {
-      const location = parseLocation(this.props.params.origin);
-      if (location.set) {
-        return location;
-      }
-    }
-    return undefined;
-  };
-
-  getDestination = () => {
-    if (this.props.params.destination) {
-      const location = parseLocation(this.props.params.destination);
-      if (location.set) {
-        return location;
-      }
-    }
-    return undefined;
   };
 
   getSelectedTab = (props = this.props) => {
@@ -251,8 +232,8 @@ class IndexPage extends React.Component {
           showScaleBar
         >
           <DTAutosuggestPanel
-            origin={this.getOrigin()}
-            destination={this.getDestination()}
+            origin={this.props.origin}
+            destination={this.props.destination}
           />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -287,11 +268,13 @@ class IndexPage extends React.Component {
             showStops
             showScaleBar
           >
-            <OverlayWithSpinner />
+            {this.props.origin &&
+              this.props.origin.gps === true &&
+              this.props.origin.ready === false && <OverlayWithSpinner />}
             {messageBar}
             <DTAutosuggestPanel
-              origin={this.getOrigin()}
-              destination={this.getDestination()}
+              origin={this.props.origin}
+              destination={this.props.destination}
             />
           </MapWithTracking>
         </div>
@@ -315,4 +298,34 @@ const IndexPageWithBreakpoint = getContext({
   breakpoint: PropTypes.string.isRequired,
 })(IndexPage);
 
-export default IndexPageWithBreakpoint;
+const IndexPageWithPosition = connectToStores(
+  IndexPageWithBreakpoint,
+  ['PositionStore'],
+  (context, props) => {
+    const locationState = context.getStore('PositionStore').getLocationState();
+
+    const newProps = {};
+
+    if (props.params.origin) {
+      newProps.origin = parseLocation(props.params.origin);
+      if (newProps.origin.gps === true) {
+        if (locationState.lat && locationState.lan && locationState.address) {
+          newProps.origin.ready = true;
+          console.log('origin is position and ready');
+        }
+      }
+    }
+
+    if (props.params.destination) {
+      newProps.destination = parseLocation(props.params.destination);
+      if (newProps.destination.gps === true) {
+        if (locationState.lat && locationState.lan && locationState.address) {
+          newProps.destination.ready = true;
+          console.log('destination is position and ready');
+        }
+      }
+    }
+    return newProps;
+  },
+);
+export default IndexPageWithPosition;
