@@ -84,7 +84,6 @@ FrontPagePanelSmall.propTypes = {
   favouritesClicked: PropTypes.func.isRequired,
   closePanel: PropTypes.func.isRequired,
   panelExpanded: PropTypes.bool.isRequired,
-  searchModalIsOpen: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
