@@ -298,7 +298,7 @@ class IndexPage extends React.Component {
                   <Icon img="icon-icon_maximize" className="cursor-pointer" />
                 )}
               </div>
-            }}
+            }
           </MapWithTracking>
         </div>
         <div>

@@ -70,8 +70,18 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
             key={`o-${s.properties.label || s.properties.name}`}
             icon={getIcon(s.properties.layer)}
             label={s.properties.label || s.properties.name}
-            lat={(s.geometry && s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
-            lon={(s.geometry && s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
+            lat={
+              (s.geometry &&
+                s.geometry.coordinates &&
+                s.geometry.coordinates[1]) ||
+              s.lat
+            }
+            lon={
+              (s.geometry &&
+                s.geometry.coordinates &&
+                s.geometry.coordinates[0]) ||
+              s.lon
+            }
           />
         )),
     )

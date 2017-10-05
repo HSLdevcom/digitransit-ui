@@ -951,8 +951,8 @@ const translations = {
     'splash-geolocation-watch-timeout-message':
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
     'splash-locating': 'Paikannetaan',
-    'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-choose': 'Valitse lähtöpaikka',
+    'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-please-allow-positioning':
       'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
     'splash-use-positioning': 'Käytä paikannusta',

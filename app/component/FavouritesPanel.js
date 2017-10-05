@@ -62,7 +62,9 @@ FavouritesPanel.propTypes = {
 };
 
 export default connectToStores(
-  ctx => <PanelOrSelectLocation panel={FavouritesPanel} panelctx={{ ...ctx }} />,
+  ctx => (
+    <PanelOrSelectLocation panel={FavouritesPanel} panelctx={{ ...ctx }} />
+  ),
   ['FavouriteRoutesStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),

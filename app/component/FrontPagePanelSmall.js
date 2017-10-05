@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';

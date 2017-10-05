@@ -5,7 +5,6 @@ import includes from 'lodash/includes';
 import pull from 'lodash/pull';
 import without from 'lodash/without';
 
-import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 
@@ -49,8 +48,9 @@ NearbyRoutesPanel.contextTypes = {
 };
 
 export default connectToStores(
-  ctx =>
-    <PanelOrSelectLocation panel={NearbyRoutesPanel} panelctx={{ ...ctx }} />,
+  ctx => (
+    <PanelOrSelectLocation panel={NearbyRoutesPanel} panelctx={{ ...ctx }} />
+  ),
   ['EndpointStore', 'TimeStore', 'ModeStore'],
   context => {
     const position = context.getStore('PositionStore').getLocationState();
@@ -66,11 +66,17 @@ export default connectToStores(
       placeTypeFilter = ['BICYCLE_RENT'];
     }
 
-    const nearbyCurrentPosition = origin.useCurrentPosition
-      ? position.hasLocation ? position : { lat: null, lon: null }
-      : origin.useCurrentPosition || origin.userSetPosition
-        ? origin
+    let nearbyCurrentPosition;
+    if (origin.useCurrentPosition) {
+      nearbyCurrentPosition = position.hasLocation
+        ? position
         : { lat: null, lon: null };
+    } else {
+      nearbyCurrentPosition =
+        origin.useCurrentPosition || origin.userSetPosition
+          ? origin
+          : { lat: null, lon: null };
+    }
 
     return {
       location: nearbyCurrentPosition,
