@@ -4,7 +4,12 @@ import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
-import { getPathWithEndpoints, isItinerarySearch } from '../util/path';
+import {
+  getPathWithEndpoints,
+  isItinerarySearch,
+  getPathWithEndpointObjects,
+  isItinerarySearchObjects,
+} from '../util/path';
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 import { setUseCurrent } from '../action/EndpointActions';
@@ -41,18 +46,24 @@ class DTAutosuggestPanel extends React.Component {
     location && location.gps === true ? 'position' : 'location';
 
   geolocateButton = () =>
-    this.props.origin === undefined ||
+    !this.props.origin ||
+    this.props.origin.set === false ||
     (this.props.origin.gps && !this.props.origin.ready) ? (
       <GeolocationStartButton
         onClick={() => {
           this.context.executeAction(startLocationWatch);
-          const destinationString = this.context.location.pathname.split(
-            '/',
-          )[3];
+          const destinationString = locationToOTP(this.props.destination);
+          const originString = 'POS';
 
           this.navigate(
-            getPathWithEndpoints('POS', destinationString),
-            !isItinerarySearch('POS', destinationString),
+            getPathWithEndpointObjects(
+              { gps: true, ready: false },
+              this.props.destination,
+            ),
+            !isItinerarySearchObjects(
+              { gps: true, ready: false },
+              this.props.destination,
+            ),
           );
 
           this.context.executeAction(setUseCurrent, {
@@ -73,7 +84,11 @@ class DTAutosuggestPanel extends React.Component {
         placeholder="give-origin"
         value={this.value(this.props.origin)}
         onLocationSelected={location => {
-          const destinationString = locationToOTP(this.props.destination);
+          console.log('selected:', location);
+
+          const destinationString =
+            (this.props.destination && locationToOTP(this.props.destination)) ||
+            '-';
           const originString = locationToOTP(location);
           this.navigate(
             getPathWithEndpoints(originString, destinationString),

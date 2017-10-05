@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { storeEndpoint, clearDestination } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
@@ -9,10 +10,15 @@ import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import { otpToLocation } from '../util/otpStrings';
-import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
+import {
+  getEndpointPath,
+  isEmpty,
+  parseLocation,
+  getPathWithEndpointObjects,
+  isItinerarySearchObjects,
+} from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { dtLocationShape } from '../util/shapes';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -44,6 +50,8 @@ class IndexPage extends React.Component {
     content: PropTypes.node,
     routes: PropTypes.array,
     params: PropTypes.object,
+    origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
   };
 
   componentWillMount = () => {
@@ -119,6 +127,17 @@ class IndexPage extends React.Component {
   handleOriginProps = nextProps => {
     const fromOrigin = this.props.params.origin;
     const toOrigin = nextProps.params.origin;
+
+    if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
+      // TODO handle destination gps too
+
+      const realOrigin = { ...nextProps.origin };
+      realOrigin.gps = false;
+
+      const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
+      this.context.router.replace(url);
+      return;
+    }
 
     if (fromOrigin === toOrigin) {
       return; // we're there already
