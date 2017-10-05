@@ -20,9 +20,8 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   static propTypes = {
-    origin: dtLocationShape,
-    destination: dtLocationShape,
-    geolocation: PropTypes.object,
+    origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
   };
 
   navigate = (url, replace) => {
