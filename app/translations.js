@@ -943,6 +943,7 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    'splash-choose': 'Valitse lähtöpaikka',
     'splash-geolocation-denied-message':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
     'splash-geolocation-not-supported-message':
@@ -951,7 +952,6 @@ const translations = {
     'splash-geolocation-watch-timeout-message':
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
     'splash-locating': 'Paikannetaan',
-    'splash-choose': 'Valitse lähtöpaikka',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-please-allow-positioning':
       'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
