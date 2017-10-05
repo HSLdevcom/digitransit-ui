@@ -47,6 +47,7 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
   const notInFavourites = item =>
     favourites.filter(
       favourite =>
+        item.geometry &&
         Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
         Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
     ).length === 0;
@@ -69,8 +70,8 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
             key={`o-${s.properties.label || s.properties.name}`}
             icon={getIcon(s.properties.layer)}
             label={s.properties.label || s.properties.name}
-            lat={(s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
-            lon={(s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
+            lat={(s.geometry && s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
+            lon={(s.geometry && s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
           />
         )),
     )
