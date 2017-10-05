@@ -13,6 +13,8 @@ const FrontPagePanelSmall = ({
   nearbyClicked,
   favouritesClicked,
   closePanel,
+  panelExpanded,
+  searchModalIsOpen,
   children,
 }) => {
   let heading;
@@ -30,35 +32,20 @@ const FrontPagePanelSmall = ({
     favouritesClasses.push('selected');
   }
 
-  const top = (
-    <div className="panel-top">
-      <div className="panel-heading">
-        <h2>{heading}</h2>
+  const content = selectedPanel
+    ? <div
+        className={cx(['frontpage-panel-wrapper', 'no-select'], {
+          'expanded-panel': panelExpanded,
+          'modal-open-panel': searchModalIsOpen,
+        })}
+        key="panel"
+      >
+        {children}
       </div>
-      <div className="close-icon" onClick={closePanel}>
-        <Icon img="icon-icon_close" />
-      </div>
-    </div>
-  );
-
-  const content = selectedPanel ? (
-    <div className="frontpage-panel-wrapper" key="panel">
-      {top}
-      {children}
-    </div>
-  ) : (
-    undefined
-  );
+    : undefined;
 
   return (
-    <div className="frontpage-panel-container no-select">
-      <ReactCSSTransitionGroup
-        transitionName="frontpage-panel-wrapper"
-        transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
-      >
-        {content}
-      </ReactCSSTransitionGroup>
+    <div className={cx(['frontpage-panel-container', 'no-select'])}>
       <ul className="tabs-row cursor-pointer">
         <NearbyTabLabel
           classes={cx(tabClasses, nearbyClasses)}
@@ -69,6 +56,7 @@ const FrontPagePanelSmall = ({
           onClick={favouritesClicked}
         />
       </ul>
+      {content}
     </div>
   );
 };
@@ -95,6 +83,8 @@ FrontPagePanelSmall.propTypes = {
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   closePanel: PropTypes.func.isRequired,
+  panelExpanded: PropTypes.bool.isRequired,
+  searchModalIsOpen: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 

@@ -11,6 +11,7 @@ import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { otpToLocation } from '../util/otpStrings';
 import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
+import Icon from './Icon';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -44,6 +45,13 @@ class IndexPage extends React.Component {
     params: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      panelExpanded: false, // Show right-now as default
+    };
+  }
+
   componentWillMount = () => {
     this.resetToCleanState();
   };
@@ -54,12 +62,8 @@ class IndexPage extends React.Component {
     if (search && search.indexOf('citybikes') >= -1) {
       this.context.config.transportModes.citybike.defaultValue = true;
     }
-
     // auto select nearby tab if none selected and bp=large
-    if (
-      this.props.breakpoint === 'large' &&
-      this.getSelectedTab() === undefined
-    ) {
+    if (this.getSelectedTab() === undefined) {
       this.clickNearby();
     }
     if (this.props.params.origin !== undefined) {
@@ -126,9 +130,7 @@ class IndexPage extends React.Component {
     }
 
     // auto close any tab on bp change from large
-    if (this.getSelectedTab() !== undefined && frombp === 'large') {
-      this.closeTab();
-    } else if (this.getSelectedTab() === undefined && tobp === 'large') {
+    if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
@@ -168,11 +170,8 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 1) {
-        this.closeTab();
-      } else {
-        this.openNearby(selected === 2);
-      }
+      this.openNearby(selected === 2);
+
       this.trackEvent(
         'Front page tabs',
         'Nearby',
@@ -188,11 +187,9 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 2) {
-        this.closeTab();
-      } else {
-        this.openFavourites(selected === 1);
-      }
+
+      this.openFavourites(selected === 1);
+
       this.trackEvent(
         'Front page tabs',
         'Favourites',
@@ -233,6 +230,11 @@ class IndexPage extends React.Component {
     } else {
       this.context.router.replace('/');
     }
+  };
+
+  togglePanelExpanded = () => {
+    console.log('togglePanelExpanded', this.state);
+    this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
   };
 
   render() {
@@ -290,20 +292,38 @@ class IndexPage extends React.Component {
               origin={this.getOrigin()}
               destination={this.getDestination()}
             />
+            {
+                <div
+                  className="fullscreen-toggle"
+                  onClick={this.togglePanelExpanded}
+                >
+                  {!this.state.panelExpanded
+                    ? <Icon
+                        img="icon-icon_minimize"
+                        className="cursor-pointer"
+                      />
+                    : <Icon
+                        img="icon-icon_maximize"
+                        className="cursor-pointer"
+                      />}
+                </div>
+              }}
           </MapWithTracking>
         </div>
-        <div>
-          <FrontPagePanelSmall
-            selectedPanel={selectedMainTab}
-            nearbyClicked={this.clickNearby}
-            favouritesClicked={this.clickFavourites}
-            closePanel={this.closeTab}
-          >
-            {this.props.content}
-          </FrontPagePanelSmall>
-          {feedbackPanel}
+          <div>
+            <FrontPagePanelSmall
+              selectedPanel={selectedMainTab}
+              nearbyClicked={this.clickNearby}
+              favouritesClicked={this.clickFavourites}
+              closePanel={this.closeTab}
+              panelExpanded={this.state.panelExpanded}
+              searchModalIsOpen={searchModalIsOpen}
+            >
+              {this.props.content}
+            </FrontPagePanelSmall>
+            {feedbackPanel}
+          </div>
         </div>
-      </div>
     );
   }
 }

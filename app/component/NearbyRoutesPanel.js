@@ -9,20 +9,22 @@ import ModeFilterContainer from './ModeFilterContainer';
 import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 
+import PanelOrSelectLocation from './PanelOrSelectLocation';
+
 function NearbyRoutesPanel(
   { location, currentTime, modes, placeTypes },
   context,
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      {context.config.showModeFilter && (
+      {context.config.showModeFilter &&
+        false &&
         <div className="row border-bottom">
           <div className="small-12 column">
             <ModeFilterContainer id="nearby-routes-mode" />
           </div>
-        </div>
-      )}
-      <NextDeparturesListHeader />
+        </div>}
+      <NextDeparturesListHeader />,
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         <NearestRoutesContainer
           lat={location.lat}
@@ -41,9 +43,9 @@ function NearbyRoutesPanel(
 
 NearbyRoutesPanel.propTypes = {
   location: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }).isRequired,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+  }),
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
   placeTypes: PropTypes.array.isRequired,
@@ -54,7 +56,8 @@ NearbyRoutesPanel.contextTypes = {
 };
 
 export default connectToStores(
-  NearbyRoutesPanel,
+  ctx =>
+    <PanelOrSelectLocation panel={NearbyRoutesPanel} panelctx={{ ...ctx }} />,
   ['EndpointStore', 'TimeStore', 'ModeStore'],
   context => {
     const position = context.getStore('PositionStore').getLocationState();
@@ -70,8 +73,14 @@ export default connectToStores(
       placeTypeFilter = ['BICYCLE_RENT'];
     }
 
+    const nearbyCurrentPosition = origin.useCurrentPosition
+      ? position.hasLocation ? position : { lat: null, lon: null }
+      : origin.useCurrentPosition || origin.userSetPosition
+        ? origin
+        : { lat: null, lon: null };
+
     return {
-      location: origin.useCurrentPosition ? position : origin,
+      location: nearbyCurrentPosition,
       currentTime: context
         .getStore('TimeStore')
         .getCurrentTime()

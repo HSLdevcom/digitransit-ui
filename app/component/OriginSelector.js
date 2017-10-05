@@ -6,6 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 import { setEndpoint } from '../action/EndpointActions';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
+import GeopositionSelector from './GeopositionSelector';
 
 const OriginSelectorRow = (
   { icon, label, lat, lon },
@@ -78,7 +79,13 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         <OriginSelectorRow key={`o-${o.label}`} {...o} />
       )),
     );
-  return <ul>{names.slice(0, 3)}</ul>;
+
+  return (
+    <ul>
+      <GeopositionSelector searchModalIsOpen={false} />
+      {names.slice(0, 2)}
+    </ul>
+  );
 };
 
 OriginSelector.propTypes = {
