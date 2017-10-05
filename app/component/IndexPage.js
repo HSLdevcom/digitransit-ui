@@ -233,7 +233,6 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
-    console.log('togglePanelExpanded', this.state);
     this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
   };
 
