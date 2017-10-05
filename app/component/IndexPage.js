@@ -281,11 +281,7 @@ class IndexPage extends React.Component {
           .breakpoint}`}
       >
         <div className="flex-grow map-container">
-          <MapWithTracking
-            breakpoint={this.props.breakpoint}
-            showStops
-            showScaleBar
-          >
+          <MapWithTracking breakpoint={this.props.breakpoint} showStops>
             {messageBar}
             <DTAutosuggestPanel
               origin={this.getOrigin()}
