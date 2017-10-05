@@ -29,11 +29,11 @@ const BicycleRentalStationRow = (props, context) => {
   // TODO implement disruption checking
 
   return (
-    <tr className="next-departure-row">
-      <td>
+    <tr className="next-departure-row-tr">
+      <td className="td-distance">
         <Distance distance={props.distance} />
       </td>
-      <td>
+      <td className="td-route-number overflow-fade">
         <RouteNumber
           mode="citybike"
           text={props.station.stationId}
@@ -57,7 +57,9 @@ const BicycleRentalStationRow = (props, context) => {
             {props.station.bikesAvailable}
           </span>
           /
-          {props.station.bikesAvailable + props.station.spacesAvailable}
+          <span className="bikes-total">
+            {props.station.bikesAvailable + props.station.spacesAvailable}
+          </span>
           {availabilityIcon}
         </span>
       </td>

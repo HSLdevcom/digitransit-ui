@@ -51,11 +51,11 @@ const DepartureRow = props => {
         .code}`}
       key={departure.pattern.code}
     >
-      <tr className="next-departure-row">
-        <td>
+      <tr className="next-departure-row-tr">
+        <td className="td-distance">
           <Distance distance={props.distance} />
         </td>
-        <td>
+        <td className="td-route-number overflow-fade">
           <RouteNumberContainer
             route={departure.pattern.route}
             hasDisruption={hasActiveDisruption(

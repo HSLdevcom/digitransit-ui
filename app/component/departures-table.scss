@@ -22,22 +22,23 @@
         padding: 6px 14px;
         color: $gray;
         font-family: $font-family-narrow;
-        font-weight: $font-weight-bold;
+        font-weight: 400;
         letter-spacing: 0;
-        font-size: $font-size-xsmall;
+        font-size: $font-size-normal;
         white-space: nowrap;
         margin: 0;
         line-height: 1em;
         padding-left: 0;
         text-align: left;
+        width: 14%;
 
         &:first-child {
             padding-left: 14px;
         }
 
         &.th-destination {
-            width: 49%;
-            padding-left: 1.5em;
+            width: 38%;
+            padding-left: 0.5em;
             padding-right: 0;
         }
     }
@@ -52,21 +53,45 @@
 
         tr {
             padding: .6em 0;
-            padding-left: 20px;
             padding-right: 5px;
             border-bottom: 1px solid $light-gray;
             width: 100%;
             display: block;
+            &.next-departure-row-tr {
+                background: $white;
+                line-height: 1.2;
+                position: relative;
+                overflow-y: visible;
+                white-space: nowrap;
+                margin: 0;
+                padding-left: 0.8em;
+                color: #333;
+                font-family: "Gotham XNarrow SSm A", "Gotham XNarrow SSm B", Arial, Georgia, Serif;
+                font-weight: 400;
+                letter-spacing: 0;
+                font-size: $font-size-normal;
+            }
         }
     }
     td {
         max-width: 4em;
+        padding-right: 1em;
+
+        &.td-distance {
+            min-width: 4.2em;
+            max-width: 4.2em;
+        }
 
         &.td-destination {
             width: 63%;
         }
         &.td-bikestation {
-            width: 51%;
+            max-width: 63%;
+            min-width: 30%;
+        }
+        &.td-route-number {
+            min-width: 3.5em;
+            max-width: 3.5em;
         }
         .route-destination {
             width: 100%;
@@ -74,8 +99,22 @@
         .city-bike-station-name {
             width: 100%;
         }
+        .bikes-label {
+            margin-right: 0.5em;
+            font-size: $font-size-small;
+            color: #888;
+        }
+        .bikes-available {
+            font-weight: $font-weight-bold;
+        }
+        .bikes-total {
+            margin-right: 0.4em;
+        }
         .time {
-            font-weight: $font-narrow-weight-book;
+            font-weight: $font-weight-bold;
+        }
+        .distance {
+            color:#666666;
         }
     }
 }
@@ -84,13 +123,12 @@
     th {
         &.th-destination {
             text-align: left;
-            width: 62%;
+            width: 58%;
         }
     }
     td {
-        max-width: 100%;
         &.td-bikestation {
-            width: 63%;
+            
         }
     }
 }
