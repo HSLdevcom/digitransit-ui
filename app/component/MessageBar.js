@@ -132,13 +132,13 @@ class MessageBar extends Component {
               onChangeIndex={this.handleChange}
               className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
+                maxHeight: this.state.maximized ? '400px' : '100px',
                 transition: 'max-height 300ms',
               }}
               slideStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
+                maxHeight: this.state.maximized ? '400px' : '100px',
                 transition: 'max-height 300ms',
-                padding: '10px',
+                padding: '10px 10px 0px 10px',
                 overflow: 'hidden',
                 background: '#fff',
               }}
