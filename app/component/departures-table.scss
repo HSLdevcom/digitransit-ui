@@ -24,22 +24,33 @@
         font-family: $font-family-narrow;
         font-weight: 400;
         letter-spacing: 0;
-        font-size: $font-size-normal;
+        font-size: $font-size-small;
         white-space: nowrap;
         margin: 0;
         line-height: 1em;
         padding-left: 0;
         text-align: left;
-        width: 14%;
 
         &:first-child {
             padding-left: 0.6em;
         }
-
+        &.th-to-stop {
+            width: 20%;
+        }
+        &.th-route {
+            width: 19%;
+            max-width: 1em;
+        }
         &.th-destination {
-            width: 38%;
+            width: 50%;
             padding-left: 0.5em;
             padding-right: 0;
+        }
+        &.th-leaves {
+            width: 13%;
+        }
+        &.th-next {
+            width: 13%;
         }
     }
 }
@@ -78,25 +89,35 @@
         padding-right: 1em;
 
         &.td-distance {
-            width: 18%
+            width: 29%;
+            max-width: 3em;
         }
         &.td-destination {
             width: 63%;
         }
         &.td-bikestation {
-            width: 50%;
+            width: 63%;
         }
         &.td-route-number {
-            width: 16%;
+            width: 22%;
+            max-width: 2em;
         }
-        &.td-bikes-available {
+        &.td-bikes-available-left {
             width: 15%;
-            max-width: none;
+        }
+        &.td-bikes-available-right {
+            width: 15%;
         }
         &.td-departure-times {
             width: 15%;
         }
         .route-destination {
+            width: 100%;
+        }
+        .route-number {
+            width: 100%;
+        }
+        .city-bike-station-name {
             width: 100%;
         }
         .bikes-label {
@@ -115,20 +136,6 @@
         }
         .distance {
             color:#666666;
-        }
-    }
-}
-
-.mobile .nearby-departures-table {
-    th {
-        &.th-destination {
-            text-align: left;
-            width: 58%;
-        }
-    }
-    td {
-        &.td-bikestation {
-            
         }
     }
 }

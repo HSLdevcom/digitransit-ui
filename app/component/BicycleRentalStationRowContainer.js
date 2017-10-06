@@ -45,7 +45,7 @@ const BicycleRentalStationRow = (props, context) => {
           {props.station.name}
         </span>
       </td>
-      <td className="td-bikes-available">
+      <td className="td-bikes-available-left">
         <span className="city-bike-station-availability">
           <span className="bikes-label">
             {context.intl.formatMessage({
@@ -53,15 +53,15 @@ const BicycleRentalStationRow = (props, context) => {
               defaultMessage: 'Bikes',
             })}
           </span>
-          <span className="bikes-available">
-            {props.station.bikesAvailable}
-          </span>
-          /
-          <span className="bikes-total">
-            {props.station.bikesAvailable + props.station.spacesAvailable}
-          </span>
-          {availabilityIcon}
         </span>
+      </td>
+      <td className="td-bikes-available-right">
+        <span className="bikes-available">{props.station.bikesAvailable}</span>
+        /
+        <span className="bikes-total">
+          {props.station.bikesAvailable + props.station.spacesAvailable}
+        </span>
+        {availabilityIcon}
       </td>
     </tr>
   );
