@@ -9,6 +9,7 @@ import NearestRoutesContainer from './NearestRoutesContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
 
 import PanelOrSelectLocation from './PanelOrSelectLocation';
+import { dtLocationShape } from '../util/shapes';
 
 function NearbyRoutesPanel(
   { location, currentTime, modes, placeTypes },
@@ -18,26 +19,27 @@ function NearbyRoutesPanel(
     <div className="frontpage-panel nearby-routes fullscreen">
       <NextDeparturesListHeader />,
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
-        <NearestRoutesContainer
-          lat={location.lat}
-          lon={location.lon}
-          currentTime={currentTime}
-          modes={modes}
-          placeTypes={placeTypes}
-          maxDistance={context.config.nearbyRoutes.radius}
-          maxResults={context.config.nearbyRoutes.results || 50}
-          timeRange={context.config.nearbyRoutes.timeRange || 7200}
-        />
+        {(location.lat &&
+          location.lon && (
+            <NearestRoutesContainer
+              lat={location.lat}
+              lon={location.lon}
+              currentTime={currentTime}
+              modes={modes}
+              placeTypes={placeTypes}
+              maxDistance={context.config.nearbyRoutes.radius}
+              maxResults={context.config.nearbyRoutes.results || 50}
+              timeRange={context.config.nearbyRoutes.timeRange || 7200}
+            />
+          )) ||
+          null}
       </div>
     </div>
   );
 }
 
 NearbyRoutesPanel.propTypes = {
-  location: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  location: dtLocationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
   placeTypes: PropTypes.array.isRequired,
