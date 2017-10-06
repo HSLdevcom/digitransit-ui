@@ -17,7 +17,7 @@ function NearbyRoutesPanel(
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      <NextDeparturesListHeader />,
+      <NextDeparturesListHeader />
       <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
         {(location.lat &&
           location.lon && (
