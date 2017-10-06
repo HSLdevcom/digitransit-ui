@@ -18,11 +18,16 @@ class MessageStore extends Store {
   /* Message format:
    * { id: id,
    *   content: {
-   *     fi: {"title":"title", "content": "content"},
-   *     sv: {"title":"title", "content": "content"},
+   *     fi: [ { type:"heading", "content": "foo bar"},
+   *           { type:"text", "content": "lorem ipsum..."},
+   *           { type:"text", "content": "more lorem ipsum..."},
+   *           { type:"a", "content": "mysite.com"}, ..
+   *         ],
+   *     sv: [ ...], ...
    *   }
    * }
    */
+
   // TODO: Generate message id if missing
   addMessage = msg => {
     const readIds = getReadMessageIds();
@@ -31,7 +36,7 @@ class MessageStore extends Store {
       return;
     }
 
-    if (readIds.indexOf(msg.id) !== -1) {
+    if (msg.persistence !== 'repeat' && readIds.indexOf(msg.id) !== -1) {
       return;
     }
 
