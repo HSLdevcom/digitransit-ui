@@ -150,11 +150,11 @@ class AddFavouriteContainer extends React.Component {
                         defaultMessage="Add an important location to your Favorites"
                       />
                     )) || (
-                        <FormattedMessage
-                          id="edit-favourites"
-                          defaultMessage="Edit the location in the Favorites"
-                        />
-                      )}
+                      <FormattedMessage
+                        id="edit-favourites"
+                        defaultMessage="Edit the location in the Favorites"
+                      />
+                    )}
                   </h3>
                 </div>
               </header>
