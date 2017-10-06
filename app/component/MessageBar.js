@@ -123,9 +123,13 @@ class MessageBar extends Component {
 
   render = () => {
     if (this.state.visible && this.unreadMessages().length > 0) {
+      const iconType =
+        this.unreadMessages()[this.state.slideIndex].type || 'info';
+      const iconName = `icon-icon_${iconType}`;
+
       return (
         <section role="banner" className="message-bar flex-horizontal">
-          <Icon img={'icon-icon_info'} className="info" />
+          <Icon img={iconName} className="message-icon" />
           <div className="flex-grow">
             <SwipeableViews
               index={this.state.slideIndex}
