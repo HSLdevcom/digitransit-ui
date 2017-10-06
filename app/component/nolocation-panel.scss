@@ -1,0 +1,86 @@
+#nolocation-panel {
+  background-color: white;
+  text-align: center;
+  height:100%;
+
+  line-height: 1.6em;
+  user-select: none;
+  font-size: 13px;
+
+  @include font-book;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 80px;
+  padding: $padding-medium;
+
+  h3 {
+    font-size: 15px;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  #panel-locationing-button-container {
+    width: 80%;
+  }
+
+  #panel-locationing-button {
+    color: $action-color;
+    cursor: pointer;
+    .icon {
+      font-size: 17px;
+      color: $hilight-color;
+    }
+  }
+
+  .spinner-caption {
+    padding-top: 6rem;
+    padding-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .icon {
+      margin-left: 5px;
+      margin-right: 1rem;
+      float: left;
+    }
+
+    svg.splash-icon.icon-icon_star {
+      stroke: $favourite-color;
+      fill: $favourite-color;
+    }
+
+    svg.splash-icon.icon-icon_airplane {
+      stroke: $airplane-color;
+      fill: $airplane-color;
+    }
+
+    li {
+      display: flex;
+      line-height: 1.5;
+      margin-bottom: 7px;
+      padding-bottom: 7px;
+      cursor: pointer;
+      border-bottom: 1px solid $light-gray;
+      color: $action-color;
+      > span {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    li:last-child {
+      border: none;
+    }
+  }
+}

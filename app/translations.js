@@ -943,6 +943,7 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    'splash-choose': 'Valitse lähtöpaikka',
     'splash-geolocation-denied-message':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
     'splash-geolocation-not-supported-message':
