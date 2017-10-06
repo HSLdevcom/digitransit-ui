@@ -123,14 +123,15 @@ class MessageBar extends Component {
 
   render = () => {
     if (this.state.visible && this.unreadMessages().length > 0) {
-      const iconType =
-        this.unreadMessages()[this.state.slideIndex].type || 'info';
-      const iconName = `icon-icon_${iconType}`;
+      const msg = this.unreadMessages()[this.state.slideIndex];
+      const type = msg.type || 'info';
+      const icon = msg.icon || 'info';
+      const iconName = `icon-icon_${icon}`;
 
       return (
         <section role="banner" className="message-bar flex-horizontal">
           <Icon img={iconName} className="message-icon" />
-          <div className="flex-grow">
+          <div className={`flex-grow ${type}-message`}>
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}

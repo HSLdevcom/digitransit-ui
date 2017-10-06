@@ -10,6 +10,8 @@ let i = 0;
 events.forEach(e => {
   const message = {
     id: `geolocation_${i}`,
+    type: 'error',
+    icon: 'geonotifier',
     persistence: 'repeat',
     content: {},
   };
