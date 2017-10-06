@@ -34,6 +34,7 @@ class MessageBar extends Component {
     this.unreadMessages().map(el => (
       <MessageBarMessage
         key={el.id}
+        id={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang]}
       />
