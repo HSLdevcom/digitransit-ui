@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay, { Route } from 'react-relay/classic';
-import NearbyRouteListContainer from './NearbyRouteListContainer';
+import NearbyDeparturesList from './NearbyDeparturesList';
 import NetworkError from './NetworkError';
 import Loading from './Loading';
 
-class NearbyRouteListContainerRoute extends Route {
+class NearbyDeparturesListRoute extends Route {
   static queries = {
     nearest: (RelayComponent, variables) => Relay.QL`
       query {
@@ -25,7 +25,7 @@ class NearbyRouteListContainerRoute extends Route {
     maxResults: { required: true },
     timeRange: { required: true },
   };
-  static routeName = 'NearbyRouteListContainerRoute';
+  static routeName = 'NearbyDeparturesListRoute';
 }
 
 export default class NearestRoutesContainer extends Component {
@@ -63,9 +63,9 @@ export default class NearestRoutesContainer extends Component {
   render() {
     return (
       <Relay.Renderer
-        Container={NearbyRouteListContainer}
+        Container={NearbyDeparturesList}
         queryConfig={
-          new NearbyRouteListContainerRoute({
+          new NearbyDeparturesListRoute({
             lat: this.props.lat,
             lon: this.props.lon,
             currentTime: this.props.currentTime,
@@ -83,7 +83,7 @@ export default class NearestRoutesContainer extends Component {
             return <NetworkError retry={retry} />;
           } else if (props) {
             this.useSpinner = false;
-            return <NearbyRouteListContainer {...props} />;
+            return <NearbyDeparturesList {...props} />;
           }
           if (this.useSpinner === true) {
             return <Loading />;

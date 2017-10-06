@@ -6,7 +6,6 @@ import pull from 'lodash/pull';
 import without from 'lodash/without';
 
 import NearestRoutesContainer from './NearestRoutesContainer';
-import NextDeparturesListHeader from './NextDeparturesListHeader';
 
 import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
@@ -17,23 +16,16 @@ function NearbyRoutesPanel(
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
-      <NextDeparturesListHeader />
-      <div className="scrollable momentum-scroll nearby" id="scrollable-routes">
-        {(location.lat &&
-          location.lon && (
-            <NearestRoutesContainer
-              lat={location.lat}
-              lon={location.lon}
-              currentTime={currentTime}
-              modes={modes}
-              placeTypes={placeTypes}
-              maxDistance={context.config.nearbyRoutes.radius}
-              maxResults={context.config.nearbyRoutes.results || 50}
-              timeRange={context.config.nearbyRoutes.timeRange || 7200}
-            />
-          )) ||
-          null}
-      </div>
+      <NearestRoutesContainer
+        lat={location.lat}
+        lon={location.lon}
+        currentTime={currentTime}
+        modes={modes}
+        placeTypes={placeTypes}
+        maxDistance={context.config.nearbyRoutes.radius}
+        maxResults={context.config.nearbyRoutes.results || 50}
+        timeRange={context.config.nearbyRoutes.timeRange || 7200}
+      />
     </div>
   );
 }
