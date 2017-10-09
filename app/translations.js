@@ -551,6 +551,9 @@ const translations = {
     'geolocation-denied-heading': 'How do you wish to start?',
     'geolocation-denied-text':
       'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
+    'geolocation-failed-heading': 'Geolocation failed',
+    'geolocation-failed-text':
+      'Your browser does not support location retrieval.',
     'give-destination': 'Enter your destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
@@ -673,8 +676,6 @@ const translations = {
     'skip-positioning': 'Skip',
     slow: 'Slow',
     'specify-location': 'Specify location',
-    'splash-geolocation-not-supported-message':
-      'Your browser does not support location retrieval.',
     'splash-geolocation-prompt-message':
       'Accept your browser’s request to access your location.',
     'splash-geolocation-watch-timeout-message':
@@ -824,6 +825,9 @@ const translations = {
     'geolocation-denied-heading': 'Miten haluat aloittaa?',
     'geolocation-denied-text':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
+    'geolocation-failed-heading': 'Paikannus epäonnistui',
+    'geolocation-failed-text':
+      'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'give-destination': 'Määränpää, linja tai pysäkki',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka, linja tai pysäkki',
@@ -946,8 +950,6 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
-    'splash-geolocation-not-supported-message':
-      'Paikannus epäonnistui tai selaimesi ei tue paikannusta.',
     'splash-geolocation-prompt-message': 'Hyväksy selaimen paikannuspyyntö.',
     'splash-geolocation-watch-timeout-message':
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
