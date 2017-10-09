@@ -50,8 +50,15 @@ class DTAutosuggestContainer extends React.Component {
 
     const location = {
       address: name,
-      lat: item.geometry.coordinates[1],
-      lon: item.geometry.coordinates[0],
+      type: item.type,
+      lat:
+        item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[1],
+      lon:
+        item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[0],
     };
 
     this.props.onLocationSelected(location);

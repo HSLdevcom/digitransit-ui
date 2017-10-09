@@ -99,7 +99,18 @@ class DTAutosuggest extends React.Component {
         if (res1 && res1.results) {
           suggestions = suggestions.concat(res1.results);
         }
-        console.log('setting suggestions', suggestions);
+        // XXX translates current location
+        suggestions = suggestions.map(suggestion => {
+          if (suggestion.type === 'CurrentLocation') {
+            const translated = { ...suggestion };
+            translated.properties.labelId = this.context.intl.formatMessage({
+              id: suggestion.properties.labelId,
+              defaultMessage: 'Own Location',
+            });
+            return translated;
+          }
+          return suggestion;
+        });
         this.setState({
           suggestions,
         });
