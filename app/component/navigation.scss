@@ -332,7 +332,6 @@ section.content {
   z-index:802;
   @include font-book;
   font-size: $font-size-small;
-  line-height: 14px;
   background: $white;
   color: $black;
   text-align: left;
@@ -368,7 +367,7 @@ section.content {
   }
 }
 .message-bar-fade {
-  mask-image: linear-gradient(rgba(0,0,0,1) 5em, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(rgba(0,0,0,1) 80px, rgba(0, 0, 0, 0));
 }
 // Need more specific selector to override
 .message-bar .icon {
