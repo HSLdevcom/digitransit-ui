@@ -103,7 +103,6 @@ class DTAutosuggestPanel extends React.Component {
               !isItinerarySearchObjects(this.props.origin, location),
             );
           }}
-          autoFocus={false && this.props.destination === undefined}
         />
       ) : null}
     </div>
