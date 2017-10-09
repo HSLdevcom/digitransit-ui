@@ -42,6 +42,13 @@ $heading-color: #858585;
     }
   }
 }
+.small {
+  &.frontpage-panel-wrapper {
+    top: 35%;
+    height: 58%;
+    padding-bottom: 24px;
+  }
+}
 
 .content-marker > div:nth-child(3) {
     height:100%;
@@ -238,8 +245,8 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-wrapper-enter.frontpage-panel-wrapper-enter-active {
-  top: 0;
-  height: 100%;
+  top: 35%;
+  height: 58%;
   transition: top 300ms, height 300ms;
 }
 

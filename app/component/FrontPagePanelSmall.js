@@ -8,13 +8,10 @@ import ComponentUsageExample from './ComponentUsageExample';
 import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 
-const FrontPagePanelSmall = ({
-  selectedPanel,
-  nearbyClicked,
-  favouritesClicked,
-  closePanel,
-  children,
-}) => {
+const FrontPagePanelSmall = (
+  { selectedPanel, nearbyClicked, favouritesClicked, closePanel, children },
+  { breakpoint },
+) => {
   let heading;
   const tabClasses = ['hover'];
   const nearbyClasses = ['nearby-routes', 'h4'];
@@ -42,7 +39,10 @@ const FrontPagePanelSmall = ({
   );
 
   const content = selectedPanel ? (
-    <div className="frontpage-panel-wrapper" key="panel">
+    <div
+      className={`${breakpoint !== 'large' && 'small'} frontpage-panel-wrapper`}
+      key="panel"
+    >
       {top}
       {children}
     </div>
@@ -96,6 +96,10 @@ FrontPagePanelSmall.propTypes = {
   favouritesClicked: PropTypes.func.isRequired,
   closePanel: PropTypes.func.isRequired,
   children: PropTypes.node,
+};
+
+FrontPagePanelSmall.contextTypes = {
+  breakpoint: PropTypes.string,
 };
 
 export default FrontPagePanelSmall;
