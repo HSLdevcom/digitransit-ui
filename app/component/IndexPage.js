@@ -132,6 +132,7 @@ class IndexPage extends React.Component {
 
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       // TODO handle destination gps too
+      console.log('is itinerarysearch');
 
       const realOrigin = { ...nextProps.origin };
       realOrigin.gps = false;
@@ -263,7 +264,9 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        <OverlayWithSpinner />
+        {this.props.origin &&
+          this.props.origin.gps === true &&
+          this.props.origin.ready === false && <OverlayWithSpinner />}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -346,6 +349,8 @@ const IndexPageWithPosition = connectToStores(
           console.log('origin is position and ready');
         }
       }
+    } else {
+      newProps.origin = { set: false };
     }
 
     if (props.params.destination) {
@@ -359,6 +364,8 @@ const IndexPageWithPosition = connectToStores(
           console.log('destination is position and ready');
         }
       }
+    } else {
+      newProps.destination = { set: false };
     }
     return newProps;
   },
