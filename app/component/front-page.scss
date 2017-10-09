@@ -44,9 +44,11 @@ $heading-color: #858585;
 }
 .small {
   &.frontpage-panel-wrapper {
-    top: 35%;
+    top: 37%;
     height: 58%;
-    padding-bottom: 24px;
+    table.nearby-departures-table > tbody > a:last-child > tr {
+      padding-bottom: 50px;
+    }
   }
 }
 
