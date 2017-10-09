@@ -14,9 +14,11 @@ export const otpToLocation = otpString => {
 };
 
 export const locationToOTP = location => {
-  console.log('oconverting', location);
-  if (location && location.gps) {
+  if (location.gps) {
     return 'POS';
+  }
+  if (location.set === false) {
+    return '-';
   }
   return `${location.address}::${location.lat},${location.lon}`;
 };
