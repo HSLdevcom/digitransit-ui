@@ -82,13 +82,9 @@ class DTAutosuggestPanel extends React.Component {
         placeholder="give-origin"
         value={this.value(this.props.origin)}
         onLocationSelected={location => {
-          const destinationString =
-            (this.props.destination && locationToOTP(this.props.destination)) ||
-            '-';
-          const originString = locationToOTP(location);
           this.navigate(
-            getPathWithEndpoints(originString, destinationString),
-            !isItinerarySearch(originString, destinationString),
+            getPathWithEndpointObjects(location, this.props.destination),
+            !isItinerarySearchObjects(location, this.props.destination),
           );
         }}
         renderPostInput={this.geolocateButton()}
@@ -102,11 +98,9 @@ class DTAutosuggestPanel extends React.Component {
           className={this.class(this.props.destination)}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
-            const destinationString = locationToOTP(location);
-            const originString = locationToOTP(this.props.origin);
             this.navigate(
-              getPathWithEndpoints(originString, destinationString),
-              !isItinerarySearch(originString, destinationString),
+              getPathWithEndpointObjects(this.props.origin, location),
+              !isItinerarySearchObjects(this.props.origin, location),
             );
           }}
           autoFocus={false && this.props.destination === undefined}
