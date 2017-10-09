@@ -2,21 +2,28 @@ import translations from '../translations';
 
 const english = translations.en;
 const geolocationMessages = {};
-const events = ['denied'];
 const sections = ['heading', 'text', 'a'];
-
-let i = 0;
-
-events.forEach(e => {
-  const message = {
-    id: `geolocation_${i}`,
-    type: 'error',
-    icon: 'geonotifier',
+const events = {
+  denied: {
+    type: 'info',
     persistence: 'repeat',
+  },
+  failed: {
+    type: 'error',
+    persistence: 'repeat',
+  },
+};
+
+Object.keys(events).forEach(e => {
+  const message = {
+    id: `geolocation_${e}`,
+    type: events[e].type,
+    persistence: events[e].persistence,
+    icon: 'geonotifier',
     content: {},
   };
-  i += 1;
 
+  // assemble multilanguage contents
   Object.keys(translations).forEach(lang => {
     const current = translations[lang];
     message.content[lang] = [];
