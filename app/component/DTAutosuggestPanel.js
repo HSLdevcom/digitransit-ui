@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
-import { locationToOTP } from '../util/otpStrings';
 import { dtLocationShape } from '../util/shapes';
 import {
-  getPathWithEndpoints,
-  isItinerarySearch,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
 } from '../util/path';
