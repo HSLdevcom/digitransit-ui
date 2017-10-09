@@ -6,7 +6,7 @@ const sections = ['heading', 'text', 'a'];
 const events = {
   denied: {
     type: 'info',
-    persistence: 'repeat',
+    persistence: 'repeat', // TODO: enabled for testing. Probably to be shown only once.
   },
   failed: {
     type: 'error',
