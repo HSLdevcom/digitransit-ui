@@ -348,8 +348,11 @@ section.content {
     margin-top: 0;
     margin-bottom: 0.5em;
   }
-  h2.error-message {
+
+  .message-bar-error {
+    h2 {
       color: red;
+    }
   }
 
   a {

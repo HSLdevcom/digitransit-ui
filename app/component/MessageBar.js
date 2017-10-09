@@ -131,7 +131,7 @@ class MessageBar extends Component {
       return (
         <section role="banner" className="message-bar flex-horizontal">
           <Icon img={iconName} className="message-icon" />
-          <div className={`flex-grow ${type}-message`}>
+          <div className={`flex-grow message-bar-${type}`}>
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}
