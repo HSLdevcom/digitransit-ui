@@ -52,8 +52,6 @@ class DTAutosuggestPanel extends React.Component {
       <GeolocationStartButton
         onClick={() => {
           this.context.executeAction(startLocationWatch);
-          const destinationString = locationToOTP(this.props.destination);
-          const originString = 'POS';
 
           this.navigate(
             getPathWithEndpointObjects(
@@ -84,8 +82,6 @@ class DTAutosuggestPanel extends React.Component {
         placeholder="give-origin"
         value={this.value(this.props.origin)}
         onLocationSelected={location => {
-          console.log('selected:', location);
-
           const destinationString =
             (this.props.destination && locationToOTP(this.props.destination)) ||
             '-';
