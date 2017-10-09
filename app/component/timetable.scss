@@ -24,8 +24,10 @@
     border-left: none;
     border-right: none;
     padding-left: 0;
+    page-break-inside: avoid;
     h1.title {
       font-size: 32px;
+      page-break-after: avoid;
     }
     span {
       font-size: 21px;

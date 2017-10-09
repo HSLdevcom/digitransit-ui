@@ -22,6 +22,9 @@
 }
 
 .desktop .stop-page.header {
+  @media print {
+    page-break-after: avoid;
+  }
   .h3 {
     font-size: 24px;
   }
