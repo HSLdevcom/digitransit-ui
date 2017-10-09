@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { routerShape } from 'react-router';
 
 import OneTabSearchModal from './OneTabSearchModal';
 import Icon from './Icon';
@@ -10,7 +11,7 @@ import Intro from './Intro';
 
 class Splash extends React.Component {
   static contextTypes = {
-    router: PropTypes.object,
+    router: routerShape,
     location: PropTypes.object,
   };
   static propTypes = {

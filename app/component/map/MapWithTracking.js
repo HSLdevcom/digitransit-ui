@@ -1,174 +1,187 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import withReducer from 'recompose/withReducer';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-
+import getContext from 'recompose/getContext';
 import ComponentUsageExample from '../ComponentUsageExample';
 import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
+import { dtLocationShape } from '../../util/shapes';
 
-function mapStateReducer(state, action) {
-  switch (action.type) {
-    case 'enable':
-      return {
-        ...state,
-        initialZoom: false,
-        mapTracking: true,
+const onlyUpdateCoordChanges = onlyUpdateForKeys([
+  'breakpoint',
+  'lat',
+  'lon',
+  'zoom',
+  'mapTracking',
+  'children',
+  'showStops',
+  'showScaleBar',
+]);
+
+const Component = onlyUpdateCoordChanges(Map);
+
+class MapWithTrackingStateHandler extends React.Component {
+  static propTypes = {
+    origin: PropTypes.shape({
+      userSetPosition: PropTypes.bool.isRequired,
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+    }).isRequired,
+    position: PropTypes.shape({
+      hasLocation: PropTypes.bool.isRequired,
+      isLocationingInProgress: PropTypes.bool.isRequired,
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+    }).isRequired,
+    config: PropTypes.shape({
+      defaultMapCenter: dtLocationShape,
+      defaultEndpoint: dtLocationShape.isRequired,
+    }).isRequired,
+    children: PropTypes.element.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+
+    const hasOriginorPosition =
+      props.origin.userSetPosition || props.position.hasLocation;
+    this.state = {
+      initialZoom: !hasOriginorPosition ? 14 : 16,
+      mapTracking: !props.origin.userSetPosition && props.position.hasLocation,
+      focusOnOrigin:
+        !props.position.hasLocation && !props.position.isLocationingInProgress,
+      origin: props.origin,
+      shouldShowDefaultLocation: !hasOriginorPosition,
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (
+      this.state.origin.useCurrentPosition !== true &&
+      newProps.origin.useCurrentPosition === true
+    ) {
+      this.usePosition(newProps.origin);
+    } else if (
+      newProps.origin !== this.state.origin &&
+      newProps.origin.lat != null &&
+      newProps.origin.lon != null
+    ) {
+      this.useOrigin(newProps.origin);
+    } else if (
+      this.state.focusOnOrigin === true ||
+      this.state.shouldShowDefaultLocation === true
+    ) {
+      this.setState({
         focusOnOrigin: false,
-      };
-    case 'disable':
-      return {
-        ...state,
-        initialZoom: false,
-        mapTracking: false,
-        focusOnOrigin: false,
-      };
-    case 'useOrigin':
-      return {
-        ...state,
-        initialZoom: false,
-        mapTracking: false,
-        focusOnOrigin: true,
-        previousOrigin: action.origin,
-      };
-    case 'usePosition':
-      return {
-        ...state,
-        initialZoom: false,
-        mapTracking: true,
-        focusOnOrigin: false,
-        previousOrigin: action.origin,
-      };
-    default:
-      return state;
+        shouldShowDefaultLocation: false,
+      });
+    }
+  }
+
+  usePosition(origin) {
+    this.setState({
+      origin,
+      mapTracking: true,
+      focusOnOrigin: false,
+      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      shouldShowDefaultLocation: false,
+    });
+  }
+
+  useOrigin(origin) {
+    this.setState({
+      origin,
+      mapTracking: false,
+      focusOnOrigin: true,
+      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      shouldShowDefaultLocation: false,
+    });
+  }
+
+  enableMapTracking = () => {
+    this.setState({
+      mapTracking: true,
+      focusOnOrigin: false,
+    });
+  };
+
+  disableMapTracking = () => {
+    this.setState({
+      mapTracking: false,
+      focusOnOrigin: false,
+    });
+  };
+
+  render() {
+    const { position, origin, config, children, ...rest } = this.props;
+    let location;
+
+    if (
+      this.state.focusOnOrigin &&
+      !this.state.origin.useCurrentPosition &&
+      this.state.origin.lat != null &&
+      this.state.origin.lon != null
+    ) {
+      location = this.state.origin;
+    } else if (this.state.mapTracking && position.hasLocation) {
+      location = position;
+    } else if (this.state.shouldShowDefaultLocation) {
+      location = config.defaultMapCenter || config.defaultEndpoint;
+    }
+
+    return (
+      <Component
+        lat={location ? location.lat : null}
+        lon={location ? location.lon : null}
+        zoom={this.state.initialZoom}
+        mapTracking={this.state.mapTracking}
+        className="flex-grow"
+        displayOriginPopup
+        leafletEvents={{
+          onDragstart: this.disableMapTracking,
+          onZoomend: this.disableMapTracking,
+        }}
+        disableMapTracking={this.disableMapTracking}
+        {...rest}
+      >
+        {children}
+        {this.props.position.hasLocation && (
+          <ToggleMapTracking
+            key="toggleMapTracking"
+            handleClick={
+              this.state.mapTracking
+                ? this.disableMapTracking
+                : this.enableMapTracking
+            }
+            className={`icon-mapMarker-toggle-positioning-${this.state
+              .mapTracking
+              ? 'online'
+              : 'offline'}`}
+          />
+        )}
+      </Component>
+    );
   }
 }
 
-const withMapStateTracking = withReducer(
-  'mapState',
-  'dispatch',
-  mapStateReducer,
-  () => ({
-    initialZoom: true,
-    mapTracking: true,
-    focusOnOrigin: false,
-  }),
+const MapWithTracking = connectToStores(
+  getContext({
+    config: PropTypes.shape({
+      defaultMapCenter: PropTypes.shape({
+        lon: PropTypes.number.isRequired,
+        lat: PropTypes.number.isRequired,
+      }).isRequired,
+    }),
+  })(MapWithTrackingStateHandler),
+  ['PositionStore', 'EndpointStore'],
+  ({ getStore }) => {
+    const position = getStore('PositionStore').getLocationState();
+    const origin = getStore('EndpointStore').getOrigin();
+
+    return { position, origin };
+  },
 );
-
-const onlyUpdateCoordChanges = onlyUpdateForKeys(
-  // searchModalIsOpen and selectedTab keys here's just to get map updated
-  // when those props change (in large view tabs are inside map)
-  [
-    'breakpoint',
-    'lat',
-    'lon',
-    'zoom',
-    'mapTracking',
-    'lang',
-    'tab',
-    'searchModalIsOpen',
-    'selectedTab',
-  ],
-);
-
-const MapWithTracking = withMapStateTracking(
-  connectToStores(
-    onlyUpdateCoordChanges(Map),
-    ['PositionStore', 'EndpointStore', 'PreferencesStore'],
-    (context, props) => {
-      const { mapTracking } = props.mapState;
-      const PositionStore = context.getStore('PositionStore');
-      const position = PositionStore.getLocationState();
-      const origin = context.getStore('EndpointStore').getOrigin();
-      const language = context.getStore('PreferencesStore').getLanguage();
-
-      let location = (() => {
-        if (props.mapState.focusOnOrigin && !origin.useCurrentPosition) {
-          return origin;
-        } else if (mapTracking && position.hasLocation) {
-          return position;
-        }
-        return false;
-      })();
-
-      if (
-        !origin.useCurrentPosition &&
-        origin !== props.mapState.previousOrigin
-      ) {
-        setTimeout(props.dispatch, 0, {
-          type: 'useOrigin',
-          origin,
-        });
-        location = origin;
-      } else if (
-        origin.useCurrentPosition &&
-        props.mapState.previousOrigin &&
-        origin !== props.mapState.previousOrigin
-      ) {
-        setTimeout(props.dispatch, 0, {
-          type: 'usePosition',
-          origin,
-        });
-        location = position;
-      }
-
-      function enableMapTracking() {
-        if (!mapTracking) {
-          props.dispatch({
-            type: 'enable',
-          });
-        }
-      }
-
-      function disableMapTracking() {
-        if (mapTracking) {
-          props.dispatch({
-            type: 'disable',
-          });
-        }
-      }
-
-      const children = React.Children.toArray(props.children);
-
-      const mapToggle = (
-        <ToggleMapTracking
-          key="toggleMapTracking"
-          handleClick={mapTracking ? disableMapTracking : enableMapTracking}
-          className={`icon-mapMarker-toggle-positioning-${mapTracking
-            ? 'online'
-            : 'offline'}`}
-        />
-      );
-
-      if (position.hasLocation) {
-        children.push(mapToggle);
-      }
-
-      return {
-        lat: location ? location.lat : null,
-        lon: location ? location.lon : null,
-        zoom: (props.mapState.initialZoom && 16) || undefined,
-        lang: language, // passing this prop just because we want map to
-        // update on lang changes, lang is not used
-        mapTracking,
-        position,
-        className: 'flex-grow',
-        displayOriginPopup: true,
-        leafletEvents: {
-          onDragstart: disableMapTracking,
-          onZoomend: disableMapTracking,
-        },
-        disableMapTracking,
-        children,
-      };
-    },
-  ),
-);
-
-MapWithTracking.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-};
 
 MapWithTracking.description = (
   <div>

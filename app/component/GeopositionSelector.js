@@ -40,20 +40,20 @@ const GeopositionSelector = (
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
-      <div className="splash-locationing-button-container">
+      <li>
         <button
-          id="splash-locationing-button"
-          className="noborder standalone-btn"
+          id="panel-locationing-button"
+          className="noborder"
           tabIndex="0"
           onClick={() => context.executeAction(startLocationWatch)}
         >
           <Icon className="icon-positioning" img="icon-icon_position" />
           <FormattedMessage
-            id="splash-use-positioning"
-            defaultMessage="Use location services"
+            id="use-own-position"
+            defaultMessage="Use current location"
           />
         </button>
-      </div>
+      </li>
     );
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (

@@ -6,6 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 import { setEndpoint } from '../action/EndpointActions';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
+import GeopositionSelector from './GeopositionSelector';
 
 const OriginSelectorRow = (
   { icon, label, lat, lon },
@@ -46,6 +47,7 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
   const notInFavourites = item =>
     favourites.filter(
       favourite =>
+        item.geometry &&
         Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
         Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
     ).length === 0;
@@ -68,8 +70,18 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
             key={`o-${s.properties.label || s.properties.name}`}
             icon={getIcon(s.properties.layer)}
             label={s.properties.label || s.properties.name}
-            lat={(s.geometry.coordinates && s.geometry.coordinates[1]) || s.lat}
-            lon={(s.geometry.coordinates && s.geometry.coordinates[0]) || s.lon}
+            lat={
+              (s.geometry &&
+                s.geometry.coordinates &&
+                s.geometry.coordinates[1]) ||
+              s.lat
+            }
+            lon={
+              (s.geometry &&
+                s.geometry.coordinates &&
+                s.geometry.coordinates[0]) ||
+              s.lon
+            }
           />
         )),
     )
@@ -78,7 +90,13 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
         <OriginSelectorRow key={`o-${o.label}`} {...o} />
       )),
     );
-  return <ul>{names.slice(0, 3)}</ul>;
+
+  return (
+    <ul>
+      <GeopositionSelector searchModalIsOpen={false} />
+      {names.slice(0, 2)}
+    </ul>
+  );
 };
 
 OriginSelector.propTypes = {

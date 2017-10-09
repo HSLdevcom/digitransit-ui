@@ -9,6 +9,7 @@ import Map from './map/Map';
 import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
+import { dtLocationShape } from '../util/shapes';
 
 let L;
 
@@ -161,18 +162,9 @@ ItineraryPageMap.propTypes = {
     from: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
   }).isRequired,
-  from: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }),
-  to: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }),
-  center: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }),
+  from: dtLocationShape,
+  to: dtLocationShape,
+  center: dtLocationShape,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       fullscreenMap: PropTypes.bool,

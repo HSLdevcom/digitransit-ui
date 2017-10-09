@@ -15,7 +15,6 @@ import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
-import SplashOrChildren from './component/SplashOrChildren';
 
 import { otpToLocation } from './util/otpStrings';
 
@@ -265,7 +264,6 @@ export default config => {
     props: PropTypes.object.isRequired,
     routerProps: PropTypes.object.isRequired,
   };
-
   return (
     <Route
       component={props =>
@@ -278,15 +276,36 @@ export default config => {
         )}
     >
       <Route
-        path="/"
+        path="/styleguide"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route
+        path="/styleguide/component/:componentName"
+        topBarOptions={{ hidden: true }}
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route
+        path="/suosikki/uusi"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route
+        path={'/(:origin)(/:destination)'}
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props => (
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>
-          ),
+          content: IndexPage,
         }}
       >
         <Route
@@ -311,11 +330,7 @@ export default config => {
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
-          content: props => (
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>
-          ),
+          content: IndexPage,
         }}
       >
         <Route
@@ -631,31 +646,7 @@ export default config => {
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
-      <Route
-        path="/styleguide"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/styleguide/component/:componentName"
-        topBarOptions={{ hidden: true }}
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/suosikki/uusi"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
+
       <Route
         path="/suosikki/muokkaa/:id"
         getComponent={(location, cb) => {

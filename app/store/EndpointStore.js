@@ -1,9 +1,19 @@
 import Store from 'fluxible/addons/BaseStore';
 
+/* Stores the user selections for the origin and destination (endpoint).
+ * One of them can optionally and be set to track the current geolocation.
+ * Endpoint is object with following properties;
+ *
+ * {
+ *   useCurrentPosition: currentPosition means the endpoint should track
+                         the GPS position from the browser, boolean
+ *   userSetPosition: did the user set the position, boolean,
+ *   lat: coordinte, number
+ *   lon: coordinate, number
+ *   address: textual presentation of address, string
+ * }
+ */
 class EndpointStore extends Store {
-  // Store the user selections for the origin and destination.
-  // Both can optionally be set to track the current geolocation.
-
   static storeName = 'EndpointStore';
 
   constructor(dispatcher) {
@@ -19,6 +29,21 @@ class EndpointStore extends Store {
     );
   }
 
+  isOriginSet() {
+    const origin = this.origin;
+    return (
+      origin.useCurrentPosition === true || origin.userSetPosition === true
+    );
+  }
+
+  isDestinationSet() {
+    const destination = this.destination;
+    return (
+      destination.useCurrentPosition === true ||
+      destination.userSetPosition === true
+    );
+  }
+
   clearOrigin() {
     this.origin = EndpointStore.getUseCurrent(null, false);
     this.emitChange('set-origin');
@@ -26,11 +51,6 @@ class EndpointStore extends Store {
 
   clearDestination() {
     this.destination = EndpointStore.getUseCurrent(null, false);
-    this.emitChange();
-  }
-
-  swapEndpoints() {
-    [this.destination, this.origin] = [this.origin, this.destination];
     this.emitChange();
   }
 
@@ -118,24 +138,10 @@ class EndpointStore extends Store {
     this.destination = data.destination;
   }
 
-  setEndpoint(props) {
-    const { target, value } = props;
-
+  setEndpoint({ target, value }) {
     if (target === 'destination') {
       this.setDestination(value);
     } else {
-      this.setOrigin(value);
-    }
-  }
-
-  setEndpointIfNotCurrent(props) {
-    const { target, value } = props;
-
-    if (target === 'destination') {
-      if (!this.destination.useCurrentPosition) {
-        this.setDestination(value);
-      }
-    } else if (!this.origin.useCurrentPosition) {
       this.setOrigin(value);
     }
   }
@@ -153,7 +159,6 @@ class EndpointStore extends Store {
 
   static handlers = {
     setEndpoint: 'setEndpoint',
-    setEndpointIfNotCurrent: 'setEndpointIfNotCurrent',
     useCurrentPosition: 'useCurrentPosition',
     swapEndpoints: 'swapEndpoints',
     clearOrigin: 'clearOrigin',
