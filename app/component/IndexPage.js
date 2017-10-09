@@ -367,7 +367,18 @@ const IndexPageWithPosition = connectToStores(
     } else {
       newProps.destination = { set: false };
     }
+
+    // automatically use current pos
+    if (newProps.destination.set === false && newProps.origin.set === false) {
+      if (locationState.status === 'searching-location') {
+        context.router.replace('/POS/-/lahellasi');
+      }
+    }
+
     return newProps;
   },
 );
+
+IndexPageWithPosition.contextTypes.router = routerShape.isRequired;
+
 export default IndexPageWithPosition;

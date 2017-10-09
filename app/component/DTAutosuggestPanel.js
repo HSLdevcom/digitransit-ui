@@ -48,7 +48,11 @@ class DTAutosuggestPanel extends React.Component {
     (this.props.origin.gps && !this.props.origin.ready) ? (
       <GeolocationStartButton
         onClick={() => {
-          this.context.executeAction(startLocationWatch);
+          this.context.executeAction(startLocationWatch).then(() => {
+            this.context.executeAction(setUseCurrent, {
+              target: 'origin',
+            });
+          });
 
           this.navigate(
             getPathWithEndpointObjects(
@@ -60,12 +64,6 @@ class DTAutosuggestPanel extends React.Component {
               this.props.destination,
             ),
           );
-
-          this.context.executeAction(setUseCurrent, {
-            target: 'origin',
-            router: this.context.router,
-            location: this.context.location,
-          });
         }}
       />
     ) : null;
