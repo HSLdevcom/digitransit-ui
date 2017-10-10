@@ -7,10 +7,12 @@ const events = {
   denied: {
     type: 'info',
     persistence: 'repeat', // TODO: enabled for testing. Probably to be shown only once.
+    priority: 3,
   },
   failed: {
     type: 'error',
     persistence: 'repeat',
+    priority: 4,
   },
 };
 

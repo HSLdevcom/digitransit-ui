@@ -17,11 +17,15 @@ class MessageStore extends Store {
 
   /* Message format:
    * { id: id,
+   *   persistence: 'repeat', // default = show once
+   *   priority: 2, // high priority should be shown first. Default 0
+   *   type: 'error',  // default 'info'
+   *   icon: 'geonotifier', // default 'info'
    *   content: {
    *     fi: [ { type:"heading", "content": "foo bar"},
    *           { type:"text", "content": "lorem ipsum..."},
    *           { type:"text", "content": "more lorem ipsum..."},
-   *           { type:"a", "content": "mysite.com"}, ..
+   *           { type:"a", "content": "this_is_link", "href": <url> }, ..
    *         ],
    *     sv: [ ...], ...
    *   }
