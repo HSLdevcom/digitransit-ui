@@ -11,7 +11,7 @@ const FrontPagePanelSmall = ({
   favouritesClicked,
   panelExpanded,
   children,
-  location,
+  //  location,
 }) => {
   const tabClasses = ['hover'];
   const nearbyClasses = ['nearby-routes', 'h4'];
