@@ -31,7 +31,7 @@ class MessageBar extends Component {
   };
 
   getTabContent = () =>
-    this.unreadMessages().map(el => (
+    this.validMessages().map(el => (
       <MessageBarMessage
         key={el.id}
         id={el.id}
@@ -41,7 +41,7 @@ class MessageBar extends Component {
     ));
 
   getTabs = () =>
-    this.unreadMessages().map((el, i) => (
+    this.validMessages().map((el, i) => (
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
@@ -82,17 +82,14 @@ class MessageBar extends Component {
     });
   };
 
-  unreadMessages = () =>
+  validMessages = () =>
     this.props.messages.filter(el => {
-      if (el.read === true) {
-        return false;
-      }
       if (el.content[this.props.lang] != null) {
         return true;
       }
       /* eslint-disable no-console */
       console.error(
-        `Message ${el.id} doesn't have translation for ${this.props.lang}`,
+        `Message ${el.id} hs no translation for ${this.props.lang}`,
       );
       /* eslint-enable no-console */
       return false;
@@ -102,7 +99,7 @@ class MessageBar extends Component {
   markRead = value => {
     this.context
       .getStore('MessageStore')
-      .markMessageAsRead(this.unreadMessages()[value].id);
+      .markMessageAsRead(this.validMessages()[value].id);
   };
 
   handleChange = value => {
@@ -122,8 +119,8 @@ class MessageBar extends Component {
   };
 
   render = () => {
-    if (this.state.visible && this.unreadMessages().length > 0) {
-      const msg = this.unreadMessages()[this.state.slideIndex];
+    if (this.state.visible && this.validMessages().length > 0) {
+      const msg = this.validMessages()[this.state.slideIndex];
       const type = msg.type || 'info';
       const icon = msg.icon || 'info';
       const iconName = `icon-icon_${icon}`;
@@ -190,6 +187,18 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
-    messages: Array.from(context.getStore('MessageStore').messages.values()),
+    messages: Array.from(context.getStore('MessageStore').messages.values())
+      .filter(el => !el.read)
+      .sort((el1, el2) => {
+        const p1 = el1.priority || 0;
+        const p2 = el2.priority || 0;
+        if (p1 > p2) {
+          return -1;
+        }
+        if (p1 < p2) {
+          return 1;
+        }
+        return 0;
+      }),
   }),
 );
