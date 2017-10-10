@@ -1344,7 +1344,8 @@ const translations = {
     'geolocation-denied-text':
       'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
     'geolocation-failed-heading': 'Lokalisering fungerer ikke',
-    'geolocation-failed-text': 'Nettleseren din har ikke støtte for lokalisering.',
+    'geolocation-failed-text':
+      'Nettleseren din har ikke støtte for lokalisering.',
     'give-destination': 'skriv hvor du vil reise',
     'give-name-to-location': 'Skriv inn et beskrivende navn på stedet',
     'give-origin': 'skriv avgangssted',
