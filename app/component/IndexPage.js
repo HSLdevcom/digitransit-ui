@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { storeEndpoint, clearDestination } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
@@ -9,8 +10,18 @@ import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import { otpToLocation } from '../util/otpStrings';
-import { getEndpointPath, isEmpty, parseLocation } from '../util/path';
+import {
+  getEndpointPath,
+  isEmpty,
+  parseLocation,
+  getPathWithEndpointObjects,
+  isItinerarySearchObjects,
+} from '../util/path';
+import OverlayWithSpinner from './visual/OverlayWithSpinner';
+import { dtLocationShape } from '../util/shapes';
+import Icon from './Icon';
+import NearbyRoutesPanel from './NearbyRoutesPanel';
+import FavouritesPanel from './FavouritesPanel';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -39,10 +50,18 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    content: PropTypes.node,
-    routes: PropTypes.array,
     params: PropTypes.object,
+    origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
+    tab: PropTypes.string,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      panelExpanded: false, // Show right-now as default
+    };
+  }
 
   componentWillMount = () => {
     this.resetToCleanState();
@@ -54,25 +73,25 @@ class IndexPage extends React.Component {
     if (search && search.indexOf('citybikes') >= -1) {
       this.context.config.transportModes.citybike.defaultValue = true;
     }
-
     // auto select nearby tab if none selected and bp=large
-    if (
-      this.props.breakpoint === 'large' &&
-      this.getSelectedTab() === undefined
-    ) {
+    if (this.props.tab === undefined) {
       this.clickNearby();
     }
-    if (this.props.params.origin !== undefined) {
-      const location = parseLocation(this.props.params.origin);
-      if (location.lon && location.lat) {
+
+    if (this.props.origin !== undefined) {
+      if (
+        this.props.origin.lon &&
+        this.props.origin.lat &&
+        !this.props.origin.gps
+      ) {
         this.context.executeAction(storeEndpoint, {
           target: 'origin',
-          endpoint: location,
+          endpoint: this.props.origin,
         });
       } else if (location.set) {
-        console.log('gps', location.gps);
+        console.log('TODO gps', location.gps);
       } else {
-        console.log('could not parse params.origin:', this.props.params.origin);
+        console.log('TODO location is not set:', this.props.params.origin);
         // unable to parse origin redirect to front page
       }
     }
@@ -83,38 +102,15 @@ class IndexPage extends React.Component {
     this.handleOriginProps(nextProps);
   };
 
-  getOrigin = () => {
-    if (this.props.params.origin) {
-      const location = parseLocation(this.props.params.origin);
-      if (location.set) {
-        return location;
-      }
-    }
-    return undefined;
-  };
-
-  getDestination = () => {
-    if (this.props.params.destination) {
-      const location = parseLocation(this.props.params.destination);
-      if (location.set) {
-        return location;
-      }
-    }
-    return undefined;
-  };
-
-  getSelectedTab = (props = this.props) => {
-    if (props.routes && props.routes.length > 0) {
-      const routePath = props.routes[props.routes.length - 1].path;
-
-      if (routePath === 'suosikit') {
+  getSelectedTab = () => {
+    switch (this.props.tab) {
+      case 'suosikit':
         return 2;
-      } else if (routePath === 'lahellasi') {
+      case 'lahellasi':
         return 1;
-      }
+      default:
+        return undefined;
     }
-
-    return undefined;
   };
 
   handleBreakpointProps = nextProps => {
@@ -126,29 +122,33 @@ class IndexPage extends React.Component {
     }
 
     // auto close any tab on bp change from large
-    if (this.getSelectedTab() !== undefined && frombp === 'large') {
-      this.closeTab();
-    } else if (this.getSelectedTab() === undefined && tobp === 'large') {
+    if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
   };
 
   handleOriginProps = nextProps => {
-    const fromOrigin = this.props.params.origin;
-    const toOrigin = nextProps.params.origin;
+    if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
+      // TODO handle destination gps too
 
-    if (fromOrigin === toOrigin) {
+      const realOrigin = { ...nextProps.origin };
+      realOrigin.gps = false;
+
+      const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
+      this.context.router.replace(url);
+      return;
+    }
+
+    if (this.props.params.origin === nextProps.params.origin) {
       return; // we're there already
     }
 
     if (!isEmpty(nextProps.params.origin)) {
       // origin is set
-      const location = otpToLocation(nextProps.params.origin);
-
       this.context.executeAction(storeEndpoint, {
         target: 'origin',
-        endpoint: location,
+        endpoint: nextProps.origin,
       });
       // this.resetToCleanState();
     }
@@ -168,11 +168,8 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 1) {
-        this.closeTab();
-      } else {
-        this.openNearby(selected === 2);
-      }
+      this.openNearby(selected === 2);
+
       this.trackEvent(
         'Front page tabs',
         'Nearby',
@@ -188,11 +185,9 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      if (selected === 2) {
-        this.closeTab();
-      } else {
-        this.openFavourites(selected === 1);
-      }
+
+      this.openFavourites(selected === 1);
+
       this.trackEvent(
         'Front page tabs',
         'Favourites',
@@ -235,6 +230,20 @@ class IndexPage extends React.Component {
     }
   };
 
+  togglePanelExpanded = () => {
+    this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
+  };
+
+  renderTab = () => {
+    switch (this.props.tab) {
+      case 'lahellasi':
+        return <NearbyRoutesPanel location={this.props.origin} />;
+      case 'suosikit':
+        return <FavouritesPanel />;
+      default:
+        return null;
+    }
+  };
   render() {
     const selectedMainTab = this.getSelectedTab();
 
@@ -250,8 +259,8 @@ class IndexPage extends React.Component {
           showScaleBar
         >
           <DTAutosuggestPanel
-            origin={this.getOrigin()}
-            destination={this.getDestination()}
+            origin={this.props.origin}
+            destination={this.props.destination}
           />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -259,10 +268,13 @@ class IndexPage extends React.Component {
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
             >
-              {this.props.content}
+              {this.renderTab()}
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
+        {this.props.origin &&
+          this.props.origin.gps === true &&
+          this.props.origin.ready === false && <OverlayWithSpinner />}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -280,16 +292,27 @@ class IndexPage extends React.Component {
           .breakpoint}`}
       >
         <div className="flex-grow map-container">
-          <MapWithTracking
-            breakpoint={this.props.breakpoint}
-            showStops
-            showScaleBar
-          >
+          <MapWithTracking breakpoint={this.props.breakpoint} showStops>
+            {this.props.origin &&
+              this.props.origin.gps === true &&
+              this.props.origin.ready === false && <OverlayWithSpinner />}
             {messageBar}
             <DTAutosuggestPanel
-              origin={this.getOrigin()}
-              destination={this.getDestination()}
+              origin={this.props.origin}
+              destination={this.props.destination}
             />
+            {
+              <div
+                className="fullscreen-toggle"
+                onClick={this.togglePanelExpanded}
+              >
+                {!this.state.panelExpanded ? (
+                  <Icon img="icon-icon_minimize" className="cursor-pointer" />
+                ) : (
+                  <Icon img="icon-icon_maximize" className="cursor-pointer" />
+                )}
+              </div>
+            }
           </MapWithTracking>
         </div>
         <div>
@@ -297,9 +320,10 @@ class IndexPage extends React.Component {
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            closePanel={this.closeTab}
+            panelExpanded={this.state.panelExpanded}
+            location={this.props.origin}
           >
-            {this.props.content}
+            {this.renderTab()}
           </FrontPagePanelSmall>
           {feedbackPanel}
         </div>
@@ -312,4 +336,60 @@ const IndexPageWithBreakpoint = getContext({
   breakpoint: PropTypes.string.isRequired,
 })(IndexPage);
 
-export default IndexPageWithBreakpoint;
+const IndexPageWithPosition = connectToStores(
+  IndexPageWithBreakpoint,
+  ['PositionStore'],
+  (context, props) => {
+    const locationState = context.getStore('PositionStore').getLocationState();
+
+    const newProps = {};
+
+    if (props.params.tab) {
+      newProps.tab = props.params.tab;
+    }
+
+    // todo extract function:
+    if (props.params.origin) {
+      newProps.origin = parseLocation(props.params.origin);
+
+      if (newProps.origin.gps === true) {
+        if (locationState.lat && locationState.lon && locationState.address) {
+          newProps.origin.ready = true;
+          newProps.origin.lat = locationState.lat;
+          newProps.origin.lon = locationState.lon;
+          newProps.origin.address = locationState.address;
+        }
+      }
+    } else {
+      newProps.origin = { set: false };
+    }
+
+    if (props.params.destination) {
+      newProps.destination = parseLocation(props.params.destination);
+      if (newProps.destination.gps === true) {
+        if (locationState.lat && locationState.lon && locationState.address) {
+          newProps.destination.lat = locationState.lat;
+          newProps.destination.lon = locationState.lon;
+          newProps.destination.address = locationState.address;
+          newProps.destination.ready = true;
+          console.log('destination is position and ready');
+        }
+      }
+    } else {
+      newProps.destination = { set: false };
+    }
+
+    // automatically use current pos
+    if (newProps.destination.set === false && newProps.origin.set === false) {
+      if (locationState.status === 'searching-location') {
+        context.router.replace('/POS/-/lahellasi');
+      }
+    }
+
+    return newProps;
+  },
+);
+
+IndexPageWithPosition.contextTypes.router = routerShape.isRequired;
+
+export default IndexPageWithPosition;

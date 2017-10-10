@@ -1,4 +1,4 @@
-import { otpToLocation } from './otpStrings';
+import { otpToLocation, locationToOTP } from './otpStrings';
 
 export const getRoutePath = (origin, destination) =>
   ['/reitti', origin, destination].join('/');
@@ -16,16 +16,32 @@ export const getEndpointPath = (origin, destination) =>
     isEmpty(destination) ? '-' : destination || '-',
   ].join('/');
 
+/**
+ * check is parameters are good for itinerary search
+ * @deprecated
+ */
 export const isItinerarySearch = (origin, destination) =>
   !isEmpty(origin) && !isEmpty(destination);
 
+export const isItinerarySearchObjects = (origin, destination) =>
+  origin.ready && destination.ready;
+
 /**
  * if both are set it's itinerary search...
+ * @deprecated
  */
 export const getPathWithEndpoints = (origin, destination) =>
   isItinerarySearch(origin, destination)
     ? getRoutePath(origin, destination)
     : getEndpointPath(origin, destination);
+
+/**
+ * use objects instead of strings If both are set it's itinerary search...
+ */
+export const getPathWithEndpointObjects = (origin, destination) =>
+  isItinerarySearchObjects(origin, destination)
+    ? getRoutePath(locationToOTP(origin), locationToOTP(destination))
+    : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
 
 /**
  Parses current location from string to location object
@@ -37,6 +53,7 @@ export const parseLocation = location => {
   if (location === 'POS') {
     return {
       set: true,
+      ready: false, // state ready=true will only be set when we have the actual position too
       gps: true,
     };
   }
@@ -44,6 +61,7 @@ export const parseLocation = location => {
 
   if (parsed.lat && parsed.lon) {
     parsed.set = true;
+    parsed.ready = true;
   }
   return parsed;
 };

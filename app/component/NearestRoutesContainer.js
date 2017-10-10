@@ -30,8 +30,8 @@ class NearbyDeparturesListRoute extends Route {
 
 export default class NearestRoutesContainer extends Component {
   static propTypes = {
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
     currentTime: PropTypes.number.isRequired,
     modes: PropTypes.array.isRequired,
     placeTypes: PropTypes.array.isRequired,

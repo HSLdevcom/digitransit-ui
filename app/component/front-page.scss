@@ -5,41 +5,32 @@ $tab-min-width: 100px;
 $close-color: #79919D;
 $heading-color: #858585;
 
-.frontpage-panel-wrapper {
-  position: absolute;
-  top: 0;
-  height: calc(100% - 48px);
-  z-index: 1000;
-  width: 100%;
-  overflow: hidden;
-  background-color: $background-color;
+.frontpage-panel-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-basis: 50px;
+  background: $white;
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
-  .frontpage-panel {
-    height: calc(100% - 40px);
-    display: flex;
-    flex-direction: column;
+  &:empty {
+    flex-basis: 0;
+    flex-grow: 0;
   }
 
-  .panel-top {
-    display: flex;
-    margin: 0.5em 1em 0 1em;
+}
 
-    .panel-heading {
-      display: inline-block;
-      h2 {
-        margin: 0;
-        color: $heading-color;
-        text-transform: uppercase;
-        font-size: $font-size-large;
-      }
-    }
-    .close-icon {
-      margin-left: auto;
-      color: $close-color;
-      display: inline-block;
-      line-height: 2;
-      cursor: pointer;
-    }
+.frontpage-panel-wrapper {
+  height: 200px;
+  overflow: scroll;
+  &.expanded-panel {
+    flex-grow: 0;
+    flex-basis: 400px;
+    height: 400px;
+  }
+
+  &.modal-open-panel {
+    height:0px;
   }
 }
 .small {
@@ -53,18 +44,18 @@ $heading-color: #858585;
 }
 
 .content-marker > div:nth-child(3) {
-    height:100%;
-    > div {
-      height:100%;
-    }
-    #scrollable-routes {
-      min-height: 200px;
-      height:calc(100% - 110px);
-    }
+  height: 100%;
+  > div {
+    height: 100%;
+  }
+  #scrollable-routes {
+    min-height: 200px;
+    height: calc(100% - 110px);
+  }
 }
 
 .fpccontainer {
-  position:absolute;
+  position: absolute;
   top: 30px;
   right: 30px;
   z-index: 802;
@@ -93,12 +84,12 @@ $heading-color: #858585;
     flex-direction: column;
     padding-bottom: $border-radius-bigger;
     overflow: hidden;
-    background: #eef1f3;
+    background: $white;
     border-bottom-right-radius: $border-radius-bigger;
     border-bottom-left-radius: $border-radius-bigger;
 
     .row {
-      padding-top:10px;
+      padding-top: 10px;
       background: #eef1f3;
     }
 
@@ -112,8 +103,8 @@ $heading-color: #858585;
       padding: 6px 14px;
     }
     .next-departure-row {
-      padding-left:20px;
-      padding-right:5px;
+      padding-left: 20px;
+      padding-right: 5px;
     }
     .scrollable.nearby::before {
       background-image: linear-gradient(0deg, white, rgba(255, 255, 255, 0));
@@ -121,9 +112,9 @@ $heading-color: #858585;
       width: 100%;
       height: 1em;
       position: absolute;
-      right:0;
+      right: 0;
       bottom: $border-radius-bigger;
-      z-index:1
+      z-index: 1
     }
     .scrollable.favourites {
       position: relative;
@@ -136,6 +127,7 @@ $heading-color: #858585;
   background: $light-gray;
   position: relative;
   display: flex;
+  top: 0px;
   padding: 0px;
   margin: 0px;
   height: 50px;
@@ -149,7 +141,7 @@ $heading-color: #858585;
   }
 
   li {
-    background: $white;
+    background-color: $background-color;
     list-style: none;
     height: 100%;
     width: 100%;
@@ -231,7 +223,7 @@ $heading-color: #858585;
     }
 
     &.selected {
-      background-color: $background-color;
+      background-color: $white;
       color: $black;
       border-bottom: none;
       .icon {
@@ -269,40 +261,42 @@ $heading-color: #858585;
 }
 
 .map-container {
-    display: flex;
-    flexBasis: 50%;
+  display: flex;
+  flex-basis: 50%;
 }
 
 // <Tab> component
 .tabs-navigation {
-   width:100%;
-   overflow:hidden;
-   position:relative;
-   text-transform: uppercase;
-   padding: 10px 0;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  padding: 10px 0;
 }
+
 .tabs-navigation ul {
-   clear:left;
-   float:left;
-   list-style:none;
-   margin:0;
-   padding:0;
-   position:relative;
-   left:50%;
-   text-align:center;
+  clear: left;
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 50%;
+  text-align: center;
 }
+
 .tabs-navigation ul li {
-   display:block;
-   float:left;
-   list-style:none;
-   margin:0;
-   padding:0;
-   position:relative;
-   right:50%;
-   border-right: 1px solid $tab-separator-color;
-   min-width: $tab-min-width;
-   @include font-medium;
-   font-size: 9pt;
+  display: block;
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  right: 50%;
+  border-right: 1px solid $tab-separator-color;
+  min-width: $tab-min-width;
+  @include font-medium;
+  font-size: 9pt;
 }
 
 .tabs-navigation li:last-child {
@@ -310,17 +304,18 @@ $heading-color: #858585;
 }
 
 .tabs-navigation ul li a {
-   color: $tab-color;
-   display:block;
-   margin:0 0 0 1px;
-   padding:3px 10px;
-   text-decoration:none;
-   line-height:1.3em;
+  color: $tab-color;
+  display: block;
+  margin: 0 0 0 1px;
+  padding: 3px 10px;
+  text-decoration: none;
+  line-height: 1.3em;
 }
 
 .tabs-navigation ul li a:hover {
-   color: $tab-selected-color;
+  color: $tab-selected-color;
 }
+
 .tabs-navigation ul li.is-active a,
 .tabs-navigation ul li a.selected:hover {
   color: $tab-selected-color;
@@ -390,33 +385,33 @@ div.route-tabs .tabs-navigation.bp-large {
 }
 
 #page-footer-container {
-  position:absolute;
-  bottom:0px;
-  z-index:800;
+  position: absolute;
+  bottom: 0px;
+  z-index: 800;
 }
 
 #page-footer {
-  display:flex;
+  display: flex;
   align-items: center;
   flex-direction: row;
-  background-color: rgba(255,255,255,0.7);
+  background-color: rgba(255, 255, 255, 0.7);
 
-  height:30px;
+  height: 30px;
 }
 
 .footer-item {
   cursor: pointer;
   font-size: $font-size-small;
   button {
-    display:inline-block;
+    display: inline-block;
     @include font-medium;
     font-size: $font-size-small;
   }
   color: $link-color;
-  margin-left:10px;
-  margin-right:10px;
+  margin-left: 10px;
+  margin-right: 10px;
   a {
-    text-decoration:none;
+    text-decoration: none;
     color: $link-color;
   }
 }
@@ -441,10 +436,10 @@ svg.icon.footer-icon {
 }
 
 #footer-link-to-old {
-    @include font-book;
+  @include font-book;
 }
 
-.front-page.bp-large .toggle-positioning-container{
+.front-page.bp-large .toggle-positioning-container {
   bottom: 40px;
 }
 
@@ -469,4 +464,8 @@ svg.icon.footer-icon {
 
 .favourites {
   background: $white;
+}
+
+.favourite-locations-container {
+  background: #eef1f3;
 }

@@ -20,6 +20,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     value: PropTypes.string,
     className: PropTypes.string,
     id: PropTypes.string.isRequired,
+    renderPostInput: PropTypes.node,
   };
 
   static defaultProps = {
@@ -58,6 +59,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       }}
       id={this.props.id}
       className={this.props.className}
+      renderPostInput={this.props.renderPostInput}
     />
   );
 }
