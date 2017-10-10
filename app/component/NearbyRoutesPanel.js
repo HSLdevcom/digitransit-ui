@@ -45,10 +45,8 @@ export default connectToStores(
   ctx => (
     <PanelOrSelectLocation panel={NearbyRoutesPanel} panelctx={{ ...ctx }} />
   ),
-  ['EndpointStore', 'TimeStore', 'ModeStore'],
+  ['TimeStore', 'ModeStore'],
   context => {
-    const position = context.getStore('PositionStore').getLocationState();
-    const origin = context.getStore('EndpointStore').getOrigin();
     const modes = context.getStore('ModeStore').getMode();
     const bicycleRent = includes(modes, 'BICYCLE_RENT');
     const modeFilter = without(modes, 'BICYCLE_RENT');
@@ -59,21 +57,7 @@ export default connectToStores(
     } else if (modes.length === 1) {
       placeTypeFilter = ['BICYCLE_RENT'];
     }
-
-    let nearbyCurrentPosition;
-    if (origin.useCurrentPosition) {
-      nearbyCurrentPosition = position.hasLocation
-        ? position
-        : { lat: null, lon: null };
-    } else {
-      nearbyCurrentPosition =
-        origin.useCurrentPosition || origin.userSetPosition
-          ? origin
-          : { lat: null, lon: null };
-    }
-
     return {
-      location: nearbyCurrentPosition,
       currentTime: context
         .getStore('TimeStore')
         .getCurrentTime()
