@@ -18,9 +18,8 @@ const events = {
 
 Object.keys(events).forEach(e => {
   const message = {
+    ...events[e],
     id: `geolocation_${e}`,
-    type: events[e].type,
-    persistence: events[e].persistence,
     icon: 'geonotifier',
     content: {},
   };
