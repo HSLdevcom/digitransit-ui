@@ -20,6 +20,8 @@ import {
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
+import NearbyRoutesPanel from './NearbyRoutesPanel';
+import FavouritesPanel from './FavouritesPanel';
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -48,11 +50,10 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    content: PropTypes.node,
-    routes: PropTypes.array,
     params: PropTypes.object,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
+    tab: PropTypes.string,
   };
 
   constructor(props) {
@@ -73,20 +74,24 @@ class IndexPage extends React.Component {
       this.context.config.transportModes.citybike.defaultValue = true;
     }
     // auto select nearby tab if none selected and bp=large
-    if (this.getSelectedTab() === undefined) {
+    if (this.props.tab === undefined) {
       this.clickNearby();
     }
-    if (this.props.params.origin !== undefined) {
-      const location = parseLocation(this.props.params.origin);
-      if (location.lon && location.lat) {
+
+    if (this.props.origin !== undefined) {
+      if (
+        this.props.origin.lon &&
+        this.props.origin.lat &&
+        !this.props.origin.gps
+      ) {
         this.context.executeAction(storeEndpoint, {
           target: 'origin',
-          endpoint: location,
+          endpoint: this.props.origin,
         });
       } else if (location.set) {
-        console.log('gps', location.gps);
+        console.log('TODO gps', location.gps);
       } else {
-        console.log('could not parse params.origin:', this.props.params.origin);
+        console.log('TODO location is not set:', this.props.params.origin);
         // unable to parse origin redirect to front page
       }
     }
@@ -97,18 +102,15 @@ class IndexPage extends React.Component {
     this.handleOriginProps(nextProps);
   };
 
-  getSelectedTab = (props = this.props) => {
-    if (props.routes && props.routes.length > 0) {
-      const routePath = props.routes[props.routes.length - 1].path;
-
-      if (routePath === 'suosikit') {
+  getSelectedTab = () => {
+    switch (this.props.tab) {
+      case 'suosikit':
         return 2;
-      } else if (routePath === 'lahellasi') {
+      case 'lahellasi':
         return 1;
-      }
+      default:
+        return undefined;
     }
-
-    return undefined;
   };
 
   handleBreakpointProps = nextProps => {
@@ -127,12 +129,8 @@ class IndexPage extends React.Component {
   };
 
   handleOriginProps = nextProps => {
-    const fromOrigin = this.props.params.origin;
-    const toOrigin = nextProps.params.origin;
-
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       // TODO handle destination gps too
-      console.log('is itinerarysearch');
 
       const realOrigin = { ...nextProps.origin };
       realOrigin.gps = false;
@@ -142,7 +140,7 @@ class IndexPage extends React.Component {
       return;
     }
 
-    if (fromOrigin === toOrigin) {
+    if (this.props.params.origin === nextProps.params.origin) {
       return; // we're there already
     }
 
@@ -236,6 +234,16 @@ class IndexPage extends React.Component {
     this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
   };
 
+  renderTab = () => {
+    switch (this.props.tab) {
+      case 'lahellasi':
+        return <NearbyRoutesPanel location={this.props.origin} />;
+      case 'suosikit':
+        return <FavouritesPanel />;
+      default:
+        return null;
+    }
+  };
   render() {
     const selectedMainTab = this.getSelectedTab();
 
@@ -260,7 +268,7 @@ class IndexPage extends React.Component {
               nearbyClicked={this.clickNearby}
               favouritesClicked={this.clickFavourites}
             >
-              {this.props.content}
+              {this.renderTab()}
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
@@ -313,8 +321,9 @@ class IndexPage extends React.Component {
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             panelExpanded={this.state.panelExpanded}
+            location={this.props.origin}
           >
-            {this.props.content}
+            {this.renderTab()}
           </FrontPagePanelSmall>
           {feedbackPanel}
         </div>
@@ -335,18 +344,20 @@ const IndexPageWithPosition = connectToStores(
 
     const newProps = {};
 
+    if (props.params.tab) {
+      newProps.tab = props.params.tab;
+    }
+
     // todo extract function:
     if (props.params.origin) {
       newProps.origin = parseLocation(props.params.origin);
 
       if (newProps.origin.gps === true) {
-        console.log('checking state', locationState);
         if (locationState.lat && locationState.lon && locationState.address) {
           newProps.origin.ready = true;
           newProps.origin.lat = locationState.lat;
           newProps.origin.lon = locationState.lon;
           newProps.origin.address = locationState.address;
-          console.log('origin is position and ready');
         }
       }
     } else {
