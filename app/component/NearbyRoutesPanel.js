@@ -43,7 +43,11 @@ NearbyRoutesPanel.contextTypes = {
 
 export default connectToStores(
   ctx => (
-    <PanelOrSelectLocation panel={NearbyRoutesPanel} panelctx={{ ...ctx }} />
+    <PanelOrSelectLocation
+      location={ctx.location}
+      panel={NearbyRoutesPanel}
+      panelctx={{ ...ctx }}
+    />
   ),
   ['TimeStore', 'ModeStore'],
   context => {
