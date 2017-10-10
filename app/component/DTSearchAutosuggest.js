@@ -39,13 +39,16 @@ class DTAutosuggest extends React.Component {
     autoFocus: PropTypes.bool,
     searchType: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    renderPostInput: PropTypes.node,
   };
 
   static defaultProps = {
     placeholder: '',
     clickFunction: () => {},
     autoFocus: false,
+    postInput: null,
+    id: 1,
   };
 
   constructor(props) {
@@ -96,7 +99,18 @@ class DTAutosuggest extends React.Component {
         if (res1 && res1.results) {
           suggestions = suggestions.concat(res1.results);
         }
-        console.log('setting suggestions', suggestions);
+        // XXX translates current location
+        suggestions = suggestions.map(suggestion => {
+          if (suggestion.type === 'CurrentLocation') {
+            const translated = { ...suggestion };
+            translated.properties.labelId = this.context.intl.formatMessage({
+              id: suggestion.properties.labelId,
+              defaultMessage: 'Own Location',
+            });
+            return translated;
+          }
+          return suggestion;
+        });
         this.setState({
           suggestions,
         });
@@ -127,6 +141,12 @@ class DTAutosuggest extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderItem}
         inputProps={inputProps}
+        renderInputComponent={p => (
+          <div style={{ position: 'relative', display: 'flex' }}>
+            <input {...p} />
+            {this.props.renderPostInput}
+          </div>
+        )}
         onSuggestionSelected={this.props.selectedFunction}
         highlightFirstSuggestion
       />

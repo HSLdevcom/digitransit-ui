@@ -822,7 +822,7 @@ const translations = {
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
-    'geolocate-yourself': 'Paikanna itsesi',
+    'geolocate-yourself': 'Paikanna',
     'geolocation-denied-heading': 'Miten haluat aloittaa?',
     'geolocation-denied-text':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
