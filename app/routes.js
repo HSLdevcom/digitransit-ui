@@ -301,30 +301,13 @@ export default config => {
         }}
       />
       <Route
-        path={'/(:origin)(/:destination)'}
+        path={'/(:origin)(/:destination)(/:tab)'}
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,
           content: IndexPage,
         }}
-      >
-        <Route
-          path="lahellasi"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-        <Route
-          path="suosikit"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-      </Route>
+      />
       <Route
         path="/?mock"
         topBarOptions={{ disableBackButton: true }}
@@ -332,24 +315,7 @@ export default config => {
           title: Title,
           content: IndexPage,
         }}
-      >
-        <Route
-          path="lahellasi"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-        <Route
-          path="suosikit"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-      </Route>
+      />
 
       <Route path="/pysakit">
         <IndexRoute component={Error404} />{' '}

@@ -1,21 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import SVGIcon from './SVGIcon';
 
-/**
- * TODO make this appear like it should
-*/
 const GeolocationStartButton = ({ onClick }) => (
-  <a
-    style={{
-      position: 'absolute',
-      display: 'inline-block',
-      right: '8px',
-      top: '8px',
-    }}
-    onClick={onClick}
-  >
-    Geolocate!
-  </a>
+  <button className="geolocation-start-button" tabIndex={0} onClick={onClick}>
+    <SVGIcon
+      img="icon-icon_position"
+      className="geolocation-start-button-icon"
+    />
+    <FormattedMessage id="geolocate-yourself" defaultMessage="Geolocate" />
+  </button>
 );
 
 GeolocationStartButton.propTypes = {

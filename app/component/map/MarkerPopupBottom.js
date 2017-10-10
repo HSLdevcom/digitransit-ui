@@ -6,12 +6,13 @@ import { FormattedMessage } from 'react-intl';
 import { getPathWithEndpoints, isItinerarySearch } from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
 import { locationToOTP } from '../../util/otpStrings';
+import { dtLocationShape } from '../../util/shapes';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    location: dtLocationShape.isRequired,
   };
 
   static contextTypes = {

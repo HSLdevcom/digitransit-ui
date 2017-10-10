@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import OriginSelector from './OriginSelector';
+import { dtLocationShape } from '../util/shapes';
 
 const PanelOrSelectLocation = ({ panel, location, panelctx }) => {
   if (location.lat && location.lon) {
@@ -25,31 +25,8 @@ const PanelOrSelectLocation = ({ panel, location, panelctx }) => {
 
 PanelOrSelectLocation.propTypes = {
   panel: PropTypes.element.isRequired,
-  location: PropTypes.object.isRequired,
+  location: dtLocationShape.isRequired,
   panelctx: PropTypes.object.isRequired,
 };
 
-export default connectToStores(
-  PanelOrSelectLocation,
-  ['EndpointStore'],
-  context => {
-    const position = context.getStore('PositionStore').getLocationState();
-    const origin = context.getStore('EndpointStore').getOrigin();
-
-    let nearbyCurrentPosition;
-    if (origin.useCurrentPosition) {
-      nearbyCurrentPosition = position.hasLocation
-        ? position
-        : { lat: null, lon: null };
-    } else {
-      nearbyCurrentPosition =
-        origin.useCurrentPosition || origin.userSetPosition
-          ? origin
-          : { lat: null, lon: null };
-    }
-
-    return {
-      location: nearbyCurrentPosition,
-    };
-  },
-);
+export default PanelOrSelectLocation;
