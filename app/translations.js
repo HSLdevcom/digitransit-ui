@@ -189,6 +189,7 @@ const translations = {
     'skip-positioning': 'Hop over',
     slow: 'Spasering',
     'specify-location': 'Angiv sted',
+    'splash-choose': 'Angiv udgangspunkt',
     'splash-geolocation-prompt-message': 'Venligst accepter lokalisering.',
     'splash-geolocation-watch-timeout-message':
       'Lokalisering tager længre tid end forventet. Vælg udgangspunkt og prøv igen.',
@@ -424,6 +425,7 @@ const translations = {
     'skip-positioning': 'Überspringen',
     slow: 'Langsam',
     'specify-location': 'Ort eingeben',
+    'splash-choose': 'Abfahrtsorte eingeben',
     'splash-geolocation-prompt-message':
       'Bitte Zugriff auf den Standort erlauben',
     'splash-geolocation-watch-timeout-message':
@@ -677,6 +679,7 @@ const translations = {
     'skip-positioning': 'Skip',
     slow: 'Slow',
     'specify-location': 'Specify location',
+    'splash-choose': 'Specify origin',
     'splash-geolocation-prompt-message':
       'Accept your browser’s request to access your location.',
     'splash-geolocation-watch-timeout-message':
@@ -951,6 +954,7 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    'splash-choose': 'Valitse lähtöpaikka',
     'splash-geolocation-prompt-message': 'Hyväksy selaimen paikannuspyyntö.',
     'splash-geolocation-watch-timeout-message':
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
@@ -1216,6 +1220,7 @@ const translations = {
     'skip-positioning': 'Ignorer le positionnement',
     slow: 'Lent',
     'specify-location': 'Indiquer un endroit',
+    'splash-choose': 'Choisir un point de départ',
     'splash-geolocation-prompt-message':
       "Merci d'autoriser l'utilisation de votre position.",
     'splash-geolocation-watch-timeout-message':
@@ -1463,6 +1468,7 @@ const translations = {
     'skip-positioning': 'Hopp over',
     slow: 'Spasering',
     'specify-location': 'Angi sted',
+    'splash-choose': 'Angi avgangssted',
     'splash-geolocation-prompt-message': 'Vennligst aksepter lokalisering.',
     'splash-geolocation-watch-timeout-message':
       'Lokalisering tar lengre tid enn forventet. Velg startsted og prøv igjen.',
@@ -1726,6 +1732,7 @@ const translations = {
     'skip-positioning': 'Hoppa över',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
+    'splash-choose': 'Ange en avfärdsplats',
     'splash-geolocation-prompt-message':
       'Vänligen tillåt delning av platsinformation.',
     'splash-geolocation-watch-timeout-message':
