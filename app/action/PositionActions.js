@@ -116,10 +116,10 @@ function dispatchGeolocationError(actionContext, error) {
 function watchPosition(actionContext, done) {
   const quietTimeoutSeconds = 20;
 
-  let timeout = setTimeout(
-    () => actionContext.dispatch('GeolocationWatchTimeout'),
-    quietTimeoutSeconds * 1000,
-  );
+  let timeout = setTimeout(() => {
+    actionContext.dispatch('GeolocationWatchTimeout');
+    actionContext.dispatch('AddMessage', geolocationMessages.timeout);
+  }, quietTimeoutSeconds * 1000);
   try {
     geoWatchId = navigator.geolocation.watchPosition(
       position => {
