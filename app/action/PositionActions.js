@@ -104,6 +104,7 @@ function dispatchGeolocationError(actionContext, error) {
         break;
       case 3:
         actionContext.dispatch('GeolocationTimeout');
+        actionContext.dispatch('AddMessage', geolocationMessages.timeout);
         break;
       default:
         break;
