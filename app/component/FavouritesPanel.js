@@ -63,7 +63,12 @@ FavouritesPanel.propTypes = {
 
 export default connectToStores(
   ctx => (
-    <PanelOrSelectLocation panel={FavouritesPanel} panelctx={{ ...ctx }} />
+    <PanelOrSelectLocation
+      origin={ctx.origin}
+      destination={ctx.destination}
+      panel={FavouritesPanel}
+      panelctx={{ ...ctx }}
+    />
   ),
   ['FavouriteRoutesStore'],
   context => ({
