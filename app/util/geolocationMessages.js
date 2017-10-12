@@ -19,6 +19,11 @@ const events = {
     persistence: 'repeat',
     priority: 4,
   },
+  prompt: {
+    type: 'info',
+    persistence: 'repeat',
+    priority: 2,
+  },
 };
 
 Object.keys(events).forEach(e => {

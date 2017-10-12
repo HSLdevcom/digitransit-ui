@@ -4,7 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
-import { markMessageAsRead } from '../action/messageActions';
+import { markMessageAsRead } from '../action/MessageActions';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -99,7 +99,10 @@ class MessageBar extends Component {
 
   /* Find the id of nth unread (we don't show read messages) and mark it as read */
   markRead = value => {
-    this.context.executeAction(markMessageAsRead, this.validMessages()[value].id);
+    this.context.executeAction(
+      markMessageAsRead,
+      this.validMessages()[value].id,
+    );
   };
 
   handleChange = value => {
