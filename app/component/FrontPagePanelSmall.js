@@ -28,18 +28,14 @@ const FrontPagePanelSmall = (
 
   const content = selectedPanel && (
     <div
-      className={cx(
-        [
-          'frontpage-panel-wrapper',
-          'no-select',
-          {
-            small: breakpoint !== 'large',
-          },
-        ],
+      className={cx([
+        'frontpage-panel-wrapper',
+        'no-select',
         {
+          small: breakpoint !== 'large',
           'expanded-panel': panelExpanded,
         },
-      )}
+      ])}
       key="panel"
     >
       {children}
