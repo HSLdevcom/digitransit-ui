@@ -24,7 +24,7 @@ export const isItinerarySearch = (origin, destination) =>
   !isEmpty(origin) && !isEmpty(destination);
 
 export const isItinerarySearchObjects = (origin, destination) =>
-  origin.ready && destination.ready;
+  origin.ready !== false && destination.ready !== false;
 
 /**
  * if both are set it's itinerary search...
@@ -48,7 +48,7 @@ export const getPathWithEndpointObjects = (origin, destination) =>
 */
 export const parseLocation = location => {
   if (isEmpty(location)) {
-    return { set: false };
+    return { set: false, ready: false };
   }
   if (location === 'POS') {
     return {
