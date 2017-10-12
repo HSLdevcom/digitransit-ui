@@ -24,12 +24,16 @@ OriginSelectorRow.propTypes = {
 };
 
 const OriginSelector = (
-  { favourites, oldSearches, destination },
+  { favourites, oldSearches, destination, origin },
   { config, router },
 ) => {
-  const setOrigin = origin => {
-    const url = getPathWithEndpointObjects(origin, destination);
-    router.replace(url);
+  const setOrigin = newOrigin => {
+    const url = getPathWithEndpointObjects(newOrigin, destination);
+    if (origin.isSet === false) {
+      router.replace(url);
+    } else {
+      router.push(url);
+    }
   };
 
   const notInFavourites = item =>
@@ -93,6 +97,7 @@ OriginSelector.propTypes = {
   favourites: PropTypes.array.isRequired,
   oldSearches: PropTypes.array.isRequired,
   destination: dtLocationShape.isRequired,
+  origin: dtLocationShape.isRequired,
 };
 
 OriginSelector.contextTypes = {
