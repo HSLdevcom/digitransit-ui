@@ -100,6 +100,7 @@ function dispatchGeolocationError(actionContext, error) {
         break;
       case 2:
         actionContext.dispatch('GeolocationNotSupported');
+        actionContext.dispatch('AddMessage', geolocationMessages.failed);
         break;
       case 3:
         actionContext.dispatch('GeolocationTimeout');
@@ -138,6 +139,7 @@ function watchPosition(actionContext, done) {
     );
   } catch (error) {
     actionContext.dispatch('GeolocationNotSupported');
+    actionContext.dispatch('AddMessage', geolocationMessages.failed);
     console.error(error);
   }
   done();
@@ -195,6 +197,7 @@ export function initGeolocation(actionContext, payload, done) {
     actionContext.executeAction(createMock, null, done);
   } else if (!navigator.geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
+    actionContext.dispatch('AddMessage', geolocationMessages.failed);
     done();
   } else if (navigator.permissions !== undefined) {
     // Check if we have previous permissions to get geolocation.
