@@ -11,14 +11,14 @@ import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
 
 function NearbyRoutesPanel(
-  { location, currentTime, modes, placeTypes },
+  { origin, currentTime, modes, placeTypes },
   context,
 ) {
   return (
     <div className="frontpage-panel nearby-routes fullscreen">
       <NearestRoutesContainer
-        lat={location.lat}
-        lon={location.lon}
+        lat={origin.lat}
+        lon={origin.lon}
         currentTime={currentTime}
         modes={modes}
         placeTypes={placeTypes}
@@ -31,7 +31,7 @@ function NearbyRoutesPanel(
 }
 
 NearbyRoutesPanel.propTypes = {
-  location: dtLocationShape.isRequired,
+  origin: dtLocationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
   placeTypes: PropTypes.array.isRequired,
@@ -44,7 +44,8 @@ NearbyRoutesPanel.contextTypes = {
 export default connectToStores(
   ctx => (
     <PanelOrSelectLocation
-      location={ctx.location}
+      origin={ctx.origin}
+      detination={ctx.destination}
       panel={NearbyRoutesPanel}
       panelctx={{ ...ctx }}
     />

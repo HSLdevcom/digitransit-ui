@@ -4,10 +4,11 @@ import { FormattedMessage } from 'react-intl';
 import OriginSelector from './OriginSelector';
 import { dtLocationShape } from '../util/shapes';
 
-const PanelOrSelectLocation = ({ panel, location, panelctx }) => {
-  if (location.lat && location.lon) {
+const PanelOrSelectLocation = ({ panel, origin, panelctx }) => {
+  if (origin.lat && origin.lon) {
     return React.createElement(panel, panelctx);
   }
+
   return (
     <div className="frontpage-panel">
       <div id="nolocation-panel" key="contents" className="flex-vertical">
@@ -17,7 +18,10 @@ const PanelOrSelectLocation = ({ panel, location, panelctx }) => {
             defaultMessage="Select your origin"
           />
         </p>
-        <OriginSelector />
+        <OriginSelector
+          origin={panelctx.origin}
+          destination={panelctx.destination}
+        />
       </div>
     </div>
   );
@@ -25,7 +29,8 @@ const PanelOrSelectLocation = ({ panel, location, panelctx }) => {
 
 PanelOrSelectLocation.propTypes = {
   panel: PropTypes.element.isRequired,
-  location: dtLocationShape.isRequired,
+  origin: dtLocationShape.isRequired,
+  destination: dtLocationShape.isRequired,
   panelctx: PropTypes.object.isRequired,
 };
 

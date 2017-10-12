@@ -3,7 +3,7 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { storeEndpoint, clearDestination } from '../action/EndpointActions';
+import { storeEndpoint } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
@@ -62,10 +62,6 @@ class IndexPage extends React.Component {
       panelExpanded: false, // Show right-now as default
     };
   }
-
-  componentWillMount = () => {
-    this.resetToCleanState();
-  };
 
   componentDidMount() {
     const search = this.context.location.search;
@@ -150,12 +146,7 @@ class IndexPage extends React.Component {
         target: 'origin',
         endpoint: nextProps.origin,
       });
-      // this.resetToCleanState();
     }
-  };
-
-  resetToCleanState = () => {
-    this.context.executeAction(clearDestination);
   };
 
   trackEvent = (...args) => {
@@ -237,9 +228,19 @@ class IndexPage extends React.Component {
   renderTab = () => {
     switch (this.props.tab) {
       case 'lahellasi':
-        return <NearbyRoutesPanel location={this.props.origin} />;
+        return (
+          <NearbyRoutesPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+          />
+        );
       case 'suosikit':
-        return <FavouritesPanel />;
+        return (
+          <FavouritesPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+          />
+        );
       default:
         return null;
     }
