@@ -13,6 +13,13 @@ export const otpToLocation = otpString => {
   return { address };
 };
 
+export const addressToUrl = location => {
+  if (location.set === false) {
+    return '-';
+  }
+  return `${location.address}::${location.lat},${location.lon}`;
+};
+
 export const locationToOTP = location => {
   if (location.gps) {
     return 'POS';
