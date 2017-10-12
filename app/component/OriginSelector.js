@@ -69,7 +69,7 @@ const OriginSelector = (
                   s.geometry.coordinates &&
                   s.geometry.coordinates[0]) ||
                 s.lon,
-              address: location.locationName, // /TODO
+              address: s.properties.label || s.properties.name,
             });
           }}
         />
