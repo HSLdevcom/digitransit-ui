@@ -57,7 +57,7 @@ class MessageStore extends Store {
         }),
       );
     } else {
-      processStaticMessages(config.staticMessages);
+      processStaticMessages(config);
     }
   };
 
