@@ -72,6 +72,7 @@ const translations = {
     'geolocation-failed-heading': 'Lokalisering fungerer ikke',
     'geolocation-failed-text':
       'Din browser har ikke understøttelse for lokalisering.',
+    'geolocation-prompt-text': 'Venligst accepter lokalisering.',
     'geolocation-timeout-heading':
       'Lokalisering tager længre tid end forventet.',
     'geolocation-timeout-text': 'Vælg udgangspunkt og prøv igen.',
@@ -193,7 +194,6 @@ const translations = {
     slow: 'Spasering',
     'specify-location': 'Angiv sted',
     'splash-choose': 'Angiv udgangspunkt',
-    'splash-geolocation-prompt-message': 'Venligst accepter lokalisering.',
     'splash-locating': 'Søger efter din position',
     'splash-or-choose': 'Eller fravælg din position',
     'splash-use-positioning': 'Brug min position',
@@ -317,6 +317,7 @@ const translations = {
       'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
     'geolocation-failed-text':
       'Ihr Browser unterstützt keinen Zugriff auf den Standort',
+    'geolocation-prompt-text': 'Bitte Zugriff auf den Standort erlauben',
     'geolocation-timeout-heading':
       'Standortermittlung dauert länger als erwartet.',
     'geolocation-timeout-text':
@@ -431,8 +432,6 @@ const translations = {
     slow: 'Langsam',
     'specify-location': 'Ort eingeben',
     'splash-choose': 'Abfahrtsorte eingeben',
-    'splash-geolocation-prompt-message':
-      'Bitte Zugriff auf den Standort erlauben',
     'splash-locating': 'Suche aktuellen Standort...',
     'splash-or-choose': 'oder einen dieser Abfahrtsorte wählen',
     'splash-use-positioning': 'Aktuellen Standort benutzen',
@@ -560,6 +559,8 @@ const translations = {
     'geolocation-failed-heading': 'Geolocation failed',
     'geolocation-failed-text':
       'Your browser does not support location retrieval.',
+    'geolocation-prompt-text':
+      'Accept your browser’s request to access your location.',
     'geolocation-timeout-heading':
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
@@ -687,8 +688,6 @@ const translations = {
     slow: 'Slow',
     'specify-location': 'Specify location',
     'splash-choose': 'Specify origin',
-    'splash-geolocation-prompt-message':
-      'Accept your browser’s request to access your location.',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
     'splash-use-positioning': 'Use location services',
@@ -837,6 +836,7 @@ const translations = {
     'geolocation-failed-heading': 'Paikannus epäonnistui',
     'geolocation-failed-text':
       'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
+    'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
     'give-destination': 'Määränpää, linja tai pysäkki',
@@ -962,7 +962,6 @@ const translations = {
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
     'splash-choose': 'Valitse lähtöpaikka',
-    'splash-geolocation-prompt-message': 'Hyväksy selaimen paikannuspyyntö.',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-use-positioning': 'Käytä paikannusta',
@@ -1105,6 +1104,8 @@ const translations = {
       "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
     'geolocation-failed-text':
       'Votre navigateur ne supporte pas le positionnement',
+    'geolocation-prompt-text':
+      "Merci d'autoriser l'utilisation de votre position.",
     'geolocation-timeout-heading':
       'Le positionnement prend plus de temps que prévu.',
     'geolocation-timeout-text':
@@ -1230,8 +1231,6 @@ const translations = {
     slow: 'Lent',
     'specify-location': 'Indiquer un endroit',
     'splash-choose': 'Choisir un point de départ',
-    'splash-geolocation-prompt-message':
-      "Merci d'autoriser l'utilisation de votre position.",
     'splash-locating': 'Localisation...',
     'splash-or-choose': 'Ou choisir parmi ces destinations',
     'splash-please-allow-positioning':
@@ -1358,6 +1357,7 @@ const translations = {
     'geolocation-failed-heading': 'Lokalisering fungerer ikke',
     'geolocation-failed-text':
       'Nettleseren din har ikke støtte for lokalisering.',
+    'geolocation-prompt-text': 'Vennligst aksepter lokalisering.',
     'geolocation-timeout-heading': 'Lokalisering tar lengre tid enn forventet.',
     'geolocation-timeout-text': 'Velg startsted og prøv igjen.',
     'give-destination': 'skriv hvor du vil reise',
@@ -1478,7 +1478,6 @@ const translations = {
     slow: 'Spasering',
     'specify-location': 'Angi sted',
     'splash-choose': 'Angi avgangssted',
-    'splash-geolocation-prompt-message': 'Vennligst aksepter lokalisering.',
     'splash-locating': 'Søker etter din posisjon',
     'splash-or-choose': 'Eller velg din posisjon fra',
     'splash-use-positioning': 'Bruk min posisjon',
@@ -1615,6 +1614,7 @@ const translations = {
       'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
+    'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
     'geolocation-timeout-heading':
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
@@ -1744,8 +1744,6 @@ const translations = {
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
     'splash-choose': 'Ange en avfärdsplats',
-    'splash-geolocation-prompt-message':
-      'Vänligen tillåt delning av platsinformation.',
     'splash-locating': 'Söker din plats...',
     'splash-or-choose': 'eller välj en avfärdsplats',
     'splash-please-allow-positioning':
