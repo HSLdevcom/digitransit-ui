@@ -86,6 +86,18 @@ export function geolocatonCallback(
   }
 }
 
+function updateGeolocationMessage(actionContext, newId) {
+  Object.keys(geolocationMessages).forEach(id => {
+    if (id !== newId) {
+      actionContext.dispatch('MarkMessageAsRead', id);
+    }
+  });
+
+  if (newId) {
+    actionContext.dispatch('AddMessage', geolocationMessages[newId]);
+  }
+}
+
 function dispatchGeolocationError(actionContext, error) {
   if (
     !(
@@ -96,15 +108,15 @@ function dispatchGeolocationError(actionContext, error) {
     switch (error.code) {
       case 1:
         actionContext.dispatch('GeolocationDenied');
-        actionContext.dispatch('AddMessage', geolocationMessages.denied);
+        updateGeolocationMessage(actionContext, 'denied');
         break;
       case 2:
         actionContext.dispatch('GeolocationNotSupported');
-        actionContext.dispatch('AddMessage', geolocationMessages.failed);
+        updateGeolocationMessage(actionContext, 'failed');
         break;
       case 3:
         actionContext.dispatch('GeolocationTimeout');
-        actionContext.dispatch('AddMessage', geolocationMessages.timeout);
+        updateGeolocationMessage(actionContext, 'timeout');
         break;
       default:
         break;
@@ -118,7 +130,7 @@ function watchPosition(actionContext, done) {
 
   let timeout = setTimeout(() => {
     actionContext.dispatch('GeolocationWatchTimeout');
-    actionContext.dispatch('AddMessage', geolocationMessages.timeout);
+    updateGeolocationMessage(actionContext, 'timeout');
   }, quietTimeoutSeconds * 1000);
   try {
     geoWatchId = navigator.geolocation.watchPosition(
@@ -139,8 +151,12 @@ function watchPosition(actionContext, done) {
       { enableHighAccuracy: true, timeout: 60000, maximumAge: 60000 },
     );
   } catch (error) {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
     actionContext.dispatch('GeolocationNotSupported');
-    actionContext.dispatch('AddMessage', geolocationMessages.failed);
+    updateGeolocationMessage(actionContext, 'failed');
     console.error(error);
   }
   done();
@@ -160,19 +176,22 @@ function startPositioning(actionContext, done) {
             permissionStatus.onchange = null; // remove listener
             if (permissionStatus.state === 'granted') {
               actionContext.dispatch('GeolocationSearch');
+              updateGeolocationMessage(actionContext);
             } else if (permissionStatus.state === 'denied') {
               actionContext.dispatch('GeolocationDenied');
-              actionContext.dispatch('AddMessage', geolocationMessages.denied);
+              updateGeolocationMessage(actionContext, 'denied');
             }
           };
           actionContext.dispatch('GeolocationPrompt');
+          updateGeolocationMessage(actionContext, 'prompt');
           watchPosition(actionContext, done);
         } else if (permissionStatus.state === 'granted') {
           actionContext.dispatch('GeolocationSearch');
+          updateGeolocationMessage(actionContext);
           watchPosition(actionContext, done);
         } else if (permissionStatus.state === 'denied') {
           actionContext.dispatch('GeolocationDenied');
-          actionContext.dispatch('AddMessage', geolocationMessages.denied);
+          updateGeolocationMessage(actionContext, 'denied');
           done();
         }
       });
@@ -198,7 +217,7 @@ export function initGeolocation(actionContext, payload, done) {
     actionContext.executeAction(createMock, null, done);
   } else if (!navigator.geolocation) {
     actionContext.dispatch('GeolocationNotSupported');
-    actionContext.dispatch('AddMessage', geolocationMessages.failed);
+    updateGeolocationMessage(actionContext, 'failed');
     done();
   } else if (navigator.permissions !== undefined) {
     // Check if we have previous permissions to get geolocation.
@@ -206,10 +225,11 @@ export function initGeolocation(actionContext, payload, done) {
     navigator.permissions.query({ name: 'geolocation' }).then(result => {
       if (result.state === 'granted') {
         startPositioning(actionContext, done);
+        updateGeolocationMessage(actionContext);
       } else if (result.state === 'denied') {
         // for ff with permisson api display error immediately instead of timeout error
         actionContext.dispatch('GeolocationDenied');
-        actionContext.dispatch('AddMessage', geolocationMessages.denied);
+        updateGeolocationMessage(actionContext, 'denied');
         done();
       } else {
         done();
