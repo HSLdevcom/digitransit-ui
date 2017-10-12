@@ -1,29 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape, locationShape } from 'react-router';
-
-import { setEndpoint } from '../action/EndpointActions';
+import { routerShape } from 'react-router';
+import { dtLocationShape } from '../util/shapes';
+import { getPathWithEndpointObjects } from '../util/path';
 import Icon from './Icon';
 import { getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
 
-const OriginSelectorRow = (
-  { icon, label, lat, lon },
-  { executeAction, router, location },
-) => (
+const OriginSelectorRow = ({ icon, label, onClick }) => (
   <li>
-    <button
-      className="noborder"
-      style={{ display: 'block' }}
-      onClick={() =>
-        executeAction(setEndpoint, {
-          target: 'origin',
-          endpoint: { lat, lon, address: label },
-          router,
-          location,
-        })}
-    >
+    <button className="noborder" style={{ display: 'block' }} onClick={onClick}>
       <Icon className={`splash-icon ${icon}`} img={icon} />
       {label}
     </button>
@@ -33,17 +20,18 @@ const OriginSelectorRow = (
 OriginSelectorRow.propTypes = {
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
-OriginSelectorRow.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  router: routerShape.isRequired,
-  location: locationShape.isRequired,
-};
+const OriginSelector = (
+  { favourites, oldSearches, destination },
+  { config, router },
+) => {
+  const setOrigin = origin => {
+    const url = getPathWithEndpointObjects(origin, destination);
+    router.replace(url);
+  };
 
-const OriginSelector = ({ favourites, oldSearches }, { config }) => {
   const notInFavourites = item =>
     favourites.filter(
       favourite =>
@@ -57,37 +45,39 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
       <OriginSelectorRow
         key={`f-${f.locationName}`}
         icon={getIcon('favourite')}
+        onClick={() => {
+          setOrigin({ ...f, address: f.locationName });
+        }}
         label={f.locationName}
-        lat={f.lat}
-        lon={f.lon}
       />
     ))
     .concat(
-      oldSearches
-        .filter(notInFavourites)
-        .map(s => (
-          <OriginSelectorRow
-            key={`o-${s.properties.label || s.properties.name}`}
-            icon={getIcon(s.properties.layer)}
-            label={s.properties.label || s.properties.name}
-            lat={
-              (s.geometry &&
-                s.geometry.coordinates &&
-                s.geometry.coordinates[1]) ||
-              s.lat
-            }
-            lon={
-              (s.geometry &&
-                s.geometry.coordinates &&
-                s.geometry.coordinates[0]) ||
-              s.lon
-            }
-          />
-        )),
+      oldSearches.filter(notInFavourites).map(s => (
+        <OriginSelectorRow
+          key={`o-${s.properties.label || s.properties.name}`}
+          icon={getIcon(s.properties.layer)}
+          label={s.properties.label || s.properties.name}
+          onClick={() => {
+            setOrigin({
+              lat:
+                (s.geometry &&
+                  s.geometry.coordinates &&
+                  s.geometry.coordinates[1]) ||
+                s.lat,
+              lon:
+                (s.geometry &&
+                  s.geometry.coordinates &&
+                  s.geometry.coordinates[0]) ||
+                s.lon,
+              address: location.locationName, // /TODO
+            });
+          }}
+        />
+      )),
     )
     .concat(
       config.defaultOrigins.map(o => (
-        <OriginSelectorRow key={`o-${o.label}`} {...o} />
+        <OriginSelectorRow key={`o-${o.label}`} onClick={setOrigin} /> // TODO object format
       )),
     );
 
@@ -102,10 +92,12 @@ const OriginSelector = ({ favourites, oldSearches }, { config }) => {
 OriginSelector.propTypes = {
   favourites: PropTypes.array.isRequired,
   oldSearches: PropTypes.array.isRequired,
+  destination: dtLocationShape.isRequired,
 };
 
 OriginSelector.contextTypes = {
   config: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
 };
 
 export default connectToStores(

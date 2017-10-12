@@ -63,10 +63,6 @@ class IndexPage extends React.Component {
     };
   }
 
-  componentWillMount = () => {
-    this.resetToCleanState();
-  };
-
   componentDidMount() {
     const search = this.context.location.search;
 
@@ -150,12 +146,7 @@ class IndexPage extends React.Component {
         target: 'origin',
         endpoint: nextProps.origin,
       });
-      // this.resetToCleanState();
     }
-  };
-
-  resetToCleanState = () => {
-    this.context.executeAction(clearDestination);
   };
 
   trackEvent = (...args) => {
@@ -237,9 +228,19 @@ class IndexPage extends React.Component {
   renderTab = () => {
     switch (this.props.tab) {
       case 'lahellasi':
-        return <NearbyRoutesPanel location={this.props.origin} />;
+        return (
+          <NearbyRoutesPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+          />
+        );
       case 'suosikit':
-        return <FavouritesPanel />;
+        return (
+          <FavouritesPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+          />
+        );
       default:
         return null;
     }

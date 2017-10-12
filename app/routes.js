@@ -300,23 +300,6 @@ export default config => {
             .catch(errorLoading);
         }}
       />
-      <Route
-        path={'/(:origin)(/:destination)(/:tab)'}
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: IndexPage,
-        }}
-      />
-      <Route
-        path="/?mock"
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: IndexPage,
-        }}
-      />
-
       <Route path="/pysakit">
         <IndexRoute component={Error404} />{' '}
         {/* TODO: Should return list of all routes */}
@@ -630,6 +613,22 @@ export default config => {
               getDefault,
             ),
           ]).then(([title, content]) => cb(null, { title, content }));
+        }}
+      />
+      <Route
+        path={'/(:origin)(/:destination)(/:tab)'}
+        topBarOptions={{ disableBackButton: true }}
+        components={{
+          title: Title,
+          content: IndexPage,
+        }}
+      />
+      <Route
+        path="/?mock"
+        topBarOptions={{ disableBackButton: true }}
+        components={{
+          title: Title,
+          content: IndexPage,
         }}
       />
       {/* For all the rest render 404 */}
