@@ -34,6 +34,7 @@ class MessageBar extends Component {
     this.unreadMessages().map(el => (
       <MessageBarMessage
         key={el.id}
+        id={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang]}
       />
@@ -122,22 +123,27 @@ class MessageBar extends Component {
 
   render = () => {
     if (this.state.visible && this.unreadMessages().length > 0) {
+      const msg = this.unreadMessages()[this.state.slideIndex];
+      const type = msg.type || 'info';
+      const icon = msg.icon || 'info';
+      const iconName = `icon-icon_${icon}`;
+
       return (
         <section role="banner" className="message-bar flex-horizontal">
-          <Icon img={'icon-icon_info'} className="info" />
-          <div className="flex-grow">
+          <Icon img={iconName} className="message-icon" />
+          <div className={`flex-grow message-bar-${type}`}>
             <SwipeableViews
               index={this.state.slideIndex}
               onChangeIndex={this.handleChange}
               className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
+                maxHeight: this.state.maximized ? '400px' : '100px',
                 transition: 'max-height 300ms',
               }}
               slideStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
+                maxHeight: this.state.maximized ? '400px' : '100px',
                 transition: 'max-height 300ms',
-                padding: '10px',
+                padding: '10px 10px 0px 10px',
                 overflow: 'hidden',
                 background: '#fff',
               }}

@@ -65,6 +65,10 @@ const translations = {
     'ferry-with-route-number': 'Færge {routeNumber} {headSign}',
     frontpage: 'Forside',
     'geolocate-yourself': 'Find min position',
+    'geolocation-denied-heading':
+      'Tjenesten fungerer bedst når du oplyser din position',
+    'geolocation-denied-text':
+      'Lokalisering er ikke tilladt. Kontroller indstillingene for din browser.',
     'give-destination': 'skriv hvor du vil hen',
     'give-name-to-location': 'Giv stedet en beskrivelse',
     'give-origin': 'tilføj afgangssted',
@@ -182,8 +186,6 @@ const translations = {
     'skip-positioning': 'Hop over',
     slow: 'Spasering',
     'specify-location': 'Angiv sted',
-    'splash-geolocation-denied-message':
-      'Lokalisering er ikke tilladt. Kontroller indstillingene for din browser.',
     'splash-geolocation-not-supported-message':
       'Din browser har ikke understøttelse for lokalisering.',
     'splash-geolocation-prompt-message': 'Venligst accepter lokalisering.',
@@ -191,8 +193,6 @@ const translations = {
       'Lokalisering tager længre tid end forventet. Vælg udgangspunkt og prøv igen.',
     'splash-locating': 'Søger efter din position',
     'splash-or-choose': 'Eller fravælg din position',
-    'splash-please-allow-positioning':
-      'Tjenesten fungerer bedst når du oplyser din position',
     'splash-use-positioning': 'Brug min position',
     'splash-welcome': 'Velkommen til ny version af din rejseplanlægger',
     'splash-you-can-also': 'Alternativt',
@@ -309,6 +309,9 @@ const translations = {
     'footer-link-to-old': 'Alten Routenplaner verwenden',
     frontpage: 'Startseite',
     'geolocate-yourself': 'Lokalisieren',
+    'geolocation-denied-heading': 'Bitte Zugriff auf den Standort erlauben',
+    'geolocation-denied-text':
+      'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
     'give-destination': 'Geben Sie Ihren Zielort ein',
     'give-name-to-location': 'Name für diesen Ort',
     'give-origin': 'Geben Sie Ihren Abfahrtsort ein',
@@ -418,8 +421,6 @@ const translations = {
     'skip-positioning': 'Überspringen',
     slow: 'Langsam',
     'specify-location': 'Ort eingeben',
-    'splash-geolocation-denied-message':
-      'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
     'splash-geolocation-not-supported-message':
       'Ihr Browser unterstützt keinen Zugriff auf den Standort',
     'splash-geolocation-prompt-message':
@@ -547,6 +548,12 @@ const translations = {
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
     'geolocate-yourself': 'Detect your location',
+    'geolocation-denied-heading': 'How do you wish to start?',
+    'geolocation-denied-text':
+      'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
+    'geolocation-failed-heading': 'Geolocation failed',
+    'geolocation-failed-text':
+      'Your browser does not support location retrieval.',
     'give-destination': 'Enter your destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
@@ -669,18 +676,12 @@ const translations = {
     'skip-positioning': 'Skip',
     slow: 'Slow',
     'specify-location': 'Specify location',
-    'splash-geolocation-denied-message':
-      'You have not enabled location services. You can enable location services in your browser or phone settings.',
-    'splash-geolocation-not-supported-message':
-      'Your browser does not support location retrieval.',
     'splash-geolocation-prompt-message':
       'Accept your browser’s request to access your location.',
     'splash-geolocation-watch-timeout-message':
       'Detecting your location is taking longer than expected. Have you accepted your browser’s request to access your location?',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
-    'splash-please-allow-positioning':
-      'To get the most out of the service, enable location services.',
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
@@ -821,6 +822,12 @@ const translations = {
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
     'geolocate-yourself': 'Paikanna',
+    'geolocation-denied-heading': 'Miten haluat aloittaa?',
+    'geolocation-denied-text':
+      'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
+    'geolocation-failed-heading': 'Paikannus epäonnistui',
+    'geolocation-failed-text':
+      'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'give-destination': 'Määränpää, linja tai pysäkki',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka, linja tai pysäkki',
@@ -943,18 +950,11 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
-    'splash-choose': 'Valitse lähtöpaikka',
-    'splash-geolocation-denied-message':
-      'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
-    'splash-geolocation-not-supported-message':
-      'Paikannus epäonnistui tai selaimesi ei tue paikannusta.',
     'splash-geolocation-prompt-message': 'Hyväksy selaimen paikannuspyyntö.',
     'splash-geolocation-watch-timeout-message':
       'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
-    'splash-please-allow-positioning':
-      'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
@@ -1090,6 +1090,9 @@ const translations = {
     'footer-link-to-old': "Utiliser l'ancien planificateur d'itinéraires",
     frontpage: 'Page de garde',
     'geolocate-yourself': 'Se géolocaliser',
+    'geolocation-denied-heading': 'Comment souhaitez-vous démarrer ?',
+    'geolocation-denied-text':
+      "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
     'give-destination': 'Entrer votre destination',
     'give-name-to-location': 'Donner un nom à cet endroit',
     'give-origin': 'Entrer votre point de départ',
@@ -1210,8 +1213,6 @@ const translations = {
     'skip-positioning': 'Ignorer le positionnement',
     slow: 'Lent',
     'specify-location': 'Indiquer un endroit',
-    'splash-geolocation-denied-message':
-      "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
     'splash-geolocation-not-supported-message':
       'Votre navigateur ne supporte pas le positionnement',
     'splash-geolocation-prompt-message':
@@ -1223,7 +1224,6 @@ const translations = {
     'splash-please-allow-positioning':
       'Ce service fonctionne mieux en autorisant la géolocalisation.',
     'splash-use-positioning': 'Utiliser la position',
-    'splash-welcome': 'Comment souhaitez-vous démarrer ?',
     'splash-you-can-also': 'Vous pouvez aussi',
     stop: 'Arrêt',
     'stop-number': "Identifiant d'arrêt",
@@ -1338,6 +1338,10 @@ const translations = {
     'ferry-with-route-number': 'Ferge {routeNumber} {headSign}',
     frontpage: 'Forside',
     'geolocate-yourself': 'Finn min posisjon',
+    'geolocation-denied-heading':
+      'Tjenesten fungerer best når du oppgir din posisjon',
+    'geolocation-denied-text':
+      'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
     'give-destination': 'skriv hvor du vil reise',
     'give-name-to-location': 'Skriv inn et beskrivende navn på stedet',
     'give-origin': 'skriv avgangssted',
@@ -1455,8 +1459,6 @@ const translations = {
     'skip-positioning': 'Hopp over',
     slow: 'Spasering',
     'specify-location': 'Angi sted',
-    'splash-geolocation-denied-message':
-      'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
     'splash-geolocation-not-supported-message':
       'Nettleseren din har ikke støtte for lokalisering.',
     'splash-geolocation-prompt-message': 'Vennligst aksepter lokalisering.',
@@ -1464,8 +1466,6 @@ const translations = {
       'Lokalisering tar lengre tid enn forventet. Velg startsted og prøv igjen.',
     'splash-locating': 'Søker etter din posisjon',
     'splash-or-choose': 'Eller velg din posisjon fra',
-    'splash-please-allow-positioning':
-      'Tjenesten fungerer best når du oppgir din posisjon',
     'splash-use-positioning': 'Bruk min posisjon',
     'splash-welcome': 'Velkommen til ny versjon av din reiseplanlegger',
     'splash-you-can-also': 'Alternativt',
@@ -1595,6 +1595,9 @@ const translations = {
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
     'geolocate-yourself': 'Sök position',
+    'geolocation-denied-heading': 'Hur vill du börja?',
+    'geolocation-denied-text':
+      'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'give-destination': 'Skriv in din destination',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
@@ -1719,8 +1722,6 @@ const translations = {
     'skip-positioning': 'Hoppa över',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
-    'splash-geolocation-denied-message':
-      'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'splash-geolocation-not-supported-message': 'Platstjänster otillgängliga.',
     'splash-geolocation-prompt-message':
       'Vänligen tillåt delning av platsinformation.',
@@ -1731,7 +1732,6 @@ const translations = {
     'splash-please-allow-positioning':
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
-    'splash-welcome': 'Hur vill du börja?',
     'splash-you-can-also': 'alternativt',
     stop: 'Hållplats',
     'stop-number': 'Hållplatsnummer',

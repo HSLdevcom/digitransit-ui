@@ -4,6 +4,7 @@ import { getJson } from '../util/xhrPromise';
 import { setOriginToDefault } from './EndpointActions';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { createMock } from './MockActions';
+import geolocationMessages from '../util/geolocationMessages';
 
 let geoWatchId;
 
@@ -95,6 +96,7 @@ function dispatchGeolocationError(actionContext, error) {
     switch (error.code) {
       case 1:
         actionContext.dispatch('GeolocationDenied');
+        actionContext.dispatch('AddMessage', geolocationMessages.denied);
         break;
       case 2:
         actionContext.dispatch('GeolocationNotSupported');
@@ -157,6 +159,7 @@ function startPositioning(actionContext, done) {
               actionContext.dispatch('GeolocationSearch');
             } else if (permissionStatus.state === 'denied') {
               actionContext.dispatch('GeolocationDenied');
+              actionContext.dispatch('AddMessage', geolocationMessages.denied);
             }
           };
           actionContext.dispatch('GeolocationPrompt');
@@ -166,6 +169,7 @@ function startPositioning(actionContext, done) {
           watchPosition(actionContext, done);
         } else if (permissionStatus.state === 'denied') {
           actionContext.dispatch('GeolocationDenied');
+          actionContext.dispatch('AddMessage', geolocationMessages.denied);
           done();
         }
       });
@@ -201,6 +205,7 @@ export function initGeolocation(actionContext, payload, done) {
       } else if (result.state === 'denied') {
         // for ff with permisson api display error immediately instead of timeout error
         actionContext.dispatch('GeolocationDenied');
+        actionContext.dispatch('AddMessage', geolocationMessages.denied);
         done();
       } else {
         done();
