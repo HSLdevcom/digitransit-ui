@@ -3,7 +3,7 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { storeEndpoint, clearDestination } from '../action/EndpointActions';
+import { storeEndpoint } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
