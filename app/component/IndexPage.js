@@ -301,6 +301,7 @@ class IndexPage extends React.Component {
           >
             {this.props.origin &&
               this.props.origin.gps === true &&
+              this.props.origin.gpsError === false &&
               this.props.origin.ready === false && <OverlayWithSpinner />}
             {messageBar}
             <DTAutosuggestPanel
@@ -365,6 +366,8 @@ const IndexPageWithPosition = connectToStores(
           newProps.origin.lon = locationState.lon;
           newProps.origin.address = locationState.address;
         }
+        newProps.origin.gpsError =
+          ['no-location', 'prompt'].indexOf(locationState.status) === -1;
       }
     } else {
       newProps.origin = { set: false };
@@ -380,6 +383,8 @@ const IndexPageWithPosition = connectToStores(
           newProps.destination.ready = true;
           console.log('destination is position and ready');
         }
+        newProps.destination.gpsError =
+          ['no-location', 'prompt'].indexOf(locationState.status) === -1;
       }
     } else {
       newProps.destination = { set: false };
