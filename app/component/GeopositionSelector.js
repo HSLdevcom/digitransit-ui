@@ -67,42 +67,6 @@ const GeopositionSelector = (
         </div>
       </div>
     );
-  } else if (status === PositionStore.STATUS_GEOLOCATION_DENIED) {
-    return (
-      <div id="splash-positioning-message">
-        <FormattedMessage
-          id="splash-geolocation-denied-message"
-          defaultMessage="You have not enabled location services. You can enable location services in your browser or phone settings."
-        />
-      </div>
-    );
-  } else if (status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT) {
-    return (
-      <div id="splash-positioning-message">
-        <FormattedMessage
-          id="splash-geolocation-watch-timeout-message"
-          defaultMessage="Detecting your location is taking longer than expected. Have you accepted your browser’s request to access your location?"
-        />
-      </div>
-    );
-  } else if (status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED) {
-    return (
-      <div id="splash-positioning-message">
-        <FormattedMessage
-          id="splash-geolocation-not-supported-message"
-          defaultMessage="Location services unavailable."
-        />
-      </div>
-    );
-  } else if (status === PositionStore.STATUS_GEOLOCATION_PROMPT) {
-    return (
-      <div id="splash-positioning-message">
-        <FormattedMessage
-          id="splash-geolocation-prompt-message"
-          defaultMessage="Accept your browser’s request to access your location."
-        />
-      </div>
-    );
   }
   return null;
 };

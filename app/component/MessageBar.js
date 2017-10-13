@@ -4,6 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
+import { markMessageAsRead } from '../action/MessageActions';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -17,6 +18,7 @@ class MessageBar extends Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -27,7 +29,6 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
-    visible: true,
   };
 
   getTabContent = () =>
@@ -97,9 +98,10 @@ class MessageBar extends Component {
 
   /* Find the id of nth unread (we don't show read messages) and mark it as read */
   markRead = value => {
-    this.context
-      .getStore('MessageStore')
-      .markMessageAsRead(this.validMessages()[value].id);
+    this.context.executeAction(
+      markMessageAsRead,
+      this.validMessages()[value].id,
+    );
   };
 
   handleChange = value => {
@@ -111,15 +113,14 @@ class MessageBar extends Component {
   };
 
   handleClose = () => {
-    this.markRead(this.state.slideIndex);
-    this.setState({
-      ...this.state,
-      visible: false,
+    const messages = this.validMessages();
+    messages.forEach(msg => {
+      this.context.executeAction(markMessageAsRead, msg.id);
     });
   };
 
   render = () => {
-    if (this.state.visible && this.validMessages().length > 0) {
+    if (this.validMessages().length > 0) {
       const msg = this.validMessages()[this.state.slideIndex];
       const type = msg.type || 'info';
       const icon = msg.icon || 'info';
