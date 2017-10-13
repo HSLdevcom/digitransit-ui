@@ -89,7 +89,7 @@ export function geolocatonCallback(
 function updateGeolocationMessage(actionContext, newId) {
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
-      actionContext.dispatch('MarkMessageAsRead', id);
+      actionContext.dispatch('MarkMessageAsRead', geolocationMessages[id].id);
     }
   });
 
