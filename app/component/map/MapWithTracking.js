@@ -59,7 +59,7 @@ class MapWithTrackingStateHandler extends React.Component {
   componentWillReceiveProps(newProps) {
     if (
       this.state.origin.useCurrentPosition !== true &&
-      newProps.origin.useCurrentPosition === true
+      newProps.origin.gps === true
     ) {
       this.usePosition(newProps.origin);
     } else if (
@@ -119,7 +119,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
     if (
       this.state.focusOnOrigin &&
-      !this.state.origin.useCurrentPosition &&
+      !this.state.origin.gps &&
       this.state.origin.lat != null &&
       this.state.origin.lon != null
     ) {
@@ -165,21 +165,18 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 }
 
+// todo convert to use origin prop
 const MapWithTracking = connectToStores(
   getContext({
     config: PropTypes.shape({
-      defaultMapCenter: PropTypes.shape({
-        lon: PropTypes.number.isRequired,
-        lat: PropTypes.number.isRequired,
-      }).isRequired,
+      defaultMapCenter: dtLocationShape.isRequired,
     }),
   })(MapWithTrackingStateHandler),
-  ['PositionStore', 'EndpointStore'],
+  ['PositionStore'],
   ({ getStore }) => {
     const position = getStore('PositionStore').getLocationState();
-    const origin = getStore('EndpointStore').getOrigin();
 
-    return { position, origin };
+    return { position };
   },
 );
 

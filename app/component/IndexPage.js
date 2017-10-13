@@ -258,6 +258,7 @@ class IndexPage extends React.Component {
           breakpoint={this.props.breakpoint}
           showStops
           showScaleBar
+          origin={this.props.origin}
         >
           <DTAutosuggestPanel
             origin={this.props.origin}
@@ -293,7 +294,11 @@ class IndexPage extends React.Component {
           .breakpoint}`}
       >
         <div className="flex-grow map-container">
-          <MapWithTracking breakpoint={this.props.breakpoint} showStops>
+          <MapWithTracking
+            breakpoint={this.props.breakpoint}
+            showStops
+            origin={this.props.origin}
+          >
             {this.props.origin &&
               this.props.origin.gps === true &&
               this.props.origin.ready === false && <OverlayWithSpinner />}

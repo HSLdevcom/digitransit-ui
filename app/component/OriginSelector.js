@@ -81,7 +81,14 @@ const OriginSelector = (
     )
     .concat(
       config.defaultOrigins.map(o => (
-        <OriginSelectorRow key={`o-${o.label}`} onClick={setOrigin} /> // TODO object format
+        <OriginSelectorRow
+          key={`o-${o.label}`}
+          icon={o.icon}
+          label={o.label}
+          onClick={() => {
+            setOrigin({ ...o, address: o.label });
+          }}
+        />
       )),
     );
 
