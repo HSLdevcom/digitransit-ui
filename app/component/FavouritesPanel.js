@@ -47,9 +47,9 @@ FavouriteRoutes.propTypes = {
   routes: PropTypes.array.isRequired,
 };
 
-const FavouritesPanel = ({ routes }) => (
+const FavouritesPanel = ({ origin, routes }) => (
   <div className="frontpage-panel">
-    <FavouriteLocationsContainer />
+    <FavouriteLocationsContainer origin={origin} />
     <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
