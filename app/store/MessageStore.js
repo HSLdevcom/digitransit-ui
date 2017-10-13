@@ -36,7 +36,9 @@ class MessageStore extends Store {
   addMessage = msg => {
     const readIds = getReadMessageIds();
     const message = { ...msg };
-    if (this.messages.has(message.id)) {
+    const oldMessage = this.messages.get(message.id);
+
+    if (oldMessage && (!oldMessage.read || msg.persistence !== 'repeat')) {
       return;
     }
 
@@ -71,10 +73,19 @@ class MessageStore extends Store {
   };
 
   markMessageAsRead = id => {
+    let changed;
     const readIds = getReadMessageIds();
     if (readIds.indexOf(id) === -1) {
       readIds.push(id);
       setReadMessageIds(readIds);
+      changed = true;
+    }
+    const msg = this.messages.get(id);
+    if (msg) {
+      changed = changed || !msg.read;
+      msg.read = true;
+    }
+    if (changed) {
       this.emitChange();
     }
   };
