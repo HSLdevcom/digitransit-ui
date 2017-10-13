@@ -8,6 +8,7 @@ import NextDeparturesListHeader from './NextDeparturesListHeader';
 import NoFavouritesPanel from './NoFavouritesPanel';
 import Loading from './Loading';
 import PanelOrSelectLocation from './PanelOrSelectLocation';
+import { dtLocationShape } from '../util/shapes';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -59,6 +60,7 @@ const FavouritesPanel = ({ origin, routes }) => (
 
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,
+  origin: dtLocationShape.isRequired,
 };
 
 export default connectToStores(
