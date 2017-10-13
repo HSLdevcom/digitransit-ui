@@ -367,7 +367,9 @@ const IndexPageWithPosition = connectToStores(
           newProps.origin.address = locationState.address;
         }
         newProps.origin.gpsError =
-          ['no-location', 'prompt'].indexOf(locationState.status) === -1;
+          ['no-location', 'prompt', 'searching-location'].indexOf(
+            locationState.status,
+          ) === -1;
       }
     } else {
       newProps.origin = { set: false };
@@ -381,10 +383,11 @@ const IndexPageWithPosition = connectToStores(
           newProps.destination.lon = locationState.lon;
           newProps.destination.address = locationState.address;
           newProps.destination.ready = true;
-          console.log('destination is position and ready');
         }
         newProps.destination.gpsError =
-          ['no-location', 'prompt'].indexOf(locationState.status) === -1;
+          ['no-location', 'prompt', 'searching-location'].indexOf(
+            locationState.status,
+          ) === -1;
       }
     } else {
       newProps.destination = { set: false };
