@@ -13,7 +13,7 @@ export const otpToLocation = otpString => {
   return { address };
 };
 
-export const addressToUrl = location => {
+export const addressToItinerarySearch = location => {
   if (location.set === false) {
     return '-';
   }

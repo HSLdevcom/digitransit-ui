@@ -1,4 +1,8 @@
-import { otpToLocation, locationToOTP, addressToUrl } from './otpStrings';
+import {
+  otpToLocation,
+  locationToOTP,
+  addressToItinerarySearch,
+} from './otpStrings';
 
 export const getRoutePath = (origin, destination) =>
   ['/reitti', origin, destination].join('/');
@@ -40,7 +44,10 @@ export const getPathWithEndpoints = (origin, destination) =>
  */
 export const getPathWithEndpointObjects = (origin, destination) =>
   isItinerarySearchObjects(origin, destination)
-    ? getRoutePath(addressToUrl(origin), addressToUrl(destination))
+    ? getRoutePath(
+        addressToItinerarySearch(origin),
+        addressToItinerarySearch(destination),
+      )
     : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
 
 /**
