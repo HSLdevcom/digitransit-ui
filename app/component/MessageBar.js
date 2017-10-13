@@ -29,7 +29,6 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
-    visible: true,
   };
 
   getTabContent = () =>
@@ -114,15 +113,14 @@ class MessageBar extends Component {
   };
 
   handleClose = () => {
-    this.markRead(this.state.slideIndex);
-    this.setState({
-      ...this.state,
-      visible: false,
+    const messages = this.validMessages();
+    messages.forEach(msg => {
+      this.context.executeAction(markMessageAsRead, msg.id);
     });
   };
 
   render = () => {
-    if (this.state.visible && this.validMessages().length > 0) {
+    if (this.validMessages().length > 0) {
       const msg = this.validMessages()[this.state.slideIndex];
       const type = msg.type || 'info';
       const icon = msg.icon || 'info';
