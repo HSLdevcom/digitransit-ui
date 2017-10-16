@@ -1,7 +1,6 @@
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
 import { getJson } from '../util/xhrPromise';
-import { setOriginToDefault } from './EndpointActions';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { createMock } from './MockActions';
 import geolocationMessages from '../util/geolocationMessages';
@@ -49,11 +48,6 @@ const debouncedRunReverseGeocodingAction = debounce(
 const setCurrentLocation = (actionContext, position) => {
   if (inside([position.lon, position.lat], actionContext.config.areaPolygon)) {
     actionContext.dispatch('GeolocationFound', position);
-  } else if (
-    !actionContext.getStore('EndpointStore').getOrigin().userSetPosition
-  ) {
-    // TODO: should we really do this?
-    actionContext.executeAction(setOriginToDefault, null);
   }
 };
 
@@ -99,12 +93,7 @@ function updateGeolocationMessage(actionContext, newId) {
 }
 
 function dispatchGeolocationError(actionContext, error) {
-  if (
-    !(
-      actionContext.getStore('EndpointStore').getOrigin().userSetPosition ||
-      actionContext.getStore('PositionStore').getLocationState().hasLocation
-    )
-  ) {
+  if (!actionContext.getStore('PositionStore').getLocationState().hasLocation) {
     switch (error.code) {
       case 1:
         actionContext.dispatch('GeolocationDenied');

@@ -14,6 +14,7 @@ import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import NoFavouriteLocations from './NoFavouriteLocations';
+import { dtLocationShape } from '../util/shapes';
 import { isMobile } from '../util/browser';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
@@ -63,10 +64,7 @@ class FavouriteLocationsContainer extends React.Component {
   static propTypes = {
     favourites: PropTypes.array.isRequired,
     currentTime: PropTypes.object.isRequired,
-    location: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-    }),
+    location: dtLocationShape.isRequired,
   };
 
   static SLOTS_PER_CLICK = 3;
