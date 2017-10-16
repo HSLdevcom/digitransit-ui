@@ -44,6 +44,7 @@ export default class SearchInputContainer extends Component {
   componentDidMount() {
     executeSearchImmediate(
       this.context.getStore,
+      null,
       {
         input: '',
         type: this.props.type,
@@ -208,6 +209,7 @@ export default class SearchInputContainer extends Component {
     const terms = typeof newinput === 'string' ? newinput : this.state.value;
     executeSearch(
       this.context.getStore,
+      null,
       {
         input: terms,
         type: this.props.type,

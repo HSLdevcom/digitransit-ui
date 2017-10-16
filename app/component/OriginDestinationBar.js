@@ -92,9 +92,7 @@ export default class OriginDestinationBar extends React.Component {
               className="itinerary-icon from"
             />
             <span className="link-name">
-              {this.props.originIsCurrent
-                ? ownPosition
-                : this.props.origin.address}
+              {this.props.origin.gps ? ownPosition : this.props.origin.address}
             </span>
           </div>
         </button>
@@ -115,13 +113,18 @@ export default class OriginDestinationBar extends React.Component {
               className="itinerary-icon to"
             />
             <span className="link-name">
-              {this.props.destinationIsCurrent
+              {this.props.destination.gps
                 ? ownPosition
                 : this.props.destination.address}
             </span>
           </div>
         </button>
-        <OneTabSearchModal layers={searchLayers} target={tab} responsive />
+        <OneTabSearchModal
+          refPoint={this.props.origin}
+          layers={searchLayers}
+          target={tab}
+          responsive
+        />
       </div>
     );
   }

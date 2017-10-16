@@ -299,6 +299,7 @@ export const getAllEndpointLayers = () => [
 
 export function executeSearchImmediate(
   getStore,
+  refPoint,
   { input, type, layers, config },
   callback,
 ) {
@@ -422,14 +423,13 @@ export function executeSearchImmediate(
 
   if (type === 'search' || type === 'all') {
     searchSearches = { type: 'search', term: input, results: [] };
-    const origin = getStore('EndpointStore').getOrigin();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
     const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
-      getFavouriteStops(favouriteStops, input, origin),
+      getFavouriteStops(favouriteStops, input, refPoint),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
     ])
@@ -459,9 +459,9 @@ const debouncedSearch = debounce(executeSearchImmediate, 300, {
   leading: true,
 });
 
-export const executeSearch = (getStore, data, callback) => {
+export const executeSearch = (getStore, refPoint, data, callback) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(getStore, data, callback);
+  debouncedSearch(getStore, refPoint, data, callback);
 };
 
 export const withCurrentTime = (getStore, location) => {

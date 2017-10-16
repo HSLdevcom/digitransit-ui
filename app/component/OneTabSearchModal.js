@@ -10,6 +10,7 @@ import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
 import { getPathWithEndpoints } from '../util/path';
 import { locationToOTP } from '../util/otpStrings';
+import { dtLocationShape } from '../util/shapes';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
@@ -18,6 +19,7 @@ class OneTabSearchModal extends React.Component {
     router: routerShape,
     location: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
+    refPoint: dtLocationShape.isRequired,
   };
 
   static propTypes = {
@@ -119,6 +121,7 @@ class OneTabSearchModal extends React.Component {
                 ref={c => {
                   this.searchInputContainer = c;
                 }}
+                refPoint={this.props.refPoint}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

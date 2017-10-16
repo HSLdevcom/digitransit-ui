@@ -5,6 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
+import { dtLocationShape } from '../util/shapes';
 
 class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
@@ -20,6 +21,7 @@ class DTEndpointAutosuggest extends React.Component {
     placeholder: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     className: PropTypes.string,
+    refPoint: dtLocationShape.isRequired,
     renderPostInput: PropTypes.node,
   };
 
@@ -65,6 +67,7 @@ class DTEndpointAutosuggest extends React.Component {
       placeholder={this.props.placeholder}
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}
+      refPoint={this.props.refPoint}
       value={this.props.value}
       id={this.props.id}
       className={this.props.value !== '' ? this.props.className : ''}
