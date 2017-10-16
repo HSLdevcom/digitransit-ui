@@ -9,6 +9,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
 import Icon from '../Icon';
+import { dtLocationShape } from '../../util/shapes';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -51,10 +52,7 @@ class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
-    origin: PropTypes.shape({
-      lat: PropTypes.number,
-      lon: PropTypes.number,
-    }),
+    origin: dtLocationShape,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
@@ -295,11 +293,6 @@ class Map extends React.Component {
   };
 }
 
-export default connectToStores(
-  Map,
-  ['PreferencesStore', 'EndpointStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-    origin: context.getStore('EndpointStore').getOrigin(),
-  }),
-);
+export default connectToStores(Map, ['PreferencesStore'], context => ({
+  lang: context.getStore('PreferencesStore').getLanguage(),
+}));
