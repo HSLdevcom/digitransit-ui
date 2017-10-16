@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
@@ -19,6 +20,7 @@ class DTAutosuggestPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static propTypes = {
@@ -70,7 +72,14 @@ class DTAutosuggestPanel extends React.Component {
     ) : null;
 
   render = () => (
-    <div className="autosuggest-panel">
+    <div
+      className={cx([
+        'autosuggest-panel',
+        {
+          small: this.context.breakpoint !== 'large',
+        },
+      ])}
+    >
       <DTEndpointAutosuggest
         id="origin"
         className={this.class(this.props.origin)}
@@ -103,12 +112,12 @@ class DTAutosuggestPanel extends React.Component {
         renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
-      (this.props.origin && this.props.origin.ready) ? (
+      this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
           searchType="endpoint"
           placeholder="give-destination"
-          className={this.class(this.props.destination)}
+          className="destination"
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
             if (location.type === 'CurrentLocation') {
