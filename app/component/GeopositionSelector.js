@@ -7,13 +7,9 @@ import { routerShape, locationShape } from 'react-router';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import Icon from './Icon';
-import { setUseCurrent } from '../action/EndpointActions';
 import Loading from './Loading';
 
-const GeopositionSelector = (
-  { origin, status, searchModalIsOpen },
-  context,
-) => {
+const GeopositionSelector = ({ status }, context) => {
   /* States:
    * - locationing hasn't been started
    * . locationing in progress
@@ -21,22 +17,6 @@ const GeopositionSelector = (
    * . locationing failed
    * - locationing succeeded
    */
-
-  // sets origin to 'current locationä if search modal is not open
-  if (
-    (status === PositionStore.STATUS_FOUND_LOCATION ||
-      status === PositionStore.STATUS_FOUND_ADDRESS) &&
-    !searchModalIsOpen &&
-    !origin.userSetPosition &&
-    !origin.useCurrentPosition
-  ) {
-    context.executeAction(setUseCurrent, {
-      target: 'origin',
-      keepSelectedLocation: true, // don't overwrite if user has already set a location
-      router: context.router,
-      location: context.location,
-    });
-  }
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
@@ -74,7 +54,6 @@ const GeopositionSelector = (
 GeopositionSelector.propTypes = {
   status: PropTypes.string.isRequired,
   searchModalIsOpen: PropTypes.bool.isRequired,
-  origin: PropTypes.object,
 };
 
 GeopositionSelector.contextTypes = {
@@ -85,9 +64,8 @@ GeopositionSelector.contextTypes = {
 
 export default connectToStores(
   GeopositionSelector,
-  ['PositionStore', 'EndpointStore'],
+  ['PositionStore'],
   context => ({
     status: context.getStore('PositionStore').getLocationState().status,
-    origin: context.getStore('EndpointStore').getOrigin(),
   }),
 );
