@@ -8,10 +8,10 @@ import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
+import { startLocationWatch } from '../action/PositionActions';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import {
   getEndpointPath,
-  isEmpty,
   parseLocation,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
@@ -53,10 +53,15 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
+    locationState: PropTypes.object,
   };
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+    if (props.locationState.status === 'no-location') {
+      context.executeAction(startLocationWatch);
+    }
+
     this.state = {
       panelExpanded: false, // Show right-now as default
     };
@@ -317,7 +322,7 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const newProps = {};
+    const newProps = { locationState };
 
     if (props.params.tab) {
       newProps.tab = props.params.tab;
