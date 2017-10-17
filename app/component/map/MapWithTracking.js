@@ -17,17 +17,14 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
   'showStops',
   'showScaleBar',
+  'origin',
 ]);
 
 const Component = onlyUpdateCoordChanges(Map);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
-    origin: PropTypes.shape({
-      userSetPosition: PropTypes.bool.isRequired,
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-    }).isRequired,
+    origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
@@ -43,14 +40,12 @@ class MapWithTrackingStateHandler extends React.Component {
 
   constructor(props) {
     super(props);
-
     const hasOriginorPosition =
-      props.origin.userSetPosition || props.position.hasLocation;
+      props.origin.ready || props.position.hasLocation;
     this.state = {
-      initialZoom: !hasOriginorPosition ? 14 : 16,
-      mapTracking: !props.origin.userSetPosition && props.position.hasLocation,
-      focusOnOrigin:
-        !props.position.hasLocation && !props.position.isLocationingInProgress,
+      initialZoom: hasOriginorPosition ? 16 : 14,
+      mapTracking: props.origin.gps && props.position.hasLocation,
+      focusOnOrigin: props.origin.ready,
       origin: props.origin,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
@@ -137,7 +132,7 @@ class MapWithTrackingStateHandler extends React.Component {
         zoom={this.state.initialZoom}
         mapTracking={this.state.mapTracking}
         className="flex-grow"
-        displayOriginPopup
+        origin={this.props.origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onZoomend: this.disableMapTracking,

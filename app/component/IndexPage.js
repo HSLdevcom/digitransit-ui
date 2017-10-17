@@ -3,7 +3,6 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { storeEndpoint } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
@@ -73,24 +72,6 @@ class IndexPage extends React.Component {
     if (this.props.tab === undefined) {
       this.clickNearby();
     }
-
-    if (this.props.origin !== undefined) {
-      if (
-        this.props.origin.lon &&
-        this.props.origin.lat &&
-        !this.props.origin.gps
-      ) {
-        this.context.executeAction(storeEndpoint, {
-          target: 'origin',
-          endpoint: this.props.origin,
-        });
-      } else if (location.set) {
-        console.log('TODO gps', location.gps);
-      } else {
-        console.log('TODO location is not set:', this.props.params.origin);
-        // unable to parse origin redirect to front page
-      }
-    }
   }
 
   componentWillReceiveProps = nextProps => {
@@ -133,19 +114,6 @@ class IndexPage extends React.Component {
 
       const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
       this.context.router.replace(url);
-      return;
-    }
-
-    if (this.props.params.origin === nextProps.params.origin) {
-      return; // we're there already
-    }
-
-    if (!isEmpty(nextProps.params.origin)) {
-      // origin is set
-      this.context.executeAction(storeEndpoint, {
-        target: 'origin',
-        endpoint: nextProps.origin,
-      });
     }
   };
 
