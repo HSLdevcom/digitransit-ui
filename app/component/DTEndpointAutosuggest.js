@@ -6,7 +6,7 @@ import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 
-class DTAutosuggestContainer extends React.Component {
+class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -38,13 +38,8 @@ class DTAutosuggestContainer extends React.Component {
     const name = getLabel(item.properties, true);
     const clone = cloneDeep(item);
     if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
-      clone.properties.link = `/pysakit/${getGTFSId(clone.properties)}`;
-
-      this.onSuggestionSelected(name, clone);
-    }
-
-    if (item.properties.link !== undefined) {
-      this.context.router.push(item.properties.link);
+      const url = `/pysakit/${getGTFSId(clone.properties)}`;
+      this.context.router.push(url);
       return;
     }
 
@@ -78,4 +73,4 @@ class DTAutosuggestContainer extends React.Component {
   );
 }
 
-export default DTAutosuggestContainer;
+export default DTEndpointAutosuggest;
