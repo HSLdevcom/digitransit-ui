@@ -13,9 +13,8 @@ import {
   addFavouriteLocation,
   deleteFavouriteLocation,
 } from '../action/FavouriteActions';
-import FakeSearchBar from './FakeSearchBar';
-import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
+import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
 class AddFavouriteContainer extends React.Component {
   static FavouriteIconIds = [
@@ -56,22 +55,13 @@ class AddFavouriteContainer extends React.Component {
     }
   };
 
-  setCoordinatesAndAddress = (name, location) => {
-    let address = name;
-    if (location.type === 'CurrentLocation') {
-      const position = this.context
-        .getStore('PositionStore')
-        .getLocationState();
-      if (position.address.length > 0) {
-        address = position.address;
-      }
-    }
+  setCoordinatesAndAddress = location => {
     this.setState({
       favourite: {
         ...this.state.favourite,
-        lat: location.geometry.coordinates[1],
-        lon: location.geometry.coordinates[0],
-        address,
+        lat: location.lat,
+        lon: location.lon,
+        address: location.address,
       },
     });
   };
@@ -114,16 +104,6 @@ class AddFavouriteContainer extends React.Component {
   };
 
   render() {
-    const destinationPlaceholder = this.context.intl.formatMessage({
-      id: 'address',
-      defaultMessage: 'Address',
-    });
-
-    const searchTabLabel = this.context.intl.formatMessage({
-      id: 'favourite-target',
-      defaultMessage: 'Favourite location',
-    });
-
     const favourite = this.state.favourite;
     const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
 
@@ -165,23 +145,14 @@ class AddFavouriteContainer extends React.Component {
                     defaultMessage="Specify location"
                   />
                 </h4>
-                <FakeSearchBar
-                  endpointAddress={
-                    (this.state != null ? favourite.address : undefined) || ''
-                  }
-                  placeholder={destinationPlaceholder}
-                  onClick={e => {
-                    e.preventDefault();
-                    this.context.router.push({
-                      ...this.context.location,
-                      state: {
-                        ...this.context.location.state,
-                        oneTabSearchModalOpen: true,
-                      },
-                    });
-                  }}
-                  id="destination"
-                  className="add-favourite-container__input-placeholder"
+                <DTEndpointAutosuggest
+                  id="origin"
+                  refPoint={{ lat: 0, lon: 0 }}
+                  searchType="all"
+                  placeholder="address"
+                  value={favourite.address || ''}
+                  layers={favouriteLayers}
+                  onLocationSelected={this.setCoordinatesAndAddress}
                 />
               </div>
               <div className="add-favourite-container__give-name">
@@ -252,14 +223,6 @@ class AddFavouriteContainer extends React.Component {
             </div>
           </row>
         </div>
-        <OneTabSearchModal
-          customTabLabel={searchTabLabel}
-          layers={favouriteLayers}
-          customOnSuggestionSelected={(name, item) => {
-            this.setCoordinatesAndAddress(name, item);
-            return this.context.router.goBack();
-          }}
-        />
       </div>
     );
   }

@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
+import { getAllEndpointLayers } from '../util/searchUtils';
 
 class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
@@ -23,11 +24,13 @@ class DTEndpointAutosuggest extends React.Component {
     className: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
     renderPostInput: PropTypes.node,
+    layers: PropTypes.array,
   };
 
   static defaultProps = {
     autoFocus: false,
     className: '',
+    layers: getAllEndpointLayers(),
   };
 
   constructor() {
@@ -70,6 +73,7 @@ class DTEndpointAutosuggest extends React.Component {
       refPoint={this.props.refPoint}
       value={this.props.value}
       id={this.props.id}
+      layers={this.props.layers}
       className={this.props.value !== '' ? this.props.className : ''}
       renderPostInput={this.props.renderPostInput}
     />
