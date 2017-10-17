@@ -60,7 +60,7 @@
     "babel-plugin-dynamic-import-node": "1.1.0",
     "babel-plugin-relay": "1.1.0",
     "babel-plugin-transform-import-commonjs": "1.0.0",
-    "babel-preset-env": "1.6.0",
+    "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
     "body-parser": "1.18.1",
