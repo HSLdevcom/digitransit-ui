@@ -91,11 +91,14 @@ function filterMatchingToInput(list, Input, fields) {
   return list;
 }
 
-function getCurrentPositionIfEmpty(input) {
+function getCurrentPositionIfEmpty(input, position) {
   if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([
       {
         type: 'CurrentLocation',
+        address: position.address,
+        lat: position.lat,
+        lon: position.lon,
         properties: { labelId: 'own-position', layer: 'currentPosition' },
       },
     ]);
@@ -319,8 +322,11 @@ export function executeSearchImmediate(
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
-    if (endpointLayers.includes('CurrentPosition') && position.hasLocation) {
-      searchComponents.push(getCurrentPositionIfEmpty(input));
+    if (
+      endpointLayers.includes('CurrentPosition') &&
+      position.status === 'found-address'
+    ) {
+      searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }
     if (endpointLayers.includes('FavouritePlace')) {
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
