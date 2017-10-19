@@ -86,6 +86,8 @@ export function geolocatonCallback(
   }
 }
 
+let alreadyDenied;
+
 function updateGeolocationMessage(actionContext, newId) {
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
@@ -94,7 +96,17 @@ function updateGeolocationMessage(actionContext, newId) {
   });
 
   if (newId) {
-    actionContext.dispatch('AddMessage', geolocationMessages[newId]);
+    let id;
+    if (newId === 'denied') {
+      if (alreadyDenied) {
+        // change message when shown repeatedly
+        id = 'stillDenied';
+      } else {
+        id = newId;
+        alreadyDenied = true;
+      }
+    }
+    actionContext.dispatch('AddMessage', geolocationMessages[id]);
   }
 }
 

@@ -32,10 +32,13 @@ class MessageStore extends Store {
    * }
    */
 
-  // TODO: Generate message id if missing
   addMessage = msg => {
     const readIds = getReadMessageIds();
     const message = { ...msg };
+
+    if (!message.id) {
+      message.id = JSON.stringify(message);
+    }
 
     if (this.messages.has(message.id)) {
       return;
