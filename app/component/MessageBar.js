@@ -85,12 +85,16 @@ class MessageBar extends Component {
 
   validMessages = () =>
     this.props.messages.filter(el => {
-      if (el.content[this.props.lang] != null) {
+      if (
+        Array.isArray(el.content[this.props.lang]) &&
+        el.content[this.props.lang].length > 0 &&
+        el.content[this.props.lang][0].content
+      ) {
         return true;
       }
       /* eslint-disable no-console */
       console.error(
-        `Message ${el.id} hs no translation for ${this.props.lang}`,
+        `Message ${el.id} has no translation for ${this.props.lang}`,
       );
       /* eslint-enable no-console */
       return false;
