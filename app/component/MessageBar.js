@@ -148,7 +148,7 @@ class MessageBar extends Component {
             </SwipeableViews>
             <Tabs
               onChange={this.handleChange}
-              value={this.state.slideIndex}
+              value={index}
               tabItemContainerStyle={{
                 backgroundColor: '#fff',
                 height: '18px',
