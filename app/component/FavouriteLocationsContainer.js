@@ -6,8 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
-import { getPathWithEndpoints } from '../util/path';
-import { locationToOTP } from '../util/otpStrings';
+import { getPathWithEndpointObjects } from '../util/path';
 import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
@@ -108,9 +107,7 @@ class FavouriteLocationsContainer extends React.Component {
       address: locationName,
     };
 
-    const [, origin] = this.context.location.pathname.split('/');
-    const destination = locationToOTP(location);
-    const url = `${getPathWithEndpoints(origin, destination)}`;
+    const url = getPathWithEndpointObjects(this.props.origin, location);
     this.context.router.push(url);
   };
 
@@ -130,7 +127,7 @@ class FavouriteLocationsContainer extends React.Component {
       />
     );
 
-    if (this.props.origin) {
+    if (this.props.origin.ready) {
       const config = this.context.config;
 
       return (
