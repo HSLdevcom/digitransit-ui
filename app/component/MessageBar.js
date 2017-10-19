@@ -37,7 +37,7 @@ class MessageBar extends Component {
         key={el.id}
         id={el.id}
         onMaximize={this.maximize}
-        content={el.content[this.props.lang]}
+        content={el.content[this.props.lang] || el.content.fi}
       />
     ));
 
@@ -85,27 +85,22 @@ class MessageBar extends Component {
 
   validMessages = () =>
     this.props.messages.filter(el => {
-      if (el.content[this.props.lang] != null) {
+      if (
+        Array.isArray(el.content[this.props.lang]) &&
+        el.content[this.props.lang].length > 0 &&
+        el.content[this.props.lang][0].content
+      ) {
         return true;
       }
       /* eslint-disable no-console */
       console.error(
-        `Message ${el.id} hs no translation for ${this.props.lang}`,
+        `Message ${el.id} has no translation for ${this.props.lang}`,
       );
       /* eslint-enable no-console */
       return false;
     });
 
-  /* Find the id of nth unread (we don't show read messages) and mark it as read */
-  markRead = value => {
-    this.context.executeAction(
-      markMessageAsRead,
-      this.validMessages()[value].id,
-    );
-  };
-
   handleChange = value => {
-    this.markRead(value);
     this.setState({
       ...this.state,
       slideIndex: value,
@@ -120,8 +115,11 @@ class MessageBar extends Component {
   };
 
   render = () => {
-    if (this.validMessages().length > 0) {
-      const msg = this.validMessages()[this.state.slideIndex];
+    const messages = this.validMessages();
+
+    if (messages.length > 0) {
+      const index = Math.min(this.state.slideIndex, messages.length - 1);
+      const msg = messages[index];
       const type = msg.type || 'info';
       const icon = msg.icon || 'info';
       const iconName = `icon-icon_${icon}`;
@@ -131,7 +129,7 @@ class MessageBar extends Component {
           <Icon img={iconName} className="message-icon" />
           <div className={`flex-grow message-bar-${type}`}>
             <SwipeableViews
-              index={this.state.slideIndex}
+              index={index}
               onChangeIndex={this.handleChange}
               className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{
@@ -150,7 +148,7 @@ class MessageBar extends Component {
             </SwipeableViews>
             <Tabs
               onChange={this.handleChange}
-              value={this.state.slideIndex}
+              value={index}
               tabItemContainerStyle={{
                 backgroundColor: '#fff',
                 height: '18px',
@@ -188,18 +186,18 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
-    messages: Array.from(context.getStore('MessageStore').messages.values())
-      .filter(el => !el.read)
-      .sort((el1, el2) => {
-        const p1 = el1.priority || 0;
-        const p2 = el2.priority || 0;
-        if (p1 > p2) {
-          return -1;
-        }
-        if (p1 < p2) {
-          return 1;
-        }
-        return 0;
-      }),
+    messages: Array.from(
+      context.getStore('MessageStore').messages.values(),
+    ).sort((el1, el2) => {
+      const p1 = el1.priority || 0;
+      const p2 = el2.priority || 0;
+      if (p1 > p2) {
+        return -1;
+      }
+      if (p1 < p2) {
+        return 1;
+      }
+      return 0;
+    }),
   }),
 );
