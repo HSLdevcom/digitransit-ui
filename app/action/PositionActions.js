@@ -96,13 +96,12 @@ function updateGeolocationMessage(actionContext, newId) {
   });
 
   if (newId) {
-    let id;
+    let id = newId;
     if (newId === 'denied') {
       if (alreadyDenied) {
         // change message when shown repeatedly
         id = 'stillDenied';
       } else {
-        id = newId;
         alreadyDenied = true;
       }
     }
