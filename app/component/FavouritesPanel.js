@@ -8,6 +8,7 @@ import NextDeparturesListHeader from './NextDeparturesListHeader';
 import NoFavouritesPanel from './NoFavouritesPanel';
 import Loading from './Loading';
 import PanelOrSelectLocation from './PanelOrSelectLocation';
+import { dtLocationShape } from '../util/shapes';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -47,9 +48,9 @@ FavouriteRoutes.propTypes = {
   routes: PropTypes.array.isRequired,
 };
 
-const FavouritesPanel = ({ routes }) => (
+const FavouritesPanel = ({ origin, routes }) => (
   <div className="frontpage-panel">
-    <FavouriteLocationsContainer />
+    <FavouriteLocationsContainer origin={origin} />
     <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} />
@@ -59,6 +60,7 @@ const FavouritesPanel = ({ routes }) => (
 
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,
+  origin: dtLocationShape.isRequired,
 };
 
 export default connectToStores(
