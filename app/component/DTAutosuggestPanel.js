@@ -9,7 +9,6 @@ import {
 } from '../util/path';
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
-import { setUseCurrent } from '../action/EndpointActions';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -61,10 +60,6 @@ class DTAutosuggestPanel extends React.Component {
               this.props.destination,
             ),
           );
-
-          this.context.executeAction(setUseCurrent, {
-            target: 'origin',
-          });
         }}
       />
     ) : null;
@@ -73,6 +68,7 @@ class DTAutosuggestPanel extends React.Component {
     <div className="autosuggest-panel">
       <DTEndpointAutosuggest
         id="origin"
+        refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
         placeholder="give-origin"
@@ -112,6 +108,7 @@ class DTAutosuggestPanel extends React.Component {
       (this.props.origin && this.props.origin.ready) ? (
         <DTEndpointAutosuggest
           id="destination"
+          refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
           className={this.class(this.props.destination)}

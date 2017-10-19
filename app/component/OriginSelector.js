@@ -94,7 +94,7 @@ const OriginSelector = (
 
   return (
     <ul>
-      <GeopositionSelector searchModalIsOpen={false} />
+      <GeopositionSelector origin={origin} />
       {names.slice(0, 2)}
     </ul>
   );

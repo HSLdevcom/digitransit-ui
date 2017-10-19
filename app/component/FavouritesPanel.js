@@ -26,7 +26,7 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-const FavouriteRoutes = ({ routes }) => {
+const FavouriteRoutes = ({ routes, origin }) => {
   if (routes.length > 0) {
     return (
       <Relay.RootContainer
@@ -35,6 +35,7 @@ const FavouriteRoutes = ({ routes }) => {
         route={
           new FavouriteRouteListContainerRoute({
             ids: routes,
+            origin,
           })
         }
         renderLoading={Loading}
@@ -46,6 +47,7 @@ const FavouriteRoutes = ({ routes }) => {
 
 FavouriteRoutes.propTypes = {
   routes: PropTypes.array.isRequired,
+  origin: dtLocationShape.isRequired,
 };
 
 const FavouritesPanel = ({ origin, routes }) => (
@@ -53,7 +55,7 @@ const FavouritesPanel = ({ origin, routes }) => (
     <FavouriteLocationsContainer origin={origin} />
     <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
-      <FavouriteRoutes routes={routes} />
+      <FavouriteRoutes routes={routes} origin={origin} />
     </div>
   </div>
 );

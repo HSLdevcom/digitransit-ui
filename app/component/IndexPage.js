@@ -3,16 +3,15 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { storeEndpoint } from '../action/EndpointActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
+import { startLocationWatch } from '../action/PositionActions';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import {
   getEndpointPath,
-  isEmpty,
   parseLocation,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
@@ -54,10 +53,15 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
+    locationState: PropTypes.object,
   };
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
+    if (props.locationState.status === 'no-location') {
+      context.executeAction(startLocationWatch);
+    }
+
     this.state = {
       panelExpanded: false, // Show right-now as default
     };
@@ -72,24 +76,6 @@ class IndexPage extends React.Component {
     // auto select nearby tab if none selected and bp=large
     if (this.props.tab === undefined) {
       this.clickNearby();
-    }
-
-    if (this.props.origin !== undefined) {
-      if (
-        this.props.origin.lon &&
-        this.props.origin.lat &&
-        !this.props.origin.gps
-      ) {
-        this.context.executeAction(storeEndpoint, {
-          target: 'origin',
-          endpoint: this.props.origin,
-        });
-      } else if (location.set) {
-        console.log('TODO gps', location.gps);
-      } else {
-        console.log('TODO location is not set:', this.props.params.origin);
-        // unable to parse origin redirect to front page
-      }
     }
   }
 
@@ -133,19 +119,6 @@ class IndexPage extends React.Component {
 
       const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
       this.context.router.replace(url);
-      return;
-    }
-
-    if (this.props.params.origin === nextProps.params.origin) {
-      return; // we're there already
-    }
-
-    if (!isEmpty(nextProps.params.origin)) {
-      // origin is set
-      this.context.executeAction(storeEndpoint, {
-        target: 'origin',
-        endpoint: nextProps.origin,
-      });
     }
   };
 
@@ -349,7 +322,7 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const newProps = {};
+    const newProps = { locationState };
 
     if (props.params.tab) {
       newProps.tab = props.params.tab;

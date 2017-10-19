@@ -13,8 +13,8 @@ import FavouriteLocation from './FavouriteLocation';
 import EmptyFavouriteLocationSlot from './EmptyFavouriteLocationSlot';
 import ComponentUsageExample from './ComponentUsageExample';
 import NoFavouriteLocations from './NoFavouriteLocations';
-import { isMobile } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
+import { isMobile } from '../util/browser';
 
 class FavouriteLocationContainerRoute extends Relay.Route {
   static queries = {
@@ -47,7 +47,7 @@ class FavouriteLocationsContainer extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    location: locationShape.isRequired,
+    origin: locationShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
