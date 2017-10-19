@@ -100,16 +100,7 @@ class MessageBar extends Component {
       return false;
     });
 
-  /* Find the id of nth unread (we don't show read messages) and mark it as read */
-  markRead = value => {
-    this.context.executeAction(
-      markMessageAsRead,
-      this.validMessages()[value].id,
-    );
-  };
-
   handleChange = value => {
-    this.markRead(value);
     this.setState({
       ...this.state,
       slideIndex: value,
@@ -124,8 +115,11 @@ class MessageBar extends Component {
   };
 
   render = () => {
-    if (this.validMessages().length > 0) {
-      const msg = this.validMessages()[this.state.slideIndex];
+    const messages = this.validMessages();
+
+    if (messages.length > 0) {
+      const index = Math.min(this.state.slideIndex, messages.length - 1);
+      const msg = messages[index];
       const type = msg.type || 'info';
       const icon = msg.icon || 'info';
       const iconName = `icon-icon_${icon}`;
@@ -135,7 +129,7 @@ class MessageBar extends Component {
           <Icon img={iconName} className="message-icon" />
           <div className={`flex-grow message-bar-${type}`}>
             <SwipeableViews
-              index={this.state.slideIndex}
+              index={index}
               onChangeIndex={this.handleChange}
               className={!this.state.maximized ? 'message-bar-fade' : ''}
               containerStyle={{

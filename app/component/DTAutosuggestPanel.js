@@ -10,6 +10,8 @@ import {
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 import { setUseCurrent } from '../action/EndpointActions';
+import { addMessage } from '../action/MessageActions';
+import geolocationMessages from '../util/geolocationMessages';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -49,9 +51,9 @@ class DTAutosuggestPanel extends React.Component {
       <GeolocationStartButton
         onClick={() => {
           console.log('starting location watch...');
-          this.context.executeAction(startLocationWatch);
-
-          this.navigate(
+          // this.context.executeAction(startLocationWatch);
+          this.context.executeAction(addMessage, geolocationMessages['failed']);
+           /* this.navigate(
             getPathWithEndpointObjects(
               { gps: true, ready: false },
               this.props.destination,
@@ -61,7 +63,7 @@ class DTAutosuggestPanel extends React.Component {
               this.props.destination,
             ),
           );
-
+          */
           this.context.executeAction(setUseCurrent, {
             target: 'origin',
           });
