@@ -37,7 +37,7 @@ class MessageBar extends Component {
         key={el.id}
         id={el.id}
         onMaximize={this.maximize}
-        content={el.content[this.props.lang]}
+        content={el.content[this.props.lang] || el.content.fi}
       />
     ));
 
