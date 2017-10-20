@@ -67,7 +67,7 @@ class DTAutosuggest extends React.Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.value !== this.state.value && !this.editing) {
       this.setState({
-       ...this.state,
+        ...this.state,
         value: nextProps.value,
       });
     }
@@ -82,7 +82,6 @@ class DTAutosuggest extends React.Component {
     });
   };
 
-
   onBlur = () => {
     this.editing = false;
   };
@@ -92,12 +91,12 @@ class DTAutosuggest extends React.Component {
 
     this.setState({
       ...this.state,
-      value: ref.suggestionValue
+      value: ref.suggestionValue,
     });
     this.props.selectedFunction(e, ref);
   };
 
- onSuggestionsClearRequested = () => {
+  onSuggestionsClearRequested = () => {
     this.setState({
       ...this.state,
       suggestions: [],
