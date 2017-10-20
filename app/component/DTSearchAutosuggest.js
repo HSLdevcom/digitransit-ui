@@ -41,6 +41,7 @@ class DTAutosuggest extends React.Component {
     className: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     renderPostInput: PropTypes.node,
+    isFocused: PropTypes.func,
   };
 
   static defaultProps = {
@@ -70,6 +71,14 @@ class DTAutosuggest extends React.Component {
     this.setState({
       value: newValue,
     });
+  };
+
+  onFocus = () => {
+    this.props.isFocused(true);
+  };
+
+  onBlur = () => {
+    this.props.isFocused(false);
   };
 
   onSuggestionsClearRequested = () => {
@@ -128,6 +137,8 @@ class DTAutosuggest extends React.Component {
       }),
       value,
       onChange: this.onChange,
+      onBlur: this.onBlur,
+      onFocus: this.onFocus,
       autoFocus: this.props.autoFocus,
       className: `react-autosuggest__input ${this.props.className}`,
     };

@@ -28,6 +28,13 @@ class DTAutosuggestPanel extends React.Component {
     destination: dtLocationShape.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      hideDarkOverlay: false,
+    };
+  }
+
   navigate = (url, replace) => {
     if (replace) {
       this.context.router.replace(url);
@@ -71,6 +78,10 @@ class DTAutosuggestPanel extends React.Component {
       />
     ) : null;
 
+  isFocused = val => {
+    this.setState({ hideDarkOverlay: val });
+  };
+
   render = () => (
     <div
       className={cx([
@@ -80,12 +91,21 @@ class DTAutosuggestPanel extends React.Component {
         },
       ])}
     >
+      <div
+        className={cx([
+          'dark-overlay',
+          {
+            hidden: !this.state.hideDarkOverlay,
+          },
+        ])}
+      />
       <DTEndpointAutosuggest
         id="origin"
         className={this.class(this.props.origin)}
         searchType="all"
         placeholder="give-origin"
         value={this.value(this.props.origin)}
+        isFocused={this.isFocused}
         onLocationSelected={location => {
           if (location.type === 'CurrentLocation') {
             if (this.props.destination.gps === true) {
@@ -118,6 +138,7 @@ class DTAutosuggestPanel extends React.Component {
           searchType="endpoint"
           placeholder="give-destination"
           className="destination"
+          isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
             if (location.type === 'CurrentLocation') {

@@ -401,10 +401,10 @@ ul.react-autowhatever__items-list {
 
 .react-autosuggest__suggestion .icon {
   margin-right: 4px;
-  fill: $search-result-icon-color;
+  fill: #cbcbcb;
 }
 .autosuggestIcon {
-  color: $light-gray;
+  color: #cbcbcb;
   padding: 0 0.6em;
   font-size: $font-size-normal;
 
@@ -511,6 +511,9 @@ ul.react-autowhatever__items-list {
       text-transform: uppercase;
       font-size: $font-size-xxxsmall;
     }
+    a > span > svg {
+      fill: $link-color;
+    }
   }
 }
 
@@ -529,7 +532,7 @@ ul.react-autowhatever__items-list {
 
   .autosuggestIcon {
     font-size: $font-size-normal;
-    color: $light-gray;
+    color: #cbcbcb;
   }
 
   .suggestion-name, .use-own-position {
@@ -719,6 +722,27 @@ div.autosuggest-panel {
     margin-left: 0;
   }
 
+  .dark-overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.57);
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .react-autosuggest__container {
+    position: absolute;
+    width: 96.3%;
+    top: 1.5em;
+    &:last-child {
+      top: 5em;
+    }
+  }
+
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
     position: fixed;
@@ -750,14 +774,18 @@ div.autosuggest-panel {
 .autosuggest-panel.small {
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
-      width: 95%;
       height: 100%;
+      position: relative;
+      width: 100%;
+      margin-top: -10px;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
-      width: 95%;
       height: 100%;
+      position: relative;
+      width: 100%;
+      margin-top: -10px;
     }
   }
 }
