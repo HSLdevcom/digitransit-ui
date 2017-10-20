@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { routerShape } from 'react-router';
 import DTSearchAutosuggest from './DTSearchAutosuggest';
 import { saveSearch } from '../action/SearchActions';
+import { dtLocationShape } from '../util/shapes';
 
 class DTOldSearchSavingAutosuggest extends React.Component {
   static contextTypes = {
@@ -22,6 +23,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     id: PropTypes.string.isRequired,
     renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
+    refPoint: dtLocationShape.isRequired,
   };
 
   static defaultProps = {
@@ -62,6 +64,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       id={this.props.id}
       className={this.props.className}
       renderPostInput={this.props.renderPostInput}
+      refPoint={this.props.refPoint}
     />
   );
 }

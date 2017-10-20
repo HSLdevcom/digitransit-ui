@@ -5,6 +5,7 @@ import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
+import { dtLocationShape } from '../util/shapes';
 
 function getSuggestionValue(suggestion) {
   const value = getLabel(suggestion.properties, true);
@@ -42,6 +43,7 @@ class DTAutosuggest extends React.Component {
     id: PropTypes.string.isRequired,
     renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
+    refPoint: dtLocationShape.isRequired,
   };
 
   static defaultProps = {
@@ -90,6 +92,7 @@ class DTAutosuggest extends React.Component {
   fetchFunction = ({ value }) => {
     executeSearch(
       this.context.getStore,
+      this.props.refPoint,
       {
         input: value,
         type: this.props.searchType,

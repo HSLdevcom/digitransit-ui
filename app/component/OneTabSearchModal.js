@@ -5,11 +5,15 @@ import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
 import SearchInputContainer from './SearchInputContainer';
-import { setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
-import { getPathWithEndpoints } from '../util/path';
+import {
+  parseLocation,
+  getPathWithEndpoints,
+  getPathWithEndpointObjects,
+} from '../util/path';
 import { locationToOTP } from '../util/otpStrings';
+import { dtLocationShape } from '../util/shapes';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
@@ -22,6 +26,7 @@ class OneTabSearchModal extends React.Component {
 
   static propTypes = {
     customOnSuggestionSelected: PropTypes.func,
+    refPoint: dtLocationShape.isRequired,
     customTabLabel: PropTypes.string,
     target: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     layers: PropTypes.array,
@@ -35,24 +40,19 @@ class OneTabSearchModal extends React.Component {
   }
 
   onSuggestionSelected = (name, item) => {
-    const newLocation = {
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        oneTabSearchModalOpen: false,
-      },
-    };
+    let [, , origin, destination] = this.context.location.pathname.split('/');
 
-    // TODO should not be here anymore:
     if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, {
-        target: this.props.target,
-        router: this.context.router,
-        location: newLocation,
-      });
+      if (this.props.target === 'destination') {
+        destination = item;
+        origin = parseLocation(origin);
+      } else {
+        origin = item;
+        destination = parseLocation(destination);
+      }
+      const url = `${getPathWithEndpointObjects(origin, destination)}`;
+      this.context.router.replace(url);
     } else {
-      let [, , origin, destination] = this.context.location.pathname.split('/');
-
       const location = {
         lat: item.geometry.coordinates[1],
         lon: item.geometry.coordinates[0],
@@ -119,6 +119,7 @@ class OneTabSearchModal extends React.Component {
                 ref={c => {
                   this.searchInputContainer = c;
                 }}
+                refPoint={this.props.refPoint}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

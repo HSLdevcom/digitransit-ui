@@ -10,7 +10,6 @@ import {
 } from '../util/path';
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
-import { setUseCurrent } from '../action/EndpointActions';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -70,10 +69,6 @@ class DTAutosuggestPanel extends React.Component {
               this.props.destination,
             ),
           );
-
-          this.context.executeAction(setUseCurrent, {
-            target: 'origin',
-          });
         }}
       />
     ) : null;
@@ -101,6 +96,7 @@ class DTAutosuggestPanel extends React.Component {
       />
       <DTEndpointAutosuggest
         id="origin"
+        refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
         placeholder="give-origin"
@@ -109,19 +105,25 @@ class DTAutosuggestPanel extends React.Component {
         onLocationSelected={location => {
           if (location.type === 'CurrentLocation') {
             if (this.props.destination.gps === true) {
+              // destination has gps, clear destination
               this.navigate(
                 getPathWithEndpointObjects(
-                  { gps: true, ready: false },
+                  { gps: true, ready: true },
                   { set: false },
                 ),
                 !isItinerarySearchObjects(
-                  { gps: true, ready: false },
+                  { gps: true, ready: true },
                   { set: false },
                 ),
               );
               return;
             }
-            console.log('TODO!!');
+            this.navigate(
+              getPathWithEndpointObjects(
+                { gps: true, ready: true },
+                this.props.destination,
+              ),
+            );
             return;
           }
           this.navigate(
@@ -135,6 +137,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
+          refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
           className="destination"
@@ -143,19 +146,25 @@ class DTAutosuggestPanel extends React.Component {
           onLocationSelected={location => {
             if (location.type === 'CurrentLocation') {
               if (this.props.origin.gps === true) {
+                // origin has current location set, clear origin
                 this.navigate(
                   getPathWithEndpointObjects(
                     { set: false },
-                    { gps: true, ready: false },
+                    { gps: true, ready: true },
                   ),
                   !isItinerarySearchObjects(
                     { set: false },
-                    { gps: true, ready: false },
+                    { gps: true, ready: true },
                   ),
                 );
                 return;
               }
-              console.log('TODO!!');
+              this.navigate(
+                getPathWithEndpointObjects(this.props.origin, {
+                  gps: true,
+                  ready: true,
+                }),
+              );
               return;
             }
             this.navigate(
