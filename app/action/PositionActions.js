@@ -1,9 +1,12 @@
 import debounce from 'lodash/debounce';
 import inside from 'point-in-polygon';
+import d from 'debug';
 import { getJson } from '../util/xhrPromise';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { createMock } from './MockActions';
 import geolocationMessages from '../util/geolocationMessages';
+
+const debug = d('PositionActions.js');
 
 let geoWatchId;
 
@@ -211,35 +214,55 @@ export function startLocationWatch(actionContext, payload, done) {
     done();
   }
 }
+let init = false;
 
 export function initGeolocation(actionContext, payload, done) {
+  if (init === true) {
+    debug('Already initialized, bailing out');
+    return;
+  }
+  init = true;
+  let start = false;
+  debug('Initializing');
+
   if (location.search.includes('mock')) {
+    debug('Mock not activated');
     actionContext.executeAction(createMock, null, done);
   } else if (!navigator.geolocation) {
+    debug('Geolocation is not supported');
     actionContext.dispatch('GeolocationNotSupported');
     updateGeolocationMessage(actionContext, 'failed');
-    done();
   } else if (navigator.permissions !== undefined) {
+    debug('No permission api available');
     // Check if we have previous permissions to get geolocation.
     // If yes, start immediately, if not, we will not prompt for permission at this point.
     navigator.permissions.query({ name: 'geolocation' }).then(result => {
       if (result.state === 'granted') {
-        startPositioning(actionContext, done);
+        debug('Permission granted, starting positioning');
+        start = true;
         updateGeolocationMessage(actionContext);
       } else if (result.state === 'denied') {
+        debug('Permission denied.');
         // for ff with permisson api display error immediately instead of timeout error
         actionContext.dispatch('GeolocationDenied');
         updateGeolocationMessage(actionContext, 'denied');
-        done();
       } else {
+        start = true; // TODO
+        debug('Unprocessed result', result);
+      }
+      if (start === true) {
+        debug('Starting positioning');
+        startPositioning(actionContext, done);
+      } else {
+        debug('Not starting positioning');
         done();
       }
     });
   } else if (getPositioningHasSucceeded(true)) {
-    // browser does not support permission api
-    // Only check for Mobile IE
+    debug('Starting positioning');
     startPositioning(actionContext, done);
   } else {
+    debug('Not starting positioning');
     done();
   }
 }
