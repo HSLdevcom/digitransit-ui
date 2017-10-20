@@ -3,23 +3,30 @@ import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-
+import { routerShape } from 'react-router';
 import SearchInputContainer from './SearchInputContainer';
-import { setEndpoint, setUseCurrent } from '../action/EndpointActions';
 import SearchModal from './SearchModal';
 import SearchModalLarge from './SearchModalLarge';
+import {
+  parseLocation,
+  getPathWithEndpoints,
+  getPathWithEndpointObjects,
+} from '../util/path';
+import { locationToOTP } from '../util/otpStrings';
+import { dtLocationShape } from '../util/shapes';
 
 class OneTabSearchModal extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: PropTypes.object,
+    router: routerShape,
     location: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
   };
 
   static propTypes = {
     customOnSuggestionSelected: PropTypes.func,
+    refPoint: dtLocationShape.isRequired,
     customTabLabel: PropTypes.string,
     target: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     layers: PropTypes.array,
@@ -33,33 +40,33 @@ class OneTabSearchModal extends React.Component {
   }
 
   onSuggestionSelected = (name, item) => {
-    const newLocation = {
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        oneTabSearchModalOpen: false,
-      },
-    };
+    let [, , origin, destination] = this.context.location.pathname.split('/');
 
     if (item.type === 'CurrentLocation') {
-      this.context.executeAction(setUseCurrent, {
-        target: this.props.target,
-        router: this.context.router,
-        location: newLocation,
-      });
+      if (this.props.target === 'destination') {
+        destination = item;
+        origin = parseLocation(origin);
+      } else {
+        origin = item;
+        destination = parseLocation(destination);
+      }
+      const url = `${getPathWithEndpointObjects(origin, destination)}`;
+      this.context.router.replace(url);
     } else {
-      this.context.executeAction(setEndpoint, {
-        target: this.props.target,
-        endpoint: {
-          lat: item.geometry.coordinates[1],
-          lon: item.geometry.coordinates[0],
-          address: name,
-        },
-        router: this.context.router,
-        location: newLocation,
-      });
+      const location = {
+        lat: item.geometry.coordinates[1],
+        lon: item.geometry.coordinates[0],
+        address: name,
+      };
+
+      if (this.props.target === 'destination') {
+        destination = locationToOTP(location);
+      } else {
+        origin = locationToOTP(location);
+      }
+      const url = `${getPathWithEndpoints(origin, destination)}`;
+      this.context.router.replace(url);
     }
-    this.context.router.goBack();
   };
 
   modalIsOpen = () =>
@@ -112,6 +119,7 @@ class OneTabSearchModal extends React.Component {
                 ref={c => {
                   this.searchInputContainer = c;
                 }}
+                refPoint={this.props.refPoint}
                 placeholder={placeholder}
                 type="endpoint"
                 layers={this.props.layers}

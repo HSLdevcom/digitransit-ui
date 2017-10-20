@@ -30,42 +30,50 @@ const DepartureRow = props => {
         ${departureTime.realtimeDeparture}`;
 
       return (
-        <DepartureTime
-          key={key}
-          departureTime={
-            departureTime.serviceDay + departureTime.realtimeDeparture
-          }
-          realtime={departureTime.realtime}
-          currentTime={props.currentTime}
-          canceled={canceled}
-        />
+        <td key={`${key}-td`} className="td-departure-times">
+          <DepartureTime
+            key={key}
+            departureTime={
+              departureTime.serviceDay + departureTime.realtimeDeparture
+            }
+            realtime={departureTime.realtime}
+            currentTime={props.currentTime}
+            canceled={canceled}
+          />
+        </td>
       );
     });
   }
 
   return (
-    <div className="next-departure-row padding-vertical-normal border-bottom">
-      <Link
-        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
-          .pattern.code}`}
-        key={departure.pattern.code}
-      >
-        <Distance distance={props.distance} />
-        <RouteNumberContainer
-          route={departure.pattern.route}
-          hasDisruption={hasActiveDisruption(
-            props.currentTime,
-            departure.pattern.route.alerts,
-          )}
-          isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
-        />
-        <RouteDestination
-          mode={departure.pattern.route.mode}
-          destination={headsign || departure.pattern.route.longName}
-        />
+    <Link
+      to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern
+        .code}`}
+      key={departure.pattern.code}
+    >
+      <tr className="next-departure-row-tr">
+        <td className="td-distance">
+          <Distance distance={props.distance} />
+        </td>
+        <td className="td-route-number overflow-fade">
+          <RouteNumberContainer
+            route={departure.pattern.route}
+            hasDisruption={hasActiveDisruption(
+              props.currentTime,
+              departure.pattern.route.alerts,
+            )}
+            isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
+          />
+        </td>
+        <td className="td-destination">
+          <RouteDestination
+            mode={departure.pattern.route.mode}
+            destination={headsign || departure.pattern.route.longName}
+          />
+        </td>
         {departureTimes}
-      </Link>
-    </div>
+      </tr>
+    </Link>
   );
 };
 

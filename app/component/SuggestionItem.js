@@ -7,7 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 
 import Icon from './Icon';
-import { getLabel, getIcon, isStop, getGTFSId } from '../util/suggestionUtils';
+import {
+  getNameLabel,
+  getIcon,
+  isStop,
+  getGTFSId,
+} from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
@@ -29,7 +34,7 @@ const SuggestionItem = pure(
       );
     }
 
-    const label = getLabel(item.properties, false);
+    const [name, label] = getNameLabel(item.properties, false);
 
     const ri = (
       <div
@@ -39,8 +44,8 @@ const SuggestionItem = pure(
       >
         <span className="autosuggestIcon">{icon}</span>
         <div>
-          <p className="suggestion-name">{label[0]}</p>
-          <p className="suggestion-label">{label[1]}</p>
+          <p className="suggestion-name">{name}</p>
+          <p className="suggestion-label">{label}</p>
         </div>
       </div>
     );

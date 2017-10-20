@@ -6,7 +6,6 @@ import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
-
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
@@ -92,11 +91,14 @@ function filterMatchingToInput(list, Input, fields) {
   return list;
 }
 
-function getCurrentPositionIfEmpty(input) {
+function getCurrentPositionIfEmpty(input, position) {
   if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([
       {
         type: 'CurrentLocation',
+        address: position.address,
+        lat: position.lat,
+        lon: position.lon,
         properties: { labelId: 'own-position', layer: 'currentPosition' },
       },
     ]);
@@ -311,6 +313,7 @@ export const getAllEndpointLayers = () => [
 
 export function executeSearchImmediate(
   getStore,
+  refPoint,
   { input, type, layers, config },
   callback,
 ) {
@@ -330,8 +333,11 @@ export function executeSearchImmediate(
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
-    if (endpointLayers.includes('CurrentPosition') && position.hasLocation) {
-      searchComponents.push(getCurrentPositionIfEmpty(input));
+    if (
+      endpointLayers.includes('CurrentPosition') &&
+      position.status === 'found-address'
+    ) {
+      searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }
     if (endpointLayers.includes('FavouritePlace')) {
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
@@ -436,14 +442,13 @@ export function executeSearchImmediate(
 
   if (type === 'search' || type === 'all') {
     searchSearches = { type: 'search', term: input, results: [] };
-    const origin = getStore('EndpointStore').getOrigin();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
     const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
-      getFavouriteStops(favouriteStops, input, origin),
+      getFavouriteStops(favouriteStops, input, refPoint),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
     ])
@@ -469,11 +474,13 @@ export function executeSearchImmediate(
   );
 }
 
-const debouncedSearch = debounce(executeSearchImmediate, 300);
+const debouncedSearch = debounce(executeSearchImmediate, 300, {
+  leading: true,
+});
 
-export const executeSearch = (getStore, data, callback) => {
+export const executeSearch = (getStore, refPoint, data, callback) => {
   callback(null); // This means 'we are searching'
-  debouncedSearch(getStore, data, callback);
+  debouncedSearch(getStore, refPoint, data, callback);
 };
 
 export const withCurrentTime = (getStore, location) => {

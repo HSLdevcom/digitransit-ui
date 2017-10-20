@@ -45,20 +45,13 @@ const getNextDepartures = (routes, lat, lon) => {
 const FavouriteRouteListContainer = connectToStores(
   NextDeparturesList,
   ['TimeStore'],
-  (context, { routes }) => {
-    const PositionStore = context.getStore('PositionStore');
-    const position = PositionStore.getLocationState();
-    const origin = context.getStore('EndpointStore').getOrigin();
-    const location = origin.useCurrentPosition ? position : origin;
-
-    return {
-      currentTime: context
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .unix(),
-      departures: getNextDepartures(routes, location.lat, location.lon),
-    };
-  },
+  (context, { routes, origin }) => ({
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+    departures: getNextDepartures(routes, origin.lat, origin.lon),
+  }),
 );
 
 // TODO: Add filtering in stoptimesForPatterns for route gtfsId

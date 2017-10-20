@@ -1,44 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { routerShape } from 'react-router';
 import cx from 'classnames';
 import without from 'lodash/without';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-
-import {
-  storeEndpointIfNotCurrent,
-  swapEndpoints,
-} from '../action/EndpointActions';
+import { dtLocationShape } from '../util/shapes';
+import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
 
-class OriginDestinationBar extends React.Component {
+export default class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: PropTypes.object,
-    destination: PropTypes.object,
-    originIsCurrent: PropTypes.bool,
-    destinationIsCurrent: PropTypes.bool,
+    origin: dtLocationShape,
+    destination: dtLocationShape,
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
   };
-
-  componentWillMount() {
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'origin',
-      endpoint: this.props.origin,
-    });
-    this.context.executeAction(storeEndpointIfNotCurrent, {
-      target: 'destination',
-      endpoint: this.props.destination,
-    });
-  }
 
   getSearchModalState = () => {
     if (
@@ -51,10 +34,10 @@ class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    this.context.executeAction(swapEndpoints, {
-      router: this.context.router,
-      location: this.context.location,
-    });
+    const destinationString = locationToOTP(this.props.origin);
+    const originString = locationToOTP(this.props.destination);
+
+    this.context.router.replace(`/reitti/${originString}/${destinationString}`);
   };
 
   openSearchModal = tab => {
@@ -76,7 +59,7 @@ class OriginDestinationBar extends React.Component {
 
     let searchLayers = getAllEndpointLayers();
     // don't offer current pos if it is already used as a route end point
-    if (this.props.originIsCurrent || this.props.destinationIsCurrent) {
+    if (this.props.origin.gps || this.props.destination.gps) {
       searchLayers = without(searchLayers, 'CurrentPosition');
     }
 
@@ -109,9 +92,7 @@ class OriginDestinationBar extends React.Component {
               className="itinerary-icon from"
             />
             <span className="link-name">
-              {this.props.originIsCurrent
-                ? ownPosition
-                : this.props.origin.address}
+              {this.props.origin.gps ? ownPosition : this.props.origin.address}
             </span>
           </div>
         </button>
@@ -132,25 +113,19 @@ class OriginDestinationBar extends React.Component {
               className="itinerary-icon to"
             />
             <span className="link-name">
-              {this.props.destinationIsCurrent
+              {this.props.destination.gps
                 ? ownPosition
                 : this.props.destination.address}
             </span>
           </div>
         </button>
-        <OneTabSearchModal layers={searchLayers} target={tab} responsive />
+        <OneTabSearchModal
+          refPoint={this.props.origin}
+          layers={searchLayers}
+          target={tab}
+          responsive
+        />
       </div>
     );
   }
 }
-
-export default connectToStores(
-  OriginDestinationBar,
-  ['EndpointStore'],
-  context => ({
-    originIsCurrent: context.getStore('EndpointStore').getOrigin()
-      .useCurrentPosition,
-    destinationIsCurrent: context.getStore('EndpointStore').getDestination()
-      .useCurrentPosition,
-  }),
-);

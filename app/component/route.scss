@@ -638,6 +638,9 @@ div.route-tabs {
     }
   }
 }
+.fpccontainer > div > div > div.spinner-loader {
+  top: 15%;
+}
 
 .mode-nearby {
     &.btn {
