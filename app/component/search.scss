@@ -718,8 +718,14 @@ div.autosuggest-panel {
   width: 53%;
   margin-left: 7%;
   &.small {
-    width: 100%;
+    width: 96%;
     margin-left: 0;
+    .react-autosuggest__container {
+      width: 97%;
+      position: relative;
+      margin: 0 auto;
+      margin-left: 1em;
+    }
   }
 
   .dark-overlay {
@@ -735,12 +741,7 @@ div.autosuggest-panel {
   }
 
   .react-autosuggest__container {
-    position: absolute;
-    width: 96.3%;
-    top: 1.5em;
-    &:last-child {
-      top: 5em;
-    }
+    width: 100%;
   }
 
   #react-autowhatever-origin {
@@ -772,20 +773,27 @@ div.autosuggest-panel {
 }
 
 .autosuggest-panel.small {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0.5em;
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
       height: 100%;
-      position: relative;
+      position: absolute;
       width: 100%;
-      margin-top: -10px;
+      margin-top: -11px;
+      display: table;
+      overflow-y: visible;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
       height: 100%;
-      position: relative;
+      position: absolute;
       width: 100%;
-      margin-top: -10px;
+      margin-top: -11px;
+      display: table;
+      overflow-y: visible;
     }
   }
 }
