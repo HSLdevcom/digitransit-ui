@@ -73,6 +73,7 @@ class DTAutosuggest extends React.Component {
     this.setState({
       value: newValue,
     });
+    this.props.isFocused(false);
   };
 
   onFocus = () => {
