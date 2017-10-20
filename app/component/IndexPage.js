@@ -3,13 +3,15 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { initGeolocation } from '../action/PositionActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
-import { startLocationWatch } from '../action/PositionActions';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
+import { getPositioningHasSucceeded } from '../store/localStorage';
+import { isBrowser } from '../util/browser';
 import {
   getEndpointPath,
   parseLocation,
@@ -40,7 +42,6 @@ const messageBar = (
 
 class IndexPage extends React.Component {
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     location: locationShape.isRequired,
     router: routerShape.isRequired,
     piwik: PropTypes.object,
@@ -53,21 +54,17 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
-    locationState: PropTypes.object,
   };
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    if (props.locationState.status === 'no-location') {
-      context.executeAction(startLocationWatch);
-    }
-
     this.state = {
       panelExpanded: false, // Show right-now as default
     };
   }
 
   componentDidMount() {
+    // TODO move this to wrapping component
     const search = this.context.location.search;
 
     if (search && search.indexOf('citybikes') >= -1) {
@@ -119,6 +116,11 @@ class IndexPage extends React.Component {
 
       const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
       this.context.router.replace(url);
+      return;
+    }
+
+    if (this.props.params.origin === nextProps.params.origin) {
+      // noop, we're there already
     }
   };
 
@@ -322,7 +324,7 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const newProps = { locationState };
+    const newProps = {};
 
     if (props.params.tab) {
       newProps.tab = props.params.tab;
@@ -366,17 +368,35 @@ const IndexPageWithPosition = connectToStores(
       newProps.destination = { set: false };
     }
 
-    // automatically use current pos
-    if (newProps.destination.set === false && newProps.origin.set === false) {
+    // if we have record of succesfull positioning let's init geolocating
+    if (
+      locationState.status === 'no-location' &&
+      (getPositioningHasSucceeded() === true ||
+        newProps.destination.gps === true ||
+        newProps.origin.gps === true)
+    ) {
+      if (isBrowser) {
+        context.executeAction(initGeolocation);
+      }
+    }
+
+    // automatically use current pos when coming to front page and no
+    // origin/destination is set
+    if (
+      getPositioningHasSucceeded() === true &&
+      newProps.destination.set === false &&
+      newProps.origin.set === false
+    ) {
       if (locationState.status === 'searching-location') {
         context.router.replace('/POS/-/lahellasi');
       }
     }
-
     return newProps;
   },
 );
 
 IndexPageWithPosition.contextTypes.router = routerShape.isRequired;
+IndexPageWithPosition.contextTypes.executeAction = PropTypes.func.isRequired;
+IndexPageWithPosition.contextTypes.location = locationShape.isRequired;
 
 export default IndexPageWithPosition;
