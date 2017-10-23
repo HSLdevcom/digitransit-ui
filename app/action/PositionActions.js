@@ -3,7 +3,6 @@ import inside from 'point-in-polygon';
 import d from 'debug';
 import { getJson } from '../util/xhrPromise';
 import { getPositioningHasSucceeded } from '../store/localStorage';
-import { createMock } from './MockActions';
 import geolocationMessages from '../util/geolocationMessages';
 
 const debug = d('PositionActions.js');
@@ -136,7 +135,7 @@ function watchPosition(actionContext, done) {
     updateGeolocationMessage(actionContext, 'timeout');
   }, quietTimeoutSeconds * 1000);
   try {
-    geoWatchId = navigator.geolocation.watchPosition(
+    geoWatchId = navigator.geoapi.watchPosition(
       position => {
         if (timeout !== null) {
           clearTimeout(timeout);
@@ -225,15 +224,17 @@ export function initGeolocation(actionContext, payload, done) {
   let start = false;
   debug('Initializing');
 
-  if (location.search.includes('mock')) {
-    debug('Mock not activated');
-    actionContext.executeAction(createMock, null, done);
-  } else if (!navigator.geolocation) {
+  if (window.mock !== undefined) {
+    debug('Geolocation mock is enabled', window.mock);
+    start = true;
+  }
+
+  if (!navigator.geoapi) {
     debug('Geolocation is not supported');
     actionContext.dispatch('GeolocationNotSupported');
     updateGeolocationMessage(actionContext, 'failed');
-  } else if (navigator.permissions !== undefined) {
-    debug('No permission api available');
+  } else if (window.mock === undefined && navigator.permissions !== undefined) {
+    debug('Permission api available');
     // Check if we have previous permissions to get geolocation.
     // If yes, start immediately, if not, we will not prompt for permission at this point.
     navigator.permissions.query({ name: 'geolocation' }).then(result => {
@@ -258,7 +259,7 @@ export function initGeolocation(actionContext, payload, done) {
         done();
       }
     });
-  } else if (getPositioningHasSucceeded(true)) {
+  } else if (start || getPositioningHasSucceeded(true)) {
     debug('Starting positioning');
     startPositioning(actionContext, done);
   } else {
