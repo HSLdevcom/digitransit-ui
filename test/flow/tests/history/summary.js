@@ -34,8 +34,6 @@ module.exports = {
   // works only on desktop:
   'Itinerary selection changes do not accumulate into history': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const searchFields = browser.page.searchFields();
     searchFields.itinerarySearch('Elielinaukio', 'Opastinsilta 6');
