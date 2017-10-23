@@ -12,6 +12,8 @@ button.geolocation-start-button {
   margin-bottom: 0px;
   > span {
     @include font-medium;
+    font-size: $font-size-xsmall;
+    line-height: 1;
   }
   .geolocation-start-button-icon{
     color: $hilight-color;
