@@ -89,11 +89,8 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-    this.props.isFocused(false);
-  };
-
-  onBlur = () => {
     this.editing = false;
+    this.props.isFocused(false);
   };
 
   onSelected = (e, ref) => {
