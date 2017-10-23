@@ -45,6 +45,12 @@ class DTEndpointAutosuggest extends React.Component {
       return;
     }
 
+    // route
+    if (item.properties.link) {
+      this.context.router.push(item.properties.link);
+      return;
+    }
+
     const location = {
       address: name,
       type: item.type,
