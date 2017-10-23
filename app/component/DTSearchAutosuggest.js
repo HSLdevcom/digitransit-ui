@@ -61,16 +61,24 @@ class DTAutosuggest extends React.Component {
       value: props.value,
       suggestions: [],
     };
+
+    this.editing = false;
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.value !== this.state.value) {
-      this.setState({ value: nextProps.value });
+    if (nextProps.value !== this.state.value && !this.editing) {
+      this.setState({
+        ...this.state,
+        value: nextProps.value,
+      });
     }
   };
 
-  onChange = (event, { newValue }) => {
+  onChange = (event, { newValue, method }) => {
+    this.editing = method === 'type';
+
     this.setState({
+      ...this.state,
       value: newValue,
     });
     this.props.isFocused(false);
@@ -84,8 +92,23 @@ class DTAutosuggest extends React.Component {
     this.props.isFocused(false);
   };
 
+  onBlur = () => {
+    this.editing = false;
+  };
+
+  onSelected = (e, ref) => {
+    this.editing = false;
+
+    this.setState({
+      ...this.state,
+      value: ref.suggestionValue,
+    });
+    this.props.selectedFunction(e, ref);
+  };
+
   onSuggestionsClearRequested = () => {
     this.setState({
+      ...this.state,
       suggestions: [],
     });
   };
@@ -125,6 +148,7 @@ class DTAutosuggest extends React.Component {
           return suggestion;
         });
         this.setState({
+          ...this.state,
           suggestions,
         });
       },
@@ -163,7 +187,7 @@ class DTAutosuggest extends React.Component {
             {this.props.renderPostInput}
           </div>
         )}
-        onSuggestionSelected={this.props.selectedFunction}
+        onSuggestionSelected={this.onSelected}
         highlightFirstSuggestion
       />
     );
