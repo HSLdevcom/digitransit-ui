@@ -158,7 +158,7 @@ class DTAutosuggest extends React.Component {
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
         id: this.props.placeholder,
-        defaultMessage: 'TODO',
+        defaultMessage: '',
       }),
       value,
       onChange: this.onChange,
@@ -180,7 +180,7 @@ class DTAutosuggest extends React.Component {
         inputProps={inputProps}
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
-            <input {...p} />
+            <input id={this.props.id} {...p} />
             {this.props.renderPostInput}
           </div>
         )}

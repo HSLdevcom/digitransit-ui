@@ -31,6 +31,7 @@ module.exports = {
     browser.end();
   },
 
+  // works only on desktop:
   'Itinerary selection changes do not accumulate into history': browser => {
     browser.url(browser.launch_url);
     const splash = browser.page.splash();

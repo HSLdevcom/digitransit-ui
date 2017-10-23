@@ -2,7 +2,8 @@ module.exports = {
   tags: ['favourite'],
   'Add route 615 as favourite': browser => {
     browser.url(browser.launch_url);
-    browser.page.searchFields().setSearch('615');
+
+    browser.page.searchFields().selectFirstRouteSuggestion('615');
 
     const route = browser.page.route();
     route.addRouteAsFavourite();
