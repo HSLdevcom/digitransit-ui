@@ -6,6 +6,7 @@ import { executeSearch } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
+import Icon from './Icon';
 
 function getSuggestionValue(suggestion) {
   const value = getLabel(suggestion.properties, true);
@@ -103,6 +104,18 @@ class DTAutosuggest extends React.Component {
     });
   };
 
+  clearInput = () => {
+    this.editing = true;
+    this.setState({
+      ...this.state,
+      value: '',
+    });
+    if (this.input) {
+      this.input.focus();
+    }
+    this.fetchFunction(''); // To update suggestion list
+  };
+
   fetchFunction = ({ value }) => {
     executeSearch(
       this.context.getStore,
@@ -145,6 +158,19 @@ class DTAutosuggest extends React.Component {
     );
   };
 
+  clearButton = () =>
+    (this.state.value && !this.editing) ? (
+      <button className="noborder clear-input" onClick={this.clearInput}>
+        <Icon img="icon-icon_close" />
+      </button>
+    ) : null;
+
+  storeInputReference = autosuggest => {
+    if (autosuggest !== null) {
+      this.input = autosuggest.input;
+    }
+  };
+
   render = () => {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -173,10 +199,12 @@ class DTAutosuggest extends React.Component {
           <div style={{ position: 'relative', display: 'flex' }}>
             <input {...p} />
             {this.props.renderPostInput}
+            {this.clearButton()}
           </div>
         )}
         onSuggestionSelected={this.onSelected}
-        highlightFirstSuggestion
+      highlightFirstSuggestion
+      ref={this.storeInputReference}
       />
     );
   };
