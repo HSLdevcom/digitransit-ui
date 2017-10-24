@@ -19,3 +19,10 @@ docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 $ORG/digitransit-ui:ci-$TRAVI
 wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+    echo "Uploading flow failure images to https://www.dropbox.com/sh/emh3x8h38egy2k1/AAAq_eLYDxJ0AJAwFffoZqH9a?dl=0"
+    tar czf flow-test-images-$TRAVIS_COMMIT.tar.gz test_output
+    ./test/dropbox_uploader.sh upload flow-test-images-$TRAVIS_COMMIT.tar.gz /flow-test-images-$TRAVIS_COMMIT.tar.gz
+fi
+exit $RESULT
