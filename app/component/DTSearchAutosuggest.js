@@ -153,7 +153,6 @@ class DTAutosuggest extends React.Component {
   };
 
   render = () => {
-    console.log(this.props.className);
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
