@@ -251,7 +251,8 @@ class IndexPage extends React.Component {
         </MapWithTracking>
         {this.props.origin &&
           this.props.origin.gps === true &&
-          this.props.origin.ready === false && <OverlayWithSpinner />}
+          this.props.origin.ready === false &&
+          this.props.origin.gpsError === false && <OverlayWithSpinner />}
         <div id="page-footer-container">
           <PageFooter
             content={
