@@ -11,7 +11,6 @@ function setOrigin(origin) {
 
 function useCurrentLocationInOrigin() {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.api.checkedClick(this.elements.origin.selector);
   this.waitForElementVisible('@searchOrigin', timeout);
   this.isVisible('@geolocationSelected', result => {
@@ -41,10 +40,6 @@ function enterKeyOrigin() {
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
 }
 
-function openSearch() {
-  this.waitForElementVisible('@origin', this.api.globals.elementVisibleTimeout);
-}
-
 function waitSearchClosing() {
   this.waitForElementNotPresent(
     '@origin',
@@ -54,8 +49,6 @@ function waitSearchClosing() {
 
 function setDestination(destination) {
   this.api.debug('setting destination');
-  this.openSearch();
-  this.checkedClick(this.elements.destination.selector);
   this.waitForElementVisible(
     '@searchDestination',
     this.api.globals.elementVisibleTimeout,
@@ -96,7 +89,6 @@ function itinerarySearch(origin, destination) {
 
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.waitForElementVisible('@searchDestination', timeout);
   this.setValue('@searchDestination', search);
   this.waitForElementVisible('@firstSuggestedDestinationItem', timeout);
@@ -121,7 +113,6 @@ function selectFirstRouteSuggestion(search) {
 }
 function selectTimetableForFirstResult(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.waitForElementVisible('@searchDestination', timeout);
   this.setValue('@searchDestination', search);
   this.waitForElementVisible('@firstSuggestedDestinationItem', timeout);
@@ -155,7 +146,6 @@ module.exports = {
       itinerarySearch,
       setSearch,
       selectTimetableForFirstResult,
-      openSearch,
       waitSearchClosing,
       verifyItemInSearchResult,
       selectFirstRouteSuggestion,
