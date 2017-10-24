@@ -60,13 +60,14 @@ class DTAutosuggest extends React.Component {
     this.state = {
       value: props.value,
       suggestions: [],
+      showSuggestions: false,
     };
 
     this.editing = false;
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.value !== this.state.value && !this.editing) {
+    if (nextProps.value !== this.state.value && !this.editing && false) {
       this.setState({
         ...this.state,
         value: nextProps.value,
@@ -75,16 +76,22 @@ class DTAutosuggest extends React.Component {
   };
 
   onChange = (event, { newValue, method }) => {
+    console.log('onChange', method, newValue);
     this.editing = method === 'type';
 
     this.setState({
       ...this.state,
       value: newValue,
+      showSuggestions: true,
     });
   };
 
   onBlur = () => {
     this.editing = false;
+    this.setState({
+      ...this.state,
+//      showSuggestions: false,
+    });
   };
 
   onSelected = (e, ref) => {
@@ -93,6 +100,7 @@ class DTAutosuggest extends React.Component {
     this.setState({
       ...this.state,
       value: ref.suggestionValue,
+//      showSuggestions: false,
     });
     this.props.selectedFunction(e, ref);
   };
@@ -159,7 +167,7 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () =>
-    (this.state.value && !this.editing) ? (
+    this.state.value && !this.editing ? (
       <button className="noborder clear-input" onClick={this.clearInput}>
         <Icon img="icon-icon_close" />
       </button>
@@ -171,7 +179,17 @@ class DTAutosuggest extends React.Component {
     }
   };
 
+  inputClicked = () => {
+    if(!this.state.showSuggestions) {
+      this.setState({...this.state, showSuggestions: true});
+      if (!this.state.suggestions.length) {
+        this.fetchFunction(this.state.value);
+      }
+    }
+  }
+
   render = () => {
+    console.log('render', this.state.showSuggestions, this.state.value);
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
@@ -195,16 +213,18 @@ class DTAutosuggest extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderItem}
         inputProps={inputProps}
+        focusInputOnSuggestionClick={false}
+//        shouldRenderSuggestions={() => (this.state.showSuggestions) }
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
-            <input {...p} />
+            <input onClick={ this.inputClicked }  {...p} />
             {this.props.renderPostInput}
             {this.clearButton()}
           </div>
         )}
         onSuggestionSelected={this.onSelected}
-      highlightFirstSuggestion
-      ref={this.storeInputReference}
+        highlightFirstSuggestion
+        ref={this.storeInputReference}
       />
     );
   };

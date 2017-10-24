@@ -25,6 +25,8 @@ class DTAutosuggestPanel extends React.Component {
     destination: dtLocationShape.isRequired,
   };
 
+  state = {};
+
   navigate = (url, replace) => {
     if (replace) {
       this.context.router.replace(url);
@@ -68,6 +70,7 @@ class DTAutosuggestPanel extends React.Component {
     <div className="autosuggest-panel">
       <DTEndpointAutosuggest
         id="origin"
+        autoFocus={!this.state.selectionDone}
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
@@ -101,6 +104,10 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(location, this.props.destination),
             !isItinerarySearchObjects(location, this.props.destination),
           );
+          this.setState({
+            ...this.state,
+            selectionDone: true,
+          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -108,6 +115,7 @@ class DTAutosuggestPanel extends React.Component {
       (this.props.origin && this.props.origin.ready) ? (
         <DTEndpointAutosuggest
           id="destination"
+          autoFocus={this.state.selectionDone}
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
