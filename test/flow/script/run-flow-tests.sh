@@ -55,7 +55,5 @@ echo "Done"
 kill -HUP $DRIVER_PID
 
 echo "Exiting with status $TESTSTATUS"
-ps aux
-
 
 exit $TESTSTATUS
