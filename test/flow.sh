@@ -20,6 +20,7 @@ wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
 RESULT=$?
+echo "run-flow-tests.sh status is $RESULT"
 if [ $RESULT -ne 0 ]; then
     echo "Uploading flow failure images to https://www.dropbox.com/sh/emh3x8h38egy2k1/AAAq_eLYDxJ0AJAwFffoZqH9a?dl=0"
     tar czf flow-test-images-$TRAVIS_COMMIT.tar.gz test_output
