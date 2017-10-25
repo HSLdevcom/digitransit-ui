@@ -81,7 +81,6 @@ class DTAutosuggest extends React.Component {
       ...this.state,
       value: newValue,
     });
-    this.props.isFocused(false);
   };
 
   onFocus = () => {
@@ -94,6 +93,7 @@ class DTAutosuggest extends React.Component {
   };
 
   onSelected = (e, ref) => {
+    this.props.isFocused(false);
     this.editing = false;
 
     this.setState({

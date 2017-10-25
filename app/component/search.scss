@@ -381,8 +381,11 @@ ul.react-autowhatever__items-list {
   .react-autosuggest__suggestions-list {
     margin-top: 0;
     margin-bottom: 0;
-    padding-top: 5px;
+    padding-top: 0px;
     padding-left: 0;
+    li:hover {
+      background: #e3e7e9;
+    }
   }
 }
 
@@ -418,7 +421,7 @@ ul.react-autowhatever__items-list {
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-height: 2.5em;
+  min-height: 2em;
   //line-height: 1.2;
   //min-height: 2.5em;
 
@@ -528,7 +531,7 @@ ul.react-autowhatever__items-list {
 
 .bp-large .search-result {
   line-height: 1.25;
-  min-height: 2.5em;
+  min-height: 2em;
 
   .autosuggestIcon {
     font-size: $font-size-normal;
@@ -712,10 +715,8 @@ div.origin-destination-bar {
 div.autosuggest-panel {
   position: relative;
   z-index: 1000;
-  padding-left: 11pt;
-  padding-right: 11pt;
   padding-top: 25pt;
-  width: 53%;
+  width: 52.5%;
   margin-left: 7%;
   &.small {
     width: 96%;
@@ -748,26 +749,32 @@ div.autosuggest-panel {
     &.react-autosuggest__suggestions-container--open {
     position: fixed;
     background: #fff;
-    width: 50.5%;
+    width: 52.5%;
     height: auto;
     max-height: 60%;
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 998;
-    margin-top: -8px;
+    margin-top: -11px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 0 5px #999999;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
     position: fixed;
     background: #fff;
-    width: 50.5%;
+    width: 52.5%;
     height: auto;
     max-height: 60%;
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 996;
-    margin-top: -8px;
+    margin-top: -11px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 0 5px #999999;
     }
   }
 }
