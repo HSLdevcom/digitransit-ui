@@ -193,7 +193,7 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () =>
-    this.state.value && !this.editing ? (
+    this.state.value && !this.state.editing ? (
       <button className="noborder clear-input" onClick={this.clearInput}>
         <Icon img="icon-icon_close" />
       </button>
