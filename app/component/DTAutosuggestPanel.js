@@ -18,6 +18,7 @@ class DTAutosuggestPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static propTypes = {
@@ -70,7 +71,7 @@ class DTAutosuggestPanel extends React.Component {
     <div className="autosuggest-panel">
       <DTEndpointAutosuggest
         id="origin"
-        autoFocus={!this.state.selectionDone}
+        autoFocus={this.context.breakpoint === 'large' && !this.state.selectionDone}
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
@@ -115,7 +116,7 @@ class DTAutosuggestPanel extends React.Component {
       (this.props.origin && this.props.origin.ready) ? (
         <DTEndpointAutosuggest
           id="destination"
-          autoFocus={this.state.selectionDone}
+          autoFocus={this.context.breakpoint === 'large' && this.state.selectionDone}
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
