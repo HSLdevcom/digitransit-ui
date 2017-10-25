@@ -61,70 +61,96 @@ class DTAutosuggest extends React.Component {
       value: props.value,
       suggestions: [],
       showSuggestions: false,
+      editing: false,
     };
-
-    this.editing = false;
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.value !== this.state.value && !this.editing && false) {
+    if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
-        ...this.state,
         value: nextProps.value,
       });
     }
   };
 
   onChange = (event, { newValue, method }) => {
-    console.log('onChange', method, newValue);
-    this.editing = method === 'type';
-
-    this.setState({
-      ...this.state,
+    const newState = {
+      editing: true,
       value: newValue,
       showSuggestions: true,
-    });
+    };
+
+    if (!this.state.suggestions.length) {
+      this.fetchFunction(
+        {
+          value: newValue,
+        },
+        newState,
+      );
+    } else {
+      this.setState(newState);
+    }
   };
 
   onBlur = () => {
-    this.editing = false;
-    this.setState({
-      ...this.state,
-//      showSuggestions: false,
+      this.setState({
+        editing: false,
+        value: this.props.value,
+        showSuggestions: false,
     });
   };
 
   onSelected = (e, ref) => {
-    this.editing = false;
-
     this.setState({
-      ...this.state,
+      editing: false,
       value: ref.suggestionValue,
-//      showSuggestions: false,
+      showSuggestions: false,
     });
     this.props.selectedFunction(e, ref);
   };
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      ...this.state,
       suggestions: [],
     });
   };
 
   clearInput = () => {
-    this.editing = true;
-    this.setState({
-      ...this.state,
+    const newState = {
+      editing: true,
+      showSuggestions: true,
       value: '',
-    });
+    };
+
+    if (this.state.value) { // must update suggestions
+      this.fetchFunction({value: ''}, newState);
+    } else {
+      this.setState(newState);
+    }
+
     if (this.input) {
       this.input.focus();
     }
-    this.fetchFunction(''); // To update suggestion list
   };
 
-  fetchFunction = ({ value }) => {
+  inputClicked = () => {
+    if(!this.state.showSuggestions) {
+      const newState = {showSuggestions: true};
+
+      if (!this.state.suggestions.length) {
+        this.fetchFunction(
+          {
+            value: this.state.value,
+          },
+          newState,
+        );
+      } else {
+        this.setState(newState);
+      }
+    }
+  }
+
+  fetchFunction = ({ value },  state) => { /// state is optional
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
@@ -134,32 +160,34 @@ class DTAutosuggest extends React.Component {
         config: this.context.config,
       },
       result => {
-        if (result == null) {
-          return;
-        }
-        const [res1, res2] = result;
-
         let suggestions = [];
-        if (res2 && res2.results) {
-          suggestions = suggestions.concat(res2.results);
-        }
-        if (res1 && res1.results) {
-          suggestions = suggestions.concat(res1.results);
-        }
-        // XXX translates current location
-        suggestions = suggestions.map(suggestion => {
-          if (suggestion.type === 'CurrentLocation') {
-            const translated = { ...suggestion };
-            translated.properties.labelId = this.context.intl.formatMessage({
-              id: suggestion.properties.labelId,
-              defaultMessage: 'Own Location',
-            });
-            return translated;
+
+        if (result !== null) {
+          const [res1, res2] = result;
+
+          if (res2 && res2.results) {
+            suggestions = suggestions.concat(res2.results);
           }
-          return suggestion;
-        });
+          if (res1 && res1.results) {
+            suggestions = suggestions.concat(res1.results);
+          }
+          // XXX translates current location
+          suggestions = suggestions.map(suggestion => {
+            if (suggestion.type === 'CurrentLocation') {
+              const translated = { ...suggestion };
+              translated.properties.labelId = this.context.intl.formatMessage({
+                id: suggestion.properties.labelId,
+                defaultMessage: 'Own Location',
+              });
+              return translated;
+            }
+            return suggestion;
+          });
+        }
+
+        const newState = state || {};
         this.setState({
-          ...this.state,
+          ...state,
           suggestions,
         });
       },
@@ -179,17 +207,7 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  inputClicked = () => {
-    if(!this.state.showSuggestions) {
-      this.setState({...this.state, showSuggestions: true});
-      if (!this.state.suggestions.length) {
-        this.fetchFunction(this.state.value);
-      }
-    }
-  }
-
   render = () => {
-    console.log('render', this.state.showSuggestions, this.state.value);
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
@@ -206,7 +224,6 @@ class DTAutosuggest extends React.Component {
     return (
       <Autosuggest
         id={this.props.id}
-        shouldRenderSuggestions={() => true}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
@@ -214,7 +231,7 @@ class DTAutosuggest extends React.Component {
         renderSuggestion={renderItem}
         inputProps={inputProps}
         focusInputOnSuggestionClick={false}
-//        shouldRenderSuggestions={() => (this.state.showSuggestions) }
+        shouldRenderSuggestions={() => (this.state.showSuggestions) }
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
             <input onClick={ this.inputClicked }  {...p} />
