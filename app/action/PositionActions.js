@@ -164,8 +164,9 @@ function watchPosition(actionContext, done) {
   done();
 }
 
-function startPositioning(actionContext, done) {
-  if (navigator.permissions !== undefined) {
+function startPositioning(actionContext, done, ignorePermissionCheck) {
+  debug('startPositioning:', ignorePermissionCheck);
+  if (navigator.permissions !== undefined && !ignorePermissionCheck) {
     // check permission state
     navigator.permissions
       .query({ name: 'geolocation' })
@@ -253,7 +254,7 @@ export function initGeolocation(actionContext, payload, done) {
       }
       if (start === true) {
         debug('Starting positioning');
-        startPositioning(actionContext, done);
+        startPositioning(actionContext, done, true);
       } else {
         debug('Not starting positioning');
         done();
@@ -261,7 +262,7 @@ export function initGeolocation(actionContext, payload, done) {
     });
   } else if (start || getPositioningHasSucceeded(true)) {
     debug('Starting positioning');
-    startPositioning(actionContext, done);
+    startPositioning(actionContext, done, true);
   } else {
     debug('Not starting positioning');
     done();
