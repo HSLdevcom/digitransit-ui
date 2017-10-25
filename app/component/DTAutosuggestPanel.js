@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
@@ -26,7 +27,12 @@ class DTAutosuggestPanel extends React.Component {
     destination: dtLocationShape.isRequired,
   };
 
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      hideDarkOverlay: false,
+    };
+  }
 
   navigate = (url, replace) => {
     if (replace) {
@@ -67,8 +73,27 @@ class DTAutosuggestPanel extends React.Component {
       />
     ) : null;
 
+  isFocused = val => {
+    this.setState({ hideDarkOverlay: val });
+  };
+
   render = () => (
-    <div className="autosuggest-panel">
+    <div
+      className={cx([
+        'autosuggest-panel',
+        {
+          small: this.context.breakpoint !== 'large',
+        },
+      ])}
+    >
+      <div
+        className={cx([
+          'dark-overlay',
+          {
+            hidden: !this.state.hideDarkOverlay,
+          },
+        ])}
+      />
       <DTEndpointAutosuggest
         id="origin"
         autoFocus={this.context.breakpoint === 'large' && !this.state.selectionDone}
@@ -77,6 +102,7 @@ class DTAutosuggestPanel extends React.Component {
         searchType="all"
         placeholder="give-origin"
         value={this.value(this.props.origin)}
+        isFocused={this.isFocused}
         onLocationSelected={location => {
           if (location.type === 'CurrentLocation') {
             if (this.props.destination.gps === true) {
@@ -113,14 +139,15 @@ class DTAutosuggestPanel extends React.Component {
         renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
-      (this.props.origin && this.props.origin.ready) ? (
+      this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
           autoFocus={this.context.breakpoint === 'large' && this.state.selectionDone}
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
-          className={this.class(this.props.destination)}
+          className="destination"
+          isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
             if (location.type === 'CurrentLocation') {
