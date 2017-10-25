@@ -78,7 +78,7 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: newValue,
     };
-
+    this.props.isFocused(true);
     if (!this.state.suggestions.length) {
       this.fetchFunction(
         {
@@ -89,10 +89,6 @@ class DTAutosuggest extends React.Component {
     } else {
       this.setState(newState);
     }
-  };
-
-  onFocus = () => {
-    this.props.isFocused(true);
   };
 
   onBlur = () => {
@@ -123,19 +119,19 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
     };
-
     if (this.state.value) { // must update suggestions
       this.fetchFunction({value: ''}, newState);
     } else {
       this.setState(newState);
     }
-
+    this.props.isFocused(true);
     if (this.input) {
       this.input.focus();
     }
   };
 
   inputClicked = () => {
+    this.props.isFocused(true);
     if(!this.state.editing) {
       const newState = {editing: true};
 
