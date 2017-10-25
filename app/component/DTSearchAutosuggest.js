@@ -61,7 +61,6 @@ class DTAutosuggest extends React.Component {
     this.state = {
       value: props.value,
       suggestions: [],
-      showSuggestions: false,
       editing: false,
     };
   }
@@ -78,7 +77,6 @@ class DTAutosuggest extends React.Component {
     const newState = {
       editing: true,
       value: newValue,
-      showSuggestions: true,
     };
 
     if (!this.state.suggestions.length) {
@@ -102,7 +100,6 @@ class DTAutosuggest extends React.Component {
       this.setState({
         editing: false,
         value: this.props.value,
-        showSuggestions: false,
     });
   };
 
@@ -111,7 +108,6 @@ class DTAutosuggest extends React.Component {
     this.setState({
       editing: false,
       value: ref.suggestionValue,
-      showSuggestions: false,
     });
     this.props.selectedFunction(e, ref);
   };
@@ -125,7 +121,6 @@ class DTAutosuggest extends React.Component {
   clearInput = () => {
     const newState = {
       editing: true,
-      showSuggestions: true,
       value: '',
     };
 
@@ -141,8 +136,8 @@ class DTAutosuggest extends React.Component {
   };
 
   inputClicked = () => {
-    if(!this.state.showSuggestions) {
-      const newState = {showSuggestions: true};
+    if(!this.state.editing) {
+      const newState = {editing: true};
 
       if (!this.state.suggestions.length) {
         this.fetchFunction(
@@ -239,7 +234,7 @@ class DTAutosuggest extends React.Component {
         renderSuggestion={renderItem}
         inputProps={inputProps}
         focusInputOnSuggestionClick={false}
-        shouldRenderSuggestions={() => (this.state.showSuggestions) }
+        shouldRenderSuggestions={() => (this.state.editing) }
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
             <input onClick={ this.inputClicked }  {...p} />
