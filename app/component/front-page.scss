@@ -127,7 +127,7 @@ $heading-color: #858585;
 }
 
 .tabs-row {
-  z-index: 1000;
+  z-index: 999;
   background: $light-gray;
   position: relative;
   display: flex;

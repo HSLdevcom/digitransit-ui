@@ -42,6 +42,7 @@ class DTAutosuggest extends React.Component {
     className: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     renderPostInput: PropTypes.node,
+    isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
   };
 
@@ -82,11 +83,17 @@ class DTAutosuggest extends React.Component {
     });
   };
 
+  onFocus = () => {
+    this.props.isFocused(true);
+  };
+
   onBlur = () => {
     this.editing = false;
+    this.props.isFocused(false);
   };
 
   onSelected = (e, ref) => {
+    this.props.isFocused(false);
     this.editing = false;
 
     this.setState({
@@ -155,6 +162,7 @@ class DTAutosuggest extends React.Component {
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
+      onFocus: this.onFocus,
       autoFocus: this.props.autoFocus,
       className: `react-autosuggest__input ${this.props.className}`,
     };

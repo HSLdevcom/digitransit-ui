@@ -23,6 +23,7 @@ class DTEndpointAutosuggest extends React.Component {
     className: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
     renderPostInput: PropTypes.node,
+    isFocused: PropTypes.func,
   };
 
   static defaultProps = {
@@ -70,6 +71,7 @@ class DTEndpointAutosuggest extends React.Component {
   render = () => (
     <DTOldSearchSavingAutosuggest
       autoFocus={this.props.autoFocus}
+      isFocused={this.props.isFocused}
       placeholder={this.props.placeholder}
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}

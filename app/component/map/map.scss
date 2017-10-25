@@ -52,6 +52,10 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
   }
 }
 
+.leaflet-bottom {
+  z-index: 800;
+}
+
 div.leaflet-container {
   position: absolute;
   width: 100%;
