@@ -1,7 +1,9 @@
 module.exports = {
   tags: ['favourite'],
   'Add route 615 as favourite': browser => {
-    browser.url(browser.launch_url);
+    browser.url(
+      'http://127.0.0.1:8080/Opastinsilta%206,%20Helsinki::60.199437,24.940472/-',
+    );
 
     browser.page.searchFields().selectFirstRouteSuggestion('615');
 

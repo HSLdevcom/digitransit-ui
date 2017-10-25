@@ -1,9 +1,7 @@
 function setOrigin(origin) {
-  const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@searchOrigin', timeout);
-  this.clearValue('@searchOrigin');
+  this.setValue('@searchOrigin', ' ');
   this.api.pause(1000);
-  this.clearValue('#origin');
+  this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
   this.verifyItemInSearchResult(origin);
   return this;
@@ -97,10 +95,7 @@ function setSearch(search) {
 
 function selectFirstRouteSuggestion(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@searchOrigin', timeout);
-  this.clearValue('#origin');
-
-  this.setValue('@searchOrigin', search);
+  this.setOrigin(search);
   this.waitForElementVisible(
     this.elements.firstRouteSuggestion.selector,
     timeout,
