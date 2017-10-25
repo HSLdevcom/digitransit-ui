@@ -73,7 +73,7 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  onChange = (event, { newValue, method }) => {
+  onChange = (event, { newValue }) => {
     const newState = {
       editing: true,
       value: newValue,
@@ -92,10 +92,10 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-      this.props.isFocused(false);
-      this.setState({
-        editing: false,
-        value: this.props.value,
+    this.props.isFocused(false);
+    this.setState({
+      editing: false,
+      value: this.props.value,
     });
   };
 
@@ -119,8 +119,9 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
     };
-    if (this.state.value) { // must update suggestions
-      this.fetchFunction({value: ''}, newState);
+    if (this.state.value) {
+      // must update suggestions
+      this.fetchFunction({ value: '' }, newState);
     } else {
       this.setState(newState);
     }
@@ -132,8 +133,8 @@ class DTAutosuggest extends React.Component {
 
   inputClicked = () => {
     this.props.isFocused(true);
-    if(!this.state.editing) {
-      const newState = {editing: true};
+    if (!this.state.editing) {
+      const newState = { editing: true };
 
       if (!this.state.suggestions.length) {
         this.fetchFunction(
@@ -146,9 +147,9 @@ class DTAutosuggest extends React.Component {
         this.setState(newState);
       }
     }
-  }
+  };
 
-  fetchFunction = ({ value },  state) => { /// state is optional
+  fetchFunction = ({ value }, state) => {
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
@@ -185,7 +186,7 @@ class DTAutosuggest extends React.Component {
 
         const newState = state || {};
         this.setState({
-          ...state,
+          ...newState,
           suggestions,
         });
       },
@@ -230,10 +231,10 @@ class DTAutosuggest extends React.Component {
         renderSuggestion={renderItem}
         inputProps={inputProps}
         focusInputOnSuggestionClick={false}
-        shouldRenderSuggestions={() => (this.state.editing) }
+        shouldRenderSuggestions={() => this.state.editing}
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
-            <input onClick={ this.inputClicked }  {...p} />
+            <input onClick={this.inputClicked} {...p} />
             {this.props.renderPostInput}
             {this.clearButton()}
           </div>
