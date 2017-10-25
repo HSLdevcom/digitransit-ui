@@ -404,6 +404,9 @@ button.clear-input {
   &:hover {
     background: $white;
   }
+  &:focus {
+    background-color: $white;
+  }
 }
 
 .external-top-bar {
