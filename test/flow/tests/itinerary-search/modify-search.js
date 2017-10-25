@@ -32,7 +32,6 @@ module.exports = {
 
     browser.page
       .searchFields()
-      .useCurrentLocationInOrigin()
       .setDestination('Opastinsilta 6, Helsinki')
       .enterKeyDestination();
 
