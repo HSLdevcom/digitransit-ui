@@ -7,6 +7,7 @@ import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
+import Icon from './Icon';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -45,44 +46,48 @@ class DTAutosuggest extends React.Component {
       doNotShowLinkToStop: !isEqual(props.layers, getAllEndpointLayers()),
       value: props.value,
       suggestions: [],
+      editing: false,
     };
-
-    this.editing = false;
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.value !== this.state.value && !this.editing) {
+    if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
-        ...this.state,
         value: nextProps.value,
       });
     }
   };
 
-  onChange = (event, { newValue, method }) => {
-    this.editing = method === 'type';
-
-    this.setState({
-      ...this.state,
+  onChange = (event, { newValue }) => {
+    const newState = {
+      editing: true,
       value: newValue,
-    });
-  };
-
-  onFocus = () => {
+    };
     this.props.isFocused(true);
+    if (!this.state.suggestions.length) {
+      this.fetchFunction(
+        {
+          value: newValue,
+        },
+        newState,
+      );
+    } else {
+      this.setState(newState);
+    }
   };
 
   onBlur = () => {
-    this.editing = false;
     this.props.isFocused(false);
+    this.setState({
+      editing: false,
+      value: this.props.value,
+    });
   };
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.editing = false;
-
     this.setState({
-      ...this.state,
+      editing: false,
       value: ref.suggestionValue,
     });
     this.props.selectedFunction(e, ref);
@@ -90,7 +95,6 @@ class DTAutosuggest extends React.Component {
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      ...this.state,
       suggestions: [],
     });
   };
@@ -100,7 +104,14 @@ class DTAutosuggest extends React.Component {
     return value;
   };
 
-  fetchFunction = ({ value }) => {
+  clearButton = () =>
+    this.state.value && !this.state.editing ? (
+      <button className="noborder clear-input" onClick={this.clearInput}>
+        <Icon img="icon-icon_close" />
+      </button>
+    ) : null;
+
+  fetchFunction = ({ value }, state) => {
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
@@ -111,36 +122,79 @@ class DTAutosuggest extends React.Component {
         config: this.context.config,
       },
       result => {
-        if (result == null) {
-          return;
-        }
-        const [res1, res2] = result;
-
         let suggestions = [];
-        if (res2 && res2.results) {
-          suggestions = suggestions.concat(res2.results);
-        }
-        if (res1 && res1.results) {
-          suggestions = suggestions.concat(res1.results);
-        }
-        // XXX translates current location
-        suggestions = suggestions.map(suggestion => {
-          if (suggestion.type === 'CurrentLocation') {
-            const translated = { ...suggestion };
-            translated.properties.labelId = this.context.intl.formatMessage({
-              id: suggestion.properties.labelId,
-              defaultMessage: 'Own Location',
-            });
-            return translated;
+
+        if (result !== null) {
+          const [res1, res2] = result;
+
+          if (res2 && res2.results) {
+            suggestions = suggestions.concat(res2.results);
           }
-          return suggestion;
-        });
+          if (res1 && res1.results) {
+            suggestions = suggestions.concat(res1.results);
+          }
+          // XXX translates current location
+          suggestions = suggestions.map(suggestion => {
+            if (suggestion.type === 'CurrentLocation') {
+              const translated = { ...suggestion };
+              translated.properties.labelId = this.context.intl.formatMessage({
+                id: suggestion.properties.labelId,
+                defaultMessage: 'Own Location',
+              });
+              return translated;
+            }
+            return suggestion;
+          });
+        }
+
+        const newState = state || {};
         this.setState({
-          ...this.state,
+          ...newState,
           suggestions,
         });
       },
     );
+  };
+
+  clearInput = () => {
+    const newState = {
+      editing: true,
+      value: '',
+    };
+    if (this.state.value) {
+      // must update suggestions
+      this.fetchFunction({ value: '' }, newState);
+    } else {
+      this.setState(newState);
+    }
+    this.props.isFocused(true);
+    if (this.input) {
+      this.input.focus();
+    }
+  };
+
+  inputClicked = () => {
+    this.props.isFocused(true);
+    if (!this.state.editing) {
+      const newState = { editing: true };
+
+      if (!this.state.suggestions.length) {
+        this.fetchFunction(
+          {
+            value: this.state.value,
+          },
+          newState,
+        );
+      } else {
+        this.setState(newState);
+      }
+    }
+  };
+
+  storeInputReference = autosuggest => {
+    if (autosuggest !== null) {
+      this.input = autosuggest.input;
+    }
   };
 
   renderItem = item => (
@@ -172,21 +226,24 @@ class DTAutosuggest extends React.Component {
     return (
       <Autosuggest
         id={this.props.id}
-        shouldRenderSuggestions={() => true}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderItem}
         inputProps={inputProps}
+        focusInputOnSuggestionClick={false}
+        shouldRenderSuggestions={() => this.state.editing}
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
-            <input {...p} />
+            <input onClick={this.inputClicked} {...p} />
             {this.props.renderPostInput}
+            {this.clearButton()}
           </div>
         )}
         onSuggestionSelected={this.onSelected}
         highlightFirstSuggestion
+        ref={this.storeInputReference}
       />
     );
   };

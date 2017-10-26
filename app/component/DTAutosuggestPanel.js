@@ -56,7 +56,6 @@ class DTAutosuggestPanel extends React.Component {
     (this.props.origin.gps && !this.props.origin.ready) ? (
       <GeolocationStartButton
         onClick={() => {
-          console.log('starting location watch...');
           this.context.executeAction(startLocationWatch);
 
           this.navigate(
@@ -96,6 +95,9 @@ class DTAutosuggestPanel extends React.Component {
       />
       <DTEndpointAutosuggest
         id="origin"
+        autoFocus={
+          this.context.breakpoint === 'large' && !this.state.selectionDone
+        }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
@@ -130,6 +132,10 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(location, this.props.destination),
             !isItinerarySearchObjects(location, this.props.destination),
           );
+          this.setState({
+            ...this.state,
+            selectionDone: true,
+          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -137,6 +143,9 @@ class DTAutosuggestPanel extends React.Component {
       this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
+          autoFocus={
+            this.context.breakpoint === 'large' && this.state.selectionDone
+          }
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
