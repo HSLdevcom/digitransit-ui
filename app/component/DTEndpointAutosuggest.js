@@ -25,6 +25,7 @@ class DTEndpointAutosuggest extends React.Component {
     refPoint: dtLocationShape.isRequired,
     renderPostInput: PropTypes.node,
     layers: PropTypes.array,
+    isFocused: PropTypes.func,
   };
 
   static defaultProps = {
@@ -48,6 +49,12 @@ class DTEndpointAutosuggest extends React.Component {
       return;
     }
 
+    // route
+    if (item.properties.link) {
+      this.context.router.push(item.properties.link);
+      return;
+    }
+
     const location = {
       address: name,
       type: item.type,
@@ -67,6 +74,7 @@ class DTEndpointAutosuggest extends React.Component {
   render = () => (
     <DTOldSearchSavingAutosuggest
       autoFocus={this.props.autoFocus}
+      isFocused={this.props.isFocused}
       placeholder={this.props.placeholder}
       searchType={this.props.searchType}
       onSelect={this.onSuggestionSelected}

@@ -53,7 +53,6 @@ const GeopositionSelector = ({ status }, context) => {
 
 GeopositionSelector.propTypes = {
   status: PropTypes.string.isRequired,
-  searchModalIsOpen: PropTypes.bool.isRequired,
 };
 
 GeopositionSelector.contextTypes = {

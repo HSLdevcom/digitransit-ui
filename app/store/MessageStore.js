@@ -32,13 +32,15 @@ class MessageStore extends Store {
    * }
    */
 
-  // TODO: Generate message id if missing
   addMessage = msg => {
     const readIds = getReadMessageIds();
     const message = { ...msg };
-    const oldMessage = this.messages.get(message.id);
 
-    if (oldMessage && (!oldMessage.read || msg.persistence !== 'repeat')) {
+    if (!message.id) {
+      message.id = JSON.stringify(message);
+    }
+
+    if (this.messages.has(message.id)) {
       return;
     }
 
@@ -47,7 +49,6 @@ class MessageStore extends Store {
     }
 
     this.messages.set(message.id, message);
-    // saveMapToStorage(this.messages);
     this.emitChange();
   };
 
@@ -80,10 +81,9 @@ class MessageStore extends Store {
       setReadMessageIds(readIds);
       changed = true;
     }
-    const msg = this.messages.get(id);
-    if (msg) {
-      changed = changed || !msg.read;
-      msg.read = true;
+    if (this.messages.has(id)) {
+      this.messages.delete(id);
+      changed = true;
     }
     if (changed) {
       this.emitChange();

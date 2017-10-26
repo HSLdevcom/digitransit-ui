@@ -561,6 +561,7 @@ const translations = {
       'Your browser does not support location retrieval.',
     'geolocation-prompt-text':
       'Accept your browser’s request to access your location.',
+    'geolocation-still-denied-heading': 'Geolocation denied',
     'geolocation-timeout-heading':
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
@@ -837,6 +838,7 @@ const translations = {
     'geolocation-failed-text':
       'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
+    'geolocation-still-denied-heading': 'Paikannus on estetty',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
     'give-destination': 'Määränpää, linja tai pysäkki',
@@ -1615,6 +1617,8 @@ const translations = {
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
     'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
+    'geolocation-still-denied-heading':
+      'Delning av platsinformation är förbjudet',
     'geolocation-timeout-heading':
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':

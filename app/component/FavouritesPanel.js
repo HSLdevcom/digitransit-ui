@@ -50,7 +50,7 @@ FavouriteRoutes.propTypes = {
   origin: dtLocationShape.isRequired,
 };
 
-const FavouritesPanel = ({ routes, origin }) => (
+const FavouritesPanel = ({ origin, routes }) => (
   <div className="frontpage-panel">
     <FavouriteLocationsContainer origin={origin} />
     <NextDeparturesListHeader />
