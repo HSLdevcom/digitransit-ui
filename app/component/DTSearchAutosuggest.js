@@ -2,29 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
-import { executeSearch } from '../util/searchUtils';
+import isEqual from 'lodash/isEqual';
+import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
-
-function getSuggestionValue(suggestion) {
-  const value = getLabel(suggestion.properties, true);
-  return value;
-}
-
-const renderItem = item => (
-  <SuggestionItem
-    doNotShowLinkToStop={
-      false
-      // todo convert to component prop!! this.props.type !== 'all'
-    }
-    ref={item.name}
-    item={item}
-    useTransportIconsconfig={
-      false // this.context.config.search.suggestions.useTransportIcons
-    }
-  />
-);
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -44,11 +26,13 @@ class DTAutosuggest extends React.Component {
     renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
+    layers: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     placeholder: '',
     clickFunction: () => {},
+    isFocused: () => {},
     autoFocus: false,
     postInput: null,
     id: 1,
@@ -58,6 +42,7 @@ class DTAutosuggest extends React.Component {
     super(props);
 
     this.state = {
+      doNotShowLinkToStop: !isEqual(props.layers, getAllEndpointLayers()),
       value: props.value,
       suggestions: [],
     };
@@ -110,11 +95,17 @@ class DTAutosuggest extends React.Component {
     });
   };
 
+  getSuggestionValue = suggestion => {
+    const value = getLabel(suggestion.properties, true);
+    return value;
+  };
+
   fetchFunction = ({ value }) => {
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
       {
+        layers: this.props.layers,
         input: value,
         type: this.props.searchType,
         config: this.context.config,
@@ -152,6 +143,17 @@ class DTAutosuggest extends React.Component {
     );
   };
 
+  renderItem = item => (
+    <SuggestionItem
+      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
+      ref={item.name}
+      item={item}
+      useTransportIconsconfig={
+        this.context.config.search.suggestions.useTransportIcons
+      }
+    />
+  );
+
   render = () => {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -174,8 +176,8 @@ class DTAutosuggest extends React.Component {
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderItem}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderItem}
         inputProps={inputProps}
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>

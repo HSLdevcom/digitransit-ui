@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 
-import { FakeSearchWithButton } from './FakeSearchWithButtonContainer';
 import Icon from './Icon';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
@@ -134,7 +133,6 @@ const components = {
   RouteStop,
   DepartureRow,
   BicycleRentalStationRow,
-  FakeSearchWithButton,
   AppBarSmall,
   AppBarLarge,
   FrontPagePanelLarge,
