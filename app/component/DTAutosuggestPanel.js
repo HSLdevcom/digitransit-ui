@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -30,7 +31,7 @@ class DTAutosuggestPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideDarkOverlay: false,
+      showDarkOverlay: false,
     };
   }
 
@@ -73,7 +74,7 @@ class DTAutosuggestPanel extends React.Component {
     ) : null;
 
   isFocused = val => {
-    this.setState({ hideDarkOverlay: val });
+    this.setState({ showDarkOverlay: val });
   };
 
   render = () => (
@@ -89,7 +90,7 @@ class DTAutosuggestPanel extends React.Component {
         className={cx([
           'dark-overlay',
           {
-            hidden: !this.state.hideDarkOverlay,
+            hidden: !this.state.showDarkOverlay,
           },
         ])}
       />
@@ -133,7 +134,6 @@ class DTAutosuggestPanel extends React.Component {
             !isItinerarySearchObjects(location, this.props.destination),
           );
           this.setState({
-            ...this.state,
             selectionDone: true,
           });
         }}
