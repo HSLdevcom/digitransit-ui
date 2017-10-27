@@ -96,7 +96,7 @@ class DTAutosuggestPanel extends React.Component {
       <DTEndpointAutosuggest
         id="origin"
         autoFocus={
-          this.context.breakpoint === 'large' && !this.state.selectionDone
+          this.context.breakpoint === 'large' && !this.props.origin.ready
         }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
@@ -132,9 +132,6 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(location, this.props.destination),
             !isItinerarySearchObjects(location, this.props.destination),
           );
-          this.setState({
-            selectionDone: true,
-          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -143,7 +140,7 @@ class DTAutosuggestPanel extends React.Component {
         <DTEndpointAutosuggest
           id="destination"
           autoFocus={
-            this.context.breakpoint === 'large' && this.state.selectionDone
+            this.context.breakpoint === 'large'
           }
           refPoint={this.props.origin}
           searchType="endpoint"
