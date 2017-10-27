@@ -60,17 +60,12 @@ class DTAutosuggest extends React.Component {
 
   onChange = (event, { newValue }) => {
     const newState = {
-      editing: true,
       value: newValue,
     };
-    this.props.isFocused(true);
-    if (!this.state.suggestions.length) {
-      this.fetchFunction(
-        {
-          value: newValue,
-        },
-        newState,
-      );
+    if (!this.state.editing) {
+      newState.editing = true;
+      this.props.isFocused(true);
+      this.setState(newState, () => this.fetchFunction({ value: newValue }));
     } else {
       this.setState(newState);
     }
@@ -111,7 +106,7 @@ class DTAutosuggest extends React.Component {
       </button>
     ) : null;
 
-  fetchFunction = ({ value }, state) => {
+  fetchFunction = ({ value }) => {
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
@@ -122,34 +117,31 @@ class DTAutosuggest extends React.Component {
         config: this.context.config,
       },
       result => {
-        let suggestions = [];
-
-        if (result !== null) {
-          const [res1, res2] = result;
-
-          if (res2 && res2.results) {
-            suggestions = suggestions.concat(res2.results);
-          }
-          if (res1 && res1.results) {
-            suggestions = suggestions.concat(res1.results);
-          }
-          // XXX translates current location
-          suggestions = suggestions.map(suggestion => {
-            if (suggestion.type === 'CurrentLocation') {
-              const translated = { ...suggestion };
-              translated.properties.labelId = this.context.intl.formatMessage({
-                id: suggestion.properties.labelId,
-                defaultMessage: 'Own Location',
-              });
-              return translated;
-            }
-            return suggestion;
-          });
+        if (result == null) {
+          return;
         }
+        let suggestions = [];
+        const [res1, res2] = result;
 
-        const newState = state || {};
+        if (res2 && res2.results) {
+          suggestions = suggestions.concat(res2.results);
+        }
+        if (res1 && res1.results) {
+          suggestions = suggestions.concat(res1.results);
+        }
+        // XXX translates current location
+        suggestions = suggestions.map(suggestion => {
+          if (suggestion.type === 'CurrentLocation') {
+            const translated = { ...suggestion };
+            translated.properties.labelId = this.context.intl.formatMessage({
+              id: suggestion.properties.labelId,
+              defaultMessage: 'Own Location',
+            });
+            return translated;
+          }
+          return suggestion;
+        });
         this.setState({
-          ...newState,
           suggestions,
         });
       },
@@ -163,27 +155,22 @@ class DTAutosuggest extends React.Component {
     };
     if (this.state.value) {
       // must update suggestions
-      this.fetchFunction({ value: '' }, newState);
+      this.setState(newState, () => this.fetchFunction({ value: '' }));
     } else {
       this.setState(newState);
     }
     this.props.isFocused(true);
-    if (this.input) {
-      this.input.focus();
-    }
+    this.input.focus();
   };
 
   inputClicked = () => {
-    this.props.isFocused(true);
     if (!this.state.editing) {
+      this.props.isFocused(true);
       const newState = { editing: true };
 
       if (!this.state.suggestions.length) {
-        this.fetchFunction(
-          {
-            value: this.state.value,
-          },
-          newState,
+        this.setState(newState, () =>
+          this.fetchFunction({ value: this.state.value }),
         );
       } else {
         this.setState(newState);
