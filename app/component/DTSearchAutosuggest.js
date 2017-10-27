@@ -65,7 +65,7 @@ class DTAutosuggest extends React.Component {
     if (!this.state.editing) {
       newState.editing = true;
       this.props.isFocused(true);
-      this.setState(newState, () => this.fetchFunction({value: newValue}));
+      this.setState(newState, () => this.fetchFunction({ value: newValue }));
     } else {
       this.setState(newState);
     }
@@ -142,7 +142,7 @@ class DTAutosuggest extends React.Component {
           return suggestion;
         });
         this.setState({
-           suggestions,
+          suggestions,
         });
       },
     );
@@ -155,7 +155,7 @@ class DTAutosuggest extends React.Component {
     };
     if (this.state.value) {
       // must update suggestions
-      this.setState(newState, () => this.fetchFunction({value: ''}));
+      this.setState(newState, () => this.fetchFunction({ value: '' }));
     } else {
       this.setState(newState);
     }
@@ -169,7 +169,9 @@ class DTAutosuggest extends React.Component {
       const newState = { editing: true };
 
       if (!this.state.suggestions.length) {
-        this.setState(newState, () => this.fetchFunction({value: this.state.value}));
+        this.setState(newState, () =>
+          this.fetchFunction({ value: this.state.value }),
+        );
       } else {
         this.setState(newState);
       }
