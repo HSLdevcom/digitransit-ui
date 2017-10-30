@@ -30,7 +30,7 @@ class DTAutosuggestPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hideDarkOverlay: false,
+      showDarkOverlay: false,
     };
   }
 
@@ -56,7 +56,6 @@ class DTAutosuggestPanel extends React.Component {
     (this.props.origin.gps && !this.props.origin.ready) ? (
       <GeolocationStartButton
         onClick={() => {
-          console.log('starting location watch...');
           this.context.executeAction(startLocationWatch);
 
           this.navigate(
@@ -74,7 +73,7 @@ class DTAutosuggestPanel extends React.Component {
     ) : null;
 
   isFocused = val => {
-    this.setState({ hideDarkOverlay: val });
+    this.setState({ showDarkOverlay: val });
   };
 
   render = () => (
@@ -90,12 +89,15 @@ class DTAutosuggestPanel extends React.Component {
         className={cx([
           'dark-overlay',
           {
-            hidden: !this.state.hideDarkOverlay,
+            hidden: !this.state.showDarkOverlay,
           },
         ])}
       />
       <DTEndpointAutosuggest
         id="origin"
+        autoFocus={
+          this.context.breakpoint === 'large' && !this.state.selectionDone
+        }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
         searchType="all"
@@ -130,6 +132,9 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(location, this.props.destination),
             !isItinerarySearchObjects(location, this.props.destination),
           );
+          this.setState({
+            selectionDone: true,
+          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -137,6 +142,9 @@ class DTAutosuggestPanel extends React.Component {
       this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
+          autoFocus={
+            this.context.breakpoint === 'large' && this.state.selectionDone
+          }
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"

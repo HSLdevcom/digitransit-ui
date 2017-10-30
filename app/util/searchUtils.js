@@ -332,10 +332,10 @@ export function executeSearchImmediate(
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
     if (endpointLayers.includes('OldSearch')) {
-      let dropLayers;
+      const dropLayers = ['CurrentPosition'];
       // old searches should also obey the layers definition
       if (!endpointLayers.includes('FavouritePlace')) {
-        dropLayers = ['favouritePlace'];
+        dropLayers.push('favouritePlace');
       }
       searchComponents.push(getOldSearches(oldSearches, input, dropLayers));
     }

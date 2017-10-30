@@ -2,29 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
-import { executeSearch } from '../util/searchUtils';
+import isEqual from 'lodash/isEqual';
+import { executeSearch, getAllEndpointLayers } from '../util/searchUtils';
 import SuggestionItem from './SuggestionItem';
 import { getLabel } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
-
-function getSuggestionValue(suggestion) {
-  const value = getLabel(suggestion.properties, true);
-  return value;
-}
-
-const renderItem = item => (
-  <SuggestionItem
-    doNotShowLinkToStop={
-      false
-      // todo convert to component prop!! this.props.type !== 'all'
-    }
-    ref={item.name}
-    item={item}
-    useTransportIconsconfig={
-      false // this.context.config.search.suggestions.useTransportIcons
-    }
-  />
-);
+import Icon from './Icon';
 
 class DTAutosuggest extends React.Component {
   static contextTypes = {
@@ -44,11 +27,13 @@ class DTAutosuggest extends React.Component {
     renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
+    layers: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     placeholder: '',
     clickFunction: () => {},
+    isFocused: () => {},
     autoFocus: false,
     postInput: null,
     id: 1,
@@ -58,46 +43,46 @@ class DTAutosuggest extends React.Component {
     super(props);
 
     this.state = {
+      doNotShowLinkToStop: !isEqual(props.layers, getAllEndpointLayers()),
       value: props.value,
       suggestions: [],
+      editing: false,
     };
-
-    this.editing = false;
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.value !== this.state.value && !this.editing) {
+    if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
-        ...this.state,
         value: nextProps.value,
       });
     }
   };
 
-  onChange = (event, { newValue, method }) => {
-    this.editing = method === 'type';
-
-    this.setState({
-      ...this.state,
+  onChange = (event, { newValue }) => {
+    const newState = {
       value: newValue,
-    });
-  };
-
-  onFocus = () => {
-    this.props.isFocused(true);
+    };
+    if (!this.state.editing) {
+      newState.editing = true;
+      this.props.isFocused(true);
+      this.setState(newState, () => this.fetchFunction({ value: newValue }));
+    } else {
+      this.setState(newState);
+    }
   };
 
   onBlur = () => {
-    this.editing = false;
     this.props.isFocused(false);
+    this.setState({
+      editing: false,
+      value: this.props.value,
+    });
   };
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.editing = false;
-
     this.setState({
-      ...this.state,
+      editing: false,
       value: ref.suggestionValue,
     });
     this.props.selectedFunction(e, ref);
@@ -105,16 +90,28 @@ class DTAutosuggest extends React.Component {
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      ...this.state,
       suggestions: [],
     });
   };
+
+  getSuggestionValue = suggestion => {
+    const value = getLabel(suggestion.properties, true);
+    return value;
+  };
+
+  clearButton = () =>
+    this.state.value && !this.state.editing ? (
+      <button className="noborder clear-input" onClick={this.clearInput}>
+        <Icon img="icon-icon_close" />
+      </button>
+    ) : null;
 
   fetchFunction = ({ value }) => {
     executeSearch(
       this.context.getStore,
       this.props.refPoint,
       {
+        layers: this.props.layers,
         input: value,
         type: this.props.searchType,
         config: this.context.config,
@@ -123,9 +120,9 @@ class DTAutosuggest extends React.Component {
         if (result == null) {
           return;
         }
+        let suggestions = [];
         const [res1, res2] = result;
 
-        let suggestions = [];
         if (res2 && res2.results) {
           suggestions = suggestions.concat(res2.results);
         }
@@ -145,12 +142,58 @@ class DTAutosuggest extends React.Component {
           return suggestion;
         });
         this.setState({
-          ...this.state,
           suggestions,
         });
       },
     );
   };
+
+  clearInput = () => {
+    const newState = {
+      editing: true,
+      value: '',
+    };
+    if (this.state.value) {
+      // must update suggestions
+      this.setState(newState, () => this.fetchFunction({ value: '' }));
+    } else {
+      this.setState(newState);
+    }
+    this.props.isFocused(true);
+    this.input.focus();
+  };
+
+  inputClicked = () => {
+    if (!this.state.editing) {
+      this.props.isFocused(true);
+      const newState = { editing: true };
+
+      if (!this.state.suggestions.length) {
+        this.setState(newState, () =>
+          this.fetchFunction({ value: this.state.value }),
+        );
+      } else {
+        this.setState(newState);
+      }
+    }
+  };
+
+  storeInputReference = autosuggest => {
+    if (autosuggest !== null) {
+      this.input = autosuggest.input;
+    }
+  };
+
+  renderItem = item => (
+    <SuggestionItem
+      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
+      ref={item.name}
+      item={item}
+      useTransportIconsconfig={
+        this.context.config.search.suggestions.useTransportIcons
+      }
+    />
+  );
 
   render = () => {
     const { value, suggestions } = this.state;
@@ -170,21 +213,24 @@ class DTAutosuggest extends React.Component {
     return (
       <Autosuggest
         id={this.props.id}
-        shouldRenderSuggestions={() => true}
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.fetchFunction}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderItem}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderItem}
         inputProps={inputProps}
+        focusInputOnSuggestionClick={false}
+        shouldRenderSuggestions={() => this.state.editing}
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
-            <input id={this.props.id} {...p} />
+            <input id={this.props.id} onClick={this.inputClicked} {...p} />
             {this.props.renderPostInput}
+            {this.clearButton()}
           </div>
         )}
         onSuggestionSelected={this.onSelected}
         highlightFirstSuggestion
+        ref={this.storeInputReference}
       />
     );
   };

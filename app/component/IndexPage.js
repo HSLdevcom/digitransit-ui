@@ -59,7 +59,7 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      panelExpanded: false, // Show right-now as default
+      panelExpanded: true, // Show right-now as default
     };
   }
 
