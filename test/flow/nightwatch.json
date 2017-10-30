@@ -52,8 +52,8 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "itinerarySearchTimeout": 11000,
-        "elementVisibleTimeout": 10000
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 20000
       },
       "screenshots": {
         "enabled": true,
@@ -80,7 +80,7 @@
       },
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 10000,
+        "elementVisibleTimeout": 20000,
         "debug": false
       },
       "screenshots": {
@@ -114,7 +114,7 @@
       },
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 10000,
+        "elementVisibleTimeout": 20000,
         "debug": false
       },
       "screenshots": {
