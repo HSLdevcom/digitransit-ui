@@ -1,8 +1,9 @@
 function setOrigin(origin) {
   this.setValue('@searchOrigin', ' ');
-  this.api.pause(1500);
+  this.api.pause(1000);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
+  this.api.pause(1000);
   this.verifyItemInSearchResult(origin);
   return this;
 }
