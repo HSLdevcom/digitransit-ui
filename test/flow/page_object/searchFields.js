@@ -1,6 +1,6 @@
 function setOrigin(origin) {
   this.setValue('@searchOrigin', ' ');
-  this.api.pause(1000);
+  this.api.pause(1500);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
   this.verifyItemInSearchResult(origin);
@@ -47,10 +47,13 @@ function waitSearchClosing() {
 
 function setDestination(destination) {
   this.api.debug('setting destination');
-  this.waitForElementVisible(
+  this.waitForElementPresent(
     '@searchDestination',
     this.api.globals.elementVisibleTimeout,
   );
+  this.setValue('@searchDestination', ' ');
+  this.api.pause(1500);
+  this.clearValue('@searchDestination');
   this.setValue('@searchDestination', destination);
   this.verifyItemInSearchResult(destination);
   return this;
