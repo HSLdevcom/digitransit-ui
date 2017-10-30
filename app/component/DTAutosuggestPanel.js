@@ -139,9 +139,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
-          autoFocus={
-            this.context.breakpoint === 'large'
-          }
+          autoFocus={this.context.breakpoint === 'large'}
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
