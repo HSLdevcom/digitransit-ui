@@ -100,7 +100,7 @@ class DTAutosuggest extends React.Component {
   };
 
   clearButton = () =>
-    this.state.value && !this.state.editing ? (
+    this.state.value ? (
       <button className="noborder clear-input" onClick={this.clearInput}>
         <Icon img="icon-icon_close" />
       </button>
@@ -149,6 +149,7 @@ class DTAutosuggest extends React.Component {
   };
 
   clearInput = () => {
+    console.log('clear');
     const newState = {
       editing: true,
       value: '',
