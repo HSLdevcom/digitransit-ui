@@ -1,141 +1,61 @@
-.nearby-table-container {
-    height: 90%;
-    position: relative;
-}
+table.nearby-departures-table {
 
-.nearby-departures-table {
-    table-layout: fixed;
-    width: 100%;
-    height: 93.5%;
-    border-spacing: 0;
     thead {
-        background: $white;
-        display: block;
-    }
-    .header-tr {
-        padding-top: $padding-small;
-        padding-bottom: $padding-small;
-        display: block;
-        border-bottom: 1px solid $light-gray;
-
-    th {
-        padding: 6px 14px;
-        color: $gray;
-        font-family: $font-family-narrow;
-        font-weight: 400;
-        letter-spacing: 0;
-        font-size: $font-size-small;
-        white-space: nowrap;
-        margin: 0;
-        line-height: 1em;
-        padding-left: 0;
-        text-align: left;
-
-        &:first-child {
-            padding-left: 0.6em;
-        }
-        &.th-to-stop {
-            width: 20%;
-        }
-        &.th-route {
-            width: 19%;
-            max-width: 1em;
-        }
-        &.th-destination {
-            width: 50%;
-            padding-left: 0.5em;
-            padding-right: 0;
-        }
-        &.th-leaves {
-            width: 13%;
-        }
-        &.th-next {
-            width: 13%;
+        th {
+            color: $gray;
+            @include font-narrow-book;
+            font-size: $font-size-small;
+            white-space: nowrap;
+            margin: 0;
+            line-height: 1em;
+            padding-top: 0.6em;
+            padding-bottom: 0.6em;
         }
     }
-}
 
     tbody {
-        max-height: 100%;
+        position: absolute;
+        overflow-y: auto;
+        max-height: 90%;
         width: 100%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        display: block;
-
         tr {
-            padding: .6em 0;
-            padding-right: 5px;
-            border-bottom: 1px solid $light-gray;
-            width: 100%;
-            display: block;
-            &.next-departure-row-tr {
-                background: $white;
-                line-height: 1.2;
-                position: relative;
-                overflow-y: visible;
-                white-space: nowrap;
-                margin: 0;
-                padding-left: 0.8em;
-                color: #333;
-                font-family: "Gotham XNarrow SSm A", "Gotham XNarrow SSm B", Arial, Georgia, Serif;
-                font-weight: 400;
-                letter-spacing: 0;
-                font-size: $font-size-normal;
+            @include font-narrow-book;
+            font-size: $font-size-small;
+            white-space: nowrap;
+            margin: 0;
+            line-height: 1em;
+            td {
+                padding-top: 0.6em;
+                padding-bottom: 0.6em;
+                &.td-distance {
+                    color: $gray;
+                    padding-left: 1em;
+                    min-width: 4.5em;
+                }
+                &.td-departure-times {
+                    font-weight: $font-weight-bold;
+                    font-family: $font-family;
+                }
+                &.td-destination, &.td-bikestation {
+                    span {
+                      margin-top: 2px;
+                      font-size: $font-size-normal;
+                    }
+                }
+            }
+            &:after {
+                border-bottom: 1px solid #cbcbcb;
+                content: '';
+                width: 100%;
+                position: absolute;
+                left: 0;
             }
         }
     }
-    td {
-        max-width: 4em;
-        padding-right: 1em;
 
-        &.td-distance {
-            width: 29%;
-            max-width: 3em;
-        }
-        &.td-destination {
-            width: 63%;
-        }
-        &.td-bikestation {
-            width: 63%;
-        }
-        &.td-route-number {
-            width: 22%;
-            max-width: 2em;
-        }
-        &.td-bikes-available-left {
-            width: 15%;
-        }
-        &.td-bikes-available-right {
-            width: 15%;
-        }
-        &.td-departure-times {
-            width: 15%;
-        }
-        .route-destination {
-            width: 100%;
-        }
-        .route-number {
-            width: 100%;
-        }
-        .city-bike-station-name {
-            width: 100%;
-        }
-        .bikes-label {
-            margin-right: 0.5em;
-            font-size: $font-size-small;
-            color: #888;
-        }
-        .bikes-available {
-            font-weight: $font-weight-bold;
-        }
-        .bikes-total {
-            margin-right: 0.4em;
-        }
-        .time {
-            font-weight: $font-weight-bold;
-        }
-        .distance {
-            color:#666666;
+    .next-departure-row {
+        .td-route-number {
+            min-width: 64px;
         }
     }
 }

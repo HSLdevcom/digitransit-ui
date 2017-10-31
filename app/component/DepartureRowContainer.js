@@ -46,34 +46,35 @@ const DepartureRow = props => {
   }
 
   return (
-    <Link
+    /*   <Link
       to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure.pattern
         .code}`}
       key={departure.pattern.code}
     >
-      <tr className="next-departure-row-tr">
-        <td className="td-distance">
-          <Distance distance={props.distance} />
-        </td>
-        <td className="td-route-number overflow-fade">
-          <RouteNumberContainer
-            route={departure.pattern.route}
-            hasDisruption={hasActiveDisruption(
-              props.currentTime,
-              departure.pattern.route.alerts,
-            )}
-            isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
-          />
-        </td>
-        <td className="td-destination">
-          <RouteDestination
-            mode={departure.pattern.route.mode}
-            destination={headsign || departure.pattern.route.longName}
-          />
-        </td>
-        {departureTimes}
-      </tr>
-    </Link>
+    */
+    <tr className="next-departure-row-tr">
+      <td className="td-distance">
+        <Distance distance={props.distance} />
+      </td>
+      <td className="td-route-number overflow-fade">
+        <RouteNumberContainer
+          route={departure.pattern.route}
+          hasDisruption={hasActiveDisruption(
+            props.currentTime,
+            departure.pattern.route.alerts,
+          )}
+          isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
+        />
+      </td>
+      <td className="td-destination">
+        <RouteDestination
+          mode={departure.pattern.route.mode}
+          destination={headsign || departure.pattern.route.longName}
+        />
+      </td>
+      {departureTimes}
+    </tr>
+    //   </Link>
   );
 };
 
