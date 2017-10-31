@@ -4,8 +4,6 @@ module.exports = {
 
   'Open about page': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
     const menu = browser.page.mainMenu();
     menu.clickMenuToggle();
     menu.clickSelectEnglish();

@@ -3,8 +3,6 @@ module.exports = {
 
   'Custom search options are not forgotten if endpoint changes': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const searchFields = browser.page.searchFields();
     searchFields.itinerarySearch('Helsingin rautatieasema', 'Opastinsilta 6');
@@ -14,6 +12,8 @@ module.exports = {
 
     const customizeSearch = browser.page.customizeSearch();
     customizeSearch.clickCanvasToggle();
+    customizeSearch.waitOffcanvasOpen();
+
     customizeSearch.disableModality('rail');
     customizeSearch.closeCanvas();
 
@@ -31,12 +31,9 @@ module.exports = {
 
   'Current location is updated in searches triggered by a parameter change': browser => {
     browser.url(browser.launch_url).setGeolocation(60.17, 24.941); // from railway station
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     browser.page
       .searchFields()
-      .useCurrentLocationInOrigin()
       .setDestination('Opastinsilta 6, Helsinki')
       .enterKeyDestination();
 
