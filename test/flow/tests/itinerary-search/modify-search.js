@@ -12,6 +12,8 @@ module.exports = {
 
     const customizeSearch = browser.page.customizeSearch();
     customizeSearch.clickCanvasToggle();
+    customizeSearch.waitOffcanvasOpen();
+
     customizeSearch.disableModality('rail');
     customizeSearch.closeCanvas();
 
