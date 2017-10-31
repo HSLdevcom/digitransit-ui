@@ -11,9 +11,10 @@ module.exports = {
     itinerarySummary.waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
 
-    browser.back();
+    customizeSearch.clickCanvasToggle();
+    browser.pause(1000);
+    browser.back(); // closes offcanvas
 
     //  Itinerary page controls are available because back button closed offcanvas
     itinerarySummary.clickSwapOriginDestination();
