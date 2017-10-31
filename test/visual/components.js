@@ -156,9 +156,6 @@ testVariation('AppBarSmall', 'with-logo', 3);
 
 testVariation('AppBarLarge');
 
-testVariation('FakeSearchWithButton', 'basic');
-testVariation('FakeSearchWithButton', 'large', 2);
-
 testVariation('FrontPagePanelLarge');
 testVariation('FrontPagePanelSmall');
 testVariation('ExternalLink');
