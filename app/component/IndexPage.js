@@ -13,7 +13,6 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { isBrowser } from '../util/browser';
 import {
-  getEndpointPath,
   parseLocation,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
@@ -166,8 +165,12 @@ class IndexPage extends React.Component {
   };
 
   openFavourites = replace => {
-    const [, origin, destination] = this.context.location.pathname.split('/');
-    const url = `${getEndpointPath(origin, destination)}/suosikit`;
+    // const [, origin, destination] = this.context.location.pathname.split('/');
+    const url = getPathWithEndpointObjects(
+      this.props.origin,
+      this.props.destination,
+      'suosikit',
+    );
     if (replace) {
       this.context.router.replace(url);
     } else {
@@ -176,8 +179,11 @@ class IndexPage extends React.Component {
   };
 
   openNearby = replace => {
-    const [, origin, destination] = this.context.location.pathname.split('/');
-    const url = `${getEndpointPath(origin, destination)}/lahellasi`;
+    const url = getPathWithEndpointObjects(
+      this.props.origin,
+      this.props.destination,
+      'lahellasi',
+    );
 
     if (replace) {
       this.context.router.replace(url);
@@ -238,6 +244,7 @@ class IndexPage extends React.Component {
           <DTAutosuggestPanel
             origin={this.props.origin}
             destination={this.props.destination}
+            tab={this.props.tab}
           />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -283,6 +290,7 @@ class IndexPage extends React.Component {
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
+              tab={this.props.tab}
             />
             {
               <div

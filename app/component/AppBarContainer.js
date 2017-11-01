@@ -5,24 +5,14 @@ import getContext from 'recompose/getContext';
 import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 
-const AppBarContainer = ({
-  breakpoint,
-  router,
-  location,
-  homeUrl,
-  ...args
-}) => {
-  console.log(homeUrl, location);
-  return (
-    (breakpoint !== 'large' && (
-      <AppBarSmall
-        {...args}
-        showLogo={location.pathname.indexOf(homeUrl) === 0}
-        homeUrl={homeUrl}
-      />
-    )) || <AppBarLarge {...args} titleClicked={() => router.push(homeUrl)} />
-  );
-};
+const AppBarContainer = ({ breakpoint, router, location, homeUrl, ...args }) =>
+  (breakpoint !== 'large' && (
+    <AppBarSmall
+      {...args}
+      showLogo={location.pathname.indexOf(homeUrl) === 0}
+      homeUrl={homeUrl}
+    />
+  )) || <AppBarLarge {...args} titleClicked={() => router.push(homeUrl)} />;
 
 const WithContext = getContext({
   location: locationShape.isRequired,

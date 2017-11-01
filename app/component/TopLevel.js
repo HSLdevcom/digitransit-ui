@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
-import { parseLocation, getPathWithEndpointObjects } from '../util/path';
+import { getHomeUrl, parseLocation } from '../util/path';
 
 import meta from '../meta';
 import AppBarContainer from './AppBarContainer';
@@ -126,12 +126,9 @@ class TopLevel extends React.Component {
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
 
-    const homeUrl = getPathWithEndpointObjects(
+    const homeUrl = getHomeUrl(
       parseLocation(this.props.params.from),
-      {
-        set: false,
-        ready: false,
-      },
+      parseLocation(this.props.params.to),
     );
 
     return (

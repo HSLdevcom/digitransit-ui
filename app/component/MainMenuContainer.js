@@ -81,6 +81,7 @@ class MainMenuContainer extends Component {
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
+                homeUrl={this.props.homeUrl}
               />
             </Drawer>
           )}
