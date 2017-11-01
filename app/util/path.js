@@ -16,8 +16,8 @@ export const isEmpty = s =>
 export const getEndpointPath = (origin, destination) =>
   [
     '',
-    isEmpty(origin) ? '-' : origin,
-    isEmpty(destination) ? '-' : destination || '-',
+    encodeURIComponent(isEmpty(origin) ? '-' : origin),
+    encodeURIComponent(isEmpty(destination) ? '-' : destination || '-'),
   ].join('/');
 
 /**
