@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
+import { parseLocation, getPathWithEndpointObjects } from '../util/path';
 
 import meta from '../meta';
 import AppBarContainer from './AppBarContainer';
@@ -28,6 +29,10 @@ class TopLevel extends React.Component {
         disableMapOnMobile: PropTypes.bool,
       }).isRequired,
     ).isRequired,
+    params: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -121,10 +126,22 @@ class TopLevel extends React.Component {
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
 
+    const homeUrl = getPathWithEndpointObjects(
+      parseLocation(this.props.params.from),
+      {
+        set: false,
+        ready: false,
+      },
+    );
+
     return (
       <div className="fullscreen">
         {!this.topBarOptions.hidden && (
-          <AppBarContainer title={this.props.title} {...this.topBarOptions} />
+          <AppBarContainer
+            title={this.props.title}
+            {...this.topBarOptions}
+            homeUrl={homeUrl}
+          />
         )}
         <Helmet {...this.metadata} />
         <section
