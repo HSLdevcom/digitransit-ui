@@ -48,7 +48,8 @@ class IndexPage extends React.Component {
   componentDidMount() {
     const search = this.context.location.search;
 
-    if (search && search.indexOf('citybikes') >= -1) {
+    if (search && search.indexOf('citybikes') > -1) {
+      console.warn('Enabling citybikes');
       this.context.config.transportModes.citybike.defaultValue = true;
     }
 
