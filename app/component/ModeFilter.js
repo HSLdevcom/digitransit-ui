@@ -17,6 +17,8 @@ class ModeFilter extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
+  // TODO use props instead of config so that visual tests do not break every
+  // time modes are updated...
   availableModes = () =>
     Object.keys(this.context.config.transportModes).filter(
       mode => this.context.config.transportModes[mode].availableForSelection,
