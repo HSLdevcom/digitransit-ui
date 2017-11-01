@@ -19,6 +19,7 @@ class TileContainer {
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
+    this.clickCount = 0;
 
     if (this.coords.z < markersMinZoom || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
@@ -123,11 +124,21 @@ class TileContainer {
         return false;
       });
 
-      if (
-        nearest.length === 0 &&
-        (e.type === 'click' || e.type === 'contextmenu')
-      ) {
-        return this.onSelectableTargetClicked([], e.latlng); // close any open menu
+      if (nearest.length === 0 && e.type === 'click') {
+        // Must filter double clicks used for map navigation
+        if (!this.timer) {
+          this.timer = setTimeout(() => {
+            this.timer = null;
+            return this.onSelectableTargetClicked([], e.latlng);
+          }, 300);
+        } else {
+          clearTimeout(this.timer);
+          this.timer = null;
+        }
+        return false;
+      } else if (nearest.length === 0 && e.type === 'contextmenu') {
+        // no need to check double clicks
+        return this.onSelectableTargetClicked([], e.latlng);
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
