@@ -332,8 +332,8 @@ const IndexPageWithPosition = connectToStores(
     }
 
     // todo extract function:
-    if (props.params.origin) {
-      newProps.origin = parseLocation(props.params.origin);
+    if (props.params.from) {
+      newProps.origin = parseLocation(props.params.from);
 
       if (newProps.origin.gps === true) {
         if (locationState.lat && locationState.lon && locationState.address) {
@@ -351,8 +351,8 @@ const IndexPageWithPosition = connectToStores(
       newProps.origin = { set: false };
     }
 
-    if (props.params.destination) {
-      newProps.destination = parseLocation(props.params.destination);
+    if (props.params.to) {
+      newProps.destination = parseLocation(props.params.to);
       if (newProps.destination.gps === true) {
         if (locationState.lat && locationState.lon && locationState.address) {
           newProps.destination.lat = locationState.lat;
