@@ -123,10 +123,11 @@ class TileContainer {
         return false;
       });
 
-      if (nearest.length === 0 && e.type === 'click') {
-        return this.onSelectableTargetClicked(false, e.latlng); // close any open menu
-      } else if (nearest.length === 0 && e.type === 'contextmenu') {
-        return this.onSelectableTargetClicked([], e.latlng); // open menu for no stop
+      if (
+        nearest.length === 0 &&
+        (e.type === 'click' || e.type === 'contextmenu')
+      ) {
+        return this.onSelectableTargetClicked([], e.latlng); // close any open menu
       } else if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
