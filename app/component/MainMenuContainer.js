@@ -16,6 +16,10 @@ class MainMenuContainer extends Component {
     config: PropTypes.object.isRequired,
   };
 
+  static propTypes = {
+    homeUrl: PropTypes.string.isRequired,
+  };
+
   onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
