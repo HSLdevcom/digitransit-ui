@@ -38,6 +38,12 @@ table.nearby-departures-table {
             td {
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
+                &.td-route-number {
+                    .route-number {
+                        white-space: nowrap;
+                        min-width: 50px;
+                    }
+                }
                 &.td-distance {
                     color: $gray;
                     padding-left: 1em;
@@ -48,6 +54,7 @@ table.nearby-departures-table {
                     font-family: $font-family;
                 }
                 &.td-destination, &.td-bikestation {
+                    max-width: 15%;
                     span {
                       margin-top: 2px;
                       font-size: $font-size-normal;
@@ -63,12 +70,6 @@ table.nearby-departures-table {
                 position: absolute;
                 left: 0;
             }
-        }
-    }
-
-    .next-departure-row {
-        .td-route-number {
-            min-width: 64px;
         }
     }
 }
