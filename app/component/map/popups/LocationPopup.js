@@ -42,4 +42,5 @@ LocationPopup.propTypes = {
   name: PropTypes.string.isRequired,
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
+  closePopup: PropTypes.func.isRequired,
 };

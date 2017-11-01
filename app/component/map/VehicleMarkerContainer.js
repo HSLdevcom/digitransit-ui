@@ -185,7 +185,6 @@ export default class VehicleMarkerContainer extends React.PureComponent {
       >
         <Popup
           offset={[106, 16]}
-          closeButton={false}
           maxWidth={250}
           minWidth={250}
           className="popup"
