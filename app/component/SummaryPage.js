@@ -24,6 +24,7 @@ import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
+import { getHomeUrl } from '../util/path';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -279,6 +280,7 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
+          homeUrl={getHomeUrl(this.props.from, this.props.to)}
           header={
             <SummaryNavigation
               params={this.props.params}
@@ -342,6 +344,7 @@ class SummaryPage extends React.Component {
             false
           )
         }
+        homeUrl={getHomeUrl(this.props.from, this.props.to)}
         content={content}
         map={map}
       />
