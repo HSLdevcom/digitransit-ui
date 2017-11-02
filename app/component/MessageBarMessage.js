@@ -30,15 +30,15 @@ const renderContent = content =>
 /*
  * Renders message
  */
-const MessageBarMessage = ({ key, content, onMaximize }) => (
+const MessageBarMessage = ({ id, content, onMaximize }) => (
   // TOOD: find out how this should be accessible
-  <div tabIndex={0} role="button" key={key} onClick={onMaximize}>
+  <div tabIndex={0} role="button" key={id} onClick={onMaximize}>
     {renderContent(content)}
   </div>
 );
 
 MessageBarMessage.propTypes = {
-  key: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   content: PropTypes.array,
   onMaximize: PropTypes.func.isRequired,
 };

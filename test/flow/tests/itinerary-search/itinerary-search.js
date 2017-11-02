@@ -2,10 +2,6 @@ module.exports = {
   '@tags': ['itinerary'],
   'Origin and destination exists in instructions if suggestion is chosen': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
-    //    const messagebar = browser.page.messageBar();
-    //    messagebar.close();
 
     browser.page
       .searchFields()
@@ -24,10 +20,7 @@ module.exports = {
 
   'From Kuninkaanportti to Pohjolanaukio': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
-    //    const messagebar = browser.page.messageBar();
-    //    messagebar.close();
+
     browser.page
       .searchFields()
       .itinerarySearch('kuninkaanportti', 'Pohjolanaukio');

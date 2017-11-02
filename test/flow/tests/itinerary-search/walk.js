@@ -2,8 +2,6 @@ module.exports = {
   tags: ['walk'],
   'Walk in the park': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     browser.page
       .searchFields()
