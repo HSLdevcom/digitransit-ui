@@ -3,6 +3,8 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import shouldUpdate from 'recompose/shouldUpdate';
+import isEqual from 'lodash/isEqual';
 import { initGeolocation } from '../action/PositionActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
@@ -319,8 +321,18 @@ const IndexPageWithBreakpoint = getContext({
   breakpoint: PropTypes.string.isRequired,
 })(IndexPage);
 
+const Index = shouldUpdate(
+  // update only when origin/destination or tab changes
+  (props, nextProps) =>
+    !(
+      isEqual(nextProps.origin, props.origin) &&
+      isEqual(nextProps.destination, props.destination) &&
+      isEqual(nextProps.tab, props.tab)
+    ),
+)(IndexPageWithBreakpoint);
+
 const IndexPageWithPosition = connectToStores(
-  IndexPageWithBreakpoint,
+  Index,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
