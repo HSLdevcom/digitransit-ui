@@ -51,7 +51,6 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    params: PropTypes.object,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
@@ -118,11 +117,6 @@ class IndexPage extends React.Component {
 
       const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
       this.context.router.replace(url);
-      return;
-    }
-
-    if (this.props.params.origin === nextProps.params.origin) {
-      // noop, we're there already
     }
   };
 
@@ -192,16 +186,6 @@ class IndexPage extends React.Component {
       this.context.router.replace(url);
     } else {
       this.context.router.push(url);
-    }
-  };
-
-  // used only in mobile with fullscreen tabs
-  closeTab = () => {
-    if (this.context.location && this.context.location.action === 'PUSH') {
-      // entered the tab from the index page, not by a direct url
-      this.context.router.goBack();
-    } else {
-      this.context.router.replace('/');
     }
   };
 
@@ -326,22 +310,23 @@ class IndexPage extends React.Component {
   }
 }
 
-const IndexPageWithBreakpoint = getContext({
-  breakpoint: PropTypes.string.isRequired,
-})(IndexPage);
-
 const Index = shouldUpdate(
   // update only when origin/destination or tab changes
   (props, nextProps) =>
     !(
       isEqual(nextProps.origin, props.origin) &&
       isEqual(nextProps.destination, props.destination) &&
-      isEqual(nextProps.tab, props.tab)
+      isEqual(nextProps.tab, props.tab) &&
+      isEqual(nextProps.breakpoint, props.breakpoint)
     ),
-)(IndexPageWithBreakpoint);
+)(IndexPage);
+
+const IndexPageWithBreakpoint = getContext({
+  breakpoint: PropTypes.string.isRequired,
+})(Index);
 
 const IndexPageWithPosition = connectToStores(
-  Index,
+  IndexPageWithBreakpoint,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
