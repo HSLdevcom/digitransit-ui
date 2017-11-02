@@ -311,13 +311,14 @@ class IndexPage extends React.Component {
 }
 
 const Index = shouldUpdate(
-  // update only when origin/destination or tab changes
+  // update only when origin/destination/tab/breakpoint or language changes
   (props, nextProps) =>
     !(
       isEqual(nextProps.origin, props.origin) &&
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.tab, props.tab) &&
-      isEqual(nextProps.breakpoint, props.breakpoint)
+      isEqual(nextProps.breakpoint, props.breakpoint) &&
+      isEqual(nextProps.lang, props.lang)
     ),
 )(IndexPage);
 
@@ -325,8 +326,16 @@ const IndexPageWithBreakpoint = getContext({
   breakpoint: PropTypes.string.isRequired,
 })(Index);
 
-const IndexPageWithPosition = connectToStores(
+const IndexPageWithLang = connectToStores(
   IndexPageWithBreakpoint,
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+const IndexPageWithPosition = connectToStores(
+  IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
