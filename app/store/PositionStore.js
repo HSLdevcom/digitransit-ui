@@ -1,8 +1,13 @@
 import Store from 'fluxible/addons/BaseStore';
+import d from 'debug';
+import { api, init } from '../action/MockGeolocationApi';
+import { isBrowser } from '../util/browser';
 import {
   getPositioningHasSucceeded,
   setPositioningHasSucceeded,
 } from './localStorage';
+
+const debug = d('PositionStore.js');
 
 export default class PositionStore extends Store {
   static storeName = 'PositionStore';
@@ -18,6 +23,13 @@ export default class PositionStore extends Store {
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
   constructor(dispatcher) {
+    if (isBrowser && location && location.search.indexOf('mock') !== -1) {
+      debug('replacing geolocation api with mock');
+      navigator.geoapi = api;
+      init();
+    } else {
+      navigator.geoapi = navigator.geolocation;
+    }
     super(dispatcher);
     this.removeLocation();
     this.positioningHasSucceeded = getPositioningHasSucceeded();

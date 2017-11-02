@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import provideContext from 'fluxible-addons-react/provideContext';
 import { intlShape } from 'react-intl';
-
+import { routerShape } from 'react-router';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -61,7 +61,7 @@ export default class VehicleMarkerContainer extends React.PureComponent {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
@@ -185,7 +185,6 @@ export default class VehicleMarkerContainer extends React.PureComponent {
       >
         <Popup
           offset={[106, 16]}
-          closeButton={false}
           maxWidth={250}
           minWidth={250}
           className="popup"

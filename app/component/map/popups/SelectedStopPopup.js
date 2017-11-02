@@ -28,7 +28,6 @@ class SelectedStopPopup extends React.Component {
       <Popup
         position={{ lat: this.props.lat, lng: this.props.lon }}
         offset={[50, 25]}
-        closeButton={false}
         maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         autoPan={false}
         className="origin-popup"

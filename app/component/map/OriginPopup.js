@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { routerShape } from 'react-router';
 
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
@@ -11,7 +12,7 @@ class OriginPopup extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     popupContainer: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   };
@@ -44,7 +45,6 @@ class OriginPopup extends React.Component {
       <Popup
         context={this.context}
         offset={[50, this.props.yOffset]}
-        closeButton={false}
         maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         autoPan={false}
         className="origin-popup"

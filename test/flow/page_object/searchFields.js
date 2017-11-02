@@ -1,17 +1,15 @@
 function setOrigin(origin) {
-  const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
-  this.api.checkedClick(this.elements.origin.selector);
-  this.waitForElementVisible('@searchOrigin', timeout);
+  this.setValue('@searchOrigin', ' ');
+  this.api.pause(1000);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
+  this.api.pause(1000);
   this.verifyItemInSearchResult(origin);
   return this;
 }
 
 function useCurrentLocationInOrigin() {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.api.checkedClick(this.elements.origin.selector);
   this.waitForElementVisible('@searchOrigin', timeout);
   this.isVisible('@geolocationSelected', result => {
@@ -35,19 +33,10 @@ function useCurrentLocationInOrigin() {
 function enterKeyOrigin() {
   this.api.debug('hit enter origin');
   this.waitForElementPresent(
-    'li#react-autowhatever-suggest--item-0',
+    'li#react-autowhatever-origin--item-0',
     this.api.globals.elementVisibleTimeout,
   );
   return this.setValue('@searchOrigin', this.api.Keys.ENTER);
-}
-
-function openSearch() {
-  this.waitForElementVisible(
-    '@frontPageSearchBar',
-    this.api.globals.elementVisibleTimeout,
-  );
-  this.api.checkedClick(this.elements.frontPageSearchBar.selector);
-  this.waitForElementVisible('@origin', this.api.globals.elementVisibleTimeout);
 }
 
 function waitSearchClosing() {
@@ -59,12 +48,13 @@ function waitSearchClosing() {
 
 function setDestination(destination) {
   this.api.debug('setting destination');
-  this.openSearch();
-  this.checkedClick(this.elements.destination.selector);
-  this.waitForElementVisible(
+  this.waitForElementPresent(
     '@searchDestination',
     this.api.globals.elementVisibleTimeout,
   );
+  this.setValue('@searchDestination', ' ');
+  this.api.pause(1500);
+  this.clearValue('@searchDestination');
   this.setValue('@searchDestination', destination);
   this.verifyItemInSearchResult(destination);
   return this;
@@ -73,7 +63,7 @@ function setDestination(destination) {
 function enterKeyDestination() {
   this.api.debug('hit enter destination');
   this.waitForElementPresent(
-    'li#react-autowhatever-suggest--item-0',
+    'li#react-autowhatever-destination--item-0',
     this.api.globals.elementVisibleTimeout,
   );
 
@@ -83,7 +73,7 @@ function enterKeyDestination() {
 function enterKeySearch() {
   this.api.debug('click on first route suggestion');
   this.waitForElementPresent(
-    'li#react-autowhatever-suggest--item-0',
+    'li#react-autowhatever-destination--item-0',
     this.api.globals.elementVisibleTimeout,
   );
   return this.checkedClick(
@@ -101,19 +91,30 @@ function itinerarySearch(origin, destination) {
 
 function setSearch(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.waitForElementVisible('@searchDestination', timeout);
   this.setValue('@searchDestination', search);
-  this.waitForElementVisible('@firstSuggestedItem', timeout);
+  this.waitForElementVisible('@firstSuggestedDestinationItem', timeout);
   return this.enterKeySearch();
 }
 
+function selectFirstRouteSuggestion(search) {
+  const timeout = this.api.globals.elementVisibleTimeout;
+  this.setOrigin(search);
+  this.waitForElementVisible(
+    this.elements.firstRouteSuggestion.selector,
+    timeout,
+  );
+  //  this.pause(1000000);
+
+  this.checkedClick(this.elements.firstRouteSuggestion.selector);
+
+  // return this.enterKeySearch();
+}
 function selectTimetableForFirstResult(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.openSearch();
   this.waitForElementVisible('@searchDestination', timeout);
   this.setValue('@searchDestination', search);
-  this.waitForElementVisible('@firstSuggestedItem', timeout);
+  this.waitForElementVisible('@firstSuggestedDestinationItem', timeout);
   //  this.pause(1000000);
 
   this.checkedClick(this.elements.firstSuggestedItemTimeTable.selector);
@@ -144,9 +145,9 @@ module.exports = {
       itinerarySearch,
       setSearch,
       selectTimetableForFirstResult,
-      openSearch,
       waitSearchClosing,
       verifyItemInSearchResult,
+      selectFirstRouteSuggestion,
     },
   ],
   elements: {
@@ -157,20 +158,26 @@ module.exports = {
       selector: '#origin',
     },
     searchOrigin: {
-      selector: '#search-origin',
+      selector: '#origin',
     },
     destination: {
       selector: '#destination',
     },
     searchDestination: {
-      selector: '#search-destination',
+      selector: '#destination',
     },
-    firstSuggestedItem: {
-      selector: '#react-autowhatever-suggest--item-0',
+    firstSuggestedOriginItem: {
+      selector: '#react-autowhatever-origin--item-0',
+    },
+    firstSuggestedDestinationItem: {
+      selector: '#react-autowhatever-destination--item-0',
+    },
+    firstRouteSuggestion: {
+      selector: '.search-result.Route',
     },
     firstSuggestedItemTimeTable: {
       selector:
-        '#react-autowhatever-suggest--item-0 .suggestion-item-timetable-label',
+        '#react-autowhatever-destination--item-0 .suggestion-item-timetable-label',
     },
     search: {
       selector: 'a#search-tab',
