@@ -84,6 +84,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
 });
 
 const initialState = {
