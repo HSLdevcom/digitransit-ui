@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['itinerary tuning'],
-
+  '@disabled': true,
   'Custom search options are not forgotten if endpoint changes': browser => {
     browser.url(browser.launch_url);
 
