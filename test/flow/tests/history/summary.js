@@ -1,6 +1,5 @@
 module.exports = {
   '@tags': ['back button'],
-  '@disabled': true,
   'History works on itinerary summary page': browser => {
     browser.url(browser.launch_url);
 
