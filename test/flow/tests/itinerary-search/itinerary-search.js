@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['itinerary'],
-  '@disabled': true, 
+  '@disabled': true,
   'Origin and destination exists in instructions if suggestion is chosen': browser => {
     browser.url(browser.launch_url);
 
