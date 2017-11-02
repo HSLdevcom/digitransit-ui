@@ -1,5 +1,6 @@
 module.exports = {
   tags: ['favourite', 'search'],
+  '@disabled': true,
   'Favourite should be part of search': browser => {
     browser.url(browser.launch_url);
     //    const messagebar = browser.page.messageBar();
