@@ -1,5 +1,6 @@
 module.exports = {
   tags: ['walk'],
+  '@disabled': true,
   'Walk in the park': browser => {
     browser.url(browser.launch_url);
 
