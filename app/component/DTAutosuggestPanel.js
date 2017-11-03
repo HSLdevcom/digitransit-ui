@@ -110,7 +110,7 @@ class DTAutosuggestPanel extends React.Component {
           let origin = location;
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-            origin = { gps: true, ready: true };
+            origin = { ...location, gps: true, ready: true };
             if(destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
@@ -144,7 +144,7 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = location;
             if (location.type === 'CurrentLocation') {
-              destination = { gps: true, ready: true };
+              destination = { ...destination, gps: true, ready: true };
               if(origin.gps === true) {
                 origin = { set: false };
               }

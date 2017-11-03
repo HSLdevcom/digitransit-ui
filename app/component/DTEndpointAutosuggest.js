@@ -41,7 +41,7 @@ class DTEndpointAutosuggest extends React.Component {
   }
 
   onSuggestionSelected = item => {
-    const name = getLabel(item.properties, true);
+    const name = item.type == 'CurrentLocation' ? item.address : getLabel(item.properties, true);
     const clone = cloneDeep(item);
     if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
       const url = `/pysakit/${getGTFSId(clone.properties)}`;
@@ -59,10 +59,12 @@ class DTEndpointAutosuggest extends React.Component {
       address: name,
       type: item.type,
       lat:
+        item.lat ||
         item.geometry &&
         item.geometry.coordinates &&
         item.geometry.coordinates[1],
       lon:
+        item.lon ||
         item.geometry &&
         item.geometry.coordinates &&
         item.geometry.coordinates[0],
