@@ -113,7 +113,7 @@
     "react-router": "3.0.5",
     "react-router-relay": "0.14.0",
     "react-swipeable-views": "0.12.5",
-    "react-swipeable-views-utils": "0.12.5",
+    "react-swipeable-views-utils": "0.12.9",
     "react-tap-event-plugin": "2.0.1",
     "recompose": "0.25.0",
     "serialize-javascript": "1.4.0",
