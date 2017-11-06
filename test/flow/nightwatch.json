@@ -52,8 +52,8 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "itinerarySearchTimeout": 11000,
-        "elementVisibleTimeout": 10000
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 20000
       },
       "screenshots": {
         "enabled": true,
@@ -80,7 +80,7 @@
       },
       "globals": {
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 10000,
+        "elementVisibleTimeout": 20000,
         "debug": false
       },
       "screenshots": {
@@ -89,7 +89,7 @@
         "on_error": true,
         "path": "test_output/screenshots/"
       },
-      "launch_url": "http://localhost:8080/?mock",
+      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
       "selenium_port"  : 9515,
       "selenium_host"  : "localhost",
       "default_path_prefix" : "",
@@ -99,6 +99,40 @@
           "browserName": "chrome",
           "chromeOptions" : {
             "args" : ["--no-sandbox"]
+          },
+          "acceptSslCerts": true
+        }
+    },
+
+    "chromedriver-mobile": {
+      "selenium": {
+        "start_process": false
+      },
+      "test_workers": {
+        "enabled": true,
+        "workers": 2
+      },
+      "globals": {
+        "itinerarySearchTimeout": 21000,
+        "elementVisibleTimeout": 20000,
+        "debug": false
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "test_output/screenshots/"
+      },
+      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
+      "selenium_port"  : 9515,
+      "selenium_host"  : "localhost",
+      "default_path_prefix" : "",
+
+      "desiredCapabilities": {
+          "resolution": "1280x800",
+          "browserName": "chrome",
+          "chromeOptions" : {
+            "args" : ["--no-sandbox","window-size=400,800"]
           },
           "acceptSslCerts": true
         }

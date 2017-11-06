@@ -616,7 +616,7 @@ export default config => {
         }}
       />
       <Route
-        path={'/(:origin)(/:destination)(/:tab)'}
+        path={'/(:from)(/:to)(/:tab)'}
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,

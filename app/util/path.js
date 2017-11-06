@@ -13,42 +13,55 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination) =>
+export const getEndpointPath = (origin, destination, tab) =>
   [
     '',
-    isEmpty(origin) ? '-' : origin,
-    isEmpty(destination) ? '-' : destination || '-',
+    encodeURIComponent(isEmpty(origin) ? '-' : origin),
+    encodeURIComponent(isEmpty(destination) ? '-' : destination || '-'),
+    tab,
   ].join('/');
 
 /**
  * check is parameters are good for itinerary search
  * @deprecated
  */
-export const isItinerarySearch = (origin, destination) =>
-  !isEmpty(origin) && !isEmpty(destination);
+export const isItinerarySearch = (origin, destination) => {
+  const isSearch = !isEmpty(origin) && !isEmpty(destination);
+  return isSearch;
+};
 
-export const isItinerarySearchObjects = (origin, destination) =>
-  origin.ready !== false && destination.ready !== false;
+export const isItinerarySearchObjects = (origin, destination) => {
+  const isSearch =
+    origin.ready &&
+    origin.ready !== false &&
+    destination &&
+    destination.ready !== false;
+  return isSearch;
+};
 
 /**
  * if both are set it's itinerary search...
  * @deprecated
  */
-export const getPathWithEndpoints = (origin, destination) =>
+export const getPathWithEndpoints = (origin, destination, tab) =>
   isItinerarySearch(origin, destination)
     ? getRoutePath(origin, destination)
-    : getEndpointPath(origin, destination);
+    : getEndpointPath(origin, destination, tab);
 
 /**
  * use objects instead of strings If both are set it's itinerary search...
  */
-export const getPathWithEndpointObjects = (origin, destination) =>
+export const getPathWithEndpointObjects = (
+  origin,
+  destination,
+  tab: 'lahellasi',
+) =>
   isItinerarySearchObjects(origin, destination)
     ? getRoutePath(
         addressToItinerarySearch(origin),
         addressToItinerarySearch(destination),
       )
-    : getEndpointPath(locationToOTP(origin), locationToOTP(destination));
+    : getEndpointPath(locationToOTP(origin), locationToOTP(destination), tab);
 
 /**
  Parses current location from string to location object
@@ -64,11 +77,21 @@ export const parseLocation = location => {
       gps: true,
     };
   }
-  const parsed = otpToLocation(location);
+  const parsed = otpToLocation(decodeURIComponent(location));
 
   if (parsed.lat && parsed.lon) {
     parsed.set = true;
     parsed.ready = true;
   }
   return parsed;
+};
+
+export const getHomeUrl = origin => {
+  // TODO consider looking at destination too
+  const homeUrl = getPathWithEndpointObjects(origin, {
+    set: false,
+    ready: false,
+  });
+
+  return homeUrl;
 };

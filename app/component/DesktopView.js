@@ -6,7 +6,7 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
 export default function DesktopView(
-  { title, header, map, content },
+  { title, header, map, content, homeUrl },
   { intl: { formatMessage } },
 ) {
   return (
@@ -19,7 +19,7 @@ export default function DesktopView(
                 id: 'back-to-front-page',
                 defaultMessage: 'Back to the front page',
               })}
-              to="/"
+              to={homeUrl}
             >
               <Icon img="icon-icon_home" className="home-icon" />
             </Link>
@@ -43,6 +43,7 @@ DesktopView.propTypes = {
   header: PropTypes.node,
   map: PropTypes.node,
   content: PropTypes.node,
+  homeUrl: PropTypes.string,
 };
 
 DesktopView.contextTypes = {
