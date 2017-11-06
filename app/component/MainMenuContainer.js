@@ -16,6 +16,10 @@ class MainMenuContainer extends Component {
     config: PropTypes.object.isRequired,
   };
 
+  static propTypes = {
+    homeUrl: PropTypes.string.isRequired,
+  };
+
   onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
@@ -81,6 +85,7 @@ class MainMenuContainer extends Component {
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
+                homeUrl={this.props.homeUrl}
               />
             </Drawer>
           )}

@@ -324,7 +324,8 @@ export function executeSearchImmediate(
 
     if (
       endpointLayers.includes('CurrentPosition') &&
-      position.status === 'found-address'
+      (position.status === 'found-location' ||
+        position.status === 'found-address')
     ) {
       searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }

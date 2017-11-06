@@ -38,7 +38,7 @@ module.exports = {
       selector: '.leaflet-popup-content .card a',
     },
     clusterStop: {
-      selector: '.card .cursor-pointer',
+      selector: '.card .cursor-pointer .select-row-icon',
     },
     clusterHeader: {
       selector: '.card .header-primary',

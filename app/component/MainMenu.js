@@ -38,7 +38,7 @@ function MainMenu(props, context) {
         {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
-        <Link id="frontpage" to="/">
+        <Link id="frontpage" to={props.homeUrl}>
           <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
         </Link>
       </div>
@@ -61,6 +61,7 @@ MainMenu.propTypes = {
   showDisruptionInfo: PropTypes.bool,
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
+  homeUrl: PropTypes.string.isRequired,
 };
 
 MainMenu.defaultProps = {
