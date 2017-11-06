@@ -636,7 +636,7 @@ input.react-autosuggest__input{
   }
 }
 
-.react-autosuggest__container::-ms-clear {
+input.react-autosuggest__input::-ms-clear {
   display:none;
 }
 
