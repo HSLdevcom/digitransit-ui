@@ -1,3 +1,4 @@
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
@@ -79,7 +80,7 @@ class LocationPopup extends React.Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="card" style={{ height: '12rem' }}>
+        <div className="card" style={{ height: '4rem' }}>
           <Loading />
         </div>
       );
