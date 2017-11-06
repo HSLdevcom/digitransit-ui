@@ -627,12 +627,17 @@ input.react-autosuggest__input{
 .react-autosuggest__container input {
   box-shadow: none;
   outline: none;
+  transition: border 0s;
   &:focus {
     box-shadow: none;
     outline: none;
     border: none;
-    // transition: border 0s;
+    background: $white;
   }
+}
+
+.react-autosuggest__container::-ms-clear {
+  display:none;
 }
 
 button.clear-input {
