@@ -120,7 +120,7 @@
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {
-    "async": "2.5.0",
+    "async": "2.6.0",
     "autoprefixer": "6.7.6",
     "babel-eslint": "7.2.3",
     "babel-loader": "7.1.1",
