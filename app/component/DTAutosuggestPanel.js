@@ -98,7 +98,7 @@ class DTAutosuggestPanel extends React.Component {
       <DTEndpointAutosuggest
         id="origin"
         autoFocus={
-          this.context.breakpoint === 'large' && !this.state.selectionDone
+          this.context.breakpoint === 'large' && !this.props.origin.ready
         }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
@@ -107,42 +107,19 @@ class DTAutosuggestPanel extends React.Component {
         value={this.value(this.props.origin)}
         isFocused={this.isFocused}
         onLocationSelected={location => {
+          let origin = location;
+          let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-            if (this.props.destination.gps === true) {
+            origin = { gps: true, ready: true };
+            if (destination.gps === true) {
               // destination has gps, clear destination
-              this.navigate(
-                getPathWithEndpointObjects(
-                  { gps: true, ready: true },
-                  { set: false },
-                  this.props.tab,
-                ),
-                !isItinerarySearchObjects(
-                  { gps: true, ready: true },
-                  { set: false },
-                ),
-              );
-              return;
+              destination = { set: false };
             }
-            this.navigate(
-              getPathWithEndpointObjects(
-                { gps: true, ready: true },
-                this.props.destination,
-                this.props.tab,
-              ),
-            );
-            return;
           }
           this.navigate(
-            getPathWithEndpointObjects(
-              location,
-              this.props.destination,
-              this.props.tab,
-            ),
-            !isItinerarySearchObjects(location, this.props.destination),
+            getPathWithEndpointObjects(origin, destination, this.props.tab),
+            !isItinerarySearchObjects(origin, destination),
           );
-          this.setState({
-            selectionDone: true,
-          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -150,9 +127,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.origin.ready ? (
         <DTEndpointAutosuggest
           id="destination"
-          autoFocus={
-            this.context.breakpoint === 'large' && this.state.selectionDone
-          }
+          autoFocus={this.context.breakpoint === 'large'}
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
@@ -160,41 +135,17 @@ class DTAutosuggestPanel extends React.Component {
           isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
+            let origin = this.props.origin;
+            let destination = location;
             if (location.type === 'CurrentLocation') {
-              if (this.props.origin.gps === true) {
-                // origin has current location set, clear origin
-                this.navigate(
-                  getPathWithEndpointObjects(
-                    { set: false },
-                    { gps: true, ready: true },
-                    this.props.tab,
-                  ),
-                  !isItinerarySearchObjects(
-                    { set: false },
-                    { gps: true, ready: true },
-                  ),
-                );
-                return;
+              destination = { gps: true, ready: true };
+              if (origin.gps === true) {
+                origin = { set: false };
               }
-              this.navigate(
-                getPathWithEndpointObjects(
-                  this.props.origin,
-                  {
-                    gps: true,
-                    ready: true,
-                  },
-                  this.props.tab,
-                ),
-              );
-              return;
             }
             this.navigate(
-              getPathWithEndpointObjects(
-                this.props.origin,
-                location,
-                this.props.tab,
-              ),
-              !isItinerarySearchObjects(this.props.origin, location),
+              getPathWithEndpointObjects(origin, destination, this.props.tab),
+              !isItinerarySearchObjects(origin, destination),
             );
           }}
         />
