@@ -340,6 +340,11 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
+    const gpsError =
+      ['no-location', 'prompt', 'searching-location', 'found-location'].indexOf(
+        locationState.status,
+      ) === -1;
+
     const newProps = {};
 
     if (props.params.tab) {
@@ -357,10 +362,7 @@ const IndexPageWithPosition = connectToStores(
           newProps.origin.lon = locationState.lon;
           newProps.origin.address = locationState.address;
         }
-        newProps.origin.gpsError =
-          ['no-location', 'prompt', 'searching-location'].indexOf(
-            locationState.status,
-          ) === -1;
+        newProps.origin.gpsError = gpsError;
       }
     } else {
       newProps.origin = { set: false };
@@ -375,10 +377,7 @@ const IndexPageWithPosition = connectToStores(
           newProps.destination.address = locationState.address;
           newProps.destination.ready = true;
         }
-        newProps.destination.gpsError =
-          ['no-location', 'prompt', 'searching-location'].indexOf(
-            locationState.status,
-          ) === -1;
+        newProps.destination.gpsError = gpsError;
       }
     } else {
       newProps.destination = { set: false };
