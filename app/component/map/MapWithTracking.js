@@ -53,12 +53,17 @@ class MapWithTrackingStateHandler extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (
-      this.state.origin.useCurrentPosition !== true &&
-      newProps.origin.gps === true
+      // "current position selected"
+      newProps.origin.gps === true &&
+      ((this.state.origin.ready === false && newProps.origin.ready === true) ||
+        !this.state.origin.gps) // current position selected
     ) {
       this.usePosition(newProps.origin);
     } else if (
-      newProps.origin !== this.state.origin &&
+      // "poi selected"
+      !newProps.origin.gps &&
+      (newProps.origin.lat !== this.state.origin.lat ||
+        newProps.origin.lon !== this.state.origin.lon) &&
       newProps.origin.lat != null &&
       newProps.origin.lon != null
     ) {
@@ -67,6 +72,7 @@ class MapWithTrackingStateHandler extends React.Component {
       this.state.focusOnOrigin === true ||
       this.state.shouldShowDefaultLocation === true
     ) {
+      // "origin not set"
       this.setState({
         focusOnOrigin: false,
         shouldShowDefaultLocation: false,
@@ -135,7 +141,7 @@ class MapWithTrackingStateHandler extends React.Component {
         origin={this.props.origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onZoomend: this.disableMapTracking,
+          onZoomend: null, // this.disableMapTracking,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
