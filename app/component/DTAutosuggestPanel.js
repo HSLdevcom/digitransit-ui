@@ -110,14 +110,14 @@ class DTAutosuggestPanel extends React.Component {
           let origin = location;
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-            origin = { ...location, gps: true, ready: true };
+            origin = { gps: true, ready: true };
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
             }
           }
           this.navigate(
-            getPathWithEndpointObjects(location, destination, this.props.tab),
+            getPathWithEndpointObjects(origin, destination, this.props.tab),
             !isItinerarySearchObjects(origin, destination),
           );
         }}
@@ -138,7 +138,7 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = location;
             if (location.type === 'CurrentLocation') {
-              destination = { ...destination, gps: true, ready: true };
+              destination = { gps: true, ready: true };
               if (origin.gps === true) {
                 origin = { set: false };
               }
