@@ -113,6 +113,24 @@ export function getLabel(properties) {
   return getNameLabel(properties, true).join(', ');
 }
 
+export function suggestionToLocation(item) {
+  const name = getLabel(item.properties, true);
+  return {
+    address: name,
+    type: item.type,
+    lat:
+      item.lat ||
+      (item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[1]),
+    lon:
+      item.lon ||
+      (item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[0]),
+  };
+}
+
 export function getIcon(layer) {
   const layerIcon = new Map([
     ['favouritePlace', 'icon-icon_star'],

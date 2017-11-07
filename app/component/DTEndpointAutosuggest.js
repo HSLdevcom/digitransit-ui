@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
-import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
+import {
+  suggestionToLocation,
+  getGTFSId,
+  isStop,
+} from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
 
@@ -41,10 +44,9 @@ class DTEndpointAutosuggest extends React.Component {
   }
 
   onSuggestionSelected = item => {
-    const name = getLabel(item.properties, true);
-    const clone = cloneDeep(item);
-    if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
-      const url = `/pysakit/${getGTFSId(clone.properties)}`;
+    // stop
+    if (isStop(get(item, 'properties')) && item.timetableClicked === true) {
+      const url = `/pysakit/${getGTFSId(item.properties)}`;
       this.context.router.push(url);
       return;
     }
@@ -55,18 +57,7 @@ class DTEndpointAutosuggest extends React.Component {
       return;
     }
 
-    const location = {
-      address: name,
-      type: item.type,
-      lat:
-        item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[1],
-      lon:
-        item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[0],
-    };
+    const location = suggestionToLocation(item);
 
     this.props.onLocationSelected(location);
   };
