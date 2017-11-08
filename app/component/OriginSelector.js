@@ -44,6 +44,8 @@ const OriginSelector = (
         Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
     ).length === 0;
 
+  const isGeocodingResult = item => item.geometry && item.properties;
+
   const names = favourites
     .map(f => (
       <OriginSelectorRow
@@ -56,28 +58,31 @@ const OriginSelector = (
       />
     ))
     .concat(
-      oldSearches.filter(notInFavourites).map(s => (
-        <OriginSelectorRow
-          key={`o-${s.properties.label || s.properties.name}`}
-          icon={getIcon(s.properties.layer)}
-          label={s.properties.label || s.properties.name}
-          onClick={() => {
-            setOrigin({
-              lat:
-                (s.geometry &&
-                  s.geometry.coordinates &&
-                  s.geometry.coordinates[1]) ||
-                s.lat,
-              lon:
-                (s.geometry &&
-                  s.geometry.coordinates &&
-                  s.geometry.coordinates[0]) ||
-                s.lon,
-              address: s.properties.label || s.properties.name,
-            });
-          }}
-        />
-      )),
+      oldSearches
+        .filter(isGeocodingResult)
+        .filter(notInFavourites)
+        .map(s => (
+          <OriginSelectorRow
+            key={`o-${s.properties.label || s.properties.name}`}
+            icon={getIcon(s.properties.layer)}
+            label={s.properties.label || s.properties.name}
+            onClick={() => {
+              setOrigin({
+                lat:
+                  (s.geometry &&
+                    s.geometry.coordinates &&
+                    s.geometry.coordinates[1]) ||
+                  s.lat,
+                lon:
+                  (s.geometry &&
+                    s.geometry.coordinates &&
+                    s.geometry.coordinates[0]) ||
+                  s.lon,
+                address: s.properties.label || s.properties.name,
+              });
+            }}
+          />
+        )),
     )
     .concat(
       config.defaultOrigins.map(o => (
@@ -95,7 +100,7 @@ const OriginSelector = (
   return (
     <ul>
       <GeopositionSelector origin={origin} />
-      {names.slice(0, 2)}
+      {names.slice(0, 3)}
     </ul>
   );
 };
