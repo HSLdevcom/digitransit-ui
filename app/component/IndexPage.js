@@ -3,6 +3,8 @@ import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import shouldUpdate from 'recompose/shouldUpdate';
+import isEqual from 'lodash/isEqual';
 import { initGeolocation } from '../action/PositionActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
@@ -49,7 +51,6 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    params: PropTypes.object,
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
@@ -66,7 +67,8 @@ class IndexPage extends React.Component {
     // TODO move this to wrapping component
     const search = this.context.location.search;
 
-    if (search && search.indexOf('citybikes') >= -1) {
+    if (search && search.indexOf('citybikes') > -1) {
+      console.warn('Enabling citybikes');
       this.context.config.transportModes.citybike.defaultValue = true;
     }
     // auto select nearby tab if none selected and bp=large
@@ -115,11 +117,6 @@ class IndexPage extends React.Component {
 
       const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
       this.context.router.replace(url);
-      return;
-    }
-
-    if (this.props.params.origin === nextProps.params.origin) {
-      // noop, we're there already
     }
   };
 
@@ -189,16 +186,6 @@ class IndexPage extends React.Component {
       this.context.router.replace(url);
     } else {
       this.context.router.push(url);
-    }
-  };
-
-  // used only in mobile with fullscreen tabs
-  closeTab = () => {
-    if (this.context.location && this.context.location.action === 'PUSH') {
-      // entered the tab from the index page, not by a direct url
-      this.context.router.goBack();
-    } else {
-      this.context.router.replace('/');
     }
   };
 
@@ -323,15 +310,40 @@ class IndexPage extends React.Component {
   }
 }
 
+const Index = shouldUpdate(
+  // update only when origin/destination/tab/breakpoint or language changes
+  (props, nextProps) =>
+    !(
+      isEqual(nextProps.origin, props.origin) &&
+      isEqual(nextProps.destination, props.destination) &&
+      isEqual(nextProps.tab, props.tab) &&
+      isEqual(nextProps.breakpoint, props.breakpoint) &&
+      isEqual(nextProps.lang, props.lang)
+    ),
+)(IndexPage);
+
 const IndexPageWithBreakpoint = getContext({
   breakpoint: PropTypes.string.isRequired,
-})(IndexPage);
+})(Index);
+
+const IndexPageWithLang = connectToStores(
+  IndexPageWithBreakpoint,
+  ['PreferencesStore'],
+  context => ({
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
 
 const IndexPageWithPosition = connectToStores(
-  IndexPageWithBreakpoint,
+  IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
+
+    const gpsError =
+      ['no-location', 'prompt', 'searching-location', 'found-location'].indexOf(
+        locationState.status,
+      ) === -1;
 
     const newProps = {};
 
@@ -350,10 +362,7 @@ const IndexPageWithPosition = connectToStores(
           newProps.origin.lon = locationState.lon;
           newProps.origin.address = locationState.address;
         }
-        newProps.origin.gpsError =
-          ['no-location', 'prompt', 'searching-location'].indexOf(
-            locationState.status,
-          ) === -1;
+        newProps.origin.gpsError = gpsError;
       }
     } else {
       newProps.origin = { set: false };
@@ -368,10 +377,7 @@ const IndexPageWithPosition = connectToStores(
           newProps.destination.address = locationState.address;
           newProps.destination.ready = true;
         }
-        newProps.destination.gpsError =
-          ['no-location', 'prompt', 'searching-location'].indexOf(
-            locationState.status,
-          ) === -1;
+        newProps.destination.gpsError = gpsError;
       }
     } else {
       newProps.destination = { set: false };
