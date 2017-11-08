@@ -133,7 +133,7 @@ export function suggestionToLocation(item) {
 
 export function getIcon(layer) {
   const layerIcon = new Map([
-    ['currentPosition', 'icon-icon_position'],
+    ['currentPosition', 'icon-icon_locate'],
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],

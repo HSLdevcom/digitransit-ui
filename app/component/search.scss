@@ -225,10 +225,6 @@ ul.react-autowhatever__items-list {
     fill: $favourite-color;
   }
 
-  &.CurrentLocation svg.icon {
-    fill: $hilight-color;
-  }
-
   .use-own-position, .suggestion-name, .suggestion-label {
     margin: 0;
     @include font-book;
