@@ -114,7 +114,7 @@ export function getLabel(properties) {
 }
 
 export function suggestionToLocation(item) {
-  const name = getLabel(item.properties, true);
+  const name = getLabel(item.properties);
   return {
     address: name,
     type: item.type,
