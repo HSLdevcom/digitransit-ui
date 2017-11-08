@@ -149,7 +149,6 @@ class DTAutosuggest extends React.Component {
   };
 
   clearInput = () => {
-    console.log('clear');
     const newState = {
       editing: true,
       value: '',
