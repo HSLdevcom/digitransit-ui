@@ -7,7 +7,7 @@ $search-result-text-letter-spacing: $letter-spacing;
 $search-result-text-color: $black;
 $search-result-text-highlight-color: $black;
 $search-result-text-highlight-font-weight: $font-weight-book;
-$search-result-text-highlight-background-color: $background-color;
+$search-result-text-highlight-background-color: darken($background-color, 5%);
 $search-result-border-radius: $border-radius;
 $search-result-max-height: 130px;
 $search-result-icon-color: $gray;
@@ -166,7 +166,7 @@ ul.react-autowhatever__items-list {
     padding-top: 0px;
     padding-left: 0;
     li:hover {
-      background: #e3e7e9;
+      background: $search-result-text-highlight-background-color;
     }
   }
 }
