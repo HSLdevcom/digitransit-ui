@@ -42,7 +42,7 @@ export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
       case 'currentPosition':
-        return [suggestion.labelId, null];
+        return [suggestion.labelId, suggestion.address];
       case 'favouritePlace':
         return [suggestion.locationName, suggestion.address];
       case 'favouriteRoute':
