@@ -149,7 +149,6 @@ class DTAutosuggest extends React.Component {
   };
 
   clearInput = () => {
-    console.log('clear');
     const newState = {
       editing: true,
       value: '',
@@ -225,8 +224,8 @@ class DTAutosuggest extends React.Component {
         renderInputComponent={p => (
           <div style={{ position: 'relative', display: 'flex' }}>
             <input id={this.props.id} onClick={this.inputClicked} {...p} />
-            {this.props.renderPostInput}
             {this.clearButton()}
+            {this.props.renderPostInput}
           </div>
         )}
         onSuggestionSelected={this.onSelected}

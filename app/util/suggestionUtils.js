@@ -42,7 +42,7 @@ export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
       case 'currentPosition':
-        return [suggestion.labelId, null];
+        return [suggestion.labelId, suggestion.address];
       case 'favouritePlace':
         return [suggestion.locationName, suggestion.address];
       case 'favouriteRoute':
@@ -114,7 +114,7 @@ export function getLabel(properties) {
 }
 
 export function suggestionToLocation(item) {
-  const name = getLabel(item.properties, true);
+  const name = getLabel(item.properties);
   return {
     address: name,
     type: item.type,
@@ -133,6 +133,7 @@ export function suggestionToLocation(item) {
 
 export function getIcon(layer) {
   const layerIcon = new Map([
+    ['currentPosition', 'icon-icon_locate'],
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],
