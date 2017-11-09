@@ -162,7 +162,7 @@
     "stylelint-scss": "1.4.1",
     "url-loader": "0.5.8",
     "webpack": "3.6.0",
-    "webpack-bundle-analyzer": "2.9.0",
+    "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.6.1",
     "zopfli-webpack-plugin": "0.1.0"
   }
