@@ -1,5 +1,4 @@
 import debounce from 'lodash/debounce';
-import inside from 'point-in-polygon';
 import d from 'debug';
 import { getJson } from '../util/xhrPromise';
 import { getPositioningHasSucceeded } from '../store/localStorage';
@@ -47,11 +46,8 @@ const debouncedRunReverseGeocodingAction = debounce(
   },
 );
 
-const setCurrentLocation = (actionContext, position) => {
-  if (inside([position.lon, position.lat], actionContext.config.areaPolygon)) {
-    actionContext.dispatch('GeolocationFound', position);
-  }
-};
+const setCurrentLocation = (actionContext, position) =>
+  actionContext.dispatch('GeolocationFound', position);
 
 export function geolocatonCallback(
   actionContext,
