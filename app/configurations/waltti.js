@@ -23,6 +23,10 @@ export default {
     showCityBikes: false,
   },
 
+  search: {
+    minimalRegexp: new RegExp('.+'),
+  },
+
   agency: {
     show: false,
   },
