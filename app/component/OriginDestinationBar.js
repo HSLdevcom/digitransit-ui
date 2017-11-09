@@ -9,6 +9,8 @@ import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import OneTabSearchModal from './OneTabSearchModal';
 import { getAllEndpointLayers } from '../util/searchUtils';
+import DTAutosuggestPanel from './DTAutosuggestPanel';
+import Autosuggest from 'react-autosuggest';
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -80,6 +82,7 @@ export default class OriginDestinationBar extends React.Component {
           'flex-horizontal',
         )}
       >
+        {/*
         <button
           id="open-origin"
           aria-label={originLabel}
@@ -95,12 +98,19 @@ export default class OriginDestinationBar extends React.Component {
               {this.props.origin.gps ? ownPosition : this.props.origin.address}
             </span>
           </div>
-        </button>
+      </button> */}
+        <DTAutosuggestPanel
+          origin={this.props.origin}
+          destination={this.props.destination}
+          tab={tab}
+          isItinerary
+        />
         <div className="switch" onClick={() => this.swapEndpoints()}>
           <span>
             <Icon img="icon-icon_direction-b" />
           </span>
         </div>
+        {/*
         <button
           id="open-destination"
           aria-label={destinationLabel}
@@ -125,6 +135,7 @@ export default class OriginDestinationBar extends React.Component {
           target={tab}
           responsive
         />
+              */}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import isEqual from 'lodash/isEqual';
@@ -211,27 +212,32 @@ class DTAutosuggest extends React.Component {
     };
 
     return (
-      <Autosuggest
-        id={this.props.id}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.fetchFunction}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderItem}
-        inputProps={inputProps}
-        focusInputOnSuggestionClick={false}
-        shouldRenderSuggestions={() => this.state.editing}
-        renderInputComponent={p => (
-          <div style={{ position: 'relative', display: 'flex' }}>
-            <input id={this.props.id} onClick={this.inputClicked} {...p} />
-            {this.props.renderPostInput}
-            {this.clearButton()}
-          </div>
-        )}
-        onSuggestionSelected={this.onSelected}
-        highlightFirstSuggestion
-        ref={this.storeInputReference}
-      />
+      <div style={{ position: 'relative' }}>
+        <div className={cx(['autosuggest-input-icon', this.props.id])}>
+          <Icon img="icon-icon_mapMarker-point" />
+        </div>
+        <Autosuggest
+          id={this.props.id}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.fetchFunction}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderItem}
+          inputProps={inputProps}
+          focusInputOnSuggestionClick={false}
+          shouldRenderSuggestions={() => this.state.editing}
+          renderInputComponent={p => (
+            <div style={{ position: 'relative', display: 'flex' }}>
+              <input id={this.props.id} onClick={this.inputClicked} {...p} />
+              {this.props.renderPostInput}
+              {this.clearButton()}
+            </div>
+          )}
+          onSuggestionSelected={this.onSelected}
+          highlightFirstSuggestion
+          ref={this.storeInputReference}
+        />
+      </div>
     );
   };
 }

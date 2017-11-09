@@ -25,7 +25,7 @@ class DTAutosuggestPanel extends React.Component {
   static propTypes = {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
-    tab: PropTypes.string.isRequired,
+    isItinerary: PropTypes.bool,
   };
 
   constructor(props) {
@@ -63,7 +63,6 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(
               { gps: true, ready: false },
               this.props.destination,
-              this.props.tab,
             ),
             !isItinerarySearchObjects(
               { gps: true, ready: false },
@@ -84,6 +83,7 @@ class DTAutosuggestPanel extends React.Component {
         'autosuggest-panel',
         {
           small: this.context.breakpoint !== 'large',
+          isItinerary: this.props.isItinerary,
         },
       ])}
     >
@@ -114,7 +114,6 @@ class DTAutosuggestPanel extends React.Component {
                 getPathWithEndpointObjects(
                   { gps: true, ready: true },
                   { set: false },
-                  this.props.tab,
                 ),
                 !isItinerarySearchObjects(
                   { gps: true, ready: true },
@@ -127,17 +126,12 @@ class DTAutosuggestPanel extends React.Component {
               getPathWithEndpointObjects(
                 { gps: true, ready: true },
                 this.props.destination,
-                this.props.tab,
               ),
             );
             return;
           }
           this.navigate(
-            getPathWithEndpointObjects(
-              location,
-              this.props.destination,
-              this.props.tab,
-            ),
+            getPathWithEndpointObjects(location, this.props.destination),
             !isItinerarySearchObjects(location, this.props.destination),
           );
           this.setState({
@@ -147,7 +141,8 @@ class DTAutosuggestPanel extends React.Component {
         renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
-      this.props.origin.ready ? (
+      this.props.origin.ready ||
+      this.props.isItinerary ? (
         <DTEndpointAutosuggest
           id="destination"
           autoFocus={
@@ -167,7 +162,6 @@ class DTAutosuggestPanel extends React.Component {
                   getPathWithEndpointObjects(
                     { set: false },
                     { gps: true, ready: true },
-                    this.props.tab,
                   ),
                   !isItinerarySearchObjects(
                     { set: false },
@@ -177,23 +171,15 @@ class DTAutosuggestPanel extends React.Component {
                 return;
               }
               this.navigate(
-                getPathWithEndpointObjects(
-                  this.props.origin,
-                  {
-                    gps: true,
-                    ready: true,
-                  },
-                  this.props.tab,
-                ),
+                getPathWithEndpointObjects(this.props.origin, {
+                  gps: true,
+                  ready: true,
+                }),
               );
               return;
             }
             this.navigate(
-              getPathWithEndpointObjects(
-                this.props.origin,
-                location,
-                this.props.tab,
-              ),
+              getPathWithEndpointObjects(this.props.origin, location),
               !isItinerarySearchObjects(this.props.origin, location),
             );
           }}
