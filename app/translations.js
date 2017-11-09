@@ -533,6 +533,8 @@ const translations = {
     departures: 'Departures',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
+    'destination-outside-service':
+      'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
     'digitransit-platform': 'Digitransit service platform',
     'disruption-info': 'Disruption info',
@@ -634,6 +636,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     or: 'or',
     origin: 'Origin',
+    'origin-outside-service':
+      'Unfortunately no routes were found for your journey. Your origin address is located outside the service area, please change it.',
     'origin-placeholder': 'From? - address or stop',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
@@ -734,6 +738,8 @@ const translations = {
     'trip-page.title': 'Route {route_short_name}',
     'try-again': 'Try again',
     'use-citybike': 'Start using',
+    'use-national-service':
+      'You can also try the national service available at',
     'use-own-position': 'Use current location',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
@@ -809,6 +815,8 @@ const translations = {
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
+    'destination-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'digitransit-platform': 'Digitransit palvelualusta',
     'disruption-info': 'Poikkeusinfo',
@@ -908,6 +916,8 @@ const translations = {
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
+    'origin-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähtöosoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
@@ -1011,6 +1021,8 @@ const translations = {
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',
     'use-citybike': 'Ota käyttöön',
+    'use-national-service':
+      'Voit myös hakea samaa reittiä oheisen linkin koko maan kattavasta palvelusta:',
     'use-own-position': 'Käytä nykyistä sijaintia',
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
@@ -1590,6 +1602,8 @@ const translations = {
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-label-change': 'Byt destination',
+    'destination-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'digitransit-platform': 'Digitransit-serviceplattformen',
     'disruption-info': 'Undantagsinfo',
@@ -1692,6 +1706,8 @@ const translations = {
     or: 'eller',
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',
+    'origin-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra avfärdsplats, som ligger utanför serviceområde.',
     'origin-placeholder': 'Från - adress eller hållplats',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
@@ -1796,6 +1812,8 @@ const translations = {
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
+    'use-national-service':
+      'Du kan också använda national tjänsten:',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
