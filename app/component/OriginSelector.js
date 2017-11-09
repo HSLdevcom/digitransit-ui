@@ -4,24 +4,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'react-router';
 import { dtLocationShape } from '../util/shapes';
 import { getPathWithEndpointObjects } from '../util/path';
-import Icon from './Icon';
-import { getIcon } from '../util/suggestionUtils';
+import OriginSelectorRow from './OriginSelectorRow';
+import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
-
-const OriginSelectorRow = ({ icon, label, onClick }) => (
-  <li>
-    <button className="noborder" style={{ display: 'block' }} onClick={onClick}>
-      <Icon className={`splash-icon ${icon}`} img={icon} />
-      {label}
-    </button>
-  </li>
-);
-
-OriginSelectorRow.propTypes = {
-  icon: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 
 const OriginSelector = (
   { favourites, oldSearches, destination, origin },
@@ -67,19 +52,7 @@ const OriginSelector = (
             icon={getIcon(s.properties.layer)}
             label={s.properties.label || s.properties.name}
             onClick={() => {
-              setOrigin({
-                lat:
-                  (s.geometry &&
-                    s.geometry.coordinates &&
-                    s.geometry.coordinates[1]) ||
-                  s.lat,
-                lon:
-                  (s.geometry &&
-                    s.geometry.coordinates &&
-                    s.geometry.coordinates[0]) ||
-                  s.lon,
-                address: s.properties.label || s.properties.name,
-              });
+              setOrigin(suggestionToLocation(s));
             }}
           />
         )),
