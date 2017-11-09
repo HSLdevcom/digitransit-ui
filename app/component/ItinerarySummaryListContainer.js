@@ -59,7 +59,10 @@ function ItinerarySummaryListContainer(props, context) {
           id="use-national-service"
           defaultMessage={'You can also try the national service available at'}
         />
-        <ExternalLink className="external-no-route" {...context.config.nationalServiceLink} />
+        <ExternalLink
+          className="external-no-route"
+          {...context.config.nationalServiceLink}
+        />
       </div>
     );
   }

@@ -1812,8 +1812,7 @@ const translations = {
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
-    'use-national-service':
-      'Du kan också använda national tjänsten:',
+    'use-national-service': 'Du kan också använda national tjänsten:',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',
