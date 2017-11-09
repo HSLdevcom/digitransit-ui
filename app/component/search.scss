@@ -597,7 +597,7 @@ div.autosuggest-panel {
 .autosuggest-input-icon {
   display: block;
   position: absolute;
-  z-index: 10000;
+  z-index: 1005;
   width: 1.4em;
   height: 1.4em;
   top: 0.6em;
@@ -613,6 +613,14 @@ div.autosuggest-panel {
     color: #f092cd;
   }
 }
+}
+
+.mobile {
+  .isItinerary {
+    .autosuggest-input-icon {
+      left: 1.5em;
+    }
+  }
 }
 
 input.react-autosuggest__input{
@@ -646,25 +654,46 @@ input.react-autosuggest__input{
 }
 .autosuggest-panel.isItinerary {
   position: relative;
-  z-index: 9000;
+  z-index: 1001;
   padding-top: 0;
   width: 93%;
   margin-left: 0;
-
-  input.react-autosuggest__input.location {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba(#888888, 0.9999999)}' width='19' height='19'><path d='M 512 -0.007 c 203.687 0 368.811 161.811 368.811 361.42 c 0 199.602 -368.811 662.598 -368.811 662.598 s -368.811 -462.996 -368.811 -662.602 c 0 -199.609 165.12 -361.416 368.811 -361.416 Z' style='color: #64be14;'/></svg>");
-    background-repeat: no-repeat;
-    background-color: $white;
+  #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+    width: 521px;
+    z-index: 1006;
+  }
+  #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+    width: 521px;
+    z-index: 1006;
+  }
+  input.react-autosuggest__input {
+    z-index: 1004;
+    background: $white;
   }
 }
 
-.origin-destination-bar.bp-large .switch {
-  font-size: 25px;
-  margin-top: -58px;
-  transform: rotate(90deg);
-  border: none;
-  background-color: initial;
+.mobile .autosuggest-panel.isItinerary {
+  .react-autosuggest__container {
+    width: 94%;
+    margin-right: 0;
+  }
+  #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+    width: 100%;
+  }
+  #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+    width: 100%;
+  }
+}
+
+.origin-destination-bar .switch {
     .icon {
       top: 3px;
     }
 }
+
+.mobile .origin-destination-bar .switch {
+  font-size: 1.8em;
+  margin-right: 0.4em;
+  margin-top: -2em;
+}
+

@@ -3,14 +3,14 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import cx from 'classnames';
-import without from 'lodash/without';
+// import without from 'lodash/without';
 import { dtLocationShape } from '../util/shapes';
 import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
-import OneTabSearchModal from './OneTabSearchModal';
-import { getAllEndpointLayers } from '../util/searchUtils';
+// import OneTabSearchModal from './OneTabSearchModal';
+// import { getAllEndpointLayers } from '../util/searchUtils';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import Autosuggest from 'react-autosuggest';
+// import Autosuggest from 'react-autosuggest';
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -53,12 +53,14 @@ export default class OriginDestinationBar extends React.Component {
   };
 
   render() {
+    /*
     const ownPosition = this.context.intl.formatMessage({
       id: 'own-position',
       defaultMessage: 'Your current location',
     });
+    */
     const tab = this.getSearchModalState();
-
+    /*
     let searchLayers = getAllEndpointLayers();
     // don't offer current pos if it is already used as a route end point
     if (this.props.origin.gps || this.props.destination.gps) {
@@ -73,7 +75,7 @@ export default class OriginDestinationBar extends React.Component {
       id: 'destination-label-change',
       defaultMessage: 'Change destination',
     });
-
+    */
     return (
       <div
         className={cx(

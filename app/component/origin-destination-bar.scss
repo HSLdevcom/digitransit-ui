@@ -75,17 +75,19 @@
 
   .switch {
     padding: $padding-xxsmall;
-    font-size: $font-size-normal;
     margin-top: -4px;
-    border: solid 1px $light-gray;
-    border-radius: $border-radius;
     background-color: $white;
     color: $link-color;
     cursor: pointer;
     display: inline-block;
+    font-size: 25px;
+    margin-top: -58px;
+    transform: rotate(90deg);
+    border: none;
+    background-color: initial;
 
     &:hover {
-      border: solid 1px $link-color;
+      color: #0062a1;
     }
 
     .icon {
