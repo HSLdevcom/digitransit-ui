@@ -24,6 +24,7 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array.isRequired,
@@ -224,6 +225,7 @@ class DTAutosuggest extends React.Component {
           <div style={{ position: 'relative', display: 'flex' }}>
             <input id={this.props.id} onClick={this.inputClicked} {...p} />
             {this.clearButton()}
+            {this.props.renderPostInput}
           </div>
         )}
         onSuggestionSelected={this.onSelected}

@@ -8,6 +8,7 @@ import {
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
 } from '../util/path';
+import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 
 /**
@@ -49,6 +50,29 @@ class DTAutosuggestPanel extends React.Component {
 
   class = location =>
     location && location.gps === true ? 'position' : 'location';
+
+  geolocateButton = () =>
+    !this.props.origin ||
+    this.props.origin.set === false ||
+    (this.props.origin.gps && !this.props.origin.ready) ? (
+      <GeolocationStartButton
+        onClick={() => {
+          this.context.executeAction(startLocationWatch);
+
+          this.navigate(
+            getPathWithEndpointObjects(
+              { gps: true, ready: false },
+              this.props.destination,
+              this.props.tab,
+            ),
+            !isItinerarySearchObjects(
+              { gps: true, ready: false },
+              this.props.destination,
+            ),
+          );
+        }}
+      />
+    ) : null;
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
@@ -97,6 +121,7 @@ class DTAutosuggestPanel extends React.Component {
             !isItinerarySearchObjects(origin, destination),
           );
         }}
+        renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ? (
