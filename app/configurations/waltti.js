@@ -68,4 +68,6 @@ export default {
   showModeFilter: false,
 
   redirectReittiopasParams: true,
+
+  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 };
