@@ -109,6 +109,7 @@ class IndexPage extends React.Component {
 
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
+    console.log('handling location props');
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       const url = getPathWithEndpointObjects(
         nextProps.origin,
