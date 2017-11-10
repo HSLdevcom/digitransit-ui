@@ -26,6 +26,7 @@ class DTAutosuggestPanel extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     isItinerary: PropTypes.bool,
+    tab: PropTypes.string,
   };
 
   constructor(props) {
