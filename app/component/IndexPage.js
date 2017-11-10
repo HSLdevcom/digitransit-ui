@@ -334,6 +334,20 @@ const IndexPageWithLang = connectToStores(
   }),
 );
 
+/* eslint-disable no-param-reassign */
+const setGPSProps = (location, locationState) => {
+  if (
+    locationState.lat &&
+    locationState.lon &&
+    locationState.address !== undefined // address = "" when reverse geocoding cannot return address
+  ) {
+    location.ready = true;
+    location.lat = locationState.lat;
+    location.lon = locationState.lon;
+    location.address = locationState.address;
+  }
+};
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithLang,
   ['PositionStore'],
@@ -356,12 +370,7 @@ const IndexPageWithPosition = connectToStores(
       newProps.origin = parseLocation(props.params.from);
 
       if (newProps.origin.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.origin.ready = true;
-          newProps.origin.lat = locationState.lat;
-          newProps.origin.lon = locationState.lon;
-          newProps.origin.address = locationState.address;
-        }
+        setGPSProps(newProps.origin, locationState);
         newProps.origin.gpsError = gpsError;
       }
     } else {
@@ -371,12 +380,7 @@ const IndexPageWithPosition = connectToStores(
     if (props.params.to) {
       newProps.destination = parseLocation(props.params.to);
       if (newProps.destination.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.destination.lat = locationState.lat;
-          newProps.destination.lon = locationState.lon;
-          newProps.destination.address = locationState.address;
-          newProps.destination.ready = true;
-        }
+        setGPSProps(newProps.destination, locationState);
         newProps.destination.gpsError = gpsError;
       }
     } else {
