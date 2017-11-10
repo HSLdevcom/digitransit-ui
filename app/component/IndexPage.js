@@ -79,7 +79,7 @@ class IndexPage extends React.Component {
 
   componentWillReceiveProps = nextProps => {
     this.handleBreakpointProps(nextProps);
-    this.handleOriginProps(nextProps);
+    this.handleLocationProps(nextProps);
   };
 
   getSelectedTab = () => {
@@ -101,21 +101,19 @@ class IndexPage extends React.Component {
       return;
     }
 
-    // auto close any tab on bp change from large
     if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
   };
 
-  handleOriginProps = nextProps => {
+  /* eslint-disable no-param-reassign */
+  handleLocationProps = nextProps => {
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      // TODO handle destination gps too
-
-      const realOrigin = { ...nextProps.origin };
-      realOrigin.gps = false;
-
-      const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
+      const url = getPathWithEndpointObjects(
+        nextProps.origin,
+        nextProps.destination,
+      );
       this.context.router.replace(url);
     }
   };
