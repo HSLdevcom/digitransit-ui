@@ -36,8 +36,10 @@ class DTAutosuggestPanel extends React.Component {
   }
 
   navigate = (url, replace) => {
-    if (replace) {
+    if (replace && !this.props.isItinerary) {
       this.context.router.replace(url);
+    } else if (this.props.isItinerary) {
+      this.context.router.replace(`/reitti${url}`);
     } else {
       this.context.router.push(url);
     }
