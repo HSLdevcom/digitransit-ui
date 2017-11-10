@@ -54,7 +54,7 @@ table.nearby-departures-table {
                     font-family: $font-family;
                 }
                 &.td-destination, &.td-bikestation {
-                    max-width: 15%;
+                    width: 35%;
                     span {
                       margin-top: 2px;
                       font-size: $font-size-normal;
