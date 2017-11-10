@@ -6,7 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
-import Icon from './Icon';
+import OriginSelectorRow from './OriginSelectorRow';
 import Loading from './Loading';
 
 const GeopositionSelector = ({ status }, context) => {
@@ -20,20 +20,17 @@ const GeopositionSelector = ({ status }, context) => {
 
   if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
-      <li>
-        <button
-          id="panel-locationing-button"
-          className="noborder"
-          tabIndex="0"
-          onClick={() => context.executeAction(startLocationWatch)}
-        >
-          <Icon className="icon-positioning" img="icon-icon_position" />
+      <OriginSelectorRow
+        key={`panel-locationing-button`}
+        icon="icon-icon_position"
+        onClick={() => context.executeAction(startLocationWatch)}
+        label={
           <FormattedMessage
             id="use-own-position"
             defaultMessage="Use current location"
           />
-        </button>
-      </li>
+        }
+      />
     );
   } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
     return (

@@ -99,7 +99,13 @@ function getCurrentPositionIfEmpty(input, position) {
         address: position.address,
         lat: position.lat,
         lon: position.lon,
-        properties: { labelId: 'own-position', layer: 'currentPosition' },
+        properties: {
+          labelId: 'own-position',
+          layer: 'currentPosition',
+          address: position.address,
+          lat: position.lat,
+          lon: position.lon,
+        },
       },
     ]);
   }
@@ -333,7 +339,7 @@ export function executeSearchImmediate(
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
     }
     if (endpointLayers.includes('OldSearch')) {
-      const dropLayers = ['CurrentPosition'];
+      const dropLayers = ['currentPosition'];
       // old searches should also obey the layers definition
       if (!endpointLayers.includes('FavouritePlace')) {
         dropLayers.push('favouritePlace');

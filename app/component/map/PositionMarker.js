@@ -18,7 +18,7 @@ if (isBrowser) {
 
 const currentLocationIcon = isBrowser
   ? L.divIcon({
-      html: Icon.asString('icon-icon_mapMarker-location-animated'),
+      html: Icon.asString('icon-icon_current-location'),
       className: 'current-location-marker',
       iconSize: [40, 40],
     })
