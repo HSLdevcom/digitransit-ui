@@ -9,7 +9,6 @@ module.exports = {
     favourites.addFavourite();
     favourites.openFavouriteSearch(); // to modal
 
-    browser.back(); // close modal
     browser.back(); // back from add fav
     favourites.addFavourite(); // add button again clickable
 

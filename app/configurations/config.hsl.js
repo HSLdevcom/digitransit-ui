@@ -42,6 +42,11 @@ export default {
     'boundary.rect.max_lon': 25.5,
   },
 
+  defaultMapCenter: {
+    lat: 60.1710688,
+    lon: 24.9414841,
+  },
+
   nearbyRoutes: {
     radius: 2000,
     bucketSize: 100,

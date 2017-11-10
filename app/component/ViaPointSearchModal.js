@@ -3,7 +3,7 @@ import React from 'react';
 import Tab from 'material-ui/Tabs/Tab';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
-
+import { routerShape } from 'react-router';
 import { getAllEndpointLayers } from '../util/searchUtils';
 import { locationToOTP } from '../util/otpStrings';
 import SearchInputContainer from './SearchInputContainer';
@@ -13,7 +13,7 @@ import SearchModalLarge from './SearchModalLarge';
 class ViaPointSearchModal extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    router: PropTypes.object,
+    router: routerShape,
     location: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
   };

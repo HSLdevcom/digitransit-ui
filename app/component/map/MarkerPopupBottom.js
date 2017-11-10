@@ -2,18 +2,23 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import { setEndpoint } from '../../action/EndpointActions';
+
+import {
+  getPathWithEndpointObjects,
+  isItinerarySearchObjects,
+  parseLocation,
+} from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
+import { dtLocationShape } from '../../util/shapes';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    location: dtLocationShape.isRequired,
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
@@ -24,12 +29,18 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'origin',
-      endpoint: this.props.location,
-      router: this.context.router,
-      location: locationWithTime,
-    });
+
+    const [, , destinationString] = this.context.location.pathname.split('/');
+
+    const destination = parseLocation(destinationString);
+    locationWithTime.pathname = getPathWithEndpointObjects(
+      this.props.location,
+      destination,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearchObjects(this.props.location, destination),
+    );
   };
 
   routeTo = () => {
@@ -37,12 +48,26 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'destination',
-      endpoint: this.props.location,
-      router: this.context.router,
-      location: locationWithTime,
-    });
+    const [, originString] = this.context.location.pathname.split('/');
+
+    const origin = parseLocation(originString);
+
+    locationWithTime.pathname = getPathWithEndpointObjects(
+      origin,
+      this.props.location,
+    );
+    this.navigate(
+      locationWithTime,
+      !isItinerarySearchObjects(origin, this.props.location),
+    );
+  };
+
+  navigate = (url, replace) => {
+    if (replace) {
+      this.context.router.replace(url);
+    } else {
+      this.context.router.push(url);
+    }
   };
 
   render() {

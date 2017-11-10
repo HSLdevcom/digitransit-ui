@@ -3,6 +3,7 @@ sudo: required
 branches:
   only:
   - master
+  - index-page
   - /201[7-9][0-1][0-9][0-3][0-9]/
 
 cache: yarn
@@ -17,22 +18,6 @@ jobs:
    - stage: build container
      node_js: "8"
      script: test/build.sh
-   - stage: test
-     env: VISUAL=edge13
-     node_js: "8"
-     script: test/visual.sh
-   - stage: test
-     env: VISUAL=chrome50
-     node_js: "8"
-     script: test/visual.sh
-   - stage: test
-     env: VISUAL=ie11
-     node_js: "8"
-     script: test/visual.sh
-   - stage: test
-     env: VISUAL=safari10
-     node_js: "8"
-     script: test/visual.sh
    - stage: test
      node_js: "8"
      env: FLOW=1

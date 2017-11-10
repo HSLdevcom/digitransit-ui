@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
-
+import { routerShape } from 'react-router';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 
@@ -22,7 +22,7 @@ class PatternStopsContainer extends React.Component {
   };
 
   static contextTypes = {
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
