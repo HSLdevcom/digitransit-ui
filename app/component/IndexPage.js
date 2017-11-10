@@ -79,7 +79,7 @@ class IndexPage extends React.Component {
 
   componentWillReceiveProps = nextProps => {
     this.handleBreakpointProps(nextProps);
-    this.handleOriginProps(nextProps);
+    this.handleLocationProps(nextProps);
   };
 
   getSelectedTab = () => {
@@ -101,21 +101,19 @@ class IndexPage extends React.Component {
       return;
     }
 
-    // auto close any tab on bp change from large
     if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
   };
 
-  handleOriginProps = nextProps => {
+  /* eslint-disable no-param-reassign */
+  handleLocationProps = nextProps => {
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      // TODO handle destination gps too
-
-      const realOrigin = { ...nextProps.origin };
-      realOrigin.gps = false;
-
-      const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
+      const url = getPathWithEndpointObjects(
+        nextProps.origin,
+        nextProps.destination,
+      );
       this.context.router.replace(url);
     }
   };
@@ -334,16 +332,44 @@ const IndexPageWithLang = connectToStores(
   }),
 );
 
+/* eslint-disable no-param-reassign */
+const processLocation = (locationString, locationState) => {
+  let location;
+  if (locationString) {
+    location = parseLocation(locationString);
+
+    if (location.gps === true) {
+      if (
+        locationState.lat &&
+        locationState.lon &&
+        locationState.address !== undefined // address = "" when reverse geocoding cannot return address
+      ) {
+        location.ready = true;
+        location.lat = locationState.lat;
+        location.lon = locationState.lon;
+        location.address = locationState.address;
+      }
+      const gpsError =
+        [
+          'no-location',
+          'prompt',
+          'searching-location',
+          'found-location',
+        ].indexOf(locationState.status) === -1;
+
+      location.gpsError = gpsError;
+    }
+  } else {
+    location.set = false;
+  }
+  return location;
+};
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
-    const gpsError =
-      ['no-location', 'prompt', 'searching-location', 'found-location'].indexOf(
-        locationState.status,
-      ) === -1;
 
     const newProps = {};
 
@@ -351,37 +377,9 @@ const IndexPageWithPosition = connectToStores(
       newProps.tab = props.params.tab;
     }
 
-    // todo extract function:
-    if (props.params.from) {
-      newProps.origin = parseLocation(props.params.from);
+    newProps.origin = processLocation(props.params.from, locationState);
 
-      if (newProps.origin.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.origin.ready = true;
-          newProps.origin.lat = locationState.lat;
-          newProps.origin.lon = locationState.lon;
-          newProps.origin.address = locationState.address;
-        }
-        newProps.origin.gpsError = gpsError;
-      }
-    } else {
-      newProps.origin = { set: false };
-    }
-
-    if (props.params.to) {
-      newProps.destination = parseLocation(props.params.to);
-      if (newProps.destination.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.destination.lat = locationState.lat;
-          newProps.destination.lon = locationState.lon;
-          newProps.destination.address = locationState.address;
-          newProps.destination.ready = true;
-        }
-        newProps.destination.gpsError = gpsError;
-      }
-    } else {
-      newProps.destination = { set: false };
-    }
+    newProps.destination = processLocation(props.params.to, locationState);
 
     // if we have record of succesfull positioning let's init geolocating
     if (
