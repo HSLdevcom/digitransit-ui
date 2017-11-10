@@ -335,17 +335,36 @@ const IndexPageWithLang = connectToStores(
 );
 
 /* eslint-disable no-param-reassign */
-const setGPSProps = (location, locationState) => {
-  if (
-    locationState.lat &&
-    locationState.lon &&
-    locationState.address !== undefined // address = "" when reverse geocoding cannot return address
-  ) {
-    location.ready = true;
-    location.lat = locationState.lat;
-    location.lon = locationState.lon;
-    location.address = locationState.address;
+const processLocation = (locationString, locationState) => {
+  let location;
+  if (locationString) {
+    location = parseLocation(locationString);
+
+    if (location.gps === true) {
+      if (
+        locationState.lat &&
+        locationState.lon &&
+        locationState.address !== undefined // address = "" when reverse geocoding cannot return address
+      ) {
+        location.ready = true;
+        location.lat = locationState.lat;
+        location.lon = locationState.lon;
+        location.address = locationState.address;
+      }
+      const gpsError =
+        [
+          'no-location',
+          'prompt',
+          'searching-location',
+          'found-location',
+        ].indexOf(locationState.status) === -1;
+
+      location.gpsError = gpsError;
+    }
+  } else {
+    location.set = false;
   }
+  return location;
 };
 
 const IndexPageWithPosition = connectToStores(
@@ -354,38 +373,15 @@ const IndexPageWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
-    const gpsError =
-      ['no-location', 'prompt', 'searching-location', 'found-location'].indexOf(
-        locationState.status,
-      ) === -1;
-
     const newProps = {};
 
     if (props.params.tab) {
       newProps.tab = props.params.tab;
     }
 
-    // todo extract function:
-    if (props.params.from) {
-      newProps.origin = parseLocation(props.params.from);
+    newProps.origin = processLocation(props.params.from, locationState);
 
-      if (newProps.origin.gps === true) {
-        setGPSProps(newProps.origin, locationState);
-        newProps.origin.gpsError = gpsError;
-      }
-    } else {
-      newProps.origin = { set: false };
-    }
-
-    if (props.params.to) {
-      newProps.destination = parseLocation(props.params.to);
-      if (newProps.destination.gps === true) {
-        setGPSProps(newProps.destination, locationState);
-        newProps.destination.gpsError = gpsError;
-      }
-    } else {
-      newProps.destination = { set: false };
-    }
+    newProps.destination = processLocation(props.params.to, locationState);
 
     // if we have record of succesfull positioning let's init geolocating
     if (
