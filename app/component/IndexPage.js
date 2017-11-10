@@ -360,7 +360,7 @@ const processLocation = (locationString, locationState) => {
       location.gpsError = gpsError;
     }
   } else {
-    location.set = false;
+    location = { set: false };
   }
   return location;
 };
