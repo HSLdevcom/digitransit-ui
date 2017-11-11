@@ -107,7 +107,7 @@
     "react-intl": "2.4.0",
     "react-leaflet": "1.7.4",
     "react-motion": "0.5.2",
-    "react-relay": "1.1.0",
+    "react-relay": "1.4.1",
     "react-relay-network-layer": "2.0.1",
     "react-router": "3.0.5",
     "react-router-relay": "0.14.0",
