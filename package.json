@@ -95,7 +95,7 @@
     "polyfill-service": "3.22.0",
     "polyline-encoded": "0.0.8",
     "proj4": "^2.3.17",
-    "prop-types": "15.5.10",
+    "prop-types": "15.6.0",
     "raven": "2.1.1",
     "raven-js": "3.17.0",
     "react": "15.6.1",
