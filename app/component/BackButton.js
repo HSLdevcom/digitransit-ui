@@ -15,20 +15,12 @@ export default class BackButton extends React.Component {
     router: routerShape,
   };
 
-  // TODO
-  // Transition back in next event loop
-  // Without this mobile chrome might call back twice.
-  // See: https://github.com/zilverline/react-tap-event-plugin/issues/14
-  // This should be removed either when we change how pages are rendered or
-  // When react-tap-plugin works better
   goBack = () => {
-    setTimeout(() => {
-      if (hasHistoryEntries()) {
-        this.context.router.goBack();
-      } else {
-        this.context.router.push('/');
-      }
-    }, 0);
+    if (hasHistoryEntries()) {
+      this.context.router.goBack();
+    } else {
+      this.context.router.push('/');
+    }
   };
 
   render() {
