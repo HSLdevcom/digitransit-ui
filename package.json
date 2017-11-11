@@ -86,7 +86,7 @@
     "material-ui": "0.19.4",
     "moment": "2.19.1",
     "moment-timezone": "0.5.14",
-    "mqtt": "2.10.0",
+    "mqtt": "2.14.0",
     "name-all-modules-plugin": "^1.0.1",
     "node-fetch": "1.7.2",
     "offline-plugin": "4.8.4",
