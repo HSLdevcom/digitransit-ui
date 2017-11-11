@@ -84,7 +84,7 @@
     "lodash": "4.17.4",
     "lodash-es": "4.17.4",
     "material-ui": "0.19.4",
-    "moment": "2.18.1",
+    "moment": "2.19.1",
     "moment-timezone": "0.5.13",
     "mqtt": "2.10.0",
     "name-all-modules-plugin": "^1.0.1",
