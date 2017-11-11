@@ -114,7 +114,7 @@
     "react-swipeable-views": "0.12.10",
     "react-swipeable-views-utils": "0.12.9",
     "react-transition-group": "1.2.1",
-    "recompose": "0.25.0",
+    "recompose": "0.26.0",
     "serialize-javascript": "1.4.0",
     "zurb-foundation-5": "5.4.7"
   },
