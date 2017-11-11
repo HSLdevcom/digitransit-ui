@@ -977,9 +977,9 @@ babel-polyfill@^6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-preset-env@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.0.tgz#2de1c782a780a0a5d605d199c957596da43c44e4"
+babel-preset-env@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.1.tgz#a18b564cc9b9afdf4aae57ae3c1b0d99188e6f48"
   dependencies:
     babel-plugin-check-es2015-constants "^6.22.0"
     babel-plugin-syntax-trailing-function-commas "^6.22.0"
@@ -1263,13 +1263,13 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.7"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.7.tgz#ddb048e50d9482790094c13eb3fcfc833ce7ab46"
 
-body-parser@1.18.1:
-  version "1.18.1"
-  resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.1.tgz#9c1629370bcfd42917f30641a2dcbe2ec50d4c26"
+body-parser@1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
   dependencies:
     bytes "3.0.0"
     content-type "~1.0.4"
-    debug "2.6.8"
+    debug "2.6.9"
     depd "~1.1.1"
     http-errors "~1.6.2"
     iconv-lite "0.4.19"
@@ -2401,6 +2401,18 @@ debug@2.6.7:
   dependencies:
     ms "2.0.0"
 
+debug@2.6.9:
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
+  dependencies:
+    ms "2.0.0"
+
+debug@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
+  dependencies:
+    ms "2.0.0"
+
 debug@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.0.1.tgz#0564c612b521dc92d9f2988f0549e34f9c98db64"
@@ -3510,9 +3522,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-fluxible-addons-react@0.2.13:
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/fluxible-addons-react/-/fluxible-addons-react-0.2.13.tgz#5c90b753cd4b924eb447a8aa894a905c2b08fc64"
+fluxible-addons-react@0.2.14:
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/fluxible-addons-react/-/fluxible-addons-react-0.2.14.tgz#cc825ce8d62b413919fba409dc5e6eadd6768b92"
   dependencies:
     hoist-non-react-statics "^1.0.4"
     inherits "^2.0.1"
@@ -5102,9 +5114,9 @@ ldjson-stream@^1.2.1:
     split2 "^0.2.1"
     through2 "^0.6.1"
 
-leaflet@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
+leaflet@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.2.0.tgz#fd5d93d9cb00091f5f8a69206d0d6744c1c82697"
 
 leven@^1.0.0:
   version "1.0.2"
@@ -7606,9 +7618,9 @@ react-intl@2.4.0:
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
 
-react-leaflet@1.6.6:
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.6.6.tgz#e388544ff0e49e05d8fdc2f5cd56e29c7613600d"
+react-leaflet@1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-1.7.4.tgz#073202401b5804cb00e97adf0768d1b2e3b7c9e9"
   dependencies:
     lodash "^4.0.0"
     lodash-es "^4.0.0"
