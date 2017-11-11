@@ -638,12 +638,13 @@ babel-plugin-dynamic-import-node@1.1.0:
     babel-template "^6.26.0"
     babel-types "^6.26.0"
 
-babel-plugin-relay@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-1.1.0.tgz#69dd3a8cd163b88d9f82bc4b02986eb9175bcbcf"
+babel-plugin-relay@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-1.4.1.tgz#8ac562bcb1fd2b3565d271aaced32be42c827353"
   dependencies:
     babel-runtime "^6.23.0"
-    graphql "^0.10.1"
+    babel-types "^6.24.1"
+    graphql "^0.11.3"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -1089,7 +1090,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0, babel-runtime@^6.3.19, babel-runtime@^6.6.1:
+babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0, babel-runtime@^6.3.19, babel-runtime@^6.6.1:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -3409,7 +3410,7 @@ fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fbjs@^0.8.16:
+fbjs@^0.8.14, fbjs@^0.8.16:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -4042,6 +4043,12 @@ graphql-request@^1.2.0:
   dependencies:
     iterall "^1.1.0"
 
+graphql@^0.11.3:
+  version "0.11.7"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.11.7.tgz#e5abaa9cb7b7cccb84e9f0836bf4370d268750c6"
+  dependencies:
+    iterall "1.1.3"
+
 growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
@@ -4203,7 +4210,7 @@ hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
-hoist-non-react-statics@^1.0.0, hoist-non-react-statics@^1.0.4, hoist-non-react-statics@^1.2.0:
+hoist-non-react-statics@^1.0.4, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
@@ -4836,6 +4843,10 @@ isomorphic-relay@hannesj/isomorphic-relay#feature-relay-1-public:
 isstream@~0.1.1, isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+
+iterall@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
 
 iterall@^1.1.0:
   version "1.1.1"
@@ -7575,15 +7586,6 @@ react-dom@15.6.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-react-event-listener@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.4.5.tgz#e3e895a0970cf14ee8f890113af68197abf3d0b1"
-  dependencies:
-    babel-runtime "^6.20.0"
-    fbjs "^0.8.4"
-    prop-types "^15.5.4"
-    warning "^3.0.0"
-
 react-event-listener@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.5.1.tgz#ba36076e47bc37c5a67ff5ccd4a9ff0f15621040"
@@ -7630,27 +7632,26 @@ react-leaflet@1.7.4:
     lodash-es "^4.0.0"
     warning "^3.0.0"
 
-react-motion@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.1.tgz#b90631408175ab1668e173caccd66d41a44f4592"
+react-motion@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.2.tgz#0dd3a69e411316567927917c6626551ba0607316"
   dependencies:
     performance-now "^0.2.0"
     prop-types "^15.5.8"
     raf "^3.1.0"
 
-react-relay-network-layer@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.0.1.tgz#6db91b199f74733e980d0776ec6fa7961e0154d0"
+react-relay-network-layer@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.0.2.tgz#494e74adec04e39c3ee6df32125b0d26a8cad590"
 
-react-relay@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-1.1.0.tgz#56cd76885a886d93dd052efebbc0af5b6ceea998"
+react-relay@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-1.4.1.tgz#61f7b5802d70446e154490f9d0fceec9150ebda5"
   dependencies:
     babel-runtime "^6.23.0"
-    fbjs "^0.8.1"
+    fbjs "^0.8.14"
     prop-types "^15.5.8"
-    react-static-container "^1.0.1"
-    relay-runtime "1.1.0"
+    relay-runtime "1.4.1"
 
 react-router-relay@0.14.0, react-router-relay@^0.14.0:
   version "0.14.0"
@@ -7662,9 +7663,9 @@ react-router-relay@0.14.0, react-router-relay@^0.14.0:
     prop-types "^15.5.10"
     react-static-container "^1.0.1"
 
-react-router@3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-3.0.5.tgz#c3b7873758045a8bbc9562aef4ff4bc8cce7c136"
+react-router@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-3.2.0.tgz#62b6279d589b70b34e265113e4c0a9261a02ed36"
   dependencies:
     create-react-class "^15.5.1"
     history "^3.0.0"
@@ -7685,33 +7686,33 @@ react-static-container@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-static-container/-/react-static-container-1.0.1.tgz#694c0dd68a896b879519afb548399cc1989c9ab0"
 
-react-swipeable-views-core@^0.12.5:
-  version "0.12.5"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.12.5.tgz#7113f3a5c84f85042447a7c49e3f2a206eab7931"
+react-swipeable-views-core@^0.12.9:
+  version "0.12.9"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.12.9.tgz#2af731742441ff1ec7f5bc5a36ddf6da0272a0a5"
   dependencies:
     babel-runtime "^6.23.0"
     warning "^3.0.0"
 
-react-swipeable-views-utils@0.12.5, react-swipeable-views-utils@^0.12.5:
-  version "0.12.5"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.12.5.tgz#878de2108c8fb5160cc3122de10c3ff741a28801"
+react-swipeable-views-utils@0.12.9, react-swipeable-views-utils@^0.12.9:
+  version "0.12.9"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.12.9.tgz#b0e79dcb402e08cf750ea15fe87d2b7f1dd5fee0"
   dependencies:
     babel-runtime "^6.23.0"
     fbjs "^0.8.4"
     keycode "^2.1.7"
-    prop-types "^15.5.4"
-    react-event-listener "^0.4.5"
-    react-swipeable-views-core "^0.12.5"
+    prop-types "^15.6.0"
+    react-event-listener "^0.5.1"
+    react-swipeable-views-core "^0.12.9"
 
-react-swipeable-views@0.12.5:
-  version "0.12.5"
-  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.5.tgz#ff43b35e05c56614bb63ab032769ec8fe9259b0e"
+react-swipeable-views@0.12.10:
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.12.10.tgz#183cb16021a46c1e2b979e771569155087b65f03"
   dependencies:
     babel-runtime "^6.23.0"
     dom-helpers "^3.2.1"
     prop-types "^15.5.4"
-    react-swipeable-views-core "^0.12.5"
-    react-swipeable-views-utils "^0.12.5"
+    react-swipeable-views-core "^0.12.9"
+    react-swipeable-views-utils "^0.12.9"
     warning "^3.0.0"
 
 react-themeable@^1.1.0:
@@ -7855,16 +7856,7 @@ readdirp@^2.0.0:
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
 
-recompose@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.25.0.tgz#e2ec723692ff0fdab3d62bd22c1da69af1985acd"
-  dependencies:
-    change-emitter "^0.1.2"
-    fbjs "^0.8.1"
-    hoist-non-react-statics "^1.0.0"
-    symbol-observable "^1.0.4"
-
-recompose@^0.26.0:
+recompose@0.26.0, recompose@^0.26.0:
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.26.0.tgz#9babff039cb72ba5bd17366d55d7232fbdfb2d30"
   dependencies:
@@ -7985,12 +7977,24 @@ relay-compiler@^1.1.0:
     signedsource "^1.0.0"
     yargs "^7.0.2"
 
+relay-debugger-react-native-runtime@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/relay-debugger-react-native-runtime/-/relay-debugger-react-native-runtime-0.0.10.tgz#0ef36012a1fba928962205514b46f635c652f235"
+
 relay-runtime@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-1.1.0.tgz#2441a97c18e3c9035960cad48414a95844623b69"
   dependencies:
     babel-runtime "^6.23.0"
     fbjs "^0.8.1"
+
+relay-runtime@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-1.4.1.tgz#f88dcd0a422700a04563f291f570e4ce368e36d0"
+  dependencies:
+    babel-runtime "^6.23.0"
+    fbjs "^0.8.14"
+    relay-debugger-react-native-runtime "0.0.10"
 
 remove-trailing-separator@^1.0.1:
   version "1.0.2"
