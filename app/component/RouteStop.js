@@ -41,7 +41,7 @@ const getRouteStopSvg = (first, last, color) => (
   </svg>
 );
 
-class RouteStop extends React.Component {
+class RouteStop extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
     vehicles: PropTypes.array,

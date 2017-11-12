@@ -58,7 +58,6 @@ function RouteMapContainer(
       direction={pattern.directionId}
       pattern={pattern.code}
       tripStart={tripStart}
-      useSmallIcons={false}
     />,
   ];
 
