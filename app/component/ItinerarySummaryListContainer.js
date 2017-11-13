@@ -2,9 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
+import inside from 'point-in-polygon';
+import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
+import Icon from './Icon';
 
-function ItinerarySummaryListContainer(props) {
+function ItinerarySummaryListContainer(props, context) {
   if (props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
     const summaries = props.itineraries.map((itinerary, i) => (
@@ -26,12 +29,10 @@ function ItinerarySummaryListContainer(props) {
     return (
       <div className="summary-list-container momentum-scroll">{summaries}</div>
     );
-  } else if (
-    !props.relay.route.params.from.lat ||
-    !props.relay.route.params.from.lon ||
-    !props.relay.route.params.to.lat ||
-    !props.relay.route.params.to.lon
-  ) {
+  }
+  const from = props.relay.route.params.from;
+  const to = props.relay.route.params.to;
+  if (!from.lat || !from.lon || !to.lat || !to.lon) {
     return (
       <div className="summary-list-container summary-no-route-found">
         <FormattedMessage
@@ -41,15 +42,46 @@ function ItinerarySummaryListContainer(props) {
       </div>
     );
   }
+
+  let msg;
+  if (!inside([from.lon, from.lat], context.config.areaPolygon)) {
+    msg = 'origin-outside-service';
+  } else if (!inside([to.lon, to.lat], context.config.areaPolygon)) {
+    msg = 'destination-outside-service';
+  } else {
+    msg = 'no-route-msg';
+  }
+  let linkPart = null;
+  if (context.config.nationalServiceLink) {
+    linkPart = (
+      <div>
+        <FormattedMessage
+          id="use-national-service"
+          defaultMessage={'You can also try the national service available at'}
+        />
+        <ExternalLink
+          className="external-no-route"
+          {...context.config.nationalServiceLink}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="summary-list-container summary-no-route-found">
-      <FormattedMessage
-        id="no-route-msg"
-        defaultMessage={
-          'Unfortunately no routes were found for your journey. ' +
-          'Please change your origin or destination address.'
-        }
-      />
+      <div className="flex-horizontal">
+        <Icon className="no-route-icon" img="icon-icon_caution" />
+        <div>
+          <FormattedMessage
+            id={msg}
+            defaultMessage={
+              'Unfortunately no routes were found for your journey. ' +
+              'Please change your origin or destination address.'
+            }
+          />
+          {linkPart}
+        </div>
+      </div>
     </div>
   );
 }
@@ -80,6 +112,10 @@ ItinerarySummaryListContainer.propTypes = {
       }).isRequired,
     }).isRequired,
   }).isRequired,
+};
+
+ItinerarySummaryListContainer.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 export default Relay.createContainer(ItinerarySummaryListContainer, {

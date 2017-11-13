@@ -84,6 +84,7 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
 });
 
 const initialState = {
@@ -182,7 +183,6 @@ class TileLayerContainer extends GridLayer {
 
   PopupOptions = {
     offset: [110, 16],
-    closeButton: false,
     minWidth: 260,
     maxWidth: 260,
     autoPanPaddingTopLeft: [5, 125],

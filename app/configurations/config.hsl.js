@@ -77,6 +77,8 @@ export default {
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
+  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
+
   agency: {
     show: false,
   },
