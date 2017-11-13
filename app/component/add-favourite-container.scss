@@ -46,6 +46,27 @@ $add-favourite-input-overlay-height: 27px;
       vertical-align: middle;
     }
 
+    .add-favourite-container__input-placeholder {
+      @include form-element();
+      height: $add-favourite-input-height;
+      line-height: $add-favourite-input-overlay-height;
+      border-radius: $border-radius;
+      border: 1px solid #e1e0e0;
+      .add-favourite-container__input {
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        border: none;
+        width: 100%;
+        padding-left: calc(#{$padding-large} - 10px);
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
+    }
+
     .add-favourite-container__save {
       display: flex;
     }
