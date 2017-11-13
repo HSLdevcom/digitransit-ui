@@ -501,13 +501,15 @@ div.autosuggest-panel {
   width: 52.5%;
   margin-left: 7%;
   &.small {
-    width: 96%;
+    width: 100%;
     margin-left: 0;
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
     .react-autosuggest__container {
-      width: 97%;
+      width: 100%;
       position: relative;
       margin: 0 auto;
-      margin-left: 1em;
     }
   }
 
@@ -560,9 +562,6 @@ div.autosuggest-panel {
 }
 
 .autosuggest-panel.small {
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: 0.5em;
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
       height: 100%;
