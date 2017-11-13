@@ -131,7 +131,7 @@ class DTAutosuggestPanel extends React.Component {
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
-          className="destination"
+          className={this.class(this.props.destination)}
           isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
