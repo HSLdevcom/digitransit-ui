@@ -25,7 +25,8 @@ class DTAutosuggestPanel extends React.Component {
   static propTypes = {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
-    tab: PropTypes.string.isRequired,
+    isItinerary: PropTypes.bool,
+    tab: PropTypes.string,
   };
 
   constructor(props) {
@@ -36,8 +37,10 @@ class DTAutosuggestPanel extends React.Component {
   }
 
   navigate = (url, replace) => {
-    if (replace) {
+    if (replace && !this.props.isItinerary) {
       this.context.router.replace(url);
+    } else if (this.props.isItinerary) {
+      this.context.router.replace(`/reitti${url}`);
     } else {
       this.context.router.push(url);
     }
@@ -63,7 +66,6 @@ class DTAutosuggestPanel extends React.Component {
             getPathWithEndpointObjects(
               { gps: true, ready: false },
               this.props.destination,
-              this.props.tab,
             ),
             !isItinerarySearchObjects(
               { gps: true, ready: false },
@@ -84,6 +86,7 @@ class DTAutosuggestPanel extends React.Component {
         'autosuggest-panel',
         {
           small: this.context.breakpoint !== 'large',
+          isItinerary: this.props.isItinerary,
         },
       ])}
     >
@@ -124,7 +127,8 @@ class DTAutosuggestPanel extends React.Component {
         renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
-      this.props.origin.ready ? (
+      this.props.origin.ready ||
+      this.props.isItinerary ? (
         <DTEndpointAutosuggest
           id="destination"
           autoFocus={this.context.breakpoint === 'large'}
