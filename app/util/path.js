@@ -1,10 +1,9 @@
+import get from 'lodash/get';
 import {
   otpToLocation,
   locationToOTP,
   addressToItinerarySearch,
 } from './otpStrings';
-
-import get from 'lodash/get';
 
 export const getRoutePath = (origin, destination) =>
   ['/reitti', origin, destination].join('/');
