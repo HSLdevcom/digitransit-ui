@@ -109,7 +109,6 @@ class IndexPage extends React.Component {
 
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
-    console.log('handling location props');
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       const url = getPathWithEndpointObjects(
         nextProps.origin,
@@ -356,6 +355,7 @@ const processLocation = (locationString, locationState) => {
           'prompt',
           'searching-location',
           'found-location',
+          'found-address',
         ].indexOf(locationState.status) === -1;
 
       location.gpsError = gpsError;
@@ -401,7 +401,11 @@ const IndexPageWithPosition = connectToStores(
       newProps.destination.set === false &&
       newProps.origin.set === false
     ) {
-      if (locationState.status === 'searching-location') {
+      if (
+        ['searching-location', 'found-location', 'found-address'].indexOf(
+          locationState.status,
+        ) !== -1
+      ) {
         context.router.replace('/POS/-/lahellasi');
       }
     }
