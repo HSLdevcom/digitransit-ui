@@ -216,27 +216,27 @@ class DTAutosuggest extends React.Component {
         <div className={cx(['autosuggest-input-icon', this.props.id])}>
           <Icon img="icon-icon_mapMarker-point" />
         </div>
-      <Autosuggest
-        id={this.props.id}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.fetchFunction}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderItem}
-        inputProps={inputProps}
-        focusInputOnSuggestionClick={false}
-        shouldRenderSuggestions={() => this.state.editing}
-        renderInputComponent={p => (
-          <div style={{ position: 'relative', display: 'flex' }}>
-            <input id={this.props.id} onClick={this.inputClicked} {...p} />
-            {this.clearButton()}
-            {this.props.renderPostInput}
-          </div>
-        )}
-        onSuggestionSelected={this.onSelected}
-        highlightFirstSuggestion
-        ref={this.storeInputReference}
-      />
+        <Autosuggest
+          id={this.props.id}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.fetchFunction}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderItem}
+          inputProps={inputProps}
+          focusInputOnSuggestionClick={false}
+          shouldRenderSuggestions={() => this.state.editing}
+          renderInputComponent={p => (
+            <div style={{ position: 'relative', display: 'flex' }}>
+              <input id={this.props.id} onClick={this.inputClicked} {...p} />
+              {this.clearButton()}
+              {this.props.renderPostInput}
+            </div>
+          )}
+          onSuggestionSelected={this.onSelected}
+          highlightFirstSuggestion
+          ref={this.storeInputReference}
+        />
     </div>
     );
   };
