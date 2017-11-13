@@ -237,7 +237,7 @@ class DTAutosuggest extends React.Component {
           highlightFirstSuggestion
           ref={this.storeInputReference}
         />
-    </div>
+      </div>
     );
   };
 }
