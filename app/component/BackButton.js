@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { routerShape } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
 import { intlShape } from 'react-intl';
@@ -13,6 +14,18 @@ export default class BackButton extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape,
+  };
+
+  static propTypes = {
+    icon: PropTypes.string,
+    className: PropTypes.string,
+    color: PropTypes.string,
+  };
+
+  static defaultProps = {
+    icon: 'icon-icon_arrow-left',
+    className: 'back',
+    color: 'white',
   };
 
   // TODO
@@ -42,7 +55,11 @@ export default class BackButton extends React.Component {
           alignSelf: 'stretch',
         }}
         icon={
-          <Icon img="icon-icon_arrow-left" className="cursor-pointer back" />
+          <Icon
+            img={this.props.icon}
+            color={this.props.color}
+            className={`${this.props.className} cursor-pointer`}
+          />
         }
         aria-label={this.context.intl.formatMessage({
           id: 'back-button-title',

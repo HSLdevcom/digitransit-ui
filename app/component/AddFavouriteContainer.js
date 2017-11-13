@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import without from 'lodash/without';
 import Icon from './Icon';
+import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import {
   addFavouriteLocation,
@@ -110,9 +111,13 @@ class AddFavouriteContainer extends React.Component {
     return (
       <div className="fullscreen">
         <div className="add-favourite-container">
-          <Link to="/suosikit" className="right cursor-pointer">
-            <Icon id="add-favourite-close-icon" img="icon-icon_close" />
-          </Link>
+          <div className="button-container">
+            <BackButton
+              icon="icon-icon_close"
+              color="#888"
+              className="add-favourite-close-button"
+            />
+          </div>
           <row>
             <div className="add-favourite-container__content small-12 small-centered columns">
               <header className="add-favourite-container__header row">
