@@ -44,7 +44,15 @@ const FrontPagePanelSmall = (
 
   return (
     <div className={cx(['frontpage-panel-container', 'no-select'])}>
-      <ul className="tabs-row cursor-pointer">
+      <ul
+        className={cx([
+          'tabs-row',
+          'cursor-pointer',
+          {
+            expanded: panelExpanded,
+          },
+        ])}
+      >
         <NearbyTabLabel
           classes={cx(tabClasses, nearbyClasses)}
           onClick={nearbyClicked}

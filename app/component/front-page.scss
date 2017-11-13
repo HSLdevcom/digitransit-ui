@@ -26,7 +26,9 @@ $heading-color: #858585;
   &.expanded-panel {
     flex-grow: 0;
     flex-basis: 300px;
-    height: 300px;
+    height: 100%;
+    margin-top: 45px;
+    z-index: 1000;
   }
 
   &.modal-open-panel {
@@ -127,7 +129,7 @@ $heading-color: #858585;
 }
 
 .tabs-row {
-  z-index: 999;
+  z-index: 1000;
   background: $light-gray;
   position: relative;
   display: flex;
@@ -142,6 +144,9 @@ $heading-color: #858585;
     border-top-right-radius: 8px;
     border-top: none;
     outline: none;
+  }
+  &.expanded {
+    top: 45px;
   }
 
   li {

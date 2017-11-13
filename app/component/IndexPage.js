@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -277,21 +278,23 @@ class IndexPage extends React.Component {
               destination={this.props.destination}
               tab={this.props.tab}
             />
-            {
-              <div
-                className="fullscreen-toggle"
-                onClick={this.togglePanelExpanded}
-              >
-                {!this.state.panelExpanded ? (
-                  <Icon img="icon-icon_minimize" className="cursor-pointer" />
-                ) : (
-                  <Icon img="icon-icon_maximize" className="cursor-pointer" />
-                )}
-              </div>
-            }
           </MapWithTracking>
         </div>
-        <div>
+        <div style={{ position: 'relative' }}>
+          {
+            <div
+              className={cx('fullscreen-toggle', {
+                'expanded': this.state.panelExpanded,
+              })}
+              onClick={this.togglePanelExpanded}
+            >
+              {!this.state.panelExpanded ? (
+                <Icon img="icon-icon_minimize" className="cursor-pointer" />
+              ) : (
+                <Icon img="icon-icon_maximize" className="cursor-pointer" />
+              )}
+            </div>
+          }
           <FrontPagePanelSmall
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
