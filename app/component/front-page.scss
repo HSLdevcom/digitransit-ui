@@ -19,6 +19,9 @@ $heading-color: #858585;
   }
 
 }
+.expanded.frontpage-panel-container {
+  display: none;
+}
 
 .frontpage-panel-wrapper {
   height: 200px;
@@ -26,8 +29,6 @@ $heading-color: #858585;
   &.expanded-panel {
     flex-grow: 0;
     flex-basis: 300px;
-    height: 100%;
-    margin-top: 45px;
     z-index: 1000;
   }
 
@@ -129,7 +130,7 @@ $heading-color: #858585;
 }
 
 .tabs-row {
-  z-index: 1000;
+  z-index: 998;
   background: $light-gray;
   position: relative;
   display: flex;
@@ -146,7 +147,7 @@ $heading-color: #858585;
     outline: none;
   }
   &.expanded {
-    top: 45px;
+    // top: 45px;
   }
 
   li {
@@ -270,6 +271,9 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
+  &.expanded {
+    min-height: 100%;
+  }
 }
 
 // <Tab> component

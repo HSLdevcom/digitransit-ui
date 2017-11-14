@@ -10,7 +10,7 @@ const FrontPagePanelSmall = (
     selectedPanel,
     nearbyClicked,
     favouritesClicked,
-    panelExpanded,
+    mapExpanded,
     children,
     //  location,
   },
@@ -33,7 +33,7 @@ const FrontPagePanelSmall = (
         'no-select',
         {
           small: breakpoint !== 'large',
-          'expanded-panel': panelExpanded,
+          'expanded-panel': mapExpanded,
         },
       ])}
       key="panel"
@@ -43,13 +43,17 @@ const FrontPagePanelSmall = (
   );
 
   return (
-    <div className={cx(['frontpage-panel-container', 'no-select'])}>
+    <div
+      className={cx(['frontpage-panel-container', 'no-select'], {
+        expanded: mapExpanded,
+      })}
+    >
       <ul
         className={cx([
           'tabs-row',
           'cursor-pointer',
           {
-            expanded: panelExpanded,
+            expanded: mapExpanded,
           },
         ])}
       >
@@ -88,7 +92,7 @@ FrontPagePanelSmall.propTypes = {
   selectedPanel: PropTypes.number,
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
-  panelExpanded: PropTypes.bool.isRequired,
+  mapExpanded: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
