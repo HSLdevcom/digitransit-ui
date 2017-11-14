@@ -22,7 +22,7 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
-import { PREFIX_ROUTES } from './util/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from './util/path';
 
 // Localstorage data
 import { getCustomizedSettings } from './store/localStorage';
@@ -301,7 +301,7 @@ export default config => {
             .catch(errorLoading);
         }}
       />
-      <Route path="/pysakit">
+      <Route path={`/${PREFIX_STOPS}`}>
         <IndexRoute component={Error404} />{' '}
         {/* TODO: Should return list of all routes */}
         <Route
