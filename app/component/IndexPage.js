@@ -15,6 +15,8 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { isBrowser } from '../util/browser';
 import {
+  TAB_NEARBY,
+  TAB_FAVOURITES,
   parseLocation,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
@@ -84,9 +86,9 @@ class IndexPage extends React.Component {
 
   getSelectedTab = () => {
     switch (this.props.tab) {
-      case 'suosikit':
+      case TAB_FAVOURITES:
         return 2;
-      case 'lahellasi':
+      case TAB_NEARBY:
         return 1;
       default:
         return undefined;
@@ -164,7 +166,7 @@ class IndexPage extends React.Component {
     const url = getPathWithEndpointObjects(
       this.props.origin,
       this.props.destination,
-      'suosikit',
+      TAB_FAVOURITES,
     );
     if (replace) {
       this.context.router.replace(url);
@@ -177,7 +179,7 @@ class IndexPage extends React.Component {
     const url = getPathWithEndpointObjects(
       this.props.origin,
       this.props.destination,
-      'lahellasi',
+      TAB_NEARBY,
     );
 
     if (replace) {
@@ -193,14 +195,14 @@ class IndexPage extends React.Component {
 
   renderTab = () => {
     switch (this.props.tab) {
-      case 'lahellasi':
+      case TAB_NEARBY:
         return (
           <NearbyRoutesPanel
             origin={this.props.origin}
             destination={this.props.destination}
           />
         );
-      case 'suosikit':
+      case TAB_FAVOURITES:
         return (
           <FavouritesPanel
             origin={this.props.origin}
@@ -406,7 +408,7 @@ const IndexPageWithPosition = connectToStores(
           locationState.status,
         ) !== -1
       ) {
-        context.router.replace('/POS/-/lahellasi');
+        context.router.replace(`/POS/-/${TAB_NEARBY}`);
       }
     }
     return newProps;
