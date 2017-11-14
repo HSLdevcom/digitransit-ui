@@ -43,7 +43,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const hasOriginorPosition =
       props.origin.ready || props.position.hasLocation;
     this.state = {
-      initialZoom: hasOriginorPosition ? 16 : 14,
+      initialZoom: hasOriginorPosition ? 16 : 11,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
       origin: props.origin,
