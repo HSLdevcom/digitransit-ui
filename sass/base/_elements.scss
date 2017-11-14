@@ -165,6 +165,14 @@ $border-radius-rounded: 30px;
    top: -3em;
    z-index: 1000;
  }
+ &.routePage, &.stopPage {
+  bottom: 0.7em;
+  top: auto;
+  &.expanded {
+    bottom: 0.5em;
+    top: auto;
+  }
+ }
 }
 
 .smallscreen-toggle {
