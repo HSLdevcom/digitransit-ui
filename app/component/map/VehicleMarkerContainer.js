@@ -53,53 +53,49 @@ function shouldShowVehicle(message, direction, tripStart) {
 }
 
 function VehicleMarkerContainer(props) {
-  return (
-    <div>
-      {Object.entries(props.vehicles)
-        .filter(([, message]) =>
-          shouldShowVehicle(message, props.direction, props.tripStart),
-        )
-        .map(([id, message]) => (
-          <IconMarker
-            key={id}
-            position={{
-              lat: message.lat,
-              lon: message.long,
-            }}
-            icon={getVehicleIcon(message.mode, message.heading, false)}
-          >
-            <Popup
-              offset={[106, 16]}
-              maxWidth={250}
-              minWidth={250}
-              className="popup"
-            >
-              <Relay.RootContainer
-                Component={RouteMarkerPopup}
-                route={
-                  new FuzzyTripRoute({
-                    route: message.route,
-                    direction: message.direction,
-                    date: message.operatingDay,
-                    time:
-                      message.tripStartTime.substring(0, 2) * 60 * 60 +
-                      message.tripStartTime.substring(2, 4) * 60,
-                  })
-                }
-                renderLoading={() => (
-                  <div className="card" style={{ height: '12rem' }}>
-                    <Loading />
-                  </div>
-                )}
-                renderFetched={data => (
-                  <RouteMarkerPopup {...data} message={message} />
-                )}
-              />
-            </Popup>
-          </IconMarker>
-        ))}
-    </div>
-  );
+  return Object.entries(props.vehicles)
+    .filter(([, message]) =>
+      shouldShowVehicle(message, props.direction, props.tripStart),
+    )
+    .map(([id, message]) => (
+      <IconMarker
+        key={id}
+        position={{
+          lat: message.lat,
+          lon: message.long,
+        }}
+        icon={getVehicleIcon(message.mode, message.heading, false)}
+      >
+        <Popup
+          offset={[106, 16]}
+          maxWidth={250}
+          minWidth={250}
+          className="popup"
+        >
+          <Relay.RootContainer
+            Component={RouteMarkerPopup}
+            route={
+              new FuzzyTripRoute({
+                route: message.route,
+                direction: message.direction,
+                date: message.operatingDay,
+                time:
+                  message.tripStartTime.substring(0, 2) * 60 * 60 +
+                  message.tripStartTime.substring(2, 4) * 60,
+              })
+            }
+            renderLoading={() => (
+              <div className="card" style={{ height: '12rem' }}>
+                <Loading />
+              </div>
+            )}
+            renderFetched={data => (
+              <RouteMarkerPopup {...data} message={message} />
+            )}
+          />
+        </Popup>
+      </IconMarker>
+    ));
 }
 
 VehicleMarkerContainer.propTypes = {
