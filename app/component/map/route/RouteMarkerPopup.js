@@ -6,6 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape } from 'react-intl';
 
 import RouteHeader from '../../RouteHeader';
+import { PREFIX_ROUTES } from '../../../util/path';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
@@ -53,7 +54,8 @@ class RouteMarkerPopup extends React.Component {
   };
 
   render() {
-    let patternPath = `/linjat/${this.props.trip.route.gtfsId}/pysakit`;
+    let patternPath = `/${PREFIX_ROUTES}/${this.props.trip.route
+      .gtfsId}/pysakit`;
     let tripPath = patternPath;
 
     if (this.props.trip.fuzzyTrip) {
