@@ -8,7 +8,6 @@ import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
-import Icon from '../Icon';
 import { dtLocationShape } from '../../util/shapes';
 
 /* eslint-disable global-require */
