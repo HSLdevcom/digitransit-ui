@@ -75,17 +75,19 @@
 
   .switch {
     padding: $padding-xxsmall;
-    font-size: $font-size-normal;
     margin-top: -4px;
-    border: solid 1px $light-gray;
-    border-radius: $border-radius;
     background-color: $white;
     color: $link-color;
     cursor: pointer;
     display: inline-block;
+    font-size: 25px;
+    margin-top: -58px;
+    transform: rotate(90deg);
+    border: none;
+    background-color: initial;
 
     &:hover {
-      border: solid 1px $link-color;
+      color: #0062a1;
     }
 
     .icon {
@@ -95,7 +97,6 @@
   }
 
   &.bp-large {
-    height: 50px;
     flex-wrap: wrap;
     padding-left: 20px;
     padding-right: 20px;
@@ -121,16 +122,6 @@
         height: auto;
         padding-bottom: 2px;
         font-size: $font-size-normal;
-      }
-    }
-
-    .switch {
-      padding: 1px 2px;
-      font-size: 20px;
-      margin-top: -10px;
-
-      .icon {
-        top: 3px;
       }
     }
   }

@@ -1,64 +1,49 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import NearbyTabLabel from './NearbyTabLabel';
 import FavouritesTabLabelContainer from './FavouritesTabLabelContainer';
 
-const FrontPagePanelSmall = ({
-  selectedPanel,
-  nearbyClicked,
-  favouritesClicked,
-  closePanel,
-  children,
-}) => {
-  let heading;
+const FrontPagePanelSmall = (
+  {
+    selectedPanel,
+    nearbyClicked,
+    favouritesClicked,
+    panelExpanded,
+    children,
+    //  location,
+  },
+  { breakpoint },
+) => {
   const tabClasses = ['hover'];
   const nearbyClasses = ['nearby-routes', 'h4'];
   const favouritesClasses = ['favourites', 'h4'];
 
   if (selectedPanel === 1) {
-    heading = <FormattedMessage id="near-you" defaultMessage="Near you" />;
     nearbyClasses.push('selected');
   } else if (selectedPanel === 2) {
-    heading = (
-      <FormattedMessage id="your-favourites" defaultMessage="Your favourites" />
-    );
     favouritesClasses.push('selected');
   }
 
-  const top = (
-    <div className="panel-top">
-      <div className="panel-heading">
-        <h2>{heading}</h2>
-      </div>
-      <div className="close-icon" onClick={closePanel}>
-        <Icon img="icon-icon_close" />
-      </div>
-    </div>
-  );
-
-  const content = selectedPanel ? (
-    <div className="frontpage-panel-wrapper" key="panel">
-      {top}
+  const content = selectedPanel && (
+    <div
+      className={cx([
+        'frontpage-panel-wrapper',
+        'no-select',
+        {
+          small: breakpoint !== 'large',
+          'expanded-panel': panelExpanded,
+        },
+      ])}
+      key="panel"
+    >
       {children}
     </div>
-  ) : (
-    undefined
   );
 
   return (
-    <div className="frontpage-panel-container no-select">
-      <ReactCSSTransitionGroup
-        transitionName="frontpage-panel-wrapper"
-        transitionEnterTimeout={300}
-        transitionLeaveTimeout={300}
-      >
-        {content}
-      </ReactCSSTransitionGroup>
+    <div className={cx(['frontpage-panel-container', 'no-select'])}>
       <ul className="tabs-row cursor-pointer">
         <NearbyTabLabel
           classes={cx(tabClasses, nearbyClasses)}
@@ -69,6 +54,7 @@ const FrontPagePanelSmall = ({
           onClick={favouritesClicked}
         />
       </ul>
+      {content}
     </div>
   );
 };
@@ -94,8 +80,12 @@ FrontPagePanelSmall.propTypes = {
   selectedPanel: PropTypes.number,
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
-  closePanel: PropTypes.func.isRequired,
+  panelExpanded: PropTypes.bool.isRequired,
   children: PropTypes.node,
+};
+
+FrontPagePanelSmall.contextTypes = {
+  breakpoint: PropTypes.string,
 };
 
 export default FrontPagePanelSmall;

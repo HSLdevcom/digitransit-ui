@@ -17,26 +17,38 @@ class MessageStore extends Store {
 
   /* Message format:
    * { id: id,
+   *   persistence: 'repeat', // default = show once
+   *   priority: 2, // high priority should be shown first. Default 0
+   *   type: 'error',  // default 'info'
+   *   icon: 'geonotifier', // default 'info'
    *   content: {
-   *     fi: {"title":"title", "content": "content"},
-   *     sv: {"title":"title", "content": "content"},
+   *     fi: [ { type:"heading", "content": "foo bar"},
+   *           { type:"text", "content": "lorem ipsum..."},
+   *           { type:"text", "content": "more lorem ipsum..."},
+   *           { type:"a", "content": "this_is_link", "href": <url> }, ..
+   *         ],
+   *     sv: [ ...], ...
    *   }
    * }
    */
-  // TODO: Generate message id if missing
+
   addMessage = msg => {
     const readIds = getReadMessageIds();
     const message = { ...msg };
+
+    if (!message.id) {
+      message.id = JSON.stringify(message);
+    }
+
     if (this.messages.has(message.id)) {
       return;
     }
 
-    if (readIds.indexOf(msg.id) !== -1) {
+    if (msg.persistence !== 'repeat' && readIds.indexOf(msg.id) !== -1) {
       return;
     }
 
     this.messages.set(message.id, message);
-    // saveMapToStorage(this.messages);
     this.emitChange();
   };
 
@@ -62,10 +74,18 @@ class MessageStore extends Store {
   };
 
   markMessageAsRead = id => {
+    let changed;
     const readIds = getReadMessageIds();
     if (readIds.indexOf(id) === -1) {
       readIds.push(id);
       setReadMessageIds(readIds);
+      changed = true;
+    }
+    if (this.messages.has(id)) {
+      this.messages.delete(id);
+      changed = true;
+    }
+    if (changed) {
       this.emitChange();
     }
   };

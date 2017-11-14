@@ -13,7 +13,21 @@ export const otpToLocation = otpString => {
   return { address };
 };
 
-export const locationToOTP = location =>
-  `${location.address}::${location.lat},${location.lon}`;
+export const addressToItinerarySearch = location => {
+  if (location.set === false) {
+    return '-';
+  }
+  return `${location.address}::${location.lat},${location.lon}`;
+};
+
+export const locationToOTP = location => {
+  if (location.gps) {
+    return 'POS';
+  }
+  if (location.set === false) {
+    return '-';
+  }
+  return `${location.address}::${location.lat},${location.lon}`;
+};
 
 export const locationToCoords = location => [location.lat, location.lon];

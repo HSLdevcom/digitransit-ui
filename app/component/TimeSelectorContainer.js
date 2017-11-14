@@ -5,7 +5,6 @@ import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import debounce from 'lodash/debounce';
-import { route } from '../action/ItinerarySearchActions';
 
 import TimeSelectors from './TimeSelectors';
 
@@ -58,19 +57,18 @@ class TimeSelectorContainer extends Component {
     }
   }
 
-  setArriveBy = ({ target }) =>
-    this.setState({ arriveBy: target.value === 'true' }, () =>
-      this.context.executeAction(route, {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            arriveBy: target.value,
-          },
+  setArriveBy = ({ target }) => {
+    // TODO is state manipulation here necessary or could we get it from url...
+    this.setState({ arriveBy: target.value === 'true' }, () => {
+      this.context.router.replace({
+        pathname: this.context.location.pathname,
+        query: {
+          ...this.context.location.query,
+          arriveBy: target.value,
         },
-        router: this.context.router,
-      }),
-    );
+      });
+    });
+  };
 
   getDates() {
     const dates = [];
@@ -117,21 +115,16 @@ class TimeSelectorContainer extends Component {
     return dates;
   }
 
-  dispatchChangedtime = debounce(
-    () =>
-      this.context.executeAction(route, {
-        location: {
-          ...this.context.location,
-          query: {
-            ...this.context.location.query,
-            time: this.state.time.unix(),
-            arriveBy: this.state.arriveBy,
-          },
-        },
-        router: this.context.router,
-      }),
-    500,
-  );
+  dispatchChangedtime = debounce(() => {
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        time: this.state.time.unix(),
+        arriveBy: this.state.arriveBy,
+      },
+    });
+  }, 500);
 
   changeTime = ({ target }, callback) =>
     target.value

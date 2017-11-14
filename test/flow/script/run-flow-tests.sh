@@ -54,8 +54,14 @@ echo "Done"
 
 kill -HUP $DRIVER_PID
 
-echo "Exiting with status $TESTSTATUS"
-ps aux
+RESULT=$?
+echo "run-flow-tests.sh status is $RESULT"
+if [ $TESTSTATUS -ne 0 ]; then
+    echo "Uploading flow failure images to https://www.dropbox.com/sh/emh3x8h38egy2k1/AAAq_eLYDxJ0AJAwFffoZqH9a?dl=0"
+    tar czf flow-test-images-$TRAVIS_COMMIT.tar.gz test_output
+    ./test/dropbox_uploader.sh upload flow-test-images-$TRAVIS_COMMIT.tar.gz /flow-test-images-$TRAVIS_COMMIT.tar.gz
+fi
 
+echo "Exiting with status $TESTSTATUS"
 
 exit $TESTSTATUS

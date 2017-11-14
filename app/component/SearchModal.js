@@ -12,7 +12,10 @@ const SearchModal = (props, context) => {
     <div className="search-modal">
       <div className="row fullscreen">
         <div className="small-12 columns cursor-pointer search-header">
-          <div className="search-header__back-arrow" onClick={props.closeModal}>
+          <div
+            className="search-header__back-arrow"
+            onClick={props.closeModal()}
+          >
             <Icon img="icon-icon_arrow-left" />
             <span className="search-header-separator" />
           </div>

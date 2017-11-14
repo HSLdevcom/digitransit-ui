@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PositionMarker from './PositionMarker';
 import PlaceMarker from './PlaceMarker';
@@ -8,6 +9,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
 import Icon from '../Icon';
+import { dtLocationShape } from '../../util/shapes';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -37,6 +39,7 @@ const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/x
 
 class Map extends React.Component {
   static propTypes = {
+    animate: PropTypes.bool,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
     center: PropTypes.bool,
@@ -47,11 +50,13 @@ class Map extends React.Component {
     fitBounds: PropTypes.bool,
     hideOrigin: PropTypes.bool,
     hilightedStops: PropTypes.array,
+    lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
+    origin: dtLocationShape,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
@@ -61,12 +66,13 @@ class Map extends React.Component {
   };
 
   static defaultProps = {
-    showScaleBar: false,
+    animate: true,
     loaded: () => {},
+    origin: null,
+    showScaleBar: false,
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
@@ -143,7 +149,6 @@ class Map extends React.Component {
   render = () => {
     let map;
     let zoom;
-    let origin;
     let leafletObjs;
     const config = this.context.config;
 
@@ -181,12 +186,14 @@ class Map extends React.Component {
         }
       }
 
-      origin = this.context.getStore('EndpointStore').getOrigin();
-
-      if (origin && origin.lat && !this.props.hideOrigin) {
+      if (
+        this.props.origin &&
+        this.props.origin.lat &&
+        !this.props.hideOrigin
+      ) {
         leafletObjs.push(
           <PlaceMarker
-            position={origin}
+            position={this.props.origin}
             key="from"
             displayOriginPopup={this.props.displayOriginPopup}
           />,
@@ -218,9 +225,7 @@ class Map extends React.Component {
         (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
         config.URL.MAP;
       if (mapUrl !== null && typeof mapUrl === 'object') {
-        mapUrl =
-          mapUrl[this.context.getStore('PreferencesStore').getLanguage()] ||
-          config.URL.MAP.default;
+        mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
       }
 
       map = (
@@ -239,7 +244,7 @@ class Map extends React.Component {
             (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
             undefined
           }
-          animate={false}
+          animate={this.props.animate}
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
@@ -292,4 +297,6 @@ class Map extends React.Component {
   };
 }
 
-export default Map;
+export default connectToStores(Map, ['PreferencesStore'], context => ({
+  lang: context.getStore('PreferencesStore').getLanguage(),
+}));

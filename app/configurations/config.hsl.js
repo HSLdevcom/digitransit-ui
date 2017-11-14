@@ -42,6 +42,11 @@ export default {
     'boundary.rect.max_lon': 25.5,
   },
 
+  defaultMapCenter: {
+    lat: 60.1710688,
+    lon: 24.9414841,
+  },
+
   nearbyRoutes: {
     radius: 2000,
     bucketSize: 100,
@@ -71,6 +76,8 @@ export default {
   sprites: 'svg-sprite.hsl.svg',
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
+
+  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
   agency: {
     show: false,

@@ -13,7 +13,21 @@
 }
 
 .summary-no-route-found {
-    padding: 1em;
+  padding: 1em;
+  .external-no-route .external-link-container {
+    margin-left: 0.5rem;
+    a.external-link {
+      color: $link-color;
+    }
+  }
+  .no-route-icon {
+    margin-right: 1em;
+    margin-top: 0.5em;
+    color: white;
+    fill: $disruption-color;
+    width: 2em;
+    height: 2em;
+  }
 }
 
 .time-selectors {

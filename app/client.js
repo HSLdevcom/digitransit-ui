@@ -26,7 +26,6 @@ import appCreator from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
-import { initGeolocation } from './action/PositionActions';
 import historyCreator from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 import Piwik from './util/piwik';
@@ -167,42 +166,41 @@ const callback = () =>
     });
 
     // init geolocation handling
-    context.executeAction(initGeolocation).then(() => {
-      match(
-        { routes: app.getComponent(), history },
-        (error, redirectLocation, renderProps) => {
-          IsomorphicRouter.prepareInitialRender(
-            Relay.Store,
-            renderProps,
-          ).then(props => {
-            ReactDOM.render(
-              <ContextProvider
-                translations={translations}
-                context={context.getComponentContext()}
+
+    match(
+      { routes: app.getComponent(), history },
+      (error, redirectLocation, renderProps) => {
+        IsomorphicRouter.prepareInitialRender(
+          Relay.Store,
+          renderProps,
+        ).then(props => {
+          ReactDOM.render(
+            <ContextProvider
+              translations={translations}
+              context={context.getComponentContext()}
+            >
+              <MuiThemeProvider
+                muiTheme={getMuiTheme(MUITheme(config), {
+                  userAgent: navigator.userAgent,
+                })}
               >
-                <MuiThemeProvider
-                  muiTheme={getMuiTheme(MUITheme(config), {
-                    userAgent: navigator.userAgent,
-                  })}
-                >
-                  <Router {...props} onUpdate={track} />
-                </MuiThemeProvider>
-              </ContextProvider>,
-              document.getElementById('app'),
-              () => {
-                // Run only in production mode and when built in a docker container
-                if (
-                  process.env.NODE_ENV === 'production' &&
-                  BUILD_TIME !== 'unset'
-                ) {
-                  OfflinePlugin.install();
-                }
-              },
-            );
-          });
-        },
-      );
-    });
+                <Router {...props} onUpdate={track} />
+              </MuiThemeProvider>
+            </ContextProvider>,
+            document.getElementById('app'),
+            () => {
+              // Run only in production mode and when built in a docker container
+              if (
+                process.env.NODE_ENV === 'production' &&
+                BUILD_TIME !== 'unset'
+              ) {
+                OfflinePlugin.install();
+              }
+            },
+          );
+        });
+      },
+    );
 
     // Listen for Web App Install Banner events
     window.addEventListener('beforeinstallprompt', e => {
