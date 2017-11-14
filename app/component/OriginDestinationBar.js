@@ -4,7 +4,6 @@ import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import cx from 'classnames';
 import { dtLocationShape } from '../util/shapes';
-import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
