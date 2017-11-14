@@ -54,27 +54,11 @@ class DTAutosuggestPanel extends React.Component {
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
-  geolocateButton = () =>
-    !this.props.origin ||
-    this.props.origin.set === false ||
-    (this.props.origin.gps && !this.props.origin.ready) ? (
-      <GeolocationStartButton
-        onClick={() => {
-          this.context.executeAction(startLocationWatch);
-
-          this.navigate(
-            getPathWithEndpointObjects(
-              { gps: true, ready: false },
-              this.props.destination,
-            ),
-            !isItinerarySearchObjects(
-              { gps: true, ready: false },
-              this.props.destination,
-            ),
-          );
-        }}
-      />
-    ) : null;
+  currentLocationSelected = (location) => {
+    if (!location.ready) {
+      this.context.executeAction(startLocationWatch);
+    }
+  };
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
@@ -113,6 +97,7 @@ class DTAutosuggestPanel extends React.Component {
           let origin = location;
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
+	    currentLocationSelected(location);
             origin = { gps: true, ready: true };
             if (destination.gps === true) {
               // destination has gps, clear destination
@@ -124,7 +109,6 @@ class DTAutosuggestPanel extends React.Component {
             !isItinerarySearchObjects(origin, destination),
           );
         }}
-        renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
@@ -142,6 +126,7 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = location;
             if (location.type === 'CurrentLocation') {
+              currentLocationSelected(location);
               destination = { gps: true, ready: true };
               if (origin.gps === true) {
                 origin = { set: false };

@@ -26,7 +26,6 @@ class DTEndpointAutosuggest extends React.Component {
     id: PropTypes.string.isRequired,
     className: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
-    renderPostInput: PropTypes.node,
     layers: PropTypes.array,
     isFocused: PropTypes.func,
   };
@@ -74,7 +73,6 @@ class DTEndpointAutosuggest extends React.Component {
       id={this.props.id}
       layers={this.props.layers}
       className={this.props.value !== '' ? this.props.className : ''}
-      renderPostInput={this.props.renderPostInput}
     />
   );
 }
