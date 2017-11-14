@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -59,7 +60,7 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      panelExpanded: true, // Show right-now as default
+      mapExpanded: false, // Show right-now as default
     };
   }
 
@@ -188,7 +189,7 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
-    this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
+    this.setState(prevState => ({ mapExpanded: !prevState.mapExpanded }));
   };
 
   renderTab = () => {
@@ -261,7 +262,11 @@ class IndexPage extends React.Component {
         className={`front-page flex-vertical fullscreen bp-${this.props
           .breakpoint}`}
       >
-        <div className="flex-grow map-container">
+        <div
+          className={cx('flex-grow', 'map-container', {
+            expanded: this.state.mapExpanded,
+          })}
+        >
           <MapWithTracking
             breakpoint={this.props.breakpoint}
             showStops
@@ -277,26 +282,28 @@ class IndexPage extends React.Component {
               destination={this.props.destination}
               tab={this.props.tab}
             />
-            {
-              <div
-                className="fullscreen-toggle"
-                onClick={this.togglePanelExpanded}
-              >
-                {!this.state.panelExpanded ? (
-                  <Icon img="icon-icon_minimize" className="cursor-pointer" />
-                ) : (
-                  <Icon img="icon-icon_maximize" className="cursor-pointer" />
-                )}
-              </div>
-            }
           </MapWithTracking>
         </div>
-        <div>
+        <div style={{ position: 'relative' }}>
+          {
+            <div
+              className={cx('fullscreen-toggle', {
+                expanded: this.state.mapExpanded,
+              })}
+              onClick={this.togglePanelExpanded}
+            >
+              {!this.state.mapExpanded ? (
+                <Icon img="icon-icon_minimize" className="cursor-pointer" />
+              ) : (
+                <Icon img="icon-icon_maximize" className="cursor-pointer" />
+              )}
+            </div>
+          }
           <FrontPagePanelSmall
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            panelExpanded={this.state.panelExpanded}
+            mapExpanded={this.state.mapExpanded}
             location={this.props.origin}
           >
             {this.renderTab()}
