@@ -31,6 +31,10 @@ if (isBrowser) {
   require('leaflet/dist/leaflet.css');
 }
 
+const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
+
+const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+
 class Map extends React.Component {
   static propTypes = {
     bounds: PropTypes.array,
@@ -268,8 +272,8 @@ class Map extends React.Component {
             !this.props.disableZoom && (
               <ZoomControl
                 position={config.map.controls.zoom.position}
-                zoomInText={Icon.asString('icon-icon_plus')}
-                zoomOutText={Icon.asString('icon-icon_minus')}
+                zoomInText={zoomInText}
+                zoomOutText={zoomOutText}
               />
             )}
           {leafletObjs}
