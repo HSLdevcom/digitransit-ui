@@ -4,11 +4,8 @@ import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
-<<<<<<< HEAD
 import pure from 'recompose/pure';
 
-=======
->>>>>>> index-page
 import Icon from './Icon';
 import Map from './map/Map';
 import RouteLine from './map/route/RouteLine';
