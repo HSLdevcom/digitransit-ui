@@ -32,18 +32,6 @@ const GeopositionSelector = ({ status }, context) => {
         }
       />
     );
-  } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
-    return (
-      <div id="geoposition-selector">
-        <Loading />
-        <div className="spinner-caption">
-          <FormattedMessage
-            id="splash-locating"
-            defaultMessage="Detecting location"
-          />…
-        </div>
-      </div>
-    );
   }
   return null;
 };
