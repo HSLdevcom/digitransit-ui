@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -71,7 +72,12 @@ function RouteMapContainer(
           />
         )}
       {breakpoint !== 'large' && (
-        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
+        <div
+          className={cx('fullscreen-toggle', 'routePage', {
+            expanded: fullscreen,
+          })}
+          onClick={toggleFullscreenMap}
+        >
           {fullscreen ? (
             <Icon img="icon-icon_minimize" className="cursor-pointer" />
           ) : (

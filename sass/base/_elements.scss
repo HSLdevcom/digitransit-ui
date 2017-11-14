@@ -151,7 +151,7 @@ $border-radius-rounded: 30px;
   height: 34px;
   background: rgba(0, 0, 0, 0.5);
   width: 34px;
-  bottom: 0px;
+  top: -3em;
   right: 10px;
   font-size: 17px;
   border-top-right-radius: $border-radius;
@@ -160,6 +160,18 @@ $border-radius-rounded: 30px;
   .icon {
    margin: 0.5em 0.5em 0 0.5em;
    fill: rgb(255, 255, 255);
+ }
+ &.expanded {
+   top: -3em;
+   z-index: 1000;
+ }
+ &.routePage, &.stopPage {
+  bottom: 0.7em;
+  top: auto;
+  &.expanded {
+    bottom: 0.5em;
+    top: auto;
+  }
  }
 }
 
