@@ -49,13 +49,13 @@ class MarkerPopupBottom extends React.Component {
       destination = parseLocation(destinationString);
     }
 
-    navigateTo(
-      { ...this.props.location, ready: true },
+    navigateTo({
+      origin: { ...this.props.location, ready: true },
       destination,
       context,
-      this.context.router,
-      locationWithTime,
-    );
+      router: this.context.router,
+      base: locationWithTime,
+    });
   };
 
   routeTo = () => {
@@ -81,13 +81,13 @@ class MarkerPopupBottom extends React.Component {
       origin = parseLocation(originString);
     }
 
-    navigateTo(
+    navigateTo({
       origin,
-      { ...this.props.location, ready: true },
+      destination: { ...this.props.location, ready: true },
       context,
-      this.context.router,
-      locationWithTime,
-    );
+      router: this.context.router,
+      base: locationWithTime,
+    });
   };
 
   render() {

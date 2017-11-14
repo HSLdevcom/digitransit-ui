@@ -94,6 +94,7 @@ export const parseLocation = location => {
   } else {
     parsed.ready = false;
   }
+  console.log('returning:', parsed);
 
   return parsed;
 };
@@ -117,7 +118,15 @@ export const getHomeUrl = origin => {
   - if on itinerary summary page -> replace
   - on map/route page -> push
   */
-export const navigateTo = (origin, destination, context, router, base) => {
+export const navigateTo = ({
+  origin,
+  destination,
+  context,
+  router,
+  base,
+  tab = TAB_NEARBY,
+}) => {
+  console.log('c:', context);
   let push;
   switch (context) {
     case PREFIX_STOPS:
@@ -138,7 +147,7 @@ export const navigateTo = (origin, destination, context, router, base) => {
 
   const url = {
     ...base,
-    pathname: getPathWithEndpointObjects(origin, destination, TAB_NEARBY),
+    pathname: getPathWithEndpointObjects(origin, destination, tab),
   };
 
   console.log(origin, destination);
