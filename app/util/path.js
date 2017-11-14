@@ -9,6 +9,7 @@ export const TAB_NEARBY = 'lahellasi';
 export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
 export const PREFIX_STOPS = 'pysakit';
+export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const stopUrl = id => id;
 
 export const getRoutePath = (origin, destination) =>
@@ -105,4 +106,47 @@ export const getHomeUrl = origin => {
   });
 
   return homeUrl;
+};
+
+/**
+  Figure out how to do routing
+
+  Rules for replace/push:
+  - if on front page and sets 2nd endpoint -> push
+  - if on front page and 1st endpoint -> replace
+  - if on itinerary summary page -> replace
+  - on map/route page -> push
+  */
+export const navigateTo = (origin, destination, context, router, base) => {
+  let push;
+  switch (context) {
+    case PREFIX_STOPS:
+    case PREFIX_ROUTES:
+      push = true;
+      break;
+    case PREFIX_ITINERARY_SUMMARY:
+      push = false;
+      break;
+    default:
+      if (origin.ready && destination.ready) {
+        push = true;
+      } else {
+        push = false;
+      }
+      break;
+  }
+
+  const url = {
+    ...base,
+    pathname: getPathWithEndpointObjects(origin, destination, TAB_NEARBY),
+  };
+
+  console.log(origin, destination);
+  console.log('new url:', url, push);
+
+  if (push) {
+    router.push(url);
+  } else {
+    router.replace(url);
+  }
 };
