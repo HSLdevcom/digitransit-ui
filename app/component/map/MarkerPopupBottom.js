@@ -3,12 +3,12 @@ import React from 'react';
 import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-
 import {
-  TAB_NEARBY,
-  getPathWithEndpointObjects,
-  isItinerarySearchObjects,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_ITINERARY_SUMMARY,
   parseLocation,
+  navigateTo,
 } from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
 import { dtLocationShape } from '../../util/shapes';
@@ -35,27 +35,26 @@ class MarkerPopupBottom extends React.Component {
     let destination;
 
     const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
 
-    if (
-      !pathName ||
-      pathName.startsWith('/pysakit') ||
-      pathName.startsWith('/linjat')
-    ) {
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
       destination = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
     } else {
+      // index
       const [, , destinationString] = pathName.split('/');
       destination = parseLocation(destinationString);
     }
 
-    locationWithTime.pathname = getPathWithEndpointObjects(
-      this.props.location,
+    navigateTo(
+      { ...this.props.location, ready: true },
       destination,
-      TAB_NEARBY,
-    );
-
-    this.navigate(
+      context,
+      this.context.router,
       locationWithTime,
-      !isItinerarySearchObjects(this.props.location, destination),
     );
   };
 
@@ -68,36 +67,27 @@ class MarkerPopupBottom extends React.Component {
     let origin;
 
     const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
 
-    if (
-      !pathName ||
-      pathName.startsWith('/pysakit') ||
-      pathName.startsWith('/linjat')
-    ) {
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
       origin = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , originString] = pathName.split('/');
+      origin = parseLocation(originString);
     } else {
+      // index
       const [, originString] = pathName.split('/');
       origin = parseLocation(originString);
     }
 
-    locationWithTime.pathname = getPathWithEndpointObjects(
+    navigateTo(
       origin,
-      this.props.location,
-      TAB_NEARBY,
-    );
-
-    this.navigate(
+      { ...this.props.location, ready: true },
+      context,
+      this.context.router,
       locationWithTime,
-      !isItinerarySearchObjects(origin, this.props.location),
     );
-  };
-
-  navigate = (url, replace) => {
-    if (replace) {
-      this.context.router.replace(url);
-    } else {
-      this.context.router.push(url);
-    }
   };
 
   render() {
