@@ -22,7 +22,11 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
-import { PREFIX_ROUTES, PREFIX_STOPS } from './util/path';
+import {
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_ITINERARY_SUMMARY,
+} from './util/path';
 
 // Localstorage data
 import { getCustomizedSettings } from './store/localStorage';
@@ -549,7 +553,7 @@ export default config => {
         </Route>
       </Route>
       <Route
-        path="/reitti/:from/:to"
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
         getComponents={(location, cb) => {
           Promise.all([
             import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
