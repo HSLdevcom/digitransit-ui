@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
 import {
+  TAB_NEARBY,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
   parseLocation,
@@ -30,13 +32,27 @@ class MarkerPopupBottom extends React.Component {
       this.context.location,
     );
 
-    const [, , destinationString] = this.context.location.pathname.split('/');
+    let destination;
 
-    const destination = parseLocation(destinationString);
+    const pathName = get(this.context, 'location.pathname');
+
+    if (
+      !pathName ||
+      pathName.startsWith('/pysakit') ||
+      pathName.startsWith('/linjat')
+    ) {
+      destination = { set: false };
+    } else {
+      const [, , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
+    }
+
     locationWithTime.pathname = getPathWithEndpointObjects(
       this.props.location,
       destination,
+      TAB_NEARBY,
     );
+
     this.navigate(
       locationWithTime,
       !isItinerarySearchObjects(this.props.location, destination),
@@ -48,14 +64,28 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    const [, originString] = this.context.location.pathname.split('/');
 
-    const origin = parseLocation(originString);
+    let origin;
+
+    const pathName = get(this.context, 'location.pathname');
+
+    if (
+      !pathName ||
+      pathName.startsWith('/pysakit') ||
+      pathName.startsWith('/linjat')
+    ) {
+      origin = { set: false };
+    } else {
+      const [, originString] = pathName.split('/');
+      origin = parseLocation(originString);
+    }
 
     locationWithTime.pathname = getPathWithEndpointObjects(
       origin,
       this.props.location,
+      TAB_NEARBY,
     );
+
     this.navigate(
       locationWithTime,
       !isItinerarySearchObjects(origin, this.props.location),

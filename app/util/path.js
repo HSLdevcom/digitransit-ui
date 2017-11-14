@@ -5,6 +5,12 @@ import {
   addressToItinerarySearch,
 } from './otpStrings';
 
+export const TAB_NEARBY = 'lahellasi';
+export const TAB_FAVOURITES = 'suosikit';
+export const PREFIX_ROUTES = 'linjat';
+export const PREFIX_STOPS = 'pysakit';
+export const stopUrl = id => id;
+
 export const getRoutePath = (origin, destination) =>
   ['/reitti', origin, destination].join('/');
 
@@ -52,7 +58,7 @@ export const getPathWithEndpoints = (origin, destination, tab) =>
 export const getPathWithEndpointObjects = (
   origin,
   destination,
-  tab: 'lahellasi',
+  tab: TAB_NEARBY,
 ) => {
   const r = isItinerarySearchObjects(origin, destination)
     ? getRoutePath(
@@ -84,7 +90,10 @@ export const parseLocation = location => {
   if (parsed.lat && parsed.lon) {
     parsed.set = true;
     parsed.ready = true;
+  } else {
+    parsed.ready = false;
   }
+
   return parsed;
 };
 
