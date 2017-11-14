@@ -7,6 +7,7 @@ import { dtLocationShape } from '../util/shapes';
 import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
+import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -32,19 +33,11 @@ export default class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    const destinationString = locationToOTP(this.props.origin);
-    const originString = locationToOTP(this.props.destination);
-
-    this.context.router.replace(`/reitti/${originString}/${destinationString}`);
-  };
-
-  openSearchModal = tab => {
-    this.context.router.push({
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        oneTabSearchModalOpen: tab,
-      },
+    navigateTo({
+      origin: this.props.destination,
+      destination: this.props.origin,
+      context: PREFIX_ITINERARY_SUMMARY,
+      router: this.context.router,
     });
   };
 
