@@ -7,11 +7,13 @@ $add-favourite-input-overlay-height: 27px;
   padding-right: 17px;
   height: 100%;
   background-color: $background-color;
-  #add-favourite-close-icon {
-    fill: $gray;
-    width: 1em;
-    height: 1em;
-    font-size: $font-size-small;
+  .button-container {
+    position: absolute;
+    display: inline-block;
+    right: 12px;
+    button  {
+      color: $gray;
+    }
   }
 
   .add-favourite-container__content {

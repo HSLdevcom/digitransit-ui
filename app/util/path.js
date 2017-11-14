@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import {
   otpToLocation,
   locationToOTP,
@@ -32,10 +33,7 @@ export const isItinerarySearch = (origin, destination) => {
 
 export const isItinerarySearchObjects = (origin, destination) => {
   const isSearch =
-    origin.ready &&
-    origin.ready !== false &&
-    destination &&
-    destination.ready !== false;
+    get(origin, 'ready') === true && get(destination, 'ready') === true;
   return isSearch;
 };
 
@@ -55,16 +53,20 @@ export const getPathWithEndpointObjects = (
   origin,
   destination,
   tab: 'lahellasi',
-) =>
-  isItinerarySearchObjects(origin, destination)
+) => {
+  const r = isItinerarySearchObjects(origin, destination)
     ? getRoutePath(
         addressToItinerarySearch(origin),
         addressToItinerarySearch(destination),
       )
     : getEndpointPath(locationToOTP(origin), locationToOTP(destination), tab);
 
+  return r;
+};
+
 /**
- Parses current location from string to location object
+ * Parses current location from string to location object
+ *
 */
 export const parseLocation = location => {
   if (isEmpty(location)) {
