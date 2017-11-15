@@ -7,7 +7,6 @@ import { routerShape, locationShape } from 'react-router';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import OriginSelectorRow from './OriginSelectorRow';
-import Loading from './Loading';
 
 const GeopositionSelector = ({ status }, context) => {
   /* States:
@@ -31,18 +30,6 @@ const GeopositionSelector = ({ status }, context) => {
           />
         }
       />
-    );
-  } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
-    return (
-      <div id="geoposition-selector">
-        <Loading />
-        <div className="spinner-caption">
-          <FormattedMessage
-            id="splash-locating"
-            defaultMessage="Detecting location"
-          />…
-        </div>
-      </div>
     );
   }
   return null;
