@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import IconWithTail from './IconWithTail';
+import { PREFIX_ROUTES } from '../util/path';
 
 function TripLink(props) {
   const icon = (
@@ -17,8 +18,8 @@ function TripLink(props) {
   if (props.trip.trip) {
     return (
       <Link
-        to={`/linjat/${props.trip.trip.route.gtfsId}/pysakit/${props.trip.trip
-          .pattern.code}/${props.trip.trip.gtfsId}`}
+        to={`/${PREFIX_ROUTES}/${props.trip.trip.route.gtfsId}/pysakit/${props
+          .trip.trip.pattern.code}/${props.trip.trip.gtfsId}`}
         className="route-now-content"
       >
         {icon}

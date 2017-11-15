@@ -9,6 +9,7 @@ import TripLink from './TripLink';
 import WalkDistance from './WalkDistance';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
+import { PREFIX_STOPS } from '../util/path';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const getRouteStopSvg = (first, last, color) => (
@@ -128,7 +129,7 @@ class RouteStop extends React.PureComponent {
         }}
       >
         <div className="columns route-stop-now">{vehicleTripLink}</div>
-        <Link to={`/pysakit/${stop.gtfsId}`}>
+        <Link to={`/${PREFIX_STOPS}/${stop.gtfsId}`}>
           <div className={`columns route-stop-name ${mode}`}>
             {getRouteStopSvg(first, last, color || 'currentColor')}
             {stop.name}

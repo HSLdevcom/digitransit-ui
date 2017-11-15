@@ -8,6 +8,7 @@ import WalkDistance from './WalkDistance';
 import StopCode from './StopCode';
 import PatternLink from './PatternLink';
 import { fromStopTime } from './DepartureTime';
+import { PREFIX_STOPS } from '../util/path';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
@@ -71,7 +72,7 @@ const TripRouteStop = props => {
       )}
     >
       <div className="columns route-stop-now">{vehicles}</div>
-      <Link to={`/pysakit/${props.stop.gtfsId}`}>
+      <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
         <div className={`columns route-stop-name ${props.mode}`}>
           {getRouteStopSvg(
             props.first,

@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import Departure from './Departure';
 import { isBrowser } from '../util/browser';
+import { PREFIX_ROUTES } from '../util/path';
 
 const asDepartures = stoptimes =>
   !stoptimes
@@ -129,8 +130,8 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
-              .pattern.code}`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route
+              .gtfsId}/pysakit/${departure.pattern.code}`}
             key={id}
           >
             {departureObj}

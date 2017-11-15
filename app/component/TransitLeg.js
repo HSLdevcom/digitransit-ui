@@ -12,6 +12,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import IntermediateLeg from './IntermediateLeg';
 import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { PREFIX_ROUTES } from '../util/path';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -114,8 +115,8 @@ class TransitLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column">
           <Link
             onClick={e => e.stopPropagation()}
-            to={`/linjat/${this.props.leg.route.gtfsId}/pysakit/${this.props.leg
-              .trip.pattern.code}/${this.props.leg.trip.gtfsId}`
+            to={`/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${this
+              .props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
             // TODO: Create a helper function for generationg links
             }
           >
