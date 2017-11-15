@@ -10,6 +10,7 @@ import {
 } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
+import { PREFIX_STOPS } from '../util/path';
 
 class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
@@ -45,7 +46,7 @@ class DTEndpointAutosuggest extends React.Component {
   onSuggestionSelected = item => {
     // stop
     if (isStop(get(item, 'properties')) && item.timetableClicked === true) {
-      const url = `/pysakit/${getGTFSId(item.properties)}`;
+      const url = `/${PREFIX_STOPS}/${getGTFSId(item.properties)}`;
       this.context.router.push(url);
       return;
     }

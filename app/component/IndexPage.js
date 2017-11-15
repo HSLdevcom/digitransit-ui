@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -15,6 +16,8 @@ import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { getPositioningHasSucceeded } from '../store/localStorage';
 import { isBrowser } from '../util/browser';
 import {
+  TAB_NEARBY,
+  TAB_FAVOURITES,
   parseLocation,
   getPathWithEndpointObjects,
   isItinerarySearchObjects,
@@ -59,7 +62,7 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      panelExpanded: true, // Show right-now as default
+      mapExpanded: false, // Show right-now as default
     };
   }
 
@@ -79,14 +82,14 @@ class IndexPage extends React.Component {
 
   componentWillReceiveProps = nextProps => {
     this.handleBreakpointProps(nextProps);
-    this.handleOriginProps(nextProps);
+    this.handleLocationProps(nextProps);
   };
 
   getSelectedTab = () => {
     switch (this.props.tab) {
-      case 'suosikit':
+      case TAB_FAVOURITES:
         return 2;
-      case 'lahellasi':
+      case TAB_NEARBY:
         return 1;
       default:
         return undefined;
@@ -101,21 +104,19 @@ class IndexPage extends React.Component {
       return;
     }
 
-    // auto close any tab on bp change from large
     if (this.getSelectedTab() === undefined) {
       // auto open nearby tab on bp change to large
       this.clickNearby();
     }
   };
 
-  handleOriginProps = nextProps => {
+  /* eslint-disable no-param-reassign */
+  handleLocationProps = nextProps => {
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      // TODO handle destination gps too
-
-      const realOrigin = { ...nextProps.origin };
-      realOrigin.gps = false;
-
-      const url = getPathWithEndpointObjects(realOrigin, nextProps.destination);
+      const url = getPathWithEndpointObjects(
+        nextProps.origin,
+        nextProps.destination,
+      );
       this.context.router.replace(url);
     }
   };
@@ -166,7 +167,7 @@ class IndexPage extends React.Component {
     const url = getPathWithEndpointObjects(
       this.props.origin,
       this.props.destination,
-      'suosikit',
+      TAB_FAVOURITES,
     );
     if (replace) {
       this.context.router.replace(url);
@@ -179,7 +180,7 @@ class IndexPage extends React.Component {
     const url = getPathWithEndpointObjects(
       this.props.origin,
       this.props.destination,
-      'lahellasi',
+      TAB_NEARBY,
     );
 
     if (replace) {
@@ -190,19 +191,19 @@ class IndexPage extends React.Component {
   };
 
   togglePanelExpanded = () => {
-    this.setState(prevState => ({ panelExpanded: !prevState.panelExpanded }));
+    this.setState(prevState => ({ mapExpanded: !prevState.mapExpanded }));
   };
 
   renderTab = () => {
     switch (this.props.tab) {
-      case 'lahellasi':
+      case TAB_NEARBY:
         return (
           <NearbyRoutesPanel
             origin={this.props.origin}
             destination={this.props.destination}
           />
         );
-      case 'suosikit':
+      case TAB_FAVOURITES:
         return (
           <FavouritesPanel
             origin={this.props.origin}
@@ -263,7 +264,11 @@ class IndexPage extends React.Component {
         className={`front-page flex-vertical fullscreen bp-${this.props
           .breakpoint}`}
       >
-        <div className="flex-grow map-container">
+        <div
+          className={cx('flex-grow', 'map-container', {
+            expanded: this.state.mapExpanded,
+          })}
+        >
           <MapWithTracking
             breakpoint={this.props.breakpoint}
             showStops
@@ -279,26 +284,28 @@ class IndexPage extends React.Component {
               destination={this.props.destination}
               tab={this.props.tab}
             />
-            {
-              <div
-                className="fullscreen-toggle"
-                onClick={this.togglePanelExpanded}
-              >
-                {!this.state.panelExpanded ? (
-                  <Icon img="icon-icon_minimize" className="cursor-pointer" />
-                ) : (
-                  <Icon img="icon-icon_maximize" className="cursor-pointer" />
-                )}
-              </div>
-            }
           </MapWithTracking>
         </div>
-        <div>
+        <div style={{ position: 'relative' }}>
+          {
+            <div
+              className={cx('fullscreen-toggle', {
+                expanded: this.state.mapExpanded,
+              })}
+              onClick={this.togglePanelExpanded}
+            >
+              {!this.state.mapExpanded ? (
+                <Icon img="icon-icon_minimize" className="cursor-pointer" />
+              ) : (
+                <Icon img="icon-icon_maximize" className="cursor-pointer" />
+              )}
+            </div>
+          }
           <FrontPagePanelSmall
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            panelExpanded={this.state.panelExpanded}
+            mapExpanded={this.state.mapExpanded}
             location={this.props.origin}
           >
             {this.renderTab()}
@@ -334,16 +341,45 @@ const IndexPageWithLang = connectToStores(
   }),
 );
 
+/* eslint-disable no-param-reassign */
+const processLocation = (locationString, locationState) => {
+  let location;
+  if (locationString) {
+    location = parseLocation(locationString);
+
+    if (location.gps === true) {
+      if (
+        locationState.lat &&
+        locationState.lon &&
+        locationState.address !== undefined // address = "" when reverse geocoding cannot return address
+      ) {
+        location.ready = true;
+        location.lat = locationState.lat;
+        location.lon = locationState.lon;
+        location.address = locationState.address;
+      }
+      const gpsError =
+        [
+          'no-location',
+          'prompt',
+          'searching-location',
+          'found-location',
+          'found-address',
+        ].indexOf(locationState.status) === -1;
+
+      location.gpsError = gpsError;
+    }
+  } else {
+    location = { set: false };
+  }
+  return location;
+};
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
-
-    const gpsError =
-      ['no-location', 'prompt', 'searching-location', 'found-location'].indexOf(
-        locationState.status,
-      ) === -1;
 
     const newProps = {};
 
@@ -351,37 +387,9 @@ const IndexPageWithPosition = connectToStores(
       newProps.tab = props.params.tab;
     }
 
-    // todo extract function:
-    if (props.params.from) {
-      newProps.origin = parseLocation(props.params.from);
+    newProps.origin = processLocation(props.params.from, locationState);
 
-      if (newProps.origin.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.origin.ready = true;
-          newProps.origin.lat = locationState.lat;
-          newProps.origin.lon = locationState.lon;
-          newProps.origin.address = locationState.address;
-        }
-        newProps.origin.gpsError = gpsError;
-      }
-    } else {
-      newProps.origin = { set: false };
-    }
-
-    if (props.params.to) {
-      newProps.destination = parseLocation(props.params.to);
-      if (newProps.destination.gps === true) {
-        if (locationState.lat && locationState.lon && locationState.address) {
-          newProps.destination.lat = locationState.lat;
-          newProps.destination.lon = locationState.lon;
-          newProps.destination.address = locationState.address;
-          newProps.destination.ready = true;
-        }
-        newProps.destination.gpsError = gpsError;
-      }
-    } else {
-      newProps.destination = { set: false };
-    }
+    newProps.destination = processLocation(props.params.to, locationState);
 
     // if we have record of succesfull positioning let's init geolocating
     if (
@@ -402,8 +410,12 @@ const IndexPageWithPosition = connectToStores(
       newProps.destination.set === false &&
       newProps.origin.set === false
     ) {
-      if (locationState.status === 'searching-location') {
-        context.router.replace('/POS/-/lahellasi');
+      if (
+        ['searching-location', 'found-location', 'found-address'].indexOf(
+          locationState.status,
+        ) !== -1
+      ) {
+        context.router.replace(`/POS/-/${TAB_NEARBY}`);
       }
     }
     return newProps;

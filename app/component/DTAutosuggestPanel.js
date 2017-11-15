@@ -4,10 +4,7 @@ import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
-import {
-  getPathWithEndpointObjects,
-  isItinerarySearchObjects,
-} from '../util/path';
+import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 
@@ -35,16 +32,6 @@ class DTAutosuggestPanel extends React.Component {
       showDarkOverlay: false,
     };
   }
-
-  navigate = (url, replace) => {
-    if (replace && !this.props.isItinerary) {
-      this.context.router.replace(url);
-    } else if (this.props.isItinerary) {
-      this.context.router.replace(`/reitti${url}`);
-    } else {
-      this.context.router.push(url);
-    }
-  };
 
   value = location =>
     (location && location.address) ||
@@ -94,20 +81,22 @@ class DTAutosuggestPanel extends React.Component {
         value={this.value(this.props.origin)}
         isFocused={this.isFocused}
         onLocationSelected={location => {
-          let origin = location;
+          let origin = { ...location, ready: true };
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
 	    currentLocationSelected(location);
-            origin = { gps: true, ready: true };
+            origin = { ...location, gps: true, ready: true };
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
             }
           }
-          this.navigate(
-            getPathWithEndpointObjects(origin, destination, this.props.tab),
-            !isItinerarySearchObjects(origin, destination),
-          );
+          navigateTo({
+            origin,
+            destination,
+            context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+            router: this.context.router,
+          });
         }}
       />
       {(this.props.destination && this.props.destination.set) ||
@@ -119,23 +108,25 @@ class DTAutosuggestPanel extends React.Component {
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
-          className="destination"
+          className={this.class(this.props.destination)}
           isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
             let origin = this.props.origin;
-            let destination = location;
+            let destination = { ...location, ready: true };
             if (location.type === 'CurrentLocation') {
               currentLocationSelected(location);
-              destination = { gps: true, ready: true };
+              destination = { ...location, gps: true, ready: true };
               if (origin.gps === true) {
                 origin = { set: false };
               }
             }
-            this.navigate(
-              getPathWithEndpointObjects(origin, destination, this.props.tab),
-              !isItinerarySearchObjects(origin, destination),
-            );
+            navigateTo({
+              origin,
+              destination,
+              context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+              router: this.context.router,
+            });
           }}
         />
       ) : null}

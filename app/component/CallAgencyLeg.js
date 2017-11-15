@@ -10,6 +10,7 @@ import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { PREFIX_ROUTES } from '../util/path';
 
 class CallAgencyLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
@@ -35,8 +36,8 @@ class CallAgencyLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column call">
           <Link
             onClick={e => e.stopPropagation()}
-            to={`/linjat/${this.props.leg.route.gtfsId}/pysakit/${this.props.leg
-              .trip.pattern.code}/${this.props.leg.trip.gtfsId}`
+            to={`/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${this
+              .props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
             // TODO: Create a helper function for generationg links
             }
           >

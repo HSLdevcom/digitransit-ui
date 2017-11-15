@@ -10,6 +10,7 @@ import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
+import { PREFIX_ROUTES } from '../util/path';
 
 const hasActiveDisruption = (t, alerts) =>
   filter(
@@ -49,7 +50,7 @@ const DepartureRow = (props, context) => {
     context.router.push(val);
   };
 
-  const departureLinkUrl = `/linjat/${departure.pattern.route
+  const departureLinkUrl = `/${PREFIX_ROUTES}/${departure.pattern.route
     .gtfsId}/pysakit/${departure.pattern.code}`;
 
   return (

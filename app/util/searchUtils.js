@@ -11,6 +11,7 @@ import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
+import { PREFIX_ROUTES } from '../util/path';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ const mapRoute = item => ({
   properties: {
     ...item,
     layer: `route-${item.mode}`,
-    link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
+    link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
   },
   geometry: {
     coordinates: null,
@@ -155,18 +156,29 @@ function getFavouriteLocations(favourites, input) {
 }
 
 export function getGeocodingResult(
-  text,
+  _text,
   searchParams,
   lang,
   focusPoint,
   sources,
   config,
 ) {
-  if (text === undefined || text === null || text.trim().length < 3) {
+  const text = _text ? _text.trim() : null;
+  if (
+    text === undefined ||
+    text === null ||
+    text.length < 1 ||
+    (config.search &&
+      config.search.minimalRegexp &&
+      !config.search.minimalRegexp.test(text))
+  ) {
     return Promise.resolve([]);
   }
 
-  const opts = { text, ...searchParams, ...focusPoint, lang, sources };
+  let opts = { text, ...searchParams, ...focusPoint, lang };
+  if (sources) {
+    opts = { ...opts, sources };
+  }
 
   return getJson(config.URL.PELIAS, opts)
     .then(res =>
@@ -380,16 +392,18 @@ export function executeSearchImmediate(
         .map(v => `gtfs${v}`)
         .join(',');
 
-      searchComponents.push(
-        getGeocodingResult(
-          input,
-          undefined,
-          language,
-          focusPoint,
-          sources,
-          config,
-        ),
-      );
+      if (sources) {
+        searchComponents.push(
+          getGeocodingResult(
+            input,
+            undefined,
+            language,
+            focusPoint,
+            sources,
+            config,
+          ),
+        );
+      }
     }
 
     endpointSearchesPromise = Promise.all(searchComponents)
