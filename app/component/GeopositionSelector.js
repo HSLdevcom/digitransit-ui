@@ -17,22 +17,19 @@ const GeopositionSelector = ({ status }, context) => {
    * - locationing succeeded
    */
 
-  if (status === PositionStore.STATUS_NO_LOCATION) {
-    return (
-      <OriginSelectorRow
-        key={`panel-locationing-button`}
-        icon="icon-icon_position"
-        onClick={() => context.executeAction(startLocationWatch)}
-        label={
-          <FormattedMessage
-            id="use-own-position"
-            defaultMessage="Use current location"
-          />
-        }
-      />
-    );
-  }
-  return null;
+  return (
+    <OriginSelectorRow
+      key={`panel-locationing-button`}
+      icon="icon-icon_position"
+      onClick={() => context.executeAction(startLocationWatch)}
+      label={
+        <FormattedMessage
+          id="use-own-position"
+          defaultMessage="Use current location"
+        />
+      }
+    />
+  );
 };
 
 GeopositionSelector.propTypes = {
