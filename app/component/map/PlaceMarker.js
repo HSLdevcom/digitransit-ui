@@ -6,13 +6,11 @@ import OriginPopup from './OriginPopup';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
-let L;
-let Marker;
+let IconMarker;
 
 /* eslint-disable global-require */
 if (isBrowser) {
-  L = require('leaflet');
-  Marker = require('react-leaflet/es/Marker').default;
+  IconMarker = require('./IconMarker').default;
 }
 /* eslint-enable global-require */
 
@@ -36,28 +34,28 @@ export default function PlaceMarker(
 
   return (
     <div>
-      <Marker
+      <IconMarker
         zIndexOffset={10}
         position={position}
         keyboard={false}
-        icon={L.divIcon({
-          html: Icon.asString('icon-icon_mapMarker-point'),
+        icon={{
+          element: <Icon img="icon-icon_mapMarker-point" />,
           className: 'place halo',
           iconAnchor: [12, 24],
-        })}
+        }}
       />
-      <Marker
+      <IconMarker
         keyboard={false}
         zIndexOffset={10}
         position={position}
-        icon={L.divIcon({
-          html: Icon.asString('icon-icon_place'),
+        icon={{
+          element: <Icon img="icon-icon_place" />,
           className: 'place',
           iconAnchor: [12, 24],
-        })}
+        }}
       >
         {popup}
-      </Marker>
+      </IconMarker>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import some from 'lodash/some';
+import pure from 'recompose/pure';
+
 import Icon from './Icon';
 import Map from './map/Map';
 import RouteLine from './map/route/RouteLine';
@@ -13,34 +15,14 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
 
 function RouteMapContainer(
-  { pattern, trip, vehicles, routes },
+  { pattern, lat, lon, routes },
   { router, location, breakpoint },
 ) {
   if (!pattern) {
     return false;
   }
 
-  let selectedVehicle;
-  let fitBounds = true;
-  let zoom;
   let tripStart;
-
-  if (trip) {
-    tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
-    const vehiclesWithCorrectStartTime = Object.keys(vehicles)
-      .map(key => vehicles[key])
-      .filter(vehicle => vehicle.tripStartTime === tripStart);
-
-    selectedVehicle =
-      vehiclesWithCorrectStartTime &&
-      vehiclesWithCorrectStartTime.length > 0 &&
-      vehiclesWithCorrectStartTime[0];
-
-    if (selectedVehicle) {
-      fitBounds = false;
-      zoom = 15;
-    }
-  }
 
   const fullscreen = some(routes, route => route.fullscreenMap);
 
@@ -59,7 +41,6 @@ function RouteMapContainer(
       direction={pattern.directionId}
       pattern={pattern.code}
       tripStart={tripStart}
-      useSmallIcons={false}
     />,
   ];
 
@@ -73,13 +54,13 @@ function RouteMapContainer(
   }
   return (
     <Map
-      lat={(selectedVehicle && selectedVehicle.lat) || undefined}
-      lon={(selectedVehicle && selectedVehicle.long) || undefined}
+      lat={lat}
+      lon={lon}
       className={'full'}
       leafletObjs={leafletObjs}
-      fitBounds={fitBounds}
+      fitBounds={!(lat && lon)}
       bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
-      zoom={zoom}
+      zoom={lat && lon ? 15 : undefined}
       showScaleBar={showScale}
     >
       {breakpoint !== 'large' &&
@@ -115,20 +96,14 @@ RouteMapContainer.contextTypes = {
 };
 
 RouteMapContainer.propTypes = {
-  trip: PropTypes.shape({
-    stoptimesForDate: PropTypes.arrayOf(
-      PropTypes.shape({
-        scheduledDeparture: PropTypes.number.isRequired,
-      }),
-    ).isRequired,
-  }),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       fullscreenMap: PropTypes.bool,
     }),
   ).isRequired,
   pattern: PropTypes.object.isRequired,
-  vehicles: PropTypes.object,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
 };
 
 export const RouteMapFragments = {
@@ -160,11 +135,27 @@ export const RouteMapFragments = {
 };
 
 const RouteMapContainerWithVehicles = connectToStores(
-  RouteMapContainer,
+  pure(RouteMapContainer),
   ['RealTimeInformationStore'],
-  ({ getStore }) => ({
-    vehicles: getStore('RealTimeInformationStore').vehicles,
-  }),
+  ({ getStore }, { trip }) => {
+    if (trip) {
+      const vehicles = getStore('RealTimeInformationStore').vehicles;
+      const tripStart = getStartTime(
+        trip.stoptimesForDate[0].scheduledDeparture,
+      );
+      const vehiclesWithCorrectStartTime = Object.keys(vehicles)
+        .map(key => vehicles[key])
+        .filter(vehicle => vehicle.tripStartTime === tripStart);
+
+      const selectedVehicle =
+        vehiclesWithCorrectStartTime &&
+        vehiclesWithCorrectStartTime.length > 0 &&
+        vehiclesWithCorrectStartTime[0];
+
+      return { lat: selectedVehicle.lat, lon: selectedVehicle.long };
+    }
+    return null;
+  },
 );
 
 export default Relay.createContainer(RouteMapContainerWithVehicles, {

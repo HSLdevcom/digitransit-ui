@@ -25,7 +25,7 @@ const currentLocationIcon = isBrowser
   : null;
 
 function PositionMarker({ coordinates }) {
-  if (!coordinates) {
+  if (coordinates === null) {
     return null;
   }
 
@@ -33,14 +33,18 @@ function PositionMarker({ coordinates }) {
     <Marker
       keyboard={false}
       zIndexOffset={5}
-      position={coordinates}
+      position={[coordinates.lat, coordinates.lon]}
       icon={currentLocationIcon}
     />
   );
 }
 
 PositionMarker.propTypes = {
-  coordinates: dtLocationShape.isRequired,
+  coordinates: dtLocationShape,
+};
+
+PositionMarker.defaultProps = {
+  coordinates: null,
 };
 
 export default connectToStores(
@@ -51,8 +55,12 @@ export default connectToStores(
 
     return {
       coordinates: coordinates.hasLocation
-        ? [coordinates.lat, coordinates.lon]
-        : false,
+        ? {
+            lat: coordinates.lat,
+            lon: coordinates.lon,
+            address: coordinates.address,
+          }
+        : null,
     };
   },
 );

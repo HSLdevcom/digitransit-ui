@@ -33,6 +33,7 @@ const constructPlacesList = values => {
     if (o.node.place.__typename === 'DepartureRow') {
       place = (
         <DepartureRowContainer
+          key={o.node.place.id}
           distance={o.node.distance}
           departure={o.node.place}
           currentTime={values.currentTime}
@@ -42,6 +43,7 @@ const constructPlacesList = values => {
     } else if (o.node.place.__typename === 'BikeRentalStation') {
       place = (
         <BicycleRentalStationRowContainer
+          key={o.node.place.id}
           distance={o.node.distance}
           station={o.node.place}
           currentTime={values.currentTime}
@@ -91,7 +93,7 @@ const PlaceAtDistanceList = ({
 };
 
 PlaceAtDistanceList.propTypes = {
-  places: PropTypes.object.isRequired,
+  places: PropTypes.object,
   nearest: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
