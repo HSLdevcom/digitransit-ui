@@ -8,6 +8,9 @@ import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 
+const DEFAULT_ZOOM = 11;
+const FOCUS_ZOOM = 16;
+
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'breakpoint',
   'lat',
@@ -35,7 +38,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultMapCenter: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
   };
 
   constructor(props) {
@@ -43,7 +46,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const hasOriginorPosition =
       props.origin.ready || props.position.hasLocation;
     this.state = {
-      initialZoom: hasOriginorPosition ? 16 : 14,
+      initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
       origin: props.origin,
@@ -85,7 +88,8 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: true,
       focusOnOrigin: false,
-      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      initialZoom:
+        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
     });
   }
@@ -95,7 +99,8 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: false,
       focusOnOrigin: true,
-      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      initialZoom:
+        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
     });
   }

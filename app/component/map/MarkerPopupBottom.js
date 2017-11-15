@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-
 import {
-  getPathWithEndpointObjects,
-  isItinerarySearchObjects,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_ITINERARY_SUMMARY,
   parseLocation,
+  navigateTo,
 } from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
 import { dtLocationShape } from '../../util/shapes';
@@ -30,17 +32,30 @@ class MarkerPopupBottom extends React.Component {
       this.context.location,
     );
 
-    const [, , destinationString] = this.context.location.pathname.split('/');
+    let destination;
 
-    const destination = parseLocation(destinationString);
-    locationWithTime.pathname = getPathWithEndpointObjects(
-      this.props.location,
+    const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
+
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+      destination = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
+    } else {
+      // index
+      const [, , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
+    }
+
+    navigateTo({
+      origin: { ...this.props.location, ready: true },
       destination,
-    );
-    this.navigate(
-      locationWithTime,
-      !isItinerarySearchObjects(this.props.location, destination),
-    );
+      context,
+      router: this.context.router,
+      base: locationWithTime,
+    });
   };
 
   routeTo = () => {
@@ -48,26 +63,31 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    const [, originString] = this.context.location.pathname.split('/');
 
-    const origin = parseLocation(originString);
+    let origin;
 
-    locationWithTime.pathname = getPathWithEndpointObjects(
-      origin,
-      this.props.location,
-    );
-    this.navigate(
-      locationWithTime,
-      !isItinerarySearchObjects(origin, this.props.location),
-    );
-  };
+    const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
 
-  navigate = (url, replace) => {
-    if (replace) {
-      this.context.router.replace(url);
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+      origin = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , originString] = pathName.split('/');
+      origin = parseLocation(originString);
     } else {
-      this.context.router.push(url);
+      // index
+      const [, originString] = pathName.split('/');
+      origin = parseLocation(originString);
     }
+
+    navigateTo({
+      origin,
+      destination: { ...this.props.location, ready: true },
+      context,
+      router: this.context.router,
+      base: locationWithTime,
+    });
   };
 
   render() {

@@ -32,7 +32,7 @@ const secondaryButton = (props, context) => {
 secondaryButton.propTypes = {
   ariaLabel: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
-  buttonClickAction: PropTypes.function,
+  buttonClickAction: PropTypes.func.isRequired,
   buttonIcon: PropTypes.string,
   smallSize: PropTypes.bool,
 };

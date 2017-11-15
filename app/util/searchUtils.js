@@ -11,6 +11,7 @@ import routeCompare from './route-compare';
 import { getLatLng } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
+import { PREFIX_ROUTES } from '../util/path';
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ const mapRoute = item => ({
   properties: {
     ...item,
     layer: `route-${item.mode}`,
-    link: `/linjat/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
+    link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
   },
   geometry: {
     coordinates: null,

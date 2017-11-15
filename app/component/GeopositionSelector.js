@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import OriginSelectorRow from './OriginSelectorRow';
-import Loading from './Loading';
 
 const GeopositionSelector = ({ status }, context) => {
   /* States:
@@ -24,25 +23,11 @@ const GeopositionSelector = ({ status }, context) => {
         key={`panel-locationing-button`}
         icon="icon-icon_position"
         onClick={() => context.executeAction(startLocationWatch)}
-        label={
-          <FormattedMessage
-            id="use-own-position"
-            defaultMessage="Use current location"
-          />
-        }
+        label={context.intl.formatMessage({
+          id: 'use-own-position',
+          defaultMessage: 'Use current location',
+        })}
       />
-    );
-  } else if (status === PositionStore.STATUS_SEARCHING_LOCATION) {
-    return (
-      <div id="geoposition-selector">
-        <Loading />
-        <div className="spinner-caption">
-          <FormattedMessage
-            id="splash-locating"
-            defaultMessage="Detecting location"
-          />…
-        </div>
-      </div>
     );
   }
   return null;
@@ -56,6 +41,7 @@ GeopositionSelector.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   location: locationShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default connectToStores(

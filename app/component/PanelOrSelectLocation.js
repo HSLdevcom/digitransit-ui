@@ -28,9 +28,8 @@ const PanelOrSelectLocation = ({ panel, origin, panelctx }) => {
 };
 
 PanelOrSelectLocation.propTypes = {
-  panel: PropTypes.element.isRequired,
+  panel: PropTypes.func.isRequired,
   origin: dtLocationShape.isRequired,
-  destination: dtLocationShape.isRequired,
   panelctx: PropTypes.object.isRequired,
 };
 

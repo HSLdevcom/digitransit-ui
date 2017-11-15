@@ -13,6 +13,7 @@ import { getLabel, getGTFSId, isStop } from '../util/suggestionUtils';
 import { saveSearch } from '../action/SearchActions';
 import { isBrowser } from '../util/browser';
 import Loading from './Loading';
+import { PREFIX_STOPS } from '../util/path';
 
 const L = isBrowser ? require('leaflet') : null;
 
@@ -256,7 +257,9 @@ export default class SearchInputContainer extends Component {
       name = item.properties.label || getLabel(item.properties);
       const clone = cloneDeep(item);
       if (isStop(get(clone, 'properties')) && clone.timetableClicked === true) {
-        clone.properties.link = `/pysakit/${getGTFSId(clone.properties)}`;
+        clone.properties.link = `/${PREFIX_STOPS}/${getGTFSId(
+          clone.properties,
+        )}`;
       }
 
       this.props.onSuggestionSelected(name, clone);
