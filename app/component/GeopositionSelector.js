@@ -7,7 +7,6 @@ import { routerShape, locationShape } from 'react-router';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import OriginSelectorRow from './OriginSelectorRow';
-import Loading from './Loading';
 
 const GeopositionSelector = ({ status }, context) => {
   /* States:
