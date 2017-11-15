@@ -33,7 +33,7 @@ function PositionMarker({ coordinates }) {
     <Marker
       keyboard={false}
       zIndexOffset={5}
-      position={coordinates}
+      position={[coordinates.lat, coordinates.lon]}
       icon={currentLocationIcon}
     />
   );
@@ -55,7 +55,11 @@ export default connectToStores(
 
     return {
       coordinates: coordinates.hasLocation
-        ? [coordinates.lat, coordinates.lon]
+        ? {
+            lat: coordinates.lat,
+            lon: coordinates.lon,
+            address: coordinates.address,
+          }
         : null,
     };
   },
