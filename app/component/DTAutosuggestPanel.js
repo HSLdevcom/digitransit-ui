@@ -42,7 +42,7 @@ class DTAutosuggestPanel extends React.Component {
     location && location.gps === true ? 'position' : 'location';
 
   currentLocationSelected = (location) => {
-    if (!location.ready) {
+    if (!location.lat) {
       this.context.executeAction(startLocationWatch);
     }
   };
@@ -84,8 +84,8 @@ class DTAutosuggestPanel extends React.Component {
           let origin = { ...location, ready: true };
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-	    currentLocationSelected(location);
-            origin = { ...location, gps: true, ready: true };
+	    this.currentLocationSelected(location);
+            origin = { ...location, gps: true, ready: !!location.lat };
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
@@ -115,8 +115,8 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = { ...location, ready: true };
             if (location.type === 'CurrentLocation') {
-              currentLocationSelected(location);
-              destination = { ...location, gps: true, ready: true };
+              this.currentLocationSelected(location);
+              destination = { ...location, gps: true, ready: !!location.lat };
               if (origin.gps === true) {
                 origin = { set: false };
               }
