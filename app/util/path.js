@@ -94,7 +94,6 @@ export const parseLocation = location => {
   } else {
     parsed.ready = false;
   }
-  console.log('returning:', parsed);
 
   return parsed;
 };
@@ -126,7 +125,6 @@ export const navigateTo = ({
   base,
   tab = TAB_NEARBY,
 }) => {
-  console.log('c:', context);
   let push;
   switch (context) {
     case PREFIX_STOPS:
@@ -149,9 +147,6 @@ export const navigateTo = ({
     ...base,
     pathname: getPathWithEndpointObjects(origin, destination, tab),
   };
-
-  console.log(origin, destination);
-  console.log('new url:', url, push);
 
   if (push) {
     router.push(url);
