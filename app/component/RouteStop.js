@@ -42,10 +42,10 @@ const getRouteStopSvg = (first, last, color) => (
   </svg>
 );
 
-class RouteStop extends React.Component {
+class RouteStop extends React.PureComponent {
   static propTypes = {
     color: PropTypes.string,
-    vehicles: PropTypes.array,
+    vehicle: PropTypes.object,
     stop: PropTypes.object,
     mode: PropTypes.string,
     className: PropTypes.string,
@@ -92,7 +92,7 @@ class RouteStop extends React.Component {
 
   render() {
     const {
-      vehicles,
+      vehicle,
       stop,
       mode,
       distance,
@@ -103,25 +103,23 @@ class RouteStop extends React.Component {
       color,
     } = this.props;
 
-    const vehicleTripLinks =
-      vehicles &&
-      vehicles.map(vehicle => (
-        <Relay.RootContainer
-          key={vehicle.id}
-          Component={TripLink}
-          route={
-            new FuzzyTripRoute({
-              route: vehicle.route,
-              direction: vehicle.direction,
-              date: vehicle.operatingDay,
-              time:
-                vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-                vehicle.tripStartTime.substring(2, 4) * 60,
-            })
-          }
-          renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
-        />
-      ));
+    const vehicleTripLink = vehicle && (
+      <Relay.RootContainer
+        key={vehicle.id}
+        Component={TripLink}
+        route={
+          new FuzzyTripRoute({
+            route: vehicle.route,
+            direction: vehicle.direction,
+            date: vehicle.operatingDay,
+            time:
+              vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
+              vehicle.tripStartTime.substring(2, 4) * 60,
+          })
+        }
+        renderFetched={data => <TripLink mode={vehicle.mode} {...data} />}
+      />
+    );
 
     return (
       <div
@@ -130,7 +128,7 @@ class RouteStop extends React.Component {
           this.element = el;
         }}
       >
-        <div className="columns route-stop-now">{vehicleTripLinks}</div>
+        <div className="columns route-stop-now">{vehicleTripLink}</div>
         <Link to={`/${PREFIX_STOPS}/${stop.gtfsId}`}>
           <div className={`columns route-stop-name ${mode}`}>
             {getRouteStopSvg(first, last, color || 'currentColor')}
