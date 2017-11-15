@@ -112,7 +112,6 @@ class MessageBar extends Component {
     const index = Math.min(this.state.slideIndex, messages.length - 1);
     const currentMessageId = messages[index].id;
     this.context.executeAction(markMessageAsRead, currentMessageId);
-
   };
 
   render = () => {
