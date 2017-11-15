@@ -277,7 +277,7 @@ class IndexPage extends React.Component {
               this.props.origin.gps === true &&
               this.props.origin.gpsError === false &&
               this.props.origin.ready === false && <OverlayWithSpinner />}
-            {/*messageBar */}
+            {/* messageBar */}
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
