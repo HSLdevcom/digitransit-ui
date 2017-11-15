@@ -4,10 +4,7 @@ import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
-import {
-  getPathWithEndpointObjects,
-  isItinerarySearchObjects,
-} from '../util/path';
+import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 
@@ -36,16 +33,6 @@ class DTAutosuggestPanel extends React.Component {
     };
   }
 
-  navigate = (url, replace) => {
-    if (replace && !this.props.isItinerary) {
-      this.context.router.replace(url);
-    } else if (this.props.isItinerary) {
-      this.context.router.replace(`/reitti${url}`);
-    } else {
-      this.context.router.push(url);
-    }
-  };
-
   value = location =>
     (location && location.address) ||
     (location && location.gps && location.ready && 'Nykyinen sijainti') ||
@@ -61,17 +48,12 @@ class DTAutosuggestPanel extends React.Component {
       <GeolocationStartButton
         onClick={() => {
           this.context.executeAction(startLocationWatch);
-
-          this.navigate(
-            getPathWithEndpointObjects(
-              { ...location, gps: true, ready: false },
-              this.props.destination,
-            ),
-            !isItinerarySearchObjects(
-              { gps: true, ready: false },
-              this.props.destination,
-            ),
-          );
+          navigateTo({
+            origin: { ...location, gps: true, ready: false },
+            destination: this.props.destination,
+            context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+            router: this.context.router,
+          });
         }}
       />
     ) : null;
@@ -119,10 +101,12 @@ class DTAutosuggestPanel extends React.Component {
               destination = { set: false };
             }
           }
-          this.navigate(
-            getPathWithEndpointObjects(origin, destination, this.props.tab),
-            !isItinerarySearchObjects(origin, destination),
-          );
+          navigateTo({
+            origin,
+            destination,
+            context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+            router: this.context.router,
+          });
         }}
         renderPostInput={this.geolocateButton()}
       />
@@ -147,10 +131,12 @@ class DTAutosuggestPanel extends React.Component {
                 origin = { set: false };
               }
             }
-            this.navigate(
-              getPathWithEndpointObjects(origin, destination, this.props.tab),
-              !isItinerarySearchObjects(origin, destination),
-            );
+            navigateTo({
+              origin,
+              destination,
+              context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+              router: this.context.router,
+            });
           }}
         />
       ) : null}

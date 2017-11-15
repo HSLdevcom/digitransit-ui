@@ -15,6 +15,7 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
+import { PREFIX_ROUTES } from '../util/path';
 
 class RoutePage extends React.Component {
   static contextTypes = {
@@ -74,7 +75,7 @@ class RoutePage extends React.Component {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      this.context.router.replace('/linjat');
+      this.context.router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
 
@@ -121,8 +122,8 @@ class RoutePage extends React.Component {
               className={cx({ 'is-active': activeTab === 'pysakit' })}
               onClick={() => {
                 this.changeTab(
-                  `/linjat/${this.props.route.gtfsId}/pysakit/${this.props
-                    .params.patternId || ''}`,
+                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/pysakit/${this
+                    .props.params.patternId || ''}`,
                 );
               }}
             >
@@ -135,8 +136,8 @@ class RoutePage extends React.Component {
               className={cx({ 'is-active': activeTab === 'aikataulu' })}
               onClick={() => {
                 this.changeTab(
-                  `/linjat/${this.props.route.gtfsId}/aikataulu/${this.props
-                    .params.patternId || ''}`,
+                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/aikataulu/${this
+                    .props.params.patternId || ''}`,
                 );
               }}
             >
@@ -152,7 +153,9 @@ class RoutePage extends React.Component {
                 'is-active': activeTab === 'hairiot',
               })}
               onClick={() => {
-                this.changeTab(`/linjat/${this.props.route.gtfsId}/hairiot`);
+                this.changeTab(
+                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/hairiot`,
+                );
               }}
             >
               <div>
