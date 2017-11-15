@@ -244,10 +244,11 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        {this.props.origin &&
+        {(this.props.origin &&
           this.props.origin.gps === true &&
           this.props.origin.ready === false &&
-          this.props.origin.gpsError === false && <OverlayWithSpinner />}
+          this.props.origin.gpsError === false && <OverlayWithSpinner />) ||
+          null}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -274,10 +275,11 @@ class IndexPage extends React.Component {
             showStops
             origin={this.props.origin}
           >
-            {this.props.origin &&
+            {(this.props.origin &&
               this.props.origin.gps === true &&
               this.props.origin.gpsError === false &&
-              this.props.origin.ready === false && <OverlayWithSpinner />}
+              this.props.origin.ready === false && <OverlayWithSpinner />) ||
+              null}
             {messageBar}
             <DTAutosuggestPanel
               origin={this.props.origin}
