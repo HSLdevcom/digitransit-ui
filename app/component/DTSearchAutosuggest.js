@@ -94,7 +94,7 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = getLabel(suggestion.properties, true);
+    const value = getLabel(suggestion.properties);
     return value;
   };
 
