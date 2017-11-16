@@ -39,14 +39,14 @@ export default class PositionStore extends Store {
     this.lat = 0;
     this.lon = 0;
     this.heading = null;
-    this.address = '';
+    this.address = undefined;
     this.status = PositionStore.STATUS_NO_LOCATION;
     this.emitChange();
   }
 
   geolocationSearch() {
     this.status = PositionStore.STATUS_SEARCHING_LOCATION;
-    this.address = '';
+    this.address = undefined;
     this.emitChange();
   }
 
