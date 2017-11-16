@@ -265,6 +265,7 @@ class IndexPage extends React.Component {
         className={`front-page flex-vertical fullscreen bp-${this.props
           .breakpoint}`}
       >
+        {messageBar}
         <div
           className={cx('flex-grow', 'map-container', {
             expanded: this.state.mapExpanded,
@@ -280,7 +281,6 @@ class IndexPage extends React.Component {
               this.props.origin.gpsError === false &&
               this.props.origin.ready === false && <OverlayWithSpinner />) ||
               null}
-            {messageBar}
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
