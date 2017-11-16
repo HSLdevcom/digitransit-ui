@@ -5,7 +5,6 @@ import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
-import { startLocationWatch } from '../action/PositionActions';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -39,12 +38,6 @@ class DTAutosuggestPanel extends React.Component {
 
   class = location =>
     location && location.gps === true ? 'position' : 'location';
-
-  currentLocationSelected = location => {
-    if (!location.lat) {
-      this.context.executeAction(startLocationWatch);
-    }
-  };
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
@@ -84,7 +77,6 @@ class DTAutosuggestPanel extends React.Component {
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
             origin = { ...location, gps: true, ready: !!location.lat };
-            this.currentLocationSelected(location);
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
@@ -114,7 +106,6 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = { ...location, ready: true };
             if (location.type === 'CurrentLocation') {
-              this.currentLocationSelected(location);
               destination = { ...location, gps: true, ready: !!location.lat };
               if (origin.gps === true) {
                 origin = { set: false };

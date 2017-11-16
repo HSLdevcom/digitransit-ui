@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
+import Loading from './Loading';
 import {
   suggestionToLocation,
   getGTFSId,
@@ -11,6 +12,7 @@ import {
 import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
 import { PREFIX_STOPS } from '../util/path';
+import { startLocationWatch } from '../action/PositionActions';
 
 class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
@@ -59,23 +61,33 @@ class DTEndpointAutosuggest extends React.Component {
 
     const location = suggestionToLocation(item);
 
-    this.props.onLocationSelected(location);
+    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+      this.context.executeAction(startLocationWatch);
+      this.setState({ pendingCurrentLocation: true });
+    } else {
+      this.props.onLocationSelected(location);
+    }
   };
 
-  render = () => (
-    <DTOldSearchSavingAutosuggest
-      autoFocus={this.props.autoFocus}
-      isFocused={this.props.isFocused}
-      placeholder={this.props.placeholder}
-      searchType={this.props.searchType}
-      onSelect={this.onSuggestionSelected}
-      refPoint={this.props.refPoint}
-      value={this.props.value}
-      id={this.props.id}
-      layers={this.props.layers}
-      className={this.props.value !== '' ? this.props.className : ''}
-    />
-  );
+  render = () => {
+    if (this.state.pendingCurrentLocation) {
+      return <Loading />;
+    }
+    return (
+      <DTOldSearchSavingAutosuggest
+        autoFocus={this.props.autoFocus}
+        isFocused={this.props.isFocused}
+        placeholder={this.props.placeholder}
+        searchType={this.props.searchType}
+        onSelect={this.onSuggestionSelected}
+        refPoint={this.props.refPoint}
+        value={this.props.value}
+        id={this.props.id}
+        layers={this.props.layers}
+        className={this.props.value !== '' ? this.props.className : ''}
+      />
+    );
+  };
 }
 
 export default DTEndpointAutosuggest;
