@@ -110,7 +110,16 @@ export function uniqByLabel(features) {
 }
 
 export function getLabel(properties) {
-  return getNameLabel(properties, true).join(', ');
+  const parts = getNameLabel(properties, true);
+
+  switch (properties.layer) {
+    case 'currentPosition':
+      return parts[1] || parts[0];
+    case 'favouritePlace':
+      return parts[0];
+    default:
+      return parts.join(', ');
+  }
 }
 
 export function suggestionToLocation(item) {
