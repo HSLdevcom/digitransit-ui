@@ -1,5 +1,19 @@
+.nearby-table-container {
+    height: 100%;
+}
 table.nearby-departures-table {
-
+    height: 100%;
+    position: relative;
+    &:after {
+        position: absolute;
+        width: 96%;
+        height: 66px;
+        left: 0;
+        bottom: -35px;
+        content: '';
+        z-index: 2;
+        background: linear-gradient(transparent 3px, white);
+    }
     thead {
         th {
             text-align: left;
@@ -28,8 +42,9 @@ table.nearby-departures-table {
         position: absolute;
         overflow-y: auto;
         overflow-x: hidden;
-        max-height: 90%;
-        width: 100%;
+        max-height: 100%;
+        width: 99.7%;
+        background-color: $white;
         tr {
             @include font-narrow-book;
             font-size: $font-size-small;
