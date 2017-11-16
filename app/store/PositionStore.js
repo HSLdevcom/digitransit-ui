@@ -100,7 +100,17 @@ export default class PositionStore extends Store {
   }
 
   storeAddress(location) {
-    this.address = `${location.address}, ${location.city}`;
+    if (location.address) {
+      if (location.city) {
+        this.address = `${location.address}, ${location.city}`;
+      } else {
+        this.address = location.address;
+      }
+    } else if (location.city) {
+        this.address = location.city;
+    } else {
+      this.address = '';
+    }
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
