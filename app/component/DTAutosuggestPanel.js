@@ -5,7 +5,6 @@ import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
-import GeolocationStartButton from './visual/GeolocationStartButton';
 import { startLocationWatch } from '../action/PositionActions';
 
 /**
@@ -41,7 +40,7 @@ class DTAutosuggestPanel extends React.Component {
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
-  currentLocationSelected = (location) => {
+  currentLocationSelected = location => {
     if (!location.lat) {
       this.context.executeAction(startLocationWatch);
     }
@@ -84,8 +83,8 @@ class DTAutosuggestPanel extends React.Component {
           let origin = { ...location, ready: true };
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-	    this.currentLocationSelected(location);
             origin = { ...location, gps: true, ready: !!location.lat };
+            this.currentLocationSelected(location);
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
