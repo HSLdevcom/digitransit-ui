@@ -107,7 +107,7 @@ export default class PositionStore extends Store {
         this.address = location.address;
       }
     } else if (location.city) {
-        this.address = location.city;
+      this.address = location.city;
     } else {
       this.address = '';
     }
