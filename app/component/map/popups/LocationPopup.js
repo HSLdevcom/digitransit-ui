@@ -48,7 +48,7 @@ class LocationPopup extends React.Component {
             loading: false,
             location: {
               ...this.state.location,
-              address: getLabel(match, true),
+              address: getLabel(match),
             },
           });
         } else {
