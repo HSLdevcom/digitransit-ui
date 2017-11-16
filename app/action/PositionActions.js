@@ -25,10 +25,7 @@ function reverseGeocodeAddress(actionContext, location) {
         city: match.localadmin || match.locality,
       });
     } else {
-      actionContext.dispatch('AddressFound', {
-        address: '',
-        city: '',
-      });
+      actionContext.dispatch('AddressFound', {});
     }
   });
 }
