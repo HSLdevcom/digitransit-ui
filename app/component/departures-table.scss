@@ -31,6 +31,7 @@ table.nearby-departures-table {
             }
             &.th-route {
                 width: 15%;
+                text-align: center;
             }
             &.th-destination {
                 width: 40%;
@@ -92,6 +93,10 @@ table.nearby-departures-table {
 .small {
     table.nearby-departures-table {
         background-color: $white;
+        &.th-route {
+            width: 15%;
+            text-align: left;
+        }
             tbody {
                 position: relative;
                 max-height: 100%;
