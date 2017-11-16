@@ -1,98 +1,68 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Link, routerShape } from 'react-router';
+import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { PREFIX_ROUTES } from '../../../util/path';
 
 import RouteHeader from '../../RouteHeader';
-import { PREFIX_ROUTES } from '../../../util/path';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
-class RouteMarkerPopup extends React.Component {
-  static childContextTypes = {
-    router: routerShape.isRequired,
-  };
+function RouteMarkerPopup(props) {
+  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
+  let tripPath = patternPath;
 
-  static propTypes = {
-    context: PropTypes.shape({
-      router: routerShape.isRequired,
-      intl: intlShape.isRequired,
-      executeAction: PropTypes.func.isRequired,
-    }).isRequired,
-    trip: PropTypes.shape({
-      route: PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-      }).isRequired,
-      fuzzyTrip: PropTypes.shape({
-        gtfsId: PropTypes.string,
-        pattern: PropTypes.shape({
-          code: PropTypes.string.isRequired,
-        }),
-      }),
-    }).isRequired,
-    favourite: PropTypes.bool,
-    message: PropTypes.shape({
-      mode: PropTypes.string.isRequired,
-      tripStartTime: PropTypes.string.isRequired,
-    }).isRequired,
-  };
-
-  getChildContext() {
-    return {
-      router: this.props.context.router,
-    };
+  if (props.trip.fuzzyTrip) {
+    patternPath += `/${props.trip.fuzzyTrip.pattern.code}`;
+    tripPath = `${patternPath}/${props.trip.fuzzyTrip.gtfsId}`;
   }
 
-  addAsFavouriteRoute = e => {
-    e.stopPropagation();
-    this.props.context.executeAction(
-      addFavouriteRoute,
-      this.props.trip.route.gtfsId,
-    );
-  };
-
-  render() {
-    let patternPath = `/${PREFIX_ROUTES}/${this.props.trip.route
-      .gtfsId}/pysakit`;
-    let tripPath = patternPath;
-
-    if (this.props.trip.fuzzyTrip) {
-      patternPath += `/${this.props.trip.fuzzyTrip.pattern.code}`;
-      tripPath = `${patternPath}/${this.props.trip.fuzzyTrip.gtfsId}`;
-    }
-
-    return (
-      <div className="card">
-        <RouteHeader
-          route={this.props.trip.route}
-          pattern={
-            this.props.trip.fuzzyTrip && this.props.trip.fuzzyTrip.pattern
-          }
-          trip={this.props.message.tripStartTime}
-          favourite={this.props.favourite}
-          addFavouriteRoute={this.addAsFavouriteRoute}
-        />
-        <div className="bottom location">
-          <Link to={tripPath}>
-            {this.props.context.intl.formatMessage({
-              id: 'trip-information',
-              defaultMessage: 'Trip Information',
-            })}
-          </Link>
-          <br />
-          <Link to={patternPath} className="route">
-            {this.props.context.intl.formatMessage({
-              id: 'view-route',
-              defaultMessage: 'View Route',
-            })}
-          </Link>
-        </div>
+  return (
+    <div className="card">
+      <RouteHeader
+        route={props.trip.route}
+        pattern={props.trip.fuzzyTrip && props.trip.fuzzyTrip.pattern}
+        trip={props.message.tripStartTime}
+        favourite={props.favourite}
+        addFavouriteRoute={props.addAsFavouriteRoute}
+      />
+      <div className="bottom location">
+        <Link to={tripPath}>
+          <FormattedMessage
+            id="trip-information"
+            defaultMessage="Trip Information"
+          />
+        </Link>
+        <br />
+        <Link to={patternPath} className="route">
+          <FormattedMessage id="view-route" defaultMessage="View Route" />
+        </Link>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+RouteMarkerPopup.propTypes = {
+  trip: PropTypes.shape({
+    route: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+    }).isRequired,
+    fuzzyTrip: PropTypes.shape({
+      gtfsId: PropTypes.string,
+      pattern: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+      }),
+    }),
+  }).isRequired,
+  favourite: PropTypes.bool.isRequired,
+  addAsFavouriteRoute: PropTypes.func.isRequired,
+  message: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    tripStartTime: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const RouteMarkerPopupWithFavourite = connectToStores(
   RouteMarkerPopup,
@@ -101,6 +71,10 @@ const RouteMarkerPopupWithFavourite = connectToStores(
     favourite: context
       .getStore('FavouriteRoutesStore')
       .isFavourite(props.trip.route.gtfsId),
+    addAsFavouriteRoute: e => {
+      e.stopPropagation();
+      context.executeAction(addFavouriteRoute, props.trip.route.gtfsId);
+    },
   }),
 );
 

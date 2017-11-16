@@ -6,7 +6,6 @@ import { Router, match } from 'react-router';
 import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
-import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
@@ -38,9 +37,6 @@ const plugContext = f => () => ({
 });
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
-
-// Material-ui uses touch tap events
-tapEventPlugin();
 
 // TODO: this is an ugly hack, but required due to cyclical processing in app
 const config = window.state.context.plugins['extra-context-plugin'].config;

@@ -244,10 +244,11 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        {this.props.origin &&
+        {(this.props.origin &&
           this.props.origin.gps === true &&
           this.props.origin.ready === false &&
-          this.props.origin.gpsError === false && <OverlayWithSpinner />}
+          this.props.origin.gpsError === false && <OverlayWithSpinner />) ||
+          null}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -264,6 +265,7 @@ class IndexPage extends React.Component {
         className={`front-page flex-vertical fullscreen bp-${this.props
           .breakpoint}`}
       >
+        {messageBar}
         <div
           className={cx('flex-grow', 'map-container', {
             expanded: this.state.mapExpanded,
@@ -274,11 +276,11 @@ class IndexPage extends React.Component {
             showStops
             origin={this.props.origin}
           >
-            {this.props.origin &&
+            {(this.props.origin &&
               this.props.origin.gps === true &&
               this.props.origin.gpsError === false &&
-              this.props.origin.ready === false && <OverlayWithSpinner />}
-            {messageBar}
+              this.props.origin.ready === false && <OverlayWithSpinner />) ||
+              null}
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
