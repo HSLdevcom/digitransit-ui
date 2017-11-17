@@ -106,7 +106,10 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const favourite = this.state.favourite;
-    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
+    const favouriteLayers = [
+      'CurrentPosition',
+      'Geocoding',
+    ];
 
     return (
       <div className="fullscreen">
