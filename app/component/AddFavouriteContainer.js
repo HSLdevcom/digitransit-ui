@@ -158,6 +158,7 @@ class AddFavouriteContainer extends React.Component {
                   value={favourite.address || ''}
                   layers={favouriteLayers}
                   onLocationSelected={this.setCoordinatesAndAddress}
+                  showSpinner
                 />
               </div>
               <div className="add-favourite-container__give-name">

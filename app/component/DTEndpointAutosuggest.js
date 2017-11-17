@@ -36,12 +36,14 @@ class DTEndpointAutosuggest extends React.Component {
     layers: PropTypes.array,
     isFocused: PropTypes.func,
     locationState: PropTypes.object.isRequired,
+    showSpinner: PropTypes.bool,
   };
 
   static defaultProps = {
     autoFocus: false,
     className: '',
     layers: getAllEndpointLayers(),
+    showSpinner: false,
   };
 
   constructor() {
@@ -94,9 +96,8 @@ class DTEndpointAutosuggest extends React.Component {
     const location = suggestionToLocation(item);
 
     if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
-      this.setState(
-        { pendingCurrentLocation: true }, () =>
-        this.context.executeAction(startLocationWatch)
+      this.setState({ pendingCurrentLocation: true }, () =>
+        this.context.executeAction(startLocationWatch),
       );
     } else {
       this.props.onLocationSelected(location);
@@ -104,7 +105,7 @@ class DTEndpointAutosuggest extends React.Component {
   };
 
   render = () => {
-    if (this.state.pendingCurrentLocation) {
+    if (this.props.showSpinner && this.state.pendingCurrentLocation) {
       return <Loading />;
     }
     return (
