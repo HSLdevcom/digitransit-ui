@@ -133,6 +133,11 @@ export default class PositionStore extends Store {
       //   reverse geocoding is in progress
       isLocationingInProgress:
         this.status === PositionStore.STATUS_SEARCHING_LOCATION,
+      locationingFailed:
+        this.status === PositionStore.STATUS_GEOLOCATION_DENIED ||
+        this.status === PositionStore.STATUS_GEOLOCATION_TIMEOUT ||
+        this.status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT ||
+        this.status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED,
     };
   }
 
