@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
@@ -13,11 +15,13 @@ import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
 import { PREFIX_STOPS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
+import PositionStore from '../store/PositionStore';
 
 class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
+    intl: intlShape,
   };
 
   static propTypes = {
@@ -31,6 +35,7 @@ class DTEndpointAutosuggest extends React.Component {
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array,
     isFocused: PropTypes.func,
+    locationState: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -44,6 +49,33 @@ class DTEndpointAutosuggest extends React.Component {
 
     this.state = {};
   }
+
+  componentWillReceiveProps = nextProps => {
+    const locState = nextProps.locationState;
+    // wait until address is set or geolocationing fails
+    if (
+      this.state.pendingCurrentLocation &&
+      (locState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+        locState.locationingFailed)
+    ) {
+      this.setState({ pendingCurrentLocation: false }, () => {
+        if (locState.status === PositionStore.STATUS_FOUND_ADDRESS) {
+          const location = {
+            type: 'CurrentLocation',
+            lat: locState.lat,
+            lon: locState.lon,
+            address:
+              locState.address ||
+              this.context.intl.formatMessage({
+                id: 'own-position',
+                defaultMessage: 'Own Location',
+              }),
+          };
+          nextProps.onLocationSelected(location);
+        }
+      });
+    }
+  };
 
   onSuggestionSelected = item => {
     // stop
@@ -90,4 +122,10 @@ class DTEndpointAutosuggest extends React.Component {
   };
 }
 
-export default DTEndpointAutosuggest;
+export default connectToStores(
+  DTEndpointAutosuggest,
+  ['PositionStore'],
+  context => ({
+    locationState: context.getStore('PositionStore').getLocationState(),
+  }),
+);
