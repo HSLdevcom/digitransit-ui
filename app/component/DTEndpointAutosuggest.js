@@ -94,8 +94,10 @@ class DTEndpointAutosuggest extends React.Component {
     const location = suggestionToLocation(item);
 
     if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
-      this.context.executeAction(startLocationWatch);
-      this.setState({ pendingCurrentLocation: true });
+      this.setState(
+        { pendingCurrentLocation: true }, () =>
+        this.context.executeAction(startLocationWatch)
+      );
     } else {
       this.props.onLocationSelected(location);
     }
