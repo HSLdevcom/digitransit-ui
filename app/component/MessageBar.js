@@ -109,9 +109,9 @@ class MessageBar extends Component {
 
   handleClose = () => {
     const messages = this.validMessages();
-    messages.forEach(msg => {
-      this.context.executeAction(markMessageAsRead, msg.id);
-    });
+    const index = Math.min(this.state.slideIndex, messages.length - 1);
+    const currentMessageId = messages[index].id;
+    this.context.executeAction(markMessageAsRead, currentMessageId);
   };
 
   render = () => {
