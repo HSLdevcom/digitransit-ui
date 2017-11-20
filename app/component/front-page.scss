@@ -83,6 +83,14 @@ $heading-color: #858585;
 
   .frontpage-panel.nearby-routes {
     background: #fff;
+    &:after {
+      content: '';
+      position: absolute;
+      width: 96%;
+      height: 3em;
+      background: linear-gradient(transparent 3px, white);
+      bottom: 0;
+    }
   }
 
   .frontpage-panel {
