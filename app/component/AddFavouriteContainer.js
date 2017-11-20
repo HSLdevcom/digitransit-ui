@@ -109,7 +109,8 @@ class AddFavouriteContainer extends React.Component {
     const favouriteLayers = [
       'CurrentPosition',
       'Geocoding',
-      'OldSearch'
+      'OldSearch',
+      'Stops'
     ];
 
     return (
