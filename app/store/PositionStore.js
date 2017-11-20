@@ -39,14 +39,14 @@ export default class PositionStore extends Store {
     this.lat = 0;
     this.lon = 0;
     this.heading = null;
-    this.address = '';
+    this.address = undefined;
     this.status = PositionStore.STATUS_NO_LOCATION;
     this.emitChange();
   }
 
   geolocationSearch() {
     this.status = PositionStore.STATUS_SEARCHING_LOCATION;
-    this.address = '';
+    this.address = undefined;
     this.emitChange();
   }
 
@@ -100,7 +100,17 @@ export default class PositionStore extends Store {
   }
 
   storeAddress(location) {
-    this.address = `${location.address}, ${location.city}`;
+    if (location.address) {
+      if (location.city) {
+        this.address = `${location.address}, ${location.city}`;
+      } else {
+        this.address = location.address;
+      }
+    } else if (location.city) {
+      this.address = location.city;
+    } else {
+      this.address = '';
+    }
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
@@ -123,6 +133,11 @@ export default class PositionStore extends Store {
       //   reverse geocoding is in progress
       isLocationingInProgress:
         this.status === PositionStore.STATUS_SEARCHING_LOCATION,
+      locationingFailed:
+        this.status === PositionStore.STATUS_GEOLOCATION_DENIED ||
+        this.status === PositionStore.STATUS_GEOLOCATION_TIMEOUT ||
+        this.status === PositionStore.STATUS_GEOLOCATION_WATCH_TIMEOUT ||
+        this.status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED,
     };
   }
 

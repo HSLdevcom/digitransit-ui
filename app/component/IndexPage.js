@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
@@ -350,7 +351,7 @@ const IndexPageWithLang = connectToStores(
 );
 
 /* eslint-disable no-param-reassign */
-const processLocation = (locationString, locationState) => {
+const processLocation = (locationString, locationState, intl) => {
   let location;
   if (locationString) {
     location = parseLocation(locationString);
@@ -364,7 +365,12 @@ const processLocation = (locationString, locationState) => {
         location.ready = true;
         location.lat = locationState.lat;
         location.lon = locationState.lon;
-        location.address = locationState.address;
+        location.address =
+          locationState.address ||
+          intl.formatMessage({
+            id: 'own-position',
+            defaultMessage: 'Own Location',
+          });
       }
       const gpsError =
         [
@@ -395,9 +401,17 @@ const IndexPageWithPosition = connectToStores(
       newProps.tab = props.params.tab;
     }
 
-    newProps.origin = processLocation(props.params.from, locationState);
+    newProps.origin = processLocation(
+      props.params.from,
+      locationState,
+      context.intl,
+    );
 
-    newProps.destination = processLocation(props.params.to, locationState);
+    newProps.destination = processLocation(
+      props.params.to,
+      locationState,
+      context.intl,
+    );
 
     // if we have record of succesfull positioning let's init geolocating
     if (
@@ -430,8 +444,12 @@ const IndexPageWithPosition = connectToStores(
   },
 );
 
-IndexPageWithPosition.contextTypes.router = routerShape.isRequired;
-IndexPageWithPosition.contextTypes.executeAction = PropTypes.func.isRequired;
-IndexPageWithPosition.contextTypes.location = locationShape.isRequired;
+IndexPageWithPosition.contextTypes = {
+  ...IndexPageWithPosition.contextTypes,
+  location: locationShape.isRequired,
+  router: routerShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  intl: intlShape,
+};
 
 export default IndexPageWithPosition;

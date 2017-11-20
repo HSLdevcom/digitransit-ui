@@ -25,7 +25,6 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array.isRequired,
@@ -36,7 +35,6 @@ class DTAutosuggest extends React.Component {
     clickFunction: () => {},
     isFocused: () => {},
     autoFocus: false,
-    postInput: null,
     id: 1,
   };
 
@@ -82,11 +80,13 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.setState({
-      editing: false,
-      value: ref.suggestionValue,
-    });
-    this.props.selectedFunction(e, ref);
+    this.setState(
+      {
+        editing: false,
+        value: ref.suggestionValue,
+      },
+      () => this.props.selectedFunction(e, ref),
+    );
   };
 
   onSuggestionsClearRequested = () => {
@@ -96,7 +96,7 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = getLabel(suggestion.properties, true);
+    const value = getLabel(suggestion.properties);
     return value;
   };
 
@@ -230,7 +230,6 @@ class DTAutosuggest extends React.Component {
             <div style={{ position: 'relative', display: 'flex' }}>
               <input id={this.props.id} onClick={this.inputClicked} {...p} />
               {this.clearButton()}
-              {this.props.renderPostInput}
             </div>
           )}
           onSuggestionSelected={this.onSelected}
