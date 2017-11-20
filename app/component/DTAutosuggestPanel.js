@@ -22,6 +22,13 @@ class DTAutosuggestPanel extends React.Component {
     destination: dtLocationShape.isRequired,
     isItinerary: PropTypes.bool,
     tab: PropTypes.string,
+    originPlaceHolder: PropTypes.string,
+    originSearchType: PropTypes.string,
+  };
+
+  static defaultProps = {
+    originPlaceHolder: 'give-origin',
+    originSearchType: 'endpoint',
   };
 
   constructor(props) {
@@ -68,8 +75,8 @@ class DTAutosuggestPanel extends React.Component {
         }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
-        searchType="all"
-        placeholder="give-origin"
+        searchType={this.props.originSearchType}
+        placeholder={this.props.originPlaceHolder}
         value={this.value(this.props.origin)}
         isFocused={this.isFocused}
         onLocationSelected={location => {
