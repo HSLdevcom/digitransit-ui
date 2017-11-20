@@ -106,7 +106,10 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const favourite = this.state.favourite;
-    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
+    const favouriteLayers = [
+      'CurrentPosition',
+      'Geocoding',
+    ];
 
     return (
       <div className="fullscreen">
@@ -158,6 +161,7 @@ class AddFavouriteContainer extends React.Component {
                   value={favourite.address || ''}
                   layers={favouriteLayers}
                   onLocationSelected={this.setCoordinatesAndAddress}
+                  showSpinner
                 />
               </div>
               <div className="add-favourite-container__give-name">

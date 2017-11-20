@@ -154,8 +154,7 @@ $border-radius-rounded: 30px;
   top: -3em;
   right: 10px;
   font-size: 17px;
-  border-top-right-radius: $border-radius;
-  border-top-left-radius: $border-radius;
+  border-radius: $border-radius;
   z-index: 802;
   .icon {
    margin: 0.5em 0.5em 0 0.5em;

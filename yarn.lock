@@ -7241,7 +7241,7 @@ pn@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.0.0.tgz#1cf5a30b0d806cd18f88fc41a6b5d4ad615b3ba9"
 
-png-img@^2.1.0:
+png-img@^2.1.0, png-img@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/png-img/-/png-img-2.1.1.tgz#9a765ae1bfd9cb9f7c646e14b1ff5c873603a8b6"
   dependencies:

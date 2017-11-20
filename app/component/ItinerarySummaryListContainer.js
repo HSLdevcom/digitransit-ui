@@ -44,15 +44,18 @@ function ItinerarySummaryListContainer(props, context) {
   }
 
   let msg;
+  let outside;
   if (!inside([from.lon, from.lat], context.config.areaPolygon)) {
     msg = 'origin-outside-service';
+    outside = true;
   } else if (!inside([to.lon, to.lat], context.config.areaPolygon)) {
     msg = 'destination-outside-service';
+    outside = true;
   } else {
     msg = 'no-route-msg';
   }
   let linkPart = null;
-  if (context.config.nationalServiceLink) {
+  if (outside && context.config.nationalServiceLink) {
     linkPart = (
       <div>
         <FormattedMessage
