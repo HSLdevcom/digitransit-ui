@@ -5,8 +5,6 @@ import { routerShape, locationShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
-import GeolocationStartButton from './visual/GeolocationStartButton';
-import { startLocationWatch } from '../action/PositionActions';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -40,23 +38,6 @@ class DTAutosuggestPanel extends React.Component {
 
   class = location =>
     location && location.gps === true ? 'position' : 'location';
-
-  geolocateButton = () =>
-    !this.props.origin ||
-    this.props.origin.set === false ||
-    (this.props.origin.gps && !this.props.origin.ready) ? (
-      <GeolocationStartButton
-        onClick={() => {
-          this.context.executeAction(startLocationWatch);
-          navigateTo({
-            origin: { ...location, gps: true, ready: false },
-            destination: this.props.destination,
-            context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-            router: this.context.router,
-          });
-        }}
-      />
-    ) : null;
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
@@ -95,7 +76,7 @@ class DTAutosuggestPanel extends React.Component {
           let origin = { ...location, ready: true };
           let destination = this.props.destination;
           if (location.type === 'CurrentLocation') {
-            origin = { ...location, gps: true, ready: true };
+            origin = { ...location, gps: true, ready: !!location.lat };
             if (destination.gps === true) {
               // destination has gps, clear destination
               destination = { set: false };
@@ -108,7 +89,6 @@ class DTAutosuggestPanel extends React.Component {
             router: this.context.router,
           });
         }}
-        renderPostInput={this.geolocateButton()}
       />
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
@@ -126,7 +106,7 @@ class DTAutosuggestPanel extends React.Component {
             let origin = this.props.origin;
             let destination = { ...location, ready: true };
             if (location.type === 'CurrentLocation') {
-              destination = { ...location, gps: true, ready: true };
+              destination = { ...location, gps: true, ready: !!location.lat };
               if (origin.gps === true) {
                 origin = { set: false };
               }

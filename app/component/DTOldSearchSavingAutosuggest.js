@@ -21,7 +21,6 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     value: PropTypes.string,
     className: PropTypes.string,
     id: PropTypes.string.isRequired,
-    renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array.isRequired,
@@ -64,7 +63,6 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       }}
       id={this.props.id}
       className={this.props.className}
-      renderPostInput={this.props.renderPostInput}
       refPoint={this.props.refPoint}
       layers={this.props.layers}
     />
