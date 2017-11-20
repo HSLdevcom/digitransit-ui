@@ -28,7 +28,8 @@
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "win-start": "set NODE_ENV=production&& set CONFIG=hsl&& node server/server.js",
-    "add-theme": "node build/add-theme"
+    "add-theme": "node build/add-theme",
+    "postinstall": "cd node_modules/polyfill-service && npm run build"
   },
   "main": "server.js",
   "repository": {
