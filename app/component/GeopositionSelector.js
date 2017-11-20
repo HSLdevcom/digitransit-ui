@@ -17,7 +17,7 @@ const GeopositionSelector = ({ status }, context) => {
    * - locationing succeeded
    */
 
-  if (status !== PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED) {
+  if (status === PositionStore.STATUS_NO_LOCATION) {
     return (
       <OriginSelectorRow
         key={`panel-locationing-button`}

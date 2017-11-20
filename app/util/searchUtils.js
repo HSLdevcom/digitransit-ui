@@ -340,7 +340,11 @@ export function executeSearchImmediate(
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
-    if (endpointLayers.includes('CurrentPosition')) {
+    if (endpointLayers.includes('CurrentPosition') &&
+        (position.status === 'no-location' ||
+         position.status === 'found-location' ||
+         position.status === 'found-address')
+    ) {
       searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }
     if (endpointLayers.includes('FavouritePlace')) {
