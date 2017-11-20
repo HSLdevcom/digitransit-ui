@@ -80,11 +80,13 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.setState({
-      editing: false,
-      value: ref.suggestionValue,
-    });
-    this.props.selectedFunction(e, ref);
+    this.setState(
+      {
+        editing: false,
+        value: ref.suggestionValue,
+      },
+      () => this.props.selectedFunction(e, ref),
+    );
   };
 
   onSuggestionsClearRequested = () => {

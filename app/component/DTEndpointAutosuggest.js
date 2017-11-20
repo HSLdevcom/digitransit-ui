@@ -78,6 +78,36 @@ class DTEndpointAutosuggest extends React.Component {
       });
     }
   };
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (
+      this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
+    ) {
+      return true;
+    }
+    let changed;
+    Object.keys(nextProps).forEach(key => {
+      // shallow compare
+      if (key !== 'locationState' && this.props[key] !== nextProps[key]) {
+        changed = true;
+      }
+    });
+    if (changed) {
+      return true;
+    }
+    const oldLocState = this.props.locationState;
+    const newLocState = nextProps.locationState;
+    const oldGeoloc =
+      oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    const newGeoloc =
+      newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    if (oldGeoloc && newGeoloc) {
+      // changes between found-location / found-address do not count
+      return false;
+    }
+    return oldLocState.status !== newLocState.status;
+  };
 
   onSuggestionSelected = item => {
     // stop
