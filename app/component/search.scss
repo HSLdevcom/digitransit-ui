@@ -22,6 +22,39 @@ $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 $item-border-color: #eee;
 
+/*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the 
+input field Placeholder texts */
+#origin::placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#origin::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#origin::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#origin:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination::-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination::placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+#destination::-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.75);
+}
+
 .search-form.bp-large {
   padding-top: 0;
   max-width: 720px;
