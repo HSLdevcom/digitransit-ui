@@ -25,34 +25,52 @@ $item-border-color: #eee;
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
 input field Placeholder texts */
 #origin::placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #origin::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
+}
+#origin:-moz-placeholder {
+  color: #404040;
+  opacity: 1;
 }
 #origin::-moz-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #origin:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
-}
-#destination::placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #destination::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
+}
+#destination:-moz-placeholder {
+  color: #404040;
+  opacity: 1;
 }
 #destination::-moz-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #destination:-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.75);
+  color: #404040;
+  opacity: 1;
+}
+#destination::placeholder {
+  color: #404040;
+  opacity: 1;
 }
 
 .search-form.bp-large {
