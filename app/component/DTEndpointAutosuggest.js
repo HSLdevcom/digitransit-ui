@@ -79,7 +79,9 @@ class DTEndpointAutosuggest extends React.Component {
     }
   };
   shouldComponentUpdate = (nextProps, nextState) => {
-    if(this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation) {
+    if (
+      this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
+    ) {
       return true;
     }
     let changed;
@@ -94,16 +96,18 @@ class DTEndpointAutosuggest extends React.Component {
     }
     const oldLocState = this.props.locationState;
     const newLocState = nextProps.locationState;
-    const oldGeoloc = oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-          oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
-    const newGeoloc = newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
-          newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
-    if (oldGeoloc && newGeoloc)  {
+    const oldGeoloc =
+      oldLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      oldLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    const newGeoloc =
+      newLocState.status === PositionStore.STATUS_FOUND_ADDRESS ||
+      newLocState.status === PositionStore.STATUS_FOUND_LOCATION;
+    if (oldGeoloc && newGeoloc) {
       // changes between found-location / found-address do not count
       return false;
     }
     return oldLocState.status !== newLocState.status;
-  }
+  };
 
   onSuggestionSelected = item => {
     // stop
