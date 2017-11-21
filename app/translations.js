@@ -556,6 +556,7 @@ const translations = {
     'footer-link-to-old': 'Go to the old Journey Planner',
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
+    'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
     'geolocation-denied-heading': 'How do you wish to start?',
     'geolocation-denied-text':
@@ -841,6 +842,7 @@ const translations = {
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
+    'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
     'geolocation-denied-heading': 'Miten haluat aloittaa?',
     'geolocation-denied-text':
@@ -1630,6 +1632,7 @@ const translations = {
     'footer-link-to-old': 'Använd den gamla Reseplaneraren',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
+    'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
     'geolocation-denied-heading': 'Hur vill du börja?',
     'geolocation-denied-text':

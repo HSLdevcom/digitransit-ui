@@ -11,6 +11,7 @@ import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
+import ErrorBoundary from './ErrorBoundary';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -148,7 +149,7 @@ class TopLevel extends React.Component {
           style={{ height: `calc(100% - ${menuHeight})` }}
         >
           {this.props.meta}
-          {content}
+          <ErrorBoundary>{content}</ErrorBoundary>
         </section>
         {this.trackingPixel}
       </div>
