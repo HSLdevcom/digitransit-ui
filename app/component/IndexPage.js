@@ -334,7 +334,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.tab, props.tab) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
-      isEqual(nextProps.lang, props.lang)
+      isEqual(nextProps.lang, props.lang) &&
+      isEqual(nextProps.locationState, props.locationState)
     ),
 )(IndexPage);
 
@@ -401,27 +402,25 @@ const IndexPageWithPosition = connectToStores(
       newProps.tab = props.params.tab;
     }
 
+    newProps.locationState = locationState;
     newProps.origin = processLocation(
       props.params.from,
       locationState,
       context.intl,
     );
-
     newProps.destination = processLocation(
       props.params.to,
       locationState,
       context.intl,
     );
 
-    newProps.locationState = locationState;
-
     if (isBrowser) {
       checkPositioningPermission().then(status => {
-        if (
-          locationState.status === 'no-location' &&
-          status.state === 'granted'
-        ) {
-          if (getPositioningHasSucceeded() === true) {
+        if (status.state === 'granted') {
+          if (
+            locationState.status === 'no-location' &&
+            getPositioningHasSucceeded() === true
+          ) {
             debug('Initialising geolocation');
             context.executeAction(initGeolocation);
           }

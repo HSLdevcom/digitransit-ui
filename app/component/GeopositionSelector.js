@@ -8,7 +8,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 import OriginSelectorRow from './OriginSelectorRow';
 
-const GeopositionSelector = ({ status }, context) => {
+const GeopositionSelector = ({ status }, context) => (
   /* States:
    * - locationing hasn't been started
    * . locationing in progress
@@ -17,21 +17,16 @@ const GeopositionSelector = ({ status }, context) => {
    * - locationing succeeded
    */
 
-  if (status === PositionStore.STATUS_NO_LOCATION) {
-    return (
-      <OriginSelectorRow
-        key={`panel-locationing-button`}
-        icon="icon-icon_position"
-        onClick={() => context.executeAction(startLocationWatch)}
-        label={context.intl.formatMessage({
-          id: 'use-own-position',
-          defaultMessage: 'Use current location',
-        })}
-      />
-    );
-  }
-  return null;
-};
+  <OriginSelectorRow
+    key={`panel-locationing-button`}
+    icon="icon-icon_position"
+    onClick={() => context.executeAction(startLocationWatch)}
+    label={context.intl.formatMessage({
+      id: 'use-own-position',
+      defaultMessage: 'Use current location',
+    })}
+  />
+);
 
 GeopositionSelector.propTypes = {
   status: PropTypes.string.isRequired,
