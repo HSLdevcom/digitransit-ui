@@ -203,6 +203,27 @@ function startPositioning(actionContext, done, ignorePermissionCheck) {
   }
 }
 
+/**
+ * Small wrapper around permission api.
+ * Returns a promise of checking positioning permission.
+ * resolving to null means there's no permission api.
+ */
+export function checkPositioningPermission() {
+  const p = new Promise(resolve => {
+    if (!navigator.permissions) {
+      resolve({ state: null });
+    } else {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then(permissionStatus => {
+          resolve(permissionStatus);
+        });
+    }
+  });
+
+  return p;
+}
+
 /* starts location watch */
 export function startLocationWatch(actionContext, payload, done) {
   // Check if we need to manually start positioning
