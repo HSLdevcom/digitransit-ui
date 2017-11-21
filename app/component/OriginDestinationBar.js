@@ -21,16 +21,6 @@ export default class OriginDestinationBar extends React.Component {
     location: PropTypes.object.isRequired,
   };
 
-  getSearchModalState = () => {
-    if (
-      this.context.location.state != null &&
-      this.context.location.state.oneTabSearchModalOpen != null
-    ) {
-      return this.context.location.state.oneTabSearchModalOpen;
-    }
-    return false;
-  };
-
   swapEndpoints = () => {
     navigateTo({
       origin: this.props.destination,
@@ -41,7 +31,6 @@ export default class OriginDestinationBar extends React.Component {
   };
 
   render() {
-    const tab = this.getSearchModalState();
     return (
       <div
         className={cx(
@@ -53,7 +42,6 @@ export default class OriginDestinationBar extends React.Component {
         <DTAutosuggestPanel
           origin={this.props.origin}
           destination={this.props.destination}
-          tab={tab}
           isItinerary
         />
         <div className="switch" onClick={() => this.swapEndpoints()}>

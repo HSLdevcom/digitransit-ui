@@ -104,7 +104,12 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const favourite = this.state.favourite;
-    const favouriteLayers = ['CurrentPosition', 'Geocoding'];
+    const favouriteLayers = [
+      'CurrentPosition',
+      'Geocoding',
+      'OldSearch',
+      'Stops',
+    ];
 
     return (
       <div className="fullscreen">
@@ -151,7 +156,7 @@ class AddFavouriteContainer extends React.Component {
                 <DTEndpointAutosuggest
                   id="origin"
                   refPoint={{ lat: 0, lon: 0 }}
-                  searchType="all"
+                  searchType="endpoint"
                   placeholder="address"
                   value={favourite.address || ''}
                   layers={favouriteLayers}
