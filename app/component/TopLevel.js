@@ -143,6 +143,7 @@ class TopLevel extends React.Component {
         )}
         <Helmet {...this.metadata} />
         <section
+          id="mainContent"
           className="content"
           style={{ height: `calc(100% - ${menuHeight})` }}
         >
