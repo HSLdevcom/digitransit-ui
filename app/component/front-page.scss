@@ -271,9 +271,9 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
-  &.expanded {
+  /*&.expanded {
     min-height: 100%;
-  }
+  }*/
 }
 
 // <Tab> component
