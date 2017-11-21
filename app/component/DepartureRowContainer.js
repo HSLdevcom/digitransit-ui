@@ -62,7 +62,7 @@ const DepartureRow = (props, context) => {
       <td className="td-distance">
         <Distance distance={props.distance} />
       </td>
-      <td className="td-route-number overflow-fade">
+      <td className="td-route-number">
         <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(
