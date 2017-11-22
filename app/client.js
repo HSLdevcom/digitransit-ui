@@ -29,6 +29,7 @@ import { shouldDisplayPopup } from './util/Feedback';
 import historyCreator from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 import Piwik from './util/piwik';
+import ErrorBoundary from './component/ErrorBoundary';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -179,13 +180,15 @@ const callback = () =>
               translations={translations}
               context={context.getComponentContext()}
             >
-              <MuiThemeProvider
-                muiTheme={getMuiTheme(MUITheme(config), {
-                  userAgent: navigator.userAgent,
-                })}
-              >
-                <Router {...props} onUpdate={track} />
-              </MuiThemeProvider>
+              <ErrorBoundary>
+                <MuiThemeProvider
+                  muiTheme={getMuiTheme(MUITheme(config), {
+                    userAgent: navigator.userAgent,
+                  })}
+                >
+                  <Router {...props} onUpdate={track} />
+                </MuiThemeProvider>
+              </ErrorBoundary>
             </ContextProvider>,
             document.getElementById('app'),
             () => {

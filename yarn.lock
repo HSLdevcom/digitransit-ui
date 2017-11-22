@@ -8034,9 +8034,9 @@ react-motion@0.5.2:
     prop-types "^15.5.8"
     raf "^3.1.0"
 
-react-relay-network-layer@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.1.1.tgz#a19cd2030f9318fcc43a46f75c71507482d06af8"
+react-relay-network-layer@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-relay-network-layer/-/react-relay-network-layer-2.0.2.tgz#494e74adec04e39c3ee6df32125b0d26a8cad590"
 
 react-relay@1.4.1:
   version "1.4.1"
