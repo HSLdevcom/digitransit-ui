@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import OriginPopup from './OriginPopup';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 
@@ -14,23 +13,8 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-export default function PlaceMarker(
-  { displayOriginPopup, position },
-  { intl },
-) {
+export default function PlaceMarker({ position }, { intl }) {
   let popup;
-
-  if (displayOriginPopup) {
-    popup = (
-      <OriginPopup
-        shouldOpen
-        header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        text={position.address}
-        keyboard={false}
-        yOffset={14}
-      />
-    );
-  }
 
   return (
     <div>
@@ -53,9 +37,7 @@ export default function PlaceMarker(
           className: 'place',
           iconAnchor: [12, 24],
         }}
-      >
-        {popup}
-      </IconMarker>
+      />
     </div>
   );
 }
@@ -65,7 +47,6 @@ PlaceMarker.contextTypes = {
 };
 
 PlaceMarker.propTypes = {
-  displayOriginPopup: PropTypes.bool,
   position: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,

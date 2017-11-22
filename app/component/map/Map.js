@@ -45,7 +45,6 @@ class Map extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
     disableMapTracking: PropTypes.func,
-    displayOriginPopup: PropTypes.bool,
     fitBounds: PropTypes.bool,
     hideOrigin: PropTypes.bool,
     hilightedStops: PropTypes.array,
@@ -191,20 +190,11 @@ class Map extends React.Component {
         !this.props.hideOrigin
       ) {
         leafletObjs.push(
-          <PlaceMarker
-            position={this.props.origin}
-            key="from"
-            displayOriginPopup={this.props.displayOriginPopup}
-          />,
+          <PlaceMarker position={this.props.origin} key="from" />,
         );
       }
 
-      leafletObjs.push(
-        <PositionMarker
-          key="position"
-          displayOriginPopup={this.props.displayOriginPopup}
-        />,
-      );
+      leafletObjs.push(<PositionMarker key="position" />);
 
       const center =
         (!this.props.fitBounds &&
