@@ -126,6 +126,7 @@ function dispatchGeolocationError(actionContext, error) {
 
 // set watcher for geolocation
 function watchPosition(actionContext, done) {
+  debug('watchPosition');
   const quietTimeoutSeconds = 20;
 
   let timeout = setTimeout(() => {
@@ -162,47 +163,6 @@ function watchPosition(actionContext, done) {
   done();
 }
 
-function startPositioning(actionContext, done, ignorePermissionCheck) {
-  debug('startPositioning:', ignorePermissionCheck);
-  if (navigator.permissions !== undefined && !ignorePermissionCheck) {
-    // check permission state
-    navigator.permissions
-      .query({ name: 'geolocation' })
-      .then(permissionStatus => {
-        if (permissionStatus.state === 'prompt') {
-          // it was, let's listen for changes
-          // eslint-disable-next-line no-param-reassign
-          permissionStatus.onchange = () => {
-            // eslint-disable-next-line no-param-reassign
-            permissionStatus.onchange = null; // remove listener
-            if (permissionStatus.state === 'granted') {
-              actionContext.dispatch('GeolocationSearch');
-              updateGeolocationMessage(actionContext);
-            } else if (permissionStatus.state === 'denied') {
-              actionContext.dispatch('GeolocationDenied');
-              updateGeolocationMessage(actionContext, 'denied');
-            }
-          };
-          actionContext.dispatch('GeolocationPrompt');
-          updateGeolocationMessage(actionContext, 'prompt');
-          watchPosition(actionContext, done);
-        } else if (permissionStatus.state === 'granted') {
-          actionContext.dispatch('GeolocationSearch');
-          updateGeolocationMessage(actionContext);
-          watchPosition(actionContext, done);
-        } else if (permissionStatus.state === 'denied') {
-          actionContext.dispatch('GeolocationDenied');
-          updateGeolocationMessage(actionContext, 'denied');
-          done();
-        }
-      });
-  } else {
-    // browsers not supporting permission api
-    actionContext.dispatch('GeolocationSearch');
-    watchPosition(actionContext, done);
-  }
-}
-
 /**
  * Small wrapper around permission api.
  * Returns a promise of checking positioning permission.
@@ -210,6 +170,11 @@ function startPositioning(actionContext, done, ignorePermissionCheck) {
  */
 export function checkPositioningPermission() {
   const p = new Promise(resolve => {
+    if (window.mock !== undefined) {
+      debug('mock permission');
+      resolve({ state: window.mock.permission });
+      return;
+    }
     if (!navigator.permissions) {
       resolve({ state: null });
     } else {
@@ -222,6 +187,47 @@ export function checkPositioningPermission() {
   });
 
   return p;
+}
+
+function startPositioning(actionContext, done) {
+  debug('startPositioning:');
+
+  checkPositioningPermission().then(status => {
+    debug('examining status', status);
+    switch (status.state) {
+      case 'granted':
+        actionContext.dispatch('GeolocationSearch');
+        updateGeolocationMessage(actionContext);
+        watchPosition(actionContext, done);
+        break;
+      case 'denied':
+        actionContext.dispatch('GeolocationDenied');
+        updateGeolocationMessage(actionContext, 'denied');
+        done();
+        break;
+      case 'prompt':
+        watchPosition(actionContext, done);
+        // it was, let's listen for changes
+        // eslint-disable-next-line no-param-reassign
+        status.onchange = permissionStatus => {
+          // eslint-disable-next-line no-param-reassign
+          status.onchange = null; // remove listener
+          if (permissionStatus.state === 'granted') {
+            actionContext.dispatch('GeolocationSearch');
+            updateGeolocationMessage(actionContext);
+          } else if (permissionStatus.state === 'denied') {
+            actionContext.dispatch('GeolocationDenied');
+            updateGeolocationMessage(actionContext, 'denied');
+          }
+        };
+        break;
+      default:
+        // browsers not supporting permission api
+        actionContext.dispatch('GeolocationSearch');
+        watchPosition(actionContext, done);
+        break;
+    }
+  });
 }
 
 /* starts location watch */
@@ -253,23 +259,30 @@ export function initGeolocation(actionContext, payload, done) {
     debug('Geolocation is not supported');
     actionContext.dispatch('GeolocationNotSupported');
     updateGeolocationMessage(actionContext, 'failed');
-  } else if (window.mock === undefined && navigator.permissions !== undefined) {
-    debug('Permission api available');
+  } else {
     // Check if we have previous permissions to get geolocation.
     // If yes, start immediately, if not, we will not prompt for permission at this point.
-    navigator.permissions.query({ name: 'geolocation' }).then(result => {
-      if (result.state === 'granted') {
-        debug('Permission granted, starting positioning');
-        start = true;
-        updateGeolocationMessage(actionContext);
-      } else if (result.state === 'denied') {
-        debug('Permission denied.');
-        // for ff with permisson api display error immediately instead of timeout error
-        actionContext.dispatch('GeolocationDenied');
-        updateGeolocationMessage(actionContext, 'denied');
-      } else {
-        start = true; // TODO
-        debug('Unprocessed result', result);
+    checkPositioningPermission().then(status => {
+      debug('examining status', status);
+      switch (status.state) {
+        case 'granted':
+          debug('Permission granted.');
+          start = true;
+          updateGeolocationMessage(actionContext);
+          break;
+        case 'denied':
+          debug('Permission denied.');
+          // for ff with permisson api display error immediately instead of timeout error
+          actionContext.dispatch('GeolocationDenied');
+          updateGeolocationMessage(actionContext, 'denied');
+          break;
+        case null: // no permission api
+          start = getPositioningHasSucceeded(true);
+          break;
+        default:
+          start = true; // TODO
+          debug('Unprocessed result:', status.state);
+          break;
       }
       if (start === true) {
         debug('Starting positioning');
@@ -279,11 +292,5 @@ export function initGeolocation(actionContext, payload, done) {
         done();
       }
     });
-  } else if (start || getPositioningHasSucceeded(true)) {
-    debug('Starting positioning');
-    startPositioning(actionContext, done, true);
-  } else {
-    debug('Not starting positioning');
-    done();
   }
 }

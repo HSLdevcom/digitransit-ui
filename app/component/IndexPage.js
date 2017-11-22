@@ -418,11 +418,11 @@ const IndexPageWithPosition = connectToStores(
 
     if (isBrowser) {
       checkPositioningPermission().then(status => {
-        if (status.state === 'granted') {
-          if (
-            locationState.status === 'no-location' &&
-            getPositioningHasSucceeded() === true
-          ) {
+        if (
+          status.state === 'granted' &&
+          getPositioningHasSucceeded() === true
+        ) {
+          if (locationState.status === 'no-location') {
             debug('Initialising geolocation');
             context.executeAction(initGeolocation);
           }

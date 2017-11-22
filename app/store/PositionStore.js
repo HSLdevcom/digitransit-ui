@@ -24,9 +24,19 @@ export default class PositionStore extends Store {
 
   constructor(dispatcher) {
     if (isBrowser && location && location.search.indexOf('mock') !== -1) {
+      let permission = location.search.substring(
+        location.search.indexOf('mock') + 4,
+      );
+      if (permission.length > 1) {
+        permission = permission.substring(1);
+      } else {
+        // default mock permission = granted
+        permission = 'granted';
+      }
+
       debug('replacing geolocation api with mock');
       navigator.geoapi = api;
-      init();
+      init(permission);
     } else {
       navigator.geoapi = navigator.geolocation;
     }
