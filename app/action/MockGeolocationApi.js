@@ -4,9 +4,9 @@ import range from 'lodash/range';
 
 const debug = d('MockGeolocationApi.js');
 
-export function init() {
+export function init(permission) {
   debug('Position mock activated');
-  window.mock = { data: {} };
+  window.mock = { permission, data: {} };
 
   window.mock.data.position = {
     coords: {
@@ -89,6 +89,7 @@ export const api = {
     setInterval(() => {
       if (window.mock) {
         debug('broadcasting position', window.mock.data.position);
+        window.mock.permission = 'granted';
         success(window.mock.data.position);
       } else {
         debug('window.mock is undefined');
