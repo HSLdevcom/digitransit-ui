@@ -77,7 +77,7 @@ $heading-color: #858585;
     position: absolute;
     width: 96%;
     height: 3em;
-    background: linear-gradient(transparent 3px, white);
+    background: linear-gradient(rgba(255,255,255,0) 3px, rgba(255,255,255,1));
     bottom: 0;
   }
 }
