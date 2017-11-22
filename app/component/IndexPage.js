@@ -434,7 +434,8 @@ const IndexPageWithPosition = connectToStores(
             context.router.replace(`/POS/-/${TAB_NEARBY}`);
           }
         } else if (
-          status.state !== 'granted' &&
+          (status.state !== 'granted' ||
+            getPositioningHasSucceeded() !== true) &&
           (newProps.origin.gps === true || newProps.destination.gps === true)
         ) {
           // clear gps & redirect
