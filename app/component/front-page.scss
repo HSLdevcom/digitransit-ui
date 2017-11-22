@@ -67,10 +67,19 @@ $heading-color: #858585;
   right: 30px;
   z-index: 802;
   height: 100%;
-  max-height: calc(100% - 80px);
+  max-height: calc(100% - 100px);
   min-width: 340px;
   width: 30%;
   max-width: 600px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 96%;
+    height: 3em;
+    background: linear-gradient(transparent 3px, white);
+    bottom: 0;
+  }
 }
 
 .fpcfloat {
@@ -83,14 +92,6 @@ $heading-color: #858585;
 
   .frontpage-panel.nearby-routes {
     background: #fff;
-    &:after {
-      content: '';
-      position: absolute;
-      width: 96%;
-      height: 3em;
-      background: linear-gradient(transparent 3px, white);
-      bottom: 0;
-    }
   }
 
   .frontpage-panel {
@@ -98,7 +99,7 @@ $heading-color: #858585;
     display: flex;
     flex-direction: column;
     padding-bottom: $border-radius-bigger;
-    overflow: initial;
+    overflow: hidden;
     background: $white;
     border-bottom-right-radius: $border-radius-bigger;
     border-bottom-left-radius: $border-radius-bigger;
@@ -279,9 +280,6 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
-  &.expanded {
-    min-height: 100%;
-  }
 }
 
 // <Tab> component
