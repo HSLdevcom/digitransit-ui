@@ -45,12 +45,6 @@ const feedbackPanel = (
   </LazilyLoad>
 );
 
-const messageBarModules = { Bar: () => importLazy(import('./MessageBar')) };
-
-const messageBar = (
-  <LazilyLoad modules={messageBarModules}>{({ Bar }) => <Bar />}</LazilyLoad>
-);
-
 class IndexPage extends React.Component {
   static contextTypes = {
     location: locationShape.isRequired,
@@ -232,7 +226,6 @@ class IndexPage extends React.Component {
           this.props.origin.gpsError === false &&
           `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
-        {messageBar}
         <MapWithTracking
           breakpoint={this.props.breakpoint}
           showStops
@@ -280,7 +273,6 @@ class IndexPage extends React.Component {
           this.props.origin.gpsError === false &&
           `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
-        {messageBar}
         <div
           className={cx('flex-grow', 'map-container', {
             expanded: this.state.mapExpanded,

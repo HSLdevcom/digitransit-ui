@@ -5,6 +5,7 @@ import BackButton from './BackButton';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
+import MessageBar from './MessageBar';
 
 const AppBarSmall = (
   { disableBackButton, showLogo, title, homeUrl },
@@ -23,6 +24,7 @@ const AppBarSmall = (
       </section>
       <MainMenuContainer homeUrl={homeUrl} />
     </nav>
+    <MessageBar />
   </div>
 );
 
