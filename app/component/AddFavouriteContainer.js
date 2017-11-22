@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import without from 'lodash/without';
 import Icon from './Icon';
 import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
@@ -14,7 +13,6 @@ import {
   addFavouriteLocation,
   deleteFavouriteLocation,
 } from '../action/FavouriteActions';
-import { getAllEndpointLayers } from '../util/searchUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
 class AddFavouriteContainer extends React.Component {
@@ -106,7 +104,12 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const favourite = this.state.favourite;
-    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
+    const favouriteLayers = [
+      'CurrentPosition',
+      'Geocoding',
+      'OldSearch',
+      'Stops',
+    ];
 
     return (
       <div className="fullscreen">
@@ -153,11 +156,12 @@ class AddFavouriteContainer extends React.Component {
                 <DTEndpointAutosuggest
                   id="origin"
                   refPoint={{ lat: 0, lon: 0 }}
-                  searchType="all"
+                  searchType="endpoint"
                   placeholder="address"
                   value={favourite.address || ''}
                   layers={favouriteLayers}
                   onLocationSelected={this.setCoordinatesAndAddress}
+                  showSpinner
                 />
               </div>
               <div className="add-favourite-container__give-name">

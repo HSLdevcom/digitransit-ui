@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
+import ErrorBoundary from './ErrorBoundary';
 
 export default function DesktopView(
   { title, header, map, content, homeUrl },
@@ -31,9 +32,11 @@ export default function DesktopView(
           </h2>
         </div>
         {header}
-        {content}
+        <ErrorBoundary>{content}</ErrorBoundary>
       </div>
-      <div className="map-content">{map}</div>
+      <div className="map-content">
+        <ErrorBoundary>{map}</ErrorBoundary>
+      </div>
     </div>
   );
 }
