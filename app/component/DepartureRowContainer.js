@@ -53,6 +53,19 @@ const DepartureRow = (props, context) => {
   const departureLinkUrl = `/${PREFIX_ROUTES}/${departure.pattern.route
     .gtfsId}/pysakit/${departure.pattern.code}`;
 
+  // In case there's only one departure for the route,
+  // add a dummy cell to keep the table layout from breaking
+  const departureTimesChecked =
+    departureTimes.length < 2
+      ? [
+          departureTimes[0],
+          <td
+            key={`${departureTimes[0].key}-empty`}
+            className="td-departure-times"
+          />,
+        ]
+      : departureTimes;
+
   return (
     <tr
       className="next-departure-row-tr"
@@ -62,7 +75,7 @@ const DepartureRow = (props, context) => {
       <td className="td-distance">
         <Distance distance={props.distance} />
       </td>
-      <td className="td-route-number overflow-fade">
+      <td className="td-route-number">
         <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(
@@ -78,7 +91,7 @@ const DepartureRow = (props, context) => {
           destination={headsign || departure.pattern.route.longName}
         />
       </td>
-      {departureTimes}
+      {departureTimesChecked}
     </tr>
   );
 };
