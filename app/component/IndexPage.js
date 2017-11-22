@@ -249,11 +249,7 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        {(this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false && <OverlayWithSpinner />) ||
-          null}
+        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -283,11 +279,7 @@ class IndexPage extends React.Component {
             showStops
             origin={this.props.origin}
           >
-            {(this.props.origin &&
-              this.props.origin.gps === true &&
-              this.props.origin.gpsError === false &&
-              this.props.origin.ready === false && <OverlayWithSpinner />) ||
-              null}
+            {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
@@ -335,7 +327,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.tab, props.tab) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.locationState, props.locationState)
+      isEqual(nextProps.locationState, props.locationState) &&
+      isEqual(nextProps.showSpinner, props.showSpinner)
     ),
 )(IndexPage);
 
@@ -373,14 +366,7 @@ const processLocation = (locationString, locationState, intl) => {
             defaultMessage: 'Own Location',
           });
       }
-      const gpsError =
-        [
-          'no-location',
-          'prompt',
-          'searching-location',
-          'found-location',
-          'found-address',
-        ].indexOf(locationState.status) === -1;
+      const gpsError = locationState.locationingFailed === true;
 
       location.gpsError = gpsError;
     }
@@ -415,25 +401,30 @@ const IndexPageWithPosition = connectToStores(
     );
 
     if (isBrowser) {
+      newProps.showSpinner = locationState.isLocationingInProgress === true;
       checkPositioningPermission().then(status => {
         if (
+          // check logic for starting geolocation
           status.state === 'granted' &&
-          getPositioningHasSucceeded() === true
+          getPositioningHasSucceeded() === true &&
+          locationState.status === 'no-location'
         ) {
-          if (locationState.status === 'no-location') {
-            debug('Initialising geolocation');
-            context.executeAction(initGeolocation);
-          }
-          if (
-            newProps.origin.set === false &&
-            newProps.destination.set === false
-          ) {
-            debug('Redirecting to origin=current pos');
-            context.router.replace(`/POS/-/${TAB_NEARBY}`);
-          }
+          debug('Auto Initialising geolocation');
+          context.executeAction(initGeolocation);
+        }
+
+        if (
+          // logic for redirecting to /pos/...
+          (locationState.isLocationingInProgress === true ||
+            locationState.hasLocation === true) &&
+          newProps.origin.set === false &&
+          newProps.destination.set === false
+        ) {
+          debug('Redirecting to origin=current pos');
+          context.router.replace(`/POS/-/${TAB_NEARBY}`);
         } else if (
-          (status.state !== 'granted' ||
-            getPositioningHasSucceeded() !== true) &&
+          locationState.isLocationingInProgress !== true &&
+          locationState.hasLocation === false &&
           (newProps.origin.gps === true || newProps.destination.gps === true)
         ) {
           // clear gps & redirect
