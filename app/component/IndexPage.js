@@ -226,8 +226,11 @@ class IndexPage extends React.Component {
 
     return this.props.breakpoint === 'large' ? (
       <div
-        className={`front-page flex-vertical fullscreen bp-${this.props
-          .breakpoint}`}
+        className={`front-page flex-vertical ${this.props.origin &&
+          this.props.origin.gps === true &&
+          this.props.origin.ready === false &&
+          this.props.origin.gpsError === false &&
+          `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
         {messageBar}
         <MapWithTracking
@@ -271,8 +274,11 @@ class IndexPage extends React.Component {
       </div>
     ) : (
       <div
-        className={`front-page flex-vertical fullscreen bp-${this.props
-          .breakpoint}`}
+        className={`front-page flex-vertical ${this.props.origin &&
+          this.props.origin.gps === true &&
+          this.props.origin.ready === false &&
+          this.props.origin.gpsError === false &&
+          `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
         {messageBar}
         <div
