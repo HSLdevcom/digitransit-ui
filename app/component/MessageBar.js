@@ -125,54 +125,60 @@ class MessageBar extends Component {
       const iconName = `icon-icon_${icon}`;
 
       return (
-        <section role="banner" className="message-bar flex-horizontal">
-          <Icon img={iconName} className="message-icon" />
-          <div className={`flex-grow message-bar-${type}`}>
-            <SwipeableViews
-              index={index}
-              onChangeIndex={this.handleChange}
-              className={!this.state.maximized ? 'message-bar-fade' : ''}
-              containerStyle={{
-                maxHeight: this.state.maximized ? '400px' : '100px',
-                transition: 'max-height 300ms',
-              }}
-              slideStyle={{
-                maxHeight: this.state.maximized ? '400px' : '100px',
-                transition: 'max-height 300ms',
-                padding: '10px 10px 0px 10px',
-                overflow: 'hidden',
-                background: '#fff',
-              }}
-            >
-              {this.getTabContent()}
-            </SwipeableViews>
-            <Tabs
-              onChange={this.handleChange}
-              value={index}
-              tabItemContainerStyle={{
-                backgroundColor: '#fff',
-                height: '18px',
-                width: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-              inkBarStyle={{ display: 'none' }}
-            >
-              {this.getTabs()}
-            </Tabs>
-          </div>
-          <div>
-            <button
-              id="close-message-bar"
-              title={this.context.intl.formatMessage({
-                id: 'messagebar-label-close-message-bar',
-                defaultMessage: 'Close banner',
-              })}
-              onClick={this.handleClose}
-              className="noborder close-button cursor-pointer"
-            >
-              <Icon img="icon-icon_close" className="close" />
-            </button>
+        <section
+          id="messageBar"
+          role="banner"
+          className="message-bar flex-horizontal"
+        >
+          <div className="banner-container">
+            <Icon img={iconName} className="message-icon" />
+            <div className={`flex-grow message-bar-${type}`}>
+              <SwipeableViews
+                index={index}
+                onChangeIndex={this.handleChange}
+                className={!this.state.maximized ? 'message-bar-fade' : ''}
+                containerStyle={{
+                  maxHeight: this.state.maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                }}
+                slideStyle={{
+                  maxHeight: this.state.maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                  padding: '10px 10px 0px 10px',
+                  overflow: 'hidden',
+                  background: '#fff',
+                }}
+              >
+                {this.getTabContent()}
+              </SwipeableViews>
+              <Tabs
+                onChange={this.handleChange}
+                value={index}
+                tabItemContainerStyle={{
+                  backgroundColor: '#fff',
+                  height: '18px',
+                  width: '60px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+                inkBarStyle={{ display: 'none' }}
+              >
+                {this.getTabs()}
+              </Tabs>
+            </div>
+            <div>
+              <button
+                id="close-message-bar"
+                title={this.context.intl.formatMessage({
+                  id: 'messagebar-label-close-message-bar',
+                  defaultMessage: 'Close banner',
+                })}
+                onClick={this.handleClose}
+                className="noborder close-button cursor-pointer"
+              >
+                <Icon img="icon-icon_close" className="close" />
+              </button>
+            </div>
           </div>
         </section>
       );

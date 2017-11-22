@@ -1,5 +1,16 @@
+.nearby-table-container {
+    position: relative;
+    display: block;
+    height: 100%;
+}
+
 table.nearby-departures-table {
     position: relative;
+    display: block;
+    height: 100%;
+    border: 0;
+    border-spacing: 0;
+    table-layout: fixed;
     thead {
         th {
             text-align: left;
@@ -26,13 +37,12 @@ table.nearby-departures-table {
     }
 
     tbody {
-        position: absolute;
-        overflow-y: auto;
+        overflow-y: scroll;
         overflow-x: hidden;
-        height: 100%;
-        min-height: calc(100vh - 230px);
+        display: block;
         width: 99.7%;
-        background-color: $white;
+        background-color: #ffffff;
+        max-height: calc(100% - 32px);
         tr {
             @include font-narrow-book;
             font-size: $font-size-small;
@@ -41,6 +51,18 @@ table.nearby-departures-table {
             td {
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
+                width: 15%;
+                border-bottom: 1px solid #cbcbcb;
+                &.td-available-bikes {
+                    font-size: $font-size-small;
+                    text-align: center;
+                    .city-bike-station-availability {
+                        padding-right: 0.3em;
+                    }
+                    .bikes-total {
+                        padding-right: 0.3em;
+                    }
+                }
                 &.td-route-number {
                     .route-number {
                         white-space: nowrap;
@@ -64,14 +86,10 @@ table.nearby-departures-table {
                       white-space: pre-line;
                       height: $font-size-normal;
                     }
+                    span.city-bike-station-name {
+                        width: 100%;
+                    }
                 }
-            }
-            &:after {
-                border-bottom: 1px solid #cbcbcb;
-                content: '';
-                width: 100%;
-                position: absolute;
-                left: 0;
             }
         }
     }
@@ -86,7 +104,8 @@ table.nearby-departures-table {
         }
             tbody {
                 position: relative;
-                max-height: 100%;
+                display:table;
+                height: 100%;
             }
         }
 }

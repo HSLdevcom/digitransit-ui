@@ -7,7 +7,11 @@ import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
-import { initGeolocation } from '../action/PositionActions';
+import d from 'debug';
+import {
+  initGeolocation,
+  checkPositioningPermission,
+} from '../action/PositionActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
@@ -28,6 +32,8 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
+
+const debug = d('IndexPage.js');
 
 const feedbackPanelMudules = {
   Panel: () => importLazy(import('./FeedbackPanel')),
@@ -237,6 +243,8 @@ class IndexPage extends React.Component {
             origin={this.props.origin}
             destination={this.props.destination}
             tab={this.props.tab}
+            originSearchType="all"
+            originPlaceHolder="search-origin"
           />
           <div key="foo" className="fpccontainer">
             <FrontPagePanelLarge
@@ -334,7 +342,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.destination, props.destination) &&
       isEqual(nextProps.tab, props.tab) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
-      isEqual(nextProps.lang, props.lang)
+      isEqual(nextProps.lang, props.lang) &&
+      isEqual(nextProps.locationState, props.locationState)
     ),
 )(IndexPage);
 
@@ -401,44 +410,59 @@ const IndexPageWithPosition = connectToStores(
       newProps.tab = props.params.tab;
     }
 
+    newProps.locationState = locationState;
     newProps.origin = processLocation(
       props.params.from,
       locationState,
       context.intl,
     );
-
     newProps.destination = processLocation(
       props.params.to,
       locationState,
       context.intl,
     );
 
-    // if we have record of succesfull positioning let's init geolocating
-    if (
-      locationState.status === 'no-location' &&
-      (getPositioningHasSucceeded() === true ||
-        newProps.destination.gps === true ||
-        newProps.origin.gps === true)
-    ) {
-      if (isBrowser) {
-        context.executeAction(initGeolocation);
-      }
-    }
+    if (isBrowser) {
+      checkPositioningPermission().then(status => {
+        if (
+          status.state === 'granted' &&
+          getPositioningHasSucceeded() === true
+        ) {
+          if (locationState.status === 'no-location') {
+            debug('Initialising geolocation');
+            context.executeAction(initGeolocation);
+          }
+          if (
+            newProps.origin.set === false &&
+            newProps.destination.set === false
+          ) {
+            debug('Redirecting to origin=current pos');
+            context.router.replace(`/POS/-/${TAB_NEARBY}`);
+          }
+        } else if (
+          (status.state !== 'granted' ||
+            getPositioningHasSucceeded() !== true) &&
+          (newProps.origin.gps === true || newProps.destination.gps === true)
+        ) {
+          // clear gps & redirect
+          if (newProps.origin.gps === true) {
+            newProps.origin.gps = false;
+            newProps.origin.set = false;
+          }
 
-    // automatically use current pos when coming to front page and no
-    // origin/destination is set
-    if (
-      getPositioningHasSucceeded() === true &&
-      newProps.destination.set === false &&
-      newProps.origin.set === false
-    ) {
-      if (
-        ['searching-location', 'found-location', 'found-address'].indexOf(
-          locationState.status,
-        ) !== -1
-      ) {
-        context.router.replace(`/POS/-/${TAB_NEARBY}`);
-      }
+          if (newProps.destination.gps === true) {
+            newProps.destination.gps = false;
+            newProps.destination.set = false;
+          }
+          const url = getPathWithEndpointObjects(
+            newProps.origin,
+            newProps.destination,
+            newProps.tab,
+          );
+          debug('Redirecting away from POS');
+          context.router.replace(url);
+        }
+      });
     }
     return newProps;
   },

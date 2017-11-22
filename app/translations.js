@@ -177,6 +177,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'tilføj afgangssted',
     'search-position': 'Led efter position',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leder etter position',
@@ -418,6 +419,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Siehe Ergebnisse im "Zielort"-Tab',
     'search-no-results': 'Keine Ergebnisse',
+    'search-origin': 'Geben Sie Ihren Abfahrtsort ein',
     'search-position': 'Standort suchen',
     'search-search-results-but-no-destination':
       'Siehe Ergebnisse im "Linie oder Haltestelle"-Tab',
@@ -554,6 +556,7 @@ const translations = {
     'footer-link-to-old': 'Go to the old Journey Planner',
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
+    'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
     'geolocation-denied-heading': 'How do you wish to start?',
     'geolocation-denied-text':
@@ -675,6 +678,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
+    'search-origin': 'Enter your origin.',
     'search-position': 'Detect location',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
@@ -838,6 +842,7 @@ const translations = {
     'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
+    'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
     'geolocation-denied-heading': 'Miten haluat aloittaa?',
     'geolocation-denied-text':
@@ -849,9 +854,9 @@ const translations = {
     'geolocation-still-denied-heading': 'Paikannus on estetty',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
-    'give-destination': 'Määränpää, linja tai pysäkki',
+    'give-destination': 'Määränpää',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
-    'give-origin': 'Lähtöpaikka, linja tai pysäkki',
+    'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
@@ -955,6 +960,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
+    'search-origin': 'Lähtöpaikka, linja tai pysäkki',
     'search-position': 'Paikanna',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
@@ -1227,6 +1233,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Voir les résultats de l\'onglet "Destination"',
     'search-no-results': 'Aucun résultat',
+    'search-origin': 'Entrer votre point de départ',
     'search-position': 'Rechercher la position',
     'search-search-results-but-no-destination':
       'Voir les résultats de l\'onglet "Ligne, arrêt ou mot-clé"',
@@ -1475,6 +1482,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'skriv avgangssted',
     'search-position': 'Let etter posisjon',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leter etter posisjon',
@@ -1624,6 +1632,7 @@ const translations = {
     'footer-link-to-old': 'Använd den gamla Reseplaneraren',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
+    'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
     'geolocation-denied-heading': 'Hur vill du börja?',
     'geolocation-denied-text':
@@ -1745,6 +1754,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
+    'search-origin': 'Din avfärdsplats, linje eller hållplats',
     'search-position': 'Sök position',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
