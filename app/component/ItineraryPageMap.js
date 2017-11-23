@@ -118,9 +118,7 @@ export default function ItineraryPageMap(
             () =>
               layer.fireEvent('click', {
                 latlng: latlngPoint,
-                layerPoint: map.leafletElement.latLngToLayerPoint(
-                  latlngPoint,
-                ),
+                layerPoint: map.leafletElement.latLngToLayerPoint(latlngPoint),
                 containerPoint: map.leafletElement.latLngToContainerPoint(
                   latlngPoint,
                 ),

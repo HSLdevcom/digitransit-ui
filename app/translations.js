@@ -558,7 +558,7 @@ const translations = {
     frontpage: 'Frontpage',
     'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
-    'geolocation-denied-heading': 'How do you wish to start?',
+    'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':
       'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
     'geolocation-failed-heading': 'Geolocation failed',
@@ -566,7 +566,6 @@ const translations = {
       'Your browser does not support location retrieval.',
     'geolocation-prompt-text':
       'Accept your browser’s request to access your location.',
-    'geolocation-still-denied-heading': 'Geolocation denied',
     'geolocation-timeout-heading':
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
@@ -844,14 +843,13 @@ const translations = {
     frontpage: 'Etusivu',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
-    'geolocation-denied-heading': 'Miten haluat aloittaa?',
+    'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
     'geolocation-failed-heading': 'Paikannus epäonnistui',
     'geolocation-failed-text':
       'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
-    'geolocation-still-denied-heading': 'Paikannus on estetty',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
     'give-destination': 'Määränpää',
@@ -1634,14 +1632,12 @@ const translations = {
     frontpage: 'Framsidan',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
-    'geolocation-denied-heading': 'Hur vill du börja?',
+    'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
       'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
     'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
-    'geolocation-still-denied-heading':
-      'Delning av platsinformation är förbjudet',
     'geolocation-timeout-heading':
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
