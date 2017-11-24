@@ -13,9 +13,7 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-export default function PlaceMarker({ position }, { intl }) {
-  let popup;
-
+export default function PlaceMarker({ position }) {
   return (
     <div>
       <IconMarker
