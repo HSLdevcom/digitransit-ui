@@ -28,6 +28,7 @@ if (isBrowser) {
   ScaleControl = require('react-leaflet/es/ScaleControl').default;
   ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
+  require('leaflet-active-area');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
 }
@@ -61,6 +62,7 @@ class Map extends React.Component {
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
+    activeArea: PropTypes.string,
   };
 
   static defaultProps = {
@@ -68,6 +70,7 @@ class Map extends React.Component {
     loaded: () => {},
     origin: null,
     showScaleBar: false,
+    activeArea: null,
   };
 
   static contextTypes = {
@@ -222,6 +225,9 @@ class Map extends React.Component {
           keyboard={false}
           ref={el => {
             this.map = el;
+            if (el && this.props.activeArea) {
+              el.leafletElement.setActiveArea(this.props.activeArea);
+            }
           }}
           center={center}
           zoom={zoom}
