@@ -28,6 +28,7 @@ if (isBrowser) {
   ScaleControl = require('react-leaflet/es/ScaleControl').default;
   ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
+  require('leaflet-active-area');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
 }
@@ -232,6 +233,15 @@ class Map extends React.Component {
           keyboard={false}
           ref={el => {
             this.map = el;
+            if (el) {
+              el.leafletElement.setActiveArea({
+                position: 'absolute',
+                top: '50px',
+                left: '0px',
+                right: '200px',
+                bottom: '0px'
+              });
+            }
           }}
           center={center}
           zoom={zoom}
