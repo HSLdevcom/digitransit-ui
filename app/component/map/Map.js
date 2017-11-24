@@ -63,6 +63,7 @@ class Map extends React.Component {
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
+    activeArea: PropTypes.string,
   };
 
   static defaultProps = {
@@ -70,6 +71,7 @@ class Map extends React.Component {
     loaded: () => {},
     origin: null,
     showScaleBar: false,
+    activeArea: null,
   };
 
   static contextTypes = {
@@ -233,14 +235,8 @@ class Map extends React.Component {
           keyboard={false}
           ref={el => {
             this.map = el;
-            if (el) {
-              el.leafletElement.setActiveArea({
-                position: 'absolute',
-                top: '50px',
-                left: '0px',
-                right: '200px',
-                bottom: '0px'
-              });
+            if (el && this.props.activeArea) {
+              el.leafletElement.setActiveArea(this.props.activeArea);
             }
           }}
           center={center}
