@@ -133,38 +133,13 @@ class IndexPage extends React.Component {
   };
 
   clickNearby = () => {
-    // tab click logic is different in large vs the rest!
-    if (this.props.breakpoint !== 'large') {
-      const selected = this.getSelectedTab();
-      this.openTab(TAB_NEARBY);
-
-      this.trackEvent(
-        'Front page tabs',
-        'Nearby',
-        selected === 1 ? 'close' : 'open',
-      );
-    } else {
-      this.openTab(TAB_NEARBY);
-      this.trackEvent('Front page tabs', 'Nearby', 'open');
-    }
+    this.openTab(TAB_NEARBY);
+    this.trackEvent('Front page tabs', 'Nearby', 'open');
   };
 
   clickFavourites = () => {
-    // tab click logic is different in large vs the rest!
-    if (this.props.breakpoint !== 'large') {
-      const selected = this.getSelectedTab();
-
-      this.openTab(TAB_FAVOURITES);
-
-      this.trackEvent(
-        'Front page tabs',
-        'Favourites',
-        selected === 2 ? 'close' : 'open',
-      );
-    } else {
-      this.openTab(TAB_FAVOURITES);
-      this.trackEvent('Front page tabs', 'Favourites', 'open');
-    }
+    this.openTab(TAB_FAVOURITES);
+    this.trackEvent('Front page tabs', 'Favourites', 'open');
   };
 
   openTab = tab => {
