@@ -6,7 +6,6 @@ import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import ViaPointBarContainer from './ViaPointBarContainer';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
 
@@ -151,7 +150,6 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        <ViaPointBarContainer className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <Relay.Renderer
             Container={TimeSelectorContainer}

@@ -35,10 +35,6 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
-  checkViaPointParameters = () => {
-    const name = this.context.location.query.intermediatePlaces.split('::')[0];
-  };
-
   swapEndpoints = () => {
     navigateTo({
       origin: this.props.destination,
@@ -99,7 +95,7 @@ export default class OriginDestinationBar extends React.Component {
             onClick={() => this.toggleViaPoint(false)}
           >
             <span>
-              <Icon img="icon-icon_not-in-use" />
+              <Icon img="icon-icon_close" />
             </span>
           </div>
         </div>

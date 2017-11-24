@@ -106,42 +106,42 @@ class DTAutosuggestPanel extends React.Component {
         />
       }
       {this.props.isViaPoint && (
-        <div className="viapoint-before">
-          <div className="viapoint-before_line-top" />
-          <div className="viapoint-icon">
-            <Icon img="icon-icon_place" />
+        <div className="viapoint-input-container">
+          <div className="viapoint-before">
+            <div className="viapoint-before_line-top" />
+            <div className="viapoint-icon">
+              <Icon img="icon-icon_place" />
+            </div>
+            <div className="viapoint-before_line-bottom" />
           </div>
-          <div className="viapoint-before_line-bottom" />
+          <DTEndpointAutosuggest
+            id="viapoint"
+            autoFocus={this.context.breakpoint === 'large'}
+            refPoint={this.props.origin}
+            searchType="endpoint"
+            placeholder={this.props.intl.formatMessage({
+              id: 'via-point',
+              defaultMessage: 'Viapoint',
+            })}
+            className={`viapoint`}
+            isFocused={this.isFocused}
+            value={this.props.viaPointName}
+            onLocationSelected={item => {
+              this.context.router.replace({
+                ...this.context.location,
+                query: {
+                  ...this.context.location.query,
+                  intermediatePlaces: locationToOTP({
+                    lat: item.lat,
+                    lon: item.lon,
+                    address: item.address,
+                  }),
+                },
+              });
+              this.props.setViaPointName(item.address);
+            }}
+          />
         </div>
-      )}
-      {this.props.isViaPoint && (
-        <DTEndpointAutosuggest
-          id="viapoint"
-          autoFocus={this.context.breakpoint === 'large'}
-          refPoint={this.props.origin}
-          searchType="endpoint"
-          placeholder={this.props.intl.formatMessage({
-            id: 'via-point',
-            defaultMessage: 'Viapoint',
-          })}
-          className={`viapoint`}
-          isFocused={this.isFocused}
-          value={this.props.viaPointName}
-          onLocationSelected={item => {
-            this.context.router.replace({
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                intermediatePlaces: locationToOTP({
-                  lat: item.lat,
-                  lon: item.lon,
-                  address: item.address,
-                }),
-              },
-            });
-            this.props.setViaPointName(item.address);
-          }}
-        />
       )}
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||

@@ -646,7 +646,7 @@ div.autosuggest-panel {
 
 .itinerary-search-controls {
   position: absolute;
-  top: calc(#{$padding-large} - 15px);
+  top: 1em;
   z-index: 1000;
   right: 5px;
   .switch {
@@ -668,7 +668,7 @@ div.autosuggest-panel {
 
     .icon {
       position: relative;
-      top: 2px;
+      top: 3px;
     }
   }
   .addViaPoint {
@@ -686,7 +686,14 @@ div.autosuggest-panel {
   }
 }
 .mobile .itinerary-search-controls {
-  width: 7%;
+  width: 6%;
+  top: 0.75em;
+}
+
+.mobile .origin-destination-bar .switch {
+font-size: 1.5em;
+margin-right: 0.4em;
+margin-top: 0em;
 }
 
 .autosuggest-panel.small {
@@ -757,14 +764,6 @@ div.autosuggest-panel {
 }
 }
 
-.mobile {
-  .isItinerary {
-    .autosuggest-input-icon {
-      left: 1.5em;
-    }
-  }
-}
-
 input.react-autosuggest__input{
   &.location {
     padding-left: 3em;
@@ -801,9 +800,6 @@ input.react-autosuggest__input{
   &.viapoint {
     width: 94%;
   }
-}
-.mobile .isItinerary .autosuggest-input-container {
-  width: 100%;
 }
 
 .viapoint-before {
@@ -844,7 +840,14 @@ input.react-autosuggest__input{
   }
 }
 
-.mobile .autosuggest-panel.isItinerary {
+.viapoint-input-container {
+  display: flex;
+  width: 100%;
+}
+
+.mobile .autosuggest-panel {
+  flex-flow: wrap;
+  .isItinerary {
   .react-autosuggest__container {
     width: 94%;
     margin-right: 0;
@@ -856,17 +859,6 @@ input.react-autosuggest__input{
     width: 100%;
   }
 }
-
-.origin-destination-bar .switch {
-    .icon {
-      top: 3px;
-    }
-}
-
-.mobile .origin-destination-bar .switch {
-  font-size: 1.5em; 
-  margin-right: 0.4em;
-  margin-top: 0em;
 }
 
 .react-autosuggest__container--open .react-autosuggest__input {
