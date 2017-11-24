@@ -23,6 +23,7 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     originSearchType: PropTypes.string,
+    tab: PropTypes.string,
   };
 
   static defaultProps = {
@@ -93,6 +94,7 @@ class DTAutosuggestPanel extends React.Component {
             destination,
             context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
             router: this.context.router,
+            tab: this.props.tab,
           });
         }}
       />
@@ -122,6 +124,7 @@ class DTAutosuggestPanel extends React.Component {
               destination,
               context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
               router: this.context.router,
+              tab: this.props.tab,
             });
           }}
         />

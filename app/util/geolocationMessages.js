@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
 import translations from '../translations';
 
 const english = translations.en;
@@ -54,22 +53,6 @@ Object.keys(events).forEach(e => {
   });
 
   geolocationMessages[e] = message;
-});
-
-// create a modified 'still denied' message
-const denied2 = cloneDeep(geolocationMessages.denied);
-geolocationMessages.stillDenied = denied2;
-
-Object.keys(translations).forEach(lang => {
-  const current = translations[lang];
-  const content = denied2.content[lang];
-
-  for (let i = 0; i < content.length; i++) {
-    const s = content[i];
-    if (s.type === 'heading' && current['geolocation-still-denied-heading']) {
-      s.content = current['geolocation-still-denied-heading'];
-    }
-  }
 });
 
 export default geolocationMessages;
