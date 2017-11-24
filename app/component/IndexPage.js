@@ -24,8 +24,8 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   parseLocation,
-  getPathWithEndpointObjects,
   isItinerarySearchObjects,
+  navigateTo,
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
@@ -115,11 +115,14 @@ class IndexPage extends React.Component {
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      const url = getPathWithEndpointObjects(
-        nextProps.origin,
-        nextProps.destination,
-      );
-      this.context.router.replace(url);
+      debug('Redirecting to itinerary summary page');
+      navigateTo({
+        origin: nextProps.origin,
+        destination: nextProps.destination,
+        context: '/',
+        router: this.context.router,
+        base: {},
+      });
     }
   };
 
@@ -133,7 +136,7 @@ class IndexPage extends React.Component {
     // tab click logic is different in large vs the rest!
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
-      this.openNearby(selected === 2);
+      this.openTab(TAB_NEARBY);
 
       this.trackEvent(
         'Front page tabs',
@@ -141,7 +144,7 @@ class IndexPage extends React.Component {
         selected === 1 ? 'close' : 'open',
       );
     } else {
-      this.openNearby(true);
+      this.openTab(TAB_NEARBY);
       this.trackEvent('Front page tabs', 'Nearby', 'open');
     }
   };
@@ -151,7 +154,7 @@ class IndexPage extends React.Component {
     if (this.props.breakpoint !== 'large') {
       const selected = this.getSelectedTab();
 
-      this.openFavourites(selected === 1);
+      this.openTab(TAB_FAVOURITES);
 
       this.trackEvent(
         'Front page tabs',
@@ -159,37 +162,20 @@ class IndexPage extends React.Component {
         selected === 2 ? 'close' : 'open',
       );
     } else {
-      this.openFavourites(true);
+      this.openTab(TAB_FAVOURITES);
       this.trackEvent('Front page tabs', 'Favourites', 'open');
     }
   };
 
-  openFavourites = replace => {
-    // const [, origin, destination] = this.context.location.pathname.split('/');
-    const url = getPathWithEndpointObjects(
-      this.props.origin,
-      this.props.destination,
-      TAB_FAVOURITES,
-    );
-    if (replace) {
-      this.context.router.replace(url);
-    } else {
-      this.context.router.push(url);
-    }
-  };
-
-  openNearby = replace => {
-    const url = getPathWithEndpointObjects(
-      this.props.origin,
-      this.props.destination,
-      TAB_NEARBY,
-    );
-
-    if (replace) {
-      this.context.router.replace(url);
-    } else {
-      this.context.router.push(url);
-    }
+  openTab = tab => {
+    navigateTo({
+      origin: this.props.origin,
+      destination: this.props.destination,
+      context: '/',
+      router: this.context.router,
+      base: {},
+      tab,
+    });
   };
 
   togglePanelExpanded = () => {
@@ -377,31 +363,57 @@ const processLocation = (locationString, locationState, intl) => {
   return location;
 };
 
+const tabs = [TAB_FAVOURITES, TAB_NEARBY];
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
+    // allow using url without all parameters set. assume:
+    // if from == 'lahellasi' or 'suosikit' assume tab = ${from}, from ='-' to '-'
+    // if to == 'lahellasi' or 'suosikit' assume tab = ${to}, to = '-'
+
+    let from = props.params.from;
+    let to = props.params.to;
+    let tab = props.params.tab;
+    let redirect = false;
+
+    if (tabs.indexOf(from) !== -1) {
+      tab = from;
+      from = '-';
+      to = '-';
+      redirect = true;
+    } else if (tabs.indexOf(to) !== -1) {
+      tab = to;
+      to = '-';
+      redirect = true;
+    }
+
     const newProps = {};
 
-    if (props.params.tab) {
-      newProps.tab = props.params.tab;
+    if (tab) {
+      newProps.tab = tab;
     }
 
     newProps.locationState = locationState;
-    newProps.origin = processLocation(
-      props.params.from,
-      locationState,
-      context.intl,
-    );
-    newProps.destination = processLocation(
-      props.params.to,
-      locationState,
-      context.intl,
-    );
+    newProps.origin = processLocation(from, locationState, context.intl);
+    newProps.destination = processLocation(to, locationState, context.intl);
+
+    if (redirect) {
+      navigateTo({
+        origin: newProps.origin,
+        destination: newProps.destination,
+        context: '/',
+        router: context.router,
+        base: {},
+        tab: newProps.tab,
+      });
+    }
 
     if (isBrowser) {
+      let gpsInitiated = false;
       newProps.showSpinner = locationState.isLocationingInProgress === true;
       checkPositioningPermission().then(status => {
         if (
@@ -411,6 +423,7 @@ const IndexPageWithPosition = connectToStores(
           locationState.status === 'no-location'
         ) {
           debug('Auto Initialising geolocation');
+          gpsInitiated = true;
           context.executeAction(initGeolocation);
         }
 
@@ -422,29 +435,41 @@ const IndexPageWithPosition = connectToStores(
           newProps.destination.set === false
         ) {
           debug('Redirecting to origin=current pos');
-          context.router.replace(`/POS/-/${TAB_NEARBY}`);
+          navigateTo({
+            origin: { gps: true, ready: false },
+            destination: { ready: false, set: false },
+            context: '/',
+            router: context.router,
+            base: {},
+            tab: newProps.tab,
+          });
         } else if (
           locationState.isLocationingInProgress !== true &&
           locationState.hasLocation === false &&
           (newProps.origin.gps === true || newProps.destination.gps === true)
         ) {
-          // clear gps & redirect
-          if (newProps.origin.gps === true) {
-            newProps.origin.gps = false;
-            newProps.origin.set = false;
-          }
+          if (gpsInitiated === false) {
+            // clear gps & redirect
+            if (newProps.origin.gps === true) {
+              newProps.origin.gps = false;
+              newProps.origin.set = false;
+            }
 
-          if (newProps.destination.gps === true) {
-            newProps.destination.gps = false;
-            newProps.destination.set = false;
+            if (newProps.destination.gps === true) {
+              newProps.destination.gps = false;
+              newProps.destination.set = false;
+            }
+
+            debug('Redirecting away from POS');
+            navigateTo({
+              origin: newProps.origin,
+              destination: newProps.destination,
+              context: '/',
+              router: context.router,
+              base: {},
+              tab: newProps.tab,
+            });
           }
-          const url = getPathWithEndpointObjects(
-            newProps.origin,
-            newProps.destination,
-            newProps.tab,
-          );
-          debug('Redirecting away from POS');
-          context.router.replace(url);
         }
       });
     }
