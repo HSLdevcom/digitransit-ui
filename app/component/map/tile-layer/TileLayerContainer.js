@@ -196,6 +196,7 @@ class TileLayerContainer extends GridLayer {
     className: 'popup',
     ref: 'popup',
     onClose: this.onPopupclose,
+    autoPan: false,
   };
 
   createLeafletElement(props) {

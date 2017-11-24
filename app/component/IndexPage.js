@@ -58,6 +58,7 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
+    showSpinner: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
