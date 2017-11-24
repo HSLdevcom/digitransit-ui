@@ -1,10 +1,12 @@
 import get from 'lodash/get';
+import d from 'debug';
 import {
   otpToLocation,
   locationToOTP,
   addressToItinerarySearch,
 } from './otpStrings';
 
+const debug = d('path.js');
 export const TAB_NEARBY = 'lahellasi';
 export const TAB_FAVOURITES = 'suosikit';
 export const PREFIX_ROUTES = 'linjat';
@@ -147,6 +149,8 @@ export const navigateTo = ({
     ...base,
     pathname: getPathWithEndpointObjects(origin, destination, tab),
   };
+
+  debug('url, push', url, push);
 
   if (push) {
     router.push(url);

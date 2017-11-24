@@ -187,11 +187,6 @@ export default {
         nameEn: 'Privacy policy',
         href: 'https://www.hsl.fi/tietoa-sivustosta',
       },
-      {
-        name: 'footer-link-to-old',
-        nameEn: 'Go to the old Journey Planner',
-        href: 'http://classic.reittiopas.fi/',
-      },
     ],
   },
 

@@ -33,7 +33,7 @@ export default function getMetadata(lang, host, url, config) {
           'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui',
       },
       {
-        property: 'referrer',
+        name: 'referrer',
         content: 'origin',
       },
       {
