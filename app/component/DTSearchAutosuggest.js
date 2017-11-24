@@ -212,7 +212,7 @@ class DTAutosuggest extends React.Component {
     };
 
     return (
-      <div style={{ position: 'relative' }}>
+      <div className={cx(['autosuggest-input-container', this.props.id])}>
         <div className={cx(['autosuggest-input-icon', this.props.id])}>
           <Icon img="icon-icon_mapMarker-point" />
         </div>

@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  position: relative;
 
   .field-link{
     @include font-book;
@@ -73,32 +74,12 @@
 
   }
 
-  .switch {
-    padding: $padding-xxsmall;
-    margin-top: -4px;
-    background-color: $white;
-    color: $link-color;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 25px;
-    margin-top: -58px;
-    transform: rotate(90deg);
-    border: none;
-    background-color: initial;
-
-    &:hover {
-      color: #0062a1;
-    }
-
-    .icon {
-      position: relative;
-      top: 2px;
-    }
+  &.mobile {
+    flex-direction: column;
   }
 
   &.bp-large {
     flex-wrap: wrap;
-    padding-left: 20px;
     padding-right: 20px;
 
     .field-link {
