@@ -3,22 +3,24 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'react-router';
 import { dtLocationShape } from '../util/shapes';
-import { getPathWithEndpointObjects } from '../util/path';
+import { navigateTo, TAB_NEARBY } from '../util/path';
 import OriginSelectorRow from './OriginSelectorRow';
 import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
 
 const OriginSelector = (
-  { favourites, oldSearches, destination, origin },
+  { favourites, oldSearches, destination, origin, tab },
   { config, router },
 ) => {
   const setOrigin = newOrigin => {
-    const url = getPathWithEndpointObjects(newOrigin, destination);
-    if (origin.isSet === false) {
-      router.replace(url);
-    } else {
-      router.push(url);
-    }
+    navigateTo({
+      origin: { ...newOrigin, ready: true },
+      destination,
+      context: '/',
+      router,
+      base: {},
+      tab,
+    });
   };
 
   const notInFavourites = item =>
@@ -83,6 +85,10 @@ OriginSelector.propTypes = {
   oldSearches: PropTypes.array.isRequired,
   destination: dtLocationShape.isRequired,
   origin: dtLocationShape.isRequired,
+  tab: PropTypes.string,
+};
+OriginSelector.defaultProps = {
+  tab: TAB_NEARBY,
 };
 
 OriginSelector.contextTypes = {
