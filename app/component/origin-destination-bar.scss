@@ -3,9 +3,10 @@
   width: 100%;
   padding-top: calc(#{$padding-large} - 15px);
   display: flex;
-  align-items: center;
   justify-content: space-around;
   position: relative;
+  align-items: initial;
+  padding-left: 1.2em;
 
   .field-link{
     @include font-book;
@@ -71,11 +72,6 @@
       width: 100%;
 
     }
-
-  }
-
-  &.mobile {
-    flex-direction: column;
   }
 
   &.bp-large {
@@ -105,5 +101,10 @@
         font-size: $font-size-normal;
       }
     }
+  }
+}
+.mobile {
+  .origin-destination-bar {
+    padding-left: 0;
   }
 }

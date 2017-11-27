@@ -291,6 +291,8 @@ class IndexPage extends React.Component {
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
+              originSearchType="all"
+              originPlaceHolder="search-origin"
               tab={this.props.tab}
             />
           </MapWithTracking>
