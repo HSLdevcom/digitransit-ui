@@ -42,31 +42,34 @@ class MessageBar extends Component {
       />
     ));
 
-  getTabs = () =>
-    this.validMessages().map((el, i) => (
+  // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
+  getTabMarker = i => (
+    <span>
+      <span
+        style={{
+          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+          fontSize: '18px',
+          height: '18px',
+          position: 'absolute',
+          top: 0,
+        }}
+        title={`${this.context.intl.formatMessage({
+          id: 'messagebar-label-page',
+          defaultMessage: 'Page',
+        })} ${i + 1}`}
+      >
+        •
+      </span>
+    </span>
+  );
+
+  getTabs = () => {
+    const messages = this.validMessages();
+    return messages.map((el, i) => (
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
-        icon={
-          // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
-          <span>
-            <span
-              style={{
-                color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-                fontSize: '18px',
-                height: '18px',
-                position: 'absolute',
-                top: 0,
-              }}
-              title={`${this.context.intl.formatMessage({
-                id: 'messagebar-label-page',
-                defaultMessage: 'Page',
-              })} ${i + 1}`}
-            >
-              •
-            </span>
-          </span>
-        }
+        icon={messages.length > 1 ? this.getTabMarker(i) : null}
         value={i}
         style={{
           height: '18px',
@@ -76,6 +79,7 @@ class MessageBar extends Component {
         }}
       />
     ));
+  };
 
   maximize = () => {
     this.setState({ maximized: true });
@@ -98,7 +102,9 @@ class MessageBar extends Component {
       return false;
     });
 
-  handleChange = value => this.setState({ slideIndex: value });
+  handleChange = value => {
+    this.setState({ slideIndex: value });
+  };
 
   handleClose = () => {
     const ids = [];
