@@ -29,6 +29,7 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
+    readMessages: [],
   };
 
   getTabContent = () =>
@@ -77,10 +78,7 @@ class MessageBar extends Component {
     ));
 
   maximize = () => {
-    this.setState({
-      ...this.state,
-      maximized: true,
-    });
+    this.setState({ maximized: true });
   };
 
   validMessages = () =>
@@ -100,18 +98,12 @@ class MessageBar extends Component {
       return false;
     });
 
-  handleChange = value => {
-    this.setState({
-      ...this.state,
-      slideIndex: value,
-    });
-  };
+  handleChange = value => this.setState({ slideIndex: value });
 
   handleClose = () => {
-    const messages = this.validMessages();
-    const index = Math.min(this.state.slideIndex, messages.length - 1);
-    const currentMessageId = messages[index].id;
-    this.context.executeAction(markMessageAsRead, currentMessageId);
+    const ids = [];
+    this.validMessages().forEach(msg => ids.push(msg.id));
+    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), 600);
   };
 
   render = () => {
