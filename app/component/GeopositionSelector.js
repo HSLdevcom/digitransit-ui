@@ -17,7 +17,6 @@ const GeopositionSelector = (props, context) =>
       onClick={() => {
         context.executeAction(startLocationWatch, {
           onPositioningStarted: () => {
-            console.log('called!');
             let destination = { ...props.destination };
             if (destination.gps === true) {
               destination = { ready: false, set: false };
