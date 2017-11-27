@@ -220,6 +220,7 @@ export default {
   shouldShowIntro: false,
 
   redirectReittiopasParams: true,
+  queryMaxAgeDays: 30, // to drop too old route request times from entry url
 
   aboutThisService: {
     fi: [

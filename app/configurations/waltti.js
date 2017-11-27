@@ -72,6 +72,7 @@ export default {
   showModeFilter: false,
 
   redirectReittiopasParams: true,
+  queryMaxAgeDays: 30,
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 };

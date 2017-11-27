@@ -60,10 +60,30 @@ function parseLocation(location, input, config, next) {
   return ' ';
 }
 
+function validateTime(req, config) {
+  if (config.queryMaxAgeDays && req.query.time) {
+    const now = moment.tz(config.timezoneData.split('|')[0]).unix();
+    if (now - req.query.time > config.queryMaxAgeDays * 24 * 3600) {
+      delete req.query.time;
+      const params = Object.keys(req.query)
+        .map(k => `${k}=${req.query[k]}`)
+        .join('&');
+      const url = `${req.path}?${params}`;
+
+      return url;
+    }
+  }
+  return null;
+}
+
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-  const parts = req.path.split('/');
-  if (config.redirectReittiopasParams) {
+
+  const url = validateTime(req, config);
+  if (url) {
+    res.redirect(url);
+  } else if (config.redirectReittiopasParams) {
+    const parts = req.path.split('/');
     const lang = parts[1];
     if (config.availableLanguages.includes(lang)) {
       res.cookie('lang', lang, {
@@ -72,7 +92,6 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         path: '/',
       });
     }
-
     if (
       req.query.from ||
       req.query.to ||
@@ -95,6 +114,15 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       if (req.query.minute) {
         time.minute(req.query.minute);
       }
+      let timeStr = `time=${time.unix()}&`;
+
+      if (config.queryMaxAgeDays) {
+        const now = moment.tz(config.timezoneData.split('|')[0]);
+        if (now.diff(time, 'days') > config.queryMaxAgeDays) {
+          // too old route time, drop it
+          timeStr = '';
+        }
+      }
       const arriveBy = req.query.timetype === 'arrival';
 
       Promise.all([
@@ -102,7 +130,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         parseLocation(req.query.to, req.query.to_in, config, next),
       ]).then(([from, to]) =>
         res.redirect(
-          `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?time=${time.unix()}&arriveBy=${arriveBy}`,
+          `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
         ),
       );
     } else if (
