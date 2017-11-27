@@ -73,19 +73,29 @@ class MessageStore extends Store {
     }
   };
 
-  markMessageAsRead = id => {
+  markMessageAsRead = ident => {
+    let ids
+
+    if (Array.isArray(ident)) {
+      ids = ident;
+    } else {
+      ids = [ ident ];
+    }
+
     let changed;
     const readIds = getReadMessageIds();
-    if (readIds.indexOf(id) === -1) {
-      readIds.push(id);
-      setReadMessageIds(readIds);
-      changed = true;
-    }
-    if (this.messages.has(id)) {
-      this.messages.delete(id);
-      changed = true;
-    }
+    ids.forEach( id => {
+      if (readIds.indexOf(id) === -1) {
+        readIds.push(id);
+        changed = true;
+      }
+      if (this.messages.has(id)) {
+        this.messages.delete(id);
+        changed = true;
+      }
+    });
     if (changed) {
+      setReadMessageIds(readIds);
       this.emitChange();
     }
   };
