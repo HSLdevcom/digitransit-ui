@@ -73,17 +73,17 @@ class MessageStore extends Store {
   };
 
   markMessageAsRead = ident => {
-    let ids
+    let ids;
 
     if (Array.isArray(ident)) {
       ids = ident;
     } else {
-      ids = [ ident ];
+      ids = [ident];
     }
 
     let changed;
     const readIds = getReadMessageIds();
-    ids.forEach( id => {
+    ids.forEach(id => {
       if (readIds.indexOf(id) === -1) {
         readIds.push(id);
         changed = true;
