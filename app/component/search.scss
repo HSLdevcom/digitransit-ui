@@ -7,7 +7,7 @@ $search-result-text-letter-spacing: $letter-spacing;
 $search-result-text-color: $black;
 $search-result-text-highlight-color: $black;
 $search-result-text-highlight-font-weight: $font-weight-book;
-$search-result-text-highlight-background-color: $background-color;
+$search-result-text-highlight-background-color: darken($background-color, 5%);
 $search-result-border-radius: $border-radius;
 $search-result-max-height: 130px;
 $search-result-icon-color: $gray;
@@ -22,214 +22,55 @@ $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 $item-border-color: #eee;
 
-.search-form {
-  top: 0;
-  padding-top: 10px;
-  button {
-    width: 100%;
-  }
-
- .postfix {
-    height: calc(2rem + 15px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-    .icon {
-      font-size: $font-size-normal;
-    }
-    span {
-      line-height: 0;
-    }
-  }
-
-  .input-placeholder {
-    display: flex;
-    align-items: center;
-    background-color: $white;
-    height: calc(2rem + 15px);
-    border-top-left-radius: $input-border-radius;
-    border-bottom-left-radius: $input-border-radius;
-    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-
-    input {
-      width: 100%;
-      font-size: inherit;
-    }
-
-  }
-
-  .address-placeholder {
-    @include font-medium;
-    color: $gray;
-    background-color: transparent;
-    border-radius: $form-input-border-radius;
-    border: 0px;
-    padding-left: calc(#{$padding-large} - 10px);
-    line-height: 0;
-    overflow: hidden;
-  }
+/*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
+input field Placeholder texts */
+#origin::placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-.address-input {
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  font-weight: inherit;
-  border: none;
-  width: 100%;
-  padding-left: calc(#{$padding-large} - 10px)
+#origin::-webkit-input-placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-.fake-search-container.bp-large {
-  padding-top: 30px;
-  padding-left: 20px;
-  max-width: none;
-  padding-right: 400px;
-  margin-left: auto;
-  margin-right:auto;
-
-  .search-modal-container {
-    top: -33px;
-  }
-
-  .search-modal {
-    top:0;
-    padding-left: 50px;
-    border-radius: $border-radius-bigger;
-    bottom: auto;
-    max-width:720px;
-    padding: 0;
-    width:100%;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-
-    input[type="text"].react-autowhatever__input {
-      flex: 0 0 auto;
-      border: 1px solid $link-color;
-      border-radius: 4px;
-      height: 3em;
-      width: 100%;
-      padding: 10px;
-      outline: 0;
-      appearance: none;
-      font-size:19px;
-      @include font-medium;
-    }
-
-    .search-header {
-      padding: 0 15px;
-
-      .react-autowhatever__container {
-        max-height: calc(85vh - 50px);
-      }
-
-      ul.react-autowhatever__items-list {
-        padding: 10px 16px;
-        width: calc(100% + 32px);
-        margin: 0 -16px;
-      }
-
-      .search-header-width-fix {
-        margin-left: 10px !important;
-        margin-right: 50px !important;
-        width: calc(100% - 60px) !important;
-      }
-
-      .search-header__button, .search-header__button--selected {
-        font-size: 18px !important;
-      }
-    }
-
-    .react-autowhatever__type-selector {
-      font-size: 13px;
-
-      a {
-        padding: 10px 40px;
-      }
-    }
-
-    #react-whatever-suggest{
-      max-height:410px;
-    }
-  }
+#origin:-moz-placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-.search-modal-container {
-  padding-left: 20px;
-  left: 0;
-  max-width: none;
-  padding-right: 387px;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  width: 100%;
-  top: -17px;
+#origin::-moz-placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-.onetab-search-modal-container.bp-large {
-  .fake-search-container.bp-large {
-    position: absolute;
-    padding:0;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-  }
-
-  .search-modal-container {
-    top: 105px;
-    position: relative;
-    padding-right: 20px;
-    width: 660px;
-  }
-
-  .search-modal {
-
-    input[type="text"].react-autowhatever__input {
-      width: calc(100% - 50px);
-    }
-
-    .search-header {
-      padding: 15px;
-
-      .search-header__tabs-root {
-        > div:first-child {
-          display: none;
-          width: 0px !important;
-        }
-        > div:nth-child(2) {
-          display: none;
-        }
-      }
-
-      .react-autowhatever__container {
-        max-height: calc(85vh - 150px);
-      }
-
-      .search-header__button, .search-header__button--selected {
-        height: 0px !important;
-      }
-
-      .search-header__back-arrow {
-          display: none;
-      }
-    }
-  }
+#origin:-ms-input-placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-.react-autowhatever__items-container {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+#destination::-ms-input-placeholder {
+  color: #404040;
+  opacity: 1;
 }
-
-
-.react-autowhatever__container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+#destination::-webkit-input-placeholder {
+  color: #404040;
+  opacity: 1;
+}
+#destination:-moz-placeholder {
+  color: #404040;
+  opacity: 1;
+}
+#destination::-moz-placeholder {
+  color: #404040;
+  opacity: 1;
+}
+#destination:-ms-input-placeholder {
+  color: #404040;
+  opacity: 1;
+}
+#destination::-ms-input-placeholder {
+  color: #404040;
+  opacity: 1;
+}
+#destination::placeholder {
+  color: #404040;
+  opacity: 1;
 }
 
 .search-form.bp-large {
@@ -260,7 +101,7 @@ $item-border-color: #eee;
   }
 }
 
-.react-autowhatever__type-selector {
+.xreact-autowhatever__type-selector {
   font-size: $font-size-xxsmall;
   line-height: 1;
   display: flex;
@@ -336,14 +177,14 @@ ul.react-autowhatever__items-list {
   }
 }
 
-.react-autowhatever__item {
+.xreact-autowhatever__item {
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
   letter-spacing: $search-result-text-letter-spacing;
   padding: 0;
 }
 
-.react-autowhatever__item--highlighted {
+.react-autosuggest__suggestion--highlighted {
   color: $search-result-text-highlight-color;
   font-family: $search-result-text-font-family;
   font-weight: $search-result-text-font-weight;
@@ -351,25 +192,71 @@ ul.react-autowhatever__items-list {
   background-color: $search-result-text-highlight-background-color;
 }
 
+.react-autosuggest__suggestions-container {
+  background-color: white;
+
+  .suggestion-name {
+    span {
+      .bus, .tram, .rail, .subway, .ferry, .airplane {
+        font-weight: $font-weight-medium;
+        font-family: $font-family-narrow;
+        font-size: $font-size-normal;
+      }
+      .suggestion-type {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        color: $gray;
+      }
+    }
+  }
+
+  .react-autosuggest__suggestions-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0px;
+    padding-left: 0;
+    li:hover {
+      background: $search-result-text-highlight-background-color;
+    }
+  }
+}
+
 .react-autosuggest__suggestion {
-  padding: 0px 0 5px 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
   margin: 0;
   cursor: pointer;
-  height: 1.9em;
+  list-style: none;
+  display: block;
   overflow-x: hidden;
+  overflow-y: hidden;
   white-space: nowrap;
+  border-bottom: 1px solid $light-gray;
 }
 
 .react-autosuggest__suggestion .icon {
   margin-right: 4px;
-  fill: $search-result-icon-color;
+  fill: #cbcbcb;
+}
+.autosuggestIcon {
+  color: #cbcbcb;
+  padding: 0 0.6em;
+  font-size: $font-size-normal;
+
+  svg.havePosition {
+    vertical-align: -0.15em;
+  }
+
 }
 
 .search-result {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  line-height: 1.2;
-  min-height: 2.5em;
+  min-height: 2em;
+  //line-height: 1.2;
+  //min-height: 2.5em;
 
 
   .havePosition {
@@ -382,17 +269,6 @@ ul.react-autowhatever__items-list {
 
   .search-position {
     color: $primary-color;
-  }
-
-  .autosuggestIcon {
-    color: $medium-gray;
-    padding: 0 0.6em;
-    font-size: $font-size-large;
-
-    svg.havePosition {
-      vertical-align: -0.15em;
-    }
-
   }
 
   &.favourite svg.icon {
@@ -426,7 +302,7 @@ ul.react-autowhatever__items-list {
   }
 
 
-  &.OldSearch, &.FavouritePlace {
+  &.OldSearch, &.FavouritePlace, &.CurrentLocation {
     p.suggestion-name, span.suggestion-type {
       color: $visited-link-color;
     }
@@ -471,6 +347,9 @@ ul.react-autowhatever__items-list {
       text-transform: uppercase;
       font-size: $font-size-xxxsmall;
     }
+    a > span > svg {
+      fill: $link-color;
+    }
   }
 }
 
@@ -485,9 +364,11 @@ ul.react-autowhatever__items-list {
 
 .bp-large .search-result {
   line-height: 1.25;
+  min-height: 2em;
 
   .autosuggestIcon {
-    font-size: 24px;
+    font-size: $font-size-normal;
+    color: #cbcbcb;
   }
 
   .suggestion-name, .use-own-position {
@@ -529,19 +410,7 @@ div.search-modal {
   left: 0px;
   bottom: 0px;
 
-  input[type="text"].react-autowhatever__input {
-    border: 1px solid $gray;
-    border-radius: 4px;
-    height: $search-form-input-height;
-    padding: 10px;
-    outline: 0;
-    appearance: none;
 
-    &:focus {
-      box-shadow: none;
-      border-color: $link-color;
-    }
-  }
 }
 
 div.map {
@@ -671,5 +540,386 @@ div.origin-destination-bar {
   .icon {
     color: $gray-blue;
     font-size: 24px;
+  }
+}
+ // used styles start from here:
+div.autosuggest-panel {
+  position: relative;
+  z-index: 1000;
+  margin-top: 25pt;
+  width: 50.5%;
+  margin-left: 7%;
+  &.isItinerary {
+    position: relative;
+    z-index: 1001;
+    padding-top: 0;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-flow: inherit;
+    width: 90%;
+    margin-left: 0;
+    margin-right: 1em;
+    #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+      width: 504.5px;
+      z-index: 1006;
+    }
+    #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+      width: 504.5px;
+      z-index: 1006;
+    }
+    #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
+      width: 474px;
+    }
+    input.react-autosuggest__input {
+      z-index: 1004;
+      background: $white;
+    }
+  }
+  &.small {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    .react-autosuggest__container {
+      width: 100%;
+      position: relative;
+      margin: 0 auto;
+      &.viapoint {
+        width: 94%;
+      }
+    }
+    &.isItinerary {
+      width: 90%;
+      margin-left: 0.4em;
+      margin-right: auto;
+      padding-right: 0;
+      padding-left: 0;
+      padding-top: 0;
+      flex-direction: column;
+      .react-autosuggest__container {
+        width: 94%;
+        margin-right: 0;
+      }
+      #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+        width: 100%;
+      }
+      #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+        width: 100%;
+      }
+      #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
+        width: 79.5%;
+      }
+      .react-autosuggest__container {
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
+  .viapoint-input-container {
+    display: flex;
+    width: 100%;
+  }
+  .mobile .autosuggest-panel.small {
+    flex-flow: wrap;
+  }
+
+  .dark-overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.57);
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .react-autosuggest__container {
+    width: 100%;
+  }
+
+  #react-autowhatever-origin {
+    &.react-autosuggest__suggestions-container--open {
+    position: fixed;
+    background: #fff;
+    width: 52.5%;
+    height: auto;
+    max-height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 998;
+    margin-top: -8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    }
+  }
+  #react-autowhatever-destination {
+    &.react-autosuggest__suggestions-container--open {
+    position: fixed;
+    background: #fff;
+    width: 52.5%;
+    height: auto;
+    max-height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 996;
+    margin-top: -8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    }
+  }
+  #react-autowhatever-viapoint {
+    &.react-autosuggest__suggestions-container--open {
+    position: fixed;
+    background: #fff;
+    width: 52.5%;
+    height: auto;
+    max-height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 1005;
+    margin-top: -8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    }
+  }
+}
+
+.itinerary-search-controls {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  flex-flow: column;
+  .switch {
+    padding: $padding-xxsmall;
+    background-color: $white;
+    color: $link-color;
+    cursor: pointer;
+    font-size: 1.8em;
+    margin-top: -7px;
+    margin-bottom: 0.6em;
+    transform: rotate(90deg);
+    border: none;
+    background-color: initial;
+    &:hover {
+      color: #0062a1;
+    }
+    .icon {
+      position: relative;
+      top: 3px;
+    }
+  }
+  .addViaPoint {
+    text-align: center;
+    color: $link-color;
+    cursor: pointer;
+    &:hover {
+      color: #0062a1;
+    }
+  }
+  .removeViaPoint {
+    cursor: pointer;
+    color: $link-color;
+    text-align: center;
+    font-size: 1em;
+  }
+}
+.mobile .itinerary-search-controls {
+  width: 6%;
+  right: 1%;
+  top: 0.6em;
+  .switch {
+    font-size: 1.4em;
+    margin-top: -0.5em;
+    .icon {
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
+  .addViaPoint {
+    margin-top: 0.4em;
+  }
+  .removeViaPoint {
+    margin-top: 0.4em;
+  }
+}
+
+.autosuggest-panel.small {
+  #react-autowhatever-origin {
+    &.react-autosuggest__suggestions-container--open {
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      margin-top: -8px;
+      display: table;
+      overflow-y: visible;
+    }
+  }
+  #react-autowhatever-destination {
+    &.react-autosuggest__suggestions-container--open {
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      margin-top: -8px;
+      display: table;
+      overflow-y: visible;
+    }
+  }
+}
+
+.autosuggest-input-icon {
+  display: none;
+}
+
+.isItinerary {
+.autosuggest-input-icon {
+  display: block;
+  position: absolute;
+  z-index: 1005;
+  width: 1.45em;
+  height: 1.45em;
+  top: 0.6em;
+  left: 0.5em;
+  &.viapoint {
+    display: none;
+  }
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+  &.origin:before {
+    content: 'A';
+    position: absolute;
+    color: #fff;
+    font-size: 10px;
+    left: 7px;
+    top: 1px;
+  }
+  &.destination:before {
+    content: 'B';
+    position: absolute;
+    color: #fff;
+    font-size: 10px;
+    left: 7px;
+    top: 1px;
+  }
+  &.origin .icon {
+    color: #64be14;
+  }
+  &.destination .icon {
+    color: #f092cd;
+  }
+}
+}
+
+input.react-autosuggest__input{
+  &.location {
+    padding-left: 3em;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>") no-repeat scroll 7px 7px;
+    background-color: white;
+  }
+  &.position {
+    padding-left: 3em;
+    background: url("data:image/svg+xml;utf8;charset=utf-8,%3Csvg%20width%3D%2220px%22%20height%3D%2220px%22%20viewBox%3D%220%200%2038%2038%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0D%0A%20%20%20%20%3Cdefs%3E%0D%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M23.5788538%2C26.0741036%20C23.0354072%2C26.0741036%2022.5692711%2C25.7273437%2022.4930976%2C25.2259631%20L21.8643443%2C23.5794398%20L21.5539658%2C23.5794398%20L21.5539658%2C26.1215873%20L15.7704665%2C26.1215873%20L15.7704665%2C23.5794398%20L15.460088%2C23.5794398%20L14.9235009%2C25.1873079%20C14.8075353%2C25.6886885%2014.3413991%2C26.0354484%2013.8366077%2C26.0354484%20C13.1760587%2C26.0354484%2012.6724042%2C25.4954126%2012.6724042%2C24.9565137%20C12.6724042%2C24.8018929%2012.6724042%2C24.648409%2012.7497146%2C24.4949252%20L14.0628164%2C20.6518772%20C14.4505053%2C19.5729425%2015.032607%2C19.1875275%2016.0035346%2C19.1875275%20L21.2435873%2C19.1875275%20C22.213378%2C19.1875275%2022.8341349%2C19.5729425%2023.1843055%2C20.6518772%20L24.6657469%2C24.5324435%20C24.7044021%2C24.6870642%2024.7044021%2C24.8405481%2024.7044021%2C24.9951689%20C24.7044021%2C25.5340678%2024.2382659%2C26.0741036%2023.5788538%2C26.0741036%20Z%20M18.6809753%2C18.2245583%20L18.643457%2C18.2245583%20C17.0517725%2C18.2245583%2015.7318113%2C16.9148294%2015.7318113%2C15.2969958%20C15.7318113%2C13.6791622%2017.0517725%2C12.3694332%2018.6809753%2C12.3694332%20C20.2726598%2C12.3694332%2021.592621%2C13.6791622%2021.592621%2C15.2969958%20C21.592621%2C16.9148294%2020.2726598%2C18.2245583%2018.6809753%2C18.2245583%20Z%22%20id%3D%22path-1%22%3E%3C%2Fpath%3E%0D%0A%20%20%20%20%3C%2Fdefs%3E%0D%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0D%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22l%C3%A4hell%C3%A4si%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2217.5265812%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2213.3151577%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%226.591%22%20fill%3D%22%23F653B9%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%227.32737159%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cmask%20id%3D%22mask-2%22%20fill%3D%22white%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fmask%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20id%3D%22Mask%22%20fill%3D%22%23FFFFFF%22%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0D%0A%20%20%20%20%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E") no-repeat scroll 7px 7px;
+    background-color: white;
+    background-size: 1.2rem;
+    background-position-y: 0.6rem;
+  }
+  &.destination {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba(#888888, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 7px 9px;
+    padding-left: 3em;
+  }
+  background-color: $white;
+  @include font-medium;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  height: $search-form-input-height;
+  padding: 10px;
+  outline: 0;
+  appearance: none;
+  box-shadow: none;
+}
+
+.autosuggest-input-container {
+  &.destination {
+    display: block;
+  }
+}
+.isItinerary .autosuggest-input-container {
+  width: 100%;
+  position: relative;
+  &.viapoint {
+    width: 94%;
+  }
+}
+
+.viapoint-before {
+  width: 6%;
+  color: #4e4e4e;
+  text-align: center;
+  font-size: 1.3em;
+  .viapoint-before_line-top, .viapoint-before_line-bottom {
+    height: 15px;
+    background: #d6d8da;
+    width: 2px;
+    margin: 0 auto;
+    margin-top: -7px;
+  }
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: none;
+  outline: none;
+  border:none;
+}
+
+.react-autosuggest__container input {
+  box-shadow: none;
+  outline: none;
+  transition: border 0s;
+  &:focus {
+    box-shadow: none;
+    outline: none;
+    border: none;
+    background: $white;
+  }
+}
+
+input.react-autosuggest__input::-ms-clear {
+  display:none;
+}
+
+button.clear-input {
+  display: flex;
+  background: $white;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  align-items: center;
+  padding: 8px 12px 8px 12px;
+  margin-left:-4px;
+  font-size: 0.875rem; //for sizing the height of button
+  height: 3em;
+  margin-bottom: 0px;
+  color: $gray;
+  outline: none;
+  &:hover {
+    background: $white;
+  }
+  &:focus {
+    background-color: $white;
+  }
+}
+
+.react-autosuggest__container--open {
+  button.clear-input {
+    border-bottom-right-radius: 0;
   }
 }

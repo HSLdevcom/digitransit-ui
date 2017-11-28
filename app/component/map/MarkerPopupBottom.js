@@ -1,22 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import { setEndpoint } from '../../action/EndpointActions';
+import {
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_ITINERARY_SUMMARY,
+  parseLocation,
+  navigateTo,
+} from '../../util/path';
 import { withCurrentTime } from '../../util/searchUtils';
+import { dtLocationShape } from '../../util/shapes';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    location: dtLocationShape.isRequired,
   };
 
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
+    map: PropTypes.object.isRequired,
   };
 
   routeFrom = () => {
@@ -24,11 +32,30 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'origin',
-      endpoint: this.props.location,
+
+    let destination;
+
+    const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
+
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+      destination = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
+    } else {
+      // index
+      const [, , destinationString] = pathName.split('/');
+      destination = parseLocation(destinationString);
+    }
+    this.context.map.closePopup();
+    navigateTo({
+      origin: { ...this.props.location, ready: true },
+      destination,
+      context,
       router: this.context.router,
-      location: locationWithTime,
+      base: locationWithTime,
     });
   };
 
@@ -37,11 +64,30 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-    this.context.executeAction(setEndpoint, {
-      target: 'destination',
-      endpoint: this.props.location,
+
+    let origin;
+
+    const pathName = get(this.context, 'location.pathname');
+    const [, context] = pathName.split('/');
+
+    if ([PREFIX_ROUTES, PREFIX_STOPS].indexOf(context) !== -1) {
+      origin = { set: false };
+    } else if (context === PREFIX_ITINERARY_SUMMARY) {
+      // itinerary summary
+      const [, , originString] = pathName.split('/');
+      origin = parseLocation(originString);
+    } else {
+      // index
+      const [, originString] = pathName.split('/');
+      origin = parseLocation(originString);
+    }
+    this.context.map.closePopup();
+    navigateTo({
+      origin,
+      destination: { ...this.props.location, ready: true },
+      context,
       router: this.context.router,
-      location: locationWithTime,
+      base: locationWithTime,
     });
   };
 

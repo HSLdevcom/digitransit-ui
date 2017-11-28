@@ -3,6 +3,7 @@ function openNearbyRoutes() {
     '@nearbyRoutesPaneSelect',
     this.api.globals.elementVisibleTimeout,
   );
+  this.api.pause(1000); // location spinner
   this.api.checkedClick(this.elements.nearbyRoutesPaneSelect.selector);
   return this;
 }
@@ -14,7 +15,7 @@ function waitForRoutes() {
 }
 
 function chooseRoute(n) {
-  return this.api.checkedClick(`.next-departure-row:nth-of-type(${n})`);
+  return this.api.checkedClick(`.next-departure-row-tr:nth-of-type(${n})`);
 }
 
 function clickStops() {
@@ -51,7 +52,7 @@ module.exports = {
       selector: '.nearby-routes',
     },
     scrollableRoutes: {
-      selector: '#scrollable-routes',
+      selector: '.nearby-departures-table',
     },
     routeDestination: {
       selector: '.route-destination',

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
-
+import { routerShape } from 'react-router';
 import Map from './map/Map';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
@@ -34,7 +35,9 @@ const fullscreenMapOverlay = (fullscreenMap, params, router) =>
 
 const fullscreenMapToggle = (fullscreenMap, params, router) => (
   <div
-    className="fullscreen-toggle"
+    className={cx('fullscreen-toggle', 'stopPage', {
+      expanded: fullscreenMap,
+    })}
     key="fullscreen-toggle"
     onClick={() => {
       toggleFullscreenMap(fullscreenMap, params, router);
@@ -84,10 +87,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 
 StopPageMap.contextTypes = {
   breakpoint: PropTypes.string.isRequired,
-  router: PropTypes.shape({
-    replace: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  router: routerShape.isRequired,
 };
 
 StopPageMap.propTypes = {

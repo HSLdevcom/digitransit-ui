@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -36,15 +35,6 @@ const IconWithTail = ({
     </svg>
   </span>
 );
-
-/** Leaflet needs html as string */
-export const asString = props => {
-  const element = window.document.createElement('div');
-  ReactDOM.render(<IconWithTail {...props} />, element);
-  const html = element.innerHTML;
-  ReactDOM.unmountComponentAtNode(element);
-  return html;
-};
 
 IconWithTail.displayName = 'IconWithTail';
 

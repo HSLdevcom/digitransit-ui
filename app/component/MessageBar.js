@@ -29,6 +29,7 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
+    readMessages: [],
   };
 
   getTabContent = () =>
@@ -41,31 +42,34 @@ class MessageBar extends Component {
       />
     ));
 
-  getTabs = () =>
-    this.validMessages().map((el, i) => (
+  // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
+  getTabMarker = i => (
+    <span>
+      <span
+        style={{
+          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+          fontSize: '18px',
+          height: '18px',
+          position: 'absolute',
+          top: 0,
+        }}
+        title={`${this.context.intl.formatMessage({
+          id: 'messagebar-label-page',
+          defaultMessage: 'Page',
+        })} ${i + 1}`}
+      >
+        •
+      </span>
+    </span>
+  );
+
+  getTabs = () => {
+    const messages = this.validMessages();
+    return messages.map((el, i) => (
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
-        icon={
-          // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
-          <span>
-            <span
-              style={{
-                color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-                fontSize: '18px',
-                height: '18px',
-                position: 'absolute',
-                top: 0,
-              }}
-              title={`${this.context.intl.formatMessage({
-                id: 'messagebar-label-page',
-                defaultMessage: 'Page',
-              })} ${i + 1}`}
-            >
-              •
-            </span>
-          </span>
-        }
+        icon={messages.length > 1 ? this.getTabMarker(i) : null}
         value={i}
         style={{
           height: '18px',
@@ -75,12 +79,10 @@ class MessageBar extends Component {
         }}
       />
     ));
+  };
 
   maximize = () => {
-    this.setState({
-      ...this.state,
-      maximized: true,
-    });
+    this.setState({ maximized: true });
   };
 
   validMessages = () =>
@@ -101,31 +103,35 @@ class MessageBar extends Component {
     });
 
   handleChange = value => {
-    this.setState({
-      ...this.state,
-      slideIndex: value,
-    });
+    this.setState({ slideIndex: value });
   };
 
   handleClose = () => {
-    const messages = this.validMessages();
-    const index = Math.min(this.state.slideIndex, messages.length - 1);
-    const currentMessageId = messages[index].id;
-    this.context.executeAction(markMessageAsRead, currentMessageId);
+    const ids = [];
+    this.validMessages().forEach(msg => ids.push(msg.id));
+    this.context.executeAction(markMessageAsRead, ids);
   };
 
   render = () => {
     const messages = this.validMessages();
 
-    if (messages.length > 0) {
-      const index = Math.min(this.state.slideIndex, messages.length - 1);
-      const msg = messages[index];
-      const type = msg.type || 'info';
-      const icon = msg.icon || 'info';
-      const iconName = `icon-icon_${icon}`;
+    const index = Math.min(this.state.slideIndex, messages.length - 1);
+    let className = 'message-bar flex-horizontal';
+    let msg;
 
-      return (
-        <section role="banner" className="message-bar flex-horizontal">
+    if (messages.length > 0) {
+      className = 'message-bar flex-horizontal show';
+      msg = messages[index];
+    } else {
+      msg = {};
+    }
+    const type = msg.type || 'info';
+    const icon = msg.icon || 'info';
+    const iconName = `icon-icon_${icon}`;
+
+    return (
+      <section id="messageBar" role="banner" className={className}>
+        <div className="banner-container">
           <Icon img={iconName} className="message-icon" />
           <div className={`flex-grow message-bar-${type}`}>
             <SwipeableViews
@@ -174,10 +180,9 @@ class MessageBar extends Component {
               <Icon img="icon-icon_close" className="close" />
             </button>
           </div>
-        </section>
-      );
-    }
-    return null;
+        </div>
+      </section>
+    );
   };
 }
 

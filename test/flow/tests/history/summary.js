@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['back button'],
-
+  '@disabled': true,
   'History works on itinerary summary page': browser => {
     browser.url(browser.launch_url);
 
@@ -11,9 +11,10 @@ module.exports = {
     itinerarySummary.waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
 
-    browser.back();
+    customizeSearch.clickCanvasToggle();
+    browser.pause(1000);
+    browser.back(); // closes offcanvas
 
     //  Itinerary page controls are available because back button closed offcanvas
     itinerarySummary.clickSwapOriginDestination();
@@ -31,10 +32,9 @@ module.exports = {
     browser.end();
   },
 
+  // works only on desktop:
   'Itinerary selection changes do not accumulate into history': browser => {
     browser.url(browser.launch_url);
-    const splash = browser.page.splash();
-    splash.waitClose();
 
     const searchFields = browser.page.searchFields();
     searchFields.itinerarySearch('Elielinaukio', 'Opastinsilta 6');

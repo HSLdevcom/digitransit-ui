@@ -26,6 +26,13 @@ function closeCanvas() {
   return this.api.checkedClick(this.elements.closeCanvas.selector);
 }
 
+function waitOffcanvasOpen() {
+  this.waitForElementVisible(
+    '@closeCanvas',
+    this.api.globals.elementVisibleTimeout,
+  );
+}
+
 function exists(selector, callback) {
   this.api.elements('css selector', selector, result => {
     if (result.value && result.value.length > 0 && result.value[0].ELEMENT) {
@@ -90,6 +97,7 @@ module.exports = {
       disableAllModalitiesExcept,
       exists,
       closeCanvas,
+      waitOffcanvasOpen,
     },
   ],
   elements: {

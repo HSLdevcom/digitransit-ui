@@ -6,6 +6,7 @@ import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
+import { PREFIX_ROUTES } from '../util/path';
 
 // TODO: Alerts aren't showing properly
 // Need to implement logic as per DepartureListContainer
@@ -67,8 +68,8 @@ function NextDeparturesList(props) {
     // TODO: Should this be its own view component?
     return (
       <Link
-        to={`/linjat/${stoptime.pattern.route.gtfsId}/pysakit/${stoptime.pattern
-          .code}`}
+        to={`/${PREFIX_ROUTES}/${stoptime.pattern.route
+          .gtfsId}/pysakit/${stoptime.pattern.code}`}
         key={stoptime.pattern.code}
       >
         <div className="next-departure-row padding-vertical-normal border-bottom">

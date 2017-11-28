@@ -1,3 +1,4 @@
+
 /* foundation override */
 $menu-slide: "transform 200ms ease";
 $offcanvas-background: #333333;
@@ -293,13 +294,13 @@ section.content {
 
 
 .content.bp-large {
-  height: calc(100% - 60px);
+  height: calc(100% - 100px);
   position: relative;
 }
 
 .content:nth-child(5) {
-  height: calc(100% - #{$topbar-height} - 60px - 18px);
-  // 60px and 18px are the height of the message bar, but is specified in js
+  height: calc(100% - #{$topbar-height} - 100px - 18px);
+  // 100px and 18px are the height of the message bar, but is specified in js
 }
 
 .desktop-title {
@@ -330,13 +331,27 @@ section.content {
 .message-bar {
   position:relative;
   z-index:802;
+  width: 100%;
+  display: block;
   @include font-book;
   font-size: $font-size-small;
-  line-height: 14px;
   background: $white;
-  color: $gray;
+  color: $black;
   text-align: left;
   cursor: pointer;
+
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0px;
+
+  .banner-container {
+    display: flex;
+    max-height: 100%;
+  }
 
   span {
     width:45px;
@@ -344,9 +359,15 @@ section.content {
 
   h2 {
     @include font-medium;
-    font-size: $font-size-small;
-    color: $action-color;
-    margin: 0;
+    font-size: $font-size-large;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+  }
+
+  .message-bar-error {
+    h2 {
+      color: red;
+    }
   }
 
   a {
@@ -355,24 +376,32 @@ section.content {
   }
 }
 
+.message-bar.show {
+  opacity: 1;
+  visibility: visible;
+  max-height: 100%;
+}
+
 #close-message-bar {
   span {
       padding-right:10px;
+      padding-top:10px;
   }
 }
 .message-bar-fade {
-  mask-image: linear-gradient(rgba(0,0,0,1) 4em, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(rgba(0,0,0,1) 80px, rgba(0, 0, 0, 0));
 }
 // Need more specific selector to override
 .message-bar .icon {
   margin: 10px;
 }
 
-.message-bar .icon.info {
+.message-bar .icon.message-icon {
   float: left;
   fill: $primary-color;
   height: 35px;
   width: 35px;
+  padding-right: 10px;
 }
 
 .message-bar .icon.close {
