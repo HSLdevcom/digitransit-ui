@@ -12,6 +12,7 @@ import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
+import storeOrigin from '../action/originActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
@@ -50,6 +51,7 @@ class IndexPage extends React.Component {
     router: routerShape.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -60,11 +62,12 @@ class IndexPage extends React.Component {
     showSpinner: PropTypes.bool.isRequired,
   };
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       mapExpanded: false, // Show right-now as default
     };
+    context.executeAction(storeOrigin, props.origin);
   }
 
   componentDidMount() {
@@ -113,6 +116,10 @@ class IndexPage extends React.Component {
 
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
+    if (!isEqual(nextProps.origin, this.props.origin)) {
+      this.context.executeAction(storeOrigin, nextProps.origin);
+    }
+
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       debug('Redirecting to itinerary summary page');
       navigateTo({
