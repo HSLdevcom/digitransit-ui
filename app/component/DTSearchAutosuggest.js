@@ -100,12 +100,14 @@ class DTAutosuggest extends React.Component {
     return value;
   };
 
-  clearButton = () =>
-    this.state.value ? (
+  clearButton = () => {
+    const img = this.state.value ? 'icon-icon_close' : 'icon-icon_search';
+    return (
       <button className="noborder clear-input" onClick={this.clearInput}>
-        <Icon img="icon-icon_close" />
+        <Icon img={img} />
       </button>
-    ) : null;
+    );
+  };
 
   fetchFunction = ({ value }) => {
     executeSearch(
