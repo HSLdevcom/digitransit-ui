@@ -122,7 +122,12 @@ class DTAutosuggestPanel extends React.Component {
           </div>
           <DTEndpointAutosuggest
             id="viapoint"
-            autoFocus={this.context.breakpoint === 'large'}
+            autoFocus={
+              // Disable autofocus if using IE11
+              navigator.userAgent.indexOf('Trident') !== -1
+                ? false
+                : this.context.breakpoint === 'large'
+            }
             refPoint={this.props.origin}
             searchType="endpoint"
             placeholder="via-point"
