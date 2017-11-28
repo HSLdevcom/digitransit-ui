@@ -47,7 +47,6 @@ class SummaryNavigation extends React.Component {
           state: {
             ...this.context.location.state,
             customizeSearchOffcanvas: false,
-            viaPointSearchModalOpen: false,
           },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);
