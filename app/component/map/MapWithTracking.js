@@ -8,7 +8,7 @@ import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 
-const DEFAULT_ZOOM = 11;
+const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
