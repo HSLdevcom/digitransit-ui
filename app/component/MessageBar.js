@@ -109,24 +109,31 @@ class MessageBar extends Component {
   handleClose = () => {
     const ids = [];
     this.validMessages().forEach(msg => ids.push(msg.id));
-    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), 600);
+    this.context.executeAction(markMessageAsRead, ids);
   };
 
   render = () => {
     const messages = this.validMessages();
 
-    if (messages.length > 0) {
-      const index = Math.min(this.state.slideIndex, messages.length - 1);
-      const msg = messages[index];
-      const type = msg.type || 'info';
-      const icon = msg.icon || 'info';
-      const iconName = `icon-icon_${icon}`;
+    const index = Math.min(this.state.slideIndex, messages.length - 1);
+    let className = "message-bar flex-horizontal";
+    let msg;
 
-      return (
+    if (messages.length > 0) {
+      className = "message-bar flex-horizontal show";
+      msg = messages[index];
+    } else {
+      msg = {};
+    }
+    const type = msg.type || 'info';
+    const icon = msg.icon || 'info';
+    const iconName = `icon-icon_${icon}`;
+
+    return (
         <section
           id="messageBar"
           role="banner"
-          className="message-bar flex-horizontal"
+          className={className}
         >
           <div className="banner-container">
             <Icon img={iconName} className="message-icon" />
@@ -179,9 +186,7 @@ class MessageBar extends Component {
             </div>
           </div>
         </section>
-      );
-    }
-    return null;
+    );
   };
 }
 
