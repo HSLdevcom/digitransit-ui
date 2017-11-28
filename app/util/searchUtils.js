@@ -101,7 +101,7 @@ function getCurrentPositionIfEmpty(input, position) {
         lat: position.lat,
         lon: position.lon,
         properties: {
-          labelId: 'own-position',
+          labelId: 'use-own-position',
           layer: 'currentPosition',
           address: position.address,
           lat: position.lat,
