@@ -36,8 +36,8 @@ export default class OriginDestinationBar extends React.Component {
   };
 
   swapEndpoints = () => {
-    console.log(this.context.location);
     navigateTo({
+      base: this.context.location,
       origin: this.props.destination,
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,
