@@ -71,7 +71,10 @@ class DTAutosuggestPanel extends React.Component {
       <DTEndpointAutosuggest
         id="origin"
         autoFocus={
-          this.context.breakpoint === 'large' && !this.props.origin.ready
+          // Disable autofocus if using IE11
+          navigator.userAgent.indexOf('Trident') !== -1
+            ? false
+            : this.context.breakpoint === 'large' && !this.props.origin.ready
         }
         refPoint={this.props.origin}
         className={this.class(this.props.origin)}
@@ -103,7 +106,12 @@ class DTAutosuggestPanel extends React.Component {
       this.props.isItinerary ? (
         <DTEndpointAutosuggest
           id="destination"
-          autoFocus={this.context.breakpoint === 'large'}
+          autoFocus={
+            // Disable autofocus if using IE11
+            navigator.userAgent.indexOf('Trident') !== -1
+              ? false
+              : this.context.breakpoint === 'large'
+          }
           refPoint={this.props.origin}
           searchType="endpoint"
           placeholder="give-destination"
