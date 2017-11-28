@@ -193,7 +193,6 @@ class IndexPage extends React.Component {
           showStops
           showScaleBar
           origin={this.props.origin}
-          activeArea="activeAreaLarge"
         >
           <DTAutosuggestPanel
             origin={this.props.origin}
@@ -241,7 +240,6 @@ class IndexPage extends React.Component {
             breakpoint={this.props.breakpoint}
             showStops
             origin={this.props.origin}
-            activeArea="activeAreaSmall"
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
