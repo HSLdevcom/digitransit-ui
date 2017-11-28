@@ -392,8 +392,6 @@ const IndexPageWithPosition = connectToStores(
 
     if (isBrowser) {
       newProps.showSpinner = locationState.isLocationingInProgress === true;
-      console.log('show spinner', locationState, newProps.showSpinner);
-
       if (
         locationState.isLocationingInProgress !== true &&
         locationState.hasLocation === false &&
