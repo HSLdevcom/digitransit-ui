@@ -293,30 +293,4 @@ export default {
     'HSL:kse8': 'HSL:lse3',
   },
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
-  staticMessages: [
-    {
-      id: '5',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-            'testi hopolopo ',
-          },
-        ]
-      }
-    },
-    {
-      id: '6',
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-            'LISAA hopolopoa',
-          },
-        ]
-      }
-    },
-  ]
 };

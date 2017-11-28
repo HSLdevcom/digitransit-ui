@@ -68,8 +68,9 @@ class MessageStore extends Store {
           processStaticMessages(json);
         }),
       );
+    } else {
+      processStaticMessages(config);
     }
-    processStaticMessages(config);
   };
 
   markMessageAsRead = ident => {
