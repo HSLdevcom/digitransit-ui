@@ -187,16 +187,6 @@ class Map extends React.Component {
         }
       }
 
-      if (
-        this.props.origin &&
-        this.props.origin.lat &&
-        !this.props.hideOrigin
-      ) {
-        leafletObjs.push(
-          <PlaceMarker position={this.props.origin} key="from" />,
-        );
-      }
-
       leafletObjs.push(<PositionMarker key="position" />);
 
       const center =
