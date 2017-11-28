@@ -14,7 +14,6 @@ import ToggleButton from './ToggleButton';
 import ModeFilter from './ModeFilter';
 import Select from './Select';
 import FareZoneSelector from './FareZoneSelector';
-import ViaPointSelector from './ViaPointSelector';
 import {
   getCustomizedSettings,
   resetCustomizedSettings,
@@ -464,15 +463,6 @@ class CustomizeSearch extends React.Component {
     });
   };
 
-  openSearchModal = () =>
-    this.context.router.push({
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        viaPointSearchModalOpen: 2,
-      },
-    });
-
   updateSettings(name, value, sliderValues) {
     this.context.router.replace({
       ...this.context.location,
@@ -643,14 +633,6 @@ class CustomizeSearch extends React.Component {
           {config.customizeSearch.accessibility.available
             ? this.getAccessibilitySelector()
             : null}
-          <ViaPointSelector
-            intermediatePlaces={
-              this.context.location.query &&
-              this.context.location.query.intermediatePlaces
-            }
-            openSearchModal={this.openSearchModal}
-            removeViaPoint={this.removeViaPoint}
-          />
           <SaveCustomizedSettingsButton />
           <ResetCustomizedSettingsButton onReset={this.resetParameters} />
         </div>

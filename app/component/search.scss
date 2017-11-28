@@ -227,10 +227,10 @@ ul.react-autowhatever__items-list {
   padding-bottom: 3px;
   margin: 0;
   cursor: pointer;
-  //height: 1.9em;
   list-style: none;
   display: block;
   overflow-x: hidden;
+  overflow-y: hidden;
   white-space: nowrap;
   border-bottom: 1px solid $light-gray;
 }
@@ -543,38 +543,88 @@ div.origin-destination-bar {
   }
 }
  // used styles start from here:
-
-
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  padding-top: 30px;
-  width: 52.5%;
+  margin-top: 25pt;
+  width: 50.5%;
   margin-left: 7%;
+  &.isItinerary {
+    position: relative;
+    z-index: 1001;
+    padding-top: 0;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-flow: inherit;
+    width: 90%;
+    margin-left: 0;
+    margin-right: 1em;
+    #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+      width: 504.5px;
+      z-index: 1006;
+    }
+    #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+      width: 504.5px;
+      z-index: 1006;
+    }
+    #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
+      width: 474px;
+    }
+    input.react-autosuggest__input {
+      z-index: 1004;
+      background: $white;
+    }
+  }
   &.small {
     position: relative;
     width: 100%;
     margin-left: 0;
-    padding-top: 1em;
     padding-left: 1em;
     padding-right: 1em;
+
     .react-autosuggest__container {
       width: 100%;
       position: relative;
       margin: 0 auto;
+      &.viapoint {
+        width: 94%;
+      }
     }
     &.isItinerary {
-      width: 96%;
-      margin-left: 0;
+      width: 90%;
+      margin-left: 0.4em;
+      margin-right: auto;
       padding-right: 0;
       padding-left: 0;
       padding-top: 0;
+      flex-direction: column;
       .react-autosuggest__container {
         width: 94%;
         margin-right: 0;
-        margin-left: 1em;
+      }
+      #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
+        width: 100%;
+      }
+      #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
+        width: 100%;
+      }
+      #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
+        width: 79.5%;
+      }
+      .react-autosuggest__container {
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
       }
     }
+  }
+  .viapoint-input-container {
+    display: flex;
+    width: 100%;
+  }
+  .mobile .autosuggest-panel.small {
+    flex-flow: wrap;
   }
 
   .dark-overlay {
@@ -623,6 +673,80 @@ div.autosuggest-panel {
     border-bottom-right-radius: 4px;
     }
   }
+  #react-autowhatever-viapoint {
+    &.react-autosuggest__suggestions-container--open {
+    position: fixed;
+    background: #fff;
+    width: 52.5%;
+    height: auto;
+    max-height: 60%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 1005;
+    margin-top: -8px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    }
+  }
+}
+
+.itinerary-search-controls {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  flex-flow: column;
+  .switch {
+    padding: $padding-xxsmall;
+    background-color: $white;
+    color: $link-color;
+    cursor: pointer;
+    font-size: 1.8em;
+    margin-top: -7px;
+    margin-bottom: 0.6em;
+    transform: rotate(90deg);
+    border: none;
+    background-color: initial;
+    &:hover {
+      color: #0062a1;
+    }
+    .icon {
+      position: relative;
+      top: 3px;
+    }
+  }
+  .addViaPoint {
+    text-align: center;
+    color: $link-color;
+    cursor: pointer;
+    &:hover {
+      color: #0062a1;
+    }
+  }
+  .removeViaPoint {
+    cursor: pointer;
+    color: $link-color;
+    text-align: center;
+    font-size: 1em;
+  }
+}
+.mobile .itinerary-search-controls {
+  width: 6%;
+  right: 1%;
+  top: 0.6em;
+  .switch {
+    font-size: 1.4em;
+    margin-top: -0.5em;
+    .icon {
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
+  .addViaPoint {
+    margin-top: 0.4em;
+  }
+  .removeViaPoint {
+    margin-top: 0.4em;
+  }
 }
 
 .autosuggest-panel.small {
@@ -661,6 +785,9 @@ div.autosuggest-panel {
   height: 1.45em;
   top: 0.6em;
   left: 0.5em;
+  &.viapoint {
+    display: none;
+  }
   .icon {
     width: 100%;
     height: 100%;
@@ -688,14 +815,6 @@ div.autosuggest-panel {
     color: #f092cd;
   }
 }
-}
-
-.mobile {
-  .isItinerary {
-    .autosuggest-input-icon {
-      left: 1.5em;
-    }
-  }
 }
 
 input.react-autosuggest__input{
@@ -728,49 +847,31 @@ input.react-autosuggest__input{
   box-shadow: none;
 }
 
-.autosuggest-panel.isItinerary {
+.autosuggest-input-container {
+  &.destination {
+    display: block;
+  }
+}
+.isItinerary .autosuggest-input-container {
+  width: 100%;
   position: relative;
-  z-index: 1001;
-  padding-top: 0;
-  width: 93%;
-  margin-left: 0;
-  #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-    width: 521px;
-    z-index: 1006;
-  }
-  #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-    width: 521px;
-    z-index: 1006;
-  }
-  input.react-autosuggest__input {
-    z-index: 1004;
-    background: $white;
-  }
-}
-
-.mobile .autosuggest-panel.isItinerary {
-  .react-autosuggest__container {
+  &.viapoint {
     width: 94%;
-    margin-right: 0;
-  }
-  #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-    width: 100%;
-  }
-  #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-    width: 100%;
   }
 }
 
-.origin-destination-bar .switch {
-    .icon {
-      top: 3px;
-    }
-}
-
-.mobile .origin-destination-bar .switch {
-  font-size: 1.8em;
-  margin-right: 0.4em;
-  margin-top: -2em;
+.viapoint-before {
+  width: 6%;
+  color: #4e4e4e;
+  text-align: center;
+  font-size: 1.3em;
+  .viapoint-before_line-top, .viapoint-before_line-bottom {
+    height: 15px;
+    background: #d6d8da;
+    width: 2px;
+    margin: 0 auto;
+    margin-top: -7px;
+  }
 }
 
 .react-autosuggest__container--open .react-autosuggest__input {

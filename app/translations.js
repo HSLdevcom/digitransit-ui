@@ -130,9 +130,6 @@ const translations = {
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
-    'not-implemented': '{name} - funktionen er ikke implementeret',
-    'not-implemented-msg':
-      'Hvis du vil deltage i udviklingen kan du finde mere information i følgende links',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stop} other {{number} stop} }',
@@ -372,9 +369,6 @@ const translations = {
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
-    'not-implemented': '{name} - Feature ist nicht implementiert',
-    'not-implemented-msg':
-      'Wenn Sie an der Entwicklung teilnehmen möchten, finden Sie weitere Informationen unter den folgenden Links',
     now: 'Jetzt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
@@ -626,9 +620,6 @@ const translations = {
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
-    'not-implemented': 'The {name} function is not yet available',
-    'not-implemented-msg':
-      'If you would like to participate in the development work, read more about the planned functions using the links below.',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
@@ -905,9 +896,6 @@ const translations = {
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
-    'not-implemented': '{name} -toiminnallisuus on vielä kesken',
-    'not-implemented-msg':
-      'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
@@ -1178,10 +1166,6 @@ const translations = {
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
-    'not-implemented':
-      '{name} - la fonctionnalité est en cours de développement',
-    'not-implemented-msg':
-      'Si vous souhaitez participer au développement, vous pouvez obtenir des informations via les liens ci-dessous',
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -1429,9 +1413,6 @@ const translations = {
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
-    'not-implemented': '{name} - funksjonen er ikke implementert',
-    'not-implemented-msg':
-      'Om du vil delta i utviklingen kan du finne mer informasjon i følgende lenker',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -1695,9 +1676,6 @@ const translations = {
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
-    'not-implemented': '{name} -funktionen är inte implementerad',
-    'not-implemented-msg':
-      'Om du vill delta i utvecklingsarbetet hittar du mer information om de planerade funktionerna i följande länkar.',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',

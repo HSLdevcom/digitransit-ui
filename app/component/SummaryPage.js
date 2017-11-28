@@ -121,7 +121,7 @@ class SummaryPage extends React.Component {
   renderMap() {
     const { plan: { plan }, location: { state, query }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
-    const itineraries = plan.itineraries || [];
+    const itineraries = (plan && plan.itineraries) || [];
 
     const leafletObjs = sortBy(
       itineraries.map((itinerary, i) => (
