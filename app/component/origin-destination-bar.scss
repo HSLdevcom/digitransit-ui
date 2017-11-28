@@ -3,8 +3,10 @@
   width: 100%;
   padding-top: calc(#{$padding-large} - 15px);
   display: flex;
-  align-items: center;
   justify-content: space-around;
+  position: relative;
+  align-items: initial;
+  padding-left: 1.2em;
 
   .field-link{
     @include font-book;
@@ -70,35 +72,10 @@
       width: 100%;
 
     }
-
-  }
-
-  .switch {
-    padding: $padding-xxsmall;
-    margin-top: -4px;
-    background-color: $white;
-    color: $link-color;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 25px;
-    margin-top: -58px;
-    transform: rotate(90deg);
-    border: none;
-    background-color: initial;
-
-    &:hover {
-      color: #0062a1;
-    }
-
-    .icon {
-      position: relative;
-      top: 2px;
-    }
   }
 
   &.bp-large {
     flex-wrap: wrap;
-    padding-left: 20px;
     padding-right: 20px;
 
     .field-link {
@@ -124,5 +101,10 @@
         font-size: $font-size-normal;
       }
     }
+  }
+}
+.mobile {
+  .origin-destination-bar {
+    padding-left: 0;
   }
 }

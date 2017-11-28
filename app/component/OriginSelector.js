@@ -74,7 +74,11 @@ const OriginSelector = (
 
   return (
     <ul>
-      <GeopositionSelector origin={origin} />
+      <GeopositionSelector
+        destination={destination}
+        origin={origin}
+        tab={tab}
+      />
       {names.slice(0, 3)}
     </ul>
   );
