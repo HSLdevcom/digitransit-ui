@@ -463,15 +463,6 @@ class CustomizeSearch extends React.Component {
     });
   };
 
-  openSearchModal = () =>
-    this.context.router.push({
-      ...this.context.location,
-      state: {
-        ...this.context.location.state,
-        viaPointSearchModalOpen: 2,
-      },
-    });
-
   updateSettings(name, value, sliderValues) {
     this.context.router.replace({
       ...this.context.location,
