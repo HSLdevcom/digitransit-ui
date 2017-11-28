@@ -544,7 +544,7 @@ div.origin-destination-bar {
 }
  // used styles start from here:
 div.autosuggest-panel {
-  position: relative;
+  position: fixed;
   z-index: 1000;
   margin-top: 25pt;
   width: 50.5%;
@@ -577,6 +577,7 @@ div.autosuggest-panel {
     }
   }
   &.small {
+    position: relative;
     width: 100%;
     margin-left: 0;
     padding-left: 1em;
