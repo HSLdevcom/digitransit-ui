@@ -188,30 +188,29 @@ class IndexPage extends React.Component {
           this.props.origin.gpsError === false &&
           `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
+        <DTAutosuggestPanel
+          origin={this.props.origin}
+          destination={this.props.destination}
+          tab={this.props.tab}
+          originSearchType="all"
+          originPlaceHolder="search-origin"
+        />
+        <div key="foo" className="fpccontainer">
+          <FrontPagePanelLarge
+            selectedPanel={selectedMainTab}
+            nearbyClicked={this.clickNearby}
+            favouritesClicked={this.clickFavourites}
+          >
+            {this.renderTab()}
+          </FrontPagePanelLarge>
+        </div>
         <MapWithTracking
           breakpoint={this.props.breakpoint}
           showStops
           showScaleBar
           origin={this.props.origin}
           activeArea="activeAreaLarge"
-        >
-          <DTAutosuggestPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-            tab={this.props.tab}
-            originSearchType="all"
-            originPlaceHolder="search-origin"
-          />
-          <div key="foo" className="fpccontainer">
-            <FrontPagePanelLarge
-              selectedPanel={selectedMainTab}
-              nearbyClicked={this.clickNearby}
-              favouritesClicked={this.clickFavourites}
-            >
-              {this.renderTab()}
-            </FrontPagePanelLarge>
-          </div>
-        </MapWithTracking>
+        />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter

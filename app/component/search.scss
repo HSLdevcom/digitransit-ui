@@ -546,12 +546,13 @@ div.origin-destination-bar {
 
 
 div.autosuggest-panel {
-  position: relative;
+  position: fixed;
   z-index: 1000;
   padding-top: 30px;
   width: 52.5%;
   margin-left: 7%;
   &.small {
+    position: relative;
     width: 100%;
     margin-left: 0;
     padding-top: 1em;
