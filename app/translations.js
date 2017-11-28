@@ -562,7 +562,7 @@ const translations = {
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
       'Have you accepted your browser’s request to access your location?',
-    'give-destination': 'Enter your destination',
+    'give-destination': 'Search destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
     'give-position': 'Enter your location or origin in the search field.',
@@ -666,7 +666,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
-    'search-origin': 'Enter your origin.',
+    'search-origin': 'Search origin, route or stop',
     'search-position': 'Detect location',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
@@ -840,7 +840,7 @@ const translations = {
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
-    'give-destination': 'Määränpää',
+    'give-destination': 'Hae määränpää',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
@@ -943,7 +943,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
-    'search-origin': 'Lähtöpaikka, linja tai pysäkki',
+    'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-position': 'Paikanna',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
@@ -1618,7 +1618,7 @@ const translations = {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'give-destination': 'Skriv in din destination',
+    'give-destination': 'Sök destination',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
     'give-position': 'Skriv in din position eller avfärdsplats i sökfältet.',
@@ -1723,7 +1723,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
-    'search-origin': 'Din avfärdsplats, linje eller hållplats',
+    'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-position': 'Sök position',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
