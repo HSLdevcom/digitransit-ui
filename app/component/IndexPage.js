@@ -18,7 +18,6 @@ import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import { getPositioningHasSucceeded } from '../store/localStorage';
 import { isBrowser } from '../util/browser';
 import {
   TAB_NEARBY,
@@ -392,42 +391,24 @@ const IndexPageWithPosition = connectToStores(
     }
 
     if (isBrowser) {
-      let gpsInitiated = false;
       newProps.showSpinner = locationState.isLocationingInProgress === true;
-      checkPositioningPermission().then(status => {
-        if (
-          // check logic for starting geolocation
-          status.state === 'granted' &&
-          getPositioningHasSucceeded() === true &&
-          locationState.status === 'no-location'
-        ) {
-          debug('Auto Initialising geolocation');
-          gpsInitiated = true;
-          context.executeAction(initGeolocation);
-        }
+      console.log('show spinner', locationState, newProps.showSpinner);
 
-        if (
-          // logic for redirecting to /pos/...
-          (locationState.isLocationingInProgress === true ||
-            locationState.hasLocation === true) &&
-          newProps.origin.set === false &&
-          newProps.destination.set === false
-        ) {
-          debug('Redirecting to origin=current pos');
-          navigateTo({
-            origin: { gps: true, ready: false },
-            destination: { ready: false, set: false },
-            context: '/',
-            router: context.router,
-            base: {},
-            tab: newProps.tab,
-          });
-        } else if (
-          locationState.isLocationingInProgress !== true &&
-          locationState.hasLocation === false &&
-          (newProps.origin.gps === true || newProps.destination.gps === true)
-        ) {
-          if (gpsInitiated === false) {
+      if (
+        locationState.isLocationingInProgress !== true &&
+        locationState.hasLocation === false &&
+        (newProps.origin.gps === true || newProps.destination.gps === true)
+      ) {
+        checkPositioningPermission().then(status => {
+          if (
+            // check logic for starting geolocation
+            status.state === 'granted' &&
+            locationState.status === 'no-location'
+          ) {
+            debug('Auto Initialising geolocation');
+
+            context.executeAction(initGeolocation);
+          } else {
             // clear gps & redirect
             if (newProps.origin.gps === true) {
               newProps.origin.gps = false;
@@ -449,8 +430,8 @@ const IndexPageWithPosition = connectToStores(
               tab: newProps.tab,
             });
           }
-        }
-      });
+        });
+      }
     }
     return newProps;
   },
