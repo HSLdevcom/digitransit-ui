@@ -24,8 +24,8 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   parseLocation,
-  getPathWithEndpointObjects,
   isItinerarySearchObjects,
+  navigateTo,
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
@@ -58,6 +58,7 @@ class IndexPage extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
+    showSpinner: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -114,11 +115,14 @@ class IndexPage extends React.Component {
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
-      const url = getPathWithEndpointObjects(
-        nextProps.origin,
-        nextProps.destination,
-      );
-      this.context.router.replace(url);
+      debug('Redirecting to itinerary summary page');
+      navigateTo({
+        origin: nextProps.origin,
+        destination: nextProps.destination,
+        context: '/',
+        router: this.context.router,
+        base: {},
+      });
     }
   };
 
@@ -129,66 +133,24 @@ class IndexPage extends React.Component {
   };
 
   clickNearby = () => {
-    // tab click logic is different in large vs the rest!
-    if (this.props.breakpoint !== 'large') {
-      const selected = this.getSelectedTab();
-      this.openNearby(selected === 2);
-
-      this.trackEvent(
-        'Front page tabs',
-        'Nearby',
-        selected === 1 ? 'close' : 'open',
-      );
-    } else {
-      this.openNearby(true);
-      this.trackEvent('Front page tabs', 'Nearby', 'open');
-    }
+    this.openTab(TAB_NEARBY);
+    this.trackEvent('Front page tabs', 'Nearby', 'open');
   };
 
   clickFavourites = () => {
-    // tab click logic is different in large vs the rest!
-    if (this.props.breakpoint !== 'large') {
-      const selected = this.getSelectedTab();
-
-      this.openFavourites(selected === 1);
-
-      this.trackEvent(
-        'Front page tabs',
-        'Favourites',
-        selected === 2 ? 'close' : 'open',
-      );
-    } else {
-      this.openFavourites(true);
-      this.trackEvent('Front page tabs', 'Favourites', 'open');
-    }
+    this.openTab(TAB_FAVOURITES);
+    this.trackEvent('Front page tabs', 'Favourites', 'open');
   };
 
-  openFavourites = replace => {
-    // const [, origin, destination] = this.context.location.pathname.split('/');
-    const url = getPathWithEndpointObjects(
-      this.props.origin,
-      this.props.destination,
-      TAB_FAVOURITES,
-    );
-    if (replace) {
-      this.context.router.replace(url);
-    } else {
-      this.context.router.push(url);
-    }
-  };
-
-  openNearby = replace => {
-    const url = getPathWithEndpointObjects(
-      this.props.origin,
-      this.props.destination,
-      TAB_NEARBY,
-    );
-
-    if (replace) {
-      this.context.router.replace(url);
-    } else {
-      this.context.router.push(url);
-    }
+  openTab = tab => {
+    navigateTo({
+      origin: this.props.origin,
+      destination: this.props.destination,
+      context: '/',
+      router: this.context.router,
+      base: {},
+      tab,
+    });
   };
 
   togglePanelExpanded = () => {
@@ -231,6 +193,7 @@ class IndexPage extends React.Component {
           showStops
           showScaleBar
           origin={this.props.origin}
+          activeArea="activeAreaLarge"
         >
           <DTAutosuggestPanel
             origin={this.props.origin}
@@ -249,11 +212,7 @@ class IndexPage extends React.Component {
             </FrontPagePanelLarge>
           </div>
         </MapWithTracking>
-        {(this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false && <OverlayWithSpinner />) ||
-          null}
+        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter
             content={
@@ -282,12 +241,9 @@ class IndexPage extends React.Component {
             breakpoint={this.props.breakpoint}
             showStops
             origin={this.props.origin}
+            activeArea="activeAreaSmall"
           >
-            {(this.props.origin &&
-              this.props.origin.gps === true &&
-              this.props.origin.gpsError === false &&
-              this.props.origin.ready === false && <OverlayWithSpinner />) ||
-              null}
+            {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
@@ -337,7 +293,8 @@ const Index = shouldUpdate(
       isEqual(nextProps.tab, props.tab) &&
       isEqual(nextProps.breakpoint, props.breakpoint) &&
       isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.locationState, props.locationState)
+      isEqual(nextProps.locationState, props.locationState) &&
+      isEqual(nextProps.showSpinner, props.showSpinner)
     ),
 )(IndexPage);
 
@@ -375,14 +332,7 @@ const processLocation = (locationString, locationState, intl) => {
             defaultMessage: 'Own Location',
           });
       }
-      const gpsError =
-        [
-          'no-location',
-          'prompt',
-          'searching-location',
-          'found-location',
-          'found-address',
-        ].indexOf(locationState.status) === -1;
+      const gpsError = locationState.locationingFailed === true;
 
       location.gpsError = gpsError;
     }
@@ -392,69 +342,113 @@ const processLocation = (locationString, locationState, intl) => {
   return location;
 };
 
+const tabs = [TAB_FAVOURITES, TAB_NEARBY];
+
 const IndexPageWithPosition = connectToStores(
   IndexPageWithLang,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
 
+    // allow using url without all parameters set. assume:
+    // if from == 'lahellasi' or 'suosikit' assume tab = ${from}, from ='-' to '-'
+    // if to == 'lahellasi' or 'suosikit' assume tab = ${to}, to = '-'
+
+    let from = props.params.from;
+    let to = props.params.to;
+    let tab = props.params.tab;
+    let redirect = false;
+
+    if (tabs.indexOf(from) !== -1) {
+      tab = from;
+      from = '-';
+      to = '-';
+      redirect = true;
+    } else if (tabs.indexOf(to) !== -1) {
+      tab = to;
+      to = '-';
+      redirect = true;
+    }
+
     const newProps = {};
 
-    if (props.params.tab) {
-      newProps.tab = props.params.tab;
+    if (tab) {
+      newProps.tab = tab;
     }
 
     newProps.locationState = locationState;
-    newProps.origin = processLocation(
-      props.params.from,
-      locationState,
-      context.intl,
-    );
-    newProps.destination = processLocation(
-      props.params.to,
-      locationState,
-      context.intl,
-    );
+    newProps.origin = processLocation(from, locationState, context.intl);
+    newProps.destination = processLocation(to, locationState, context.intl);
+
+    if (redirect) {
+      navigateTo({
+        origin: newProps.origin,
+        destination: newProps.destination,
+        context: '/',
+        router: context.router,
+        base: {},
+        tab: newProps.tab,
+      });
+    }
 
     if (isBrowser) {
+      let gpsInitiated = false;
+      newProps.showSpinner = locationState.isLocationingInProgress === true;
       checkPositioningPermission().then(status => {
         if (
+          // check logic for starting geolocation
           status.state === 'granted' &&
-          getPositioningHasSucceeded() === true
+          getPositioningHasSucceeded() === true &&
+          locationState.status === 'no-location'
         ) {
-          if (locationState.status === 'no-location') {
-            debug('Initialising geolocation');
-            context.executeAction(initGeolocation);
-          }
-          if (
-            newProps.origin.set === false &&
-            newProps.destination.set === false
-          ) {
-            debug('Redirecting to origin=current pos');
-            context.router.replace(`/POS/-/${TAB_NEARBY}`);
-          }
+          debug('Auto Initialising geolocation');
+          gpsInitiated = true;
+          context.executeAction(initGeolocation);
+        }
+
+        if (
+          // logic for redirecting to /pos/...
+          (locationState.isLocationingInProgress === true ||
+            locationState.hasLocation === true) &&
+          newProps.origin.set === false &&
+          newProps.destination.set === false
+        ) {
+          debug('Redirecting to origin=current pos');
+          navigateTo({
+            origin: { gps: true, ready: false },
+            destination: { ready: false, set: false },
+            context: '/',
+            router: context.router,
+            base: {},
+            tab: newProps.tab,
+          });
         } else if (
-          (status.state !== 'granted' ||
-            getPositioningHasSucceeded() !== true) &&
+          locationState.isLocationingInProgress !== true &&
+          locationState.hasLocation === false &&
           (newProps.origin.gps === true || newProps.destination.gps === true)
         ) {
-          // clear gps & redirect
-          if (newProps.origin.gps === true) {
-            newProps.origin.gps = false;
-            newProps.origin.set = false;
-          }
+          if (gpsInitiated === false) {
+            // clear gps & redirect
+            if (newProps.origin.gps === true) {
+              newProps.origin.gps = false;
+              newProps.origin.set = false;
+            }
 
-          if (newProps.destination.gps === true) {
-            newProps.destination.gps = false;
-            newProps.destination.set = false;
+            if (newProps.destination.gps === true) {
+              newProps.destination.gps = false;
+              newProps.destination.set = false;
+            }
+
+            debug('Redirecting away from POS');
+            navigateTo({
+              origin: newProps.origin,
+              destination: newProps.destination,
+              context: '/',
+              router: context.router,
+              base: {},
+              tab: newProps.tab,
+            });
           }
-          const url = getPathWithEndpointObjects(
-            newProps.origin,
-            newProps.destination,
-            newProps.tab,
-          );
-          debug('Redirecting away from POS');
-          context.router.replace(url);
         }
       });
     }

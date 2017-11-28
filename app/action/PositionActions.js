@@ -80,8 +80,6 @@ export function geolocatonCallback(
   }
 }
 
-let alreadyDenied;
-
 function updateGeolocationMessage(actionContext, newId) {
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
@@ -90,16 +88,7 @@ function updateGeolocationMessage(actionContext, newId) {
   });
 
   if (newId) {
-    let id = newId;
-    if (newId === 'denied') {
-      if (alreadyDenied) {
-        // change message when shown repeatedly
-        id = 'stillDenied';
-      } else {
-        alreadyDenied = true;
-      }
-    }
-    actionContext.dispatch('AddMessage', geolocationMessages[id]);
+    actionContext.dispatch('AddMessage', geolocationMessages[newId]);
   }
 }
 
@@ -190,33 +179,34 @@ export function checkPositioningPermission() {
 }
 
 function startPositioning(actionContext, done) {
-  debug('startPositioning:');
-
   checkPositioningPermission().then(status => {
-    debug('examining status', status);
+    debug('Examining permission', status);
     switch (status.state) {
       case 'granted':
-        actionContext.dispatch('GeolocationSearch');
         updateGeolocationMessage(actionContext);
         watchPosition(actionContext, done);
         break;
       case 'denied':
         actionContext.dispatch('GeolocationDenied');
         updateGeolocationMessage(actionContext, 'denied');
-        done();
+        done('denied');
         break;
       case 'prompt':
         watchPosition(actionContext, done);
         // it was, let's listen for changes
         // eslint-disable-next-line no-param-reassign
-        status.onchange = permissionStatus => {
+        status.onchange = permissionStatusChangeEvent => {
+          const permissionStatus = permissionStatusChangeEvent.target;
+          debug('permission status changed', permissionStatus);
           // eslint-disable-next-line no-param-reassign
           status.onchange = null; // remove listener
           if (permissionStatus.state === 'granted') {
             actionContext.dispatch('GeolocationSearch');
+            done();
             updateGeolocationMessage(actionContext);
           } else if (permissionStatus.state === 'denied') {
             actionContext.dispatch('GeolocationDenied');
+            done('denied');
             updateGeolocationMessage(actionContext, 'denied');
           }
         };
@@ -231,8 +221,16 @@ function startPositioning(actionContext, done) {
 }
 
 /* starts location watch */
-export function startLocationWatch(actionContext, payload, done) {
+export function startLocationWatch(actionContext, payload) {
   // Check if we need to manually start positioning
+  const done = error => {
+    if (
+      error === undefined &&
+      typeof payload.onPositioningStarted === 'function'
+    ) {
+      payload.onPositioningStarted();
+    }
+  };
   if (typeof geoWatchId === 'undefined') {
     startPositioning(actionContext, done); // from geolocation.js
   } else {
@@ -286,7 +284,7 @@ export function initGeolocation(actionContext, payload, done) {
       }
       if (start === true) {
         debug('Starting positioning');
-        startPositioning(actionContext, done, true);
+        startPositioning(actionContext, done);
       } else {
         debug('Not starting positioning');
         done();

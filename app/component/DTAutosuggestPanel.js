@@ -30,6 +30,7 @@ class DTAutosuggestPanel extends React.Component {
     intl: intlShape.isRequired,
     viaPointName: PropTypes.string,
     setViaPointName: PropTypes.func,
+    tab: PropTypes.string,
   };
 
   static defaultProps = {
@@ -169,6 +170,7 @@ class DTAutosuggestPanel extends React.Component {
               destination,
               context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
               router: this.context.router,
+              tab: this.props.tab,
             });
           }}
         />

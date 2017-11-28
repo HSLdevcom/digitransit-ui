@@ -310,7 +310,6 @@ const translations = {
     ferry: 'Fähre',
     'ferry-with-route-number': 'Fähre {routeNumber} {headSign}',
     'footer-feedback': 'Feedback senden',
-    'footer-link-to-old': 'Alten Routenplaner verwenden',
     frontpage: 'Startseite',
     'geolocate-yourself': 'Lokalisieren',
     'geolocation-denied-heading': 'Bitte Zugriff auf den Standort erlauben',
@@ -553,12 +552,11 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'footer-feedback': 'Submit feedback',
-    'footer-link-to-old': 'Go to the old Journey Planner',
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
     'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
-    'geolocation-denied-heading': 'How do you wish to start?',
+    'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':
       'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
     'geolocation-failed-heading': 'Geolocation failed',
@@ -566,7 +564,6 @@ const translations = {
       'Your browser does not support location retrieval.',
     'geolocation-prompt-text':
       'Accept your browser’s request to access your location.',
-    'geolocation-still-denied-heading': 'Geolocation denied',
     'geolocation-timeout-heading':
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
@@ -839,19 +836,17 @@ const translations = {
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
-    'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
     'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
-    'geolocation-denied-heading': 'Miten haluat aloittaa?',
+    'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
     'geolocation-failed-heading': 'Paikannus epäonnistui',
     'geolocation-failed-text':
       'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
-    'geolocation-still-denied-heading': 'Paikannus on estetty',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
     'give-destination': 'Määränpää',
@@ -1116,7 +1111,6 @@ const translations = {
     ferry: 'Bâteau',
     'ferry-with-route-number': 'Bâteau {routeNumber} {headSign}',
     'footer-feedback': 'Donner votre avis',
-    'footer-link-to-old': "Utiliser l'ancien planificateur d'itinéraires",
     frontpage: 'Page de garde',
     'geolocate-yourself': 'Se géolocaliser',
     'geolocation-denied-heading': 'Comment souhaitez-vous démarrer ?',
@@ -1629,19 +1623,16 @@ const translations = {
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
-    'footer-link-to-old': 'Använd den gamla Reseplaneraren',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
     'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
-    'geolocation-denied-heading': 'Hur vill du börja?',
+    'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
       'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
     'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
-    'geolocation-still-denied-heading':
-      'Delning av platsinformation är förbjudet',
     'geolocation-timeout-heading':
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':

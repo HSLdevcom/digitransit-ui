@@ -510,3 +510,19 @@ div.map-click-prevent-overlay {
   background: none;
   cursor: grab;
 }
+
+.activeAreaLarge {
+  position: absolute;
+  top: 50px;
+  bottom: 20px;
+  left: 0px;
+  right: 370px;
+}
+
+.activeAreaSmall {
+  position: absolute;
+  top: 95px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+}

@@ -52,7 +52,7 @@ export const getNameLabel = memoize(
       case 'route-SUBWAY':
       case 'route-FERRY':
       case 'route-AIRPLANE':
-        return suggestion.shortName
+        return !plain && suggestion.shortName
           ? [
               <span key={suggestion.gtfsId}>
                 <span className={suggestion.mode.toLowerCase()}>
@@ -65,7 +65,7 @@ export const getNameLabel = memoize(
               </span>,
               suggestion.longName,
             ]
-          : [suggestion.longName, null];
+          : [suggestion.shortName, suggestion.longName];
       case 'venue':
       case 'address':
         return [
@@ -118,7 +118,7 @@ export function getLabel(properties) {
     case 'favouritePlace':
       return parts[0];
     default:
-      return parts.join(', ');
+      return parts.length > 1 ? parts.join(', ') : parts[1] || parts[0];
   }
 }
 

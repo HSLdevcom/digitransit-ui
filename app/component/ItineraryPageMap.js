@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import get from 'lodash/get';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 
@@ -100,14 +101,15 @@ export default function ItineraryPageMap(
   // onCenterMap() used to check if the layer has a marker for an itinerary
   // stop, emulate a click on the map to open up the popup
   const onCenterMap = element => {
-    if (!element || !center) {
+    const map = get(element, 'refs.wrappedElement.map', null);
+    if (!map || !center) {
       return;
     }
-    element.map.leafletElement.closePopup();
+    map.leafletElement.closePopup();
     clearTimeout(timeout);
     if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
-      element.map.leafletElement.eachLayer(layer => {
+      map.leafletElement.eachLayer(layer => {
         if (
           layer instanceof L.Marker &&
           layer.getLatLng().equals(latlngPoint)
@@ -116,10 +118,8 @@ export default function ItineraryPageMap(
             () =>
               layer.fireEvent('click', {
                 latlng: latlngPoint,
-                layerPoint: element.map.leafletElement.latLngToLayerPoint(
-                  latlngPoint,
-                ),
-                containerPoint: element.map.leafletElement.latLngToContainerPoint(
+                layerPoint: map.leafletElement.latLngToLayerPoint(latlngPoint),
+                containerPoint: map.leafletElement.latLngToContainerPoint(
                   latlngPoint,
                 ),
               }),
