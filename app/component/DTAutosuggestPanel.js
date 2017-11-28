@@ -98,10 +98,12 @@ class DTAutosuggestPanel extends React.Component {
               }
             }
             navigateTo({
+              base: this.context.location,
               origin,
               destination,
               context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
               router: this.context.router,
+              tab: this.props.tab,
             });
           }}
         />
@@ -163,6 +165,7 @@ class DTAutosuggestPanel extends React.Component {
               }
             }
             navigateTo({
+              base: this.context.location,
               origin,
               destination,
               context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
