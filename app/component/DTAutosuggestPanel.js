@@ -120,10 +120,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={this.context.breakpoint === 'large'}
             refPoint={this.props.origin}
             searchType="endpoint"
-            placeholder={this.props.intl.formatMessage({
-              id: 'via-point',
-              defaultMessage: 'Viapoint',
-            })}
+            placeholder="via-point"
             className={`viapoint`}
             isFocused={this.isFocused}
             value={this.props.viaPointName}
