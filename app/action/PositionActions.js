@@ -149,7 +149,9 @@ function watchPosition(actionContext, done) {
     updateGeolocationMessage(actionContext, 'failed');
     console.error(error);
   }
-  done();
+  if (typeof done === 'function') {
+    done();
+  }
 }
 
 /**
@@ -193,7 +195,7 @@ function startPositioning(actionContext, done) {
         done('denied');
         break;
       case 'prompt':
-        watchPosition(actionContext, done);
+        watchPosition(actionContext);
         // it was, let's listen for changes
         // eslint-disable-next-line no-param-reassign
         status.onchange = permissionStatusChangeEvent => {
@@ -233,13 +235,19 @@ export function startLocationWatch(actionContext, payload) {
     }
   };
   if (typeof geoWatchId === 'undefined') {
+    debug('starting...');
     startPositioning(actionContext, done); // from geolocation.js
   } else {
+    debug('already started...');
     done();
   }
 }
 let init = false;
 
+/**
+ * This is called only from Index page.
+ * TODO all other states but granted are not needed here
+*/
 export function initGeolocation(actionContext, payload, done) {
   if (init === true) {
     debug('Already initialized, bailing out');
