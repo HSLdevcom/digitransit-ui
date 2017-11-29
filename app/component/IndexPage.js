@@ -266,7 +266,7 @@ class IndexPage extends React.Component {
               })}
               onClick={this.togglePanelExpanded}
             >
-              {!this.state.mapExpanded ? (
+              {this.state.mapExpanded ? (
                 <Icon img="icon-icon_minimize" className="cursor-pointer" />
               ) : (
                 <Icon img="icon-icon_maximize" className="cursor-pointer" />

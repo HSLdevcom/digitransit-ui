@@ -43,7 +43,11 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
       toggleFullscreenMap(fullscreenMap, params, router);
     }}
   >
-    <Icon img="icon-icon_maximize" className="cursor-pointer" />
+    {fullscreenMap ? (
+      <Icon img="icon-icon_minimize" className="cursor-pointer" />
+    ) : (
+      <Icon img="icon-icon_maximize" className="cursor-pointer" />
+    )}
   </div>
 );
 
