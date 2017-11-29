@@ -18,7 +18,6 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lon',
   'zoom',
   'mapTracking',
-  'children',
   'showStops',
   'showScaleBar',
   'origin',
@@ -39,7 +38,6 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultMapCenter: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
   };
 
   constructor(props) {
