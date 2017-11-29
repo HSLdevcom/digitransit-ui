@@ -121,7 +121,7 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   render() {
-    const { position, origin, config, children, ...rest } = this.props;
+    const { position, origin, config, ...rest } = this.props;
     let location;
 
     if (
@@ -159,7 +159,6 @@ class MapWithTrackingStateHandler extends React.Component {
         {...rest}
         leafletObjs={leafletObjs}
       >
-        {children}
         {this.props.position.hasLocation && (
           <ToggleMapTracking
             key="toggleMapTracking"
