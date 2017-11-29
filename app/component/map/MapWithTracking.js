@@ -56,6 +56,8 @@ class MapWithTrackingStateHandler extends React.Component {
   componentWillReceiveProps(newProps) {
     if (
       // "current position selected"
+      newProps.origin.lat != null &&
+      newProps.origin.lon != null &&
       newProps.origin.gps === true &&
       ((this.state.origin.ready === false && newProps.origin.ready === true) ||
         !this.state.origin.gps) // current position selected
