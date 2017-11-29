@@ -30,15 +30,11 @@ function reverseGeocodeAddress(actionContext, location) {
   });
 }
 
-const runReverseGeocodingAction = (actionContext, lat, lon, done) =>
-  actionContext.executeAction(
-    reverseGeocodeAddress,
-    {
-      lat,
-      lon,
-    },
-    done,
-  );
+const runReverseGeocodingAction = (actionContext, lat, lon) =>
+  actionContext.executeAction(reverseGeocodeAddress, {
+    lat,
+    lon,
+  });
 
 const debouncedRunReverseGeocodingAction = debounce(
   runReverseGeocodingAction,
@@ -51,11 +47,7 @@ const debouncedRunReverseGeocodingAction = debounce(
 const setCurrentLocation = (actionContext, position) =>
   actionContext.dispatch('GeolocationFound', position);
 
-export function geolocatonCallback(
-  actionContext,
-  { pos, disableDebounce },
-  done,
-) {
+export function geolocatonCallback(actionContext, { pos, disableDebounce }) {
   setCurrentLocation(actionContext, {
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,
@@ -68,14 +60,12 @@ export function geolocatonCallback(
       actionContext,
       pos.coords.latitude,
       pos.coords.longitude,
-      done,
     );
   } else {
     debouncedRunReverseGeocodingAction(
       actionContext,
       pos.coords.latitude,
       pos.coords.longitude,
-      done,
     );
   }
 }
@@ -114,7 +104,7 @@ function dispatchGeolocationError(actionContext, error) {
 }
 
 // set watcher for geolocation
-function watchPosition(actionContext, done) {
+function watchPosition(actionContext) {
   debug('watchPosition');
   const quietTimeoutSeconds = 20;
 
@@ -125,6 +115,7 @@ function watchPosition(actionContext, done) {
   try {
     geoWatchId = navigator.geoapi.watchPosition(
       position => {
+        updateGeolocationMessage(actionContext);
         if (timeout !== null) {
           clearTimeout(timeout);
           timeout = null;
@@ -144,12 +135,12 @@ function watchPosition(actionContext, done) {
     if (timeout !== null) {
       clearTimeout(timeout);
       timeout = null;
+      geoWatchId = undefined;
     }
     actionContext.dispatch('GeolocationNotSupported');
     updateGeolocationMessage(actionContext, 'failed');
     console.error(error);
   }
-  done();
 }
 
 /**
@@ -178,69 +169,49 @@ export function checkPositioningPermission() {
   return p;
 }
 
-function startPositioning(actionContext, done) {
+function startPositioning(actionContext) {
   checkPositioningPermission().then(status => {
     debug('Examining permission', status);
     switch (status.state) {
       case 'granted':
         actionContext.dispatch('GeolocationSearch');
         updateGeolocationMessage(actionContext);
-        watchPosition(actionContext, done);
+        watchPosition(actionContext);
         break;
       case 'denied':
         actionContext.dispatch('GeolocationDenied');
         updateGeolocationMessage(actionContext, 'denied');
-        done('denied');
         break;
       case 'prompt':
-        watchPosition(actionContext, done);
-        // it was, let's listen for changes
-        // eslint-disable-next-line no-param-reassign
-        status.onchange = permissionStatusChangeEvent => {
-          const permissionStatus = permissionStatusChangeEvent.target;
-          debug('permission status changed', permissionStatus);
-          // eslint-disable-next-line no-param-reassign
-          status.onchange = null; // remove listener
-          if (permissionStatus.state === 'granted') {
-            actionContext.dispatch('GeolocationSearch');
-            done();
-            updateGeolocationMessage(actionContext);
-          } else if (permissionStatus.state === 'denied') {
-            actionContext.dispatch('GeolocationDenied');
-            done('denied');
-            updateGeolocationMessage(actionContext, 'denied');
-          }
-        };
+        updateGeolocationMessage(actionContext, 'prompt');
+        watchPosition(actionContext);
+        actionContext.dispatch('GeolocationSearch');
         break;
       default:
         // browsers not supporting permission api
         actionContext.dispatch('GeolocationSearch');
-        watchPosition(actionContext, done);
+        watchPosition(actionContext);
         break;
     }
   });
 }
 
 /* starts location watch */
-export function startLocationWatch(actionContext, payload) {
-  // Check if we need to manually start positioning
-  const done = error => {
-    if (
-      error === undefined &&
-      typeof payload.onPositioningStarted === 'function'
-    ) {
-      payload.onPositioningStarted();
-    }
-  };
+export function startLocationWatch(actionContext) {
   if (typeof geoWatchId === 'undefined') {
-    startPositioning(actionContext, done); // from geolocation.js
+    debug('starting...');
+    startPositioning(actionContext); // from geolocation.js
   } else {
-    done();
+    debug('already started...');
   }
 }
 let init = false;
 
-export function initGeolocation(actionContext, payload, done) {
+/**
+ * This is called only from Index page.
+ * TODO all other states but granted are not needed here
+*/
+export function initGeolocation(actionContext) {
   if (init === true) {
     debug('Already initialized, bailing out');
     return;
@@ -285,10 +256,9 @@ export function initGeolocation(actionContext, payload, done) {
       }
       if (start === true) {
         debug('Starting positioning');
-        startPositioning(actionContext, done);
+        startPositioning(actionContext);
       } else {
         debug('Not starting positioning');
-        done();
       }
     });
   }
