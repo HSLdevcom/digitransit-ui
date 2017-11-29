@@ -5,9 +5,9 @@
 
   line-height: 1.6em;
   user-select: none;
-  font-size: 13px;
+  font-size: $font-size-small;
 
-  @include font-book;
+  @include font-medium;
 
   display: flex;
   justify-content: space-between;

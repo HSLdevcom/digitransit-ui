@@ -22,6 +22,33 @@ $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 $item-border-color: #eee;
 
+.autosuggest-input-container {
+  position: relative;
+  display: flex;
+}
+
+.front-page {
+  //for index page only
+  .autosuggest-input-container {
+    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+  #origin {
+    margin:0;
+    font-size: 1rem;
+  }
+  #destination-container {
+    margin-top: 8px;
+  }
+  #destination {
+    margin:0;
+    font-size: 1rem;
+  }
+
+  button.clear-input {
+    font-size: 1rem;
+  }
+}
+
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
 input field Placeholder texts */
 #origin::placeholder {
@@ -73,73 +100,6 @@ input field Placeholder texts */
   opacity: 1;
 }
 
-.search-form.bp-large {
-  padding-top: 0;
-  max-width: 720px;
-  .address-placeholder {
-    padding-left: 18px;
-    line-height: $search-form-input-overlay-height;
-  }
-  .postfix {
-    height: 60px;
-    width: 60px;
-    .icon {
-      font-size: 26px;
-    }
-  }
-  .input-placeholder {
-      @include form-element();
-      height: 60px;
-      font-size:18px;
-      text-align: left;
-      border-top-left-radius: $input-border-radius;
-      border-bottom-left-radius: $input-border-radius;
-      box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-  }
-  .address-placeholder {
-    padding-top: 13px;
-  }
-}
-
-.xreact-autowhatever__type-selector {
-  font-size: $font-size-xxsmall;
-  line-height: 1;
-  display: flex;
-  flex: 0 0 auto;
-  margin-bottom: -1px;
-  z-index: 1;
-
-  a {
-    color: $link-color;
-    height: 100%;
-    padding: 10px 10px;
-    margin: 0 3px;
-    border: 1px solid $light-gray;
-    border-bottom: none;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &.selected {
-      background: $white;
-      color: $black;
-    }
-
-    .item-count {
-      background-color: $link-color;
-      color: $primary-font-color;
-      font-size: 0.8em;
-      margin-left: 0.5em;
-      padding: 0.25em 0.75em;
-      border-radius: 1em;
-      vertical-align: 0.1em;
-    }
-  }
-}
-
 ul.react-autowhatever__items-list {
   @extend .momentum-scroll;
   list-style-type: none;
@@ -158,30 +118,6 @@ ul.react-autowhatever__items-list {
       border-bottom: solid 1px $item-border-color;
     }
   }
-}
-
-.search-no-results {
-  @extend .react-autowhatever__items-list;
-  height: 200px;
-  li {
-    text-align: center;
-    font-weight: normal;
-    padding-top: 35px;
-
-    span {
-      padding-top: 40px;
-      display: inline-block;
-      white-space: normal;
-      line-height: normal;
-    }
-  }
-}
-
-.xreact-autowhatever__item {
-  font-family: $search-result-text-font-family;
-  font-weight: $search-result-text-font-weight;
-  letter-spacing: $search-result-text-letter-spacing;
-  padding: 0;
 }
 
 .react-autosuggest__suggestion--highlighted {
@@ -360,59 +296,6 @@ ul.react-autowhatever__items-list {
   }
 }
 
-
-
-.bp-large .search-result {
-  line-height: 1.25;
-  min-height: 2em;
-
-  .autosuggestIcon {
-    font-size: $font-size-normal;
-    color: #cbcbcb;
-  }
-
-  .suggestion-name, .use-own-position {
-    font-size: 15px;
-  }
-
-  .suggestion-label {
-    font-size: 13px;
-  }
-}
-
-.search-form-map-overlay {
-  z-index: 802;
-}
-
-.search-modal-overlay {
-  height: 100%;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: 1100;
-  background: rgba(0, 0, 0, 0.541176);
-}
-
-.geolocation-bar-location-icon svg.icon {
-  fill: $hilight-color;
-  padding-top: 2px;
-}
-
-div.search-modal {
-  z-index: 1300;
-  background: #EEF1F3;
-  overflow: auto;
-  width: 100%;
-  max-width: none;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-
-
-}
-
 div.map {
   .search-modal {
     top: -40px;
@@ -420,129 +303,6 @@ div.map {
   }
 }
 
-div.origin-destination-bar {
-  .search-modal {
-    top: -40px;
-  }
-}
-
-.search-header {
-  overflow: hidden;
-
-  .search-header__category-text {
-    color: $gray-blue;
-    font-size: $font-size-xxsmall;
-    margin-left: 12px;
-    margin-right: 6px;
-    vertical-align: middle;
-  }
-
-  .search-header__back-arrow {
-    position: absolute;
-    color: $gray-blue;
-    user-select: none;
-    line-height: 3.5em;
-  }
-
-  .search-header__button, .search-header__button--selected {
-    margin-bottom: 0;
-    letter-spacing: -0.025em;
-    font-size: $font-size-small !important;
-    font-weight: $font-weight-bold !important;
-
-    > div > div {
-      @extend .overflow-fade;
-
-      // Uh-oh, override material-ui style for not overflowing the beginning of the word
-      align-items: stretch !important;
-      height: 3.5em !important;
-    }
-  }
-
-  .search-header-width-fix {
-    margin-left: 30px !important;
-    margin-right: 5px !important;
-    width: calc(100% - 35px) !important;
-  }
-
-  .search-header__tabs-root {
-    height: 100%;
-    > div:first-child {
-      line-height: 18px !important;
-      @extend .search-header-width-fix;
-    }
-    > div:nth-child(2) { //hack, modify tabs in material ui to fix
-      @extend .search-header-width-fix;
-    }
-    > div:nth-child(3) {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      > div {
-        flex: 0 1 auto;
-        display: flex;
-        > div {
-          flex: 1 0 0;
-          width: 100%;
-        }
-      }
-    }
-  }
-
-  .close-icon {
-    color: $gray;
-  }
-
-  .geolocation {
-    position: absolute;
-    top: 0px;
-    width: 100%;
-    padding: 5px;
-    height: 2.7em;
-    line-height: normal;
-  }
-}
-
-.search-header-separator {
-  border-left: 1px solid $light-gray;
-  margin-left: 11px;
-  height: 2em;
-  display: inline-block;
-  position: relative;
-  bottom: -0.6em;
-}
-
-.search-current-origin-tip {
-  @include font-book;
-  font-size: $font-size-xxxsmall;
-  text-transform: none;
-
-  svg.icon {
-    color: $hilight-color;
-    margin-right: 0.5em;
-    font-size: 8px;
-  }
-}
-
-.bp-large .search-current-origin-tip {
-  font-size: 13px;
-
-  svg.icon {
-    font-size: 16px;
-    vertical-align: -3px;
-  }
-}
-
-#close-search-button-container {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  .icon {
-    color: $gray-blue;
-    font-size: 24px;
-  }
-}
- // used styles start from here:
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
@@ -820,20 +580,20 @@ div.autosuggest-panel {
 input.react-autosuggest__input{
   &.location {
     padding-left: 3em;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>") no-repeat scroll 7px 7px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>") no-repeat scroll 0.7rem 0.7rem;
     background-color: white;
+    background-size: 1.5rem;
   }
   &.position {
     padding-left: 3em;
-    background: url("data:image/svg+xml;utf8;charset=utf-8,%3Csvg%20width%3D%2220px%22%20height%3D%2220px%22%20viewBox%3D%220%200%2038%2038%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0D%0A%20%20%20%20%3Cdefs%3E%0D%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M23.5788538%2C26.0741036%20C23.0354072%2C26.0741036%2022.5692711%2C25.7273437%2022.4930976%2C25.2259631%20L21.8643443%2C23.5794398%20L21.5539658%2C23.5794398%20L21.5539658%2C26.1215873%20L15.7704665%2C26.1215873%20L15.7704665%2C23.5794398%20L15.460088%2C23.5794398%20L14.9235009%2C25.1873079%20C14.8075353%2C25.6886885%2014.3413991%2C26.0354484%2013.8366077%2C26.0354484%20C13.1760587%2C26.0354484%2012.6724042%2C25.4954126%2012.6724042%2C24.9565137%20C12.6724042%2C24.8018929%2012.6724042%2C24.648409%2012.7497146%2C24.4949252%20L14.0628164%2C20.6518772%20C14.4505053%2C19.5729425%2015.032607%2C19.1875275%2016.0035346%2C19.1875275%20L21.2435873%2C19.1875275%20C22.213378%2C19.1875275%2022.8341349%2C19.5729425%2023.1843055%2C20.6518772%20L24.6657469%2C24.5324435%20C24.7044021%2C24.6870642%2024.7044021%2C24.8405481%2024.7044021%2C24.9951689%20C24.7044021%2C25.5340678%2024.2382659%2C26.0741036%2023.5788538%2C26.0741036%20Z%20M18.6809753%2C18.2245583%20L18.643457%2C18.2245583%20C17.0517725%2C18.2245583%2015.7318113%2C16.9148294%2015.7318113%2C15.2969958%20C15.7318113%2C13.6791622%2017.0517725%2C12.3694332%2018.6809753%2C12.3694332%20C20.2726598%2C12.3694332%2021.592621%2C13.6791622%2021.592621%2C15.2969958%20C21.592621%2C16.9148294%2020.2726598%2C18.2245583%2018.6809753%2C18.2245583%20Z%22%20id%3D%22path-1%22%3E%3C%2Fpath%3E%0D%0A%20%20%20%20%3C%2Fdefs%3E%0D%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0D%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22l%C3%A4hell%C3%A4si%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2217.5265812%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2213.3151577%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%226.591%22%20fill%3D%22%23F653B9%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%227.32737159%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cmask%20id%3D%22mask-2%22%20fill%3D%22white%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fmask%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20id%3D%22Mask%22%20fill%3D%22%23FFFFFF%22%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0D%0A%20%20%20%20%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E") no-repeat scroll 7px 7px;
+    background: url("data:image/svg+xml;utf8;charset=utf-8,%3Csvg%20width%3D%2220px%22%20height%3D%2220px%22%20viewBox%3D%220%200%2038%2038%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0D%0A%20%20%20%20%3Cdefs%3E%0D%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M23.5788538%2C26.0741036%20C23.0354072%2C26.0741036%2022.5692711%2C25.7273437%2022.4930976%2C25.2259631%20L21.8643443%2C23.5794398%20L21.5539658%2C23.5794398%20L21.5539658%2C26.1215873%20L15.7704665%2C26.1215873%20L15.7704665%2C23.5794398%20L15.460088%2C23.5794398%20L14.9235009%2C25.1873079%20C14.8075353%2C25.6886885%2014.3413991%2C26.0354484%2013.8366077%2C26.0354484%20C13.1760587%2C26.0354484%2012.6724042%2C25.4954126%2012.6724042%2C24.9565137%20C12.6724042%2C24.8018929%2012.6724042%2C24.648409%2012.7497146%2C24.4949252%20L14.0628164%2C20.6518772%20C14.4505053%2C19.5729425%2015.032607%2C19.1875275%2016.0035346%2C19.1875275%20L21.2435873%2C19.1875275%20C22.213378%2C19.1875275%2022.8341349%2C19.5729425%2023.1843055%2C20.6518772%20L24.6657469%2C24.5324435%20C24.7044021%2C24.6870642%2024.7044021%2C24.8405481%2024.7044021%2C24.9951689%20C24.7044021%2C25.5340678%2024.2382659%2C26.0741036%2023.5788538%2C26.0741036%20Z%20M18.6809753%2C18.2245583%20L18.643457%2C18.2245583%20C17.0517725%2C18.2245583%2015.7318113%2C16.9148294%2015.7318113%2C15.2969958%20C15.7318113%2C13.6791622%2017.0517725%2C12.3694332%2018.6809753%2C12.3694332%20C20.2726598%2C12.3694332%2021.592621%2C13.6791622%2021.592621%2C15.2969958%20C21.592621%2C16.9148294%2020.2726598%2C18.2245583%2018.6809753%2C18.2245583%20Z%22%20id%3D%22path-1%22%3E%3C%2Fpath%3E%0D%0A%20%20%20%20%3C%2Fdefs%3E%0D%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0D%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22l%C3%A4hell%C3%A4si%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2217.5265812%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2213.3151577%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke%3D%22%23F653B9%22%20stroke-width%3D%226.591%22%20fill%3D%22%23F653B9%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%227.32737159%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cmask%20id%3D%22mask-2%22%20fill%3D%22white%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fmask%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20id%3D%22Mask%22%20fill%3D%22%23FFFFFF%22%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0D%0A%20%20%20%20%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E") no-repeat scroll 0.7rem 0.7rem;
     background-color: white;
-    background-size: 1.2rem;
-    background-position-y: 0.6rem;
+    background-size: 1.5rem;
   }
   &.destination {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba(#888888, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>");
     background-repeat: no-repeat;
-    background-position: 7px 9px;
+    background-position: 0.7rem 0.7rem;
     padding-left: 3em;
   }
   background-color: $white;
@@ -911,6 +671,9 @@ button.clear-input {
   margin-bottom: 0px;
   color: $gray;
   outline: none;
+  span { //icon size
+    font-size:1.1rem;
+  }
   &:hover {
     background: $white;
   }
