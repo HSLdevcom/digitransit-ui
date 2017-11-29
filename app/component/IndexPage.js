@@ -12,13 +12,13 @@ import {
   initGeolocation,
   checkPositioningPermission,
 } from '../action/PositionActions';
+import storeOrigin from '../action/originActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import { getPositioningHasSucceeded } from '../store/localStorage';
 import { isBrowser } from '../util/browser';
 import {
   TAB_NEARBY,
@@ -51,6 +51,7 @@ class IndexPage extends React.Component {
     router: routerShape.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -61,11 +62,12 @@ class IndexPage extends React.Component {
     showSpinner: PropTypes.bool.isRequired,
   };
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       mapExpanded: false, // Show right-now as default
     };
+    context.executeAction(storeOrigin, props.origin);
   }
 
   componentDidMount() {
@@ -114,6 +116,10 @@ class IndexPage extends React.Component {
 
   /* eslint-disable no-param-reassign */
   handleLocationProps = nextProps => {
+    if (!isEqual(nextProps.origin, this.props.origin)) {
+      this.context.executeAction(storeOrigin, nextProps.origin);
+    }
+
     if (isItinerarySearchObjects(nextProps.origin, nextProps.destination)) {
       debug('Redirecting to itinerary summary page');
       navigateTo({
@@ -188,29 +194,28 @@ class IndexPage extends React.Component {
           this.props.origin.gpsError === false &&
           `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
+        <DTAutosuggestPanel
+          origin={this.props.origin}
+          destination={this.props.destination}
+          tab={this.props.tab}
+          originSearchType="all"
+          originPlaceHolder="search-origin"
+        />
+        <div key="foo" className="fpccontainer">
+          <FrontPagePanelLarge
+            selectedPanel={selectedMainTab}
+            nearbyClicked={this.clickNearby}
+            favouritesClicked={this.clickFavourites}
+          >
+            {this.renderTab()}
+          </FrontPagePanelLarge>
+        </div>
         <MapWithTracking
           breakpoint={this.props.breakpoint}
           showStops
           showScaleBar
           origin={this.props.origin}
-        >
-          <DTAutosuggestPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-            tab={this.props.tab}
-            originSearchType="all"
-            originPlaceHolder="search-origin"
-          />
-          <div key="foo" className="fpccontainer">
-            <FrontPagePanelLarge
-              selectedPanel={selectedMainTab}
-              nearbyClicked={this.clickNearby}
-              favouritesClicked={this.clickFavourites}
-            >
-              {this.renderTab()}
-            </FrontPagePanelLarge>
-          </div>
-        </MapWithTracking>
+        />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
           <PageFooter
@@ -390,42 +395,22 @@ const IndexPageWithPosition = connectToStores(
     }
 
     if (isBrowser) {
-      let gpsInitiated = false;
       newProps.showSpinner = locationState.isLocationingInProgress === true;
-      checkPositioningPermission().then(status => {
-        if (
-          // check logic for starting geolocation
-          status.state === 'granted' &&
-          getPositioningHasSucceeded() === true &&
-          locationState.status === 'no-location'
-        ) {
-          debug('Auto Initialising geolocation');
-          gpsInitiated = true;
-          context.executeAction(initGeolocation);
-        }
+      if (
+        locationState.isLocationingInProgress !== true &&
+        locationState.hasLocation === false &&
+        (newProps.origin.gps === true || newProps.destination.gps === true)
+      ) {
+        checkPositioningPermission().then(status => {
+          if (
+            // check logic for starting geolocation
+            status.state === 'granted' &&
+            locationState.status === 'no-location'
+          ) {
+            debug('Auto Initialising geolocation');
 
-        if (
-          // logic for redirecting to /pos/...
-          (locationState.isLocationingInProgress === true ||
-            locationState.hasLocation === true) &&
-          newProps.origin.set === false &&
-          newProps.destination.set === false
-        ) {
-          debug('Redirecting to origin=current pos');
-          navigateTo({
-            origin: { gps: true, ready: false },
-            destination: { ready: false, set: false },
-            context: '/',
-            router: context.router,
-            base: {},
-            tab: newProps.tab,
-          });
-        } else if (
-          locationState.isLocationingInProgress !== true &&
-          locationState.hasLocation === false &&
-          (newProps.origin.gps === true || newProps.destination.gps === true)
-        ) {
-          if (gpsInitiated === false) {
+            context.executeAction(initGeolocation);
+          } else {
             // clear gps & redirect
             if (newProps.origin.gps === true) {
               newProps.origin.gps = false;
@@ -447,8 +432,8 @@ const IndexPageWithPosition = connectToStores(
               tab: newProps.tab,
             });
           }
-        }
-      });
+        });
+      }
     }
     return newProps;
   },

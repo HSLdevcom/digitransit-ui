@@ -101,7 +101,7 @@ function getCurrentPositionIfEmpty(input, position) {
         lat: position.lat,
         lon: position.lon,
         properties: {
-          labelId: 'own-position',
+          labelId: 'use-own-position',
           layer: 'currentPosition',
           address: position.address,
           lat: position.lat,
@@ -342,9 +342,7 @@ export function executeSearchImmediate(
 
     if (
       endpointLayers.includes('CurrentPosition') &&
-      (position.status === 'no-location' ||
-        position.status === 'found-location' ||
-        position.status === 'found-address')
+      position.status !== 'geolocation-not-supported'
     ) {
       searchComponents.push(getCurrentPositionIfEmpty(input, position));
     }

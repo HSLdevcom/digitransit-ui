@@ -11,7 +11,9 @@ import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
+import isEqual from 'lodash/isEqual';
 import { dtLocationShape } from '../util/shapes';
+import storeOrigin from '../action/originActions';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
@@ -42,6 +44,7 @@ class SummaryPage extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     config: PropTypes.object,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -79,13 +82,22 @@ class SummaryPage extends React.Component {
     wheelchair: false,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    context.executeAction(storeOrigin, props.from);
+  }
+
   state = { center: null };
 
   componentWillMount = () =>
     this.initCustomizableParameters(this.context.config);
 
-  componentWillReceiveProps(newProps, newContext) {
-    if (newContext.breakpoint === 'large' && this.state.center) {
+  componentWillReceiveProps(nextProps, context) {
+    if (!isEqual(nextProps.from, this.props.from)) {
+      this.context.executeAction(storeOrigin, nextProps.from);
+    }
+
+    if (context.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
   }

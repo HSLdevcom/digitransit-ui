@@ -80,6 +80,7 @@ $heading-color: #858585;
     background: linear-gradient(rgba(255,255,255,0) 3px, rgba(255,255,255,1));
     bottom: 0;
     pointer-events: none;
+    border-bottom-left-radius: $border-radius-bigger;
   }
 }
 

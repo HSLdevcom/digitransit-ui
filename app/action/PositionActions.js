@@ -183,6 +183,7 @@ function startPositioning(actionContext, done) {
     debug('Examining permission', status);
     switch (status.state) {
       case 'granted':
+        actionContext.dispatch('GeolocationSearch');
         updateGeolocationMessage(actionContext);
         watchPosition(actionContext, done);
         break;

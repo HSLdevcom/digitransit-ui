@@ -10,7 +10,7 @@ export default class ErrorBoundary extends React.Component {
   static contextTypes = {
     raven: PropTypes.shape({
       captureException: PropTypes.func.isRequired,
-    }).isRequired,
+    }),
   };
 
   state = { error: null, hasRetried: false };

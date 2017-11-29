@@ -3,12 +3,13 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import PlaceMarker from './PlaceMarker';
 import ComponentUsageExample from '../ComponentUsageExample';
 import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 
-const DEFAULT_ZOOM = 11;
+const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
@@ -136,6 +137,12 @@ class MapWithTrackingStateHandler extends React.Component {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
 
+    const leafletObjs = [];
+
+    if (origin && origin.ready === true && origin.gps !== true) {
+      leafletObjs.push(<PlaceMarker position={this.props.origin} key="from" />);
+    }
+
     return (
       <Component
         lat={location ? location.lat : null}
@@ -150,6 +157,7 @@ class MapWithTrackingStateHandler extends React.Component {
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
+        leafletObjs={leafletObjs}
       >
         {children}
         {this.props.position.hasLocation && (
