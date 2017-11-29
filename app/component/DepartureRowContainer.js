@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Link } from 'react-router';
+import { routerShape } from 'react-router';
 import filter from 'lodash/filter';
 
 import RouteNumberContainer from './RouteNumberContainer';
@@ -10,6 +10,7 @@ import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
+import { PREFIX_ROUTES } from '../util/path';
 
 const hasActiveDisruption = (t, alerts) =>
   filter(
@@ -17,7 +18,7 @@ const hasActiveDisruption = (t, alerts) =>
     alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
   ).length > 0;
 
-const DepartureRow = props => {
+const DepartureRow = (props, context) => {
   const departure = props.departure;
   let departureTimes;
   let headsign;
@@ -30,27 +31,51 @@ const DepartureRow = props => {
         ${departureTime.realtimeDeparture}`;
 
       return (
-        <DepartureTime
-          key={key}
-          departureTime={
-            departureTime.serviceDay + departureTime.realtimeDeparture
-          }
-          realtime={departureTime.realtime}
-          currentTime={props.currentTime}
-          canceled={canceled}
-        />
+        <td key={`${key}-td`} className="td-departure-times">
+          <DepartureTime
+            key={key}
+            departureTime={
+              departureTime.serviceDay + departureTime.realtimeDeparture
+            }
+            realtime={departureTime.realtime}
+            currentTime={props.currentTime}
+            canceled={canceled}
+          />
+        </td>
       );
     });
   }
 
+  const getDeparture = val => {
+    context.router.push(val);
+  };
+
+  const departureLinkUrl = `/${PREFIX_ROUTES}/${departure.pattern.route
+    .gtfsId}/pysakit/${departure.pattern.code}`;
+
+  // In case there's only one departure for the route,
+  // add a dummy cell to keep the table layout from breaking
+  const departureTimesChecked =
+    departureTimes.length < 2
+      ? [
+          departureTimes[0],
+          <td
+            key={`${departureTimes[0].key}-empty`}
+            className="td-departure-times"
+          />,
+        ]
+      : departureTimes;
+
   return (
-    <div className="next-departure-row padding-vertical-normal border-bottom">
-      <Link
-        to={`/linjat/${departure.pattern.route.gtfsId}/pysakit/${departure
-          .pattern.code}`}
-        key={departure.pattern.code}
-      >
+    <tr
+      className="next-departure-row-tr"
+      onClick={() => getDeparture(departureLinkUrl)}
+      style={{ cursor: 'pointer' }}
+    >
+      <td className="td-distance">
         <Distance distance={props.distance} />
+      </td>
+      <td className="td-route-number">
         <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(
@@ -59,13 +84,15 @@ const DepartureRow = props => {
           )}
           isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
         />
+      </td>
+      <td className="td-destination">
         <RouteDestination
           mode={departure.pattern.route.mode}
           destination={headsign || departure.pattern.route.longName}
         />
-        {departureTimes}
-      </Link>
-    </div>
+      </td>
+      {departureTimesChecked}
+    </tr>
   );
 };
 
@@ -76,6 +103,10 @@ DepartureRow.propTypes = {
   distance: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
+};
+
+DepartureRow.contextTypes = {
+  router: routerShape,
 };
 
 const exampleDeparture1 = {

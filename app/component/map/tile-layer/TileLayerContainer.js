@@ -8,7 +8,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import L from 'leaflet';
-
+import { routerShape } from 'react-router';
 import StopRoute from '../../../route/StopRoute';
 import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
@@ -26,64 +26,72 @@ import Loading from '../../Loading';
 
 const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(
   ParkAndRideFacilityPopup,
   {
     intl: intlShape.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
   },
 );
 
 const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
   intl: intlShape.isRequired,
-  router: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const initialState = {
@@ -107,7 +115,7 @@ class TileLayerContainer extends GridLayer {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     map: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
@@ -182,13 +190,13 @@ class TileLayerContainer extends GridLayer {
 
   PopupOptions = {
     offset: [110, 16],
-    closeButton: false,
     minWidth: 260,
     maxWidth: 260,
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
     onClose: this.onPopupclose,
+    autoPan: false,
   };
 
   createLeafletElement(props) {

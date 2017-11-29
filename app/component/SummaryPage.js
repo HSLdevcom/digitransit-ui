@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-
 import React from 'react';
 import Relay from 'react-relay/classic';
-
 import moment from 'moment';
 import isMatch from 'lodash/isMatch';
 import keys from 'lodash/keys';
@@ -12,13 +10,15 @@ import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
-
+import { routerShape } from 'react-router';
+import isEqual from 'lodash/isEqual';
+import { dtLocationShape } from '../util/shapes';
+import storeOrigin from '../action/originActions';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import Map from '../component/map/Map';
 import ItineraryTab from './ItineraryTab';
 import PrintableItinerary from './PrintableItinerary';
-
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
@@ -26,6 +26,7 @@ import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
+import { getHomeUrl } from '../util/path';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -40,9 +41,10 @@ class SummaryPage extends React.Component {
         error: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    router: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     config: PropTypes.object,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -61,15 +63,9 @@ class SummaryPage extends React.Component {
     content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
-    }),
-    from: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
     }).isRequired,
-    to: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-    }).isRequired,
+    from: dtLocationShape.isRequired,
+    to: dtLocationShape.isRequired,
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
@@ -86,13 +82,22 @@ class SummaryPage extends React.Component {
     wheelchair: false,
   };
 
+  constructor(props, context) {
+    super(props, context);
+    context.executeAction(storeOrigin, props.from);
+  }
+
   state = { center: null };
 
   componentWillMount = () =>
     this.initCustomizableParameters(this.context.config);
 
-  componentWillReceiveProps(newProps, newContext) {
-    if (newContext.breakpoint === 'large' && this.state.center) {
+  componentWillReceiveProps(nextProps, context) {
+    if (!isEqual(nextProps.from, this.props.from)) {
+      this.context.executeAction(storeOrigin, nextProps.from);
+    }
+
+    if (context.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
   }
@@ -128,7 +133,7 @@ class SummaryPage extends React.Component {
   renderMap() {
     const { plan: { plan }, location: { state, query }, from, to } = this.props;
     const activeIndex = getActiveIndex(state);
-    const itineraries = plan.itineraries || [];
+    const itineraries = (plan && plan.itineraries) || [];
 
     const leafletObjs = sortBy(
       itineraries.map((itinerary, i) => (
@@ -287,6 +292,7 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
+          homeUrl={getHomeUrl(this.props.from, this.props.to)}
           header={
             <SummaryNavigation
               params={this.props.params}
@@ -350,6 +356,7 @@ class SummaryPage extends React.Component {
             false
           )
         }
+        homeUrl={getHomeUrl(this.props.from, this.props.to)}
         content={content}
         map={map}
       />

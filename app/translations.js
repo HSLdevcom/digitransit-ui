@@ -65,6 +65,17 @@ const translations = {
     'ferry-with-route-number': 'Færge {routeNumber} {headSign}',
     frontpage: 'Forside',
     'geolocate-yourself': 'Find min position',
+    'geolocation-denied-heading':
+      'Tjenesten fungerer bedst når du oplyser din position',
+    'geolocation-denied-text':
+      'Lokalisering er ikke tilladt. Kontroller indstillingene for din browser.',
+    'geolocation-failed-heading': 'Lokalisering fungerer ikke',
+    'geolocation-failed-text':
+      'Din browser har ikke understøttelse for lokalisering.',
+    'geolocation-prompt-text': 'Venligst accepter lokalisering.',
+    'geolocation-timeout-heading':
+      'Lokalisering tager længre tid end forventet.',
+    'geolocation-timeout-text': 'Vælg udgangspunkt og prøv igen.',
     'give-destination': 'skriv hvor du vil hen',
     'give-name-to-location': 'Giv stedet en beskrivelse',
     'give-origin': 'tilføj afgangssted',
@@ -119,9 +130,6 @@ const translations = {
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
-    'not-implemented': '{name} - funktionen er ikke implementeret',
-    'not-implemented-msg':
-      'Hvis du vil deltage i udviklingen kan du finde mere information i følgende links',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stop} other {{number} stop} }',
@@ -166,6 +174,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'tilføj afgangssted',
     'search-position': 'Led efter position',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leder etter position',
@@ -182,17 +191,9 @@ const translations = {
     'skip-positioning': 'Hop over',
     slow: 'Spasering',
     'specify-location': 'Angiv sted',
-    'splash-geolocation-denied-message':
-      'Lokalisering er ikke tilladt. Kontroller indstillingene for din browser.',
-    'splash-geolocation-not-supported-message':
-      'Din browser har ikke understøttelse for lokalisering.',
-    'splash-geolocation-prompt-message': 'Venligst accepter lokalisering.',
-    'splash-geolocation-watch-timeout-message':
-      'Lokalisering tager længre tid end forventet. Vælg udgangspunkt og prøv igen.',
+    'splash-choose': 'Angiv udgangspunkt',
     'splash-locating': 'Søger efter din position',
     'splash-or-choose': 'Eller fravælg din position',
-    'splash-please-allow-positioning':
-      'Tjenesten fungerer bedst når du oplyser din position',
     'splash-use-positioning': 'Brug min position',
     'splash-welcome': 'Velkommen til ny version af din rejseplanlægger',
     'splash-you-can-also': 'Alternativt',
@@ -308,6 +309,16 @@ const translations = {
     'footer-feedback': 'Feedback senden',
     frontpage: 'Startseite',
     'geolocate-yourself': 'Lokalisieren',
+    'geolocation-denied-heading': 'Bitte Zugriff auf den Standort erlauben',
+    'geolocation-denied-text':
+      'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
+    'geolocation-failed-text':
+      'Ihr Browser unterstützt keinen Zugriff auf den Standort',
+    'geolocation-prompt-text': 'Bitte Zugriff auf den Standort erlauben',
+    'geolocation-timeout-heading':
+      'Standortermittlung dauert länger als erwartet.',
+    'geolocation-timeout-text':
+      'Abfahrtsort unten wählen, oder später versuchen.',
     'give-destination': 'Geben Sie Ihren Zielort ein',
     'give-name-to-location': 'Name für diesen Ort',
     'give-origin': 'Geben Sie Ihren Abfahrtsort ein',
@@ -358,9 +369,6 @@ const translations = {
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
-    'not-implemented': '{name} - Feature ist nicht implementiert',
-    'not-implemented-msg':
-      'Wenn Sie an der Entwicklung teilnehmen möchten, finden Sie weitere Informationen unter den folgenden Links',
     now: 'Jetzt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
@@ -404,6 +412,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Siehe Ergebnisse im "Zielort"-Tab',
     'search-no-results': 'Keine Ergebnisse',
+    'search-origin': 'Geben Sie Ihren Abfahrtsort ein',
     'search-position': 'Standort suchen',
     'search-search-results-but-no-destination':
       'Siehe Ergebnisse im "Linie oder Haltestelle"-Tab',
@@ -417,14 +426,7 @@ const translations = {
     'skip-positioning': 'Überspringen',
     slow: 'Langsam',
     'specify-location': 'Ort eingeben',
-    'splash-geolocation-denied-message':
-      'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
-    'splash-geolocation-not-supported-message':
-      'Ihr Browser unterstützt keinen Zugriff auf den Standort',
-    'splash-geolocation-prompt-message':
-      'Bitte Zugriff auf den Standort erlauben',
-    'splash-geolocation-watch-timeout-message':
-      'Standortermittlung dauert länger als erwartet. Abfahrtsort unten wählen, oder später versuchen.',
+    'splash-choose': 'Abfahrtsorte eingeben',
     'splash-locating': 'Suche aktuellen Standort...',
     'splash-or-choose': 'oder einen dieser Abfahrtsorte wählen',
     'splash-use-positioning': 'Aktuellen Standort benutzen',
@@ -526,6 +528,8 @@ const translations = {
     departures: 'Departures',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
+    'destination-outside-service':
+      'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
     'digitransit-platform': 'Digitransit service platform',
     'disruption-info': 'Disruption info',
@@ -544,8 +548,21 @@ const translations = {
     'footer-feedback': 'Submit feedback',
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
+    'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
-    'give-destination': 'Enter your destination',
+    'geolocation-denied-heading': 'Geolocation denied',
+    'geolocation-denied-text':
+      'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
+    'geolocation-failed-heading': 'Geolocation failed',
+    'geolocation-failed-text':
+      'Your browser does not support location retrieval.',
+    'geolocation-prompt-text':
+      'Accept your browser’s request to access your location.',
+    'geolocation-timeout-heading':
+      'Detecting your location is taking longer than expected.',
+    'geolocation-timeout-text':
+      'Have you accepted your browser’s request to access your location?',
+    'give-destination': 'Search destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
     'give-position': 'Enter your location or origin in the search field.',
@@ -603,9 +620,6 @@ const translations = {
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
-    'not-implemented': 'The {name} function is not yet available',
-    'not-implemented-msg':
-      'If you would like to participate in the development work, read more about the planned functions using the links below.',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
@@ -613,6 +627,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     or: 'or',
     origin: 'Origin',
+    'origin-outside-service':
+      'Unfortunately no routes were found for your journey. Your origin address is located outside the service area, please change it.',
     'origin-placeholder': 'From? - address or stop',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
@@ -650,6 +666,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
+    'search-origin': 'Search origin, route or stop',
     'search-position': 'Detect location',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
@@ -667,18 +684,9 @@ const translations = {
     'skip-positioning': 'Skip',
     slow: 'Slow',
     'specify-location': 'Specify location',
-    'splash-geolocation-denied-message':
-      'You have not enabled location services. You can enable location services in your browser or phone settings.',
-    'splash-geolocation-not-supported-message':
-      'Your browser does not support location retrieval.',
-    'splash-geolocation-prompt-message':
-      'Accept your browser’s request to access your location.',
-    'splash-geolocation-watch-timeout-message':
-      'Detecting your location is taking longer than expected. Have you accepted your browser’s request to access your location?',
+    'splash-choose': 'Specify origin',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
-    'splash-please-allow-positioning':
-      'To get the most out of the service, enable location services.',
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
@@ -722,6 +730,8 @@ const translations = {
     'trip-page.title': 'Route {route_short_name}',
     'try-again': 'Try again',
     'use-citybike': 'Start using',
+    'use-national-service':
+      'You can also try the national service available at',
     'use-own-position': 'Use current location',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
@@ -797,6 +807,8 @@ const translations = {
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
+    'destination-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'digitransit-platform': 'Digitransit palvelualusta',
     'disruption-info': 'Poikkeusinfo',
@@ -817,10 +829,20 @@ const translations = {
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
-    'geolocate-yourself': 'Paikanna itsesi',
-    'give-destination': 'Kirjoita määränpää',
+    'generic-error': 'Tapahtui virhe',
+    'geolocate-yourself': 'Paikanna',
+    'geolocation-denied-heading': 'Paikannus on estetty',
+    'geolocation-denied-text':
+      'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
+    'geolocation-failed-heading': 'Paikannus epäonnistui',
+    'geolocation-failed-text':
+      'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
+    'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
+    'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
+    'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
+    'give-destination': 'Hae määränpää',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
-    'give-origin': 'Kirjoita lähtöpaikkasi',
+    'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
@@ -874,9 +896,6 @@ const translations = {
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
-    'not-implemented': '{name} -toiminnallisuus on vielä kesken',
-    'not-implemented-msg':
-      'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
@@ -885,6 +904,8 @@ const translations = {
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
+    'origin-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähtöosoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
@@ -922,6 +943,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
+    'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-position': 'Paikanna',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
@@ -940,17 +962,9 @@ const translations = {
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
-    'splash-geolocation-denied-message':
-      'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
-    'splash-geolocation-not-supported-message':
-      'Paikannus epäonnistui tai selaimesi ei tue paikannusta.',
-    'splash-geolocation-prompt-message': 'Hyväksy selaimen paikannuspyyntö.',
-    'splash-geolocation-watch-timeout-message':
-      'Paikannus kestää odotettua pidempään. Oletko hyväksynyt selaimen paikannuspyynnön?',
+    'splash-choose': 'Valitse lähtöpaikka',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
-    'splash-please-allow-positioning':
-      'Palvelusta saa parhaan hyödyn käyttämällä paikannusta.',
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
@@ -996,6 +1010,8 @@ const translations = {
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',
     'use-citybike': 'Ota käyttöön',
+    'use-national-service':
+      'Voit myös hakea samaa reittiä oheisen linkin koko maan kattavasta palvelusta:',
     'use-own-position': 'Käytä nykyistä sijaintia',
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
@@ -1085,6 +1101,17 @@ const translations = {
     'footer-feedback': 'Donner votre avis',
     frontpage: 'Page de garde',
     'geolocate-yourself': 'Se géolocaliser',
+    'geolocation-denied-heading': 'Comment souhaitez-vous démarrer ?',
+    'geolocation-denied-text':
+      "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
+    'geolocation-failed-text':
+      'Votre navigateur ne supporte pas le positionnement',
+    'geolocation-prompt-text':
+      "Merci d'autoriser l'utilisation de votre position.",
+    'geolocation-timeout-heading':
+      'Le positionnement prend plus de temps que prévu.',
+    'geolocation-timeout-text':
+      'Merci de sélectionner une origine ou réessayer plus tard.',
     'give-destination': 'Entrer votre destination',
     'give-name-to-location': 'Donner un nom à cet endroit',
     'give-origin': 'Entrer votre point de départ',
@@ -1139,10 +1166,6 @@ const translations = {
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
-    'not-implemented':
-      '{name} - la fonctionnalité est en cours de développement',
-    'not-implemented-msg':
-      'Si vous souhaitez participer au développement, vous pouvez obtenir des informations via les liens ci-dessous',
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -1188,6 +1211,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Voir les résultats de l\'onglet "Destination"',
     'search-no-results': 'Aucun résultat',
+    'search-origin': 'Entrer votre point de départ',
     'search-position': 'Rechercher la position',
     'search-search-results-but-no-destination':
       'Voir les résultats de l\'onglet "Ligne, arrêt ou mot-clé"',
@@ -1205,20 +1229,12 @@ const translations = {
     'skip-positioning': 'Ignorer le positionnement',
     slow: 'Lent',
     'specify-location': 'Indiquer un endroit',
-    'splash-geolocation-denied-message':
-      "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
-    'splash-geolocation-not-supported-message':
-      'Votre navigateur ne supporte pas le positionnement',
-    'splash-geolocation-prompt-message':
-      "Merci d'autoriser l'utilisation de votre position.",
-    'splash-geolocation-watch-timeout-message':
-      'Le positionnement prend plus de temps que prévu. Merci de sélectionner une origine ou réessayer plus tard.',
+    'splash-choose': 'Choisir un point de départ',
     'splash-locating': 'Localisation...',
     'splash-or-choose': 'Ou choisir parmi ces destinations',
     'splash-please-allow-positioning':
       'Ce service fonctionne mieux en autorisant la géolocalisation.',
     'splash-use-positioning': 'Utiliser la position',
-    'splash-welcome': 'Comment souhaitez-vous démarrer ?',
     'splash-you-can-also': 'Vous pouvez aussi',
     stop: 'Arrêt',
     'stop-number': "Identifiant d'arrêt",
@@ -1333,6 +1349,16 @@ const translations = {
     'ferry-with-route-number': 'Ferge {routeNumber} {headSign}',
     frontpage: 'Forside',
     'geolocate-yourself': 'Finn min posisjon',
+    'geolocation-denied-heading':
+      'Tjenesten fungerer best når du oppgir din posisjon',
+    'geolocation-denied-text':
+      'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
+    'geolocation-failed-heading': 'Lokalisering fungerer ikke',
+    'geolocation-failed-text':
+      'Nettleseren din har ikke støtte for lokalisering.',
+    'geolocation-prompt-text': 'Vennligst aksepter lokalisering.',
+    'geolocation-timeout-heading': 'Lokalisering tar lengre tid enn forventet.',
+    'geolocation-timeout-text': 'Velg startsted og prøv igjen.',
     'give-destination': 'skriv hvor du vil reise',
     'give-name-to-location': 'Skriv inn et beskrivende navn på stedet',
     'give-origin': 'skriv avgangssted',
@@ -1387,9 +1413,6 @@ const translations = {
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
-    'not-implemented': '{name} - funksjonen er ikke implementert',
-    'not-implemented-msg':
-      'Om du vil delta i utviklingen kan du finne mer informasjon i følgende lenker',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -1434,6 +1457,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'skriv avgangssted',
     'search-position': 'Let etter posisjon',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leter etter posisjon',
@@ -1450,17 +1474,9 @@ const translations = {
     'skip-positioning': 'Hopp over',
     slow: 'Spasering',
     'specify-location': 'Angi sted',
-    'splash-geolocation-denied-message':
-      'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
-    'splash-geolocation-not-supported-message':
-      'Nettleseren din har ikke støtte for lokalisering.',
-    'splash-geolocation-prompt-message': 'Vennligst aksepter lokalisering.',
-    'splash-geolocation-watch-timeout-message':
-      'Lokalisering tar lengre tid enn forventet. Velg startsted og prøv igjen.',
+    'splash-choose': 'Angi avgangssted',
     'splash-locating': 'Søker etter din posisjon',
     'splash-or-choose': 'Eller velg din posisjon fra',
-    'splash-please-allow-positioning':
-      'Tjenesten fungerer best når du oppgir din posisjon',
     'splash-use-positioning': 'Bruk min posisjon',
     'splash-welcome': 'Velkommen til ny versjon av din reiseplanlegger',
     'splash-you-can-also': 'Alternativt',
@@ -1569,6 +1585,8 @@ const translations = {
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-label-change': 'Byt destination',
+    'destination-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'digitransit-platform': 'Digitransit-serviceplattformen',
     'disruption-info': 'Undantagsinfo',
@@ -1588,8 +1606,19 @@ const translations = {
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
+    'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
-    'give-destination': 'Skriv in din destination',
+    'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
+    'geolocation-denied-text':
+      'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
+    'geolocation-failed-heading': 'Platstjänster otillgängliga.',
+    'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
+    'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
+    'geolocation-timeout-heading':
+      'Det tar längre tid än väntat att hitta din plats.',
+    'geolocation-timeout-text':
+      'Har du godkänt att webbläsaren får använda din plats?',
+    'give-destination': 'Sök destination',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
     'give-position': 'Skriv in din position eller avfärdsplats i sökfältet.',
@@ -1647,9 +1676,6 @@ const translations = {
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
-    'not-implemented': '{name} -funktionen är inte implementerad',
-    'not-implemented-msg':
-      'Om du vill delta i utvecklingsarbetet hittar du mer information om de planerade funktionerna i följande länkar.',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
@@ -1658,6 +1684,8 @@ const translations = {
     or: 'eller',
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',
+    'origin-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra avfärdsplats, som ligger utanför serviceområde.',
     'origin-placeholder': 'Från - adress eller hållplats',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
@@ -1695,6 +1723,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
+    'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-position': 'Sök position',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
@@ -1713,19 +1742,12 @@ const translations = {
     'skip-positioning': 'Hoppa över',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
-    'splash-geolocation-denied-message':
-      'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
-    'splash-geolocation-not-supported-message': 'Platstjänster otillgängliga.',
-    'splash-geolocation-prompt-message':
-      'Vänligen tillåt delning av platsinformation.',
-    'splash-geolocation-watch-timeout-message':
-      'Det tar längre tid än väntat att hitta din plats. Har du godkänt att webbläsaren får använda din plats?',
+    'splash-choose': 'Ange en avfärdsplats',
     'splash-locating': 'Söker din plats...',
     'splash-or-choose': 'eller välj en avfärdsplats',
     'splash-please-allow-positioning':
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
-    'splash-welcome': 'Hur vill du börja?',
     'splash-you-can-also': 'alternativt',
     stop: 'Hållplats',
     'stop-number': 'Hållplatsnummer',
@@ -1769,6 +1791,7 @@ const translations = {
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
+    'use-national-service': 'Du kan också använda national tjänsten:',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',

@@ -5,15 +5,8 @@ import CardHeader from './CardHeader';
 import { station as exampleStation } from './ExampleData';
 import ComponentUsageExample from './ComponentUsageExample';
 import Card from './Card';
-import Favourite from './Favourite';
 
-const CityBikeCard = ({
-  station,
-  children,
-  className,
-  isFavourite,
-  toggleFavourite,
-}) => {
+const CityBikeCard = ({ station, children, className }) => {
   if (!station || !children || children.length === 0) {
     return false;
   }
@@ -25,13 +18,6 @@ const CityBikeCard = ({
         description={station.stationId}
         icon="icon-icon_citybike"
         unlinked
-        icons={[
-          <Favourite
-            key="favourite"
-            favourite={isFavourite}
-            addFavourite={toggleFavourite}
-          />,
-        ]}
       />
       {children}
     </Card>
@@ -46,16 +32,6 @@ CityBikeCard.description = () => (
         Im content of the citybike card
       </CityBikeCard>
     </ComponentUsageExample>
-    <ComponentUsageExample description="Selected as favourite">
-      <CityBikeCard
-        className="padding-small"
-        toggleFavourite={() => {}}
-        isFavourite
-        station={exampleStation}
-      >
-        Im content of the favourite citybike card
-      </CityBikeCard>
-    </ComponentUsageExample>
   </div>
 );
 
@@ -65,8 +41,6 @@ CityBikeCard.propTypes = {
   station: PropTypes.object.isRequired,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
-  toggleFavourite: PropTypes.func,
-  isFavourite: PropTypes.bool,
 };
 
 export default CityBikeCard;

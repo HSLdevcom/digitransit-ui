@@ -9,6 +9,7 @@ import get from 'lodash/get';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
+import Icon from '../Icon';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
@@ -110,7 +111,12 @@ class ItineraryLine extends React.Component {
                   lon: middle.lon,
                 }}
                 className="call"
-                icon="icon-icon_call"
+                icon={{
+                  element: <Icon img="icon-icon_call" />,
+                  iconAnchor: [9, 9],
+                  iconSize: [18, 18],
+                  className: 'call',
+                }}
               />,
             );
           } else {

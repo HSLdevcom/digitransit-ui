@@ -52,28 +52,25 @@ export default class GenericMarker extends React.Component {
     children: PropTypes.node,
   };
 
+  state = { zoom: this.context.map.getZoom() };
+
   componentDidMount() {
     this.context.map.on('zoomend', this.onMapMove);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.id !== this.props.id;
   }
 
   componentWillUnmount() {
     this.context.map.off('zoomend', this.onMapMove);
   }
 
-  onMapMove = () => this.forceUpdate();
+  onMapMove = () => this.setState({ zoom: this.context.map.getZoom() });
 
   getMarker = () => (
     <Marker
       position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
-      icon={this.props.getIcon(this.context.map.getZoom())}
+      icon={this.props.getIcon(this.state.zoom)}
     >
       <Popup
         offset={this.context.config.map.genericMarker.popup.offset}
-        closeButton={false}
         maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
         minWidth={this.context.config.map.genericMarker.popup.minWidth}
         className="popup"

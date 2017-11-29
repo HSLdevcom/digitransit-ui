@@ -5,8 +5,12 @@ import BackButton from './BackButton';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
+import MessageBar from './MessageBar';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) => (
+const AppBarSmall = (
+  { disableBackButton, showLogo, title, homeUrl },
+  { config },
+) => (
   <div>
     <DisruptionInfo />
     <nav className="top-bar">
@@ -18,8 +22,9 @@ const AppBarSmall = ({ disableBackButton, showLogo, title }, { config }) => (
           <span className="title">{title}</span>
         )}
       </section>
-      <MainMenuContainer />
+      <MainMenuContainer homeUrl={homeUrl} />
     </nav>
+    <MessageBar />
   </div>
 );
 
@@ -53,6 +58,7 @@ AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,
   title: PropTypes.node,
   showLogo: PropTypes.bool,
+  homeUrl: PropTypes.string,
 };
 
 AppBarSmall.contextTypes = {

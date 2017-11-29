@@ -7,6 +7,7 @@ import DisruptionInfo from './DisruptionInfo';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
+import MessageBar from './MessageBar';
 
 const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
   const openDisruptionInfo = () => {
@@ -51,6 +52,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
           <ExternalLink className="external-top-bar" {...config.appBarLink} />
         </div>
       </div>
+      <MessageBar />
       <DisruptionInfo />
     </div>
   );
