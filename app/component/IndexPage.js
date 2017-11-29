@@ -215,7 +215,6 @@ class IndexPage extends React.Component {
           showStops
           showScaleBar
           origin={this.props.origin}
-          activeArea="activeAreaLarge"
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         <div id="page-footer-container">
@@ -246,7 +245,6 @@ class IndexPage extends React.Component {
             breakpoint={this.props.breakpoint}
             showStops
             origin={this.props.origin}
-            activeArea="activeAreaSmall"
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
