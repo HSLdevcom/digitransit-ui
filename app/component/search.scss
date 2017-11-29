@@ -306,7 +306,7 @@ div.map {
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  margin-top: 30px;
+  margin-top: 2em;
   width: 52.5%;
   margin-left: 5%;
   &.isItinerary {
@@ -342,6 +342,7 @@ div.autosuggest-panel {
     margin-left: 0;
     padding-left: 1em;
     padding-right: 1em;
+    margin-top: 1em;
 
     .react-autosuggest__container {
       width: 100%;
