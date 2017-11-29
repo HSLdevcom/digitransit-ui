@@ -156,12 +156,9 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
     };
-    if (this.state.value) {
-      // must update suggestions
-      this.setState(newState, () => this.fetchFunction({ value: '' }));
-    } else {
-      this.setState(newState);
-    }
+    // must update suggestions
+    this.setState(newState, () => this.fetchFunction({ value: '' }));
+
     this.props.isFocused(true);
     this.input.focus();
   };
