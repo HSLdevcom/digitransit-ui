@@ -11,7 +11,8 @@ import OriginSelectorRow from './OriginSelectorRow';
 import PositionStore from '../store/PositionStore';
 
 const GeopositionSelector = (props, context) =>
-  props.locationState.status === PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED ? null : (
+  props.locationState.status ===
+  PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED ? null : (
     <OriginSelectorRow
       key={`panel-locationing-button`}
       icon="icon-icon_position"
@@ -44,7 +45,7 @@ GeopositionSelector.propTypes = {
   destination: dtLocationShape,
   tab: PropTypes.string.isRequired,
   locationState: PropTypes.shape({
-    locationingFailed: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
 };
 GeopositionSelector.contextTypes = {
