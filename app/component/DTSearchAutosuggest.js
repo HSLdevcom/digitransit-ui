@@ -229,7 +229,10 @@ class DTAutosuggest extends React.Component {
           focusInputOnSuggestionClick={false}
           shouldRenderSuggestions={() => this.state.editing}
           renderInputComponent={p => (
-            <div style={{ position: 'relative', display: 'flex' }}>
+            <div
+              id={`${this.props.id}-container`}
+              className="autosuggest-input-container"
+            >
               <input id={this.props.id} onClick={this.inputClicked} {...p} />
               {this.clearButton()}
             </div>
