@@ -4,7 +4,6 @@ import elementResizeDetectorMaker from 'element-resize-detector';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PositionMarker from './PositionMarker';
-import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
@@ -185,16 +184,6 @@ class Map extends React.Component {
             </LazilyLoad>,
           );
         }
-      }
-
-      if (
-        this.props.origin &&
-        this.props.origin.lat &&
-        !this.props.hideOrigin
-      ) {
-        leafletObjs.push(
-          <PlaceMarker position={this.props.origin} key="from" />,
-        );
       }
 
       leafletObjs.push(<PositionMarker key="position" />);
