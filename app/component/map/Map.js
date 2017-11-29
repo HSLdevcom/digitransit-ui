@@ -4,7 +4,6 @@ import elementResizeDetectorMaker from 'element-resize-detector';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PositionMarker from './PositionMarker';
-import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
