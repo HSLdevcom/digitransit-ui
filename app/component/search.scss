@@ -25,51 +25,51 @@ $item-border-color: #eee;
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
 input field Placeholder texts */
 #origin::placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #origin::-webkit-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #origin:-moz-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #origin::-moz-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #origin:-ms-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination::-webkit-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination:-moz-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination::-moz-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination:-ms-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 #destination::placeholder {
-  color: #888888;
+  color: #404040;
   opacity: 1;
 }
 
@@ -546,7 +546,7 @@ div.origin-destination-bar {
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  margin-top: 25pt;
+  margin-top: 30px;
   width: 50.5%;
   margin-left: 7%;
   &.isItinerary {
