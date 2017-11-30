@@ -52,10 +52,6 @@ export default {
     bucketSize: 100,
   },
 
-  feedback: {
-    enable: false,
-  },
-
   maxWalkDistance: 2500,
   parkAndRide: {
     showParkAndRide: true,

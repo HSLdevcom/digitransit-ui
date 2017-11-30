@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
-import { openFeedbackModal } from '../action/feedbackActions';
 
 const mapToLink = (href, children) => (
   <span className="cursor-pointer">
@@ -36,19 +35,7 @@ const mapToRoute = (router, route, children) => (
   </button>
 );
 
-const getFuntionForType = (type, executeAction) => {
-  switch (type) {
-    case 'feedback':
-      return () => executeAction(openFeedbackModal);
-    default:
-      return () => console.log('No function defined for type', type);
-  }
-};
-
-const FooterItem = (
-  { name, href, label, nameEn, route, icon, type },
-  { router, executeAction },
-) => {
+const FooterItem = ({ name, href, label, nameEn, route, icon }, { router }) => {
   const displayIcon =
     (icon && <Icon className="footer-icon" img={icon} />) || undefined;
   const displayLabel = label || (
@@ -60,9 +47,7 @@ const FooterItem = (
       {displayLabel}
     </span>
   );
-  if (type) {
-    item = mapToFn(getFuntionForType(type, executeAction), item);
-  } else if (href) {
+  if (href) {
     item = mapToLink(href, item);
   } else if (route) {
     item = mapToRoute(router, route, item);
@@ -84,7 +69,6 @@ FooterItem.propTypes = {
 
 FooterItem.contextTypes = {
   router: routerShape.isRequired,
-  executeAction: PropTypes.func.isRequired,
 };
 
 FooterItem.defaultProps = {

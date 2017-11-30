@@ -159,14 +159,6 @@ export function setOldSearchesStorage(data) {
   setItem('saved-searches', data);
 }
 
-export function getFeedbackStorage() {
-  return getItemAsJson('feedback');
-}
-
-export function setFeedbackStorage(data) {
-  setItem('feedback', data);
-}
-
 export function getIntroShown() {
   return getItemAsJson('intro') === true;
 }

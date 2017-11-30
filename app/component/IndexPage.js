@@ -13,7 +13,6 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
@@ -34,16 +33,6 @@ import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
 
 const debug = d('IndexPage.js');
-
-const feedbackPanelMudules = {
-  Panel: () => importLazy(import('./FeedbackPanel')),
-};
-
-const feedbackPanel = (
-  <LazilyLoad modules={feedbackPanelMudules}>
-    {({ Panel }) => <Panel />}
-  </LazilyLoad>
-);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -226,7 +215,6 @@ class IndexPage extends React.Component {
             }
           />
         </div>
-        {feedbackPanel}
       </div>
     ) : (
       <div
@@ -280,7 +268,6 @@ class IndexPage extends React.Component {
           >
             {this.renderTab()}
           </FrontPagePanelSmall>
-          {feedbackPanel}
         </div>
       </div>
     );

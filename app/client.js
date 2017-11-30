@@ -24,8 +24,6 @@ import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
 import translations from './translations';
-import { openFeedbackModal } from './action/feedbackActions';
-import { shouldDisplayPopup } from './util/Feedback';
 import historyCreator from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 import Piwik from './util/piwik';
@@ -135,26 +133,8 @@ const callback = () =>
     const history = historyCreator(config);
 
     function track() {
-      // track "getting back to home"
-      const newHref = this.props.router.createHref(this.state.location);
-
-      if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-        if (
-          config.feedback.enable &&
-          shouldDisplayPopup(
-            context
-              .getComponentContext()
-              .getStore('TimeStore')
-              .getCurrentTime()
-              .valueOf(),
-          )
-        ) {
-          context.executeAction(openFeedbackModal);
-        }
-      }
-
-      this.href = newHref;
-      piwik.setCustomUrl(this.props.router.createHref(this.state.location));
+      this.href = this.props.router.createHref(this.state.location);
+      piwik.setCustomUrl(this.href);
       piwik.trackPageView();
     }
 

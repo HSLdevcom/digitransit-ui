@@ -9,20 +9,6 @@ import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 
 function MainMenu(props, context) {
-  const inquiry = (
-    <p
-      style={{ fontSize: '20px', backgroundColor: '#888888', padding: '20px' }}
-    >
-      <span onClick={props.openFeedback}>
-        <FormattedMessage
-          id="inquiry"
-          defaultMessage="How did you find the new Journey Planner? Please tell us!"
-        />
-        <Icon img="icon-icon_arrow-right" className="small" />
-      </span>
-    </p>
-  );
-
   const config = context.config;
 
   return (
@@ -35,7 +21,6 @@ function MainMenu(props, context) {
       </div>
       <header className="offcanvas-section">
         <LangSelect />
-        {config.mainMenu.showInquiry && inquiry}
       </header>
       <div className="offcanvas-section">
         <Link id="frontpage" to={props.homeUrl}>
@@ -57,7 +42,6 @@ function MainMenu(props, context) {
 }
 
 MainMenu.propTypes = {
-  openFeedback: PropTypes.func.isRequired,
   showDisruptionInfo: PropTypes.bool,
   toggleVisibility: PropTypes.func.isRequired,
   visible: PropTypes.bool,
