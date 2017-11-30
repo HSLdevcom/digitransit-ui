@@ -141,7 +141,6 @@ class TopLevel extends React.Component {
     }
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
-
     return (
       <div className="fullscreen">
         {!this.topBarOptions.hidden && (
