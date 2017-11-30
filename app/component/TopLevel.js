@@ -141,18 +141,6 @@ class TopLevel extends React.Component {
     }
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
-    // Check which view we are on to decide wether to use flex or grid
-    // Index page uses grid - flex for everything else
-    const mainContentDisplay =
-      this.props.location.pathname.indexOf('lahellasi') !== -1 ||
-      this.props.location.pathname.indexOf('suosikit') !== -1
-        ? {
-            display: `grid`,
-            flexDirection: `unset`,
-            height: `calc(100% - ${menuHeight})`,
-          }
-        : { height: `calc(100% - ${menuHeight})` };
-
     return (
       <div className="fullscreen">
         {!this.topBarOptions.hidden && (
@@ -166,7 +154,7 @@ class TopLevel extends React.Component {
         <section
           id="mainContent"
           className="content"
-          style={mainContentDisplay}
+          style={{ height: `calc(100% - ${menuHeight})` }}
         >
           {this.props.meta}
           <ErrorBoundary>{content}</ErrorBoundary>
