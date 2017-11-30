@@ -21,6 +21,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'showStops',
   'showScaleBar',
   'origin',
+  'children',
 ]);
 
 const Component = onlyUpdateCoordChanges(Map);
@@ -38,6 +39,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultMapCenter: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
+    children: PropTypes.array,
   };
 
   constructor(props) {
@@ -121,7 +123,7 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   render() {
-    const { position, origin, config, ...rest } = this.props;
+    const { position, origin, config, children, ...rest } = this.props;
     let location;
 
     if (
@@ -159,6 +161,7 @@ class MapWithTrackingStateHandler extends React.Component {
         {...rest}
         leafletObjs={leafletObjs}
       >
+        {children}
         {this.props.position.hasLocation && (
           <ToggleMapTracking
             key="toggleMapTracking"
