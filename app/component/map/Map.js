@@ -145,7 +145,7 @@ class Map extends React.Component {
     <CityBikeMarkerContainer />
   );
 
-  render = () => {
+  render() {
     let map;
     let zoom;
     let leafletObjs;
@@ -277,7 +277,7 @@ class Map extends React.Component {
         {this.props.children}
       </div>
     );
-  };
+  }
 }
 
 export default connectToStores(Map, ['PreferencesStore'], context => ({

@@ -111,7 +111,7 @@ class MessageBar extends Component {
     setTimeout(() => this.context.executeAction(markMessageAsRead, ids), 600);
   };
 
-  render = () => {
+  render() {
     const messages = this.validMessages();
 
     if (messages.length > 0) {
@@ -181,7 +181,7 @@ class MessageBar extends Component {
       );
     }
     return null;
-  };
+  }
 }
 
 export default connectToStores(
