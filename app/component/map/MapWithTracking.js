@@ -3,10 +3,14 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
+import PlaceMarker from './PlaceMarker';
 import ComponentUsageExample from '../ComponentUsageExample';
 import Map from './Map';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
+
+const DEFAULT_ZOOM = 12;
+const FOCUS_ZOOM = 16;
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'breakpoint',
@@ -14,10 +18,10 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lon',
   'zoom',
   'mapTracking',
-  'children',
   'showStops',
   'showScaleBar',
   'origin',
+  'children',
 ]);
 
 const Component = onlyUpdateCoordChanges(Map);
@@ -35,7 +39,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultMapCenter: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.array,
   };
 
   constructor(props) {
@@ -43,7 +47,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const hasOriginorPosition =
       props.origin.ready || props.position.hasLocation;
     this.state = {
-      initialZoom: hasOriginorPosition ? 16 : 14,
+      initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
       origin: props.origin,
@@ -53,12 +57,19 @@ class MapWithTrackingStateHandler extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (
-      this.state.origin.useCurrentPosition !== true &&
-      newProps.origin.gps === true
+      // "current position selected"
+      newProps.origin.lat != null &&
+      newProps.origin.lon != null &&
+      newProps.origin.gps === true &&
+      ((this.state.origin.ready === false && newProps.origin.ready === true) ||
+        !this.state.origin.gps) // current position selected
     ) {
       this.usePosition(newProps.origin);
     } else if (
-      newProps.origin !== this.state.origin &&
+      // "poi selected"
+      !newProps.origin.gps &&
+      (newProps.origin.lat !== this.state.origin.lat ||
+        newProps.origin.lon !== this.state.origin.lon) &&
       newProps.origin.lat != null &&
       newProps.origin.lon != null
     ) {
@@ -67,6 +78,7 @@ class MapWithTrackingStateHandler extends React.Component {
       this.state.focusOnOrigin === true ||
       this.state.shouldShowDefaultLocation === true
     ) {
+      // "origin not set"
       this.setState({
         focusOnOrigin: false,
         shouldShowDefaultLocation: false,
@@ -79,7 +91,8 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: true,
       focusOnOrigin: false,
-      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      initialZoom:
+        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
     });
   }
@@ -89,7 +102,8 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: false,
       focusOnOrigin: true,
-      initialZoom: this.state.initialZoom === 14 ? 16 : undefined,
+      initialZoom:
+        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
     });
   }
@@ -125,6 +139,12 @@ class MapWithTrackingStateHandler extends React.Component {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
 
+    const leafletObjs = [];
+
+    if (origin && origin.ready === true && origin.gps !== true) {
+      leafletObjs.push(<PlaceMarker position={this.props.origin} key="from" />);
+    }
+
     return (
       <Component
         lat={location ? location.lat : null}
@@ -135,10 +155,11 @@ class MapWithTrackingStateHandler extends React.Component {
         origin={this.props.origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onZoomend: this.disableMapTracking,
+          onZoomend: null, // this.disableMapTracking,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
+        leafletObjs={leafletObjs}
       >
         {children}
         {this.props.position.hasLocation && (

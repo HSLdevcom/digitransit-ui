@@ -1,13 +1,13 @@
 const async = require('async');
 
+// TODO: add citybikes back in april
 const modalities = [
   'bus',
   'tram',
   'rail',
   'subway',
   'ferry',
-  'citybike',
-  'airplane',
+  /* 'citybike', */ 'airplane',
 ];
 
 function clickCanvasToggle() {

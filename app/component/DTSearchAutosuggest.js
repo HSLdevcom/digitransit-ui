@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import Autosuggest from 'react-autosuggest';
 import isEqual from 'lodash/isEqual';
@@ -24,7 +25,6 @@ class DTAutosuggest extends React.Component {
     searchType: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    renderPostInput: PropTypes.node,
     isFocused: PropTypes.func,
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array.isRequired,
@@ -35,7 +35,6 @@ class DTAutosuggest extends React.Component {
     clickFunction: () => {},
     isFocused: () => {},
     autoFocus: false,
-    postInput: null,
     id: 1,
   };
 
@@ -81,11 +80,13 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.setState({
-      editing: false,
-      value: ref.suggestionValue,
-    });
-    this.props.selectedFunction(e, ref);
+    this.setState(
+      {
+        editing: false,
+        value: ref.suggestionValue,
+      },
+      () => this.props.selectedFunction(e, ref),
+    );
   };
 
   onSuggestionsClearRequested = () => {
@@ -95,16 +96,18 @@ class DTAutosuggest extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    const value = getLabel(suggestion.properties, true);
+    const value = getLabel(suggestion.properties);
     return value;
   };
 
-  clearButton = () =>
-    this.state.value && !this.state.editing ? (
+  clearButton = () => {
+    const img = this.state.value ? 'icon-icon_close' : 'icon-icon_search';
+    return (
       <button className="noborder clear-input" onClick={this.clearInput}>
-        <Icon img="icon-icon_close" />
+        <Icon img={img} />
       </button>
-    ) : null;
+    );
+  };
 
   fetchFunction = ({ value }) => {
     executeSearch(
@@ -153,12 +156,9 @@ class DTAutosuggest extends React.Component {
       editing: true,
       value: '',
     };
-    if (this.state.value) {
-      // must update suggestions
-      this.setState(newState, () => this.fetchFunction({ value: '' }));
-    } else {
-      this.setState(newState);
-    }
+    // must update suggestions
+    this.setState(newState, () => this.fetchFunction({ value: '' }));
+
     this.props.isFocused(true);
     this.input.focus();
   };
@@ -211,27 +211,34 @@ class DTAutosuggest extends React.Component {
     };
 
     return (
-      <Autosuggest
-        id={this.props.id}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.fetchFunction}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderItem}
-        inputProps={inputProps}
-        focusInputOnSuggestionClick={false}
-        shouldRenderSuggestions={() => this.state.editing}
-        renderInputComponent={p => (
-          <div style={{ position: 'relative', display: 'flex' }}>
-            <input id={this.props.id} onClick={this.inputClicked} {...p} />
-            {this.props.renderPostInput}
-            {this.clearButton()}
-          </div>
-        )}
-        onSuggestionSelected={this.onSelected}
-        highlightFirstSuggestion
-        ref={this.storeInputReference}
-      />
+      <div className={cx(['autosuggest-input-container', this.props.id])}>
+        <div className={cx(['autosuggest-input-icon', this.props.id])}>
+          <Icon img="icon-icon_mapMarker-point" />
+        </div>
+        <Autosuggest
+          id={this.props.id}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.fetchFunction}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderItem}
+          inputProps={inputProps}
+          focusInputOnSuggestionClick={false}
+          shouldRenderSuggestions={() => this.state.editing}
+          renderInputComponent={p => (
+            <div
+              id={`${this.props.id}-container`}
+              className="autosuggest-input-container"
+            >
+              <input id={this.props.id} onClick={this.inputClicked} {...p} />
+              {this.clearButton()}
+            </div>
+          )}
+          onSuggestionSelected={this.onSelected}
+          highlightFirstSuggestion
+          ref={this.storeInputReference}
+        />
+      </div>
     );
   };
 }

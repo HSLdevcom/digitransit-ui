@@ -6,9 +6,8 @@ import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import ViaPointBarContainer from './ViaPointBarContainer';
 import LazilyLoad, { importLazy } from './LazilyLoad';
-import { otpToLocation } from '../util/otpStrings';
+import { parseLocation } from '../util/path';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -48,7 +47,6 @@ class SummaryNavigation extends React.Component {
           state: {
             ...this.context.location.state,
             customizeSearchOffcanvas: false,
-            viaPointSearchModalOpen: false,
           },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);
@@ -148,10 +146,9 @@ class SummaryNavigation extends React.Component {
         </LazilyLoad>
         <OriginDestinationBar
           className={className}
-          origin={otpToLocation(this.props.params.from)}
-          destination={otpToLocation(this.props.params.to)}
+          origin={parseLocation(this.props.params.from)}
+          destination={parseLocation(this.props.params.to)}
         />
-        <ViaPointBarContainer className={className} />
         <div className={cx('time-selector-settings-row', className)}>
           <Relay.Renderer
             Container={TimeSelectorContainer}

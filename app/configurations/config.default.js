@@ -67,6 +67,7 @@ export default {
     peliasMapping: {},
     peliasLayer: null,
     peliasLocalization: null,
+    minimalRegexp: new RegExp('.{3,}'),
   },
 
   nearbyRoutes: {
@@ -171,8 +172,9 @@ export default {
     locationAware: true,
   },
 
+  // TODO: Switch back in april
   cityBike: {
-    showCityBikes: true,
+    showCityBikes: false,
 
     useUrl: {
       fi: 'https://www.hsl.fi/citybike',
@@ -282,8 +284,9 @@ export default {
       defaultValue: true,
     },
 
+    // TODO: Switch back in april
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false,
     },
 
@@ -552,6 +555,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    mikkeli: 'mikkeli',
     kotka: 'kotka',
     jyvaskyla: 'jyvaskyla',
     lahti: 'lahti',

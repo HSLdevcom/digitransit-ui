@@ -330,12 +330,19 @@ section.content {
 .message-bar {
   position:relative;
   z-index:802;
+  width: 100%;
+  display: block;
   @include font-book;
   font-size: $font-size-small;
   background: $white;
   color: $black;
   text-align: left;
   cursor: pointer;
+
+  .banner-container {
+    display: flex;
+    max-height: 100%;
+  }
 
   span {
     width:45px;
@@ -387,26 +394,6 @@ section.content {
   fill: $gray;
   height: 15px;
   width: 15px;
-}
-
-button.clear-input {
-  display: flex;
-  background: $white;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  align-items: center;
-  padding: 8px 12px 8px 12px;
-  margin-left:-4px;
-  font-size: 0.875rem; //for sizing the height of button
-  height: 3em;
-  margin-bottom: 0px;
-  color: $gray;
-  &:hover {
-    background: $white;
-  }
-  &:focus {
-    background-color: $white;
-  }
 }
 
 .external-top-bar {

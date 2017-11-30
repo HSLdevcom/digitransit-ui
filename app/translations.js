@@ -130,9 +130,6 @@ const translations = {
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
-    'not-implemented': '{name} - funktionen er ikke implementeret',
-    'not-implemented-msg':
-      'Hvis du vil deltage i udviklingen kan du finde mere information i følgende links',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stop} other {{number} stop} }',
@@ -177,6 +174,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'tilføj afgangssted',
     'search-position': 'Led efter position',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leder etter position',
@@ -276,7 +274,7 @@ const translations = {
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     'buy-ticket': 'Ticket kaufen',
-    call: 'TODO Call',
+    call: 'Anrufen',
     cancel: 'Abbrechen',
     'car-distance-duration': 'Auto {distance} ({duration})',
     cause: 'Grund',
@@ -309,7 +307,6 @@ const translations = {
     ferry: 'Fähre',
     'ferry-with-route-number': 'Fähre {routeNumber} {headSign}',
     'footer-feedback': 'Feedback senden',
-    'footer-link-to-old': 'Alten Routenplaner verwenden',
     frontpage: 'Startseite',
     'geolocate-yourself': 'Lokalisieren',
     'geolocation-denied-heading': 'Bitte Zugriff auf den Standort erlauben',
@@ -360,9 +357,9 @@ const translations = {
     navigate: 'Navigieren',
     'near-you': 'In der Nähe',
     nearest: 'Nächste',
-    'network-error': 'TODO there was a network error',
+    'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
-    'no-favourite-locations': 'TODO no-favourite-locations',
+    'no-favourite-locations': 'Fügen Sie ihre meist genutzen Orte hier hinzu.',
     'no-favourites':
       'Sie können Favoriten mittels Klick auf den Stern hinzufügen. Danach werden diese hier erscheinen.',
     'no-position': 'Kein Standort',
@@ -372,9 +369,6 @@ const translations = {
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
-    'not-implemented': '{name} - Feature ist nicht implementiert',
-    'not-implemented-msg':
-      'Wenn Sie an der Entwicklung teilnehmen möchten, finden Sie weitere Informationen unter den folgenden Links',
     now: 'Jetzt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
@@ -387,7 +381,7 @@ const translations = {
     'page-not-found': 'Oh! Seite wurde nicht gefunden ੨( ･᷄ ︵･᷅ )ｼ',
     'park-and-ride': 'Park-and-Ride',
     'park-and-ride-availability': 'Plätze verfügbar',
-    'pay-attention': 'TODO pay-attention',
+    'pay-attention': 'Achtung',
     'pick-icon': 'Icon auswählen',
     'place-route-or-keyword': 'Adresse oder Haltestelle',
     'platform-num': 'Gleis {platformCode}',
@@ -418,6 +412,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Siehe Ergebnisse im "Zielort"-Tab',
     'search-no-results': 'Keine Ergebnisse',
+    'search-origin': 'Geben Sie Ihren Abfahrtsort ein',
     'search-position': 'Standort suchen',
     'search-search-results-but-no-destination':
       'Siehe Ergebnisse im "Linie oder Haltestelle"-Tab',
@@ -466,7 +461,7 @@ const translations = {
     'trip-co2-emissions': 'CO2-Emissionen der Reise',
     'trip-page.description': 'Linie {shortName}, {longName}',
     'trip-page.title': 'Linie {shortName}',
-    'try-again': 'TODO try again.',
+    'try-again': 'Nochmal versuchen',
     'use-citybike': 'Fahrrad benutzen',
     'use-own-position': 'Aktuellen Standort benutzen',
     'using-modes': 'Verkehrsmittel',
@@ -533,6 +528,8 @@ const translations = {
     departures: 'Departures',
     description: 'Find public transport services to locations near and far.',
     destination: 'Destination',
+    'destination-outside-service':
+      'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
     'digitransit-platform': 'Digitransit service platform',
     'disruption-info': 'Disruption info',
@@ -549,11 +546,11 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'footer-feedback': 'Submit feedback',
-    'footer-link-to-old': 'Go to the old Journey Planner',
     'footer-link-to-privacy-policy': 'Privacy policy',
     frontpage: 'Frontpage',
+    'generic-error': 'There was an error',
     'geolocate-yourself': 'Detect your location',
-    'geolocation-denied-heading': 'How do you wish to start?',
+    'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':
       'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
     'geolocation-failed-heading': 'Geolocation failed',
@@ -561,12 +558,11 @@ const translations = {
       'Your browser does not support location retrieval.',
     'geolocation-prompt-text':
       'Accept your browser’s request to access your location.',
-    'geolocation-still-denied-heading': 'Geolocation denied',
     'geolocation-timeout-heading':
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
       'Have you accepted your browser’s request to access your location?',
-    'give-destination': 'Enter your destination',
+    'give-destination': 'Search destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
     'give-position': 'Enter your location or origin in the search field.',
@@ -624,9 +620,6 @@ const translations = {
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
-    'not-implemented': 'The {name} function is not yet available',
-    'not-implemented-msg':
-      'If you would like to participate in the development work, read more about the planned functions using the links below.',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
@@ -634,6 +627,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     or: 'or',
     origin: 'Origin',
+    'origin-outside-service':
+      'Unfortunately no routes were found for your journey. Your origin address is located outside the service area, please change it.',
     'origin-placeholder': 'From? - address or stop',
     'own-position': 'Your current location',
     'page-not-found': 'The page cannot be found.',
@@ -671,6 +666,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
+    'search-origin': 'Search origin, route or stop',
     'search-position': 'Detect location',
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
@@ -734,6 +730,8 @@ const translations = {
     'trip-page.title': 'Route {route_short_name}',
     'try-again': 'Try again',
     'use-citybike': 'Start using',
+    'use-national-service':
+      'You can also try the national service available at',
     'use-own-position': 'Use current location',
     'using-modes': 'I want to travel by',
     'very-likely': 'Very likely',
@@ -809,6 +807,8 @@ const translations = {
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
     destination: 'Määränpää',
     'destination-label-change': 'Vaihda määränpää',
+    'destination-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'digitransit-platform': 'Digitransit palvelualusta',
     'disruption-info': 'Poikkeusinfo',
@@ -827,23 +827,22 @@ const translations = {
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
-    'footer-link-to-old': 'Siirry vanhaan Reittioppaaseen',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
     frontpage: 'Etusivu',
+    'generic-error': 'Tapahtui virhe',
     'geolocate-yourself': 'Paikanna',
-    'geolocation-denied-heading': 'Miten haluat aloittaa?',
+    'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
       'Et ole antanut lupaa paikannukseen. Voit sallia paikannuksen selaimen tai puhelimen asetuksista.',
     'geolocation-failed-heading': 'Paikannus epäonnistui',
     'geolocation-failed-text':
       'Paikannus ei toimi tai selaimesi ei tue paikannusta.',
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
-    'geolocation-still-denied-heading': 'Paikannus on estetty',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
-    'give-destination': 'Määränpää, linja tai pysäkki',
+    'give-destination': 'Hae määränpää',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
-    'give-origin': 'Lähtöpaikka, linja tai pysäkki',
+    'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
@@ -897,9 +896,6 @@ const translations = {
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
-    'not-implemented': '{name} -toiminnallisuus on vielä kesken',
-    'not-implemented-msg':
-      'Jos haluat osallistua kehitystyöhön, löydät lisätietoa suunnitelluista toiminnallisuuksista oheisista linkeistä.',
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
@@ -908,6 +904,8 @@ const translations = {
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
+    'origin-outside-service':
+      'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähtöosoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'origin-placeholder': 'Mistä? - osoite tai pysäkki',
     'own-position': 'Nykyinen sijaintisi',
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
@@ -945,6 +943,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
+    'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-position': 'Paikanna',
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
@@ -1011,6 +1010,8 @@ const translations = {
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',
     'use-citybike': 'Ota käyttöön',
+    'use-national-service':
+      'Voit myös hakea samaa reittiä oheisen linkin koko maan kattavasta palvelusta:',
     'use-own-position': 'Käytä nykyistä sijaintia',
     'using-modes': 'Haluan kulkea',
     'very-likely': 'Erittäin todennäköistä',
@@ -1098,7 +1099,6 @@ const translations = {
     ferry: 'Bâteau',
     'ferry-with-route-number': 'Bâteau {routeNumber} {headSign}',
     'footer-feedback': 'Donner votre avis',
-    'footer-link-to-old': "Utiliser l'ancien planificateur d'itinéraires",
     frontpage: 'Page de garde',
     'geolocate-yourself': 'Se géolocaliser',
     'geolocation-denied-heading': 'Comment souhaitez-vous démarrer ?',
@@ -1166,10 +1166,6 @@ const translations = {
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
-    'not-implemented':
-      '{name} - la fonctionnalité est en cours de développement',
-    'not-implemented-msg':
-      'Si vous souhaitez participer au développement, vous pouvez obtenir des informations via les liens ci-dessous',
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -1215,6 +1211,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Voir les résultats de l\'onglet "Destination"',
     'search-no-results': 'Aucun résultat',
+    'search-origin': 'Entrer votre point de départ',
     'search-position': 'Rechercher la position',
     'search-search-results-but-no-destination':
       'Voir les résultats de l\'onglet "Ligne, arrêt ou mot-clé"',
@@ -1416,9 +1413,6 @@ const translations = {
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
-    'not-implemented': '{name} - funksjonen er ikke implementert',
-    'not-implemented-msg':
-      'Om du vil delta i utviklingen kan du finne mer informasjon i følgende lenker',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -1463,6 +1457,7 @@ const translations = {
     search: 'Til',
     'search-destination-results-but-no-search': 'Se resultater i Til-fanen',
     'search-no-results': 'Ingen resultater',
+    'search-origin': 'skriv avgangssted',
     'search-position': 'Let etter posisjon',
     'search-search-results-but-no-destination': 'Se resultater i Fra-fanen',
     'searching-position': 'Leter etter posisjon',
@@ -1590,6 +1585,8 @@ const translations = {
     description: 'Res kollektivt när och fjärran.',
     destination: 'Destination',
     'destination-label-change': 'Byt destination',
+    'destination-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'digitransit-platform': 'Digitransit-serviceplattformen',
     'disruption-info': 'Undantagsinfo',
@@ -1607,23 +1604,21 @@ const translations = {
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
-    'footer-link-to-old': 'Använd den gamla Reseplaneraren',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
     frontpage: 'Framsidan',
+    'generic-error': 'Det hände ett fel',
     'geolocate-yourself': 'Sök position',
-    'geolocation-denied-heading': 'Hur vill du börja?',
+    'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
       'Du har inte aktiverat platstjänster. Du kan aktivera platsdelning via webbläsarens eller telefonens inställningar.',
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
     'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
-    'geolocation-still-denied-heading':
-      'Delning av platsinformation är förbjudet',
     'geolocation-timeout-heading':
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'give-destination': 'Skriv in din destination',
+    'give-destination': 'Sök destination',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
     'give-position': 'Skriv in din position eller avfärdsplats i sökfältet.',
@@ -1681,9 +1676,6 @@ const translations = {
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
-    'not-implemented': '{name} -funktionen är inte implementerad',
-    'not-implemented-msg':
-      'Om du vill delta i utvecklingsarbetet hittar du mer information om de planerade funktionerna i följande länkar.',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
@@ -1692,6 +1684,8 @@ const translations = {
     or: 'eller',
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',
+    'origin-outside-service':
+      'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra avfärdsplats, som ligger utanför serviceområde.',
     'origin-placeholder': 'Från - adress eller hållplats',
     'own-position': 'Min position',
     'page-not-found': 'Sidan kunde inte hittas.',
@@ -1729,6 +1723,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
+    'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-position': 'Sök position',
     'search-search-results-but-no-destination':
       'Se resultaten under fliken Linje eller hållplats',
@@ -1796,6 +1791,7 @@ const translations = {
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
     'use-citybike': 'Ta i bruk',
+    'use-national-service': 'Du kan också använda national tjänsten:',
     'use-own-position': 'Använd min position',
     'using-modes': 'Jag vill åka',
     'very-likely': 'Väldigt sannolikt',

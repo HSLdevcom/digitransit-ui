@@ -53,7 +53,11 @@ function RouteNumber(props) {
   // props.vertical is FALSE in Near you view
   // props.vertical is TRUE in itinerary view
   return (
-    <span className={cx('route-number', { vertical: props.vertical })}>
+    <span
+      className={cx('route-number', 'overflow-fade', {
+        vertical: props.vertical,
+      })}
+    >
       <span className={cx('vcenter-children', props.className)}>
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>

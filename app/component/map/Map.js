@@ -4,11 +4,9 @@ import elementResizeDetectorMaker from 'element-resize-detector';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PositionMarker from './PositionMarker';
-import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
-import Icon from '../Icon';
 import { dtLocationShape } from '../../util/shapes';
 
 /* eslint-disable global-require */
@@ -29,9 +27,14 @@ if (isBrowser) {
   ScaleControl = require('react-leaflet/es/ScaleControl').default;
   ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
+  require('leaflet-active-area');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
 }
+
+const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
+
+const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
 
 class Map extends React.Component {
   static propTypes = {
@@ -42,7 +45,6 @@ class Map extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
     disableMapTracking: PropTypes.func,
-    displayOriginPopup: PropTypes.bool,
     fitBounds: PropTypes.bool,
     hideOrigin: PropTypes.bool,
     hilightedStops: PropTypes.array,
@@ -59,6 +61,7 @@ class Map extends React.Component {
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
+    activeArea: PropTypes.string,
   };
 
   static defaultProps = {
@@ -66,6 +69,7 @@ class Map extends React.Component {
     loaded: () => {},
     origin: null,
     showScaleBar: false,
+    activeArea: null,
   };
 
   static contextTypes = {
@@ -182,26 +186,7 @@ class Map extends React.Component {
         }
       }
 
-      if (
-        this.props.origin &&
-        this.props.origin.lat &&
-        !this.props.hideOrigin
-      ) {
-        leafletObjs.push(
-          <PlaceMarker
-            position={this.props.origin}
-            key="from"
-            displayOriginPopup={this.props.displayOriginPopup}
-          />,
-        );
-      }
-
-      leafletObjs.push(
-        <PositionMarker
-          key="position"
-          displayOriginPopup={this.props.displayOriginPopup}
-        />,
-      );
+      leafletObjs.push(<PositionMarker key="position" />);
 
       const center =
         (!this.props.fitBounds &&
@@ -229,6 +214,9 @@ class Map extends React.Component {
           keyboard={false}
           ref={el => {
             this.map = el;
+            if (el && this.props.activeArea) {
+              el.leafletElement.setActiveArea(this.props.activeArea);
+            }
           }}
           center={center}
           zoom={zoom}
@@ -273,8 +261,8 @@ class Map extends React.Component {
             !this.props.disableZoom && (
               <ZoomControl
                 position={config.map.controls.zoom.position}
-                zoomInText={Icon.asString('icon-icon_plus')}
-                zoomOutText={Icon.asString('icon-icon_minus')}
+                zoomInText={zoomInText}
+                zoomOutText={zoomOutText}
               />
             )}
           {leafletObjs}

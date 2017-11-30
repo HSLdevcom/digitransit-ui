@@ -42,7 +42,7 @@ export const getNameLabel = memoize(
   (suggestion, plain = false) => {
     switch (suggestion.layer) {
       case 'currentPosition':
-        return [suggestion.labelId, null];
+        return [suggestion.labelId, suggestion.address];
       case 'favouritePlace':
         return [suggestion.locationName, suggestion.address];
       case 'favouriteRoute':
@@ -52,7 +52,7 @@ export const getNameLabel = memoize(
       case 'route-SUBWAY':
       case 'route-FERRY':
       case 'route-AIRPLANE':
-        return suggestion.shortName
+        return !plain && suggestion.shortName
           ? [
               <span key={suggestion.gtfsId}>
                 <span className={suggestion.mode.toLowerCase()}>
@@ -65,7 +65,7 @@ export const getNameLabel = memoize(
               </span>,
               suggestion.longName,
             ]
-          : [suggestion.longName, null];
+          : [suggestion.shortName, suggestion.longName];
       case 'venue':
       case 'address':
         return [
@@ -110,11 +110,39 @@ export function uniqByLabel(features) {
 }
 
 export function getLabel(properties) {
-  return getNameLabel(properties, true).join(', ');
+  const parts = getNameLabel(properties, true);
+
+  switch (properties.layer) {
+    case 'currentPosition':
+      return parts[1] || parts[0];
+    case 'favouritePlace':
+      return parts[0];
+    default:
+      return parts.length > 1 ? parts.join(', ') : parts[1] || parts[0];
+  }
+}
+
+export function suggestionToLocation(item) {
+  const name = getLabel(item.properties);
+  return {
+    address: name,
+    type: item.type,
+    lat:
+      item.lat ||
+      (item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[1]),
+    lon:
+      item.lon ||
+      (item.geometry &&
+        item.geometry.coordinates &&
+        item.geometry.coordinates[0]),
+  };
 }
 
 export function getIcon(layer) {
   const layerIcon = new Map([
+    ['currentPosition', 'icon-icon_locate'],
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],

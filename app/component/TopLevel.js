@@ -4,13 +4,15 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getHomeUrl, parseLocation } from '../util/path';
-
+import { dtLocationShape } from '../util/shapes';
 import meta from '../meta';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
+import ErrorBoundary from './ErrorBoundary';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -33,6 +35,7 @@ class TopLevel extends React.Component {
       from: PropTypes.string,
       to: PropTypes.string,
     }).isRequired,
+    origin: dtLocationShape,
   };
 
   static contextTypes = {
@@ -41,6 +44,13 @@ class TopLevel extends React.Component {
     url: PropTypes.string.isRequired,
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    origin: {
+      set: false,
+      ready: false,
+    },
   };
 
   static childContextTypes = {
@@ -103,6 +113,11 @@ class TopLevel extends React.Component {
 
     let content;
 
+    const homeUrl = getHomeUrl(
+      this.props.origin,
+      parseLocation(this.props.params.to),
+    );
+
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;
     } else if (this.props.width < 900) {
@@ -120,17 +135,12 @@ class TopLevel extends React.Component {
           map={this.props.map}
           content={this.props.content}
           header={this.props.header}
+          homeUrl={homeUrl}
         />
       );
     }
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
-
-    const homeUrl = getHomeUrl(
-      parseLocation(this.props.params.from),
-      parseLocation(this.props.params.to),
-    );
-
     return (
       <div className="fullscreen">
         {!this.topBarOptions.hidden && (
@@ -142,11 +152,12 @@ class TopLevel extends React.Component {
         )}
         <Helmet {...this.metadata} />
         <section
+          id="mainContent"
           className="content"
           style={{ height: `calc(100% - ${menuHeight})` }}
         >
           {this.props.meta}
-          {content}
+          <ErrorBoundary>{content}</ErrorBoundary>
         </section>
         {this.trackingPixel}
       </div>
@@ -154,4 +165,6 @@ class TopLevel extends React.Component {
   }
 }
 
-export default TopLevel;
+export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
+  origin: getStore('OriginStore').getOrigin(),
+}));

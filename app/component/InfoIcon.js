@@ -3,9 +3,10 @@ import React from 'react';
 import { Link } from 'react-router';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import { PREFIX_STOPS } from '../util/path';
 
 const InfoIcon = ({ stop }) => (
-  <Link href={`/pysakit/${stop.gtfsId}/info`}>
+  <Link href={`/${PREFIX_STOPS}/${stop.gtfsId}/info`}>
     <span className="cursor-pointer">
       <Icon className="info" img="icon-icon_info" />
     </span>

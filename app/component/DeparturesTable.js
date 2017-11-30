@@ -4,8 +4,13 @@ import { FormattedMessage } from 'react-intl';
 
 class DeparturesTable extends React.Component {
   static propTypes = {
-    headers: PropTypes.array.isRequired,
-    content: PropTypes.array,
+    headers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        defaultMessage: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    content: PropTypes.arrayOf(PropTypes.element).isRequired,
   };
 
   static contextTypes = {

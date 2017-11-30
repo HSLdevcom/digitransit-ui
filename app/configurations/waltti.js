@@ -23,6 +23,10 @@ export default {
     showCityBikes: false,
   },
 
+  search: {
+    minimalRegexp: new RegExp('.+'),
+  },
+
   agency: {
     show: false,
   },
@@ -68,4 +72,7 @@ export default {
   showModeFilter: false,
 
   redirectReittiopasParams: true,
+  queryMaxAgeDays: 14,
+
+  nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 };

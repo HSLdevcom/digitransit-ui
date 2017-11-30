@@ -9,6 +9,7 @@ import NoFavouritesPanel from './NoFavouritesPanel';
 import Loading from './Loading';
 import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
+import { TAB_FAVOURITES } from '../util/path';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -68,10 +69,8 @@ FavouritesPanel.propTypes = {
 export default connectToStores(
   ctx => (
     <PanelOrSelectLocation
-      origin={ctx.origin}
-      destination={ctx.destination}
       panel={FavouritesPanel}
-      panelctx={{ ...ctx }}
+      panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
     />
   ),
   ['FavouriteRoutesStore'],

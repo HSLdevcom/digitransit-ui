@@ -30,6 +30,7 @@ const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
@@ -38,6 +39,7 @@ const MarkerSelectPopupWithContext = provideContext(MarkerSelectPopup, {
   location: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const CityBikePopupWithContext = provideContext(CityBikePopup, {
@@ -47,6 +49,7 @@ const CityBikePopupWithContext = provideContext(CityBikePopup, {
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
@@ -56,6 +59,7 @@ const ParkAndRideHubPopupWithContext = provideContext(ParkAndRideHubPopup, {
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const ParkAndRideFacilityPopupWithContext = provideContext(
@@ -67,6 +71,7 @@ const ParkAndRideFacilityPopupWithContext = provideContext(
     route: PropTypes.object.isRequired,
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
+    map: PropTypes.object.isRequired,
   },
 );
 
@@ -77,6 +82,7 @@ const TicketSalesPopupWithContext = provideContext(TicketSalesPopup, {
   route: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const LocationPopupWithContext = provideContext(LocationPopup, {
@@ -84,6 +90,8 @@ const LocationPopupWithContext = provideContext(LocationPopup, {
   router: routerShape.isRequired,
   location: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
+  map: PropTypes.object.isRequired,
 });
 
 const initialState = {
@@ -182,13 +190,13 @@ class TileLayerContainer extends GridLayer {
 
   PopupOptions = {
     offset: [110, 16],
-    closeButton: false,
     minWidth: 260,
     maxWidth: 260,
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
     onClose: this.onPopupclose,
+    autoPan: false,
   };
 
   createLeafletElement(props) {

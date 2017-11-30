@@ -1,13 +1,13 @@
 #nolocation-panel {
   background-color: white;
   text-align: center;
-  height:100%;
+  max-height:100%;
 
   line-height: 1.6em;
   user-select: none;
-  font-size: 13px;
+  font-size: $font-size-small;
 
-  @include font-book;
+  @include font-medium;
 
   display: flex;
   justify-content: space-between;
@@ -63,6 +63,9 @@
     svg.splash-icon.icon-icon_airplane {
       stroke: $airplane-color;
       fill: $airplane-color;
+    }
+    svg.splash-icon.icon-icon_position {
+      fill: $favourite-color;
     }
 
     li {

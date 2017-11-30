@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import IconWithTail from './IconWithTail';
 import SelectedIconWithTail from './SelectedIconWithTail';
+import { PREFIX_ROUTES } from '../util/path';
 
 function PatternLink({
   mode,
@@ -18,7 +19,7 @@ function PatternLink({
 
   return (
     <Link
-      to={`/linjat/${route}/pysakit/${pattern}`}
+      to={`/${PREFIX_ROUTES}/${route}/pysakit/${pattern}`}
       className="route-now-content"
     >
       {icon}

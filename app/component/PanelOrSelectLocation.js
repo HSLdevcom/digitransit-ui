@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import OriginSelector from './OriginSelector';
 import { dtLocationShape } from '../util/shapes';
 
-const PanelOrSelectLocation = ({ panel, origin, panelctx }) => {
-  if (origin.lat && origin.lon) {
+const PanelOrSelectLocation = ({ panel, panelctx }) => {
+  if (panelctx.origin.ready) {
     return React.createElement(panel, panelctx);
   }
 
@@ -21,6 +21,7 @@ const PanelOrSelectLocation = ({ panel, origin, panelctx }) => {
         <OriginSelector
           origin={panelctx.origin}
           destination={panelctx.destination}
+          tab={panelctx.tab}
         />
       </div>
     </div>
@@ -28,10 +29,12 @@ const PanelOrSelectLocation = ({ panel, origin, panelctx }) => {
 };
 
 PanelOrSelectLocation.propTypes = {
-  panel: PropTypes.element.isRequired,
-  origin: dtLocationShape.isRequired,
-  destination: dtLocationShape.isRequired,
-  panelctx: PropTypes.object.isRequired,
+  panel: PropTypes.func.isRequired,
+  panelctx: PropTypes.shape({
+    tab: PropTypes.string.isRequired,
+    origin: dtLocationShape,
+    destination: dtLocationShape,
+  }).isRequired,
 };
 
 export default PanelOrSelectLocation;

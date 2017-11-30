@@ -6,7 +6,6 @@ import { Router, match } from 'react-router';
 import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
-import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
@@ -30,6 +29,7 @@ import { shouldDisplayPopup } from './util/Feedback';
 import historyCreator from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 import Piwik from './util/piwik';
+import ErrorBoundary from './component/ErrorBoundary';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -38,9 +38,6 @@ const plugContext = f => () => ({
 });
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
-
-// Material-ui uses touch tap events
-tapEventPlugin();
 
 // TODO: this is an ugly hack, but required due to cyclical processing in app
 const config = window.state.context.plugins['extra-context-plugin'].config;
@@ -183,13 +180,15 @@ const callback = () =>
               translations={translations}
               context={context.getComponentContext()}
             >
-              <MuiThemeProvider
-                muiTheme={getMuiTheme(MUITheme(config), {
-                  userAgent: navigator.userAgent,
-                })}
-              >
-                <Router {...props} onUpdate={track} />
-              </MuiThemeProvider>
+              <ErrorBoundary>
+                <MuiThemeProvider
+                  muiTheme={getMuiTheme(MUITheme(config), {
+                    userAgent: navigator.userAgent,
+                  })}
+                >
+                  <Router {...props} onUpdate={track} />
+                </MuiThemeProvider>
+              </ErrorBoundary>
             </ContextProvider>,
             document.getElementById('app'),
             () => {

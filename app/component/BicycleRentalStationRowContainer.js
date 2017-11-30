@@ -33,19 +33,19 @@ const BicycleRentalStationRow = (props, context) => {
       <td className="td-distance">
         <Distance distance={props.distance} />
       </td>
-      <td className="td-route-number overflow-fade">
+      <td className="td-route-number">
         <RouteNumber
           mode="citybike"
           text={props.station.stationId}
           hasDisruption={false}
         />
       </td>
-      <td className="td-bikestation">
+      <td className="td-bikestation" colSpan="1">
         <span className="city-bike-station-name overflow-fade">
           {props.station.name}
         </span>
       </td>
-      <td className="td-bikes-available-left">
+      <td className="td-available-bikes" colSpan="2">
         <span className="city-bike-station-availability">
           <span className="bikes-label">
             {context.intl.formatMessage({
@@ -54,8 +54,6 @@ const BicycleRentalStationRow = (props, context) => {
             })}
           </span>
         </span>
-      </td>
-      <td className="td-bikes-available-right">
         <span className="bikes-available">{props.station.bikesAvailable}</span>
         /
         <span className="bikes-total">

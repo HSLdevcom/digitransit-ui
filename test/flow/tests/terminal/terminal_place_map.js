@@ -8,7 +8,7 @@ module.exports = {
     const marker = browser.page.marker();
     browser.debug('Waiting a while for tiles to load');
     marker.waitForVectorLayerLoaded();
-    browser.pause(1000);
+    browser.pause(3000);
     marker.clickSouthOfCurrentLocation();
     marker.waitForPopupPaneHeaderVisible();
     browser.debug('Popup should have loaded by now');
@@ -21,7 +21,10 @@ module.exports = {
      * https://github.com/HSLdevcom/digitransit-ui/commit/b69bee413933787fe7be72cb5fc25ae3230329e1
     */
     browser.debug('Click on popup');
-    browser.checkedClick('span.time');
+    browser.checkedClick('span.header-primary');
+    browser.debug('Click on terminal');
+    browser.pause(1000);
+    browser.checkedClick('span.header-primary');
     const stop = browser.page.stopCard();
     stop.waitForDepartureVisible();
     const stopPage = browser.page.stop();

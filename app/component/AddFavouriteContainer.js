@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { Link, routerShape, locationShape } from 'react-router';
+import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
-import without from 'lodash/without';
 import Icon from './Icon';
+import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import {
   addFavouriteLocation,
   deleteFavouriteLocation,
 } from '../action/FavouriteActions';
-import { getAllEndpointLayers } from '../util/searchUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
 class AddFavouriteContainer extends React.Component {
@@ -105,14 +104,23 @@ class AddFavouriteContainer extends React.Component {
 
   render() {
     const favourite = this.state.favourite;
-    const favouriteLayers = without(getAllEndpointLayers(), 'FavouritePlace');
+    const favouriteLayers = [
+      'CurrentPosition',
+      'Geocoding',
+      'OldSearch',
+      'Stops',
+    ];
 
     return (
       <div className="fullscreen">
         <div className="add-favourite-container">
-          <Link to="/suosikit" className="right cursor-pointer">
-            <Icon id="add-favourite-close-icon" img="icon-icon_close" />
-          </Link>
+          <div className="button-container">
+            <BackButton
+              icon="icon-icon_close"
+              color="#888"
+              className="add-favourite-close-button"
+            />
+          </div>
           <row>
             <div className="add-favourite-container__content small-12 small-centered columns">
               <header className="add-favourite-container__header row">
@@ -148,11 +156,12 @@ class AddFavouriteContainer extends React.Component {
                 <DTEndpointAutosuggest
                   id="origin"
                   refPoint={{ lat: 0, lon: 0 }}
-                  searchType="all"
+                  searchType="endpoint"
                   placeholder="address"
                   value={favourite.address || ''}
                   layers={favouriteLayers}
                   onLocationSelected={this.setCoordinatesAndAddress}
+                  showSpinner
                 />
               </div>
               <div className="add-favourite-container__give-name">

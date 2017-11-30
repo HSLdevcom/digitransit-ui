@@ -18,29 +18,33 @@ if (isBrowser) {
 
 const currentLocationIcon = isBrowser
   ? L.divIcon({
-      html: Icon.asString('icon-icon_mapMarker-location-animated'),
+      html: Icon.asString('icon-icon_current-location'),
       className: 'current-location-marker',
       iconSize: [40, 40],
     })
   : null;
 
 function PositionMarker({ coordinates }) {
-  if (!coordinates) {
+  if (coordinates === null) {
     return null;
   }
 
   return (
     <Marker
       keyboard={false}
-      zIndexOffset={5}
-      position={coordinates}
+      zIndexOffset={-1}
+      position={[coordinates.lat, coordinates.lon]}
       icon={currentLocationIcon}
     />
   );
 }
 
 PositionMarker.propTypes = {
-  coordinates: dtLocationShape.isRequired,
+  coordinates: dtLocationShape,
+};
+
+PositionMarker.defaultProps = {
+  coordinates: null,
 };
 
 export default connectToStores(
@@ -51,8 +55,12 @@ export default connectToStores(
 
     return {
       coordinates: coordinates.hasLocation
-        ? [coordinates.lat, coordinates.lon]
-        : false,
+        ? {
+            lat: coordinates.lat,
+            lon: coordinates.lon,
+            address: coordinates.address,
+          }
+        : null,
     };
   },
 );

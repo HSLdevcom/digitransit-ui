@@ -9,6 +9,7 @@ import NearestRoutesContainer from './NearestRoutesContainer';
 
 import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
+import { TAB_NEARBY } from '../util/path';
 
 function NearbyRoutesPanel(
   { origin, currentTime, modes, placeTypes },
@@ -44,10 +45,11 @@ NearbyRoutesPanel.contextTypes = {
 export default connectToStores(
   ctx => (
     <PanelOrSelectLocation
-      origin={ctx.origin}
-      detination={ctx.destination}
       panel={NearbyRoutesPanel}
-      panelctx={{ ...ctx }}
+      panelctx={{
+        ...ctx,
+        tab: TAB_NEARBY,
+      }}
     />
   ),
   ['TimeStore', 'ModeStore'],

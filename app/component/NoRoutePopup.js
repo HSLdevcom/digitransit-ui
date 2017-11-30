@@ -28,12 +28,9 @@ class NoRoutePopup extends React.Component {
       newState = !this.state.open;
     }
 
-    this.setState(
-      {
-        open: newState,
-      },
-      () => this.forceUpdate(),
-    );
+    this.setState({
+      open: newState,
+    });
   };
 
   render() {
