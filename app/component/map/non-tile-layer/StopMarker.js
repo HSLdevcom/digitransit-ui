@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import provideContext from 'fluxible-addons-react/provideContext';
-import { intlShape } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
 
 import StopRoute from '../../../route/StopRoute';
@@ -29,14 +26,6 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-  intl: intlShape.isRequired,
-  router: routerShape.isRequired,
-  location: locationShape.isRequired,
-  route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-});
-
 class StopMarker extends React.Component {
   static propTypes = {
     stop: PropTypes.object.isRequired,
@@ -48,11 +37,6 @@ class StopMarker extends React.Component {
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
-    location: locationShape.isRequired,
-    route: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -164,9 +148,7 @@ class StopMarker extends React.Component {
               <Loading />
             </div>
           )}
-          renderFetched={data => (
-            <StopMarkerPopupWithContext {...data} context={this.context} />
-          )}
+          renderFetched={data => <StopMarkerPopup {...data} />}
         />
       </GenericMarker>
     );
