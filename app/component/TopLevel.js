@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
@@ -68,7 +68,7 @@ class TopLevel extends React.Component {
       host.indexOf('127.0.0.1') === -1 &&
       host.indexOf('localhost') === -1 &&
       hasTrackingPixel ? (
-        <HSLAdformTrackingPixel />
+        <HSLAdformTrackingPixel key="trackingpixel" />
       ) : (
         undefined
       );
@@ -128,9 +128,8 @@ class TopLevel extends React.Component {
       );
     }
 
-    const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
     return (
-      <div className="fullscreen">
+      <Fragment>
         {!this.topBarOptions.hidden && (
           <AppBarContainer
             title={this.props.title}
@@ -139,16 +138,12 @@ class TopLevel extends React.Component {
           />
         )}
         <Helmet {...this.metadata} />
-        <section
-          id="mainContent"
-          className="content"
-          style={{ height: `calc(100% - ${menuHeight})` }}
-        >
+        <section id="mainContent" className="content">
           {this.props.meta}
           <ErrorBoundary>{content}</ErrorBoundary>
         </section>
         {this.trackingPixel}
-      </div>
+      </Fragment>
     );
   }
 }
