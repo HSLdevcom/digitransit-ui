@@ -127,6 +127,8 @@ function watchPosition(actionContext) {
           clearTimeout(timeout);
           timeout = null;
         }
+        navigator.geolocation.clearWatch(geoWatchId);
+        geoWatchId = undefined;
         dispatchGeolocationError(actionContext, error);
       },
       { enableHighAccuracy: true, timeout: 60000, maximumAge: 60000 },
@@ -135,6 +137,7 @@ function watchPosition(actionContext) {
     if (timeout !== null) {
       clearTimeout(timeout);
       timeout = null;
+      navigator.geolocation.clearWatch(geoWatchId);
       geoWatchId = undefined;
     }
     actionContext.dispatch('GeolocationNotSupported');
@@ -184,8 +187,8 @@ function startPositioning(actionContext) {
         break;
       case 'prompt':
         updateGeolocationMessage(actionContext, 'prompt');
-        watchPosition(actionContext);
         actionContext.dispatch('GeolocationSearch');
+        watchPosition(actionContext);
         break;
       default:
         // browsers not supporting permission api
