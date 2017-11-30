@@ -1,13 +1,12 @@
-/* eslint-disable import/prefer-default-export */
-
+// replacement for the browser geolocation api location mocking purposes
+import d from 'debug';
 import range from 'lodash/range';
 
-import { geolocatonCallback } from './PositionActions';
+const debug = d('MockGeolocationApi.js');
 
-let follow = false;
-
-export function createMock(actionContext, payload, done) {
-  window.mock = { data: {} };
+export function init(permission) {
+  debug('Position mock activated');
+  window.mock = { permission, data: {} };
 
   window.mock.data.position = {
     coords: {
@@ -17,6 +16,7 @@ export function createMock(actionContext, payload, done) {
     },
   };
 
+  let follow = false;
   window.mock.geolocation = {
     demo() {
       const from = window.mock.data.position.coords;
@@ -70,28 +70,30 @@ export function createMock(actionContext, payload, done) {
       if (heading) {
         window.mock.data.position.coords.heading = heading;
       }
-
-      window.mock.geolocation.notify();
     },
 
-    setCurrentPosition: (lat, lon, heading, disableDebounce) => {
+    setCurrentPosition: (lat, lon, heading) => {
       window.mock.data.position.coords.latitude = lat;
       window.mock.data.position.coords.longitude = lon;
 
       if (heading) {
         window.mock.data.position.coords.heading = heading;
       }
-
-      window.mock.geolocation.notify(disableDebounce);
     },
-
-    notify: (disableDebounce, notifyDone) =>
-      actionContext.executeAction(
-        geolocatonCallback,
-        { pos: window.mock.data.position, disableDebounce },
-        notifyDone,
-      ),
   };
-
-  window.mock.geolocation.notify(true, done);
 }
+
+export const api = {
+  watchPosition: success => {
+    debug('setting mock interval');
+    setInterval(() => {
+      if (window.mock) {
+        debug('broadcasting position', window.mock.data.position);
+        window.mock.permission = 'granted';
+        success(window.mock.data.position);
+      } else {
+        debug('window.mock is undefined');
+      }
+    }, 500);
+  },
+};

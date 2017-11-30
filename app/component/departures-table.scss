@@ -1,0 +1,111 @@
+.nearby-table-container {
+    position: relative;
+    display: block;
+    height: 100%;
+}
+
+table.nearby-departures-table {
+    position: relative;
+    display: block;
+    height: 100%;
+    border: 0;
+    border-spacing: 0;
+    table-layout: fixed;
+    thead {
+        th {
+            text-align: left;
+            color: $gray;
+            @include font-narrow-book;
+            font-size: $font-size-small;
+            white-space: nowrap;
+            margin: 0;
+            line-height: 1em;
+            padding-top: 0.6em;
+            padding-bottom: 0.6em;
+            &.th-to-stop {
+                padding-left: 1em;
+                width: 10%;
+            }
+            &.th-route {
+                width: 15%;
+                text-align: center;
+            }
+            &.th-destination {
+                width: 40%;
+            }
+        }
+    }
+
+    tbody {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        width: 99.7%;
+        background-color: #ffffff;
+        max-height: calc(100% - 32px);
+        tr {
+            @include font-narrow-book;
+            font-size: $font-size-small;
+            margin: 0;
+            line-height: 1em;
+            td {
+                padding-top: 0.6em;
+                padding-bottom: 0.6em;
+                width: 15%;
+                border-bottom: 1px solid #cbcbcb;
+                &.td-available-bikes {
+                    font-size: $font-size-small;
+                    text-align: center;
+                    .city-bike-station-availability {
+                        padding-right: 0.3em;
+                    }
+                    .bikes-total {
+                        padding-right: 0.3em;
+                    }
+                }
+                &.td-route-number {
+                    .route-number {
+                        white-space: nowrap;
+                        min-width: 50px;
+                    }
+                }
+                &.td-distance {
+                    color: $gray;
+                    padding-left: 1em;
+                    min-width: 4.5em;
+                }
+                &.td-departure-times {
+                    font-weight: $font-weight-bold;
+                    font-family: $font-family;
+                }
+                &.td-destination, &.td-bikestation {
+                    width: 35%;
+                    span {
+                      margin-top: 2px;
+                      font-size: $font-size-normal;
+                      white-space: pre-line;
+                      height: $font-size-normal;
+                    }
+                    span.city-bike-station-name {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.small {
+    table.nearby-departures-table {
+        background-color: $white;
+        &.th-route {
+            width: 15%;
+            text-align: left;
+        }
+            tbody {
+                position: relative;
+                display:table;
+                height: 100%;
+            }
+        }
+}

@@ -285,6 +285,7 @@ $route-schedule-date-height: 36px;
 .route-schedule-list {
   padding-bottom: 0.7em;
   flex: 1;
+  flex-basis: 0;
 
   @media print {
     .row {
@@ -637,6 +638,9 @@ div.route-tabs {
       }
     }
   }
+}
+.fpccontainer > div > div > div.spinner-loader {
+  top: 15%;
 }
 
 .mode-nearby {

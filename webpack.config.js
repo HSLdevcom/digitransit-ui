@@ -357,7 +357,6 @@ function getEntry() {
       'react',
       'react-dom',
       'react-relay/classic',
-      'react-tap-event-plugin',
       'moment',
     ],
     leaflet: ['leaflet'],

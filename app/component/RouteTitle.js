@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
+import { PREFIX_ROUTES } from '../util/path';
 
 import RouteNumberContainer from './RouteNumberContainer';
 
@@ -10,7 +11,7 @@ const RouteTitle = ({ route }, { breakpoint }) =>
   breakpoint === 'large' || !route || !route.mode ? (
     <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
   ) : (
-    <Link to={`/linjat/${route.gtfsId}`}>
+    <Link to={`/${PREFIX_ROUTES}/${route.gtfsId}`}>
       <RouteNumberContainer
         className="route-number-title"
         color={route.color}

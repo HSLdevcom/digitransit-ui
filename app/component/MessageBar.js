@@ -4,6 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
+import { markMessageAsRead } from '../action/MessageActions';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -17,6 +18,7 @@ class MessageBar extends Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -27,43 +29,47 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
-    visible: true,
+    readMessages: [],
   };
 
   getTabContent = () =>
-    this.unreadMessages().map(el => (
+    this.validMessages().map(el => (
       <MessageBarMessage
         key={el.id}
+        id={el.id}
         onMaximize={this.maximize}
-        content={el.content[this.props.lang]}
+        content={el.content[this.props.lang] || el.content.fi}
       />
     ));
 
-  getTabs = () =>
-    this.unreadMessages().map((el, i) => (
+  // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
+  getTabMarker = i => (
+    <span>
+      <span
+        style={{
+          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+          fontSize: '18px',
+          height: '18px',
+          position: 'absolute',
+          top: 0,
+        }}
+        title={`${this.context.intl.formatMessage({
+          id: 'messagebar-label-page',
+          defaultMessage: 'Page',
+        })} ${i + 1}`}
+      >
+        •
+      </span>
+    </span>
+  );
+
+  getTabs = () => {
+    const messages = this.validMessages();
+    return messages.map((el, i) => (
       <Tab
         key={el.id}
         selected={i === this.state.slideIndex}
-        icon={
-          // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
-          <span>
-            <span
-              style={{
-                color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-                fontSize: '18px',
-                height: '18px',
-                position: 'absolute',
-                top: 0,
-              }}
-              title={`${this.context.intl.formatMessage({
-                id: 'messagebar-label-page',
-                defaultMessage: 'Page',
-              })} ${i + 1}`}
-            >
-              •
-            </span>
-          </span>
-        }
+        icon={messages.length > 1 ? this.getTabMarker(i) : null}
         value={i}
         style={{
           height: '18px',
@@ -73,104 +79,104 @@ class MessageBar extends Component {
         }}
       />
     ));
-
-  maximize = () => {
-    this.setState({
-      ...this.state,
-      maximized: true,
-    });
   };
 
-  unreadMessages = () =>
+  maximize = () => {
+    this.setState({ maximized: true });
+  };
+
+  validMessages = () =>
     this.props.messages.filter(el => {
-      if (el.read === true) {
-        return false;
-      }
-      if (el.content[this.props.lang] != null) {
+      if (
+        Array.isArray(el.content[this.props.lang]) &&
+        el.content[this.props.lang].length > 0 &&
+        el.content[this.props.lang][0].content
+      ) {
         return true;
       }
       /* eslint-disable no-console */
       console.error(
-        `Message ${el.id} doesn't have translation for ${this.props.lang}`,
+        `Message ${el.id} has no translation for ${this.props.lang}`,
       );
       /* eslint-enable no-console */
       return false;
     });
 
-  /* Find the id of nth unread (we don't show read messages) and mark it as read */
-  markRead = value => {
-    this.context
-      .getStore('MessageStore')
-      .markMessageAsRead(this.unreadMessages()[value].id);
-  };
-
   handleChange = value => {
-    this.markRead(value);
-    this.setState({
-      ...this.state,
-      slideIndex: value,
-    });
+    this.setState({ slideIndex: value });
   };
 
   handleClose = () => {
-    this.markRead(this.state.slideIndex);
-    this.setState({
-      ...this.state,
-      visible: false,
-    });
+    const ids = [];
+    this.validMessages().forEach(msg => ids.push(msg.id));
+    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), 600);
   };
 
   render = () => {
-    if (this.state.visible && this.unreadMessages().length > 0) {
+    const messages = this.validMessages();
+
+    if (messages.length > 0) {
+      const index = Math.min(this.state.slideIndex, messages.length - 1);
+      const msg = messages[index];
+      const type = msg.type || 'info';
+      const icon = msg.icon || 'info';
+      const iconName = `icon-icon_${icon}`;
+
       return (
-        <section role="banner" className="message-bar flex-horizontal">
-          <Icon img={'icon-icon_info'} className="info" />
-          <div className="flex-grow">
-            <SwipeableViews
-              index={this.state.slideIndex}
-              onChangeIndex={this.handleChange}
-              className={!this.state.maximized ? 'message-bar-fade' : ''}
-              containerStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
-                transition: 'max-height 300ms',
-              }}
-              slideStyle={{
-                maxHeight: this.state.maximized ? '400px' : '60px',
-                transition: 'max-height 300ms',
-                padding: '10px',
-                overflow: 'hidden',
-                background: '#fff',
-              }}
-            >
-              {this.getTabContent()}
-            </SwipeableViews>
-            <Tabs
-              onChange={this.handleChange}
-              value={this.state.slideIndex}
-              tabItemContainerStyle={{
-                backgroundColor: '#fff',
-                height: '18px',
-                width: '60px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-              inkBarStyle={{ display: 'none' }}
-            >
-              {this.getTabs()}
-            </Tabs>
-          </div>
-          <div>
-            <button
-              id="close-message-bar"
-              title={this.context.intl.formatMessage({
-                id: 'messagebar-label-close-message-bar',
-                defaultMessage: 'Close banner',
-              })}
-              onClick={this.handleClose}
-              className="noborder close-button cursor-pointer"
-            >
-              <Icon img="icon-icon_close" className="close" />
-            </button>
+        <section
+          id="messageBar"
+          role="banner"
+          className="message-bar flex-horizontal"
+        >
+          <div className="banner-container">
+            <Icon img={iconName} className="message-icon" />
+            <div className={`flex-grow message-bar-${type}`}>
+              <SwipeableViews
+                index={index}
+                onChangeIndex={this.handleChange}
+                className={!this.state.maximized ? 'message-bar-fade' : ''}
+                containerStyle={{
+                  maxHeight: this.state.maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                }}
+                slideStyle={{
+                  maxHeight: this.state.maximized ? '400px' : '100px',
+                  transition: 'max-height 300ms',
+                  padding: '10px 10px 0px 10px',
+                  overflow: 'hidden',
+                  background: '#fff',
+                }}
+              >
+                {this.getTabContent()}
+              </SwipeableViews>
+              <Tabs
+                onChange={this.handleChange}
+                value={index}
+                tabItemContainerStyle={{
+                  backgroundColor: '#fff',
+                  height: '18px',
+                  width: '60px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+                inkBarStyle={{ display: 'none' }}
+              >
+                {this.getTabs()}
+              </Tabs>
+            </div>
+            <div>
+              <button
+                id="close-message-bar"
+                title={this.context.intl.formatMessage({
+                  id: 'messagebar-label-close-message-bar',
+                  defaultMessage: 'Close banner',
+                })}
+                onClick={this.handleClose}
+                className="noborder close-button cursor-pointer"
+              >
+                <Icon img="icon-icon_close" className="close" />
+              </button>
+            </div>
           </div>
         </section>
       );
@@ -184,6 +190,18 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
-    messages: Array.from(context.getStore('MessageStore').messages.values()),
+    messages: Array.from(
+      context.getStore('MessageStore').messages.values(),
+    ).sort((el1, el2) => {
+      const p1 = el1.priority || 0;
+      const p2 = el2.priority || 0;
+      if (p1 > p2) {
+        return -1;
+      }
+      if (p1 < p2) {
+        return 1;
+      }
+      return 0;
+    }),
   }),
 );

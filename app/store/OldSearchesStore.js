@@ -4,7 +4,7 @@ import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 
 import { getOldSearchesStorage, setOldSearchesStorage } from './localStorage';
-import { getLabel } from '../util/suggestionUtils';
+import { getNameLabel } from '../util/suggestionUtils';
 
 class OldSearchesStore extends Store {
   static storeName = 'OldSearchesStore';
@@ -30,8 +30,8 @@ class OldSearchesStore extends Store {
 
     const found = find(searches, oldItem =>
       isEqual(
-        getLabel(destination.item.properties),
-        getLabel(oldItem.item.properties),
+        getNameLabel(destination.item.properties),
+        getNameLabel(oldItem.item.properties),
       ),
     );
 

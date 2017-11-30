@@ -153,7 +153,7 @@ module.exports = {
       selector: '#add-new-favourite-0',
     },
     addressPlaceholderNoSelect: {
-      selector: '.address-placeholder ',
+      selector: '.add-favourite-container__search',
     },
     searchFavourite: {
       selector: "input[type='text']",

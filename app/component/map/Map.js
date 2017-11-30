@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import elementResizeDetectorMaker from 'element-resize-detector';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import PositionMarker from './PositionMarker';
-import PlaceMarker from './PlaceMarker';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { isBrowser, isDebugTiles } from '../../util/browser';
-import Icon from '../Icon';
+import { dtLocationShape } from '../../util/shapes';
 
 /* eslint-disable global-require */
 // TODO When server side rendering is re-enabled,
@@ -27,42 +27,52 @@ if (isBrowser) {
   ScaleControl = require('react-leaflet/es/ScaleControl').default;
   ZoomControl = require('react-leaflet/es/ZoomControl').default;
   L = require('leaflet');
+  require('leaflet-active-area');
   // Webpack handles this by bundling it with the other css files
   require('leaflet/dist/leaflet.css');
 }
 
+const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
+
+const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+
 class Map extends React.Component {
   static propTypes = {
+    animate: PropTypes.bool,
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
     center: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node,
     disableMapTracking: PropTypes.func,
-    displayOriginPopup: PropTypes.bool,
     fitBounds: PropTypes.bool,
     hideOrigin: PropTypes.bool,
     hilightedStops: PropTypes.array,
+    lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
+    origin: dtLocationShape,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
     showScaleBar: PropTypes.bool,
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
+    activeArea: PropTypes.string,
   };
 
   static defaultProps = {
-    showScaleBar: false,
+    animate: true,
     loaded: () => {},
+    origin: null,
+    showScaleBar: false,
+    activeArea: null,
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
@@ -139,7 +149,6 @@ class Map extends React.Component {
   render = () => {
     let map;
     let zoom;
-    let origin;
     let leafletObjs;
     const config = this.context.config;
 
@@ -177,24 +186,7 @@ class Map extends React.Component {
         }
       }
 
-      origin = this.context.getStore('EndpointStore').getOrigin();
-
-      if (origin && origin.lat && !this.props.hideOrigin) {
-        leafletObjs.push(
-          <PlaceMarker
-            position={origin}
-            key="from"
-            displayOriginPopup={this.props.displayOriginPopup}
-          />,
-        );
-      }
-
-      leafletObjs.push(
-        <PositionMarker
-          key="position"
-          displayOriginPopup={this.props.displayOriginPopup}
-        />,
-      );
+      leafletObjs.push(<PositionMarker key="position" />);
 
       const center =
         (!this.props.fitBounds &&
@@ -214,9 +206,7 @@ class Map extends React.Component {
         (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
         config.URL.MAP;
       if (mapUrl !== null && typeof mapUrl === 'object') {
-        mapUrl =
-          mapUrl[this.context.getStore('PreferencesStore').getLanguage()] ||
-          config.URL.MAP.default;
+        mapUrl = mapUrl[this.props.lang] || config.URL.MAP.default;
       }
 
       map = (
@@ -224,6 +214,9 @@ class Map extends React.Component {
           keyboard={false}
           ref={el => {
             this.map = el;
+            if (el && this.props.activeArea) {
+              el.leafletElement.setActiveArea(this.props.activeArea);
+            }
           }}
           center={center}
           zoom={zoom}
@@ -235,7 +228,7 @@ class Map extends React.Component {
             (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
             undefined
           }
-          animate={false}
+          animate={this.props.animate}
           {...this.props.leafletOptions}
           boundsOptions={boundsOptions}
           {...this.props.leafletEvents}
@@ -268,8 +261,8 @@ class Map extends React.Component {
             !this.props.disableZoom && (
               <ZoomControl
                 position={config.map.controls.zoom.position}
-                zoomInText={Icon.asString('icon-icon_plus')}
-                zoomOutText={Icon.asString('icon-icon_minus')}
+                zoomInText={zoomInText}
+                zoomOutText={zoomOutText}
               />
             )}
           {leafletObjs}
@@ -288,4 +281,6 @@ class Map extends React.Component {
   };
 }
 
-export default Map;
+export default connectToStores(Map, ['PreferencesStore'], context => ({
+  lang: context.getStore('PreferencesStore').getLanguage(),
+}));

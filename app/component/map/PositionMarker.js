@@ -1,12 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import pure from 'recompose/pure';
-import { intlShape } from 'react-intl';
 
-import OriginPopup from './OriginPopup';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
+import { dtLocationShape } from '../../util/shapes';
 
 let Marker;
 let L;
@@ -20,73 +18,49 @@ if (isBrowser) {
 
 const currentLocationIcon = isBrowser
   ? L.divIcon({
-      html: Icon.asString('icon-icon_mapMarker-location-animated'),
+      html: Icon.asString('icon-icon_current-location'),
       className: 'current-location-marker',
       iconSize: [40, 40],
     })
   : null;
 
-function PositionMarker(
-  { coordinates, useCurrentPosition, displayOriginPopup },
-  { intl },
-) {
-  let popup;
-
-  if (!coordinates) {
+function PositionMarker({ coordinates }) {
+  if (coordinates === null) {
     return null;
-  }
-
-  if (displayOriginPopup) {
-    popup = (
-      <OriginPopup
-        shouldOpen={useCurrentPosition}
-        header={intl.formatMessage({ id: 'origin', defaultMessage: 'From' })}
-        text={intl.formatMessage({
-          id: 'own-position',
-          defaultMessage: 'Your current location',
-        })}
-        yOffset={20}
-      />
-    );
   }
 
   return (
     <Marker
       keyboard={false}
-      zIndexOffset={5}
-      position={coordinates}
+      zIndexOffset={-1}
+      position={[coordinates.lat, coordinates.lon]}
       icon={currentLocationIcon}
-    >
-      {popup}
-    </Marker>
+    />
   );
 }
 
-PositionMarker.contextTypes = {
-  intl: intlShape.isRequired,
+PositionMarker.propTypes = {
+  coordinates: dtLocationShape,
 };
 
-PositionMarker.propTypes = {
-  coordinates: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.number),
-    PropTypes.oneOf([false]),
-  ]),
-  displayOriginPopup: PropTypes.bool,
-  useCurrentPosition: PropTypes.bool.isRequired,
+PositionMarker.defaultProps = {
+  coordinates: null,
 };
 
 export default connectToStores(
   pure(PositionMarker),
-  ['PositionStore', 'EndpointStore'],
+  ['PositionStore'],
   context => {
     const coordinates = context.getStore('PositionStore').getLocationState();
 
     return {
-      useCurrentPosition: context.getStore('EndpointStore').getOrigin()
-        .useCurrentPosition,
       coordinates: coordinates.hasLocation
-        ? [coordinates.lat, coordinates.lon]
-        : false,
+        ? {
+            lat: coordinates.lat,
+            lon: coordinates.lon,
+            address: coordinates.address,
+          }
+        : null,
     };
   },
 );

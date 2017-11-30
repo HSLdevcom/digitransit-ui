@@ -52,6 +52,10 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
   }
 }
 
+.leaflet-bottom {
+  z-index: 800;
+}
+
 div.leaflet-container {
   position: absolute;
   width: 100%;
@@ -505,4 +509,20 @@ div.map-click-prevent-overlay {
   height:4px;
   background: none;
   cursor: grab;
+}
+
+.activeAreaLarge {
+  position: absolute;
+  top: 50px;
+  bottom: 20px;
+  left: 0px;
+  right: 370px;
+}
+
+.activeAreaSmall {
+  position: absolute;
+  top: 95px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
 }

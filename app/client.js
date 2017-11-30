@@ -6,7 +6,6 @@ import { Router, match } from 'react-router';
 import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
-import tapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import debug from 'debug';
@@ -27,10 +26,10 @@ import appCreator from './app';
 import translations from './translations';
 import { openFeedbackModal } from './action/feedbackActions';
 import { shouldDisplayPopup } from './util/Feedback';
-import { initGeolocation } from './action/PositionActions';
 import historyCreator from './history';
 import { COMMIT_ID, BUILD_TIME } from './buildInfo';
 import Piwik from './util/piwik';
+import ErrorBoundary from './component/ErrorBoundary';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -39,9 +38,6 @@ const plugContext = f => () => ({
 });
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
-
-// Material-ui uses touch tap events
-tapEventPlugin();
 
 // TODO: this is an ugly hack, but required due to cyclical processing in app
 const config = window.state.context.plugins['extra-context-plugin'].config;
@@ -171,19 +167,20 @@ const callback = () =>
     });
 
     // init geolocation handling
-    context.executeAction(initGeolocation).then(() => {
-      match(
-        { routes: app.getComponent(), history },
-        (error, redirectLocation, renderProps) => {
-          IsomorphicRouter.prepareInitialRender(
-            Relay.Store,
-            renderProps,
-          ).then(props => {
-            ReactDOM.render(
-              <ContextProvider
-                translations={translations}
-                context={context.getComponentContext()}
-              >
+
+    match(
+      { routes: app.getComponent(), history },
+      (error, redirectLocation, renderProps) => {
+        IsomorphicRouter.prepareInitialRender(
+          Relay.Store,
+          renderProps,
+        ).then(props => {
+          ReactDOM.render(
+            <ContextProvider
+              translations={translations}
+              context={context.getComponentContext()}
+            >
+              <ErrorBoundary>
                 <MuiThemeProvider
                   muiTheme={getMuiTheme(MUITheme(config), {
                     userAgent: navigator.userAgent,
@@ -191,22 +188,22 @@ const callback = () =>
                 >
                   <Router {...props} onUpdate={track} />
                 </MuiThemeProvider>
-              </ContextProvider>,
-              document.getElementById('app'),
-              () => {
-                // Run only in production mode and when built in a docker container
-                if (
-                  process.env.NODE_ENV === 'production' &&
-                  BUILD_TIME !== 'unset'
-                ) {
-                  OfflinePlugin.install();
-                }
-              },
-            );
-          });
-        },
-      );
-    });
+              </ErrorBoundary>
+            </ContextProvider>,
+            document.getElementById('app'),
+            () => {
+              // Run only in production mode and when built in a docker container
+              if (
+                process.env.NODE_ENV === 'production' &&
+                BUILD_TIME !== 'unset'
+              ) {
+                OfflinePlugin.install();
+              }
+            },
+          );
+        });
+      },
+    );
 
     // Listen for Web App Install Banner events
     window.addEventListener('beforeinstallprompt', e => {

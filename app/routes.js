@@ -15,7 +15,6 @@ import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
-import SplashOrChildren from './component/SplashOrChildren';
 
 import { otpToLocation } from './util/otpStrings';
 
@@ -23,6 +22,11 @@ import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import { isBrowser } from './util/browser';
+import {
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_ITINERARY_SUMMARY,
+} from './util/path';
 
 // Localstorage data
 import { getCustomizedSettings } from './store/localStorage';
@@ -265,7 +269,6 @@ export default config => {
     props: PropTypes.object.isRequired,
     routerProps: PropTypes.object.isRequired,
   };
-
   return (
     <Route
       component={props =>
@@ -278,65 +281,31 @@ export default config => {
         )}
     >
       <Route
-        path="/"
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: props => (
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>
-          ),
+        path="/styleguide"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
-      >
-        <Route
-          path="lahellasi"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-        <Route
-          path="suosikit"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-      </Route>
+      />
       <Route
-        path="/?mock"
-        topBarOptions={{ disableBackButton: true }}
-        components={{
-          title: Title,
-          content: props => (
-            <SplashOrChildren>
-              <IndexPage {...props} />
-            </SplashOrChildren>
-          ),
+        path="/styleguide/component/:componentName"
+        topBarOptions={{ hidden: true }}
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
         }}
-      >
-        <Route
-          path="lahellasi"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/NearbyRoutesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-        <Route
-          path="suosikit"
-          getComponents={(location, cb) =>
-            import(/* webpackChunkName: "nearby" */ './component/FavouritesPanel')
-              .then(getDefault)
-              .then(content => cb(null, { content }))
-              .catch(errorLoading)}
-        />
-      </Route>
-
-      <Route path="/pysakit">
+      />
+      <Route
+        path="/suosikki/uusi"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route path={`/${PREFIX_STOPS}`}>
         <IndexRoute component={Error404} />{' '}
         {/* TODO: Should return list of all routes */}
         <Route
@@ -408,7 +377,7 @@ export default config => {
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
-      <Route path="/linjat">
+      <Route path={`/${PREFIX_ROUTES}`}>
         <IndexRoute component={Error404} />{' '}
         {/* TODO: Should return list of all routes */}
         <Route path=":routeId">
@@ -584,7 +553,7 @@ export default config => {
         </Route>
       </Route>
       <Route
-        path="/reitti/:from/:to"
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
         getComponents={(location, cb) => {
           Promise.all([
             import(/* webpackChunkName: "itinerary" */ './component/SummaryTitle').then(
@@ -631,31 +600,7 @@ export default config => {
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
-      <Route
-        path="/styleguide"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/styleguide/component/:componentName"
-        topBarOptions={{ hidden: true }}
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "styleguide" */ './component/StyleGuidePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
-      <Route
-        path="/suosikki/uusi"
-        getComponent={(location, cb) => {
-          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
-            .then(loadRoute(cb))
-            .catch(errorLoading);
-        }}
-      />
+
       <Route
         path="/suosikki/muokkaa/:id"
         getComponent={(location, cb) => {
@@ -673,6 +618,22 @@ export default config => {
               getDefault,
             ),
           ]).then(([title, content]) => cb(null, { title, content }));
+        }}
+      />
+      <Route
+        path={'/(:from)(/:to)(/:tab)'}
+        topBarOptions={{ disableBackButton: true }}
+        components={{
+          title: Title,
+          content: IndexPage,
+        }}
+      />
+      <Route
+        path="/?mock"
+        topBarOptions={{ disableBackButton: true }}
+        components={{
+          title: Title,
+          content: IndexPage,
         }}
       />
       {/* For all the rest render 404 */}
