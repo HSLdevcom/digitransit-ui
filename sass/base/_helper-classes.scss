@@ -104,11 +104,6 @@
   flex-direction: column;
 }
 
-#mainContent {
-  display: flex;
-  flex-direction: column;
-}
-
 @media print {
     .fullscreen {
       height: auto;
