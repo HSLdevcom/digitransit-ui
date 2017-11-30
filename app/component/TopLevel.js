@@ -65,11 +65,7 @@ class TopLevel extends React.Component {
       (context.headers['x-forwarded-host'] || context.headers.host);
     const url = context.url;
 
-    const hasTrackingPixel = get(
-      context,
-      'config.showAdformTrackingPixel',
-      false,
-    );
+    const hasTrackingPixel = get(context, 'config.showHSLTracking', false);
     this.trackingPixel =
       host &&
       host.indexOf('127.0.0.1') === -1 &&
