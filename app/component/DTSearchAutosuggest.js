@@ -86,7 +86,10 @@ class DTAutosuggest extends React.Component {
           editing: false,
           value: ref.suggestionValue,
         },
-        () => this.props.selectedFunction(ref.suggestion),
+        () => {
+          this.input.blur();
+          this.props.selectedFunction(ref.suggestion);
+        },
       );
     } else {
       this.setState(
@@ -115,7 +118,8 @@ class DTAutosuggest extends React.Component {
       // finish the selection by picking first = best match
       this.setState({ pendingSelection: false }, () => {
         if (this.state.suggestions.length) {
-          this.props.selectedFunction(this.state.suggestions[0])
+          this.input.blur();
+          this.props.selectedFunction(this.state.suggestions[0]);
         }
       });
     }
