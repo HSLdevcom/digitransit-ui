@@ -147,11 +147,6 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-      {breakpoint !== 'large' && (
-        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />
-        </div>
-      )}
     </Map>
   );
 }

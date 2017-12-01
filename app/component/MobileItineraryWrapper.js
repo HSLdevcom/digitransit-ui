@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
+import Icon from './Icon';
 
 import { getRoutePath } from '../util/path';
 
@@ -154,10 +155,15 @@ export default class MobileItineraryWrapper extends React.Component {
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
         component="div"
-        className="itinerary-container-content"
+        className={`itinerary-container-content ${this.props.fullscreenMap
+          ? `minimized`
+          : null}`}
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >
+        <div className="fullscreen-toggle" onClick={this.toggleFullscreenMap}>
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        </div>
         {swipe}
         {tabs}
       </ReactCSSTransitionGroup>
