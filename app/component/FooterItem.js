@@ -11,19 +11,6 @@ const mapToLink = (href, children) => (
   </span>
 );
 
-const mapToFn = (fn, children) => (
-  <span className="cursor-pointer">
-    <a
-      onClick={() => {
-        fn();
-        return false;
-      }}
-    >
-      {children}
-    </a>
-  </span>
-);
-
 const mapToRoute = (router, route, children) => (
   <button
     className="noborder button cursor-pointer"

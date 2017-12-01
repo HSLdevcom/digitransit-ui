@@ -16,7 +16,7 @@ const events = ['open', 'close', 'addMeta', 'removeMeta'];
 for (let i = 0; i < events.length; i++) {
   const j = events[i];
   Fbly.prototype[j] = function() {
-    this.queue.push([j, arguments]);
+    this.queue.push([j, arguments]); // eslint-disable-line prefer-rest-params
   };
 }
 
