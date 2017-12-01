@@ -80,13 +80,23 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.setState(
-      {
-        editing: false,
-        value: ref.suggestionValue,
-      },
-      () => this.props.selectedFunction(e, ref),
-    );
+    if (!this.state.searching) {
+      this.setState(
+        {
+          editing: false,
+          value: ref.suggestionValue,
+        },
+        () => this.props.selectedFunction(ref.suggestion),
+      );
+    } else {
+      this.setState(
+        {
+          editing: false,
+          pendingSelection: true,
+        },
+        () => this.checkPendingSelection(), // search may finish during state change
+      );
+    }
   };
 
   onSuggestionsClearRequested = () => {
@@ -100,6 +110,17 @@ class DTAutosuggest extends React.Component {
     return value;
   };
 
+  checkPendingSelection = () => {
+    if (this.state.pendingSelection && !this.state.searching) {
+      // finish the selection by picking first = best match
+      this.setState({ pendingSelection: false }, () => {
+        if (this.state.suggestions.length) {
+          this.props.selectedFunction(this.state.suggestions[0])
+        }
+      });
+    }
+  };
+
   clearButton = () => {
     const img = this.state.value ? 'icon-icon_close' : 'icon-icon_search';
     return (
@@ -109,47 +130,52 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) => {
-    executeSearch(
-      this.context.getStore,
-      this.props.refPoint,
-      {
-        layers: this.props.layers,
-        input: value,
-        type: this.props.searchType,
-        config: this.context.config,
-      },
-      result => {
-        if (result == null) {
-          return;
-        }
-        let suggestions = [];
-        const [res1, res2] = result;
-
-        if (res2 && res2.results) {
-          suggestions = suggestions.concat(res2.results);
-        }
-        if (res1 && res1.results) {
-          suggestions = suggestions.concat(res1.results);
-        }
-        // XXX translates current location
-        suggestions = suggestions.map(suggestion => {
-          if (suggestion.type === 'CurrentLocation') {
-            const translated = { ...suggestion };
-            translated.properties.labelId = this.context.intl.formatMessage({
-              id: suggestion.properties.labelId,
-              defaultMessage: 'Own Location',
-            });
-            return translated;
+  fetchFunction = ({ value }) =>
+    this.setState({ searching: true }, () =>
+      executeSearch(
+        this.context.getStore,
+        this.props.refPoint,
+        {
+          layers: this.props.layers,
+          input: value,
+          type: this.props.searchType,
+          config: this.context.config,
+        },
+        result => {
+          if (result == null) {
+            return;
           }
-          return suggestion;
-        });
-        this.setState({
-          suggestions,
-        });
-      },
+          let suggestions = [];
+          const [res1, res2] = result;
+
+          if (res2 && res2.results) {
+            suggestions = suggestions.concat(res2.results);
+          }
+          if (res1 && res1.results) {
+            suggestions = suggestions.concat(res1.results);
+          }
+          // XXX translates current location
+          suggestions = suggestions.map(suggestion => {
+            if (suggestion.type === 'CurrentLocation') {
+              const translated = { ...suggestion };
+              translated.properties.labelId = this.context.intl.formatMessage({
+                id: suggestion.properties.labelId,
+                defaultMessage: 'Own Location',
+              });
+              return translated;
+            }
+            return suggestion;
+          });
+          this.setState(
+            {
+              suggestions,
+              searching: false,
+            },
+            () => this.checkPendingSelection(),
+          );
+        },
+      ),
     );
-  };
 
   clearInput = () => {
     const newState = {
@@ -166,7 +192,9 @@ class DTAutosuggest extends React.Component {
   inputClicked = () => {
     if (!this.state.editing) {
       this.props.isFocused(true);
-      const newState = { editing: true };
+      const newState = {
+        editing: true,
+      };
 
       if (!this.state.suggestions.length) {
         this.setState(newState, () =>
@@ -185,14 +213,16 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => (
-    <SuggestionItem
-      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
-      ref={item.name}
-      item={item}
-      useTransportIconsconfig={
-        this.context.config.search.suggestions.useTransportIcons
-      }
-    />
+    <div className={cx({ 'suggestion-is-updating': this.state.searching })}>
+      <SuggestionItem
+        doNotShowLinkToStop={this.state.doNotShowLinkToStop}
+        ref={item.name}
+        item={item}
+        useTransportIconsconfig={
+          this.context.config.search.suggestions.useTransportIcons
+        }
+      />
+    </div>
   );
 
   render = () => {
