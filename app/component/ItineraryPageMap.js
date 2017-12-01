@@ -7,7 +7,6 @@ import polyline from 'polyline-encoded';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
-import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
