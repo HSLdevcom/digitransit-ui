@@ -12,12 +12,9 @@ class LazilyLoad extends React.Component {
     isLoaded: false,
   };
 
-  componentWillMount() {
-    this.load(this.props);
-  }
-
   componentDidMount() {
     this.componentMounted = true;
+    this.load(this.props);
   }
 
   componentWillReceiveProps(next) {

@@ -88,14 +88,8 @@ export default {
     // Whether to show the left menu toggle button at all
     show: true,
     showDisruptions: true,
-    showInquiry: false,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
-  },
-
-  feedback: {
-    // Whether to allow the feedback popup
-    enable: false,
   },
 
   itinerary: {
