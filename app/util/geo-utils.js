@@ -42,19 +42,6 @@ export function getDistanceToNearestStop(lat, lon, stops) {
   return { stop: minStop, distance: minDist };
 }
 
-export function getDistanceToFurthestStop(coordinates, stops) {
-  return stops
-    .map(stop => ({
-      stop,
-      distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    }))
-    .reduce(
-      (previous, current) =>
-        current.distance > previous.distance ? current : previous,
-      { stop: null, distance: 0 },
-    );
-}
-
 export function displayImperialDistance(meters) {
   const feet = meters * 3.2808399;
 
