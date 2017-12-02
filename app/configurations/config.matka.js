@@ -60,7 +60,6 @@ export default {
     ],
   },
 
-  shouldShowIntro: false,
   redirectReittiopasParams: true,
 
   aboutThisService: {
