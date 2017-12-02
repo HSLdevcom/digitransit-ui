@@ -229,13 +229,6 @@ function getScripts(req, config) {
       )}`}
     />,
     <script
-      key="leaflet_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(
-        stats.assetsByChunkName.leaflet,
-        0,
-      )}`}
-    />,
-    <script
       key="min_js"
       src={`${config.APP_PATH}/${getStringOrArrayElement(
         stats.assetsByChunkName.main,
