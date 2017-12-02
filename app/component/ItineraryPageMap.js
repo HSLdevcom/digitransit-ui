@@ -7,7 +7,6 @@ import polyline from 'polyline-encoded';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
-import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
@@ -147,11 +146,6 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-      {breakpoint !== 'large' && (
-        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />
-        </div>
-      )}
     </Map>
   );
 }
