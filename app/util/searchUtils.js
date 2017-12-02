@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
-import { getLatLng } from './geo-utils';
+import { distance } from './geo-utils';
 import { uniqByLabel } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
 import { PREFIX_ROUTES } from '../util/path';
@@ -240,8 +240,8 @@ function getFavouriteStops(favourites, input, origin) {
     { ids: favourites },
   );
 
-  const refLatLng =
-    origin.lat && origin.lon && getLatLng(origin.lat, origin.lon);
+  const refLatLng = origin.lat &&
+    origin.lon && { lat: origin.lat, lng: origin.lon };
 
   return getRelayQuery(query)
     .then(favouriteStops =>
@@ -261,10 +261,10 @@ function getFavouriteStops(favourites, input, origin) {
       stops =>
         refLatLng
           ? sortBy(stops, item =>
-              getLatLng(
-                item.geometry.coordinates[1],
-                item.geometry.coordinates[0],
-              ).distanceTo(refLatLng),
+              distance(refLatLng, {
+                lat: item.geometry.coordinates[1],
+                lng: item.geometry.coordinates[0],
+              }),
             )
           : stops,
     );
