@@ -243,7 +243,7 @@ function getPluginsConfig(env) {
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
     getSourceMapPlugin(/\.(css)($|\?)/i, '/css/'),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['common', 'leaflet', 'manifest'],
+      names: ['common', 'manifest'],
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -329,7 +329,6 @@ function getEntry() {
       'react-relay/classic',
       'moment',
     ],
-    leaflet: ['leaflet'],
     main: './app/client',
   };
 
