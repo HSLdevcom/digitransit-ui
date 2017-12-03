@@ -60,13 +60,6 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    // TODO move this to wrapping component
-    const search = this.context.location.search;
-
-    if (search && search.indexOf('citybikes') > -1) {
-      console.warn('Enabling citybikes');
-      this.context.config.transportModes.citybike.defaultValue = true;
-    }
     // auto select nearby tab if none selected and bp=large
     if (this.props.tab === undefined) {
       this.clickNearby();
