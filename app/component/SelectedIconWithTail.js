@@ -20,7 +20,7 @@ const SelectedIconWithTail = ({ img, fullscreenMap }) => (
         stroke="#575757"
       />
       <use
-        xlinkHref={'#icon-icon_good-availability'}
+        xlinkHref="#icon-icon_good-availability"
         transform="translate(47,22) scale(0.15) "
       />
       <circle

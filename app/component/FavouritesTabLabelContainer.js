@@ -44,7 +44,8 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
             <FavouritesTabLabelRelayConnector {...props} {...rest} />
           ) : (
             <FavouritesTabLabel {...rest} />
-          )}
+          )
+        }
       />
     );
   }

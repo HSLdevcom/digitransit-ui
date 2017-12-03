@@ -170,10 +170,9 @@ class MapWithTrackingStateHandler extends React.Component {
                 ? this.disableMapTracking
                 : this.enableMapTracking
             }
-            className={`icon-mapMarker-toggle-positioning-${this.state
-              .mapTracking
-              ? 'online'
-              : 'offline'}`}
+            className={`icon-mapMarker-toggle-positioning-${
+              this.state.mapTracking ? 'online' : 'offline'
+            }`}
           />
         )}
       </Component>

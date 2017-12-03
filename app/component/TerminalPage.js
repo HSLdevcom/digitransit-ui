@@ -44,7 +44,8 @@ const TerminalPageRootContainer = routeProps => (
         />
       ) : (
         undefined
-      )}
+      )
+    }
   />
 );
 

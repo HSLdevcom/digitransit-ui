@@ -93,8 +93,11 @@ const PlaceAtDistanceList = ({
 };
 
 PlaceAtDistanceList.propTypes = {
-  places: PropTypes.object,
-  nearest: PropTypes.object.isRequired,
+  nearest: PropTypes.shape({
+    places: PropTypes.shape({
+      edges: PropTypes.array.isRequired,
+    }).isRequired,
+  }).isRequired,
   currentTime: PropTypes.number.isRequired,
   timeRange: PropTypes.number.isRequired,
 };

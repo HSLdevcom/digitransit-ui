@@ -150,7 +150,7 @@ class Map extends React.Component {
     let map;
     let zoom;
     let leafletObjs;
-    const config = this.context.config;
+    const { config } = this.context;
 
     if (isBrowser) {
       leafletObjs = this.props.leafletObjs || [];
@@ -196,7 +196,7 @@ class Map extends React.Component {
 
       ({ zoom } = this.props);
 
-      const boundsOptions = this.props.boundsOptions;
+      const { boundsOptions } = this.props;
 
       if (this.props.padding) {
         boundsOptions.paddingTopLeft = this.props.padding;

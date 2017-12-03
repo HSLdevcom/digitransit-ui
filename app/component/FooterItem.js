@@ -50,7 +50,6 @@ FooterItem.propTypes = {
   icon: PropTypes.string,
   href: PropTypes.string,
   route: PropTypes.string,
-  type: PropTypes.string,
   label: PropTypes.string,
 };
 

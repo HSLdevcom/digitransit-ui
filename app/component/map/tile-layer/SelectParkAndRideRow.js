@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectParkAndRideRow(props, { intl }) {
   return (
     <div className="no-margin">

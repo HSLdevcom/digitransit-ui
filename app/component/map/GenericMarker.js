@@ -30,7 +30,6 @@ export default class GenericMarker extends React.Component {
           icons={{ smallIconSvg: 'smallIcon in svg', iconSvg: 'icon in svg' }}
           iconSizes={{ smallIconSvg: [8, 8], iconSvg: [20, 20] }}
           map="leaflet map object"
-          id="marker id here"
         />
       </ComponentUsageExample>
     </div>
@@ -46,7 +45,6 @@ export default class GenericMarker extends React.Component {
   static propTypes = {
     position: PropTypes.object.isRequired,
     getIcon: PropTypes.func.isRequired,
-    id: PropTypes.string,
     renderName: PropTypes.bool,
     name: PropTypes.string,
     children: PropTypes.node,

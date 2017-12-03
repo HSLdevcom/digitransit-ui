@@ -17,9 +17,9 @@ export const addressToItinerarySearch = location => {
   if (location.set === false) {
     return '-';
   }
-  return `${encodeURIComponent(
-    location.address,
-  )}::${location.lat},${location.lon}`;
+  return `${encodeURIComponent(location.address)}::${location.lat},${
+    location.lon
+  }`;
 };
 
 export const locationToOTP = location => {

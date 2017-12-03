@@ -24,9 +24,9 @@ class StopPageTabContainer extends React.Component {
     return (
       <div className="stop-tab-container">
         <button
-          className={`stop-tab-singletab ${this.state.active === 'right-now'
-            ? 'active'
-            : 'inactive'}`}
+          className={`stop-tab-singletab ${
+            this.state.active === 'right-now' ? 'active' : 'inactive'
+          }`}
           onClick={() => {
             this.setState({ active: 'right-now' });
             this.selectedTab('right-now');
@@ -50,9 +50,9 @@ class StopPageTabContainer extends React.Component {
           </div>
         </button>
         <button
-          className={`stop-tab-singletab ${this.state.active === 'timetable'
-            ? 'active'
-            : 'inactive'}`}
+          className={`stop-tab-singletab ${
+            this.state.active === 'timetable' ? 'active' : 'inactive'
+          }`}
           onClick={() => {
             this.setState({ active: 'timetable' });
             this.selectedTab('timetable');

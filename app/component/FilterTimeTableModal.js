@@ -76,7 +76,10 @@ class FilterTimeTableModal extends React.Component {
               id={`input-${o.codes[0]}`}
               onChange={() => this.handleCheckbox(o.codes)}
             />
+            {/* TODO: Add label for this */}
+            {/* eslint-disable jsx-a11y/label-has-for */}
             <label htmlFor={`input-${o.codes[0]}`} />
+            {/* eslint-enable jsx-a11y/label-has-for */}
           </div>
           <div className="route-mode">
             <Icon
@@ -122,19 +125,20 @@ class FilterTimeTableModal extends React.Component {
       JSON.parse(key),
       group.map(pattern => pattern.code),
     ]);
-    const cleanedUpavailableRoutes = mappedGroups.map(o => {
-      const obj = {};
-      obj.headsign = o[0][0];
-      obj.shortName = o[0][1];
-      obj.mode = o[0][2];
-      obj.agency = o[0][3];
-      obj.codes = o[1];
-      return obj;
-    });
+    const cleanedUpavailableRoutes = mappedGroups.map(
+      ([[headsign, shortName, mode, agency], codes]) => ({
+        headsign,
+        shortName,
+        mode,
+        agency,
+        codes,
+      }),
+    );
 
     return cleanedUpavailableRoutes.sort(routeCompare);
   };
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     // const availableRoutes = (
     //    this.props.stop.stoptimesForServiceDate).map(o => Object.assign(o.pattern),
@@ -175,12 +179,16 @@ class FilterTimeTableModal extends React.Component {
                     id="input-all-routes"
                     checked={this.state.allRoutes}
                     onClick={e =>
-                      this.state.allRoutes === true && e.preventDefault()}
+                      this.state.allRoutes === true && e.preventDefault()
+                    }
                     onChange={e => {
                       this.toggleAllRoutes(e);
                     }}
                   />
+                  {/* TODO: Add label for this */}
+                  {/* eslint-disable jsx-a11y/label-has-for */}
                   <label htmlFor="input-all-routes" />
+                  {/* eslint-enable jsx-a11y/label-has-for */}
                 </div>
                 <div className="all-routes-header-title">
                   <FormattedMessage

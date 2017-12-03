@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { injectIntl, intlShape } from 'react-intl';
 import { locationToOTP } from '../util/otpStrings';
 import Icon from './Icon';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
@@ -27,7 +26,6 @@ class DTAutosuggestPanel extends React.Component {
     isViaPoint: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     originSearchType: PropTypes.string,
-    intl: intlShape.isRequired,
     viaPointName: PropTypes.string,
     setViaPointName: PropTypes.func,
     tab: PropTypes.string,
@@ -92,7 +90,7 @@ class DTAutosuggestPanel extends React.Component {
           isFocused={this.isFocused}
           onLocationSelected={location => {
             let origin = { ...location, ready: true };
-            let destination = this.props.destination;
+            let { destination } = this.props;
             if (location.type === 'CurrentLocation') {
               origin = { ...location, gps: true, ready: !!location.lat };
               if (destination.gps === true) {
@@ -131,7 +129,7 @@ class DTAutosuggestPanel extends React.Component {
             refPoint={this.props.origin}
             searchType="endpoint"
             placeholder="via-point"
-            className={`viapoint`}
+            className="viapoint"
             isFocused={this.isFocused}
             value={this.props.viaPointName}
             onLocationSelected={item => {
@@ -169,7 +167,7 @@ class DTAutosuggestPanel extends React.Component {
           isFocused={this.isFocused}
           value={this.value(this.props.destination)}
           onLocationSelected={location => {
-            let origin = this.props.origin;
+            let { origin } = this.props;
             let destination = { ...location, ready: true };
             if (location.type === 'CurrentLocation') {
               destination = { ...location, gps: true, ready: !!location.lat };
@@ -192,4 +190,4 @@ class DTAutosuggestPanel extends React.Component {
   );
 }
 
-export default injectIntl(DTAutosuggestPanel);
+export default DTAutosuggestPanel;

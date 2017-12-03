@@ -31,11 +31,8 @@ class DTAutosuggest extends React.Component {
   };
 
   static defaultProps = {
-    placeholder: '',
-    clickFunction: () => {},
     isFocused: () => {},
     autoFocus: false,
-    id: 1,
   };
 
   constructor(props) {

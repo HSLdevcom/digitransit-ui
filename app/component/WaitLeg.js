@@ -9,6 +9,7 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(props) {
   const modeClassName = 'wait';
   return (

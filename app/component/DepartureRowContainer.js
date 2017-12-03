@@ -18,16 +18,16 @@ const hasActiveDisruption = (t, alerts) =>
     alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
   ).length > 0;
 
-const DepartureRow = (props, context) => {
-  const departure = props.departure;
+const DepartureRow = ({ departure, currentTime, distance }, context) => {
   let departureTimes;
   let headsign;
   if (departure.stoptimes) {
     departureTimes = departure.stoptimes.map(departureTime => {
       headsign = departureTime.stopHeadsign;
       const canceled = departureTime.realtimeState === 'CANCELED';
-      const key = `${departure.pattern.route.gtfsId}:${departure.pattern
-        .headsign}:
+      const key = `${departure.pattern.route.gtfsId}:${
+        departure.pattern.headsign
+      }:
         ${departureTime.realtimeDeparture}`;
 
       return (
@@ -38,7 +38,7 @@ const DepartureRow = (props, context) => {
               departureTime.serviceDay + departureTime.realtimeDeparture
             }
             realtime={departureTime.realtime}
-            currentTime={props.currentTime}
+            currentTime={currentTime}
             canceled={canceled}
           />
         </td>
@@ -50,8 +50,9 @@ const DepartureRow = (props, context) => {
     context.router.push(val);
   };
 
-  const departureLinkUrl = `/${PREFIX_ROUTES}/${departure.pattern.route
-    .gtfsId}/pysakit/${departure.pattern.code}`;
+  const departureLinkUrl = `/${PREFIX_ROUTES}/${
+    departure.pattern.route.gtfsId
+  }/pysakit/${departure.pattern.code}`;
 
   // In case there's only one departure for the route,
   // add a dummy cell to keep the table layout from breaking
@@ -73,13 +74,13 @@ const DepartureRow = (props, context) => {
       style={{ cursor: 'pointer' }}
     >
       <td className="td-distance">
-        <Distance distance={props.distance} />
+        <Distance distance={distance} />
       </td>
       <td className="td-route-number">
         <RouteNumberContainer
           route={departure.pattern.route}
           hasDisruption={hasActiveDisruption(
-            props.currentTime,
+            currentTime,
             departure.pattern.route.alerts,
           )}
           isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
@@ -102,7 +103,6 @@ DepartureRow.propTypes = {
   departure: PropTypes.object.isRequired,
   distance: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  timeRange: PropTypes.number.isRequired,
 };
 
 DepartureRow.contextTypes = {

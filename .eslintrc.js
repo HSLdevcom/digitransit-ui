@@ -10,10 +10,13 @@ module.exports = {
     // Require custom extension
     'react/jsx-filename-extension': ['error', { "extensions": [".js"] }],
     'react/jsx-key': 'error',
-    'react/no-unused-prop-types': ['warn', { skipShapeProps: true }],
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'warn',
-    'jsx-a11y/no-static-element-interactions': 'warn',
+    'jsx-a11y/anchor-is-valid': [ 'error', {
+        'components': [ 'Link' ],
+        'specialLink': [ 'to' ],
+        'aspects': [ 'noHref', 'invalidHref', 'preferButton' ]
+      }],
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'compat/compat': 'error',
     // Enable GraphQL linting
@@ -36,6 +39,6 @@ module.exports = {
     'prettier'
   ],
   'settings': {
-    'polyfills': ['fetch']
+    'polyfills': ['fetch', 'promises']
   }
 };

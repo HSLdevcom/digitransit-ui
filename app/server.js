@@ -140,10 +140,11 @@ function getSprite(config) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-            fetch('${config.APP_PATH}/${find(stats.modules, {
-              name: `./static/${spriteName}`,
-            })
-              .assets[0]}').then(function(response) {return response.text();}).then(function(blob) {
+            fetch('${config.APP_PATH}/${
+              find(stats.modules, {
+                name: `./static/${spriteName}`,
+              }).assets[0]
+            }').then(function(response) {return response.text();}).then(function(blob) {
               var div = document.createElement('div');
               div.innerHTML = blob;
               document.body.insertBefore(div, document.body.childNodes[0]);
@@ -216,7 +217,7 @@ function getPolyfills(userAgent, config) {
 
 function getScripts(req, config) {
   if (process.env.NODE_ENV === 'development') {
-    return <script async src={'/proxy/js/bundle.js'} />;
+    return <script async src="/proxy/js/bundle.js" />;
   }
   return [
     <script key="manifest " dangerouslySetInnerHTML={{ __html: manifest }} />,
@@ -270,7 +271,7 @@ function getContent(context, renderProps, locale, userAgent) {
 }
 
 function getHtml(application, context, locale, [polyfills, relayData], req) {
-  const config = context.getComponentContext().config;
+  const { config } = context.getComponentContext();
   // eslint-disable-next-line no-unused-vars
   const content =
     relayData != null

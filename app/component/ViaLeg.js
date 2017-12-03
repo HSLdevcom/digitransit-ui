@@ -20,6 +20,7 @@ function ViaLeg(props, context) {
     props.leg.startTime - props.arrivalTime,
   );
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column via-time-column">
@@ -37,7 +38,7 @@ function ViaLeg(props, context) {
       <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
       <div
         onClick={props.focusAction}
-        className={'small-9 columns itinerary-instruction-column via'}
+        className="small-9 columns itinerary-instruction-column via"
       >
         <div className="itinerary-leg-first-row">
           <div>
@@ -113,7 +114,6 @@ ViaLeg.propTypes = {
     }).isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
-  isVia: PropTypes.bool,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
 };

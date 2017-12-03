@@ -12,7 +12,7 @@ import RouteAlertsRow from './RouteAlertsRow';
 const getAlerts = (route, currentTime, intl) => {
   const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
-  const color = route.color;
+  const { color } = route;
 
   return route.alerts.map(alert => {
     // Try to find the alert in user's language, or failing in English, or failing in any language
@@ -26,7 +26,7 @@ const getAlerts = (route, currentTime, intl) => {
       header = find(alert.alertHeaderTextTranslations, ['language', 'en']);
     }
     if (!header) {
-      header = alert.alertHeaderTextTranslations[0];
+      [header] = alert.alertHeaderTextTranslations;
     }
     if (header) {
       header = header.text;
@@ -45,7 +45,7 @@ const getAlerts = (route, currentTime, intl) => {
       ]);
     }
     if (!description) {
-      description = alert.alertDescriptionTextTranslations[0];
+      [description] = alert.alertDescriptionTextTranslations;
     }
     if (description) {
       description = description.text;

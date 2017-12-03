@@ -57,7 +57,7 @@ export default class TicketSales {
               i++
             ) {
               const feature = vt.layers['ticket-sales'].feature(i);
-              feature.geom = feature.loadGeometry()[0][0];
+              [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
               if (!feature.properties.TYYPPI.startsWith('VR')) {
                 this.features.push(pick(feature, ['geom', 'properties']));

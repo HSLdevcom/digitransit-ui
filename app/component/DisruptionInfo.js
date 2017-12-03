@@ -19,9 +19,9 @@ function DisruptionInfo(props, context) {
       context.router.goBack();
     } else {
       context.router.push({
-        ...location,
+        ...context.location,
         state: {
-          ...location.state,
+          ...context.location.state,
           disruptionInfoOpen: true,
         },
       });
@@ -65,8 +65,8 @@ function DisruptionInfo(props, context) {
 }
 
 DisruptionInfo.contextTypes = {
-  router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  router: routerShape.isRequired, // eslint-disable-line react/no-typos
+  location: locationShape.isRequired, // eslint-disable-line react/no-typos
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,

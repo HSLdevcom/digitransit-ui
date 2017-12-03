@@ -52,11 +52,12 @@ function RouteMapContainer(
       point => point.lat !== null && point.lon !== null,
     );
   }
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <Map
       lat={lat}
       lon={lon}
-      className={'full'}
+      className="full"
       leafletObjs={leafletObjs}
       fitBounds={!(lat && lon)}
       bounds={(filteredPoints || pattern.stops).map(p => [p.lat, p.lon])}
@@ -90,7 +91,7 @@ function RouteMapContainer(
 }
 
 RouteMapContainer.contextTypes = {
-  router: routerShape.isRequired,
+  router: routerShape.isRequired, // eslint-disable-line react/no-typos
   location: PropTypes.object.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
@@ -139,7 +140,7 @@ const RouteMapContainerWithVehicles = connectToStores(
   ['RealTimeInformationStore'],
   ({ getStore }, { trip }) => {
     if (trip) {
-      const vehicles = getStore('RealTimeInformationStore').vehicles;
+      const { vehicles } = getStore('RealTimeInformationStore');
       const tripStart = getStartTime(
         trip.stoptimesForDate[0].scheduledDeparture,
       );

@@ -61,7 +61,7 @@ RouteDestination.propTypes = {
 };
 
 RouteDestination.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 RouteDestination.displayName = 'RouteDestination';

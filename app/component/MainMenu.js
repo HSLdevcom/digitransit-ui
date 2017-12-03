@@ -8,9 +8,8 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 
-function MainMenu(props, context) {
-  const config = context.config;
-
+function MainMenu(props, { config }) {
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
       <div
@@ -32,9 +31,9 @@ function MainMenu(props, context) {
           props.showDisruptionInfo && <DisruptionInfoButtonContainer />}
       </div>
       <MainMenuLinks
-        content={([config.appBarLink].concat(
-          config.footer && config.footer.content,
-        ) || []
+        content={(
+          [config.appBarLink].concat(config.footer && config.footer.content) ||
+          []
         ).filter(item => item.href || item.route)}
       />
     </div>

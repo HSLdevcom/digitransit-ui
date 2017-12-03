@@ -34,6 +34,7 @@ class Modal extends React.Component {
       zIndex: 1400,
     };
 
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
     return (
       <div
         className={cx('modal-overlay', 'cursor-pointer', isActive)}

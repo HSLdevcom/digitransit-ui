@@ -32,7 +32,7 @@ function NearbyRoutesPanel(
 }
 
 NearbyRoutesPanel.propTypes = {
-  origin: dtLocationShape.isRequired,
+  origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
   currentTime: PropTypes.number.isRequired,
   modes: PropTypes.array.isRequired,
   placeTypes: PropTypes.array.isRequired,

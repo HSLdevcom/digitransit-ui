@@ -30,7 +30,7 @@ class ModeFilter extends React.Component {
         const action = this.props.action[
           `toggle${type.charAt(0).toUpperCase() + type.slice(1)}State`
         ];
-        const selectedModes = this.props.selectedModes;
+        const { selectedModes } = this.props;
         const isEnabled =
           selectedModes.includes(stateName) ||
           selectedModes.includes(type.toUpperCase());

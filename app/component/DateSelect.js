@@ -58,7 +58,7 @@ DateSelect.propTypes = {
   onDateChange: PropTypes.func.isRequired,
 };
 DateSelect.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 DateSelect.displayName = 'DateSelect';
 
@@ -67,9 +67,9 @@ DateSelect.description = () => (
     <p>Display a date selection using react components</p>
     <ComponentUsageExample>
       <DateSelect
-        startDate={'19700101'}
-        selectedDate={'19700101'}
-        dateFormat={'YYYYMMDD'}
+        startDate="19700101"
+        selectedDate="19700101"
+        dateFormat="YYYYMMDD"
         onDateChange={event => event.target.value}
       />
     </ComponentUsageExample>

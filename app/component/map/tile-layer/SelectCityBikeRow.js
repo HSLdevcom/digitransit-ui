@@ -3,6 +3,7 @@ import React from 'react';
 import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCityBikeRow(props) {
   return (
     <div className="no-margin">
@@ -28,7 +29,7 @@ SelectCityBikeRow.description = (
   <div>
     <p>Renders a select citybike row</p>
     <ComponentUsageExample description="">
-      <SelectCityBikeRow name={'LINNANMÄKI'} selectRow={() => {}} />
+      <SelectCityBikeRow name="LINNANMÄKI" selectRow={() => {}} />
     </ComponentUsageExample>
   </div>
 );

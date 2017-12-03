@@ -11,7 +11,7 @@ export default function TicketInformation({ fares }, { config }) {
   let currency;
   let regularFare;
   if (fares != null) {
-    regularFare = fares.filter(fare => fare.type === 'regular')[0];
+    [regularFare] = fares.filter(fare => fare.type === 'regular');
   }
 
   if (!regularFare || regularFare.cents === -1) {

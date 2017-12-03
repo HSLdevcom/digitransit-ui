@@ -61,9 +61,7 @@ export default config => {
           };
         },
         rehydrate(state) {
-          config = state.config; // eslint-disable-line no-param-reassign
-          url = state.url;
-          headers = state.headers;
+          ({ config, url, headers } = state); // eslint-disable-line no-param-reassign
         },
       };
     },

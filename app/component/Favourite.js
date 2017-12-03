@@ -5,6 +5,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const Favourite = ({ addFavourite, favourite, className }) => (
   <span
     className={cx('cursor-pointer favourite-icon', className)}

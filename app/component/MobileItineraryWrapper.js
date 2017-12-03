@@ -28,11 +28,6 @@ export default class MobileItineraryWrapper extends React.Component {
     intl: intlShape.isRequired,
   };
 
-  state = {
-    lat: undefined,
-    lon: undefined,
-  };
-
   getTabs(itineraries, selectedIndex) {
     return itineraries.map((itinerary, i) => (
       <Tab
@@ -98,10 +93,10 @@ export default class MobileItineraryWrapper extends React.Component {
         <div className="itinerary-no-route-found">
           <FormattedMessage
             id="no-route-msg"
-            defaultMessage={`
+            defaultMessage="
               Unfortunately no route was found between the locations you gave.
               Please change origin and/or destination address.
-            `}
+            "
           />
         </div>
       );
@@ -149,15 +144,16 @@ export default class MobileItineraryWrapper extends React.Component {
       </div>
     );
 
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <ReactCSSTransitionGroup
         transitionName="itinerary-container-content"
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
         component="div"
-        className={`itinerary-container-content ${this.props.fullscreenMap
-          ? `minimized`
-          : null}`}
+        className={`itinerary-container-content ${
+          this.props.fullscreenMap ? `minimized` : null
+        }`}
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >

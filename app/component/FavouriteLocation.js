@@ -57,6 +57,7 @@ const FavouriteLocation = ({
     info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
       data-swipeable="true"
@@ -98,7 +99,6 @@ FavouriteLocation.description = () => (
 
 FavouriteLocation.propTypes = {
   favourite: PropTypes.object,
-  addFavourite: PropTypes.func,
   clickFavourite: PropTypes.func,
   className: PropTypes.string,
   departureTime: PropTypes.number,

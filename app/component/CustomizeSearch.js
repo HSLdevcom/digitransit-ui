@@ -86,6 +86,7 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
+  /* eslint-disable react/no-unused-state */
   constructor(props) {
     super(props);
     this.state = {
@@ -266,7 +267,8 @@ class CustomizeSearch extends React.Component {
             'walkReluctance',
             this.walkReluctanceSliderValues[e.target.value],
             this.walkReluctanceSliderValues,
-          )}
+          )
+        }
         min={0}
         max={20}
         value={this.state.walkReluctance}
@@ -295,7 +297,8 @@ class CustomizeSearch extends React.Component {
             'walkBoardCost',
             this.walkBoardCostSliderValues[e.target.value],
             this.walkBoardCostSliderValues,
-          )}
+          )
+        }
         min={0}
         max={20}
         value={this.state.walkBoardCost}
@@ -324,11 +327,12 @@ class CustomizeSearch extends React.Component {
             'minTransferTime',
             this.transferMarginSliderValues[e.target.value],
             this.transferMarginSliderValues,
-          )}
+          )
+        }
         min={0}
         max={20}
         writtenValue={
-          isNaN(this.context.location.query.minTransferTime) === false
+          Number.isNaN(this.context.location.query.minTransferTime) === false
             ? `${Math.round(
                 this.context.location.query.minTransferTime / 60,
               )} min`
@@ -360,13 +364,14 @@ class CustomizeSearch extends React.Component {
             'walkSpeed',
             this.walkingSpeedSliderValues[e.target.value],
             this.walkingSpeedSliderValues,
-          )}
+          )
+        }
         min={0}
         max={20}
         value={this.state.walkSpeed}
         step={1}
         writtenValue={
-          isNaN(this.context.location.query.walkSpeed) === false
+          Number.isNaN(this.context.location.query.walkSpeed) === false
             ? `${Math.floor(this.context.location.query.walkSpeed * 60)} m/min`
             : `${72} m/min`
         }
@@ -414,11 +419,11 @@ class CustomizeSearch extends React.Component {
     if (
       !(typeof this.context.location.query.accessibilityOption === 'undefined')
     ) {
-      accessibilityOption = this.context.location.query.accessibilityOption;
+      ({ accessibilityOption } = this.context.location.query);
     } else if (
       !(typeof getCustomizedSettings().accessibilityOption === 'undefined')
     ) {
-      accessibilityOption = getCustomizedSettings().accessibilityOption;
+      ({ accessibilityOption } = getCustomizedSettings());
     } else {
       accessibilityOption = 0;
     }
@@ -436,7 +441,8 @@ class CustomizeSearch extends React.Component {
         selected={this.getAccessibilityOption()}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e =>
-          this.updateSettings('accessibilityOption', e.target.value)}
+          this.updateSettings('accessibilityOption', e.target.value)
+        }
       />
     </section>
   );
@@ -560,8 +566,9 @@ class CustomizeSearch extends React.Component {
     toggleAirplaneState: () => this.toggleTransportMode('airplane'),
   };
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const config = this.context.config;
+    const { config } = this.context;
     return (
       <div
         aria-hidden={!this.props.isOpen}

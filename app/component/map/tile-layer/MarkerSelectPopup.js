@@ -80,7 +80,7 @@ MarkerSelectPopup.description = (
 
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,
-  selectRow: PropTypes.func.isRequired,
+  selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
 };
 
 export default MarkerSelectPopup;

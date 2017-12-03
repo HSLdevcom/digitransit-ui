@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import ComponentUsageExample from './ComponentUsageExample';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const Labeled = ({ children, onClick, className, label, showLabel }) => (
   <span
     className={cx(onClick ? 'cursor-pointer' : undefined, 'labeled', className)}

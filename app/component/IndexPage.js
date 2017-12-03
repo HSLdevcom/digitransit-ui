@@ -60,13 +60,6 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    // TODO move this to wrapping component
-    const search = this.context.location.search;
-
-    if (search && search.indexOf('citybikes') > -1) {
-      console.warn('Enabling citybikes');
-      this.context.config.transportModes.citybike.defaultValue = true;
-    }
     // auto select nearby tab if none selected and bp=large
     if (this.props.tab === undefined) {
       this.clickNearby();
@@ -172,6 +165,7 @@ class IndexPage extends React.Component {
         return null;
     }
   };
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const selectedMainTab = this.getSelectedTab();
 
@@ -344,9 +338,7 @@ const IndexPageWithPosition = connectToStores(
     // if from == 'lahellasi' or 'suosikit' assume tab = ${from}, from ='-' to '-'
     // if to == 'lahellasi' or 'suosikit' assume tab = ${to}, to = '-'
 
-    let from = props.params.from;
-    let to = props.params.to;
-    let tab = props.params.tab;
+    let { from, to, tab } = props.params;
     let redirect = false;
 
     if (tabs.indexOf(from) !== -1) {

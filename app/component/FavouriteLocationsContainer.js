@@ -133,7 +133,7 @@ class FavouriteLocationsContainer extends React.Component {
     );
 
     if (this.props.origin.ready) {
-      const config = this.context.config;
+      const { config } = this.context;
 
       return (
         <Relay.RootContainer
@@ -211,6 +211,7 @@ class FavouriteLocationsContainer extends React.Component {
     displayLeft = !isMobile && displayLeft;
     displayRight = !isMobile && displayRight;
 
+    /* eslint-disable jsx-a11y/anchor-is-valid */
     return (
       <div style={{ position: 'relative' }}>
         <div
