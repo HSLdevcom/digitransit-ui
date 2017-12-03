@@ -10,7 +10,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();
-  const [color] = props;
+  const { color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';

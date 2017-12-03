@@ -221,7 +221,7 @@ const SummaryRow = (
     'cursor-pointer',
     {
       passive: props.passive,
-      'bp-large': props.breakpoint === 'large',
+      'bp-large': breakpoint === 'large',
       open: props.open || props.children,
     },
   ]);
