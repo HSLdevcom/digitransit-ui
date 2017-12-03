@@ -221,9 +221,9 @@ export default class ItineraryTimePicker extends React.Component {
   render() {
     return (
       <div
-        className={`time-input-container time-selector ${!isMobile
-          ? 'time-selector'
-          : ''}`}
+        className={`time-input-container time-selector ${
+          !isMobile ? 'time-selector' : ''
+        }`}
       >
         <input
           type="tel"

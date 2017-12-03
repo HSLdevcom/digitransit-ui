@@ -41,7 +41,7 @@ export default function PlaceMarker({ position }) {
 }
 
 PlaceMarker.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 PlaceMarker.propTypes = {

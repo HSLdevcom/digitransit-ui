@@ -108,7 +108,6 @@ TripRouteStop.propTypes = {
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopPassed: PropTypes.bool,
-  realtimeDeparture: PropTypes.number,
   stop: PropTypes.object.isRequired,
   distance: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([false])])
     .isRequired,
@@ -145,7 +144,6 @@ TripRouteStop.description = () => (
         stopPassed
         realtime={exampleDeparture.realtime}
         distance={321}
-        realtimeDeparture={null}
         stoptime={exampleDeparture}
         currentTime={exampleCurrentTime}
         selectedVehicle={false}
@@ -162,7 +160,6 @@ TripRouteStop.description = () => (
         stopPassed={false}
         realtime={exampleRealtimeDeparture.realtime}
         distance={231}
-        realtimeDeparture={exampleRealtimeDeparture.realtimeDeparture}
         stoptime={exampleRealtimeDeparture}
         currentTime={exampleCurrentTime}
         selectedVehicle={exampleVehicle}

@@ -19,6 +19,7 @@ function CarLeg(props, context) {
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
@@ -30,7 +31,9 @@ function CarLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${
+          firstLegClassName
+        } ${props.leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           <div>

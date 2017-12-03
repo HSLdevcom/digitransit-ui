@@ -59,6 +59,7 @@ function BicycleLeg(props, context) {
     }
   }
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
@@ -70,7 +71,9 @@ function BicycleLeg(props, context) {
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
       <div
         onClick={props.focusAction}
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${
+          firstLegClassName
+        } ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           {legDescription}

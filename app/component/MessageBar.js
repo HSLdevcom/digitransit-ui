@@ -29,7 +29,6 @@ class MessageBar extends Component {
   state = {
     slideIndex: 0,
     maximized: false,
-    readMessages: [],
   };
 
   getTabContent = () =>

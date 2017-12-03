@@ -32,6 +32,7 @@ const renderContent = content =>
  */
 const MessageBarMessage = ({ id, content, onMaximize }) => (
   // TOOD: find out how this should be accessible
+  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   <div tabIndex={0} role="button" key={id} onClick={onMaximize}>
     {renderContent(content)}
   </div>

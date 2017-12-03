@@ -67,10 +67,12 @@ class LocationPopup extends React.Component {
       () => {
         this.setState({
           loading: false,
-          address: this.context.intl.formatMessage({
-            id: 'location-from-map',
-            defaultMessage: 'Selected location',
-          }),
+          location: {
+            address: this.context.intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }),
+          },
         });
       },
     );

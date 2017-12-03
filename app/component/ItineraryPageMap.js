@@ -54,7 +54,7 @@ export default function ItineraryPageMap(
     } else {
       leafletObjs.push(
         <LocationMarker
-          key={'via'}
+          key="via"
           position={otpToLocation(location.query.intermediatePlaces)}
           className="via"
           noText
@@ -66,7 +66,7 @@ export default function ItineraryPageMap(
   if (itinerary) {
     leafletObjs.push(
       <ItineraryLine
-        key={'line'}
+        key="line"
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
@@ -86,6 +86,7 @@ export default function ItineraryPageMap(
   const overlay = fullscreen ? (
     undefined
   ) : (
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
   );
 

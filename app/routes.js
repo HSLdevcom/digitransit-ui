@@ -278,7 +278,8 @@ export default config => {
           </ContainerDimensions>
         ) : (
           <TopLevel {...props} />
-        )}
+        )
+      }
     >
       <Route
         path="/styleguide"
@@ -621,7 +622,7 @@ export default config => {
         }}
       />
       <Route
-        path={'/(:from)(/:to)(/:tab)'}
+        path="/(:from)(/:to)(/:tab)"
         topBarOptions={{ disableBackButton: true }}
         components={{
           title: Title,

@@ -93,7 +93,7 @@ export function boundWithMinimumArea(points) {
     return null;
   }
   const [lats, lons] = unzip(
-    points.filter(([lat, lon]) => !isNaN(lat) && !isNaN(lon)),
+    points.filter(([lat, lon]) => !Number.isNaN(lat) && !Number.isNaN(lon)),
   );
   const minlat = Math.min(...lats);
   const minlon = Math.min(...lons);
@@ -162,7 +162,7 @@ export class Contour {
 
   area() {
     let area = 0;
-    const pts = this.pts;
+    const { pts } = this;
     const nPts = pts.length;
     let j = nPts - 1;
     let p1;
@@ -180,7 +180,7 @@ export class Contour {
   }
 
   centroid() {
-    const pts = this.pts;
+    const { pts } = this;
     const nPts = pts.length;
     let x = 0;
     let y = 0;

@@ -193,7 +193,7 @@ class SummaryPage extends React.Component {
       } else {
         leafletObjs.push(
           <LocationMarker
-            key={'via'}
+            key="via"
             position={otpToLocation(query.intermediatePlaces)}
             className="via"
             noText

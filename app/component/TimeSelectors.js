@@ -59,7 +59,7 @@ TimeSelectors.propTypes = {
 };
 
 TimeSelectors.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 TimeSelectors.displayName = 'TimeSelectors';
@@ -75,7 +75,7 @@ TimeSelectors.description = () => (
         changeTime={() => {}}
         changeDate={() => {}}
         dates={[
-          <option value={'2016-05-18'} key={'2016-05-18'}>
+          <option value="2016-05-18" key="2016-05-18">
             Today
           </option>,
         ]}

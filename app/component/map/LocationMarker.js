@@ -23,7 +23,7 @@ export default function LocationMarker({ position, className, noText }) {
 }
 
 LocationMarker.propTypes = {
-  position: IconMarker.propTypes.position,
+  position: IconMarker.propTypes.position, // eslint-disable-line react/no-typos
   className: PropTypes.string,
   noText: PropTypes.bool,
 };

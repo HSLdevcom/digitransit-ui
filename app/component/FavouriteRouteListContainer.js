@@ -15,8 +15,9 @@ const getNextDepartures = (routes, lat, lon) => {
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
       closest.stop.stoptimes
         .filter(stoptime => {
-          const seenKey = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern
-            .headsign}`;
+          const seenKey = `${stoptime.pattern.route.gtfsId}:${
+            stoptime.pattern.headsign
+          }`;
           const isSeen = seenDepartures[seenKey];
           const isFavourite =
             stoptime.pattern.route.gtfsId === route.gtfsId &&

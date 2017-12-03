@@ -11,13 +11,6 @@ class TimeTableOptionsPanel extends React.Component {
     showFilterModal: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showRoutes: [],
-    };
-  }
-
   getRouteNames = routes => {
     const arr = [];
     this.props.stop.stoptimesForServiceDate.forEach(o => {
@@ -35,6 +28,7 @@ class TimeTableOptionsPanel extends React.Component {
     );
   };
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const routeNames = this.getRouteNames(this.props.showRoutes);
     const showRoutesDiv = routeNames.map(o => (

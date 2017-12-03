@@ -38,7 +38,7 @@ const plugContext = f => () => ({
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 // TODO: this is an ugly hack, but required due to cyclical processing in app
-const config = window.state.context.plugins['extra-context-plugin'].config;
+const { config } = window.state.context.plugins['extra-context-plugin'];
 const app = appCreator(config);
 
 const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
@@ -151,37 +151,36 @@ const callback = () =>
     match(
       { routes: app.getComponent(), history },
       (error, redirectLocation, renderProps) => {
-        IsomorphicRouter.prepareInitialRender(
-          Relay.Store,
-          renderProps,
-        ).then(props => {
-          ReactDOM.render(
-            <ContextProvider
-              translations={translations}
-              context={context.getComponentContext()}
-            >
-              <ErrorBoundary>
-                <MuiThemeProvider
-                  muiTheme={getMuiTheme(MUITheme(config), {
-                    userAgent: navigator.userAgent,
-                  })}
-                >
-                  <Router {...props} onUpdate={track} />
-                </MuiThemeProvider>
-              </ErrorBoundary>
-            </ContextProvider>,
-            document.getElementById('app'),
-            () => {
-              // Run only in production mode and when built in a docker container
-              if (
-                process.env.NODE_ENV === 'production' &&
-                BUILD_TIME !== 'unset'
-              ) {
-                OfflinePlugin.install();
-              }
-            },
-          );
-        });
+        IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
+          props => {
+            ReactDOM.render(
+              <ContextProvider
+                translations={translations}
+                context={context.getComponentContext()}
+              >
+                <ErrorBoundary>
+                  <MuiThemeProvider
+                    muiTheme={getMuiTheme(MUITheme(config), {
+                      userAgent: navigator.userAgent,
+                    })}
+                  >
+                    <Router {...props} onUpdate={track} />
+                  </MuiThemeProvider>
+                </ErrorBoundary>
+              </ContextProvider>,
+              document.getElementById('app'),
+              () => {
+                // Run only in production mode and when built in a docker container
+                if (
+                  process.env.NODE_ENV === 'production' &&
+                  BUILD_TIME !== 'unset'
+                ) {
+                  OfflinePlugin.install();
+                }
+              },
+            );
+          },
+        );
       },
     );
 
@@ -215,7 +214,9 @@ if (typeof window.Intl !== 'undefined') {
 
   config.availableLanguages.forEach(language => {
     modules.push(
-      import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`),
+      import(/* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${
+        language
+      }`),
     );
   });
 

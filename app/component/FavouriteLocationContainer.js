@@ -23,11 +23,9 @@ const FavouriteLocationContainer = ({
     <FavouriteLocation
       favourite={favourite}
       clickFavourite={onClickFavourite}
-      {...{
-        departureTime,
-        currentTime,
-        firstTransitLeg,
-      }}
+      departureTime={departureTime}
+      currentTime={currentTime}
+      firstTransitLeg={firstTransitLeg}
     />
   );
 };

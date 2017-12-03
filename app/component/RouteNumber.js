@@ -10,7 +10,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props) {
   let mode = props.mode.toLowerCase();
-  const color = props.color;
+  const [color] = props;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
@@ -176,13 +176,11 @@ RouteNumber.propTypes = {
 };
 
 RouteNumber.defaultProps = {
-  withBar: false,
   className: '',
   vertical: false,
   hasDisruption: false,
   fadeLong: false,
   text: '',
-  isCallAgency: false,
 };
 
 RouteNumber.displayName = 'RouteNumber';

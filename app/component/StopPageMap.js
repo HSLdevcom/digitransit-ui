@@ -10,9 +10,9 @@ import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
-  `/${params.stopId ? 'pysakit' : 'terminaalit'}/${params.stopId
-    ? params.stopId
-    : params.terminalId}${fullscreenMap ? '' : '/kartta'}`;
+  `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
+    params.stopId ? params.stopId : params.terminalId
+  }${fullscreenMap ? '' : '/kartta'}`;
 
 const toggleFullscreenMap = (fullscreenMap, params, router) => {
   if (fullscreenMap) {
@@ -22,6 +22,7 @@ const toggleFullscreenMap = (fullscreenMap, params, router) => {
   router.push(getFullscreenTogglePath(fullscreenMap, params));
 };
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const fullscreenMapOverlay = (fullscreenMap, params, router) =>
   !fullscreenMap && (
     <div
@@ -50,6 +51,7 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
     )}
   </div>
 );
+/* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
   if (!stop) {

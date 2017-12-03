@@ -211,33 +211,27 @@ export function drawTerminalIcon(tile, geom, type, name) {
 }
 
 export function drawParkAndRideIcon(tile, geom, width, height) {
-  getImageFromSpriteCache(
-    'icon-icon_park-and-ride',
-    width,
-    height,
-  ).then(image => {
-    drawIconImage(image, tile, geom, width, height);
-  });
+  getImageFromSpriteCache('icon-icon_park-and-ride', width, height).then(
+    image => {
+      drawIconImage(image, tile, geom, width, height);
+    },
+  );
 }
 
 export function drawCitybikeIcon(tile, geom, imageSize) {
-  getImageFromSpriteCache(
-    'icon-icon_citybike',
-    imageSize,
-    imageSize,
-  ).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
-  });
+  getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
 }
 
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
-  getImageFromSpriteCache(
-    'icon-icon_not-in-use',
-    imageSize,
-    imageSize,
-  ).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
-  });
+  getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
 }
 
 export function drawAvailabilityBadge(

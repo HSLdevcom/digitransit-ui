@@ -93,7 +93,7 @@ class MainMenuContainer extends Component {
               onClick={this.toggleOffcanvas}
               className="noborder cursor-pointer"
             >
-              <Icon img={'icon-icon_menu'} className="icon" />
+              <Icon img="icon-icon_menu" className="icon" />
             </button>
           </div>
         ) : null}

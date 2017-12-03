@@ -59,6 +59,7 @@ function SelectStopRow(props) {
     }
   }
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
@@ -100,9 +101,9 @@ SelectStopRow.description = () => (
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
       <SelectStopRow
-        name={'DIAKONIAPUISTO'}
+        name="DIAKONIAPUISTO"
         selectRow={() => {}}
-        type={'BUS'}
+        type="BUS"
         patterns={
           '[{"headsign":"Kuninkaanmäki","type":"BUS","shortName":"518"}]'
         }

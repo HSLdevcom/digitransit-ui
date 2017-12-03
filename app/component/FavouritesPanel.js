@@ -63,7 +63,7 @@ const FavouritesPanel = ({ origin, routes }) => (
 
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,
-  origin: dtLocationShape.isRequired,
+  origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 export default connectToStores(

@@ -88,6 +88,7 @@ class TransitLeg extends React.Component {
           defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
         />
       );
+      /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
       return (
         <div className="intermediate-stop-info-container">
           {stopCount === 0 ? (
@@ -115,9 +116,11 @@ class TransitLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column">
           <Link
             onClick={e => e.stopPropagation()}
-            to={`/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${this
-              .props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
-            // TODO: Create a helper function for generationg links
+            to={
+              `/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${
+                this.props.leg.trip.pattern.code
+              }/${this.props.leg.trip.gtfsId}`
+              // TODO: Create a helper function for generationg links
             }
           >
             <div className="itinerary-time-column-time">
@@ -162,7 +165,9 @@ class TransitLeg extends React.Component {
               : 'currentColor',
           }}
           onClick={this.props.focusAction}
-          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
+          className={`small-9 columns itinerary-instruction-column ${
+            firstLegClassName
+          } ${modeClassName}`}
         >
           <div className="itinerary-leg-first-row">
             <div>
@@ -206,8 +211,36 @@ class TransitLeg extends React.Component {
 }
 
 TransitLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
-  'leg.realTime': PropTypes.bool,
+  leg: PropTypes.shape({
+    realTime: PropTypes.bool,
+    from: PropTypes.shape({
+      stop: PropTypes.shape({
+        code: PropTypes.string,
+        platformCode: PropTypes.string,
+      }).isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    route: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+      shortName: PropTypes.string,
+      color: PropTypes.string,
+    }).isRequired,
+    trip: PropTypes.shape({
+      gtfsId: PropTypes.string.isRequired,
+      pattern: PropTypes.shape({
+        code: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    startTime: PropTypes.number.isRequired,
+    departureDelay: PropTypes.number.isRequired,
+    intermediateStops: PropTypes.arrayOf(
+      PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+        code: PropTypes.string,
+        platformCode: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
