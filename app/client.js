@@ -169,9 +169,8 @@ const callback = () =>
               () => {
                 // Run only in production mode and when built in a docker container
                 if (
-                  true ||
-                  (process.env.NODE_ENV === 'production' &&
-                    BUILD_TIME !== 'unset')
+                  process.env.NODE_ENV === 'production' &&
+                  BUILD_TIME !== 'unset'
                 ) {
                   OfflinePlugin.install({
                     onUpdateReady: () => OfflinePlugin.applyUpdate(),
