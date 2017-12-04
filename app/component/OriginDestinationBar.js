@@ -49,7 +49,7 @@ export default class OriginDestinationBar extends React.Component {
     if (val === false) {
       this.context.router.replace({
         ...this.context.location,
-        query: without(location.query, 'intermediatePlaces'),
+        query: without(this.context.location.query, 'intermediatePlaces'),
       });
     }
     this.setState({
@@ -58,6 +58,7 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     return (
       <div

@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
+import Icon from './Icon';
 
 import { getRoutePath } from '../util/path';
 
@@ -25,11 +26,6 @@ export default class MobileItineraryWrapper extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-  };
-
-  state = {
-    lat: undefined,
-    lon: undefined,
   };
 
   getTabs(itineraries, selectedIndex) {
@@ -97,10 +93,10 @@ export default class MobileItineraryWrapper extends React.Component {
         <div className="itinerary-no-route-found">
           <FormattedMessage
             id="no-route-msg"
-            defaultMessage={`
+            defaultMessage="
               Unfortunately no route was found between the locations you gave.
               Please change origin and/or destination address.
-            `}
+            "
           />
         </div>
       );
@@ -148,16 +144,22 @@ export default class MobileItineraryWrapper extends React.Component {
       </div>
     );
 
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     return (
       <ReactCSSTransitionGroup
         transitionName="itinerary-container-content"
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
         component="div"
-        className="itinerary-container-content"
+        className={`itinerary-container-content ${
+          this.props.fullscreenMap ? `minimized` : null
+        }`}
         onTouchStart={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
       >
+        <div className="fullscreen-toggle" onClick={this.toggleFullscreenMap}>
+          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+        </div>
         {swipe}
         {tabs}
       </ReactCSSTransitionGroup>

@@ -275,7 +275,7 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'citybike') {
-          id = this.state.selectableTargets[0].feature.properties.id;
+          ({ id } = this.state.selectableTargets[0].feature.properties);
           contents = (
             <Relay.RootContainer
               Component={CityBikePopup}
@@ -318,7 +318,7 @@ class TileLayerContainer extends GridLayer {
             />
           );
         } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
-          id = this.state.selectableTargets[0].feature.id;
+          ({ id } = this.state.selectableTargets[0].feature);
           contents = (
             <Relay.RootContainer
               Component={ParkAndRideFacilityPopup}
@@ -378,7 +378,7 @@ class TileLayerContainer extends GridLayer {
             position={this.state.coords}
           >
             <LocationPopupWithContext
-              name={''} // TODO: fill in name from reverse geocoding, possibly in a container.
+              name="" // TODO: fill in name from reverse geocoding, possibly in a container.
               lat={this.state.coords.lat}
               lon={this.state.coords.lng}
               context={this.context}

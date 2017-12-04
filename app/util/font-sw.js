@@ -1,3 +1,5 @@
+/* eslint no-restricted-globals: warn */
+
 const CACHE = 'font-cache-v1';
 const FONT_DOMAIN = 'https://cloud.typography.com/';
 

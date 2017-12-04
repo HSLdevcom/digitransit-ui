@@ -15,7 +15,11 @@ export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const stopUrl = id => id;
 
 export const getRoutePath = (origin, destination) =>
-  [`/${PREFIX_ITINERARY_SUMMARY}`, origin, destination].join('/');
+  [
+    `/${PREFIX_ITINERARY_SUMMARY}`,
+    encodeURIComponent(decodeURIComponent(origin)),
+    encodeURIComponent(decodeURIComponent(destination)),
+  ].join('/');
 
 export const getItineraryPath = (from, to, idx) =>
   [getRoutePath(from, to), idx].join('/');
@@ -76,7 +80,7 @@ export const getPathWithEndpointObjects = (
 /**
  * Parses current location from string to location object
  *
-*/
+ */
 export const parseLocation = location => {
   if (isEmpty(location)) {
     return { set: false, ready: false };

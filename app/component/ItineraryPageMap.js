@@ -7,7 +7,6 @@ import polyline from 'polyline-encoded';
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
 import Map from './map/Map';
-import Icon from './Icon';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
@@ -55,7 +54,7 @@ export default function ItineraryPageMap(
     } else {
       leafletObjs.push(
         <LocationMarker
-          key={'via'}
+          key="via"
           position={otpToLocation(location.query.intermediatePlaces)}
           className="via"
           noText
@@ -67,7 +66,7 @@ export default function ItineraryPageMap(
   if (itinerary) {
     leafletObjs.push(
       <ItineraryLine
-        key={'line'}
+        key="line"
         legs={itinerary.legs}
         showTransferLabels
         showIntermediateStops
@@ -87,6 +86,7 @@ export default function ItineraryPageMap(
   const overlay = fullscreen ? (
     undefined
   ) : (
+    /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
     <div className="map-click-prevent-overlay" onClick={toggleFullscreenMap} />
   );
 
@@ -147,11 +147,6 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-      {breakpoint !== 'large' && (
-        <div className="fullscreen-toggle" onClick={toggleFullscreenMap}>
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />
-        </div>
-      )}
     </Map>
   );
 }

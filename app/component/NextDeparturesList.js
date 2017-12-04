@@ -12,7 +12,7 @@ import { PREFIX_ROUTES } from '../util/path';
 // Need to implement logic as per DepartureListContainer
 function NextDeparturesList(props) {
   const departures = props.departures.map(originalDeparture => {
-    const distance = originalDeparture.distance;
+    const { distance } = originalDeparture;
 
     // TODO: use util or util Component
     const roundedDistance =
@@ -40,63 +40,64 @@ function NextDeparturesList(props) {
     return departure;
   });
 
-  const departureObjs = sortBy(departures, [
-    'roundedDistance',
-    'sorttime',
-  ]).map(departure => {
-    const stoptime = departure.stoptime;
+  const departureObjs = sortBy(departures, ['roundedDistance', 'sorttime']).map(
+    departure => {
+      const { stoptime } = departure;
 
-    const departureTimes = stoptime.stoptimes.map(departureTime => {
-      const canceled = departureTime.realtimeState === 'CANCELED';
-      const key = `${stoptime.pattern.route.gtfsId}:${stoptime.pattern
-        .headsign}:
+      const departureTimes = stoptime.stoptimes.map(departureTime => {
+        const canceled = departureTime.realtimeState === 'CANCELED';
+        const key = `${stoptime.pattern.route.gtfsId}:${
+          stoptime.pattern.headsign
+        }:
         ${departureTime.realtimeDeparture}`;
 
-      return (
-        <DepartureTime
-          key={key}
-          departureTime={
-            departureTime.serviceDay + departureTime.realtimeDeparture
-          }
-          realtime={departureTime.realtime}
-          currentTime={props.currentTime}
-          canceled={canceled}
-        />
-      );
-    });
-
-    // TODO: Should this be its own view component?
-    return (
-      <Link
-        to={`/${PREFIX_ROUTES}/${stoptime.pattern.route
-          .gtfsId}/pysakit/${stoptime.pattern.code}`}
-        key={stoptime.pattern.code}
-      >
-        <div className="next-departure-row padding-vertical-normal border-bottom">
-          <Distance distance={departure.distance} />
-          <RouteNumber
-            mode={stoptime.pattern.route.mode}
-            text={stoptime.pattern.route.shortName}
-            hasDisruption={departure.hasDisruption}
-          />
-          <RouteDestination
-            mode={stoptime.pattern.route.mode}
-            destination={
-              stoptime.pattern.headsign || stoptime.pattern.route.longName
+        return (
+          <DepartureTime
+            key={key}
+            departureTime={
+              departureTime.serviceDay + departureTime.realtimeDeparture
             }
+            realtime={departureTime.realtime}
+            currentTime={props.currentTime}
+            canceled={canceled}
           />
-          {departureTimes}
-        </div>
-      </Link>
-    );
-  });
+        );
+      });
+
+      // TODO: Should this be its own view component?
+      return (
+        <Link
+          to={`/${PREFIX_ROUTES}/${stoptime.pattern.route.gtfsId}/pysakit/${
+            stoptime.pattern.code
+          }`}
+          key={stoptime.pattern.code}
+        >
+          <div className="next-departure-row padding-vertical-normal border-bottom">
+            <Distance distance={departure.distance} />
+            <RouteNumber
+              mode={stoptime.pattern.route.mode}
+              text={stoptime.pattern.route.shortName}
+              hasDisruption={departure.hasDisruption}
+            />
+            <RouteDestination
+              mode={stoptime.pattern.route.mode}
+              destination={
+                stoptime.pattern.headsign || stoptime.pattern.route.longName
+              }
+            />
+            {departureTimes}
+          </div>
+        </Link>
+      );
+    },
+  );
 
   return <div>{departureObjs}</div>;
 }
 
 NextDeparturesList.propTypes = {
   departures: PropTypes.array.isRequired,
-  currentTime: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
 };
 
 export default NextDeparturesList;

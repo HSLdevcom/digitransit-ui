@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import Icon from './Icon';
-import { openFeedbackModal } from '../action/feedbackActions';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 class MainMenuContainer extends Component {
@@ -57,11 +56,6 @@ class MainMenuContainer extends Component {
     }
   };
 
-  openFeedback = () => {
-    this.context.executeAction(openFeedbackModal);
-    this.toggleOffcanvas();
-  };
-
   mainMenuModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
     MainMenu: () => importLazy(import('./MainMenu')),
@@ -81,7 +75,6 @@ class MainMenuContainer extends Component {
               onRequestChange={this.onRequestChange}
             >
               <MainMenu
-                openFeedback={this.openFeedback}
                 toggleVisibility={this.toggleOffcanvas}
                 showDisruptionInfo={this.getOffcanvasState()}
                 visible={this.getOffcanvasState()}
@@ -100,7 +93,7 @@ class MainMenuContainer extends Component {
               onClick={this.toggleOffcanvas}
               className="noborder cursor-pointer"
             >
-              <Icon img={'icon-icon_menu'} className="icon" />
+              <Icon img="icon-icon_menu" className="icon" />
             </button>
           </div>
         ) : null}

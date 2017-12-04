@@ -58,18 +58,11 @@ class TopLevel extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    const host =
-      context.headers &&
-      (context.headers['x-forwarded-host'] || context.headers.host);
-    const url = context.url;
+  constructor(props, { url, headers, config, intl }) {
+    super(props);
+    const host = headers && (headers['x-forwarded-host'] || headers.host);
 
-    const hasTrackingPixel = get(
-      context,
-      'config.showAdformTrackingPixel',
-      false,
-    );
+    const hasTrackingPixel = get(config, 'showHSLTracking', false);
     this.trackingPixel =
       host &&
       host.indexOf('127.0.0.1') === -1 &&
@@ -80,12 +73,7 @@ class TopLevel extends React.Component {
         undefined
       );
 
-    this.metadata = meta(
-      this.context.intl.locale,
-      host,
-      url,
-      this.context.config,
-    );
+    this.metadata = meta(intl.locale, host, url, config);
   }
 
   getChildContext() {
@@ -141,7 +129,6 @@ class TopLevel extends React.Component {
     }
 
     const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
-
     return (
       <div className="fullscreen">
         {!this.topBarOptions.hidden && (

@@ -52,8 +52,8 @@ function DisruptionInfoButtonContainer(
 }
 
 DisruptionInfoButtonContainer.contextTypes = {
-  router: routerShape.isRequired,
-  location: locationShape.isRequired,
+  router: routerShape.isRequired, // eslint-disable-line react/no-typos
+  location: locationShape.isRequired, // eslint-disable-line react/no-typos
   config: PropTypes.shape({
     feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,

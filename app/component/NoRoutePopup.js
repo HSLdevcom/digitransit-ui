@@ -56,9 +56,7 @@ class NoRoutePopup extends React.Component {
             />
           </p>
           <p>
-            <a>
-              <FormattedMessage id="close" defaultMessage="Close" />
-            </a>
+            <FormattedMessage id="close" defaultMessage="Close" />
           </p>
         </div>
       </Modal>

@@ -33,7 +33,6 @@ function TripStopsContainer(props, { breakpoint }) {
 }
 
 TripStopsContainer.propTypes = {
-  pattern: PropTypes.object.isRequired,
   trip: PropTypes.shape({
     stoptimesForDate: PropTypes.arrayOf(
       PropTypes.shape({
@@ -46,9 +45,6 @@ TripStopsContainer.propTypes = {
       fullscreenMap: PropTypes.bool,
     }),
   ).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 TripStopsContainer.contextTypes = {

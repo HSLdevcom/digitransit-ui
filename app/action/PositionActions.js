@@ -213,7 +213,7 @@ let init = false;
 /**
  * This is called only from Index page.
  * TODO all other states but granted are not needed here
-*/
+ */
 export function initGeolocation(actionContext) {
   if (init === true) {
     debug('Already initialized, bailing out');

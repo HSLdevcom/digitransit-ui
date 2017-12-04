@@ -65,7 +65,7 @@ class Stops {
                   this.config.terminalStopsMaxZoom - 1 <=
                     this.tile.coords.z + (this.tile.props.zoomOffset || 0))
               ) {
-                feature.geom = feature.loadGeometry()[0][0];
+                [[feature.geom]] = feature.loadGeometry();
                 this.features.push(pick(feature, ['geom', 'properties']));
                 this.drawStop(feature);
               }
@@ -84,7 +84,7 @@ class Stops {
             ) {
               const feature = vt.layers.stations.feature(i);
               if (feature.properties.type) {
-                feature.geom = feature.loadGeometry()[0][0];
+                [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 drawTerminalIcon(
                   this.tile,

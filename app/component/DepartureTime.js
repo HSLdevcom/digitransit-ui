@@ -63,7 +63,7 @@ function DepartureTime(props, context) {
 }
 
 DepartureTime.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 DepartureTime.description = () => (

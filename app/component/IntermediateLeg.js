@@ -5,6 +5,7 @@ import StopCode from './StopCode';
 function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
   const modeClassName = mode.toLowerCase();
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
       style={{ width: '100%' }}
@@ -25,7 +26,9 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
-        className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
+        className={`small-9 columns itinerary-instruction-column intermediate ${
+          modeClassName
+        }`}
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
@@ -40,7 +43,6 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
 
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
-  waitTime: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,

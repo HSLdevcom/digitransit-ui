@@ -6,7 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
-import { getPathWithEndpointObjects } from '../util/path';
+import { navigateTo } from '../util/path';
 import Icon from './Icon';
 import FavouriteLocationContainer from './FavouriteLocationContainer';
 import FavouriteLocation from './FavouriteLocation';
@@ -105,10 +105,15 @@ class FavouriteLocationsContainer extends React.Component {
       lat,
       lon,
       address: locationName,
+      ready: true,
     };
 
-    const url = getPathWithEndpointObjects(this.props.origin, location);
-    this.context.router.push(url);
+    navigateTo({
+      origin: this.props.origin,
+      destination: location,
+      context: '/',
+      router: this.context.router,
+    });
   };
 
   slideRenderer = ({ key, index }) => {
@@ -128,7 +133,7 @@ class FavouriteLocationsContainer extends React.Component {
     );
 
     if (this.props.origin.ready) {
-      const config = this.context.config;
+      const { config } = this.context;
 
       return (
         <Relay.RootContainer
@@ -206,6 +211,7 @@ class FavouriteLocationsContainer extends React.Component {
     displayLeft = !isMobile && displayLeft;
     displayRight = !isMobile && displayRight;
 
+    /* eslint-disable jsx-a11y/anchor-is-valid */
     return (
       <div style={{ position: 'relative' }}>
         <div

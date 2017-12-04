@@ -63,7 +63,7 @@ export default class ParkAndRide {
                     const result = compact(Relay.Store.readQuery(query));
                     if (!isEmpty(result)) {
                       feature.properties.facilities = result;
-                      feature.geom = feature.loadGeometry()[0][0];
+                      [[feature.geom]] = feature.loadGeometry();
                       this.features.push(pick(feature, ['geom', 'properties']));
                       drawParkAndRideIcon(
                         this.tile,

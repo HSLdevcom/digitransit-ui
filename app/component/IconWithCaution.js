@@ -21,7 +21,7 @@ const IconWithCaution = props => (
 
 IconWithCaution.description = () => (
   <ComponentUsageExample description="Bus with caution">
-    <IconWithCaution className="bus" img={'icon-icon_bus'} />
+    <IconWithCaution className="bus" img="icon-icon_bus" />
   </ComponentUsageExample>
 );
 

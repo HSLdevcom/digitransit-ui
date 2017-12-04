@@ -4,7 +4,6 @@ import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
 import Icon from './Icon';
 import StopPageActionBar from './StopPageActionBar';
 import FilterTimeTableModal from './FilterTimeTableModal';
@@ -43,12 +42,6 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.function,
     }).isRequired,
-    location: PropTypes.object,
-  };
-
-  static contextTypes = {
-    location: locationShape.isRequired,
-    router: routerShape.isRequired,
   };
 
   constructor(props) {

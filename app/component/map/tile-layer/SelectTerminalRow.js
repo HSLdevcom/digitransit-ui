@@ -28,6 +28,7 @@ function SelectTerminalRow(props) {
     ellipsis = <span className={routeData[18].mode.toLowerCase()}>...</span>;
   }
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className="no-margin">
       <div className="cursor-pointer select-row" onClick={props.selectRow}>
@@ -56,9 +57,9 @@ SelectTerminalRow.description = (
     <p>Renders a select stop row</p>
     <ComponentUsageExample description="">
       <SelectTerminalRow
-        name={'Pasilan Asema'}
+        name="Pasilan Asema"
         selectRow={() => {}}
-        type={'BUS'}
+        type="BUS"
         routes={
           '[{"mode":"BUS","shortName":"154"},{"mode":"BUS","shortName":"111T"}]'
         }

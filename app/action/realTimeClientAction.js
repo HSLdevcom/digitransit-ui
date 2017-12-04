@@ -63,13 +63,13 @@ function parseMessage(topic, message, actionContext) {
 }
 
 function getInitialData(topic, actionContext) {
-  getJson(
-    actionContext.config.URL.REALTIME + topic.replace('#', ''),
-  ).then(data => {
-    Object.keys(data).forEach(resTopic => {
-      parseMessage(resTopic, data[resTopic], actionContext);
-    });
-  });
+  getJson(actionContext.config.URL.REALTIME + topic.replace('#', '')).then(
+    data => {
+      Object.keys(data).forEach(resTopic => {
+        parseMessage(resTopic, data[resTopic], actionContext);
+      });
+    },
+  );
 }
 
 export function startRealTimeClient(actionContext, originalOptions, done) {

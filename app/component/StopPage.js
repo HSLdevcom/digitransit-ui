@@ -44,7 +44,8 @@ const StopPageRootContainer = routeProps => (
         />
       ) : (
         undefined
-      )}
+      )
+    }
   />
 );
 

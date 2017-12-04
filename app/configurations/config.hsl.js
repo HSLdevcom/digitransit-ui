@@ -33,7 +33,7 @@ export default {
   feedIds: ['HSL'],
 
   preferredAgency: 'HSL',
-  showAdformTrackingPixel: true,
+  showHSLTracking: true,
 
   searchParams: {
     'boundary.rect.min_lat': 59.9,
@@ -50,10 +50,6 @@ export default {
   nearbyRoutes: {
     radius: 2000,
     bucketSize: 100,
-  },
-
-  feedback: {
-    enable: false,
   },
 
   maxWalkDistance: 2500,

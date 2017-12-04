@@ -564,6 +564,10 @@ div.itinerary-container-content {
   height: 100%;
   transition: height 500ms;
 
+  &.minimized {
+    max-height: 0;
+  }
+
   &:empty {
     height: 0;
   }

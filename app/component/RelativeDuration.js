@@ -28,7 +28,7 @@ function RelativeDuration(props) {
 }
 
 RelativeDuration.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 RelativeDuration.propTypes = {

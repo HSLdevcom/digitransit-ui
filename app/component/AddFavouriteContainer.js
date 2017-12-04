@@ -103,7 +103,7 @@ class AddFavouriteContainer extends React.Component {
   };
 
   render() {
-    const favourite = this.state.favourite;
+    const { favourite } = this.state;
     const favouriteLayers = [
       'CurrentPosition',
       'Geocoding',
@@ -203,9 +203,9 @@ class AddFavouriteContainer extends React.Component {
               </div>
               <div className="add-favourite-container__save">
                 <button
-                  className={`add-favourite-container-button ${this.canSave()
-                    ? ''
-                    : 'disabled'}`}
+                  className={`add-favourite-container-button ${
+                    this.canSave() ? '' : 'disabled'
+                  }`}
                   onClick={this.save}
                 >
                   <FormattedMessage id="save" defaultMessage="Save" />

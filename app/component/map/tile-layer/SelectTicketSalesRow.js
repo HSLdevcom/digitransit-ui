@@ -4,6 +4,7 @@ import Icon from '../../Icon';
 import ComponentUsageExample from '../../ComponentUsageExample';
 import { getIcon } from '../popups/TicketSalesPopup';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectTicketSalesRow(props) {
   return (
     <div className="no-margin">

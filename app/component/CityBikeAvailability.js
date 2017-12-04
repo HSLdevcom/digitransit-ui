@@ -18,8 +18,8 @@ const CityBikeAvailability = mapProps(
           defaultMessage="Bikes available at the station right now"
         />
         {'\u00a0'}
-        ({isNaN(bikesAvailable) ? 0 : bikesAvailable}/
-        {isNaN(totalSpaces) ? 0 : totalSpaces})
+        ({Number.isNaN(bikesAvailable) ? 0 : bikesAvailable}/
+        {Number.isNaN(totalSpaces) ? 0 : totalSpaces})
       </p>
     ),
   }),

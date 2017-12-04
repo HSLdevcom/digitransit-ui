@@ -3,9 +3,7 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const PIWIK_ADDRESS = process.env.PIWIK_ADDRESS;
-const PIWIK_ID = process.env.PIWIK_ID;
-const SENTRY_DSN = process.env.SENTRY_DSN;
+const { PIWIK_ADDRESS, PIWIK_ID, SENTRY_DSN } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
@@ -88,14 +86,8 @@ export default {
     // Whether to show the left menu toggle button at all
     show: true,
     showDisruptions: true,
-    showInquiry: false,
     showLoginCreateAccount: true,
     showOffCanvasList: true,
-  },
-
-  feedback: {
-    // Whether to allow the feedback popup
-    enable: false,
   },
 
   itinerary: {
@@ -344,8 +336,6 @@ export default {
       value: '1',
     },
   ],
-
-  showModeFilter: true,
 
   moment: {
     relativeTimeThreshold: {

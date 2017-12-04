@@ -8,14 +8,14 @@ function DisruptionInfoButton(props, { config }) {
   if (!config.disruption || config.disruption.showInfoButton) {
     return (
       <button
-        className={'cursor-pointer disruption-info noborder'}
+        className="cursor-pointer disruption-info noborder"
         onClick={props.toggleDisruptionInfo}
       >
         <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
         {props.root &&
           props.root.alerts &&
           props.root.alerts.length > 0 && (
-            <Icon img={'icon-icon_caution'} className={'disruption-info'} />
+            <Icon img="icon-icon_caution" className="disruption-info" />
           )}
       </button>
     );

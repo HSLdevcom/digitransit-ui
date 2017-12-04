@@ -7,6 +7,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function AirportCollectLuggageLeg(props) {
   const modeClassName = 'wait';
   return (

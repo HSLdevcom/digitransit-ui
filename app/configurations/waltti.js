@@ -69,8 +69,6 @@ export default {
     },
   },
 
-  showModeFilter: false,
-
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14,
 

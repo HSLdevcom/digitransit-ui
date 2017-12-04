@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
+import get from 'lodash/get';
 import isMatch from 'lodash/isMatch';
 import keys from 'lodash/keys';
 import pick from 'lodash/pick';
@@ -45,6 +46,7 @@ class SummaryPage extends React.Component {
     location: PropTypes.object.isRequired,
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
+    headers: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -89,8 +91,24 @@ class SummaryPage extends React.Component {
 
   state = { center: null };
 
-  componentWillMount = () =>
+  componentWillMount() {
     this.initCustomizableParameters(this.context.config);
+  }
+
+  componentDidMount() {
+    const host =
+      this.context.headers &&
+      (this.context.headers['x-forwarded-host'] || this.context.headers.host);
+
+    if (
+      get(this.context, 'config.showHSLTracking', false) &&
+      host &&
+      host.indexOf('127.0.0.1') === -1 &&
+      host.indexOf('localhost') === -1
+    ) {
+      import('../util/feedbackly');
+    }
+  }
 
   componentWillReceiveProps(nextProps, context) {
     if (!isEqual(nextProps.from, this.props.from)) {
@@ -175,7 +193,7 @@ class SummaryPage extends React.Component {
       } else {
         leafletObjs.push(
           <LocationMarker
-            key={'via'}
+            key="via"
             position={otpToLocation(query.intermediatePlaces)}
             className="via"
             noText

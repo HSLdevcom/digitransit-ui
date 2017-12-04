@@ -64,13 +64,13 @@ class DepartureListContainer extends Component {
 
   render() {
     const departureObjs = [];
-    const currentTime = this.props.currentTime;
+    const { currentTime } = this.props;
     let currentDate = moment
-      .unix(this.props.currentTime)
+      .unix(currentTime)
       .startOf('day')
       .unix();
     let tomorrow = moment
-      .unix(this.props.currentTime)
+      .unix(currentTime)
       .add(1, 'day')
       .startOf('day')
       .unix();
@@ -130,8 +130,9 @@ class DepartureListContainer extends Component {
       if (this.props.routeLinks) {
         departureObjs.push(
           <Link
-            to={`/${PREFIX_ROUTES}/${departure.pattern.route
-              .gtfsId}/pysakit/${departure.pattern.code}`}
+            to={`/${PREFIX_ROUTES}/${departure.pattern.route.gtfsId}/pysakit/${
+              departure.pattern.code
+            }`}
             key={id}
           >
             {departureObj}

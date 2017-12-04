@@ -109,7 +109,7 @@ export default class TimeNavigationButtons extends React.Component {
   }
 
   render() {
-    const config = this.context.config;
+    const { config } = this.context;
 
     if (!this.props.itineraries || !this.props.itineraries[0]) {
       return null;
@@ -117,13 +117,12 @@ export default class TimeNavigationButtons extends React.Component {
     const itineraryFeedback = config.itinerary.enableFeedback ? (
       <ItineraryFeedback />
     ) : null;
-    const enableButtonArrows =
-      config.itinerary.timeNavigation.enableButtonArrows;
+    const { enableButtonArrows } = config.itinerary.timeNavigation;
     const leftArrow = enableButtonArrows ? (
-      <Icon img={'icon-icon_arrow-left'} className="cursor-pointer back" />
+      <Icon img="icon-icon_arrow-left" className="cursor-pointer back" />
     ) : null;
     const rightArrow = enableButtonArrows ? (
-      <Icon img={'icon-icon_arrow-right'} className="cursor-pointer back" />
+      <Icon img="icon-icon_arrow-right" className="cursor-pointer back" />
     ) : null;
 
     return (

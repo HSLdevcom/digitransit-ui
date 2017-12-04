@@ -23,6 +23,8 @@ const NetworkError = ({ retry }, { location }) => (
 );
 
 NetworkError.propTypes = { retry: PropTypes.func.isRequired };
-NetworkError.contextTypes = { location: locationShape.isRequired };
+NetworkError.contextTypes = {
+  location: locationShape.isRequired, // eslint-disable-line react/no-typos
+};
 
 export default NetworkError;
