@@ -8,7 +8,7 @@ import {
 class FavouriteRoutesStore extends Store {
   static storeName = 'FavouriteRoutesStore';
 
-  routes = this.getRoutes();
+  routes = getFavouriteRoutesStorage();
 
   isFavourite(id) {
     return includes(this.routes, id);
@@ -20,7 +20,7 @@ class FavouriteRoutesStore extends Store {
 
   // eslint-disable-next-line class-methods-use-this
   getRoutes() {
-    return getFavouriteRoutesStorage();
+    return this.routes;
   }
 
   addFavouriteRoute(routeId) {
