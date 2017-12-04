@@ -142,7 +142,9 @@ function faviconPluginFromConfig(config) {
     // The name of the json containing all favicon information
     statsFilename: 'iconstats-' + config.CONFIG + '.json',
     // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    background: config.colors ? config.colors.primary : '#ffffff',
+    // This matches the application background color
+    background: '#eef1f3',
+    theme_color: config.colors ? config.colors.primary : '#eef1f3',
     // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
     title: config.title,
     appName: config.title,
@@ -274,19 +276,21 @@ function getPluginsConfig(env) {
         'iconstats-*.json',
         'icons-*/*',
       ],
-      // TODO: Can be enabled after cors headers have been added
-      // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
         main: [':rest:'],
-        additional: [':externals:', 'js/+([a-z0-9]).js'],
+        additional: [':externals:'],
         optional: ['*.png', 'css/*.css', '*.svg', 'icons-*/*'],
       },
-      externals: [
-        /* '/' Can be re-added later when we want to cache index page */
-      ],
+      // TODO: Can be enabled after cors headers have been added
+      // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
+      externals: ['/'],
+      updateStrategy: 'changed',
+      autoUpdate: 1000 * 60,
       safeToUseOptionalCaches: true,
       ServiceWorker: {
         entry: './app/util/font-sw.js',
+        events: true,
+        navigateFallbackURL: '/',
       },
       AppCache: {
         caches: ['main', 'additional', 'optional'],

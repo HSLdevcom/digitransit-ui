@@ -54,11 +54,11 @@ function setUpStaticFolders() {
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
       indexFromEmptyFile: false,
-      maxAge: 30 * oneDay,
+      maxAge: 14 * oneDay,
       setHeaders(res, reqPath) {
         if (
-          reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
-          reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
+          reqPath.toLowerCase().includes('sw.js') ||
+          reqPath.toLowerCase().includes('appcache')
         ) {
           res.setHeader('Cache-Control', 'public, max-age=0');
         }
