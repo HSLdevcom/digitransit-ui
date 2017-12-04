@@ -8,7 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
-// const OptimizeJsPlugin = require('optimize-js-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
@@ -269,21 +269,10 @@ function getPluginsConfig(env) {
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJsPlugin({
       sourceMap: true,
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        negate_iife: false,
-      },
-      mangle: {
-        except: ['$super', '$', 'exports', 'require', 'window'],
-      },
+      parallel: true,
     }),
-    // TODO: add after https://github.com/vigneshshanmugam/optimize-js-plugin/issues/7 is shipped
-    // new OptimizeJsPlugin({
-    //   sourceMap: true,
-    // }),
     ...getAllFaviconPlugins(),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
