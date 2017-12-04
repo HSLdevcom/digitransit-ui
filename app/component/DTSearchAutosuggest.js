@@ -64,6 +64,8 @@ class DTAutosuggest extends React.Component {
       this.props.isFocused(true);
       this.setState(newState, () => this.fetchFunction({ value: newValue }));
     } else if (method !== 'enter' || this.state.valid) {
+      // test above drops unnecessary update
+      // when user hits enter but search is unfinished
       this.setState(newState);
     }
   };
@@ -209,7 +211,7 @@ class DTAutosuggest extends React.Component {
       this.props.isFocused(true);
       const newState = {
         editing: true,
-         // reset at start, just in case we missed something
+        // reset at start, just in case we missed something
         pendingSelection: null,
       };
 
