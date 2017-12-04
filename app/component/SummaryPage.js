@@ -17,7 +17,7 @@ import { dtLocationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
-import Map from '../component/map/Map';
+import MapContainer from '../component/map/MapContainer';
 import ItineraryTab from './ItineraryTab';
 import PrintableItinerary from './PrintableItinerary';
 import SummaryPlanContainer from './SummaryPlanContainer';
@@ -214,7 +214,7 @@ class SummaryPage extends React.Component {
     );
 
     return (
-      <Map
+      <MapContainer
         className="summary-map"
         leafletObjs={leafletObjs}
         fitBounds
