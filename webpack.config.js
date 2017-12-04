@@ -22,7 +22,7 @@ require('babel-core/register')({
     'dynamic-import-node',
     ['relay', { compat: true, schema: 'build/schema.json' }],
   ],
-  ignore: [/node_modules/, 'app/util/piwik.js'],
+  ignore: [/node_modules/],
 });
 
 const port = process.env.HOT_LOAD_PORT || 9000;
@@ -57,7 +57,6 @@ function getRulesConfig(env) {
               },
             ],
           ],
-          ignore: ['app/util/piwik.js'],
         },
       },
     ];
@@ -96,7 +95,6 @@ function getRulesConfig(env) {
             },
           ],
         ],
-        ignore: ['app/util/piwik.js'],
       },
     },
     {
