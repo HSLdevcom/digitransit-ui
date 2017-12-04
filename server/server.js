@@ -28,6 +28,10 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   Raven.config(process.env.SENTRY_SECRET_DSN, {
     captureUnhandledRejections: true,
   }).install();
+} else {
+  process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at:', p, 'reason:', reason);
+  });
 }
 
 /* ********* Server ********* */
