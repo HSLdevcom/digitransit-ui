@@ -97,22 +97,6 @@ function getRulesConfig(env) {
         ],
       },
     },
-    {
-      test: /\.js$/,
-      loader: 'babel',
-      include: [
-        // https://github.com/mapbox/mapbox-gl-js/issues/3368
-        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
-      ],
-      options: {
-        plugins: [
-          'transform-es2015-block-scoping',
-          'transform-es2015-arrow-functions',
-          'transform-es2015-for-of',
-          'transform-es2015-template-literals',
-        ],
-      },
-    },
   ];
 }
 
