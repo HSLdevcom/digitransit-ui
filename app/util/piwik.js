@@ -31,14 +31,11 @@ export default function createPiwik(config, raven) {
   ]);
 
   const piwik = {};
-  [
-    'setCustomUrl',
-    'setCustomVariable',
-    'trackEvent',
-    'trackPageView',
-  ].forEach(i => {
-    piwik[i] = (...args) => window._paq.push([i, ...args]);
-  });
+  ['setCustomUrl', 'setCustomVariable', 'trackEvent', 'trackPageView'].forEach(
+    i => {
+      piwik[i] = (...args) => window._paq.push([i, ...args]);
+    },
+  );
   /* eslint-enable no-underscore-dangle */
 
   piwik.getVisitorId = () => visitorId;

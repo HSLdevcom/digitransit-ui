@@ -17,7 +17,6 @@ import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
-import { dtLocationShape } from '../../util/shapes';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -29,11 +28,8 @@ export default class Map extends React.Component {
     bounds: PropTypes.array,
     boundsOptions: PropTypes.object,
     center: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
     disableMapTracking: PropTypes.func,
     fitBounds: PropTypes.bool,
-    hideOrigin: PropTypes.bool,
     hilightedStops: PropTypes.array,
     lang: PropTypes.string.isRequired,
     lat: PropTypes.number,
@@ -41,7 +37,6 @@ export default class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
     leafletOptions: PropTypes.object,
-    origin: dtLocationShape,
     padding: PropTypes.array,
     showStops: PropTypes.bool,
     zoom: PropTypes.number,
@@ -54,7 +49,6 @@ export default class Map extends React.Component {
   static defaultProps = {
     animate: true,
     loaded: () => {},
-    origin: null,
     showScaleBar: false,
     activeArea: null,
   };
@@ -93,16 +87,14 @@ export default class Map extends React.Component {
   };
 
   render() {
-    const zoom = this.props.zoom;
-    const config = this.context.config;
+    const { zoom, boundsOptions } = this.props;
+    const { config } = this.context;
 
     const center =
       (!this.props.fitBounds &&
         this.props.lat &&
         this.props.lon && [this.props.lat, this.props.lon]) ||
       null;
-
-    const boundsOptions = this.props.boundsOptions;
 
     if (this.props.padding) {
       boundsOptions.paddingTopLeft = this.props.padding;
@@ -126,8 +118,8 @@ export default class Map extends React.Component {
         }}
         center={center}
         zoom={zoom}
-        minZoom={this.context.config.map.minZoom}
-        maxZoom={this.context.config.map.maxZoom}
+        minZoom={config.map.minZoom}
+        maxZoom={config.map.maxZoom}
         zoomControl={false}
         attributionControl={false}
         bounds={
@@ -150,8 +142,8 @@ export default class Map extends React.Component {
               ? '@2x'
               : ''
           }
-          minZoom={this.context.config.map.minZoom}
-          maxZoom={this.context.config.map.maxZoom}
+          minZoom={config.map.minZoom}
+          maxZoom={config.map.maxZoom}
         />
         <AttributionControl
           position="bottomleft"

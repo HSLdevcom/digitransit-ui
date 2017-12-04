@@ -10,7 +10,7 @@ const mapModules = {
 
 function MapContainer({ className, children, ...props }) {
   return (
-    <div className={`map ${className || ''}`}>
+    <div className={`map ${className}`}>
       <LazilyLoad modules={mapModules}>
         {({ Map }) => <Map {...props} />}
       </LazilyLoad>
@@ -19,6 +19,16 @@ function MapContainer({ className, children, ...props }) {
     </div>
   );
 }
+
+MapContainer.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+};
+
+MapContainer.defaultProps = {
+  className: '',
+  children: undefined,
+};
 
 export default connectToStores(MapContainer, ['PreferencesStore'], context => ({
   lang: context.getStore('PreferencesStore').getLanguage(),
