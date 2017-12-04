@@ -43,6 +43,7 @@ class DTAutosuggest extends React.Component {
       value: props.value,
       suggestions: [],
       editing: false,
+      valid: true,
     };
   }
 
@@ -54,7 +55,7 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  onChange = (event, { newValue }) => {
+  onChange = (event, { newValue, method }) => {
     const newState = {
       value: newValue,
     };
@@ -62,7 +63,7 @@ class DTAutosuggest extends React.Component {
       newState.editing = true;
       this.props.isFocused(true);
       this.setState(newState, () => this.fetchFunction({ value: newValue }));
-    } else {
+    } else if (method !== 'enter' || this.state.valid) {
       this.setState(newState);
     }
   };
@@ -77,7 +78,7 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    if (!this.state.searching) {
+    if (this.state.valid) {
       this.setState(
         {
           editing: false,
@@ -91,8 +92,7 @@ class DTAutosuggest extends React.Component {
     } else {
       this.setState(
         {
-          editing: false,
-          pendingSelection: true,
+          pendingSelection: this.state.value,
         },
         () => this.checkPendingSelection(), // search may finish during state change
       );
@@ -111,14 +111,22 @@ class DTAutosuggest extends React.Component {
   };
 
   checkPendingSelection = () => {
-    if (this.state.pendingSelection && !this.state.searching) {
+    // accept after all ongoing searches have finished
+
+    if (this.state.pendingSelection && this.state.valid) {
       // finish the selection by picking first = best match
-      this.setState({ pendingSelection: false }, () => {
-        if (this.state.suggestions.length) {
-          this.input.blur();
-          this.props.selectedFunction(this.state.suggestions[0]);
-        }
-      });
+      this.setState(
+        {
+          pendingSelection: null,
+          editing: false,
+        },
+        () => {
+          if (this.state.suggestions.length) {
+            this.input.blur();
+            this.props.selectedFunction(this.state.suggestions[0]);
+          }
+        },
+      );
     }
   };
 
@@ -132,7 +140,7 @@ class DTAutosuggest extends React.Component {
   };
 
   fetchFunction = ({ value }) =>
-    this.setState({ searching: true }, () =>
+    this.setState({ valid: false }, () => {
       executeSearch(
         this.context.getStore,
         this.props.refPoint,
@@ -167,16 +175,22 @@ class DTAutosuggest extends React.Component {
             }
             return suggestion;
           });
-          this.setState(
-            {
-              suggestions,
-              searching: false,
-            },
-            () => this.checkPendingSelection(),
-          );
+
+          if (
+            value === this.state.value ||
+            value === this.state.pendingSelection
+          ) {
+            this.setState(
+              {
+                valid: true,
+                suggestions,
+              },
+              () => this.checkPendingSelection(),
+            );
+          }
         },
-      ),
-    );
+      );
+    });
 
   clearInput = () => {
     const newState = {
@@ -195,6 +209,8 @@ class DTAutosuggest extends React.Component {
       this.props.isFocused(true);
       const newState = {
         editing: true,
+         // reset at start, just in case we missed something
+        pendingSelection: null,
       };
 
       if (!this.state.suggestions.length) {
@@ -214,7 +230,7 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => (
-    <div className={cx({ 'suggestion-is-updating': this.state.searching })}>
+    <div className={cx({ 'suggestion-is-updating': !this.state.valid })}>
       <SuggestionItem
         doNotShowLinkToStop={this.state.doNotShowLinkToStop}
         ref={item.name}
