@@ -5,7 +5,6 @@ import FavouriteLocationStore from './store/FavouriteLocationStore';
 import FavouriteRoutesStore from './store/FavouriteRoutesStore';
 import FavouriteStopsStore from './store/FavouriteStopsStore';
 import MessageStore from './store/MessageStore';
-import ModeStore from './store/ModeStore';
 import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
 import OriginStore from './store/OriginStore';
@@ -23,7 +22,6 @@ export default config => {
   app.registerStore(FavouriteRoutesStore);
   app.registerStore(FavouriteStopsStore);
   app.registerStore(MessageStore);
-  app.registerStore(ModeStore);
   app.registerStore(OldSearchesStore);
   app.registerStore(PositionStore);
   app.registerStore(OriginStore);

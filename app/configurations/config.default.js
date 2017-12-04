@@ -337,8 +337,6 @@ export default {
     },
   ],
 
-  showModeFilter: true,
-
   moment: {
     relativeTimeThreshold: {
       seconds: 55,
