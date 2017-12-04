@@ -6,7 +6,7 @@ import polyline from 'polyline-encoded';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
@@ -133,7 +133,7 @@ export default function ItineraryPageMap(
   };
 
   return (
-    <Map
+    <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
@@ -147,7 +147,7 @@ export default function ItineraryPageMap(
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-    </Map>
+    </MapContainer>
   );
 }
 
