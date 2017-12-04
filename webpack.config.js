@@ -263,12 +263,7 @@ function getPluginsConfig(env) {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'main',
       children: true,
-      minChunks: 5,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'main',
-      children: true,
-      async: true,
+      async: 'shared',
       minChunks: 3,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
