@@ -43,6 +43,7 @@ class DTAutosuggest extends React.Component {
       value: props.value,
       suggestions: [],
       editing: false,
+      valid: true,
     };
   }
 
@@ -54,7 +55,7 @@ class DTAutosuggest extends React.Component {
     }
   };
 
-  onChange = (event, { newValue }) => {
+  onChange = (event, { newValue, method }) => {
     const newState = {
       value: newValue,
     };
@@ -62,7 +63,9 @@ class DTAutosuggest extends React.Component {
       newState.editing = true;
       this.props.isFocused(true);
       this.setState(newState, () => this.fetchFunction({ value: newValue }));
-    } else {
+    } else if (method !== 'enter' || this.state.valid) {
+      // test above drops unnecessary update
+      // when user hits enter but search is unfinished
       this.setState(newState);
     }
   };
@@ -77,13 +80,25 @@ class DTAutosuggest extends React.Component {
 
   onSelected = (e, ref) => {
     this.props.isFocused(false);
-    this.setState(
-      {
-        editing: false,
-        value: ref.suggestionValue,
-      },
-      () => this.props.selectedFunction(e, ref),
-    );
+    if (this.state.valid) {
+      this.setState(
+        {
+          editing: false,
+          value: ref.suggestionValue,
+        },
+        () => {
+          this.input.blur();
+          this.props.selectedFunction(ref.suggestion);
+        },
+      );
+    } else {
+      this.setState(
+        {
+          pendingSelection: this.state.value,
+        },
+        () => this.checkPendingSelection(), // search may finish during state change
+      );
+    }
   };
 
   onSuggestionsClearRequested = () => {
@@ -97,6 +112,26 @@ class DTAutosuggest extends React.Component {
     return value;
   };
 
+  checkPendingSelection = () => {
+    // accept after all ongoing searches have finished
+
+    if (this.state.pendingSelection && this.state.valid) {
+      // finish the selection by picking first = best match
+      this.setState(
+        {
+          pendingSelection: null,
+          editing: false,
+        },
+        () => {
+          if (this.state.suggestions.length) {
+            this.input.blur();
+            this.props.selectedFunction(this.state.suggestions[0]);
+          }
+        },
+      );
+    }
+  };
+
   clearButton = () => {
     const img = this.state.value ? 'icon-icon_close' : 'icon-icon_search';
     return (
@@ -106,47 +141,58 @@ class DTAutosuggest extends React.Component {
     );
   };
 
-  fetchFunction = ({ value }) => {
-    executeSearch(
-      this.context.getStore,
-      this.props.refPoint,
-      {
-        layers: this.props.layers,
-        input: value,
-        type: this.props.searchType,
-        config: this.context.config,
-      },
-      result => {
-        if (result == null) {
-          return;
-        }
-        let suggestions = [];
-        const [res1, res2] = result;
-
-        if (res2 && res2.results) {
-          suggestions = suggestions.concat(res2.results);
-        }
-        if (res1 && res1.results) {
-          suggestions = suggestions.concat(res1.results);
-        }
-        // XXX translates current location
-        suggestions = suggestions.map(suggestion => {
-          if (suggestion.type === 'CurrentLocation') {
-            const translated = { ...suggestion };
-            translated.properties.labelId = this.context.intl.formatMessage({
-              id: suggestion.properties.labelId,
-              defaultMessage: 'Own Location',
-            });
-            return translated;
+  fetchFunction = ({ value }) =>
+    this.setState({ valid: false }, () => {
+      executeSearch(
+        this.context.getStore,
+        this.props.refPoint,
+        {
+          layers: this.props.layers,
+          input: value,
+          type: this.props.searchType,
+          config: this.context.config,
+        },
+        result => {
+          if (result == null) {
+            return;
           }
-          return suggestion;
-        });
-        this.setState({
-          suggestions,
-        });
-      },
-    );
-  };
+          let suggestions = [];
+          const [res1, res2] = result;
+
+          if (res2 && res2.results) {
+            suggestions = suggestions.concat(res2.results);
+          }
+          if (res1 && res1.results) {
+            suggestions = suggestions.concat(res1.results);
+          }
+          // XXX translates current location
+          suggestions = suggestions.map(suggestion => {
+            if (suggestion.type === 'CurrentLocation') {
+              const translated = { ...suggestion };
+              translated.properties.labelId = this.context.intl.formatMessage({
+                id: suggestion.properties.labelId,
+                defaultMessage: 'Own Location',
+              });
+              return translated;
+            }
+            return suggestion;
+          });
+
+          if (
+            value === this.state.value ||
+            value === this.state.pendingSelection
+          ) {
+            this.setState(
+              {
+                valid: true,
+                suggestions,
+              },
+              () => this.checkPendingSelection(),
+            );
+          }
+        },
+      );
+    });
 
   clearInput = () => {
     const newState = {
@@ -163,7 +209,11 @@ class DTAutosuggest extends React.Component {
   inputClicked = () => {
     if (!this.state.editing) {
       this.props.isFocused(true);
-      const newState = { editing: true };
+      const newState = {
+        editing: true,
+        // reset at start, just in case we missed something
+        pendingSelection: null,
+      };
 
       if (!this.state.suggestions.length) {
         this.setState(newState, () =>
@@ -182,14 +232,16 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => (
-    <SuggestionItem
-      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
-      ref={item.name}
-      item={item}
-      useTransportIconsconfig={
-        this.context.config.search.suggestions.useTransportIcons
-      }
-    />
+    <div className={cx({ 'suggestion-is-updating': !this.state.valid })}>
+      <SuggestionItem
+        doNotShowLinkToStop={this.state.doNotShowLinkToStop}
+        ref={item.name}
+        item={item}
+        useTransportIconsconfig={
+          this.context.config.search.suggestions.useTransportIcons
+        }
+      />
+    </div>
   );
 
   render() {

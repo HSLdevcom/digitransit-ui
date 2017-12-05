@@ -340,6 +340,10 @@ section.content {
   .banner-container {
     display: flex;
     max-height: 100%;
+
+    .message-bar-info {
+      width: 60%;
+    }
   }
 
   span {

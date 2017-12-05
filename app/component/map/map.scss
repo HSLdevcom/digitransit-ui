@@ -526,3 +526,10 @@ div.map-click-prevent-overlay {
   left: 0px;
   width: 100%;
 }
+
+.smallspinner {
+  div.spinner-loader {
+    width: $spinner-size*0.5;
+    height: $spinner-size*0.5;
+  }
+}
