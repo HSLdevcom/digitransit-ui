@@ -148,10 +148,11 @@ ul.react-autowhatever__items-list {
   }
 
   .react-autosuggest__suggestions-list {
-    margin-top: 0;
+    margin-top: -0.2em;
     margin-bottom: 0;
     padding-top: 0px;
     padding-left: 0;
+    background: $white;
     li:hover {
       background: $search-result-text-highlight-background-color;
     }
@@ -191,8 +192,7 @@ ul.react-autowhatever__items-list {
   flex-direction: row;
   align-items: center;
   min-height: 2em;
-  //line-height: 1.2;
-  //min-height: 2.5em;
+  overflow-x: hidden;
 
 
   .havePosition {
@@ -289,6 +289,15 @@ ul.react-autowhatever__items-list {
   }
 }
 
+.small .suggestion-item-stop {
+  > div {
+    width: 0em;
+  }
+  .suggestion-item-timetable {
+    width: 8em;
+  }
+}
+
 .suggestion-label {
   .itinerary-stop-code {
     display: inline-block;
@@ -306,7 +315,7 @@ div.map {
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  margin-top: 2em;
+  margin-top: 1em;
   width: 52.5%;
   margin-left: 5%;
   &.isItinerary {
@@ -363,12 +372,20 @@ div.autosuggest-panel {
       }
       #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
         width: 100%;
+        z-index: 1007;
       }
       #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
         width: 100%;
       }
       #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-        width: 79.5%;
+        min-height: 100%;
+        height: auto;
+        position: absolute;
+        width: 100%;
+        margin-top: -8px;
+        display: block;
+        overflow: visible;
+        z-index: 1006;
       }
       .react-autosuggest__container {
         width: 100%;
@@ -510,22 +527,24 @@ div.autosuggest-panel {
 .autosuggest-panel.small {
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
-      height: 100%;
+      min-height: 100%;
+      height: auto;
       position: absolute;
       width: 100%;
       margin-top: -8px;
-      display: table;
-      overflow-y: visible;
+      display: block;
+      overflow: visible;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
-      height: 100%;
+      min-height: 100%;
+      height: auto;
       position: absolute;
       width: 100%;
       margin-top: -8px;
-      display: table;
-      overflow-y: visible;
+      display: block;
+      overflow: visible;
     }
   }
 }
