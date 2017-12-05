@@ -194,6 +194,22 @@ ul.react-autowhatever__items-list {
   min-height: 2em;
   overflow-x: hidden;
 
+  &.loading:not(.CurrentLocation) {
+    // These are importatn in over to override the styling for the loading phase of the search
+    svg.icon {
+      stroke: $medium-gray !important;
+      fill: $medium-gray !important;
+      background: $medium-gray !important;
+    }
+
+    .suggestion-name, .suggestion-type, .suggestion-label {
+      &, * {
+        color: $medium-gray !important;
+        background: $medium-gray !important;
+      }
+    }
+  }
+
 
   .havePosition {
     color: $hilight-color;
