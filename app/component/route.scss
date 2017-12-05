@@ -32,6 +32,24 @@ $route-schedule-date-height: 36px;
     }
   }
 }
+.mobile {
+    .route-list-header {
+      display: flex;
+        .columns {
+          &.route-stop-now {
+            width: 5em;
+          }
+          &.route-stop-name {
+            max-width: 24em;
+            min-width: 4em;
+          }
+          &.route-stop-time {
+            width: 5em;
+          }
+      }
+  }
+}
+
 
 .error {
   div {
