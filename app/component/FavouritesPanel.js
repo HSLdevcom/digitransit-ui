@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+import shouldUpdate from 'recompose/shouldUpdate';
 
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
@@ -79,9 +79,15 @@ FavouritesPanel.propTypes = {
   favouriteLocations: PropTypes.array,
 };
 
-const FilteredFavouritesPanel = onlyUpdateForKeys(['currentTime', 'routes'])(
-  FavouritesPanel,
-);
+const FilteredFavouritesPanel = shouldUpdate(
+  (props, nextProps) =>
+    nextProps.currentTime !== props.currentTime ||
+    nextProps.routes !== props.routes ||
+    nextProps.origin.gps !== props.origin.gps ||
+    (!nextProps.origin.gps &&
+      (nextProps.origin.lat !== props.origin.lat ||
+        nextProps.origin.lon !== props.origin.lon)),
+)(FavouritesPanel);
 
 export default connectToStores(
   ctx => (
