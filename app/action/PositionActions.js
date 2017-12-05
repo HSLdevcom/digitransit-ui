@@ -38,7 +38,7 @@ const runReverseGeocodingAction = (actionContext, lat, lon) =>
 
 const debouncedRunReverseGeocodingAction = debounce(
   runReverseGeocodingAction,
-  60000,
+  10000,
   {
     leading: true,
   },
