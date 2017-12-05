@@ -170,6 +170,9 @@ ul.react-autowhatever__items-list {
   white-space: nowrap;
   border-bottom: 1px solid $light-gray;
 }
+.bp-small .react-autosuggest__suggestion {
+  max-width: 86vw;
+}
 
 .react-autosuggest__suggestion .icon {
   margin-right: 4px;
@@ -191,8 +194,7 @@ ul.react-autowhatever__items-list {
   flex-direction: row;
   align-items: center;
   min-height: 2em;
-  //line-height: 1.2;
-  //min-height: 2.5em;
+  overflow-x: hidden;
 
 
   .havePosition {
@@ -289,6 +291,15 @@ ul.react-autowhatever__items-list {
   }
 }
 
+.small .suggestion-item-stop {
+  > div {
+    width: 65%;
+  }
+  .suggestion-item-timetable {
+    width: 35%;
+  }
+}
+
 .suggestion-label {
   .itinerary-stop-code {
     display: inline-block;
@@ -306,7 +317,7 @@ div.map {
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  margin-top: 2em;
+  margin-top: 1em;
   width: 52.5%;
   margin-left: 5%;
   &.isItinerary {
