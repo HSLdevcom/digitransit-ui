@@ -342,7 +342,6 @@ div.autosuggest-panel {
     margin-left: 0;
     padding-left: 1em;
     padding-right: 1em;
-    margin-top: 1em;
 
     .react-autosuggest__container {
       width: 100%;
@@ -353,9 +352,7 @@ div.autosuggest-panel {
       }
     }
     &.isItinerary {
-      width: 90%;
-      margin-left: 0.4em;
-      margin-right: auto;
+      margin-left: 0;
       padding-right: 0;
       padding-left: 0;
       padding-top: 0;
@@ -491,9 +488,9 @@ div.autosuggest-panel {
   }
 }
 .mobile .itinerary-search-controls {
-  width: 6%;
-  right: 1%;
   top: 0.6em;
+  overflow-x: hidden;
+  margin-right: 0.5em;
   .switch {
     font-size: 1.4em;
     margin-top: -0.5em;
@@ -557,17 +554,17 @@ div.autosuggest-panel {
     content: 'A';
     position: absolute;
     color: #fff;
-    font-size: 10px;
-    left: 7px;
-    top: 1px;
+    font-size: 0.5em;
+    left: 1em;
+    top: 0.4em;
   }
   &.destination:before {
     content: 'B';
     position: absolute;
     color: #fff;
-    font-size: 10px;
-    left: 7px;
-    top: 1px;
+    font-size: 0.5em;
+    left: 1em;
+    top: 0.4em;
   }
   &.origin .icon {
     color: #64be14;

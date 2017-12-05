@@ -74,7 +74,6 @@ class Map extends React.Component {
 
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
