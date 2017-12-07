@@ -146,9 +146,5 @@ export const mapStopTime = (stoptime, pattern) => ({
  *  @param currentTime
  */
 export const fromStopTime = (stoptime, currentTime) => (
-  <DepartureTime
-    currentTime={currentTime}
-    {...mapStopTime(stoptime)}
-    style={{ whiteSpace: 'nowrap' }}
-  />
+  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
 );

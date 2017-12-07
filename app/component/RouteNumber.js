@@ -54,7 +54,8 @@ function RouteNumber(props) {
   // props.vertical is TRUE in itinerary view
   return (
     <span
-      className={cx('route-number', 'overflow-fade', {
+      className={cx('route-number', {
+        'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
       })}
     >

@@ -18,10 +18,6 @@ $route-schedule-date-height: 36px;
     min-height:0;
   }
 
-  .route-stop-now {
-    white-space: nowrap;
-  }
-
   &.bp-large {
     &.route-stop {
       padding: 8px 10px 5px 20px;
@@ -32,24 +28,6 @@ $route-schedule-date-height: 36px;
     }
   }
 }
-.mobile {
-    .route-list-header {
-      display: flex;
-        .columns {
-          &.route-stop-now {
-            width: 5em;
-          }
-          &.route-stop-name {
-            max-width: 24em;
-            min-width: 4em;
-          }
-          &.route-stop-time {
-            width: 5em;
-          }
-      }
-  }
-}
-
 
 .error {
   div {
@@ -114,9 +92,105 @@ $route-schedule-date-height: 36px;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
+  max-width: 100%;
 }
 
+.route-page-content {
+  .route-list-header {
+    display: flex;
+      .columns {
+        &.route-stop-now {
+          width: 5em;
+          white-space: nowrap;
+        }
+        &.route-stop-name {
+          max-width: 24em;
+          min-width: 4em;
+        }
+        &.route-stop-time {
+          width: 5em;
+        }
+    }
+  }
+}
+
+.location-details_container {
+  display: flex;
+  max-width: 100%;
+  height: 3.5em;
+  .route-stop-now {
+    width: 13%;
+    position: relative;
+  }
+  .route-now-content {
+    padding-top: 10px;
+    & svg {
+      position: absolute;
+      top: -0.3em;
+      font-size: 4.5em;
+    }
+  }
+  .route-stop-now_circleline {
+    position: relative;
+    width: 15px;
+    .route-stop-now_line {
+      width: 5px;
+      height: 100%;
+      background-color: currentColor;
+      margin-left: auto;
+      position: absolute;
+      top: 1.2em;
+      left: 0.2em;
+    }
+    svg {
+      position: absolute;
+      top: 0.2em;
+      z-index: 3;
+    }
+  }
+  .route-stop-row_content-container {
+    width: 88%;
+    margin-left: 2%;
+    display: block;
+    border-bottom: 1px solid #eef1f3;
+    margin-top: 0.3em;
+    a {
+      display: flex;
+      text-decoration: none;
+      .route-stop-name {
+        font-size: $font-size-normal;
+        flex-grow: 10;
+        span {
+          text-decoration: none;
+        }
+        .route-stop-address {
+          font-family: $font-family-narrow;
+          font-weight: 400;
+          letter-spacing: 0;
+          color: #888;
+          white-space: nowrap;
+        }
+      }
+      .departure-times-container {
+        display: flex;
+        color: $black;
+        margin-right: 3%;
+        font-size: $font-size-small;
+        .route-stop-time {
+          span {
+            margin: 0;
+            &.time {
+              white-space: unset;
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 // each stop row
+/*
 .route-stop {
   padding: 6px 0 8px;
   line-height: $line-height-normal;
@@ -178,7 +252,8 @@ $route-schedule-date-height: 36px;
     }
   }
 }
-
+*/
+/*
 .route-stop-row-divider {
   position: absolute;
   height: 1px;
@@ -187,7 +262,8 @@ $route-schedule-date-height: 36px;
   left: 4.5em;
   background-color: $background-color;
 }
-
+*/
+/*
 .columns.route-stop-time {
   text-align: right;
   color: $black;
@@ -201,9 +277,8 @@ $route-schedule-date-height: 36px;
     width: 3em;
   }
 }
+*/
 .route-stop-now {
-  min-height: 100%;
-  width: 65px;
   .tail-icon {
     left: -5px;
     &.selected-tail-icon {
@@ -211,6 +286,7 @@ $route-schedule-date-height: 36px;
     }
   }
 }
+/*
 .route-stop-schematized {
   position: absolute;
   width: 12px;
@@ -220,9 +296,9 @@ $route-schedule-date-height: 36px;
 }
 .route-stop-name {
   max-width: calc(100% - 65px - 40px - 50px);
-  margin-left: -10px;
-  padding-left: 10px;
   font-size: $font-size-normal;
+  display: flex;
+  flex-direction: column;
 }
 .route-stop-code,
 .route-stop-mins {
@@ -236,7 +312,7 @@ $route-schedule-date-height: 36px;
   color: $gray;
   white-space: nowrap;
 }
-
+*/
 .nearest-route-stop {
   @include font-narrow-book;
   color: $gray;
