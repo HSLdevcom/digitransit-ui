@@ -93,6 +93,7 @@ $route-schedule-date-height: 36px;
   flex-basis: 0;
   position: relative;
   max-width: 100%;
+  padding-bottom: 1.5em;
 }
 
 .route-page-content {
@@ -103,14 +104,18 @@ $route-schedule-date-height: 36px;
           width: 5em;
           white-space: nowrap;
         }
-        &.route-stop-name {
-          max-width: 24em;
-          min-width: 4em;
-        }
         &.route-stop-time {
           width: 5em;
         }
     }
+  }
+}
+
+.mobile {
+  .location-details_container .route-now-content {
+      & svg {
+        font-size: 3.8em;
+      }
   }
 }
 
@@ -127,7 +132,7 @@ $route-schedule-date-height: 36px;
     & svg {
       position: absolute;
       top: -0.3em;
-      font-size: 4.5em;
+      font-size: 5em;
     }
   }
   .route-stop-now_circleline {
@@ -137,10 +142,9 @@ $route-schedule-date-height: 36px;
       width: 5px;
       height: 100%;
       background-color: currentColor;
-      margin-left: auto;
       position: absolute;
-      top: 1.2em;
-      left: 0.2em;
+      top: 1em;
+      left: 4px;
     }
     svg {
       position: absolute;
@@ -189,95 +193,9 @@ $route-schedule-date-height: 36px;
     }
   }
 }
-// each stop row
-/*
-.route-stop {
-  padding: 6px 0 8px;
-  line-height: $line-height-normal;
-  position:relative;
-  min-height: 43px;
-  div {
-    min-height: 1px;
-    .route-now-content {
-      padding-top: 10px;
-      & svg {
-        position: absolute;
-      }
-    }
-  }
-
-  &.bp-large {
-    padding: 6px 10px 8px 20px;
-
-    .route-stop-now {
-      width: 90px;
-      .tail-icon {
-        font-size: 5.5em;
-        left: -20px;
-
-        &.selected-tail-icon {
-          font-size: 8em;
-          left: -43px;
-        }
-      }
-    }
-
-    .route-stop-row-divider {
-      width: calc(100% - 110px);
-      left: 110px;
-    }
-
-    .route-stop-schematized {
-      width: 12px;
-      left: -25px;
-    }
-
-    .route-stop-name {
-      font-size: 18px;
-      max-width: calc(100% - 90px - 60px - 70px);
-    }
-
-    .route-stop-address {
-      font-size: 16px;
-    }
-
-    .itinerary-stop-code {
-      font-size: 14px;
-      margin-right: 6px;
-    }
-
-    .route-stop-time {
-      font-size: 18px;
-      width: 70px;
-    }
-  }
+.route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
+  display: none;
 }
-*/
-/*
-.route-stop-row-divider {
-  position: absolute;
-  height: 1px;
-  width: calc(100% - 4.5em);
-  bottom: 0px;
-  left: 4.5em;
-  background-color: $background-color;
-}
-*/
-/*
-.columns.route-stop-time {
-  text-align: right;
-  color: $black;
-  padding-left: 0;
-  padding-top: 1px;
-  width: 50px;
-  font-size: $font-size-small;
-  .time {
-    margin-right: 0;
-    padding-right: 0;
-    width: 3em;
-  }
-}
-*/
 .route-stop-now {
   .tail-icon {
     left: -5px;
@@ -286,33 +204,6 @@ $route-schedule-date-height: 36px;
     }
   }
 }
-/*
-.route-stop-schematized {
-  position: absolute;
-  width: 12px;
-  height: 67px;
-  left: -12px;
-  top: -4px;
-}
-.route-stop-name {
-  max-width: calc(100% - 65px - 40px - 50px);
-  font-size: $font-size-normal;
-  display: flex;
-  flex-direction: column;
-}
-.route-stop-code,
-.route-stop-mins {
-  text-align: right;
-  direction: rtl;
-  color: $gray;
-}
-.route-stop-address {
-  @include font-narrow-book;
-  font-size: $font-size-small;
-  color: $gray;
-  white-space: nowrap;
-}
-*/
 .nearest-route-stop {
   @include font-narrow-book;
   color: $gray;
