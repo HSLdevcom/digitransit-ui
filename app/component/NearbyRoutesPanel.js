@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import shouldUpdate from 'recompose/shouldUpdate';
 
 import NearestRoutesContainer from './NearestRoutesContainer';
 
@@ -43,10 +44,19 @@ NearbyRoutesPanel.contextTypes = {
   config: PropTypes.object,
 };
 
+const FilteredNearbyRoutesPanel = shouldUpdate(
+  (props, nextProps) =>
+    nextProps.currentTime !== props.currentTime ||
+    nextProps.origin.gps !== props.origin.gps ||
+    (!nextProps.origin.gps &&
+      (nextProps.origin.lat !== props.origin.lat ||
+        nextProps.origin.lon !== props.origin.lon)),
+)(NearbyRoutesPanel);
+
 export default connectToStores(
   ctx => (
     <PanelOrSelectLocation
-      panel={NearbyRoutesPanel}
+      panel={FilteredNearbyRoutesPanel}
       panelctx={{
         ...ctx,
         tab: TAB_NEARBY,

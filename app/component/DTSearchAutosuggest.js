@@ -243,7 +243,7 @@ class DTAutosuggest extends React.Component {
     />
   );
 
-  render = () => {
+  render() {
     const { value, suggestions } = this.state;
     const inputProps = {
       placeholder: this.context.intl.formatMessage({
@@ -288,7 +288,7 @@ class DTAutosuggest extends React.Component {
         />
       </div>
     );
-  };
+  }
 }
 
 export default DTAutosuggest;

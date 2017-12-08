@@ -113,7 +113,6 @@ export default {
     zoomOffset: -1,
     minZoom: 1,
     maxZoom: 18,
-    useVectorTiles: true,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'

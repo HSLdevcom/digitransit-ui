@@ -13,7 +13,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
 import LocationMarker from '../component/map/LocationMarker';
@@ -179,7 +179,7 @@ function TransferMap(props) {
   }
   return (
     <div className="transfermap-container">
-      <Map
+      <MapContainer
         bounds={bounds}
         leafletObjs={leafletObjs}
         className="print-itinerary-map"

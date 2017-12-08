@@ -32,6 +32,7 @@ const Application = ({
         id="relayData"
       />
       {scripts}
+      <noscript>This page requires JavaScript to run.</noscript>
     </body>
   </html>
 );

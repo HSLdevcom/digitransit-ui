@@ -37,11 +37,12 @@ class AddFavouriteContainer extends React.Component {
     favourite: PropTypes.object, // if specified edit mode is activated
   };
 
-  componentWillMount = () => {
+  constructor(props, context) {
+    super(props, context);
     if (this.isEdit()) {
-      this.setState({ favourite: this.props.favourite });
+      this.state = { favourite: this.props.favourite };
     } else {
-      this.setState({
+      this.state = {
         favourite: {
           selectedIconId: undefined,
           lat: undefined,
@@ -50,9 +51,9 @@ class AddFavouriteContainer extends React.Component {
           address: undefined,
           version: 1,
         },
-      });
+      };
     }
-  };
+  }
 
   setCoordinatesAndAddress = location => {
     this.setState({

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape, locationShape, Link } from 'react-router';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
@@ -43,7 +42,7 @@ class FavouriteLocationContainerRoute extends Relay.Route {
 
 const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
-class FavouriteLocationsContainer extends React.Component {
+export default class FavouriteLocationsContainer extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -167,7 +166,7 @@ class FavouriteLocationsContainer extends React.Component {
             <FavouriteLocationContainer
               favourite={favourite}
               onClickFavourite={this.setDestination}
-              currentTime={this.props.currentTime.unix()}
+              currentTime={this.props.currentTime}
               {...data}
             />
           )}
@@ -257,12 +256,3 @@ class FavouriteLocationsContainer extends React.Component {
     );
   }
 }
-
-export default connectToStores(
-  FavouriteLocationsContainer,
-  ['TimeStore', 'FavouriteLocationStore'],
-  context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-    favourites: context.getStore('FavouriteLocationStore').getLocations(),
-  }),
-);
