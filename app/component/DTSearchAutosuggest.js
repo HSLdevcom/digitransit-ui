@@ -232,16 +232,15 @@ class DTAutosuggest extends React.Component {
   };
 
   renderItem = item => (
-    <div className={cx({ 'suggestion-is-updating': !this.state.valid })}>
-      <SuggestionItem
-        doNotShowLinkToStop={this.state.doNotShowLinkToStop}
-        ref={item.name}
-        item={item}
-        useTransportIconsconfig={
-          this.context.config.search.suggestions.useTransportIcons
-        }
-      />
-    </div>
+    <SuggestionItem
+      doNotShowLinkToStop={this.state.doNotShowLinkToStop}
+      ref={item.name}
+      item={item}
+      loading={!this.state.valid}
+      useTransportIconsconfig={
+        this.context.config.search.suggestions.useTransportIcons
+      }
+    />
   );
 
   render() {
