@@ -44,6 +44,7 @@ export default class Map extends React.Component {
     loaded: PropTypes.func,
     disableZoom: PropTypes.bool,
     activeArea: PropTypes.string,
+    mapRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -51,6 +52,7 @@ export default class Map extends React.Component {
     loaded: () => {},
     showScaleBar: false,
     activeArea: null,
+    mapRef: null,
   };
 
   static contextTypes = {
@@ -112,6 +114,9 @@ export default class Map extends React.Component {
         keyboard={false}
         ref={el => {
           this.map = el;
+          if (this.props.mapRef) {
+            this.props.mapRef(el);
+          }
           if (el && this.props.activeArea) {
             el.leafletElement.setActiveArea(this.props.activeArea);
           }
