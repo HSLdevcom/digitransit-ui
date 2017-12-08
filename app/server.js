@@ -60,6 +60,7 @@ function getStringOrArrayElement(arrayOrString, index) {
 function getRobotNetworkLayer(config) {
   if (!robotLayers[config.CONFIG]) {
     robotLayers[config.CONFIG] = new RelayNetworkLayer([
+      next => req => next(req).catch(() => ({ payload: { data: null } })),
       retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
@@ -78,6 +79,7 @@ const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 function getNetworkLayer(config) {
   if (!networkLayers[config.CONFIG]) {
     networkLayers[config.CONFIG] = new RelayNetworkLayer([
+      next => req => next(req).catch(() => ({ payload: { data: null } })),
       retryMiddleware({ fetchTimeout: RELAY_FETCH_TIMEOUT, retryDelays: [] }),
       urlMiddleware({
         url: `${config.URL.OTP}index/graphql`,
