@@ -17,7 +17,7 @@ function StopMarkerPopup(props) {
       <StopCardContainer
         stop={stop}
         numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-        startTime={props.relay.variables.currentTime}
+        currentTime={props.relay.variables.currentTime}
         isTerminal={terminal}
         timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
         limit={NUMBER_OF_DEPARTURES}

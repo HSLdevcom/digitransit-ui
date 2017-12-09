@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import StopCardHeaderContainer from './StopCardHeaderContainer';
+import StopCardHeaderContainer from './StopCardHeaderContainer'; // eslint-disable-line no-unused-vars
 import DepartureListContainer from './DepartureListContainer';
 import StopCard from './StopCard';
 
@@ -18,7 +19,7 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={props.relay.variables.startTime}
+        currentTime={props.currentTime}
       />
     ),
   }),
@@ -29,25 +30,18 @@ StopCardContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-export default Relay.createContainer(StopCardContainer, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        stoptimes: stoptimesWithoutPatterns(
-          startTime: $startTime,
-          timeRange: $timeRange,
-          numberOfDepartures: $numberOfDepartures
-        ) {
-          ${DepartureListContainer.getFragment('stoptimes')}
-        }
-        ${StopCardHeaderContainer.getFragment('stop')}
+export default createFragmentContainer(StopCardContainer, {
+  stop: graphql`
+    fragment StopCardContainer_stop on Stop {
+      gtfsId
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: $numberOfDepartures
+      ) {
+        ...DepartureListContainer_stoptimes
       }
-    `,
-  },
-  initialVariables: {
-    startTime: 0,
-    timeRange: 12 * 60 * 60,
-    numberOfDepartures: 5,
-  },
+      ...StopCardHeaderContainer_stop
+    }
+  `,
 });
