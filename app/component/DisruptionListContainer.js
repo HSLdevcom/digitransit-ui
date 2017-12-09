@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
@@ -56,32 +57,29 @@ DisruptionListContainer.propTypes = {
   }).isRequired,
 };
 
-export default Relay.createContainer(DisruptionListContainer, {
-  fragments: {
-    root: () => Relay.QL`
-      fragment on QueryType {
-        alerts(feeds:$feedIds) {
-          id
-          feed
-          alertHeaderText
-          alertHeaderTextTranslations {
-            text
-            language
-          }
-          alertDescriptionText
-          alertDescriptionTextTranslations {
-            text
-            language
-          }
-          effectiveStartDate
-          effectiveEndDate
-          route {
-            shortName
-            mode
-          }
+export default createFragmentContainer(DisruptionListContainer, {
+  root: graphql`
+    fragment DisruptionListContainer_root on QueryType {
+      alerts(feeds: $feedIds) {
+        id
+        feed
+        alertHeaderText
+        alertHeaderTextTranslations {
+          text
+          language
+        }
+        alertDescriptionText
+        alertDescriptionTextTranslations {
+          text
+          language
+        }
+        effectiveStartDate
+        effectiveEndDate
+        route {
+          shortName
+          mode
         }
       }
-    `,
-  },
-  initialVariables: { feedIds: null },
+    }
+  `,
 });
