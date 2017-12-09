@@ -201,7 +201,9 @@ export default createFragmentContainer(RoutePage, {
       type
       ...RouteAgencyInfo_route
       ...RoutePatternSelect_route
-      alerts
+      alerts {
+        id
+      }
       agency {
         phone
       }
