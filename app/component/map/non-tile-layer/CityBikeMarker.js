@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 
 import CityBikePopup from '../popups/CityBikePopup';
 import Icon from '../../Icon';
@@ -95,14 +97,12 @@ class CityBikeMarker extends React.Component {
   }
 }
 
-export default Relay.createContainer(CityBikeMarker, {
-  fragments: {
-    station: () => Relay.QL`
-      fragment on BikeRentalStation {
-        lat
-        lon
-        stationId
-      }
-    `,
-  },
+export default createFragmentContainer(CityBikeMarker, {
+  station: graphql`
+    fragment CityBikeMarker_station on BikeRentalStation {
+      lat
+      lon
+      stationId
+    }
+  `,
 });
