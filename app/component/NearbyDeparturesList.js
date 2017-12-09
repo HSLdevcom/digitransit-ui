@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import sortBy from 'lodash/sortBy';
 
 import DeparturesTable from './DeparturesTable';
 import DepartureRowContainer from './DepartureRowContainer';
 import BicycleRentalStationRowContainer from './BicycleRentalStationRowContainer';
 import { round } from './Distance';
-
-/* eslint-enable no-underscore-dangle */
 
 const testStopTimes = stoptimes => stoptimes && stoptimes.length > 0;
 
@@ -54,6 +53,8 @@ const constructPlacesList = values => {
   });
   return sortedList;
 };
+
+/* eslint-enable no-underscore-dangle */
 
 const PlaceAtDistanceList = ({
   nearest: { places },
@@ -102,56 +103,42 @@ PlaceAtDistanceList.propTypes = {
   timeRange: PropTypes.number.isRequired,
 };
 
-export default Relay.createContainer(PlaceAtDistanceList, {
-  fragments: {
-    nearest: variables => Relay.QL`
-      fragment on QueryType {
-        places: nearest(
-          lat: $lat,
-          lon: $lon,
-          maxDistance: $maxDistance,
-          maxResults: $maxResults,
-          first: $maxResults,
-          filterByModes: $modes,
-          filterByPlaceTypes: $placeTypes,
-        ) {
-           edges {
-            node {
-              distance
-              place {
-                id
-                __typename
-                ... on DepartureRow {
-                  stoptimes (startTime:$currentTime, timeRange: $timeRange, numberOfDepartures:2) {
-                    pickupType
-                    serviceDay
-                    realtimeDeparture
-                  }
+export default createFragmentContainer(PlaceAtDistanceList, {
+  nearest: graphql`
+    fragment NearbyDeparturesList_nearest on QueryType {
+      places: nearest(
+        lat: $lat
+        lon: $lon
+        maxDistance: $maxDistance
+        maxResults: $maxResults
+        first: $maxResults
+        filterByModes: $modes
+        filterByPlaceTypes: $placeTypes
+      ) {
+        edges {
+          node {
+            distance
+            place {
+              id
+              __typename
+              ... on DepartureRow {
+                stoptimes(
+                  startTime: $currentTime
+                  timeRange: $timeRange
+                  numberOfDepartures: 2
+                ) {
+                  pickupType
+                  serviceDay
+                  realtimeDeparture
                 }
-                ${DepartureRowContainer.getFragment('departure', {
-                  currentTime: variables.currentTime,
-                  timeRange: variables.timeRange,
-                })}
-                ${BicycleRentalStationRowContainer.getFragment('station', {
-                  currentTime: variables.currentTime,
-                })}
               }
-              distance
+              ...DepartureRowContainer_departure
+              ...BicycleRentalStationRowContainer_station
             }
+            distance
           }
         }
       }
-    `,
-  },
-
-  initialVariables: {
-    lat: null,
-    lon: null,
-    maxDistance: 0,
-    maxResults: 50,
-    modes: [],
-    placeTypes: [],
-    currentTime: 0,
-    timeRange: 0,
-  },
+    }
+  `,
 });
