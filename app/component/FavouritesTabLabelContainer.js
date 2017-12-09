@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';
@@ -17,18 +19,17 @@ const alertReducer = mapProps(({ routes, ...rest }) => ({
   ...rest,
 }));
 
-const FavouritesTabLabelRelayConnector = Relay.createContainer(
+const FavouritesTabLabelRelayConnector = createFragmentContainer(
   alertReducer(FavouritesTabLabel),
   {
-    fragments: {
-      routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      alerts {
-        id
+    routes: graphql`
+      fragment FavouritesTabLabelContainer_routes on Route
+        @relay(plural: true) {
+        alerts {
+          id
+        }
       }
-    }
- `,
-    },
+    `,
   },
 );
 
