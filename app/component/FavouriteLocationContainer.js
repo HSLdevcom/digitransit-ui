@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import find from 'lodash/find';
 import FavouriteLocation from './FavouriteLocation';
 
@@ -37,59 +38,37 @@ FavouriteLocationContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
 };
 
-export default Relay.createContainer(FavouriteLocationContainer, {
-  fragments: {
-    plan: () => Relay.QL`
-      fragment on QueryType {
-        plan(
-          from: $from,
-          to: $to,
-          numItineraries: $numItineraries,
-          walkReluctance: $walkReluctance,
-          walkBoardCost: $walkBoardCost,
-          minTransferTime: $minTransferTime,
-          walkSpeed: $walkSpeed,
-          maxWalkDistance:
-          $maxWalkDistance,
-          wheelchair: $wheelchair,
-          disableRemainingWeightHeuristic:
-          $disableRemainingWeightHeuristic,
-          arriveBy: $arriveBy,
-          preferred: $preferred
-        ) {
-          itineraries {
+export default createFragmentContainer(FavouriteLocationContainer, {
+  plan: graphql`
+    fragment FavouriteLocationContainer_plan on QueryType {
+      plan(
+        from: $from
+        to: $to
+        numItineraries: $numItineraries
+        walkReluctance: $walkReluctance
+        walkBoardCost: $walkBoardCost
+        minTransferTime: $minTransferTime
+        walkSpeed: $walkSpeed
+        maxWalkDistance: $maxWalkDistance
+        wheelchair: $wheelchair
+        disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+        arriveBy: $arriveBy
+        preferred: $preferred
+      ) {
+        itineraries {
+          startTime
+          endTime
+          legs {
+            realTime
+            transitLeg
+            mode
             startTime
-            endTime
-            legs {
-              realTime
-              transitLeg
-              mode
-              startTime
-              route {
-                shortName
-              }
+            route {
+              shortName
             }
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    from: null,
-    to: null,
-    numItineraries: 1,
-    walkReluctance: 2.0001,
-    walkBoardCost: 600,
-    minTransferTime: 180,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    maxWalkDistance: 0,
-
-    preferred: {
-      agencies: '',
-    },
-
-    arriveBy: false,
-    disableRemainingWeightHeuristic: false,
-  },
+    }
+  `,
 });
