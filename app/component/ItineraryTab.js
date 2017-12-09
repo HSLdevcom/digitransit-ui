@@ -18,7 +18,9 @@ import SecondaryButton from './SecondaryButton';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
-    searchTime: PropTypes.number.isRequired,
+    plan: PropTypes.shape({
+      date: PropTypes.number.isRequired,
+    }).isRequired,
     itinerary: PropTypes.object.isRequired,
     location: PropTypes.object,
     focus: PropTypes.func.isRequired,
@@ -73,7 +75,7 @@ class ItineraryTab extends React.Component {
             <TimeFrame
               startTime={this.props.itinerary.startTime}
               endTime={this.props.itinerary.endTime}
-              refTime={this.props.searchTime}
+              refTime={this.props.plan.date}
               className="timeframe--itinerary-summary"
             />
           </ItinerarySummary>
@@ -82,7 +84,7 @@ class ItineraryTab extends React.Component {
           <div className="itinerary-timeframe">
             <DateWarning
               date={this.props.itinerary.startTime}
-              refTime={this.props.searchTime}
+              refTime={this.props.plan.date}
             />
           </div>
         )}
@@ -116,8 +118,8 @@ class ItineraryTab extends React.Component {
 }
 
 export default createFragmentContainer(ItineraryTab, {
-  searchTime: graphql`
-    fragment ItineraryTab_searchTime on Plan {
+  plan: graphql`
+    fragment ItineraryTab_plan on Plan {
       date
     }
   `,

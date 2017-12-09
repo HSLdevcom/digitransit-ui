@@ -290,6 +290,7 @@ class SummaryPage extends React.Component {
                 itinerary: this.props.plan.plan.itineraries[
                   this.props.params.hash
                 ],
+                plan: this.props.plan.plan,
                 focus: this.updateCenter,
               })}
           </SummaryPlanContainer>
@@ -346,7 +347,11 @@ class SummaryPage extends React.Component {
         >
           {this.props.content &&
             this.props.plan.plan.itineraries.map((itinerary, i) =>
-              React.cloneElement(this.props.content, { key: i, itinerary }),
+              React.cloneElement(this.props.content, {
+                key: i,
+                itinerary,
+                plan: this.props.plan.plan,
+              }),
             )}
         </MobileItineraryWrapper>
       );
@@ -406,7 +411,7 @@ export default Relay.createContainer(SummaryPage, {
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
-          ${ItineraryTab.getFragment('searchTime')}
+          ${ItineraryTab.getFragment('plan')}
           itineraries {
             startTime
             endTime
