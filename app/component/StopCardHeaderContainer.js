@@ -1,15 +1,14 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import StopCardHeader from './StopCardHeader';
 
-export default Relay.createContainer(StopCardHeader, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        gtfsId
-        name
-        code
-        desc
-      }
-    `,
-  },
+export default createFragmentContainer(StopCardHeader, {
+  stop: graphql`
+    fragment StopCardHeaderContainer_stop on Stop {
+      gtfsId
+      name
+      code
+      desc
+    }
+  `,
 });
