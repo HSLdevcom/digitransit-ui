@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import some from 'lodash/some';
 import { routerShape } from 'react-router';
 import RouteListHeader from './RouteListHeader';
@@ -62,17 +63,11 @@ class PatternStopsContainer extends React.Component {
   }
 }
 
-export default Relay.createContainer(PatternStopsContainer, {
-  initialVariables: {
-    patternId: null,
-  },
-  fragments: {
-    pattern: ({ patternId }) =>
-      Relay.QL`
-      fragment on Pattern {
-        code
-        ${RouteStopListContainer.getFragment('pattern', { patternId })}
-      }
-    `,
-  },
+export default createFragmentContainer(PatternStopsContainer, {
+  pattern: graphql`
+    fragment PatternStopsContainer_pattern on Pattern {
+      code
+      ...RouteStopListContainer_pattern
+    }
+  `,
 });
