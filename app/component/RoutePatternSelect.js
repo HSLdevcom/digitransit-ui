@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import cx from 'classnames';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -47,19 +48,16 @@ RoutePatternSelect.description = () => (
   </div>
 );
 
-export default Relay.createContainer(RoutePatternSelect, {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        patterns {
-          code
-          headsign
-          stops {
-            name
-          }
+export default createFragmentContainer(RoutePatternSelect, {
+  route: graphql`
+    fragment RoutePatternSelect_route on Route {
+      patterns {
+        code
+        headsign
+        stops {
+          name
         }
       }
-    `,
-  },
+    }
+  `,
 });
