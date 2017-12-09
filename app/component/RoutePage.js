@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
@@ -189,24 +190,21 @@ class RoutePage extends React.Component {
   }
 }
 
-export default Relay.createContainer(RoutePage, {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        gtfsId
-        color
-        shortName
-        longName
-        mode
-        type
-        ${RouteAgencyInfo.getFragment('route')}
-        ${RoutePatternSelect.getFragment('route')}
-        alerts
-        agency {
-          phone
-        }
+export default createFragmentContainer(RoutePage, {
+  route: graphql`
+    fragment RoutePage_route on Route {
+      gtfsId
+      color
+      shortName
+      longName
+      mode
+      type
+      ...RouteAgencyInfo_route
+      ...RoutePatternSelect_route
+      alerts
+      agency {
+        phone
       }
-    `,
-  },
+    }
+  `,
 });
