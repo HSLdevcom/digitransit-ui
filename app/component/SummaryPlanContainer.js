@@ -104,6 +104,7 @@ class SummaryPlanContainer extends React.Component {
         <ItinerarySummaryListContainer
           searchTime={this.props.plan.date}
           itineraries={this.props.itineraries}
+          params={this.props.params}
           currentTime={currentTime}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
