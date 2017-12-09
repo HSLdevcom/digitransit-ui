@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import { intlShape } from 'react-intl';
@@ -11,8 +12,8 @@ import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
 import ItineraryLegs from './ItineraryLegs';
-import LegAgencyInfo from './LegAgencyInfo';
-import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import LegAgencyInfo from './LegAgencyInfo'; // eslint-disable-line no-unused-vars
+import CityBikeMarker from './map/non-tile-layer/CityBikeMarker'; // eslint-disable-line no-unused-vars
 import SecondaryButton from './SecondaryButton';
 
 class ItineraryTab extends React.Component {
@@ -114,103 +115,101 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default Relay.createContainer(ItineraryTab, {
-  fragments: {
-    searchTime: () => Relay.QL`
-      fragment on Plan {
-        date
-      }
-    `,
-    itinerary: () => Relay.QL`
-      fragment on Itinerary {
-        walkDistance
-        duration
-        startTime
-        endTime
-        fares {
-          type
-          currency
-          cents
-          components {
-            fareId
-          }
+export default createFragmentContainer(ItineraryTab, {
+  searchTime: graphql`
+    fragment ItineraryTab_searchTime on Plan {
+      date
+    }
+  `,
+  itinerary: graphql`
+    fragment ItineraryTab_itinerary on Itinerary {
+      walkDistance
+      duration
+      startTime
+      endTime
+      fares {
+        type
+        currency
+        cents
+        components {
+          fareId
         }
-        legs {
-          mode
-          ${LegAgencyInfo.getFragment('leg')}
-          from {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-            }
+      }
+      legs {
+        mode
+        ...LegAgencyInfo_leg
+        from {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ...CityBikeMarker_station
           }
-          to {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-            }
-          }
-          legGeometry {
-            length
-            points
-          }
-          intermediateStops {
+          stop {
             gtfsId
-            lat
-            lon
-            name
             code
             platformCode
           }
-          realTime
-          transitLeg
-          rentedBike
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          intermediatePlace
-          route {
-            shortName
-            color
-            gtfsId
-            longName
-            agency {
-              phone
-            }
+        }
+        to {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ...CityBikeMarker_station
           }
-          trip {
+          stop {
             gtfsId
-            tripHeadsign
-            pattern {
-              code
-            }
-            stoptimes {
-              pickupType
-              stop {
-                gtfsId
-              }
+            code
+            platformCode
+          }
+        }
+        legGeometry {
+          length
+          points
+        }
+        intermediateStops {
+          gtfsId
+          lat
+          lon
+          name
+          code
+          platformCode
+        }
+        realTime
+        transitLeg
+        rentedBike
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        intermediatePlace
+        route {
+          shortName
+          color
+          gtfsId
+          longName
+          agency {
+            phone
+          }
+        }
+        trip {
+          gtfsId
+          tripHeadsign
+          pattern {
+            code
+          }
+          stoptimes {
+            pickupType
+            stop {
+              gtfsId
             }
           }
         }
       }
-    `,
-  },
+    }
+  `,
 });
