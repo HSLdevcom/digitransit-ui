@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import get from 'lodash/get';
 import AgencyInfo from './AgencyInfo';
 
@@ -27,17 +28,14 @@ RouteAgencyInfo.propTypes = {
   route: PropTypes.object,
 };
 
-export default Relay.createContainer(RouteAgencyInfo, {
-  fragments: {
-    route: () =>
-      Relay.QL`
-      fragment on Route {
-        agency {
-          name
-          url
-          fareUrl
-        }
+export default createFragmentContainer(RouteAgencyInfo, {
+  route: graphql`
+    fragment RouteAgencyInfo_route on Route {
+      agency {
+        name
+        url
+        fareUrl
       }
-    `,
-  },
+    }
+  `,
 });
