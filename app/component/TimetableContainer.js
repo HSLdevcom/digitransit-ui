@@ -1,38 +1,36 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 
 import Timetable from './Timetable';
 
-export default Relay.createContainer(Timetable, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment Timetable on Stop {
-        gtfsId
-        name
-        url
-        stoptimesForServiceDate(date:$date) {
-          pattern {
-            headsign
-            code
-            route {
+export default createFragmentContainer(Timetable, {
+  stop: graphql`
+    fragment TimetableContainer_stop on Stop {
+      gtfsId
+      name
+      url
+      stoptimesForServiceDate(date: $date) {
+        pattern {
+          headsign
+          code
+          route {
+            id
+            shortName
+            longName
+            mode
+            agency {
               id
-              shortName
-              longName
-              mode
-              agency {
-                id
-                name
-              }
+              name
             }
           }
-          stoptimes {
-            scheduledDeparture
-            serviceDay
-            headsign
-            pickupType
-          }
+        }
+        stoptimes {
+          scheduledDeparture
+          serviceDay
+          headsign
+          pickupType
         }
       }
-    `,
-  },
-  initialVariables: { date: null },
+    }
+  `,
 });
