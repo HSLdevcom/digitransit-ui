@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import RouteLine from './route/RouteLine';
 
 const TripLine = props => <RouteLine thin {...props} />;
@@ -10,14 +11,12 @@ TripLine.propTypes = {
   filteredStops: PropTypes.array,
 };
 
-export default Relay.createContainer(TripLine, {
-  fragments: {
-    pattern: () => Relay.QL`
-    fragment on Trip {
+export default createFragmentContainer(TripLine, {
+  pattern: graphql`
+    fragment TripLine_pattern on Trip {
       pattern {
-        ${RouteLine.getFragment('pattern')}
+        ...RouteLine_pattern
       }
     }
   `,
-  },
 });
