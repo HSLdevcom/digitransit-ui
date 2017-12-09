@@ -1,17 +1,16 @@
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import StopCardHeaderContainer from './StopCardHeaderContainer';
+import StopCardHeaderContainer from './StopCardHeaderContainer'; // eslint-disable-line no-unused-vars
 import StopPageHeader from './StopPageHeader';
 
-const StopPageHeaderContainer = Relay.createContainer(StopPageHeader, {
-  fragments: {
-    stop: () => Relay.QL`
-      fragment on Stop {
-        ${StopCardHeaderContainer.getFragment('stop')}
-      }
-    `,
-  },
+const StopPageHeaderContainer = createFragmentContainer(StopPageHeader, {
+  stop: graphql`
+    fragment StopPageHeaderContainer_stop on Stop {
+      ...StopCardHeaderContainer_stop
+    }
+  `,
 });
 
 export default connectToStores(
