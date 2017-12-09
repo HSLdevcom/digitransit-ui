@@ -18,3 +18,4 @@ selenium-debug.log
 gemini-report
 
 tags
+app/**/__generated__

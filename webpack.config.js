@@ -16,6 +16,7 @@ const NameAllModulesPlugin = require('name-all-modules-plugin');
 const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
 const BrotliCompressionPlugin = require('brotli-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
@@ -197,6 +198,10 @@ function getPluginsConfig(env) {
     new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
     new webpack.NamedChunksPlugin(),
     new webpack.NamedModulesPlugin(),
+    new RelayCompilerWebpackPlugin({
+      schema: path.resolve(__dirname, './build/schema.json'),
+      src: path.resolve(__dirname, './app'),
+    }),
   ];
 
   if (env === 'development') {

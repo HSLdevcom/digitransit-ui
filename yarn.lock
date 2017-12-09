@@ -8939,6 +8939,10 @@ reinterval@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/reinterval/-/reinterval-1.1.0.tgz#3361ecfa3ca6c18283380dd0bb9546f390f5ece7"
 
+relay-compiler-webpack-plugin@0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/relay-compiler-webpack-plugin/-/relay-compiler-webpack-plugin-0.5.9.tgz#8aa12043348fa7c5bb4a2d3250c207ac10752fc7"
+
 relay-compiler@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-1.4.1.tgz#10e83f0f5de8db3d000851a4c0e435e7dd1deb95"
