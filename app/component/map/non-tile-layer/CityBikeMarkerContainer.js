@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 
 import CityBikeMarker from './CityBikeMarker';
 import ComponentUsageExample from '../../ComponentUsageExample';
 
-const CityBikeMarkerWrapper = Relay.createContainer(
+const CityBikeMarkerWrapper = createFragmentContainer(
   ({ root }) => (
     <div>
       {root &&
@@ -16,16 +18,14 @@ const CityBikeMarkerWrapper = Relay.createContainer(
     </div>
   ),
   {
-    fragments: {
-      root: () => Relay.QL`
-      fragment on QueryType {
+    root: graphql`
+      fragment CityBikeMarkerContainer_root on QueryType {
         stations: bikeRentalStations {
-          ${CityBikeMarker.getFragment('station')}
+          ...CityBikeMarker_station
           stationId
         }
       }
     `,
-    },
   },
 );
 
