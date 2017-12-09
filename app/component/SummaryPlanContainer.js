@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import { routerShape } from 'react-router';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
@@ -117,19 +118,18 @@ class SummaryPlanContainer extends React.Component {
   }
 }
 
-export default Relay.createContainer(SummaryPlanContainer, {
-  fragments: {
-    plan: () => Relay.QL`
-      fragment on Plan {
-        date
-      }
-    `,
-    itineraries: () => Relay.QL`
-      fragment on Itinerary @relay(plural: true) {
-        ${ItinerarySummaryListContainer.getFragment('itineraries')}
-        endTime
-        startTime
-      }
-    `,
-  },
+export default createFragmentContainer(SummaryPlanContainer, {
+  plan: graphql`
+    fragment SummaryPlanContainer_plan on Plan {
+      date
+    }
+  `,
+  itineraries: graphql`
+    fragment SummaryPlanContainer_itineraries on Itinerary
+      @relay(plural: true) {
+      ...ItinerarySummaryListContainer_itineraries
+      endTime
+      startTime
+    }
+  `,
 });
