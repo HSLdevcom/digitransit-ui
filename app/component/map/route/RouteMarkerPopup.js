@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import { Link } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
@@ -78,34 +79,30 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-export default Relay.createContainer(RouteMarkerPopupWithFavourite, {
-  fragments: {
-    trip: () => Relay.QL`
-      fragment on QueryType {
-        fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
-          gtfsId
-          pattern {
-            code
-            headsign
-            stops {
-              name
-            }
+export default createFragmentContainer(RouteMarkerPopupWithFavourite, {
+  trip: graphql`
+    fragment RouteMarkerPopup_trip on QueryType {
+      route(id: $route) {
+        gtfsId
+        mode
+        shortName
+        longName
+      }
+      fuzzyTrip(
+        route: $route
+        direction: $direction
+        time: $time
+        date: $date
+      ) {
+        gtfsId
+        pattern {
+          code
+          headsign
+          stops {
+            name
           }
         }
-        route(id: $route) {
-          gtfsId
-          mode
-          shortName
-          longName
-        }
       }
-    `,
-  },
-
-  initialVariables: {
-    route: null,
-    direction: null,
-    date: null,
-    time: null,
-  },
+    }
+  `,
 });
