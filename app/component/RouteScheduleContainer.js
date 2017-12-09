@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import moment from 'moment';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -45,17 +46,20 @@ class RouteScheduleContainer extends Component {
   constructor(props) {
     super(props);
     this.initState(props, true);
-    props.relay.setVariables({ serviceDay: props.serviceDay });
+    props.relay.refetch({
+      patternId: props.pattern.code,
+      serviceDay: props.serviceDay,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     // If route has changed, reset state.
-    if (
-      nextProps.relay.route.params.patternId !==
-      this.props.relay.route.params.patternId
-    ) {
+    if (nextProps.pattern.code !== this.props.pattern.code) {
       this.initState(nextProps, false);
-      nextProps.relay.setVariables({ serviceDay: nextProps.serviceDay });
+      nextProps.relay.refetch({
+        patternId: nextProps.pattern.code,
+        serviceDay: nextProps.serviceDay,
+      });
     }
   }
 
@@ -110,6 +114,7 @@ class RouteScheduleContainer extends Component {
 
   initState(props, isInitialState) {
     const state = {
+      serviceDay: props.serviceDay,
       from: 0,
       to: props.pattern.stops.length - 1,
     };
@@ -123,15 +128,20 @@ class RouteScheduleContainer extends Component {
 
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
-  changeDate = ({ target }) => {
-    // TODO: add setState and a callback that resets the laoding state in oreder to get a spinner.
-    this.props.relay.setVariables({
-      serviceDay: target.value,
-    });
+  changeDate = ({ target: { value } }) => {
+    this.props.relay.refetch(
+      {
+        patternId: this.props.pattern.code,
+        serviceDay: value,
+      },
+      null,
+      () => this.setState({ serviceDay: value }),
+    );
   };
 
   dateForPrinting = () => {
-    const selectedDate = moment(this.props.relay.variables.serviceDay);
+    // TODO props.relay.* APIs do not exist on compat containers
+    const selectedDate = moment(this.state.serviceDay);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -160,7 +170,7 @@ class RouteScheduleContainer extends Component {
         <div className="route-page-action-bar">
           <DateSelect
             startDate={this.props.serviceDay}
-            selectedDate={this.props.relay.variables.serviceDay}
+            selectedDate={this.state.serviceDay}
             dateFormat={DATE_FORMAT}
             onDateChange={this.changeDate}
           />
@@ -191,13 +201,15 @@ class RouteScheduleContainer extends Component {
 }
 
 export default connectToStores(
-  Relay.createContainer(RouteScheduleContainer, {
-    initialVariables: {
-      serviceDay: '19700101',
-    },
-    fragments: {
-      pattern: () => Relay.QL`
-        fragment on Pattern {
+  createRefetchContainer(
+    RouteScheduleContainer,
+    {
+      pattern: graphql`
+        fragment RouteScheduleContainer_pattern on Pattern
+          @argumentDefinitions(
+            serviceDay: { type: "String", defaultValue: "19700101" }
+          ) {
+          code
           stops {
             id
             name
@@ -219,7 +231,17 @@ export default connectToStores(
         }
       `,
     },
-  }),
+    graphql`
+      query RouteScheduleContainerQuery(
+        $patternId: String!
+        $serviceDay: String
+      ) {
+        pattern(id: $patternId) {
+          ...RouteScheduleContainer_pattern @arguments(serviceDay: $serviceDay)
+        }
+      }
+    `,
+  ),
   [],
   context => ({
     serviceDay: context
