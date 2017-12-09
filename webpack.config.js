@@ -188,24 +188,25 @@ function getPluginsConfig(env) {
     `^./(${process.env.CONFIG || 'default'})/main.scss$`,
   );
 
+  const commonPlugins = [
+    new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
+    new webpack.ContextReplacementPlugin(
+      reactIntlExpression,
+      languageExpression,
+    ),
+    new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
+    new webpack.NamedChunksPlugin(),
+    new webpack.NamedModulesPlugin(),
+  ];
+
   if (env === 'development') {
     return [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.ContextReplacementPlugin(
-        momentExpression,
-        languageExpression,
-      ),
-      new webpack.ContextReplacementPlugin(
-        reactIntlExpression,
-        languageExpression,
-      ),
-      new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
+      ...commonPlugins,
       new webpack.ContextReplacementPlugin(themeExpression, selectedTheme),
       new webpack.DefinePlugin({
         'process.env': { NODE_ENV: JSON.stringify('development') },
       }),
-      new webpack.NamedChunksPlugin(),
-      new webpack.NamedModulesPlugin(),
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
@@ -216,17 +217,10 @@ function getPluginsConfig(env) {
     ];
   }
   return [
-    new webpack.ContextReplacementPlugin(momentExpression, languageExpression),
-    new webpack.ContextReplacementPlugin(
-      reactIntlExpression,
-      languageExpression,
-    ),
-    new webpack.ContextReplacementPlugin(intlExpression, languageExpression),
+    ...commonPlugins,
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') },
     }),
-    new webpack.NamedChunksPlugin(),
-    new webpack.NamedModulesPlugin(),
     new NameAllModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: false,
