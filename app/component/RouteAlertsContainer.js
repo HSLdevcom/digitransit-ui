@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment';
 import find from 'lodash/find';
@@ -111,27 +112,25 @@ const RouteAlertsContainerWithTime = connectToStores(
   }),
 );
 
-export default Relay.createContainer(RouteAlertsContainerWithTime, {
-  fragments: {
-    route: () => Relay.QL`
-        fragment on Route {
-          mode
-          color
-          shortName
-          alerts {
-            id
-            alertHeaderTextTranslations {
-              text
-              language
-            }
-            alertDescriptionTextTranslations {
-              text
-              language
-            }
-            effectiveStartDate
-            effectiveEndDate
-          }
+export default createFragmentContainer(RouteAlertsContainerWithTime, {
+  route: graphql`
+    fragment RouteAlertsContainer_route on Route {
+      mode
+      color
+      shortName
+      alerts {
+        id
+        alertHeaderTextTranslations {
+          text
+          language
         }
-      `,
-  },
+        alertDescriptionTextTranslations {
+          text
+          language
+        }
+        effectiveStartDate
+        effectiveEndDate
+      }
+    }
+  `,
 });
