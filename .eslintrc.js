@@ -22,7 +22,7 @@ module.exports = {
     // Enable GraphQL linting
     'graphql/template-strings': ['error', {
       'env': 'relay',
-      'schemaJson': require('./build/schema.json'),
+      'schemaJson': require('./build/schema.json').data,
     }],
     'prettier/prettier': ['error', {
       'singleQuote': true,
