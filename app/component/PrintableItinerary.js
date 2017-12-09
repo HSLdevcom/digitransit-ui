@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import polyline from 'polyline-encoded';
 
 import { FormattedMessage } from 'react-intl';
@@ -9,13 +10,13 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
-import LegAgencyInfo from './LegAgencyInfo';
-import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
+import LegAgencyInfo from './LegAgencyInfo'; // eslint-disable-line no-unused-vars
+import CityBikeMarker from './map/non-tile-layer/CityBikeMarker'; // eslint-disable-line no-unused-vars
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
 import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
-import RouteLine from './map/route/RouteLine';
+import RouteLine from './map/route/RouteLine'; // eslint-disable-line no-unused-vars
 import LocationMarker from '../component/map/LocationMarker';
 
 const getHeadSignFormat = sentLegObj => {
@@ -469,110 +470,108 @@ PrintableItinerary.propTypes = {
 
 PrintableItinerary.contextTypes = { config: PropTypes.object.isRequired };
 
-export default Relay.createContainer(PrintableItinerary, {
-  fragments: {
-    itinerary: () => Relay.QL`
-      fragment on Itinerary {
-        walkDistance
-        duration
-        startTime
-        endTime
-        fares {
-          type
-          currency
-          cents
-          components {
-            fareId
-          }
+export default createFragmentContainer(PrintableItinerary, {
+  itinerary: graphql`
+    fragment PrintableItinerary_itinerary on Itinerary {
+      walkDistance
+      duration
+      startTime
+      endTime
+      fares {
+        type
+        currency
+        cents
+        components {
+          fareId
         }
-        legs {
-          mode
-          ${LegAgencyInfo.getFragment('leg')}
-          from {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-            }
+      }
+      legs {
+        mode
+        ...LegAgencyInfo_leg
+        from {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ...CityBikeMarker_station
           }
-          to {
-            lat
-            lon
-            name
-            vertexType
-            bikeRentalStation {
-              ${CityBikeMarker.getFragment('station')}
-            }
-            stop {
-              gtfsId
-              code
-              platformCode
-            }
-          }
-          legGeometry {
-            length
-            points
-          }
-          intermediateStops {
+          stop {
             gtfsId
-            lat
-            lon
-            name
             code
             platformCode
           }
-          realTime
-          transitLeg
-          rentedBike
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          intermediatePlace
-          route {
-            shortName
-            color
-            gtfsId
-            longName
-            agency {
-              phone
-            }
+        }
+        to {
+          lat
+          lon
+          name
+          vertexType
+          bikeRentalStation {
+            ...CityBikeMarker_station
           }
-          trip {
+          stop {
             gtfsId
-            tripHeadsign
-            pattern {
-              code
-              directionId
-              geometry {
-                lat
-                lon
-              }
-              stops {
-                lat
-                lon
-                name
-                gtfsId
-                }
-              ${RouteLine.getFragment('pattern')}
+            code
+            platformCode
+          }
+        }
+        legGeometry {
+          length
+          points
+        }
+        intermediateStops {
+          gtfsId
+          lat
+          lon
+          name
+          code
+          platformCode
+        }
+        realTime
+        transitLeg
+        rentedBike
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        intermediatePlace
+        route {
+          shortName
+          color
+          gtfsId
+          longName
+          agency {
+            phone
+          }
+        }
+        trip {
+          gtfsId
+          tripHeadsign
+          pattern {
+            code
+            directionId
+            geometry {
+              lat
+              lon
             }
-            stoptimes {
-              pickupType
-              stop {
-                gtfsId
-              }
+            stops {
+              lat
+              lon
+              name
+              gtfsId
+            }
+            ...RouteLine_pattern
+          }
+          stoptimes {
+            pickupType
+            stop {
+              gtfsId
             }
           }
         }
       }
-    `,
-  },
+    }
+  `,
 });
