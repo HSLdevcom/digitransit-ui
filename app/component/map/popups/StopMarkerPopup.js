@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import StopCardContainer from '../../StopCardContainer';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 
 const NUMBER_OF_DEPARTURES = 5;
-const STOP_TIME_RANGE = 12 * 60 * 60;
-const TERMINAL_TIME_RANGE = 60 * 60;
 
 function StopMarkerPopup(props) {
   const stop = props.stop || props.terminal;
@@ -16,10 +15,8 @@ function StopMarkerPopup(props) {
     <div className="card">
       <StopCardContainer
         stop={stop}
-        numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-        currentTime={props.relay.variables.currentTime}
+        currentTime={props.currentTime}
         isTerminal={terminal}
-        timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
         limit={NUMBER_OF_DEPARTURES}
         className="padding-small cursor-pointer"
       />
@@ -37,44 +34,45 @@ function StopMarkerPopup(props) {
 StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
   terminal: PropTypes.object,
-  relay: PropTypes.shape({
-    variables: PropTypes.shape({
-      currentTime: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
+  currentTime: PropTypes.number.isRequired,
 };
 
-export default Relay.createContainer(StopMarkerPopup, {
-  fragments: {
-    stop: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        lat
-        lon
-        name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: STOP_TIME_RANGE,
-          numberOfDepartures: NUMBER_OF_DEPARTURES,
-        })}
-      }
-    `,
-    terminal: ({ currentTime }) => Relay.QL`
-      fragment on Stop{
-        gtfsId
-        lat
-        lon
-        name
-        ${StopCardContainer.getFragment('stop', {
-          startTime: currentTime,
-          timeRange: TERMINAL_TIME_RANGE,
-          // Terminals do not show arrivals, so we need some slack
-          numberOfDepartures: NUMBER_OF_DEPARTURES * 3,
-        })}
-      }
-    `,
-  },
-  initialVariables: {
-    currentTime: 0,
-  },
+export default createFragmentContainer(StopMarkerPopup, {
+  stop: graphql`
+    fragment StopMarkerPopup_stop on Stop
+      @argumentDefinitions(
+        timeRange: { type: "Int", defaultValue: 43200 } # STOP_TIME_RANGE (12 * 60 * 60)
+        numberOfDepartures: { type: "Int", defaultValue: 5 } # NUMBER_OF_DEPARTURES
+      ) {
+      gtfsId
+      lat
+      lon
+      name
+      ...StopCardContainer_stop
+        @arguments(
+          startTime: $currentTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
+    }
+  `,
+  terminal: graphql`
+    fragment StopMarkerPopup_terminal on Stop
+      @argumentDefinitions(
+        timeRange: { type: "Int", defaultValue: 3600 } # TERMINAL_TIME_RANGE (60 * 60)
+        # Terminals do not show arrivals, so we need some slack
+        numberOfDepartures: { type: "Int", defaultValue: 15 } # NUMBER_OF_DEPARTURES * 3
+      ) {
+      gtfsId
+      lat
+      lon
+      name
+      ...StopCardContainer_stop
+        @arguments(
+          startTime: $currentTime
+          timeRange: $timeRange
+          numberOfDepartures: $numberOfDepartures
+        )
+    }
+  `,
 });
