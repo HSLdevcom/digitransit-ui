@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
 import moment from 'moment';
@@ -154,47 +155,45 @@ class DepartureListContainer extends Component {
   }
 }
 
-export default Relay.createContainer(DepartureListContainer, {
-  fragments: {
-    stoptimes: () => Relay.QL`
-      fragment on Stoptime @relay(plural:true) {
-          realtimeState
-          realtimeDeparture
-          scheduledDeparture
-          realtimeArrival
-          scheduledArrival
-          realtime
-          serviceDay
-          pickupType
-          stopHeadsign
-          stop {
-            code
-            platformCode
-          }
-          trip {
-            gtfsId
-            pattern {
-              alerts {
-                effectiveStartDate
-                effectiveEndDate
-                trip {
-                  gtfsId
-                }
-              }
-              route {
-                gtfsId
-                shortName
-                longName
-                mode
-                color
-                agency {
-                  name
-                }
-              }
-              code
+export default createFragmentContainer(DepartureListContainer, {
+  stoptimes: graphql`
+    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
+      realtimeState
+      realtimeDeparture
+      scheduledDeparture
+      realtimeArrival
+      scheduledArrival
+      realtime
+      serviceDay
+      pickupType
+      stopHeadsign
+      stop {
+        code
+        platformCode
+      }
+      trip {
+        gtfsId
+        pattern {
+          alerts {
+            effectiveStartDate
+            effectiveEndDate
+            trip {
+              gtfsId
             }
           }
+          route {
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+            agency {
+              name
+            }
+          }
+          code
         }
-    `,
-  },
+      }
+    }
+  `,
 });
