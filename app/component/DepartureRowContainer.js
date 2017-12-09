@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import { routerShape } from 'react-router';
 import filter from 'lodash/filter';
 
@@ -179,52 +180,49 @@ DepartureRow.description = () => (
 
 export { DepartureRow };
 
-export default Relay.createContainer(DepartureRow, {
-  fragments: {
-    departure: () => Relay.QL`
-      fragment on DepartureRow {
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            alerts {
-              id
-              effectiveStartDate
-              effectiveEndDate
-            }
-            agency {
-              name
-            }
+export default createFragmentContainer(DepartureRow, {
+  departure: graphql`
+    fragment DepartureRowContainer_departure on DepartureRow {
+      pattern {
+        route {
+          gtfsId
+          shortName
+          longName
+          mode
+          color
+          alerts {
+            id
+            effectiveStartDate
+            effectiveEndDate
           }
-          code
+          agency {
+            name
+          }
         }
-        stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
-          realtimeState
-          realtimeDeparture
-          scheduledDeparture
-          realtimeArrival
-          scheduledArrival
-          pickupType
-          realtime
-          serviceDay
-          stopHeadsign
-          stop {
-            code
-            platformCode
-          }
-          trip {
-            gtfsId
-          }
+        code
+      }
+      stoptimes(
+        startTime: $currentTime
+        timeRange: $timeRange
+        numberOfDepartures: 2
+      ) {
+        realtimeState
+        realtimeDeparture
+        scheduledDeparture
+        realtimeArrival
+        scheduledArrival
+        pickupType
+        realtime
+        serviceDay
+        stopHeadsign
+        stop {
+          code
+          platformCode
+        }
+        trip {
+          gtfsId
         }
       }
-    `,
-  },
-
-  initialVariables: {
-    currentTime: 0,
-    timeRange: 0,
-  },
+    }
+  `,
 });
