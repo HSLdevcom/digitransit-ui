@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createRefetchContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -9,7 +10,7 @@ import cx from 'classnames';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import RouteStop from './RouteStop';
 
-class RouteStopListContainer extends React.Component {
+class RouteStopList extends React.Component {
   static propTypes = {
     pattern: PropTypes.object.isRequired,
     className: PropTypes.string,
@@ -29,8 +30,8 @@ class RouteStopListContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps({ relay, currentTime }) {
-    relay.setVariables({ currentTime: currentTime.unix() });
+  componentWillReceiveProps({ relay, currentTime, pattern: { code } }) {
+    relay.refetch({ currentTime: currentTime.unix(), patternId: code });
   }
 
   setNearestStop = element => {
@@ -108,9 +109,9 @@ class RouteStopListContainer extends React.Component {
   }
 }
 
-export default Relay.createContainer(
+const RouteStopListContainer = createRefetchContainer(
   connectToStores(
-    RouteStopListContainer,
+    RouteStopList,
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
@@ -119,35 +120,39 @@ export default Relay.createContainer(
     }),
   ),
   {
-    initialVariables: {
-      patternId: null,
-      currentTime: 0,
-    },
-    fragments: {
-      pattern: () => Relay.QL`
-        fragment on Pattern {
-          directionId
-          route {
-            mode
-            color
-          }
-          stops {
-            stopTimesForPattern(id: $patternId, startTime: $currentTime) {
-              realtime
-              realtimeState
-              realtimeDeparture
-              serviceDay
-              scheduledDeparture
-            }
-            gtfsId
-            lat
-            lon
-            name
-            desc
-            code
-          }
+    pattern: graphql`
+      fragment RouteStopListContainer_pattern on Pattern {
+        code
+        directionId
+        route {
+          mode
+          color
         }
-      `,
-    },
+        stops {
+          stopTimesForPattern(id: $patternId, startTime: $currentTime) {
+            realtime
+            realtimeState
+            realtimeDeparture
+            serviceDay
+            scheduledDeparture
+          }
+          gtfsId
+          lat
+          lon
+          name
+          desc
+          code
+        }
+      }
+    `,
   },
+  graphql`
+    query RouteStopListContainerQuery($patternId: String!, $currentTime: Long) {
+      pattern(id: $patternId) {
+        ...RouteStopListContainer_pattern @arguments(count: $currentTime)
+      }
+    }
+  `,
 );
+
+export default RouteStopListContainer;
