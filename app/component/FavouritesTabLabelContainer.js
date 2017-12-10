@@ -1,52 +1,42 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
-import { createFragmentContainer } from 'react-relay/compat';
+import { QueryRenderer } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
 import { graphql } from 'relay-runtime';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import mapProps from 'recompose/mapProps';
 import some from 'lodash/some';
 import flatten from 'lodash/flatten';
-import RoutesRoute from '../route/RoutesRoute';
 import FavouritesTabLabel from './FavouritesTabLabel';
 import { isBrowser } from '../util/browser';
 
 const hasDisruption = routes =>
-  some(flatten(routes.map(route => route && route.alerts.length > 0)));
-
-const alertReducer = mapProps(({ routes, ...rest }) => ({
-  hasDisruption: hasDisruption(routes),
-  ...rest,
-}));
-
-const FavouritesTabLabelRelayConnector = createFragmentContainer(
-  alertReducer(FavouritesTabLabel),
-  {
-    routes: graphql`
-      fragment FavouritesTabLabelContainer_routes on Route
-        @relay(plural: true) {
-        alerts {
-          id
-        }
-      }
-    `,
-  },
-);
+  some(
+    flatten(
+      routes.map(route => route && route.alerts && route.alerts.length > 0),
+    ),
+  );
 
 function FavouritesTabLabelContainer({ routes, ...rest }) {
   if (isBrowser) {
     return (
-      <Relay.Renderer
-        Container={FavouritesTabLabelRelayConnector}
-        queryConfig={new RoutesRoute({ ids: routes })}
-        environment={Relay.Store}
-        render={({ done, props }) =>
-          done ? (
-            <FavouritesTabLabelRelayConnector {...props} {...rest} />
-          ) : (
-            <FavouritesTabLabel {...rest} />
-          )
-        }
+      <QueryRenderer
+        environment={Store}
+        query={graphql`
+          query FavouritesTabLabelContainerQuery($ids: [String!]) {
+            routes(ids: $ids) {
+              alerts {
+                id
+              }
+            }
+          }
+        `}
+        variables={{ ids: routes }}
+        render={({ props }) => (
+          <FavouritesTabLabel
+            {...rest}
+            hasDisruption={props && props.routes && hasDisruption(props.routes)}
+          />
+        )}
       />
     );
   }
