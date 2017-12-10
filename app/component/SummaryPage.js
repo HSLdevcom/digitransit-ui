@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import Relay from 'react-relay/classic';
-import moment from 'moment';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import get from 'lodash/get';
 import isMatch from 'lodash/isMatch';
 import keys from 'lodash/keys';
@@ -18,8 +18,8 @@ import storeOrigin from '../action/originActions';
 import DesktopView from '../component/DesktopView';
 import MobileView from '../component/MobileView';
 import MapContainer from '../component/map/MapContainer';
-import ItineraryTab from './ItineraryTab';
-import PrintableItinerary from './PrintableItinerary';
+import ItineraryTab from './ItineraryTab'; // eslint-disable-line no-unused-vars
+import PrintableItinerary from './PrintableItinerary'; // eslint-disable-line no-unused-vars
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
@@ -387,70 +387,45 @@ class SummaryPage extends React.Component {
   }
 }
 
-export default Relay.createContainer(SummaryPage, {
-  fragments: {
-    plan: () => Relay.QL`
-      fragment on QueryType {
-        plan(
-          fromPlace: $fromPlace,
-          toPlace: $toPlace,
-          intermediatePlaces: $intermediatePlaces,
-          numItineraries: $numItineraries,
-          modes: $modes,
-          date: $date,
-          time: $time,
-          walkReluctance: $walkReluctance,
-          walkBoardCost: $walkBoardCost,
-          minTransferTime: $minTransferTime,
-          walkSpeed: $walkSpeed,
-          maxWalkDistance: $maxWalkDistance,
-          wheelchair: $wheelchair,
-          ticketTypes: $ticketTypes,
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
-          arriveBy: $arriveBy,
-          preferred: $preferred)
-        {
-          ${SummaryPlanContainer.getFragment('plan')}
-          ${ItineraryTab.getFragment('plan')}
-          itineraries {
-            startTime
-            endTime
-            ${ItineraryTab.getFragment('itinerary')}
-            ${PrintableItinerary.getFragment('itinerary')}
-            ${SummaryPlanContainer.getFragment('itineraries')}
-            legs {
-              ${ItineraryLine.getFragment('legs')}
-              transitLeg
-              legGeometry {
-                points
-              }
+export default createFragmentContainer(SummaryPage, {
+  plan: graphql`
+    fragment SummaryPage_plan on QueryType {
+      plan(
+        fromPlace: $fromPlace
+        toPlace: $toPlace
+        intermediatePlaces: $intermediatePlaces
+        numItineraries: $numItineraries
+        modes: $modes
+        date: $date
+        time: $time
+        walkReluctance: $walkReluctance
+        walkBoardCost: $walkBoardCost
+        minTransferTime: $minTransferTime
+        walkSpeed: $walkSpeed
+        maxWalkDistance: $maxWalkDistance
+        wheelchair: $wheelchair
+        ticketTypes: $ticketTypes
+        disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+        arriveBy: $arriveBy
+        preferred: $preferred
+      ) {
+        ...SummaryPlanContainer_plan
+        ...ItineraryTab_plan
+        itineraries {
+          startTime
+          endTime
+          ...ItineraryTab_itinerary
+          ...PrintableItinerary_itinerary
+          ...SummaryPlanContainer_itineraries
+          legs {
+            ...ItineraryLine_legs
+            transitLeg
+            legGeometry {
+              points
             }
           }
         }
       }
-    `,
-  },
-  initialVariables: {
-    ...{
-      from: null,
-      to: null,
-      fromPlace: null,
-      toPlace: null,
-      intermediatePlaces: null,
-      numItineraries:
-        typeof matchMedia !== 'undefined' &&
-        matchMedia('(min-width: 900px)').matches
-          ? 5
-          : 3,
-      date: moment().format('YYYY-MM-DD'),
-      time: moment().format('HH:mm:ss'),
-      arriveBy: false,
-      disableRemainingWeightHeuristic: false,
-      modes: null,
-      maxWalkDistance: 0,
-      preferred: null,
-      ticketTypes: null,
-    },
-    ...SummaryPage.hcParameters,
-  },
+    }
+  `,
 });

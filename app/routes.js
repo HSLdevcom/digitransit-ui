@@ -215,7 +215,12 @@ export default config => {
           from: otpToLocation(from),
           to: otpToLocation(to),
           intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
-          numItineraries: numItineraries ? Number(numItineraries) : undefined,
+          numItineraries: numItineraries // eslint-disable-line no-nested-ternary
+            ? Number(numItineraries)
+            : typeof matchMedia !== 'undefined' &&
+              matchMedia('(min-width: 900px)').matches
+              ? 5
+              : 3,
           modes: modes
             ? modes
                 .split(',')
@@ -235,7 +240,7 @@ export default config => {
             ? Number(minTransferTime)
             : settings.minTransferTime,
           walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
-          arriveBy: arriveBy ? arriveBy === 'true' : undefined,
+          arriveBy: arriveBy === 'true',
           maxWalkDistance:
             typeof modes === 'undefined' ||
             (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
