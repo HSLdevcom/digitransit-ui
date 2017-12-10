@@ -7,8 +7,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import find from 'lodash/find';
 import DisruptionRow from './DisruptionRow';
 
-function DisruptionListContainer({ root }, { intl }) {
-  if (!root || !root.alerts || root.alerts.length === 0) {
+function DisruptionListContainer({ alerts }, { intl }) {
+  if (!alerts || alerts.length === 0) {
     return (
       <FormattedMessage
         id="disruption-info-no-alerts"
@@ -17,7 +17,7 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   }
 
-  const alertElements = root.alerts.map(alert => {
+  const alertElements = alerts.map(alert => {
     const { id } = alert;
     const startTime = moment(alert.effectiveStartDate * 1000);
     const endTime = moment(alert.effectiveEndDate * 1000);
@@ -52,33 +52,29 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
-  root: PropTypes.shape({
-    alerts: PropTypes.array,
-  }).isRequired,
+  alerts: PropTypes.array,
 };
 
 export default createFragmentContainer(DisruptionListContainer, {
-  root: graphql`
-    fragment DisruptionListContainer_root on QueryType {
-      alerts(feeds: $feedIds) {
-        id
-        feed
-        alertHeaderText
-        alertHeaderTextTranslations {
-          text
-          language
-        }
-        alertDescriptionText
-        alertDescriptionTextTranslations {
-          text
-          language
-        }
-        effectiveStartDate
-        effectiveEndDate
-        route {
-          shortName
-          mode
-        }
+  alerts: graphql`
+    fragment DisruptionListContainer_alerts on Alert @relay(plural: true) {
+      id
+      feed
+      alertHeaderText
+      alertHeaderTextTranslations {
+        text
+        language
+      }
+      alertDescriptionText
+      alertDescriptionTextTranslations {
+        text
+        language
+      }
+      effectiveStartDate
+      effectiveEndDate
+      route {
+        shortName
+        mode
       }
     }
   `,
