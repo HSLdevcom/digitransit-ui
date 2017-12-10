@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { createFragmentContainer } from 'react-relay/compat';
+import { graphql } from 'relay-runtime';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
 import getContext from 'recompose/getContext';
@@ -19,11 +20,8 @@ class StopPageContentOptions extends React.Component {
         stoptimes: PropTypes.array,
       }).isRequired,
     }).isRequired,
-    relay: PropTypes.shape({
-      variables: PropTypes.shape({
-        date: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
+    date: PropTypes.string.isRequired,
+    currentTime: PropTypes.number.isRequired,
     initialDate: PropTypes.string.isRequired,
     setDate: PropTypes.func.isRequired,
   };
@@ -60,17 +58,20 @@ class StopPageContentOptions extends React.Component {
         </div>
         {this.state.showTab === 'right-now' && (
           <div className="stop-scroll-container momentum-scroll">
-            <DepartureListContainerWithProps {...this.props.departureProps} />
+            <DepartureListContainerWithProps
+              {...this.props.departureProps}
+              currentTime={this.props.currentTime}
+            />
           </div>
         )}
         {this.state.showTab === 'timetable' && (
           <TimetableContainer
             stop={this.props.departureProps.stop}
-            date={this.props.relay.variables.date}
+            date={this.props.date}
             propsForStopPageActionBar={{
               printUrl: this.props.printUrl,
               startDate: this.props.initialDate,
-              selectedDate: this.props.relay.variables.date,
+              selectedDate: this.props.date,
               onDateChange: this.onDateChange,
             }}
           />
@@ -88,7 +89,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
   infiniteScroll: true,
   isTerminal: !props.params.stopId,
   rowClasses: 'padding-normal border-bottom',
-  currentTime: props.relay.variables.startTime,
+  currentTime: props.currentTime,
 }))(DepartureListContainer);
 
 const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(
@@ -98,9 +99,10 @@ const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(
       <StopPageContentOptions
         printUrl={props.stop.url}
         departureProps={props}
-        relay={props.relay}
         initialDate={props.initialDate}
         setDate={props.setDate}
+        date={props.date}
+        currentTime={props.startTime}
       />
     ),
 );
@@ -118,23 +120,18 @@ StopPageContentOrEmpty.propTypes = {
   }).isRequired,
 };
 
-export default Relay.createContainer(StopPageContentOrEmpty, {
-  fragments: {
-    stop: ({ date }) => Relay.QL`
-      fragment on Stop {
-        url
-        stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
-          ${DepartureListContainer.getFragment('stoptimes')}
-        }
-        ${TimetableContainer.getFragment('stop', { date })}
+export default createFragmentContainer(StopPageContentOrEmpty, {
+  stop: graphql`
+    fragment StopPageContentContainer_stop on Stop {
+      url
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: $numberOfDepartures
+      ) {
+        ...DepartureListContainer_stoptimes
       }
-    `,
-  },
-
-  initialVariables: {
-    startTime: 0,
-    timeRange: 3600 * 12,
-    numberOfDepartures: 100,
-    date: null,
-  },
+      ...TimetableContainer_stop
+    }
+  `,
 });
