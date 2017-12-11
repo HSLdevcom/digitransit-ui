@@ -9,7 +9,7 @@ const getNextDepartures = (routes, lat, lon) => {
   const nextDepartures = [];
   const seenDepartures = {};
 
-  routes.forEach(route => {
+  routes.filter(route => !!route).forEach(route => {
     const hasDisruption = route.alerts.length > 0;
 
     route.patterns.forEach(pattern => {
