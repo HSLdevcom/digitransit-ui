@@ -123,6 +123,17 @@ $route-schedule-date-height: 36px;
   display: flex;
   max-width: 100%;
   height: 3.5em;
+  &.passed {
+    div {
+      color: $gray;
+    }
+    span {
+      color: $gray;
+      svg.realtime-icon {
+        display: none;
+      }
+    }
+  }
   .route-stop-now {
     width: 13%;
     position: relative;
@@ -133,6 +144,16 @@ $route-schedule-date-height: 36px;
       position: absolute;
       top: -0.3em;
       font-size: 5em;
+    }
+    .tail-icon {
+      font-size: 3.5em;
+      bottom: 0;
+      left: -10px;
+    }
+    .selected-tail-icon {
+      font-size: 5em;
+      bottom: 0;
+      left: -10px;
     }
   }
   .route-stop-now_circleline {
@@ -196,14 +217,7 @@ $route-schedule-date-height: 36px;
 .route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
 }
-.route-stop-now {
-  .tail-icon {
-    left: -5px;
-    &.selected-tail-icon {
-      left: -17px;
-    }
-  }
-}
+
 .nearest-route-stop {
   @include font-narrow-book;
   color: $gray;

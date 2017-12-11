@@ -16,37 +16,6 @@ import {
   vehicle as exampleVehicle,
 } from './ExampleData';
 
-const getRouteStopSvg = (first, last, color) => (
-  <svg className="route-stop-schematized">
-    <line
-      x1="6"
-      x2="6"
-      y1={first ? 13 : 0}
-      y2={last ? 13 : 67}
-      strokeWidth="5"
-      stroke={color || 'currentColor'}
-    />
-    <line
-      x1="6"
-      x2="6"
-      y1={first ? 13 : 0}
-      y2={last ? 13 : 67}
-      strokeWidth="2"
-      stroke="white"
-      opacity="0.2"
-    />
-
-    <circle
-      strokeWidth="2"
-      stroke={color || 'currentColor'}
-      fill="white"
-      cx="6"
-      cy="13"
-      r="5"
-    />
-  </svg>
-);
-
 const TripRouteStop = props => {
   const vehicles =
     props.vehicles &&
@@ -66,39 +35,55 @@ const TripRouteStop = props => {
   return (
     <div
       className={cx(
-        'route-stop row',
+        'route-stop location-details_container',
         { passed: props.stopPassed },
         props.className,
       )}
     >
-      <div className="columns route-stop-now">{vehicles}</div>
-      <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
-        <div className={`columns route-stop-name ${props.mode}`}>
-          {getRouteStopSvg(
-            props.first,
-            props.last,
-            props.color ? props.color : 'currentColor',
-          )}
-          {props.stop.name}
-          <br />
-          <div style={{ whiteSpace: 'nowrap' }}>
-            {props.stop.code && <StopCode code={props.stop.code} />}
-            <span className="route-stop-address">{props.stop.desc}</span>
-            {'\u2002'}
-            {props.distance && (
-              <WalkDistance
-                className="nearest-route-stop"
-                icon="icon_location-with-user"
-                walkDistance={props.distance}
-              />
-            )}
+      <div className=" route-stop-now">{vehicles}</div>
+      <div className={cx('route-stop-now_circleline', props.mode)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={15}
+          height={30}
+          style={{ fill: props.color, stroke: props.color }}
+        >
+          <circle
+            strokeWidth="2"
+            stroke={props.color || 'currentColor'}
+            fill="white"
+            cx="6"
+            cy="13"
+            r="5"
+          />
+        </svg>
+        <div className={cx('route-stop-now_line', props.mode)} />
+      </div>
+      <div className="route-stop-row_content-container">
+        <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
+          <div className={` route-stop-name ${props.mode}`}>
+            {props.stop.name}
+            <div>
+              {props.stop.code && <StopCode code={props.stop.code} />}
+              <span className="route-stop-address">{props.stop.desc}</span>
+              {'\u2002'}
+              {props.distance && (
+                <WalkDistance
+                  className="nearest-route-stop"
+                  icon="icon_location-with-user"
+                  walkDistance={props.distance}
+                />
+              )}
+            </div>
           </div>
-        </div>
-        <div className="columns route-stop-time">
-          {props.stoptime && fromStopTime(props.stoptime, props.currentTime)}
-        </div>
-      </Link>
-      <div className="route-stop-row-divider" />
+          <div className="departure-times-container">
+            <div className=" route-stop-time">
+              {props.stoptime &&
+                fromStopTime(props.stoptime, props.currentTime)}
+            </div>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
