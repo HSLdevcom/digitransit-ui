@@ -92,7 +92,6 @@ $route-schedule-date-height: 36px;
   flex-grow: 20;
   flex-basis: 0;
   position: relative;
-  max-width: 100%;
   padding-bottom: 1.5em;
 }
 
@@ -135,7 +134,7 @@ $route-schedule-date-height: 36px;
     }
   }
   .route-stop-now {
-    width: 13%;
+    width: 3.5em;
     position: relative;
   }
   .route-now-content {
@@ -184,7 +183,7 @@ $route-schedule-date-height: 36px;
       text-decoration: none;
       .route-stop-name {
         font-size: $font-size-normal;
-        flex-grow: 10;
+        width: 100%;
         span {
           text-decoration: none;
         }
