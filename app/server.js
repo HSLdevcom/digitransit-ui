@@ -223,12 +223,12 @@ export default function(req, res, next) {
           res.write(
             `<link rel="preload" as="script" href="${config.APP_PATH}/${
               assets['common.js']
-            }">`,
+            }">\n`,
           );
           res.write(
             `<link rel="preload" as="script" href="${config.APP_PATH}/${
               assets['main.js']
-            }">`,
+            }">\n`,
           );
 
           res.write(
