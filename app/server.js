@@ -23,15 +23,14 @@ import serialize from 'serialize-javascript';
 import { IntlProvider } from 'react-intl';
 import polyfillService from 'polyfill-service';
 import fs from 'fs';
+import path from 'path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import find from 'lodash/find';
 import LRU from 'lru-cache';
 
 // Application
 import appCreator from './app';
 import translations from './translations';
-import ApplicationHtml from './html';
 import MUITheme from './MuiTheme';
 
 // configuration
@@ -41,136 +40,19 @@ import { getConfiguration } from './config';
 const appRoot = `${process.cwd()}/`;
 
 // cached assets
-const networkLayers = {};
-const robotLayers = {};
-const cssDefs = {};
-const sprites = {};
 const polyfillls = LRU(200);
 
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 Relay.disableQueryCaching();
 
-function getStringOrArrayElement(arrayOrString, index) {
-  if (Array.isArray(arrayOrString)) {
-    return arrayOrString[index];
-  } else if (typeof arrayOrString === 'string') {
-    return arrayOrString;
-  }
-  throw new Error(`Not array or string: ${arrayOrString}`);
-}
-
-function getRobotNetworkLayer(config) {
-  if (!robotLayers[config.CONFIG]) {
-    robotLayers[config.CONFIG] = new RelayNetworkLayer([
-      next => req => next(req).catch(() => ({ payload: { data: null } })),
-      retryMiddleware({ fetchTimeout: 10000, retryDelays: [] }),
-      urlMiddleware({
-        url: `${config.URL.OTP}index/graphql`,
-      }),
-      batchMiddleware({
-        batchUrl: `${config.URL.OTP}index/graphql/batch`,
-      }),
-      gqErrorsMiddleware(),
-    ]);
-  }
-  return robotLayers[config.CONFIG];
-}
-
-const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
-
-function getNetworkLayer(config) {
-  if (!networkLayers[config.CONFIG]) {
-    networkLayers[config.CONFIG] = new RelayNetworkLayer([
-      next => req => next(req).catch(() => ({ payload: { data: null } })),
-      retryMiddleware({ fetchTimeout: RELAY_FETCH_TIMEOUT, retryDelays: [] }),
-      urlMiddleware({
-        url: `${config.URL.OTP}index/graphql`,
-      }),
-      batchMiddleware({
-        batchUrl: `${config.URL.OTP}index/graphql/batch`,
-      }),
-      gqErrorsMiddleware(),
-    ]);
-  }
-  return networkLayers[config.CONFIG];
-}
-
-let stats;
+let assets;
 let manifest;
 
 if (process.env.NODE_ENV !== 'development') {
-  stats = require('../stats.json'); // eslint-disable-line global-require, import/no-unresolved
+  assets = require('../manifest.json'); // eslint-disable-line global-require, import/no-unresolved
 
-  const manifestFile = getStringOrArrayElement(
-    stats.assetsByChunkName.manifest,
-    0,
-  );
-  manifest = fs.readFileSync(`${appRoot}_static/${manifestFile}`);
-}
-
-function getCss(config) {
-  if (!cssDefs[config.CONFIG]) {
-    cssDefs[config.CONFIG] = [
-      <link
-        key="main_css"
-        rel="stylesheet"
-        type="text/css"
-        href={`${config.APP_PATH}/${getStringOrArrayElement(
-          stats.assetsByChunkName.main,
-          1,
-        )}`}
-      />,
-      <link
-        key="theme_css"
-        rel="stylesheet"
-        type="text/css"
-        href={`${config.APP_PATH}/${getStringOrArrayElement(
-          stats.assetsByChunkName[`${config.CONFIG}_theme`],
-          1,
-        )}`}
-      />,
-    ];
-  }
-  return cssDefs[config.CONFIG];
-}
-
-function getSprite(config) {
-  if (!sprites[config.CONFIG]) {
-    let svgSprite;
-    const spriteName = config.sprites;
-
-    if (process.env.NODE_ENV !== 'development') {
-      svgSprite = (
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            fetch('${config.APP_PATH}/${
-              find(stats.modules, {
-                name: `./static/${spriteName}`,
-              }).assets[0]
-            }').then(function(response) {return response.text();}).then(function(blob) {
-              var div = document.createElement('div');
-              div.innerHTML = blob;
-              document.body.insertBefore(div, document.body.childNodes[0]);
-            })
-        `,
-          }}
-        />
-      );
-    } else {
-      svgSprite = (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: fs
-              .readFileSync(`${appRoot}_static/${spriteName}`)
-              .toString(),
-          }}
-        />
-      );
-    }
-    sprites[config.CONFIG] = svgSprite;
-  }
-  return sprites[config.CONFIG];
+  const manifestFile = assets['manifest.js'];
+  manifest = fs.readFileSync(path.join(appRoot, '_static', manifestFile));
 }
 
 function getPolyfills(userAgent, config) {
@@ -229,29 +111,6 @@ function getPolyfills(userAgent, config) {
   return polyfill;
 }
 
-function getScripts(req, config) {
-  if (process.env.NODE_ENV === 'development') {
-    return <script async src="/proxy/js/bundle.js" />;
-  }
-  return [
-    <script key="manifest " dangerouslySetInnerHTML={{ __html: manifest }} />,
-    <script
-      key="common_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(
-        stats.assetsByChunkName.common,
-        0,
-      )}`}
-    />,
-    <script
-      key="min_js"
-      src={`${config.APP_PATH}/${getStringOrArrayElement(
-        stats.assetsByChunkName.main,
-        0,
-      )}`}
-    />,
-  ];
-}
-
 const ContextProvider = provideContext(IntlProvider, {
   config: PropTypes.object,
   url: PropTypes.string,
@@ -277,40 +136,12 @@ function getContent(context, renderProps, locale, userAgent) {
   );
 }
 
-function getHtml(application, context, locale, [polyfills, relayData], req) {
-  const { config } = context.getComponentContext();
-  // eslint-disable-next-line no-unused-vars
-  const content =
-    relayData != null
-      ? getContent(context, relayData.props, locale, req.headers['user-agent'])
-      : undefined;
-  const head = Helmet.rewind();
-  return ReactDOM.renderToStaticMarkup(
-    <ApplicationHtml
-      css={process.env.NODE_ENV === 'development' ? false : getCss(config)}
-      svgSprite={getSprite(config)}
-      content=""
-      // TODO: temporarely disable server-side rendering in order to fix issue with having different
-      // content from the server, which breaks leaflet integration. Should be:
-      // content={content}
-      polyfill={polyfills}
-      state={`window.state=${serialize(application.dehydrate(context))};`}
-      locale={locale}
-      scripts={getScripts(req, config)}
-      fonts={config.URL.FONT}
-      relayData={relayData != null ? relayData.data : []}
-      head={head}
-    />,
-  );
-}
-
 const isRobotRequest = agent =>
   agent &&
   (agent.indexOf('facebook') !== -1 || agent.indexOf('Twitterbot') !== -1);
 
 export default function(req, res, next) {
   const config = getConfiguration(req);
-  const application = appCreator(config);
 
   // TODO: Move this to PreferencesStore
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
@@ -324,6 +155,8 @@ export default function(req, res, next) {
   if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
+
+  const application = appCreator(config);
   const context = application.createContext({
     url: req.url,
     headers: req.headers,
@@ -363,32 +196,139 @@ export default function(req, res, next) {
         ) {
           res.status(404);
         }
-        let networkLayer;
-        if (isRobotRequest(agent)) {
-          networkLayer = getRobotNetworkLayer(config);
-        } else {
-          networkLayer = getNetworkLayer(config);
+
+        res.setHeader('content-type', 'text/html; charset=utf-8');
+        res.write('<!doctype html>\n');
+        res.write(`<html lang="${locale}">\n`);
+        res.write('<head>\n');
+        res.write(
+          `<link rel="stylesheet" type="text/css" href="${
+            config.URL.FONT
+          }"/>\n`,
+        );
+
+        if (process.env.NODE_ENV !== 'development') {
+          const mainHref = `${config.APP_PATH}/${assets['main.css']}`;
+          const themeHref = `${config.APP_PATH}/${
+            assets[`${config.CONFIG}_theme.css`]
+          }`;
+
+          res.write(
+            `<link rel="stylesheet" type="text/css" href="${mainHref}"/>\n`,
+          );
+          res.write(
+            `<link rel="stylesheet" type="text/css" href="${themeHref}"/>\n`,
+          );
+          res.write(
+            `<link rel="preconnect" crossorigin href="${
+              config.URL.API_URL
+            }">\n`,
+          );
+          res.write(
+            `<link rel="preconnect" crossorigin href="${
+              config.URL.MAP_URL
+            }">\n`,
+          );
+          res.write(
+            `<link rel="preconnect" crossorigin as="font" href="https://dev.hsl.fi/">\n`,
+          );
         }
-        const promises = [
+
+        const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
+
+        const networkLayer = new RelayNetworkLayer([
+          nex => r => nex(r).catch(() => ({ payload: { data: null } })),
+          retryMiddleware({
+            fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
+            retryDelays: [],
+          }),
+          urlMiddleware({
+            url: `${config.URL.OTP}index/graphql`,
+          }),
+          batchMiddleware({
+            batchUrl: `${config.URL.OTP}index/graphql/batch`,
+          }),
+          gqErrorsMiddleware(),
+        ]);
+
+        Promise.all([
           getPolyfills(agent, config),
           // Isomorphic rendering is ok to fail due timeout
-          IsomorphicRouter.prepareData(renderProps, networkLayer).catch(
-            () => null,
-          ),
-        ];
+          IsomorphicRouter.prepareData(renderProps, networkLayer),
+        ])
+          .then(([polyfills, relayData]) => {
+            // eslint-disable-next-line no-unused-vars
+            const content =
+              relayData != null
+                ? getContent(
+                    context,
+                    relayData.props,
+                    locale,
+                    req.headers['user-agent'],
+                  )
+                : undefined;
+            const head = Helmet.rewind();
+            if (head) {
+              res.write(head.title.toString());
+              res.write(head.meta.toString());
+              res.write(head.link.toString());
+            }
+            res.write('</head>\n');
+            res.write('<body>\n');
 
-        Promise.all(promises)
-          .then(results =>
-            res.send(
-              `<!doctype html>${getHtml(
-                application,
-                context,
-                locale,
-                results,
-                req,
-              )}`,
-            ),
-          )
+            res.write(`<script>\n${polyfills}\n</script>\n`);
+            const spriteName = config.sprites;
+
+            if (process.env.NODE_ENV !== 'development') {
+              res.write('<script>\n');
+              res.write(`fetch('${config.APP_PATH}/${assets[spriteName]}')
+                  .then(function(response) {return response.text();}).then(function(blob) {
+                    var div = document.createElement('div');
+                    div.innerHTML = blob;
+                    document.body.insertBefore(div, document.body.childNodes[0]);
+                  });`);
+              res.write('</script>\n');
+            } else {
+              res.write('<div>\n');
+              res.write(
+                fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
+              );
+              res.write('</div>\n');
+            }
+            res.write('<div id="app"></div>\n');
+            res.write(
+              `<script>\nwindow.state=${serialize(
+                application.dehydrate(context),
+              )};\n</script>\n`,
+            );
+            res.write('<script type="application/json" id="relayData">\n');
+            res.write(JSON.stringify(relayData != null ? relayData.data : []));
+            res.write('\n</script>\n');
+            res.write();
+            if (process.env.NODE_ENV === 'development') {
+              res.write('<script async src="/proxy/js/bundle.js" />\n');
+            } else {
+              res.write('<script>');
+              res.write(manifest);
+              res.write('\n</script>\n');
+              res.write(
+                `<script defer src="${config.APP_PATH}/${
+                  assets['common.js']
+                }"></script>\n`,
+              );
+              res.write(
+                `<script defer async src="${config.APP_PATH}/${
+                  assets['main.js']
+                }"></script>\n`,
+              );
+            }
+            res.write(
+              '<noscript>This page requires JavaScript to run.</noscript>\n',
+            );
+            res.write('</body>\n');
+            res.write('</html>\n');
+            res.end();
+          })
           .catch(err => {
             if (err) {
               next(err);
