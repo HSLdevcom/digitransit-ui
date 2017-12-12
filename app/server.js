@@ -221,6 +221,17 @@ export default function(req, res, next) {
           );
 
           res.write(
+            `<link rel="preload" as="script" href="${config.APP_PATH}/${
+              assets['common.js']
+            }">`,
+          );
+          res.write(
+            `<link rel="preload" as="script" href="${config.APP_PATH}/${
+              assets['main.js']
+            }">`,
+          );
+
+          res.write(
             `<link rel="preconnect" crossorigin href="${
               config.URL.API_URL
             }">\n`,
