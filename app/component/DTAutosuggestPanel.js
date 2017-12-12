@@ -7,6 +7,7 @@ import Icon from './Icon';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import { isBrowser } from '../util/browser';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -78,7 +79,7 @@ class DTAutosuggestPanel extends React.Component {
           id="origin"
           autoFocus={
             // Disable autofocus if using IE11
-            navigator.userAgent.indexOf('Trident') !== -1
+            isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
               ? false
               : this.context.breakpoint === 'large' && !this.props.origin.ready
           }
