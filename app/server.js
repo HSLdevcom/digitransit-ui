@@ -219,6 +219,7 @@ export default function(req, res, next) {
           res.write(
             `<link rel="stylesheet" type="text/css" href="${themeHref}"/>\n`,
           );
+
           res.write(
             `<link rel="preconnect" crossorigin href="${
               config.URL.API_URL
@@ -295,29 +296,32 @@ export default function(req, res, next) {
               );
               res.write('</div>\n');
             }
-            res.write('<div id="app"></div>\n');
+
+            res.write(`<div id="app">${content}</div>\n`);
+
             res.write(
               `<script>\nwindow.state=${serialize(
                 application.dehydrate(context),
               )};\n</script>\n`,
             );
+
             res.write('<script type="application/json" id="relayData">\n');
             res.write(JSON.stringify(relayData != null ? relayData.data : []));
             res.write('\n</script>\n');
-            res.write();
+
             if (process.env.NODE_ENV === 'development') {
-              res.write('<script async src="/proxy/js/bundle.js" />\n');
+              res.write('<script async src="/proxy/js/bundle.js"></script>\n');
             } else {
               res.write('<script>');
               res.write(manifest);
               res.write('\n</script>\n');
               res.write(
-                `<script defer src="${config.APP_PATH}/${
+                `<script src="${config.APP_PATH}/${
                   assets['common.js']
                 }"></script>\n`,
               );
               res.write(
-                `<script defer async src="${config.APP_PATH}/${
+                `<script src="${config.APP_PATH}/${
                   assets['main.js']
                 }"></script>\n`,
               );

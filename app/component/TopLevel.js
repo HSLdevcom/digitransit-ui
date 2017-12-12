@@ -83,11 +83,21 @@ class TopLevel extends React.Component {
     };
   }
 
-  getBreakpoint = () =>
-    (!this.props.width && 'none') ||
-    (this.props.width < 400 && 'small') ||
-    (this.props.width < 900 && 'medium') ||
-    'large';
+  getBreakpoint = () => {
+    if (this.props.width) {
+      if (this.props.width < 400) {
+        return 'small';
+      } else if (this.props.width < 900) {
+        return 'medium';
+      }
+    } else if (
+      'user-agent' in this.context.headers &&
+      this.context.headers['user-agent'].toLowerCase().includes('mobile')
+    ) {
+      return 'small';
+    }
+    return 'large';
+  };
 
   render() {
     this.topBarOptions = Object.assign(
