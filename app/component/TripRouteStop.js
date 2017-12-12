@@ -61,8 +61,8 @@ const TripRouteStop = props => {
       </div>
       <div className="route-stop-row_content-container">
         <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
-          <div className={` route-stop-name ${props.mode}`}>
-            {props.stop.name}
+          <div className={`route-details_container ${props.mode}`}>
+            <span>{props.stop.name}</span>
             <div>
               {props.stop.code && <StopCode code={props.stop.code} />}
               <span className="route-stop-address">{props.stop.desc}</span>

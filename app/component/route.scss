@@ -37,25 +37,6 @@ $route-schedule-date-height: 36px;
   }
 }
 
-.route-page-content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-basis: 100%;
-  background: $white;
-  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
-
-  &:empty {
-    flex-basis: 0;
-    flex-grow: 0;
-  }
-
-  &.fullscreen-map {
-    flex-grow: 0;
-    flex-basis: 110px;
-  }
-}
-
 .route-warning-message {
   background-color: rgba(254, 209, 0, 0.3);
   .upper {
@@ -86,16 +67,24 @@ $route-schedule-date-height: 36px;
   }
 }
 
-// stop list
-.route-stop-list {
-  @include font-narrow-medium;
-  flex-grow: 20;
-  flex-basis: 0;
-  position: relative;
-  padding-bottom: 1.5em;
-}
-
 .route-page-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  flex-grow: 1;
+  flex-basis: 100%;
+  background: $white;
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &:empty {
+    flex-basis: 0;
+    flex-grow: 0;
+  }
+
+  &.fullscreen-map {
+    flex-grow: 0;
+    flex-basis: 110px;
+  }
   .route-list-header {
     display: flex;
       .columns {
@@ -110,8 +99,25 @@ $route-schedule-date-height: 36px;
   }
 }
 
-.mobile {
-  .location-details_container .route-now-content {
+// stop list
+.route-stop-list {
+  @include font-narrow-medium;
+  padding-bottom: 1.5em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.5em;
+  overflow-x: hidden;
+}
+.bp-medium, .bp-large {
+  &.location-details_container .route-now-content {
+    & svg {
+      font-size: 6em;
+    }
+  }
+}
+.bp-small {
+  &.location-details_container .route-now-content {
       & svg {
         font-size: 3.8em;
       }
@@ -119,9 +125,10 @@ $route-schedule-date-height: 36px;
 }
 
 .location-details_container {
-  display: flex;
   max-width: 100%;
   height: 3.5em;
+  display: flex;
+  flex: 0 0;
   &.passed {
     div {
       color: $gray;
@@ -134,7 +141,7 @@ $route-schedule-date-height: 36px;
     }
   }
   .route-stop-now {
-    width: 3.5em;
+    min-width: 13%;
     position: relative;
   }
   .route-now-content {
@@ -157,7 +164,7 @@ $route-schedule-date-height: 36px;
   }
   .route-stop-now_circleline {
     position: relative;
-    width: 15px;
+    min-width: 15px;
     .route-stop-now_line {
       width: 5px;
       height: 100%;
@@ -173,32 +180,45 @@ $route-schedule-date-height: 36px;
     }
   }
   .route-stop-row_content-container {
-    width: 88%;
-    margin-left: 2%;
+    width: 100%;
+    margin-left: 1em;
     display: block;
     border-bottom: 1px solid #eef1f3;
     margin-top: 0.3em;
     a {
       display: flex;
       text-decoration: none;
-      .route-stop-name {
+      justify-content: space-between;
+      .route-details_container {
         font-size: $font-size-normal;
-        width: 100%;
-        span {
-          text-decoration: none;
-        }
-        .route-stop-address {
-          font-family: $font-family-narrow;
-          font-weight: 400;
-          letter-spacing: 0;
-          color: #888;
-          white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        flex: 2 0 0;
+          div {
+            display: flex;
+            span {
+              text-decoration: none;
+              max-width: 7em;
+            }
+            .itinerary-stop-code {
+              display: block;
+              max-height: 18px;
+            }
+            .route-stop-address {
+              font-family: $font-family-narrow;
+              font-weight: 400;
+              letter-spacing: 0;
+              color: #888;
+              display: block;
+              word-break: break-word;
+              height: 1.25rem;
+              overflow-y: hidden;
+            }
         }
       }
       .departure-times-container {
         display: flex;
         color: $black;
-        margin-right: 3%;
         font-size: $font-size-small;
         .route-stop-time {
           span {
@@ -206,6 +226,7 @@ $route-schedule-date-height: 36px;
             &.time {
               white-space: unset;
               display: block;
+              text-align: right;
             }
           }
         }
@@ -213,6 +234,7 @@ $route-schedule-date-height: 36px;
     }
   }
 }
+// To hide the line element in the last itinerary leg
 .route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
 }

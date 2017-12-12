@@ -117,8 +117,8 @@ class RouteStop extends React.PureComponent {
         </div>
         <div className="route-stop-row_content-container">
           <Link to={`/${PREFIX_STOPS}/${stop.gtfsId}`}>
-            <div className={` route-stop-name ${mode}`}>
-              {stop.name}
+            <div className={` route-details_container ${mode}`}>
+              <span>{stop.name}</span>
               <div>
                 {stop.code && <StopCode code={stop.code} />}
                 <span className="route-stop-address">{stop.desc}</span>
