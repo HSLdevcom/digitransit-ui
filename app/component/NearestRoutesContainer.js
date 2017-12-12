@@ -1,32 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay, { Route } from 'react-relay/classic';
+import { QueryRenderer } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
+import { graphql } from 'relay-runtime';
+import StaticContainer from 'react-static-container';
 import NearbyDeparturesList from './NearbyDeparturesList';
 import NetworkError from './NetworkError';
 import Loading from './Loading';
-
-class NearbyDeparturesListRoute extends Route {
-  static queries = {
-    nearest: (RelayComponent, variables) => Relay.QL`
-      query {
-        viewer {
-          ${RelayComponent.getFragment('nearest', variables)}
-        }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    lat: { required: true },
-    lon: { required: true },
-    currentTime: { required: true },
-    modes: { required: true },
-    placeTypes: { required: true },
-    maxDistance: { required: true },
-    maxResults: { required: true },
-    timeRange: { required: true },
-  };
-  static routeName = 'NearbyDeparturesListRoute';
-}
 
 export default class NearestRoutesContainer extends Component {
   static propTypes = {
@@ -62,33 +42,58 @@ export default class NearestRoutesContainer extends Component {
 
   render() {
     return (
-      <Relay.Renderer
-        Container={NearbyDeparturesList}
-        queryConfig={
-          new NearbyDeparturesListRoute({
-            lat: this.props.lat,
-            lon: this.props.lon,
-            currentTime: this.props.currentTime,
-            modes: this.props.modes,
-            placeTypes: this.props.placeTypes,
-            maxDistance: this.props.maxDistance,
-            maxResults: this.props.maxResults,
-            timeRange: this.props.timeRange,
-          })
-        }
-        environment={Relay.Store}
+      <QueryRenderer
+        environment={Store}
+        query={graphql`
+          query NearestRoutesContainerQuery(
+            $lat: Float!
+            $lon: Float!
+            $maxDistance: Int
+            $maxResults: Int
+            $modes: [Mode!]
+            $placeTypes: [FilterPlaceType!]
+          ) {
+            viewer {
+              places: nearest(
+                lat: $lat
+                lon: $lon
+                maxDistance: $maxDistance
+                maxResults: $maxResults
+                first: $maxResults
+                filterByModes: $modes
+                filterByPlaceTypes: $placeTypes
+              ) {
+                edges {
+                  ...NearbyDeparturesList_edges
+                }
+              }
+            }
+          }
+        `}
+        variables={this.props}
         render={({ error, props, retry }) => {
+          const shouldUpdate =
+            props &&
+            props.viewer &&
+            props.viewer.places &&
+            props.viewer.places.edges;
           if (error) {
-            this.useSpinner = true;
-            return <NetworkError retry={retry} />;
-          } else if (props) {
             this.useSpinner = false;
-            return <NearbyDeparturesList {...props} />;
+            return <NetworkError retry={retry} />;
+          } else if (shouldUpdate || !this.useSpinner) {
+            this.useSpinner = false;
+            return (
+              <StaticContainer shouldUpdate={shouldUpdate}>
+                {shouldUpdate && (
+                  <NearbyDeparturesList
+                    currentTime={this.props.currentTime}
+                    edges={props.viewer.places.edges}
+                  />
+                )}
+              </StaticContainer>
+            );
           }
-          if (this.useSpinner === true) {
-            return <Loading />;
-          }
-          return undefined;
+          return <Loading />;
         }}
       />
     );

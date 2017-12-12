@@ -13,9 +13,9 @@ const testStopTimes = stoptimes => stoptimes && stoptimes.length > 0;
 
 /* eslint-disable no-underscore-dangle */
 
-const constructPlacesList = values => {
-  const sortedList = sortBy(
-    values.places.edges.filter(
+const constructPlacesList = ({ edges, currentTime }) =>
+  sortBy(
+    edges.filter(
       ({ node }) =>
         node.place.__typename !== 'DepartureRow' ||
         testStopTimes(node.place.stoptimes),
@@ -27,116 +27,86 @@ const constructPlacesList = values => {
         node.place.stoptimes[0].serviceDay +
           node.place.stoptimes[0].realtimeDeparture,
     ],
-  ).map(o => {
-    let place;
-    if (o.node.place.__typename === 'DepartureRow') {
-      place = (
+  ).map(({ node }) => {
+    if (node.place.__typename === 'DepartureRow') {
+      return (
         <DepartureRowContainer
-          key={o.node.place.id}
-          distance={o.node.distance}
-          departure={o.node.place}
-          currentTime={values.currentTime}
-          timeRange={values.timeRange}
+          key={node.place.id}
+          distance={node.distance}
+          departure={node.place}
+          currentTime={currentTime}
         />
       );
-    } else if (o.node.place.__typename === 'BikeRentalStation') {
-      place = (
+    } else if (node.place.__typename === 'BikeRentalStation') {
+      return (
         <BicycleRentalStationRowContainer
-          key={o.node.place.id}
-          distance={o.node.distance}
-          station={o.node.place}
-          currentTime={values.currentTime}
+          key={node.place.id}
+          distance={node.distance}
+          station={node.place}
+          currentTime={currentTime}
         />
       );
     }
-    return place;
+    return null;
   });
-  return sortedList;
-};
 
 /* eslint-enable no-underscore-dangle */
 
-const PlaceAtDistanceList = ({
-  nearest: { places },
-  currentTime,
-  timeRange,
-}) => {
-  if (places && places.edges) {
-    return (
-      <DeparturesTable
-        headers={[
-          {
-            id: 'to-stop',
-            defaultMessage: 'To Stop',
-          },
-          {
-            id: 'route',
-            defaultMessage: 'Route',
-          },
-          {
-            id: 'destination',
-            defaultMessage: 'Destination',
-          },
-          {
-            id: 'leaves',
-            defaultMessage: 'Leaves',
-          },
-          {
-            id: 'next',
-            defaultMessage: 'Next',
-          },
-        ]}
-        content={constructPlacesList({ places, currentTime, timeRange })}
-      />
-    );
-  }
-  return null;
-};
+const PlaceAtDistanceList = ({ edges, currentTime }) => (
+  <DeparturesTable
+    headers={[
+      {
+        id: 'to-stop',
+        defaultMessage: 'To Stop',
+      },
+      {
+        id: 'route',
+        defaultMessage: 'Route',
+      },
+      {
+        id: 'destination',
+        defaultMessage: 'Destination',
+      },
+      {
+        id: 'leaves',
+        defaultMessage: 'Leaves',
+      },
+      {
+        id: 'next',
+        defaultMessage: 'Next',
+      },
+    ]}
+    content={constructPlacesList({ edges, currentTime })}
+  />
+);
 
 PlaceAtDistanceList.propTypes = {
-  nearest: PropTypes.shape({
-    places: PropTypes.shape({
-      edges: PropTypes.array.isRequired,
-    }).isRequired,
-  }).isRequired,
+  edges: PropTypes.array.isRequired,
   currentTime: PropTypes.number.isRequired,
-  timeRange: PropTypes.number.isRequired,
 };
 
 export default createFragmentContainer(PlaceAtDistanceList, {
-  nearest: graphql`
-    fragment NearbyDeparturesList_nearest on QueryType {
-      places: nearest(
-        lat: $lat
-        lon: $lon
-        maxDistance: $maxDistance
-        maxResults: $maxResults
-        first: $maxResults
-        filterByModes: $modes
-        filterByPlaceTypes: $placeTypes
-      ) {
-        edges {
-          node {
-            distance
-            place {
-              id
-              __typename
-              ... on DepartureRow {
-                stoptimes(
-                  startTime: $currentTime
-                  timeRange: $timeRange
-                  numberOfDepartures: 2
-                ) {
-                  pickupType
-                  serviceDay
-                  realtimeDeparture
-                }
-              }
-              ...DepartureRowContainer_departure
-              ...BicycleRentalStationRowContainer_station
+  edges: graphql`
+    fragment NearbyDeparturesList_edges on placeAtDistanceEdge
+      @relay(plural: true) {
+      node {
+        distance
+        place {
+          id
+          __typename
+          ... on DepartureRow {
+            stoptimes(
+              startTime: $currentTime
+              timeRange: $timeRange
+              numberOfDepartures: 2
+            ) {
+              pickupType
+              serviceDay
+              realtimeDeparture
             }
-            distance
           }
+          ...DepartureRowContainer_departure
+          ...BicycleRentalStationRowContainer_station
         }
       }
     }
