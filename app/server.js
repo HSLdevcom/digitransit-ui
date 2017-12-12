@@ -26,6 +26,7 @@ import fs from 'fs';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import find from 'lodash/find';
+import LRU from 'lru-cache';
 
 // Application
 import appCreator from './app';
@@ -44,6 +45,7 @@ const networkLayers = {};
 const robotLayers = {};
 const cssDefs = {};
 const sprites = {};
+const polyfillls = LRU(200);
 
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 Relay.disableQueryCaching();
@@ -185,6 +187,13 @@ function getPolyfills(userAgent, config) {
     userAgent = ''; // eslint-disable-line no-param-reassign
   }
 
+  const normalizedUA = polyfillService.normalizeUserAgent(userAgent);
+  let polyfill = polyfillls.get(normalizedUA);
+
+  if (polyfill) {
+    return polyfill;
+  }
+
   const features = {
     'caniuse:console-basic': { flags: ['gated'] },
     default: { flags: ['gated'] },
@@ -204,7 +213,7 @@ function getPolyfills(userAgent, config) {
     };
   });
 
-  return polyfillService
+  polyfill = polyfillService
     .getPolyfillString({
       uaString: userAgent,
       features,
@@ -215,6 +224,9 @@ function getPolyfills(userAgent, config) {
       // no sourcemaps for inlined js
       polyfills.replace(/^\/\/# sourceMappingURL=.*$/gm, ''),
     );
+
+  polyfillls.set(normalizedUA, polyfill);
+  return polyfill;
 }
 
 function getScripts(req, config) {
