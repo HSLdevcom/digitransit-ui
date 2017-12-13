@@ -275,26 +275,31 @@ export default function(req, res, next) {
     const contentPromise = IsomorphicRouter.prepareData(
       renderProps,
       networkLayer,
-    ).then(relayData => {
-      const content =
-        relayData != null
-          ? getContent(
-              context,
-              relayData.props,
-              locale,
-              req.headers['user-agent'],
-            )
-          : undefined;
+    )
+      .then(relayData => {
+        const content =
+          relayData != null
+            ? getContent(
+                context,
+                relayData.props,
+                locale,
+                req.headers['user-agent'],
+              )
+            : undefined;
 
-      const head = Helmet.rewind();
+        const head = Helmet.rewind();
 
-      if (head) {
-        res.write(head.title.toString());
-        res.write(head.meta.toString());
-        res.write(head.link.toString());
-      }
-      return [content, relayData];
-    });
+        if (head) {
+          res.write(head.title.toString());
+          res.write(head.meta.toString());
+          res.write(head.link.toString());
+        }
+        return [content, relayData];
+      })
+      .catch(err => {
+        console.log(err);
+        return ['', undefined];
+      });
 
     const [[content, relayData]] = await Promise.all([
       contentPromise,
