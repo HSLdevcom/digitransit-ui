@@ -150,6 +150,7 @@ class TopLevel extends React.Component {
         <Helmet {...this.metadata} />
         <section id="mainContent" className="content">
           {this.props.meta}
+          <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary>{content}</ErrorBoundary>
         </section>
         {this.trackingPixel}

@@ -140,9 +140,26 @@ const isRobotRequest = agent =>
   agent &&
   (agent.indexOf('facebook') !== -1 || agent.indexOf('Twitterbot') !== -1);
 
-export default function(req, res, next) {
-  const config = getConfiguration(req);
+const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
 
+function getNetworkLayer(config, agent) {
+  return new RelayNetworkLayer([
+    next => req => next(req).catch(() => ({ payload: { data: null } })),
+    retryMiddleware({
+      fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
+      retryDelays: [],
+    }),
+    urlMiddleware({
+      url: `${config.URL.OTP}index/graphql`,
+    }),
+    batchMiddleware({
+      batchUrl: `${config.URL.OTP}index/graphql/batch`,
+    }),
+    gqErrorsMiddleware(),
+  ]);
+}
+
+function getLocale(req, res, config) {
   // TODO: Move this to PreferencesStore
   // 1. use locale from cookie (user selected) 2. browser preferred 3. default
   let locale =
@@ -156,6 +173,12 @@ export default function(req, res, next) {
     res.cookie('lang', locale);
   }
 
+  return locale;
+}
+
+export default function(req, res, next) {
+  const config = getConfiguration(req);
+  const locale = getLocale(req, res, config);
   const application = appCreator(config);
   const context = application.createContext({
     url: req.url,
@@ -172,184 +195,159 @@ export default function(req, res, next) {
   const agent = req.headers['user-agent'];
   global.navigator = { userAgent: agent };
 
-  const location = createHistory({ basename: config.APP_PATH }).createLocation(
-    req.url,
-  );
+  const matchOptions = {
+    routes: context.getComponent(),
+    location: createHistory({ basename: config.APP_PATH }).createLocation(
+      req.url,
+    ),
+  };
 
-  match(
-    {
-      routes: context.getComponent(),
-      location,
-    },
-    (error, redirectLocation, renderProps) => {
-      if (redirectLocation) {
-        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-      } else if (error) {
-        next(error);
-      } else if (!renderProps) {
-        res.status(404).send('Not found');
-      } else {
-        if (
-          renderProps.components.filter(
-            component => component && component.displayName === 'Error404',
-          ).length > 0
-        ) {
-          res.status(404);
-        }
+  match(matchOptions, async (error, redirectLocation, renderProps) => {
+    if (redirectLocation) {
+      return res.redirect(
+        301,
+        redirectLocation.pathname + redirectLocation.search,
+      );
+    } else if (error) {
+      return next(error);
+    } else if (!renderProps) {
+      return res.status(404).send('Not found');
+    }
+    if (
+      renderProps.components.filter(
+        component => component && component.displayName === 'Error404',
+      ).length > 0
+    ) {
+      res.status(404);
+    }
 
-        res.setHeader('content-type', 'text/html; charset=utf-8');
-        res.write('<!doctype html>\n');
-        res.write(`<html lang="${locale}">\n`);
-        res.write('<head>\n');
-        res.write(
-          `<link rel="stylesheet" type="text/css" href="${
-            config.URL.FONT
-          }"/>\n`,
-        );
+    res.setHeader('content-type', 'text/html; charset=utf-8');
+    res.write('<!doctype html>\n');
+    res.write(`<html lang="${locale}">\n`);
+    res.write('<head>\n');
+    res.write(
+      `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+    );
 
-        if (process.env.NODE_ENV !== 'development') {
-          const mainHref = `${config.APP_PATH}/${assets['main.css']}`;
-          const themeHref = `${config.APP_PATH}/${
-            assets[`${config.CONFIG}_theme.css`]
-          }`;
+    // Write stylesheets and preload hints before doing anything else
+    if (process.env.NODE_ENV !== 'development') {
+      const mainHref = `${config.APP_PATH}/${assets['main.css']}`;
+      const themeHref = `${config.APP_PATH}/${
+        assets[`${config.CONFIG}_theme.css`]
+      }`;
 
-          res.write(
-            `<link rel="stylesheet" type="text/css" href="${mainHref}"/>\n`,
-          );
-          res.write(
-            `<link rel="stylesheet" type="text/css" href="${themeHref}"/>\n`,
-          );
+      res.write(
+        `<link rel="stylesheet" type="text/css" href="${mainHref}"/>\n`,
+      );
+      res.write(
+        `<link rel="stylesheet" type="text/css" href="${themeHref}"/>\n`,
+      );
 
-          res.write(
-            `<link rel="preload" as="script" href="${config.APP_PATH}/${
-              assets['common.js']
-            }">\n`,
-          );
-          res.write(
-            `<link rel="preload" as="script" href="${config.APP_PATH}/${
-              assets['main.js']
-            }">\n`,
-          );
+      res.write(
+        `<link rel="preload" as="script" href="${config.APP_PATH}/${
+          assets['common.js']
+        }">\n`,
+      );
+      res.write(
+        `<link rel="preload" as="script" href="${config.APP_PATH}/${
+          assets['main.js']
+        }">\n`,
+      );
 
-          res.write(
-            `<link rel="preconnect" crossorigin href="${
-              config.URL.API_URL
-            }">\n`,
-          );
-          res.write(
-            `<link rel="preconnect" crossorigin href="${
-              config.URL.MAP_URL
-            }">\n`,
-          );
-          res.write(
-            `<link rel="preconnect" crossorigin as="font" href="https://dev.hsl.fi/">\n`,
-          );
-        }
+      res.write(
+        `<link rel="preconnect" crossorigin href="${config.URL.API_URL}">\n`,
+      );
+      res.write(
+        `<link rel="preconnect" crossorigin href="${config.URL.MAP_URL}">\n`,
+      );
+      res.write(
+        `<link rel="preconnect" crossorigin as="font" href="https://dev.hsl.fi/">\n`,
+      );
+    }
 
-        const RELAY_FETCH_TIMEOUT = process.env.RELAY_FETCH_TIMEOUT || 1000;
+    const networkLayer = getNetworkLayer(config, agent);
 
-        const networkLayer = new RelayNetworkLayer([
-          nex => r => nex(r).catch(() => ({ payload: { data: null } })),
-          retryMiddleware({
-            fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
-            retryDelays: [],
-          }),
-          urlMiddleware({
-            url: `${config.URL.OTP}index/graphql`,
-          }),
-          batchMiddleware({
-            batchUrl: `${config.URL.OTP}index/graphql/batch`,
-          }),
-          gqErrorsMiddleware(),
-        ]);
+    // Do not block for either async function, but wait them both after each other
+    const polyfillPromise = getPolyfills(agent, config).then(polyfills =>
+      res.write(`<script>\n${polyfills}\n</script>\n`),
+    );
 
-        Promise.all([
-          getPolyfills(agent, config),
-          // Isomorphic rendering is ok to fail due timeout
-          IsomorphicRouter.prepareData(renderProps, networkLayer),
-        ])
-          .then(([polyfills, relayData]) => {
-            // eslint-disable-next-line no-unused-vars
-            const content =
-              relayData != null
-                ? getContent(
-                    context,
-                    relayData.props,
-                    locale,
-                    req.headers['user-agent'],
-                  )
-                : undefined;
-            const head = Helmet.rewind();
-            if (head) {
-              res.write(head.title.toString());
-              res.write(head.meta.toString());
-              res.write(head.link.toString());
-            }
-            res.write('</head>\n');
-            res.write('<body>\n');
+    const contentPromise = IsomorphicRouter.prepareData(
+      renderProps,
+      networkLayer,
+    ).then(relayData => {
+      const content =
+        relayData != null
+          ? getContent(
+              context,
+              relayData.props,
+              locale,
+              req.headers['user-agent'],
+            )
+          : undefined;
 
-            res.write(`<script>\n${polyfills}\n</script>\n`);
-            const spriteName = config.sprites;
+      const head = Helmet.rewind();
 
-            if (process.env.NODE_ENV !== 'development') {
-              res.write('<script>\n');
-              res.write(`fetch('${config.APP_PATH}/${assets[spriteName]}')
-                  .then(function(response) {return response.text();}).then(function(blob) {
-                    var div = document.createElement('div');
-                    div.innerHTML = blob;
-                    document.body.insertBefore(div, document.body.childNodes[0]);
-                  });`);
-              res.write('</script>\n');
-            } else {
-              res.write('<div>\n');
-              res.write(
-                fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
-              );
-              res.write('</div>\n');
-            }
-
-            res.write(`<div id="app">${content}</div>\n`);
-
-            res.write(
-              `<script>\nwindow.state=${serialize(
-                application.dehydrate(context),
-              )};\n</script>\n`,
-            );
-
-            res.write('<script type="application/json" id="relayData">\n');
-            res.write(JSON.stringify(relayData != null ? relayData.data : []));
-            res.write('\n</script>\n');
-
-            if (process.env.NODE_ENV === 'development') {
-              res.write('<script async src="/proxy/js/bundle.js"></script>\n');
-            } else {
-              res.write('<script>');
-              res.write(manifest);
-              res.write('\n</script>\n');
-              res.write(
-                `<script src="${config.APP_PATH}/${
-                  assets['common.js']
-                }"></script>\n`,
-              );
-              res.write(
-                `<script src="${config.APP_PATH}/${
-                  assets['main.js']
-                }"></script>\n`,
-              );
-            }
-            res.write(
-              '<noscript>This page requires JavaScript to run.</noscript>\n',
-            );
-            res.write('</body>\n');
-            res.write('</html>\n');
-            res.end();
-          })
-          .catch(err => {
-            if (err) {
-              next(err);
-            }
-          });
+      if (head) {
+        res.write(head.title.toString());
+        res.write(head.meta.toString());
+        res.write(head.link.toString());
       }
-    },
-  );
+      return [content, relayData];
+    });
+
+    const [[content, relayData]] = await Promise.all([
+      contentPromise,
+      polyfillPromise,
+    ]);
+
+    res.write('</head>\n');
+    res.write('<body>\n');
+
+    const spriteName = config.sprites;
+
+    if (process.env.NODE_ENV !== 'development') {
+      res.write('<script>\n');
+      res.write(`fetch('${config.APP_PATH}/${assets[spriteName]}')
+        .then(function(response) {return response.text();}).then(function(blob) {
+          var div = document.createElement('div');
+          div.innerHTML = blob;
+          document.body.insertBefore(div, document.body.childNodes[0]);
+        });`);
+      res.write('</script>\n');
+    } else {
+      res.write('<div>\n');
+      res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
+      res.write('</div>\n');
+    }
+
+    res.write(`<div id="app">${content}</div>\n`);
+
+    res.write(
+      `<script>\nwindow.state=${serialize(
+        application.dehydrate(context),
+      )};\n</script>\n`,
+    );
+
+    res.write('<script type="application/json" id="relayData">\n');
+    res.write(relayData != null ? JSON.stringify(relayData.data) : '[]');
+    res.write('\n</script>\n');
+
+    if (process.env.NODE_ENV === 'development') {
+      res.write('<script async src="/proxy/js/bundle.js"></script>\n');
+    } else {
+      res.write('<script>');
+      res.write(manifest);
+      res.write('\n</script>\n');
+      res.write(
+        `<script src="${config.APP_PATH}/${assets['common.js']}"></script>\n`,
+      );
+      res.write(
+        `<script src="${config.APP_PATH}/${assets['main.js']}"></script>\n`,
+      );
+    }
+    res.write('</body>\n');
+    res.write('</html>\n');
+    return res.end();
+  });
 }
