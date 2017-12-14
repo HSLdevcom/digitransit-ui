@@ -27,9 +27,9 @@ table.nearby-departures-table {
                 line-height: 1em;
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
-                flex: 0 0 4em;
+                flex: 0 0 3.7em;
                 &.th-destination {
-                    flex: 4em;
+                    flex: 1 0 4em;
                 }
             }
         }
@@ -74,7 +74,6 @@ table.nearby-departures-table {
                             -webkit-mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                             mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                             overflow: hidden;
-                            max-width: 2em
                         }
                     }
                 }
@@ -87,7 +86,8 @@ table.nearby-departures-table {
                     font-family: $font-family;
                 }
                 &.td-destination, &.td-bikestation {
-                    flex: 4em;
+                    flex: 1 0 4em;
+                    overflow-x: hidden;
                     span {
                       margin-top: 2px;
                       font-size: $font-size-normal;
