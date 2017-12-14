@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const flexbugsFixes = require('postcss-flexbugs-fixes');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -208,7 +209,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer()],
+          postcss: () => [autoprefixer(), flexbugsFixes],
         },
       }),
       new webpack.NoEmitOnErrorsPlugin(),
@@ -231,7 +232,7 @@ function getPluginsConfig(env) {
       debug: false,
       minimize: true,
       options: {
-        postcss: () => [autoprefixer(), csswring],
+        postcss: () => [autoprefixer(), csswring, flexbugsFixes],
       },
     }),
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
