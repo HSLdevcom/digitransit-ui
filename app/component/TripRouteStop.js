@@ -105,8 +105,6 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
-  first: PropTypes.bool,
-  last: PropTypes.bool,
   fullscreenMap: PropTypes.bool,
 };
 
