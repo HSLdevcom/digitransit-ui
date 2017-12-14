@@ -1,213 +1,128 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import { isMobile } from '../util/browser';
 
-export default class ItineraryTimePicker extends React.Component {
+class ItineraryTimePicker extends React.Component {
   static propTypes = {
     changeTime: PropTypes.func.isRequired,
     initHours: PropTypes.string.isRequired,
     initMin: PropTypes.string.isRequired,
   };
 
+  static DELTAS = { 38: 1, 40: -1 };
+
   constructor(props) {
     super(props);
-    this.state = this.getState(props, {});
+    this.state = {
+      hour: this.padDigits(props.initHours),
+      minute: this.padDigits(props.initMin),
+    };
   }
 
   componentWillReceiveProps({ initHours, initMin }) {
-    if (
-      Number(this.state.initHours) !== Number(initHours) ||
-      Number(this.state.initMin) !== Number(initMin)
-    ) {
-      this.setState({
-        initHours: this.padDigits(initHours),
-        initMin: this.padDigits(initMin),
-      });
-    }
+    this.setState({
+      hour: this.padDigits(initHours),
+      minute: this.padDigits(initMin),
+    });
   }
 
-  onChangeTime = event => {
-    const isHour = this.isHours(event.target.id);
-    const timePropertyId = isHour ? 'hours' : 'minutes';
-    const focusropertyId = isHour ? 'focusHours' : 'focusMinutes';
+  onChangeHour = e => {
+    let val = e.target.value;
+    // allow clearing
+    if (val === '') {
+      this.setState({ hour: val });
+      return;
+    }
 
-    if (this.state[focusropertyId] === true) {
-      // just focused, accept 1 digit
-      if (event.target.value === '') {
-        this.setState({
-          [focusropertyId]: false,
-          [timePropertyId]: event.target.value,
+    if (/^\d+$/.test(val)) {
+      const hour = parseInt(val, 10);
+      if (val.length === 2 || hour > 3) {
+        if (hour > 23) {
+          // entered hour was > 23, use 2nd digit only
+          val = val.substring(1);
+        }
+        // set state && auto move to minutes
+        this.setState({ hour: val }, () => {
+          this.minEl.focus();
+          setTimeout(() => {
+            this.minEl.setSelectionRange(0, 2);
+          }, 0);
         });
         return;
       }
-      this.setState({ [focusropertyId]: false });
-    }
-    // accept empty value
-    if (event.target.value === '') {
-      this.setState({
-        [timePropertyId]: event.target.value,
-      });
-      return;
-    }
-    // Accept only numbers
-    if (/^\d+$/.test(event.target.value)) {
-      // Check if there's a leading zero
-      const input = this.checkZero(event.target.value);
-      if (input.length < 3) {
-        // Clean up the input
-        const newTime =
-          input.length > 1
-            ? this.fixDigits({
-                val: input,
-                max: isHour ? 23 : 59,
-              })
-            : input;
-        // Send new time request
-        const requestString = isHour
-          ? `${newTime} ${this.state.minutes}`
-          : `${this.state.hours} ${newTime}`;
-        this.props.changeTime({ target: { value: requestString } }, () => {
-          // If set hours are 3-9 or two digits, switch to minute input
-          if (
-            (newTime.length === 2 || (newTime < 10 && newTime > 2)) &&
-            isHour
-          ) {
-            // move to minutes field
-            this.hourEl.blur();
-            this.minEl.focus();
-            setTimeout(() => {
-              this.minEl.setSelectionRange(0, 2);
-            }, 0);
-          }
-        });
-        this.setState({
-          [timePropertyId]: newTime,
-        });
-      }
+      this.setState({ hour: val });
     }
   };
 
-  onBlur = (stateName, newValue, oldValue) => {
-    if (newValue === '') {
-      // restore old
-      this.setState({ [stateName]: oldValue });
-    } else {
-      this.setState({ [stateName]: this.padDigits(newValue) });
+  onChangeMinute = e => {
+    let val = e.target.value;
+    // allow clearing
+    if (val === '') {
+      this.setState({ minute: val });
+      return;
+    }
+
+    if (/^\d+$/.test(val)) {
+      const minute = parseInt(val, 10);
+      if (val.length === 2 || minute > 5) {
+        if (minute > 59) {
+          // entered hour was > 23, use 2nd digit only
+          val = val.substring(1);
+        }
+        // set state && auto blur
+        this.setState({ minute: val }, () => {
+          this.minEl.blur();
+        });
+        return;
+      }
+      this.setState({ minute: val });
     }
   };
 
   setSelectionRange = e => e.target.setSelectionRange(0, 2);
 
-  getState = ({ initHours, initMin }, currentState) => {
-    const newState = {
-      oldHour: this.padDigits(initHours),
-      oldMinute: this.padDigits(initMin),
-    };
-
-    if (Number(currentState.hours) !== Number(initHours)) {
-      newState.hours = this.padDigits(initHours);
-    }
-    if (Number(currentState.minutes) !== Number(initMin)) {
-      newState.minutes = this.padDigits(initMin);
-    }
-    return newState;
-  };
-
-  toggleTime = event => {
-    const isHour = this.isHours(event.target.id);
-    const id = this.stateId(event.target.id);
-    const max = isHour ? 23 : 59;
-    const newTime = this.checkInt(event.target.value);
-    let newChanges;
-    if (event.keyCode === 38) {
-      // Up
-      newChanges = this.constructToggle({
-        time: newTime < max ? newTime + 1 : 0,
-        id,
-        max,
-        add: 1,
+  /** arrow down + up hour * */
+  handleKeyDownHour = event => {
+    const delta = ItineraryTimePicker.DELTAS[event.keyCode];
+    if (delta) {
+      this.props.changeTime({
+        add: { key: 'hours', delta },
       });
     }
-    if (event.keyCode === 40) {
-      // Down
-      newChanges = this.constructToggle({
-        time: newTime !== 0 ? newTime - 1 : max,
-        id,
-        max,
-        add: -1,
-      });
-    }
-    this.setState(newChanges.toggledState);
-    this.props.changeTime({ target: { value: newChanges.requestString } });
   };
 
-  constructToggle = val => {
-    let toggledState;
-    let requestString;
+  /** arrow down + up minute * */
+  handleKeyDownMinute = event => {
+    const delta = ItineraryTimePicker.DELTAS[event.keyCode];
+    if (delta) {
+      this.props.changeTime({
+        add: { key: 'minutes', delta },
+      });
+    }
+  };
+
+  handleBlur = () => {
+    if (this.state.hour === '') {
+      // restore old value when blurring empty
+      this.setState({ hour: this.padDigits(this.props.initHours) });
+      return;
+    }
+
+    if (this.state.minute === '') {
+      // restore old value when blurring empty
+      this.setState({ minute: this.padDigits(this.props.initMin) });
+      return;
+    }
+    // check if value has changed, if so dispatch url change
     if (
-      val.id === 'minutes' &&
-      ((val.time === 0 && val.add === 1) || (val.time === 59 && val.add === -1))
+      parseInt(this.props.initHours, 10) !== parseInt(this.state.hour, 10) ||
+      parseInt(this.props.initMin, 10) !== parseInt(this.state.minute, 10)
     ) {
-      // If the minute value is increased so it loops to the min value, add one hour
-      // If the minute value is decreased so it loops to the max value, reduce one hour
-      const toggledHour =
-        this.state.hours < 1 ? 23 : parseInt(this.state.hours, 10) + val.add;
-      toggledState = {
-        hours: toggledHour < 0 ? 23 : toggledHour,
-        minutes: val.time,
-      };
-      requestString = `${parseInt(this.state.hours, 10) + val.add} ${val.time}`;
-    } else {
-      toggledState = {
-        [val.id]: val.time,
-      };
-      requestString =
-        val.id === 'hours'
-          ? `${val.time} ${this.state.minutes}`
-          : `${this.state.hours} ${val.time}`;
-    }
-    return { toggledState, requestString };
-  };
-
-  handleKeyDown = event => {
-    if (event.keyCode === 38 || event.keyCode === 40) {
-      // up or down
-      this.toggleTime(event);
-    }
-  };
-
-  fixDigits = digit =>
-    digit.val.length === 2 && digit.val > digit.max
-      ? digit.val.substr(1)
-      : this.padDigits(digit.val);
-
-  checkZero = digit =>
-    digit.charAt(0) === '0' && digit.length > 2 ? digit.substr(1) : digit;
-
-  checkInt = val => (typeof val !== 'string' ? val : parseInt(val, 10));
-
-  isHours = id => id === 'inputHours';
-  isMinutes = id => !this.isHours(id);
-  stateId = id => (this.isHours(id) ? 'hours' : 'minutes');
-
-  handleBlur = event => {
-    const isHour = this.isHours(event.target.id);
-    if (isHour) {
-      this.onBlur('hours', event.target.value, this.state.oldHour);
-    } else {
-      this.onBlur('minutes', event.target.value, this.state.oldMinute);
-    }
-  };
-
-  handleFocus = event => {
-    const isHour = this.isHours(event.target.id);
-    if (isHour) {
-      this.setState({
-        focusHours: true,
-      });
-    } else {
-      this.setState({
-        focusMinutes: true,
+      // time has been changed
+      this.props.changeTime({
+        hours: this.state.hour,
+        minutes: this.state.minute,
       });
     }
   };
@@ -219,48 +134,44 @@ export default class ItineraryTimePicker extends React.Component {
   };
 
   render() {
+    const { hour, minute } = this.state;
     return (
       <div
         className={`time-input-container time-selector ${
           !isMobile ? 'time-selector' : ''
         }`}
       >
-        <input
-          type="tel"
-          ref={el => {
-            if (el !== null) {
-              this.hourEl = el;
-            }
-          }}
-          id="inputHours"
-          className="time-input-field"
-          value={this.state.hours}
-          maxLength={2}
-          onChange={this.onChangeTime}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onClick={this.setSelectionRange}
-          onKeyDown={this.handleKeyDown}
-        />
-        <div className="digit-separator">:</div>
-        <input
-          type="tel"
-          ref={el => {
-            if (el !== null) {
-              this.minEl = el;
-            }
-          }}
-          id="inputMinutes"
-          className="time-input-field"
-          value={this.state.minutes}
-          maxLength={2}
-          onChange={this.onChangeTime}
-          onClick={this.setSelectionRange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onKeyDown={this.handleKeyDown}
-        />
+        <form id="time" onBlur={this.handleBlur}>
+          <input
+            type="tel"
+            id="inputHours"
+            className="time-input-field"
+            value={hour}
+            maxLength={2}
+            onChange={this.onChangeHour}
+            onClick={this.setSelectionRange}
+            onKeyDown={this.handleKeyDownHour}
+          />
+          <div className="digit-separator">:</div>
+          <input
+            type="tel"
+            ref={el => {
+              if (el !== null) {
+                this.minEl = el;
+              }
+            }}
+            id="inputMinutes"
+            className="time-input-field"
+            value={minute}
+            maxLength={2}
+            onChange={this.onChangeMinute}
+            onClick={this.setSelectionRange}
+            onKeyDown={this.handleKeyDownMinute}
+          />
+        </form>
       </div>
     );
   }
 }
+
+export default onlyUpdateForKeys(['initMin', 'initHours'])(ItineraryTimePicker);

@@ -134,6 +134,10 @@
   }
 }
 .time-input-container {
+  form {
+    display: inherit;
+    margin-bottom: 0;
+  }
   display: flex;
   background: $white;
   padding: 0 calc(0.7em + 1.5rem) 0 0.7em;
