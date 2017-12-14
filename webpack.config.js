@@ -8,6 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
@@ -255,6 +256,7 @@ function getPluginsConfig(env) {
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
+    new ManifestPlugin({ fileName: '../manifest.json' }),
     new UglifyJsPlugin({
       sourceMap: true,
       parallel: true,
@@ -269,6 +271,7 @@ function getPluginsConfig(env) {
         '**/.*',
         '**/*.map',
         '../stats.json',
+        '../manifest.json',
         '**/*.gz',
         '**/*.br',
         'js/*_theme.*.js',

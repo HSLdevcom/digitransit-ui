@@ -150,7 +150,7 @@ const callback = () =>
       (error, redirectLocation, renderProps) => {
         IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
           props => {
-            ReactDOM.render(
+            ReactDOM.hydrate(
               <ContextProvider
                 translations={translations}
                 context={context.getComponentContext()}
