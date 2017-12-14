@@ -12,26 +12,25 @@ table.nearby-departures-table {
     border-spacing: 0;
     table-layout: fixed;
     thead {
-        th {
-            text-align: left;
-            color: $gray;
-            @include font-narrow-book;
-            font-size: $font-size-small;
-            white-space: nowrap;
-            margin: 0;
-            line-height: 1em;
-            padding-top: 0.6em;
-            padding-bottom: 0.6em;
-            &.th-to-stop {
-                padding-left: 1em;
-                width: 10%;
-            }
-            &.th-route {
-                width: 15%;
-                text-align: center;
-            }
-            &.th-destination {
-                width: 40%;
+        display: block;
+        .header-tr {
+            display: flex;
+            width: 100%;
+            padding-left: 0.6em;
+            th {
+                text-align: left;
+                color: $gray;
+                @include font-narrow-book;
+                font-size: $font-size-small;
+                white-space: nowrap;
+                margin: 0;
+                line-height: 1em;
+                padding-top: 0.6em;
+                padding-bottom: 0.6em;
+                flex: 0 0 3.7em;
+                &.th-destination {
+                    flex: 1 0 4em;
+                }
             }
         }
     }
@@ -48,11 +47,13 @@ table.nearby-departures-table {
             font-size: $font-size-small;
             margin: 0;
             line-height: 1em;
+            display: flex;
             td {
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
-                width: 15%;
                 border-bottom: 1px solid #cbcbcb;
+                display: block;
+                flex: 0 0 4em;
                 &.td-available-bikes {
                     font-size: $font-size-small;
                     text-align: center;
@@ -73,26 +74,29 @@ table.nearby-departures-table {
                             -webkit-mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                             mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                             overflow: hidden;
-                            max-width: 2em
                         }
                     }
                 }
                 &.td-distance {
                     color: $gray;
                     padding-left: 1em;
-                    min-width: 4.5em;
                 }
                 &.td-departure-times {
                     font-weight: $font-weight-bold;
                     font-family: $font-family;
                 }
                 &.td-destination, &.td-bikestation {
-                    width: 35%;
+                    flex: 1 0 4em;
+                    overflow-x: hidden;
                     span {
                       margin-top: 2px;
                       font-size: $font-size-normal;
                       white-space: pre-line;
                       height: $font-size-normal;
+                    }
+                    .route-destination {
+                        display: block;
+                        width: auto;
                     }
                     span.city-bike-station-name {
                         width: 100%;
