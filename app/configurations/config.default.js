@@ -18,6 +18,7 @@ export default {
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
+    MAP_URL,
     OTP: `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
       default: `${MAP_URL}/map/v1/hsl-map/`,
@@ -113,7 +114,6 @@ export default {
     zoomOffset: -1,
     minZoom: 1,
     maxZoom: 18,
-    useVectorTiles: true,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'

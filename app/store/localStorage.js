@@ -159,14 +159,6 @@ export function setOldSearchesStorage(data) {
   setItem('saved-searches', data);
 }
 
-export function getIntroShown() {
-  return getItemAsJson('intro') === true;
-}
-
-export function setIntroShown() {
-  setItem('intro', true);
-}
-
 export function setPositioningHasSucceeded(state) {
   setItem('positioningSuccesful', { state });
 }

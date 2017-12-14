@@ -8,7 +8,7 @@ import some from 'lodash/some';
 import pure from 'recompose/pure';
 
 import Icon from './Icon';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
@@ -54,7 +54,7 @@ function RouteMapContainer(
   }
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <Map
+    <MapContainer
       lat={lat}
       lon={lon}
       className="full"
@@ -86,7 +86,7 @@ function RouteMapContainer(
           )}
         </div>
       )}
-    </Map>
+    </MapContainer>
   );
 }
 

@@ -24,7 +24,7 @@ class ModeFilter extends React.Component {
       mode => this.context.config.transportModes[mode].availableForSelection,
     );
 
-  render = () => {
+  render() {
     const ModeToggleButton = ({ type, stateName }) => {
       if (this.context.config.transportModes[type].availableForSelection) {
         const action = this.props.action[
@@ -62,7 +62,7 @@ class ModeFilter extends React.Component {
         <ModeToggleButton type="citybike" stateName="BICYCLE_RENT" />
       </div>
     );
-  };
+  }
 }
 
 const pureModeFilter = pure(ModeFilter);

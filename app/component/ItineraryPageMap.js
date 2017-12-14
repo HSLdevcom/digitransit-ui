@@ -6,7 +6,7 @@ import polyline from 'polyline-encoded';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
@@ -101,15 +101,15 @@ export default function ItineraryPageMap(
   // onCenterMap() used to check if the layer has a marker for an itinerary
   // stop, emulate a click on the map to open up the popup
   const onCenterMap = element => {
-    const map = get(element, 'refs.wrappedElement.map', null);
+    const map = get(element, 'leafletElement', null);
     if (!map || !center) {
       return;
     }
-    map.leafletElement.closePopup();
+    map.closePopup();
     clearTimeout(timeout);
     if (fullscreen || breakpoint === 'large') {
       const latlngPoint = new L.LatLng(center.lat, center.lon);
-      map.leafletElement.eachLayer(layer => {
+      map.eachLayer(layer => {
         if (
           layer instanceof L.Marker &&
           layer.getLatLng().equals(latlngPoint)
@@ -118,10 +118,8 @@ export default function ItineraryPageMap(
             () =>
               layer.fireEvent('click', {
                 latlng: latlngPoint,
-                layerPoint: map.leafletElement.latLngToLayerPoint(latlngPoint),
-                containerPoint: map.leafletElement.latLngToContainerPoint(
-                  latlngPoint,
-                ),
+                layerPoint: map.latLngToLayerPoint(latlngPoint),
+                containerPoint: map.latLngToContainerPoint(latlngPoint),
               }),
             250,
           );
@@ -133,7 +131,7 @@ export default function ItineraryPageMap(
   };
 
   return (
-    <Map
+    <MapContainer
       className="full itinerary"
       leafletObjs={leafletObjs}
       lat={center ? center.lat : from.lat}
@@ -143,11 +141,11 @@ export default function ItineraryPageMap(
       fitBounds={Boolean(bounds)}
       boundsOptions={{ maxZoom: 16 }}
       showScaleBar={showScale}
-      ref={onCenterMap}
+      mapRef={onCenterMap}
       hideOrigin
     >
       {breakpoint !== 'large' && overlay}
-    </Map>
+    </MapContainer>
   );
 }
 

@@ -213,8 +213,6 @@ export default {
     },
   ],
 
-  shouldShowIntro: false,
-
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 

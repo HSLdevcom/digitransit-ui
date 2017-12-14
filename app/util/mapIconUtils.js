@@ -1,42 +1,28 @@
 import memoize from 'lodash/memoize';
-import glfun from '@mapbox/mapbox-gl-style-spec/function';
 import getSelector from './get-selector';
+import glfun from './glfun';
 
 const FONT_SIZE = 11;
 
 export const getCaseRadius = memoize(
-  glfun(
-    {
-      type: 'exponential',
-      base: 1.15,
-      stops: [[11.9, 0], [12, 1.5], [22, 26]],
-    },
-    {},
-  ),
+  glfun({
+    base: 1.15,
+    stops: [[11.9, 0], [12, 1.5], [22, 26]],
+  }),
 );
 
 export const getStopRadius = memoize(
-  glfun(
-    {
-      type: 'exponential',
-      base: 1.15,
-      stops: [[11.9, 0], [12, 1], [22, 24]],
-      range: [0, 1, 24],
-    },
-    {},
-  ),
+  glfun({
+    base: 1.15,
+    stops: [[11.9, 0], [12, 1], [22, 24]],
+  }),
 );
 
 export const getHubRadius = memoize(
-  glfun(
-    {
-      type: 'exponential',
-      base: 1.15,
-      stops: [[14, 0], [14.1, 2], [22, 20]],
-      range: [0, 2, 20],
-    },
-    {},
-  ),
+  glfun({
+    base: 1.15,
+    stops: [[14, 0], [14.1, 2], [22, 20]],
+  }),
 );
 
 export const getColor = memoize(mode => {

@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import shouldUpdate from 'recompose/shouldUpdate';
+
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
 import NextDeparturesListHeader from './NextDeparturesListHeader';
@@ -51,9 +53,18 @@ FavouriteRoutes.propTypes = {
   origin: dtLocationShape.isRequired,
 };
 
-const FavouritesPanel = ({ origin, routes }) => (
+const FavouritesPanel = ({
+  origin,
+  routes,
+  currentTime,
+  favouriteLocations,
+}) => (
   <div className="frontpage-panel">
-    <FavouriteLocationsContainer origin={origin} />
+    <FavouriteLocationsContainer
+      origin={origin}
+      currentTime={currentTime}
+      favourites={favouriteLocations}
+    />
     <NextDeparturesListHeader />
     <div className="scrollable momentum-scroll favourites">
       <FavouriteRoutes routes={routes} origin={origin} />
@@ -64,17 +75,36 @@ const FavouritesPanel = ({ origin, routes }) => (
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,
   origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
+  currentTime: PropTypes.number.isRequired,
+  favouriteLocations: PropTypes.array,
 };
+
+const FilteredFavouritesPanel = shouldUpdate(
+  (props, nextProps) =>
+    nextProps.currentTime !== props.currentTime ||
+    nextProps.routes !== props.routes ||
+    nextProps.origin.gps !== props.origin.gps ||
+    (!nextProps.origin.gps &&
+      (nextProps.origin.lat !== props.origin.lat ||
+        nextProps.origin.lon !== props.origin.lon)),
+)(FavouritesPanel);
 
 export default connectToStores(
   ctx => (
     <PanelOrSelectLocation
-      panel={FavouritesPanel}
+      panel={FilteredFavouritesPanel}
       panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
     />
   ),
-  ['FavouriteRoutesStore'],
+  ['FavouriteRoutesStore', 'TimeStore', 'FavouriteLocationStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+    favouriteLocations: context
+      .getStore('FavouriteLocationStore')
+      .getLocations(),
   }),
 );

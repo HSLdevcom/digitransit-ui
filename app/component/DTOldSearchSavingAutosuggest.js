@@ -58,9 +58,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       isFocused={this.props.isFocused}
       searchType={this.props.searchType}
       value={this.props.value}
-      selectedFunction={(event, { suggestion }) => {
-        this.onSelect(suggestion);
-      }}
+      selectedFunction={suggestion => this.onSelect(suggestion)}
       id={this.props.id}
       className={this.props.className}
       refPoint={this.props.refPoint}

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import { routerShape } from 'react-router';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
@@ -76,7 +76,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
   const showScale = fullscreenMap || breakpoint === 'large';
 
   return (
-    <Map
+    <MapContainer
       className="full"
       lat={stop.lat}
       lon={stop.lon}
@@ -87,7 +87,7 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
       showScaleBar={showScale}
     >
       {children}
-    </Map>
+    </MapContainer>
   );
 };
 

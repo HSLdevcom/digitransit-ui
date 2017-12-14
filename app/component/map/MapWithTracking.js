@@ -3,9 +3,9 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
-import PlaceMarker from './PlaceMarker';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
 import ComponentUsageExample from '../ComponentUsageExample';
-import Map from './Map';
+import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 
@@ -24,7 +24,12 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
 ]);
 
-const Component = onlyUpdateCoordChanges(Map);
+const placeMarkerModules = {
+  PlaceMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
+};
+
+const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
@@ -74,15 +79,6 @@ class MapWithTrackingStateHandler extends React.Component {
       newProps.origin.lon != null
     ) {
       this.useOrigin(newProps.origin);
-    } else if (
-      this.state.focusOnOrigin === true ||
-      this.state.shouldShowDefaultLocation === true
-    ) {
-      // "origin not set"
-      this.setState({
-        focusOnOrigin: false,
-        shouldShowDefaultLocation: false,
-      });
     }
   }
 
@@ -142,7 +138,13 @@ class MapWithTrackingStateHandler extends React.Component {
     const leafletObjs = [];
 
     if (origin && origin.ready === true && origin.gps !== true) {
-      leafletObjs.push(<PlaceMarker position={this.props.origin} key="from" />);
+      leafletObjs.push(
+        <LazilyLoad modules={placeMarkerModules}>
+          {({ PlaceMarker }) => (
+            <PlaceMarker position={this.props.origin} key="from" />
+          )}
+        </LazilyLoad>,
+      );
     }
 
     return (

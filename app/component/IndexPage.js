@@ -373,46 +373,46 @@ const IndexPageWithPosition = connectToStores(
       });
     }
 
-    if (isBrowser) {
-      newProps.showSpinner = locationState.isLocationingInProgress === true;
-      if (
-        locationState.isLocationingInProgress !== true &&
-        locationState.hasLocation === false &&
-        (newProps.origin.gps === true || newProps.destination.gps === true)
-      ) {
-        checkPositioningPermission().then(status => {
-          if (
-            // check logic for starting geolocation
-            status.state === 'granted' &&
-            locationState.status === 'no-location'
-          ) {
-            debug('Auto Initialising geolocation');
+    newProps.showSpinner = locationState.isLocationingInProgress === true;
 
-            context.executeAction(initGeolocation);
-          } else {
-            // clear gps & redirect
-            if (newProps.origin.gps === true) {
-              newProps.origin.gps = false;
-              newProps.origin.set = false;
-            }
+    if (
+      isBrowser &&
+      locationState.isLocationingInProgress !== true &&
+      locationState.hasLocation === false &&
+      (newProps.origin.gps === true || newProps.destination.gps === true)
+    ) {
+      checkPositioningPermission().then(status => {
+        if (
+          // check logic for starting geolocation
+          status.state === 'granted' &&
+          locationState.status === 'no-location'
+        ) {
+          debug('Auto Initialising geolocation');
 
-            if (newProps.destination.gps === true) {
-              newProps.destination.gps = false;
-              newProps.destination.set = false;
-            }
-
-            debug('Redirecting away from POS');
-            navigateTo({
-              origin: newProps.origin,
-              destination: newProps.destination,
-              context: '/',
-              router: context.router,
-              base: {},
-              tab: newProps.tab,
-            });
+          context.executeAction(initGeolocation);
+        } else {
+          // clear gps & redirect
+          if (newProps.origin.gps === true) {
+            newProps.origin.gps = false;
+            newProps.origin.set = false;
           }
-        });
-      }
+
+          if (newProps.destination.gps === true) {
+            newProps.destination.gps = false;
+            newProps.destination.set = false;
+          }
+
+          debug('Redirecting away from POS');
+          navigateTo({
+            origin: newProps.origin,
+            destination: newProps.destination,
+            context: '/',
+            router: context.router,
+            base: {},
+            tab: newProps.tab,
+          });
+        }
+      });
     }
     return newProps;
   },

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
@@ -68,7 +68,7 @@ class TopLevel extends React.Component {
       host.indexOf('127.0.0.1') === -1 &&
       host.indexOf('localhost') === -1 &&
       hasTrackingPixel ? (
-        <HSLAdformTrackingPixel />
+        <HSLAdformTrackingPixel key="trackingpixel" />
       ) : (
         undefined
       );
@@ -83,11 +83,21 @@ class TopLevel extends React.Component {
     };
   }
 
-  getBreakpoint = () =>
-    (!this.props.width && 'none') ||
-    (this.props.width < 400 && 'small') ||
-    (this.props.width < 900 && 'medium') ||
-    'large';
+  getBreakpoint = () => {
+    if (this.props.width) {
+      if (this.props.width < 400) {
+        return 'small';
+      } else if (this.props.width < 900) {
+        return 'medium';
+      }
+    } else if (
+      'user-agent' in this.context.headers &&
+      this.context.headers['user-agent'].toLowerCase().includes('mobile')
+    ) {
+      return 'small';
+    }
+    return 'large';
+  };
 
   render() {
     this.topBarOptions = Object.assign(
@@ -128,9 +138,8 @@ class TopLevel extends React.Component {
       );
     }
 
-    const menuHeight = (this.getBreakpoint() === 'large' && '60px') || '40px';
     return (
-      <div className="fullscreen">
+      <Fragment>
         {!this.topBarOptions.hidden && (
           <AppBarContainer
             title={this.props.title}
@@ -139,16 +148,13 @@ class TopLevel extends React.Component {
           />
         )}
         <Helmet {...this.metadata} />
-        <section
-          id="mainContent"
-          className="content"
-          style={{ height: `calc(100% - ${menuHeight})` }}
-        >
+        <section id="mainContent" className="content">
           {this.props.meta}
+          <noscript>This page requires JavaScript to run.</noscript>
           <ErrorBoundary>{content}</ErrorBoundary>
         </section>
         {this.trackingPixel}
-      </div>
+      </Fragment>
     );
   }
 }

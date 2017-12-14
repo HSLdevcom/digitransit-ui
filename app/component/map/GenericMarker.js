@@ -14,7 +14,7 @@ let L;
 //      Perhaps still using the require from webpack?
 if (isBrowser) {
   Marker = require('react-leaflet/es/Marker').default;
-  Popup = require('react-leaflet/es/Popup').default;
+  Popup = require('./Popup').default;
   L = require('leaflet');
 }
 /* eslint-enable global-require */

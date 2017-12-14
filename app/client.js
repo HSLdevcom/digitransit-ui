@@ -123,12 +123,16 @@ const callback = () =>
 
     configureMoment(language, config);
 
+    let hasSwUpdate = false;
     const history = historyCreator(config);
 
     function track() {
       this.href = this.props.router.createHref(this.state.location);
       piwik.setCustomUrl(this.href);
       piwik.trackPageView();
+      if (hasSwUpdate && !this.state.location.state) {
+        window.location = this.href;
+      }
     }
 
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
@@ -146,7 +150,7 @@ const callback = () =>
       (error, redirectLocation, renderProps) => {
         IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
           props => {
-            ReactDOM.render(
+            ReactDOM.hydrate(
               <ContextProvider
                 translations={translations}
                 context={context.getComponentContext()}
@@ -168,7 +172,12 @@ const callback = () =>
                   process.env.NODE_ENV === 'production' &&
                   BUILD_TIME !== 'unset'
                 ) {
-                  OfflinePlugin.install();
+                  OfflinePlugin.install({
+                    onUpdateReady: () => OfflinePlugin.applyUpdate(),
+                    onUpdated: () => {
+                      hasSwUpdate = true;
+                    },
+                  });
                 }
               },
             );

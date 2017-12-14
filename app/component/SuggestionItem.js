@@ -16,7 +16,7 @@ import {
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
-  ({ item, useTransportIcons, doNotShowLinkToStop }) => {
+  ({ item, useTransportIcons, doNotShowLinkToStop, loading }) => {
     let icon;
     if (item.properties.mode && useTransportIcons) {
       icon = (
@@ -40,6 +40,7 @@ const SuggestionItem = pure(
       <div
         className={cx('search-result', item.type, {
           favourite: item.type.startsWith('Favourite'),
+          loading,
         })}
       >
         <span className="autosuggestIcon">{icon}</span>
