@@ -67,6 +67,14 @@ table.nearby-departures-table {
                     .route-number {
                         white-space: nowrap;
                         min-width: 50px;
+                        overflow: hidden;
+                        max-width: 2em;
+                        .vehicle-number {
+                            -webkit-mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+                            mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+                            overflow: hidden;
+                            max-width: 2em
+                        }
                     }
                 }
                 &.td-distance {
