@@ -4,6 +4,7 @@ npm-debug.log
 node_modules
 filesizes.html
 stats.json
+manifest.json
 test/credentials.json
 test/binaries
 *.swp
