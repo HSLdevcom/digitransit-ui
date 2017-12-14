@@ -28,8 +28,6 @@ require('babel-core/register')({
 
 const port = process.env.HOT_LOAD_PORT || 9000;
 
-const prodBrowsers = ['IE 11', '> 0.2% in FI', 'iOS 8'];
-
 function getRulesConfig(env) {
   if (env === 'development') {
     return [
@@ -41,11 +39,7 @@ function getRulesConfig(env) {
         loader: 'babel',
         include: [path.resolve(__dirname, 'app/')],
         options: {
-          presets: [
-            ['env', { targets: { browsers: prodBrowsers }, modules: false }],
-            'react',
-            'stage-2',
-          ],
+          presets: [['env', { modules: false }], 'react', 'stage-2'],
           plugins: [
             'transform-import-commonjs',
             ['relay', { compat: true, schema: 'build/schema.json' }],
@@ -76,7 +70,6 @@ function getRulesConfig(env) {
           [
             'env',
             {
-              targets: { browsers: prodBrowsers },
               loose: true,
               modules: false,
             },
@@ -215,7 +208,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: prodBrowsers })],
+          postcss: () => [autoprefixer()],
         },
       }),
       new webpack.NoEmitOnErrorsPlugin(),
@@ -238,7 +231,7 @@ function getPluginsConfig(env) {
       debug: false,
       minimize: true,
       options: {
-        postcss: () => [autoprefixer({ browsers: prodBrowsers }), csswring],
+        postcss: () => [autoprefixer(), csswring],
       },
     }),
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
