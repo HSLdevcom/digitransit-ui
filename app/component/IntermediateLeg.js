@@ -26,9 +26,7 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
-        className={`small-9 columns itinerary-instruction-column intermediate ${
-          modeClassName
-        }`}
+        className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">

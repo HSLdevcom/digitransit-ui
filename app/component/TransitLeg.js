@@ -165,9 +165,7 @@ class TransitLeg extends React.Component {
               : 'currentColor',
           }}
           onClick={this.props.focusAction}
-          className={`small-9 columns itinerary-instruction-column ${
-            firstLegClassName
-          } ${modeClassName}`}
+          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
         >
           <div className="itinerary-leg-first-row">
             <div>

@@ -183,8 +183,7 @@ function getColors() {
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>
-        <span className="code color-code">$primary-font-color</span>#ffffff<br
-        />
+        <span className="code color-code">$primary-font-color</span>#ffffff<br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#0062a1' }} />
         </svg>
@@ -192,8 +191,7 @@ function getColors() {
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>
-        <span className="code color-code">$secondary-font-color</span>#ffffff<br
-        />
+        <span className="code color-code">$secondary-font-color</span>#ffffff<br />
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#ffffff' }} />
         </svg>

@@ -20,9 +20,7 @@ function testVariation(
   return new Promise(resolve => {
     gemini.suite(`${componentName}_${variationName}`, suite => {
       try {
-        let capture = `.component-example:nth-of-type(${
-          captureOrExampleNumber
-        }) .component`;
+        let capture = `.component-example:nth-of-type(${captureOrExampleNumber}) .component`;
         if (captureOrExampleNumber instanceof Array) {
           capture = captureOrExampleNumber;
         }

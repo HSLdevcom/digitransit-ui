@@ -27,9 +27,10 @@ table.nearby-departures-table {
                 line-height: 1em;
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
-                flex: 0 0 3.7em;
+                width: 3.7em;
                 &.th-destination {
-                    flex: 1 0 4em;
+                    flex-grow: 1;
+                    flex-basis: 4em;
                 }
             }
         }
@@ -65,16 +66,13 @@ table.nearby-departures-table {
                     }
                 }
                 &.td-route-number {
+                    flex-basis: 4.5em;
+                    overflow: hidden;
                     .route-number {
                         white-space: nowrap;
                         min-width: 50px;
-                        overflow: hidden;
-                        max-width: 2em;
-                        .vehicle-number {
-                            -webkit-mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
-                            mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
-                            overflow: hidden;
-                        }
+                        max-width: 4.5em;
+                        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                     }
                 }
                 &.td-distance {
@@ -89,9 +87,8 @@ table.nearby-departures-table {
                     flex: 1 0 4em;
                     overflow-x: hidden;
                     span {
-                      margin-top: 2px;
                       font-size: $font-size-normal;
-                      white-space: pre-line;
+                      white-space: nowrap;
                       height: $font-size-normal;
                     }
                     .route-destination {
