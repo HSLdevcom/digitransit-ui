@@ -13,8 +13,6 @@ import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
 
-import { otpToLocation } from './util/otpStrings';
-
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
@@ -120,30 +118,6 @@ function loadRoute(cb) {
 
 function getDefault(module) {
   return module.default;
-}
-
-function getIntermediatePlaces(intermediatePlaces) {
-  if (!intermediatePlaces) {
-    return [];
-  } else if (Array.isArray(intermediatePlaces)) {
-    return intermediatePlaces.map(otpToLocation);
-  } else if (typeof intermediatePlaces === 'string') {
-    return [otpToLocation(intermediatePlaces)];
-  }
-  return [];
-}
-
-function setTicketTypes(ticketType, settingsTicketType) {
-  if (ticketType !== undefined && ticketType !== 'none') {
-    return ticketType;
-  } else if (
-    settingsTicketType !== undefined &&
-    settingsTicketType !== 'none' &&
-    ticketType !== 'none'
-  ) {
-    return settingsTicketType;
-  }
-  return null;
 }
 
 export default config => {
