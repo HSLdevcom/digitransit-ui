@@ -28,6 +28,7 @@ table.nearby-departures-table {
                 padding-top: 0.6em;
                 padding-bottom: 0.6em;
                 width: 3.7em;
+                display: block;
                 &.th-destination {
                     flex-grow: 1;
                     flex-basis: 4em;
