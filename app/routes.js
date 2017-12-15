@@ -1,27 +1,21 @@
 import PropTypes from 'prop-types';
-// Libraries
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import ContainerDimensions from 'react-container-dimensions';
-
-import { preparePlanParams } from './util/planParamUtil';
-
-// React pages
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
-
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
-
 import { isBrowser } from './util/browser';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_ITINERARY_SUMMARY,
 } from './util/path';
+import { preparePlanParams } from './util/planParamUtil';
 
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
