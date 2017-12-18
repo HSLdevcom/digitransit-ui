@@ -4,6 +4,7 @@ import isNil from 'lodash/isNil';
 import moment from 'moment';
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
+import { defaultSettings } from '../component/CustomizeSearch';
 import { otpToLocation } from './otpStrings';
 
 function getIntermediatePlaces(intermediatePlaces) {
@@ -84,7 +85,9 @@ export const preparePlanParams = config => (
   },
 ) => {
   const settings = getSettings();
+
   return {
+    ...defaultSettings,
     ...omitBy(
       {
         fromPlace: from,
