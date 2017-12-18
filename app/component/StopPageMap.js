@@ -13,7 +13,7 @@ import Icon from './Icon';
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
     params.stopId ? params.stopId : params.terminalId
-  }${fullscreenMap ? '' : '/kartta'}`;
+  }/nyt${fullscreenMap ? '' : '/kartta'}`;
 
 const toggleFullscreenMap = (fullscreenMap, params, router) => {
   if (fullscreenMap) {

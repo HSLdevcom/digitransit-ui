@@ -36,12 +36,9 @@ class Timetable extends React.Component {
         }),
       ).isRequired,
     }).isRequired,
-    propsForStopPageActionBar: PropTypes.shape({
-      printUrl: PropTypes.string.isRequired,
-      startDate: PropTypes.string,
-      selectedDate: PropTypes.string,
-      onDateChange: PropTypes.function,
-    }).isRequired,
+    startDate: PropTypes.string,
+    selectedDate: PropTypes.string,
+    onDateChange: PropTypes.function,
   };
 
   constructor(props) {
@@ -92,9 +89,7 @@ class Timetable extends React.Component {
     );
 
   dateForPrinting = () => {
-    const selectedDate = moment(
-      this.props.propsForStopPageActionBar.selectedDate,
-    );
+    const selectedDate = moment(this.props.selectedDate);
     return (
       <div className="printable-date-container">
         <div className="printable-date-icon">
@@ -150,10 +145,9 @@ class Timetable extends React.Component {
               stop={this.props.stop}
             />
             <StopPageActionBar
-              printUrl={this.props.propsForStopPageActionBar.printUrl}
-              startDate={this.props.propsForStopPageActionBar.startDate}
-              selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-              onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+              startDate={this.props.startDate}
+              selectedDate={this.props.selectedDate}
+              onDateChange={this.props.onDateChange}
             />
           </div>
           <div className="timetable-for-printing-header">
@@ -242,10 +236,7 @@ Timetable.description = () => (
   <div>
     <p>Renders a timetable</p>
     <ComponentUsageExample description="">
-      <Timetable
-        stop={exampleStop}
-        propsForStopPageActionBar={{ printUrl: 'http://www.hsl.fi' }}
-      />
+      <Timetable stop={exampleStop} />
     </ComponentUsageExample>
   </div>
 );

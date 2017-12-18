@@ -19,7 +19,9 @@ const DATE_FORMAT = 'YYYYMMDD';
 class RouteScheduleContainer extends Component {
   static propTypes = {
     pattern: PropTypes.object.isRequired,
-    relay: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      refetch: PropTypes.func.isRequired,
+    }).isRequired,
     serviceDay: PropTypes.string.isRequired,
   };
 

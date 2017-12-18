@@ -312,7 +312,7 @@ export default config => {
         }}
       />
       <Route path={`/${PREFIX_STOPS}`}>
-        <IndexRoute component={Error404} />{' '}
+        <IndexRoute component={Error404} />
         {/* TODO: Should return list of all routes */}
         <Route
           path=":stopId"
@@ -344,7 +344,29 @@ export default config => {
           }}
           render={ComponentLoading404Renderer}
         >
-          <Route path="kartta" fullscreenMap />
+          <IndexRedirect to="nyt" />
+          <Route
+            path="nyt"
+            queries={StopQueries}
+            getComponent={(location, cb) => {
+              import(/* webpackChunkName: "stop" */ './component/StopPageDepartures')
+                .then(loadRoute(cb))
+                .catch(errorLoading);
+            }}
+          >
+            <Route path="kartta" fullscreenMap />
+          </Route>
+          <Route
+            path="aikataulu"
+            queries={StopQueries}
+            getComponent={(location, cb) => {
+              import(/* webpackChunkName: "stop-timetable" */ './component/StopPageTimetable')
+                .then(loadRoute(cb))
+                .catch(errorLoading);
+            }}
+          >
+            <Route path="kartta" fullscreenMap />
+          </Route>
         </Route>
       </Route>
       <Route path="/terminaalit">
@@ -360,7 +382,7 @@ export default config => {
               import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
                 getDefault,
               ),
-              import(/* webpackChunkName: "stop" */ './component/TerminalPage').then(
+              import(/* webpackChunkName: "stop" */ './component/StopPage').then(
                 getDefault,
               ),
               import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
@@ -380,7 +402,29 @@ export default config => {
           }}
           render={ComponentLoading404Renderer}
         >
-          <Route path="kartta" fullscreenMap />
+          <IndexRedirect to="nyt" />
+          <Route
+            path="nyt"
+            queries={terminalQueries}
+            getComponent={(location, cb) => {
+              import(/* webpackChunkName: "stop" */ './component/StopPageDepartures')
+                .then(loadRoute(cb))
+                .catch(errorLoading);
+            }}
+          >
+            <Route path="kartta" fullscreenMap />
+          </Route>
+          <Route
+            path="aikataulu"
+            queries={terminalQueries}
+            getComponent={(location, cb) => {
+              import(/* webpackChunkName: "stop-timetable" */ './component/StopPageTimetable')
+                .then(loadRoute(cb))
+                .catch(errorLoading);
+            }}
+          >
+            <Route path="kartta" fullscreenMap />
+          </Route>
         </Route>
       </Route>
       <Route path={`/${PREFIX_ROUTES}`}>

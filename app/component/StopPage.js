@@ -1,66 +1,47 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import Relay, { Route } from 'react-relay/classic';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import withState from 'recompose/withState';
-import moment from 'moment';
-import StopPageContentContainer from './StopPageContentContainer';
+import some from 'lodash/some';
+import getContext from 'recompose/getContext';
 
-const initialDate = moment().format('YYYYMMDD');
+import StopPageTabContainer from './StopPageTabContainer';
 
-class StopPageContainerRoute extends Route {
-  static queries = {
-    stop: (RelayComponent, variables) => Relay.QL`
-      query {
-        stop(id: $stopId) {
-          ${RelayComponent.getFragment('stop', variables)}
+function StopPage(props) {
+  if (some(props.routes, 'fullscreenMap') && props.breakpoint !== 'large') {
+    return null;
+  }
+
+  return (
+    <div className="stop-page-content-wrapper">
+      <StopPageTabContainer
+        baseUrl={
+          props.params.stopId
+            ? `/pysakit/${props.params.stopId}`
+            : `/terminaalit/${props.params.terminalId}`
         }
-      }
-    `,
-  };
-  static paramDefinitions = {
-    startTime: { required: true },
-    timeRange: { required: true },
-    numberOfDepartures: { required: true },
-  };
-  static routeName = 'StopPageContainerRoute';
+      />
+      {props.children}
+    </div>
+  );
 }
 
-const StopPageRootContainer = routeProps => (
-  <Relay.Renderer
-    Container={StopPageContentContainer}
-    queryConfig={
-      new StopPageContainerRoute({
-        stopId: routeProps.params.stopId,
-        ...routeProps,
-      })
-    }
-    environment={Relay.Store}
-    render={({ props, done }) =>
-      done ? (
-        <StopPageContentContainer
-          {...props}
-          initialDate={initialDate}
-          setDate={routeProps.setDate}
-        />
-      ) : (
-        undefined
-      )
-    }
-  />
-);
+StopPage.propTypes = {
+  children: PropTypes.node.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      fullscreenMap: PropTypes.bool,
+    }),
+  ).isRequired,
+  params: PropTypes.oneOfType([
+    PropTypes.shape({
+      stopId: PropTypes.string.isRequired,
+    }).isRequired,
+    PropTypes.shape({
+      terminalId: PropTypes.string.isRequired,
+    }).isRequired,
+  ]).isRequired,
+};
 
-const StopPageContainerWithState = withState('date', 'setDate', initialDate)(
-  StopPageRootContainer,
-);
-
-export default connectToStores(
-  StopPageContainerWithState,
-  ['TimeStore', 'FavouriteStopsStore'],
-  ({ getStore }) => ({
-    startTime: getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-    timeRange: 3600 * 12,
-    numberOfDepartures: 100,
-  }),
+export default getContext({ breakpoint: PropTypes.string.isRequired })(
+  StopPage,
 );

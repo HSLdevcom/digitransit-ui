@@ -1,16 +1,9 @@
 .stop-page-content-wrapper {
-  min-height: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
   border-top: 1px solid #dddddd;
   position: relative;
-}
-
-.stop-page-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 .stop-page.header {
@@ -52,34 +45,13 @@
   }
 }
 
-
-.stop-page-content > .departure-list {
-  flex-basis: 0;
-  flex-grow: 20;
-  transition: flex-grow 300ms;
-
-  &.stop-page-content-enter, &.stop-page-content-leave {
-    will-change: flex-grow;
-  }
-
-  &.stop-page-content-enter.stop-page-content-enter-active {
-    flex-grow: 20;
-  }
-
-  &.stop-page-content-enter, &.stop-page-content-leave.stop-page-content-leave-active {
-    flex-grow: 0;
-  }
-}
-
 .stop-tab-container {
   display: flex;
+  flex: 0 0 auto;
   border-top-color: #dddddd;
   border-top-width: 2px;
   padding-bottom: 0;
   position: relative;
-  > button {
-    outline: 0;
-  }
 }
 
 .mobile {
@@ -88,28 +60,21 @@
   }
 }
 
-.stop-tabs-fillerline {
-  height: 10px;
-}
-
-.mobilel {
-  .stop-tabs-fillerline {
-    height: 5px;
-  }
-}
-
-button.stop-tab-singletab, button.stop-tab-singletab:hover {
+.stop-tab-singletab, .stop-tab-singletab:hover {
   text-transform: uppercase;
+  text-decoration: none;
   font-size: $font-size-xxsmall;
   width: 50%;
   height: 100%;
   text-align: center;
-  background-color: $white;
+  background-color: $background-color;
   cursor: pointer;
-  border-top: 4px solid $white;
+  border-top: 4px solid $background-color;
   color: $primary-color;
   transition: 0.10s all ease-in;
-  border-right: 1px solid $light-gray;
+  &:not(:last-child) {
+    border-right: 1px solid $light-gray;
+  }
   border-bottom: 1px solid $light-gray;
   padding-bottom: 0.8em;
   padding-top: 0;
@@ -121,8 +86,8 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   }
 
   &.active, &.active:hover {
-    background-color: $background-color;
-    border-bottom: 1px solid transparent;
+    background-color: $white;
+    border-bottom: 1px solid $white;
     border-top: 4px solid $primary-color;
     color: $black;
     svg {
@@ -442,10 +407,16 @@ hr.action-bar {
 }
 
 .timetable-topbar {
+  background: $white;
+  padding-top: 10px;
+  border-bottom: solid 1px $medium-gray;
   .secondary-button.print {
     @media print {
       display: none;
     }
+  }
+  .route-schedule-date select {
+    background: transparent;
   }
 }
 
