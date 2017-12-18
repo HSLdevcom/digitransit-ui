@@ -88,11 +88,12 @@ $route-schedule-date-height: 36px;
   .route-list-header {
     display: flex;
     flex: 0 0 2em;
-    div {
-      width: 6em;
+    .route-stop-now {
+      padding-left: 0.5em;
     }
     .route-stop-name {
       flex: 1 0 4em;
+      margin-left: 1em;
     }
     .route-stop-time {
       text-align: right;
