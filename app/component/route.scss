@@ -207,7 +207,7 @@ $route-schedule-date-height: 36px;
               display: block;
               max-height: 18px;
             }
-            .ress {
+            .route-stop-address {
               font-family: $font-family-narrow;
               font-weight: 400;
               letter-spacing: 0;
@@ -243,7 +243,7 @@ $route-schedule-date-height: 36px;
 .route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
 }
-.small .route-stop-row_content-container > a .route-details_container > div > span .ress {
+.small .route-stop-row_content-container > a .route-details_container > div > span .route-stop-address {
   max-width: 7em;
 }
 
