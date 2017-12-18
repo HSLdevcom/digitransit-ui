@@ -87,14 +87,18 @@ $route-schedule-date-height: 36px;
   }
   .route-list-header {
     display: flex;
-      .columns {
-        &.route-stop-now {
-          width: 5em;
-          white-space: nowrap;
-        }
-        &.route-stop-time {
-          width: 5em;
-        }
+    flex: 0 0 2em;
+    .route-stop-now {
+      padding-left: 0.5em;
+    }
+    .route-stop-name {
+      flex: 1 0 4em;
+      margin-left: 1em;
+    }
+    .route-stop-time {
+      text-align: right;
+      padding-right: 0.6em;
+      flex: 0 1 2em;
     }
   }
 }
@@ -203,7 +207,7 @@ $route-schedule-date-height: 36px;
               display: block;
               max-height: 18px;
             }
-            .route-stop-address {
+            .ress {
               font-family: $font-family-narrow;
               font-weight: 400;
               letter-spacing: 0;
@@ -239,7 +243,7 @@ $route-schedule-date-height: 36px;
 .route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
 }
-.small .route-stop-row_content-container > a .route-details_container > div > span .route-stop-address {
+.small .route-stop-row_content-container > a .route-details_container > div > span .ress {
   max-width: 7em;
 }
 

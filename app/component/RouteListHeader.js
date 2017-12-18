@@ -10,16 +10,16 @@ const RouteListHeader = ({ className }) => (
       className,
     )}
   >
-    <div className="columns route-stop-now">
+    <div className="route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
-    <div className="columns route-stop-name">
+    <div className="route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>
-    <div className="columns route-stop-time">
+    <div className="route-stop-time">
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
-    <div className="columns route-stop-time">
+    <div className="route-stop-time">
       <FormattedMessage id="next" defaultMessage="Next" />
     </div>
   </div>
