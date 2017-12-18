@@ -218,9 +218,7 @@ function getColors() {
         <svg className="color-palette" width="50" height="50">
           <rect width="50" height="50" style={{ fill: '#4DA2D9' }} />
         </svg>
-        <span className="code color-code">
-          $disruption-passive-color
-        </span>#4DA2D9
+        <span className="code color-code">$disruption-passive-color</span>#4DA2D9
       </div>
 
       <p>TODO: dynamically get these colors, now only for HSL</p>
@@ -329,7 +327,7 @@ function getTextStyles() {
   return (
     <section>
       <p>
-        <a>This is a link</a>
+        <a href="#a">This is a link</a>
         <span className="code">{'<a />'}</span>
       </p>
       <p>

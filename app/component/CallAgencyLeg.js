@@ -15,6 +15,7 @@ import { PREFIX_ROUTES } from '../util/path';
 class CallAgencyLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const originalTime = this.props.leg.realTime &&
       this.props.leg.departureDelay >=
@@ -36,9 +37,11 @@ class CallAgencyLeg extends React.Component {
         <div className="small-2 columns itinerary-time-column call">
           <Link
             onClick={e => e.stopPropagation()}
-            to={`/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${this
-              .props.leg.trip.pattern.code}/${this.props.leg.trip.gtfsId}`
-            // TODO: Create a helper function for generationg links
+            to={
+              `/${PREFIX_ROUTES}/${this.props.leg.route.gtfsId}/pysakit/${
+                this.props.leg.trip.pattern.code
+              }/${this.props.leg.trip.gtfsId}`
+              // TODO: Create a helper function for generationg links
             }
           >
             <div className="itinerary-time-column-time">

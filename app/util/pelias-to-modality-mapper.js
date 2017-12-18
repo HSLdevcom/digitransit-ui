@@ -24,10 +24,12 @@ const exampleConfig = {
     peliasLocalization: feature => {
       // localization example; showing locality (county) in label and name
       const localized = { ...feature };
-      localized.properties.label = `${feature.properties.name}, ${feature
-        .properties.locality}`;
-      localized.properties.name = `${feature.properties.name}, ${feature
-        .properties.locality}`;
+      localized.properties.label = `${feature.properties.name}, ${
+        feature.properties.locality
+      }`;
+      localized.properties.name = `${feature.properties.name}, ${
+        feature.properties.locality
+      }`;
       return localized;
     },
   },

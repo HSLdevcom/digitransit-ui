@@ -148,10 +148,11 @@ ul.react-autowhatever__items-list {
   }
 
   .react-autosuggest__suggestions-list {
-    margin-top: 0;
+    margin-top: -0.2em;
     margin-bottom: 0;
     padding-top: 0px;
     padding-left: 0;
+    background: $white;
     li:hover {
       background: $search-result-text-highlight-background-color;
     }
@@ -191,8 +192,23 @@ ul.react-autowhatever__items-list {
   flex-direction: row;
   align-items: center;
   min-height: 2em;
-  //line-height: 1.2;
-  //min-height: 2.5em;
+  overflow-x: hidden;
+
+  &.loading:not(.CurrentLocation) {
+    // These are importatn in over to override the styling for the loading phase of the search
+    svg.icon {
+      stroke: $medium-gray !important;
+      fill: $medium-gray !important;
+      background: $medium-gray !important;
+    }
+
+    .suggestion-name, .suggestion-type, .suggestion-label {
+      &, * {
+        color: $medium-gray !important;
+        background: $medium-gray !important;
+      }
+    }
+  }
 
 
   .havePosition {
@@ -289,6 +305,15 @@ ul.react-autowhatever__items-list {
   }
 }
 
+.small .suggestion-item-stop {
+  > div {
+    width: 0em;
+  }
+  .suggestion-item-timetable {
+    width: 8em;
+  }
+}
+
 .suggestion-label {
   .itinerary-stop-code {
     display: inline-block;
@@ -306,7 +331,7 @@ div.map {
 div.autosuggest-panel {
   position: fixed;
   z-index: 1000;
-  margin-top: 2em;
+  margin-top: 1em;
   width: 52.5%;
   margin-left: 5%;
   &.isItinerary {
@@ -342,7 +367,6 @@ div.autosuggest-panel {
     margin-left: 0;
     padding-left: 1em;
     padding-right: 1em;
-    margin-top: 1em;
 
     .react-autosuggest__container {
       width: 100%;
@@ -353,9 +377,7 @@ div.autosuggest-panel {
       }
     }
     &.isItinerary {
-      width: 90%;
-      margin-left: 0.4em;
-      margin-right: auto;
+      margin-left: 0;
       padding-right: 0;
       padding-left: 0;
       padding-top: 0;
@@ -366,12 +388,20 @@ div.autosuggest-panel {
       }
       #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
         width: 100%;
+        z-index: 1007;
       }
       #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
         width: 100%;
       }
       #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-        width: 79.5%;
+        min-height: 100%;
+        height: auto;
+        position: absolute;
+        width: 100%;
+        margin-top: -8px;
+        display: block;
+        overflow: visible;
+        z-index: 1006;
       }
       .react-autosuggest__container {
         width: 100%;
@@ -491,9 +521,9 @@ div.autosuggest-panel {
   }
 }
 .mobile .itinerary-search-controls {
-  width: 6%;
-  right: 1%;
   top: 0.6em;
+  overflow-x: hidden;
+  margin-right: 0.5em;
   .switch {
     font-size: 1.4em;
     margin-top: -0.5em;
@@ -513,22 +543,24 @@ div.autosuggest-panel {
 .autosuggest-panel.small {
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
-      height: 100%;
+      min-height: 100%;
+      height: auto;
       position: absolute;
       width: 100%;
       margin-top: -8px;
-      display: table;
-      overflow-y: visible;
+      display: block;
+      overflow: visible;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
-      height: 100%;
+      min-height: 100%;
+      height: auto;
       position: absolute;
       width: 100%;
       margin-top: -8px;
-      display: table;
-      overflow-y: visible;
+      display: block;
+      overflow: visible;
     }
   }
 }
@@ -557,17 +589,17 @@ div.autosuggest-panel {
     content: 'A';
     position: absolute;
     color: #fff;
-    font-size: 10px;
-    left: 7px;
-    top: 1px;
+    font-size: 0.5em;
+    left: 1em;
+    top: 0.4em;
   }
   &.destination:before {
     content: 'B';
     position: absolute;
     color: #fff;
-    font-size: 10px;
-    left: 7px;
-    top: 1px;
+    font-size: 0.5em;
+    left: 1em;
+    top: 0.4em;
   }
   &.origin .icon {
     color: #64be14;
@@ -688,3 +720,8 @@ button.clear-input {
     border-bottom-right-radius: 0;
   }
 }
+
+.suggestion-is-updating {
+  visibility: hidden;
+}
+

@@ -1,9 +1,5 @@
 import unzip from 'lodash/unzip';
-import { isBrowser, isImperial } from './browser';
-
-/* eslint-disable global-require */
-const L = isBrowser ? require('leaflet') : null;
-/* eslint-enable global-require */
+import { isImperial } from './browser';
 
 function toRad(deg) {
   return deg * (Math.PI / 180);
@@ -20,39 +16,36 @@ export function getBearing(lat1, lng1, lat2, lng2) {
   return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
 }
 
-export function getLatLng(lat, lon) {
-  return new L.LatLng(lat, lon);
+const RADIUS = 6371000;
+
+export function distance(latlng1, latlng2) {
+  const rad = Math.PI / 180;
+  const lat1 = latlng1.lat * rad;
+  const lat2 = latlng2.lat * rad;
+  const sinDLat = Math.sin((latlng2.lat - latlng1.lat) * rad / 2);
+  const sinDLon = Math.sin((latlng2.lng - latlng1.lng) * rad / 2);
+  const a =
+    sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return RADIUS * c;
 }
 
-export function getDistanceToNearestStop(lat, lon, stops) {
-  const myPos = new L.LatLng(lat, lon);
+export function getDistanceToNearestStop(lat, lng, stops) {
+  const myPos = { lat, lng };
   let minDist = Number.MAX_VALUE;
   let minStop = null;
 
   stops.forEach(stop => {
-    const stopPos = new L.LatLng(stop.lat, stop.lon);
-    const distance = myPos.distanceTo(stopPos);
+    const stopPos = { lat: stop.lat, lng: stop.lon };
+    const dist = distance(myPos, stopPos);
 
-    if (distance < minDist) {
-      minDist = distance;
+    if (dist < minDist) {
+      minDist = dist;
       minStop = stop;
     }
   });
 
   return { stop: minStop, distance: minDist };
-}
-
-export function getDistanceToFurthestStop(coordinates, stops) {
-  return stops
-    .map(stop => ({
-      stop,
-      distance: coordinates.distanceTo(new L.LatLng(stop.lat, stop.lon)),
-    }))
-    .reduce(
-      (previous, current) =>
-        current.distance > previous.distance ? current : previous,
-      { stop: null, distance: 0 },
-    );
 }
 
 export function displayImperialDistance(meters) {
@@ -93,7 +86,7 @@ export function boundWithMinimumArea(points) {
     return null;
   }
   const [lats, lons] = unzip(
-    points.filter(([lat, lon]) => !isNaN(lat) && !isNaN(lon)),
+    points.filter(([lat, lon]) => !Number.isNaN(lat) && !Number.isNaN(lon)),
   );
   const minlat = Math.min(...lats);
   const minlon = Math.min(...lons);
@@ -162,7 +155,7 @@ export class Contour {
 
   area() {
     let area = 0;
-    const pts = this.pts;
+    const { pts } = this;
     const nPts = pts.length;
     let j = nPts - 1;
     let p1;
@@ -180,7 +173,7 @@ export class Contour {
   }
 
   centroid() {
-    const pts = this.pts;
+    const { pts } = this;
     const nPts = pts.length;
     let x = 0;
     let y = 0;

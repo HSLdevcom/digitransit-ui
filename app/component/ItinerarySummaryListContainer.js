@@ -30,14 +30,13 @@ function ItinerarySummaryListContainer(props, context) {
       <div className="summary-list-container momentum-scroll">{summaries}</div>
     );
   }
-  const from = props.relay.route.params.from;
-  const to = props.relay.route.params.to;
+  const { from, to } = props.relay.route.params;
   if (!from.lat || !from.lon || !to.lat || !to.lon) {
     return (
       <div className="summary-list-container summary-no-route-found">
         <FormattedMessage
           id="no-route-start-end"
-          defaultMessage={'Please select origin and destination.'}
+          defaultMessage="Please select origin and destination."
         />
       </div>
     );
@@ -60,7 +59,7 @@ function ItinerarySummaryListContainer(props, context) {
       <div>
         <FormattedMessage
           id="use-national-service"
-          defaultMessage={'You can also try the national service available at'}
+          defaultMessage="You can also try the national service available at"
         />
         <ExternalLink
           className="external-no-route"

@@ -3,39 +3,30 @@ import React from 'react';
 
 import { isBrowser } from '../../../util/browser';
 
-const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('../Popup').default : null; // eslint-disable-line global-require
 
-class SelectedStopPopup extends React.Component {
-  static propTypes = {
-    shouldOpen: PropTypes.bool,
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    children: PropTypes.node.isRequired,
-  };
-
-  static contextTypes = {
-    config: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    shouldOpen: true,
-  };
-
-  static displayName = 'SelectedStopLabel';
-
-  render() {
-    return (
-      <Popup
-        position={{ lat: this.props.lat, lng: this.props.lon }}
-        offset={[50, 25]}
-        maxWidth={this.context.config.map.genericMarker.popup.maxWidth}
-        autoPan={false}
-        className="origin-popup"
-      >
-        {this.props.children}
-      </Popup>
-    );
-  }
+export default function SelectedStopPopup({ lat, lon, children }, { config }) {
+  return (
+    <Popup
+      position={{ lat, lng: lon }}
+      offset={[50, 25]}
+      maxWidth={config.map.genericMarker.popup.maxWidth}
+      autoPan={false}
+      className="origin-popup"
+    >
+      {children}
+    </Popup>
+  );
 }
 
-export default SelectedStopPopup;
+SelectedStopPopup.propTypes = {
+  lat: PropTypes.number.isRequired,
+  lon: PropTypes.number.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+SelectedStopPopup.contextTypes = {
+  config: PropTypes.object.isRequired,
+};
+
+SelectedStopPopup.displayName = 'SelectedStopLabel';

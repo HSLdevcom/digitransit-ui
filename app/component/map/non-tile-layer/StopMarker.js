@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import provideContext from 'fluxible-addons-react/provideContext';
-import { intlShape } from 'react-intl';
-import { routerShape, locationShape } from 'react-router';
 import cx from 'classnames';
 
 import StopRoute from '../../../route/StopRoute';
@@ -29,14 +26,6 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const StopMarkerPopupWithContext = provideContext(StopMarkerPopup, {
-  intl: intlShape.isRequired,
-  router: routerShape.isRequired,
-  location: locationShape.isRequired,
-  route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-});
-
 class StopMarker extends React.Component {
   static propTypes = {
     stop: PropTypes.object.isRequired,
@@ -48,11 +37,6 @@ class StopMarker extends React.Component {
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
-    location: locationShape.isRequired,
-    route: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -97,12 +81,14 @@ class StopMarker extends React.Component {
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
-        ${inner > 7 && this.props.stop.platformCode
-          ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
+        ${
+          inner > 7 && this.props.stop.platformCode
+            ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
             fill="#333" font-size="${1.2 * inner}px"
             font-family="Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif"
             >${this.props.stop.platformCode}</text>`
-          : ''}
+            : ''
+        }
       </svg>
     `;
 
@@ -158,9 +144,7 @@ class StopMarker extends React.Component {
               <Loading />
             </div>
           )}
-          renderFetched={data => (
-            <StopMarkerPopupWithContext {...data} context={this.context} />
-          )}
+          renderFetched={data => <StopMarkerPopup {...data} />}
         />
       </GenericMarker>
     );

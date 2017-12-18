@@ -13,7 +13,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
 import { isCallAgencyPickupType } from '../util/legUtils';
-import Map from './map/Map';
+import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
 import LocationMarker from '../component/map/LocationMarker';
@@ -73,9 +73,11 @@ const getHeadSignDetails = sentLegObj => {
   } else if (sentLegObj.isLuggage) {
     headSignDetails = '';
   } else {
-    headSignDetails = ` ${sentLegObj.route.shortName && sentLegObj
-      ? sentLegObj.route.shortName
-      : sentLegObj.route.longName} - ${sentLegObj.trip.tripHeadsign}`;
+    headSignDetails = ` ${
+      sentLegObj.route.shortName && sentLegObj
+        ? sentLegObj.route.shortName
+        : sentLegObj.route.longName
+    } - ${sentLegObj.trip.tripHeadsign}`;
     transitMode = (
       <FormattedMessage
         id={sentLegObj.mode.toLowerCase()}
@@ -136,7 +138,7 @@ function TransferMap(props) {
 
   const leafletObjs = [
     <ItineraryLine
-      key={'line'}
+      key="line"
       legs={itineraryLine}
       showTransferLabitineraryels
       showIntermediateStops
@@ -165,27 +167,19 @@ function TransferMap(props) {
   if (nextLeg) {
     if (nextLeg.intermediatePlace === true) {
       leafletObjs.push(
-        <LocationMarker
-          key={'via'}
-          position={props.legObj.to}
-          className="via"
-        />,
+        <LocationMarker key="via" position={props.legObj.to} className="via" />,
       );
     }
   }
 
   if (props.legObj.intermediatePlace === true) {
     leafletObjs.push(
-      <LocationMarker
-        key={'via'}
-        position={props.legObj.from}
-        className="via"
-      />,
+      <LocationMarker key="via" position={props.legObj.from} className="via" />,
     );
   }
   return (
     <div className="transfermap-container">
-      <Map
+      <MapContainer
         bounds={bounds}
         leafletObjs={leafletObjs}
         className="print-itinerary-map"
@@ -342,13 +336,11 @@ function PrintableLeg(props) {
 }
 
 PrintableLeg.propTypes = {
-  location: PropTypes.object,
-  itinerary: PropTypes.object.isRequired,
   legObj: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   context: PropTypes.object.isRequired,
   originalLegs: PropTypes.array.isRequired,
-  mapsLoaded: PropTypes.function,
+  mapsLoaded: PropTypes.func,
 };
 
 class PrintableItinerary extends React.Component {
@@ -437,7 +429,7 @@ class PrintableItinerary extends React.Component {
       );
     });
     legs.push(
-      <div className={`print-itinerary-leg end`}>
+      <div className="print-itinerary-leg end">
         <div className="print-itinerary-leg-container">
           <div className="itinerary-left">
             <div className="itinerary-timestamp">
@@ -445,7 +437,7 @@ class PrintableItinerary extends React.Component {
             </div>
             <div className="itinerary-icon" />
           </div>
-          <div className={`itinerary-circleline end`}>
+          <div className="itinerary-circleline end">
             <Icon
               img="icon-icon_mapMarker-point"
               className="itinerary-icon to to-it"
@@ -472,7 +464,6 @@ class PrintableItinerary extends React.Component {
 }
 
 PrintableItinerary.propTypes = {
-  location: PropTypes.object,
   itinerary: PropTypes.object.isRequired,
 };
 

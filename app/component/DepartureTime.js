@@ -63,7 +63,7 @@ function DepartureTime(props, context) {
 }
 
 DepartureTime.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 DepartureTime.description = () => (
@@ -146,9 +146,5 @@ export const mapStopTime = (stoptime, pattern) => ({
  *  @param currentTime
  */
 export const fromStopTime = (stoptime, currentTime) => (
-  <DepartureTime
-    currentTime={currentTime}
-    {...mapStopTime(stoptime)}
-    style={{ whiteSpace: 'nowrap' }}
-  />
+  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
 );

@@ -70,6 +70,7 @@ class RoutePage extends React.Component {
     this.context.router.replace(path);
   };
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
     if (this.props.route == null) {
       /* In this case there is little we can do

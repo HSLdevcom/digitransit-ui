@@ -57,7 +57,7 @@ class GeopositionSelector extends React.Component {
     return this.props.locationState.status ===
       PositionStore.STATUS_GEOLOCATION_NOT_SUPPORTED ? null : (
       <OriginSelectorRow
-        key={`panel-locationing-button`}
+        key="panel-locationing-button"
         icon="icon-icon_position"
         onClick={() => {
           this.setState({ initiatedGPS: true });

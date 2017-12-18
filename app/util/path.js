@@ -80,7 +80,7 @@ export const getPathWithEndpointObjects = (
 /**
  * Parses current location from string to location object
  *
-*/
+ */
 export const parseLocation = location => {
   if (isEmpty(location)) {
     return { set: false, ready: false };

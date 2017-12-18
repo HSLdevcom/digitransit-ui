@@ -9,7 +9,7 @@
  * @ignoreElements ignore ignoreElements selector (string) or selectors (Array of string)
  * @fn callback(actions, find) –  Optional callback describes a sequence of actions to bring the
  * page to this state, starting from a previous state of the suite.
-* */
+ * */
 function testVariation(
   componentName,
   variationName = 'normal',

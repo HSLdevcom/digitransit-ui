@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function ToggleMapTracking(props) {
   return (
     <div className="toggle-positioning-container" onClick={props.handleClick}>

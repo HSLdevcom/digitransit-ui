@@ -14,7 +14,6 @@ class SaveCustomizedSettingsButton extends React.Component {
     super(props);
     this.state = {
       autoHideDuration: 940,
-      message: 'settings-saved',
       open: false,
     };
   }

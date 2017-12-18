@@ -22,7 +22,7 @@ const FrontPagePanelLarge = ({
   }
 
   return (
-    <div className={'fpcfloat no-select'}>
+    <div className="fpcfloat no-select">
       <ul className="tabs-row bp-large cursor-pointer">
         <NearbyTabLabel
           classes={cx(tabClasses, nearbyClasses)}
@@ -58,7 +58,7 @@ FrontPagePanelLarge.description = () => (
 );
 
 FrontPagePanelLarge.propTypes = {
-  selectedPanel: PropTypes.number.isRequired,
+  selectedPanel: PropTypes.number,
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   children: PropTypes.node,

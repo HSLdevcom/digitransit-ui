@@ -224,14 +224,12 @@ $content-background-color: $background-color;
   }
 }
 
-/* content */
-// TODO: This is an ugly hack
-// Performance with flex is ok after 9b3d165f2385f4737f757f77e0faa2d74e003119, which was reverted
-// Should-be re-enabled after safari fixes https://github.com/philipwalton/flexbugs/issues/84
-// Work-around using position: absolute; and pinning all corners made the performance really bad
 section.content {
   background-color: $content-background-color;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 100%;
 
   .mobile {
     display: flex;
@@ -342,6 +340,10 @@ section.content {
   .banner-container {
     display: flex;
     max-height: 100%;
+
+    .message-bar-info {
+      width: 60%;
+    }
   }
 
   span {

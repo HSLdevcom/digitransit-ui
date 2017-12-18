@@ -24,11 +24,9 @@ import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import MUITheme from './MuiTheme';
 import appCreator from './app';
 import translations from './translations';
-import { openFeedbackModal } from './action/feedbackActions';
-import { shouldDisplayPopup } from './util/Feedback';
 import historyCreator from './history';
-import { COMMIT_ID, BUILD_TIME } from './buildInfo';
-import Piwik from './util/piwik';
+import { BUILD_TIME } from './buildInfo';
+import createPiwik from './util/piwik';
 import ErrorBoundary from './component/ErrorBoundary';
 
 const plugContext = f => () => ({
@@ -40,16 +38,11 @@ const plugContext = f => () => ({
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 // TODO: this is an ugly hack, but required due to cyclical processing in app
-const config = window.state.context.plugins['extra-context-plugin'].config;
+const { config } = window.state.context.plugins['extra-context-plugin'];
 const app = appCreator(config);
 
-const piwik = Piwik.getTracker(config.PIWIK_ADDRESS, config.PIWIK_ID);
-
-if (!config.PIWIK_ADDRESS || !config.PIWIK_ID || config.PIWIK_ID === '') {
-  piwik.trackEvent = () => {};
-  piwik.setCustomVariable = () => {};
-  piwik.trackPageView = () => {};
-}
+const raven = Raven(config.SENTRY_DSN);
+const piwik = createPiwik(config, raven);
 
 const addPiwik = c => {
   c.piwik = piwik; // eslint-disable-line no-param-reassign
@@ -59,8 +52,6 @@ const piwikPlugin = {
   name: 'PiwikPlugin',
   plugContext: plugContext(addPiwik),
 };
-
-const raven = Raven(config.SENTRY_DSN, piwik.getVisitorId());
 
 const addRaven = c => {
   c.raven = raven; // eslint-disable-line no-param-reassign
@@ -132,30 +123,16 @@ const callback = () =>
 
     configureMoment(language, config);
 
+    let hasSwUpdate = false;
     const history = historyCreator(config);
 
     function track() {
-      // track "getting back to home"
-      const newHref = this.props.router.createHref(this.state.location);
-
-      if (this.href !== undefined && newHref === '/' && this.href !== newHref) {
-        if (
-          config.feedback.enable &&
-          shouldDisplayPopup(
-            context
-              .getComponentContext()
-              .getStore('TimeStore')
-              .getCurrentTime()
-              .valueOf(),
-          )
-        ) {
-          context.executeAction(openFeedbackModal);
-        }
-      }
-
-      this.href = newHref;
-      piwik.setCustomUrl(this.props.router.createHref(this.state.location));
+      this.href = this.props.router.createHref(this.state.location);
+      piwik.setCustomUrl(this.href);
       piwik.trackPageView();
+      if (hasSwUpdate && !this.state.location.state) {
+        window.location = this.href;
+      }
     }
 
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
@@ -171,37 +148,41 @@ const callback = () =>
     match(
       { routes: app.getComponent(), history },
       (error, redirectLocation, renderProps) => {
-        IsomorphicRouter.prepareInitialRender(
-          Relay.Store,
-          renderProps,
-        ).then(props => {
-          ReactDOM.render(
-            <ContextProvider
-              translations={translations}
-              context={context.getComponentContext()}
-            >
-              <ErrorBoundary>
-                <MuiThemeProvider
-                  muiTheme={getMuiTheme(MUITheme(config), {
-                    userAgent: navigator.userAgent,
-                  })}
-                >
-                  <Router {...props} onUpdate={track} />
-                </MuiThemeProvider>
-              </ErrorBoundary>
-            </ContextProvider>,
-            document.getElementById('app'),
-            () => {
-              // Run only in production mode and when built in a docker container
-              if (
-                process.env.NODE_ENV === 'production' &&
-                BUILD_TIME !== 'unset'
-              ) {
-                OfflinePlugin.install();
-              }
-            },
-          );
-        });
+        IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
+          props => {
+            ReactDOM.hydrate(
+              <ContextProvider
+                translations={translations}
+                context={context.getComponentContext()}
+              >
+                <ErrorBoundary>
+                  <MuiThemeProvider
+                    muiTheme={getMuiTheme(MUITheme(config), {
+                      userAgent: navigator.userAgent,
+                    })}
+                  >
+                    <Router {...props} onUpdate={track} />
+                  </MuiThemeProvider>
+                </ErrorBoundary>
+              </ContextProvider>,
+              document.getElementById('app'),
+              () => {
+                // Run only in production mode and when built in a docker container
+                if (
+                  process.env.NODE_ENV === 'production' &&
+                  BUILD_TIME !== 'unset'
+                ) {
+                  OfflinePlugin.install({
+                    onUpdateReady: () => OfflinePlugin.applyUpdate(),
+                    onUpdated: () => {
+                      hasSwUpdate = true;
+                    },
+                  });
+                }
+              },
+            );
+          },
+        );
       },
     );
 
@@ -216,13 +197,6 @@ const callback = () =>
         );
       }
     });
-
-    piwik.enableLinkTracking();
-
-    // Send perf data after React has compared real and shadow DOMs
-    // and started positioning
-    piwik.setCustomVariable(4, 'commit_id', COMMIT_ID, 'visit');
-    piwik.setCustomVariable(5, 'build_time', BUILD_TIME, 'visit');
   });
 
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service

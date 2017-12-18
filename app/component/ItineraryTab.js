@@ -32,7 +32,6 @@ class ItineraryTab extends React.Component {
   };
 
   state = {
-    fullscreen: false,
     lat: undefined,
     lon: undefined,
   };
@@ -61,7 +60,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
-    const config = this.context.config;
+    const { config } = this.context;
     const routeInformation = config.showRouteInformation && (
       <RouteInformation />
     );

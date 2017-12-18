@@ -1,7 +1,6 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import Relay from 'react-relay/classic';
-import glfun from '@mapbox/mapbox-gl-style-spec/function';
 import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
@@ -11,15 +10,12 @@ import {
   drawCitybikeNotInUseIcon,
   drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
+import glfun from '../../../util/glfun';
 
-const getScale = glfun(
-  {
-    type: 'exponential',
-    base: 1,
-    stops: [[13, 0.8], [20, 1.6]],
-  },
-  {},
-);
+const getScale = glfun({
+  base: 1,
+  stops: [[13, 0.8], [20, 1.6]],
+});
 
 const timeOfLastFetch = {};
 
@@ -62,7 +58,7 @@ class CityBikes {
               i++
             ) {
               const feature = vt.layers.stations.feature(i);
-              feature.geom = feature.loadGeometry()[0][0];
+              [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));
             }
           }
@@ -73,8 +69,7 @@ class CityBikes {
       );
     });
 
-  fetchAndDrawStatus = feature => {
-    const geom = feature.geom;
+  fetchAndDrawStatus = ({ geom, properties: { id } }) => {
     const query = Relay.createQuery(
       Relay.QL`
     query Test($id: String!){
@@ -83,15 +78,15 @@ class CityBikes {
         spacesAvailable
       }
     }`,
-      { id: feature.properties.id },
+      { id },
     );
 
-    const lastFetch = timeOfLastFetch[feature.properties.id];
+    const lastFetch = timeOfLastFetch[id];
     const currentTime = new Date().getTime();
 
     const callback = readyState => {
       if (readyState.done) {
-        timeOfLastFetch[feature.properties.id] = new Date().getTime();
+        timeOfLastFetch[id] = new Date().getTime();
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {

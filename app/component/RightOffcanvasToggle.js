@@ -46,7 +46,7 @@ RightOffcanvasToggle.propTypes = {
 };
 
 RightOffcanvasToggle.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';

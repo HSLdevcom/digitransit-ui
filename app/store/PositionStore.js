@@ -23,9 +23,13 @@ export default class PositionStore extends Store {
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
   constructor(dispatcher) {
-    if (isBrowser && location && location.search.indexOf('mock') !== -1) {
-      let permission = location.search.substring(
-        location.search.indexOf('mock') + 4,
+    if (
+      isBrowser &&
+      window.location &&
+      window.location.search.indexOf('mock') !== -1
+    ) {
+      let permission = window.location.search.substring(
+        window.location.search.indexOf('mock') + 4,
       );
       if (permission.length > 1) {
         permission = permission.substring(1);

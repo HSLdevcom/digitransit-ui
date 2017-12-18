@@ -11,7 +11,7 @@ class PreferencesStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
 
-    const config = dispatcher.getContext().config;
+    const { config } = dispatcher.getContext();
     this.availableLanguages = config.availableLanguages;
     this.defaultLanguage = config.defaultLanguage;
 

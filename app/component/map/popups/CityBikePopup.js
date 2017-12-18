@@ -27,7 +27,6 @@ class CityBikePopup extends React.Component {
 
   static propTypes = {
     station: PropTypes.object.isRequired,
-    context: PropTypes.object.isRequired,
   };
 
   render() {

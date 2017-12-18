@@ -16,7 +16,7 @@ import {
 import ComponentUsageExample from './ComponentUsageExample';
 
 const SuggestionItem = pure(
-  ({ item, useTransportIcons, doNotShowLinkToStop }) => {
+  ({ item, useTransportIcons, doNotShowLinkToStop, loading }) => {
     let icon;
     if (item.properties.mode && useTransportIcons) {
       icon = (
@@ -40,6 +40,7 @@ const SuggestionItem = pure(
       <div
         className={cx('search-result', item.type, {
           favourite: item.type.startsWith('Favourite'),
+          loading,
         })}
       >
         <span className="autosuggestIcon">{icon}</span>
@@ -56,6 +57,7 @@ const SuggestionItem = pure(
       (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined
     ) {
       /* eslint no-param-reassign: ["error", { "props": false }] */
+      /* eslint-disable jsx-a11y/anchor-is-valid */
       return (
         <div className="suggestion-item-stop">
           <div>

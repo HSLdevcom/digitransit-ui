@@ -11,7 +11,7 @@ require('babel-core/register')({
     'dynamic-import-node',
     ['relay', { compat: true, schema: 'build/schema.json' }],
   ],
-  ignore: [/node_modules/, 'app/util/piwik.js'],
+  ignore: [/node_modules/],
 });
 
 global.fetch = require('node-fetch');
@@ -28,6 +28,10 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
   Raven.config(process.env.SENTRY_SECRET_DSN, {
     captureUnhandledRejections: true,
   }).install();
+} else {
+  process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at:', p, 'reason:', reason);
+  });
 }
 
 /* ********* Server ********* */
@@ -50,11 +54,11 @@ function setUpStaticFolders() {
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
       indexFromEmptyFile: false,
-      maxAge: 30 * oneDay,
+      maxAge: 14 * oneDay,
       setHeaders(res, reqPath) {
         if (
-          reqPath === path.join(process.cwd(), '_static', 'sw.js') ||
-          reqPath.startsWith(path.join(process.cwd(), '_static', 'appcache'))
+          reqPath.toLowerCase().includes('sw.js') ||
+          reqPath.toLowerCase().includes('appcache')
         ) {
           res.setHeader('Cache-Control', 'public, max-age=0');
         }

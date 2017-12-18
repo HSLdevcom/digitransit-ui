@@ -19,6 +19,7 @@ function CarLeg(props, context) {
   const firstLegClassName = props.index === 0 ? 'start' : '';
   const modeClassName = 'car';
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">

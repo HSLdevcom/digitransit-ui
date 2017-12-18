@@ -10,7 +10,7 @@ import FavouritesTabLabel from './FavouritesTabLabel';
 import { isBrowser } from '../util/browser';
 
 const hasDisruption = routes =>
-  some(flatten(routes.map(route => route.alerts.length > 0)));
+  some(flatten(routes.map(route => route && route.alerts.length > 0)));
 
 const alertReducer = mapProps(({ routes, ...rest }) => ({
   hasDisruption: hasDisruption(routes),
@@ -44,7 +44,8 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
             <FavouritesTabLabelRelayConnector {...props} {...rest} />
           ) : (
             <FavouritesTabLabel {...rest} />
-          )}
+          )
+        }
       />
     );
   }

@@ -13,7 +13,6 @@ import {
   checkPositioningPermission,
 } from '../action/PositionActions';
 import storeOrigin from '../action/originActions';
-import LazilyLoad, { importLazy } from './LazilyLoad';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
 import MapWithTracking from '../component/map/MapWithTracking';
@@ -34,16 +33,6 @@ import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
 
 const debug = d('IndexPage.js');
-
-const feedbackPanelMudules = {
-  Panel: () => importLazy(import('./FeedbackPanel')),
-};
-
-const feedbackPanel = (
-  <LazilyLoad modules={feedbackPanelMudules}>
-    {({ Panel }) => <Panel />}
-  </LazilyLoad>
-);
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -71,13 +60,6 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
-    // TODO move this to wrapping component
-    const search = this.context.location.search;
-
-    if (search && search.indexOf('citybikes') > -1) {
-      console.warn('Enabling citybikes');
-      this.context.config.transportModes.citybike.defaultValue = true;
-    }
     // auto select nearby tab if none selected and bp=large
     if (this.props.tab === undefined) {
       this.clickNearby();
@@ -183,6 +165,7 @@ class IndexPage extends React.Component {
         return null;
     }
   };
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const selectedMainTab = this.getSelectedTab();
 
@@ -226,7 +209,6 @@ class IndexPage extends React.Component {
             }
           />
         </div>
-        {feedbackPanel}
       </div>
     ) : (
       <div
@@ -280,7 +262,6 @@ class IndexPage extends React.Component {
           >
             {this.renderTab()}
           </FrontPagePanelSmall>
-          {feedbackPanel}
         </div>
       </div>
     );
@@ -357,9 +338,7 @@ const IndexPageWithPosition = connectToStores(
     // if from == 'lahellasi' or 'suosikit' assume tab = ${from}, from ='-' to '-'
     // if to == 'lahellasi' or 'suosikit' assume tab = ${to}, to = '-'
 
-    let from = props.params.from;
-    let to = props.params.to;
-    let tab = props.params.tab;
+    let { from, to, tab } = props.params;
     let redirect = false;
 
     if (tabs.indexOf(from) !== -1) {
@@ -394,46 +373,46 @@ const IndexPageWithPosition = connectToStores(
       });
     }
 
-    if (isBrowser) {
-      newProps.showSpinner = locationState.isLocationingInProgress === true;
-      if (
-        locationState.isLocationingInProgress !== true &&
-        locationState.hasLocation === false &&
-        (newProps.origin.gps === true || newProps.destination.gps === true)
-      ) {
-        checkPositioningPermission().then(status => {
-          if (
-            // check logic for starting geolocation
-            status.state === 'granted' &&
-            locationState.status === 'no-location'
-          ) {
-            debug('Auto Initialising geolocation');
+    newProps.showSpinner = locationState.isLocationingInProgress === true;
 
-            context.executeAction(initGeolocation);
-          } else {
-            // clear gps & redirect
-            if (newProps.origin.gps === true) {
-              newProps.origin.gps = false;
-              newProps.origin.set = false;
-            }
+    if (
+      isBrowser &&
+      locationState.isLocationingInProgress !== true &&
+      locationState.hasLocation === false &&
+      (newProps.origin.gps === true || newProps.destination.gps === true)
+    ) {
+      checkPositioningPermission().then(status => {
+        if (
+          // check logic for starting geolocation
+          status.state === 'granted' &&
+          locationState.status === 'no-location'
+        ) {
+          debug('Auto Initialising geolocation');
 
-            if (newProps.destination.gps === true) {
-              newProps.destination.gps = false;
-              newProps.destination.set = false;
-            }
-
-            debug('Redirecting away from POS');
-            navigateTo({
-              origin: newProps.origin,
-              destination: newProps.destination,
-              context: '/',
-              router: context.router,
-              base: {},
-              tab: newProps.tab,
-            });
+          context.executeAction(initGeolocation);
+        } else {
+          // clear gps & redirect
+          if (newProps.origin.gps === true) {
+            newProps.origin.gps = false;
+            newProps.origin.set = false;
           }
-        });
-      }
+
+          if (newProps.destination.gps === true) {
+            newProps.destination.gps = false;
+            newProps.destination.set = false;
+          }
+
+          debug('Redirecting away from POS');
+          navigateTo({
+            origin: newProps.origin,
+            destination: newProps.destination,
+            context: '/',
+            router: context.router,
+            base: {},
+            tab: newProps.tab,
+          });
+        }
+      });
     }
     return newProps;
   },

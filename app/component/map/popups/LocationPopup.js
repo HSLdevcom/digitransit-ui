@@ -67,10 +67,12 @@ class LocationPopup extends React.Component {
       () => {
         this.setState({
           loading: false,
-          address: this.context.intl.formatMessage({
-            id: 'location-from-map',
-            defaultMessage: 'Selected location',
-          }),
+          location: {
+            address: this.context.intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }),
+          },
         });
       },
     );
@@ -79,7 +81,7 @@ class LocationPopup extends React.Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="card" style={{ height: '4rem' }}>
+        <div className="card smallspinner" style={{ height: '4rem' }}>
           <Loading />
         </div>
       );

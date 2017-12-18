@@ -1,5 +1,5 @@
 .desktop .summary {
-  flex: 1 1 auto;
+  flex: 1 1 0px;
   display: flex;
   flex-direction: column;
   overflow-x: auto;
@@ -202,6 +202,7 @@
 
     > span {
       margin-left: -1.5rem;
+      margin-right: 1rem;
     }
   }
 

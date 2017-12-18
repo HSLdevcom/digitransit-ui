@@ -5,6 +5,7 @@ import moment from 'moment';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props) {
   const modeClassName = 'end';
   return (

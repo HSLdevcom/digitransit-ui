@@ -18,6 +18,7 @@ function WalkLeg(props, context) {
   const duration = durationToString(props.leg.duration * 1000);
   const modeClassName = 'walk';
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">

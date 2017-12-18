@@ -74,7 +74,7 @@ const ModeLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
-      text={''}
+      text=""
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
@@ -95,7 +95,6 @@ const CityBikeLeg = ({ leg, large }) => (
 
 CityBikeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
-  mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
 };
 
@@ -109,8 +108,10 @@ ViaLeg.propTypes = {
   leg: PropTypes.object.isRequired,
 };
 
-const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
-  const data = props.data;
+const SummaryRow = (
+  { data, breakpoint, ...props },
+  { intl, intl: { formatMessage }, config },
+) => {
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -137,8 +138,6 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
 
     lastLegRented = leg.rentedBike;
 
-    const large = props.breakpoint === 'large';
-
     if (
       leg.transitLeg ||
       leg.rentedBike ||
@@ -151,7 +150,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
             key={`${leg.mode}_${leg.startTime}`}
             leg={leg}
             mode="CITYBIKE"
-            large={large}
+            large={breakpoint === 'large'}
           />,
         );
       } else if (leg.intermediatePlace) {
@@ -172,7 +171,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
             key={`${leg.mode}_${leg.startTime}`}
             leg={leg}
             intl={intl}
-            large={large}
+            large={breakpoint === 'large'}
           />,
         );
       } else {
@@ -181,7 +180,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
             key={`${leg.mode}_${leg.startTime}`}
             leg={leg}
             mode={leg.mode}
-            large={large}
+            large={breakpoint === 'large'}
           />,
         );
       }
@@ -222,7 +221,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
     'cursor-pointer',
     {
       passive: props.passive,
-      'bp-large': props.breakpoint === 'large',
+      'bp-large': breakpoint === 'large',
       open: props.open || props.children,
     },
   ]);
@@ -232,6 +231,7 @@ const SummaryRow = (props, { intl, intl: { formatMessage }, config }) => {
     defaultMessage: 'Itinerary',
   });
 
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className={classes} onClick={() => props.onSelect(props.hash)}>
       <div className="itinerary-duration-and-distance">

@@ -79,7 +79,6 @@ IconWithIcon.defaultProps = {
   subIcon: '',
   className: '',
   subIconClassName: '',
-  subIconStyle: {},
 };
 
 export default IconWithIcon;

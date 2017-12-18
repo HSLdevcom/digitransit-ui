@@ -33,7 +33,7 @@ export default {
   feedIds: ['HSL'],
 
   preferredAgency: 'HSL',
-  showAdformTrackingPixel: true,
+  showHSLTracking: true,
 
   searchParams: {
     'boundary.rect.min_lat': 59.9,
@@ -50,10 +50,6 @@ export default {
   nearbyRoutes: {
     radius: 2000,
     bucketSize: 100,
-  },
-
-  feedback: {
-    enable: false,
   },
 
   maxWalkDistance: 2500,
@@ -216,8 +212,6 @@ export default {
       lon: 24.931702,
     },
   ],
-
-  shouldShowIntro: false,
 
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url

@@ -6,9 +6,11 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const flexbugsFixes = require('postcss-flexbugs-fixes');
 const csswring = require('csswring');
 const StatsPlugin = require('stats-webpack-plugin');
-// const OptimizeJsPlugin = require('optimize-js-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
@@ -22,12 +24,10 @@ require('babel-core/register')({
     'dynamic-import-node',
     ['relay', { compat: true, schema: 'build/schema.json' }],
   ],
-  ignore: [/node_modules/, 'app/util/piwik.js'],
+  ignore: [/node_modules/],
 });
 
 const port = process.env.HOT_LOAD_PORT || 9000;
-
-const prodBrowsers = ['IE 11', '> 0.3% in FI', 'last 2 versions', 'iOS 8'];
 
 function getRulesConfig(env) {
   if (env === 'development') {
@@ -40,11 +40,7 @@ function getRulesConfig(env) {
         loader: 'babel',
         include: [path.resolve(__dirname, 'app/')],
         options: {
-          presets: [
-            ['env', { targets: { browsers: prodBrowsers }, modules: false }],
-            'react',
-            'stage-2',
-          ],
+          presets: [['env', { modules: false }], 'react', 'stage-2'],
           plugins: [
             'transform-import-commonjs',
             ['relay', { compat: true, schema: 'build/schema.json' }],
@@ -57,7 +53,6 @@ function getRulesConfig(env) {
               },
             ],
           ],
-          ignore: ['app/util/piwik.js'],
         },
       },
     ];
@@ -76,7 +71,6 @@ function getRulesConfig(env) {
           [
             'env',
             {
-              targets: { browsers: prodBrowsers },
               loose: true,
               modules: false,
             },
@@ -95,23 +89,6 @@ function getRulesConfig(env) {
               regenerator: true,
             },
           ],
-        ],
-        ignore: ['app/util/piwik.js'],
-      },
-    },
-    {
-      test: /\.js$/,
-      loader: 'babel',
-      include: [
-        // https://github.com/mapbox/mapbox-gl-js/issues/3368
-        path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-style-spec/'),
-      ],
-      options: {
-        plugins: [
-          'transform-es2015-block-scoping',
-          'transform-es2015-arrow-functions',
-          'transform-es2015-for-of',
-          'transform-es2015-template-literals',
         ],
       },
     },
@@ -160,7 +137,9 @@ function faviconPluginFromConfig(config) {
     // The name of the json containing all favicon information
     statsFilename: 'iconstats-' + config.CONFIG + '.json',
     // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    background: config.colors ? config.colors.primary : '#ffffff',
+    // This matches the application background color
+    background: '#eef1f3',
+    theme_color: config.colors ? config.colors.primary : '#eef1f3',
     // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
     title: config.title,
     appName: config.title,
@@ -230,7 +209,7 @@ function getPluginsConfig(env) {
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
-          postcss: () => [autoprefixer({ browsers: prodBrowsers })],
+          postcss: () => [autoprefixer(), flexbugsFixes],
         },
       }),
       new webpack.NoEmitOnErrorsPlugin(),
@@ -253,44 +232,29 @@ function getPluginsConfig(env) {
       debug: false,
       minimize: true,
       options: {
-        postcss: () => [autoprefixer({ browsers: prodBrowsers }), csswring],
+        postcss: () => [autoprefixer(), csswring, flexbugsFixes],
       },
     }),
     getSourceMapPlugin(/\.(js)($|\?)/i, '/js/'),
     getSourceMapPlugin(/\.(css)($|\?)/i, '/css/'),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['common', 'leaflet', 'manifest'],
+      names: ['common', 'manifest'],
       minChunks: Infinity,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'main',
       children: true,
-      minChunks: 5,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'main',
-      children: true,
-      async: true,
+      async: 'shared',
       minChunks: 3,
     }),
     new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.5 }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new StatsPlugin('../stats.json', { chunkModules: true }),
-    new webpack.optimize.UglifyJsPlugin({
+    new ManifestPlugin({ fileName: '../manifest.json' }),
+    new UglifyJsPlugin({
       sourceMap: true,
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        negate_iife: false,
-      },
-      mangle: {
-        except: ['$super', '$', 'exports', 'require', 'window'],
-      },
+      parallel: true,
     }),
-    // TODO: add after https://github.com/vigneshshanmugam/optimize-js-plugin/issues/7 is shipped
-    // new OptimizeJsPlugin({
-    //   sourceMap: true,
-    // }),
     ...getAllFaviconPlugins(),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
@@ -301,6 +265,7 @@ function getPluginsConfig(env) {
         '**/.*',
         '**/*.map',
         '../stats.json',
+        '../manifest.json',
         '**/*.gz',
         '**/*.br',
         'js/*_theme.*.js',
@@ -308,19 +273,21 @@ function getPluginsConfig(env) {
         'iconstats-*.json',
         'icons-*/*',
       ],
-      // TODO: Can be enabled after cors headers have been added
-      // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
       caches: {
         main: [':rest:'],
-        additional: [':externals:', 'js/+([a-z0-9]).js'],
+        additional: [':externals:'],
         optional: ['*.png', 'css/*.css', '*.svg', 'icons-*/*'],
       },
-      externals: [
-        /* '/' Can be re-added later when we want to cache index page */
-      ],
+      // TODO: Can be enabled after cors headers have been added
+      // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
+      externals: ['/'],
+      updateStrategy: 'changed',
+      autoUpdate: 1000 * 60,
       safeToUseOptionalCaches: true,
       ServiceWorker: {
         entry: './app/util/font-sw.js',
+        events: true,
+        navigateFallbackURL: '/',
       },
       AppCache: {
         caches: ['main', 'additional', 'optional'],
@@ -359,7 +326,6 @@ function getEntry() {
       'react-relay/classic',
       'moment',
     ],
-    leaflet: ['leaflet'],
     main: './app/client',
   };
 

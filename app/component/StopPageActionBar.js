@@ -33,10 +33,8 @@ const StopPageActionBar = ({ startDate, selectedDate, onDateChange }) => (
 StopPageActionBar.displayName = 'StopPageActionBar';
 
 StopPageActionBar.propTypes = {
-  printUrl: PropTypes.string,
   startDate: PropTypes.string,
   selectedDate: PropTypes.string,
-  dateFormat: PropTypes.string,
   onDateChange: PropTypes.func,
 };
 
