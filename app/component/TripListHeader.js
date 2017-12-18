@@ -10,13 +10,13 @@ const TripListHeader = ({ className }) => (
       className,
     )}
   >
-    <div className="columns small-3 route-stop-now">
+    <div className="route-stop-now">
       <FormattedMessage id="right-now" defaultMessage="Right now" />
     </div>
-    <div className="columns small-7 route-stop-name">
+    <div className="route-stop-name">
       <FormattedMessage id="stop" defaultMessage="Stop" />
     </div>
-    <div className="columns small-2 route-stop-time">
+    <div className="route-stop-time">
       <FormattedMessage id="leaves" defaultMessage="Leaves" />
     </div>
   </div>
