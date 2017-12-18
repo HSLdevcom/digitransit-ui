@@ -139,7 +139,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
     if (origin && origin.ready === true && origin.gps !== true) {
       leafletObjs.push(
-        <LazilyLoad modules={placeMarkerModules}>
+        <LazilyLoad modules={placeMarkerModules} key="modulesLoader">
           {({ PlaceMarker }) => (
             <PlaceMarker position={this.props.origin} key="from" />
           )}
