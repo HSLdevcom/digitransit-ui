@@ -5,6 +5,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
 import { markMessageAsRead } from '../action/MessageActions';
+import { isBrowser } from '../util/browser';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -107,8 +108,13 @@ class MessageBar extends Component {
 
   handleClose = () => {
     const ids = [];
+    // apply delayed closing on iexplorer to avoid app freezing
+    const t =
+      isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
+        ? 600
+        : 0;
     this.validMessages().forEach(msg => ids.push(msg.id));
-    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), 600);
+    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), t);
   };
 
   render() {
@@ -189,18 +195,6 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
-    messages: Array.from(
-      context.getStore('MessageStore').messages.values(),
-    ).sort((el1, el2) => {
-      const p1 = el1.priority || 0;
-      const p2 = el2.priority || 0;
-      if (p1 > p2) {
-        return -1;
-      }
-      if (p1 < p2) {
-        return 1;
-      }
-      return 0;
-    }),
+    messages: context.getStore('MessageStore').getMessages(),
   }),
 );

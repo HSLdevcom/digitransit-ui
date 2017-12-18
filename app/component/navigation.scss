@@ -1,3 +1,4 @@
+
 /* foundation override */
 $menu-slide: "transform 200ms ease";
 $offcanvas-background: #333333;
@@ -230,6 +231,7 @@ section.content {
   display: flex;
   flex-direction: column;
   flex: 0 1 100%;
+  height: 100%;
 
   .mobile {
     display: flex;
