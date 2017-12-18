@@ -41,7 +41,7 @@ const WALKBOARDCOST_DEFAULT = 600;
 const WALKBOARDCOST_MAX = 3600;
 
 // Get default settings
-const defaultSettings = {
+export const defaultSettings = {
   accessibilityOption: 0,
   minTransferTime: 180,
   walkBoardCost: WALKBOARDCOST_DEFAULT,
