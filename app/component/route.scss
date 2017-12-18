@@ -128,7 +128,7 @@ $route-schedule-date-height: 36px;
   max-width: 100%;
   height: 3.5em;
   display: flex;
-  flex: 0 0;
+  flex: 1 0 3.5em;
   &.passed {
     div {
       color: $gray;
@@ -198,7 +198,6 @@ $route-schedule-date-height: 36px;
             display: flex;
             span {
               text-decoration: none;
-              max-width: 7em;
             }
             .itinerary-stop-code {
               display: block;
@@ -210,9 +209,11 @@ $route-schedule-date-height: 36px;
               letter-spacing: 0;
               color: #888;
               display: block;
-              word-break: break-word;
+              word-break: keep-all;
+              mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
               height: 1.25rem;
-              overflow-y: hidden;
+              overflow: hidden;
+              width: 100%;
             }
         }
       }
@@ -237,6 +238,9 @@ $route-schedule-date-height: 36px;
 // To hide the line element in the last itinerary leg
 .route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
+}
+.small .route-stop-row_content-container > a .route-details_container > div > span .route-stop-address {
+  max-width: 7em;
 }
 
 .nearest-route-stop {

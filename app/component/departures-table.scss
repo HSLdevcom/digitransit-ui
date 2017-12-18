@@ -17,6 +17,7 @@ table.nearby-departures-table {
             display: flex;
             width: 100%;
             padding-left: 0.6em;
+            padding-right: 1em;
             th {
                 text-align: left;
                 color: $gray;
@@ -42,7 +43,6 @@ table.nearby-departures-table {
         overflow-x: hidden;
         display: block;
         width: 99.7%;
-        background-color: #ffffff;
         max-height: calc(100% - 32px);
         tr {
             @include font-narrow-book;
@@ -56,6 +56,7 @@ table.nearby-departures-table {
                 border-bottom: 1px solid #cbcbcb;
                 display: block;
                 flex: 0 0 4em;
+                background: $white;
                 &.td-available-bikes {
                     font-size: $font-size-small;
                     text-align: center;
@@ -108,13 +109,15 @@ table.nearby-departures-table {
 .small {
     table.nearby-departures-table {
         background-color: $white;
-        &.th-route {
-            width: 15%;
-            text-align: left;
+        thead {
+            .header-tr {
+                padding-right: 0.6em;
+            }
         }
             tbody {
                 position: relative;
-                display:table;
+                overflow-y: visible;
+                display: initial;
                 height: 100%;
             }
         }
