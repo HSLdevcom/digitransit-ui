@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
+import { QueryRenderer } from 'react-relay/compat';
+import { Store } from 'react-relay/classic';
+import { graphql } from 'relay-runtime';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
@@ -100,16 +102,14 @@ class SummaryNavigation extends React.Component {
     CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
   };
 
-  renderTimeSelectorContainer = ({ done, props }) =>
-    done ? (
+  renderTimeSelectorContainer = ({ props }) =>
+    props ? (
       <TimeSelectorContainer
         {...props}
         startTime={this.props.startTime}
         endTime={this.props.endTime}
       />
-    ) : (
-      undefined
-    );
+    ) : null;
 
   render() {
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
@@ -150,16 +150,16 @@ class SummaryNavigation extends React.Component {
           destination={parseLocation(this.props.params.to)}
         />
         <div className={cx('time-selector-settings-row', className)}>
-          <Relay.Renderer
-            Container={TimeSelectorContainer}
-            queryConfig={{
-              params: {},
-              name: 'ServiceTimeRangRoute',
-              queries: {
-                serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-              },
-            }}
-            environment={Relay.Store}
+          <QueryRenderer
+            query={graphql`
+              query SummaryNavigation_serviceTimeRange_Query {
+                serviceTimeRange {
+                  start
+                  end
+                }
+              }
+            `}
+            environment={Store}
             render={this.renderTimeSelectorContainer}
           />
           <RightOffcanvasToggle
