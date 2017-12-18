@@ -193,18 +193,6 @@ export default connectToStores(
   ['MessageStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
-    messages: Array.from(
-      context.getStore('MessageStore').messages.values(),
-    ).sort((el1, el2) => {
-      const p1 = el1.priority || 0;
-      const p2 = el2.priority || 0;
-      if (p1 > p2) {
-        return -1;
-      }
-      if (p1 < p2) {
-        return 1;
-      }
-      return 0;
-    }),
+    messages: context.getStore('MessageStore').getMessages(),
   }),
 );
