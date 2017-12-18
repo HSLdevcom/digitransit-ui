@@ -120,6 +120,14 @@ class SummaryPage extends React.Component {
     }
   }
 
+  setLoading = loading => {
+    this.setState({ loading });
+  };
+
+  updateCenter = (lat, lon) => {
+    this.setState({ center: { lat, lon } });
+  };
+
   initCustomizableParameters = config => {
     this.customizableParameters = {
       ...SummaryPage.hcParameters,
@@ -136,14 +144,6 @@ class SummaryPage extends React.Component {
       maxWalkDistance: config.maxWalkDistance,
       preferred: { agencies: config.preferredAgency || '' },
     };
-  };
-
-  updateCenter = (lat, lon) => {
-    this.setState({ center: { lat, lon } });
-  };
-
-  setLoading = loading => {
-    this.setState({ loading });
   };
 
   hasDefaultPreferences = () => {
