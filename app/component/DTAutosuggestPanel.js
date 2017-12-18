@@ -7,7 +7,7 @@ import Icon from './Icon';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
-import { isBrowser } from '../util/browser';
+import { isIe } from '../util/browser';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -79,7 +79,7 @@ class DTAutosuggestPanel extends React.Component {
           id="origin"
           autoFocus={
             // Disable autofocus if using IE11
-            isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
+            isIe
               ? false
               : this.context.breakpoint === 'large' && !this.props.origin.ready
           }
@@ -123,9 +123,7 @@ class DTAutosuggestPanel extends React.Component {
             id="viapoint"
             autoFocus={
               // Disable autofocus if using IE11
-              navigator.userAgent.indexOf('Trident') !== -1
-                ? false
-                : this.context.breakpoint === 'large'
+              isIe ? false : this.context.breakpoint === 'large'
             }
             refPoint={this.props.origin}
             searchType="endpoint"
@@ -157,9 +155,7 @@ class DTAutosuggestPanel extends React.Component {
           id="destination"
           autoFocus={
             // Disable autofocus if using IE11
-            navigator.userAgent.indexOf('Trident') !== -1
-              ? false
-              : this.context.breakpoint === 'large'
+            isIe ? false : this.context.breakpoint === 'large'
           }
           refPoint={this.props.origin}
           searchType="endpoint"
