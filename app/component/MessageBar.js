@@ -109,8 +109,10 @@ class MessageBar extends Component {
   handleClose = () => {
     const ids = [];
     // apply delayed closing on iexplorer to avoid app freezing
-    const t = isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
-      ? 600 : 0;
+    const t =
+      isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
+        ? 600
+        : 0;
     this.validMessages().forEach(msg => ids.push(msg.id));
     setTimeout(() => this.context.executeAction(markMessageAsRead, ids), t);
   };

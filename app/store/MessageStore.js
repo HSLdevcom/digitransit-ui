@@ -104,7 +104,7 @@ class MessageStore extends Store {
 
   getMessages = () => {
     const arr = [];
-    this.messages.forEach( (msg) => {
+    this.messages.forEach(msg => {
       arr.push(msg);
     });
 
@@ -121,7 +121,7 @@ class MessageStore extends Store {
     });
 
     return arr;
-  }
+  };
 }
 
 export default MessageStore;
