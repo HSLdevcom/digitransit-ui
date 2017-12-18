@@ -89,7 +89,7 @@ class SummaryPage extends React.Component {
     context.executeAction(storeOrigin, props.from);
   }
 
-  state = { center: null };
+  state = { center: null, loading: false };
 
   componentWillMount() {
     this.initCustomizableParameters(this.context.config);
@@ -140,6 +140,10 @@ class SummaryPage extends React.Component {
 
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
+  };
+
+  setLoading = loading => {
+    this.setState({ loading });
   };
 
   hasDefaultPreferences = () => {
@@ -276,14 +280,14 @@ class SummaryPage extends React.Component {
 
     if (breakpoint === 'large') {
       let content;
-
-      if (done || error !== null) {
+      if (this.state.loading === false && (done || error !== null)) {
         content = (
           <SummaryPlanContainer
             plan={this.props.plan.plan}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
             error={error}
+            setLoading={this.setLoading}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
@@ -328,7 +332,7 @@ class SummaryPage extends React.Component {
 
     let content;
 
-    if (!done && !error) {
+    if ((!done && !error) || this.state.loading !== false) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
@@ -356,6 +360,7 @@ class SummaryPage extends React.Component {
           plan={this.props.plan.plan}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
+          setLoading={this.setLoading}
         />
       );
     }

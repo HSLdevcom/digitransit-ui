@@ -2,10 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
+import moment from 'moment';
+import getContext from 'recompose/getContext';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
+import { preparePlanParams } from '../util/planParamUtil';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -13,11 +16,13 @@ class SummaryPlanContainer extends React.Component {
     itineraries: PropTypes.array.isRequired,
     children: PropTypes.node,
     error: PropTypes.string,
+    setLoading: PropTypes.func.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
     }).isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -76,6 +81,190 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
+  onLater = () => {
+    const latestDepartureTime = this.props.itineraries.reduce(
+      (previous, current) => {
+        const startTime = moment(current.startTime);
+
+        if (previous == null) {
+          return startTime;
+        } else if (startTime.isAfter(previous)) {
+          return startTime;
+        }
+        return previous;
+      },
+      null,
+    );
+
+    latestDepartureTime.add(1, 'minutes');
+
+    if (this.context.location.query.arriveBy !== 'true') {
+      // user does not have arrive By
+      this.context.router.replace({
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: latestDepartureTime.unix(),
+        },
+      });
+    } else {
+      this.props.setLoading(true);
+      const params = preparePlanParams(this.props.config)(
+        this.context.router.params,
+        this.context,
+      );
+
+      const tunedParams = {
+        ...params,
+        numItineraries:
+          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
+        arriveBy: false,
+        date: latestDepartureTime.format('YYYY-MM-DD'),
+        time: latestDepartureTime.format('HH:mm'),
+      };
+
+      const query = Relay.createQuery(this.getQuery(), tunedParams);
+
+      Relay.Store.primeCache({ query }, status => {
+        if (status.ready === true) {
+          const data = Relay.Store.readQuery(query);
+          const max = data[0].plan.itineraries.reduce(
+            (previous, { endTime }) =>
+              endTime > previous ? endTime : previous,
+            Number.MIN_VALUE,
+          );
+
+          this.props.setLoading(false);
+          this.context.router.replace({
+            ...this.context.location,
+            query: {
+              ...this.context.location.query,
+              time: moment(max)
+                .add(1, 'minutes')
+                .unix(),
+            },
+          });
+        }
+      });
+    }
+  };
+
+  onEarlier = () => {
+    this.props.setLoading(true);
+    const earliestArrivalTime = this.props.itineraries.reduce(
+      (previous, current) => {
+        const endTime = moment(current.endTime);
+
+        if (previous == null) {
+          return endTime;
+        } else if (endTime.isBefore(previous)) {
+          return endTime;
+        }
+        return previous;
+      },
+      null,
+    );
+
+    earliestArrivalTime.subtract(1, 'minutes');
+
+    if (this.context.location.query.arriveBy === true) {
+      // user has arriveBy already
+      this.context.router.replace({
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          time: earliestArrivalTime.unix(),
+        },
+      });
+    } else {
+      const params = preparePlanParams(this.props.config)(
+        this.context.router.params,
+        this.context,
+      );
+
+      const tunedParams = {
+        ...params,
+        numItineraries:
+          this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
+        arriveBy: true,
+        date: earliestArrivalTime.format('YYYY-MM-DD'),
+        time: earliestArrivalTime.format('HH:mm'),
+      };
+
+      const query = Relay.createQuery(this.getQuery(), tunedParams);
+
+      Relay.Store.primeCache({ query }, status => {
+        if (status.ready === true) {
+          const data = Relay.Store.readQuery(query);
+          const min = data[0].plan.itineraries.reduce(
+            (previous, { startTime }) =>
+              startTime < previous ? startTime : previous,
+            Number.MAX_VALUE,
+          );
+          this.props.setLoading(false);
+          this.context.router.replace({
+            ...this.context.location,
+            query: {
+              ...this.context.location.query,
+              time: moment(min)
+                .subtract(1, 'minutes')
+                .unix(),
+            },
+          });
+        }
+      });
+    }
+  };
+
+  onNow = () => {
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        time: moment().unix(),
+        arriveBy: false, // XXX
+      },
+    });
+  };
+
+  getQuery = () => Relay.QL`
+    query Plan(
+      $intermediatePlaces:[InputCoordinates]!,
+      $numItineraries:Int!,
+      $walkBoardCost:Int!,
+      $minTransferTime:Int!,
+      $walkReluctance:Float!,
+      $walkSpeed:Float!,
+      $maxWalkDistance:Float!,
+      $preferred:InputPreferred!,
+      $fromPlace:String!,
+      $toPlace:String!
+      $date: String!,
+      $time: String!,
+      $arriveBy: Boolean!,
+      $modes: String!
+    ) { viewer {
+        plan(
+          fromPlace:$fromPlace,
+          toPlace:$toPlace,
+          intermediatePlaces:$intermediatePlaces,
+          numItineraries:$numItineraries,
+          date:$date,
+          time:$time,
+          walkReluctance:$walkReluctance,
+          walkBoardCost:$walkBoardCost,
+          minTransferTime:$minTransferTime,
+          walkSpeed:$walkSpeed,
+          maxWalkDistance:$maxWalkDistance,
+          wheelchair:false,
+          disableRemainingWeightHeuristic:false,
+          arriveBy:$arriveBy,
+          preferred:$preferred,
+          modes:$modes
+        ) {itineraries {startTime,endTime}}
+      }
+    }`;
+
   getActiveIndex() {
     if (this.context.location.state) {
       return this.context.location.state.summaryPageSelected || 0;
@@ -111,13 +300,22 @@ class SummaryPlanContainer extends React.Component {
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
-        <TimeNavigationButtons itineraries={this.props.itineraries} />
+        <TimeNavigationButtons
+          onEarlier={this.onEarlier}
+          onLater={this.onLater}
+          onNow={this.onNow}
+          itineraries={this.props.itineraries}
+        />
       </div>
     );
   }
 }
 
-export default Relay.createContainer(SummaryPlanContainer, {
+const withConfig = getContext({
+  config: PropTypes.object.isRequired,
+})(SummaryPlanContainer);
+
+export default Relay.createContainer(withConfig, {
   fragments: {
     plan: () => Relay.QL`
       fragment on Plan {
