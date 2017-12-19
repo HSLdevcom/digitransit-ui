@@ -64,6 +64,15 @@ export const getSettings = () => {
   };
 };
 
+export const getDefaultModes = config => [
+  ...Object.keys(config.transportModes)
+    .filter(mode => config.transportModes[mode].defaultValue)
+    .map(mode => mode.toUpperCase()),
+  ...Object.keys(config.streetModes)
+    .filter(mode => config.streetModes[mode].defaultValue)
+    .map(mode => mode.toUpperCase()),
+];
+
 export const preparePlanParams = config => (
   { from, to },
   {

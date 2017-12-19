@@ -20,6 +20,7 @@ import {
 } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
+import { getDefaultModes } from './../util/planParamUtil';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -217,15 +218,6 @@ class CustomizeSearch extends React.Component {
       walkSpeed: this.walkingSpeedInitVal,
     });
   }
-
-  getDefaultModes = () => [
-    ...Object.keys(this.context.config.transportModes)
-      .filter(mode => this.context.config.transportModes[mode].defaultValue)
-      .map(mode => mode.toUpperCase()),
-    ...Object.keys(this.context.config.streetModes)
-      .filter(mode => this.context.config.streetModes[mode].defaultValue)
-      .map(mode => mode.toUpperCase()),
-  ];
 
   getStreetModesToggleButtons = () => {
     const availableStreetModes = Object.keys(
@@ -455,7 +447,7 @@ class CustomizeSearch extends React.Component {
     } else if (getCustomizedSettings().modes) {
       return getCustomizedSettings().modes;
     }
-    return this.getDefaultModes();
+    return getDefaultModes(this.context.config);
   }
 
   getMode(mode) {
@@ -521,7 +513,7 @@ class CustomizeSearch extends React.Component {
         walkBoardCost: defaultSettings.walkBoardCost,
         minTransferTime: defaultSettings.minTransferTime,
         accessibilityOption: defaultSettings.accessibilityOption,
-        modes: this.getDefaultModes().toString(),
+        modes: getDefaultModes(this.context.config).toString(),
         ticketTypes: defaultSettings.ticketTypes,
       },
     });
