@@ -37,6 +37,7 @@ $hilight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
 
 $standalone-btn-color: $primary-color;
 $link-color: $primary-color;

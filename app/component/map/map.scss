@@ -66,6 +66,7 @@ div.leaflet-container {
 
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
+  color: $current-location-color;
 }
 
 div.leaflet-marker-icon.place {
