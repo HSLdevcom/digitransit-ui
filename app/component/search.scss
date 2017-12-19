@@ -52,51 +52,51 @@ $item-border-color: #eee;
 /*Placeholder selectors can't be nested and need to be put 1 at a time, these are for the
 input field Placeholder texts */
 #origin::placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #origin::-webkit-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #origin:-moz-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #origin::-moz-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #origin:-ms-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination::-webkit-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination:-moz-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination::-moz-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination:-ms-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination::-ms-input-placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 #destination::placeholder {
-  color: #888888;
+  color: #666666;
   opacity: 1;
 }
 
@@ -624,7 +624,7 @@ input.react-autosuggest__input{
     background-size: 1.5rem;
   }
   &.destination {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba(#888888, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba(#666666, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>");
     background-repeat: no-repeat;
     background-position: 0.7rem 0.7rem;
     padding-left: 3em;
