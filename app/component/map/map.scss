@@ -185,6 +185,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   .leaflet-popup-content {
     margin: 0;
     width: 18rem !important;
+    &.leaflet-popup-scrolled {
+      overflow: inherit;
+    }
   }
   .card {
     border: none;
