@@ -4,17 +4,19 @@ import Relay from 'react-relay/classic';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
+import get from 'lodash/get';
 import debounce from 'lodash/debounce';
+import getContext from 'recompose/getContext';
+import withProps from 'recompose/withProps';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import TimeSelectors from './TimeSelectors';
 
 class TimeSelectorContainer extends Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    location: locationShape.isRequired,
     router: routerShape.isRequired,
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
+    location: locationShape.isRequired,
   };
 
   static propTypes = {
@@ -22,81 +24,39 @@ class TimeSelectorContainer extends Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-  };
-
-  state = {
-    time: this.context.location.query.time
-      ? moment.unix(this.context.location.query.time)
-      : moment(),
-    arriveBy: this.context.location.query.arriveBy === 'true',
-    setTimefromProps: false,
-  };
-
-  componentDidMount() {
-    this.context.router.listen(location => {
-      if (
-        location.query.time &&
-        Number(location.query.time) !== this.state.time.unix() &&
-        (location.query.arriveBy === 'true') === this.state.arriveBy
-      ) {
-        this.setState({ time: moment.unix(location.query.time) });
-      } else if ((location.query.arriveBy === 'true') !== this.state.arriveBy) {
-        this.setState({ setTimefromProps: true });
-      }
-    });
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.state.setTimefromProps && newProps.startTime && newProps.endTime) {
-      this.setState({
-        time: moment(
-          this.state.arriveBy ? newProps.endTime : newProps.startTime,
-        ),
-        setTimefromProps: false,
-      });
-    }
-  }
-
-  setArriveBy = ({ target }) => {
-    // TODO is state manipulation here necessary or could we get it from url...
-    this.setState({ arriveBy: target.value === 'true' }, () => {
-      this.context.router.replace({
-        pathname: this.context.location.pathname,
-        query: {
-          ...this.context.location.query,
-          arriveBy: target.value,
-        },
-      });
-    });
+    time: PropTypes.number.isRequired,
+    arriveBy: PropTypes.string.isRequired,
+    now: PropTypes.shape({}).isRequired,
   };
 
   getDates() {
+    const MAXRANGE = 30; // limit day selection to sensible range ?
     const dates = [];
     const range = this.props.serviceTimeRange;
-    const now = this.context.getStore('TimeStore').getCurrentTime();
-    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const { now } = this.props;
     const START = now.clone().subtract(MAXRANGE, 'd');
     const END = now.clone().add(MAXRANGE, 'd');
     let start = moment.unix(range.start);
     start = moment.min(moment.max(start, START), now); // always include today!
     let end = moment.unix(range.end);
     end = moment.max(moment.min(end, END), now); // always include today!
-    const dayform = 'YYYY-MM-DD';
-    const today = now.format(dayform);
-    const tomorrow = now.add(1, 'd').format(dayform);
-    const endValue = end.format(dayform);
+    const tomorrow = now.clone().add(1, 'd');
+    const endValue = end.unix();
+    start.hours(this.props.time.hours());
+    start.minutes(this.props.time.minutes());
+    start.seconds(this.props.time.seconds());
 
     let value;
     const day = start;
     do {
       let label;
-      value = day.format(dayform);
-      if (value === today) {
+      value = `${day.unix()}`;
+      if (day.isSame(now, 'day')) {
         label = this.context.intl.formatMessage({
           id: 'today',
           defaultMessage: 'Today',
         });
-      } else if (value === tomorrow) {
+      } else if (day.isSame(tomorrow, 'day')) {
         label = this.context.intl.formatMessage({
           id: 'tomorrow',
           defaultMessage: 'Tomorrow',
@@ -110,58 +70,54 @@ class TimeSelectorContainer extends Component {
         </option>,
       );
       day.add(1, 'd');
-    } while (value !== endValue);
+    } while (value <= endValue);
 
     return dates;
   }
 
-  dispatchChangedtime = debounce(() => {
+  setArriveBy = ({ target }) => {
+    const arriveBy = target.value;
     this.context.router.replace({
       pathname: this.context.location.pathname,
       query: {
         ...this.context.location.query,
-        time: this.state.time.unix(),
-        arriveBy: this.state.arriveBy,
+        arriveBy,
       },
     });
-  }, 500);
+  };
 
-  changeTime = ({ target }, callback) =>
-    target.value
-      ? this.setState(
-          {
-            time: moment(
-              `${target.value} ${this.state.time.format('YYYY-MM-DD')}`,
-              'H:m YYYY-MM-DD',
-            ),
-            setTimefromProps: false,
-          },
-          () => {
-            if (typeof callback === 'function') {
-              callback();
-            }
-            this.dispatchChangedtime();
-          },
-        )
-      : {};
-
-  changeDate = ({ target }) =>
-    this.setState(
-      {
-        time: moment(
-          `${this.state.time.format('H:m')} ${target.value}`,
-          'H:m YYYY-MM-DD',
-        ),
-        setTimefromProps: false,
+  setTime = debounce(newTime => {
+    this.context.router.replace({
+      pathname: this.context.location.pathname,
+      query: {
+        ...this.context.location.query,
+        time: newTime.unix(),
       },
-      this.dispatchChangedtime,
-    );
+    });
+  }, 10);
+
+  changeTime = ({ hours, minutes, add }) => {
+    const time = this.props.time.clone();
+    if (add) {
+      // delta from arrow keys
+      time.add(add.key, add.delta);
+    } else {
+      time.hours(hours);
+      time.minutes(minutes);
+    }
+    this.setTime(time);
+  };
+
+  changeDate = ({ target }) => {
+    const time = moment.unix(parseInt(target.value, 10));
+    this.setTime(time);
+  };
 
   render() {
     return (
       <TimeSelectors
-        arriveBy={this.state.arriveBy}
-        time={this.state.time}
+        arriveBy={this.props.arriveBy}
+        time={this.props.time}
         setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}
         changeDate={this.changeDate}
@@ -171,7 +127,23 @@ class TimeSelectorContainer extends Component {
   }
 }
 
-export default Relay.createContainer(TimeSelectorContainer, {
+const TSCWithProps = withProps(({ location, now }, ...rest) => ({
+  ...rest,
+  time: location.query.time
+    ? moment.unix(parseInt(location.query.time, 10))
+    : now,
+  arriveBy: get(location, 'query.arriveBy', 'false'),
+}))(TimeSelectorContainer);
+
+const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
+  now: context.getStore('TimeStore').getCurrentTime(),
+}));
+
+const withLocation = getContext({
+  location: locationShape.isRequired,
+})(withNow);
+
+export default Relay.createContainer(withLocation, {
   fragments: {
     serviceTimeRange: () => Relay.QL`
       fragment on serviceTimeRange {
