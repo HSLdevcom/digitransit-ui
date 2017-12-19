@@ -5,7 +5,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
 import { markMessageAsRead } from '../action/MessageActions';
-import { isBrowser } from '../util/browser';
+import { isIe } from '../util/browser';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -109,10 +109,7 @@ class MessageBar extends Component {
   handleClose = () => {
     const ids = [];
     // apply delayed closing on iexplorer to avoid app freezing
-    const t =
-      isBrowser && window.navigator.userAgent.indexOf('Trident') !== -1
-        ? 600
-        : 0;
+    const t = isIe ? 600 : 0;
     this.validMessages().forEach(msg => ids.push(msg.id));
     setTimeout(() => this.context.executeAction(markMessageAsRead, ids), t);
   };
