@@ -29,8 +29,7 @@ export default class TicketSales {
       case 'R-kioski':
         return 'icon-icon_ticket-sales-point';
       default:
-        console.log(`Unknown ticket sales type: ${type}`);
-        return 'icon-icon_ticket-sales-point';
+        return undefined;
     }
   };
 
@@ -50,6 +49,9 @@ export default class TicketSales {
 
           this.features = [];
 
+          const size =
+            getStopRadius(this.tile.coords.z) * 2.5 * this.scaleratio;
+
           if (vt.layers['ticket-sales'] != null) {
             for (
               let i = 0, ref = vt.layers['ticket-sales'].length - 1;
@@ -59,14 +61,10 @@ export default class TicketSales {
               const feature = vt.layers['ticket-sales'].feature(i);
               [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
-              if (!feature.properties.TYYPPI.startsWith('VR')) {
+              const icon = TicketSales.getIcon(feature.properties.TYYPPI);
+              if (icon) {
                 this.features.push(pick(feature, ['geom', 'properties']));
-                drawIcon(
-                  TicketSales.getIcon(feature.properties.TYYPPI),
-                  this.tile,
-                  feature.geom,
-                  getStopRadius(this.tile.coords.z) * 2.5 * this.scaleratio,
-                );
+                drawIcon(icon, this.tile, feature.geom, size);
               }
             }
           }
