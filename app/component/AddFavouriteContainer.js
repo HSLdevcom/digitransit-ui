@@ -118,7 +118,7 @@ class AddFavouriteContainer extends React.Component {
           <div className="button-container">
             <BackButton
               icon="icon-icon_close"
-              color="#888"
+              color="#666"
               className="add-favourite-close-button"
             />
           </div>
