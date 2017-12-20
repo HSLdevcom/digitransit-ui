@@ -324,7 +324,7 @@ class CustomizeSearch extends React.Component {
         min={0}
         max={20}
         writtenValue={
-          Number.isNaN(this.context.location.query.minTransferTime) === false
+          this.context.location.query.minTransferTime !== undefined
             ? `${Math.round(
                 this.context.location.query.minTransferTime / 60,
               )} min`
@@ -363,7 +363,7 @@ class CustomizeSearch extends React.Component {
         value={this.state.walkSpeed}
         step={1}
         writtenValue={
-          Number.isNaN(this.context.location.query.walkSpeed) === false
+          this.context.location.query.walkSpeed !== undefined
             ? `${Math.floor(this.context.location.query.walkSpeed * 60)} m/min`
             : `${72} m/min`
         }
