@@ -10,7 +10,6 @@ export default function TimeSelectors(
   { arriveBy, time, dates, setArriveBy, changeTime, changeDate },
   { intl },
 ) {
-  // const timeInputClass = `select-wrapper ${isMobile ? '' : 'time-box-shadow'}`;
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
@@ -31,11 +30,7 @@ export default function TimeSelectors(
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
       <div className="select-wrapper">
-        <select
-          className="date"
-          value={time.format('YYYY-MM-DD')}
-          onChange={changeDate}
-        >
+        <select className="date" value={`${time.unix()}`} onChange={changeDate}>
           {dates}
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />

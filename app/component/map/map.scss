@@ -66,6 +66,7 @@ div.leaflet-container {
 
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
+  color: $current-location-color;
 }
 
 div.leaflet-marker-icon.place {
@@ -185,6 +186,9 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   .leaflet-popup-content {
     margin: 0;
     width: 18rem !important;
+    &.leaflet-popup-scrolled {
+      overflow: inherit;
+    }
   }
   .card {
     border: none;

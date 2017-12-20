@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { routerShape } from 'react-router';
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
@@ -11,7 +9,7 @@ import Icon from './Icon';
 
 // TODO: sptlit into container and view
 
-export default class TimeNavigationButtons extends React.Component {
+class TimeNavigationButtons extends React.Component {
   static propTypes = {
     itineraries: PropTypes.arrayOf(
       PropTypes.shape({
@@ -19,13 +17,13 @@ export default class TimeNavigationButtons extends React.Component {
         startTime: PropTypes.number.isRequired,
       }).isRequired,
     ).isRequired,
+    onEarlier: PropTypes.func.isRequired,
+    onLater: PropTypes.func.isRequired,
+    onNow: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
-    router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
-    executeAction: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -42,71 +40,6 @@ export default class TimeNavigationButtons extends React.Component {
       </ComponentUsageExample>
     </div>
   );
-
-  setEarlierSelectedTime() {
-    const earliestArrivalTime = this.props.itineraries.reduce(
-      (previous, current) => {
-        const endTime = moment(current.endTime);
-
-        if (previous == null) {
-          return endTime;
-        } else if (endTime.isBefore(previous)) {
-          return endTime;
-        }
-        return previous;
-      },
-      null,
-    );
-
-    earliestArrivalTime.subtract(1, 'minutes');
-
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        time: earliestArrivalTime.unix(),
-        arriveBy: true,
-      },
-    });
-  }
-
-  setLaterSelectedTime() {
-    const latestDepartureTime = this.props.itineraries.reduce(
-      (previous, current) => {
-        const startTime = moment(current.startTime);
-
-        if (previous == null) {
-          return startTime;
-        } else if (startTime.isAfter(previous)) {
-          return startTime;
-        }
-        return previous;
-      },
-      null,
-    );
-
-    latestDepartureTime.add(1, 'minutes');
-
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        time: latestDepartureTime.unix(),
-        arriveBy: false,
-      },
-    });
-  }
-
-  setSelectedTimeToNow() {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        time: moment().unix(),
-        arriveBy: false,
-      },
-    });
-  }
 
   render() {
     const { config } = this.context;
@@ -134,20 +67,20 @@ export default class TimeNavigationButtons extends React.Component {
         {itineraryFeedback}
         <button
           className="standalone-btn time-navigation-earlier-btn"
-          onClick={() => this.setEarlierSelectedTime()}
+          onClick={this.props.onEarlier}
         >
           {leftArrow}
           <FormattedMessage id="earlier" defaultMessage="Earlier" />
         </button>
         <button
           className="standalone-btn time-navigation-now-btn"
-          onClick={() => this.setSelectedTimeToNow()}
+          onClick={this.props.onNow}
         >
           <FormattedMessage id="now" defaultMessage="Now" />
         </button>
         <button
           className="standalone-btn time-navigation-later-btn"
-          onClick={() => this.setLaterSelectedTime()}
+          onClick={this.props.onLater}
         >
           <FormattedMessage id="later" defaultMessage="Later" />
           {rightArrow}
@@ -156,3 +89,5 @@ export default class TimeNavigationButtons extends React.Component {
     );
   }
 }
+
+export default TimeNavigationButtons;

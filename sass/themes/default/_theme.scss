@@ -4,7 +4,7 @@
 $white: #ffffff;
 $light-gray: #ddd;
 $medium-gray: #ccc;
-$gray: #888;
+$gray: #666;
 $dark-gray: #575757;
 $black: #333;
 $gray-blue: #78909c;
@@ -34,8 +34,9 @@ $cancelation-red: #dc0451;
 $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
-$realtime-color: #46b32a;
+$realtime-color: #3F8600;
 $visited-link-color: #8c4799;
+$current-location-color: $primary-color;
 
 /* Component palette */
 $title-color: $white;
