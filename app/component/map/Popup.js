@@ -2,11 +2,11 @@ import { Popup as LeafletPopup } from 'leaflet';
 import PropTypes from 'prop-types';
 import { Children } from 'react';
 import { createPortal } from 'react-dom';
-
 import MapComponent from 'react-leaflet/es/MapComponent';
 import latlng from 'react-leaflet/es/propTypes/latlng';
 import layer from 'react-leaflet/es/propTypes/layer';
 import map from 'react-leaflet/es/propTypes/map';
+import events from '../../util/events';
 
 /* eslint-disable no-underscore-dangle */
 
@@ -103,6 +103,7 @@ export default class Popup extends MapComponent {
   }
 
   onPopupOpen = ({ popup }) => {
+    events.emit('popupOpened');
     if (popup === this.leafletElement) {
       this.setState({ isPopupOpen: true }, () => {
         if (this.props.onOpen) {
