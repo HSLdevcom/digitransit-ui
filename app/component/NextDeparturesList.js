@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { routerShape } from 'react-router';
 import sortBy from 'lodash/sortBy';
 import Distance from './Distance';
 import RouteNumber from './RouteNumber';
@@ -10,7 +10,7 @@ import { PREFIX_ROUTES } from '../util/path';
 
 // TODO: Alerts aren't showing properly
 // Need to implement logic as per DepartureListContainer
-function NextDeparturesList(props) {
+function NextDeparturesList(props, context) {
   const departures = props.departures.map(originalDeparture => {
     const { distance } = originalDeparture;
 
@@ -52,42 +52,69 @@ function NextDeparturesList(props) {
         ${departureTime.realtimeDeparture}`;
 
         return (
-          <DepartureTime
-            key={key}
-            departureTime={
-              departureTime.serviceDay + departureTime.realtimeDeparture
-            }
-            realtime={departureTime.realtime}
-            currentTime={props.currentTime}
-            canceled={canceled}
-          />
+          <td key={`${key}-td`} className="td-departure-times">
+            <DepartureTime
+              key={key}
+              departureTime={
+                departureTime.serviceDay + departureTime.realtimeDeparture
+              }
+              realtime={departureTime.realtime}
+              currentTime={props.currentTime}
+              canceled={canceled}
+            />
+          </td>
         );
       });
 
+      const getDeparture = val => {
+        context.router.push(val);
+      };
+
+      const departureLinkUrl = `/${PREFIX_ROUTES}/${
+        stoptime.pattern.route.gtfsId
+      }/pysakit/${stoptime.pattern.code}`;
+
+      // In case there's only one departure for the route,
+      // add a dummy cell to keep the table layout from breaking
+      const departureTimesChecked =
+        departureTimes.length < 2
+          ? [
+              departureTimes[0],
+              <td
+                key={`${departureTimes[0].key}-empty`}
+                className="td-departure-times"
+              />,
+            ]
+          : departureTimes;
+
       // TODO: Should this be its own view component?
       return (
-        <Link
-          to={`/${PREFIX_ROUTES}/${stoptime.pattern.route.gtfsId}/pysakit/${
-            stoptime.pattern.code
-          }`}
+        <tr
+          className="next-departure-row-tr"
+          onClick={() => getDeparture(departureLinkUrl)}
+          style={{ cursor: 'pointer' }}
           key={stoptime.pattern.code}
         >
-          <div className="next-departure-row padding-vertical-normal border-bottom">
+          <td className="td-distance">
             <Distance distance={departure.distance} />
+          </td>
+          <td className="td-route-number">
             <RouteNumber
               mode={stoptime.pattern.route.mode}
               text={stoptime.pattern.route.shortName}
               hasDisruption={departure.hasDisruption}
             />
+          </td>
+          <td className="td-destination">
             <RouteDestination
               mode={stoptime.pattern.route.mode}
               destination={
                 stoptime.pattern.headsign || stoptime.pattern.route.longName
               }
             />
-            {departureTimes}
-          </div>
-        </Link>
+          </td>
+          {departureTimesChecked}
+        </tr>
       );
     },
   );
@@ -98,6 +125,10 @@ function NextDeparturesList(props) {
 NextDeparturesList.propTypes = {
   departures: PropTypes.array.isRequired,
   currentTime: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
+};
+
+NextDeparturesList.contextTypes = {
+  router: routerShape.isRequired,
 };
 
 export default NextDeparturesList;

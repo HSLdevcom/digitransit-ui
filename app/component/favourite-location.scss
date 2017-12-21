@@ -200,6 +200,7 @@
 
 #no-favourites-container {
   @extend .flex-horizontal;
+  flex: 0 1 auto;
   padding: $padding-medium;
   a {
     width: 33%;
