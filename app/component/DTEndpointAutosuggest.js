@@ -13,7 +13,7 @@ import {
 } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
-import { PREFIX_STOPS } from '../util/path';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
@@ -111,8 +111,10 @@ class DTEndpointAutosuggest extends React.Component {
 
   onSuggestionSelected = item => {
     // stop
-    if (isStop(get(item, 'properties')) && item.timetableClicked === true) {
-      const url = `/${PREFIX_STOPS}/${getGTFSId(item.properties)}`;
+    if (item.timetableClicked === true) {
+      const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
+
+      const url = `/${prefix}/${getGTFSId(item.properties)}`;
       this.context.router.push(url);
       return;
     }

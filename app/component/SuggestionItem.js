@@ -11,6 +11,7 @@ import {
   getNameLabel,
   getIcon,
   isStop,
+  isTerminal,
   getGTFSId,
 } from '../util/suggestionUtils';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -52,7 +53,7 @@ const SuggestionItem = pure(
     );
     if (
       doNotShowLinkToStop === false &&
-      isStop(item.properties) &&
+      (isStop(item.properties) || isTerminal(item.properties)) &&
       getGTFSId(item.properties) !== undefined &&
       (get(item, 'properties.id') || get(item, 'properties.code')) !== undefined
     ) {

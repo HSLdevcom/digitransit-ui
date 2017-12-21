@@ -28,15 +28,21 @@ export const getGTFSId = ({ id, gtfsId }) => {
   if (gtfsId) {
     return gtfsId;
   }
-  if (id === undefined || id.indexOf('#') === -1) {
-    return undefined;
+
+  if (id.indexOf('GTFS:') === 0) {
+    if (id.indexOf('#') === -1) {
+      return id.substring(5);
+    }
+    return id.substring(5, id.indexOf('#'));
   }
-  // id from pelias
-  return id.substring(5, id.indexOf('#'));
+
+  return undefined;
 };
 
 export const isStop = ({ layer }) =>
   layer === 'stop' || layer === 'favouriteStop';
+
+export const isTerminal = ({ layer, ...rest }) => layer === 'station';
 
 export const getNameLabel = memoize(
   (suggestion, plain = false) => {
