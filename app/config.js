@@ -80,6 +80,16 @@ export function getNamedConfiguration(configName, piwikId) {
     }
     const config = configMerger(defaultConfig, additionalConfig);
 
+    if (config.useSearchPolygon && config.areaPolygon) {
+      // pass poly as 'lon lat, lon lat, lon lat ...' sequence
+      const pointsParam = config.areaPolygon
+        .map(p => `${p[0]} ${p[1]}`)
+        .join(',');
+
+      config.searchParams = config.searchParams || {};
+      config.searchParams['boundary.polygon'] = pointsParam;
+    }
+
     if (piwikId) {
       config.PIWIK_ID = piwikId;
     }

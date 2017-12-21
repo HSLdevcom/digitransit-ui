@@ -35,13 +35,6 @@ export default {
   preferredAgency: 'HSL',
   showHSLTracking: true,
 
-  searchParams: {
-    'boundary.rect.min_lat': 59.9,
-    'boundary.rect.max_lat': 60.45,
-    'boundary.rect.min_lon': 24.3,
-    'boundary.rect.max_lon': 25.5,
-  },
-
   defaultMapCenter: {
     lat: 60.1710688,
     lon: 24.9414841,
@@ -122,6 +115,8 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
+
+  useSearchPolygon: true,
 
   areaPolygon: [
     [24.2647, 60.178],
