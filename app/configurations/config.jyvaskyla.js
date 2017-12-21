@@ -14,7 +14,7 @@ const maxLon = 26.358237;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['KeskiSuomenEly'],
+  feedIds: ['KeskiSuomenEly','LINKKI'],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
