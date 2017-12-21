@@ -128,6 +128,7 @@ NextDeparturesList.propTypes = {
 };
 
 NextDeparturesList.contextTypes = {
+  // eslint-disable-next-line react/no-typos
   router: routerShape.isRequired,
 };
 
