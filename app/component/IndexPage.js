@@ -31,6 +31,7 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
+import events from '../util/events';
 
 const debug = d('IndexPage.js');
 
@@ -64,11 +65,21 @@ class IndexPage extends React.Component {
     if (this.props.tab === undefined) {
       this.clickNearby();
     }
+
+    events.on('popupOpened', this.onPopupOpen);
   }
 
   componentWillReceiveProps = nextProps => {
     this.handleBreakpointProps(nextProps);
     this.handleLocationProps(nextProps);
+  };
+
+  componentWillUnmount() {
+    events.removeListener('popupOpened', this.onPopupOpen);
+  }
+
+  onPopupOpen = () => {
+    this.setState({ mapExpanded: true });
   };
 
   getSelectedTab = () => {
