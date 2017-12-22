@@ -3,23 +3,23 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const NextDeparturesListHeader = () => (
-  <div className="next-departures-list-header padding-vertical-small">
-    <span className="time-header">
-      <FormattedMessage id="next" defaultMessage="Next" />
-    </span>
-    <span className="time-header">
-      <FormattedMessage id="leaves" defaultMessage="Leaves" />
-    </span>
-    <span className="distance-header">
+  <tr className="header-tr">
+    <th className="th-to-stop">
       <FormattedMessage id="to-stop" defaultMessage="To stop" />
-    </span>
-    <span className="route-number-header">
+    </th>
+    <th className="th-route">
       <FormattedMessage id="route" defaultMessage="Route" />
-    </span>
-    <span className="route-destination-header">
+    </th>
+    <th className="th-destination">
       <FormattedMessage id="destination" defaultMessage="Destination" />
-    </span>
-  </div>
+    </th>
+    <th className="th-leaves">
+      <FormattedMessage id="leaves" defaultMessage="Leaves" />
+    </th>
+    <th className="th-next">
+      <FormattedMessage id="next" defaultMessage="Next" />
+    </th>
+  </tr>
 );
 
 NextDeparturesListHeader.displayName = 'NextDeparturesListHeader';
