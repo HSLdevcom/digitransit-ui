@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import get from 'lodash/get';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import Loading from './Loading';

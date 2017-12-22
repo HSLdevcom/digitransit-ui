@@ -42,7 +42,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
 export const isStop = ({ layer }) =>
   layer === 'stop' || layer === 'favouriteStop';
 
-export const isTerminal = ({ layer, ...rest }) => layer === 'station';
+export const isTerminal = ({ layer }) => layer === 'station';
 
 export const getNameLabel = memoize(
   (suggestion, plain = false) => {
