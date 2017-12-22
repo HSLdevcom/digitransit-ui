@@ -192,7 +192,7 @@ class IndexPage extends React.Component {
           origin={this.props.origin}
           destination={this.props.destination}
           tab={this.props.tab}
-          originSearchType="all"
+          searchType="all"
           originPlaceHolder="search-origin"
         />
         <div key="foo" className="fpccontainer">
@@ -243,7 +243,7 @@ class IndexPage extends React.Component {
             <DTAutosuggestPanel
               origin={this.props.origin}
               destination={this.props.destination}
-              originSearchType="all"
+              searchType="all"
               originPlaceHolder="search-origin"
               tab={this.props.tab}
             />
