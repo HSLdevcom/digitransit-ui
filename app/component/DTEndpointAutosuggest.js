@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import get from 'lodash/get';
 import { routerShape } from 'react-router';
 import DTOldSearchSavingAutosuggest from './DTOldSearchSavingAutosuggest';
 import Loading from './Loading';
@@ -13,7 +12,7 @@ import {
 } from '../util/suggestionUtils';
 import { dtLocationShape } from '../util/shapes';
 import { getAllEndpointLayers } from '../util/searchUtils';
-import { PREFIX_STOPS } from '../util/path';
+import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
@@ -111,8 +110,10 @@ class DTEndpointAutosuggest extends React.Component {
 
   onSuggestionSelected = item => {
     // stop
-    if (isStop(get(item, 'properties')) && item.timetableClicked === true) {
-      const url = `/${PREFIX_STOPS}/${getGTFSId(item.properties)}`;
+    if (item.timetableClicked === true) {
+      const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
+
+      const url = `/${prefix}/${getGTFSId(item.properties)}`;
       this.context.router.push(url);
       return;
     }
