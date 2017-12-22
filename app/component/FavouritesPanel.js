@@ -53,21 +53,28 @@ FavouriteRoutes.propTypes = {
   origin: dtLocationShape.isRequired,
 };
 
-const FavouritesPanel = ({
-  origin,
-  routes,
-  currentTime,
-  favouriteLocations,
-}) => (
+const FavouritesPanel = (
+  { origin, routes, currentTime, favouriteLocations },
+  context,
+) => (
   <div className="frontpage-panel">
     <FavouriteLocationsContainer
       origin={origin}
       currentTime={currentTime}
       favourites={favouriteLocations}
     />
-    <NextDeparturesListHeader />
-    <div className="scrollable momentum-scroll favourites">
-      <FavouriteRoutes routes={routes} origin={origin} />
+    <div
+      className={`nearby-table-container ${context.breakpoint !== 'large' &&
+        `mobile`}`}
+    >
+      <table className="nearby-departures-table">
+        <thead>
+          <NextDeparturesListHeader />
+        </thead>
+        <tbody>
+          <FavouriteRoutes routes={routes} origin={origin} />
+        </tbody>
+      </table>
     </div>
   </div>
 );
@@ -77,6 +84,10 @@ FavouritesPanel.propTypes = {
   origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
   currentTime: PropTypes.number.isRequired,
   favouriteLocations: PropTypes.array,
+};
+
+FavouritesPanel.contextTypes = {
+  breakpoint: PropTypes.string,
 };
 
 const FilteredFavouritesPanel = shouldUpdate(
