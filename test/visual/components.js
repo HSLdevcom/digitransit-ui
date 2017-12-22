@@ -216,8 +216,12 @@ testVariation('SummaryRow', 'active-large-call-agency', 14);
 
 testVariation('CallAgencyWarning');
 
-testVariation('CurrentPositionSuggestionItem', 'with-position');
-testVariation('CurrentPositionSuggestionItem', 'no-position', 2);
+testVariation('CurrentPositionSuggestionItem', 'with-position').then(
+  skip('ie11'),
+);
+testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
+  skip('ie11'),
+);
 
 testVariation('SuggestionItem', 'Favourite');
 testVariation('SuggestionItem', 'Address', 2);
@@ -226,10 +230,6 @@ testVariation('SuggestionItem', 'Stop', 4);
 testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
-
-testVariation('ViaPointSelector', 'no-via-point');
-testVariation('ViaPointSelector', 'with-via-point', 2);
-testVariation('ViaPointBar', 'with-via-point', 2);
 
 testVariation('WalkLeg', 'walk-start');
 testVariation('WalkLeg', 'walk-middle', 2);
