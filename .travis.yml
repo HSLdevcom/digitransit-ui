@@ -34,10 +34,6 @@ jobs:
       env: VISUAL=safari10
       node_js: "8"
       script: test/visual.sh
-    - stage: test
-      node_js: "8"
-      env: FLOW=1
-      script: test/flow.sh
     - stage: deploy
       node_js: "8"
       script: test/deploy.sh
