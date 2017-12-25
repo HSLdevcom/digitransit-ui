@@ -89,7 +89,7 @@
     "mqtt": "2.15.0",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "1.7.3",
-    "offline-plugin": "4.8.5",
+    "offline-plugin": "4.9.0",
     "pbf": "3.1.0",
     "point-in-polygon": "1.0.1",
     "polyfill-service": "3.24.0",
