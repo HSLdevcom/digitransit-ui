@@ -562,7 +562,7 @@ const translations = {
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
       'Have you accepted your browser’s request to access your location?',
-    'give-destination': 'Search destination',
+    'give-destination': 'Search destination, route or stop',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
     'give-position': 'Enter your location or origin in the search field.',
@@ -840,7 +840,7 @@ const translations = {
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
-    'give-destination': 'Hae määränpää',
+    'give-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
@@ -1618,7 +1618,7 @@ const translations = {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'give-destination': 'Sök destination',
+    'give-destination': 'Sök destination, linje eller hållplats',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
     'give-position': 'Skriv in din position eller avfärdsplats i sökfältet.',

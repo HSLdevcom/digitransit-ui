@@ -1,15 +1,15 @@
 Digitransit-ui is a React based web application. The following bullet point describe the architecture on a overview level and provide guidelines on how the code should be.
 
 # Logic (i.e. HTML + JS in traditional web)
- - Front-end is written using modern javascript (ES2015)
- - Use Babel to transpile into ES5
-  - We could provide a different bundle for modern browsers using widely-supported es6 syntax
+ - Front-end is written using modern JavaScript (ES2015)
+ - Use Babel to transpile it into ES5
+  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
  - Use polyfills for older browsers by polyfill-service
  - React + JSX
  - Airbnb styleguide for ES6 and React
 
 ## Additions to Airbnb style guide
- - Use object property spread instead of Object.assign when creating new objects: *not* Object.assign({}, {state}, {a: 1, b: 2}), but *instead* {...state, a:1, b: 2}
+ - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
 
 ## Components
   - Three types of components
@@ -73,7 +73,7 @@ Links:
 # CSS (or styles in general)
   - Modular CSS
     - how to implement is still a good question
-    - Prefer fluxbox based layouts if it simplifies the layouting process
+    - Prefer flexbox based layouts if it simplifies the layouting process
     - We should provide information about layout (mobile/tablet/desktop) in the context by using matchMedia or browser sniffing in order for the containers to be able to render different contents depending on the device
 
  - How to get there
