@@ -3,11 +3,13 @@
 Automated tests for digitransit-ui are written in Nightwatch format with custom extensions. They are executed using Nightwatch.js using its WebDriver remote API. Tests can be run either locally or in BrowserStack.
 
 ## Folder structure
-- 'test' all the actual tests
-- 'test/api' reusable modules
-- 'test/config' nightwatch config
-- 'test/script' scripts that actually run the tests
-- 'test/binaries' Selenium standalone implementation and BrowserStack tunneling software (automatically downloaded)
+- 'test' all test stuff
+- 'test/flow/nightwatch.json' nightwatch config
+- 'test/flow/page_object' reusable modules
+- 'test/flow/script' scripts that run the tests
+- 'test/flow/tests' actual tests
+
+Selenium standalone implementation and BrowserStack tunneling software (automatically downloaded)
 
 ## Requirements
 - You need Linux or OSX to run the tests
