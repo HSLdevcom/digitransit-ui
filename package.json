@@ -123,7 +123,7 @@
   },
   "devDependencies": {
     "async": "2.6.0",
-    "autoprefixer": "7.2.3",
+    "autoprefixer": "7.2.4",
     "babel-eslint": "7.2.3",
     "babel-loader": "7.1.2",
     "babel-plugin-transform-react-remove-prop-types": "0.4.10",
