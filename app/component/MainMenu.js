@@ -58,6 +58,9 @@ MainMenu.defaultProps = {
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  // due to a bug within react/no-typos it gives a false positive
+  // on intlShape.isRequired, need to do this until it's fixed
+  // eslint-disable-next-line react/no-typos
   intl: intlShape.isRequired,
 };
 
