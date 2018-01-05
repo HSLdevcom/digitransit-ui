@@ -1,5 +1,6 @@
 .desktop .summary {
-  flex: 1 1 0px;
+  flex: 1 0 0px;
+  flex-basis: 0px;
   display: flex;
   flex-direction: column;
   overflow-x: auto;
