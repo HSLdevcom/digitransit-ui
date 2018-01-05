@@ -44,7 +44,7 @@ const WALKBOARDCOST_MAX = 3600;
 // Get default settings
 export const defaultSettings = {
   accessibilityOption: 0,
-  minTransferTime: 180,
+  minTransferTime: 120,
   walkBoardCost: WALKBOARDCOST_DEFAULT,
   walkReluctance: 2,
   walkSpeed: 1.2,
@@ -163,7 +163,7 @@ class CustomizeSearch extends React.Component {
     this.transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(
       60,
       720,
-      180,
+      120,
     ).map(num => Math.round(num));
     if (custSettings.minTransferTime) {
       this.transferMarginInitVal =
@@ -328,7 +328,7 @@ class CustomizeSearch extends React.Component {
             ? `${Math.round(
                 this.context.location.query.minTransferTime / 60,
               )} min`
-            : `${3} min`
+            : `${2} min`
         }
         value={this.state.minTransferTime}
         step={1}
