@@ -112,7 +112,20 @@ $route-schedule-date-height: 36px;
   flex-direction: column;
   padding-bottom: 1.5em;
   overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1 0;
+  flex-basis: 0px;
+  background-color: $white;
+  .route-stop:last-child .route-stop-row_content-container {
+    border-bottom: none;
+  }
 }
+
+.mobile .route-stop-list {
+  overflow-y: visible;
+  flex-basis: auto;
+}
+
 .bp-medium, .bp-large {
   &.location-details_container .route-now-content {
     & svg {

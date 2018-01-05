@@ -21,6 +21,18 @@
   }
 }
 
+.stop-scroll-container {
+  flex-basis: 0px;
+  flex-grow: 1;
+  .departure-list {
+    overflow-x: hidden;
+  }
+}
+.mobile .stop-scroll-container {
+  flex-basis: 100%;
+  overflow-y: visible;
+}
+
 .desktop .stop-page.header {
   .h3 {
     font-size: 24px;
