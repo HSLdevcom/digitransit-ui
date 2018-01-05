@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'react-router';
 
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
@@ -8,16 +8,20 @@ import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 
-function MainMenu(props, { config }) {
+function MainMenu(props, { config, intl }) {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div aria-hidden={!props.visible} className="main-menu no-select">
-      <div
+      <button
         onClick={props.toggleVisibility}
         className="close-button cursor-pointer"
+        aria-label={intl.formatMessage({
+          id: 'main-menu-label-close',
+          defaultMessage: 'Close the main menu',
+        })}
       >
         <Icon img="icon-icon_close" className="medium" />
-      </div>
+      </button>
       <header className="offcanvas-section">
         <LangSelect />
       </header>
@@ -54,6 +58,10 @@ MainMenu.defaultProps = {
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  // due to a bug within react/no-typos it gives a false positive
+  // on intlShape.isRequired, need to do this until it's fixed
+  // eslint-disable-next-line react/no-typos
+  intl: intlShape.isRequired,
 };
 
 export default MainMenu;
