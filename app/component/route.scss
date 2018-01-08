@@ -141,6 +141,14 @@ $route-schedule-date-height: 36px;
   }
 }
 
+.map {
+  .icon.tail-icon {
+    width:200px;
+    height:200px;
+    transform: scale(5.5);
+  }
+}
+
 .location-details_container {
   max-width: 100%;
   height: 3.5em;
