@@ -239,7 +239,6 @@ const callback = () =>
           window.location.replace(
             `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
           );
-          console.log(history.getCurrentLocation());
         });
       } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
         window.location.replace('/');
