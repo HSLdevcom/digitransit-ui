@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import { intlShape, FormattedMessage } from 'react-intl';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -8,7 +9,7 @@ import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
-function RouteNumber(props) {
+function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
   const { color } = props;
 
@@ -59,7 +60,13 @@ function RouteNumber(props) {
         vertical: props.vertical,
       })}
     >
-      <span className={cx('vcenter-children', props.className)}>
+      <span
+        className={cx('vcenter-children', props.className)}
+        aria-label={context.intl.formatMessage({
+          id: mode,
+          defaultMessage: 'Vehicle',
+        })}
+      >
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
             {icon(props.isCallAgency, props.hasDisruption)}
@@ -182,6 +189,10 @@ RouteNumber.defaultProps = {
   hasDisruption: false,
   fadeLong: false,
   text: '',
+};
+
+RouteNumber.contextTypes = {
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 RouteNumber.displayName = 'RouteNumber';
