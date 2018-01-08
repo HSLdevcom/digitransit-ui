@@ -27,10 +27,6 @@ jobs:
       node_js: "8"
       script: test/visual.sh
     - stage: test
-      env: VISUAL=edge13
-      node_js: "8"
-      script: test/visual.sh
-    - stage: test
       env: VISUAL=safari10
       node_js: "8"
       script: test/visual.sh
