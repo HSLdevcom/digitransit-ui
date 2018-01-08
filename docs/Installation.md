@@ -4,7 +4,7 @@
 ## Install requirements
 You need Node and yarn (or npm3).
 
-- `node -v` should be >= 5
+- `node -v` should be >= 8
 - `yarn --version` should be >= 0.18.0 (or `npm -v` should be >= 3)
 
 You also need a C compiler:
