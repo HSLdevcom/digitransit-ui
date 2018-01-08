@@ -7,7 +7,10 @@ module.exports = {
   "suitesPerSession": 10,
   "retry": 1,
   "system": {
-    "plugins": { "browserstack": { "localIdentifier": process.env.IDENTIFIER } },
+    "plugins": {
+      "browserstack": { "localIdentifier": process.env.IDENTIFIER },
+      "html-reporter": { "enabled": true },
+    },
     "parallelLimit": 3
   },
   "browsers": {
