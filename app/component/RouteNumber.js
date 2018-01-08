@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
