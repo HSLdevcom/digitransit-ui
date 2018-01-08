@@ -297,5 +297,64 @@ export default {
     'HSL:kse7': 'HSL:lse3',
     'HSL:kse8': 'HSL:lse3',
   },
+
+  staticMessages: [
+    {
+      id: 'cookie-consent',
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Käytämme evästeitä palveluidemme kehitykseen. Käyttämällä sivustoa hyväksyt evästeiden käytön. Lue lisää: ',
+          },
+          {
+            type: 'a',
+            content: 'Käyttöehdot',
+            href: 'https://www.hsl.fi/kayttoehdot',
+          },
+          {
+            type: 'a',
+            content: 'Tietosuojaseloste',
+            href: 'https://www.hsl.fi/tietosuojaseloste',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'We use cookies to improve our services. By using this site, you agree to its use of cookies. Read more: ',
+          },
+          {
+            type: 'a',
+            content: 'Terms of use',
+            href: 'https://www.hsl.fi/en/terms-of-use',
+          },
+          {
+            type: 'a',
+            content: 'Privacy Statement',
+            href: 'https://www.hsl.fi/en/description-of-the-file',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ',
+          },
+          {
+            type: 'a',
+            content: 'Användarvillkor',
+            href: 'https://www.hsl.fi/sv/anvandarvillkor',
+          },
+          {
+            type: 'a',
+            content: 'Dataskyddsbeskrivning',
+            href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning',
+          },
+        ],
+      },
+    },
+  ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
 };
