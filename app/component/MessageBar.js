@@ -44,22 +44,18 @@ class MessageBar extends Component {
 
   // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
   getTabMarker = i => (
-    <span>
-      <span
-        style={{
-          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '18px',
-          height: '18px',
-          position: 'absolute',
-          top: 0,
-        }}
-        title={`${this.context.intl.formatMessage({
-          id: 'messagebar-label-page',
-          defaultMessage: 'Page',
-        })} ${i + 1}`}
-      >
-        •
-      </span>
+    <span
+      style={{
+        color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+        height: '18px',
+        position: 'absolute'
+      }}
+      title={`${this.context.intl.formatMessage({
+        id: 'messagebar-label-page',
+        defaultMessage: 'Page',
+      })} ${i + 1}`}
+    >
+      •
     </span>
   );
 
@@ -72,10 +68,10 @@ class MessageBar extends Component {
         icon={messages.length > 1 ? this.getTabMarker(i) : null}
         value={i}
         style={{
-          height: '18px',
-          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '18px',
-          padding: '0px',
+          margin: '2px 0 0 0',
+        }}
+        buttonStyle={{
+          height: '18px'
         }}
       />
     ));
