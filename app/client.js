@@ -80,9 +80,12 @@ const getParams = query => {
   return (/^[?#]/.test(query) ? query.slice(1) : query)
     .split('&')
     .reduce((params, param) => {
-      const [key, value] = param.split('=');
-      params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-      return params;
+      const retParams = param;
+      const [key, value] = retParams.split('=');
+      retParams[key] = value
+        ? decodeURIComponent(value.replace(/\+/g, ' '))
+        : '';
+      return retParams;
     }, {});
 };
 
@@ -200,9 +203,6 @@ const callback = () =>
     if (config.redirectReittiopasParams) {
       const path = window.location.pathname;
       const query = getParams(window.location.search);
-
-      const parts = path.split('/');
-      const lang = parts[1];
 
       if (query.from || query.to || query.from_in || query.to_in) {
         const time = moment.tz(config.timezoneData.split('|')[0]);

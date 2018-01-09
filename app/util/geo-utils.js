@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
 import { isImperial } from './browser';
 
@@ -308,12 +309,12 @@ export function kkj2ToWgs84(coords) {
     if (dla < 1.0e-12) {
       break;
     }
-    const N = a_2 / Math.sqrt(1.0 - e2 * Math.sin(wgsLat) ** 2.0);
+    const Nwgs = a_2 / Math.sqrt(1.0 - e2 * Math.sin(wgsLat) ** 2.0);
     const h =
       Math.abs(la0) < Math.pi / 4.0
-        ? X2Y2 / Math.cos(wgsLat) - N
-        : Z2 / Math.sin(wgsLat) - N * (1.0 - e2);
-    const nla = Math.atan(Z2 / (X2Y2 * (1.0 - N * e2 / (N + h))));
+        ? X2Y2 / Math.cos(wgsLat) - Nwgs
+        : Z2 / Math.sin(wgsLat) - Nwgs * (1.0 - e2);
+    const nla = Math.atan(Z2 / (X2Y2 * (1.0 - Nwgs * e2 / (Nwgs + h))));
     dla = Math.abs(nla - wgsLat);
     wgsLat = nla;
   }
