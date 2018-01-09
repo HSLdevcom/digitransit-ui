@@ -3,11 +3,14 @@ module.exports = {
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 1,
+  "sessionsPerBrowser": 3,
   "suitesPerSession": 10,
   "retry": 1,
   "system": {
-    "plugins": { "browserstack": { "localIdentifier": process.env.IDENTIFIER } },
+    "plugins": {
+      "browserstack": { "localIdentifier": process.env.IDENTIFIER },
+      "html-reporter": { "enabled": true },
+    },
     "parallelLimit": 3
   },
   "browsers": {
