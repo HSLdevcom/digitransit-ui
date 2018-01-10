@@ -57,9 +57,20 @@ kill -HUP $DRIVER_PID
 RESULT=$?
 echo "run-flow-tests.sh status is $RESULT"
 if [ $TESTSTATUS -ne 0 ]; then
-    echo "Uploading flow failure images to https://www.dropbox.com/sh/emh3x8h38egy2k1/AAAq_eLYDxJ0AJAwFffoZqH9a?dl=0"
-    tar czf flow-test-images-$TRAVIS_COMMIT.tar.gz test_output
-    ./test/dropbox_uploader.sh upload flow-test-images-$TRAVIS_COMMIT.tar.gz /flow-test-images-$TRAVIS_COMMIT.tar.gz
+    name=flow-test-images
+    gzname=${name}.tar.gz
+    tar czf $gzname test_output
+
+    #rename older generations
+    GENERATIONS=10
+    for ((i=GENERATIONS; i>=1; i--))
+    do
+        ./test/dropbox_uploader.sh move "/${name}_${i}.tar.gz" "/${name}_$((i + 1)).tar.gz" &>/dev/null
+    done
+    ./test/dropbox_uploader.sh move "/$gzname" "/${name}_1.tar.gz" &>/dev/null
+
+    echo "Uploading flow failure images to https://www.dropbox.com/sh/852iliz0d179lnw/AADiEE7A6B6YZRdBpZzaWhhpa?dl=0 as" $gzname
+    ./test/dropbox_uploader.sh upload $gzname /$gzname
 fi
 
 echo "Exiting with status $TESTSTATUS"

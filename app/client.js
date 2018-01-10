@@ -17,6 +17,7 @@ import {
   batchMiddleware,
 } from 'react-relay-network-layer/lib';
 import OfflinePlugin from 'offline-plugin/runtime';
+import moment from 'moment-timezone';
 
 import Raven from './util/Raven';
 import configureMoment from './util/configure-moment';
@@ -28,6 +29,11 @@ import historyCreator from './history';
 import { BUILD_TIME } from './buildInfo';
 import createPiwik from './util/piwik';
 import ErrorBoundary from './component/ErrorBoundary';
+
+import { getGeocodingResult } from './util/searchUtils';
+import { locationToOTP } from './util/otpStrings';
+import { PREFIX_ITINERARY_SUMMARY } from './util/path';
+import { kkj2ToWgs84 } from './util/geo-utils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -65,6 +71,74 @@ const ravenPlugin = {
 // Add plugins
 app.plug(ravenPlugin);
 app.plug(piwikPlugin);
+
+const getParams = query => {
+  if (!query) {
+    return {};
+  }
+
+  return (/^[?#]/.test(query) ? query.slice(1) : query)
+    .split('&')
+    .reduce((params, param) => {
+      const retParams = param;
+      const [key, value] = retParams.split('=');
+      retParams[key] = value
+        ? decodeURIComponent(value.replace(/\+/g, ' '))
+        : '';
+      return retParams;
+    }, {});
+};
+
+const placeParser = /^[^*]*\*([^*]*)\*([^*]*)\*([^*]*)/;
+
+function parseGeocodingResults(results) {
+  if (!Array.isArray(results) || results.length < 1) {
+    return ' ';
+  }
+  return locationToOTP({
+    address: results[0].properties.label,
+    lon: results[0].geometry.coordinates[0],
+    lat: results[0].geometry.coordinates[1],
+  });
+}
+
+function parseLocation(location, input, next) {
+  if (location) {
+    const parsedFrom = placeParser.exec(location);
+    if (parsedFrom) {
+      const coords = kkj2ToWgs84([parsedFrom[2], parsedFrom[3]]);
+      return Promise.resolve(
+        locationToOTP({
+          address: parsedFrom[1],
+          lon: coords[0],
+          lat: coords[1],
+        }),
+      );
+    }
+    return getGeocodingResult(
+      location,
+      config.searchParams,
+      null,
+      null,
+      null,
+      config,
+    )
+      .then(parseGeocodingResults)
+      .catch(next);
+  } else if (input) {
+    return getGeocodingResult(
+      input,
+      config.searchParams,
+      null,
+      null,
+      null,
+      config,
+    )
+      .then(parseGeocodingResults)
+      .catch(next);
+  }
+  return ' ';
+}
 
 // Run application
 const callback = () =>
@@ -125,6 +199,51 @@ const callback = () =>
 
     let hasSwUpdate = false;
     const history = historyCreator(config);
+
+    if (config.redirectReittiopasParams) {
+      const path = window.location.pathname;
+      const query = getParams(window.location.search);
+
+      if (query.from || query.to || query.from_in || query.to_in) {
+        const time = moment.tz(config.timezoneData.split('|')[0]);
+        if (query.year) {
+          time.year(query.year);
+        }
+        if (query.month) {
+          time.month(query.month - 1);
+        }
+        if (query.day) {
+          time.date(query.day);
+        }
+        if (query.hour) {
+          time.hour(query.hour);
+        }
+        if (query.minute) {
+          time.minute(query.minute);
+        }
+        let timeStr = `time=${time.unix()}&`;
+
+        if (config.queryMaxAgeDays) {
+          const now = moment.tz(config.timezoneData.split('|')[0]);
+          if (now.diff(time, 'days') > config.queryMaxAgeDays) {
+            // too old route time, drop it
+            timeStr = '';
+          }
+        }
+        const arriveBy = query.timetype === 'arrival';
+
+        Promise.all([
+          parseLocation(query.from, query.from_in, config),
+          parseLocation(query.to, query.to_in, config),
+        ]).then(([from, to]) => {
+          window.location.replace(
+            `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
+          );
+        });
+      } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
+        window.location.replace('/');
+      }
+    }
 
     function track() {
       this.href = this.props.router.createHref(this.state.location);

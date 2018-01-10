@@ -3,11 +3,13 @@
 Automated tests for digitransit-ui are written in Nightwatch format with custom extensions. They are executed using Nightwatch.js using its WebDriver remote API. Tests can be run either locally or in BrowserStack.
 
 ## Folder structure
-- 'test' all the actual tests
-- 'test/api' reusable modules
-- 'test/config' nightwatch config
-- 'test/script' scripts that actually run the tests
-- 'test/binaries' Selenium standalone implementation and BrowserStack tunneling software (automatically downloaded)
+- 'test' all test stuff
+- 'test/flow/nightwatch.json' nightwatch config
+- 'test/flow/page_object' reusable modules
+- 'test/flow/script' scripts that run the tests
+- 'test/flow/tests' actual tests
+
+Selenium standalone implementation and BrowserStack tunneling software (automatically downloaded)
 
 ## Requirements
 - You need Linux or OSX to run the tests
@@ -79,22 +81,15 @@ window.mock.geolocation.move(0.001, 0);
 window.mock.geolocation.demo();
 ```
 
-# Acceptance tests (:warning: Work in progress)
-
-## Folder locations
-- 'acceptance-tests'-folder contains all acceptance tests in Gherkin format
-
-## Running acceptance tests
-- run: npm run test-acceptance
-
 # Visual tests
 
 - first run: `USE_PROD_BROWSERS=true CONFIG=hsl npm run dev`
 - then run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual`
 
 To run just subset of tests on ie11:
-- Run: `run test-visual -- --grep Departure --browser ie11`
+- Run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual -- --grep Departure --browser ie11`
 
 If things change, you need to update the images
 
-- run: BS_USERNAME=user BS_ACCESS_KEY=key ./node_modules/.bin/gemini update test/visual/
+- run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual-update`
+- then verify that changed test images are OK and commit the changes

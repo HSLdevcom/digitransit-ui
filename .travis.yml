@@ -15,9 +15,21 @@ services:
 
 jobs:
   include:
-   - stage: build container
-     node_js: "8"
-     script: test/build.sh
-   - stage: deploy
-     node_js: "8"
-     script: test/deploy.sh
+    - stage: build container
+      node_js: "8"
+      script: test/build.sh
+    - stage: test
+      env: VISUAL=chrome50
+      node_js: "8"
+      script: test/visual.sh
+    - stage: test
+      env: VISUAL=ie11
+      node_js: "8"
+      script: test/visual.sh
+    - stage: test
+      env: VISUAL=safari10
+      node_js: "8"
+      script: test/visual.sh
+    - stage: deploy
+      node_js: "8"
+      script: test/deploy.sh

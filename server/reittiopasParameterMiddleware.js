@@ -26,7 +26,10 @@ function parseLocation(location, input, config, next) {
   if (location) {
     const parsedFrom = placeParser.exec(location);
     if (parsedFrom) {
-      const coords = kkj2ToWgs84([parsedFrom[2], parsedFrom[3]]);
+      const coords = kkj2ToWgs84([
+        parseFloat(parsedFrom[2]),
+        parseFloat(parsedFrom[3]),
+      ]);
       return Promise.resolve(
         locationToOTP({
           address: parsedFrom[1],
