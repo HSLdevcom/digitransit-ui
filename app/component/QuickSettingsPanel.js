@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import get from 'lodash/get';
 import Icon from './Icon';
+// import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -29,7 +30,6 @@ class QuickSettingsPanel extends React.Component {
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
-    console.log(arriveBy);
     return (
       <div
         className={cx([
@@ -39,7 +39,7 @@ class QuickSettingsPanel extends React.Component {
           },
         ])}
       >
-        <div className="top-row ">
+        <div className="top-row">
           <div className="select-wrapper">
             <select
               className="arrive"

@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import RightOffcanvasToggle from './RightOffcanvasToggle';
+// import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
 

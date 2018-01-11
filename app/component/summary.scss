@@ -45,7 +45,7 @@
     text-align: left;
     height: 2.6em;
     margin: 0;
-    padding: 0 1rem 0 0.8em;
+    padding: 0 1rem 0 0.9em;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
@@ -145,7 +145,7 @@
   padding: 0 0.6em 0 0.2em;
   box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
   border-radius: 3px;
-  margin-right: 0.8em;
+  margin-right: 0.6em;
   .time-input-field {
     width: 1.5em;
     padding-right: 0 !important;
@@ -197,6 +197,7 @@
 
   &.quickSettingsOpen {
     padding: 1em 6px $padding-small 6px;
+    padding-top: 0.8em;
     background: linear-gradient(rgba(194, 197, 199, 0.8), $background-color-darker 12%);
     background-size: 100%;
     background-repeat-y: no-repeat;
@@ -207,21 +208,21 @@
     border: none;
     margin-bottom: 0;
     font-size: 0.8rem;
-  }
-  button.secondary-button.close {
-    flex-direction: row-reverse;
-    :first-child {
-      margin-left: 0.4em;
+    &.settings .icon {
+      font-size: 1.7em;
+      margin-top: -0.15em;
     }
-  }
-
-  &.bp-large {
-    height: 50px;
+    &.close {
+      flex-direction: row-reverse;
+      :first-child {
+        margin-left: 0.4em;
+      }
+    }
   }
 }
 
 .bp-large.time-selector-settings-row {
-  padding: $padding-small 20px;
+      padding: 0.4em 1em;
 
   .select-wrapper {
     margin-right: 2px;
@@ -239,7 +240,7 @@
   }
 
   input[type="date"], input[type="time"], input[type="text"], input[type="tel"], select, .time-mui > input {
-    font-size: $font-size-normal !important;
+    font-size: $font-size-xxsmall !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
     height: 35px !important;
 

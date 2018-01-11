@@ -952,7 +952,7 @@ const translations = {
     'searching-position': 'Paikannetaan...',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
-    settings: 'Tarkenna',
+    settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-reset': 'Palauta oletusasetukset',
     'settings-savebutton': 'Tallenna asetukset',
