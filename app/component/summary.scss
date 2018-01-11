@@ -38,6 +38,7 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
+  max-height: 2.2em;
 
   input[type="date"], input[type="time"].time-selector, input[type="text"], input[type="tel"],select, .time-mui > input {
     vertical-align: middle;
@@ -192,6 +193,25 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+
+  &.quickSettingsOpen {
+    padding: 1em 6px $padding-small 6px;
+    background: linear-gradient(rgba(194, 197, 199, 0.8), $background-color-darker 12%);
+    background-size: 100%;
+    background-repeat-y: no-repeat;
+  }
+
+  button.secondary-button {
+    background: none;
+    border: none;
+    margin-bottom: 0;
+  }
+  button.secondary-button.close {
+    flex-direction: row-reverse;
+    :first-child {
+      margin-left: 0.4em;
+    }
+  }
 
   &.bp-large {
     height: 50px;

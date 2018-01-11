@@ -13,6 +13,7 @@ export default function TimeSelectors(
   return (
     <div className="time-selectors">
       <div className="select-wrapper">
+        {/*
         <select className="arrive" value={arriveBy} onChange={setArriveBy}>
           <option value="false">
             {intl.formatMessage({
@@ -27,19 +28,21 @@ export default function TimeSelectors(
             })}
           </option>
         </select>
+          
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
-      </div>
-      <div className="select-wrapper">
-        <select className="date" value={`${time.unix()}`} onChange={changeDate}>
-          {dates}
-        </select>
-        <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+          */}
       </div>
       <ItineraryTimePicker
         initHours={time.format('H')}
         initMin={time.format('m')}
         changeTime={changeTime}
       />
+      <div className="select-wrapper">
+        <select className="date" value={`${time.unix()}`} onChange={changeDate}>
+          {dates}
+        </select>
+        <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+      </div>
     </div>
   );
 }

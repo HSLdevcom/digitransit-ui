@@ -1,0 +1,14 @@
+.quicksettings-container {
+    display: none;
+    background-color: $background-color-darker;
+
+    button.secondary-button.close {
+        background: none;
+        border: none;
+        flex-direction: row-reverse;
+      }
+
+    &.visible {
+        display: block;
+    }
+}
