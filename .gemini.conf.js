@@ -22,7 +22,8 @@ module.exports = {
         "browserName": "internet explorer",
         "browser": "IE",
         "browser_version": "11",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
     "chrome50": {
@@ -32,7 +33,8 @@ module.exports = {
         "os_version": "El Capitan",
         "browserName": "chrome",
         "version": "50",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
     "safari10": {
@@ -45,7 +47,8 @@ module.exports = {
 	"safari.options" : {
            "technologyPreview": true
 	},
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
     "edge13": {
@@ -55,7 +58,8 @@ module.exports = {
         "os_version": "10",
         "browserName": "edge",
         "version": "13",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     }
   }
