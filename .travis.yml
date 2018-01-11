@@ -30,6 +30,10 @@ jobs:
       env: VISUAL=safari10
       node_js: "8"
       script: test/visual.sh
+    - stage: test
+      env: VISUAL=edge15
+      node_js: "8"
+      script: test/visual.sh
     - stage: deploy
       node_js: "8"
       script: test/deploy.sh

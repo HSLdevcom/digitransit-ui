@@ -51,13 +51,13 @@ module.exports = {
         "timezone": "Europe/Helsinki"
       }
     },
-    "edge13": {
+    "edge15": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "10",
         "browserName": "edge",
-        "version": "13",
+        "version": "15",
         "locationContextEnabled": false,
         "timezone": "Europe/Helsinki"
       }
