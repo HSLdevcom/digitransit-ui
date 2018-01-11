@@ -1,14 +1,60 @@
 .quicksettings-container {
     display: none;
     background-color: $background-color-darker;
-
-    button.secondary-button.close {
-        background: none;
-        border: none;
-        flex-direction: row-reverse;
-      }
+    padding-bottom: 1em;
+    padding-left: 6px;
+    padding-right: 6px;
 
     &.visible {
         display: block;
     }
+
+    .select-wrapper {
+        display: flex;
+        flex-direction: row;
+        color: $link-color;
+        > span {
+          margin-left: -1rem;
+          pointer-events: none;
+        }
+         .fake-select-arrow {
+            font-size: 0.7rem;
+            color: #007ac9;
+            margin-top: 1em;
+        }
+      }
+
+    select {
+        vertical-align: middle;
+        text-align: left;
+        height: 2.6em;
+        margin: 0;
+        padding: 0 1rem 0 $padding-small;
+        font-family: $font-family;
+        font-size: $font-size-xxsmall;
+        display: inline-block;
+        background-color: $white;
+        color: $link-color;
+        border: none;
+        border-radius: $border-radius;
+        appearance: none;
+        height: 2rem;
+        font-weight: 500;
+        &:hover {
+          background-color: $white;
+          //outline: none;
+        }
+        &:focus {
+          background-color: $white;
+          //outline: none;
+        }
+        &.text-time-selector, &.desktop {
+          padding: 0 0.5em 0 0.5em;
+          margin: 0 -0.5em 0 0;
+          text-align: center;
+        }
+        &.arrive {
+            width: 13em;
+        }
+      }
 }

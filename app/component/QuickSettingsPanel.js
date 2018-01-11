@@ -39,27 +39,31 @@ class QuickSettingsPanel extends React.Component {
           },
         ])}
       >
-        Test
         <div className="top-row ">
-          <select
-            className="arrive"
-            value={arriveBy}
-            onChange={this.setArriveBy}
-          >
-            <option value="false">
-              {this.context.intl.formatMessage({
-                id: 'leaving-at',
-                defaultMessage: 'Leaving',
-              })}
-            </option>
-            <option value="true">
-              {this.context.intl.formatMessage({
-                id: 'arriving-at',
-                defaultMessage: 'Arriving',
-              })}
-            </option>
-          </select>
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+          <div className="select-wrapper">
+            <select
+              className="arrive"
+              value={arriveBy}
+              onChange={this.setArriveBy}
+            >
+              <option value="false">
+                {this.context.intl.formatMessage({
+                  id: 'leaving-at',
+                  defaultMessage: 'Leaving',
+                })}
+              </option>
+              <option value="true">
+                {this.context.intl.formatMessage({
+                  id: 'arriving-at',
+                  defaultMessage: 'Arriving',
+                })}
+              </option>
+            </select>
+            <Icon
+              className="fake-select-arrow"
+              img="icon-icon_arrow-dropdown"
+            />
+          </div>
         </div>
       </div>
     );

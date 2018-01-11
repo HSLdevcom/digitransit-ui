@@ -45,7 +45,7 @@
     text-align: left;
     height: 2.6em;
     margin: 0;
-    padding: 0 1rem 0 $padding-small;
+    padding: 0 1rem 0 0.8em;
     font-size: $font-size-xxsmall;
     display: inline-block;
     background-image: none;
@@ -55,6 +55,7 @@
     border-radius: $border-radius;
     appearance: none;
     @include font-book;
+    font-weight: 500;
 
     &:hover {
       background-color: $white;
@@ -93,8 +94,7 @@
   }
 
   .fake-select-arrow {
-    font-size: 0.5rem;
-    width: 2em;
+    font-size: 0.7rem;
     color: $link-color;
   }
 
@@ -142,9 +142,10 @@
   }
   display: flex;
   background: $white;
-  padding: 0 calc(0.7em + 1.5rem) 0 0.7em;
+  padding: 0 0.6em 0 0.2em;
   box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
   border-radius: 3px;
+  margin-right: 0.8em;
   .time-input-field {
     width: 1.5em;
     padding-right: 0 !important;
@@ -205,6 +206,7 @@
     background: none;
     border: none;
     margin-bottom: 0;
+    font-size: 0.8rem;
   }
   button.secondary-button.close {
     flex-direction: row-reverse;
