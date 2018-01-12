@@ -32,7 +32,6 @@ import ErrorBoundary from './component/ErrorBoundary';
 
 import { getGeocodingResult } from './util/searchUtils';
 import { locationToOTP } from './util/otpStrings';
-import { PREFIX_ITINERARY_SUMMARY } from './util/path';
 import { kkj2ToWgs84 } from './util/geo-utils';
 
 const plugContext = f => () => ({
@@ -236,7 +235,7 @@ const callback = () =>
           parseLocation(query.to, query.to_in, config),
         ]).then(([from, to]) => {
           window.location.replace(
-            `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
+            `/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
           );
         });
       } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
