@@ -41,7 +41,14 @@ function DepartureTime(props, context) {
   let realtime;
   if (props.realtime && !props.canceled) {
     realtime = (
-      <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
+      <span
+        aria-label={context.intl.formatMessage({
+          id: 'realtime',
+          defaultMessage: 'Real time',
+        })}
+      >
+        <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
+      </span>
     );
   }
   return (
@@ -115,6 +122,7 @@ DepartureTime.propTypes = {
 
 DepartureTime.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 export default DepartureTime;

@@ -77,15 +77,14 @@ const getParams = query => {
     return {};
   }
 
-  return (/^[?#]/.test(query) ? query.slice(1) : query)
+  return query
+    .substring(1)
     .split('&')
-    .reduce((params, param) => {
-      const retParams = param;
-      const [key, value] = retParams.split('=');
-      retParams[key] = value
-        ? decodeURIComponent(value.replace(/\+/g, ' '))
-        : '';
-      return retParams;
+    .map(v => v.split('='))
+    .reduce((params, [key, value]) => {
+      const newParam = {};
+      newParam[key] = decodeURIComponent(value);
+      return { ...params, ...newParam };
     }, {});
 };
 
