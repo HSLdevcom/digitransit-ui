@@ -32,7 +32,6 @@ import ErrorBoundary from './component/ErrorBoundary';
 
 import { getGeocodingResult } from './util/searchUtils';
 import { locationToOTP } from './util/otpStrings';
-import { PREFIX_ITINERARY_SUMMARY } from './util/path';
 import { kkj2ToWgs84 } from './util/geo-utils';
 
 const plugContext = f => () => ({
