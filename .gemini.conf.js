@@ -5,7 +5,7 @@ module.exports = {
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 3,
   "suitesPerSession": 10,
-  "retry": 1,
+  "retry": 3,
   "system": {
     "plugins": {
       "browserstack": { "localIdentifier": process.env.IDENTIFIER },
