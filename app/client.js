@@ -236,7 +236,7 @@ const callback = () =>
           parseLocation(query.to, query.to_in, config),
         ]).then(([from, to]) => {
           window.location.replace(
-            `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
+            `/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
           );
         });
       } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {

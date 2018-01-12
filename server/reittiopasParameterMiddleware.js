@@ -132,7 +132,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         parseLocation(req.query.to, req.query.to_in, config, next),
       ]).then(([from, to]) =>
         res.redirect(
-          `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
+          `/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
         ),
       );
     } else if (
