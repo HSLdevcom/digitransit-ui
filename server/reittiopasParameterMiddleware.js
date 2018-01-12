@@ -131,9 +131,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         parseLocation(req.query.from, req.query.from_in, config, next),
         parseLocation(req.query.to, req.query.to_in, config, next),
       ]).then(([from, to]) =>
-        res.redirect(
-          `/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
-        ),
+        res.redirect(`/${from}/${to}?${timeStr}arriveBy=${arriveBy}`),
       );
     } else if (
       ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(req.path)
