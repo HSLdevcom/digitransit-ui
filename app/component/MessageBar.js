@@ -48,7 +48,7 @@ class MessageBar extends Component {
       style={{
         color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
         height: '18px',
-        position: 'absolute'
+        position: 'absolute',
       }}
       title={`${this.context.intl.formatMessage({
         id: 'messagebar-label-page',
@@ -71,7 +71,7 @@ class MessageBar extends Component {
           margin: '2px 0 0 0',
         }}
         buttonStyle={{
-          height: '18px'
+          height: '18px',
         }}
       />
     ));
