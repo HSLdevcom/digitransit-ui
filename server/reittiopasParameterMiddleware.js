@@ -81,7 +81,6 @@ function validateTime(req, config) {
 
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-
   const url = validateTime(req, config);
   if (url) {
     res.redirect(url);
