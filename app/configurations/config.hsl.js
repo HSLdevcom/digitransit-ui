@@ -300,7 +300,7 @@ export default {
 
   staticMessages: [
     {
-      id: 'cookie-consent',
+      id: '2',
       content: {
         fi: [
           {
