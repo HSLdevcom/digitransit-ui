@@ -103,11 +103,19 @@ class MessageBar extends Component {
   };
 
   handleClose = () => {
-    const ids = [];
+    const messages = this.validMessages();
+    let index = this.state.slideIndex;
+    const msgId = messages[index].id;
+
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
-    this.validMessages().forEach(msg => ids.push(msg.id));
-    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), t);
+    setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
+
+    // slideIndex needs to be updated
+    if (index > 0) {
+      index -= 1;
+      this.handleChange(index);
+    }
   };
 
   render() {
