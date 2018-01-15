@@ -55,7 +55,7 @@
     border-radius: $border-radius;
     appearance: none;
     @include font-book;
-    font-weight: 500;
+    font-weight: 700;
 
     &:hover {
       background-color: $white;
@@ -103,7 +103,7 @@
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
-    border: solid 1px $light-gray;
+    border: none;
     input {
       font-size: $font-size-xxsmall !important;
     }
@@ -164,7 +164,7 @@
     }
   }
   .digit-separator {
-    margin: 0.35em 3px;
+    margin: 0.35em 1px;
     color: $link-color;
   }
 }
@@ -207,18 +207,30 @@
     background: none;
     border: none;
     margin-bottom: 0;
-    font-size: 0.8rem;
+    padding: 0.6em;
+    padding-right: 0.8em;
+    outline: none;
+    span {
+      font-weight: 700;
+      font-size: $font-size-xxsmall;
+    }
     &.settings .icon {
       font-size: 1.7em;
       margin-top: -0.15em;
     }
     &.close {
       flex-direction: row-reverse;
+      .icon {
+        font-size: $font-size-xsmall;
+      }
       :first-child {
         margin-left: 0.4em;
       }
     }
   }
+}
+.mobile button.secondary-button.close {
+  padding-right: 0.5em;
 }
 
 .bp-large.time-selector-settings-row {

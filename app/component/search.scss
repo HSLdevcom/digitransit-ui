@@ -522,6 +522,9 @@ div.autosuggest-panel {
     color: $link-color;
     text-align: center;
     font-size: 1em;
+    span {
+      font-size: $font-size-xsmall;
+    }
   }
 }
 .mobile .itinerary-search-controls {
