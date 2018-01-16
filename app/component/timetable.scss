@@ -3,7 +3,9 @@
     display: none;
     @media print {
       display: flex;
+      font-weight: 400;
       padding-top: 1em;
+      padding-bottom: 0.5em;
       font-size: 10px;
       border-bottom: 1px solid;
       .hour {
@@ -38,8 +40,8 @@
         font-size: 16px;
         line-height: 1.07;
         font-weight: 700;
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
       }
     }
       background-color: $white;
@@ -68,8 +70,8 @@
         display: inline-block;
         width: 100%;
         @media print {
-          padding-top: 0.5em;
-          padding-bottom: 0.5em;
+          padding-top: 0.6em;
+          padding-bottom: 0.6em;
         }
       }
   @media print {
