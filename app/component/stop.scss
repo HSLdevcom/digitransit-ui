@@ -441,11 +441,6 @@ hr.action-bar {
     }
 }
 
-.timetable-rowcontainer {
-  display: inline-block;
-  width: 100%;
-}
-
 .timetablerow-linetime {
   float: left;
   margin-right: 1.2em;
@@ -470,7 +465,7 @@ hr.action-bar {
   @media print {
     display: block;
     h1 {
-      font-size: 20px;
+      font-size: 14px;
       font-family: $font-family;
     }
   }
@@ -507,15 +502,15 @@ hr.action-bar {
       .printable-date-icon {
         margin-right: 0.8em;
         svg {
-        width: 47.3px;
-        height: 42px;
+          width: 28.3px;
+          height: 28px;
       }
       }
       .printable-date-header {
-        font-size: 14px;
+        font-size: 11px;
       }
       .printable-date-content {
-         font-size: 20px;
+         font-size: 12px;
          font-weight: 700;
       }
     }
