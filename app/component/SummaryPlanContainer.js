@@ -277,7 +277,7 @@ class SummaryPlanContainer extends React.Component {
      * supplied in URL and make that the active selection.
      */
     const lastURLSegment = this.context.location.pathname.split('/').pop();
-    return Number.isNaN(lastURLSegment) ? 0 : Number(lastURLSegment);
+    return Number.isNaN(Number(lastURLSegment)) ? 0 : Number(lastURLSegment);
   }
 
   render() {
