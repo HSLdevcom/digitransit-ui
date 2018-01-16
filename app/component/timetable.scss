@@ -4,6 +4,18 @@
   }
 }
 .timetable {
+  .timetable-time-headers {
+    display: none;
+    @media print {
+      display: flex;
+      padding-top: 1em;
+      font-size: 10px;
+      border-bottom: 1px solid;
+      .hour {
+        margin-right: 4.5em;
+      }
+    }
+  }
   .timetable-row-printing {
     @media print {
       display: flex;
@@ -13,13 +25,28 @@
   .momentum-scroll {
     @media print {
       display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      width: 92%;
+      flex-direction: column;
+      width: 100%;
       margin: 0 auto;
     }
   }
   .timetable-row {
+    .timetable-printable-title {
+      display: none;
+      @media print {
+        display: block;
+        margin-right: 1em;
+        border-right: 1px solid;
+        width: 4em;
+        text-align: center;
+        font-family: $font-family-narrow;
+        font-size: 16px;
+        line-height: 1.07;
+        font-weight: 700;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+    }
       background-color: $white;
       border: 1px solid $light-gray;
       border-top: none;
@@ -34,32 +61,42 @@
         font-size: $font-size-large;
       }
       h1.title {
-      	font-size: $font-size-xlarge;
+        font-size: $font-size-xlarge;
+        @media print {
+          display: none;
+        }
       }
       .line-name {
         white-space: nowrap;
+      }
+      .timetable-rowcontainer {
+        display: inline-block;
+        width: 100%;
+        @media print {
+          padding-top: 0.5em;
+          padding-bottom: 0.5em;
+        }
       }
   @media print {
     border-bottom: 1px dotted $black;
     border-left: none;
     border-right: none;
     padding-left: 0;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-top: 0;
+    padding-bottom: 0;
     padding-right: 0;
-    width: 95%;
+    width: 100%;
+    display: flex;
     .timetablerow-linetime {
       margin-right: 0.3em;
     }
-    h1.title {
-      font-size: 17px;
-    }
     span {
-      font-size: 14px;
+      font-size: 12px;
       &.line-name {
       font-weight: 400;
       }
     }
   }
   }
+}
 }
