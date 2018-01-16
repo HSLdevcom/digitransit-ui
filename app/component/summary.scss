@@ -269,7 +269,9 @@
       border-radius: $border-radius;
   }
 }
-
+.mobile .select-wrapper select.date {
+  width: 10em;
+}
 .right-offcanvas-toggle {
 
   &:hover {
