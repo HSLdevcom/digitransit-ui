@@ -5,7 +5,7 @@ module.exports = {
   "sessionRequestTimeout": 120000,
   "sessionsPerBrowser": 3,
   "suitesPerSession": 10,
-  "retry": 1,
+  "retry": 3,
   "system": {
     "plugins": {
       "browserstack": { "localIdentifier": process.env.IDENTIFIER },
@@ -22,7 +22,8 @@ module.exports = {
         "browserName": "internet explorer",
         "browser": "IE",
         "browser_version": "11",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
     "chrome50": {
@@ -32,7 +33,8 @@ module.exports = {
         "os_version": "El Capitan",
         "browserName": "chrome",
         "version": "50",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
     "safari10": {
@@ -45,17 +47,19 @@ module.exports = {
 	"safari.options" : {
            "technologyPreview": true
 	},
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     },
-    "edge13": {
+    "edge15": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
         "os": "Windows",
         "os_version": "10",
         "browserName": "edge",
-        "version": "13",
-        "locationContextEnabled": false
+        "version": "15",
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
       }
     }
   }

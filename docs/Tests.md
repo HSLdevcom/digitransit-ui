@@ -83,7 +83,7 @@ window.mock.geolocation.demo();
 
 # Visual tests
 
-- first run: `USE_PROD_BROWSERS=true CONFIG=hsl npm run dev`
+- first run: `CONFIG=hsl npm run dev`
 - then run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual`
 
 To run just subset of tests on ie11:
