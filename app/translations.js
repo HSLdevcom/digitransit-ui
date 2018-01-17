@@ -585,7 +585,7 @@ const translations = {
     'journeyplanner.title': 'HSL Journey Planner',
     later: 'Later',
     leaves: 'Leaves',
-    'leaving-at': 'Leaving',
+    'leaving-at': 'Leaving at',
     'likely-to-recommend':
       'How likely are you to recommend our service to your friends or colleagues?',
     'likely-to-use':
@@ -863,7 +863,7 @@ const translations = {
     'journeyplanner.title': 'HSL Reittiopas',
     later: 'Myöhemmin',
     leaves: 'Lähtee',
-    'leaving-at': 'Lähtee',
+    'leaving-at': 'Lähtöaika',
     'likely-to-recommend':
       'Kuinka todennäköistä on, että suosittelisit palveluamme ystävälle tai kollegallesi?',
     'likely-to-use':
@@ -954,7 +954,7 @@ const translations = {
     'searching-position': 'Paikannetaan...',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
-    settings: 'Tarkenna',
+    settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-reset': 'Palauta oletusasetukset',
     'settings-savebutton': 'Tallenna asetukset',
@@ -1645,7 +1645,7 @@ const translations = {
     'journeyplanner.title': 'HRT Reseplaneraren',
     later: 'Senare',
     leaves: 'Avgår',
-    'leaving-at': 'Avgår',
+    'leaving-at': 'Avgångstid',
     'likely-to-recommend':
       'Hur sannolikt är det att du skulle rekommendera den här tjänsten åt en vän eller kollega?',
     'likely-to-use':

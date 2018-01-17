@@ -1,4 +1,24 @@
+@media print {
+  .desktop-title {
+    display: none;
+  }
+}
 .timetable {
+  .timetable-row-printing {
+    @media print {
+      display: flex;
+      flex: 50%;
+    }
+  }
+  .momentum-scroll {
+    @media print {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      width: 92%;
+      margin: 0 auto;
+    }
+  }
   .timetable-row {
       background-color: $white;
       border: 1px solid $light-gray;
@@ -24,12 +44,21 @@
     border-left: none;
     border-right: none;
     padding-left: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-right: 0;
+    width: 95%;
+    .timetablerow-linetime {
+      margin-right: 0.3em;
+    }
     h1.title {
-      font-size: 32px;
+      font-size: 17px;
     }
     span {
-      font-size: 21px;
+      font-size: 14px;
+      &.line-name {
       font-weight: 400;
+      }
     }
   }
   }

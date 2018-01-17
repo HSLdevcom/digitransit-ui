@@ -6,7 +6,7 @@ import cx from 'classnames';
 const LONG_LINE_NAME = 5;
 
 const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
-  <div>
+  <div className="timetable-row-printing">
     <div
       className="timetable-row"
       style={{

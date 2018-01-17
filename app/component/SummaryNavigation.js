@@ -5,9 +5,12 @@ import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import RightOffcanvasToggle from './RightOffcanvasToggle';
+// import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
+
+import SecondaryButton from './SecondaryButton';
+import QuickSettingsPanel from './QuickSettingsPanel';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -31,6 +34,13 @@ class SummaryNavigation extends React.Component {
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      quickSettingsPanelVisible: false,
+    };
+  }
 
   componentDidMount() {
     this.unlisten = this.context.router.listen(location => {
@@ -100,6 +110,12 @@ class SummaryNavigation extends React.Component {
     CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
   };
 
+  toggleQuickSettingsPanel = () => {
+    this.setState({
+      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
+    });
+  };
+
   renderTimeSelectorContainer = ({ done, props }) =>
     done ? (
       <TimeSelectorContainer
@@ -149,7 +165,11 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        <div className={cx('time-selector-settings-row', className)}>
+        <div
+          className={cx('time-selector-settings-row', className, {
+            quickSettingsOpen: this.state.quickSettingsPanelVisible,
+          })}
+        >
           <Relay.Renderer
             Container={TimeSelectorContainer}
             queryConfig={{
@@ -162,11 +182,28 @@ class SummaryNavigation extends React.Component {
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}
           />
+          {/*
           <RightOffcanvasToggle
             onToggleClick={this.toggleCustomizeSearchOffcanvas}
             hasChanges={!this.props.hasDefaultPreferences}
           />
+          */}
+          <SecondaryButton
+            ariaLabel={
+              this.state.quickSettingsPanelVisible ? `close` : `settings`
+            }
+            buttonName={
+              this.state.quickSettingsPanelVisible ? `close` : `settings`
+            }
+            buttonClickAction={this.toggleQuickSettingsPanel}
+            buttonIcon={
+              this.state.quickSettingsPanelVisible
+                ? `icon-icon_close`
+                : `icon-icon_settings`
+            }
+          />
         </div>
+        <QuickSettingsPanel visible={this.state.quickSettingsPanelVisible} />
       </div>
     );
   }
