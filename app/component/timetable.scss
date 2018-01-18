@@ -21,8 +21,8 @@
   }
   .momentum-scroll {
     @media print {
-      display: flex;
-      flex-direction: column;
+      display: block;
+      // flex-direction: column;
       width: 100%;
       margin: 0 auto;
     }
@@ -31,7 +31,8 @@
     .timetable-printable-title {
       display: none;
       @media print {
-        display: block;
+        display: table-cell;
+        min-width: 4em;
         margin-right: 1em;
         border-right: 1px solid;
         width: 4em;
@@ -42,6 +43,7 @@
         font-weight: 700;
         padding-top: 0.6em;
         padding-bottom: 0.6em;
+        vertical-align: top;
       }
     }
       background-color: $white;
@@ -67,12 +69,14 @@
         white-space: nowrap;
       }
       .timetable-rowcontainer {
-        display: inline-block;
+        display: table-cell;
         width: 100%;
         height: 100%;
         @media print {
           padding-top: 0.6em;
           padding-bottom: 0.6em;
+          padding-left: 1em;
+          overflow: visible;
         }
       }
   @media print {
@@ -84,11 +88,7 @@
     padding-bottom: 0;
     padding-right: 0;
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-basis: auto;
-    flex-grow: 1;
-    flex-shrink: 0;
+    display: block;
     .timetablerow-linetime {
       margin-right: 0.3em;
     }
