@@ -378,16 +378,16 @@ class PrintableItinerary extends React.Component {
               index={i}
               originalLegs={originalLegs}
               context={this.context}
-              mapsLoaded={() => {
-                const mapsLoaded = this.state.mapsLoaded + 1;
-                this.setState({ mapsLoaded });
-                if (
-                  mapsLoaded >=
-                  originalLegs.filter(o2 => o2.mode === 'WALK').length
-                ) {
-                  setTimeout(() => window.print(), 1000);
-                }
-              }}
+              mapsLoaded={() =>
+                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 }, () => {
+                  if (
+                    this.state.mapsLoaded >=
+                    originalLegs.filter(o2 => o2.mode === 'WALK').length
+                  ) {
+                    setTimeout(() => window.print(), 1000);
+                  }
+                })
+              }
             />
           </div>
         );
