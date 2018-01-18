@@ -383,7 +383,7 @@ class PrintableItinerary extends React.Component {
                 if (
                   (this.state.mapsLoaded === 1 && originalLegs.length === 1) ||
                   this.state.mapsLoaded + 1 ===
-                  originalLegs.filter(o2 => o2.mode === 'WALK').length
+                    originalLegs.filter(o2 => o2.mode === 'WALK').length
                 ) {
                   setTimeout(() => window.print(), 1000);
                 }
