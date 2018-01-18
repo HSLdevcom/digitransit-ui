@@ -6,7 +6,7 @@ import cx from 'classnames';
 const LONG_LINE_NAME = 5;
 
 const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
-  <div>
+  <div style={{ display: 'block' }}>
     <div
       className="timetable-row"
       style={{
@@ -17,6 +17,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
       }}
     >
       <h1 className="title bold">{title}:</h1>
+      <div className="timetable-printable-title">{title}</div>
       <div className="timetable-rowcontainer">
         {stoptimes
           .sort(

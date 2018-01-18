@@ -1,5 +1,51 @@
 .timetable {
+  .timetable-time-headers {
+    display: none;
+    @media print {
+      display: flex;
+      font-weight: 400;
+      padding-top: 1em;
+      padding-bottom: 0.5em;
+      font-size: 10px;
+      border-bottom: 1px solid;
+      .hour {
+        margin-right: 4.5em;
+      }
+    }
+  }
+  .timetable-row-printing {
+    @media print {
+      display: flex;
+      flex: 50%;
+    }
+  }
+  .momentum-scroll {
+    @media print {
+      display: block;
+      // flex-direction: column;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
   .timetable-row {
+    .timetable-printable-title {
+      display: none;
+      @media print {
+        display: table-cell;
+        min-width: 4em;
+        margin-right: 1em;
+        border-right: 1px solid;
+        width: 4em;
+        text-align: center;
+        font-family: $font-family-narrow;
+        font-size: 16px;
+        line-height: 1.07;
+        font-weight: 700;
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+        vertical-align: top;
+      }
+    }
       background-color: $white;
       border: 1px solid $light-gray;
       border-top: none;
@@ -14,23 +60,44 @@
         font-size: $font-size-large;
       }
       h1.title {
-      	font-size: $font-size-xlarge;
+        font-size: $font-size-xlarge;
+        @media print {
+          display: none;
+        }
       }
       .line-name {
         white-space: nowrap;
+      }
+      .timetable-rowcontainer {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        @media print {
+          padding-top: 0.6em;
+          padding-bottom: 0.6em;
+          padding-left: 1em;
+          overflow: visible;
+        }
       }
   @media print {
     border-bottom: 1px dotted $black;
     border-left: none;
     border-right: none;
     padding-left: 0;
-    h1.title {
-      font-size: 32px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    width: 100%;
+    display: block;
+    .timetablerow-linetime {
+      margin-right: 0.3em;
     }
     span {
-      font-size: 21px;
+      font-size: 12px;
+      &.line-name {
       font-weight: 400;
     }
   }
   }
+}
 }
