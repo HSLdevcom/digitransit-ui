@@ -59,6 +59,8 @@ class MessageStore extends Store {
       }
     };
 
+    processStaticMessages(config);
+
     if (isBrowser && config.staticMessagesUrl !== undefined) {
       fetch(config.staticMessagesUrl, {
         mode: 'cors',
@@ -68,8 +70,6 @@ class MessageStore extends Store {
           processStaticMessages(json);
         }),
       );
-    } else {
-      processStaticMessages(config);
     }
   };
 

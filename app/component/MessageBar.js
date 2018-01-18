@@ -32,6 +32,8 @@ class MessageBar extends Component {
     maximized: false,
   };
 
+  componentDidMount = () => this.setState({ ready: true });
+
   getTabContent = () =>
     this.validMessages().map(el => (
       <MessageBarMessage
@@ -44,22 +46,18 @@ class MessageBar extends Component {
 
   // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
   getTabMarker = i => (
-    <span>
-      <span
-        style={{
-          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '18px',
-          height: '18px',
-          position: 'absolute',
-          top: 0,
-        }}
-        title={`${this.context.intl.formatMessage({
-          id: 'messagebar-label-page',
-          defaultMessage: 'Page',
-        })} ${i + 1}`}
-      >
-        •
-      </span>
+    <span
+      style={{
+        color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
+        height: '18px',
+        position: 'absolute',
+      }}
+      title={`${this.context.intl.formatMessage({
+        id: 'messagebar-label-page',
+        defaultMessage: 'Page',
+      })} ${i + 1}`}
+    >
+      •
     </span>
   );
 
@@ -72,10 +70,10 @@ class MessageBar extends Component {
         icon={messages.length > 1 ? this.getTabMarker(i) : null}
         value={i}
         style={{
+          margin: '2px 0 0 0',
+        }}
+        buttonStyle={{
           height: '18px',
-          color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-          fontSize: '18px',
-          padding: '0px',
         }}
       />
     ));
@@ -107,16 +105,26 @@ class MessageBar extends Component {
   };
 
   handleClose = () => {
-    const ids = [];
+    const messages = this.validMessages();
+    let index = this.state.slideIndex;
+    const msgId = messages[index].id;
+
     // apply delayed closing on iexplorer to avoid app freezing
     const t = isIe ? 600 : 0;
-    this.validMessages().forEach(msg => ids.push(msg.id));
-    setTimeout(() => this.context.executeAction(markMessageAsRead, ids), t);
+    setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
+
+    // slideIndex needs to be updated
+    if (index > 0) {
+      index -= 1;
+      this.handleChange(index);
+    }
   };
 
   render() {
+    if (!this.state.ready) {
+      return null;
+    }
     const messages = this.validMessages();
-
     if (messages.length > 0) {
       const index = Math.min(this.state.slideIndex, messages.length - 1);
       const msg = messages[index];

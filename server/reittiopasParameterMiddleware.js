@@ -3,7 +3,6 @@ import moment from 'moment-timezone';
 import { locationToOTP } from '../app/util/otpStrings';
 import { getGeocodingResult } from '../app/util/searchUtils';
 import { getConfiguration } from '../app/config';
-import { PREFIX_ITINERARY_SUMMARY } from '../app/util/path';
 
 const kkj2 =
   '+proj=tmerc +lat_0=0 +lon_0=24 +k=1 +x_0=2500000 +y_0=0 +ellps=intl +towgs84=-96.0617,-82.4278,-121.7535,4.80107,0.34543,-1.37646,1.4964 +units=m +no_defs';
@@ -82,7 +81,6 @@ function validateTime(req, config) {
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
   const url = validateTime(req, config);
-  console.log(url);
   if (url) {
     res.redirect(url);
   } else if (config.redirectReittiopasParams) {
@@ -132,9 +130,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         parseLocation(req.query.from, req.query.from_in, config, next),
         parseLocation(req.query.to, req.query.to_in, config, next),
       ]).then(([from, to]) =>
-        res.redirect(
-          `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}?${timeStr}arriveBy=${arriveBy}`,
-        ),
+        res.redirect(`/${from}/${to}?${timeStr}arriveBy=${arriveBy}`),
       );
     } else if (
       ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(req.path)

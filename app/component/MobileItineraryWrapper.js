@@ -158,7 +158,11 @@ export default class MobileItineraryWrapper extends React.Component {
         onMouseDown={e => e.stopPropagation()}
       >
         <div className="fullscreen-toggle" onClick={this.toggleFullscreenMap}>
-          <Icon img="icon-icon_maximize" className="cursor-pointer" />
+          {this.props.fullscreenMap ? (
+            <Icon img="icon-icon_minimize" className="cursor-pointer" />
+          ) : (
+            <Icon img="icon-icon_maximize" className="cursor-pointer" />
+          )}
         </div>
         {swipe}
         {tabs}
