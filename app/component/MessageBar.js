@@ -32,6 +32,8 @@ class MessageBar extends Component {
     maximized: false,
   };
 
+  componentDidMount = () => this.setState({ ready: true });
+
   getTabContent = () =>
     this.validMessages().map(el => (
       <MessageBarMessage
@@ -119,8 +121,10 @@ class MessageBar extends Component {
   };
 
   render() {
+    if (!this.state.ready) {
+      return null;
+    }
     const messages = this.validMessages();
-
     if (messages.length > 0) {
       const index = Math.min(this.state.slideIndex, messages.length - 1);
       const msg = messages[index];
