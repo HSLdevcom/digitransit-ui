@@ -371,6 +371,9 @@ export default {
     accessibility: {
       available: true,
     },
+    transferpenalty: {
+      available: true,
+    },
   },
 
   areaPolygon: [

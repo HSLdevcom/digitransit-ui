@@ -9,10 +9,15 @@
         display: block;
     }
 
+    .top-row {
+      display: flex;
+    }
+
     .select-wrapper {
         display: flex;
         flex-direction: row;
         color: $link-color;
+        margin-right: 1em;
         > span {
           margin-left: -1rem;
           pointer-events: none;
@@ -53,7 +58,7 @@
           margin: 0 -0.5em 0 0;
           text-align: center;
         }
-        &.arrive {
+        &.arrive, &.select-route-modes {
             width: 13em;
         }
       }
