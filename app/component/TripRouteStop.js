@@ -60,7 +60,7 @@ const TripRouteStop = props => {
         <div className={cx('route-stop-now_line', props.mode)} />
       </div>
       <div className="route-stop-row_content-container">
-        <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
+        <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(props.stop.gtfsId)}`}>
           <div className={`route-details_container ${props.mode}`}>
             <span>{props.stop.name}</span>
             <div>
