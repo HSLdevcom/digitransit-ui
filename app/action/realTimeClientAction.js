@@ -12,7 +12,7 @@ function getTopic(options) {
     : '+';
 
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
-  return `/hfp/journey/+/+/${route}/${direction}/+/${tripStartTime}/#`;
+  return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
 }
 
 function parseMessage(topic, message, actionContext) {
@@ -21,7 +21,10 @@ function parseMessage(topic, message, actionContext) {
     ,
     ,
     ,
+    ,
+    ,
     mode,
+    agency,
     id,
     line,
     dir,
@@ -31,6 +34,8 @@ function parseMessage(topic, message, actionContext) {
     ...geohash // eslint-disable-line no-unused-vars
   ] = topic.split('/');
 
+  const vehid = `${agency}_${id}`;
+
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
   } else {
@@ -38,7 +43,7 @@ function parseMessage(topic, message, actionContext) {
   }
 
   const messageContents = {
-    id,
+    id: vehid,
     route: `HSL:${line}`,
     direction: parseInt(dir, 10) - 1,
     tripStartTime: startTime.replace(/:/g, ''),
