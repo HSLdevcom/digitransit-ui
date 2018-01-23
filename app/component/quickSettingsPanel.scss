@@ -18,6 +18,7 @@
         flex-direction: row;
         color: $link-color;
         margin-right: 1em;
+        width: 50%;
         > span {
           margin-left: -1rem;
           pointer-events: none;
@@ -59,7 +60,7 @@
           text-align: center;
         }
         &.arrive, &.select-route-modes {
-            width: 13em;
+            width: 100%;
         }
       }
 }
