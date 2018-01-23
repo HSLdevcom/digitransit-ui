@@ -24,6 +24,7 @@ class RoutePage extends React.Component {
     router: routerShape.isRequired,
     intl: intlShape.isRequired,
     breakpoint: PropTypes.string,
+    config: PropTypes.object.isRequired,
   };
 
   static propTypes = {
@@ -94,8 +95,8 @@ class RoutePage extends React.Component {
         <div className="header-for-printing">
           <h1>
             <FormattedMessage
-              id="journeyplanner.title"
-              defaultMessage="HSL Journey Planner"
+              id="print-route-app-title"
+              defaultMessage={this.context.config.title}
             />
             {` - `}
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />

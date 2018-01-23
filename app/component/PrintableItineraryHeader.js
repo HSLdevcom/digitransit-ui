@@ -58,8 +58,8 @@ export default class PrintableItineraryHeader extends React.Component {
           <div className="headers-container">
             <div className="header">
               <FormattedMessage
-                id="journeyplanner.title"
-                defaultMessage="Journey Planner"
+                id="print-itinerary-app-title"
+                defaultMessage={config.title}
               />
               {` - `}
               <FormattedMessage
