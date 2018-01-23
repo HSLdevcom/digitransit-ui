@@ -28,73 +28,48 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
-  getRouteMode = () => {
-    const modeParams = {
-      walkBoardCost: get(this.context.location, 'query.walkBoardCost'),
-      walkReluctance: get(this.context.location, 'query.walkReluctance'),
-      transferPenalty: get(this.context.location, 'query.transferPenalty'),
-    };
-    const currentMode = this.checkModeParams(modeParams);
-    console.log(currentMode);
-  };
-
   setRouteMode = values => {
-    console.log(values);
-    let options;
-    if (values === 'fastest-route') {
-      options = {
-        walkBoardCost: 540,
-        walkReluctance: 1.5,
-        transferPenalty: 0,
-      };
-    } else if (values === 'least-transfers') {
-      options = {
-        walkBoardCost: 540,
-        walkReluctance: 3,
-        transferPenalty: 5460,
-      };
-    } else if (values === 'least-walking') {
-      options = {
-        walkBoardCost: 360,
-        walkReluctance: 5,
-        transferPenalty: 0,
-      };
-    }
+    const chosenMode = this.optimizedRouteModes().filter(
+      o => Object.keys(o)[0] === values,
+    )[0][values];
+
     this.context.router.replace({
       ...this.context.location,
       query: {
         ...this.context.location.query,
-        walkBoardCost: options.walkBoardCost,
-        walkReluctance: options.walkReluctance,
-        transferPenalty: options.transferPenalty,
+        walkBoardCost: chosenMode.walkBoardCost,
+        walkReluctance: chosenMode.walkReluctance,
+        transferPenalty: chosenMode.transferPenalty,
       },
     });
   };
 
+  optimizedRouteModes = () => [
+    {
+      'fastest-route': {
+        walkBoardCost: 540,
+        walkReluctance: 1.5,
+        transferPenalty: 0,
+      },
+    },
+    {
+      'least-transfers': {
+        walkBoardCost: 540,
+        walkReluctance: 3,
+        transferPenalty: 5460,
+      },
+    },
+    {
+      'least-walking': {
+        walkBoardCost: 360,
+        walkReluctance: 5,
+        transferPenalty: 0,
+      },
+    },
+  ];
+
   checkModeParams = val => {
-    const optimizedRoutes = [
-      {
-        'fastest-route': {
-          walkBoardCost: 540,
-          walkReluctance: 1.5,
-          transferPenalty: 0,
-        },
-      },
-      {
-        'least-transfers': {
-          walkBoardCost: 540,
-          walkReluctance: 3,
-          transferPenalty: 5460,
-        },
-      },
-      {
-        'least-walking': {
-          walkBoardCost: 360,
-          walkReluctance: 5,
-          transferPenalty: 0,
-        },
-      },
-    ];
+    const optimizedRoutes = this.optimizedRouteModes();
     const currentMode = optimizedRoutes
       .map(
         o =>
