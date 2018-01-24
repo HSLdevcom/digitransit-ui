@@ -277,7 +277,6 @@ class SummaryPage extends React.Component {
     }
 
     const hasDefaultPreferences = this.hasDefaultPreferences();
-
     if (breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -408,6 +407,7 @@ export default Relay.createContainer(SummaryPage, {
           ticketTypes: $ticketTypes,
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
+          transferPenalty: $transferPenalty,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -446,6 +446,7 @@ export default Relay.createContainer(SummaryPage, {
       time: moment().format('HH:mm:ss'),
       arriveBy: false,
       disableRemainingWeightHeuristic: false,
+      transferPenalty: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

@@ -244,7 +244,8 @@ class SummaryPlanContainer extends React.Component {
       $date: String!,
       $time: String!,
       $arriveBy: Boolean!,
-      $modes: String!
+      $modes: String!,
+      $transferPenalty: Int!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -263,6 +264,7 @@ class SummaryPlanContainer extends React.Component {
           arriveBy:$arriveBy,
           preferred:$preferred,
           modes:$modes
+          transferPenalty:$transferPenalty,
         ) {itineraries {startTime,endTime}}
       }
     }`;

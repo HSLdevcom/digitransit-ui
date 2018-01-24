@@ -61,6 +61,9 @@ export const getSettings = () => {
     ticketTypes: custSettings.ticketTypes
       ? custSettings.ticketTypes
       : undefined,
+    transferPenalty: custSettings.transferPenalty
+      ? Number(custSettings.transferPenalty)
+      : undefined,
   };
 };
 
@@ -89,6 +92,7 @@ export const preparePlanParams = config => (
         modes,
         accessibilityOption,
         ticketTypes,
+        transferPenalty,
       },
     },
   },
@@ -134,6 +138,9 @@ export const preparePlanParams = config => (
           accessibilityOption === '1'
             ? true
             : settings.accessibilityOption === '1',
+        transferPenalty: transferPenalty
+          ? Number(transferPenalty)
+          : settings.transferPenalty,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

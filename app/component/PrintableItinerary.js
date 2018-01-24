@@ -128,10 +128,10 @@ function TransferMap(props) {
   const previousLeg = props.originalLegs[props.index - 1];
 
   let itineraryLine;
-  if (!nextLeg) {
-    itineraryLine = [previousLeg, props.legObj];
-  } else if (nextLeg && nextLeg.intermediatePlace) {
+  if ((!previousLeg && !nextLeg) || (nextLeg && nextLeg.intermediatePlace)) {
     itineraryLine = [props.legObj];
+  } else if (!nextLeg) {
+    itineraryLine = [previousLeg, props.legObj];
   } else {
     itineraryLine = [props.legObj, nextLeg];
   }
@@ -378,15 +378,16 @@ class PrintableItinerary extends React.Component {
               index={i}
               originalLegs={originalLegs}
               context={this.context}
-              mapsLoaded={() => {
-                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 });
-                if (
-                  this.state.mapsLoaded + 1 ===
-                  originalLegs.filter(o2 => o2.mode === 'WALK').length
-                ) {
-                  setTimeout(() => window.print(), 1000);
-                }
-              }}
+              mapsLoaded={() =>
+                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 }, () => {
+                  if (
+                    this.state.mapsLoaded >=
+                    originalLegs.filter(o2 => o2.mode === 'WALK').length
+                  ) {
+                    setTimeout(() => window.print(), 1000);
+                  }
+                })
+              }
             />
           </div>
         );

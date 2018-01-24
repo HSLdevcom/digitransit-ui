@@ -163,6 +163,17 @@ class Timetable extends React.Component {
           </div>
           <div className="timetable-for-printing">{this.dateForPrinting()}</div>
           <div className="momentum-scroll" style={{ flex: '1' }}>
+            <div className="timetable-time-headers">
+              <div className="hour">
+                <FormattedMessage id="hour" defaultMessage="Hour" />
+              </div>
+              <div className="minutes-per-route">
+                <FormattedMessage
+                  id="minutes-or-route"
+                  defaultMessage="Min/Route"
+                />
+              </div>
+            </div>
             {Object.keys(timetableMap)
               .sort((a, b) => a - b)
               .map(hour => (
