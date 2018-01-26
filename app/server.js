@@ -176,6 +176,11 @@ function getLocale(req, res, config) {
   return locale;
 }
 
+function validateParams(params) {
+  const idFields = ['stopId', 'routeId', 'terminalId', 'patternId'];
+  return idFields.every(f => !params[f] || params[f].indexOf(':') !== -1);
+}
+
 export default function(req, res, next) {
   const config = getConfiguration(req);
   const locale = getLocale(req, res, config);
@@ -213,6 +218,13 @@ export default function(req, res, next) {
     } else if (!renderProps) {
       return res.status(404).send('Not found');
     }
+
+    if (renderProps.params) {
+      if (!validateParams(renderProps.params)) {
+        return res.redirect(301, '/');
+      }
+    }
+
     if (
       renderProps.components.filter(
         component => component && component.displayName === 'Error404',
