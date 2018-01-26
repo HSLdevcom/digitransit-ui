@@ -160,7 +160,7 @@
     "sass-loader": "6.0.6",
     "selenium-webdriver": "3.6.0",
     "stats-webpack-plugin": "0.6.1",
-    "style-loader": "0.19.1",
+    "style-loader": "0.20.0",
     "stylelint": "7.8.0",
     "stylelint-scss": "1.4.1",
     "uglifyjs-webpack-plugin": "1.1.4",
