@@ -11,7 +11,10 @@ function StopCard(props) {
   const prefix = props.isTerminal ? 'terminaalit' : 'pysakit';
 
   return (
-    <Link to={`/${prefix}/${props.stop.gtfsId}`} className="no-decoration">
+    <Link
+      to={`/${prefix}/${encodeURIComponent(props.stop.gtfsId)}`}
+      className="no-decoration"
+    >
       <Card className={props.className}>
         <StopCardHeaderContainer
           stop={props.stop}
