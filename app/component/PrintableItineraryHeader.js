@@ -87,7 +87,6 @@ export default class PrintableItineraryHeader extends React.Component {
               </span>
             </div>
           </div>
-          <div className="print-itinerary-header-logo" />
         </div>
         <div className="print-itinerary-header-bottom">
           {this.createHeaderBlock({
