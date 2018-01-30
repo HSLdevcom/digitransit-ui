@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { getJson } from '../util/xhrPromise';
 
 // getTopic
 // Returns MQTT topic to be subscribed
@@ -67,24 +66,12 @@ function parseMessage(topic, message, actionContext) {
   });
 }
 
-function getInitialData(topic, actionContext) {
-  getJson(actionContext.config.URL.REALTIME + topic.replace('#', '')).then(
-    data => {
-      Object.keys(data).forEach(resTopic => {
-        parseMessage(resTopic, data[resTopic], actionContext);
-      });
-    },
-  );
-}
-
 export function startRealTimeClient(actionContext, originalOptions, done) {
   const options = !Array.isArray(originalOptions)
     ? [originalOptions]
     : originalOptions;
 
   const topics = options.map(option => getTopic(option));
-
-  // topics.forEach(topic => getInitialData(topic, actionContext));
 
   import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     const client = mqtt.connect(actionContext.config.URL.MQTT);
@@ -106,9 +93,6 @@ export function updateTopic(actionContext, options, done) {
 
   options.client.subscribe(newTopics);
   actionContext.dispatch('RealTimeClientTopicChanged', newTopics);
-
-  // Do the loading of initial data after clearing the vehicles object
-  // newTopics.forEach(topic => getInitialData(topic, actionContext));
 
   done();
 }
