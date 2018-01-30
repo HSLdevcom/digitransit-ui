@@ -84,7 +84,7 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
 
   const topics = options.map(option => getTopic(option));
 
-  topics.forEach(topic => getInitialData(topic, actionContext));
+  // topics.forEach(topic => getInitialData(topic, actionContext));
 
   import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     const client = mqtt.connect(actionContext.config.URL.MQTT);
@@ -108,7 +108,7 @@ export function updateTopic(actionContext, options, done) {
   actionContext.dispatch('RealTimeClientTopicChanged', newTopics);
 
   // Do the loading of initial data after clearing the vehicles object
-  newTopics.forEach(topic => getInitialData(topic, actionContext));
+  // newTopics.forEach(topic => getInitialData(topic, actionContext));
 
   done();
 }
