@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import get from 'lodash/get';
 import Icon from './Icon';
-// import RightOffcanvasToggle from './RightOffcanvasToggle';
+import RightOffcanvasToggle from './RightOffcanvasToggle';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -15,7 +15,17 @@ class QuickSettingsPanel extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    piwik: PropTypes.object,
   };
+
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
+  };
+
+  getOffcanvasState = () =>
+    (this.context.location.state &&
+      this.context.location.state.customizeSearchOffcanvas) ||
+    false;
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
@@ -29,6 +39,7 @@ class QuickSettingsPanel extends React.Component {
   };
 
   setRouteMode = values => {
+    console.log(values);
     const chosenMode = this.optimizedRouteModes().filter(
       o => Object.keys(o)[0] === values,
     )[0][values];
@@ -36,7 +47,7 @@ class QuickSettingsPanel extends React.Component {
     this.context.router.replace({
       ...this.context.location,
       query: {
-        ...this.context.location.query,
+        ...this.defaultOptions(),
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
         transferPenalty: chosenMode.transferPenalty,
@@ -44,9 +55,41 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
+  defaultOptions = () => ({
+    minTransferTime: 120,
+    walkSpeed: 1.2,
+  });
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
+  internalSetOffcanvas = newState => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'Offcanvas',
+        'Customize Search',
+        newState ? 'close' : 'open',
+      );
+    }
+
+    if (newState) {
+      this.context.router.push({
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.goBack();
+    }
+  };
+
   optimizedRouteModes = () => [
     {
       'fastest-route': {
+        ...this.defaultOptions(),
         walkBoardCost: 540,
         walkReluctance: 1.5,
         transferPenalty: 0,
@@ -54,6 +97,7 @@ class QuickSettingsPanel extends React.Component {
     },
     {
       'least-transfers': {
+        ...this.defaultOptions(),
         walkBoardCost: 540,
         walkReluctance: 3,
         transferPenalty: 5460,
@@ -61,6 +105,7 @@ class QuickSettingsPanel extends React.Component {
     },
     {
       'least-walking': {
+        ...this.defaultOptions(),
         walkBoardCost: 360,
         walkReluctance: 5,
         transferPenalty: 0,
@@ -70,29 +115,41 @@ class QuickSettingsPanel extends React.Component {
 
   checkModeParams = val => {
     const optimizedRoutes = this.optimizedRouteModes();
+    // Find out which mode the user has selected by
     const currentMode = optimizedRoutes
-      .map(
-        o =>
-          JSON.stringify(Object.values(o)[0]) === JSON.stringify(val)
-            ? Object.keys(o)[0]
-            : undefined,
-      )
+      .map(o => {
+        const firstKey = Object.keys(o)[0];
+        if (JSON.stringify(o[firstKey]) === JSON.stringify(val)) {
+          return firstKey;
+        }
+        return undefined;
+      })
+      // Clean out the undefined non-matches and pick the remaining result
       .filter(o => o)[0];
 
-    return currentMode || 'fastest-route';
+    return currentMode || 'customized-mode';
   };
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
-    const getRoute = this.checkModeParams({
-      walkBoardCost: Number(get(this.context.location, 'query.walkBoardCost')),
-      walkReluctance: Number(
-        get(this.context.location, 'query.walkReluctance'),
-      ),
-      transferPenalty: Number(
-        get(this.context.location, 'query.transferPenalty'),
-      ),
-    });
+    const getRoute = !this.props.hasDefaultPreferences
+      ? this.checkModeParams({
+          minTransferTime: Number(
+            get(this.context.location, 'query.minTransferTime'),
+          ),
+          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
+          walkBoardCost: Number(
+            get(this.context.location, 'query.walkBoardCost'),
+          ),
+          walkReluctance: Number(
+            get(this.context.location, 'query.walkReluctance'),
+          ),
+          transferPenalty: Number(
+            get(this.context.location, 'query.transferPenalty'),
+          ),
+        })
+      : 'fastest-route';
+    console.log(getRoute);
     return (
       <div
         className={cx([
@@ -151,10 +208,26 @@ class QuickSettingsPanel extends React.Component {
                   defaultMessage: 'Least walking',
                 })}
               </option>
+              {getRoute === 'customized-mode' && (
+                <option value="customized-mode">
+                  {this.context.intl.formatMessage({
+                    id: 'route-customized-mode',
+                    defaultMessage: 'Customized mode',
+                  })}
+                </option>
+              )}
             </select>
             <Icon
               className="fake-select-arrow"
               img="icon-icon_arrow-dropdown"
+            />
+          </div>
+        </div>
+        <div className="bottom-row">
+          <div className="open-advanced-settings">
+            <RightOffcanvasToggle
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              hasChanges={!this.props.hasDefaultPreferences}
             />
           </div>
         </div>
@@ -165,6 +238,7 @@ class QuickSettingsPanel extends React.Component {
 
 QuickSettingsPanel.propTypes = {
   visible: PropTypes.bool.isRequired,
+  hasDefaultPreferences: PropTypes.bool.isRequired,
 };
 
 export default QuickSettingsPanel;

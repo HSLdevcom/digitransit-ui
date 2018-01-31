@@ -9,8 +9,26 @@
         display: block;
     }
 
+    .bottom-row {
+      margin-top: 0.7em;
+    }
+
     .top-row {
       display: flex;
+    }
+
+    .open-advanced-settings { 
+      .right-offcanvas-toggle {
+        background: none;
+        border: none;
+      }
+      button {
+        outline: none;
+        span {
+          text-transform: none;
+          font-size: 0.8rem;
+        }
+      }
     }
 
     .select-wrapper {

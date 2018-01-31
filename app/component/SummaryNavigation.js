@@ -182,12 +182,6 @@ class SummaryNavigation extends React.Component {
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}
           />
-          {/*
-          <RightOffcanvasToggle
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            hasChanges={!this.props.hasDefaultPreferences}
-          />
-          */}
           <SecondaryButton
             ariaLabel={
               this.state.quickSettingsPanelVisible ? `close` : `settings`
@@ -203,7 +197,10 @@ class SummaryNavigation extends React.Component {
             }
           />
         </div>
-        <QuickSettingsPanel visible={this.state.quickSettingsPanelVisible} />
+        <QuickSettingsPanel
+          visible={this.state.quickSettingsPanelVisible}
+          hasDefaultPreferences={this.props.hasDefaultPreferences}
+        />
       </div>
     );
   }

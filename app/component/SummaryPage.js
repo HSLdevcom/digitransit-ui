@@ -77,8 +77,8 @@ class SummaryPage extends React.Component {
   };
 
   static hcParameters = {
-    walkReluctance: 2,
-    walkBoardCost: 600,
+    walkReluctance: 1.5,
+    walkBoardCost: 540,
     minTransferTime: 120,
     walkSpeed: 1.2,
     wheelchair: false,

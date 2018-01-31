@@ -38,7 +38,7 @@ function mapToSlider(value, arr) {
 }
 
 const WALKBOARDCOST_MIN = 1;
-const WALKBOARDCOST_DEFAULT = 600;
+const WALKBOARDCOST_DEFAULT = 540;
 const WALKBOARDCOST_MAX = 3600;
 
 // Get default settings
@@ -46,7 +46,7 @@ export const defaultSettings = {
   accessibilityOption: 0,
   minTransferTime: 120,
   walkBoardCost: WALKBOARDCOST_DEFAULT,
-  walkReluctance: 2,
+  walkReluctance: 1.5,
   walkSpeed: 1.2,
   ticketTypes: null,
 };
@@ -255,11 +255,17 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking',
         })}
         onSliderChange={e =>
-          this.updateSettings(
-            'walkReluctance',
-            this.walkReluctanceSliderValues[e.target.value],
-            this.walkReluctanceSliderValues,
-          )
+          this.updateSettings({
+            sliderValues: this.walkReluctanceSliderValues,
+            name: 'walkReluctance',
+            queryToSend: {
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                walkReluctance: this.walkReluctanceSliderValues[e.target.value],
+              },
+            },
+          })
         }
         min={0}
         max={20}
@@ -285,11 +291,17 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfers',
         })}
         onSliderChange={e =>
-          this.updateSettings(
-            'walkBoardCost',
-            this.walkBoardCostSliderValues[e.target.value],
-            this.walkBoardCostSliderValues,
-          )
+          this.updateSettings({
+            sliderValues: this.walkBoardCostSliderValues,
+            name: 'walkBoardCost',
+            queryToSend: {
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                walkBoardCost: this.walkBoardCostSliderValues[e.target.value],
+              },
+            },
+          })
         }
         min={0}
         max={20}
@@ -315,11 +327,19 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfer margin at least',
         })}
         onSliderChange={e =>
-          this.updateSettings(
-            'minTransferTime',
-            this.transferMarginSliderValues[e.target.value],
-            this.transferMarginSliderValues,
-          )
+          this.updateSettings({
+            name: 'minTransferTime',
+            sliderValues: this.transferMarginSliderValues,
+            queryToSend: {
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                minTransferTime: this.transferMarginSliderValues[
+                  e.target.value
+                ],
+              },
+            },
+          })
         }
         min={0}
         max={20}
@@ -343,7 +363,6 @@ class CustomizeSearch extends React.Component {
       />
     </section>
   );
-
   getWalkSpeedSlider = () => (
     <section className="offcanvas-section">
       <Slider
@@ -352,11 +371,17 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking speed',
         })}
         onSliderChange={e =>
-          this.updateSettings(
-            'walkSpeed',
-            this.walkingSpeedSliderValues[e.target.value],
-            this.walkingSpeedSliderValues,
-          )
+          this.updateSettings({
+            name: 'walkSpeed',
+            sliderValues: this.walkingSpeedSliderValues,
+            queryToSend: {
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                walkSpeed: this.walkingSpeedSliderValues[e.target.value],
+              },
+            },
+          })
         }
         min={0}
         max={20}
@@ -402,7 +427,17 @@ class CustomizeSearch extends React.Component {
       })}
       options={get(this.context.config, 'fareMapping', {})}
       currentOption={this.getTicketType()}
-      updateValue={val => this.updateSettings('ticketTypes', val)}
+      updateValue={val =>
+        this.updateSettings({
+          queryToSend: {
+            ...this.context.location,
+            query: {
+              ...this.context.location.query,
+              ticketTypes: val,
+            },
+          },
+        })
+      }
     />
   );
 
@@ -433,7 +468,16 @@ class CustomizeSearch extends React.Component {
         selected={this.getAccessibilityOption()}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e =>
-          this.updateSettings('accessibilityOption', e.target.value)
+          this.updateSettings({
+            name: 'accessibilityOption',
+            queryToSend: {
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                accessibilityOption: e.target.value,
+              },
+            },
+          })
         }
       />
     </section>
@@ -455,28 +499,31 @@ class CustomizeSearch extends React.Component {
   }
 
   removeViaPoint = () => {
-    this.context.router.replace({
-      ...this.context.location,
-      query: without(this.context.location.query, 'intermediatePlaces'),
+    this.updateSettings({
+      queryToSend: {
+        ...this.context.location,
+        query: without(this.context.location, 'query.intermediatePlaces'),
+      },
     });
   };
 
-  updateSettings(name, value, sliderValues) {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        [name]: value,
-      },
-    });
+  updateSettings(val) {
+    const prepareQuery = Object.assign(val.queryToSend);
+    // Remove transferPenalty param to avoid having it interfere
+    // with itinerary suggestions. It can only be toggled on from the
+    // optimized route dropdown, default value is 0
+    prepareQuery.query.transferPenalty = '0';
+    this.context.router.replace(prepareQuery);
 
-    if (!(typeof sliderValues === 'undefined')) {
+    if (val.sliderValues) {
       this.setState({
-        [name]: value && mapToSlider(value, sliderValues),
+        [val.name]:
+          val.queryToSend.query[val.name] &&
+          mapToSlider(val.queryToSend.query[val.name], val.sliderValues),
       });
     } else {
       this.setState({
-        [name]: value,
+        [val.name]: val.queryToSend.query[val.name],
       });
     }
   }
@@ -503,47 +550,52 @@ class CustomizeSearch extends React.Component {
         this.transferMarginSliderValues,
       ),
     });
-
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        time: this.context.location.query.time,
-        walkSpeed: defaultSettings.walkSpeed,
-        walkReluctance: defaultSettings.walkReluctance,
-        walkBoardCost: defaultSettings.walkBoardCost,
-        minTransferTime: defaultSettings.minTransferTime,
-        accessibilityOption: defaultSettings.accessibilityOption,
-        modes: getDefaultModes(this.context.config).toString(),
-        ticketTypes: defaultSettings.ticketTypes,
+    this.updateSettings({
+      queryToSend: {
+        ...this.context.location,
+        query: {
+          time: this.context.location.query.time,
+          walkSpeed: defaultSettings.walkSpeed,
+          walkReluctance: defaultSettings.walkReluctance,
+          walkBoardCost: defaultSettings.walkBoardCost,
+          minTransferTime: defaultSettings.minTransferTime,
+          accessibilityOption: defaultSettings.accessibilityOption,
+          modes: getDefaultModes(this.context.config).toString(),
+          ticketTypes: defaultSettings.ticketTypes,
+        },
       },
     });
   };
 
   toggleTransportMode(mode, otpMode) {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-          ',',
-        ),
+    this.updateSettings({
+      queryToSend: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+            ',',
+          ),
+        },
       },
     });
   }
 
   toggleStreetMode(mode) {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        modes: without(
-          this.getModes(),
-          ...Object.keys(this.context.config.streetModes).map(m =>
-            m.toUpperCase(),
-          ),
-        )
-          .concat(mode.toUpperCase())
-          .join(','),
+    this.updateSettings({
+      queryToSend: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: without(
+            this.getModes(),
+            ...Object.keys(this.context.config.streetModes).map(m =>
+              m.toUpperCase(),
+            ),
+          )
+            .concat(mode.toUpperCase())
+            .join(','),
+        },
       },
     });
   }
