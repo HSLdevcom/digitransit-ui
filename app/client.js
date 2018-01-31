@@ -260,11 +260,14 @@ const callback = () =>
       headers: PropTypes.object,
     });
 
-    // init geolocation handling
-
     match(
       { routes: app.getComponent(), history },
       (error, redirectLocation, renderProps) => {
+        if (redirectLocation) {
+          return window.location.replace(
+            redirectLocation.pathname + redirectLocation.search
+          );
+        }
         IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
           props => {
             ReactDOM.hydrate(
