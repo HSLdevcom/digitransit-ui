@@ -39,7 +39,6 @@ class QuickSettingsPanel extends React.Component {
   };
 
   setRouteMode = values => {
-    console.log(values);
     const chosenMode = this.optimizedRouteModes().filter(
       o => Object.keys(o)[0] === values,
     )[0][values];
@@ -149,7 +148,6 @@ class QuickSettingsPanel extends React.Component {
           ),
         })
       : 'fastest-route';
-    console.log(getRoute);
     return (
       <div
         className={cx([
