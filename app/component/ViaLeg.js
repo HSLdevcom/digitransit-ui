@@ -35,7 +35,11 @@ function ViaLeg(props, context) {
         </div>
         <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine isVia index={props.index} modeClassName="via" />
+      <ItineraryCircleLine
+        isVia
+        index={props.index}
+        modeClassName={props.leg.mode.toLowerCase()}
+      />
       <div
         onClick={props.focusAction}
         className="small-9 columns itinerary-instruction-column via"
