@@ -38,7 +38,7 @@ function mapToSlider(value, arr) {
 }
 
 const WALKBOARDCOST_MIN = 1;
-const WALKBOARDCOST_DEFAULT = 540;
+const WALKBOARDCOST_DEFAULT = 600;
 const WALKBOARDCOST_MAX = 3600;
 
 // Get default settings
@@ -46,7 +46,7 @@ export const defaultSettings = {
   accessibilityOption: 0,
   minTransferTime: 120,
   walkBoardCost: WALKBOARDCOST_DEFAULT,
-  walkReluctance: 1.5,
+  walkReluctance: 2,
   walkSpeed: 1.2,
   ticketTypes: null,
 };
@@ -63,10 +63,13 @@ class CustomizeSearch extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     onToggleClick: PropTypes.func.isRequired,
+    optimizedRouteParams: PropTypes.object,
+    unsetOptimizedRouteParams: PropTypes.func,
   };
 
   static defaultProps = {
     isOpen: false,
+    optimizedRouteParams: undefined,
   };
 
   /*
@@ -101,6 +104,40 @@ class CustomizeSearch extends React.Component {
   }
 
   componentWillMount() {
+    this.setSliders();
+  }
+
+  componentWillReceiveProps() {
+    // If the user has set an optimized route option, change sliders to represent that
+    if (
+      this.props.optimizedRouteParams &&
+      this.props.optimizedRouteParams.optimizedRoute
+    ) {
+      this.setState({
+        walkSpeed: mapToSlider(
+          this.props.optimizedRouteParams.walkSpeed,
+          this.walkingSpeedSliderValues,
+        ),
+        walkReluctance: mapToSlider(
+          this.props.optimizedRouteParams.walkReluctance,
+          this.walkReluctanceSliderValues,
+        ),
+        walkBoardCost: mapToSlider(
+          this.props.optimizedRouteParams.walkBoardCost,
+          this.walkBoardCostSliderValues,
+        ),
+        minTransferTime: mapToSlider(
+          this.props.optimizedRouteParams.minTransferTime,
+          this.transferMarginSliderValues,
+        ),
+      });
+      // Unset the optimized param from the mother component to deny interfering
+      // with slider toggling
+      this.props.unsetOptimizedRouteParams();
+    }
+  }
+
+  setSliders() {
     // Check if there are customized settings set
     const custSettings = getCustomizedSettings();
     /* Map sliders, if there are customized settings, prioritize them first,

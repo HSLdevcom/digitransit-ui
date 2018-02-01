@@ -6,6 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 import get from 'lodash/get';
 import Icon from './Icon';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
+import { getDefaultModes } from './../util/planParamUtil';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -42,6 +43,8 @@ class QuickSettingsPanel extends React.Component {
     const chosenMode = this.optimizedRouteModes().filter(
       o => Object.keys(o)[0] === values,
     )[0][values];
+    chosenMode.optimizedRoute = true;
+    this.props.optimizedRouteParams(chosenMode);
 
     this.context.router.replace({
       ...this.context.location,
@@ -50,6 +53,12 @@ class QuickSettingsPanel extends React.Component {
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
         transferPenalty: chosenMode.transferPenalty,
+        modes:
+          this.context.location.query.modes ||
+          getDefaultModes(this.context.config),
+        ticketTypes: this.context.location.query.ticketTypes || null,
+        accessibilityOption:
+          this.context.location.query.accessibilityOption || 0,
       },
     });
   };
@@ -86,6 +95,14 @@ class QuickSettingsPanel extends React.Component {
   };
 
   optimizedRouteModes = () => [
+    {
+      'default-route': {
+        ...this.defaultOptions(),
+        walkBoardCost: 600,
+        walkReluctance: 2,
+        transferPenalty: 0,
+      },
+    },
     {
       'fastest-route': {
         ...this.defaultOptions(),
@@ -147,7 +164,7 @@ class QuickSettingsPanel extends React.Component {
             get(this.context.location, 'query.transferPenalty'),
           ),
         })
-      : 'fastest-route';
+      : 'default-route';
     return (
       <div
         className={cx([
@@ -188,6 +205,12 @@ class QuickSettingsPanel extends React.Component {
               value={getRoute}
               onChange={e => this.setRouteMode(e.target.value)}
             >
+              <option value="default-route">
+                {this.context.intl.formatMessage({
+                  id: 'route-default',
+                  defaultMessage: 'Default route',
+                })}
+              </option>
               <option value="fastest-route">
                 {this.context.intl.formatMessage({
                   id: 'route-fastest',
@@ -237,6 +260,7 @@ class QuickSettingsPanel extends React.Component {
 QuickSettingsPanel.propTypes = {
   visible: PropTypes.bool.isRequired,
   hasDefaultPreferences: PropTypes.bool.isRequired,
+  optimizedRouteParams: PropTypes.func.isRequired,
 };
 
 export default QuickSettingsPanel;
