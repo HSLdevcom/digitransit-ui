@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+const modeTranslate = {
+  train: 'rail',
+};
+
 // getTopic
 // Returns MQTT topic to be subscribed
 // Input: options - route, direction, tripStartTime are used to generate the topic
@@ -50,7 +54,7 @@ function parseMessage(topic, message, actionContext) {
       parsedMessage.oday && parsedMessage.oday !== 'XXX'
         ? parsedMessage.oday
         : moment().format('YYYYMMDD'),
-    mode,
+    mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
     delay: parsedMessage.dl,
     next_stop: nextStop,
     stop_index: parsedMessage.stop_index,
