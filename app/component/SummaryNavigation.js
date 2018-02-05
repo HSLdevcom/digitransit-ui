@@ -40,6 +40,7 @@ class SummaryNavigation extends React.Component {
     this.state = {
       quickSettingsPanelVisible: false,
       optimizedRouteParams: undefined,
+      optimizedRouteName: undefined,
     };
   }
 
@@ -80,6 +81,29 @@ class SummaryNavigation extends React.Component {
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
 
+  setOptimizedRouteName = val => {
+    this.setState({ optimizedRouteName: val });
+  };
+
+  setOptimizedRoute = modeName => {
+    this.setState({ optimizedRouteParams: modeName });
+  };
+
+  customizeSearchModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
+  };
+
+  toggleQuickSettingsPanel = () => {
+    this.setState({
+      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
+    });
+  };
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
@@ -100,25 +124,6 @@ class SummaryNavigation extends React.Component {
     } else {
       this.context.router.goBack();
     }
-  };
-
-  toggleCustomizeSearchOffcanvas = () => {
-    this.internalSetOffcanvas(!this.getOffcanvasState());
-  };
-
-  customizeSearchModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
-  };
-
-  toggleQuickSettingsPanel = () => {
-    this.setState({
-      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
-    });
-  };
-
-  setOptimizedRoute = modeName => {
-    this.setState({ optimizedRouteParams: modeName });
   };
 
   unsetOptimizedRouteParams = () => {
@@ -167,6 +172,7 @@ class SummaryNavigation extends React.Component {
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
                 optimizedRouteParams={this.state.optimizedRouteParams}
                 unsetOptimizedRouteParams={this.unsetOptimizedRouteParams}
+                optimizedRouteName={this.state.optimizedRouteName}
               />
             </Drawer>
           )}
@@ -212,6 +218,7 @@ class SummaryNavigation extends React.Component {
           visible={this.state.quickSettingsPanelVisible}
           hasDefaultPreferences={this.props.hasDefaultPreferences}
           optimizedRouteParams={this.setOptimizedRoute}
+          setOptimizedRouteName={this.setOptimizedRouteName}
         />
       </div>
     );

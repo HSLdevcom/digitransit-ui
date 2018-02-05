@@ -65,6 +65,7 @@ class CustomizeSearch extends React.Component {
     onToggleClick: PropTypes.func.isRequired,
     optimizedRouteParams: PropTypes.object,
     unsetOptimizedRouteParams: PropTypes.func,
+    optimizedRouteName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -100,6 +101,7 @@ class CustomizeSearch extends React.Component {
       walkReluctance: 0,
       walkSpeed: 0,
       ticketTypes: null,
+      optimizedRoute: undefined,
     };
   }
 
@@ -549,7 +551,16 @@ class CustomizeSearch extends React.Component {
     // Remove transferPenalty param to avoid having it interfere
     // with itinerary suggestions. It can only be toggled on from the
     // optimized route dropdown, default value is 0
-    prepareQuery.query.transferPenalty = '0';
+    // least-transfers is the only option using it, so check that it doesn't
+    // disappear if you toggle transport modes while using that route optimization
+    if (
+      (this.props.optimizedRouteName !== 'least-transfers' &&
+        val.name !== 'modes') ||
+      (this.props.optimizedRouteName === 'least-transfers' &&
+        val.name !== 'modes')
+    ) {
+      prepareQuery.query.transferPenalty = '0';
+    }
     this.context.router.replace(prepareQuery);
 
     if (val.sliderValues) {
@@ -606,6 +617,7 @@ class CustomizeSearch extends React.Component {
 
   toggleTransportMode(mode, otpMode) {
     this.updateSettings({
+      name: 'modes',
       queryToSend: {
         ...this.context.location,
         query: {
@@ -620,6 +632,7 @@ class CustomizeSearch extends React.Component {
 
   toggleStreetMode(mode) {
     this.updateSettings({
+      name: 'modes',
       queryToSend: {
         ...this.context.location,
         query: {

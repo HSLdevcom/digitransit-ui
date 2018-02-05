@@ -17,6 +17,28 @@ class QuickSettingsPanel extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     piwik: PropTypes.object,
+    config: PropTypes.object.isRequired,
+  };
+
+  componentDidMount = () => {
+    const getRoute = !this.props.hasDefaultPreferences
+      ? this.checkModeParams({
+          minTransferTime: Number(
+            get(this.context.location, 'query.minTransferTime'),
+          ),
+          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
+          walkBoardCost: Number(
+            get(this.context.location, 'query.walkBoardCost'),
+          ),
+          walkReluctance: Number(
+            get(this.context.location, 'query.walkReluctance'),
+          ),
+          transferPenalty: Number(
+            get(this.context.location, 'query.transferPenalty'),
+          ),
+        })
+      : 'default-route';
+    this.props.setOptimizedRouteName(getRoute);
   };
 
   onRequestChange = newState => {
@@ -55,12 +77,13 @@ class QuickSettingsPanel extends React.Component {
         transferPenalty: chosenMode.transferPenalty,
         modes:
           this.context.location.query.modes ||
-          getDefaultModes(this.context.config),
+          getDefaultModes(this.context.config).toString(),
         ticketTypes: this.context.location.query.ticketTypes || null,
         accessibilityOption:
           this.context.location.query.accessibilityOption || 0,
       },
     });
+    this.props.setOptimizedRouteName(values);
   };
 
   defaultOptions = () => ({
@@ -165,6 +188,7 @@ class QuickSettingsPanel extends React.Component {
           ),
         })
       : 'default-route';
+
     return (
       <div
         className={cx([
@@ -261,6 +285,7 @@ QuickSettingsPanel.propTypes = {
   visible: PropTypes.bool.isRequired,
   hasDefaultPreferences: PropTypes.bool.isRequired,
   optimizedRouteParams: PropTypes.func.isRequired,
+  setOptimizedRouteName: PropTypes.func.isRequired,
 };
 
 export default QuickSettingsPanel;
