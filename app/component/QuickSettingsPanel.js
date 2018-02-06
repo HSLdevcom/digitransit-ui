@@ -129,15 +129,16 @@ class QuickSettingsPanel extends React.Component {
     {
       'fastest-route': {
         ...this.defaultOptions(),
-        walkBoardCost: 540,
-        walkReluctance: 1.5,
+        walkBoardCost: 360,
+        walkReluctance: 1.28,
         transferPenalty: 0,
+        minTransferTime: 60,
       },
     },
     {
       'least-transfers': {
         ...this.defaultOptions(),
-        walkBoardCost: 600,
+        walkBoardCost: 1800,
         walkReluctance: 3,
         transferPenalty: 5460,
       },
