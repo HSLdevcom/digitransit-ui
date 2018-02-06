@@ -548,7 +548,6 @@ class CustomizeSearch extends React.Component {
 
   updateSettings(val) {
     const prepareQuery = Object.assign(val.queryToSend);
-
     this.context.router.replace(prepareQuery);
     if (val.sliderValues) {
       this.setState({
