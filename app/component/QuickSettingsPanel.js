@@ -137,7 +137,7 @@ class QuickSettingsPanel extends React.Component {
     {
       'least-transfers': {
         ...this.defaultOptions(),
-        walkBoardCost: 540,
+        walkBoardCost: 600,
         walkReluctance: 3,
         transferPenalty: 5460,
       },
