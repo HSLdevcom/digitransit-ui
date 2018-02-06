@@ -74,7 +74,9 @@ class QuickSettingsPanel extends React.Component {
         ...this.defaultOptions(),
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
+        walkSpeed: chosenMode.walkSpeed,
         transferPenalty: chosenMode.transferPenalty,
+        minTransferTime: chosenMode.minTransferTime,
         modes:
           this.context.location.query.modes ||
           getDefaultModes(this.context.config).toString(),
@@ -130,7 +132,8 @@ class QuickSettingsPanel extends React.Component {
       'fastest-route': {
         ...this.defaultOptions(),
         walkBoardCost: 360,
-        walkReluctance: 1.28,
+        walkReluctance: 2,
+        walkSpeed: 1.38,
         transferPenalty: 0,
         minTransferTime: 60,
       },
@@ -138,8 +141,8 @@ class QuickSettingsPanel extends React.Component {
     {
       'least-transfers': {
         ...this.defaultOptions(),
-        walkBoardCost: 1800,
-        walkReluctance: 3,
+        walkBoardCost: 1200,
+        walkReluctance: 4,
         transferPenalty: 5460,
       },
     },
