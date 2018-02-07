@@ -2,15 +2,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
+import xor from 'lodash/xor';
 import { routerShape, locationShape } from 'react-router';
 import get from 'lodash/get';
 import Icon from './Icon';
+import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { getDefaultModes } from './../util/planParamUtil';
+import { getCustomizedSettings } from '../store/localStorage';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
+    hasDefaultPreferences: PropTypes.bool.isRequired,
+    optimizedRouteParams: PropTypes.func.isRequired,
+    setOptimizedRouteName: PropTypes.func.isRequired,
   };
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -84,6 +90,46 @@ class QuickSettingsPanel extends React.Component {
       },
     });
     this.props.setOptimizedRouteName(values);
+  };
+
+  getModes() {
+    if (this.context.location.query.modes) {
+      return decodeURI(this.context.location.query.modes)
+        .split('?')[0]
+        .split(',');
+    } else if (getCustomizedSettings().modes) {
+      return getCustomizedSettings().modes;
+    }
+    return getDefaultModes(this.context.config);
+  }
+
+  getMode(mode) {
+    return this.getModes().includes(mode.toUpperCase());
+  }
+
+  toggleTransportMode(mode, otpMode) {
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+            ',',
+          ),
+        },
+      },
+    });
+  }
+
+  actions = {
+    toggleBusState: () => this.toggleTransportMode('bus'),
+    toggleTramState: () => this.toggleTransportMode('tram'),
+    toggleRailState: () => this.toggleTransportMode('rail'),
+    toggleSubwayState: () => this.toggleTransportMode('subway'),
+    toggleFerryState: () => this.toggleTransportMode('ferry'),
+    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
   };
 
   defaultOptions = () => ({
@@ -269,6 +315,20 @@ class QuickSettingsPanel extends React.Component {
           </div>
         </div>
         <div className="bottom-row">
+          <div className="toggle-modes">
+            <ModeFilter
+              action={this.actions}
+              buttonClass="mode-icon"
+              selectedModes={Object.keys(this.context.config.transportModes)
+                .filter(
+                  mode =>
+                    this.context.config.transportModes[mode]
+                      .availableForSelection,
+                )
+                .filter(mode => this.getMode(mode))
+                .map(mode => mode.toUpperCase())}
+            />
+          </div>
           <div className="open-advanced-settings">
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
@@ -280,12 +340,5 @@ class QuickSettingsPanel extends React.Component {
     );
   }
 }
-
-QuickSettingsPanel.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  hasDefaultPreferences: PropTypes.bool.isRequired,
-  optimizedRouteParams: PropTypes.func.isRequired,
-  setOptimizedRouteName: PropTypes.func.isRequired,
-};
 
 export default QuickSettingsPanel;
