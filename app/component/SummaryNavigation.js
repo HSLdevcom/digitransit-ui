@@ -39,13 +39,11 @@ class SummaryNavigation extends React.Component {
     super(props);
     this.state = {
       quickSettingsPanelVisible: false,
-      optimizedRouteParams: undefined,
     };
   }
 
   componentDidMount() {
     this.unlisten = this.context.router.listen(location => {
-
       if (
         this.context.location.state &&
         this.context.location.state.customizeSearchOffcanvas &&
@@ -80,10 +78,6 @@ class SummaryNavigation extends React.Component {
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
-
-  setOptimizedRouteName = val => {
-    this.setState({ optimizedRouteName: val });
-  };
 
   setOptimizedRoute = modeName => {
     this.setState({ optimizedRouteParams: modeName });
