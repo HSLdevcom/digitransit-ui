@@ -41,10 +41,6 @@ class QuickSettingsPanel extends React.Component {
     this.props.setOptimizedRouteName(getRoute);
   };
 
-  onRequestChange = newState => {
-    this.internalSetOffcanvas(newState);
-  };
-
   getOffcanvasState = () =>
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
