@@ -5,7 +5,8 @@ import { intlShape } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import get from 'lodash/get';
 import Icon from './Icon';
-// import RightOffcanvasToggle from './RightOffcanvasToggle';
+import RightOffcanvasToggle from './RightOffcanvasToggle';
+import { getDefaultModes } from './../util/planParamUtil';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -15,7 +16,14 @@ class QuickSettingsPanel extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    piwik: PropTypes.object,
+    config: PropTypes.object.isRequired,
   };
+
+  getOffcanvasState = () =>
+    (this.context.location.state &&
+      this.context.location.state.customizeSearchOffcanvas) ||
+    false;
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
@@ -32,35 +40,89 @@ class QuickSettingsPanel extends React.Component {
     const chosenMode = this.optimizedRouteModes().filter(
       o => Object.keys(o)[0] === values,
     )[0][values];
+    chosenMode.optimizedRoute = true;
+    this.props.optimizedRouteParams(chosenMode);
 
     this.context.router.replace({
       ...this.context.location,
       query: {
-        ...this.context.location.query,
+        ...this.defaultOptions(),
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
+        walkSpeed: chosenMode.walkSpeed,
         transferPenalty: chosenMode.transferPenalty,
+        minTransferTime: chosenMode.minTransferTime,
+        modes:
+          this.context.location.query.modes ||
+          getDefaultModes(this.context.config).toString(),
+        ticketTypes: this.context.location.query.ticketTypes || null,
+        accessibilityOption:
+          this.context.location.query.accessibilityOption || 0,
       },
     });
   };
 
+  defaultOptions = () => ({
+    minTransferTime: 120,
+    walkSpeed: 1.2,
+  });
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
+  internalSetOffcanvas = newState => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'Offcanvas',
+        'Customize Search',
+        newState ? 'close' : 'open',
+      );
+    }
+
+    if (newState) {
+      this.context.router.push({
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.goBack();
+    }
+  };
+
   optimizedRouteModes = () => [
     {
-      'fastest-route': {
-        walkBoardCost: 540,
-        walkReluctance: 1.5,
+      'default-route': {
+        ...this.defaultOptions(),
+        walkBoardCost: 600,
+        walkReluctance: 2,
         transferPenalty: 0,
       },
     },
     {
+      'fastest-route': {
+        ...this.defaultOptions(),
+        walkBoardCost: 360,
+        walkReluctance: 2,
+        walkSpeed: 1.38,
+        transferPenalty: 0,
+        minTransferTime: 60,
+      },
+    },
+    {
       'least-transfers': {
-        walkBoardCost: 540,
-        walkReluctance: 3,
+        ...this.defaultOptions(),
+        walkBoardCost: 1200,
+        walkReluctance: 4,
         transferPenalty: 5460,
       },
     },
     {
       'least-walking': {
+        ...this.defaultOptions(),
         walkBoardCost: 360,
         walkReluctance: 5,
         transferPenalty: 0,
@@ -70,29 +132,41 @@ class QuickSettingsPanel extends React.Component {
 
   checkModeParams = val => {
     const optimizedRoutes = this.optimizedRouteModes();
+    // Find out which mode the user has selected by
     const currentMode = optimizedRoutes
-      .map(
-        o =>
-          JSON.stringify(Object.values(o)[0]) === JSON.stringify(val)
-            ? Object.keys(o)[0]
-            : undefined,
-      )
+      .map(o => {
+        const firstKey = Object.keys(o)[0];
+        if (JSON.stringify(o[firstKey]) === JSON.stringify(val)) {
+          return firstKey;
+        }
+        return undefined;
+      })
+      // Clean out the undefined non-matches and pick the remaining result
       .filter(o => o)[0];
 
-    return currentMode || 'fastest-route';
+    return currentMode || 'customized-mode';
   };
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
-    const getRoute = this.checkModeParams({
-      walkBoardCost: Number(get(this.context.location, 'query.walkBoardCost')),
-      walkReluctance: Number(
-        get(this.context.location, 'query.walkReluctance'),
-      ),
-      transferPenalty: Number(
-        get(this.context.location, 'query.transferPenalty'),
-      ),
-    });
+    const getRoute = !this.props.hasDefaultPreferences
+      ? this.checkModeParams({
+          minTransferTime: Number(
+            get(this.context.location, 'query.minTransferTime'),
+          ),
+          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
+          walkBoardCost: Number(
+            get(this.context.location, 'query.walkBoardCost'),
+          ),
+          walkReluctance: Number(
+            get(this.context.location, 'query.walkReluctance'),
+          ),
+          transferPenalty: Number(
+            get(this.context.location, 'query.transferPenalty'),
+          ),
+        })
+      : 'default-route';
+
     return (
       <div
         className={cx([
@@ -133,6 +207,12 @@ class QuickSettingsPanel extends React.Component {
               value={getRoute}
               onChange={e => this.setRouteMode(e.target.value)}
             >
+              <option value="default-route">
+                {this.context.intl.formatMessage({
+                  id: 'route-default',
+                  defaultMessage: 'Default route',
+                })}
+              </option>
               <option value="fastest-route">
                 {this.context.intl.formatMessage({
                   id: 'route-fastest',
@@ -151,10 +231,26 @@ class QuickSettingsPanel extends React.Component {
                   defaultMessage: 'Least walking',
                 })}
               </option>
+              {getRoute === 'customized-mode' && (
+                <option value="customized-mode">
+                  {this.context.intl.formatMessage({
+                    id: 'route-customized-mode',
+                    defaultMessage: 'Customized mode',
+                  })}
+                </option>
+              )}
             </select>
             <Icon
               className="fake-select-arrow"
               img="icon-icon_arrow-dropdown"
+            />
+          </div>
+        </div>
+        <div className="bottom-row">
+          <div className="open-advanced-settings">
+            <RightOffcanvasToggle
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              hasChanges={!this.props.hasDefaultPreferences}
             />
           </div>
         </div>
@@ -165,6 +261,8 @@ class QuickSettingsPanel extends React.Component {
 
 QuickSettingsPanel.propTypes = {
   visible: PropTypes.bool.isRequired,
+  hasDefaultPreferences: PropTypes.bool.isRequired,
+  optimizedRouteParams: PropTypes.func.isRequired,
 };
 
 export default QuickSettingsPanel;

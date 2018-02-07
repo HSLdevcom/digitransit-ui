@@ -79,6 +79,25 @@ class SummaryNavigation extends React.Component {
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
 
+  setOptimizedRoute = modeName => {
+    this.setState({ optimizedRouteParams: modeName });
+  };
+
+  customizeSearchModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
+  };
+
+  toggleQuickSettingsPanel = () => {
+    this.setState({
+      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
+    });
+  };
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
@@ -101,19 +120,8 @@ class SummaryNavigation extends React.Component {
     }
   };
 
-  toggleCustomizeSearchOffcanvas = () => {
-    this.internalSetOffcanvas(!this.getOffcanvasState());
-  };
-
-  customizeSearchModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
-  };
-
-  toggleQuickSettingsPanel = () => {
-    this.setState({
-      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
-    });
+  unsetOptimizedRouteParams = () => {
+    this.setState({ optimizedRouteParams: undefined });
   };
 
   renderTimeSelectorContainer = ({ done, props }) =>
@@ -156,6 +164,8 @@ class SummaryNavigation extends React.Component {
                 isOpen={this.getOffcanvasState()}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
+                optimizedRouteParams={this.state.optimizedRouteParams}
+                unsetOptimizedRouteParams={this.unsetOptimizedRouteParams}
               />
             </Drawer>
           )}
@@ -182,12 +192,6 @@ class SummaryNavigation extends React.Component {
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}
           />
-          {/*
-          <RightOffcanvasToggle
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            hasChanges={!this.props.hasDefaultPreferences}
-          />
-          */}
           <SecondaryButton
             ariaLabel={
               this.state.quickSettingsPanelVisible ? `close` : `settings`
@@ -203,7 +207,12 @@ class SummaryNavigation extends React.Component {
             }
           />
         </div>
-        <QuickSettingsPanel visible={this.state.quickSettingsPanelVisible} />
+        <QuickSettingsPanel
+          visible={this.state.quickSettingsPanelVisible}
+          hasDefaultPreferences={this.props.hasDefaultPreferences}
+          optimizedRouteParams={this.setOptimizedRoute}
+          setOptimizedRouteName={this.setOptimizedRouteName}
+        />
       </div>
     );
   }
