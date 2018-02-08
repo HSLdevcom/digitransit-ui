@@ -18,7 +18,6 @@ class TripStopListContainer extends React.PureComponent {
     locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     tripStart: PropTypes.string.isRequired,
-    fullscreenMap: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -37,7 +36,7 @@ class TripStopListContainer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.context.breakpoint === 'large' && !this.state.hasScrolled) {
       this.scrollToSelectedTailIcon();
     }

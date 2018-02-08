@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
+import { pure } from 'recompose';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import WalkDistance from './WalkDistance';
@@ -15,7 +16,6 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
 } from './ExampleData';
-import { pure } from 'recompose'
 
 const TripRouteStop = props => {
   const vehicles =
@@ -104,7 +104,7 @@ TripRouteStop.propTypes = {
   selectedVehicle: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.oneOf([false]),
-  ]).isRequired
+  ]).isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

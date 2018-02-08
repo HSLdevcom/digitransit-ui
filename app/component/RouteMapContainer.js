@@ -62,17 +62,6 @@ class RouteMapContainer extends React.PureComponent {
         ? [lat, lon]
         : [undefined, undefined];
 
-    console.log(
-      'RouteMapContainer',
-      dispLat,
-      dispLon,
-      tripId,
-      hasCentered,
-      shouldFitBounds,
-      'fitbounds',
-      !(dispLat && dispLon) && shouldFitBounds,
-      'fullscreen',fullscreen
-    );
     if (!hasCentered && lat && lon) {
       this.setState({ hasCentered: true, shouldFitBounds: false });
     }

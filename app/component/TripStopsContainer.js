@@ -3,11 +3,11 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import cx from 'classnames';
+import { pure } from 'recompose';
 
 import { getStartTime } from '../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
-import { pure } from 'recompose'
 
 function TripStopsContainer(props, { breakpoint }) {
   const tripStartTime = getStartTime(
