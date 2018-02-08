@@ -15,6 +15,7 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
 } from './ExampleData';
+import { pure } from 'recompose'
 
 const TripRouteStop = props => {
   const vehicles =
@@ -28,7 +29,6 @@ const TripRouteStop = props => {
         selected={
           props.selectedVehicle && props.selectedVehicle.id === vehicle.id
         }
-        fullscreenMap={props.fullscreenMap}
       />
     ));
 
@@ -104,8 +104,7 @@ TripRouteStop.propTypes = {
   selectedVehicle: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.oneOf([false]),
-  ]).isRequired,
-  fullscreenMap: PropTypes.bool,
+  ]).isRequired
 };
 
 TripRouteStop.displayName = 'TripRouteStop';
@@ -151,4 +150,4 @@ TripRouteStop.description = () => (
   </div>
 );
 
-export default TripRouteStop;
+export default pure(TripRouteStop);
