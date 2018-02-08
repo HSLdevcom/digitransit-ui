@@ -59,8 +59,8 @@ function parseMessage(topic, message, actionContext) {
     next_stop: nextStop,
     stop_index: parsedMessage.stop_index,
     timestamp: parsedMessage.tsi,
-    lat: parsedMessage.lat,
-    long: parsedMessage.long,
+    lat: parsedMessage.lat.toFixed(5),
+    long: parsedMessage.long.toFixed(5),
     heading: parsedMessage.hdg,
   };
 
