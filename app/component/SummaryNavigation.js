@@ -39,8 +39,6 @@ class SummaryNavigation extends React.Component {
     super(props);
     this.state = {
       quickSettingsPanelVisible: false,
-      optimizedRouteParams: undefined,
-      optimizedRouteName: undefined,
     };
   }
 
@@ -80,10 +78,6 @@ class SummaryNavigation extends React.Component {
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
-
-  setOptimizedRouteName = val => {
-    this.setState({ optimizedRouteName: val });
-  };
 
   setOptimizedRoute = modeName => {
     this.setState({ optimizedRouteParams: modeName });
@@ -172,7 +166,6 @@ class SummaryNavigation extends React.Component {
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
                 optimizedRouteParams={this.state.optimizedRouteParams}
                 unsetOptimizedRouteParams={this.unsetOptimizedRouteParams}
-                optimizedRouteName={this.state.optimizedRouteName}
               />
             </Drawer>
           )}

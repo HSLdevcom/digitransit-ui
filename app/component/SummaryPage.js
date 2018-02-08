@@ -80,6 +80,7 @@ class SummaryPage extends React.Component {
     walkReluctance: 2,
     walkBoardCost: 600,
     minTransferTime: 120,
+    transferPenalty: 0,
     walkSpeed: 1.2,
     wheelchair: false,
     accessibilityOption: 0,
