@@ -7,6 +7,7 @@ import cx from 'classnames';
 import { getStartTime } from '../util/timeUtils';
 import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
+import { pure } from 'recompose'
 
 function TripStopsContainer(props, { breakpoint }) {
   const tripStartTime = getStartTime(
@@ -51,7 +52,7 @@ TripStopsContainer.contextTypes = {
   breakpoint: PropTypes.string,
 };
 
-export default Relay.createContainer(TripStopsContainer, {
+export default Relay.createContainer(pure(TripStopsContainer), {
   fragments: {
     trip: () =>
       Relay.QL`
