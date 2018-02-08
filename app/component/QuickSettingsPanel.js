@@ -111,6 +111,13 @@ class QuickSettingsPanel extends React.Component {
     this.context.router.replace({
       ...this.context.location,
       query: {
+        ...this.context.location.query,
+        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+          ',',
+        ),
+      },
+    });
+    /** queryToSend: {
         ...this.context.location,
         query: {
           ...this.context.location.query,
@@ -118,8 +125,7 @@ class QuickSettingsPanel extends React.Component {
             ',',
           ),
         },
-      },
-    });
+      }, */
   }
 
   actions = {

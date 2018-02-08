@@ -100,6 +100,32 @@ class SummaryNavigation extends React.Component {
     });
   };
 
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
+  internalSetOffcanvas = newState => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'Offcanvas',
+        'Customize Search',
+        newState ? 'close' : 'open',
+      );
+    }
+
+    if (newState) {
+      this.context.router.push({
+        ...this.context.location,
+        state: {
+          ...this.context.location.state,
+          customizeSearchOffcanvas: newState,
+        },
+      });
+    } else {
+      this.context.router.goBack();
+    }
+  };
+
   unsetOptimizedRouteParams = () => {
     this.setState({ optimizedRouteParams: undefined });
   };

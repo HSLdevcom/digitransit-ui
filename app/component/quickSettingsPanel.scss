@@ -11,6 +11,31 @@
 
     .bottom-row {
       margin-top: 0.7em;
+      display: flex;
+      flex: 0 1 auto;
+      flex-direction: row;
+      height: 2em;
+      flex-wrap: wrap;
+      justify-content: center;
+      .toggle-modes {
+        flex: 1 1 auto;
+        .mode-icon {
+          border-radius: 3px;
+          border-right: none;
+          margin-bottom: 0;
+          margin-left: 0.3em;
+          height: 2em;
+          max-width: 2em;
+          .icon-holder {
+            padding-bottom: 0.3em;
+            padding-top: 0.3em;
+            .icon {
+              width: 1.4em;
+              height: 1.4em;
+            }
+          }
+        }
+      }
     }
 
     .top-row {
@@ -18,6 +43,8 @@
     }
 
     .open-advanced-settings {
+      margin-right: 0.4em;
+      flex: 0 1 auto;
       .right-offcanvas-toggle {
         background: none;
         border: none;
