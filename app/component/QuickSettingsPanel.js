@@ -325,10 +325,4 @@ class QuickSettingsPanel extends React.Component {
   }
 }
 
-QuickSettingsPanel.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  hasDefaultPreferences: PropTypes.bool.isRequired,
-  optimizedRouteParams: PropTypes.func.isRequired,
-};
-
 export default QuickSettingsPanel;
