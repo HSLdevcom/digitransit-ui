@@ -16,6 +16,10 @@ function TripStopsContainer(props, { breakpoint }) {
 
   const fullscreen = some(props.routes, route => route.fullscreenMap);
 
+  if (fullscreen && breakpoint !== 'large') {
+    return <div className="route-page-content" />;
+  }
+
   return (
     <div
       className={cx('route-page-content', {
