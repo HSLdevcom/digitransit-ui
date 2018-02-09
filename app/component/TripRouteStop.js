@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
-import { pure } from 'recompose';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import WalkDistance from './WalkDistance';
@@ -150,4 +149,4 @@ TripRouteStop.description = () => (
   </div>
 );
 
-export default pure(TripRouteStop);
+export default TripRouteStop;
