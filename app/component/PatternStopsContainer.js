@@ -6,7 +6,7 @@ import { routerShape } from 'react-router';
 import RouteListHeader from './RouteListHeader';
 import RouteStopListContainer from './RouteStopListContainer';
 
-class PatternStopsContainer extends React.Component {
+class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
     pattern: PropTypes.shape({
       code: PropTypes.string.isRequired,
