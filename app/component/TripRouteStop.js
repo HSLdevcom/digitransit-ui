@@ -28,7 +28,6 @@ const TripRouteStop = props => {
         selected={
           props.selectedVehicle && props.selectedVehicle.id === vehicle.id
         }
-        fullscreenMap={props.fullscreenMap}
       />
     ));
 
@@ -105,7 +104,6 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
-  fullscreenMap: PropTypes.bool,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';
