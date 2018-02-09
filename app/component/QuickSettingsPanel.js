@@ -26,6 +26,31 @@ class QuickSettingsPanel extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
+  componentDidMount = () => {
+    const getRoute = !this.props.hasDefaultPreferences
+      ? this.checkModeParams({
+          minTransferTime: Number(
+            get(this.context.location, 'query.minTransferTime'),
+          ),
+          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
+          walkBoardCost: Number(
+            get(this.context.location, 'query.walkBoardCost'),
+          ),
+          walkReluctance: Number(
+            get(this.context.location, 'query.walkReluctance'),
+          ),
+          transferPenalty: Number(
+            get(this.context.location, 'query.transferPenalty'),
+          ),
+        })
+      : 'default-route';
+    this.props.setOptimizedRouteName(getRoute);
+  };
+
+  onRequestChange = newState => {
+    this.internalSetOffcanvas(newState);
+  };
+
   getOffcanvasState = () =>
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
@@ -55,9 +80,7 @@ class QuickSettingsPanel extends React.Component {
         ...this.defaultOptions(),
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
-        walkSpeed: chosenMode.walkSpeed,
         transferPenalty: chosenMode.transferPenalty,
-        minTransferTime: chosenMode.minTransferTime,
         modes:
           this.context.location.query.modes ||
           getDefaultModes(this.context.config).toString(),
@@ -66,6 +89,7 @@ class QuickSettingsPanel extends React.Component {
           this.context.location.query.accessibilityOption || 0,
       },
     });
+    this.props.setOptimizedRouteName(values);
   };
 
   getModes() {
@@ -93,15 +117,6 @@ class QuickSettingsPanel extends React.Component {
         ),
       },
     });
-    /** queryToSend: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-            ',',
-          ),
-        },
-      }, */
   }
 
   actions = {
@@ -157,18 +172,16 @@ class QuickSettingsPanel extends React.Component {
     {
       'fastest-route': {
         ...this.defaultOptions(),
-        walkBoardCost: 360,
-        walkReluctance: 2,
-        walkSpeed: 1.38,
+        walkBoardCost: 540,
+        walkReluctance: 1.5,
         transferPenalty: 0,
-        minTransferTime: 60,
       },
     },
     {
       'least-transfers': {
         ...this.defaultOptions(),
-        walkBoardCost: 1200,
-        walkReluctance: 4,
+        walkBoardCost: 600,
+        walkReluctance: 3,
         transferPenalty: 5460,
       },
     },
