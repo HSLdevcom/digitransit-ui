@@ -59,7 +59,7 @@ function parseLocation(location, input, config, next) {
 function parseTime(query, config) {
   const time = moment.tz(config.timezoneData.split('|')[0]);
   let hasTime;
-  let timeStr;
+  let timeStr = '';
 
   if (query.daymonthyear) {
     const dmy = query.daymonthyear.split('.');
@@ -100,7 +100,7 @@ function parseTime(query, config) {
     }
   }
   if (query.timetype === 'arrival') {
-    if (timeStr) {
+    if (timeStr.length > 0) {
       timeStr = `${timeStr}&arriveBy=true`;
     } else {
       timeStr = 'arriveBy=true';
