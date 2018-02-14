@@ -148,8 +148,8 @@ const callback = () =>
       const query = getParams(window.location.search);
 
       if (query.from || query.to || query.from_in || query.to_in) {
-        oldParamParser(query, config, () => window.location.replace('/')).then(
-          redirectUrl => window.location.replace(redirectUrl),
+        oldParamParser(query, config).then(redirectUrl =>
+          window.location.replace(redirectUrl),
         );
       } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
         window.location.replace('/');

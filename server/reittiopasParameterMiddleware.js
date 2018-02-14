@@ -39,7 +39,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       req.query.from_in ||
       req.query.to_in
     ) {
-      oldParamParser(req.query, config, next).then(url => res.redirect(url));
+      oldParamParser(req.query, config).then(url => res.redirect(url));
     } else if (
       ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(req.path)
     ) {

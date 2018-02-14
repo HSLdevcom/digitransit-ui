@@ -18,7 +18,7 @@ function parseGeocodingResults(results) {
   });
 }
 
-function parseLocation(location, input, config, next) {
+function parseLocation(location, input, config) {
   if (location) {
     const parsedFrom = placeParser.exec(location);
     if (parsedFrom) {
@@ -40,7 +40,7 @@ function parseLocation(location, input, config, next) {
       config,
     )
       .then(parseGeocodingResults)
-      .catch(next);
+      .catch(() => ' ');
   } else if (input) {
     return getGeocodingResult(
       input,
@@ -51,9 +51,9 @@ function parseLocation(location, input, config, next) {
       config,
     )
       .then(parseGeocodingResults)
-      .catch(next);
+      .catch(() => ' ');
   }
-  return ' ';
+  return Promise.resolve(' ');
 }
 
 function parseTime(query, config) {
@@ -109,17 +109,18 @@ function parseTime(query, config) {
   return Promise.resolve(timeStr);
 }
 
-export default function oldParamParser(query, config, next) {
+export default function oldParamParser(query, config) {
   return Promise.all([
-    parseLocation(query.from, query.from_in, config, next),
-    parseLocation(query.to, query.to_in, config, next),
+    parseLocation(query.from, query.from_in, config),
+    parseLocation(query.to, query.to_in, config),
     parseTime(query, config),
-  ]).then(([from, to, time]) => {
-    let rootPath = '';
-    if (from.length > 1 && to.length > 1) {
-      // can redirect to itinerary summary page
-      rootPath = `/${PREFIX_ITINERARY_SUMMARY}`;
-    }
-    return `${rootPath}/${from}/${to}/?${time}`;
-  });
+  ])
+    .then(([from, to, time]) => {
+      if (from && from.length > 1 && to && to.length > 1) {
+        // can redirect to itinerary summary page
+        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}`;
+      }
+      return `/${from}/${to}/`;
+    })
+    .catch(() => '/');
 }
