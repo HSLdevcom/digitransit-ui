@@ -11,6 +11,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 function ViaLeg(props, context) {
+  let description;
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     context.config,
@@ -19,6 +20,24 @@ function ViaLeg(props, context) {
   const stayDuration = durationToString(
     props.leg.startTime - props.arrivalTime,
   );
+
+  if (props.leg.mode === 'BICYCLE_WALK') {
+    description = (
+      <FormattedMessage
+        id="cyclewalk-distance-duration"
+        values={{ distance, duration }}
+        defaultMessage="Walk your bike {distance} ({duration})"
+      />
+    );
+  } else {
+    description = (
+      <FormattedMessage
+        id="walk-distance-duration"
+        values={{ distance, duration }}
+        defaultMessage="Walk {distance} ({duration})"
+      />
+    );
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -58,13 +77,7 @@ function ViaLeg(props, context) {
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
-        <div className="itinerary-leg-action">
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
-        </div>
+        <div className="itinerary-leg-action">{description}</div>
       </div>
     </div>
   );

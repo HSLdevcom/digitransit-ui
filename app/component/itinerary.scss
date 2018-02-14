@@ -23,6 +23,7 @@ $itinerary-tab-switch-height: 48px;
     &.walk { @include getCircleSvg($walk-color, $fill); }
     &.wait { @include getCircleSvg($wait-color, $fill); }
     &.bicycle { @include getCircleSvg($bicycle-color, $fill); }
+    &.bicycle_walk { @include getCircleSvg($walk-color, $fill); }
     &.car { @include getCircleSvg($car-color, $fill); }
     &.via { @include getCircleSvg($walk-color, $fill); }
     &.call { @include getCircleSvg($bus-color, $fill); }
@@ -262,6 +263,7 @@ $itinerary-tab-switch-height: 48px;
     & { @include setModeCircles($walk-color); }
     &.wait { @include setModeCircles($wait-color); }
     &.bicycle { @include setModeCircles($bicycle-color); }
+    &.bicycle_walk { @include setModeCircles($walk-color); }
     &.car { @include setModeCircles($car-color); }
     &.via { @include setModeCircles($walk-color); }
     &.call { @include setModeCircles($bus-color); }
@@ -275,7 +277,7 @@ $itinerary-tab-switch-height: 48px;
     left: 8px;
     border-left: 6px solid;
 
-    &.walk {
+    &.walk, &.bicycle_walk {
       background-image: url('../default/dotted-line-bg.png');
       background-size: 100% auto;
       background-position-y: -3px;
@@ -968,7 +970,7 @@ $font-print-decrease: 0.7;
     border-left: 6px solid;
     flex-grow: 1;
 
-    &.walk {
+    &.walk, &.bicycle_walk {
       border-color: transparent $walk-color transparent transparent;
       border-style: dotted;
       border-width: 8px;
@@ -1006,7 +1008,7 @@ $font-print-decrease: 0.7;
       border-bottom: none;
       min-height: 11em;
     }
-    &.walk {
+    &.walk, &.bicycle_walk {
       border-bottom: none;
     }
     .itinerary-leg-stopname {
@@ -1044,7 +1046,7 @@ $font-print-decrease: 0.7;
 
   .itinerary-center-right {
     display: none;
-    &.walk {
+    &.walk, &.bicycle_walk {
       display: block;
       margin-left: auto;
       height: 16em;
