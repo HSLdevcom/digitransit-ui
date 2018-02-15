@@ -23,6 +23,7 @@ function BicycleLeg(props, context) {
   let modeClassName = 'bicycle';
 
   if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
+    modeClassName = props.leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
         id="cyclewalk-distance-duration"

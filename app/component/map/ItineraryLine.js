@@ -41,11 +41,6 @@ class ItineraryLine extends React.Component {
 
     const objs = [];
 
-    const usingOwnBicycle =
-      this.props.legs[0] != null &&
-      this.props.legs[0].mode === 'BICYCLE' &&
-      !this.props.legs[0].rentedBike;
-
     this.props.legs.forEach((leg, i) => {
       if (leg.mode === 'WAIT') {
         return;
@@ -55,10 +50,6 @@ class ItineraryLine extends React.Component {
 
       if (leg.rentedBike) {
         mode = 'CITYBIKE';
-      }
-
-      if (usingOwnBicycle && leg.mode === 'WALK') {
-        mode = 'BICYCLE_WALK';
       }
 
       const modePlusClass =
