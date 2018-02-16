@@ -50,9 +50,9 @@ testVariation(
   'normal',
   1,
   '.component-example:nth-of-type(1) .component .realtime-icon',
-)
-  .then(skip('ie11'))
-  .catch(() => {});
+);
+//  .then(skip('ie11'))
+//  .catch(() => {});
 
 testVariation('WalkLeg', 'walk-start');
 testVariation('WalkLeg', 'walk-middle', 2);
@@ -65,9 +65,10 @@ testVariation('EndLeg');
 testVariation('AirportCheckInLeg');
 testVariation('AirportCollectLuggageLeg');
 testVariation('BusLeg', 'scheduled');
-testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']).then(
-  skip('ie11'),
-);
+testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']);
+//  .then(
+//  skip('ie11'),
+//);
 testVariation('AirplaneLeg');
 testVariation('SubwayLeg');
 testVariation('TramLeg');
@@ -115,7 +116,9 @@ testVariation(
   'normal',
   1,
   '.component-example:nth-of-type(1) .component .realtime-icon',
-).then(skip('ie11'));
+);
+  //.then(skip('ie11'));
+
 testVariation('NoFavouriteLocations');
 
 testVariation('EmptyFavouriteLocationSlot');
@@ -126,7 +129,7 @@ testVariation(
   'realtime',
   ['.component-example:nth-of-type(2) .component'],
   '.component-example:nth-of-type(2) .component svg.realtime',
-).then(skip('ie11'));
+);//.then(skip('ie11'));
 
 testVariation('Favourite', 'normal');
 testVariation('Favourite', 'hovered', 1, [], actions =>
@@ -195,11 +198,11 @@ testVariation(
   'normal',
   ['.component-example:nth-of-type(1) .component'],
   '.component-example:nth-of-type(1) .component svg.realtime',
-).then(skip('ie11'));
+);//.then(skip('ie11'));
 
 testVariation('DepartureRow', 'normal', 1, [
   '.component-example:nth-of-type(1) .component .realtime-icon',
-]).then(skip('ie11'));
+]);//.then(skip('ie11'));
 
 testVariation('DepartureRow', 'with-cancelation', 2);
 
@@ -239,7 +242,7 @@ testVariation('SummaryRow', 'active-large-call-agency', 14);
 
 testVariation('CallAgencyWarning');
 
-testVariation('CurrentPositionSuggestionItem', 'with-position').then(
+testVariation('CurrentPositionSuggestionItem', 'with-position');.then(
   skip('ie11'),
 );
 testVariation('CurrentPositionSuggestionItem', 'no-position', 2).then(
