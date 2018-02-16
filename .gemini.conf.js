@@ -3,9 +3,9 @@ module.exports = {
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 3,
-  "suitesPerSession": 10,
-  "retry": 3,
+  "sessionsPerBrowser": 1,
+  "suitesPerSession": 50,
+  "retry": 10,
   "system": {
     "plugins": {
       "browserstack": { "localIdentifier": process.env.IDENTIFIER },

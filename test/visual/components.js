@@ -53,6 +53,30 @@ testVariation(
 )
   .then(skip('ie11'))
   .catch(() => {});
+
+testVariation('WalkLeg', 'walk-start');
+testVariation('WalkLeg', 'walk-middle', 2);
+testVariation('WaitLeg');
+testVariation('BicycleLeg', 'bicycle-leg-normal');
+testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
+testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
+testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
+testVariation('EndLeg');
+testVariation('AirportCheckInLeg');
+testVariation('AirportCollectLuggageLeg');
+testVariation('BusLeg', 'scheduled');
+testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']).then(
+  skip('ie11'),
+);
+testVariation('AirplaneLeg');
+testVariation('SubwayLeg');
+testVariation('TramLeg');
+testVariation('RailLeg');
+testVariation('FerryLeg');
+testVariation('CarLeg');
+testVariation('ViaLeg');
+testVariation('CallAgencyLeg');
+
 testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
 testVariation('Departure', 'isArrival', 4);
@@ -229,26 +253,3 @@ testVariation('SuggestionItem', 'Stop', 4);
 testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
-
-testVariation('WalkLeg', 'walk-start');
-testVariation('WalkLeg', 'walk-middle', 2);
-testVariation('WaitLeg');
-testVariation('BicycleLeg', 'bicycle-leg-normal');
-testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
-testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
-testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
-testVariation('EndLeg');
-testVariation('AirportCheckInLeg');
-testVariation('AirportCollectLuggageLeg');
-testVariation('BusLeg', 'scheduled');
-testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']).then(
-  skip('ie11'),
-);
-testVariation('AirplaneLeg');
-testVariation('SubwayLeg');
-testVariation('TramLeg');
-testVariation('RailLeg');
-testVariation('FerryLeg');
-testVariation('CarLeg');
-testVariation('ViaLeg');
-testVariation('CallAgencyLeg');
