@@ -557,11 +557,15 @@ export default {
     { id: '10', expr: 'dev-joensuu' },
     { id: '11', expr: 'joensuu' },
     { id: '12', expr: 'dev-turku' },
-    { id: '13', expr: '(turku|foli)' },
+    { id: '27', expr: '(turku|foli)' },
     { id: '14', expr: 'hameenlinna' },
     { id: '15', expr: 'jyvaskyla' },
     { id: '16', expr: 'kuopio' },
+    { id: '17', expr: 'lahti' },
+    { id: '18', expr: 'lappeenranta' },
     { id: '21', expr: 'oulu' },
+    { id: '29', expr: 'kotka' },
+    { id: '31', expr: 'mikkeli' },
     // put generic expressions last so that they do not match waltti cities
     // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
     { id: '5', expr: 'dev.reittiopas' },
