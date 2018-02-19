@@ -26,9 +26,6 @@ function testVariation(
         }
         suite
           .setUrl(`/styleguide/component/${componentName}?enmock`)
-          .before(actions => {
-            actions.wait(2000); // test additional delay
-          })
           .setCaptureElements(capture)
           .ignoreElements(ignoreElements || [])
           .capture(variationName, {}, fn);
