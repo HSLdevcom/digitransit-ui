@@ -61,6 +61,17 @@ module.exports = {
         "locationContextEnabled": false,
         "timezone": "Europe/Helsinki"
       }
+    },
+    "firefox": {
+      "windowSize": "600x1024",
+      "desiredCapabilities": {
+        "os": "Windows",
+        "os_version": "10",
+        "browserName": "firefox",
+        "version": "47",
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
+      }
     }
   }
 }
