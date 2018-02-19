@@ -26,13 +26,13 @@ module.exports = {
         "timezone": "Europe/Helsinki"
       }
     },
-    "chrome50": {
+    "chrome": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
         "browserName": "chrome",
-        "version": "50",
+        "version": "64",
         "locationContextEnabled": false,
         "timezone": "Europe/Helsinki"
       }
