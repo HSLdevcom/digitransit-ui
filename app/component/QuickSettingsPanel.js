@@ -68,6 +68,43 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
+  getRouteParamsFromUrl = () =>
+    this.checkModeParams({
+      minTransferTime: Number(
+        get(this.context.location, 'query.minTransferTime'),
+      ),
+      walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
+      walkBoardCost: Number(get(this.context.location, 'query.walkBoardCost')),
+      walkReluctance: Number(
+        get(this.context.location, 'query.walkReluctance'),
+      ),
+      transferPenalty: Number(
+        get(this.context.location, 'query.transferPenalty'),
+      ),
+    });
+
+  getRouteParamsFromSavedSettings = savedSettings =>
+    this.checkModeParams({
+      minTransferTime: Number(savedSettings.minTransferTime),
+      walkSpeed: Number(savedSettings.walkSpeed),
+      walkBoardCost: Number(savedSettings.walkBoardCost),
+      walkReluctance: Number(savedSettings.walkReluctance),
+      transferPenalty: Number(savedSettings.transferPenalty),
+    });
+
+  getSetSettings = () => {
+    const savedSettings = getCustomizedSettings();
+    const isUrlEmpty =
+      this.context.location.query &&
+      Object.keys(this.context.location.query).map(
+        o => this.context.location.query[o],
+      ).length === 0;
+    if (!isUrlEmpty) {
+      return this.getRouteParamsFromUrl();
+    }
+    return this.getRouteParamsFromSavedSettings(savedSettings);
+  };
+
   getModes() {
     if (this.context.location.query.modes) {
       return decodeURI(this.context.location.query.modes)
@@ -82,6 +119,23 @@ class QuickSettingsPanel extends React.Component {
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());
   }
+
+  checkModeParams = val => {
+    const optimizedRoutes = this.optimizedRouteModes();
+    // Find out which mode the user has selected by
+    const currentMode = optimizedRoutes
+      .map(o => {
+        const firstKey = Object.keys(o)[0];
+        if (JSON.stringify(o[firstKey]) === JSON.stringify(val)) {
+          return firstKey;
+        }
+        return undefined;
+      })
+      // Clean out the undefined non-matches and pick the remaining result
+      .filter(o => o)[0];
+
+    return currentMode || 'customized-mode';
+  };
 
   toggleTransportMode(mode, otpMode) {
     this.context.router.replace({
@@ -171,41 +225,10 @@ class QuickSettingsPanel extends React.Component {
     },
   ];
 
-  checkModeParams = val => {
-    const optimizedRoutes = this.optimizedRouteModes();
-    // Find out which mode the user has selected by
-    const currentMode = optimizedRoutes
-      .map(o => {
-        const firstKey = Object.keys(o)[0];
-        if (JSON.stringify(o[firstKey]) === JSON.stringify(val)) {
-          return firstKey;
-        }
-        return undefined;
-      })
-      // Clean out the undefined non-matches and pick the remaining result
-      .filter(o => o)[0];
-
-    return currentMode || 'customized-mode';
-  };
-
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
     const getRoute = !this.props.hasDefaultPreferences
-      ? this.checkModeParams({
-          minTransferTime: Number(
-            get(this.context.location, 'query.minTransferTime'),
-          ),
-          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
-          walkBoardCost: Number(
-            get(this.context.location, 'query.walkBoardCost'),
-          ),
-          walkReluctance: Number(
-            get(this.context.location, 'query.walkReluctance'),
-          ),
-          transferPenalty: Number(
-            get(this.context.location, 'query.transferPenalty'),
-          ),
-        })
+      ? this.getSetSettings()
       : 'default-route';
 
     return (
