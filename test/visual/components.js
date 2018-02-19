@@ -249,4 +249,4 @@ testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
-testVariation('ErrorPage');
+testVariation('Error404');
