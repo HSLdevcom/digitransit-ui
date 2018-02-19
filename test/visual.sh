@@ -11,13 +11,14 @@ fi
 export TZ=Europe/Helsinki
 
 set -e
-ORG=${ORG:-hsldevcom}
+
 #number of latest test results stored in dropbox - 2
 GENERATIONS=10
 yarn install
 
 openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_iv -in test/.dropbox_uploader.enc -out test/.dropbox_uploader -d
-docker run -d -e CONFIG=hsl -e TZ=Europe/Helsinki -p 127.0.0.1:8080:8080 $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
+
+CONFIG=hsl yarn start &
 
 name=gemini-report-${VISUAL}
 gzname=${name}.tar.gz

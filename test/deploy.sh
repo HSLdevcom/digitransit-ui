@@ -3,15 +3,23 @@ set -e
 ORG=${ORG:-hsldevcom}
 DOCKER_IMAGE=digitransit-ui
 
-
 function tagandpush {
   docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/$DOCKER_IMAGE:$1
   docker push $ORG/$DOCKER_IMAGE:$1
 }
 
 if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
+
+  echo -e "export const COMMIT_ID = \"${TRAVIS_COMMIT}\";\nexport const BUILD_TIME = \""`date -Iminutes -u`"\";" > app/buildInfo.js
+  ORG=${ORG:-hsldevcom}
+
+  docker build -t $ORG/digitransit-ui:ci-$TRAVIS_COMMIT .
+  docker login -u $DOCKER_USER -p $DOCKER_AUTH
+  docker push $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
+
   docker pull $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
   docker login -u $DOCKER_USER -p $DOCKER_AUTH
+
   if [ -n "$TRAVIS_TAG" ]; then
     echo "Pushing :prod release to Docker Hub"
     tagandpush prod
