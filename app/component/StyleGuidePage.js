@@ -85,6 +85,7 @@ import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
+import Error404 from './404';
 
 const components = {
   Icon,
@@ -170,6 +171,7 @@ const components = {
   CallAgencyLeg,
   CallAgencyWarning,
   Timetable,
+  Error404,
 };
 
 function getColors() {
