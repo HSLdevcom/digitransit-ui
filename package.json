@@ -149,7 +149,7 @@
     "gemini-browserstack": "1.1.0",
     "html-reporter": "1.2.0",
     "iltorb": "2.0.3",
-    "imports-loader": "0.7.1",
+    "imports-loader": "0.8.0",
     "nightwatch": "0.9.19",
     "node-sass": "4.7.2",
     "nodemon": "1.12.7",
