@@ -14,7 +14,6 @@ set -e
 
 #number of latest test results stored in dropbox - 2
 GENERATIONS=10
-yarn install
 
 openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_iv -in test/.dropbox_uploader.enc -out test/.dropbox_uploader -d
 
@@ -24,7 +23,7 @@ name=gemini-report-${VISUAL}
 gzname=${name}.tar.gz
 
 set +e
-IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn run test-visual -- --browser $VISUAL
+IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn test-visual --browser $VISUAL
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
     tar czf $gzname gemini-report

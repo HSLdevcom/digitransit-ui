@@ -9,19 +9,19 @@ branches:
 cache: yarn
 
 language: node_js
-install: true
+
+install:
+  - test/install.sh
+
 services:
   - docker
 
 jobs:
   include:
-    - stage: build container
-      node_js: "8"
-      script: test/build.sh
     - stage: test
       env: VISUAL=chrome
       node_js: "8"
       script: test/visual.sh
-    - stage: deploy
+    - stage: build container and deploy
       node_js: "8"
       script: test/deploy.sh
