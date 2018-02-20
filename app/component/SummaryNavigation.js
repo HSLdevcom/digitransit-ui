@@ -21,6 +21,8 @@ class SummaryNavigation extends React.Component {
     hasDefaultPreferences: PropTypes.bool.isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
+    isQuickSettingsOpen: PropTypes.bool.isRequired,
+    toggleQuickSettings: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -35,12 +37,9 @@ class SummaryNavigation extends React.Component {
     breakpoint: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      quickSettingsPanelVisible: false,
-    };
-  }
+  state = {
+    optimizedRouteParams: 'default-route',
+  };
 
   componentDidMount() {
     this.unlisten = this.context.router.listen(location => {
@@ -89,9 +88,7 @@ class SummaryNavigation extends React.Component {
   };
 
   toggleQuickSettingsPanel = () => {
-    this.setState({
-      quickSettingsPanelVisible: !this.state.quickSettingsPanelVisible,
-    });
+    this.props.toggleQuickSettings(!this.props.isQuickSettingsOpen);
   };
 
   toggleCustomizeSearchOffcanvas = () => {
@@ -164,7 +161,7 @@ class SummaryNavigation extends React.Component {
                 isOpen={this.getOffcanvasState()}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
-                optimizedRouteParams={this.state.optimizedRouteParams}
+                optimizedRouteParams={this.state.optimizedRouteParams || ''}
                 unsetOptimizedRouteParams={this.unsetOptimizedRouteParams}
               />
             </Drawer>
@@ -177,7 +174,7 @@ class SummaryNavigation extends React.Component {
         />
         <div
           className={cx('time-selector-settings-row', className, {
-            quickSettingsOpen: this.state.quickSettingsPanelVisible,
+            quickSettingsOpen: this.props.isQuickSettingsOpen,
           })}
         >
           <Relay.Renderer
@@ -193,22 +190,18 @@ class SummaryNavigation extends React.Component {
             render={this.renderTimeSelectorContainer}
           />
           <SecondaryButton
-            ariaLabel={
-              this.state.quickSettingsPanelVisible ? `close` : `settings`
-            }
-            buttonName={
-              this.state.quickSettingsPanelVisible ? `close` : `settings`
-            }
+            ariaLabel={this.props.isQuickSettingsOpen ? `close` : `settings`}
+            buttonName={this.props.isQuickSettingsOpen ? `close` : `settings`}
             buttonClickAction={this.toggleQuickSettingsPanel}
             buttonIcon={
-              this.state.quickSettingsPanelVisible
+              this.props.isQuickSettingsOpen
                 ? `icon-icon_close`
                 : `icon-icon_settings`
             }
           />
         </div>
         <QuickSettingsPanel
-          visible={this.state.quickSettingsPanelVisible}
+          visible={this.props.isQuickSettingsOpen}
           hasDefaultPreferences={this.props.hasDefaultPreferences}
           optimizedRouteParams={this.setOptimizedRoute}
           setOptimizedRouteName={this.setOptimizedRouteName}

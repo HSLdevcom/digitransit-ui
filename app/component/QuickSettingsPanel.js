@@ -64,6 +64,7 @@ class QuickSettingsPanel extends React.Component {
         ticketTypes: this.context.location.query.ticketTypes || null,
         accessibilityOption:
           this.context.location.query.accessibilityOption || 0,
+        arriveBy: this.context.location.query.arriveBy,
       },
     });
   };
