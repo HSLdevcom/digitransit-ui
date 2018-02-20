@@ -16,6 +16,7 @@ if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
     docker push $PROD_IMAGE
   else
     if [ "$TRAVIS_BRANCH" = "prod" ]; then
+      #sanity check to skip invalid branch name
       echo Not Pushing :prod tag to Docker Hub
       exit 0
     fi

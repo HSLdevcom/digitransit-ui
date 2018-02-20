@@ -10,8 +10,7 @@ cache: yarn
 
 language: node_js
 
-install:
-  - test/install.sh
+install: true
 
 services:
   - docker
@@ -22,6 +21,6 @@ jobs:
       env: VISUAL=chrome
       node_js: "8"
       script: test/visual.sh
-    - stage: build container and deploy
+    - stage: build and deploy container
       node_js: "8"
       script: test/deploy.sh
