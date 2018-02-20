@@ -15,8 +15,10 @@ sudo dpkg -i google-chrome*.deb
 
 ORG=${ORG:-hsldevcom}
 yarn install
+yarn build
 
-docker run -d -e CONFIG=hsl -p 127.0.0.1:8080:8080 $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
+CONFIG=hsl yarn start &
+
 wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
