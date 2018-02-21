@@ -100,6 +100,7 @@ export default configMerger(walttiConfig, {
         header: 'Tietoja palvelusta',
         paragraphs: [
           'Tämän palvelun tarjoaa Jyväskylän seudun joukkoliikenne reittisuunnittelua varten Jyväskylän, Laukaan ja Muuramen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.',
+          'Pysäkkiajat palvelussa ovat aina arvioita lukuun ottamatta linjojen lähtö- ja päätepysäkkejä sekä eräitä kiinteäaikaisia välipysäkkejä. Ruuhkattomaan aikaan auto voi edetä pysäkille ehdotettua aikaa nopeammin ja ruuhka-aikoina myöhemmin. Pysäkillä kannattaa kyydin varmistamiseksi olla aina riittävän ajoissa.',
         ],
       },
     ],
