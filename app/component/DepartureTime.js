@@ -17,6 +17,7 @@ function DepartureTime(props, context) {
     (props.departureTime - props.currentTime) / 60,
   );
 
+  console.log("current timezone", moment().format('Z'));
   if (
     timeDiffInMinutes < 0 ||
     timeDiffInMinutes > context.config.minutesToDepartureLimit

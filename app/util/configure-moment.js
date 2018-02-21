@@ -8,6 +8,7 @@ export default function configureMoment(language, config) {
   if (config.timezoneData) {
     moment.tz.add(config.timezoneData);
     moment.tz.setDefault(config.timezoneData.split('|')[0]);
+    console.log('#### moment tz', config.timezoneData.split('|')[0]);
   }
 
   if (language !== 'en') {
