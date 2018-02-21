@@ -21,7 +21,7 @@ openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_i
 
 export TZ=Europe/Helsinki
 
-CONFIG=hsl yarn start &
+CONFIG=hsl yarn start >serverlog &
 
 name=gemini-report-${VISUAL}
 gzname=${name}.tar.gz
@@ -29,6 +29,9 @@ gzname=${name}.tar.gz
 set +e
 IDENTIFIER=${TRAVIS_COMMIT}_${VISUAL} yarn test-visual --browser $VISUAL
 RESULT=$?
+
+cat serverlog
+
 if [ $RESULT -ne 0 ]; then
     tar czf $gzname gemini-report
 
