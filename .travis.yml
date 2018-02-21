@@ -10,6 +10,9 @@ cache: yarn
 
 language: node_js
 
+before_install:
+- export TZ=Europe/Helsinki
+
 install: true
 
 services:
