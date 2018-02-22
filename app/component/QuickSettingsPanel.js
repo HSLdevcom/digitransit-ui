@@ -77,14 +77,16 @@ class QuickSettingsPanel extends React.Component {
       ),
     });
 
-  getRouteParamsFromSavedSettings = savedSettings =>
-    this.checkModeParams({
-      minTransferTime: Number(savedSettings.minTransferTime),
-      walkSpeed: Number(savedSettings.walkSpeed),
-      walkBoardCost: Number(savedSettings.walkBoardCost),
-      walkReluctance: Number(savedSettings.walkReluctance),
-      transferPenalty: Number(savedSettings.transferPenalty),
+  getRouteParamsFromSavedSettings = savedSettings => {
+    const merged = Object.assign(this.defaultRoute(), savedSettings);
+    return this.checkModeParams({
+      minTransferTime: Number(merged.minTransferTime),
+      walkSpeed: Number(merged.walkSpeed),
+      walkBoardCost: Number(merged.walkBoardCost),
+      walkReluctance: Number(merged.walkReluctance),
+      transferPenalty: Number(merged.transferPenalty),
     });
+  };
 
   getSetSettings = () => {
     const savedSettings = getCustomizedSettings();
