@@ -165,6 +165,13 @@ class QuickSettingsPanel extends React.Component {
     walkSpeed: 1.2,
   });
 
+  defaultRoute = () => ({
+    ...this.defaultOptions(),
+    walkBoardCost: 600,
+    walkReluctance: 2,
+    transferPenalty: 0,
+  });
+
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
@@ -193,12 +200,7 @@ class QuickSettingsPanel extends React.Component {
 
   optimizedRouteModes = () => [
     {
-      'default-route': {
-        ...this.defaultOptions(),
-        walkBoardCost: 600,
-        walkReluctance: 2,
-        transferPenalty: 0,
-      },
+      'default-route': this.defaultRoute(),
     },
     {
       'fastest-route': {
