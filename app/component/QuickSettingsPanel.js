@@ -228,9 +228,7 @@ class QuickSettingsPanel extends React.Component {
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
-    const getRoute = !this.props.hasDefaultPreferences
-      ? this.getSetSettings()
-      : 'default-route';
+    const getRoute = this.getSetSettings();
 
     return (
       <div
