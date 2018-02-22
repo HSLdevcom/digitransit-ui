@@ -62,43 +62,12 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
-  getRouteParamsFromUrl = () =>
-    this.checkModeParams({
-      minTransferTime: Number(
-        get(this.context.location, 'query.minTransferTime'),
-      ),
-      walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
-      walkBoardCost: Number(get(this.context.location, 'query.walkBoardCost')),
-      walkReluctance: Number(
-        get(this.context.location, 'query.walkReluctance'),
-      ),
-      transferPenalty: Number(
-        get(this.context.location, 'query.transferPenalty'),
-      ),
-    });
-
-  getRouteParamsFromSavedSettings = savedSettings => {
-    const merged = Object.assign(this.defaultRoute(), savedSettings);
-    return this.checkModeParams({
-      minTransferTime: Number(merged.minTransferTime),
-      walkSpeed: Number(merged.walkSpeed),
-      walkBoardCost: Number(merged.walkBoardCost),
-      walkReluctance: Number(merged.walkReluctance),
-      transferPenalty: Number(merged.transferPenalty),
-    });
-  };
-
   getSetSettings = () => {
     const savedSettings = getCustomizedSettings();
-    const isUrlEmpty =
-      this.context.location.query &&
-      Object.keys(this.context.location.query).map(
-        o => this.context.location.query[o],
-      ).length === 0;
-    if (!isUrlEmpty) {
-      return this.getRouteParamsFromUrl();
-    }
-    return this.getRouteParamsFromSavedSettings(savedSettings);
+    const temp = Object.assign(this.defaultRoute(), savedSettings);
+    const full = Object.assign(temp, this.context.location.query);
+
+    return this.checkModeParams(full);
   };
 
   getModes() {
