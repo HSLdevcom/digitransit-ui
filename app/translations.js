@@ -942,7 +942,7 @@ const translations = {
     'right-now': 'Juuri nyt',
     route: 'Linja',
     'route-customized-mode': 'Omat asetukset',
-    'route-default': 'Oletusasetukset',
+    'route-default': 'Perusasetukset',
     'route-destination-arrives': 'Saapuu / Päätepysäkki',
     'route-fastest': 'Nopea reitti',
     'route-from-here': 'Reititä täältä',
