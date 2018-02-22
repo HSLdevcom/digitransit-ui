@@ -204,7 +204,6 @@ class SummaryNavigation extends React.Component {
           visible={this.props.isQuickSettingsOpen}
           hasDefaultPreferences={this.props.hasDefaultPreferences}
           optimizedRouteParams={this.setOptimizedRoute}
-          setOptimizedRouteName={this.setOptimizedRouteName}
         />
       </div>
     );
