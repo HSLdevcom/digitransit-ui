@@ -54,17 +54,10 @@ class QuickSettingsPanel extends React.Component {
     this.context.router.replace({
       ...this.context.location,
       query: {
-        ...this.defaultOptions(),
+        ...this.context.location.query,
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
         transferPenalty: chosenMode.transferPenalty,
-        modes:
-          this.context.location.query.modes ||
-          getDefaultModes(this.context.config).toString(),
-        ticketTypes: this.context.location.query.ticketTypes || null,
-        accessibilityOption:
-          this.context.location.query.accessibilityOption || 0,
-        arriveBy: this.context.location.query.arriveBy,
       },
     });
   };
