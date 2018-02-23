@@ -64,13 +64,10 @@ class CustomizeSearch extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     onToggleClick: PropTypes.func.isRequired,
-    optimizedRouteParams: PropTypes.object,
-    unsetOptimizedRouteParams: PropTypes.func,
   };
 
   static defaultProps = {
     isOpen: false,
-    optimizedRouteParams: undefined,
   };
 
   /*
@@ -94,83 +91,27 @@ class CustomizeSearch extends React.Component {
   /* eslint-disable react/no-unused-state */
   constructor(props) {
     super(props);
-    this.state = {
-      accessibilityOption: 0,
-      minTransferTime: 0,
-      walkBoardCost: 0,
-      walkReluctance: 0,
-      walkSpeed: 0,
-      ticketTypes: null,
-      optimizedRoute: undefined,
-    };
+    this.state = {};
   }
 
   componentWillMount() {
-    this.setSliders();
-  }
+    // compose current settings
+    const merged = {
+      ...defaultSettings,
+      ...getCustomizedSettings(),
+      ...this.context.location.query,
+    };
 
-  componentWillReceiveProps() {
-    // If the user has set an optimized route option, change sliders to represent that
-    if (
-      this.props.optimizedRouteParams &&
-      this.props.optimizedRouteParams.optimizedRoute
-    ) {
-      this.setState({
-        walkSpeed: mapToSlider(
-          this.props.optimizedRouteParams.walkSpeed,
-          this.walkingSpeedSliderValues,
-        ),
-        walkReluctance: mapToSlider(
-          this.props.optimizedRouteParams.walkReluctance,
-          this.walkReluctanceSliderValues,
-        ),
-        walkBoardCost: mapToSlider(
-          this.props.optimizedRouteParams.walkBoardCost,
-          this.walkBoardCostSliderValues,
-        ),
-        minTransferTime: mapToSlider(
-          this.props.optimizedRouteParams.minTransferTime,
-          this.transferMarginSliderValues,
-        ),
-      });
-      // Unset the optimized param from the mother component to deny interfering
-      // with slider toggling
-      this.props.unsetOptimizedRouteParams();
-    }
-  }
-
-  setSliders() {
-    // Check if there are customized settings set
-    const custSettings = getCustomizedSettings();
-    /* Map sliders, if there are customized settings, prioritize them first,
-    if there are query parameters, they come in second, if not, fall back to default values */
     this.walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(
       0.8,
       10,
       2,
     ).reverse();
-    if (custSettings.walkReluctance) {
-      this.walkReluctanceInitVal =
-        custSettings.walkReluctance &&
-        mapToSlider(
-          custSettings.walkReluctance,
-          this.walkReluctanceSliderValues,
-        );
-    } else if (this.context.location.query.walkReluctance) {
-      this.walkReluctanceInitVal =
-        this.context.location.query.walkReluctance &&
-        mapToSlider(
-          this.context.location.query.walkReluctance,
-          this.walkReluctanceSliderValues,
-        );
-    } else {
-      this.walkReluctanceInitVal =
-        defaultSettings.walkReluctance &&
-        mapToSlider(
-          defaultSettings.walkReluctance,
-          this.walkReluctanceSliderValues,
-        );
-    }
+
+    this.walkReluctanceInitVal = mapToSlider(
+      merged.walkReluctance,
+      this.walkReluctanceSliderValues,
+    );
 
     this.walkBoardCostSliderValues = CustomizeSearch.getSliderStepsArray(
       WALKBOARDCOST_MIN,
@@ -179,75 +120,31 @@ class CustomizeSearch extends React.Component {
     )
       .reverse()
       .map(num => Math.round(num));
-    if (custSettings.walkBoardCost) {
-      this.walkBoardCostInitVal =
-        custSettings.walkBoardCost &&
-        mapToSlider(custSettings.walkBoardCost, this.walkBoardCostSliderValues);
-    } else if (this.context.location.query.walkBoardCost) {
-      this.walkBoardCostInitVal =
-        this.context.location.query.walkBoardCost &&
-        mapToSlider(
-          this.context.location.query.walkBoardCost,
-          this.walkBoardCostSliderValues,
-        );
-    } else {
-      this.walkBoardCostInitVal =
-        defaultSettings.walkBoardCost &&
-        mapToSlider(
-          defaultSettings.walkBoardCost,
-          this.walkBoardCostSliderValues,
-        );
-    }
+
+    this.walkBoardCostInitVal = mapToSlider(
+      merged.walkBoardCost,
+      this.walkBoardCostSliderValues,
+    );
 
     this.transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(
       60,
       720,
       120,
     ).map(num => Math.round(num));
-    if (custSettings.minTransferTime) {
-      this.transferMarginInitVal =
-        custSettings.minTransferTime &&
-        mapToSlider(
-          custSettings.minTransferTime,
-          this.transferMarginSliderValues,
-        );
-    } else if (this.context.location.query.minTransferTime) {
-      this.transferMarginInitVal =
-        this.context.location.query.minTransferTime &&
-        mapToSlider(
-          this.context.location.query.minTransferTime,
-          this.transferMarginSliderValues,
-        );
-    } else {
-      this.transferMarginInitVal =
-        defaultSettings.minTransferTime &&
-        mapToSlider(
-          defaultSettings.minTransferTime,
-          this.transferMarginSliderValues,
-        );
-    }
+    this.transferMarginInitVal = mapToSlider(
+      merged.minTransferTime,
+      this.transferMarginSliderValues,
+    );
 
     this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(
       0.5,
       3,
       1.2,
     );
-    if (custSettings.walkSpeed) {
-      this.walkingSpeedInitVal =
-        custSettings.walkSpeed &&
-        mapToSlider(custSettings.walkSpeed, this.walkingSpeedSliderValues);
-    } else if (this.context.location.query.walkSpeed) {
-      this.walkingSpeedInitVal =
-        this.context.location.query.walkSpeed &&
-        mapToSlider(
-          this.context.location.query.walkSpeed,
-          this.walkingSpeedSliderValues,
-        );
-    } else {
-      this.walkingSpeedInitVal =
-        defaultSettings.walkSpeed &&
-        mapToSlider(defaultSettings.walkSpeed, this.walkingSpeedSliderValues);
-    }
+    this.walkingSpeedInitVal = mapToSlider(
+      merged.walkSpeed,
+      this.walkingSpeedSliderValues,
+    );
 
     // Set the states accordingly to send as Slider values
     this.setState({
