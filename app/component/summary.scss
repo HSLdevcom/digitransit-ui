@@ -203,6 +203,15 @@
     background-repeat-y: no-repeat;
   }
 
+  .button-container {
+    position: relative;
+    .icon-holder {
+      left: 1.4em;
+      position: absolute;
+      z-index: 2;
+    }
+  }
+
   button.secondary-button {
     background: none;
     border: none;
