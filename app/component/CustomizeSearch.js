@@ -57,7 +57,6 @@ class CustomizeSearch extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -88,30 +87,12 @@ class CustomizeSearch extends React.Component {
     return sliderSteps;
   }
 
-  /* eslint-disable react/no-unused-state */
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentWillMount() {
-    // compose current settings
-    const merged = {
-      ...defaultSettings,
-      ...getCustomizedSettings(),
-      ...this.context.location.query,
-    };
-
     this.walkReluctanceSliderValues = CustomizeSearch.getSliderStepsArray(
       0.8,
       10,
       2,
     ).reverse();
-
-    this.walkReluctanceInitVal = mapToSlider(
-      merged.walkReluctance,
-      this.walkReluctanceSliderValues,
-    );
 
     this.walkBoardCostSliderValues = CustomizeSearch.getSliderStepsArray(
       WALKBOARDCOST_MIN,
@@ -121,38 +102,17 @@ class CustomizeSearch extends React.Component {
       .reverse()
       .map(num => Math.round(num));
 
-    this.walkBoardCostInitVal = mapToSlider(
-      merged.walkBoardCost,
-      this.walkBoardCostSliderValues,
-    );
-
     this.transferMarginSliderValues = CustomizeSearch.getSliderStepsArray(
       60,
       720,
       120,
     ).map(num => Math.round(num));
-    this.transferMarginInitVal = mapToSlider(
-      merged.minTransferTime,
-      this.transferMarginSliderValues,
-    );
 
     this.walkingSpeedSliderValues = CustomizeSearch.getSliderStepsArray(
       0.5,
       3,
       1.2,
     );
-    this.walkingSpeedInitVal = mapToSlider(
-      merged.walkSpeed,
-      this.walkingSpeedSliderValues,
-    );
-
-    // Set the states accordingly to send as Slider values
-    this.setState({
-      minTransferTime: this.transferMarginInitVal,
-      walkBoardCost: this.walkBoardCostInitVal,
-      walkReluctance: this.walkReluctanceInitVal,
-      walkSpeed: this.walkingSpeedInitVal,
-    });
   }
 
   getStreetModesToggleButtons = () => {
@@ -183,7 +143,7 @@ class CustomizeSearch extends React.Component {
     ));
   };
 
-  getWalkReluctanceSlider = () => (
+  getWalkReluctanceSlider = val => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -191,9 +151,7 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking',
         })}
         onSliderChange={e =>
-          this.updateSettings({
-            sliderValues: this.walkReluctanceSliderValues,
-            name: 'walkReluctance',
+          this.context.router.replace({
             queryToSend: {
               ...this.context.location,
               query: {
@@ -205,7 +163,7 @@ class CustomizeSearch extends React.Component {
         }
         min={0}
         max={20}
-        value={this.state.walkReluctance}
+        value={mapToSlider(val, this.walkReluctanceSliderValues)}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-walking',
@@ -219,7 +177,7 @@ class CustomizeSearch extends React.Component {
     </section>
   );
 
-  getWalkBoardCostSlider = () => (
+  getWalkBoardCostSlider = val => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -227,9 +185,7 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfers',
         })}
         onSliderChange={e =>
-          this.updateSettings({
-            sliderValues: this.walkBoardCostSliderValues,
-            name: 'walkBoardCost',
+          this.context.router.replace({
             queryToSend: {
               ...this.context.location,
               query: {
@@ -241,7 +197,7 @@ class CustomizeSearch extends React.Component {
         }
         min={0}
         max={20}
-        value={this.state.walkBoardCost}
+        value={mapToSlider(val, this.walkBoardCostSliderValues)}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'avoid-transfers',
@@ -255,7 +211,7 @@ class CustomizeSearch extends React.Component {
     </section>
   );
 
-  getTransferMarginSlider = () => (
+  getTransferMarginSlider = val => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -263,9 +219,7 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfer margin at least',
         })}
         onSliderChange={e =>
-          this.updateSettings({
-            name: 'minTransferTime',
-            sliderValues: this.transferMarginSliderValues,
+          this.context.router.replace({
             queryToSend: {
               ...this.context.location,
               query: {
@@ -279,14 +233,8 @@ class CustomizeSearch extends React.Component {
         }
         min={0}
         max={20}
-        writtenValue={
-          this.context.location.query.minTransferTime !== undefined
-            ? `${Math.round(
-                this.context.location.query.minTransferTime / 60,
-              )} min`
-            : `${2} min`
-        }
-        value={this.state.minTransferTime}
+        writtenValue={`${Math.round(val / 60)} min`}
+        value={mapToSlider(val, this.transferMarginSliderValues)}
         step={1}
         minText={this.context.intl.formatMessage({
           id: 'no-transfers-margin',
@@ -299,7 +247,7 @@ class CustomizeSearch extends React.Component {
       />
     </section>
   );
-  getWalkSpeedSlider = () => (
+  getWalkSpeedSlider = val => (
     <section className="offcanvas-section">
       <Slider
         headerText={this.context.intl.formatMessage({
@@ -307,9 +255,7 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking speed',
         })}
         onSliderChange={e =>
-          this.updateSettings({
-            name: 'walkSpeed',
-            sliderValues: this.walkingSpeedSliderValues,
+          this.context.router.replace({
             queryToSend: {
               ...this.context.location,
               query: {
@@ -321,13 +267,9 @@ class CustomizeSearch extends React.Component {
         }
         min={0}
         max={20}
-        value={this.state.walkSpeed}
+        value={mapToSlider(val, this.walkingSpeedSliderValues)}
         step={1}
-        writtenValue={
-          this.context.location.query.walkSpeed !== undefined
-            ? `${Math.floor(this.context.location.query.walkSpeed * 60)} m/min`
-            : `${72} m/min`
-        }
+        writtenValue={`${Math.floor(val * 60)} m/min`}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
@@ -340,36 +282,21 @@ class CustomizeSearch extends React.Component {
     </section>
   );
 
-  getTicketType = () => {
-    let ticketType;
-    if (
-      typeof this.context.location.query.ticketTypes !== 'undefined' &&
-      this.context.location.query.ticketTypes !== null
-    ) {
-      ticketType = this.context.location.query.ticketTypes;
-    } else if (!(typeof getCustomizedSettings().ticketTypes === 'undefined')) {
-      ticketType = getCustomizedSettings().ticketTypes;
-    } else {
-      ticketType = 'none';
-    }
-    return ticketType;
-  };
-
-  getTicketSelector = () => (
+  getTicketSelector = val => (
     <FareZoneSelector
       headerText={this.context.intl.formatMessage({
         id: 'zones',
         defaultMessage: 'Fare zones',
       })}
       options={get(this.context.config, 'fareMapping', {})}
-      currentOption={this.getTicketType()}
-      updateValue={val =>
-        this.updateSettings({
+      currentOption={val || 'none'}
+      updateValue={newval =>
+        this.context.router.replace({
           queryToSend: {
             ...this.context.location,
             query: {
               ...this.context.location.query,
-              ticketTypes: val,
+              ticketTypes: newval,
             },
           },
         })
@@ -377,23 +304,7 @@ class CustomizeSearch extends React.Component {
     />
   );
 
-  getAccessibilityOption = () => {
-    let accessibilityOption;
-    if (
-      !(typeof this.context.location.query.accessibilityOption === 'undefined')
-    ) {
-      ({ accessibilityOption } = this.context.location.query);
-    } else if (
-      !(typeof getCustomizedSettings().accessibilityOption === 'undefined')
-    ) {
-      ({ accessibilityOption } = getCustomizedSettings());
-    } else {
-      accessibilityOption = 0;
-    }
-    return accessibilityOption;
-  };
-
-  getAccessibilitySelector = () => (
+  getAccessibilitySelector = val => (
     <section className="offcanvas-section">
       <Select
         headerText={this.context.intl.formatMessage({
@@ -401,10 +312,10 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Accessibility',
         })}
         name="accessible"
-        selected={this.getAccessibilityOption()}
+        selected={val || 0}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e =>
-          this.updateSettings({
+          this.context.router.replace({
             name: 'accessibilityOption',
             queryToSend: {
               ...this.context.location,
@@ -434,54 +345,9 @@ class CustomizeSearch extends React.Component {
     return this.getModes().includes(mode.toUpperCase());
   }
 
-  removeViaPoint = () => {
-    this.updateSettings({
-      queryToSend: {
-        ...this.context.location,
-        query: without(this.context.location, 'query.intermediatePlaces'),
-      },
-    });
-  };
-
-  updateSettings(val) {
-    const prepareQuery = Object.assign(val.queryToSend);
-    this.context.router.replace(prepareQuery);
-    if (val.sliderValues) {
-      this.setState({
-        [val.name]:
-          val.queryToSend.query[val.name] &&
-          mapToSlider(val.queryToSend.query[val.name], val.sliderValues),
-      });
-    } else {
-      this.setState({
-        [val.name]: val.queryToSend.query[val.name],
-      });
-    }
-  }
-
   resetParameters = () => {
     resetCustomizedSettings();
-    this.setState({
-      walkSpeed: mapToSlider(
-        defaultSettings.walkSpeed,
-        this.walkingSpeedSliderValues,
-      ),
-      walkReluctance: mapToSlider(
-        defaultSettings.walkReluctance,
-        this.walkReluctanceSliderValues,
-      ),
-      walkBoardCost: mapToSlider(
-        defaultSettings.walkBoardCost,
-        this.walkBoardCostSliderValues,
-      ),
-      accessibilityOption: defaultSettings.accessibilityOption,
-      ticketTypes: defaultSettings.ticketTypes,
-      minTransferTime: mapToSlider(
-        defaultSettings.minTransferTime,
-        this.transferMarginSliderValues,
-      ),
-    });
-    this.updateSettings({
+    this.context.router.replace({
       queryToSend: {
         ...this.context.location,
         query: {
@@ -499,7 +365,7 @@ class CustomizeSearch extends React.Component {
   };
 
   toggleTransportMode(mode, otpMode) {
-    this.updateSettings({
+    this.context.router.replace({
       name: 'modes',
       queryToSend: {
         ...this.context.location,
@@ -514,7 +380,7 @@ class CustomizeSearch extends React.Component {
   }
 
   toggleStreetMode(mode) {
-    this.updateSettings({
+    this.context.router.replace({
       name: 'modes',
       queryToSend: {
         ...this.context.location,
@@ -546,6 +412,12 @@ class CustomizeSearch extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config } = this.context;
+    // compose current settings
+    const merged = {
+      ...defaultSettings,
+      ...getCustomizedSettings(),
+      ...this.context.location.query,
+    };
     return (
       <div
         aria-hidden={!this.props.isOpen}
@@ -576,10 +448,10 @@ class CustomizeSearch extends React.Component {
           </section>
 
           {config.customizeSearch.walkReluctance.available
-            ? this.getWalkReluctanceSlider()
+            ? this.getWalkReluctanceSlider(merged.walkReluctance)
             : null}
           {config.customizeSearch.walkingSpeed.available
-            ? this.getWalkSpeedSlider()
+            ? this.getWalkSpeedSlider(merged.walkSpeed)
             : null}
 
           <section className="offcanvas-section">
@@ -606,16 +478,16 @@ class CustomizeSearch extends React.Component {
           </section>
 
           {config.customizeSearch.walkBoardCost.available
-            ? this.getWalkBoardCostSlider()
+            ? this.getWalkBoardCostSlider(merged.walkBoardCost)
             : null}
           {config.customizeSearch.transferMargin.available
-            ? this.getTransferMarginSlider()
+            ? this.getTransferMarginSlider(merged.transferMargin)
             : null}
           {config.customizeSearch.ticketOptions.available
-            ? this.getTicketSelector()
+            ? this.getTicketSelector(merged.ticketTypes)
             : null}
           {config.customizeSearch.accessibility.available
-            ? this.getAccessibilitySelector()
+            ? this.getAccessibilitySelector(merged.accessibilityOption)
             : null}
           <SaveCustomizedSettingsButton />
           <ResetCustomizedSettingsButton onReset={this.resetParameters} />
