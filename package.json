@@ -96,7 +96,7 @@
     "polyline-encoded": "0.0.8",
     "postcss-flexbugs-fixes": "3.3.0",
     "proj4": "2.4.4",
-    "prop-types": "15.6.0",
+    "prop-types": "15.6.1",
     "raven": "2.3.0",
     "raven-js": "3.21.0",
     "react": "16.2.0",
