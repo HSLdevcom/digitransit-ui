@@ -1,4 +1,16 @@
 .timetable {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+  flex-grow: 1;
+  flex-basis: 0px;
+  @media print {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible;
+  }
   .timetable-time-headers {
     display: none;
     @media print {
@@ -20,9 +32,9 @@
     }
   }
   .momentum-scroll {
+    flex: 1 0 auto;
     @media print {
       display: block;
-      // flex-direction: column;
       width: 100%;
       margin: 0 auto;
     }
@@ -100,4 +112,8 @@
   }
   }
 }
+}
+.mobile .timetable {
+  flex-basis: 100%;
+  overflow-y: visible;
 }
