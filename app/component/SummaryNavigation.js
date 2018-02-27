@@ -8,7 +8,7 @@ import TimeSelectorContainer from './TimeSelectorContainer';
 // import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
-
+import Icon from './Icon';
 import SecondaryButton from './SecondaryButton';
 import QuickSettingsPanel from './QuickSettingsPanel';
 
@@ -82,6 +82,18 @@ class SummaryNavigation extends React.Component {
     this.setState({ optimizedRouteParams: modeName });
   };
 
+  checkQuickSettingsIcon = () => {
+    if (this.props.isQuickSettingsOpen) {
+      return `icon-icon_close`;
+    } else if (
+      !this.props.isQuickSettingsOpen &&
+      !this.props.hasDefaultPreferences
+    ) {
+      return `icon-icon_settings-adjusted`;
+    }
+    return `icon-icon_settings`;
+  };
+
   customizeSearchModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
     CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
@@ -133,6 +145,7 @@ class SummaryNavigation extends React.Component {
     );
 
   render() {
+    const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
@@ -189,16 +202,20 @@ class SummaryNavigation extends React.Component {
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}
           />
-          <SecondaryButton
-            ariaLabel={this.props.isQuickSettingsOpen ? `close` : `settings`}
-            buttonName={this.props.isQuickSettingsOpen ? `close` : `settings`}
-            buttonClickAction={this.toggleQuickSettingsPanel}
-            buttonIcon={
-              this.props.isQuickSettingsOpen
-                ? `icon-icon_close`
-                : `icon-icon_settings`
-            }
-          />
+          <div className="button-container">
+            <div className="icon-holder">
+              {!this.props.hasDefaultPreferences &&
+              !this.props.isQuickSettingsOpen ? (
+                <Icon img="icon-icon_attention" className="super-icon" />
+              ) : null}
+            </div>
+            <SecondaryButton
+              ariaLabel={this.props.isQuickSettingsOpen ? `close` : `settings`}
+              buttonName={this.props.isQuickSettingsOpen ? `close` : `settings`}
+              buttonClickAction={this.toggleQuickSettingsPanel}
+              buttonIcon={quickSettingsIcon}
+            />
+          </div>
         </div>
         <QuickSettingsPanel
           visible={this.props.isQuickSettingsOpen}
