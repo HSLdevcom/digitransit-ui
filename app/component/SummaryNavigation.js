@@ -162,7 +162,6 @@ class SummaryNavigation extends React.Component {
                 isOpen={this.getOffcanvasState()}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
-                optimizedRouteParams={this.state.optimizedRouteParams || ''}
               />
             </Drawer>
           )}
