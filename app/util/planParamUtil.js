@@ -1,5 +1,4 @@
 import omitBy from 'lodash/omitBy';
-import isNil from 'lodash/isNil';
 
 import moment from 'moment';
 // Localstorage data
@@ -31,19 +30,26 @@ function setTicketTypes(ticketType, settingsTicketType) {
   return null;
 }
 
+function nullOrUndefined(val) {
+  return val === null || val === undefined;
+}
+
 export const getSettings = () => {
   const custSettings = getCustomizedSettings();
 
   return {
-    walkSpeed: custSettings.walkSpeed
-      ? Number(custSettings.walkSpeed)
-      : undefined,
-    walkReluctance: custSettings.walkReluctance
-      ? Number(custSettings.walkReluctance)
-      : undefined,
-    walkBoardCost: custSettings.walkBoardCost
-      ? Number(custSettings.walkBoardCost)
-      : undefined,
+    walkSpeed:
+      custSettings.walkSpeed !== undefined
+        ? Number(custSettings.walkSpeed)
+        : undefined,
+    walkReluctance:
+      custSettings.walkReluctance !== undefined
+        ? Number(custSettings.walkReluctance)
+        : undefined,
+    walkBoardCost:
+      custSettings.walkBoardCost !== undefined
+        ? Number(custSettings.walkBoardCost)
+        : undefined,
     modes: custSettings.modes
       ? custSettings.modes
           .toString()
@@ -52,18 +58,19 @@ export const getSettings = () => {
           .sort()
           .join(',')
       : undefined,
-    minTransferTime: custSettings.minTransferTime
-      ? Number(custSettings.minTransferTime)
-      : undefined,
-    accessibilityOption: custSettings.accessibilityOption
-      ? custSettings.accessibilityOption
-      : undefined,
-    ticketTypes: custSettings.ticketTypes
-      ? custSettings.ticketTypes
-      : undefined,
-    transferPenalty: custSettings.transferPenalty
-      ? Number(custSettings.transferPenalty)
-      : undefined,
+    minTransferTime:
+      custSettings.minTransferTime !== undefined
+        ? Number(custSettings.minTransferTime)
+        : undefined,
+    accessibilityOption:
+      custSettings.accessibilityOption !== undefined
+        ? custSettings.accessibilityOption
+        : undefined,
+    ticketTypes: custSettings.ticketTypes,
+    transferPenalty:
+      custSettings.transferPenalty !== undefined
+        ? Number(custSettings.transferPenalty)
+        : undefined,
   };
 };
 
@@ -118,16 +125,20 @@ export const preparePlanParams = config => (
           : settings.modes,
         date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
         time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
-        walkReluctance: walkReluctance
-          ? Number(walkReluctance)
-          : settings.walkReluctance,
-        walkBoardCost: walkBoardCost
-          ? Number(walkBoardCost)
-          : settings.walkBoardCost,
-        minTransferTime: minTransferTime
-          ? Number(minTransferTime)
-          : settings.minTransferTime,
-        walkSpeed: walkSpeed ? Number(walkSpeed) : settings.walkSpeed,
+        walkReluctance:
+          walkReluctance !== undefined
+            ? Number(walkReluctance)
+            : settings.walkReluctance,
+        walkBoardCost:
+          walkBoardCost !== undefined
+            ? Number(walkBoardCost)
+            : settings.walkBoardCost,
+        minTransferTime:
+          minTransferTime !== undefined
+            ? Number(minTransferTime)
+            : settings.minTransferTime,
+        walkSpeed:
+          walkSpeed !== undefined ? Number(walkSpeed) : settings.walkSpeed,
         arriveBy: arriveBy ? arriveBy === 'true' : undefined,
         maxWalkDistance:
           typeof modes === 'undefined' ||
@@ -135,17 +146,18 @@ export const preparePlanParams = config => (
             ? config.maxWalkDistance
             : config.maxBikingDistance,
         wheelchair:
-          accessibilityOption === '1'
-            ? true
-            : settings.accessibilityOption === '1',
-        transferPenalty: transferPenalty
-          ? Number(transferPenalty)
-          : settings.transferPenalty,
+          accessibilityOption !== undefined
+            ? accessibilityOption
+            : settings.accessibilityOption,
+        transferPenalty:
+          transferPenalty !== undefined
+            ? Number(transferPenalty)
+            : settings.transferPenalty,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),
       },
-      isNil,
+      nullOrUndefined,
     ),
     ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
   };
