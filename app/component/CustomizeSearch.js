@@ -113,21 +113,21 @@ class CustomizeSearch extends React.Component {
       3,
       1.2,
     );
-  }
 
-  getStreetModesToggleButtons = () => {
-    const availableStreetModes = Object.keys(
+    this.availableStreetModes = Object.keys(
       this.context.config.streetModes,
     ).filter(
       streetMode =>
         this.context.config.streetModes[streetMode].availableForSelection,
     );
+  }
 
-    if (!availableStreetModes.length) {
+  getStreetModesToggleButtons = () => {
+    if (!this.availableStreetModes.length) {
       return null;
     }
 
-    return availableStreetModes.map((streetMode, index) => (
+    return this.availableStreetModes.map((streetMode, index) => (
       <ToggleButton
         key={`toggle-button-${streetMode}`}
         icon={this.context.config.streetModes[streetMode].icon}
@@ -137,7 +137,7 @@ class CustomizeSearch extends React.Component {
         label={streetMode}
         className={cx('small-4', {
           'first-btn': index === 0,
-          'last-btn': index === availableStreetModes.length - 1,
+          'last-btn': index === this.availableStreetModes.length - 1,
         })}
       />
     ));
