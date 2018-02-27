@@ -233,6 +233,7 @@ class CustomizeSearch extends React.Component {
       />
     </section>
   );
+
   getWalkSpeedSlider = val => (
     <section className="offcanvas-section">
       <Slider
@@ -285,9 +286,7 @@ class CustomizeSearch extends React.Component {
         selected={val || 0}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e =>
-          this.replaceParams({
-            accessibilityOption: e.target.value,
-          })
+          this.replaceParams({ accessibilityOption: e.target.value })
         }
       />
     </section>
