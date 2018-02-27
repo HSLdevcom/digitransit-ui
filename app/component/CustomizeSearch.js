@@ -339,13 +339,12 @@ class CustomizeSearch extends React.Component {
     this.replaceParams({
       modes: without(
         this.getModes(),
-        this.availableStreetModes.map(m => m.toUpperCase()),
+        ...this.availableStreetModes.map(m => m.toUpperCase()),
       )
         .concat(mode.toUpperCase())
         .join(','),
     });
   }
-
   actions = {
     toggleBusState: () => this.toggleTransportMode('bus'),
     toggleTramState: () => this.toggleTransportMode('tram'),
