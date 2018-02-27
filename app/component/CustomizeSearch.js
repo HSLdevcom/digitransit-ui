@@ -49,7 +49,7 @@ export const defaultSettings = {
   transferPenalty: 0,
   walkReluctance: 2,
   walkSpeed: 1.2,
-  ticketTypes: null,
+  ticketTypes: 'none',
 };
 
 class CustomizeSearch extends React.Component {
@@ -151,14 +151,8 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking',
         })}
         onSliderChange={e =>
-          this.context.router.replace({
-            queryToSend: {
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                walkReluctance: this.walkReluctanceSliderValues[e.target.value],
-              },
-            },
+          this.replaceParams({
+            walkReluctance: this.walkReluctanceSliderValues[e.target.value],
           })
         }
         min={0}
@@ -185,14 +179,8 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfers',
         })}
         onSliderChange={e =>
-          this.context.router.replace({
-            queryToSend: {
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                walkBoardCost: this.walkBoardCostSliderValues[e.target.value],
-              },
-            },
+          this.replaceParams({
+            walkBoardCost: this.walkBoardCostSliderValues[e.target.value],
           })
         }
         min={0}
@@ -219,16 +207,8 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Transfer margin at least',
         })}
         onSliderChange={e =>
-          this.context.router.replace({
-            queryToSend: {
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                minTransferTime: this.transferMarginSliderValues[
-                  e.target.value
-                ],
-              },
-            },
+          this.replaceParams({
+            minTransferTime: this.transferMarginSliderValues[e.target.value],
           })
         }
         min={0}
@@ -255,14 +235,8 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Walking speed',
         })}
         onSliderChange={e =>
-          this.context.router.replace({
-            queryToSend: {
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                walkSpeed: this.walkingSpeedSliderValues[e.target.value],
-              },
-            },
+          this.replaceParams({
+            walkSpeed: this.walkingSpeedSliderValues[e.target.value],
           })
         }
         min={0}
@@ -290,17 +264,7 @@ class CustomizeSearch extends React.Component {
       })}
       options={get(this.context.config, 'fareMapping', {})}
       currentOption={val || 'none'}
-      updateValue={newval =>
-        this.context.router.replace({
-          queryToSend: {
-            ...this.context.location,
-            query: {
-              ...this.context.location.query,
-              ticketTypes: newval,
-            },
-          },
-        })
-      }
+      updateValue={newval => this.replaceParams({ ticketTypes: newval })}
     />
   );
 
@@ -315,15 +279,8 @@ class CustomizeSearch extends React.Component {
         selected={val || 0}
         options={this.context.config.accessibilityOptions}
         onSelectChange={e =>
-          this.context.router.replace({
-            name: 'accessibilityOption',
-            queryToSend: {
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                accessibilityOption: e.target.value,
-              },
-            },
+          this.replaceParams({
+            accessibilityOption: e.target.value,
           })
         }
       />
@@ -345,57 +302,44 @@ class CustomizeSearch extends React.Component {
     return this.getModes().includes(mode.toUpperCase());
   }
 
+  replaceParams = newParams =>
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        ...newParams,
+      },
+    });
+
   resetParameters = () => {
     resetCustomizedSettings();
-    this.context.router.replace({
-      queryToSend: {
-        ...this.context.location,
-        query: {
-          time: this.context.location.query.time,
-          walkSpeed: defaultSettings.walkSpeed,
-          walkReluctance: defaultSettings.walkReluctance,
-          walkBoardCost: defaultSettings.walkBoardCost,
-          minTransferTime: defaultSettings.minTransferTime,
-          accessibilityOption: defaultSettings.accessibilityOption,
-          modes: getDefaultModes(this.context.config).toString(),
-          ticketTypes: defaultSettings.ticketTypes,
-        },
-      },
+    this.replaceParams({
+      walkSpeed: defaultSettings.walkSpeed,
+      walkReluctance: defaultSettings.walkReluctance,
+      walkBoardCost: defaultSettings.walkBoardCost,
+      minTransferTime: defaultSettings.minTransferTime,
+      accessibilityOption: defaultSettings.accessibilityOption,
+      modes: getDefaultModes(this.context.config).toString(),
+      ticketTypes: defaultSettings.ticketTypes,
     });
   };
 
   toggleTransportMode(mode, otpMode) {
-    this.context.router.replace({
-      name: 'modes',
-      queryToSend: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-            ',',
-          ),
-        },
-      },
+    this.replaceParams({
+      modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(','),
     });
   }
 
   toggleStreetMode(mode) {
-    this.context.router.replace({
-      name: 'modes',
-      queryToSend: {
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          modes: without(
-            this.getModes(),
-            ...Object.keys(this.context.config.streetModes).map(m =>
-              m.toUpperCase(),
-            ),
-          )
-            .concat(mode.toUpperCase())
-            .join(','),
-        },
-      },
+    this.replaceParams({
+      modes: without(
+        this.getModes(),
+        ...Object.keys(this.context.config.streetModes).map(m =>
+          m.toUpperCase(),
+        ),
+      )
+        .concat(mode.toUpperCase())
+        .join(','),
     });
   }
 
@@ -481,7 +425,7 @@ class CustomizeSearch extends React.Component {
             ? this.getWalkBoardCostSlider(merged.walkBoardCost)
             : null}
           {config.customizeSearch.transferMargin.available
-            ? this.getTransferMarginSlider(merged.transferMargin)
+            ? this.getTransferMarginSlider(merged.minTransferTime)
             : null}
           {config.customizeSearch.ticketOptions.available
             ? this.getTicketSelector(merged.ticketTypes)
