@@ -120,6 +120,12 @@ class CustomizeSearch extends React.Component {
       streetMode =>
         this.context.config.streetModes[streetMode].availableForSelection,
     );
+
+    this.availableTransportModes = Object.keys(
+      this.context.config.transportModes,
+    ).filter(
+      mode => this.context.config.transportModes[mode].availableForSelection,
+    );
   }
 
   getStreetModesToggleButtons = () => {
@@ -334,9 +340,7 @@ class CustomizeSearch extends React.Component {
     this.replaceParams({
       modes: without(
         this.getModes(),
-        ...Object.keys(this.context.config.streetModes).map(m =>
-          m.toUpperCase(),
-        ),
+        this.availableStreetModes.map(m => m.toUpperCase()),
       )
         .concat(mode.toUpperCase())
         .join(','),
@@ -412,10 +416,7 @@ class CustomizeSearch extends React.Component {
             <ModeFilter
               action={this.actions}
               buttonClass="mode-icon"
-              selectedModes={Object.keys(config.transportModes)
-                .filter(
-                  mode => config.transportModes[mode].availableForSelection,
-                )
+              selectedModes={this.availableTransportModes
                 .filter(mode => this.getMode(mode))
                 .map(mode => mode.toUpperCase())}
             />
