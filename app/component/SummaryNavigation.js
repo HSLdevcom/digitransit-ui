@@ -37,10 +37,6 @@ class SummaryNavigation extends React.Component {
     breakpoint: PropTypes.string,
   };
 
-  state = {
-    optimizedRouteParams: 'default-route',
-  };
-
   componentDidMount() {
     this.unlisten = this.context.router.listen(location => {
       if (
@@ -77,10 +73,6 @@ class SummaryNavigation extends React.Component {
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
-
-  setOptimizedRoute = modeName => {
-    this.setState({ optimizedRouteParams: modeName });
-  };
 
   checkQuickSettingsIcon = () => {
     if (this.props.isQuickSettingsOpen) {
@@ -129,10 +121,6 @@ class SummaryNavigation extends React.Component {
     }
   };
 
-  unsetOptimizedRouteParams = () => {
-    this.setState({ optimizedRouteParams: undefined });
-  };
-
   renderTimeSelectorContainer = ({ done, props }) =>
     done ? (
       <TimeSelectorContainer
@@ -175,7 +163,6 @@ class SummaryNavigation extends React.Component {
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
                 optimizedRouteParams={this.state.optimizedRouteParams || ''}
-                unsetOptimizedRouteParams={this.unsetOptimizedRouteParams}
               />
             </Drawer>
           )}
@@ -220,7 +207,6 @@ class SummaryNavigation extends React.Component {
         <QuickSettingsPanel
           visible={this.props.isQuickSettingsOpen}
           hasDefaultPreferences={this.props.hasDefaultPreferences}
-          optimizedRouteParams={this.setOptimizedRoute}
         />
       </div>
     );
