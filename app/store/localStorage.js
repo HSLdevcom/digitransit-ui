@@ -85,6 +85,9 @@ export function setCustomizedSettings(data) {
       : oldSettings.walkReluctance,
     walkSpeed: data.walkSpeed ? data.walkSpeed : oldSettings.walkSpeed,
     ticketTypes: data.ticketTypes ? data.ticketTypes : oldSettings.ticketTypes,
+    transferPenalty: data.transferPenalty
+      ? data.transferPenalty
+      : oldSettings.transferPenalty,
   };
   setItem('customizedSettings', newSettings);
 }

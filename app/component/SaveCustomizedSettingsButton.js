@@ -47,6 +47,9 @@ class SaveCustomizedSettingsButton extends React.Component {
       ticketTypes: this.context.location.query.ticketTypes
         ? this.context.location.query.ticketTypes
         : undefined,
+      transferPenalty: this.context.location.query.transferPenalty
+        ? this.context.location.query.transferPenalty
+        : undefined,
     };
 
     setCustomizedSettings(settings);

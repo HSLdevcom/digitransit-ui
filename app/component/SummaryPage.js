@@ -91,7 +91,7 @@ class SummaryPage extends React.Component {
     context.executeAction(storeOrigin, props.from);
   }
 
-  state = { center: null, loading: false };
+  state = { center: null, loading: false, isQuickSettingsOpen: false };
 
   componentWillMount() {
     this.initCustomizableParameters(this.context.config);
@@ -152,6 +152,10 @@ class SummaryPage extends React.Component {
     const a = pick(this.customizableParameters, keys(this.props));
     const b = pick(this.props, keys(this.customizableParameters));
     return isMatch(a, b);
+  };
+
+  toggleQuickSettingsPanel = val => {
+    this.setState({ isQuickSettingsOpen: val });
   };
 
   renderMap() {
@@ -322,6 +326,8 @@ class SummaryPage extends React.Component {
               hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
+              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           }
           // TODO: Chceck preferences
@@ -375,6 +381,8 @@ class SummaryPage extends React.Component {
               params={this.props.params}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
+              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           ) : (
             false

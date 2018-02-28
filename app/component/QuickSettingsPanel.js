@@ -10,12 +10,47 @@ import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { getDefaultModes } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
+import { defaultSettings } from './CustomizeSearch';
+
+/* define what belongs to predefined 'quick' parameter selections */
+const quickOptionParams = [
+  'minTransferTime',
+  'walkSpeed',
+  'walkBoardCost',
+  'walkReluctance',
+  'transferPenalty',
+];
+
+const quickOptions = {
+  'default-route': {
+    ...defaultSettings,
+  },
+  'fastest-route': {
+    ...defaultSettings,
+    minTransferTime: 60,
+    walkSpeed: 1.5,
+    walkBoardCost: 540,
+    walkReluctance: 1.5,
+    transferPenalty: 0,
+  },
+  'least-transfers': {
+    ...defaultSettings,
+    walkBoardCost: 600,
+    walkReluctance: 3,
+    transferPenalty: 5460,
+  },
+  'least-walking': {
+    ...defaultSettings,
+    walkBoardCost: 360,
+    walkReluctance: 5,
+    transferPenalty: 0,
+  },
+};
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     hasDefaultPreferences: PropTypes.bool.isRequired,
-    optimizedRouteParams: PropTypes.func.isRequired,
   };
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -24,6 +59,7 @@ class QuickSettingsPanel extends React.Component {
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
   };
+
   onRequestChange = newState => {
     this.internalSetOffcanvas(newState);
   };
@@ -44,26 +80,17 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
-  setRouteMode = values => {
-    const chosenMode = this.optimizedRouteModes().filter(
-      o => Object.keys(o)[0] === values,
-    )[0][values];
-    chosenMode.optimizedRoute = true;
-    this.props.optimizedRouteParams(chosenMode);
-
+  setQuickOption = name => {
+    const chosenMode = quickOptions[name];
     this.context.router.replace({
       ...this.context.location,
       query: {
-        ...this.defaultOptions(),
+        ...this.context.location.query,
+        minTransferTime: chosenMode.minTransferTime,
+        walkSpeed: chosenMode.walkSpeed,
         walkBoardCost: chosenMode.walkBoardCost,
         walkReluctance: chosenMode.walkReluctance,
         transferPenalty: chosenMode.transferPenalty,
-        modes:
-          this.context.location.query.modes ||
-          getDefaultModes(this.context.config).toString(),
-        ticketTypes: this.context.location.query.ticketTypes || null,
-        accessibilityOption:
-          this.context.location.query.accessibilityOption || 0,
       },
     });
   };
@@ -82,6 +109,33 @@ class QuickSettingsPanel extends React.Component {
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());
   }
+
+  matchQuickOption = () => {
+    const merged = {
+      ...quickOptions['default-route'],
+      ...getCustomizedSettings(),
+      ...this.context.location.query,
+    };
+
+    const match = (a, b) => {
+      let equal = true;
+      quickOptionParams.forEach(prm => {
+        if (Number(a[prm]) !== Number(b[prm])) {
+          equal = false;
+        }
+      });
+      return equal;
+    };
+
+    // Find out which quick option the user has selected
+    let currentOption = 'customized-mode';
+    Object.keys(quickOptions).forEach(key => {
+      if (match(merged, quickOptions[key])) {
+        currentOption = key;
+      }
+    });
+    return currentOption;
+  };
 
   toggleTransportMode(mode, otpMode) {
     this.context.router.replace({
@@ -104,11 +158,6 @@ class QuickSettingsPanel extends React.Component {
     toggleCitybikeState: () => this.toggleTransportMode('citybike'),
     toggleAirplaneState: () => this.toggleTransportMode('airplane'),
   };
-
-  defaultOptions = () => ({
-    minTransferTime: 120,
-    walkSpeed: 1.2,
-  });
 
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
@@ -136,77 +185,9 @@ class QuickSettingsPanel extends React.Component {
     }
   };
 
-  optimizedRouteModes = () => [
-    {
-      'default-route': {
-        ...this.defaultOptions(),
-        walkBoardCost: 600,
-        walkReluctance: 2,
-        transferPenalty: 0,
-      },
-    },
-    {
-      'fastest-route': {
-        ...this.defaultOptions(),
-        walkBoardCost: 540,
-        walkReluctance: 1.5,
-        transferPenalty: 0,
-      },
-    },
-    {
-      'least-transfers': {
-        ...this.defaultOptions(),
-        walkBoardCost: 600,
-        walkReluctance: 3,
-        transferPenalty: 5460,
-      },
-    },
-    {
-      'least-walking': {
-        ...this.defaultOptions(),
-        walkBoardCost: 360,
-        walkReluctance: 5,
-        transferPenalty: 0,
-      },
-    },
-  ];
-
-  checkModeParams = val => {
-    const optimizedRoutes = this.optimizedRouteModes();
-    // Find out which mode the user has selected by
-    const currentMode = optimizedRoutes
-      .map(o => {
-        const firstKey = Object.keys(o)[0];
-        if (JSON.stringify(o[firstKey]) === JSON.stringify(val)) {
-          return firstKey;
-        }
-        return undefined;
-      })
-      // Clean out the undefined non-matches and pick the remaining result
-      .filter(o => o)[0];
-
-    return currentMode || 'customized-mode';
-  };
-
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
-    const getRoute = !this.props.hasDefaultPreferences
-      ? this.checkModeParams({
-          minTransferTime: Number(
-            get(this.context.location, 'query.minTransferTime'),
-          ),
-          walkSpeed: Number(get(this.context.location, 'query.walkSpeed')),
-          walkBoardCost: Number(
-            get(this.context.location, 'query.walkBoardCost'),
-          ),
-          walkReluctance: Number(
-            get(this.context.location, 'query.walkReluctance'),
-          ),
-          transferPenalty: Number(
-            get(this.context.location, 'query.transferPenalty'),
-          ),
-        })
-      : 'default-route';
+    const quickOption = this.matchQuickOption();
 
     return (
       <div
@@ -245,8 +226,8 @@ class QuickSettingsPanel extends React.Component {
           <div className="select-wrapper">
             <select
               className="select-route-modes"
-              value={getRoute}
-              onChange={e => this.setRouteMode(e.target.value)}
+              value={quickOption}
+              onChange={e => this.setQuickOption(e.target.value)}
             >
               <option value="default-route">
                 {this.context.intl.formatMessage({
@@ -272,7 +253,7 @@ class QuickSettingsPanel extends React.Component {
                   defaultMessage: 'Least walking',
                 })}
               </option>
-              {getRoute === 'customized-mode' && (
+              {quickOption === 'customized-mode' && (
                 <option value="customized-mode">
                   {this.context.intl.formatMessage({
                     id: 'route-customized-mode',
