@@ -64,7 +64,7 @@ export const getSettings = () => {
         : undefined,
     accessibilityOption:
       custSettings.accessibilityOption !== undefined
-        ? custSettings.accessibilityOption
+        ? Number(custSettings.accessibilityOption) === 1
         : undefined,
     ticketTypes: custSettings.ticketTypes,
     transferPenalty:
@@ -147,7 +147,7 @@ export const preparePlanParams = config => (
             : config.maxBikingDistance,
         wheelchair:
           accessibilityOption !== undefined
-            ? accessibilityOption
+            ? Number(accessibilityOption) === 1
             : settings.accessibilityOption,
         transferPenalty:
           transferPenalty !== undefined
