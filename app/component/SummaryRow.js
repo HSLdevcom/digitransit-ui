@@ -72,8 +72,8 @@ const RouteLeg = ({ leg, large, intl }) => {
         vertical
         withBar
         hasDisruption={hasActiveDisruption(
-          leg.startTime/1000,
-          leg.endTime/1000,
+          leg.startTime / 1000,
+          leg.endTime / 1000,
           leg.route.alerts,
           // dummyalerts,
         )}
