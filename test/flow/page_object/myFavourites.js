@@ -171,7 +171,7 @@ module.exports = {
       selector: '.favourite-location-name',
     },
     favouriteRoute: {
-      selector: '.favourites .vehicle-number',
+      selector: '.vehicle-number',
     },
     searchResultCurrentLocation: {
       selector: '.search-result.CurrentLocation',
