@@ -808,6 +808,10 @@ div.itinerary-container-content {
   justify-content: flex-end;
 }
 
+.mobile .print-itinerary-button-container {
+  display: none;
+}
+
 $font-print-decrease: 0.7;
 
 .print-itinerary-container {
