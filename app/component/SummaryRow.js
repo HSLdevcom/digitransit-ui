@@ -16,10 +16,12 @@ import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
 
+/*
 const dummyalerts = [{
   effectiveStartDate: new Date().getTime() - 9000000,
   effectiveEndDate: new Date().getTime() + 9000000,
 }];
+*/
 
 const hasActiveDisruption = (t1, t2, alerts) =>
   filter(
@@ -72,8 +74,8 @@ const RouteLeg = ({ leg, large, intl }) => {
         hasDisruption={hasActiveDisruption(
           leg.startTime,
           leg.endTime,
-          dummyalerts,
-          // leg.route.alerts,
+          leg.route.alerts,
+          // dummyalerts,
         )}
       />
     );
