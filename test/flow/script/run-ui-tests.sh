@@ -92,7 +92,7 @@ if [ "$1" == "local" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8000 npm run dev-nowatch &
+    npm run build; CONFIG=hsl PORT=8000 npm start &
     NODE_PID=$!
     echo "Wait for the server to start"
     sleep 10
