@@ -8,6 +8,16 @@ function clickSouthOfCurrentLocation() {
   this.api.mouseButtonClick();
 }
 
+function clickSouthOfPlaceMarker() {
+  this.api.element('class name', 'place', result => {
+    this.api.debug('Clicking on map');
+    this.api.moveTo(result.value.ELEMENT, 20, 70); // 50 px south of marker
+  });
+
+  this.api.pause(1000);
+  this.api.mouseButtonClick();
+}
+
 function waitForVectorLayerLoaded() {
   this.waitForElementPresent(
     '.leaflet-layer canvas.leaflet-tile-loaded',
@@ -30,6 +40,7 @@ module.exports = {
   commands: [
     {
       clickSouthOfCurrentLocation,
+      clickSouthOfPlaceMarker,
       waitForPopupPaneHeaderVisible,
       waitForVectorLayerLoaded,
     },
