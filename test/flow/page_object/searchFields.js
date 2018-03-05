@@ -104,22 +104,17 @@ function selectFirstRouteSuggestion(search) {
     this.elements.firstRouteSuggestion.selector,
     timeout,
   );
-  //  this.pause(1000000);
-
   this.checkedClick(this.elements.firstRouteSuggestion.selector);
-
-  // return this.enterKeySearch();
 }
+
 function selectTimetableForFirstResult(search) {
   const timeout = this.api.globals.elementVisibleTimeout;
-  this.waitForElementVisible('@searchDestination', timeout);
-  this.setValue('@searchDestination', search);
-  this.waitForElementVisible('@firstSuggestedDestinationItem', timeout);
-  //  this.pause(1000000);
-
+  this.setOrigin(search);
+  this.waitForElementVisible(
+    this.elements.firstSuggestedItemTimeTable.selector,
+    timeout,
+  );
   this.checkedClick(this.elements.firstSuggestedItemTimeTable.selector);
-
-  // return this.enterKeySearch();
 }
 
 function verifyItemInSearchResult(favouriteName) {
@@ -177,7 +172,7 @@ module.exports = {
     },
     firstSuggestedItemTimeTable: {
       selector:
-        '#react-autowhatever-destination--item-0 .suggestion-item-timetable-label',
+        '#react-autowhatever-origin--item-0 .suggestion-item-timetable-label',
     },
     search: {
       selector: 'a#search-tab',
