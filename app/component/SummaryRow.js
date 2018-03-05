@@ -5,6 +5,7 @@ import cx from 'classnames';
 import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
+import filter from 'lodash/filter';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -14,6 +15,19 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
+
+/*
+const dummyalerts = [{
+  effectiveStartDate: new Date().getTime() - 9000000,
+  effectiveEndDate: new Date().getTime() + 9000000,
+}];
+*/
+
+const hasActiveDisruption = (t1, t2, alerts) =>
+  filter(
+    alerts,
+    alert => !(alert.effectiveStartDate > t2 || alert.effectiveEndDate < t1),
+  ).length > 0;
 
 const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
@@ -57,6 +71,12 @@ const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
+        hasDisruption={hasActiveDisruption(
+          leg.startTime / 1000,
+          leg.endTime / 1000,
+          leg.route.alerts,
+          // dummyalerts,
+        )}
       />
     );
   }
