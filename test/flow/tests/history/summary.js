@@ -13,7 +13,7 @@ module.exports = {
     const customizeSearch = browser.page.customizeSearch();
 
     customizeSearch.clickCanvasToggle();
-    browser.pause(1000);
+    browser.pause(this.api.globals.pause_ms);
     browser.back(); // closes offcanvas
 
     //  Itinerary page controls are available because back button closed offcanvas

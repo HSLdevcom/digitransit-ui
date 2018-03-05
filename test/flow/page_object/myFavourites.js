@@ -1,6 +1,6 @@
 function clickFavourites() {
   this.api.debug('opening favourites tab');
-  this.api.pause(1000);
+  this.api.pause(this.api.globals.pause_ms);
   this.waitForElementVisible(
     '@favouritePaneSelect',
     this.api.globals.elementVisibleTimeout,

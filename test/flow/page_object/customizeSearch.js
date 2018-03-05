@@ -79,7 +79,7 @@ function disableAllModalitiesExcept(except) {
   this.api.debug(`disabling all but ${except}`);
 
   async.eachSeries(modalities, (modality, callback) => {
-    this.api.pause(1000);
+    this.api.pause(this.api.globals.pause_ms);
     this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
       disableModality.call(this, modality, callback);

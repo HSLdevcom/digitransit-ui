@@ -17,10 +17,6 @@
     }
   },
 
-  "test_workers": {
-    "enabled": true,
-    "workers": 2
-  },
 
   "test_settings": {
     "default": {
@@ -29,8 +25,9 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
+        "pause_ms": 10,
         "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 30000
+        "elementVisibleTimeout": 20000
       },
       "screenshots": {
         "enabled": true,
@@ -74,10 +71,6 @@
       "selenium": {
         "start_process": false
       },
-      "test_workers": {
-        "enabled": true,
-        "workers": 2
-      },
       "globals": {
         "itinerarySearchTimeout": 21000,
         "elementVisibleTimeout": 20000,
@@ -107,10 +100,6 @@
     "chromedriver-mobile": {
       "selenium": {
         "start_process": false
-      },
-      "test_workers": {
-        "enabled": true,
-        "workers": 2
       },
       "globals": {
         "itinerarySearchTimeout": 21000,

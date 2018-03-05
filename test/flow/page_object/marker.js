@@ -4,7 +4,7 @@ function clickSouthOfCurrentLocation() {
     this.api.moveTo(result.value.ELEMENT, 20, 70); // 50 px south of current position
   });
 
-  this.api.pause(1000);
+  this.api.pause(this.api.globals.pause_ms);
   this.api.mouseButtonClick();
 }
 
@@ -14,7 +14,7 @@ function clickSouthOfPlaceMarker() {
     this.api.moveTo(result.value.ELEMENT, 20, 70); // 50 px south of marker
   });
 
-  this.api.pause(1000);
+  this.api.pause(this.api.globals.pause_ms);
   this.api.mouseButtonClick();
 }
 
