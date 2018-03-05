@@ -2,8 +2,8 @@
   min-height: 50px;
   padding-left: $padding-medium;
   padding-right: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   overflow: hidden;
   background-color: $white;
   border-bottom: 1px solid $light-gray;
@@ -41,12 +41,14 @@
   }
 
   .itinerary-duration-and-distance {
-    width: 4em;
+    max-width: 4em;
     margin-top: $padding-small;
+    margin-left: 1em;
   }
 
   .itinerary-duration {
     white-space: nowrap;
+    font-weight: $font-weight-bold;
   }
 
   .itinerary-walking-distance {
@@ -65,13 +67,14 @@
     padding-left: 5px;
     min-width: 2em;
     @include font-narrow-medium;
+    font-weight: $font-weight-bold;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
       font-size: $font-size-xsmall;
       margin-top: -6px;
       margin-right: -7px;
-      font-weight: 100;
+      font-weight: 700;
 
       &.realtime {
         color: $realtime-color;
@@ -116,6 +119,7 @@
     padding-left: 10px;
     width: 3em;
     margin-top: $padding-small;
+    font-weight: $font-weight-bold;
   }
 
   .itinerary-legs {
@@ -234,14 +238,12 @@
   }
 
   .action-arrow-click-area {
-    padding: $padding-xsmall $padding-medium;
+    padding: 0.25em 0.3em 0.25em 0.3em;
     display: flex;
   }
   .action-arrow {
     display: flex;
     align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0.19);
-    border-radius: 4px;
     padding: $padding-xxsmall $padding-xxsmall 0px $padding-xxsmall;
     line-height: 1;
 
@@ -353,7 +355,7 @@
     }
 
     .action-arrow-click-area {
-      padding: 0 25px 0 20px;
+      padding: 0 20px 0 10px;
     }
     .action-arrow {
       font-size: 20px;
