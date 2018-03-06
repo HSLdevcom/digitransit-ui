@@ -53,7 +53,7 @@ function setDestination(destination) {
     this.api.globals.elementVisibleTimeout,
   );
   this.setValue('@searchDestination', ' ');
-  this.api.pause(1500);
+  this.api.pause(this.api.globals.pause_ms);
   this.clearValue('@searchDestination');
   this.setValue('@searchDestination', destination);
   this.verifyItemInSearchResult(destination);
@@ -117,10 +117,10 @@ function selectTimetableForFirstResult(search) {
   this.checkedClick(this.elements.firstSuggestedItemTimeTable.selector);
 }
 
-function verifyItemInSearchResult(favouriteName) {
+function verifyItemInSearchResult(name) {
   this.api.withXpath(() => {
     this.waitForElementPresent(
-      `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${favouriteName
+      `//*/p[@class='suggestion-name' and contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '${name
         .split(',')[0]
         .toLowerCase()}')]`,
       this.api.globals.elementVisibleTimeout,
