@@ -254,15 +254,6 @@ const SummaryRow = (
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className={classes} onClick={() => props.onSelect(props.hash)}>
-      <div className="itinerary-duration-and-distance">
-        <span className="itinerary-duration">
-          <RelativeDuration duration={duration} />
-        </span>
-        <div className="itinerary-walking-distance">
-          <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-          {displayDistance(data.walkDistance, config)}
-        </div>
-      </div>
       {props.open || props.children
         ? [
             <div className="flex-grow itinerary-heading" key="title">
@@ -307,6 +298,18 @@ const SummaryRow = (
             </div>,
             <div className="itinerary-end-time" key="endtime">
               {endTime.format('HH:mm')}
+            </div>,
+            <div
+              className="itinerary-duration-and-distance"
+              key="duration-distance"
+            >
+              <span className="itinerary-duration">
+                <RelativeDuration duration={duration} />
+              </span>
+              <div className="itinerary-walking-distance">
+                <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                {displayDistance(data.walkDistance, config)}
+              </div>
             </div>,
             <button
               title={itineraryLabel}
