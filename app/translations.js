@@ -481,6 +481,8 @@ const translations = {
   en: {
     'about-this-service': 'About the service',
     accessibility: 'Accessibility',
+    'accessibility-limited': 'Wheelchair',
+    'accessibility-nolimit': 'No limits',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
@@ -760,6 +762,8 @@ const translations = {
   fi: {
     'about-this-service': 'Tietoja palvelusta',
     accessibility: 'Esteettömyys',
+    'accessibility-limited': 'Liikun pyörätuolilla',
+    'accessibility-nolimit': 'Ei rajoitusta',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location': 'Lisää paikka',
     'add-location-to-favourites':
@@ -1543,6 +1547,8 @@ const translations = {
   sv: {
     'about-this-service': 'Om tjänsten',
     accessibility: 'Tillgänglighet',
+    'accessibility-limited': 'Med rullstolen',
+    'accessibility-nolimit': 'Ingen begränsning',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location': 'Lägg till en plats',
     'add-location-to-favourites':

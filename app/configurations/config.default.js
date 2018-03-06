@@ -328,10 +328,12 @@ export default {
 
   accessibilityOptions: [
     {
+      messageId: 'accessibility-nolimit',
       displayName: 'Ei rajoitusta',
       value: '0',
     },
     {
+      messageId: 'accessibility-limited',
       displayName: 'Liikun pyörätuolilla',
       value: '1',
     },
