@@ -1,6 +1,4 @@
 function setOrigin(origin) {
-  this.setValue('@searchOrigin', ' ');
-  this.api.pause(this.api.globals.pause_ms);
   this.clearValue('@searchOrigin');
   this.setValue('@searchOrigin', origin);
   this.api.pause(this.api.globals.pause_ms);
@@ -52,10 +50,9 @@ function setDestination(destination) {
     '@searchDestination',
     this.api.globals.elementVisibleTimeout,
   );
-  this.setValue('@searchDestination', ' ');
-  this.api.pause(this.api.globals.pause_ms);
   this.clearValue('@searchDestination');
   this.setValue('@searchDestination', destination);
+  this.api.pause(this.api.globals.pause_ms);
   this.verifyItemInSearchResult(destination);
   return this;
 }
@@ -82,10 +79,13 @@ function enterKeySearch() {
 }
 
 function itinerarySearch(origin, destination) {
+  this.waitForElementVisible('@searchOrigin', this.api.globals.elementVisibleTimeout);
   this.setOrigin(origin);
-  this.enterKeyOrigin();
+  this.checkedClick(this.elements.firstSuggestedOriginItem.selector);
+  this.waitForElementVisible('@searchDestination', this.api.globals.elementVisibleTimeout);
   this.setDestination(destination);
-  this.enterKeyDestination();
+  this.checkedClick(this.elements.firstSuggestedDestinationItem.selector);
+
   return this;
 }
 
