@@ -134,6 +134,7 @@ function getOldSearches(oldSearches, input, dropLayers) {
     take(matchingOldSearches, 10).map(item => ({
       ...item,
       type: 'OldSearch',
+      timetableClicked: false, // reset latest selection action
     })),
   );
 }
