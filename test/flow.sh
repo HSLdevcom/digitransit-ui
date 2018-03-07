@@ -2,9 +2,11 @@
 
 # do nothing if the build is for tagging a prod release
 if [ -n "$TRAVIS_TAG" ]; then exit 0; fi
-openssl aes-256-cbc -K $encrypted_59b1a6418079_key -iv $encrypted_59b1a6418079_iv -in test/.dropbox_uploader.enc -out test/.dropbox_uploader -d
 
 set -e
+yarn install
+yarn lint
+yarn build
 
 export CHROME_BIN=/usr/bin/google-chrome
 export DISPLAY=:99.0
