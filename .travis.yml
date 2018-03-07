@@ -40,6 +40,11 @@ jobs:
       env: VISUAL=firefox
       node_js: "8"
       script: test/visual.sh
+    - stage: test
+      env: FLOW=1
+      node_js: "8"
+      script: test/flow.sh
+
 
     - stage: build and deploy container
       node_js: "8"
