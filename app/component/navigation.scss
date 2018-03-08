@@ -329,6 +329,9 @@ section.content {
 }
 
 .message-bar {
+  @media print {
+    display: none;
+  }
   position:relative;
   z-index:802;
   width: 100%;

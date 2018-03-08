@@ -284,7 +284,17 @@ class CustomizeSearch extends React.Component {
         })}
         name="accessible"
         selected={val || 0}
-        options={this.context.config.accessibilityOptions}
+        options={this.context.config.accessibilityOptions.map((o, i) => ({
+          displayName: (
+            <FormattedMessage
+              defaultMessage={
+                this.context.config.accessibilityOptions[i].displayName
+              }
+              id={this.context.config.accessibilityOptions[i].messageId}
+            />
+          ),
+          value: this.context.config.accessibilityOptions[i].value,
+        }))}
         onSelectChange={e =>
           this.replaceParams({ accessibilityOption: e.target.value })
         }

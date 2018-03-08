@@ -37,6 +37,9 @@ class LocationPopup extends React.Component {
     getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
       'point.lat': this.props.lat,
       'point.lon': this.props.lon,
+      'boundary.circle.lat': this.props.lat,
+      'boundary.circle.lon': this.props.lon,
+      'boundary.circle.radius': 0.1, // 100m
       lang: language,
       size: 1,
       layers: 'address',

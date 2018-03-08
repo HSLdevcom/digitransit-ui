@@ -461,7 +461,6 @@ export default config => {
           <Route path="kartta" fullscreenMap />
         </Route>
       </Route>
-
       <Route
         path="/suosikki/muokkaa/:id"
         getComponent={(location, cb) => {
@@ -481,6 +480,8 @@ export default config => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
+      <Route path="/js/:name" component={Error404} />
+      <Route path="/css/:name" component={Error404} />
       <Route
         path="/(:from)(/:to)(/:tab)"
         topBarOptions={{ disableBackButton: true }}

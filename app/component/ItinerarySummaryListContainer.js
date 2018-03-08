@@ -141,6 +141,10 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             mode
             shortName
             color
+            alerts {
+              effectiveStartDate
+              effectiveEndDate
+            }
             agency {
               name
             }

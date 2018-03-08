@@ -26,9 +26,6 @@ function testVariation(
         }
         suite
           .setUrl(`/styleguide/component/${componentName}?enmock`)
-          .before(actions => {
-            actions.wait(2000); // test additional delay
-          })
           .setCaptureElements(capture)
           .ignoreElements(ignoreElements || [])
           .capture(variationName, {}, fn);
@@ -50,9 +47,30 @@ testVariation(
   'normal',
   1,
   '.component-example:nth-of-type(1) .component .realtime-icon',
-)
-  .then(skip('ie11'))
-  .catch(() => {});
+);
+
+testVariation('WalkLeg', 'walk-start');
+testVariation('WalkLeg', 'walk-middle', 2);
+testVariation('WaitLeg');
+testVariation('BicycleLeg', 'bicycle-leg-normal');
+testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
+testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
+testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
+testVariation('EndLeg');
+testVariation('AirportCheckInLeg');
+testVariation('AirportCollectLuggageLeg');
+testVariation('BusLeg', 'scheduled');
+testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']);
+
+testVariation('AirplaneLeg');
+testVariation('SubwayLeg');
+testVariation('TramLeg');
+testVariation('RailLeg');
+testVariation('FerryLeg');
+testVariation('CarLeg');
+testVariation('ViaLeg');
+testVariation('CallAgencyLeg');
+
 testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
 testVariation('Departure', 'isArrival', 4);
@@ -91,7 +109,8 @@ testVariation(
   'normal',
   1,
   '.component-example:nth-of-type(1) .component .realtime-icon',
-).then(skip('ie11'));
+);
+
 testVariation('NoFavouriteLocations');
 
 testVariation('EmptyFavouriteLocationSlot');
@@ -102,7 +121,7 @@ testVariation(
   'realtime',
   ['.component-example:nth-of-type(2) .component'],
   '.component-example:nth-of-type(2) .component svg.realtime',
-).then(skip('ie11'));
+);
 
 testVariation('Favourite', 'normal');
 testVariation('Favourite', 'hovered', 1, [], actions =>
@@ -171,11 +190,11 @@ testVariation(
   'normal',
   ['.component-example:nth-of-type(1) .component'],
   '.component-example:nth-of-type(1) .component svg.realtime',
-).then(skip('ie11'));
+);
 
 testVariation('DepartureRow', 'normal', 1, [
   '.component-example:nth-of-type(1) .component .realtime-icon',
-]).then(skip('ie11'));
+]);
 
 testVariation('DepartureRow', 'with-cancelation', 2);
 
@@ -230,25 +249,4 @@ testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
-testVariation('WalkLeg', 'walk-start');
-testVariation('WalkLeg', 'walk-middle', 2);
-testVariation('WaitLeg');
-testVariation('BicycleLeg', 'bicycle-leg-normal');
-testVariation('BicycleLeg', 'bicycle-leg-walking-bike', 2);
-testVariation('BicycleLeg', 'bicycle-leg-citybike', 3);
-testVariation('BicycleLeg', 'bicycle-leg-citybike-walking-bike', 4);
-testVariation('EndLeg');
-testVariation('AirportCheckInLeg');
-testVariation('AirportCollectLuggageLeg');
-testVariation('BusLeg', 'scheduled');
-testVariation('BusLeg', 'realtime', 2, ['svg.realtime-icon']).then(
-  skip('ie11'),
-);
-testVariation('AirplaneLeg');
-testVariation('SubwayLeg');
-testVariation('TramLeg');
-testVariation('RailLeg');
-testVariation('FerryLeg');
-testVariation('CarLeg');
-testVariation('ViaLeg');
-testVariation('CallAgencyLeg');
+testVariation('Error404');

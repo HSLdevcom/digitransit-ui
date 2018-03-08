@@ -200,6 +200,31 @@ class Timetable extends React.Component {
                 />
               ))}
           </div>
+          {Object.keys(timetableMap)
+            .sort((a, b) => a - b)
+            .map(hour => (
+              <TimetableRow
+                key={hour}
+                title={padStart(hour % 24, 2, '0')}
+                stoptimes={timetableMap[hour]}
+                showRoutes={this.state.showRoutes}
+                timerows={timetableMap[hour]
+                  .sort(
+                    (time1, time2) =>
+                      time1.scheduledDeparture - time2.scheduledDeparture,
+                  )
+                  .map(
+                    time =>
+                      this.state.showRoutes.filter(
+                        o => o === time.name || o === time.id,
+                      ).length > 0 &&
+                      moment
+                        .unix(time.serviceDay + time.scheduledDeparture)
+                        .format('HH'),
+                  )
+                  .filter(o => o === padStart(hour % 24, 2, '0'))}
+              />
+            ))}
         </div>
       </div>
     );

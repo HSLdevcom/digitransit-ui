@@ -28,7 +28,6 @@ const TripRouteStop = props => {
         selected={
           props.selectedVehicle && props.selectedVehicle.id === vehicle.id
         }
-        fullscreenMap={props.fullscreenMap}
       />
     ));
 
@@ -60,7 +59,7 @@ const TripRouteStop = props => {
         <div className={cx('route-stop-now_line', props.mode)} />
       </div>
       <div className="route-stop-row_content-container">
-        <Link to={`/${PREFIX_STOPS}/${props.stop.gtfsId}`}>
+        <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(props.stop.gtfsId)}`}>
           <div className={`route-details_container ${props.mode}`}>
             <span>{props.stop.name}</span>
             <div>
@@ -105,7 +104,6 @@ TripRouteStop.propTypes = {
     PropTypes.object,
     PropTypes.oneOf([false]),
   ]).isRequired,
-  fullscreenMap: PropTypes.bool,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

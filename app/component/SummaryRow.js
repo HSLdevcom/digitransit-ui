@@ -5,6 +5,7 @@ import cx from 'classnames';
 import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
+import filter from 'lodash/filter';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -14,6 +15,19 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyPickupType } from '../util/legUtils';
+
+/*
+const dummyalerts = [{
+  effectiveStartDate: new Date().getTime() - 9000000,
+  effectiveEndDate: new Date().getTime() + 9000000,
+}];
+*/
+
+const hasActiveDisruption = (t1, t2, alerts) =>
+  filter(
+    alerts,
+    alert => !(alert.effectiveStartDate > t2 || alert.effectiveEndDate < t1),
+  ).length > 0;
 
 const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
@@ -57,6 +71,12 @@ const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
+        hasDisruption={hasActiveDisruption(
+          leg.startTime / 1000,
+          leg.endTime / 1000,
+          leg.route.alerts,
+          // dummyalerts,
+        )}
       />
     );
   }
@@ -234,15 +254,6 @@ const SummaryRow = (
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className={classes} onClick={() => props.onSelect(props.hash)}>
-      <div className="itinerary-duration-and-distance">
-        <span className="itinerary-duration">
-          <RelativeDuration duration={duration} />
-        </span>
-        <div className="itinerary-walking-distance">
-          <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-          {displayDistance(data.walkDistance, config)}
-        </div>
-      </div>
       {props.open || props.children
         ? [
             <div className="flex-grow itinerary-heading" key="title">
@@ -287,6 +298,18 @@ const SummaryRow = (
             </div>,
             <div className="itinerary-end-time" key="endtime">
               {endTime.format('HH:mm')}
+            </div>,
+            <div
+              className="itinerary-duration-and-distance"
+              key="duration-distance"
+            >
+              <span className="itinerary-duration">
+                <RelativeDuration duration={duration} />
+              </span>
+              <div className="itinerary-walking-distance">
+                <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                {displayDistance(data.walkDistance, config)}
+              </div>
             </div>,
             <button
               title={itineraryLabel}

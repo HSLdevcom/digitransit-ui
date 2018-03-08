@@ -58,8 +58,8 @@ export default class PrintableItineraryHeader extends React.Component {
           <div className="headers-container">
             <div className="header">
               <FormattedMessage
-                id="journeyplanner.title"
-                defaultMessage="Journey Planner"
+                id="print-itinerary-app-title"
+                defaultMessage={config.title}
               />
               {` - `}
               <FormattedMessage
@@ -87,7 +87,6 @@ export default class PrintableItineraryHeader extends React.Component {
               </span>
             </div>
           </div>
-          <div className="print-itinerary-header-logo" />
         </div>
         <div className="print-itinerary-header-bottom">
           {this.createHeaderBlock({

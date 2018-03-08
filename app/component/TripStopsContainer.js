@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import cx from 'classnames';
+import { pure } from 'recompose';
 
 import { getStartTime } from '../util/timeUtils';
 import TripListHeader from './TripListHeader';
@@ -14,6 +15,10 @@ function TripStopsContainer(props, { breakpoint }) {
   );
 
   const fullscreen = some(props.routes, route => route.fullscreenMap);
+
+  if (fullscreen && breakpoint !== 'large') {
+    return <div className="route-page-content" />;
+  }
 
   return (
     <div
@@ -51,7 +56,7 @@ TripStopsContainer.contextTypes = {
   breakpoint: PropTypes.string,
 };
 
-export default Relay.createContainer(TripStopsContainer, {
+export default Relay.createContainer(pure(TripStopsContainer), {
   fragments: {
     trip: () =>
       Relay.QL`

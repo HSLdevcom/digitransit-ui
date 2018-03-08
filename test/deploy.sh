@@ -1,31 +1,36 @@
 #/bin/bash
 set -e
 ORG=${ORG:-hsldevcom}
-DOCKER_IMAGE=digitransit-ui
-
-
-function tagandpush {
-  docker tag $ORG/digitransit-ui:ci-$TRAVIS_COMMIT $ORG/$DOCKER_IMAGE:$1
-  docker push $ORG/$DOCKER_IMAGE:$1
-}
+DOCKER_IMAGE=$ORG/digitransit-ui
+LATEST_IMAGE=$DOCKER_IMAGE:latest
+PROD_IMAGE=$DOCKER_IMAGE:prod
 
 if [[ -n "$TRAVIS_TAG" || ( "$TRAVIS_PULL_REQUEST" = "false") ]]; then
-  docker pull $ORG/digitransit-ui:ci-$TRAVIS_COMMIT
+
   docker login -u $DOCKER_USER -p $DOCKER_AUTH
+
   if [ -n "$TRAVIS_TAG" ]; then
+    docker pull $LATEST_IMAGE
     echo "Pushing :prod release to Docker Hub"
-    tagandpush prod
+    docker tag $LATEST_IMAGE $PROD_IMAGE
+    docker push $PROD_IMAGE
   else
     if [ "$TRAVIS_BRANCH" = "prod" ]; then
+      #sanity check to skip invalid branch name
       echo Not Pushing :prod tag to Docker Hub
       exit 0
     fi
     if [ "$TRAVIS_BRANCH" = "master" ]; then
-      echo Pushing latest tag to Docker Hub
-      tagandpush latest
+      BRANCH_IMAGE=$LATEST_IMAGE
     else
-      echo Pushing $TRAVIS_BRANCH tag to Docker Hub
-      tagandpush $TRAVIS_BRANCH
+      BRANCH_IMAGE=$DOCKER_IMAGE:$TRAVIS_BRANCH
     fi
+    CI_IMAGE=$DOCKER_IMAGE:ci-$TRAVIS_COMMIT
+    echo -e "export const COMMIT_ID = \"${TRAVIS_COMMIT}\";\nexport const BUILD_TIME = \""`date -Iminutes -u`"\";" > app/buildInfo.js
+    docker build -t $CI_IMAGE .
+    echo "Pushing ci image to Docker Hub"
+    docker push $CI_IMAGE
+    docker tag $CI_IMAGE $BRANCH_IMAGE
+    docker push $BRANCH_IMAGE
   fi
 fi

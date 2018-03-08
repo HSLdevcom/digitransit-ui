@@ -3,9 +3,9 @@ module.exports = {
   "screenshotsDir": "./test/visual-images/",
   "httpTimeout": 40000,
   "sessionRequestTimeout": 120000,
-  "sessionsPerBrowser": 3,
-  "suitesPerSession": 10,
-  "retry": 3,
+  "sessionsPerBrowser": 1,
+  "suitesPerSession": 50,
+  "retry": 10,
   "system": {
     "plugins": {
       "browserstack": { "localIdentifier": process.env.IDENTIFIER },
@@ -26,13 +26,13 @@ module.exports = {
         "timezone": "Europe/Helsinki"
       }
     },
-    "chrome50": {
+    "chrome": {
       "windowSize": "600x1024",
       "desiredCapabilities": {
         "os": "OS X",
         "os_version": "El Capitan",
         "browserName": "chrome",
-        "version": "50",
+        "version": "64",
         "locationContextEnabled": false,
         "timezone": "Europe/Helsinki"
       }
@@ -58,6 +58,17 @@ module.exports = {
         "os_version": "10",
         "browserName": "edge",
         "version": "15",
+        "locationContextEnabled": false,
+        "timezone": "Europe/Helsinki"
+      }
+    },
+    "firefox": {
+      "windowSize": "600x1024",
+      "desiredCapabilities": {
+        "os": "Windows",
+        "os_version": "10",
+        "browserName": "firefox",
+        "version": "47",
         "locationContextEnabled": false,
         "timezone": "Europe/Helsinki"
       }

@@ -481,6 +481,8 @@ const translations = {
   en: {
     'about-this-service': 'About the service',
     accessibility: 'Accessibility',
+    'accessibility-limited': 'Wheelchair',
+    'accessibility-nolimit': 'No limits',
     'add-itinerary-via-point': 'Add via point for itinerary',
     'add-location': 'Add location',
     'add-location-to-favourites': 'Add an important location to your Favorites',
@@ -766,6 +768,8 @@ const translations = {
   fi: {
     'about-this-service': 'Tietoja palvelusta',
     accessibility: 'Esteettömyys',
+    'accessibility-limited': 'Liikun pyörätuolilla',
+    'accessibility-nolimit': 'Ei rajoitusta',
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location': 'Lisää paikka',
     'add-location-to-favourites':
@@ -881,6 +885,11 @@ const translations = {
     locate: 'Paikanna',
     'location-examples': 'esim. Koti, Työ, Koulu,...',
     'location-from-map': 'Valittu sijainti',
+    'location-home': 'Koti',
+    'location-school': 'Koulu',
+    'location-shopping': 'Kauppa',
+    'location-sport': 'Urheilu',
+    'location-work': 'Työ',
     login: 'Kirjaudu sisään',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
@@ -1555,6 +1564,8 @@ const translations = {
   sv: {
     'about-this-service': 'Om tjänsten',
     accessibility: 'Tillgänglighet',
+    'accessibility-limited': 'Med rullstolen',
+    'accessibility-nolimit': 'Ingen begränsning',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
     'add-location': 'Lägg till en plats',
     'add-location-to-favourites':
@@ -1671,6 +1682,11 @@ const translations = {
     locate: 'Lokalisera',
     'location-examples': 't.ex. Hem, Arbetsplats, Skola,...',
     'location-from-map': 'Vald position',
+    'location-home': 'Hem',
+    'location-school': 'Skola',
+    'location-shopping': 'Affär',
+    'location-sport': 'Sport',
+    'location-work': 'Arbetsplats',
     login: 'Logga in',
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Stäng huvudmenyn',

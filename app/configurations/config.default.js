@@ -26,7 +26,7 @@ export default {
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
-    MQTT: 'wss://dev.hsl.fi/mqtt-proxy',
+    MQTT: 'wss://mqtt.hsl.fi',
     ALERTS: `${API_URL}/realtime/service-alerts/v1`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
@@ -328,10 +328,12 @@ export default {
 
   accessibilityOptions: [
     {
+      messageId: 'accessibility-nolimit',
       displayName: 'Ei rajoitusta',
       value: '0',
     },
     {
+      messageId: 'accessibility-limited',
       displayName: 'Liikun pyörätuolilla',
       value: '1',
     },
@@ -560,11 +562,15 @@ export default {
     { id: '10', expr: 'dev-joensuu' },
     { id: '11', expr: 'joensuu' },
     { id: '12', expr: 'dev-turku' },
-    { id: '13', expr: '(turku|foli)' },
+    { id: '27', expr: '(turku|foli)' },
     { id: '14', expr: 'hameenlinna' },
     { id: '15', expr: 'jyvaskyla' },
     { id: '16', expr: 'kuopio' },
+    { id: '17', expr: 'lahti' },
+    { id: '18', expr: 'lappeenranta' },
     { id: '21', expr: 'oulu' },
+    { id: '29', expr: 'kotka' },
+    { id: '31', expr: 'mikkeli' },
     // put generic expressions last so that they do not match waltti cities
     // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
     { id: '5', expr: 'dev.reittiopas' },

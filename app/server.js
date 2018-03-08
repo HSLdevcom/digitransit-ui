@@ -32,6 +32,7 @@ import LRU from 'lru-cache';
 import appCreator from './app';
 import translations from './translations';
 import MUITheme from './MuiTheme';
+import configureMoment from './util/configure-moment';
 
 // configuration
 import { getConfiguration } from './config';
@@ -176,6 +177,11 @@ function getLocale(req, res, config) {
   return locale;
 }
 
+function validateParams(params) {
+  const idFields = ['stopId', 'routeId', 'terminalId', 'patternId', 'tripId'];
+  return idFields.every(f => !params[f] || params[f].indexOf(':') !== -1);
+}
+
 export default function(req, res, next) {
   const config = getConfiguration(req);
   const locale = getLocale(req, res, config);
@@ -190,6 +196,13 @@ export default function(req, res, next) {
     .getComponentContext()
     .getStore('MessageStore')
     .addConfigMessages(config);
+
+  const language = context
+    .getComponentContext()
+    .getStore('PreferencesStore')
+    .getLanguage();
+
+  configureMoment(language, config);
 
   // required by material-ui
   const agent = req.headers['user-agent'];
@@ -213,6 +226,13 @@ export default function(req, res, next) {
     } else if (!renderProps) {
       return res.status(404).send('Not found');
     }
+
+    if (renderProps.params) {
+      if (!validateParams(renderProps.params)) {
+        return res.redirect(301, '/');
+      }
+    }
+
     if (
       renderProps.components.filter(
         component => component && component.displayName === 'Error404',
