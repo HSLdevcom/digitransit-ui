@@ -178,7 +178,7 @@ function getLocale(req, res, config) {
 }
 
 function validateParams(params) {
-  const idFields = ['stopId', 'routeId', 'terminalId', 'patternId'];
+  const idFields = ['stopId', 'routeId', 'terminalId', 'patternId', 'tripId'];
   return idFields.every(f => !params[f] || params[f].indexOf(':') !== -1);
 }
 
