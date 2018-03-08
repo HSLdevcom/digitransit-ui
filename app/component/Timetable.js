@@ -118,87 +118,45 @@ class Timetable extends React.Component {
     );
 
     return (
-      <div
-        style={{
-          maxHeight: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: '1',
-        }}
-      >
-        <div
-          className="timetable"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxHeight: '100%',
-            flexGrow: '1',
-          }}
-        >
-          {this.state.showFilterModal === true ? (
-            <FilterTimeTableModal
-              stop={this.props.stop}
-              setRoutes={this.setRouteVisibilityState}
-              showFilterModal={this.showModal}
-              showRoutesList={this.state.showRoutes}
-            />
-          ) : null}
-          <div className="timetable-topbar">
-            <TimeTableOptionsPanel
-              showRoutes={this.state.showRoutes}
-              showFilterModal={this.showModal}
-              stop={this.props.stop}
-            />
-            <StopPageActionBar
-              printUrl={this.props.propsForStopPageActionBar.printUrl}
-              startDate={this.props.propsForStopPageActionBar.startDate}
-              selectedDate={this.props.propsForStopPageActionBar.selectedDate}
-              onDateChange={this.props.propsForStopPageActionBar.onDateChange}
-            />
-          </div>
-          <div className="timetable-for-printing-header">
-            <h1>
-              <FormattedMessage id="timetable" defaultMessage="Timetable" />
-            </h1>
-          </div>
-          <div className="timetable-for-printing">{this.dateForPrinting()}</div>
-          <div className="momentum-scroll" style={{ flex: '1' }}>
-            <div className="timetable-time-headers">
-              <div className="hour">
-                <FormattedMessage id="hour" defaultMessage="Hour" />
-              </div>
-              <div className="minutes-per-route">
-                <FormattedMessage
-                  id="minutes-or-route"
-                  defaultMessage="Min/Route"
-                />
-              </div>
+      <div className="timetable">
+        {this.state.showFilterModal === true ? (
+          <FilterTimeTableModal
+            stop={this.props.stop}
+            setRoutes={this.setRouteVisibilityState}
+            showFilterModal={this.showModal}
+            showRoutesList={this.state.showRoutes}
+          />
+        ) : null}
+        <div className="timetable-topbar">
+          <TimeTableOptionsPanel
+            showRoutes={this.state.showRoutes}
+            showFilterModal={this.showModal}
+            stop={this.props.stop}
+          />
+          <StopPageActionBar
+            printUrl={this.props.propsForStopPageActionBar.printUrl}
+            startDate={this.props.propsForStopPageActionBar.startDate}
+            selectedDate={this.props.propsForStopPageActionBar.selectedDate}
+            onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+          />
+        </div>
+        <div className="timetable-for-printing-header">
+          <h1>
+            <FormattedMessage id="timetable" defaultMessage="Timetable" />
+          </h1>
+        </div>
+        <div className="timetable-for-printing">{this.dateForPrinting()}</div>
+        <div className="momentum-scroll">
+          <div className="timetable-time-headers">
+            <div className="hour">
+              <FormattedMessage id="hour" defaultMessage="Hour" />
             </div>
-            {Object.keys(timetableMap)
-              .sort((a, b) => a - b)
-              .map(hour => (
-                <TimetableRow
-                  key={hour}
-                  title={padStart(hour % 24, 2, '0')}
-                  stoptimes={timetableMap[hour]}
-                  showRoutes={this.state.showRoutes}
-                  timerows={timetableMap[hour]
-                    .sort(
-                      (time1, time2) =>
-                        time1.scheduledDeparture - time2.scheduledDeparture,
-                    )
-                    .map(
-                      time =>
-                        this.state.showRoutes.filter(
-                          o => o === time.name || o === time.id,
-                        ).length > 0 &&
-                        moment
-                          .unix(time.serviceDay + time.scheduledDeparture)
-                          .format('HH'),
-                    )
-                    .filter(o => o === padStart(hour % 24, 2, '0'))}
-                />
-              ))}
+            <div className="minutes-per-route">
+              <FormattedMessage
+                id="minutes-or-route"
+                defaultMessage="Min/Route"
+              />
+            </div>
           </div>
           {Object.keys(timetableMap)
             .sort((a, b) => a - b)

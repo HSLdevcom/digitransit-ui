@@ -1,8 +1,3 @@
-@media print {
-  .desktop-title {
-    display: none;
-  }
-}
 .timetable {
   display: flex;
   flex-direction: column;
@@ -113,13 +108,12 @@
       font-size: 12px;
       &.line-name {
       font-weight: 400;
-      }
     }
   }
   }
+}
 }
 .mobile .timetable {
   flex-basis: 100%;
   overflow-y: visible;
 }
-
