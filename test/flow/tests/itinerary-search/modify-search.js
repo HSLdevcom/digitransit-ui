@@ -30,21 +30,20 @@ module.exports = {
   },
 
   'Current location is updated in searches triggered by a parameter change': browser => {
-    browser.url(browser.launch_url).setGeolocation(60.17, 24.941); // from railway station
+    browser.url(browser.launch_url); // from Opastinsilta
 
     browser.page
       .searchFields()
-      .setDestination('Opastinsilta 6, Helsinki')
-      .enterKeyDestination();
+      .selectDestination('Rautatieasema, Helsinki');
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
 
-    browser.setGeolocation(60.1991, 24.936155); // LIVI opastinsilta 12
+    browser.setGeolocation(60.17, 24.941); // asema-aukio
 
     itinerarySummary.clickLater(); // triggers new routing
 
-    // rautatieasema  - pasila surely had rail connections, but
+    // pasila - rautatieasema surely had rail connections, but
     // when current location changed to pasila, rail should no longer be offered
     itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
 
