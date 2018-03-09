@@ -273,6 +273,8 @@ $btn-heigth: 17px;
   color: $link-color;
   font-size: $font-size-normal;
   padding: 0.92em $padding-large;
+  display: flex;
+  flex-direction: row;
 
   &:hover, &:focus, &:active {
     color: $link-color;

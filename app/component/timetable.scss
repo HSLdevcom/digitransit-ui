@@ -1,3 +1,9 @@
+@media print {
+  .desktop-title {
+    display: none;
+  }
+}
+
 .timetable {
   display: flex;
   flex-direction: column;
