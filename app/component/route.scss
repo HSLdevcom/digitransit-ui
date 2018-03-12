@@ -525,6 +525,10 @@ $route-schedule-date-height: 36px;
     }
 }
 
+.mobile .route-page-action-bar .secondary-button {
+  display: none;
+}
+
 .route-schedule-date {
   @include font-book;
   @media print {
