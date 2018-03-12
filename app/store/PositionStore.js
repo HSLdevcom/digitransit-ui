@@ -2,6 +2,7 @@ import Store from 'fluxible/addons/BaseStore';
 import d from 'debug';
 import { api, init } from '../action/MockGeolocationApi';
 import { isBrowser } from '../util/browser';
+import { parseLatLon } from '../util/otpStrings';
 import {
   getPositioningHasSucceeded,
   setPositioningHasSucceeded,
@@ -31,8 +32,14 @@ export default class PositionStore extends Store {
       let permission = window.location.search.substring(
         window.location.search.indexOf('mock') + 4,
       );
+      let lat;
+      let lon;
       if (permission.length > 1) {
-        permission = permission.substring(1);
+        const latlon = parseLatLon(permission);
+        if (latlon) {
+          permission = 'granted';
+          ({ lat, lon } = latlon);
+        }
       } else {
         // default mock permission = granted
         permission = 'granted';
@@ -40,7 +47,7 @@ export default class PositionStore extends Store {
 
       debug('replacing geolocation api with mock');
       navigator.geoapi = api;
-      init(permission);
+      init(permission, lat, lon);
     } else {
       navigator.geoapi = navigator.geolocation;
     }
