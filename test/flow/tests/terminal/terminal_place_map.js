@@ -1,4 +1,3 @@
-
 module.exports = {
   tags: ['terminals', 'map', 'geolocation'],
   'Open Kamppi Terminal and show its departures': browser => {

@@ -20,7 +20,7 @@ export const otpToLocation = otpString => {
   const [address, coords] = otpString.split('::');
   if (coords) {
     return {
-        ...parseLatLon(coords),
+      ...parseLatLon(coords),
       address,
     };
   }
