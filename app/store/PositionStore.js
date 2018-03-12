@@ -95,11 +95,14 @@ export default class PositionStore extends Store {
       this.positioningHasSucceeded = true;
     }
 
-    const statusChanged = this.hasStatusChanged(true);
-
-    if (location && location.disableFiltering !== true) {
-      this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
-      this.lon = this.lon !== 0 ? (this.lon + location.lon) / 2 : location.lon;
+    if (
+      location &&
+      location.disableFiltering !== true &&
+      this.lat - location.lat < 0.001 &&
+      this.lon - location.lon < 0.001
+    ) {
+      this.lat = (this.lat + location.lat) / 2;
+      this.lon = (this.lon + location.lon) / 2;
     } else {
       this.lat = location.lat;
       this.lon = location.lon;
