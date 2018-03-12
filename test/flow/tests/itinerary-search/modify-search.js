@@ -32,9 +32,7 @@ module.exports = {
   'Current location is updated in searches triggered by a parameter change': browser => {
     browser.url(browser.launch_url); // from Opastinsilta
 
-    browser.page
-      .searchFields()
-      .selectDestination('Rautatieasema, Helsinki');
+    browser.page.searchFields().selectDestination('Rautatieasema, Helsinki');
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
