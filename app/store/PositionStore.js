@@ -30,7 +30,7 @@ export default class PositionStore extends Store {
       window.location.search.indexOf('mock') !== -1
     ) {
       let permission = window.location.search.substring(
-        window.location.search.indexOf('mock') + 4,
+        window.location.search.indexOf('mock') + 5,
       );
       let lat;
       let lon;
