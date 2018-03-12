@@ -111,9 +111,7 @@ export default class PositionStore extends Store {
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 
-    this.emitChange({
-      statusChanged,
-    });
+    this.emitChange();
   }
 
   storeAddress(location) {
@@ -131,9 +129,6 @@ export default class PositionStore extends Store {
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
-
-  hasStatusChanged = hasLocation =>
-    hasLocation !== this.getLocationState().hasLocation;
 
   getLocationState() {
     return {
