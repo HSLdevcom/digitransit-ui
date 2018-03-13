@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
-import without from 'lodash/without';
+import omit from 'lodash/omit';
 import cx from 'classnames';
 import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
@@ -49,7 +49,7 @@ export default class OriginDestinationBar extends React.Component {
     if (val === false) {
       this.context.router.replace({
         ...this.context.location,
-        query: without(this.context.location.query, 'intermediatePlaces'),
+        query: omit(this.context.location.query, ['intermediatePlaces']),
       });
     }
     this.setState({
