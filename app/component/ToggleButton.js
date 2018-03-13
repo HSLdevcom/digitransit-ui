@@ -39,6 +39,7 @@ const ToggleButton = ({
       className={cx('cursor-pointer', classes, className)}
       onClick={onBtnClick}
       style={style}
+      title={intl.formatMessage({ id: label })}
       aria-label={intl.formatMessage({ id: label })}
     >
       {iconTag}
