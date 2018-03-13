@@ -128,16 +128,18 @@ function TransferMap(props) {
   const previousLeg = props.originalLegs[props.index - 1];
 
   let itineraryLine;
-  if ((!previousLeg && !nextLeg) || (nextLeg && nextLeg.intermediatePlace)) {
+  if (
+    ((!previousLeg && !nextLeg) || (nextLeg && nextLeg.intermediatePlace)) &&
+    props.originalLegs.length > 1
+  ) {
     itineraryLine = [props.legObj];
   } else if (props.originalLegs.length > 1 && !nextLeg) {
     itineraryLine = [previousLeg, props.legObj];
   } else if (props.originalLegs.length === 1) {
-    itineraryLine = [props.legObj, props.legObj];
+    itineraryLine = [props.legObj];
   } else {
     itineraryLine = [props.legObj, nextLeg];
   }
-  console.log(itineraryLine);
 
   const leafletObjs = [
     <ItineraryLine
@@ -340,8 +342,6 @@ class PrintableItinerary extends React.Component {
 
   render() {
     const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
-    console.log(originalLegs);
-    console.log(originalLegs.length);
     const legs = originalLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
         const cloneObj = Object.assign({}, o);
