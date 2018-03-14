@@ -15,7 +15,6 @@ sudo apt-get install -y libappindicator1 fonts-liberation
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome*.deb
 
-ORG=${ORG:-hsldevcom}
 yarn install
 yarn build
 
@@ -23,4 +22,4 @@ CONFIG=hsl yarn start &
 
 wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
-CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh
+test/flow/script/run-flow-tests.sh local
