@@ -29,7 +29,10 @@ const ToggleButton = ({
   if (icon) {
     iconTag = (
       <div className="icon-holder">
-        <Icon img={`icon-icon_${icon}`} className="" />
+        <Icon
+          img={`icon-icon_${icon}`}
+          className=""
+        />
       </div>
     );
   }
