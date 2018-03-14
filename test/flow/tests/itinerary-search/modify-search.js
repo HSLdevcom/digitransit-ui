@@ -28,19 +28,4 @@ module.exports = {
 
     browser.end();
   },
-
-  'Current location is updated': browser => {
-    browser.url(browser.launch_url); // Opastinsilta
-
-    browser.setGeolocation(60.17, 24.941); // asema-aukio
-    browser.page.searchFields().selectDestination('Rautatieasema, Helsinki');
-
-    const itinerarySummary = browser.page.itinerarySummary();
-
-    // asema-aukio - rautatieasema is such a
-    // short distance that rail should not be offered
-    itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
-
-    browser.end();
-  },
 };
