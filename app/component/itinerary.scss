@@ -1050,7 +1050,7 @@ $font-print-decrease: 0.7;
 
   .itinerary-center-right {
     display: none;
-    &.walk, &.bicycle_walk {
+    &.walk, &.bicycle_walk, &.bicycle {
       display: block;
       margin-left: auto;
       height: 16em;
