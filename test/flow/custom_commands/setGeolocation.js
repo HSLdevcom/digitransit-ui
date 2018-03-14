@@ -3,7 +3,7 @@ exports.command = function setGeolocation(latitude, longitude) {
   this.execute(
     function fakeGeo(latitude2, longitude2) {
       // Requires using digitransit-ui with the following in the URL: ?mock
-      indow.mock.geolocation.setCurrentPosition(
+      window.mock.geolocation.setCurrentPosition(
         latitude2,
         longitude2,
       );
