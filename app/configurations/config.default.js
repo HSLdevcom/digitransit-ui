@@ -550,6 +550,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    tampere: 'tampere',
     mikkeli: 'mikkeli',
     kotka: 'kotka',
     jyvaskyla: 'jyvaskyla',
