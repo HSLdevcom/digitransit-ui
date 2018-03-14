@@ -87,11 +87,15 @@ export function init(permission, lat, lon) {
 export const api = {
   watchPosition: success => {
     debug('setting mock interval');
+    let i = 0;
     setInterval(() => {
       if (window.mock) {
         debug('broadcasting position', window.mock.data.position);
         window.mock.permission = 'granted';
-        success(window.mock.data.position);
+        // debounce does not seem to work within setInterval
+        // so disable debounce once every 5 seconds
+        success(window.mock.data.position, i % 10 === 0);
+        i += 1;
       } else {
         debug('window.mock is undefined');
       }

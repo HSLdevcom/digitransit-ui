@@ -114,13 +114,13 @@ function watchPosition(actionContext) {
   }, quietTimeoutSeconds * 1000);
   try {
     geoWatchId = navigator.geoapi.watchPosition(
-      position => {
+      (position, disableDebounce) => {
         updateGeolocationMessage(actionContext);
         if (timeout !== null) {
           clearTimeout(timeout);
           timeout = null;
         }
-        geolocatonCallback(actionContext, { pos: position });
+        geolocatonCallback(actionContext, { pos: position, disableDebounce });
       },
       error => {
         if (timeout !== null) {
