@@ -1,7 +1,7 @@
 module.exports = {
   tags: ['terminals', 'map', 'geolocation'],
   'Open Kamppi Terminal and show its departures': browser => {
-    browser.url('http://127.0.0.1:8080/HSL::60.169546,24.931658/-');
+    browser.url('http://127.0.0.1:8000/HSL::60.169546,24.931658/-');
     browser.debug('Waiting a while for tiles to load');
     const marker = browser.page.marker();
     marker.waitForVectorLayerLoaded();

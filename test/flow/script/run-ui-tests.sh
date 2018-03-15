@@ -92,7 +92,7 @@ if [ "$1" == "local" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm start &
+    npm run build; CONFIG=hsl PORT=8000 npm start &
     NODE_PID=$!
     echo "Wait for the server to start"
     sleep 10
@@ -120,7 +120,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm run start &
+    npm run build; CONFIG=hsl PORT=8000 npm run start &
     NODE_PID=$!
   fi
 
@@ -161,7 +161,7 @@ elif [ "$1" == "saucelabs" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm run start &
+    npm run build; CONFIG=hsl PORT=8000 npm run start &
     NODE_PID=$!
   fi
 

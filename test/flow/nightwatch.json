@@ -20,7 +20,7 @@
 
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
+      "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
@@ -44,7 +44,7 @@
     },
 
     "firefox": {
-      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
+      "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
@@ -82,7 +82,7 @@
         "on_error": true,
         "path": "test_output/screenshots/"
       },
-      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
+      "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
       "selenium_port"  : 9515,
       "selenium_host"  : "localhost",
       "default_path_prefix" : "",
@@ -112,7 +112,7 @@
         "on_error": true,
         "path": "test_output/screenshots/"
       },
-      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
+      "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
       "selenium_port"  : 9515,
       "selenium_host"  : "localhost",
       "default_path_prefix" : "",
