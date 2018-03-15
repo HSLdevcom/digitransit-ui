@@ -11,7 +11,7 @@ cache: yarn
 language: node_js
 
 addons:
-  firefox: "46"
+  firefox: "51"
 
 before_install:
 - export TZ=Europe/Helsinki
