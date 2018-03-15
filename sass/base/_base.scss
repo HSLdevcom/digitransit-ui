@@ -211,7 +211,11 @@ body select  {
 
 .subicon-caution {
   .icon {
-    fill: red;
+    fill: #dc0451;
     color: white;
+    display: block;
+    overflow: visible;
+    width: 13px;
+    height: 13px;
   }
 }

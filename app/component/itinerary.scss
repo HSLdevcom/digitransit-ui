@@ -800,6 +800,10 @@ div.itinerary-container-content {
 
 .vehicle-number-container-v {
         margin-top: 4px;
+        .vehicle-number {
+          mask-image: none;
+          max-width: none;
+        }
   }
 
 .print-itinerary-button-container {
