@@ -37,7 +37,7 @@
         "resolution": "1280x800",
         "browserName": "firefox",
         "javascriptEnabled": true,
-        "acceptSslCerts": true
+        "acceptSslCerts": true,
         "marionette": false
       }
     },
