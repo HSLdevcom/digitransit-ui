@@ -10,7 +10,7 @@
     "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
     "log_path": "",
     "host": "127.0.0.1",
-    "port": 7055,
+    "port": 4444,
     "cli_args": {
       "webdriver.chrome.driver": "",
       "webdriver.ie.driver": ""
@@ -21,7 +21,7 @@
   "test_settings": {
     "default": {
       "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
-      "selenium_port": 7055,
+      "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
@@ -30,9 +30,7 @@
         "elementVisibleTimeout": 20000
       },
       "screenshots": {
-        "enabled": true,
-        "on_failure": true,
-        "on_error": true,
+        "enabled": false,
         "path": "test_output/screenshots/"
       },
       "desiredCapabilities": {
@@ -40,12 +38,13 @@
         "browserName": "firefox",
         "javascriptEnabled": true,
         "acceptSslCerts": true
+        "marionette": false
       }
     },
 
     "firefox": {
       "launch_url": "http://localhost:8000/POS/-/lahellasi?mock",
-      "selenium_port": 7055,
+      "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
