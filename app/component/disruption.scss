@@ -1,5 +1,4 @@
 .disruption {
-  background-color: rgba($disruption-color, 0.5) !important;
   padding: 8px 12px;
   margin: 5px 0;
   border-radius: $border-radius;
@@ -35,7 +34,6 @@
 }
 
 .departure.disruption {
-  background-color: rgba($disruption-color, 0.3) !important;
   margin-bottom: 1px !important;
 }
 

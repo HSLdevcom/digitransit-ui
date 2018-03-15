@@ -28,6 +28,9 @@
   color: $black;
   @include font-narrow-book;
   font-size: $font-size-normal;
+  .vehicle-number {
+    mask-image: none;
+  }
 }
 
 .time,
@@ -53,7 +56,6 @@
   padding: 0 5px;
   vertical-align: top;
   overflow: hidden;
-  max-width: 3em;
   mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
 }
 .departure > div, .departure > span {

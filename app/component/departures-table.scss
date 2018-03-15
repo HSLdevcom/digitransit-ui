@@ -75,6 +75,9 @@ table.nearby-departures-table {
                         min-width: 50px;
                         max-width: 4.5em;
                         // mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+                        .vehicle-number {
+                            max-width: 3em;
+                        }
                     }
                 }
                 &.td-distance {
