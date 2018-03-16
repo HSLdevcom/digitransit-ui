@@ -75,6 +75,11 @@ IconWithIcon.propTypes = {
   color: PropTypes.string,
 };
 
+IconWithIcon.contextTypes = {
+  // eslint-disable-next-line
+  intl: intlShape.isRequired,
+};
+
 IconWithIcon.defaultProps = {
   id: '',
   subIcon: '',
