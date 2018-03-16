@@ -104,7 +104,10 @@
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
-    border: none;
+    border: 1px solid #ddd;
+    &:hover {
+      border: 1px solid #007ac9;
+    }
     input {
       font-size: $font-size-xxsmall !important;
     }
