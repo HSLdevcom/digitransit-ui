@@ -12,7 +12,7 @@
     "host": "127.0.0.1",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "",
+      "webdriver.chrome.driver": "./chromedriver",
       "webdriver.ie.driver": "",
       "webdriver.gecko.driver": "./geckodriver"
     }
@@ -27,16 +27,18 @@
       "silent": true,
       "globals": {
         "pause_ms": 10,
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 20000
+        "itinerarySearchTimeout": 10000,
+        "elementVisibleTimeout": 10000
       },
       "screenshots": {
-        "enabled": false,
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
         "path": "test_output/screenshots/"
       },
       "desiredCapabilities": {
         "resolution": "1280x800",
-        "browserName": "firefox",
+        "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "marionette": false
@@ -49,8 +51,8 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 20000
+        "itinerarySearchTimeout": 10000,
+        "elementVisibleTimeout": 10000
       },
       "screenshots": {
         "enabled": true,
@@ -62,7 +64,6 @@
         "resolution": "1280x800",
         "browserName": "firefox",
         "javascriptEnabled": true,
-        "marionette": true,
         "acceptSslCerts": true
       }
     },
@@ -72,8 +73,8 @@
         "start_process": false
       },
       "globals": {
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 20000,
+        "itinerarySearchTimeout": 10000,
+        "elementVisibleTimeout": 10000,
         "debug": false
       },
       "screenshots": {
