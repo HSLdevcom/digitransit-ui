@@ -80,8 +80,10 @@ class SummaryPage extends React.Component {
     walkReluctance: 2,
     walkBoardCost: 600,
     minTransferTime: 120,
+    transferPenalty: 0,
     walkSpeed: 1.2,
     wheelchair: false,
+    accessibilityOption: 0,
   };
 
   constructor(props, context) {
@@ -89,7 +91,7 @@ class SummaryPage extends React.Component {
     context.executeAction(storeOrigin, props.from);
   }
 
-  state = { center: null, loading: false };
+  state = { center: null, loading: false, isQuickSettingsOpen: false };
 
   componentWillMount() {
     this.initCustomizableParameters(this.context.config);
@@ -150,6 +152,10 @@ class SummaryPage extends React.Component {
     const a = pick(this.customizableParameters, keys(this.props));
     const b = pick(this.props, keys(this.customizableParameters));
     return isMatch(a, b);
+  };
+
+  toggleQuickSettingsPanel = val => {
+    this.setState({ isQuickSettingsOpen: val });
   };
 
   renderMap() {
@@ -277,7 +283,6 @@ class SummaryPage extends React.Component {
     }
 
     const hasDefaultPreferences = this.hasDefaultPreferences();
-
     if (breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -321,6 +326,8 @@ class SummaryPage extends React.Component {
               hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
+              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           }
           // TODO: Chceck preferences
@@ -374,6 +381,8 @@ class SummaryPage extends React.Component {
               params={this.props.params}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
+              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
+              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           ) : (
             false
@@ -408,6 +417,7 @@ export default Relay.createContainer(SummaryPage, {
           ticketTypes: $ticketTypes,
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
+          transferPenalty: $transferPenalty,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -446,6 +456,7 @@ export default Relay.createContainer(SummaryPage, {
       time: moment().format('HH:mm:ss'),
       arriveBy: false,
       disableRemainingWeightHeuristic: false,
+      transferPenalty: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

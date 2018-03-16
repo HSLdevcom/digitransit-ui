@@ -6,48 +6,26 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import ItineraryTimePicker from './ItineraryTimePicker';
 
-export default function TimeSelectors(
-  { arriveBy, time, dates, setArriveBy, changeTime, changeDate },
-  { intl },
-) {
+export default function TimeSelectors({ time, dates, changeTime, changeDate }) {
   return (
     <div className="time-selectors">
-      <div className="select-wrapper">
-        <select className="arrive" value={arriveBy} onChange={setArriveBy}>
-          <option value="false">
-            {intl.formatMessage({
-              id: 'leaving-at',
-              defaultMessage: 'Leaving',
-            })}
-          </option>
-          <option value="true">
-            {intl.formatMessage({
-              id: 'arriving-at',
-              defaultMessage: 'Arriving',
-            })}
-          </option>
-        </select>
-        <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
-      </div>
+      <ItineraryTimePicker
+        initHours={time.format('H')}
+        initMin={time.format('m')}
+        changeTime={changeTime}
+      />
       <div className="select-wrapper">
         <select className="date" value={`${time.unix()}`} onChange={changeDate}>
           {dates}
         </select>
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
       </div>
-      <ItineraryTimePicker
-        initHours={time.format('H')}
-        initMin={time.format('m')}
-        changeTime={changeTime}
-      />
     </div>
   );
 }
 
 TimeSelectors.propTypes = {
-  arriveBy: PropTypes.bool.isRequired,
   time: PropTypes.instanceOf(moment).isRequired,
-  setArriveBy: PropTypes.func.isRequired,
   changeTime: PropTypes.func.isRequired,
   changeDate: PropTypes.func.isRequired,
   dates: PropTypes.arrayOf(PropTypes.element).isRequired,

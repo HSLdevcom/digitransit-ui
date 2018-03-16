@@ -5,9 +5,12 @@ import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import RightOffcanvasToggle from './RightOffcanvasToggle';
+// import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
+import Icon from './Icon';
+import SecondaryButton from './SecondaryButton';
+import QuickSettingsPanel from './QuickSettingsPanel';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -18,6 +21,8 @@ class SummaryNavigation extends React.Component {
     hasDefaultPreferences: PropTypes.bool.isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
+    isQuickSettingsOpen: PropTypes.bool.isRequired,
+    toggleQuickSettings: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -69,6 +74,31 @@ class SummaryNavigation extends React.Component {
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
 
+  checkQuickSettingsIcon = () => {
+    if (this.props.isQuickSettingsOpen) {
+      return `icon-icon_close`;
+    } else if (
+      !this.props.isQuickSettingsOpen &&
+      !this.props.hasDefaultPreferences
+    ) {
+      return `icon-icon_settings-adjusted`;
+    }
+    return `icon-icon_settings`;
+  };
+
+  customizeSearchModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
+  };
+
+  toggleQuickSettingsPanel = () => {
+    this.props.toggleQuickSettings(!this.props.isQuickSettingsOpen);
+  };
+
+  toggleCustomizeSearchOffcanvas = () => {
+    this.internalSetOffcanvas(!this.getOffcanvasState());
+  };
+
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
@@ -91,15 +121,6 @@ class SummaryNavigation extends React.Component {
     }
   };
 
-  toggleCustomizeSearchOffcanvas = () => {
-    this.internalSetOffcanvas(!this.getOffcanvasState());
-  };
-
-  customizeSearchModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
-  };
-
   renderTimeSelectorContainer = ({ done, props }) =>
     done ? (
       <TimeSelectorContainer
@@ -112,6 +133,7 @@ class SummaryNavigation extends React.Component {
     );
 
   render() {
+    const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
@@ -149,7 +171,11 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        <div className={cx('time-selector-settings-row', className)}>
+        <div
+          className={cx('time-selector-settings-row', className, {
+            quickSettingsOpen: this.props.isQuickSettingsOpen,
+          })}
+        >
           <Relay.Renderer
             Container={TimeSelectorContainer}
             queryConfig={{
@@ -162,11 +188,25 @@ class SummaryNavigation extends React.Component {
             environment={Relay.Store}
             render={this.renderTimeSelectorContainer}
           />
-          <RightOffcanvasToggle
-            onToggleClick={this.toggleCustomizeSearchOffcanvas}
-            hasChanges={!this.props.hasDefaultPreferences}
-          />
+          <div className="button-container">
+            <div className="icon-holder">
+              {!this.props.hasDefaultPreferences &&
+              !this.props.isQuickSettingsOpen ? (
+                <Icon img="icon-icon_attention" className="super-icon" />
+              ) : null}
+            </div>
+            <SecondaryButton
+              ariaLabel={this.props.isQuickSettingsOpen ? `close` : `settings`}
+              buttonName={this.props.isQuickSettingsOpen ? `close` : `settings`}
+              buttonClickAction={this.toggleQuickSettingsPanel}
+              buttonIcon={quickSettingsIcon}
+            />
+          </div>
         </div>
+        <QuickSettingsPanel
+          visible={this.props.isQuickSettingsOpen}
+          hasDefaultPreferences={this.props.hasDefaultPreferences}
+        />
       </div>
     );
   }
