@@ -7,6 +7,8 @@ module.exports = {
       .searchFields()
       .itinerarySearch('Helsingin rautatieasema', 'Kaisaniemen puisto');
 
+    browser.page.itinerarySummary().waitForFirstItineraryRow();
+
     const customizeSearch = browser.page.customizeSearch();
     customizeSearch.clickCanvasToggle();
     customizeSearch.disableAllModalitiesExcept('');

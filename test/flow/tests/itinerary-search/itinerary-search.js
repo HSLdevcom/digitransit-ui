@@ -27,7 +27,6 @@ module.exports = {
     browser.page
       .searchFields()
       .itinerarySearch('kuninkaanportti', 'Pohjolanaukio');
-    browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
