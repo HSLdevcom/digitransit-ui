@@ -110,7 +110,7 @@
         margin-right: 0.5em;
         width: 50%;
         > span {
-          margin-left: -1rem;
+          margin-left: -1.4rem;
           pointer-events: none;
         }
          .fake-select-arrow {
@@ -131,13 +131,14 @@
         display: inline-block;
         background-color: $white;
         color: $link-color;
-        border: none;
         border-radius: $border-radius;
+        border: solid 1px transparent;
         appearance: none;
         height: 2rem;
         font-weight: 700;
         &:hover {
           background-color: $white;
+          border: solid 1px #007ac9;
           //outline: none;
         }
         &:focus {
