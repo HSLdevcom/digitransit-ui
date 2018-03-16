@@ -120,6 +120,7 @@ class DepartureListContainer extends Component {
           departure={departure}
           showStop={this.props.showStops}
           currentTime={currentTime}
+          hasDisruption={classes.disruption}
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
