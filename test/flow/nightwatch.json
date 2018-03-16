@@ -27,8 +27,8 @@
       "silent": true,
       "globals": {
         "pause_ms": 10,
-        "itinerarySearchTimeout": 10000,
-        "elementVisibleTimeout": 10000
+        "itinerarySearchTimeout": 15000,
+        "elementVisibleTimeout": 15000
       },
       "screenshots": {
         "enabled": true,
@@ -40,8 +40,7 @@
         "resolution": "1280x800",
         "browserName": "chrome",
         "javascriptEnabled": true,
-        "acceptSslCerts": true,
-        "marionette": false
+        "acceptSslCerts": true
       }
     },
 
@@ -50,10 +49,6 @@
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
-      "globals": {
-        "itinerarySearchTimeout": 10000,
-        "elementVisibleTimeout": 10000
-      },
       "screenshots": {
         "enabled": true,
         "on_failure": true,
@@ -71,11 +66,6 @@
     "chromedriver": {
       "selenium": {
         "start_process": false
-      },
-      "globals": {
-        "itinerarySearchTimeout": 10000,
-        "elementVisibleTimeout": 10000,
-        "debug": false
       },
       "screenshots": {
         "enabled": true,
