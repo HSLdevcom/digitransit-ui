@@ -21,6 +21,8 @@ module.exports = {
     // but disable will remove them
     itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');
 
+    browser.pause(browser.globals.pause_ms);
+
     itinerarySummary.clickSwapOriginDestination();
 
     // rail still not available
