@@ -1,5 +1,10 @@
 function setOrigin(origin) {
-  this.clearValue('@searchOrigin');
+  this.waitForElementPresent(
+    '@searchOrigin',
+    this.api.globals.elementVisibleTimeout,
+  );
+  this.checkedClick(this.elements.clearOrigin.selector);
+  this.api.pause(this.api.globals.pause_ms);
   this.setValue('@searchOrigin', origin);
   this.api.pause(this.api.globals.pause_ms);
   this.verifyItemInSearchResult(origin);
@@ -102,6 +107,9 @@ module.exports = {
     },
     searchDestination: {
       selector: '#destination',
+    },
+    clearOrigin: {
+      selector: '.clear-input',
     },
     firstSuggestedOriginItem: {
       selector: '#react-autowhatever-origin--item-0',
