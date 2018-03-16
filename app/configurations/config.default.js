@@ -166,7 +166,7 @@ export default {
 
   // TODO: Switch back in april
   cityBike: {
-    showCityBikes: false,
+    showCityBikes: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/citybike',
@@ -278,8 +278,8 @@ export default {
 
     // TODO: Switch back in april
     citybike: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: true,
+      defaultValue: true,
     },
 
     airplane: {
