@@ -278,7 +278,7 @@ export default {
 
     // TODO: Switch back in april
     citybike: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: true,
     },
 
