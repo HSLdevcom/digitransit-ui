@@ -10,7 +10,7 @@ module.exports = {
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
+    customizeSearch.openQuickSettings();
     customizeSearch.disableAllModalitiesExcept('');
 
     browser.page.itinerarySummary().waitForItineraryRowOfType('walk');

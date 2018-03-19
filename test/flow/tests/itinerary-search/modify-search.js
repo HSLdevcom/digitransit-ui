@@ -1,7 +1,7 @@
 module.exports = {
   '@tags': ['itinerary tuning'],
-  '@disabled': true,
-  
+  '@disabled': false,
+
   'Custom search options are not forgotten if endpoint changes': browser => {
     browser.url(browser.launch_url);
 
@@ -12,12 +12,10 @@ module.exports = {
     itinerarySummary.waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
-    customizeSearch.waitOffcanvasOpen();
-
+    customizeSearch.openQuickSettings();
     customizeSearch.disableModality('rail');
-    customizeSearch.closeCanvas();
     itinerarySummary.waitForFirstItineraryRow();
+
     // rautatieasema  - pasila surely had rail connections before disable
     // but disable will remove them
     itinerarySummary.waitForItineraryRowOfTypeNotPresent('rail');

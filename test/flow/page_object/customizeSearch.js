@@ -15,7 +15,13 @@ function openQuickSettings() {
     '@openQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.openQuickSettings.selector);
+  this.api.checkedClick(this.elements.openQuickSettings.selector);
+
+  this.waitForElementVisible(
+    '@closeQuickSettings',
+    this.api.globals.elementVisibleTimeout,
+  );
+  return this;
 }
 
 function closeQuickSettings() {
@@ -23,12 +29,9 @@ function closeQuickSettings() {
     '@closeQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.closeQuickSettings.selector);
-}
-
-function waitQuickSettingsOpen() {
+  this.api.checkedClick(this.elements.closeQuickSettings.selector);
   this.waitForElementVisible(
-    '@closeQuickSettings',
+    '@openQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
 }
@@ -42,6 +45,7 @@ function exists(selector, callback) {
     }
   });
 }
+
 
 function enableModality(modality) {
   this.api.debug(`enabling ${modality}`);
@@ -91,9 +95,8 @@ function disableAllModalitiesExcept(except) {
 module.exports = {
   commands: [
     {
-      OpenQuickSettings,
+      openQuickSettings,
       closeQuickSettings,
-      waitQuickSettingsOpen,
       enableModality,
       disableModality,
       disableAllModalitiesExcept,
