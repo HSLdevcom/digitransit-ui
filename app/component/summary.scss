@@ -39,6 +39,7 @@
   flex-direction: row;
   align-items: stretch;
   max-height: 2.2em;
+  flex: 0 1 49.6%;
 
   input[type="date"], input[type="time"].time-selector, input[type="text"], input[type="tel"],select, .time-mui > input {
     vertical-align: middle;
@@ -103,7 +104,10 @@
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
-    border: none;
+    border: 1px solid #ddd;
+    &:hover {
+      border: 1px solid #007ac9;
+    }
     input {
       font-size: $font-size-xxsmall !important;
     }
@@ -135,6 +139,14 @@
     }
   }
 }
+
+.mobile .time-selectors {
+  flex: 0 1 48.5%;
+  .select-wrapper > span {
+    margin-left: -1.4rem;
+  }
+}
+
 .time-input-container {
   form {
     display: inherit;
@@ -143,7 +155,6 @@
   display: flex;
   background: $white;
   padding: 0 0.6em 0 0.2em;
-  box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
   border-radius: 3px;
   margin-right: 0.6em;
   .time-input-field {
@@ -187,6 +198,14 @@
   }
 }
 
+.quicksettings-separator-line {
+  border-top: 1px solid #ddd;
+  margin: 0 auto;
+  margin-left: 1em;
+  margin-right: 1em;
+  background-color: $background-color-darker
+}
+
 .time-selector-settings-row {
   padding: $padding-small 6px;
   overflow-x: hidden;
@@ -205,6 +224,7 @@
 
   .button-container {
     position: relative;
+    margin-top: -3px;
     .icon-holder {
       left: 1.4em;
       position: absolute;
@@ -228,9 +248,8 @@
       margin-top: -0.15em;
     }
     &.close {
-      flex-direction: row-reverse;
       .icon {
-        font-size: $font-size-xsmall;
+        font-size: $font-size-small;
       }
       :first-child {
         margin-left: 0.4em;
@@ -243,11 +262,11 @@
 }
 
 .bp-large.time-selector-settings-row {
-      padding: 0.4em 1em;
+      padding: 0.8em 1em;
 
   .select-wrapper {
     margin-right: 2px;
-    padding-right: 0.5rem;
+    // padding-right: 0.5rem;
 
     > span {
       margin-left: -1.5rem;
@@ -277,9 +296,6 @@
       }
       border-radius: $border-radius;
   }
-}
-.mobile .select-wrapper select.date {
-  width: 10em;
 }
 .right-offcanvas-toggle {
 
