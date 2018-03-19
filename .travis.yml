@@ -20,27 +20,6 @@ services:
 
 jobs:
   include:
-    - stage: test
-      env: VISUAL=chrome
-      node_js: "8"
-      script: test/visual.sh
-    - stage: test
-      env: VISUAL=ie11
-      node_js: "8"
-      script: test/visual.sh
-    - stage: test
-      env: VISUAL=edge15
-      node_js: "8"
-      script: test/visual.sh
-    - stage: test
-      env: VISUAL=safari10
-      node_js: "8"
-      script: test/visual.sh
-    - stage: test
-      env: VISUAL=firefox
-      node_js: "8"
-      script: test/visual.sh
-
     - stage: build and deploy container
       node_js: "8"
       script: test/deploy.sh
