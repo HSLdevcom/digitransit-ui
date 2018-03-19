@@ -90,7 +90,7 @@ class CityBikes {
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {
-          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+          if (true || result.bikesAvailable === 0 && result.spacesAvailable === 0) {
             drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
           } else if (
             result.bikesAvailable > this.config.cityBike.fewAvailableCount
