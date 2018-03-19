@@ -14,7 +14,7 @@ export default function TimeSelectors({ time, dates, changeTime, changeDate }) {
         initMin={time.format('m')}
         changeTime={changeTime}
       />
-      <div className="select-wrapper">
+      <div className="select-wrapper" style={{ flex: '1 2 100%' }}>
         <select className="date" value={`${time.unix()}`} onChange={changeDate}>
           {dates}
         </select>

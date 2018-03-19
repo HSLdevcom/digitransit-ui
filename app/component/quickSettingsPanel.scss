@@ -123,7 +123,6 @@
     select {
         vertical-align: middle;
         text-align: left;
-        height: 2.6em;
         margin: 0;
         padding: 0 1rem 0 0.9em;
         font-family: $font-family;
@@ -132,10 +131,11 @@
         background-color: $white;
         color: $link-color;
         border-radius: $border-radius;
-        border: solid 1px transparent;
+        border: solid 1px #ddd;
         appearance: none;
-        height: 2rem;
         font-weight: 700;
+        height: 2.6em;
+
         &:hover {
           background-color: $white;
           border: solid 1px #007ac9;

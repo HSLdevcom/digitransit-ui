@@ -152,7 +152,7 @@ class ItineraryTimePicker extends React.Component {
             onClick={this.setSelectionRange}
             onKeyDown={this.handleKeyDownHour}
           />
-          <div className="digit-separator">:</div>
+          <div id="timeinput-digit-separator">:</div>
           <input
             type="tel"
             ref={el => {
