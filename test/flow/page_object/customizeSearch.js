@@ -10,25 +10,25 @@ const modalities = [
   /* 'citybike', */ 'airplane',
 ];
 
-function clickCanvasToggle() {
+function openQuickSettings() {
   this.waitForElementVisible(
-    '@canvasToggle',
+    '@openQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.canvasToggle.selector);
+  return this.api.checkedClick(this.elements.openQuickSettings.selector);
 }
 
-function closeCanvas() {
+function closeQuickSettings() {
   this.waitForElementVisible(
-    '@closeCanvas',
+    '@closeQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.closeCanvas.selector);
+  return this.api.checkedClick(this.elements.closeQuickSettings.selector);
 }
 
-function waitOffcanvasOpen() {
+function waitQuickSettingsOpen() {
   this.waitForElementVisible(
-    '@closeCanvas',
+    '@closeQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
 }
@@ -91,17 +91,17 @@ function disableAllModalitiesExcept(except) {
 module.exports = {
   commands: [
     {
-      clickCanvasToggle,
+      OpenQuickSettings,
+      closeQuickSettings,
+      waitQuickSettingsOpen,
       enableModality,
       disableModality,
       disableAllModalitiesExcept,
       exists,
-      closeCanvas,
-      waitOffcanvasOpen,
     },
   ],
   elements: {
-    canvasToggle: '.right-offcanvas-toggle',
-    closeCanvas: '.offcanvas-close',
+    openQuickSettings: 'button.settings',
+    closeQuickSettings: 'button.close',
   },
 };
