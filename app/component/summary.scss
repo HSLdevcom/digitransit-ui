@@ -44,7 +44,6 @@
   input[type="date"], input[type="time"].time-selector, input[type="text"], input[type="tel"],select, .time-mui > input {
     vertical-align: middle;
     text-align: left;
-    height: 2.6em;
     margin: 0;
     padding: 0 1rem 0 0.9em;
     font-size: $font-size-xxsmall;
@@ -57,6 +56,7 @@
     appearance: none;
     @include font-book;
     font-weight: 700;
+    height: 2.6em;
 
     &:hover {
       background-color: $white;
@@ -169,13 +169,15 @@
     }
     &#inputMinutes{
       text-align: left;
+      padding-bottom: 0.2em;
     }
     &#inputHours{
       text-align: right;
+      padding-bottom: 0.2em;
     }
   }
-  .digit-separator {
-    margin: 0.35em 1px;
+  #timeinput-digit-separator {
+    margin: 0.25em 1px 0 1px;
     color: $link-color;
   }
 }
@@ -282,7 +284,6 @@
   input[type="date"], input[type="time"], input[type="text"], input[type="tel"], select, .time-mui > input {
     font-size: $font-size-xxsmall !important;
     padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
-    height: 35px !important;
 
     &.text-time-selector, &.desktop {
       padding: 0 0.5em 0 0.5em;
