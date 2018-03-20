@@ -144,7 +144,7 @@ class SummaryNavigation extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{ background: '#f4f4f5' }}>
         <LazilyLoad modules={this.customizeSearchModules}>
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
@@ -172,15 +172,15 @@ class SummaryNavigation extends React.Component {
           destination={parseLocation(this.props.params.to)}
         />
         <div
+          className={cx('quicksettings-separator-line', {
+            hidden: !this.props.isQuickSettingsOpen,
+          })}
+        />
+        <div
           className={cx('time-selector-settings-row', className, {
             quickSettingsOpen: this.props.isQuickSettingsOpen,
           })}
         >
-          <div
-            className={cx('quicksettings-separator-line', {
-              hidden: !this.props.isQuickSettingsOpen,
-            })}
-          />
           <Relay.Renderer
             Container={TimeSelectorContainer}
             queryConfig={{

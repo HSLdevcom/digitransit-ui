@@ -364,6 +364,11 @@ div.autosuggest-panel {
       z-index: 1004;
       background: $white;
     }
+    .clear-input {
+      border-top: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
   }
   &.small {
     position: relative;
@@ -657,6 +662,11 @@ input.react-autosuggest__input{
   position: relative;
   &.viapoint {
     width: 94%;
+  }
+  input[type="text"]{
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
 }
 
