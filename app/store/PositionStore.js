@@ -2,6 +2,7 @@ import Store from 'fluxible/addons/BaseStore';
 import d from 'debug';
 import { api, init } from '../action/MockGeolocationApi';
 import { isBrowser } from '../util/browser';
+import { parseLatLon } from '../util/otpStrings';
 import {
   getPositioningHasSucceeded,
   setPositioningHasSucceeded,
@@ -29,10 +30,16 @@ export default class PositionStore extends Store {
       window.location.search.indexOf('mock') !== -1
     ) {
       let permission = window.location.search.substring(
-        window.location.search.indexOf('mock') + 4,
+        window.location.search.indexOf('mock') + 5,
       );
+      let lat;
+      let lon;
       if (permission.length > 1) {
-        permission = permission.substring(1);
+        const latlon = parseLatLon(permission);
+        if (latlon) {
+          permission = 'granted';
+          ({ lat, lon } = latlon);
+        }
       } else {
         // default mock permission = granted
         permission = 'granted';
@@ -40,7 +47,7 @@ export default class PositionStore extends Store {
 
       debug('replacing geolocation api with mock');
       navigator.geoapi = api;
-      init(permission);
+      init(permission, lat, lon);
     } else {
       navigator.geoapi = navigator.geolocation;
     }
@@ -95,11 +102,14 @@ export default class PositionStore extends Store {
       this.positioningHasSucceeded = true;
     }
 
-    const statusChanged = this.hasStatusChanged(true);
-
-    if (location && location.disableFiltering !== true) {
-      this.lat = this.lat !== 0 ? (this.lat + location.lat) / 2 : location.lat;
-      this.lon = this.lon !== 0 ? (this.lon + location.lon) / 2 : location.lon;
+    if (
+      location &&
+      location.disableFiltering !== true &&
+      Math.abs(this.lat - location.lat) < 0.001 &&
+      Math.abs(this.lon - location.lon) < 0.001
+    ) {
+      this.lat = (this.lat + location.lat) / 2;
+      this.lon = (this.lon + location.lon) / 2;
     } else {
       this.lat = location.lat;
       this.lon = location.lon;
@@ -108,9 +118,7 @@ export default class PositionStore extends Store {
     this.heading = location.heading ? location.heading : this.heading;
     this.status = PositionStore.STATUS_FOUND_LOCATION;
 
-    this.emitChange({
-      statusChanged,
-    });
+    this.emitChange();
   }
 
   storeAddress(location) {
@@ -128,9 +136,6 @@ export default class PositionStore extends Store {
     this.status = PositionStore.STATUS_FOUND_ADDRESS;
     this.emitChange();
   }
-
-  hasStatusChanged = hasLocation =>
-    hasLocation !== this.getLocationState().hasLocation;
 
   getLocationState() {
     return {
