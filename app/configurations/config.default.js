@@ -169,9 +169,9 @@ export default {
     showCityBikes: true,
 
     useUrl: {
-      fi: 'https://www.hsl.fi/citybike',
-      sv: 'https://www.hsl.fi/sv/citybike',
-      en: 'https://www.hsl.fi/en/citybike',
+      fi: 'https://www.hsl.fi/fi/kaupunkipyorat',
+      sv: 'https://www.hsl.fi/sv/stadscyclar',
+      en: 'https://www.hsl.fi/en/citybikes',
     },
 
     infoUrl: {
