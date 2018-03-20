@@ -10,25 +10,28 @@ const modalities = [
   /* 'citybike', */ 'airplane',
 ];
 
-function clickCanvasToggle() {
+function openQuickSettings() {
   this.waitForElementVisible(
-    '@canvasToggle',
+    '@openQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.canvasToggle.selector);
-}
+  this.api.checkedClick(this.elements.openQuickSettings.selector);
 
-function closeCanvas() {
   this.waitForElementVisible(
-    '@closeCanvas',
+    '@closeQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
-  return this.api.checkedClick(this.elements.closeCanvas.selector);
+  return this;
 }
 
-function waitOffcanvasOpen() {
+function closeQuickSettings() {
   this.waitForElementVisible(
-    '@closeCanvas',
+    '@closeQuickSettings',
+    this.api.globals.elementVisibleTimeout,
+  );
+  this.api.checkedClick(this.elements.closeQuickSettings.selector);
+  this.waitForElementVisible(
+    '@openQuickSettings',
     this.api.globals.elementVisibleTimeout,
   );
 }
@@ -43,30 +46,29 @@ function exists(selector, callback) {
   });
 }
 
-function enableModality(modality) {
-  this.api.debug(`enabling ${modality}`);
-  exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
+function enableModality(mode) {
+  this.api.debug(`enabling ${mode}`);
+  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
     if (!found) {
-      this.checkedClick(
-        `.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`,
-      );
+      const nth = modalities.indexOf(mode) + 1;
+      this.checkedClick(`.toggle-modes>.btn-bar>.btn:nth-of-type(${nth})`);
     }
   });
   this.waitForElementPresent(
-    `.btn-bar > .${modality}`,
+    `.toggle-modes > .btn-bar > .${mode}`,
     this.api.globals.elementVisibleTimeout,
   );
 }
 
-function disableModality(modality, asyncCallback = () => {}) {
-  this.api.debug(`disabling ${modality}`);
-  exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
+function disableModality(mode, asyncCallback = () => {}) {
+  this.api.debug(`disabling ${mode}`);
+  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
     if (found) {
       this.checkedClick(selector);
     }
   });
   this.waitForElementNotPresent(
-    `.btn-bar > .${modality}`,
+    `.toggle-modes > .btn-bar > .${mode}`,
     this.api.globals.elementVisibleTimeout,
     true,
     () => {
@@ -79,7 +81,7 @@ function disableAllModalitiesExcept(except) {
   this.api.debug(`disabling all but ${except}`);
 
   async.eachSeries(modalities, (modality, callback) => {
-    this.api.pause(1000);
+    this.api.pause(this.api.globals.pause_ms);
     this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
       disableModality.call(this, modality, callback);
@@ -91,17 +93,16 @@ function disableAllModalitiesExcept(except) {
 module.exports = {
   commands: [
     {
-      clickCanvasToggle,
+      openQuickSettings,
+      closeQuickSettings,
       enableModality,
       disableModality,
       disableAllModalitiesExcept,
       exists,
-      closeCanvas,
-      waitOffcanvasOpen,
     },
   ],
   elements: {
-    canvasToggle: '.right-offcanvas-toggle',
-    closeCanvas: '.offcanvas-close',
+    openQuickSettings: 'button.settings',
+    closeQuickSettings: 'button.close',
   },
 };

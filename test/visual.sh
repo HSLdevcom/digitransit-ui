@@ -11,7 +11,6 @@ fi
 set -e
 
 yarn install
-yarn lint
 yarn build
 
 #number of latest test results stored in dropbox - 2

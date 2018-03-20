@@ -212,6 +212,14 @@ export function drawCitybikeIcon(tile, geom, imageSize) {
   );
 }
 
+export function drawCitybikeOffIcon(tile, geom, imageSize) {
+  getImageFromSpriteCache('icon-icon_citybike_off', imageSize, imageSize).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
+}
+
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize).then(
     image => {

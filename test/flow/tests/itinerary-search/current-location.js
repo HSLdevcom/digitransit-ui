@@ -1,12 +1,9 @@
 module.exports = {
   tags: ['geolocation'],
-  'From my location nearby Central Railway Station to HSL': browser => {
-    browser.url(browser.launch_url).setGeolocation(60.1719, 24.9414);
+  'From my location at HSL to Central Railway Station': browser => {
+    browser.url(browser.launch_url);
 
-    browser.page
-      .searchFields()
-      .setDestination('Opastinsilta 6')
-      .enterKeyDestination();
+    browser.page.searchFields().selectDestination('Rautatieasema, Helsinki');
 
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 

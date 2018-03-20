@@ -6,8 +6,7 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
-  drawCitybikeIcon,
-  drawCitybikeNotInUseIcon,
+  drawCitybikeOffIcon,
   drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
@@ -90,8 +89,18 @@ class CityBikes {
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {
-          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
-            drawCitybikeNotInUseIcon(this.tile, geom, this.notInUseImageSize);
+          if (true) {
+            // force temporarily until Smoove api gets updated
+            // real test: result.bikesAvailable === 0 && result.spacesAvailable === 0K
+            drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
+            drawAvailabilityBadge(
+              'no',
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+              this.availabilityImageSize,
+              this.scaleratio,
+            );
           } else if (
             result.bikesAvailable > this.config.cityBike.fewAvailableCount
           ) {
@@ -147,7 +156,6 @@ class CityBikes {
     if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
       drawRoundIcon(this.tile, feature.geom, 'citybike');
     } else {
-      drawCitybikeIcon(this.tile, feature.geom, this.citybikeImageSize);
       this.fetchAndDrawStatus(feature);
     }
   };

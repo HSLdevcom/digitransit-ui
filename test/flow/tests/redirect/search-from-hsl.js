@@ -16,6 +16,7 @@ module.exports = {
     browser.url(url);
     const itinerarySummary = browser.page.itinerarySummary();
     itinerarySummary.waitForFirstItineraryRow();
+    browser.pause(1000);
     itinerarySummary.chooseFirstItinerarySuggestion();
 
     const itineraryInstructions = browser.page.itineraryInstructions();

@@ -1,6 +1,6 @@
-function waitForWalkDistance() {
+function waitForStopCode() {
   return this.waitForElementVisible(
-    '@walkDistance',
+    '@stopCode',
     this.api.globals.elementVisibleTimeout,
   );
 }
@@ -16,12 +16,12 @@ function addRouteAsFavourite() {
 module.exports = {
   commands: [
     {
-      waitForWalkDistance,
+      waitForStopCode,
       addRouteAsFavourite,
     },
   ],
   elements: {
-    walkDistance: 'span.walk-distance',
+    stopCode: 'span.itinerary-stop-code',
     favouriteIcon: '.favourite-icon',
   },
 };
