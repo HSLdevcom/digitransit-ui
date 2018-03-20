@@ -46,31 +46,29 @@ function exists(selector, callback) {
   });
 }
 
-
-function enableModality(modality) {
-  this.api.debug(`enabling ${modality}`);
-  exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
+function enableModality(mode) {
+  this.api.debug(`enabling ${mode}`);
+  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
     if (!found) {
-      this.checkedClick(
-        `.btn-bar > .btn:nth-of-type(${modalities.indexOf(modality) + 1})`,
-      );
+      const nth = modalities.indexOf(mode) + 1;
+      this.checkedClick(`.toggle-modes>.btn-bar>.btn:nth-of-type(${nth})`);
     }
   });
   this.waitForElementPresent(
-    `.btn-bar > .${modality}`,
+    `.toggle-modes > .btn-bar > .${mode}`,
     this.api.globals.elementVisibleTimeout,
   );
 }
 
-function disableModality(modality, asyncCallback = () => {}) {
-  this.api.debug(`disabling ${modality}`);
-  exists.call(this, `.btn-bar > .${modality}`, (selector, found) => {
+function disableModality(mode, asyncCallback = () => {}) {
+  this.api.debug(`disabling ${mode}`);
+  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
     if (found) {
       this.checkedClick(selector);
     }
   });
   this.waitForElementNotPresent(
-    `.btn-bar > .${modality}`,
+    `.toggle-modes > .btn-bar > .${mode}`,
     this.api.globals.elementVisibleTimeout,
     true,
     () => {
