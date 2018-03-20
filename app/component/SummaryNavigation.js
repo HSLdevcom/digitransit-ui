@@ -176,6 +176,11 @@ class SummaryNavigation extends React.Component {
             quickSettingsOpen: this.props.isQuickSettingsOpen,
           })}
         >
+          <div
+            className={cx('quicksettings-separator-line', {
+              hidden: !this.props.isQuickSettingsOpen,
+            })}
+          />
           <Relay.Renderer
             Container={TimeSelectorContainer}
             queryConfig={{

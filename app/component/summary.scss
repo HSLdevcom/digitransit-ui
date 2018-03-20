@@ -216,6 +216,16 @@
   justify-content: space-between;
   align-items: stretch;
 
+  .quicksettings-separator-line {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: black;
+    &.hidden {
+      display: none;
+    }
+  }
+
   &.quickSettingsOpen {
     padding: 1em 6px $padding-small 6px;
     padding-top: 0.8em;
