@@ -34,7 +34,7 @@
 .time-selectors {
   @include font-book;
   font-size: $font-size-small;
-  background-color: $background-color-darker;
+  background-color: $background-color-lighter;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -79,12 +79,16 @@
     flex-direction: row;
     align-items: center;
     border-radius: $border-radius;
-    background: $background-color-darker;
+    background: $background-color-lighter;
     margin-right: 1px;
+    flex: 0 1 14.5em;
 
     > span {
       margin-left: -1rem;
       pointer-events: none;
+    }
+    select {
+      border-radius: 5px;
     }
   }
   .time-box-shadow input {
@@ -155,8 +159,9 @@
   display: flex;
   background: $white;
   padding: 0 0.6em 0 0.2em;
-  border-radius: 3px;
+  border-radius: 5px;
   margin-right: 0.6em;
+  flex: 0 1 2em;
   .time-input-field {
     width: 1.5em;
     padding-right: 0 !important;
@@ -201,37 +206,39 @@
 }
 
 .quicksettings-separator-line {
-  border-top: 1px solid #ddd;
+  display: block;
+  width: auto;
   margin: 0 auto;
   margin-left: 1em;
   margin-right: 1em;
-  background-color: $background-color-darker
+  margin-top: 0.3em;
+  border-top: 1px solid #ddd;
+  background: $background-color-lighter;
+  &.hidden {
+    display: none;
+  }
+}
+
+.mobile .quicksettings-separator-line {
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 .time-selector-settings-row {
   padding: $padding-small 6px;
   overflow-x: hidden;
-  background-color: $background-color-darker;
+  background-color: $background-color-lighter;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-
-  .quicksettings-separator-line {
-    display: block;
-    height: 1px;
-    width: 100%;
-    background: black;
-    &.hidden {
-      display: none;
-    }
-  }
+  flex-direction: initial;
 
   &.quickSettingsOpen {
     padding: 1em 6px $padding-small 6px;
     padding-top: 0.8em;
-    background: linear-gradient(rgba(194, 197, 199, 0.8), $background-color-darker 12%);
-    background-size: 100%;
-    background-repeat-y: no-repeat;
+    //background: linear-gradient(rgba(194, 197, 199, 0.8), $background-color-lighter 12%);
+    //background-size: 100%;
+    //background-repeat-y: no-repeat;
   }
 
   .button-container {
@@ -278,6 +285,7 @@
 
   .select-wrapper {
     margin-right: 2px;
+    flex: 0 1 14.5em;
     // padding-right: 0.5rem;
 
     > span {
