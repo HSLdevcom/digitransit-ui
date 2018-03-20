@@ -225,7 +225,7 @@
       clear: left;
       float: left;
       padding: 0;
-      width: 1.3em;
+      min-width: 1.3em;
       margin-left: $padding-small;
       &.long {
         @extend .overflow-fade;
