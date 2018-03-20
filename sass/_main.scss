@@ -10,7 +10,7 @@ $body-font-weight: $font-weight-medium;
 @import 'base/helper-classes';
 @import 'base/elements';
 
-@import '../node_modules/zurb-foundation-5/scss/foundation/components/grid';
+@import '~zurb-foundation-5/scss/foundation/components/grid';
 @import 'base/helper-classes-after-foundations';
 
 // Some of these files override sass variables Foundation uses,
@@ -43,11 +43,11 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/visual/index';
 @import '../app/component/departures-table.scss';
 @import '../app/component/quickSettingsPanel';
-@import '../node_modules/zurb-foundation-5/scss/foundation/components/forms';
+@import '~zurb-foundation-5/scss/foundation/components/forms';
 
 /* Modal */
-@import '../node_modules/foundation-apps/scss/helpers/breakpoints';
-@import '../node_modules/foundation-apps/scss/components/modal';
+@import '~foundation-apps/scss/helpers/breakpoints';
+@import '~foundation-apps/scss/components/modal';
 
 // And these application specific styles use Foundation variables,
 // so they have to be loaded afterwards
