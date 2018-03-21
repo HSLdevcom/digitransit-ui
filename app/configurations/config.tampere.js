@@ -32,7 +32,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/tampere/favicon.png',
 
-  feedIds: ['Tampere'],
+  feedIds: ['tampere'],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
