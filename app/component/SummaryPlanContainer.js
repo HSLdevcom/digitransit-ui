@@ -8,7 +8,7 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
-import { preparePlanParams, getDefaultModes } from '../util/planParamUtil';
+import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -115,7 +115,7 @@ class SummaryPlanContainer extends React.Component {
       );
 
       const tunedParams = {
-        ...{ modes: getDefaultModes(this.props.config).join(',') },
+        ...{ modes: getDefaultOTPModes(this.props.config).join(',') },
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
@@ -184,7 +184,7 @@ class SummaryPlanContainer extends React.Component {
       );
 
       const tunedParams = {
-        ...{ modes: getDefaultModes(this.props.config).join(',') },
+        ...{ modes: getDefaultOTPModes(this.props.config).join(',') },
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
