@@ -37,9 +37,6 @@ $item-border-color: #eee;
     margin:0;
     font-size: 1rem;
   }
-  #destination-container {
-    margin-top: 8px;
-  }
   #destination {
     margin:0;
     font-size: 1rem;
@@ -333,11 +330,8 @@ div.map {
 }
 
 div.autosuggest-panel {
-  position: absolute;
+  position: static;
   z-index: 1000;
-  margin-top: 1em;
-  width: 52.5%;
-  margin-left: 5%;
   &.isItinerary {
     position: relative;
     z-index: 1001;
@@ -430,7 +424,7 @@ div.autosuggest-panel {
   .dark-overlay {
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     background: rgba(0, 0, 0, 0.57);
@@ -445,7 +439,7 @@ div.autosuggest-panel {
 
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
-    position: fixed;
+    position: absolute;
     background: #fff;
     width: 52.5%;
     height: auto;
@@ -453,14 +447,15 @@ div.autosuggest-panel {
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 998;
-    margin-top: -8px;
+    margin-top: calc(4em - 8px);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    margin-left: 5%;
     }
   }
   #react-autowhatever-destination {
     &.react-autosuggest__suggestions-container--open {
-    position: fixed;
+    position: absolute;
     background: #fff;
     width: 52.5%;
     height: auto;
@@ -468,9 +463,10 @@ div.autosuggest-panel {
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 996;
-    margin-top: -8px;
+    margin-top: calc(8em - 8px);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    margin-left: 5%;
     }
   }
   #react-autowhatever-viapoint {
@@ -653,11 +649,27 @@ input.react-autosuggest__input{
 }
 
 .autosuggest-input-container {
+    position: absolute;
+    margin-left: 5%;
+    margin-top: 1em;
+    width: 52.5%;
+  &.origin, &.destination {
+    position: static;
+    width: auto;
+    margin: 0;
+  }
   &.destination {
     display: block;
   }
+  &#destination-container {
+    margin-top: calc(4em + 8px);
+  }
 }
 .isItinerary .autosuggest-input-container {
+  margin: 0;
+  &#destination-container {
+    margin: 0;
+  }
   width: 100%;
   position: relative;
   &.viapoint {
