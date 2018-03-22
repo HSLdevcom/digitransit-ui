@@ -1,14 +1,15 @@
 @import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: #61ABC7;
-$secondary-color: darken($primary-color, 20%);
+$primary-color: #0ab1c8;
+$secondary-color: #724f9f;
 $hilight-color: $primary-color;
 $action-color: $primary-color;
-$bus-color: $primary-color;
+$bus-color: $secondary-color;
 $viewpoint-marker-color: $primary-color;
-$current-location-color: $primary-color;
+$current-location-color: $secondary-color;
 
 $standalone-btn-color: $primary-color;
+$link-color: $primary-color;
 
 $nav-logo: url('logo.png'); /* Navbar logo */
