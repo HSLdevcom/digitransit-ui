@@ -69,7 +69,7 @@
     "express": "4.16.2",
     "express-http-proxy": "1.1.0",
     "express-static-gzip": "0.3.1",
-    "favicons-webpack-plugin": "0.0.7",
+    "favicons-webpack-plugin": "0.0.8",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.14",
     "foundation-apps": "1.2.0",
