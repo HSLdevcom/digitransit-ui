@@ -6,6 +6,7 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
+  drawCitybikeIcon,
   drawCitybikeOffIcon,
   drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
@@ -89,9 +90,7 @@ class CityBikes {
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {
-          if (true) {
-            // force temporarily until Smoove api gets updated
-            // real test: result.bikesAvailable === 0 && result.spacesAvailable === 0K
+          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
             drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
             drawAvailabilityBadge(
               'no',
@@ -101,9 +100,10 @@ class CityBikes {
               this.availabilityImageSize,
               this.scaleratio,
             );
-          } else if (
-            result.bikesAvailable > this.config.cityBike.fewAvailableCount
-          ) {
+            return;
+          }
+          drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
+          if (result.bikesAvailable > this.config.cityBike.fewAvailableCount) {
             drawAvailabilityBadge(
               'good',
               this.tile,
