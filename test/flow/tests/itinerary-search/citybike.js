@@ -5,9 +5,10 @@ module.exports = {
     browser.url(browser.launch_url);
 
     browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
+    browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
+    customizeSearch.openQuickSettings();
     customizeSearch.disableAllModalitiesExcept('citybike');
     customizeSearch.enableModality('citybike');
 
@@ -20,9 +21,10 @@ module.exports = {
     browser.url(browser.launch_url);
 
     browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
+    browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.clickCanvasToggle();
+    customizeSearch.openQuickSettings();
     customizeSearch.disableAllModalitiesExcept();
 
     browser.page

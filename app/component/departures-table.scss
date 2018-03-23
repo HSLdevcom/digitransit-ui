@@ -61,6 +61,7 @@ table.nearby-departures-table {
                 &.td-available-bikes {
                     font-size: $font-size-small;
                     text-align: center;
+                    flex: 0 0 8em;
                     .city-bike-station-availability {
                         padding-right: 0.3em;
                     }
@@ -70,12 +71,14 @@ table.nearby-departures-table {
                 }
                 &.td-route-number {
                     flex-basis: 4.5em;
-                    overflow: hidden;
                     .route-number {
                         white-space: nowrap;
                         min-width: 50px;
                         max-width: 4.5em;
-                        mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+                        // mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+                        .vehicle-number {
+                            max-width: 3em;
+                        }
                     }
                 }
                 &.td-distance {

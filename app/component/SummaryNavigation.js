@@ -144,7 +144,7 @@ class SummaryNavigation extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{ background: '#f4f4f5' }}>
         <LazilyLoad modules={this.customizeSearchModules}>
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
@@ -170,6 +170,11 @@ class SummaryNavigation extends React.Component {
           className={className}
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
+        />
+        <div
+          className={cx('quicksettings-separator-line', {
+            hidden: !this.props.isQuickSettingsOpen,
+          })}
         />
         <div
           className={cx('time-selector-settings-row', className, {

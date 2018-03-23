@@ -12,25 +12,23 @@
     "host": "127.0.0.1",
     "port": 4444,
     "cli_args": {
-      "webdriver.chrome.driver": "",
-      "webdriver.ie.driver": ""
+      "webdriver.chrome.driver": "./chromedriver",
+      "webdriver.ie.driver": "",
+      "webdriver.gecko.driver": "./geckodriver"
     }
   },
 
-  "test_workers": {
-    "enabled": true,
-    "workers": 2
-  },
 
   "test_settings": {
     "default": {
-      "launch_url": "http://localhost:8000/?mock",
+      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 30000
+        "pause_ms": 10,
+        "itinerarySearchTimeout": 15000,
+        "elementVisibleTimeout": 15000
       },
       "screenshots": {
         "enabled": true,
@@ -40,21 +38,17 @@
       },
       "desiredCapabilities": {
         "resolution": "1280x800",
-        "browserName": "firefox",
+        "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true
       }
     },
 
     "firefox": {
-      "launch_url": "http://localhost:8080/?mock",
+      "launch_url": "http://localhost:8080/POS/-/lahellasi?mock",
       "selenium_port": 4444,
       "selenium_host": "localhost",
       "silent": true,
-      "globals": {
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 20000
-      },
       "screenshots": {
         "enabled": true,
         "on_failure": true,
@@ -65,7 +59,6 @@
         "resolution": "1280x800",
         "browserName": "firefox",
         "javascriptEnabled": true,
-
         "acceptSslCerts": true
       }
     },
@@ -73,15 +66,6 @@
     "chromedriver": {
       "selenium": {
         "start_process": false
-      },
-      "test_workers": {
-        "enabled": true,
-        "workers": 2
-      },
-      "globals": {
-        "itinerarySearchTimeout": 21000,
-        "elementVisibleTimeout": 20000,
-        "debug": false
       },
       "screenshots": {
         "enabled": true,
@@ -107,10 +91,6 @@
     "chromedriver-mobile": {
       "selenium": {
         "start_process": false
-      },
-      "test_workers": {
-        "enabled": true,
-        "workers": 2
       },
       "globals": {
         "itinerarySearchTimeout": 21000,

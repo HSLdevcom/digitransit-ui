@@ -34,6 +34,7 @@ function Departure(props) {
       />
       <RouteNumberContainer
         route={props.departure.pattern.route}
+        hasDisruption={props.hasDisruption}
         isCallAgency={isCallAgencyDeparture(props.departure)}
         fadeLong
       />
@@ -95,6 +96,7 @@ Departure.displayName = 'Departure';
 Departure.propTypes = {
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  hasDisruption: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   departure: PropTypes.object.isRequired,
   isArrival: PropTypes.bool,

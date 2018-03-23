@@ -1,6 +1,6 @@
 .quicksettings-container {
     display: none;
-    background-color: $background-color-darker;
+    background-color: $background-color-lighter;
     padding-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;
@@ -19,6 +19,51 @@
       justify-content: center;
       .toggle-modes {
         flex: 1 1 auto;
+        .btn {
+          background: #bbb;
+          &.bus {
+            background-color: $btn-bus-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-bus-active-background-color
+            }
+          }
+          &.tram {
+            background-color: $btn-tram-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-tram-active-background-color
+            }
+          }
+          &.rail {
+            background-color: $btn-rail-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-rail-active-background-color
+            }
+          }
+          &.subway {
+            background-color: $btn-subway-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-subway-active-background-color
+            }
+          }
+          &.ferry {
+            background-color: $btn-ferry-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-ferry-active-background-color
+            }
+          }
+          &.airplane {
+            background-color: $btn-air-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-air-active-background-color
+            }
+          }
+          &.citybike {
+            background-color: $btn-citybike-active-background-color;
+            &:hover, &:active, &:focus {
+              background-color: $btn-citybike-active-background-color
+            }
+          }
+        }
         .mode-icon {
           border-radius: 3px;
           border-right: none;
@@ -65,7 +110,7 @@
         margin-right: 0.5em;
         width: 50%;
         > span {
-          margin-left: -1rem;
+          margin-left: -1.4rem;
           pointer-events: none;
         }
          .fake-select-arrow {
@@ -78,7 +123,6 @@
     select {
         vertical-align: middle;
         text-align: left;
-        height: 2.6em;
         margin: 0;
         padding: 0 1rem 0 0.9em;
         font-family: $font-family;
@@ -86,13 +130,15 @@
         display: inline-block;
         background-color: $white;
         color: $link-color;
-        border: none;
-        border-radius: $border-radius;
+        border-radius: 5px;
+        border: solid 1px #ddd;
         appearance: none;
-        height: 2rem;
         font-weight: 700;
+        height: 2.6em;
+
         &:hover {
           background-color: $white;
+          border: solid 1px #007ac9;
           //outline: none;
         }
         &:focus {

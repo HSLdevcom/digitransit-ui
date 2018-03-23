@@ -7,22 +7,34 @@ import Availability from './Availability';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const CityBikeAvailability = mapProps(
-  ({ bikesAvailable, totalSpaces, fewAvailableCount }) => ({
-    available: bikesAvailable,
-    total: totalSpaces,
-    fewAvailableCount,
-    text: (
-      <p className="sub-header-h4 availability-header">
-        <FormattedMessage
-          id="bike-availability"
-          defaultMessage="Bikes available at the station right now"
-        />
-        {'\u00a0'}
-        ({Number.isNaN(bikesAvailable) ? 0 : bikesAvailable}/
-        {Number.isNaN(totalSpaces) ? 0 : totalSpaces})
-      </p>
-    ),
-  }),
+  ({ bikesAvailable, totalSpaces, fewAvailableCount }) => {
+    const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
+    const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
+
+    return {
+      available,
+      total,
+      fewAvailableCount,
+      text:
+        total === 0 ? (
+          <p className="sub-header-h4 availability-header">
+            <FormattedMessage
+              id="bike-station-off"
+              defaultMessage="Bike station closed"
+            />
+          </p>
+        ) : (
+          <p className="sub-header-h4 availability-header">
+            <FormattedMessage
+              id="bike-availability"
+              defaultMessage="Bikes available at the station right now"
+            />
+            {'\u00a0'}
+            ({available}/{total})
+          </p>
+        ),
+    };
+  },
 )(Availability);
 
 CityBikeAvailability.displayName = 'CityBikeAvailability';

@@ -3,7 +3,7 @@ function openNearbyRoutes() {
     '@nearbyRoutesPaneSelect',
     this.api.globals.elementVisibleTimeout,
   );
-  this.api.pause(1000); // location spinner
+  this.api.pause(this.api.globals.pause_ms); // location spinner
   this.api.checkedClick(this.elements.nearbyRoutesPaneSelect.selector);
   return this;
 }
