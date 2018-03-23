@@ -32,7 +32,7 @@ class CityBikes {
     this.notInUseImageSize =
       12 * this.scaleratio * getScale(this.tile.coords.z);
 
-    this.promise = this.fetchWithAction(this.addFeature);
+    this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
   fetchWithAction = actionFn =>
@@ -90,6 +90,16 @@ class CityBikes {
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {
+          if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
+            let mode;
+            if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+              mode = 'citybike-off';
+            } else {
+              mode = 'citybike';
+            }
+            return drawRoundIcon(this.tile, geom, mode);
+          }
+
           if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
             drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
             drawAvailabilityBadge(
@@ -149,14 +159,6 @@ class CityBikes {
         },
         callback,
       );
-    }
-  };
-
-  addFeature = feature => {
-    if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
-      drawRoundIcon(this.tile, feature.geom, 'citybike');
-    } else {
-      this.fetchAndDrawStatus(feature);
     }
   };
 

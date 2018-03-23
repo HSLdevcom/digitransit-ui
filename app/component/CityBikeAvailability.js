@@ -30,7 +30,7 @@ const CityBikeAvailability = mapProps(
               defaultMessage="Bikes available at the station right now"
             />
             {'\u00a0'}
-            ({available} {total})
+            ({available}/{total})
           </p>
         ),
     };
