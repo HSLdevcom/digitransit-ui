@@ -83,6 +83,13 @@ export const getDefaultModes = config => [
     .map(mode => mode.toUpperCase()),
 ];
 
+// all modes except one, citybike, have the same values in UI code and in OTP
+// this is plain madness but hard to change afterwards
+export const getDefaultOTPModes = config =>
+  getDefaultModes(config).map(
+    mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode),
+  );
+
 export const preparePlanParams = config => (
   { from, to },
   {
