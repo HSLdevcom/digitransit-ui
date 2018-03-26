@@ -276,10 +276,9 @@ export default {
       defaultValue: true,
     },
 
-    // TODO: Switch back in april
     citybike: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: false, // TODO: Turn on in april
+      defaultValue: false,          // always false
     },
 
     airplane: {
