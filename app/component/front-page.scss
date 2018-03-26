@@ -25,13 +25,6 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-wrapper {
-  height: 250px;
-  &.medium {
-    height: 220px;
-  }
-  &.small {
-    height: 230px;
-  }
   //overflow: scroll;
   &.expanded-panel {
     flex-grow: 0;
@@ -295,6 +288,7 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
+  min-height: 280px; // Stop near you/favorites tabs from taking up all the space
 }
 
 // <Tab> component

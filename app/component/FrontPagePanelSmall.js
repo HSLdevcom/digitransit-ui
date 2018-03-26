@@ -32,9 +32,7 @@ const FrontPagePanelSmall = (
         'frontpage-panel-wrapper',
         'no-select',
         {
-          small: breakpoint === 'small',
-          medium: breakpoint === 'medium',
-          'not-large': breakpoint !== 'large',
+          small: breakpoint !== 'large',
           'expanded-panel': mapExpanded,
         },
       ])}
