@@ -26,6 +26,12 @@ $heading-color: #858585;
 
 .frontpage-panel-wrapper {
   height: 250px;
+  &.medium {
+    height: 220px;
+  }
+  &.small {
+    height: 230px;
+  }
   //overflow: scroll;
   &.expanded-panel {
     flex-grow: 0;
@@ -37,7 +43,7 @@ $heading-color: #858585;
     height:0px;
   }
 }
-.small {
+.not-large {
   &.frontpage-panel-wrapper {
     table.nearby-departures-table .header-tr {
       overflow-y: hidden;
