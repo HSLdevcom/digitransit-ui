@@ -238,7 +238,7 @@ function getFavouriteStops(favourites, input, origin) {
         routes { mode }
       }
     }`,
-    { ids: favourites },
+    { ids: favourites.map(item => item.id) },
   );
 
   const refLatLng = origin.lat &&

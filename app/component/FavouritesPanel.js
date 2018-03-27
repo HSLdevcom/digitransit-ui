@@ -54,14 +54,14 @@ FavouriteRoutes.propTypes = {
 };
 
 const FavouritesPanel = (
-  { origin, routes, currentTime, favouriteLocations },
+  { origin, routes, currentTime, favouriteLocations, favouriteStops },
   context,
 ) => (
   <div className="frontpage-panel">
     <FavouriteLocationsContainer
       origin={origin}
       currentTime={currentTime}
-      favourites={favouriteLocations}
+      favourites={[...favouriteLocations, ...favouriteStops]}
     />
     <div
       className={`nearby-table-container ${context.breakpoint !== 'large' &&
@@ -84,6 +84,7 @@ FavouritesPanel.propTypes = {
   origin: dtLocationShape.isRequired, // eslint-disable-line react/no-typos
   currentTime: PropTypes.number.isRequired,
   favouriteLocations: PropTypes.array,
+  favouriteStops: PropTypes.array,
 };
 
 FavouritesPanel.contextTypes = {
@@ -95,6 +96,7 @@ const FilteredFavouritesPanel = shouldUpdate(
     nextProps.currentTime !== props.currentTime ||
     nextProps.routes !== props.routes ||
     nextProps.favouriteLocations !== props.favouriteLocations ||
+    nextProps.favouriteStops !== props.favouriteStops ||
     nextProps.origin.gps !== props.origin.gps ||
     (!nextProps.origin.gps &&
       (nextProps.origin.lat !== props.origin.lat ||
@@ -108,7 +110,12 @@ export default connectToStores(
       panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
     />
   ),
-  ['FavouriteRoutesStore', 'TimeStore', 'FavouriteLocationStore'],
+  [
+    'FavouriteRoutesStore',
+    'TimeStore',
+    'FavouriteLocationStore',
+    'FavouriteStopsStore',
+  ],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
     currentTime: context
@@ -118,5 +125,6 @@ export default connectToStores(
     favouriteLocations: context
       .getStore('FavouriteLocationStore')
       .getLocations(),
+    favouriteStops: context.getStore('FavouriteStopsStore').getStops(),
   }),
 );

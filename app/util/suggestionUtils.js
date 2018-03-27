@@ -29,7 +29,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
     return gtfsId;
   }
 
-  if (id.indexOf('GTFS:') === 0) {
+  if (id && id.indexOf('GTFS:') === 0) {
     if (id.indexOf('#') === -1) {
       return id.substring(5);
     }
@@ -133,6 +133,8 @@ export function suggestionToLocation(item) {
   return {
     address: name,
     type: item.type,
+    id: getGTFSId(item.properties),
+    layer: item.properties.layer,
     lat:
       item.lat ||
       (item.geometry &&

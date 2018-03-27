@@ -11,6 +11,7 @@ import BackButton from './BackButton';
 import FavouriteIconTable from './FavouriteIconTable';
 import {
   addFavouriteLocation,
+  addFavouriteStop,
   deleteFavouriteLocation,
 } from '../action/FavouriteActions';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
@@ -63,10 +64,12 @@ class AddFavouriteContainer extends React.Component {
     }
   }
 
-  setCoordinatesAndAddress = location => {
+  setLocationProperties = location => {
     this.setState({
       favourite: {
         ...this.state.favourite,
+        id: location.id,
+        layer: location.layer,
         lat: location.lat,
         lon: location.lon,
         address: location.address,
@@ -85,7 +88,11 @@ class AddFavouriteContainer extends React.Component {
 
   save = () => {
     if (this.canSave()) {
-      this.context.executeAction(addFavouriteLocation, this.state.favourite);
+      if (this.state.favourite.id) {
+        this.context.executeAction(addFavouriteStop, this.state.favourite);
+      } else {
+        this.context.executeAction(addFavouriteLocation, this.state.favourite);
+      }
       this.quit();
     }
   };
@@ -185,7 +192,7 @@ class AddFavouriteContainer extends React.Component {
                   placeholder="address"
                   value={favourite.address || ''}
                   layers={favouriteLayers}
-                  onLocationSelected={this.setCoordinatesAndAddress}
+                  onLocationSelected={this.setLocationProperties}
                   showSpinner
                 />
               </div>
@@ -264,13 +271,13 @@ class AddFavouriteContainer extends React.Component {
 
 const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
-  ['FavouriteLocationStore'],
+  ['FavouriteLocationStore', 'FavouriteStopsStore'],
   (context, props) => ({
     favourite:
-      props.params.id !== undefined
+      props.params.number !== undefined
         ? context
             .getStore('FavouriteLocationStore')
-            .getById(parseInt(props.params.id, 10))
+            .getByNumber(parseInt(props.params.number, 10))
         : {},
   }),
 );

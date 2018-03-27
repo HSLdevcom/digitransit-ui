@@ -1,5 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
-import includes from 'lodash/includes';
+import find from 'lodash/find';
 import {
   getFavouriteStopsStorage,
   setFavouriteStopsStorage,
@@ -8,7 +8,10 @@ import {
 class FavouriteStopsStore extends Store {
   static storeName = 'FavouriteStopsStore';
 
-  stops = this.getStops();
+  constructor(dispatcher) {
+    super(dispatcher);
+    this.stops = this.getStops();
+  }
 
   // eslint-disable-next-line class-methods-use-this
   getStops() {
@@ -16,31 +19,37 @@ class FavouriteStopsStore extends Store {
   }
 
   isFavourite(id) {
-    return includes(this.stops, id);
+    return find(this.stops, { id });
   }
 
   storeStops() {
     setFavouriteStopsStorage(this.stops);
   }
 
-  toggleFavouriteStop(stopId) {
-    if (typeof stopId !== 'string') {
-      throw new Error(`stopId is not a string:${JSON.stringify(stopId)}`);
+  addFavouriteStop(stop) {
+    if (typeof stop !== 'object') {
+      throw new Error(`stop is not a object:${JSON.stringify(stop)}`);
     }
 
-    const newStops = this.stops.filter(id => id !== stopId);
-
-    if (newStops.length === this.stops.length) {
-      newStops.push(stopId);
+    if (this.isFavourite(stop.id)) {
+      // update
+      this.stops = this.stops.map(currentStop => {
+        if (currentStop.id === stop.id) {
+          return stop;
+        }
+        return currentStop;
+      });
+    } else {
+      // insert
+      this.stops.push(stop);
     }
 
-    this.stops = newStops;
     this.storeStops();
-    this.emitChange(stopId);
+    this.emitChange();
   }
 
   static handlers = {
-    AddFavouriteStop: 'toggleFavouriteStop',
+    AddFavouriteStop: 'addFavouriteStop',
   };
 }
 

@@ -10,8 +10,8 @@ export function addFavouriteRoute(actionContext, routeId) {
   actionContext.dispatch('AddFavouriteRoute', routeId);
 }
 
-export function addFavouriteStop(actionContext, stopId) {
-  actionContext.dispatch('AddFavouriteStop', stopId);
+export function addFavouriteStop(actionContext, stop) {
+  actionContext.dispatch('AddFavouriteStop', stop);
 }
 
 export function toggleFavouriteCityBikeStation(actionContext, stationId) {
