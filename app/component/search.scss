@@ -549,13 +549,18 @@ div.autosuggest-panel {
 }
 
 .autosuggest-panel.small {
+  .autosuggest-input-container {
+    width: 100%;
+    margin-left: 0;
+  }
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
       min-height: 100%;
       height: auto;
       position: absolute;
       width: 100%;
-      margin-top: -8px;
+      margin-top: 4em;
+      margin-left: 0;
       display: block;
       overflow: visible;
     }
@@ -566,7 +571,8 @@ div.autosuggest-panel {
       height: auto;
       position: absolute;
       width: 100%;
-      margin-top: -8px;
+      margin-top: calc(7em + 8px);
+      margin-left: 0;
       display: block;
       overflow: visible;
     }
