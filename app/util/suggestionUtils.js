@@ -124,7 +124,9 @@ export function getLabel(properties) {
     case 'favouritePlace':
       return parts[0];
     default:
-      return parts.length > 1 ? parts.join(', ') : parts[1] || parts[0];
+      return parts.length > 1 && parts[1] !== ''
+        ? parts.join(', ')
+        : parts[1] || parts[0];
   }
 }
 
