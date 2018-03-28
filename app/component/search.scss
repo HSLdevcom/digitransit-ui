@@ -694,17 +694,7 @@ input.react-autosuggest__input{
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
   }
-  #react-autowhatever-origin {
-    &.react-autosuggest__suggestions-container--open {
-      margin: -8px 0 0 0;
-    }
-  }
-  #react-autowhatever-destination {
-    &.react-autosuggest__suggestions-container--open {
-      margin: -8px 0 0 0;
-    }
-  }
-  #react-autowhatever-viapoint {
+  #react-autowhatever-origin, #react-autowhatever-destination, #react-autowhatever-viapoint {
     &.react-autosuggest__suggestions-container--open {
       margin: -8px 0 0 0;
     }
