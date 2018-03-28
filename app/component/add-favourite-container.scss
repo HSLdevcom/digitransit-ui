@@ -26,6 +26,11 @@ $add-favourite-input-overlay-height: 27px;
 
       .react-autosuggest__container {
         width: 100%;
+        .autosuggest-input-container {
+          width: 100%;
+          position: relative;
+          margin: 0;
+        }
       }
     }
 
