@@ -76,6 +76,7 @@ class CityBikes {
       bikeRentalStation(id: $id) {
         bikesAvailable
         spacesAvailable
+        state
       }
     }`,
       { id },
@@ -94,7 +95,7 @@ class CityBikes {
             this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom
           ) {
             let mode;
-            if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+            if (result.state !== 'Station on') {
               mode = 'citybike-off';
             } else {
               mode = 'citybike';
@@ -102,9 +103,16 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+          if (result.state !== 'Station on') {
             drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
-            return drawAvailabilityBadge(
+            if (result.state !== 'Station off') {
+              return this; // Draw just plain grey base icon
+            }
+          } else {
+            drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
+          }
+          if (result.state === 'Station off' || result.bikesAvailable === 0) {
+            drawAvailabilityBadge(
               'no',
               this.tile,
               geom,
@@ -112,9 +120,9 @@ class CityBikes {
               this.availabilityImageSize,
               this.scaleratio,
             );
-          }
-          drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
-          if (result.bikesAvailable > this.config.cityBike.fewAvailableCount) {
+          } else if (
+            result.bikesAvailable > this.config.cityBike.fewAvailableCount
+          ) {
             drawAvailabilityBadge(
               'good',
               this.tile,
@@ -123,18 +131,9 @@ class CityBikes {
               this.availabilityImageSize,
               this.scaleratio,
             );
-          } else if (result.bikesAvailable > 0) {
-            drawAvailabilityBadge(
-              'poor',
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
-            );
           } else {
             drawAvailabilityBadge(
-              'no',
+              'poor',
               this.tile,
               geom,
               this.citybikeImageSize,

@@ -88,6 +88,7 @@ export const station = {
   name: 'Fredrikinkatu 27',
   lon: 24.939603788199364,
   lat: 60.1626075196532,
+  state: 'Station on',
 };
 
 export const favouriteLocation = {

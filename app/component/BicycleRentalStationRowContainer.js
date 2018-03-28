@@ -11,10 +11,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 const BicycleRentalStationRow = (props, context) => {
   let availabilityIcon = null;
 
-  if (
-    props.station.bikesAvailable === 0 &&
-    props.station.spacesAvailable === 0
-  ) {
+  if (props.station.state !== 'Station on') {
     availabilityIcon = <Icon img="icon-icon_not-in-use" />;
   } else if (
     props.station.bikesAvailable > context.config.cityBike.fewAvailableCount
@@ -27,6 +24,7 @@ const BicycleRentalStationRow = (props, context) => {
   }
 
   // TODO implement disruption checking
+  // VM: is that needed? new state attribute tells if station is off
 
   return (
     <tr className="next-departure-row-tr">
@@ -82,6 +80,7 @@ const exampleStation1 = {
   name: 'Mannerheimintie',
   bikesAvailable: 12,
   spacesAvailable: 16,
+  state: 'Station on',
 };
 
 const exampleStation2 = {
@@ -89,6 +88,7 @@ const exampleStation2 = {
   name: 'Mannerheimintie',
   bikesAvailable: 2,
   spacesAvailable: 16,
+  state: 'Station on',
 };
 
 const exampleStation3 = {
@@ -96,6 +96,23 @@ const exampleStation3 = {
   name: 'Mannerheimintie',
   bikesAvailable: 0,
   spacesAvailable: 16,
+  state: 'Station on',
+};
+
+const exampleStation4 = {
+  stationId: 'A27',
+  name: 'Mannerheimintie',
+  bikesAvailable: 5,
+  spacesAvailable: 16,
+  state: 'Station off',
+};
+
+const exampleStation5 = {
+  stationId: 'A27',
+  name: 'Mannerheimintie',
+  bikesAvailable: 5,
+  spacesAvailable: 16,
+  state: 'Station closed',
 };
 
 BicycleRentalStationRow.description = () => (
@@ -121,6 +138,20 @@ BicycleRentalStationRow.description = () => (
         currentTime={1473676196}
       />
     </ComponentUsageExample>
+    <ComponentUsageExample description="station off">
+      <BicycleRentalStationRow
+        station={exampleStation4}
+        distance={256}
+        currentTime={1473676196}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="station closed">
+      <BicycleRentalStationRow
+        station={exampleStation5}
+        distance={256}
+        currentTime={1473676196}
+      />
+    </ComponentUsageExample>
   </div>
 );
 
@@ -134,6 +165,7 @@ export default Relay.createContainer(BicycleRentalStationRow, {
         stationId
         bikesAvailable
         spacesAvailable
+        state
       }
     `,
   },
