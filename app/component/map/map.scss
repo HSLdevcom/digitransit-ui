@@ -16,6 +16,8 @@ div.map {
 
 .summary-map {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 div.map.small {
@@ -57,6 +59,7 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 
 div.leaflet-container {
   position: relative;
+  flex: 1;
   width: 100%;
   height: 100%;
   background: none;
