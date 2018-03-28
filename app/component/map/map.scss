@@ -2,7 +2,6 @@ $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
 
 div.map {
-  position: relative;
   width: 100%;
 
   .leaflet-container .leaflet-control-attribution {
@@ -52,12 +51,12 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
   }
 }
 
-.leaflet-bottom {
+.map .leaflet-bottom {
   z-index: 800;
 }
 
 div.leaflet-container {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   background: none;

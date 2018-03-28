@@ -330,10 +330,8 @@ div.map {
 }
 
 div.autosuggest-panel {
-  position: static;
   z-index: 1000;
   &.isItinerary {
-    position: static;
     z-index: 1001;
     padding-top: 0;
     margin-top: 0;
@@ -365,21 +363,25 @@ div.autosuggest-panel {
     }
   }
   &.small {
-    position: relative;
     width: 100%;
     margin-left: 0;
     padding-left: 1em;
     padding-right: 1em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     .react-autosuggest__container {
       width: 100%;
       position: relative;
+      z-index: 999;
       margin: 0 auto;
       &.viapoint {
         width: 94%;
       }
     }
     &.isItinerary {
+      position: static;
       margin-left: 0;
       padding-right: 0;
       padding-left: 0;
@@ -552,6 +554,12 @@ div.autosuggest-panel {
   .autosuggest-input-container {
     width: 100%;
     margin-left: 0;
+    &.origin {
+      z-index: 1007;
+    }
+    &.viapoint {
+      z-index: 1006;
+    }
   }
   #react-autowhatever-origin {
     &.react-autosuggest__suggestions-container--open {
