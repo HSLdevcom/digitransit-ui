@@ -6,6 +6,7 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
+  drawCitybikeIcon,
   drawCitybikeOffIcon,
   drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
@@ -31,7 +32,7 @@ class CityBikes {
     this.notInUseImageSize =
       12 * this.scaleratio * getScale(this.tile.coords.z);
 
-    this.promise = this.fetchWithAction(this.addFeature);
+    this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
 
   fetchWithAction = actionFn =>
@@ -89,11 +90,21 @@ class CityBikes {
         const result = Relay.Store.readQuery(query)[0];
 
         if (result) {
-          if (true) {
-            // force temporarily until Smoove api gets updated
-            // real test: result.bikesAvailable === 0 && result.spacesAvailable === 0K
+          if (
+            this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom
+          ) {
+            let mode;
+            if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
+              mode = 'citybike-off';
+            } else {
+              mode = 'citybike';
+            }
+            return drawRoundIcon(this.tile, geom, mode);
+          }
+
+          if (result.bikesAvailable === 0 && result.spacesAvailable === 0) {
             drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
-            drawAvailabilityBadge(
+            return drawAvailabilityBadge(
               'no',
               this.tile,
               geom,
@@ -101,9 +112,9 @@ class CityBikes {
               this.availabilityImageSize,
               this.scaleratio,
             );
-          } else if (
-            result.bikesAvailable > this.config.cityBike.fewAvailableCount
-          ) {
+          }
+          drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
+          if (result.bikesAvailable > this.config.cityBike.fewAvailableCount) {
             drawAvailabilityBadge(
               'good',
               this.tile,
@@ -133,6 +144,7 @@ class CityBikes {
           }
         }
       }
+      return this;
     };
 
     if (lastFetch && currentTime - lastFetch <= 30000) {
@@ -149,14 +161,6 @@ class CityBikes {
         },
         callback,
       );
-    }
-  };
-
-  addFeature = feature => {
-    if (this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom) {
-      drawRoundIcon(this.tile, feature.geom, 'citybike');
-    } else {
-      this.fetchAndDrawStatus(feature);
     }
   };
 
