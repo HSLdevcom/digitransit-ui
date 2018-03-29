@@ -25,7 +25,7 @@ const BicycleRentalStationRow = (props, context) => {
 
   // TODO implement disruption checking
   // VM: is that needed? new state attribute tells if station is off
-
+  const mode = props.station.state === 'Station on' ? 'citybike' : 'citybike_off';
   return (
     <tr className="next-departure-row-tr">
       <td className="td-distance">
@@ -33,7 +33,7 @@ const BicycleRentalStationRow = (props, context) => {
       </td>
       <td className="td-route-number">
         <RouteNumber
-          mode="citybike"
+          mode={mode}
           text={props.station.stationId}
           hasDisruption={false}
         />
