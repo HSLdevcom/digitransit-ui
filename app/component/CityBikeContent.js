@@ -11,7 +11,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
     {station.state !== 'Station on' ? (
       <p className="sub-header-h4 availability-header">
         <FormattedMessage
-          id="bike-station-off"
+          id="citybike_off"
           defaultMessage="Bike station closed"
         />
       </p>
