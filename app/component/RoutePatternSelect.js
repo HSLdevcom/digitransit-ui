@@ -10,11 +10,10 @@ import { routePatterns as exampleRoutePatterns } from './ExampleData';
 const DATE_FORMAT = 'YYYYMMDD';
 
 class RoutePatternSelect extends Component {
-
   static propTypes = {
     params: PropTypes.object,
-    route: PropTypes.object,
     className: PropTypes.string,
+    route: PropTypes.object,
     onSelectChange: PropTypes.func.isRequired,
     patterns: PropTypes.object.isRequired,
     serviceDay: PropTypes.string.isRequired,
@@ -26,17 +25,20 @@ class RoutePatternSelect extends Component {
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
   }
   render() {
+    console.log(this.props.patterns);
     const options =
-      this.props.route &&
-      this.props.route.patterns.map(pattern => (
-        <option key={pattern.code} value={pattern.code}>
-          {pattern.stops[0].name} ➔ {pattern.headsign}
-        </option>
-      ));
-    console.log(this.props.route.patterns);
-    console.log(this.props.route);
+      this.props.patterns &&
+      this.props.patterns
+        .filter(o => o.tripsForDate.length > 0)
+        .map(pattern => (
+          <option key={pattern.code} value={pattern.code}>
+            {pattern.stops[0].name} ➔ {pattern.headsign}
+          </option>
+        ));
+    console.log(this.props.patterns);
+    console.log(this.props);  
     console.log(this.options);
-    console.log(this.props.serviceDay);
+    console.log(this.props.patterns.filter(o => o.tripsForDate.length > 0));
     return (
       <div className={cx('route-pattern-select', this.props.className)}>
         <Icon img="icon-icon_arrow-dropdown" />
