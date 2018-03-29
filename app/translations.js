@@ -1599,7 +1599,7 @@ const translations = {
     'bicycle-distance-duration': 'Cykla {distance} ({duration})',
     'bike-availability': 'Antal cyklar just nu',
     'bike-availability-short': 'Cyklar',
-    'citybike_off': 'Inte i bruk',
+    'citybike_off': 'Stängd',
     bus: 'Buss',
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     'buy-ticket': 'Så här köper du biljetten (HSL.fi)',
