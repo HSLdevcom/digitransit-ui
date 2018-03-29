@@ -459,7 +459,7 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   pointer-events: none;
-  z-index: 801;
+  z-index: 400;
   @media print {
     display: none;
   }
