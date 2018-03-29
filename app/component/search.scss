@@ -388,9 +388,13 @@ div.autosuggest-panel {
       #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
         width: 100%;
         z-index: 1007;
+        left: 0;
+        right: 0;
       }
       #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
         width: 100%;
+        left: 0;
+        right: 0;
       }
       #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
         min-height: 100%;
@@ -575,7 +579,9 @@ div.autosuggest-panel {
       min-height: 100%;
       height: auto;
       position: absolute;
-      width: 100%;
+      left: 1em;
+      right: 1em;
+      width: auto;
       margin-top: 4em;
       margin-left: 0;
       display: block;
@@ -587,7 +593,9 @@ div.autosuggest-panel {
       min-height: 100%;
       height: auto;
       position: absolute;
-      width: 100%;
+      left: 1em;
+      right: 1em;
+      width: auto;
       margin-top: calc(7em + 8px);
       margin-left: 0;
       display: block;
