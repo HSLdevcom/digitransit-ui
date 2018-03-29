@@ -164,7 +164,7 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch back in april
+  // TODO: Switch off in autumn
   cityBike: {
     showCityBikes: true,
 
@@ -277,7 +277,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false, // TODO: Turn on in april
+      availableForSelection: true, // TODO: Turn off in autumn
       defaultValue: false, // always false
     },
 
