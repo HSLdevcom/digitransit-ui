@@ -365,11 +365,7 @@ div.autosuggest-panel {
   &.small {
     width: 100%;
     margin-left: 0;
-    padding-left: 1em;
-    padding-right: 1em;
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    position: static;
 
     .react-autosuggest__container {
       width: 100%;
@@ -383,8 +379,6 @@ div.autosuggest-panel {
     &.isItinerary {
       position: static;
       margin-left: 0;
-      padding-right: 0;
-      padding-left: 0;
       padding-top: 0;
       flex-direction: column;
       .react-autosuggest__container {
@@ -551,7 +545,18 @@ div.autosuggest-panel {
 }
 
 .autosuggest-panel.small {
+  &.isItinerary .autosuggest-input-container {
+    &#origin-container, &#destination-container {
+      padding: 0;
+    }
+    &.origin, &.destination {
+      position: static;
+    }
+  }
   .autosuggest-input-container {
+    &#origin-container, &#destination-container {
+      padding: 0 1em;
+    }
     width: 100%;
     margin-left: 0;
     &.origin {
@@ -559,6 +564,10 @@ div.autosuggest-panel {
     }
     &.viapoint {
       z-index: 1006;
+    }
+    &.origin, &.destination {
+      position: absolute;
+      top: 0;
     }
   }
   #react-autowhatever-origin {
@@ -661,9 +670,11 @@ input.react-autosuggest__input{
   appearance: none;
   box-shadow: none;
 }
-
+.viapoint-input-container {
+  z-index: 802;
+}
 .autosuggest-input-container {
-    z-index: 802;
+    z-index: 803;
     position: absolute;
     margin-left: 5%;
     margin-top: 1em;
@@ -684,6 +695,9 @@ input.react-autosuggest__input{
   margin: 0;
   &#destination-container {
     margin: 0;
+  }
+  &.destination {
+    z-index: 801;
   }
   width: 100%;
   position: static;
