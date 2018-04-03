@@ -24,6 +24,7 @@ div.map.small {
   min-height: $small-map-height;
 }
 div.map.full {
+  position: relative;
   min-height: $small-map-height;
   max-height: 100%;
   flex-grow: 1;
