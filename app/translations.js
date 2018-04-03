@@ -518,6 +518,7 @@ const translations = {
     'char-left': 'characters',
     'choose-stop': 'Select stop',
     citybike: 'City bike',
+    citybike_off: 'Closed',
     'citybike-distance-duration': 'Bike {distance} ({duration})',
     'citybike-register-required': 'To use city bikes, you need to register',
     close: 'Close',
@@ -810,6 +811,7 @@ const translations = {
     'char-left': 'merkkiä',
     'choose-stop': 'Valitse pysäkki',
     citybike: 'Kaupunkipyörä',
+    citybike_off: 'Suljettu',
     'citybike-distance-duration': 'Pyöräile {distance} ({duration})',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
@@ -1608,6 +1610,7 @@ const translations = {
     'char-left': 'tecken',
     'choose-stop': 'Välj hållplats',
     citybike: 'Stadscykel',
+    citybike_off: 'Stängd',
     'citybike-distance-duration': 'Cykla {distance} ({duration})',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
