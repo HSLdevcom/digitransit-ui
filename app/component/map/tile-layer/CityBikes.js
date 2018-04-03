@@ -12,6 +12,8 @@ import {
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
+import { BIKESTATION_ON, BIKESTATION_OFF } from '../../../util/citybikes';
+
 const getScale = glfun({
   base: 1,
   stops: [[13, 0.8], [20, 1.6]],
@@ -95,7 +97,7 @@ class CityBikes {
             this.tile.coords.z <= this.config.cityBike.cityBikeSmallIconZoom
           ) {
             let mode;
-            if (result.state !== 'Station on') {
+            if (result.state !== BIKESTATION_ON) {
               mode = 'citybike-off';
             } else {
               mode = 'citybike';
@@ -103,15 +105,15 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          if (result.state !== 'Station on') {
+          if (result.state !== BIKESTATION_ON) {
             drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
-            if (result.state !== 'Station off') {
+            if (result.state !== BIKESTATION_OFF) {
               return this; // Draw just plain grey base icon
             }
           } else {
             drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
           }
-          if (result.state === 'Station off' || result.bikesAvailable === 0) {
+          if (result.state === BIKESTATION_OFF || result.bikesAvailable === 0) {
             drawAvailabilityBadge(
               'no',
               this.tile,

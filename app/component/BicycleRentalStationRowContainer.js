@@ -7,11 +7,16 @@ import Distance from './Distance';
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
+import {
+  BIKESTATION_ON,
+  BIKESTATION_OFF,
+  BIKESTATION_CLOSED,
+} from '../util/citybikes';
 
 const BicycleRentalStationRow = (props, context) => {
   let availabilityIcon = null;
 
-  if (props.station.state !== 'Station on') {
+  if (props.station.state !== BIKESTATION_ON) {
     availabilityIcon = <Icon img="icon-icon_not-in-use" />;
   } else if (
     props.station.bikesAvailable > context.config.cityBike.fewAvailableCount
@@ -27,7 +32,7 @@ const BicycleRentalStationRow = (props, context) => {
   // VM: is that needed? new state attribute tells if station is off
 
   const mode =
-    props.station.state === 'Station on' ? 'citybike' : 'citybike_off';
+    props.station.state === BIKESTATION_ON ? 'citybike' : 'citybike_off';
 
   return (
     <tr className="next-departure-row-tr">
@@ -83,7 +88,7 @@ const exampleStation1 = {
   name: 'Mannerheimintie',
   bikesAvailable: 12,
   spacesAvailable: 16,
-  state: 'Station on',
+  state: BIKESTATION_ON,
 };
 
 const exampleStation2 = {
@@ -91,7 +96,7 @@ const exampleStation2 = {
   name: 'Mannerheimintie',
   bikesAvailable: 2,
   spacesAvailable: 16,
-  state: 'Station on',
+  state: BIKESTATION_ON,
 };
 
 const exampleStation3 = {
@@ -99,7 +104,7 @@ const exampleStation3 = {
   name: 'Mannerheimintie',
   bikesAvailable: 0,
   spacesAvailable: 16,
-  state: 'Station on',
+  state: BIKESTATION_ON,
 };
 
 const exampleStation4 = {
@@ -107,7 +112,7 @@ const exampleStation4 = {
   name: 'Mannerheimintie',
   bikesAvailable: 5,
   spacesAvailable: 16,
-  state: 'Station off',
+  state: BIKESTATION_OFF,
 };
 
 const exampleStation5 = {
@@ -115,7 +120,7 @@ const exampleStation5 = {
   name: 'Mannerheimintie',
   bikesAvailable: 5,
   spacesAvailable: 16,
-  state: 'Station closed',
+  state: BIKESTATION_CLOSED,
 };
 
 BicycleRentalStationRow.description = () => (
