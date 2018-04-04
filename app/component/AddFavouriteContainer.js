@@ -13,6 +13,7 @@ import {
   addFavouriteLocation,
   addFavouriteStop,
   deleteFavouriteLocation,
+  deleteFavouriteStop,
 } from '../action/FavouriteActions';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
@@ -100,7 +101,11 @@ class AddFavouriteContainer extends React.Component {
   };
 
   delete = () => {
-    this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+    if (this.state.favourite.number) {
+      this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
+    } else {
+      this.context.executeAction(deleteFavouriteStop, this.state.favourite);
+    }
     this.quit();
   };
 

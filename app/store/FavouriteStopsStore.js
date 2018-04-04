@@ -50,8 +50,15 @@ class FavouriteStopsStore extends Store {
     this.emitChange();
   }
 
+  deleteFavouriteStop(stop) {
+    this.stops = this.stops.filter(currentStop => currentStop.id !== stop.id);
+    this.storeStops();
+    this.emitChange();
+  }
+
   static handlers = {
     AddFavouriteStop: 'addFavouriteStop',
+    DeleteFavouriteStop: 'deleteFavouriteStop',
   };
 }
 
