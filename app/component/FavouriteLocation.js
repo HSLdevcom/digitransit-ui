@@ -17,7 +17,15 @@ const FavouriteLocation = ({
   firstTransitLeg,
   clickFavourite,
 }) => {
-  const { locationName, id, lat, lon, selectedIconId } = favourite;
+  const {
+    locationName,
+    id,
+    number,
+    lat,
+    lon,
+    selectedIconId,
+    layer,
+  } = favourite;
 
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
@@ -57,6 +65,7 @@ const FavouriteLocation = ({
     info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
 
+  const favouriteType = layer === 'stop' ? 'pysakki' : 'sijainti';
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
@@ -74,7 +83,7 @@ const FavouriteLocation = ({
         onClick={e => {
           e.stopPropagation();
         }}
-        to={`/suosikki/muokkaa/${id}`}
+        to={`/suosikki/muokkaa/${favouriteType}/${number || id}`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">

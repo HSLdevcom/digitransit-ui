@@ -18,6 +18,8 @@ class FavouriteStopsStore extends Store {
     return getFavouriteStopsStorage();
   }
 
+  getById = id => find(this.stops, stop => id === stop.id);
+
   isFavourite(id) {
     return find(this.stops, { id });
   }

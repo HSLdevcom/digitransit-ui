@@ -78,7 +78,9 @@ class AddFavouriteContainer extends React.Component {
   };
 
   isEdit = () =>
-    this.props.favourite !== undefined && this.props.favourite.id !== undefined;
+    this.props.favourite !== undefined &&
+    (this.props.favourite.id !== undefined ||
+      this.props.favourite.number !== undefined);
 
   canSave = () =>
     !isEmpty(this.state.favourite.selectedIconId) &&
@@ -278,7 +280,7 @@ const AddFavouriteContainerWithFavourite = connectToStores(
         ? context
             .getStore('FavouriteLocationStore')
             .getByNumber(parseInt(props.params.number, 10))
-        : {},
+        : context.getStore('FavouriteStopsStore').getById(props.params.id),
   }),
 );
 
