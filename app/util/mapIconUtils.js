@@ -205,27 +205,27 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
 }
 
 export function drawCitybikeIcon(tile, geom, imageSize) {
-  getImageFromSpriteCache('icon-icon_citybike', imageSize, imageSize).then(
-    image => {
-      drawIconImage(image, tile, geom, imageSize, imageSize);
-    },
-  );
+  return getImageFromSpriteCache(
+    'icon-icon_citybike',
+    imageSize,
+    imageSize,
+  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
 }
 
 export function drawCitybikeOffIcon(tile, geom, imageSize) {
-  getImageFromSpriteCache('icon-icon_citybike_off', imageSize, imageSize).then(
-    image => {
-      drawIconImage(image, tile, geom, imageSize, imageSize);
-    },
-  );
+  return getImageFromSpriteCache(
+    'icon-icon_citybike_off',
+    imageSize,
+    imageSize,
+  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
 }
 
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
-  getImageFromSpriteCache('icon-icon_not-in-use', imageSize, imageSize).then(
-    image => {
-      drawIconImage(image, tile, geom, imageSize, imageSize);
-    },
-  );
+  return getImageFromSpriteCache(
+    'icon-icon_not-in-use',
+    imageSize,
+    imageSize,
+  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
 }
 
 export function drawAvailabilityBadge(
@@ -257,4 +257,32 @@ export function drawIcon(icon, tile, geom, imageSize) {
   getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
     drawIconImage(image, tile, geom, imageSize, imageSize);
   });
+}
+
+/* eslint-disable no-param-reassign */
+export function drawAvailabilityValue(
+  tile,
+  geom,
+  value,
+  imageSize,
+  badgeSize,
+  scaleratio,
+) {
+  const radius = badgeSize / 2 + 2;
+  const x =
+    calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 1;
+  const y =
+    calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 1;
+
+  tile.ctx.beginPath();
+  tile.ctx.fillStyle = value > 3 ? '#4EA700' : '#FF6319';
+  tile.ctx.arc(x, y, radius, 0, Math.PI * 2);
+  tile.ctx.fill();
+
+  tile.ctx.font = `${badgeSize -
+    1}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
+  tile.ctx.fillStyle = '#fff';
+  tile.ctx.textAlign = 'center';
+  tile.ctx.textBaseline = 'middle';
+  tile.ctx.fillText(value, x, y);
 }

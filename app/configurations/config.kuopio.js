@@ -12,7 +12,7 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Kuopio', href: 'http://joukkoliikenne.kuopio.fi/' },
 
   colors: {
-    primary: '#0077C9',
+    primary: '#0ab1c8',
   },
 
   socialMedia: {

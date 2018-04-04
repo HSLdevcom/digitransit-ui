@@ -15,24 +15,16 @@ const CityBikeAvailability = mapProps(
       available,
       total,
       fewAvailableCount,
-      text:
-        total === 0 ? (
-          <p className="sub-header-h4 availability-header">
-            <FormattedMessage
-              id="bike-station-off"
-              defaultMessage="Bike station closed"
-            />
-          </p>
-        ) : (
-          <p className="sub-header-h4 availability-header">
-            <FormattedMessage
-              id="bike-availability"
-              defaultMessage="Bikes available at the station right now"
-            />
-            {'\u00a0'}
-            ({available}/{total})
-          </p>
-        ),
+      text: (
+        <p className="sub-header-h4 availability-header">
+          <FormattedMessage
+            id="bike-availability"
+            defaultMessage="Bikes available at the station right now"
+          />
+          {'\u00a0'}
+          ({available}/{total})
+        </p>
+      ),
     };
   },
 )(Availability);
