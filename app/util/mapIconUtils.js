@@ -272,10 +272,10 @@ export function drawAvailabilityValue(
   const x =
     calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 1;
   const y =
-    calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 1;
+    calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 1;
 
   tile.ctx.beginPath();
-  tile.ctx.fillStyle = value > 3 ? '#64BE14' : '#FF9000';
+  tile.ctx.fillStyle = value > 3 ? '#4EA700' : '#FF6319';
   tile.ctx.arc(x, y, radius, 0, Math.PI * 2);
   tile.ctx.fill();
 
