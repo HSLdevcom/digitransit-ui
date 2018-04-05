@@ -27,7 +27,7 @@ class RoutePatternSelect extends Component {
   render() {
     const options = this.props.route.patterns[0].tripsForDate
       ? this.props.route.patterns
-          .filter(o => o.tripsForDate.length > 0)
+          .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
           .map(pattern => (
             <option key={pattern.code} value={pattern.code}>
               {pattern.stops[0].name} ➔ {pattern.headsign}
