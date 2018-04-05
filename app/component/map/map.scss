@@ -2,7 +2,6 @@ $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
 
 div.map {
-  position: relative;
   width: 100%;
 
   .leaflet-container .leaflet-control-attribution {
@@ -17,12 +16,15 @@ div.map {
 
 .summary-map {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 div.map.small {
   min-height: $small-map-height;
 }
 div.map.full {
+  position: relative;
   min-height: $small-map-height;
   max-height: 100%;
   flex-grow: 1;
@@ -52,12 +54,13 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
   }
 }
 
-.leaflet-bottom {
+.map .leaflet-bottom {
   z-index: 800;
 }
 
 div.leaflet-container {
-  position: absolute;
+  position: relative;
+  flex: 1;
   width: 100%;
   height: 100%;
   background: none;
@@ -457,7 +460,7 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   pointer-events: none;
-  z-index: 801;
+  z-index: 400;
   @media print {
     display: none;
   }
