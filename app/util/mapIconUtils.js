@@ -268,7 +268,7 @@ export function drawAvailabilityValue(
   badgeSize,
   scaleratio,
 ) {
-  const radius = badgeSize / 2 + 2;
+  const radius = badgeSize / 2;
   const x =
     calculateIconBadgePosition(geom.x, tile, imageSize, radius, scaleratio) + 1;
   const y =
@@ -279,8 +279,8 @@ export function drawAvailabilityValue(
   tile.ctx.arc(x, y, radius, 0, Math.PI * 2);
   tile.ctx.fill();
 
-  tile.ctx.font = `${badgeSize -
-    1}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
+  tile.ctx.font = `${0.7 * badgeSize}px
+    Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
   tile.ctx.fillStyle = '#fff';
   tile.ctx.textAlign = 'center';
   tile.ctx.textBaseline = 'middle';

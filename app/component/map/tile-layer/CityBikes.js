@@ -33,9 +33,9 @@ class CityBikes {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
-      16 * this.scaleratio * getScale(this.tile.coords.z);
+      18 * this.scaleratio * getScale(this.tile.coords.z);
     this.availabilityImageSize =
-      9 * this.scaleratio * getScale(this.tile.coords.z);
+      13 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
