@@ -25,7 +25,7 @@ class RoutePatternSelect extends Component {
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
   }
   render() {
-    const options = this.props.route.patterns[0].tripsForDate
+    const options = this.props.route.patterns.find(o => o.tripsForDate && o.tripsForDate.length > 0) !== undefined
       ? this.props.route.patterns
           .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
           .map(pattern => (
