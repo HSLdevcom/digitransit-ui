@@ -25,15 +25,18 @@ class RoutePatternSelect extends Component {
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
   }
   render() {
-    const options = this.props.route.patterns.find(o => o.tripsForDate && o.tripsForDate.length > 0) !== undefined
-      ? this.props.route.patterns
-          .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
-          .map(pattern => (
-            <option key={pattern.code} value={pattern.code}>
-              {pattern.stops[0].name} ➔ {pattern.headsign}
-            </option>
-          ))
-      : null;
+    const options =
+      this.props.route.patterns.find(
+        o => o.tripsForDate && o.tripsForDate.length > 0,
+      ) !== undefined
+        ? this.props.route.patterns
+            .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
+            .map(pattern => (
+              <option key={pattern.code} value={pattern.code}>
+                {pattern.stops[0].name} ➔ {pattern.headsign}
+              </option>
+            ))
+        : null;
     return (
       <div className={cx('route-pattern-select', this.props.className)}>
         <Icon img="icon-icon_arrow-dropdown" />
