@@ -15,28 +15,39 @@ class RoutePatternSelect extends Component {
     className: PropTypes.string,
     route: PropTypes.object,
     onSelectChange: PropTypes.func.isRequired,
-    patterns: PropTypes.object.isRequired,
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
+    getAvailablePatterns: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
   }
+  componentWillReceiveProps = () => {
+    const options = this.getOptions();
+    const patternDepartures =
+      options && options.filter(o => o.key === this.props.params.patternId);
+    if (patternDepartures && patternDepartures.length === 0) {
+      this.props.getAvailablePatterns(options[0].key);
+    }
+  };
+
+  getOptions = () =>
+    this.props.route.patterns.find(
+      o => o.tripsForDate && o.tripsForDate.length > 0,
+    ) !== undefined
+      ? this.props.route.patterns
+          .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
+          .map(pattern => (
+            <option key={pattern.code} value={pattern.code}>
+              {pattern.stops[0].name} ➔ {pattern.headsign}
+            </option>
+          ))
+      : null;
+
   render() {
-    const options =
-      this.props.route.patterns.find(
-        o => o.tripsForDate && o.tripsForDate.length > 0,
-      ) !== undefined
-        ? this.props.route.patterns
-            .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
-            .map(pattern => (
-              <option key={pattern.code} value={pattern.code}>
-                {pattern.stops[0].name} ➔ {pattern.headsign}
-              </option>
-            ))
-        : null;
+    const options = this.getOptions();
     return (
       <div className={cx('route-pattern-select', this.props.className)}>
         <Icon img="icon-icon_arrow-dropdown" />

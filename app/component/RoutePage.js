@@ -67,6 +67,12 @@ class RoutePage extends React.Component {
     );
   };
 
+  setAvailablePattern = val => {
+    this.context.router.replace(
+      `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/pysakit/${val}`,
+    );
+  };
+
   changeTab = path => {
     this.context.router.replace(path);
   };
@@ -80,7 +86,6 @@ class RoutePage extends React.Component {
       this.context.router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
-
     let activeTab;
     if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
       activeTab = 'pysakit';
@@ -178,6 +183,7 @@ class RoutePage extends React.Component {
               params={this.props.params}
               route={this.props.route}
               onSelectChange={this.onPatternChange}
+              getAvailablePatterns={this.setAvailablePattern}
               className={cx({
                 'bp-large': this.context.breakpoint === 'large',
               })}
