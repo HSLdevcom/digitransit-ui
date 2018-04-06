@@ -65,7 +65,8 @@ const FavouriteLocation = ({
     info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
 
-  const favouriteType = layer === 'stop' ? 'pysakki' : 'sijainti';
+  const favouriteType =
+    layer === 'venue' || layer === 'address' ? 'sijainti' : 'pysakki';
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
