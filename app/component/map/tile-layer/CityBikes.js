@@ -9,10 +9,15 @@ import {
   drawCitybikeIcon,
   drawCitybikeOffIcon,
   drawAvailabilityBadge,
+  drawAvailabilityValue,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
 
-import { BIKESTATION_ON, BIKESTATION_OFF } from '../../../util/citybikes';
+import {
+  BIKESTATION_ON,
+  BIKESTATION_OFF,
+  BIKESTATION_CLOSED,
+} from '../../../util/citybikes';
 
 const getScale = glfun({
   base: 1,
@@ -28,11 +33,9 @@ class CityBikes {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
-      16 * this.scaleratio * getScale(this.tile.coords.z);
+      20 * this.scaleratio * getScale(this.tile.coords.z);
     this.availabilityImageSize =
-      8 * this.scaleratio * getScale(this.tile.coords.z);
-    this.notInUseImageSize =
-      12 * this.scaleratio * getScale(this.tile.coords.z);
+      14 * this.scaleratio * getScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -105,42 +108,41 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          if (result.state !== BIKESTATION_ON) {
-            drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
-            if (result.state !== BIKESTATION_OFF) {
-              return this; // Draw just plain grey base icon
-            }
-          } else {
-            drawCitybikeIcon(this.tile, geom, this.citybikeImageSize);
+          if (result.state === BIKESTATION_CLOSED) {
+            // Draw just plain grey base icon
+            return drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
           }
+
           if (result.state === BIKESTATION_OFF || result.bikesAvailable === 0) {
-            drawAvailabilityBadge(
-              'no',
+            return drawCitybikeOffIcon(
               this.tile,
               geom,
               this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
+            ).then(() =>
+              drawAvailabilityBadge(
+                'no',
+                this.tile,
+                geom,
+                this.citybikeImageSize,
+                this.availabilityImageSize,
+                this.scaleratio,
+              ),
             );
-          } else if (
-            result.bikesAvailable > this.config.cityBike.fewAvailableCount
-          ) {
-            drawAvailabilityBadge(
-              'good',
+          }
+          if (result.state === BIKESTATION_ON) {
+            return drawCitybikeIcon(
               this.tile,
               geom,
               this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
-            );
-          } else {
-            drawAvailabilityBadge(
-              'poor',
-              this.tile,
-              geom,
-              this.citybikeImageSize,
-              this.availabilityImageSize,
-              this.scaleratio,
+            ).then(() =>
+              drawAvailabilityValue(
+                this.tile,
+                geom,
+                result.bikesAvailable,
+                this.citybikeImageSize,
+                this.availabilityImageSize,
+                this.scaleratio,
+              ),
             );
           }
         }
