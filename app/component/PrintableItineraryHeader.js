@@ -33,7 +33,7 @@ export default class PrintableItineraryHeader extends React.Component {
             defaultMessage={`${obj.name}`}
           />
         </div>
-        <div className={obj.name === 'ticket' && `faretype-span`}>
+        <div className={obj.name === 'ticket' ? `faretype-span` : undefined}>
           <span className="header-details-content">{obj.contentDetails}</span>
         </div>
       </div>
