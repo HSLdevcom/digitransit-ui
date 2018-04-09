@@ -465,6 +465,9 @@ div.background-gradient {
     display: none;
   }
 }
+.mobile .map.summary-map div.background-gradient {
+  top: auto;
+}
 
 div.map-click-prevent-overlay {
   position: absolute;
