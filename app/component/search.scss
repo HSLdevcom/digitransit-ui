@@ -552,6 +552,8 @@ div.autosuggest-panel {
   &.isItinerary .autosuggest-input-container {
     &#origin-container, &#destination-container {
       padding: 0;
+      margin: 0;
+      width: 100%;
     }
     &.origin, &.destination {
       position: static;
@@ -559,7 +561,9 @@ div.autosuggest-panel {
   }
   .autosuggest-input-container {
     &#origin-container, &#destination-container {
-      padding: 0 1em;
+      width: calc(100% - 2em);
+      margin-left: 1em;
+      margin-right: 1em;
     }
     width: 100%;
     margin-left: 0;
