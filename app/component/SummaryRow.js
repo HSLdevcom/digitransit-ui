@@ -14,7 +14,10 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
-import { isCallAgencyPickupType } from '../util/legUtils';
+import {
+  getTotalWalkingDistance,
+  isCallAgencyPickupType,
+} from '../util/legUtils';
 
 /*
 const dummyalerts = [{
@@ -308,7 +311,7 @@ const SummaryRow = (
               </span>
               <div className="itinerary-walking-distance">
                 <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                {displayDistance(data.walkDistance, config)}
+                {displayDistance(getTotalWalkingDistance(data), config)}
               </div>
             </div>,
             <button

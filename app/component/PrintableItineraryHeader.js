@@ -5,6 +5,7 @@ import get from 'lodash/get';
 
 import { FormattedMessage } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
+import { getTotalWalkingDistance } from '../util/legUtils';
 import RelativeDuration from './RelativeDuration';
 import Icon from './Icon';
 
@@ -106,7 +107,7 @@ export default class PrintableItineraryHeader extends React.Component {
           {this.createHeaderBlock({
             name: 'walk',
             contentDetails: displayDistance(
-              this.props.itinerary.walkDistance,
+              getTotalWalkingDistance(this.props.itinerary),
               this.context.config,
             ),
           })}
