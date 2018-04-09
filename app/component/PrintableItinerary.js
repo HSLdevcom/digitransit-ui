@@ -210,11 +210,12 @@ TransferMap.propTypes = {
 };
 
 function PrintableLeg(props) {
+  const legMode = (props.legObj.mode || '').toUpperCase();
   const isVehicle =
-    props.legObj.mode !== 'WALK' &&
-    props.legObj.mode !== 'CITYBIKE' &&
-    props.legObj.mode !== 'BICYCLE' &&
-    props.legObj.mode !== 'CAR';
+    legMode !== 'WALK' &&
+    legMode !== 'CITYBIKE' &&
+    legMode !== 'BICYCLE' &&
+    legMode !== 'CAR';
   // Set up details for a vehicle route
   const vehicleItinerary = o => {
     const arr = [];
