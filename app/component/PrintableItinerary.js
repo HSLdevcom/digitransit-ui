@@ -63,7 +63,9 @@ const getHeadSignDetails = sentLegObj => {
   let headSignDetails;
   let transitMode;
 
-  if (sentLegObj.isCheckin) {
+  if (sentLegObj.rentedBike) {
+    return null;
+  } else if (sentLegObj.isCheckin) {
     headSignDetails = (
       <FormattedMessage
         id="airport-security-check-go-to-gate"
