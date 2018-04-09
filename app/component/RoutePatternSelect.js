@@ -60,8 +60,7 @@ class RoutePatternSelect extends Component {
       this.context.router.replace(
         `/${PREFIX_ROUTES}/${this.props.gtfsId}/pysakit/${options[0].key}`,
       );
-    }
-    if (options !== null && this.state.loading === true) {
+    } else if (options !== null && this.state.loading === true) {
       this.setState({ loading: false });
     }
     return options;
