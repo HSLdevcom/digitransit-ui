@@ -2,10 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
+import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from './ExampleData';
+import { PREFIX_ROUTES } from '../util/path';
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -17,38 +19,59 @@ class RoutePatternSelect extends Component {
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
-    getAvailablePatterns: PropTypes.func.isRequired,
+    gtfsId: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    router: routerShape.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
+    this.state = {
+      loading: false,
+    };
   }
-  componentWillReceiveProps = () => {
+
+  componentWillMount = () => {
     const options = this.getOptions();
-    const patternDepartures =
-      options && options.filter(o => o.key === this.props.params.patternId);
-    if (patternDepartures && patternDepartures.length === 0) {
-      this.props.getAvailablePatterns(options[0].key);
+    if (options === null) {
+      this.setState({ loading: true });
     }
   };
 
-  getOptions = () =>
-    this.props.route.patterns.find(
-      o => o.tripsForDate && o.tripsForDate.length > 0,
-    ) !== undefined
-      ? this.props.route.patterns
-          .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
-          .map(pattern => (
-            <option key={pattern.code} value={pattern.code}>
-              {pattern.stops[0].name} ➔ {pattern.headsign}
-            </option>
-          ))
-      : null;
+  getOptions = () => {
+    const options =
+      this.props.route.patterns.find(
+        o => o.tripsForDate && o.tripsForDate.length > 0,
+      ) !== undefined
+        ? this.props.route.patterns
+            .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
+            .map(pattern => (
+              <option key={pattern.code} value={pattern.code}>
+                {pattern.stops[0].name} ➔ {pattern.headsign}
+              </option>
+            ))
+        : null;
+    const patternDepartures =
+      options && options.filter(o => o.key === this.props.params.patternId);
+    if (patternDepartures && patternDepartures.length === 0) {
+      this.context.router.replace(
+        `/${PREFIX_ROUTES}/${this.props.gtfsId}/pysakit/${options[0].key}`,
+      );
+    }
+    if (options !== null && this.state.loading === true) {
+      this.setState({ loading: false });
+    }
+    return options;
+  };
 
   render() {
     const options = this.getOptions();
-    return (
+    return this.state.loading === true ? (
+      <div className={cx('route-pattern-select', this.props.className)} />
+    ) : (
       <div className={cx('route-pattern-select', this.props.className)}>
         <Icon img="icon-icon_arrow-dropdown" />
         <select

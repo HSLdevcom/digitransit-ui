@@ -67,12 +67,6 @@ class RoutePage extends React.Component {
     );
   };
 
-  setAvailablePattern = val => {
-    this.context.router.replace(
-      `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/pysakit/${val}`,
-    );
-  };
-
   changeTab = path => {
     this.context.router.replace(path);
   };
@@ -183,7 +177,7 @@ class RoutePage extends React.Component {
               params={this.props.params}
               route={this.props.route}
               onSelectChange={this.onPatternChange}
-              getAvailablePatterns={this.setAvailablePattern}
+              gtfsId={this.props.route.gtfsId}
               className={cx({
                 'bp-large': this.context.breakpoint === 'large',
               })}
