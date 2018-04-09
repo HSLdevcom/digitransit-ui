@@ -8,16 +8,16 @@ Selector | Component | Z-Index | Comment
 N/A | React Material Drawer | 1200/1300 | Defined by material-ui
 `.search-modal` | Search modal | 1301 |
 `.search-modal-overlay` | Search modal | 1100 |
-`.frontpage-panel-container .tabs-row` | Front page tabs | 1000 |
+`.frontpage-panel-container .tabs-row` | Front page tabs | 800 |
 `.frontpage-panel-wrapper` | Front page pull ups (nearby, favourites) | 1000 |
-`.top-bar` | AppBar | 1001 |
+`.top-bar` | AppBar | 1008 |
 `div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
 `#splash-container` | Splash screen |  802 |
 `.toggle-positioning-container` | Pan-to-your-position button | 802 |
 `.message-bar` | Messagebar | 802 |
 `.search-form-map-overlay` | Fake search field | 802 |
 `.fullscreen-toggle` | Map fullscreen toggle | 802 |
-`.background-gradient` | Shadow at top of map | 801 |
+`.background-gradient` | Shadow at top of map | 400 |
 `.map-click-prevent-overlay` | Overlay to prevent interaction with map | 801 |
 `.itinerary-feedback-container .form-container` | Itinerary feedback form | 800 | Component not in use
 `#page-footer-container` | Frontpage footer | 800
