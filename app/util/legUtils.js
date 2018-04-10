@@ -32,15 +32,6 @@ export function isCallAgencyDeparture(departure) {
 }
 
 /**
- * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
- *
- * @param {*} leg1 the first leg
- * @param {*} leg2 the second leg
- */
-const continueWithBicycle = (leg1, leg2) =>
-  getLegMode(leg1) === LegMode.Bicycle && getLegMode(leg2) === LegMode.Bicycle;
-
-/**
  * Checks if both of the legs exist and are taken with a rented bicycle (rentedBike === true).
  *
  * @param {*} leg1 the first leg
@@ -84,6 +75,15 @@ export const getLegMode = leg => {
 };
 
 /**
+ * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
+ *
+ * @param {*} leg1 the first leg
+ * @param {*} leg2 the second leg
+ */
+const continueWithBicycle = (leg1, leg2) =>
+  getLegMode(leg1) === LegMode.Bicycle && getLegMode(leg2) === LegMode.Bicycle;
+
+/**
  * Compresses the incoming legs (affects only legs with mode BICYCLE, WALK or CITYBIKE). These are combined
  * so that the person will be walking their bicycle and there won't be multiple similar legs
  * one after the other.
@@ -91,7 +91,6 @@ export const getLegMode = leg => {
  * @param {*} originalLegs an array of legs
  */
 export const compressLegs = originalLegs => {
-  const legs = [];
   const usingOwnBicycle =
     originalLegs[0] != null &&
     originalLegs[1] != null &&
@@ -100,38 +99,39 @@ export const compressLegs = originalLegs => {
       (getLegMode(originalLegs[1]) === LegMode.Bicycle &&
         !originalLegs[1].rentedBike));
   const compressedLegs = [];
-  let compressedLeg = undefined;
+  let compressedLeg;
 
   originalLegs.forEach(currentLeg => {
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
+    } else if (
+      usingOwnBicycle &&
+      continueWithBicycle(compressedLeg, currentLeg)
+    ) {
+      compressedLeg.duration += currentLeg.duration;
+      compressedLeg.distance += currentLeg.distance;
+      compressedLeg.to = currentLeg.to;
+      compressedLeg.endTime = currentLeg.endTime;
+      compressedLeg.mode = LegMode.Bicycle;
+    } else if (
+      currentLeg.rentedBike &&
+      continueWithRentedBicycle(compressedLeg, currentLeg)
+    ) {
+      compressedLeg.duration += currentLeg.duration;
+      compressedLeg.distance += currentLeg.distance;
+      compressedLeg.to = currentLeg.to;
+      compressedLeg.endTime += currentLeg.endTime;
+      compressedLeg.mode = LegMode.CityBike;
     } else {
-      if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
-        compressedLeg.duration += currentLeg.duration;
-        compressedLeg.distance += currentLeg.distance;
-        compressedLeg.to = currentLeg.to;
-        compressedLeg.endTime = currentLeg.endTime;
-        compressedLeg.mode = LegMode.Bicycle;
-      } else if (
-        currentLeg.rentedBike &&
-        continueWithRentedBicycle(compressedLeg, currentLeg)
-      ) {
-        compressedLeg.duration += currentLeg.duration;
-        compressedLeg.distance += currentLeg.distance;
-        compressedLeg.to = currentLeg.to;
-        compressedLeg.endTime += currentLeg.endTime;
-        compressedLeg.mode = LegMode.CityBike;
-      } else {
-        if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
-          compressedLeg.mode = LegMode.BicycleWalk;
-        }
+      if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+        compressedLeg.mode = LegMode.BicycleWalk;
+      }
 
-        compressedLegs.push(compressedLeg);
-        compressedLeg = cloneDeep(currentLeg);
+      compressedLegs.push(compressedLeg);
+      compressedLeg = cloneDeep(currentLeg);
 
-        if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
-          compressedLeg.mode = LegMode.BicycleWalk;
-        }
+      if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+        compressedLeg.mode = LegMode.BicycleWalk;
       }
     }
   });
@@ -149,10 +149,9 @@ export const compressLegs = originalLegs => {
  *
  * @param {*} itinerary the itinerary to extract the total walking distance from
  */
-export const getTotalWalkingDistance = itinerary => {
+export const getTotalWalkingDistance = itinerary =>
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  return itinerary.legs
+  itinerary.legs
     .filter(l => getLegMode(l) === LegMode.Walk)
     .map(l => l.distance)
     .reduce((x, y) => x + y, 0);
-};
