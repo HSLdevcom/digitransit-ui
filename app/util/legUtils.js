@@ -154,5 +154,5 @@ export const getTotalWalkingDistance = itinerary => {
   return itinerary.legs
     .filter(l => getLegMode(l) === LegMode.Walk)
     .map(l => l.distance)
-    .reduce((x, y) => x + y);
+    .reduce((x, y) => x + y, 0);
 };
