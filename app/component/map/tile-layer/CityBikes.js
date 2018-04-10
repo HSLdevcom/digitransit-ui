@@ -113,7 +113,7 @@ class CityBikes {
             return drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
           }
 
-          if (result.state === BIKESTATION_OFF || result.bikesAvailable === 0) {
+          if (result.state === BIKESTATION_OFF) {
             return drawCitybikeOffIcon(
               this.tile,
               geom,
@@ -129,21 +129,33 @@ class CityBikes {
               ),
             );
           }
+
           if (result.state === BIKESTATION_ON) {
             return drawCitybikeIcon(
               this.tile,
               geom,
               this.citybikeImageSize,
-            ).then(() =>
-              drawAvailabilityValue(
-                this.tile,
-                geom,
-                result.bikesAvailable,
-                this.citybikeImageSize,
-                this.availabilityImageSize,
-                this.scaleratio,
-              ),
-            );
+            ).then(() => {
+              if (result.bikesAvailable === 0) {
+                drawAvailabilityBadge(
+                  'no',
+                  this.tile,
+                  geom,
+                  this.citybikeImageSize,
+                  this.availabilityImageSize,
+                  this.scaleratio,
+                );
+              } else {
+                drawAvailabilityValue(
+                  this.tile,
+                  geom,
+                  result.bikesAvailable,
+                  this.citybikeImageSize,
+                  this.availabilityImageSize,
+                  this.scaleratio,
+                );
+              }
+            });
           }
         }
       }
