@@ -215,6 +215,7 @@ function PrintableLeg(props) {
     legMode !== 'WALK' &&
     legMode !== 'CITYBIKE' &&
     legMode !== 'BICYCLE' &&
+    legMode !== 'BICYCLE_WALK' &&
     legMode !== 'CAR';
   // Set up details for a vehicle route
   const vehicleItinerary = o => {
