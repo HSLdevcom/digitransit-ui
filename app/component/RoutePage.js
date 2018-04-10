@@ -80,7 +80,6 @@ class RoutePage extends React.Component {
       this.context.router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
-
     let activeTab;
     if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
       activeTab = 'pysakit';
@@ -178,6 +177,7 @@ class RoutePage extends React.Component {
               params={this.props.params}
               route={this.props.route}
               onSelectChange={this.onPatternChange}
+              gtfsId={this.props.route.gtfsId}
               className={cx({
                 'bp-large': this.context.breakpoint === 'large',
               })}
