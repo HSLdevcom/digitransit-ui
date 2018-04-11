@@ -82,6 +82,17 @@ export const getNameLabel = memoize(
           ),
         ];
       case 'favouriteStop':
+        return plain
+          ? [suggestion.locationName]
+          : [
+              suggestion.locationName,
+              <span key={suggestion.id}>
+                {getStopCode(suggestion) && (
+                  <StopCode code={getStopCode(suggestion)} />
+                )}
+                {suggestion.desc}
+              </span>,
+            ];
       case 'stop':
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
@@ -136,6 +147,7 @@ export function suggestionToLocation(item) {
     address: name,
     type: item.type,
     id: getGTFSId(item.properties),
+    code: getStopCode(item.properties),
     layer: item.properties.layer,
     lat:
       item.lat ||

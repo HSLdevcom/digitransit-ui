@@ -70,6 +70,8 @@ class AddFavouriteContainer extends React.Component {
       favourite: {
         ...this.state.favourite,
         id: location.id,
+        gtfsId: location.id,
+        code: location.code,
         layer: location.layer,
         lat: location.lat,
         lon: location.lon,

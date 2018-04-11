@@ -39,18 +39,16 @@ const mapRoute = item => ({
   },
 });
 
-function mapStops(stops) {
-  return stops.map(item => ({
-    type: 'Stop',
-    properties: {
-      ...item,
-      mode: item.routes.length > 0 && item.routes[0].mode.toLowerCase(),
-      layer: 'stop',
-    },
-    geometry: {
-      coordinates: [item.lon, item.lat],
-    },
-  }));
+function sortByDistance(stops, refLatLng) {
+  if (refLatLng.lat && refLatLng.lng) {
+    return sortBy(stops, item =>
+      distance(refLatLng, {
+        lat: item.lat,
+        lng: item.lon,
+      }),
+    );
+  }
+  return stops;
 }
 
 function filterMatchingToInput(list, Input, fields) {
@@ -225,50 +223,27 @@ function getFavouriteRoutes(favourites, input) {
 }
 
 function getFavouriteStops(favourites, input, origin) {
-  const query = Relay.createQuery(
-    Relay.QL`
-    query favouriteStops($ids: [String!]!) {
-      stops(ids: $ids ) {
-        gtfsId
-        lat
-        lon
-        name
-        desc
-        code
-        routes { mode }
-      }
-    }`,
-    { ids: favourites.map(item => item.id) },
-  );
-
-  const refLatLng = origin.lat &&
+  const refLatLng = origin &&
+    origin.lat &&
     origin.lon && { lat: origin.lat, lng: origin.lon };
 
-  return getRelayQuery(query)
-    .then(favouriteStops =>
-      mapStops(favouriteStops).map(favourite => ({
-        ...favourite,
-        properties: { ...favourite.properties, layer: 'favouriteStop' },
-        type: 'FavouriteStop',
-      })),
-    )
-    .then(stops =>
-      filterMatchingToInput(stops, input, [
-        'properties.name',
-        'properties.desc',
-      ]),
-    )
-    .then(
-      stops =>
-        refLatLng
-          ? sortBy(stops, item =>
-              distance(refLatLng, {
-                lat: item.geometry.coordinates[1],
-                lng: item.geometry.coordinates[0],
-              }),
-            )
-          : stops,
-    );
+  const stops = sortByDistance(favourites, refLatLng);
+
+  return Promise.resolve(
+    filterMatchingToInput(stops, input, [
+      'properties.locationName',
+      'properties.address',
+    ]).map(stop => ({
+      type: 'FavouriteStop',
+      properties: {
+        ...stop,
+        layer: 'favouriteStop',
+      },
+      geometry: {
+        coordinates: [stop.lon, stop.lat],
+      },
+    })),
+  );
 }
 
 function getRoutes(input, config) {
