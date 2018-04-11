@@ -12,7 +12,7 @@ import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
-import { isCallAgencyPickupType } from '../util/legUtils';
+import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
@@ -63,7 +63,9 @@ const getHeadSignDetails = sentLegObj => {
   let headSignDetails;
   let transitMode;
 
-  if (sentLegObj.isCheckin) {
+  if (sentLegObj.rentedBike) {
+    return null;
+  } else if (sentLegObj.isCheckin) {
     headSignDetails = (
       <FormattedMessage
         id="airport-security-check-go-to-gate"
@@ -208,11 +210,13 @@ TransferMap.propTypes = {
 };
 
 function PrintableLeg(props) {
+  const legMode = (props.legObj.mode || '').toUpperCase();
   const isVehicle =
-    props.legObj.mode !== 'WALK' &&
-    props.legObj.mode !== 'CITYBIKE' &&
-    props.legObj.mode !== 'BICYCLE' &&
-    props.legObj.mode !== 'CAR';
+    legMode !== 'WALK' &&
+    legMode !== 'CITYBIKE' &&
+    legMode !== 'BICYCLE' &&
+    legMode !== 'BICYCLE_WALK' &&
+    legMode !== 'CAR';
   // Set up details for a vehicle route
   const vehicleItinerary = o => {
     const arr = [];
@@ -341,8 +345,8 @@ class PrintableItinerary extends React.Component {
   }
 
   render() {
-    const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
-    const legs = originalLegs.map((o, i) => {
+    const originalLegs = this.props.itinerary.legs;
+    const legs = compressLegs(originalLegs).map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
         const cloneObj = Object.assign({}, o);
         let specialMode;
