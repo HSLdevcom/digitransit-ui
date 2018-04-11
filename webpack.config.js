@@ -40,6 +40,7 @@ function getRulesConfig(env) {
         loader: 'babel',
         include: [path.resolve(__dirname, 'app/')],
         options: {
+          babelrc: false,
           presets: [['env', { modules: false }], 'react', 'stage-2'],
           plugins: [
             'transform-import-commonjs',
@@ -66,6 +67,7 @@ function getRulesConfig(env) {
       loader: 'babel',
       include: [path.resolve(__dirname, 'app/')],
       options: {
+        babelrc: false,
         // loose is needed by older Androids < 4.3 and IE10
         presets: [
           [
