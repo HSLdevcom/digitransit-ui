@@ -54,13 +54,17 @@ export const LegMode = {
 };
 
 /**
- * Extracts the mode for the given leg.
+ * Extracts the mode for the given leg or mode.
  *
- * @param {*} leg the leg to extract the mode from
+ * @param {*} legOrMode the leg or mode to extract the mode from
  * @returns LegMode, or undefined if the mode cannot be extracted
  */
-export const getLegMode = leg => {
-  switch (((leg && leg.mode) || '').toUpperCase()) {
+export const getLegMode = legOrMode => {
+  const mode =
+    typeof legOrMode === 'string' || legOrMode instanceof String
+      ? legOrMode
+      : legOrMode && legOrMode.mode;
+  switch ((mode || '').toUpperCase()) {
     case LegMode.Bicycle:
       return LegMode.Bicycle;
     case LegMode.BicycleWalk:
