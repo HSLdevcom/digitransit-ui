@@ -40,7 +40,7 @@ const mapRoute = item => ({
 });
 
 function sortByDistance(stops, refLatLng) {
-  if (refLatLng.lat && refLatLng.lng) {
+  if (refLatLng && refLatLng.lat && refLatLng.lng) {
     return sortBy(stops, item =>
       distance(refLatLng, {
         lat: item.lat,
