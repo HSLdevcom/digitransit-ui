@@ -9,7 +9,7 @@ import flatten from 'lodash/flatten';
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { distance } from './geo-utils';
-import { uniqByLabel } from './suggestionUtils';
+import { uniqByLabel, isStop } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
 import { PREFIX_ROUTES } from '../util/path';
 
@@ -237,7 +237,7 @@ function getFavouriteStops(favourites, input, origin) {
       type: 'FavouriteStop',
       properties: {
         ...stop,
-        layer: 'favouriteStop',
+        layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
       },
       geometry: {
         coordinates: [stop.lon, stop.lat],

@@ -42,7 +42,8 @@ export const getGTFSId = ({ id, gtfsId }) => {
 export const isStop = ({ layer }) =>
   layer === 'stop' || layer === 'favouriteStop';
 
-export const isTerminal = ({ layer }) => layer === 'station';
+export const isTerminal = ({ layer }) =>
+  layer === 'station' || layer === 'favouriteStation';
 
 export const getNameLabel = memoize(
   (suggestion, plain = false) => {
@@ -81,6 +82,7 @@ export const getNameLabel = memoize(
             '',
           ),
         ];
+      case 'favouriteStation':
       case 'favouriteStop':
         return plain
           ? [suggestion.locationName]
@@ -168,6 +170,7 @@ export function getIcon(layer) {
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],
+    ['favouriteStation', 'icon-icon_star'],
     ['favourite', 'icon-icon_star'],
     ['address', 'icon-icon_place'],
     ['stop', 'icon-icon_bus-stop'],
