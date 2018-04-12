@@ -267,7 +267,7 @@ function PrintableLeg(props) {
           <div className={`special-icon ${props.legObj.mode.toLowerCase()}`}>
             <RouteNumber
               mode={props.legObj.mode.toLowerCase()}
-              vertical={true}
+              vertical
               text={
                 props.legObj.route !== null
                   ? props.legObj.route.shortName
