@@ -9,7 +9,7 @@ import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
 
 const OriginSelector = (
-  { favourites, oldSearches, destination, origin, tab },
+  { favouriteLocations, favouriteStops, oldSearches, destination, origin, tab },
   { config, router },
 ) => {
   const setOrigin = newOrigin => {
@@ -23,8 +23,16 @@ const OriginSelector = (
     });
   };
 
-  const notInFavourites = item =>
-    favourites.filter(
+  const notInFavouriteLocations = item =>
+    favouriteLocations.filter(
+      favourite =>
+        item.geometry &&
+        Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
+        Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
+    ).length === 0;
+
+  const notInFavouriteStops = item =>
+    favouriteStops.filter(
       favourite =>
         item.geometry &&
         Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
@@ -33,7 +41,7 @@ const OriginSelector = (
 
   const isGeocodingResult = item => item.geometry && item.properties;
 
-  const names = favourites
+  const names = favouriteLocations
     .map(f => (
       <OriginSelectorRow
         key={`f-${f.locationName}`}
@@ -45,9 +53,22 @@ const OriginSelector = (
       />
     ))
     .concat(
+      favouriteStops.map(f => (
+        <OriginSelectorRow
+          key={`f-${f.locationName}`}
+          icon={getIcon('favourite')}
+          onClick={() => {
+            setOrigin({ ...f, address: f.locationName });
+          }}
+          label={f.locationName}
+        />
+      )),
+    )
+    .concat(
       oldSearches
         .filter(isGeocodingResult)
-        .filter(notInFavourites)
+        .filter(notInFavouriteLocations)
+        .filter(notInFavouriteStops)
         .map(s => (
           <OriginSelectorRow
             key={`o-${s.properties.label || s.properties.name}`}
@@ -85,7 +106,8 @@ const OriginSelector = (
 };
 
 OriginSelector.propTypes = {
-  favourites: PropTypes.array.isRequired,
+  favouriteLocations: PropTypes.array.isRequired,
+  favouriteStops: PropTypes.array.isRequired,
   oldSearches: PropTypes.array.isRequired,
   destination: dtLocationShape.isRequired,
   origin: dtLocationShape.isRequired,
@@ -102,9 +124,12 @@ OriginSelector.contextTypes = {
 
 export default connectToStores(
   OriginSelector,
-  ['FavouriteLocationStore', 'OldSearchesStore'],
+  ['FavouriteLocationStore', 'FavouriteStopsStore', 'OldSearchesStore'],
   context => ({
-    favourites: context.getStore('FavouriteLocationStore').getLocations(),
+    favouriteLocations: context
+      .getStore('FavouriteLocationStore')
+      .getLocations(),
+    favouriteStops: context.getStore('FavouriteStopsStore').getStops(),
     oldSearches: context
       .getStore('OldSearchesStore')
       .getOldSearches('endpoint'),
