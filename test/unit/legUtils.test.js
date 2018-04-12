@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import * as utils from '../../app/util/legUtils';
 
 describe('legUtils', () => {
@@ -31,6 +32,19 @@ describe('legUtils', () => {
       };
       const mode = utils.getLegMode(leg);
       expect(mode).to.equal(utils.LegMode.CityBike);
+    });
+
+    it('should return the mode for a string literal mode', () => {
+      const literalMode = 'WALK';
+      const mode = utils.getLegMode(literalMode);
+      expect(mode).to.equal(utils.LegMode.Walk);
+    });
+
+    it('should return the mode for a string object mode', () => {
+      // eslint-disable-next-line no-new-wrappers
+      const objectMode = new String('WALK');
+      const mode = utils.getLegMode(objectMode);
+      expect(mode).to.equal(utils.LegMode.Walk);
     });
   });
 
