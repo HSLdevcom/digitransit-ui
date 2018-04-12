@@ -289,6 +289,7 @@ function getRoutes(input, config) {
 export const getAllEndpointLayers = () => [
   'CurrentPosition',
   'FavouritePlace',
+  'FavouriteStop',
   'OldSearch',
   'Geocoding',
   'Stops',
@@ -313,6 +314,7 @@ export function executeSearchImmediate(
       'FavouriteLocationStore',
     ).getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
+    const favouriteStops = getStore('FavouriteStopsStore').getStops();
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
@@ -324,6 +326,9 @@ export function executeSearchImmediate(
     }
     if (endpointLayers.includes('FavouritePlace')) {
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+    }
+    if (endpointLayers.includes('FavouriteStop')) {
+      searchComponents.push(getFavouriteStops(favouriteStops, input, refPoint));
     }
     if (endpointLayers.includes('OldSearch')) {
       const dropLayers = ['currentPosition'];
@@ -427,11 +432,9 @@ export function executeSearchImmediate(
     searchSearches = { type: 'search', term: input, results: [] };
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
-    const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
-      getFavouriteStops(favouriteStops, input, refPoint),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
     ])
