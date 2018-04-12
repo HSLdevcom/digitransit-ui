@@ -149,11 +149,13 @@ class Timetable extends React.Component {
   };
 
   getDuplicatedRoutes = () => {
-    const getDupeRoutes = this.props.stop.stoptimesForServiceDate
+    const getDupeRoutes = this.mapStopTimes(
+      this.props.stop.stoptimesForServiceDate,
+    )
       .map(o => {
         const obj = {};
-        obj.headsign = o.pattern.headsign;
-        obj.shortName = o.pattern.route.shortName;
+        obj.shortName = o.name;
+        obj.headsign = o.headsign;
         return obj;
       })
       .filter(
@@ -163,6 +165,7 @@ class Timetable extends React.Component {
             o => o.headsign === item.headsign && o.shortName === item.shortName,
           ),
       );
+    console.log(getDupeRoutes);
 
     const routesWithDupes = [];
     Object.entries(groupBy(getDupeRoutes, 'shortName')).forEach(
