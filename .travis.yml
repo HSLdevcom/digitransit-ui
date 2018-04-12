@@ -35,6 +35,7 @@ jobs:
       env: UNIT=1
       node_js: "8"
       script:
+      - yarn install
       - yarn run test-unit
 
     - stage: visual
