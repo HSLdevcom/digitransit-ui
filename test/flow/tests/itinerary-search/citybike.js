@@ -17,8 +17,8 @@ module.exports = {
 
     const customizeSearch = browser.page.customizeSearch();
     customizeSearch.openQuickSettings();
-    customizeSearch.disableAllModalitiesExcept('citybike');
     customizeSearch.enableModality('citybike');
+    customizeSearch.disableAllModalitiesExcept('citybike');
 
     browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 
