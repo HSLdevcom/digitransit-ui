@@ -10,6 +10,7 @@ import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 import { isBrowser } from './util/browser';
+import scrollTop from './util/scroll';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
@@ -489,6 +490,7 @@ export default config => {
           title: Title,
           content: IndexPage,
         }}
+        onEnter={scrollTop}
       />
       <Route
         path="/?mock"
