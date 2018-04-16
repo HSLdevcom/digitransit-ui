@@ -6,6 +6,7 @@
 const path = require('path');
 
 require('babel-core/register')({
+  babelrc: false,
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
     'dynamic-import-node',

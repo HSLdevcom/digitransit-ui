@@ -94,3 +94,17 @@ If things change, you need to update the images
 
 - run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual-update`
 - then verify that changed test images are OK and commit the changes
+
+# Unit tests
+
+Unit tests can be run locally. This currently uses the ```mocha``` test runner. The pattern being watched is ```'test/unit/**/*.test.js'```.
+
+Using yarn
+```
+yarn run test-unit
+```
+
+Using the continuous watch mode
+```
+yarn run test-unit -- --watch
+```
