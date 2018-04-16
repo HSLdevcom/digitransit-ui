@@ -19,7 +19,6 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
       <h1 className="title bold">{title}:</h1>
       <div className="timetable-printable-title">{title}</div>
       <div className="timetable-rowcontainer">
-        {/*console.log(stoptimes) */}
         {stoptimes
           .sort(
             (time1, time2) =>
@@ -74,7 +73,6 @@ TimetableRow.propTypes = {
     }),
   ).isRequired,
   showRoutes: PropTypes.array,
-  dupeRoutes: PropTypes.array,
   timerows: PropTypes.array,
 };
 

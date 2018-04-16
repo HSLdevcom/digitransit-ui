@@ -172,15 +172,11 @@ class Timetable extends React.Component {
       ));
 
   render() {
-    const dupeRoutes = this.getDuplicatedRoutes();
-
-    console.log(dupeRoutes);
-
     const addedDuplicateRemarks = uniqBy(
       this.mapStopTimes(this.props.stop.stoptimesForServiceDate)
         .map(o => {
           const obj = Object.assign(o);
-          obj.duplicate = !!dupeRoutes.includes(o.name);
+          obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
           return obj;
         })
         .filter(o => o.duplicate === true),
@@ -190,8 +186,6 @@ class Timetable extends React.Component {
       obj.duplicate = '*'.repeat(i + 1);
       return obj;
     });
-
-    console.log(addedDuplicateRemarks);
 
     const routesWithDetails = this.mapStopTimes(
       this.props.stop.stoptimesForServiceDate,
@@ -203,8 +197,6 @@ class Timetable extends React.Component {
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
       return obj;
     });
-
-    console.log(routesWithDetails);
 
     const timetableMap = this.groupArrayByHour(routesWithDetails);
 
@@ -251,12 +243,15 @@ class Timetable extends React.Component {
           </div>
           {this.createTimeTableRows(timetableMap)}
           <div className="route-remarks">
+            <h1>
+              <FormattedMessage
+                id="explanations"
+                defaultMessage="Explanations"
+              />:
+            </h1>
             {addedDuplicateRemarks.map(o => (
               <div className="remark-row" key={o.duplicate}>
-                <span>
-                  {`${o.duplicate}`} =
-                  {`${o.name}`} {`${o.headsign}`}
-                </span>
+                <span>{`${o.duplicate} = ${o.name} ${o.headsign}`}</span>
               </div>
             ))}
           </div>
