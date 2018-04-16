@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
@@ -59,6 +59,32 @@ class Timetable extends React.Component {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
+  };
+
+  getDuplicatedRoutes = () => {
+    const routesToCheck = this.mapStopTimes(
+      this.props.stop.stoptimesForServiceDate,
+    )
+      .map(o => {
+        const obj = {};
+        obj.shortName = o.name;
+        obj.headsign = o.headsign;
+        return obj;
+      })
+      .filter(
+        (item, index, self) =>
+          index ===
+          self.findIndex(
+            o => o.headsign === item.headsign && o.shortName === item.shortName,
+          ),
+      );
+
+    const routesWithDupes = [];
+    Object.entries(groupBy(routesToCheck, 'shortName')).forEach(
+      ([key, value]) =>
+        value.length > 1 ? routesWithDupes.push(key) : undefined,
+    );
+    return routesWithDupes;
   };
 
   setRouteVisibilityState = val => {
@@ -132,10 +158,8 @@ class Timetable extends React.Component {
     return filteredRoutes;
   };
 
-  createTimeTableRows = timetableMap => {
-    const dupeRoutes = this.getDuplicatedRoutes();
-    console.log(dupeRoutes);
-    return Object.keys(timetableMap)
+  createTimeTableRows = timetableMap =>
+    Object.keys(timetableMap)
       .sort((a, b) => a - b)
       .map(hour => (
         <TimetableRow
@@ -146,40 +170,44 @@ class Timetable extends React.Component {
           timerows={this.formTimeRow(timetableMap, hour)}
         />
       ));
-  };
-
-  getDuplicatedRoutes = () => {
-    const getDupeRoutes = this.mapStopTimes(
-      this.props.stop.stoptimesForServiceDate,
-    )
-      .map(o => {
-        const obj = {};
-        obj.shortName = o.name;
-        obj.headsign = o.headsign;
-        return obj;
-      })
-      .filter(
-        (item, index, self) =>
-          index ===
-          self.findIndex(
-            o => o.headsign === item.headsign && o.shortName === item.shortName,
-          ),
-      );
-    console.log(getDupeRoutes);
-
-    const routesWithDupes = [];
-    Object.entries(groupBy(getDupeRoutes, 'shortName')).forEach(
-      ([key, value]) =>
-        value.length > 1 ? routesWithDupes.push(key) : undefined,
-    );
-    console.log(routesWithDupes);
-    return routesWithDupes;
-  };
 
   render() {
-    const timetableMap = this.groupArrayByHour(
-      this.mapStopTimes(this.props.stop.stoptimesForServiceDate),
-    );
+    const dupeRoutes = this.getDuplicatedRoutes();
+
+    console.log(dupeRoutes);
+
+    const addedDuplicateRemarks = uniqBy(
+      this.mapStopTimes(this.props.stop.stoptimesForServiceDate)
+        .map(o => {
+          const obj = Object.assign(o);
+          obj.duplicate = !!dupeRoutes.includes(o.name);
+          return obj;
+        })
+        .filter(o => o.duplicate === true),
+      'headsign',
+    ).map((o, i) => {
+      const obj = Object.assign(o);
+      obj.duplicate = '*'.repeat(i + 1);
+      return obj;
+    });
+
+    console.log(addedDuplicateRemarks);
+
+    const routesWithDetails = this.mapStopTimes(
+      this.props.stop.stoptimesForServiceDate,
+    ).map(o => {
+      const obj = Object.assign(o);
+      const getDuplicate = addedDuplicateRemarks.find(
+        o2 => o2.headsign === o.headsign && o2.duplicate,
+      );
+      obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
+      return obj;
+    });
+
+    console.log(routesWithDetails);
+
+    const timetableMap = this.groupArrayByHour(routesWithDetails);
+
     return (
       <div className="timetable">
         {this.state.showFilterModal === true ? (
@@ -221,34 +249,17 @@ class Timetable extends React.Component {
               />
             </div>
           </div>
-          {/*
-          Object.keys(timetableMap)
-            .sort((a, b) => a - b)
-            .map(hour => (
-              <TimetableRow
-                key={hour}
-                title={padStart(hour % 24, 2, '0')}
-                stoptimes={timetableMap[hour]}
-                showRoutes={this.state.showRoutes}
-                timerows={timetableMap[hour]
-                  .sort(
-                    (time1, time2) =>
-                      time1.scheduledDeparture - time2.scheduledDeparture,
-                  )
-                  .map(
-                    time =>
-                      this.state.showRoutes.filter(
-                        o => o === time.name || o === time.id,
-                      ).length > 0 &&
-                      moment
-                        .unix(time.serviceDay + time.scheduledDeparture)
-                        .format('HH'),
-                  )
-                  .filter(o => o === padStart(hour % 24, 2, '0'))}
-              />
-            ))
-          */}
           {this.createTimeTableRows(timetableMap)}
+          <div className="route-remarks">
+            {addedDuplicateRemarks.map(o => (
+              <div className="remark-row" key={o.duplicate}>
+                <span>
+                  {`${o.duplicate}`} =
+                  {`${o.name}`} {`${o.headsign}`}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
