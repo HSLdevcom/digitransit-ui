@@ -3,9 +3,20 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
+import moment from 'moment';
 
 import { getOldSearchesStorage, setOldSearchesStorage } from './localStorage';
 import { getNameLabel } from '../util/suggestionUtils';
+
+/**
+ * The current version number of this store.
+ */
+export const STORE_VERSION = 2;
+
+/**
+ * The maximum amount of time in seconds an item gets stored.
+ */
+export const STORE_PERIOD = 300;
 
 class OldSearchesStore extends Store {
   static storeName = 'OldSearchesStore';
@@ -17,10 +28,10 @@ class OldSearchesStore extends Store {
     if (
       !oldSearches ||
       oldSearches.version == null ||
-      oldSearches.version < 2
+      oldSearches.version < STORE_VERSION
     ) {
       setOldSearchesStorage({
-        version: 2,
+        version: STORE_VERSION,
         items: [],
       });
     }
@@ -36,15 +47,21 @@ class OldSearchesStore extends Store {
       ),
     );
 
+    const timestamp = moment().unix();
     if (found != null) {
       found.count += 1;
+      found.lastUpdated = timestamp;
       found.item = cloneDeep(destination.item);
     } else {
-      searches.push({ count: 1, ...destination });
+      searches.push({
+        count: 1,
+        lastUpdated: timestamp,
+        ...destination,
+      });
     }
 
     setOldSearchesStorage({
-      version: 2,
+      version: STORE_VERSION,
       items: orderBy(searches, 'count', 'desc'),
     });
     searches = this.getOldSearches();
@@ -53,13 +70,17 @@ class OldSearchesStore extends Store {
 
   // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
-    return (
-      (getOldSearchesStorage().items &&
-        getOldSearchesStorage()
-          .items.filter(item => (type ? item.type === type : true))
-          .map(item => item.item)) ||
-      []
-    );
+    const { items } = getOldSearchesStorage();
+    const timestamp = moment().unix();
+    return items
+      .filter(
+        item =>
+          (type ? item.type === type : true) &&
+          (item.lastUpdated
+            ? timestamp - item.lastUpdated < STORE_PERIOD
+            : true),
+      )
+      .map(item => item.item);
   }
 
   static handlers = {
