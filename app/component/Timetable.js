@@ -172,8 +172,16 @@ class Timetable extends React.Component {
       ));
 
   render() {
+    // Leave out all the routes without a shortname to avoid flooding of
+    // long distance buses being falsely positived as duplicates
+    // then look foor routes operating under the same number but
+    // different headsigns
     const addedDuplicateRemarks = uniqBy(
-      this.mapStopTimes(this.props.stop.stoptimesForServiceDate)
+      this.mapStopTimes(
+        this.props.stop.stoptimesForServiceDate.filter(
+          o => o.pattern.route.shortName,
+        ),
+      )
         .map(o => {
           const obj = Object.assign(o);
           obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
@@ -192,7 +200,7 @@ class Timetable extends React.Component {
     ).map(o => {
       const obj = Object.assign(o);
       const getDuplicate = addedDuplicateRemarks.find(
-        o2 => o2.headsign === o.headsign && o2.duplicate,
+        o2 => o2.name === o.name && o2.headsign === o.headsign && o2.duplicate,
       );
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
       return obj;
@@ -242,7 +250,15 @@ class Timetable extends React.Component {
             </div>
           </div>
           {this.createTimeTableRows(timetableMap)}
-          <div className="route-remarks">
+          <div
+            className="route-remarks"
+            style={{
+              display:
+                addedDuplicateRemarks.filter(o => o.duplicate).length > 0
+                  ? 'block'
+                  : 'none',
+            }}
+          >
             <h1>
               <FormattedMessage
                 id="explanations"
