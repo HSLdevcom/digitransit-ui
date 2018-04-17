@@ -11,7 +11,7 @@ function handleSecurityError(error, logMessage) {
 }
 
 function setItem(key, value) {
-  if (isBrowser && window.localStorage) {
+  if (isBrowser() && window.localStorage) {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
@@ -32,7 +32,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  if (isBrowser && window.localStorage) {
+  if (isBrowser() && window.localStorage) {
     try {
       return window.localStorage.getItem(key);
     } catch (error) {
@@ -53,7 +53,7 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  if (isBrowser && window.localStorage) {
+  if (isBrowser() && window.localStorage) {
     try {
       window.localStorage.removeItem(k);
     } catch (error) {

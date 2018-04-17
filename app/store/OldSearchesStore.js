@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
@@ -37,6 +38,7 @@ class OldSearchesStore extends Store {
 
     if (found != null) {
       found.count += 1;
+      found.item = cloneDeep(destination.item);
     } else {
       searches.push({ count: 1, ...destination });
     }
