@@ -88,9 +88,7 @@ export const getNameLabel = memoize(
           ? [suggestion.locationName]
           : [
               suggestion.locationName,
-              <span key={suggestion.id}>
-                {suggestion.address}
-              </span>,
+              <span key={suggestion.id}>{suggestion.address}</span>,
             ];
       case 'stop':
         return plain
