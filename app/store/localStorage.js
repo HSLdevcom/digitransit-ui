@@ -1,5 +1,8 @@
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
 
+const getLocalStorage = runningInBrowser =>
+  runningInBrowser ? window.localStorage : global.localStorage;
+
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
     if (logMessage) {
@@ -11,9 +14,10 @@ function handleSecurityError(error, logMessage) {
 }
 
 function setItem(key, value) {
-  if (isBrowser() && window.localStorage) {
+  const localStorage = getLocalStorage(isBrowser);
+  if (localStorage) {
     try {
-      window.localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
         console.log(
@@ -32,9 +36,10 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  if (isBrowser() && window.localStorage) {
+  const localStorage = getLocalStorage(isBrowser);
+  if (localStorage) {
     try {
-      return window.localStorage.getItem(key);
+      return localStorage.getItem(key);
     } catch (error) {
       handleSecurityError(error);
     }
@@ -53,9 +58,10 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  if (isBrowser() && window.localStorage) {
+  const localStorage = getLocalStorage(isBrowser);
+  if (localStorage) {
     try {
-      window.localStorage.removeItem(k);
+      localStorage.removeItem(k);
     } catch (error) {
       handleSecurityError(error);
     }
@@ -93,7 +99,7 @@ export function setCustomizedSettings(data) {
 }
 
 export function resetCustomizedSettings() {
-  localStorage.removeItem('customizedSettings');
+  getLocalStorage.removeItem('customizedSettings');
 }
 
 export function getFavouriteLocationsStorage() {

@@ -1,27 +1,19 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import {
-  getOldSearchesStorage,
-  setOldSearchesStorage,
-} from '../../app/store/localStorage';
 import OldSearchesStore from '../../app/store/OldSearchesStore';
-
-global.window = {};
-import localStorage from 'mock-local-storage';
-window.localStorage = global.localStorage;
 
 describe('OldSearchesStore', () => {
   describe('getOldSearches()', () => {
     it('should return an empty array for missing parameters', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty;
+      expect(oldSearches).to.be.empty; // eslint-disable-line no-unused-expressions
     });
 
     it('should return an empty array when no matches are found', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('invalid');
-      expect(oldSearches).to.be.empty;
+      expect(oldSearches).to.be.empty; // eslint-disable-line no-unused-expressions
     });
 
     it("should update the item's properties if found from store", () => {
