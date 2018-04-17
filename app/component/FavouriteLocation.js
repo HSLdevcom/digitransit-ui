@@ -8,6 +8,7 @@ import Icon from './Icon';
 import DepartureTime from './DepartureTime';
 import RouteNumber from './RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from './ExampleData';
+import { isStop, isTerminal } from '../util/suggestionUtils';
 
 const FavouriteLocation = ({
   favourite,
@@ -17,15 +18,7 @@ const FavouriteLocation = ({
   firstTransitLeg,
   clickFavourite,
 }) => {
-  const {
-    locationName,
-    id,
-    number,
-    lat,
-    lon,
-    selectedIconId,
-    layer,
-  } = favourite;
+  const { locationName, id, number, lat, lon, selectedIconId } = favourite;
 
   let departureTimeComponent;
   if (departureTime && currentTime < departureTime) {
@@ -66,7 +59,7 @@ const FavouriteLocation = ({
   }
 
   const favouriteType =
-    layer === 'venue' || layer === 'address' ? 'sijainti' : 'pysakki';
+    isStop(favourite) || isTerminal(favourite) ? 'pysakki' : 'sijainti';
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
