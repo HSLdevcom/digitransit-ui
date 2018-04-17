@@ -99,7 +99,10 @@ export function setCustomizedSettings(data) {
 }
 
 export function resetCustomizedSettings() {
-  getLocalStorage.removeItem('customizedSettings');
+  const localStorage = getLocalStorage(isBrowser);
+  if (localStorage) {
+    localStorage.removeItem('customizedSettings');
+  }
 }
 
 export function getFavouriteLocationsStorage() {
