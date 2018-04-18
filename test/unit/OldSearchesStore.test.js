@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import { afterEach, describe, it } from 'mocha';
 import MockDate from 'mockdate';
@@ -91,13 +92,13 @@ describe('OldSearchesStore', () => {
     it('should return an empty array for missing parameters', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.be.empty;
     });
 
     it('should return an empty array when no matches are found', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('invalid');
-      expect(oldSearches).to.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.be.empty;
     });
 
     it('should ignore old version numbers from localStorage', () => {
@@ -113,7 +114,7 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.be.empty;
     });
 
     it('should filter by type', () => {
@@ -134,7 +135,7 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('endpoint');
-      expect(oldSearches).to.not.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.not.be.empty;
       expect(oldSearches.length).to.equal(2);
     });
 
@@ -145,12 +146,21 @@ describe('OldSearchesStore', () => {
         version: STORE_VERSION,
         items: [
           {
+            item: {
+              foo: 'bar',
+            },
             lastUpdated: timestamp.unix(),
           },
           {
+            item: {
+              foo: 'yes',
+            },
             lastUpdated: timestamp.unix() - STORE_PERIOD,
           },
           {
+            item: {
+              foo: 'no',
+            },
             lastUpdated: timestamp.unix() - (STORE_PERIOD - 1),
           },
         ],
@@ -158,11 +168,13 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.not.be.empty;
       expect(oldSearches.length).to.equal(2);
+      expect(oldSearches.filter(s => s.foo === 'yes')).to.be.empty;
+      expect(oldSearches.filter(s => s.foo === 'bar')).to.not.be.empty;
     });
 
-    it('should ignore missing timestamp', () => {
+    it('should ignore a missing timestamp', () => {
       const timestamp = moment('2018-02-18');
       MockDate.set(timestamp);
       setOldSearchesStorage({
@@ -172,7 +184,7 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty; // eslint-disable-line no-unused-expressions
+      expect(oldSearches).to.not.be.empty;
       expect(oldSearches.length).to.equal(1);
     });
   });

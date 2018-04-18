@@ -38,9 +38,9 @@ class OldSearchesStore extends Store {
   }
 
   saveSearch(destination) {
-    let searches = getOldSearchesStorage().items;
+    const { items } = getOldSearchesStorage();
 
-    const found = find(searches, oldItem =>
+    const found = find(items, oldItem =>
       isEqual(
         getNameLabel(destination.item.properties),
         getNameLabel(oldItem.item.properties),
@@ -53,7 +53,7 @@ class OldSearchesStore extends Store {
       found.lastUpdated = timestamp;
       found.item = cloneDeep(destination.item);
     } else {
-      searches.push({
+      items.push({
         count: 1,
         lastUpdated: timestamp,
         ...destination,
@@ -62,9 +62,9 @@ class OldSearchesStore extends Store {
 
     setOldSearchesStorage({
       version: STORE_VERSION,
-      items: orderBy(searches, 'count', 'desc'),
+      items: orderBy(items, 'count', 'desc'),
     });
-    searches = this.getOldSearches();
+
     this.emitChange(destination);
   }
 
