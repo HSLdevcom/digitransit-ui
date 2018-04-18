@@ -228,21 +228,19 @@ function getFavouriteStops(favourites, input, origin) {
     origin.lon && { lat: origin.lat, lng: origin.lon };
 
   const stops = sortByDistance(favourites, refLatLng);
-
   return Promise.resolve(
-    filterMatchingToInput(stops, input, [
-      'properties.locationName',
-      'properties.address',
-    ]).map(stop => ({
-      type: 'FavouriteStop',
-      properties: {
-        ...stop,
-        layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-      },
-      geometry: {
-        coordinates: [stop.lon, stop.lat],
-      },
-    })),
+    filterMatchingToInput(stops, input, ['locationName', 'address']).map(
+      stop => ({
+        type: 'FavouriteStop',
+        properties: {
+          ...stop,
+          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+        },
+        geometry: {
+          coordinates: [stop.lon, stop.lat],
+        },
+      }),
+    ),
   );
 }
 
