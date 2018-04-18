@@ -59,7 +59,9 @@ const FavouriteLocation = ({
   }
 
   const favouriteType =
-    isStop(favourite) || isTerminal(favourite) ? 'pysakki' : 'sijainti';
+    (isStop(favourite) || isTerminal(favourite)) && favourite.gtfsId
+      ? 'pysakki'
+      : 'sijainti';
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div

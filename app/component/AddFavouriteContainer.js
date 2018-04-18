@@ -92,7 +92,10 @@ class AddFavouriteContainer extends React.Component {
 
   save = () => {
     if (this.canSave()) {
-      if (isStop(this.state.favourite) || isTerminal(this.state.favourite)) {
+      if (
+        (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
+        this.state.favourite.gtfsId
+      ) {
         this.context.executeAction(addFavouriteStop, this.state.favourite);
       } else {
         this.context.executeAction(addFavouriteLocation, this.state.favourite);
@@ -102,7 +105,10 @@ class AddFavouriteContainer extends React.Component {
   };
 
   delete = () => {
-    if (isStop(this.state.favourite) || isTerminal(this.state.favourite)) {
+    if (
+      (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
+      this.state.favourite.gtfsId
+    ) {
       this.context.executeAction(deleteFavouriteStop, this.state.favourite);
     } else {
       this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
