@@ -17,7 +17,7 @@ function Departure(props) {
   const mode = props.departure.pattern.route.mode.toLowerCase();
 
   let platformNumber = false;
-  if (props.isTerminal || !!props.departure.stop.platformCode) {
+  if (props.showPlatformCode && props.departure.stop.platformCode) {
     platformNumber = (
       <PlatformNumber number={props.departure.stop.platformCode} />
     );
@@ -74,8 +74,8 @@ Departure.description = () => (
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
-        className="padding-normal padding-bottom"
-        isTerminal
+        className="padding-normal padding-bottom desktop"
+        showPlatformCode
         useUTC
       />
     </ComponentUsageExample>
@@ -100,8 +100,12 @@ Departure.propTypes = {
   currentTime: PropTypes.number.isRequired,
   departure: PropTypes.object.isRequired,
   isArrival: PropTypes.bool,
-  isTerminal: PropTypes.bool,
+  showPlatformCode: PropTypes.bool,
   useUTC: PropTypes.bool,
+};
+
+Departure.defaultProps = {
+  showPlatformCode: false,
 };
 
 export default Departure;

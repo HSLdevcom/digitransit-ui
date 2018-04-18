@@ -89,6 +89,7 @@ const DepartureListContainerWithProps = mapProps(props => ({
   isTerminal: !props.params.stopId,
   rowClasses: 'padding-normal border-bottom',
   currentTime: props.relay.variables.startTime,
+  showPlatformCodes: true,
 }))(DepartureListContainer);
 
 const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(
