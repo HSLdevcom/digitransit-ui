@@ -21,24 +21,25 @@ export const STORE_PERIOD = 300;
 class OldSearchesStore extends Store {
   static storeName = 'OldSearchesStore';
 
-  constructor(dispatcher) {
-    super(dispatcher);
-
-    const oldSearches = getOldSearchesStorage();
+  // eslint-disable-next-line class-methods-use-this
+  getStorageObject() {
+    let storage = getOldSearchesStorage();
     if (
-      !oldSearches ||
-      oldSearches.version == null ||
-      oldSearches.version < STORE_VERSION
+      !storage ||
+      storage.version == null ||
+      storage.version < STORE_VERSION
     ) {
-      setOldSearchesStorage({
+      storage = {
         version: STORE_VERSION,
         items: [],
-      });
+      };
+      setOldSearchesStorage(storage);
     }
+    return storage;
   }
 
   saveSearch(destination) {
-    const { items } = getOldSearchesStorage();
+    const { items } = this.getStorageObject();
 
     const found = find(items, oldItem =>
       isEqual(
@@ -70,7 +71,7 @@ class OldSearchesStore extends Store {
 
   // eslint-disable-next-line class-methods-use-this
   getOldSearches(type) {
-    const { items } = getOldSearchesStorage();
+    const { items } = this.getStorageObject();
     const timestamp = moment().unix();
     return items
       .filter(

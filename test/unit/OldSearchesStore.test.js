@@ -88,7 +88,7 @@ describe('OldSearchesStore', () => {
     global.localStorage.clear();
   });
 
-  describe('constructor', () => {
+  describe('getStorageObject()', () => {
     it('should update the local storage to the new version', () => {
       setOldSearchesStorage({
         version: STORE_VERSION - 1,
@@ -101,6 +101,8 @@ describe('OldSearchesStore', () => {
       });
 
       const store = new OldSearchesStore();
+      store.getStorageObject();
+
       const { items, version } = getOldSearchesStorage();
       expect(items).to.be.empty;
       expect(version).to.equal(STORE_VERSION);
