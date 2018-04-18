@@ -11,7 +11,7 @@ import { getNameLabel } from '../util/suggestionUtils';
 /**
  * The current version number of this store.
  */
-export const STORE_VERSION = 2;
+export const STORE_VERSION = 3;
 
 /**
  * The maximum amount of time in seconds an item gets stored.

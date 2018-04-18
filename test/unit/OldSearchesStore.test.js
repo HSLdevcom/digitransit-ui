@@ -88,6 +88,25 @@ describe('OldSearchesStore', () => {
     global.localStorage.clear();
   });
 
+  describe('constructor', () => {
+    it('should update the local storage to the new version', () => {
+      setOldSearchesStorage({
+        version: STORE_VERSION - 1,
+        items: [
+          {
+            ...mockData.updated,
+            count: 1,
+          },
+        ],
+      });
+
+      const store = new OldSearchesStore();
+      const { items, version } = getOldSearchesStorage();
+      expect(items).to.be.empty;
+      expect(version).to.equal(STORE_VERSION);
+    });
+  });
+
   describe('getOldSearches(type)', () => {
     it('should return an empty array for missing parameters', () => {
       const store = new OldSearchesStore();
