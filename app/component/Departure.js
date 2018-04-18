@@ -17,7 +17,7 @@ function Departure(props) {
   const mode = props.departure.pattern.route.mode.toLowerCase();
 
   let platformNumber = false;
-  if (props.isTerminal) {
+  if (props.isTerminal || !!props.departure.stop.platformCode) {
     platformNumber = (
       <PlatformNumber number={props.departure.stop.platformCode} />
     );
