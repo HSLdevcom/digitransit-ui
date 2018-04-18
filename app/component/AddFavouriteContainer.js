@@ -15,6 +15,7 @@ import {
   deleteFavouriteLocation,
   deleteFavouriteStop,
 } from '../action/FavouriteActions';
+import { isStop, isTerminal } from '../util/suggestionUtils';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 
 class AddFavouriteContainer extends React.Component {
@@ -81,9 +82,7 @@ class AddFavouriteContainer extends React.Component {
   };
 
   isEdit = () =>
-    this.props.favourite !== undefined &&
-    (this.props.favourite.id !== undefined ||
-      this.props.favourite.number !== undefined);
+    this.props.favourite !== undefined && this.props.favourite.id !== undefined;
 
   canSave = () =>
     !isEmpty(this.state.favourite.selectedIconId) &&
@@ -93,7 +92,7 @@ class AddFavouriteContainer extends React.Component {
 
   save = () => {
     if (this.canSave()) {
-      if (this.state.favourite.id) {
+      if (isStop(this.state.favourite) || isTerminal(this.state.favourite)) {
         this.context.executeAction(addFavouriteStop, this.state.favourite);
       } else {
         this.context.executeAction(addFavouriteLocation, this.state.favourite);
@@ -103,10 +102,10 @@ class AddFavouriteContainer extends React.Component {
   };
 
   delete = () => {
-    if (this.state.favourite.number) {
-      this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
-    } else {
+    if (isStop(this.state.favourite) || isTerminal(this.state.favourite)) {
       this.context.executeAction(deleteFavouriteStop, this.state.favourite);
+    } else {
+      this.context.executeAction(deleteFavouriteLocation, this.state.favourite);
     }
     this.quit();
   };
@@ -282,12 +281,11 @@ const AddFavouriteContainerWithFavourite = connectToStores(
   AddFavouriteContainer,
   ['FavouriteLocationStore', 'FavouriteStopsStore'],
   (context, props) => ({
-    favourite:
-      props.params.number !== undefined
-        ? context
-            .getStore('FavouriteLocationStore')
-            .getByNumber(parseInt(props.params.number, 10))
-        : context.getStore('FavouriteStopsStore').getById(props.params.id),
+    favourite: props.location.pathname.includes('pysakki')
+      ? context.getStore('FavouriteStopsStore').getById(props.params.id)
+      : context
+          .getStore('FavouriteLocationStore')
+          .getById(parseInt(props.params.id, 10)),
   }),
 );
 

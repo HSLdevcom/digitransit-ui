@@ -462,7 +462,7 @@ export default config => {
         </Route>
       </Route>
       <Route
-        path="/suosikki/muokkaa/sijainti/:number"
+        path="/suosikki/muokkaa/sijainti/:id"
         getComponent={(location, cb) => {
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
             .then(loadRoute(cb))

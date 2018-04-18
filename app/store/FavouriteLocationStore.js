@@ -15,15 +15,14 @@ class FavouriteLocationStore extends Store {
     this.migrate();
   }
 
-  getByNumber = number =>
-    find(this.locations, location => number === location.number);
+  getById = id => find(this.locations, location => id === location.id);
 
   /*
    * migrate local storage data from old format to new.
   *  v1 adds
    *  {
    *    version: 1  // data version so we can migrate later too
-   *    number:     // identifier (for updates)
+   *    id:         // identifier (for updates)
    *  }
    */
   migrate = () => {
@@ -37,8 +36,8 @@ class FavouriteLocationStore extends Store {
     }
   };
 
-  getMaxNumber = collection =>
-    (maxBy(collection, location => location.number) || { number: 0 }).number;
+  getMaxId = collection =>
+    (maxBy(collection, location => location.id) || { id: 0 }).id;
 
   migrate01 = locations => {
     const matchF = favourite => favourite.version === undefined;
@@ -46,12 +45,12 @@ class FavouriteLocationStore extends Store {
       return null;
     } // nothing to migrate
 
-    let maxNumber = this.getMaxNumber(locations);
+    let maxId = this.getMaxId(locations);
 
     const modified = locations.map(favourite => {
-      maxNumber += 1;
+      maxId += 1;
       if (matchF(favourite)) {
-        const migrated = { ...favourite, version: 1, number: maxNumber };
+        const migrated = { ...favourite, version: 1, id: maxId };
         return migrated;
       }
       return { favourite };
@@ -73,16 +72,16 @@ class FavouriteLocationStore extends Store {
       throw new Error(`location is not a object:${JSON.stringify(location)}`);
     }
 
-    if (location.number === undefined) {
+    if (location.id === undefined) {
       // new
       this.locations.push({
         ...location,
-        number: 1 + this.getMaxNumber(this.locations),
+        id: 1 + this.getMaxId(this.locations),
       });
     } else {
       // update
       this.locations = this.locations.map(currentLocation => {
-        if (currentLocation.number === location.number) {
+        if (currentLocation.id === location.id) {
           return location;
         }
         return currentLocation;
@@ -94,7 +93,7 @@ class FavouriteLocationStore extends Store {
 
   deleteFavouriteLocation(location) {
     this.locations = this.locations.filter(
-      currentLocation => currentLocation.number !== location.number,
+      currentLocation => currentLocation.id !== location.id,
     );
     this.save();
     this.emitChange();
