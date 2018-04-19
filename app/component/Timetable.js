@@ -184,11 +184,12 @@ class Timetable extends React.Component {
       )
         .map(o => {
           const obj = Object.assign(o);
+          obj.groupId = `${o.name}-${o.headsign}`;
           obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
           return obj;
         })
         .filter(o => o.duplicate === true),
-      'headsign',
+      'groupId',
     ).map((o, i) => {
       const obj = Object.assign(o);
       obj.duplicate = '*'.repeat(i + 1);
