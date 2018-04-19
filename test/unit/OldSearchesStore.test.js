@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import OldSearchesStore, {
   STORE_VERSION,
-  STORE_PERIOD,
 } from '../../app/store/OldSearchesStore';
 import {
   getOldSearchesStorage,
@@ -161,8 +160,8 @@ describe('OldSearchesStore', () => {
     });
 
     it('should filter by timestamp', () => {
-      const timestamp = moment('2018-02-18');
-      MockDate.set(timestamp);
+      const timestamp = () => moment('2018-02-18');
+      MockDate.set(timestamp());
       setOldSearchesStorage({
         version: STORE_VERSION,
         items: [
@@ -170,19 +169,32 @@ describe('OldSearchesStore', () => {
             item: {
               foo: 'bar',
             },
-            lastUpdated: timestamp.unix(),
+            lastUpdated: timestamp().unix(),
           },
           {
             item: {
-              foo: 'yes',
+              foo: 'baz',
             },
-            lastUpdated: timestamp.unix() - STORE_PERIOD,
+            lastUpdated: timestamp()
+              .add(1, 'seconds')
+              .unix(),
           },
           {
             item: {
-              foo: 'no',
+              foo: 'yes_filter',
             },
-            lastUpdated: timestamp.unix() - (STORE_PERIOD - 1),
+            lastUpdated: timestamp()
+              .subtract(60, 'days')
+              .unix(),
+          },
+          {
+            item: {
+              foo: 'no_filter',
+            },
+            lastUpdated: timestamp()
+              .subtract(60, 'days')
+              .add(1, 'seconds')
+              .unix(),
           },
         ],
       });
@@ -190,9 +202,9 @@ describe('OldSearchesStore', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
       expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(2);
-      expect(oldSearches.filter(s => s.foo === 'yes')).to.be.empty;
-      expect(oldSearches.filter(s => s.foo === 'bar')).to.not.be.empty;
+      expect(oldSearches.length).to.equal(3);
+      expect(oldSearches.filter(s => s.foo === 'yes_filter')).to.be.empty;
+      expect(oldSearches.filter(s => s.foo === 'no_filter')).to.not.be.empty;
     });
 
     it('should ignore a missing timestamp', () => {

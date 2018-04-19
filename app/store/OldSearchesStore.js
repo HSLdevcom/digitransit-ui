@@ -14,9 +14,9 @@ import { getNameLabel } from '../util/suggestionUtils';
 export const STORE_VERSION = 3;
 
 /**
- * The maximum amount of time in seconds an item gets stored.
+ * The maximum amount of time in seconds a stored item will be returned.
  */
-export const STORE_PERIOD = 300;
+export const STORE_PERIOD = 60 * 60 * 24 * 60; // 60 days
 
 class OldSearchesStore extends Store {
   static storeName = 'OldSearchesStore';
