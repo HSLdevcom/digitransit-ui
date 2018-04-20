@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
+import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
@@ -176,31 +177,47 @@ class Timetable extends React.Component {
     // long distance buses being falsely positived as duplicates
     // then look foor routes operating under the same number but
     // different headsigns
-    const addedDuplicateRemarks = uniqBy(
-      this.mapStopTimes(
-        this.props.stop.stoptimesForServiceDate.filter(
-          o => o.pattern.route.shortName,
+    const variantList = groupBy(
+      sortBy(
+        uniqBy(
+          this.mapStopTimes(
+            this.props.stop.stoptimesForServiceDate.filter(
+              o => o.pattern.route.shortName,
+            ),
+          )
+            .map(o => {
+              const obj = Object.assign(o);
+              obj.groupId = `${o.name}-${o.headsign}`;
+              obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
+              return obj;
+            })
+            .filter(o => o.duplicate === true),
+          'groupId',
         ),
-      )
-        .map(o => {
+        'name',
+      ),
+      'name',
+    );
+
+    let variantsWithMarks = [];
+
+    Object.keys(variantList).forEach(key => {
+      variantsWithMarks.push(
+        variantList[key].map((o, i) => {
           const obj = Object.assign(o);
-          obj.groupId = `${o.name}-${o.headsign}`;
-          obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
+          obj.duplicate = '*'.repeat(i + 1);
           return obj;
-        })
-        .filter(o => o.duplicate === true),
-      'groupId',
-    ).map((o, i) => {
-      const obj = Object.assign(o);
-      obj.duplicate = '*'.repeat(i + 1);
-      return obj;
+        }),
+      );
     });
+
+    variantsWithMarks = [].concat(...variantsWithMarks);
 
     const routesWithDetails = this.mapStopTimes(
       this.props.stop.stoptimesForServiceDate,
     ).map(o => {
       const obj = Object.assign(o);
-      const getDuplicate = addedDuplicateRemarks.find(
+      const getDuplicate = variantsWithMarks.find(
         o2 => o2.name === o.name && o2.headsign === o.headsign && o2.duplicate,
       );
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
@@ -255,7 +272,7 @@ class Timetable extends React.Component {
             className="route-remarks"
             style={{
               display:
-                addedDuplicateRemarks.filter(o => o.duplicate).length > 0
+                variantsWithMarks.filter(o => o.duplicate).length > 0
                   ? 'block'
                   : 'none',
             }}
@@ -266,9 +283,9 @@ class Timetable extends React.Component {
                 defaultMessage="Explanations"
               />:
             </h1>
-            {addedDuplicateRemarks.map(o => (
-              <div className="remark-row" key={o.duplicate}>
-                <span>{`${o.duplicate} = ${o.name} ${o.headsign}`}</span>
+            {variantsWithMarks.map(o => (
+              <div className="remark-row" key={`${o.id}-${o.headsign}`}>
+                <span>{`${o.name}${o.duplicate} = ${o.headsign}`}</span>
               </div>
             ))}
           </div>

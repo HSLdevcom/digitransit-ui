@@ -27,7 +27,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
           .map(time => (
             <div
               className="timetablerow-linetime"
-              key={time.name + time.scheduledDeparture}
+              key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
             >
               <span
                 className={cx({
