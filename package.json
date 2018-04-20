@@ -68,7 +68,7 @@
     "debug": "3.1.0",
     "element-resize-detector": "1.1.12",
     "express": "4.16.2",
-    "express-http-proxy": "1.1.0",
+    "express-http-proxy": "1.2.0",
     "express-static-gzip": "0.3.2",
     "favicons-webpack-plugin": "0.0.8",
     "fluxible": "1.4.0",
