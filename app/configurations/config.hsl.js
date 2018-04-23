@@ -9,7 +9,7 @@ export default {
   CONFIG,
 
   URL: {
-    OTP: `${API_URL}/routing/v1/routers/hsl/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/v1/hsl-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
