@@ -143,8 +143,6 @@ export function suggestionToLocation(item) {
   return {
     address: name,
     type: item.type,
-    id: getGTFSId(item.properties),
-    code: getStopCode(item.properties),
     layer: item.properties.layer,
     lat:
       item.lat ||
