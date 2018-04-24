@@ -1,8 +1,13 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import StopCardContainer from '../../StopCardContainer';
+import PopupMock from './PopupMock';
 import MarkerPopupBottom from '../MarkerPopupBottom';
+import StopCardContainer from '../../StopCardContainer';
+import ComponentUsageExample from '../../ComponentUsageExample';
+
+import mockData from './StopMarkerPopup.mockdata';
 
 const NUMBER_OF_DEPARTURES = 5;
 const STOP_TIME_RANGE = 12 * 60 * 60;
@@ -44,7 +49,7 @@ StopMarkerPopup.propTypes = {
   }).isRequired,
 };
 
-export default Relay.createContainer(StopMarkerPopup, {
+const StopMarkerPopupContainer = Relay.createContainer(StopMarkerPopup, {
   fragments: {
     stop: ({ currentTime }) => Relay.QL`
       fragment on Stop{
@@ -78,3 +83,54 @@ export default Relay.createContainer(StopMarkerPopup, {
     currentTime: 0,
   },
 });
+
+StopMarkerPopupContainer.displayName = 'StopMarkerPopup';
+
+StopMarkerPopupContainer.description = () => (
+  <div>
+    <ComponentUsageExample description="empty">
+      <PopupMock size="small">
+        <StopMarkerPopupContainer
+          {...mockData.empty}
+          currentTime={moment().unix()}
+        />
+      </PopupMock>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="basic">
+      <PopupMock>
+        <StopMarkerPopupContainer
+          {...mockData.realTime}
+          currentTime={mockData.currentTime}
+        />
+      </PopupMock>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="realTime">
+      <PopupMock>
+        <StopMarkerPopupContainer
+          {...mockData.realTime}
+          currentTime={mockData.currentTime}
+        />
+      </PopupMock>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="tomorrow">
+      <PopupMock size="large">
+        <StopMarkerPopupContainer
+          {...mockData.tomorrow}
+          currentTime={moment(mockData.currentTime)
+            .subtract(1, 'days')
+            .unix()}
+        />
+      </PopupMock>
+    </ComponentUsageExample>
+    <ComponentUsageExample description="missingPlatform">
+      <PopupMock size="large">
+        <StopMarkerPopupContainer
+          {...mockData.missingPlatform}
+          currentTime={mockData.currentTime}
+        />
+      </PopupMock>
+    </ComponentUsageExample>
+  </div>
+);
+
+export default StopMarkerPopupContainer;

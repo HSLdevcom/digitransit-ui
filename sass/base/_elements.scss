@@ -208,6 +208,10 @@ $border-radius-rounded: 30px;
   mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 2%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0.2) 98%);
 }
 
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
 @keyframes realtimeInnerArch {
   0%   {opacity: 1;}
   20%  {opacity: 1;}
