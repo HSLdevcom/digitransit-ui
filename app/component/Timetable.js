@@ -85,6 +85,7 @@ class Timetable extends React.Component {
       ([key, value]) =>
         value.length > 1 ? routesWithDupes.push(key) : undefined,
     );
+
     return routesWithDupes;
   };
 
@@ -177,6 +178,7 @@ class Timetable extends React.Component {
     // long distance buses being falsely positived as duplicates
     // then look foor routes operating under the same number but
     // different headsigns
+    const duplicateRoutes = this.getDuplicatedRoutes();
     const variantList = groupBy(
       sortBy(
         uniqBy(
@@ -188,7 +190,7 @@ class Timetable extends React.Component {
             .map(o => {
               const obj = Object.assign(o);
               obj.groupId = `${o.name}-${o.headsign}`;
-              obj.duplicate = !!this.getDuplicatedRoutes().includes(o.name);
+              obj.duplicate = !!duplicateRoutes.includes(o.name);
               return obj;
             })
             .filter(o => o.duplicate === true),
@@ -201,7 +203,8 @@ class Timetable extends React.Component {
 
     let variantsWithMarks = [];
 
-    Object.keys(variantList).forEach(key => {
+    for (const key in variantList) {
+      if (!variantList.hasOwnProperty(key)) continue;
       variantsWithMarks.push(
         variantList[key].map((o, i) => {
           const obj = Object.assign(o);
@@ -209,7 +212,7 @@ class Timetable extends React.Component {
           return obj;
         }),
       );
-    });
+    }
 
     variantsWithMarks = [].concat(...variantsWithMarks);
 
