@@ -28,7 +28,7 @@ function RouteDestination(props, context) {
 
   return (
     <span
-      className={cx('route-destination', 'overflow-ellipsis', props.className)}
+      className={cx('route-destination', 'overflow-fade', props.className)}
     >
       {destination}
     </span>
