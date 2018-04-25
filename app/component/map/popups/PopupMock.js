@@ -9,7 +9,7 @@ import React from 'react';
  */
 const PopupMock = props => {
   if (props.importCss) {
-    import('leaflet/dist/leaflet.css');
+    import('leaflet/dist/leaflet.css').catch(() => {});
   }
 
   let height;
