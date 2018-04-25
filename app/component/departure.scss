@@ -25,6 +25,13 @@
   .route-destination {
     flex: 1;
     padding-left: 0.5em;
+
+    & .destination {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
   }
 }
 

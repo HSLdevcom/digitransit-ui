@@ -251,7 +251,7 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('Error404');
 
-testVariation('StopMarkerPopup', 'empty', 1);
+testVariation('StopMarkerPopup', 'empty');
 testVariation('StopMarkerPopup', 'basic', 2);
 testVariation('StopMarkerPopup', 'real-time', 3);
 testVariation('StopMarkerPopup', 'tomorrow', 4);
