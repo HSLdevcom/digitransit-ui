@@ -99,7 +99,7 @@ StopMarkerPopupContainer.description = () => (
     <ComponentUsageExample description="basic">
       <PopupMock>
         <StopMarkerPopupContainer
-          {...mockData.realTime}
+          {...mockData.basic}
           currentTime={mockData.currentTime}
         />
       </PopupMock>
