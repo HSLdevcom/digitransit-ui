@@ -203,8 +203,7 @@ class Timetable extends React.Component {
 
     let variantsWithMarks = [];
 
-    for (const key in variantList) {
-      if (!variantList.hasOwnProperty(key)) continue;
+    Object.keys(variantList).map(key => {
       variantsWithMarks.push(
         variantList[key].map((o, i) => {
           const obj = Object.assign(o);
@@ -212,7 +211,7 @@ class Timetable extends React.Component {
           return obj;
         }),
       );
-    }
+    });
 
     variantsWithMarks = [].concat(...variantsWithMarks);
 
