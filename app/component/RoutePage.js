@@ -178,6 +178,7 @@ class RoutePage extends React.Component {
               route={this.props.route}
               onSelectChange={this.onPatternChange}
               gtfsId={this.props.route.gtfsId}
+              activeTab={activeTab}
               className={cx({
                 'bp-large': this.context.breakpoint === 'large',
               })}

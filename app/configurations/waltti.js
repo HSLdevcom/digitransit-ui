@@ -7,7 +7,7 @@ const YEAR = 1900 + new Date().getYear();
 export default {
   YEAR,
   URL: {
-    OTP: `${API_URL}/routing/v1/routers/waltti/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/waltti/`,
     STOP_MAP: `${MAP_URL}/map/v1/waltti-stop-map/`,
   },
 

@@ -359,7 +359,7 @@ function getEntry() {
 
 module.exports = {
   // prod mode sourcemaps are hand defined in plugins.
-  devtool: process.env.NODE_ENV === 'development' ? 'eval' : false,
+  devtool: process.env.NODE_ENV === 'development' ? 'source-map' : false,
   cache: true,
   entry:
     process.env.NODE_ENV === 'development' ? getDevelopmentEntry() : getEntry(),
