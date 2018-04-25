@@ -27,9 +27,7 @@ function RouteDestination(props, context) {
   }
 
   return (
-    <span
-      className={cx('route-destination', props.className)}
-    >
+    <span className={cx('route-destination', props.className)}>
       {destination}
     </span>
   );
