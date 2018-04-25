@@ -203,7 +203,7 @@ class Timetable extends React.Component {
 
     let variantsWithMarks = [];
 
-    Object.keys(variantList).map(key => {
+    Object.keys(variantList).forEach(key => {
       variantsWithMarks.push(
         variantList[key].map((o, i) => {
           const obj = Object.assign(o);
