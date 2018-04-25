@@ -107,7 +107,7 @@ class Timetable extends React.Component {
           id: stoptime.pattern.code,
           name:
             stoptime.pattern.route.shortName ||
-            stoptime.pattern.route.agency.name,
+            stoptime.pattern.headsign,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
           headsign: stoptime.pattern.headsign,
