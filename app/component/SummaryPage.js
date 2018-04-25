@@ -126,6 +126,10 @@ class SummaryPage extends React.Component {
     this.setState({ loading });
   };
 
+  setError = error => {
+    this.context.queryAggregator.readyState.error = error;
+  };
+
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
   };
@@ -293,6 +297,7 @@ class SummaryPage extends React.Component {
             params={this.props.params}
             error={error}
             setLoading={this.setLoading}
+            setError={this.setError}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
@@ -368,6 +373,7 @@ class SummaryPage extends React.Component {
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
           setLoading={this.setLoading}
+          setError={this.setError}
         />
       );
     }

@@ -127,6 +127,8 @@ const translations = {
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
@@ -627,6 +629,8 @@ const translations = {
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
@@ -924,6 +928,8 @@ const translations = {
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
@@ -1200,6 +1206,8 @@ const translations = {
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
@@ -1447,6 +1455,8 @@ const translations = {
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
@@ -1725,6 +1735,8 @@ const translations = {
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',

@@ -2,10 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import getContext from 'recompose/getContext';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
+import Icon from './Icon';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
 import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
@@ -17,6 +19,7 @@ class SummaryPlanContainer extends React.Component {
     children: PropTypes.node,
     error: PropTypes.string,
     setLoading: PropTypes.func.isRequired,
+    setError: PropTypes.func.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
@@ -198,6 +201,14 @@ class SummaryPlanContainer extends React.Component {
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
           const data = Relay.Store.readQuery(query);
+          if (data[0].plan.itineraries.length === 0) {
+            // Could not find routes arriving at original departure time
+            // --> cannot calculate earlier start time
+            this.props.setError('start-date-too-early');
+            this.props.setLoading(false);
+            this.render();
+            return;
+          }
           const min = data[0].plan.itineraries.reduce(
             (previous, { startTime }) =>
               startTime < previous ? startTime : previous,
@@ -290,6 +301,21 @@ class SummaryPlanContainer extends React.Component {
     const activeIndex = this.getActiveIndex();
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
+    }
+    if (this.props.error === 'start-date-too-early') {
+      return (
+        <div className="summary-list-container summary-no-route-found">
+          <div className="flex-horizontal">
+            <Icon className="no-route-icon" img="icon-icon_caution" />
+            <div>
+              <FormattedMessage
+                id="no-route-start-date-too-early"
+                defaultMessage="Käytössä oleva aikataulu ei sisällä aiempia reittejä."
+              />
+            </div>
+          </div>
+        </div>
+      );
     }
     return (
       <div className="summary">
