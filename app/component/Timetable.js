@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
+import uniqBy from 'lodash/uniqBy';
+import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage } from 'react-intl';
@@ -60,6 +62,33 @@ class Timetable extends React.Component {
     }
   };
 
+  getDuplicatedRoutes = () => {
+    const routesToCheck = this.mapStopTimes(
+      this.props.stop.stoptimesForServiceDate,
+    )
+      .map(o => {
+        const obj = {};
+        obj.shortName = o.name;
+        obj.headsign = o.headsign;
+        return obj;
+      })
+      .filter(
+        (item, index, self) =>
+          index ===
+          self.findIndex(
+            o => o.headsign === item.headsign && o.shortName === item.shortName,
+          ),
+      );
+
+    const routesWithDupes = [];
+    Object.entries(groupBy(routesToCheck, 'shortName')).forEach(
+      ([key, value]) =>
+        value.length > 1 ? routesWithDupes.push(key) : undefined,
+    );
+
+    return routesWithDupes;
+  };
+
   setRouteVisibilityState = val => {
     this.setState({ showRoutes: val.showRoutes });
   };
@@ -82,6 +111,8 @@ class Timetable extends React.Component {
             stoptime.pattern.route.agency.name,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
+          headsign: stoptime.pattern.headsign,
+          longName: stoptime.pattern.route.longName,
         })),
       )
       .reduce((acc, val) => acc.concat(val), []);
@@ -112,10 +143,90 @@ class Timetable extends React.Component {
     );
   };
 
-  render() {
-    const timetableMap = this.groupArrayByHour(
-      this.mapStopTimes(this.props.stop.stoptimesForServiceDate),
+  formTimeRow = (timetableMap, hour) => {
+    const sortedArr = timetableMap[hour].sort(
+      (time1, time2) => time1.scheduledDeparture - time2.scheduledDeparture,
     );
+
+    const filteredRoutes = sortedArr
+      .map(
+        time =>
+          this.state.showRoutes.filter(o => o === time.name || o === time.id)
+            .length > 0 &&
+          moment.unix(time.serviceDay + time.scheduledDeparture).format('HH'),
+      )
+      .filter(o => o === padStart(hour % 24, 2, '0'));
+
+    return filteredRoutes;
+  };
+
+  createTimeTableRows = timetableMap =>
+    Object.keys(timetableMap)
+      .sort((a, b) => a - b)
+      .map(hour => (
+        <TimetableRow
+          key={hour}
+          title={padStart(hour % 24, 2, '0')}
+          stoptimes={timetableMap[hour]}
+          showRoutes={this.state.showRoutes}
+          timerows={this.formTimeRow(timetableMap, hour)}
+        />
+      ));
+
+  render() {
+    // Leave out all the routes without a shortname to avoid flooding of
+    // long distance buses being falsely positived as duplicates
+    // then look foor routes operating under the same number but
+    // different headsigns
+    const duplicateRoutes = this.getDuplicatedRoutes();
+    const variantList = groupBy(
+      sortBy(
+        uniqBy(
+          this.mapStopTimes(
+            this.props.stop.stoptimesForServiceDate.filter(
+              o => o.pattern.route.shortName,
+            ),
+          )
+            .map(o => {
+              const obj = Object.assign(o);
+              obj.groupId = `${o.name}-${o.headsign}`;
+              obj.duplicate = !!duplicateRoutes.includes(o.name);
+              return obj;
+            })
+            .filter(o => o.duplicate === true),
+          'groupId',
+        ),
+        'name',
+      ),
+      'name',
+    );
+
+    let variantsWithMarks = [];
+
+    Object.keys(variantList).forEach(key => {
+      variantsWithMarks.push(
+        variantList[key].map((o, i) => {
+          const obj = Object.assign(o);
+          obj.duplicate = '*'.repeat(i + 1);
+          return obj;
+        }),
+      );
+    });
+
+    variantsWithMarks = [].concat(...variantsWithMarks);
+
+    const routesWithDetails = this.mapStopTimes(
+      this.props.stop.stoptimesForServiceDate,
+    ).map(o => {
+      const obj = Object.assign(o);
+      const getDuplicate = variantsWithMarks.find(
+        o2 => o2.name === o.name && o2.headsign === o.headsign && o2.duplicate,
+      );
+      obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
+      return obj;
+    });
+
+    const timetableMap = this.groupArrayByHour(routesWithDetails);
 
     return (
       <div className="timetable">
@@ -158,31 +269,28 @@ class Timetable extends React.Component {
               />
             </div>
           </div>
-          {Object.keys(timetableMap)
-            .sort((a, b) => a - b)
-            .map(hour => (
-              <TimetableRow
-                key={hour}
-                title={padStart(hour % 24, 2, '0')}
-                stoptimes={timetableMap[hour]}
-                showRoutes={this.state.showRoutes}
-                timerows={timetableMap[hour]
-                  .sort(
-                    (time1, time2) =>
-                      time1.scheduledDeparture - time2.scheduledDeparture,
-                  )
-                  .map(
-                    time =>
-                      this.state.showRoutes.filter(
-                        o => o === time.name || o === time.id,
-                      ).length > 0 &&
-                      moment
-                        .unix(time.serviceDay + time.scheduledDeparture)
-                        .format('HH'),
-                  )
-                  .filter(o => o === padStart(hour % 24, 2, '0'))}
-              />
+          {this.createTimeTableRows(timetableMap)}
+          <div
+            className="route-remarks"
+            style={{
+              display:
+                variantsWithMarks.filter(o => o.duplicate).length > 0
+                  ? 'block'
+                  : 'none',
+            }}
+          >
+            <h1>
+              <FormattedMessage
+                id="explanations"
+                defaultMessage="Explanations"
+              />:
+            </h1>
+            {variantsWithMarks.map(o => (
+              <div className="remark-row" key={`${o.id}-${o.headsign}`}>
+                <span>{`${o.name}${o.duplicate} = ${o.headsign}`}</span>
+              </div>
             ))}
+          </div>
         </div>
       </div>
     );

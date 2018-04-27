@@ -27,7 +27,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
           .map(time => (
             <div
               className="timetablerow-linetime"
-              key={time.name + time.scheduledDeparture}
+              key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
             >
               <span
                 className={cx({
@@ -51,6 +51,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
                     </span>
                     <span className="line-name" title={time.name}>
                       /{time.name}
+                      {time.duplicate}
                     </span>
                   </div>
                 ) : null}
