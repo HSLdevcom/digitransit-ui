@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import React from 'react';
-import cloneDeep from 'lodash/cloneDeep';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -19,7 +18,7 @@ import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
-import { isCallAgencyPickupType } from '../util/legUtils';
+import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -37,69 +36,11 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  continueWithBicycle = (leg1, leg2) =>
-    leg1 != null &&
-    leg1.mode === 'BICYCLE' &&
-    (leg2 != null && leg2.mode === 'BICYCLE');
-
-  continueWithRentedBicycle = (leg1, leg2) =>
-    leg1 != null && leg1.rentedBike && (leg2 != null && leg2.rentedBike);
-
   render() {
-    let waitTime;
-    let startTime;
     let previousLeg;
     let nextLeg;
-    const waitThreshold = this.context.config.itinerary.waitThreshold * 1000;
     const legs = [];
-    const originalLegs = this.props.itinerary.legs;
-    const usingOwnBicycle =
-      originalLegs[0] != null &&
-      originalLegs[1] != null &&
-      ((originalLegs[0].mode === 'BICYCLE' && !originalLegs[0].rentedBike) ||
-        (originalLegs[1].mode === 'BICYCLE' && !originalLegs[1].rentedBike));
-    const compressedLegs = [];
-    let compressLeg = false;
-
-    originalLegs.forEach(cleg => {
-      if (compressLeg) {
-        if (usingOwnBicycle && this.continueWithBicycle(compressLeg, cleg)) {
-          compressLeg.duration += cleg.duration;
-          compressLeg.distance += cleg.distance;
-          compressLeg.to = cleg.to;
-          compressLeg.endTime = cleg.endTime;
-          compressLeg.mode = 'BICYCLE';
-        } else if (
-          cleg.rentedBike &&
-          this.continueWithRentedBicycle(compressLeg, cleg)
-        ) {
-          compressLeg.duration += cleg.duration;
-          compressLeg.distance += cleg.distance;
-          compressLeg.to = cleg.to;
-          compressLeg.endTime += cleg.endTime;
-          compressLeg.mode = 'CITYBIKE';
-        } else {
-          if (usingOwnBicycle && compressLeg.mode === 'WALK') {
-            compressLeg.mode = 'BICYCLE_WALK';
-          }
-
-          compressedLegs.push(compressLeg);
-          compressLeg = cloneDeep(cleg);
-
-          if (usingOwnBicycle && cleg.mode === 'WALK') {
-            compressLeg.mode = 'BICYCLE_WALK';
-          }
-        }
-      } else {
-        compressLeg = cloneDeep(cleg);
-      }
-    });
-
-    if (compressLeg) {
-      compressedLegs.push(compressLeg);
-    }
-
-    const numberOfLegs = compressedLegs.length;
+    const compressedLegs = compressLegs(this.props.itinerary.legs);
 
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
@@ -174,7 +115,7 @@ class ItineraryLegs extends React.Component {
           />,
         );
       } else if (leg.mode === 'AIRPLANE') {
-        startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
+        const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
         legs.push(
           <AirportCheckInLeg
@@ -239,7 +180,10 @@ class ItineraryLegs extends React.Component {
       }
 
       if (nextLeg) {
-        waitTime = nextLeg.startTime - leg.endTime;
+        const waitThreshold =
+          this.context.config.itinerary.waitThreshold * 1000;
+        const waitTime = nextLeg.startTime - leg.endTime;
+
         if (
           waitTime > waitThreshold &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
@@ -261,6 +205,7 @@ class ItineraryLegs extends React.Component {
       }
     });
 
+    const numberOfLegs = compressedLegs.length;
     legs.push(
       <EndLeg
         key={numberOfLegs}

@@ -31,6 +31,12 @@ jobs:
       env: FLOW=1
       node_js: "8"
       script: test/flow.sh
+    - stage: test
+      env: UNIT=1
+      node_js: "8"
+      script:
+      - yarn install
+      - yarn run test-unit
 
     - stage: visual
       env: VISUAL=chrome

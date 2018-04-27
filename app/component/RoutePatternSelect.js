@@ -18,6 +18,7 @@ class RoutePatternSelect extends Component {
     route: PropTypes.object,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
+    activeTab: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
   };
@@ -47,7 +48,12 @@ class RoutePatternSelect extends Component {
         o => o.tripsForDate && o.tripsForDate.length > 0,
       ) !== undefined
         ? this.props.route.patterns
-            .filter(o => o.tripsForDate && o.tripsForDate.length > 0)
+            .filter(
+              o =>
+                this.props.activeTab !== 'aikataulu'
+                  ? o.tripsForDate && o.tripsForDate.length > 0
+                  : o,
+            )
             .map(pattern => (
               <option key={pattern.code} value={pattern.code}>
                 {pattern.stops[0].name} ➔ {pattern.headsign}

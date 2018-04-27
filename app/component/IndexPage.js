@@ -50,6 +50,13 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
     showSpinner: PropTypes.bool.isRequired,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        footerOptions: PropTypes.shape({
+          hidden: PropTypes.bool,
+        }),
+      }).isRequired,
+    ).isRequired,
   };
 
   constructor(props, context) {
@@ -178,6 +185,10 @@ class IndexPage extends React.Component {
   };
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const footerOptions = Object.assign(
+      {},
+      ...this.props.routes.map(route => route.footerOptions),
+    );
     const selectedMainTab = this.getSelectedTab();
 
     return this.props.breakpoint === 'large' ? (
@@ -211,15 +222,17 @@ class IndexPage extends React.Component {
           origin={this.props.origin}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <div id="page-footer-container">
-          <PageFooter
-            content={
-              (this.context.config.footer &&
-                this.context.config.footer.content) ||
-              []
-            }
-          />
-        </div>
+        {!footerOptions.hidden && (
+          <div id="page-footer-container">
+            <PageFooter
+              content={
+                (this.context.config.footer &&
+                  this.context.config.footer.content) ||
+                []
+              }
+            />
+          </div>
+        )}
       </div>
     ) : (
       <div

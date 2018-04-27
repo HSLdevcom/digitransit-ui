@@ -19,6 +19,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const fs = require('fs');
 
 require('babel-core/register')({
+  babelrc: false,
   presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
   plugins: [
     'dynamic-import-node',
@@ -40,6 +41,7 @@ function getRulesConfig(env) {
         loader: 'babel',
         include: [path.resolve(__dirname, 'app/')],
         options: {
+          babelrc: false,
           presets: [['env', { modules: false }], 'react', 'stage-2'],
           plugins: [
             'transform-import-commonjs',
@@ -66,6 +68,7 @@ function getRulesConfig(env) {
       loader: 'babel',
       include: [path.resolve(__dirname, 'app/')],
       options: {
+        babelrc: false,
         // loose is needed by older Androids < 4.3 and IE10
         presets: [
           [

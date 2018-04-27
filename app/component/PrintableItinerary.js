@@ -12,7 +12,11 @@ import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import PrintableItineraryHeader from './/PrintableItineraryHeader';
-import { isCallAgencyPickupType } from '../util/legUtils';
+import {
+  compressLegs,
+  getLegMode,
+  isCallAgencyPickupType,
+} from '../util/legUtils';
 import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
@@ -60,8 +64,12 @@ const getHeadSignFormat = sentLegObj => {
 };
 
 const getHeadSignDetails = sentLegObj => {
-  let headSignDetails;
-  let transitMode;
+  if (sentLegObj.rentedBike) {
+    return null;
+  }
+
+  let headSignDetails = '';
+  let transitMode = '';
 
   if (sentLegObj.isCheckin) {
     headSignDetails = (
@@ -72,7 +80,7 @@ const getHeadSignDetails = sentLegObj => {
     );
   } else if (sentLegObj.isLuggage) {
     headSignDetails = '';
-  } else {
+  } else if (sentLegObj.route && sentLegObj.trip) {
     headSignDetails = ` ${
       sentLegObj.route.shortName && sentLegObj
         ? sentLegObj.route.shortName
@@ -207,12 +215,18 @@ TransferMap.propTypes = {
   mapsLoaded: PropTypes.func,
 };
 
+const isWalking = legOrMode =>
+  ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
+
 function PrintableLeg(props) {
+  const legMode = getLegMode(props.legObj) || '';
   const isVehicle =
-    props.legObj.mode !== 'WALK' &&
-    props.legObj.mode !== 'CITYBIKE' &&
-    props.legObj.mode !== 'BICYCLE' &&
-    props.legObj.mode !== 'CAR';
+    legMode !== 'WALK' &&
+    legMode !== 'CITYBIKE' &&
+    legMode !== 'BICYCLE' &&
+    legMode !== 'BICYCLE_WALK' &&
+    legMode !== 'CAR';
+
   // Set up details for a vehicle route
   const vehicleItinerary = o => {
     const arr = [];
@@ -223,12 +237,15 @@ function PrintableLeg(props) {
     return arr;
   };
 
+  const messagePrefix =
+    legMode === 'BICYCLE_WALK' ? 'cyclewalk' : legMode.toLowerCase();
+
   // Check if the leg is a vehicle leg or not
   const itineraryDescription = isVehicle ? (
     vehicleItinerary(props.legObj)
   ) : (
     <FormattedMessage
-      id={`${props.legObj.mode.toLowerCase()}-distance-duration`}
+      id={`${messagePrefix}-distance-duration`}
       defaultMessage="Travel {distance} ({duration})"
       values={{
         distance: displayDistance(
@@ -250,7 +267,7 @@ function PrintableLeg(props) {
           <div className={`special-icon ${props.legObj.mode.toLowerCase()}`}>
             <RouteNumber
               mode={props.legObj.mode.toLowerCase()}
-              vertical={`${true}`}
+              vertical
               text={
                 props.legObj.route !== null
                   ? props.legObj.route.shortName
@@ -299,7 +316,7 @@ function PrintableLeg(props) {
           className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}
         >
           {// For vehicle leg maps
-          props.legObj.mode === 'WALK' && (
+          isWalking(legMode) && (
             <TransferMap
               originalLegs={props.originalLegs}
               index={props.index}
@@ -341,8 +358,9 @@ class PrintableItinerary extends React.Component {
   }
 
   render() {
-    const originalLegs = this.props.itinerary.legs.filter(o => o.distance > 0);
-    const legs = originalLegs.map((o, i) => {
+    const originalLegs = this.props.itinerary.legs;
+    const compressedLegs = compressLegs(originalLegs);
+    const legs = compressedLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
         const cloneObj = Object.assign({}, o);
         let specialMode;
@@ -370,7 +388,7 @@ class PrintableItinerary extends React.Component {
                 this.setState({ mapsLoaded: this.state.mapsLoaded + 1 }, () => {
                   if (
                     this.state.mapsLoaded >=
-                    originalLegs.filter(o2 => o2.mode === 'WALK').length
+                    compressedLegs.filter(o2 => isWalking(o2)).length
                   ) {
                     setTimeout(() => window.print(), 1000);
                   }
