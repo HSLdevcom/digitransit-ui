@@ -323,6 +323,7 @@ const exampleStop = {
       pattern: {
         route: {
           mode: 'BUS',
+          shortName: 'Kotkan linja-autoasema',
           agency: {
             name: 'Helsingin seudun liikenne',
           },
