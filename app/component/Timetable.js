@@ -106,9 +106,7 @@ class Timetable extends React.Component {
       .map(stoptime =>
         stoptime.stoptimes.filter(st => st.pickupType !== 'NONE').map(st => ({
           id: stoptime.pattern.code,
-          name:
-            stoptime.pattern.route.shortName ||
-            stoptime.pattern.route.agency.name,
+          name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
           headsign: stoptime.pattern.headsign,
@@ -325,6 +323,7 @@ const exampleStop = {
       pattern: {
         route: {
           mode: 'BUS',
+          shortName: 'Kotkan linja-autoasema',
           agency: {
             name: 'Helsingin seudun liikenne',
           },

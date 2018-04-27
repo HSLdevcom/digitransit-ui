@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import cx from 'classnames';
-
-const LONG_LINE_NAME = 5;
 
 const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
   <div style={{ display: 'block' }}>
@@ -29,21 +26,11 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => (
               className="timetablerow-linetime"
               key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
             >
-              <span
-                className={cx({
-                  'overflow-fade':
-                    time.name && time.name.length > LONG_LINE_NAME,
-                })}
-              >
+              <span>
                 {(showRoutes.filter(o => o === time.id).length > 0 &&
                   showRoutes.length > 0) ||
                 showRoutes.length === 0 ? (
-                  <div
-                    className={cx({
-                      'overflow-fade':
-                        time.name && time.name.length > LONG_LINE_NAME,
-                    })}
-                  >
+                  <div>
                     <span className="bold">
                       {moment
                         .unix(time.serviceDay + time.scheduledDeparture)
