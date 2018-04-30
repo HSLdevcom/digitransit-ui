@@ -40,7 +40,7 @@ class TimeTableOptionsPanel extends React.Component {
     return (
       <div className="timetable-options-panel">
         <div className="timetable-showroutes">
-          <div className="showroutes-icon">
+          <div className={`showroutes-icon ${stopVehicle}`}>
             <Icon
               img={`icon-icon_${stopVehicle}`}
               className="showroutes-icon-svg"
