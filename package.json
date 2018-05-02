@@ -86,7 +86,7 @@
     "lru-cache": "4.1.2",
     "material-ui": "0.20.0",
     "moment": "2.20.1",
-    "moment-timezone": "0.5.14",
+    "moment-timezone": "0.5.15",
     "mqtt": "2.15.0",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "1.7.3",
