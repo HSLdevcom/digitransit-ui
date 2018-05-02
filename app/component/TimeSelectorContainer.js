@@ -40,6 +40,7 @@ class TimeSelectorContainer extends Component {
     start = moment.min(moment.max(start, START), now); // always include today!
     let end = moment.unix(range.end);
     end = moment.max(moment.min(end, END), now); // always include today!
+    end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
     const tomorrow = now.clone().add(1, 'd');
     const endValue = end.unix();
     start.hours(this.props.time.hours());
