@@ -27,8 +27,8 @@ class DTAutosuggestPanel extends React.Component {
     isViaPoint: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
-    viaPointName: PropTypes.string,
-    setViaPointName: PropTypes.func,
+    viaPointNames: PropTypes.string,
+    setviaPointNames: PropTypes.func,
     tab: PropTypes.string,
   };
 
@@ -110,44 +110,49 @@ class DTAutosuggestPanel extends React.Component {
           }}
         />
       }
-      {this.props.isViaPoint && (
-        <div className="viapoint-input-container">
-          <div className="viapoint-before">
-            <div className="viapoint-before_line-top" />
-            <div className="viapoint-icon">
-              <Icon img="icon-icon_place" />
+      {this.props.isViaPoint &&
+        this.props.viaPointNames.map(o => (
+          <div
+            className="viapoint-input-container"
+            key={`viapoint-${o[0]}-${o[1]}`}
+          >
+            {console.log(o)}
+            <div className="viapoint-before">
+              <div className="viapoint-before_line-top" />
+              <div className="viapoint-icon">
+                <Icon img="icon-icon_place" />
+              </div>
+              <div className="viapoint-before_line-bottom" />
             </div>
-            <div className="viapoint-before_line-bottom" />
+            <DTEndpointAutosuggest
+              id="viapoint"
+              autoFocus={
+                // Disable autofocus if using IE11
+                isIe ? false : this.context.breakpoint === 'large'
+              }
+              refPoint={this.props.origin}
+              searchType="endpoint"
+              placeholder="via-point"
+              className="viapoint"
+              isFocused={this.isFocused}
+              value={o[0]}
+              onLocationSelected={item => {
+                this.context.router.replace({
+                  ...this.context.location,
+                  query: {
+                    ...this.context.location.query,
+                    intermediatePlaces: locationToOTP({
+                      lat: item.lat,
+                      lon: item.lon,
+                      address: item.address,
+                    }),
+                  },
+                });
+                this.props.setviaPointNames(item.address);
+              }}
+            />
           </div>
-          <DTEndpointAutosuggest
-            id="viapoint"
-            autoFocus={
-              // Disable autofocus if using IE11
-              isIe ? false : this.context.breakpoint === 'large'
-            }
-            refPoint={this.props.origin}
-            searchType="endpoint"
-            placeholder="via-point"
-            className="viapoint"
-            isFocused={this.isFocused}
-            value={this.props.viaPointName}
-            onLocationSelected={item => {
-              this.context.router.replace({
-                ...this.context.location,
-                query: {
-                  ...this.context.location.query,
-                  intermediatePlaces: locationToOTP({
-                    lat: item.lat,
-                    lon: item.lon,
-                    address: item.address,
-                  }),
-                },
-              });
-              this.props.setViaPointName(item.address);
-            }}
-          />
-        </div>
-      )}
+        ))}
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
       this.props.isItinerary ? (

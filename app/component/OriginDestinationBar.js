@@ -24,14 +24,15 @@ export default class OriginDestinationBar extends React.Component {
 
   state = {
     isViaPoint: this.context.location.query.intermediatePlaces && true,
-    viaPointName: this.context.location.query.intermediatePlaces
-      ? this.context.location.query.intermediatePlaces.split('::')[0]
+    viaPointNames: this.context.location.query.intermediatePlaces
+      ? // ? this.context.location.query.intermediatePlaces.split('::')[0]
+        this.context.location.query.intermediatePlaces.map(o => o.split('::'))
       : '',
   };
 
-  setViaPointName = name => {
+  setviaPointNames = name => {
     this.setState({
-      viaPointName: name,
+      viaPointNames: name,
     });
   };
 
@@ -54,12 +55,16 @@ export default class OriginDestinationBar extends React.Component {
     }
     this.setState({
       isViaPoint: val,
-      viaPointName: !val ? '' : this.state.viaPointName,
+      viaPointNames: !val ? '' : this.state.viaPointNames,
     });
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    console.log(this.context.location.query.intermediatePlaces);
+    console.log(
+      this.context.location.query.intermediatePlaces.map(o => o.split('::')),
+    );
     return (
       <div
         className={cx(
@@ -73,8 +78,8 @@ export default class OriginDestinationBar extends React.Component {
           destination={this.props.destination}
           isItinerary
           isViaPoint={this.state.isViaPoint}
-          viaPointName={this.state.viaPointName}
-          setViaPointName={this.setViaPointName}
+          viaPointNames={this.state.viaPointNames}
+          setviaPointNames={this.setviaPointNames}
         />
         <div className="itinerary-search-controls">
           <div className="switch" onClick={() => this.swapEndpoints()}>
