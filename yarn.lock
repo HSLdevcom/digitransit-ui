@@ -7201,9 +7201,9 @@ module-deps@^4.0.8:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-moment-timezone@0.5.14:
-  version "0.5.14"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.14.tgz#4eb38ff9538b80108ba467a458f3ed4268ccfcb1"
+moment-timezone@0.5.15:
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.15.tgz#0e2acec4a424850b4e0e3e08984532726563ad4c"
   dependencies:
     moment ">= 2.9.0"
 
