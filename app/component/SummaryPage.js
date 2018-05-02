@@ -373,6 +373,7 @@ class SummaryPage extends React.Component {
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
           setLoading={this.setLoading}
+          error={error}
           setError={this.setError}
         />
       );

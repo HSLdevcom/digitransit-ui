@@ -206,24 +206,23 @@ class SummaryPlanContainer extends React.Component {
             // --> cannot calculate earlier start time
             this.props.setError('start-date-too-early');
             this.props.setLoading(false);
-            this.render();
-            return;
+          } else {
+            const min = data[0].plan.itineraries.reduce(
+              (previous, { startTime }) =>
+                startTime < previous ? startTime : previous,
+              Number.MAX_VALUE,
+            );
+            this.props.setLoading(false);
+            this.context.router.replace({
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                time: moment(min)
+                  .subtract(1, 'minutes')
+                  .unix(),
+              },
+            });
           }
-          const min = data[0].plan.itineraries.reduce(
-            (previous, { startTime }) =>
-              startTime < previous ? startTime : previous,
-            Number.MAX_VALUE,
-          );
-          this.props.setLoading(false);
-          this.context.router.replace({
-            ...this.context.location,
-            query: {
-              ...this.context.location.query,
-              time: moment(min)
-                .subtract(1, 'minutes')
-                .unix(),
-            },
-          });
         }
       });
     }
@@ -302,7 +301,7 @@ class SummaryPlanContainer extends React.Component {
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
-    if (this.props.error === 'start-date-too-early') {
+    if (this.props.error && this.props.error === 'start-date-too-early') {
       return (
         <div className="summary-list-container summary-no-route-found">
           <div className="flex-horizontal">
@@ -317,6 +316,7 @@ class SummaryPlanContainer extends React.Component {
         </div>
       );
     }
+
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
