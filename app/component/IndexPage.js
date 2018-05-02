@@ -6,6 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
+import { pickBy } from 'lodash';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
 import {
@@ -31,6 +32,7 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
+import StreetModeSelector from './StreetModeSelector';
 import events from '../util/events';
 
 const debug = d('IndexPage.js');
@@ -199,13 +201,21 @@ class IndexPage extends React.Component {
           this.props.origin.gpsError === false &&
           `blurred`} fullscreen bp-${this.props.breakpoint}`}
       >
-        <DTAutosuggestPanel
-          origin={this.props.origin}
-          destination={this.props.destination}
-          tab={this.props.tab}
-          searchType="all"
-          originPlaceHolder="search-origin"
-        />
+        <div className="search-container">
+          <DTAutosuggestPanel
+            origin={this.props.origin}
+            destination={this.props.destination}
+            tab={this.props.tab}
+            searchType="all"
+            originPlaceHolder="search-origin"
+          />
+          <StreetModeSelector
+            streetModes={pickBy(
+              this.context.config.streetModes,
+              sm => sm.availableForSelection,
+            )}
+          />
+        </div>
         <div key="foo" className="fpccontainer">
           <FrontPagePanelLarge
             selectedPanel={selectedMainTab}
