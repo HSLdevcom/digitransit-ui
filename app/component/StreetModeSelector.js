@@ -17,17 +17,18 @@ const getStreetModesToggleButtons = (
 
   return streetModes.map((streetMode, index) => (
     <ToggleButton
-      key={`toggle-button-${streetMode.name}`}
+      key={index}
       icon={streetMode.icon}
       onBtnClick={() => toggleStreetMode(streetMode)}
       state={streetMode.name === selectedStreetMode}
-      checkedClass={streetMode.name}
+      checkedClass={'street-mode-selector-button-selected'}
       label={streetMode.name}
-      className={cx('small-4', {
-        'first-btn': index === 0,
-        'last-btn': index === streetModes.length - 1,
-      })}
-    />
+    >
+      <FormattedMessage
+        id={`street-mode-${streetMode.name}`}
+        defaultMessage={streetMode.name}
+      />
+    </ToggleButton>
   ));
 };
 
@@ -80,7 +81,7 @@ class StreetModeSelector extends React.Component {
                 <Icon img="icon-icon_close" />
               </button>
             </div>
-            <div className="btn-bar">
+            <div className="street-mode-selector-buttons">
               {getStreetModesToggleButtons(
                 streetModes,
                 selectedStreetMode,
