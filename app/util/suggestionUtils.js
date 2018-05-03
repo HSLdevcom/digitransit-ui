@@ -17,7 +17,11 @@ export const getStopCode = ({ id, code }) => {
   if (code) {
     return code;
   }
-  if (id === undefined || id.indexOf('#') === -1) {
+  if (
+    id === undefined ||
+    typeof id.indexOf === 'undefined' ||
+    id.indexOf('#') === -1
+  ) {
     return undefined;
   }
   // id from pelias
@@ -29,7 +33,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
     return gtfsId;
   }
 
-  if (id && id.indexOf('GTFS:') === 0) {
+  if (id && typeof id.indexOf === 'function' && id.indexOf('GTFS:') === 0) {
     if (id.indexOf('#') === -1) {
       return id.substring(5);
     }
@@ -140,9 +144,12 @@ export function getLabel(properties) {
 
 export function suggestionToLocation(item) {
   const name = getLabel(item.properties);
+
   return {
     address: name,
     type: item.type,
+    id: getGTFSId(item.properties),
+    code: getStopCode(item.properties),
     layer: item.properties.layer,
     lat:
       item.lat ||
