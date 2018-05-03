@@ -6,7 +6,11 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
 
-const getStreetModesToggleButtons = streetModes => {
+const getStreetModesToggleButtons = (
+  streetModes,
+  selectedStreetMode,
+  toggleStreetMode,
+) => {
   if (!streetModes.length) {
     return null;
   }
@@ -15,8 +19,8 @@ const getStreetModesToggleButtons = streetModes => {
     <ToggleButton
       key={`toggle-button-${streetMode.name}`}
       icon={streetMode.icon}
-      onBtnClick={() => {}} // this.toggleStreetMode(streetMode)}
-      state={null} // this.getMode(streetMode)}
+      onBtnClick={() => toggleStreetMode(streetMode)}
+      state={streetMode.name === selectedStreetMode}
       checkedClass={streetMode.name}
       label={streetMode.name}
       className={cx('small-4', {
@@ -31,6 +35,7 @@ class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
 
+    this.toggleStreetMode = this.toggleStreetMode.bind(this);
     this.state = {
       isOpen: false,
       selectedStreetMode: Object.keys(props.streetModes).filter(
@@ -45,6 +50,13 @@ class StreetModeSelector extends React.Component {
     });
   }
 
+  toggleStreetMode(streetMode) {
+    this.setState({
+      isOpen: false,
+      selectedStreetMode: streetMode.name,
+    });
+  }
+
   render() {
     const streetModes = [];
     Object.keys(this.props.streetModes).map(sm =>
@@ -56,20 +68,24 @@ class StreetModeSelector extends React.Component {
       <div className="street-mode-selector-container">
         {isOpen ? (
           <div className="street-mode-selector-options">
-            <h4>
+            <div className="street-mode-selector-header">
               <FormattedMessage
                 id="main-mode"
                 defaultMessage="I'm travelling by"
               />
-            </h4>
-            <button
-              className="noborder clear-input"
-              onClick={this.toggle.bind(this, isOpen)}
-            >
-              <Icon img="icon-icon_close" />
-            </button>
-            <div className="row btn-bar">
-              {getStreetModesToggleButtons(streetModes)}
+              <button
+                className="clear-input"
+                onClick={this.toggle.bind(this, isOpen)}
+              >
+                <Icon img="icon-icon_close" />
+              </button>
+            </div>
+            <div className="btn-bar">
+              {getStreetModesToggleButtons(
+                streetModes,
+                selectedStreetMode,
+                this.toggleStreetMode,
+              )}
             </div>
           </div>
         ) : (
