@@ -21,7 +21,7 @@ const getStreetModesToggleButtons = (
       icon={streetMode.icon}
       onBtnClick={() => toggleStreetMode(streetMode)}
       state={streetMode.name === selectedStreetMode}
-      checkedClass={'street-mode-selector-button-selected'}
+      checkedClass={'selected'}
       label={streetMode.name}
     >
       <FormattedMessage

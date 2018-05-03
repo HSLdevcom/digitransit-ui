@@ -35,8 +35,20 @@
       padding: 0;
       width: 6em;
 
-      &.street-mode-selector-button-selected {
+      &.selected,
+      &:focus,
+      &:hover {
         color: $primary-color;
+
+        &::after {
+          background: $primary-color;
+          bottom: -0.5em;
+          content: '';
+          height: 3px;
+          left: 20%;
+          position: absolute;
+          width: 60%;
+        }
       }
 
       & .icon-holder {
