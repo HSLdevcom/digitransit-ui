@@ -258,7 +258,7 @@ ul.react-autowhatever__items-list {
   }
 
 
-  &.OldSearch, &.FavouritePlace, &.CurrentLocation {
+  &.OldSearch, &.FavouritePlace, &.FavouriteStop, &.CurrentLocation {
     p.suggestion-name, span.suggestion-type {
       color: $visited-link-color;
     }
