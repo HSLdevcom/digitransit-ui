@@ -101,7 +101,7 @@ class TimeSelectorContainer extends Component {
     const time = this.props.time.clone();
     if (add) {
       // delta from arrow keys
-      time.add(add.key, add.delta);
+      time.add(add.delta, add.key);
     } else {
       time.hours(hours);
       time.minutes(minutes);
