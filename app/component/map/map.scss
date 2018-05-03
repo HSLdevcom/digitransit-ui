@@ -6,11 +6,11 @@ div.map {
 
   .leaflet-container .leaflet-control-attribution {
     background: rgba(255, 255, 255, 0.4);
-    color: $dark-gray
+    color: $dark-gray;
   }
 }
 
-.below-map  {
+.below-map {
   overflow: auto;
 }
 
@@ -56,7 +56,7 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 }
 
 .map .leaflet-bottom {
-  z-index: 800;
+  z-index: $leaflet-overlay;
 }
 
 div.leaflet-container {
@@ -65,6 +65,7 @@ div.leaflet-container {
   width: 100%;
   height: 100%;
   background: none;
+  z-index: index($zindex, map-container);
   @include font-map-container;
 }
 
@@ -97,15 +98,17 @@ div.leaflet-marker-icon.place.halo {
 
 .tripMap div.leaflet-marker-icon.place,
 .summary-map div.leaflet-marker-icon.place {
-    display: none;
+  display: none;
 }
 
-div.leaflet-marker-icon.from, div.leaflet-marker-icon.to, div.leaflet-marker-icon.via {
+div.leaflet-marker-icon.from,
+div.leaflet-marker-icon.to,
+div.leaflet-marker-icon.via {
   > span {
     &::before {
       color: white;
       position: absolute;
-      left: 6.0pt;
+      left: 6pt;
       z-index: 1000;
     }
 
@@ -123,11 +126,11 @@ div.leaflet-marker-icon.via {
 }
 
 div.leaflet-marker-icon.from > span::before {
-  content: "A";
+  content: 'A';
 }
 
 div.leaflet-marker-icon.to > span::before {
-  content: "B";
+  content: 'B';
 }
 
 div.leaflet-marker-icon.vehicle-icon {
@@ -136,26 +139,25 @@ div.leaflet-marker-icon.vehicle-icon {
   > span > svg.icon {
     width: 1em;
     height: 1em;
-    top:-0.25em;
-    left:-0.25em;
+    top: -0.25em;
+    left: -0.25em;
   }
 }
 
-div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
+div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   > span > svg.icon {
     stroke-width: 40px;
     stroke: white;
     width: 0.78em;
     height: 0.78em;
-    top: -0.20em;
-    left: -0.20em;
+    top: -0.2em;
+    left: -0.2em;
   }
 }
 
-
 .toggle-positioning-container {
   position: absolute;
-  z-index: 802;
+  z-index: index($zindex, map-buttons);
   bottom: 18px;
   left: 20px;
   background-color: $white;
@@ -178,7 +180,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 .popup {
   left: -21px !important;
   .route-header {
-    height:auto;
+    height: auto;
     border: none;
   }
 
@@ -196,7 +198,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   }
   .card {
     border: none;
-    >a {
+    > a {
       display: block;
     }
     hr {
@@ -207,7 +209,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
       border: 0;
     }
 
-    .card-row .no-margin:last-child hr{
+    .card-row .no-margin:last-child hr {
       display: none;
     }
   }
@@ -229,7 +231,8 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
     background: $background-color;
     border-top: solid 1px #ddd;
 
-    div, a {
+    div,
+    a {
       display: block;
       padding: 0.5em 12px;
       flex-grow: 1;
@@ -245,14 +248,15 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
   .leaflet-popup-tip-container {
     margin: -5px 0px;
     left: 0px;
-    .leaflet-popup-tip  {
+    .leaflet-popup-tip {
       background: $background-color;
     }
   }
 }
 
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 14px rgba(0, 0, 0, 0.4)
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 14px rgba(0, 0, 0, 0.4);
 }
 
 div.origin-popup {
@@ -272,16 +276,15 @@ div.origin-popup {
     }
   }
 
-
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
     padding: 0;
     overflow: hidden;
 
     .leaflet-popup-content {
-      margin:8px;
+      margin: 8px;
       svg.right-arrow {
-          height:9px;
+        height: 9px;
       }
     }
   }
@@ -289,7 +292,7 @@ div.origin-popup {
   .origin-popup-name {
     @include font-book;
     height: 1.3em;
-    width:200px;
+    width: 200px;
     text-transform: none;
     color: $black;
     font-size: $font-size-small;
@@ -311,7 +314,6 @@ div.origin-popup {
     margin: 0px 0px;
   }
 }
-
 
 .route-header {
   .route-header-trip {
@@ -346,7 +348,7 @@ div.origin-popup {
 .leaflet-marker-icon.call {
   width: auto;
   height: auto;
-  margin-right:0.75em;
+  margin-right: 0.75em;
   font-size: 1.5em;
 }
 
@@ -365,7 +367,8 @@ div.origin-popup {
   }
 }
 
-.map .thin .stop, .map .thin .stop-small {
+.map .thin .stop,
+.map .thin .stop-small {
   stroke-opacity: $stop-thin-opacity;
   fill-opacity: $stop-thin-opacity;
 }
@@ -382,7 +385,9 @@ div.origin-popup {
   width: 100%;
 }
 
-.map svg use { pointer-events:none; }
+.map svg use {
+  pointer-events: none;
+}
 
 .map .thin .stop-small {
   stroke-opacity: $stop-thin-opacity;
@@ -390,56 +395,60 @@ div.origin-popup {
 }
 
 .map .legmarker {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   & > div {
-     @include font-narrow-medium;
-     background-color: $white;
-     border-width: 2px;
-     border-style: solid;
-     border-radius: $border-radius;
-     padding: 0 2px;
-     text-align: center;
-     flex-shrink: 0; /* work around iOS bug with flex sizes */
-     white-space: nowrap;
-     margin-left: -50%;
-     margin-right: 50%;
-     margin-top: -9px;
-   }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  & > div {
+    @include font-narrow-medium;
+    background-color: $white;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: $border-radius;
+    padding: 0 2px;
+    text-align: center;
+    flex-shrink: 0; /* work around iOS bug with flex sizes */
+    white-space: nowrap;
+    margin-left: -50%;
+    margin-right: 50%;
+    margin-top: -9px;
+  }
 }
 
 .map .leg-halo.call {
-    stroke: gray;
-//    stroke-opacity: 0.8;
+  stroke: gray;
+  //    stroke-opacity: 0.8;
 }
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;
   color: #ccc;
-  &.walk, &.bicycle_walk, &.citybike_walk {
+  &.walk,
+  &.bicycle_walk,
+  &.citybike_walk {
     stroke-linecap: round;
     stroke-dasharray: 0.1, 7;
   }
-  &.bicycle, &.citybike{
+  &.bicycle,
+  &.citybike {
     stroke-linecap: round;
     stroke-dasharray: 10, 5;
   }
-
 }
 
 .map .leg {
   stroke-opacity: 1;
-  &.walk, &.bicycle_walk, &.citybike_walk {
+  &.walk,
+  &.bicycle_walk,
+  &.citybike_walk {
     stroke-linecap: round;
     stroke-dasharray: 0.1, 7;
   }
-  &.bicycle, &.citybike{
+  &.bicycle,
+  &.citybike {
     stroke-linecap: round;
     stroke-dasharray: 10, 5;
   }
-
 }
 
 .map .thin {
@@ -461,7 +470,7 @@ div.background-gradient {
   top: 0px;
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   pointer-events: none;
-  z-index: 400;
+  z-index: index($zindex, map-gradient);
   @media print {
     display: none;
   }
@@ -476,48 +485,48 @@ div.map-click-prevent-overlay {
 }
 
 .leaflet-control-scale.leaflet-control {
-    //front page
-    margin-right: 20px;
-    margin-bottom: 20px;
-    cursor: grab;
+  //front page
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: grab;
 }
 
 .bp-large .leaflet-control-scale.leaflet-control {
-    //front page desktop
-    right: calc(100px + 28vw);
-    bottom: 24px;
-    cursor: grab;
+  //front page desktop
+  right: calc(100px + 28vw);
+  bottom: 24px;
+  cursor: grab;
 }
 
 .map.full .leaflet-control-scale.leaflet-control {
-    //stop & ininerary page mobile
-    margin-right: 60px;
-    margin-bottom: 20px;
-    cursor: grab;
+  //stop & ininerary page mobile
+  margin-right: 60px;
+  margin-bottom: 20px;
+  cursor: grab;
 }
 
 .desktop .map.full .leaflet-control-scale.leaflet-control {
-    //stop & ininerary page mobile
-    margin-right: 20px;
-    margin-bottom: 20px;
-    cursor: grab;
+  //stop & ininerary page mobile
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: grab;
 }
 
 .leaflet-control-scale-line {
   background: none;
-  border:none;
-  text-align:right;
+  border: none;
+  text-align: right;
   margin-bottom: -2px;
   cursor: grab;
 }
 
 .leaflet-control-scale::after {
-  content: "";
-  display:block;
+  content: '';
+  display: block;
   border-bottom: 1px solid $gray;
-  border-left:1px solid $gray;
-  border-right:1px solid $gray;
-  height:4px;
+  border-left: 1px solid $gray;
+  border-right: 1px solid $gray;
+  height: 4px;
   background: none;
   cursor: grab;
 }

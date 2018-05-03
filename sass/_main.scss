@@ -4,6 +4,7 @@ $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
 /* Base styles */
+@import 'base/zindex';
 @import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';

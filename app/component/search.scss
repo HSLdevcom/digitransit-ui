@@ -26,7 +26,7 @@ $item-border-color: #eee;
   margin-left: 5%;
   position: absolute;
   width: 52.5%;
-  z-index: 800;
+  z-index: index($zindex, search-panel);
 }
 
 .autosuggest-input-container {
@@ -442,7 +442,7 @@ div.autosuggest-panel {
   }
 
   .dark-overlay {
-    z-index: 801;
+    z-index: index($zindex, search-overlay);
     width: 100%;
     height: 100%;
     position: fixed;
@@ -466,13 +466,6 @@ div.autosuggest-panel {
       overflow-y: scroll;
       position: absolute;
       width: 100%;
-      z-index: 998;
-    }
-  }
-
-  #react-autowhatever-destination {
-    &.react-autosuggest__suggestions-container--open {
-      z-index: 996;
     }
   }
 
@@ -694,21 +687,18 @@ input.react-autosuggest__input {
 .viapoint-input-container {
   z-index: 802;
 }
+
 .autosuggest-input-container {
-  z-index: 803;
-  // position: absolute;
-  // margin-left: 5%;
   margin-top: 1em;
-  // width: 52.5%;
-  // &.origin, &.destination {
-  //   position: static;
-  //   width: auto;
-  //   margin: 0;
-  // }
-  &.destination {
-    // display: block;
-    z-index: 802;
+
+  &.origin {
+    z-index: index($zindex, origin-input);
   }
+
+  &.destination {
+    z-index: index($zindex, destination-input);
+  }
+
   &#destination-container {
     margin-top: calc(4em + 8px);
   }
