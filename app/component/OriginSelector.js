@@ -27,6 +27,7 @@ const OriginSelector = (
     favouriteLocations.filter(
       favourite =>
         item.geometry &&
+        item.geometry.coordinates &&
         Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
         Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
     ).length === 0;
@@ -35,6 +36,7 @@ const OriginSelector = (
     favouriteStops.filter(
       favourite =>
         item.geometry &&
+        item.geometry.coordinates &&
         Math.abs(favourite.lat - item.geometry.coordinates[1]) < 1e-4 &&
         Math.abs(favourite.lon - item.geometry.coordinates[0]) < 1e-4,
     ).length === 0;
