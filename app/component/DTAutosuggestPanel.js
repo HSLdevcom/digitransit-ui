@@ -30,6 +30,7 @@ class DTAutosuggestPanel extends React.Component {
     viaPointNames: PropTypes.string,
     setviaPointNames: PropTypes.func,
     tab: PropTypes.string,
+    addMoreViapoints: PropTypes.func,
   };
 
   static defaultProps = {
@@ -54,6 +55,29 @@ class DTAutosuggestPanel extends React.Component {
 
   isFocused = val => {
     this.setState({ showDarkOverlay: val });
+  };
+
+  checkInputForViapoint = (item, i) => {
+    if (
+      this.props.viaPointNames.filter(o2 => o2 === item.address).length === 0
+    ) {
+      this.context.router.replace({
+        ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          intermediatePlaces: [
+            this.context.location.query.intermediatePlaces,
+          ].concat([
+            locationToOTP({
+              lat: item.lat,
+              lon: item.lon,
+              address: item.address,
+            }),
+          ]),
+        },
+      });
+      this.props.setviaPointNames(item.address, i);
+    }
   };
 
   render = () => (
@@ -111,12 +135,8 @@ class DTAutosuggestPanel extends React.Component {
         />
       }
       {this.props.isViaPoint &&
-        this.props.viaPointNames.map(o => (
-          <div
-            className="viapoint-input-container"
-            key={`viapoint-${o[0]}-${o[1]}`}
-          >
-            {console.log(o)}
+        this.props.viaPointNames.map((o, i) => (
+          <div className="viapoint-input-container" key={`viapoint-${o[0]}`}>
             <div className="viapoint-before">
               <div className="viapoint-before_line-top" />
               <div className="viapoint-icon">
@@ -135,22 +155,28 @@ class DTAutosuggestPanel extends React.Component {
               placeholder="via-point"
               className="viapoint"
               isFocused={this.isFocused}
-              value={o[0]}
-              onLocationSelected={item => {
-                this.context.router.replace({
-                  ...this.context.location,
-                  query: {
-                    ...this.context.location.query,
-                    intermediatePlaces: locationToOTP({
-                      lat: item.lat,
-                      lon: item.lon,
-                      address: item.address,
-                    }),
-                  },
-                });
-                this.props.setviaPointNames(item.address);
-              }}
+              value={o}
+              onLocationSelected={item => this.checkInputForViapoint(item, i)}
             />
+            <div
+              className="addViaPoint more"
+              role="button"
+              tabIndex={0}
+              style={{
+                display:
+                  !this.props.isViaPoint ||
+                  i !== this.props.viaPointNames.length - 1 ||
+                  o === ' '
+                    ? 'none'
+                    : 'block',
+              }}
+              onClick={() => this.props.addMoreViapoints(i)}
+              onKeyPress={() => this.props.addMoreViapoints(i)}
+            >
+              <span>
+                <Icon img="icon-icon_plus" />
+              </span>
+            </div>
           </div>
         ))}
       {(this.props.destination && this.props.destination.set) ||
