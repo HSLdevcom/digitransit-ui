@@ -53,7 +53,7 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Linja-autoasema, Kouvola', lat: 63, lon: 27 },
+    { icon: 'icon-icon_bus', label: 'Matkakeskus, Kouvola', lat: 60.86625189966643, lon: 26.705328946745546 },
   ],
 
   footer: {
