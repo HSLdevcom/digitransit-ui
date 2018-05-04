@@ -15,7 +15,7 @@ const maxLon = 27.424811201273982;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Kouvola', href: 'http://www.kouvolanbussit.fi' },
+  appBarLink: { name: 'Kouvolan bussit', href: 'http://www.kouvolanbussit.fi' },
 
   colors: {
     primary: '#000000',
