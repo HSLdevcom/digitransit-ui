@@ -187,6 +187,7 @@ class IndexPage extends React.Component {
   };
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const { config } = this.context;
     const footerOptions = Object.assign(
       {},
       ...this.props.routes.map(route => route.footerOptions),
@@ -209,12 +210,14 @@ class IndexPage extends React.Component {
             searchType="all"
             originPlaceHolder="search-origin"
           />
-          <StreetModeSelector
-            streetModes={pickBy(
-              this.context.config.streetModes,
-              sm => sm.availableForSelection,
-            )}
-          />
+          {config.features.showStreetModeQuickSelect && (
+            <StreetModeSelector
+              streetModes={pickBy(
+                config.streetModes,
+                sm => sm.availableForSelection,
+              )}
+            />
+          )}
         </div>
         <div key="foo" className="fpccontainer">
           <FrontPagePanelLarge

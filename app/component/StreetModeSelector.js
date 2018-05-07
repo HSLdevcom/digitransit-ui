@@ -107,11 +107,11 @@ class StreetModeSelector extends React.Component {
 }
 
 StreetModeSelector.propTypes = {
-  streetModes: PropTypes.array,
+  streetModes: PropTypes.object,
 };
 
 StreetModeSelector.defaultProps = {
-  streetModes: [],
+  streetModes: {},
 };
 
 export default StreetModeSelector;

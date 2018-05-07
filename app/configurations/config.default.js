@@ -239,6 +239,11 @@ export default {
     description: APP_DESCRIPTION,
     keywords: 'digitransit',
   },
+
+  features: {
+    showStreetModeQuickSelect: false,
+  },
+
   // Ticket information feature toggle
   showTicketInformation: false,
   showRouteInformation: false,
