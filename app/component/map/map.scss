@@ -3,7 +3,8 @@ $stop-thin-opacity: 0.2;
 
 div.map {
   width: 100%;
-
+  max-height: 100%;
+  position: relative;
   .leaflet-container .leaflet-control-attribution {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray;
