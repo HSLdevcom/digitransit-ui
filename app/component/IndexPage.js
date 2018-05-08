@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ContainerDimensions from 'react-container-dimensions';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
@@ -188,86 +189,85 @@ class IndexPage extends React.Component {
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config } = this.context;
+    const { breakpoint, destination, origin, routes, tab } = this.props;
+
     const footerOptions = Object.assign(
       {},
-      ...this.props.routes.map(route => route.footerOptions),
+      ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
 
-    return this.props.breakpoint === 'large' ? (
-      <div
-        className={`front-page flex-vertical ${this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false &&
-          `blurred`} fullscreen bp-${this.props.breakpoint}`}
-      >
-        <div className="search-container">
-          <DTAutosuggestPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-            tab={this.props.tab}
-            searchType="all"
-            originPlaceHolder="search-origin"
-          />
-          {config.features.showStreetModeQuickSelect && (
-            <StreetModeSelector
-              streetModes={pickBy(
-                config.streetModes,
-                sm => sm.availableForSelection,
-              )}
-            />
-          )}
-        </div>
-        <div key="foo" className="fpccontainer">
-          <FrontPagePanelLarge
-            selectedPanel={selectedMainTab}
-            nearbyClicked={this.clickNearby}
-            favouritesClicked={this.clickFavourites}
+    return breakpoint === 'large' ? (
+      <ContainerDimensions>
+        {({ height }) => (
+          <div
+            className={`front-page flex-vertical ${origin &&
+              origin.gps === true &&
+              origin.ready === false &&
+              origin.gpsError === false &&
+              `blurred`} fullscreen bp-${breakpoint}`}
           >
-            {this.renderTab()}
-          </FrontPagePanelLarge>
-        </div>
-        <MapWithTracking
-          breakpoint={this.props.breakpoint}
-          showStops
-          showScaleBar
-          origin={this.props.origin}
-        />
-        {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        {!footerOptions.hidden && (
-          <div id="page-footer-container">
-            <PageFooter
-              content={
-                (this.context.config.footer &&
-                  this.context.config.footer.content) ||
-                []
-              }
+            <div className="search-container">
+              <DTAutosuggestPanel
+                origin={origin}
+                destination={destination}
+                tab={tab}
+                searchType="all"
+                originPlaceHolder="search-origin"
+                containerHeight={height}
+              />
+              {config.features.showStreetModeQuickSelect && (
+                <StreetModeSelector
+                  streetModes={pickBy(
+                    config.streetModes,
+                    sm => sm.availableForSelection,
+                  )}
+                />
+              )}
+            </div>
+            <div key="foo" className="fpccontainer">
+              <FrontPagePanelLarge
+                selectedPanel={selectedMainTab}
+                nearbyClicked={this.clickNearby}
+                favouritesClicked={this.clickFavourites}
+              >
+                {this.renderTab()}
+              </FrontPagePanelLarge>
+            </div>
+            <MapWithTracking
+              breakpoint={breakpoint}
+              showStops
+              showScaleBar
+              origin={origin}
             />
+            {(this.props.showSpinner && <OverlayWithSpinner />) || null}
+            {!footerOptions.hidden && (
+              <div id="page-footer-container">
+                <PageFooter
+                  content={(config.footer && config.footer.content) || []}
+                />
+              </div>
+            )}
           </div>
         )}
-      </div>
+      </ContainerDimensions>
     ) : (
       <div
-        className={`front-page flex-vertical ${this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false &&
-          `blurred`} fullscreen bp-${this.props.breakpoint}`}
+        className={`front-page flex-vertical ${origin &&
+          origin.gps === true &&
+          origin.ready === false &&
+          origin.gpsError === false &&
+          `blurred`} fullscreen bp-${breakpoint}`}
       >
         <div
           className={cx('flex-grow', 'map-container', {
             expanded: this.state.mapExpanded,
           })}
         >
-          <MapWithTracking
-            breakpoint={this.props.breakpoint}
-            showStops
-            origin={this.props.origin}
-          >
+          <MapWithTracking breakpoint={breakpoint} showStops origin={origin}>
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
-              origin={this.props.origin}
+              origin={origin}
               destination={this.props.destination}
               searchType="all"
               originPlaceHolder="search-origin"
@@ -295,7 +295,7 @@ class IndexPage extends React.Component {
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
             mapExpanded={this.state.mapExpanded}
-            location={this.props.origin}
+            location={origin}
           >
             {this.renderTab()}
           </FrontPagePanelSmall>

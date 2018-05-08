@@ -6,32 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
 
-const getStreetModesToggleButtons = (
-  streetModes,
-  selectedStreetMode,
-  toggleStreetMode,
-) => {
-  if (!streetModes.length) {
-    return null;
-  }
-
-  return streetModes.map((streetMode, index) => (
-    <ToggleButton
-      key={index}
-      icon={streetMode.icon}
-      onBtnClick={() => toggleStreetMode(streetMode)}
-      state={streetMode.name === selectedStreetMode}
-      checkedClass={'selected'}
-      label={streetMode.name}
-    >
-      <FormattedMessage
-        id={`street-mode-${streetMode.name}`}
-        defaultMessage={streetMode.name}
-      />
-    </ToggleButton>
-  ));
-};
-
 class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +19,44 @@ class StreetModeSelector extends React.Component {
     };
   }
 
+  getStreetModesToggleButtons(
+    streetModes,
+    selectedStreetMode,
+    toggleStreetMode,
+  ) {
+    if (!streetModes.length) {
+      return null;
+    }
+
+    return streetModes.map(streetMode => {
+      const { icon, name } = streetMode;
+      const isSelected = name === selectedStreetMode;
+      return (
+        <ToggleButton
+          checkedClass="selected"
+          key={name}
+          icon={icon}
+          label={name}
+          onBtnClick={() => toggleStreetMode(streetMode)}
+          ref={isSelected ? 'selectedStreetModeButton' : null}
+          state={isSelected}
+        >
+          <FormattedMessage id={`street-mode-${name}`} defaultMessage={name} />
+        </ToggleButton>
+      );
+    });
+  }
+
+  handleKeyPress(event) {
+    const KEY_SPACE = 13,
+      KEY_ENTER = 32;
+    if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
+      return;
+    }
+    event.preventDefault();
+    this.toggle(this.state.isOpen);
+  }
+
   toggle(isOpen) {
     this.setState({
       isOpen: !isOpen,
@@ -52,10 +64,15 @@ class StreetModeSelector extends React.Component {
   }
 
   toggleStreetMode(streetMode) {
-    this.setState({
-      isOpen: false,
-      selectedStreetMode: streetMode.name,
-    });
+    this.setState(
+      {
+        isOpen: false,
+        selectedStreetMode: streetMode.name,
+      },
+      () => {
+        this.refs.toggleStreetModeSelectorButton.focus();
+      },
+    );
   }
 
   render() {
@@ -76,13 +93,13 @@ class StreetModeSelector extends React.Component {
               />
               <button
                 className="clear-input"
-                onClick={this.toggle.bind(this, isOpen)}
+                onClick={() => this.toggle(isOpen)}
               >
                 <Icon img="icon-icon_close" />
               </button>
             </div>
             <div className="street-mode-selector-buttons">
-              {getStreetModesToggleButtons(
+              {this.getStreetModesToggleButtons(
                 streetModes,
                 selectedStreetMode,
                 this.toggleStreetMode,
@@ -92,7 +109,11 @@ class StreetModeSelector extends React.Component {
         ) : (
           <div
             className="street-mode-selector-toggle"
-            onClick={this.toggle.bind(this, isOpen)}
+            onClick={() => this.toggle(isOpen)}
+            onKeyDown={event => this.handleKeyPress(event)}
+            ref="toggleStreetModeSelectorButton"
+            role="button"
+            tabIndex="0"
           >
             <Icon
               img={`icon-icon_${
@@ -107,7 +128,9 @@ class StreetModeSelector extends React.Component {
 }
 
 StreetModeSelector.propTypes = {
-  streetModes: PropTypes.object,
+  streetModes: PropTypes.shape({
+    defaultValue: PropTypes.bool,
+  }),
 };
 
 StreetModeSelector.defaultProps = {
