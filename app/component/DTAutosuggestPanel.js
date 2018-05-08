@@ -27,7 +27,7 @@ class DTAutosuggestPanel extends React.Component {
     isViaPoint: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
-    viaPointNames: PropTypes.string,
+    viaPointNames: PropTypes.array,
     setviaPointNames: PropTypes.func,
     tab: PropTypes.string,
     addMoreViapoints: PropTypes.func,
@@ -58,22 +58,39 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   checkInputForViapoint = (item, i) => {
+    // Check if the name exists in viapoints already or not
     if (
       this.props.viaPointNames.filter(o2 => o2 === item.address).length === 0
     ) {
+      // Check if there are more than one viapoints, if not, convert parameters to array
+      const arrayCheck = Array.isArray(
+        this.context.location.query.intermediatePlaces,
+      )
+        ? this.context.location.query.intermediatePlaces.slice(0)
+        : [this.context.location.query.intermediatePlaces || ' '];
+
+      const itemToAdd = [
+        locationToOTP({
+          lat: item.lat,
+          lon: item.lon,
+          address: item.address,
+        }),
+      ];
+
+      // Add new viapoint by replacing the index for either empty space ' '
+      // or a previous point being changed
+      const addedViapoints =
+        arrayCheck.filter((o, index) => i === index).length === 0
+          ? arrayCheck.concat(itemToAdd)
+          : Object.assign([], arrayCheck, {
+              [i]: itemToAdd[0],
+            });
+
       this.context.router.replace({
         ...this.context.location,
         query: {
           ...this.context.location.query,
-          intermediatePlaces: [
-            this.context.location.query.intermediatePlaces,
-          ].concat([
-            locationToOTP({
-              lat: item.lat,
-              lon: item.lon,
-              address: item.address,
-            }),
-          ]),
+          intermediatePlaces: addedViapoints.filter(o => o !== ' '),
         },
       });
       this.props.setviaPointNames(item.address, i);
@@ -136,7 +153,7 @@ class DTAutosuggestPanel extends React.Component {
       }
       {this.props.isViaPoint &&
         this.props.viaPointNames.map((o, i) => (
-          <div className="viapoint-input-container" key={`viapoint-${o[0]}`}>
+          <div className="viapoint-input-container" key={`viapoint-${o}`}>
             <div className="viapoint-before">
               <div className="viapoint-before_line-top" />
               <div className="viapoint-icon">

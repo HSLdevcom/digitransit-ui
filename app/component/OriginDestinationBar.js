@@ -14,6 +14,7 @@ export default class OriginDestinationBar extends React.Component {
     className: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
+    initialViaPoints: PropTypes.array,
   };
 
   static contextTypes = {
@@ -24,18 +25,22 @@ export default class OriginDestinationBar extends React.Component {
 
   state = {
     isViaPoint: this.context.location.query.intermediatePlaces && true,
-    viaPointNames: this.context.location.query.intermediatePlaces
-      ? [this.context.location.query.intermediatePlaces.split('::')[0]]
-      : [' '],
+    viaPointNames: this.props.initialViaPoints,
   };
 
   setviaPointNames = (name, i) => {
     // Check if viapoint already exists, add viapoint to the chosen index
+    const oldState = this.state.viaPointNames.slice(0);
+    let newState;
+    if (oldState.filter(o => o === name).length > 0) {
+      newState = oldState;
+    } else {
+      newState = Object.assign([], oldState, {
+        [i]: name,
+      });
+    }
     this.setState({
-      viaPointNames:
-        this.state.viaPointNames.filter(o => o === name).length > 0
-          ? this.state.viaPointNames
-          : this.state.viaPointNames.splice(i, 1, name),
+      viaPointNames: newState.filter(o => o !== ' '),
     });
   };
 
@@ -72,6 +77,7 @@ export default class OriginDestinationBar extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    console.log(this.state.viaPointNames);
     return (
       <div
         className={cx(
