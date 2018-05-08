@@ -24,14 +24,21 @@ $item-border-color: #eee;
 
 .search-container {
   margin-left: 5%;
+  pointer-events: none;
   position: absolute;
   width: 52.5%;
   z-index: index($zindex, search-panel);
+
+  & .autosuggest-input-container,
+  & .street-mode-selector-options,
+  & .street-mode-selector-toggle {
+    pointer-events: auto;
+  }
 }
 
 .autosuggest-input-container {
-  position: relative;
   display: flex;
+  position: relative;
 }
 
 .front-page {
