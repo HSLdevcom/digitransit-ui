@@ -36,7 +36,7 @@ class ToggleButton extends React.Component {
         style={style}
         title={intl.formatMessage({ id: label })}
         aria-label={intl.formatMessage({ id: label })}
-        ref={ref => buttonRef(ref)}
+        ref={buttonRef ? ref => buttonRef(ref) : null}
         {...rest}
       >
         {icon && (

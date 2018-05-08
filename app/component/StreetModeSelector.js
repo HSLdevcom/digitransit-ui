@@ -10,16 +10,18 @@ class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
 
-    this.selectStreetMode = this.selectStreetMode.bind(this);
+    // this.selectStreetMode = this.selectStreetMode.bind(this);
     this.streetModes = [];
     Object.keys(this.props.streetModes).map(sm =>
       this.streetModes.push({ ...this.props.streetModes[sm], name: sm }),
     );
     this.state = {
       isOpen: false,
-      selectedStreetMode: Object.keys(props.streetModes).filter(
-        sm => props.streetModes[sm].defaultValue,
-      )[0],
+      selectedStreetMode:
+        this.props.selectedStreetMode ||
+        Object.keys(props.streetModes).filter(
+          sm => props.streetModes[sm].defaultValue,
+        )[0],
     };
   }
 
@@ -98,7 +100,10 @@ class StreetModeSelector extends React.Component {
       {
         selectedStreetMode: streetMode.name,
       },
-      () => this.closeDialog(applyFocus),
+      () => {
+        this.closeDialog(applyFocus);
+        this.props.selectStreetMode({ modes: streetMode.name.toUpperCase() });
+      },
     );
   }
 
@@ -151,12 +156,15 @@ class StreetModeSelector extends React.Component {
 }
 
 StreetModeSelector.propTypes = {
+  selectStreetMode: PropTypes.func.isRequired,
+  selectedStreetMode: PropTypes.string,
   streetModes: PropTypes.shape({
     defaultValue: PropTypes.bool,
   }),
 };
 
 StreetModeSelector.defaultProps = {
+  selectedStreetMode: undefined,
   streetModes: {},
 };
 

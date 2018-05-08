@@ -196,6 +196,11 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
+    const selectedStreetMode = this.context.location.query.modes
+      ? decodeURI(this.context.location.query.modes)
+          .split('?')[0]
+          .split(',')[0]
+      : undefined;
 
     return breakpoint === 'large' ? (
       <ContainerDimensions>
@@ -218,6 +223,16 @@ class IndexPage extends React.Component {
               />
               {config.features.showStreetModeQuickSelect && (
                 <StreetModeSelector
+                  selectedStreetMode={selectedStreetMode}
+                  selectStreetMode={mode =>
+                    this.context.router.replace({
+                      ...this.context.location,
+                      query: {
+                        ...this.context.location.query,
+                        ...mode,
+                      },
+                    })
+                  }
                   streetModes={pickBy(
                     config.streetModes,
                     sm => sm.availableForSelection,
