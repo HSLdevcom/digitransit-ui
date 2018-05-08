@@ -395,7 +395,7 @@ div.autosuggest-panel {
       #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
         min-height: 100%;
         height: auto;
-        position: absolute;
+        position: fixed;
         width: 100%;
         margin-top: -8px;
         display: block;
@@ -409,9 +409,13 @@ div.autosuggest-panel {
       }
     }
   }
+  .viapoints-list {
+    flex: 0 1 110%;
+    position: relative;
+  }
   .viapoint-input-container {
     display: flex;
-    width: 100%;
+    width: 91%;
   }
   .mobile .autosuggest-panel.small {
     flex-flow: wrap;
@@ -468,7 +472,7 @@ div.autosuggest-panel {
   }
   #react-autowhatever-viapoint {
     &.react-autosuggest__suggestions-container--open {
-    position: absolute;
+    position: fixed;
     background: #fff;
     width: 52.5%;
     height: auto;
@@ -513,6 +517,10 @@ div.autosuggest-panel {
     &:hover {
       color: #0062a1;
     }
+    .more {
+      position: absolute;
+      right: 0;
+    }
   }
   .removeViaPoint {
     cursor: pointer;
@@ -546,13 +554,14 @@ div.autosuggest-panel {
 
 .autosuggest-panel.small {
   &.isItinerary .autosuggest-input-container {
+    min-height: 3em;
     &#origin-container, &#destination-container {
       padding: 0;
       margin: 0;
       width: 100%;
     }
     &.origin, &.destination {
-      position: static;
+      position: relative;
     }
   }
   .autosuggest-input-container {
@@ -685,7 +694,7 @@ input.react-autosuggest__input{
     margin-top: 1em;
     width: 52.5%;
   &.origin, &.destination {
-    position: static;
+    position: relative;
     width: auto;
     margin: 0;
   }

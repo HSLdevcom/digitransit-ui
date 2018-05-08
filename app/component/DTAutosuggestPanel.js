@@ -151,51 +151,56 @@ class DTAutosuggestPanel extends React.Component {
           }}
         />
       }
-      {this.props.isViaPoint &&
-        this.props.viaPointNames.map((o, i) => (
-          <div className="viapoint-input-container" key={`viapoint-${o}`}>
-            <div className="viapoint-before">
-              <div className="viapoint-before_line-top" />
-              <div className="viapoint-icon">
-                <Icon img="icon-icon_place" />
+      <div
+        className="viapoints-list"
+        style={{ display: this.props.isViaPoint ? 'block' : 'none' }}
+      >
+        {this.props.isViaPoint &&
+          this.props.viaPointNames.map((o, i) => (
+            <div className="viapoint-input-container" key={`viapoint-${o}`}>
+              <div className="viapoint-before">
+                <div className="viapoint-before_line-top" />
+                <div className="viapoint-icon">
+                  <Icon img="icon-icon_place" />
+                </div>
+                <div className="viapoint-before_line-bottom" />
               </div>
-              <div className="viapoint-before_line-bottom" />
+              <DTEndpointAutosuggest
+                id="viapoint"
+                autoFocus={
+                  // Disable autofocus if using IE11
+                  isIe ? false : this.context.breakpoint === 'large'
+                }
+                refPoint={this.props.origin}
+                searchType="endpoint"
+                placeholder="via-point"
+                className="viapoint"
+                isFocused={this.isFocused}
+                value={o}
+                onLocationSelected={item => this.checkInputForViapoint(item, i)}
+              />
+              <div
+                className="addViaPoint more"
+                role="button"
+                tabIndex={0}
+                style={{
+                  display:
+                    !this.props.isViaPoint ||
+                    i !== this.props.viaPointNames.length - 1 ||
+                    o === ' '
+                      ? 'none'
+                      : 'block',
+                }}
+                onClick={() => this.props.addMoreViapoints(i)}
+                onKeyPress={() => this.props.addMoreViapoints(i)}
+              >
+                <span>
+                  <Icon img="icon-icon_plus" />
+                </span>
+              </div>
             </div>
-            <DTEndpointAutosuggest
-              id="viapoint"
-              autoFocus={
-                // Disable autofocus if using IE11
-                isIe ? false : this.context.breakpoint === 'large'
-              }
-              refPoint={this.props.origin}
-              searchType="endpoint"
-              placeholder="via-point"
-              className="viapoint"
-              isFocused={this.isFocused}
-              value={o}
-              onLocationSelected={item => this.checkInputForViapoint(item, i)}
-            />
-            <div
-              className="addViaPoint more"
-              role="button"
-              tabIndex={0}
-              style={{
-                display:
-                  !this.props.isViaPoint ||
-                  i !== this.props.viaPointNames.length - 1 ||
-                  o === ' '
-                    ? 'none'
-                    : 'block',
-              }}
-              onClick={() => this.props.addMoreViapoints(i)}
-              onKeyPress={() => this.props.addMoreViapoints(i)}
-            >
-              <span>
-                <Icon img="icon-icon_plus" />
-              </span>
-            </div>
-          </div>
-        ))}
+          ))}
+      </div>
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
       this.props.isItinerary ? (
