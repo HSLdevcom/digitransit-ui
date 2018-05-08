@@ -38,7 +38,11 @@ class StreetModeSelector extends React.Component {
           icon={icon}
           label={name}
           onBtnClick={() => toggleStreetMode(streetMode)}
-          ref={isSelected ? 'selectedStreetModeButton' : null}
+          refCallback={ref => {
+            if (ref && isSelected) {
+              this.selectedStreetModeButton = ref;
+            }
+          }}
           state={isSelected}
         >
           <FormattedMessage id={`street-mode-${name}`} defaultMessage={name} />
@@ -58,9 +62,16 @@ class StreetModeSelector extends React.Component {
   }
 
   toggle(isOpen) {
-    this.setState({
-      isOpen: !isOpen,
-    });
+    this.setState(
+      {
+        isOpen: !isOpen,
+      },
+      () => {
+        if (this.state.isOpen && this.selectedStreetModeButton) {
+          this.selectedStreetModeButton.focus();
+        }
+      },
+    );
   }
 
   toggleStreetMode(streetMode) {
@@ -70,7 +81,7 @@ class StreetModeSelector extends React.Component {
         selectedStreetMode: streetMode.name,
       },
       () => {
-        this.refs.toggleStreetModeSelectorButton.focus();
+        this.toggleStreetModeSelectorButton.focus();
       },
     );
   }
@@ -111,7 +122,9 @@ class StreetModeSelector extends React.Component {
             className="street-mode-selector-toggle"
             onClick={() => this.toggle(isOpen)}
             onKeyDown={event => this.handleKeyPress(event)}
-            ref="toggleStreetModeSelectorButton"
+            ref={ref => {
+              this.toggleStreetModeSelectorButton = ref;
+            }}
             role="button"
             tabIndex="0"
           >
