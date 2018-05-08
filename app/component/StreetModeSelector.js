@@ -23,6 +23,16 @@ class StreetModeSelector extends React.Component {
     };
   }
 
+  isKeyboardNavigationEvent(event) {
+    const KEY_SPACE = 13,
+      KEY_ENTER = 32;
+    if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
+      return false;
+    }
+    event.preventDefault();
+    return true;
+  }
+
   getStreetModeSelectButtons() {
     if (!this.streetModes.length) {
       return null;
@@ -39,8 +49,11 @@ class StreetModeSelector extends React.Component {
           key={name}
           icon={icon}
           label={name}
-          onBtnClick={event => this.selectStreetMode(event, streetMode)}
-          onKeyDown={event => this.selectStreetMode(event, streetMode)}
+          onBtnClick={() => this.selectStreetMode(streetMode)}
+          onKeyDown={e =>
+            this.isKeyboardNavigationEvent(e) &&
+            this.selectStreetMode(streetMode, true)
+          }
           buttonRef={ref => {
             if (ref && isSelected) {
               this.selectedStreetModeButton = ref;
@@ -54,51 +67,38 @@ class StreetModeSelector extends React.Component {
     });
   }
 
-  isKeyboardNavigationEvent(event) {
-    const KEY_SPACE = 13,
-      KEY_ENTER = 32;
-    if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  }
-
-  toggle(isOpen, applyFocus = false) {
+  openDialog(applyFocus = false) {
     this.setState(
       {
-        isOpen: !isOpen,
+        isOpen: true,
       },
       () => {
-        if (this.state.isOpen && this.selectedStreetModeButton && applyFocus) {
+        if (this.selectedStreetModeButton && applyFocus) {
           this.selectedStreetModeButton.focus();
         }
       },
     );
   }
 
-  selectStreetMode(event, streetMode) {
-    const KEY_SPACE = 13,
-      KEY_ENTER = 32;
-    const isKeyboardEvent = event.type === 'keydown';
-
-    if (
-      !event ||
-      (isKeyboardEvent && ![KEY_SPACE, KEY_ENTER].includes(event.which))
-    ) {
-      return;
-    }
-
+  closeDialog(applyFocus = false) {
     this.setState(
       {
         isOpen: false,
-        selectedStreetMode: streetMode.name,
       },
       () => {
-        if (isKeyboardEvent) {
+        if (this.toggleStreetModeSelectorButton && applyFocus) {
           this.toggleStreetModeSelectorButton.focus();
         }
       },
+    );
+  }
+
+  selectStreetMode(streetMode, applyFocus = false) {
+    this.setState(
+      {
+        selectedStreetMode: streetMode.name,
+      },
+      () => this.closeDialog(applyFocus),
     );
   }
 
@@ -115,9 +115,9 @@ class StreetModeSelector extends React.Component {
               />
               <button
                 className="clear-input"
-                onClick={() => this.toggle(isOpen)}
+                onClick={() => this.closeDialog()}
                 onKeyDown={e =>
-                  this.isKeyboardNavigationEvent(e) && this.toggle(isOpen, true)
+                  this.isKeyboardNavigationEvent(e) && this.closeDialog(true)
                 }
               >
                 <Icon img="icon-icon_close" />
@@ -130,9 +130,9 @@ class StreetModeSelector extends React.Component {
         ) : (
           <div
             className="street-mode-selector-toggle"
-            onClick={() => this.toggle(isOpen)}
+            onClick={() => this.openDialog()}
             onKeyDown={e =>
-              this.isKeyboardNavigationEvent(e) && this.toggle(isOpen, true)
+              this.isKeyboardNavigationEvent(e) && this.openDialog(true)
             }
             ref={ref => (this.toggleStreetModeSelectorButton = ref)}
             role="button"
