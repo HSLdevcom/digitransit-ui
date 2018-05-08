@@ -17,7 +17,8 @@ class ToggleButton extends React.Component {
       style,
       label,
       children,
-      refCallback,
+      buttonRef,
+      ...rest
     } = this.props;
 
     const classes = {
@@ -35,7 +36,8 @@ class ToggleButton extends React.Component {
         style={style}
         title={intl.formatMessage({ id: label })}
         aria-label={intl.formatMessage({ id: label })}
-        ref={ref => refCallback(ref)}
+        ref={ref => buttonRef(ref)}
+        {...rest}
       >
         {icon && (
           <div className="icon-holder">
@@ -61,7 +63,7 @@ ToggleButton.propTypes = {
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
   children: PropTypes.array,
-  refCallback: PropTypes.func,
+  buttonRef: PropTypes.func,
 };
 
 export default ToggleButton;

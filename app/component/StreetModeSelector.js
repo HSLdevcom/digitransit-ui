@@ -10,7 +10,11 @@ class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggleStreetMode = this.toggleStreetMode.bind(this);
+    this.selectStreetMode = this.selectStreetMode.bind(this);
+    this.streetModes = [];
+    Object.keys(this.props.streetModes).map(sm =>
+      this.streetModes.push({ ...this.props.streetModes[sm], name: sm }),
+    );
     this.state = {
       isOpen: false,
       selectedStreetMode: Object.keys(props.streetModes).filter(
@@ -19,16 +23,14 @@ class StreetModeSelector extends React.Component {
     };
   }
 
-  getStreetModesToggleButtons(
-    streetModes,
-    selectedStreetMode,
-    toggleStreetMode,
-  ) {
-    if (!streetModes.length) {
+  getStreetModeSelectButtons() {
+    if (!this.streetModes.length) {
       return null;
     }
 
-    return streetModes.map(streetMode => {
+    const { selectedStreetMode } = this.state;
+
+    return this.streetModes.map(streetMode => {
       const { icon, name } = streetMode;
       const isSelected = name === selectedStreetMode;
       return (
@@ -37,8 +39,9 @@ class StreetModeSelector extends React.Component {
           key={name}
           icon={icon}
           label={name}
-          onBtnClick={() => toggleStreetMode(streetMode)}
-          refCallback={ref => {
+          onBtnClick={event => this.selectStreetMode(event, streetMode)}
+          onKeyDown={event => this.selectStreetMode(event, streetMode)}
+          buttonRef={ref => {
             if (ref && isSelected) {
               this.selectedStreetModeButton = ref;
             }
@@ -51,47 +54,55 @@ class StreetModeSelector extends React.Component {
     });
   }
 
-  handleKeyPress(event) {
+  isKeyboardNavigationEvent(event) {
     const KEY_SPACE = 13,
       KEY_ENTER = 32;
     if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
-      return;
+      return false;
     }
     event.preventDefault();
-    this.toggle(this.state.isOpen);
+    return true;
   }
 
-  toggle(isOpen) {
+  toggle(isOpen, applyFocus = false) {
     this.setState(
       {
         isOpen: !isOpen,
       },
       () => {
-        if (this.state.isOpen && this.selectedStreetModeButton) {
+        if (this.state.isOpen && this.selectedStreetModeButton && applyFocus) {
           this.selectedStreetModeButton.focus();
         }
       },
     );
   }
 
-  toggleStreetMode(streetMode) {
+  selectStreetMode(event, streetMode) {
+    const KEY_SPACE = 13,
+      KEY_ENTER = 32;
+    const isKeyboardEvent = event.type === 'keydown';
+
+    if (
+      !event ||
+      (isKeyboardEvent && ![KEY_SPACE, KEY_ENTER].includes(event.which))
+    ) {
+      return;
+    }
+
     this.setState(
       {
         isOpen: false,
         selectedStreetMode: streetMode.name,
       },
       () => {
-        this.toggleStreetModeSelectorButton.focus();
+        if (isKeyboardEvent) {
+          this.toggleStreetModeSelectorButton.focus();
+        }
       },
     );
   }
 
   render() {
-    const streetModes = [];
-    Object.keys(this.props.streetModes).map(sm =>
-      streetModes.push({ ...this.props.streetModes[sm], name: sm }),
-    );
-
     const { isOpen, selectedStreetMode } = this.state;
     return (
       <div className="street-mode-selector-container">
@@ -105,26 +116,25 @@ class StreetModeSelector extends React.Component {
               <button
                 className="clear-input"
                 onClick={() => this.toggle(isOpen)}
+                onKeyDown={e =>
+                  this.isKeyboardNavigationEvent(e) && this.toggle(isOpen, true)
+                }
               >
                 <Icon img="icon-icon_close" />
               </button>
             </div>
             <div className="street-mode-selector-buttons">
-              {this.getStreetModesToggleButtons(
-                streetModes,
-                selectedStreetMode,
-                this.toggleStreetMode,
-              )}
+              {this.getStreetModeSelectButtons()}
             </div>
           </div>
         ) : (
           <div
             className="street-mode-selector-toggle"
             onClick={() => this.toggle(isOpen)}
-            onKeyDown={event => this.handleKeyPress(event)}
-            ref={ref => {
-              this.toggleStreetModeSelectorButton = ref;
-            }}
+            onKeyDown={e =>
+              this.isKeyboardNavigationEvent(e) && this.toggle(isOpen, true)
+            }
+            ref={ref => (this.toggleStreetModeSelectorButton = ref)}
             role="button"
             tabIndex="0"
           >
