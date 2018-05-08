@@ -561,43 +561,26 @@ div.autosuggest-panel {
     }
   }
   .autosuggest-input-container {
-    &#origin-container,
-    &#destination-container {
-      width: calc(100% - 2em);
-      margin-left: 1em;
-      margin-right: 1em;
-    }
-    width: 100%;
-    margin-left: 0;
-    &.origin,
-    &.destination {
+    margin: 1em 1em 0 1em;
+    width: calc(100% - 2em);
+
+    &.origin {
       position: absolute;
       top: 0;
     }
-  }
-  #react-autowhatever-origin {
-    &.react-autosuggest__suggestions-container--open {
-      min-height: 100%;
-      height: auto;
+
+    &.destination {
       position: absolute;
-      left: 1em;
-      right: 1em;
-      width: auto;
-      margin-top: 4em;
-      margin-left: 0;
-      display: block;
-      overflow: visible;
+      top: 4em;
     }
-  }
-  #react-autowhatever-destination {
-    &.react-autosuggest__suggestions-container--open {
+
+    & .react-autosuggest__suggestions-container--open {
       min-height: 100%;
       height: auto;
       position: absolute;
-      left: 1em;
-      right: 1em;
+      left: 0;
+      right: 0;
       width: auto;
-      margin-top: calc(7em + 8px);
       margin-left: 0;
       display: block;
       overflow: visible;
