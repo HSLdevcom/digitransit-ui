@@ -10,7 +10,6 @@ class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.selectStreetMode = this.selectStreetMode.bind(this);
     this.streetModes = [];
     Object.keys(this.props.streetModes).map(sm =>
       this.streetModes.push({ ...this.props.streetModes[sm], name: sm }),

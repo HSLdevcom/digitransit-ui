@@ -112,6 +112,62 @@ describe('modeUtils', () => {
     });
   });
 
+  describe('getDefaultStreetMode', () => {
+    it('should return the street mode that has "defaultValue": true', () => {
+      const configWithSingleDefault = {
+        streetModes: {
+          car: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          walk: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+
+      const mode = utils.getDefaultStreetMode(config);
+      expect(mode).to.equal(StreetMode.Walk);
+    });
+
+    it('should return the first street mode that has "defaultValue": true', () => {
+      const configWithMultipleDefaults = {
+        streetModes: {
+          car: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          walk: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+        },
+      };
+
+      const mode = utils.getDefaultStreetMode(configWithMultipleDefaults);
+      expect(mode).to.equal(StreetMode.Car);
+    });
+
+    it('should return undefined if no street mode has been set as default', () => {
+      const brokenConfig = {
+        streetModes: {
+          car: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+          walk: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+
+      const mode = utils.getDefaultStreetMode(brokenConfig);
+      expect(mode).to.equal(undefined);
+    });
+  });
+
   describe('toggleStreetMode', () => {
     it('should remove all other streetModes from the query', () => {
       const location = {

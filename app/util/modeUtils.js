@@ -14,10 +14,21 @@ export const getModes = (location, config) => {
   return getDefaultModes(config);
 };
 
-export const getAvailableStreetModes = config => {
+export const getAvailableStreetModeConfigs = config => {
   return Object.keys(config.streetModes)
     .filter(sm => config.streetModes[sm].availableForSelection)
-    .map(sm => sm.toUpperCase());
+    .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }));
+};
+
+export const getAvailableStreetModes = config => {
+  return getAvailableStreetModeConfigs(config).map(sm => sm.name);
+};
+
+export const getDefaultStreetMode = config => {
+  const defaultModes = getAvailableStreetModeConfigs(config).filter(
+    sm => sm.defaultValue,
+  );
+  return defaultModes.length > 0 ? defaultModes[0].name : undefined;
 };
 
 export const getAvailableTransportModes = config => {
@@ -32,7 +43,7 @@ export const toggleStreetMode = (
   streetMode,
 ) => {
   return {
-    modes: without(allModes, ...availableStreetModes.map(m => m.toUpperCase()))
+    modes: without(allModes, ...availableStreetModes)
       .concat(streetMode.toUpperCase())
       .join(','),
   };
