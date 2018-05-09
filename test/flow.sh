@@ -15,6 +15,7 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome*.deb
 
 yarn install
+free -m
 yarn build
 
 CONFIG=hsl yarn start &
