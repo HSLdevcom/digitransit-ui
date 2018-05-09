@@ -172,7 +172,7 @@ class MapWithTrackingStateHandler extends React.Component {
       >
         {children}
         <div className="map-with-tracking-buttons">
-          {this.props.position.hasLocation || (
+          {this.props.position.hasLocation && (
             <ToggleMapTracking
               key="toggleMapTracking"
               handleClick={
