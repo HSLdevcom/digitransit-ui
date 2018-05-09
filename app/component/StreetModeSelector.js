@@ -17,11 +17,12 @@ class StreetModeSelector extends React.Component {
     );
     this.state = {
       isOpen: false,
-      selectedStreetMode:
+      selectedStreetMode: (
         this.props.selectedStreetMode ||
         Object.keys(props.streetModes).filter(
           sm => props.streetModes[sm].defaultValue,
-        )[0],
+        )[0]
+      ).toLowerCase(),
     };
   }
 
