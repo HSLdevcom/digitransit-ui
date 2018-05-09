@@ -47,11 +47,10 @@ class TimeSelectorContainer extends Component {
     start.minutes(this.props.time.minutes());
     start.seconds(this.props.time.seconds());
 
-    let value;
     const day = start;
+    let value = `${day.unix()}`;
     do {
       let label;
-      value = `${day.unix()}`;
       if (day.isSame(now, 'day')) {
         label = this.context.intl.formatMessage({
           id: 'today',
@@ -71,6 +70,7 @@ class TimeSelectorContainer extends Component {
         </option>,
       );
       day.add(1, 'd');
+      value = `${day.unix()}`;
     } while (value <= endValue);
 
     return dates;
