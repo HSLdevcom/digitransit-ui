@@ -1,7 +1,14 @@
-import { without } from 'lodash';
+import { intersection, without } from 'lodash';
 import { getDefaultModes } from './planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 
+/**
+ * Retrieves all modes (as in both transport and street modes)
+ * from either 1. the URI, 2. localStorage or 3. default configuration.
+ *
+ * @param {*} location The current location (from react-router)
+ * @param {*} config The configuration for the software installation
+ */
 export const getModes = (location, config) => {
   if (location && location.query && location.query.modes) {
     return decodeURI(location.query.modes)
@@ -24,11 +31,19 @@ export const getAvailableStreetModes = config => {
   return getAvailableStreetModeConfigs(config).map(sm => sm.name);
 };
 
-export const getDefaultStreetMode = config => {
-  const defaultModes = getAvailableStreetModeConfigs(config).filter(
+export const getStreetMode = (location, config) => {
+  const currentStreetModes = intersection(
+    getModes(location, config),
+    getAvailableStreetModes(config),
+  );
+  if (currentStreetModes.length > 0) {
+    return currentStreetModes[0];
+  }
+
+  const defaultStreetModes = getAvailableStreetModeConfigs(config).filter(
     sm => sm.defaultValue,
   );
-  return defaultModes.length > 0 ? defaultModes[0].name : undefined;
+  return defaultStreetModes.length > 0 ? defaultStreetModes[0].name : undefined;
 };
 
 export const getAvailableTransportModes = config => {

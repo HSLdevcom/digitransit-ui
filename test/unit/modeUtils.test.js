@@ -112,8 +112,9 @@ describe('modeUtils', () => {
     });
   });
 
-  describe('getDefaultStreetMode', () => {
-    it('should return the street mode that has "defaultValue": true', () => {
+  describe('getStreetMode', () => {
+    it('for an empty location it should return the street mode that has "defaultValue": true', () => {
+      const location = {};
       const configWithSingleDefault = {
         streetModes: {
           car: {
@@ -125,13 +126,17 @@ describe('modeUtils', () => {
             defaultValue: false,
           },
         },
+        transportModes: {
+          ...config.transportModes,
+        },
       };
 
-      const mode = utils.getDefaultStreetMode(config);
+      const mode = utils.getStreetMode(location, config);
       expect(mode).to.equal(StreetMode.Walk);
     });
 
-    it('should return the first street mode that has "defaultValue": true', () => {
+    it('for an empty location it should return the first street mode that has "defaultValue": true', () => {
+      const location = {};
       const configWithMultipleDefaults = {
         streetModes: {
           car: {
@@ -143,13 +148,17 @@ describe('modeUtils', () => {
             defaultValue: true,
           },
         },
+        transportModes: {
+          ...config.transportModes,
+        },
       };
 
-      const mode = utils.getDefaultStreetMode(configWithMultipleDefaults);
+      const mode = utils.getStreetMode(location, configWithMultipleDefaults);
       expect(mode).to.equal(StreetMode.Car);
     });
 
-    it('should return undefined if no street mode has been set as default', () => {
+    it('for an empty location it should return undefined if no street mode has been set as default', () => {
+      const location = {};
       const brokenConfig = {
         streetModes: {
           car: {
@@ -161,15 +170,40 @@ describe('modeUtils', () => {
             defaultValue: false,
           },
         },
+        transportModes: {
+          ...config.transportModes,
+        },
       };
 
-      const mode = utils.getDefaultStreetMode(brokenConfig);
+      const mode = utils.getStreetMode(location, brokenConfig);
       expect(mode).to.equal(undefined);
+    });
+
+    it('for a non-empty location it should return the specified street mode from the location', () => {
+      const location = {
+        query: {
+          modes: 'BICYCLE,RAIL,TRAM',
+        },
+      };
+
+      const mode = utils.getStreetMode(location, config);
+      expect(mode).to.equal(StreetMode.Bicycle);
+    });
+
+    it('for a non-empty location missing street modes it should return the default street mode from config', () => {
+      const location = {
+        query: {
+          modes: 'BUS,RAIL,TRAM',
+        },
+      };
+
+      const mode = utils.getStreetMode(location, config);
+      expect(mode).to.equal(StreetMode.Walk);
     });
   });
 
   describe('toggleStreetMode', () => {
-    it('should remove all other streetModes from the query', () => {
+    it('should remove all other streetModes from the query but leave the transportModes', () => {
       const location = {
         query: {
           modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',

@@ -21,6 +21,7 @@ import {
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import { getDefaultModes } from './../util/planParamUtil';
+import * as ModeUtils from '../util/modeUtils';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -303,14 +304,8 @@ class CustomizeSearch extends React.Component {
   );
 
   getModes() {
-    if (this.context.location.query.modes) {
-      return decodeURI(this.context.location.query.modes)
-        .split('?')[0]
-        .split(',');
-    } else if (getCustomizedSettings().modes) {
-      return getCustomizedSettings().modes;
-    }
-    return getDefaultModes(this.context.config);
+    const { location, config } = this.context;
+    return ModeUtils.getModes(location, config);
   }
 
   getMode(mode) {
