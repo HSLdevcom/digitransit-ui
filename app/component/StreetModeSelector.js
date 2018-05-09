@@ -105,13 +105,17 @@ class StreetModeSelector extends React.Component {
   }
 
   render() {
-    const { streetModeConfigs } = this.props;
+    const { openingDirection, streetModeConfigs } = this.props;
     const { isOpen, selectedStreetMode } = this.state;
 
     return (
       <div className="street-mode-selector-container">
         {isOpen ? (
-          <div className="street-mode-selector-options">
+          <div
+            className={cx('street-mode-selector-options', {
+              'direction-up': openingDirection === 'up',
+            })}
+          >
             <div className="street-mode-selector-header">
               <FormattedMessage
                 id="main-mode"
@@ -156,6 +160,7 @@ class StreetModeSelector extends React.Component {
 }
 
 StreetModeSelector.propTypes = {
+  openingDirection: PropTypes.oneOf(['up', 'down']),
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
   streetModes: PropTypes.shape({
@@ -164,6 +169,7 @@ StreetModeSelector.propTypes = {
 };
 
 StreetModeSelector.defaultProps = {
+  openingDirection: 'down',
   selectedStreetMode: undefined,
   streetModes: {},
 };

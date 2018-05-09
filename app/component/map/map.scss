@@ -156,11 +156,26 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 }
 
-.toggle-positioning-container {
+.map-with-tracking-buttons {
+  bottom: 36px;
+  display: flex;
+  left: 20px;
+  max-height: 36px;
   position: absolute;
   z-index: index($zindex, map-buttons);
-  bottom: 18px;
-  left: 20px;
+
+  & [role='button'] {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+    max-height: 36px;
+    max-width: 36px;
+  }
+
+  & > *:not(:first-child) {
+    margin-left: 0.5em;
+  }
+}
+
+.toggle-positioning-container {
   background-color: $white;
   padding: 6px;
   border-radius: $border-radius;

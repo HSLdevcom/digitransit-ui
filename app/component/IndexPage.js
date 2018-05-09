@@ -187,16 +187,42 @@ class IndexPage extends React.Component {
         return null;
     }
   };
+
+  renderStreetModeSelector = (
+    config,
+    location,
+    router,
+    openingDirection = 'down',
+  ) =>
+    config.features.showStreetModeQuickSelect && (
+      <StreetModeSelector
+        openingDirection={openingDirection}
+        selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+        selectStreetMode={mode => {
+          const modesQuery = ModeUtils.buildStreetModeQuery(
+            ModeUtils.getModes(location, config),
+            ModeUtils.getAvailableStreetModes(config),
+            mode,
+          );
+          ModeUtils.replaceQueryParams(router, location, modesQuery);
+        }}
+        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+      />
+    );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, location, router } = this.context;
     const { breakpoint, destination, origin, routes, tab } = this.props;
+    const { mapExpanded } = this.state;
 
     const footerOptions = Object.assign(
       {},
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
+    const openingDirection =
+      breakpoint === 'large' || mapExpanded ? 'up' : 'down';
 
     return breakpoint === 'large' ? (
       <ContainerDimensions>
@@ -217,22 +243,6 @@ class IndexPage extends React.Component {
                 originPlaceHolder="search-origin"
                 containerHeight={height}
               />
-              {config.features.showStreetModeQuickSelect && (
-                <StreetModeSelector
-                  selectedStreetMode={ModeUtils.getStreetMode(location, config)}
-                  selectStreetMode={mode => {
-                    const modesQuery = ModeUtils.buildStreetModeQuery(
-                      ModeUtils.getModes(location, config),
-                      ModeUtils.getAvailableStreetModes(config),
-                      mode,
-                    );
-                    ModeUtils.replaceQueryParams(router, location, modesQuery);
-                  }}
-                  streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
-                    config,
-                  )}
-                />
-              )}
             </div>
             <div key="foo" className="fpccontainer">
               <FrontPagePanelLarge
@@ -248,6 +258,14 @@ class IndexPage extends React.Component {
               showStops
               showScaleBar
               origin={origin}
+              renderCustomButtons={() =>
+                this.renderStreetModeSelector(
+                  config,
+                  location,
+                  router,
+                  openingDirection,
+                )
+              }
             />
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             {!footerOptions.hidden && (
@@ -270,10 +288,22 @@ class IndexPage extends React.Component {
       >
         <div
           className={cx('flex-grow', 'map-container', {
-            expanded: this.state.mapExpanded,
+            expanded: mapExpanded,
           })}
         >
-          <MapWithTracking breakpoint={breakpoint} showStops origin={origin}>
+          <MapWithTracking
+            breakpoint={breakpoint}
+            showStops
+            origin={origin}
+            renderCustomButtons={() =>
+              this.renderStreetModeSelector(
+                config,
+                location,
+                router,
+                openingDirection,
+              )
+            }
+          >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
               origin={origin}
@@ -285,25 +315,23 @@ class IndexPage extends React.Component {
           </MapWithTracking>
         </div>
         <div style={{ position: 'relative' }}>
-          {
-            <div
-              className={cx('fullscreen-toggle', {
-                expanded: this.state.mapExpanded,
-              })}
-              onClick={this.togglePanelExpanded}
-            >
-              {this.state.mapExpanded ? (
-                <Icon img="icon-icon_minimize" className="cursor-pointer" />
-              ) : (
-                <Icon img="icon-icon_maximize" className="cursor-pointer" />
-              )}
-            </div>
-          }
+          <div
+            className={cx('fullscreen-toggle', {
+              expanded: mapExpanded,
+            })}
+            onClick={this.togglePanelExpanded}
+          >
+            {mapExpanded ? (
+              <Icon img="icon-icon_minimize" className="cursor-pointer" />
+            ) : (
+              <Icon img="icon-icon_maximize" className="cursor-pointer" />
+            )}
+          </div>
           <FrontPagePanelSmall
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            mapExpanded={this.state.mapExpanded}
+            mapExpanded={mapExpanded}
             location={origin}
           >
             {this.renderTab()}

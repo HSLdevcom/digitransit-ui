@@ -1,9 +1,5 @@
 .street-mode-selector-container {
-  margin-top: 1em;
-
-  & > div {
-    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
-  }
+  position: relative;
 
   & .street-mode-selector-header {
     align-items: center;
@@ -22,6 +18,12 @@
   & .street-mode-selector-options {
     background-color: $white;
     border-radius: $border-radius;
+    box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+
+    &.direction-up {
+      bottom: 0;
+      position: absolute;
+    }
   }
 
   & .street-mode-selector-buttons {
