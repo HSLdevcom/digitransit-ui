@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { find } from 'lodash';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -10,18 +11,9 @@ class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
 
-    this.streetModes = [];
-    Object.keys(this.props.streetModes).map(sm =>
-      this.streetModes.push({ ...this.props.streetModes[sm], name: sm }),
-    );
     this.state = {
       isOpen: false,
-      selectedStreetMode: (
-        this.props.selectedStreetMode ||
-        Object.keys(props.streetModes).filter(
-          sm => props.streetModes[sm].defaultValue,
-        )[0]
-      ).toLowerCase(),
+      selectedStreetMode: props.selectedStreetMode,
     };
   }
 
@@ -36,25 +28,27 @@ class StreetModeSelector extends React.Component {
   }
 
   getStreetModeSelectButtons() {
-    if (!this.streetModes.length) {
+    const { streetModeConfigs } = this.props;
+    const { selectedStreetMode } = this.state;
+
+    if (!streetModeConfigs.length) {
       return null;
     }
 
-    const { selectedStreetMode } = this.state;
-
-    return this.streetModes.map(streetMode => {
+    return streetModeConfigs.map(streetMode => {
       const { icon, name } = streetMode;
       const isSelected = name === selectedStreetMode;
+      const lowerCaseName = name.toLowerCase();
       return (
         <ToggleButton
           checkedClass="selected"
           key={name}
           icon={icon}
-          label={name}
-          onBtnClick={() => this.selectStreetMode(streetMode)}
+          label={lowerCaseName}
+          onBtnClick={() => this.selectStreetMode(name)}
           onKeyDown={e =>
             this.isKeyboardNavigationEvent(e) &&
-            this.selectStreetMode(streetMode, true)
+            this.selectStreetMode(name, true)
           }
           buttonRef={ref => {
             if (ref && isSelected) {
@@ -63,7 +57,10 @@ class StreetModeSelector extends React.Component {
           }}
           state={isSelected}
         >
-          <FormattedMessage id={`street-mode-${name}`} defaultMessage={name} />
+          <FormattedMessage
+            id={`street-mode-${lowerCaseName}`}
+            defaultMessage={name}
+          />
         </ToggleButton>
       );
     });
@@ -98,17 +95,19 @@ class StreetModeSelector extends React.Component {
   selectStreetMode(streetMode, applyFocus = false) {
     this.setState(
       {
-        selectedStreetMode: streetMode.name,
+        selectedStreetMode: streetMode,
       },
       () => {
         this.closeDialog(applyFocus);
-        this.props.selectStreetMode({ modes: streetMode.name.toUpperCase() });
+        this.props.selectStreetMode(streetMode.toUpperCase());
       },
     );
   }
 
   render() {
+    const { streetModeConfigs } = this.props;
     const { isOpen, selectedStreetMode } = this.state;
+
     return (
       <div className="street-mode-selector-container">
         {isOpen ? (
@@ -145,7 +144,8 @@ class StreetModeSelector extends React.Component {
           >
             <Icon
               img={`icon-icon_${
-                this.props.streetModes[selectedStreetMode].icon
+                find(streetModeConfigs, sm => sm.name === selectedStreetMode)
+                  .icon
               }`}
             />
           </div>

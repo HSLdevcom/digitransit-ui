@@ -4,7 +4,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 
 /**
  * Retrieves all modes (as in both transport and street modes)
- * from either 1. the URI, 2. localStorage or 3. default configuration.
+ * from either 1. the URI, 2. localStorage or 3. the default configuration.
  *
  * @param {*} location The current location (from react-router)
  * @param {*} config The configuration for the software installation
@@ -31,6 +31,14 @@ export const getAvailableStreetModes = config => {
   return getAvailableStreetModeConfigs(config).map(sm => sm.name);
 };
 
+/**
+ * Retrieves the current street mode from either 1. the URI, 2. localStorage
+ * or 3. the default configuration. This will return undefined if no
+ * applicable street mode can be found.
+ *
+ * @param {*} location The current location (from react-router)
+ * @param {*} config The configuration for the software installation
+ */
 export const getStreetMode = (location, config) => {
   const currentStreetModes = intersection(
     getModes(location, config),
@@ -52,7 +60,7 @@ export const getAvailableTransportModes = config => {
     .map(tm => tm.toUpperCase());
 };
 
-export const toggleStreetMode = (
+export const buildStreetModeQuery = (
   allModes,
   availableStreetModes,
   streetMode,
@@ -64,7 +72,7 @@ export const toggleStreetMode = (
   };
 };
 
-export const replaceParams = (router, location, newParams) => {
+export const replaceQueryParams = (router, location, newParams) => {
   router.replace({
     ...location,
     query: {

@@ -202,7 +202,7 @@ describe('modeUtils', () => {
     });
   });
 
-  describe('toggleStreetMode', () => {
+  describe('buildStreetModeQuery', () => {
     it('should remove all other streetModes from the query but leave the transportModes', () => {
       const location = {
         query: {
@@ -213,7 +213,7 @@ describe('modeUtils', () => {
       const availableStreetModes = utils.getAvailableStreetModes(config);
       const streetMode = StreetMode.Walk;
 
-      const query = utils.toggleStreetMode(
+      const query = utils.buildStreetModeQuery(
         allModes,
         availableStreetModes,
         streetMode,

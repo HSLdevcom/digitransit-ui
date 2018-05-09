@@ -35,6 +35,7 @@ import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
 import StreetModeSelector from './StreetModeSelector';
 import events from '../util/events';
+import * as ModeUtils from '../util/modeUtils';
 
 const debug = d('IndexPage.js');
 
@@ -188,7 +189,7 @@ class IndexPage extends React.Component {
   };
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config } = this.context;
+    const { config, location, router } = this.context;
     const { breakpoint, destination, origin, routes, tab } = this.props;
 
     const footerOptions = Object.assign(
@@ -196,11 +197,6 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
-    const selectedStreetMode = this.context.location.query.modes
-      ? decodeURI(this.context.location.query.modes)
-          .split('?')[0]
-          .split(',')[0]
-      : undefined;
 
     return breakpoint === 'large' ? (
       <ContainerDimensions>
@@ -223,19 +219,17 @@ class IndexPage extends React.Component {
               />
               {config.features.showStreetModeQuickSelect && (
                 <StreetModeSelector
-                  selectedStreetMode={selectedStreetMode}
-                  selectStreetMode={mode =>
-                    this.context.router.replace({
-                      ...this.context.location,
-                      query: {
-                        ...this.context.location.query,
-                        ...mode,
-                      },
-                    })
-                  }
-                  streetModes={pickBy(
-                    config.streetModes,
-                    sm => sm.availableForSelection,
+                  selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+                  selectStreetMode={mode => {
+                    const modesQuery = ModeUtils.buildStreetModeQuery(
+                      ModeUtils.getModes(location, config),
+                      ModeUtils.getAvailableStreetModes(config),
+                      mode,
+                    );
+                    ModeUtils.replaceQueryParams(router, location, modesQuery);
+                  }}
+                  streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
+                    config,
                   )}
                 />
               )}
