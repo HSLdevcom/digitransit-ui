@@ -603,7 +603,6 @@ div.autosuggest-panel {
   .autosuggest-input-icon {
     display: block;
     position: absolute;
-    z-index: 801;
     width: 1.45em;
     height: 1.45em;
     margin-top: 0.6em;
@@ -697,9 +696,6 @@ input.react-autosuggest__input {
   margin: 0;
   &#destination-container {
     margin: 0;
-  }
-  &.destination {
-    z-index: 801;
   }
   width: 100%;
   position: static;
