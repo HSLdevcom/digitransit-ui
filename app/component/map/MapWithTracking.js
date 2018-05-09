@@ -45,6 +45,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
     children: PropTypes.array,
+    renderCustomButtons: PropTypes.func,
   };
 
   constructor(props) {

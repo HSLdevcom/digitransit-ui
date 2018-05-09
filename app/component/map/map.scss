@@ -156,6 +156,13 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 }
 
+.bp-medium {
+  & .map-with-tracking-buttons {
+    bottom: 20px;
+    left: 1em;
+  }
+}
+
 .map-with-tracking-buttons {
   bottom: 36px;
   display: flex;
