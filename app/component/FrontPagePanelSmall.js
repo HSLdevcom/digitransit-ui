@@ -94,7 +94,7 @@ FrontPagePanelSmall.defaultProps = {
 };
 
 FrontPagePanelSmall.propTypes = {
-  selectedPanel: PropTypes.number,
+  selectedPanel: PropTypes.oneOf([1, 2]),
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   mapExpanded: PropTypes.bool.isRequired,
