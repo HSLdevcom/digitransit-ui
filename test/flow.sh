@@ -15,10 +15,8 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome*.deb
 
 yarn install
-free -m
-yarn build
 
-CONFIG=hsl yarn start &
+CONFIG=hsl yarn dev &
 
 wget -N http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip

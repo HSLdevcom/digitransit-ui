@@ -11,6 +11,8 @@ fi
 set -e
 
 yarn install
+free -m
+nproc
 yarn build
 
 #number of latest test results stored in dropbox - 2

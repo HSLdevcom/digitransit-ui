@@ -256,7 +256,7 @@ function getPluginsConfig(env) {
     new ManifestPlugin({ fileName: '../manifest.json' }),
     new UglifyJsPlugin({
       sourceMap: true,
-      parallel: true,
+      parallel: false,
     }),
     ...getAllFaviconPlugins(),
     new ExtractTextPlugin({
