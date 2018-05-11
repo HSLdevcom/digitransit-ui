@@ -130,7 +130,7 @@ const getItineraryStops = sentLegObj => (
   </div>
 );
 
-function TransferMap(props) {
+export function TransferMap(props) {
   const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
   const nextLeg = props.originalLegs[props.index + 1];
   const previousLeg = props.originalLegs[props.index - 1];
@@ -218,7 +218,7 @@ TransferMap.propTypes = {
 const isWalking = legOrMode =>
   ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
 
-function PrintableLeg(props) {
+export function PrintableLeg(props) {
   const legMode = getLegMode(props.legObj) || '';
   const isVehicle =
     legMode !== 'WALK' &&
