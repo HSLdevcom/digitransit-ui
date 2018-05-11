@@ -28,13 +28,17 @@ export const getItineraryPath = (from, to, idx) =>
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
-export const getEndpointPath = (origin, destination, tab) =>
-  [
+export const getEndpointPath = (origin, destination, tab) => {
+  if (isEmpty(origin) && isEmpty(destination)) {
+    return '';
+  }
+  return [
     '',
     encodeURIComponent(isEmpty(origin) ? '-' : origin),
-    encodeURIComponent(isEmpty(destination) ? '-' : destination || '-'),
+    encodeURIComponent(isEmpty(destination) ? '-' : destination),
     tab,
   ].join('/');
+};
 
 /**
  * check is parameters are good for itinerary search
