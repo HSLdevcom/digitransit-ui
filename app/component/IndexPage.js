@@ -164,26 +164,20 @@ class IndexPage extends React.Component {
   };
 
   renderTab = () => {
-    const NearbyTab = () => (
-      <NearbyRoutesPanel
-        origin={this.props.origin}
-        destination={this.props.destination}
-      />
-    );
-    const FavouritesTab = () => (
-      <FavouritesPanel
-        origin={this.props.origin}
-        destination={this.props.destination}
-      />
-    );
+    let Tab;
     switch (this.props.tab) {
       case TAB_NEARBY:
-        return <NearbyTab />;
+        Tab = NearbyRoutesPanel;
+        break;
       case TAB_FAVOURITES:
-        return <FavouritesTab />;
+        Tab = FavouritesPanel;
+        break;
       default:
-        return <NearbyTab />;
+        Tab = NearbyRoutesPanel;
     }
+    return (
+      <Tab origin={this.props.origin} destination={this.props.destination} />
+    );
   };
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
