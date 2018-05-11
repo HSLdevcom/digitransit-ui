@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const mockContext = {
-  getStore: store => ({
+  getStore: () => ({
     on: () => {},
     getLanguage: () => 'en',
   }),
