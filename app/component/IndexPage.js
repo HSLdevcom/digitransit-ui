@@ -7,7 +7,6 @@ import { routerShape, locationShape } from 'react-router';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
-import { pickBy } from 'lodash';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
 import {

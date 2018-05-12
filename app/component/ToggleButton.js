@@ -3,7 +3,6 @@ import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
-import { Toggle } from 'material-ui';
 
 class ToggleButton extends React.Component {
   render() {
@@ -51,7 +50,7 @@ class ToggleButton extends React.Component {
 }
 
 ToggleButton.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 ToggleButton.propTypes = {

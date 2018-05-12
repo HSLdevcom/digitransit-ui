@@ -7,6 +7,17 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
 
+const isKeyboardNavigationEvent = event => {
+  const KEY_SPACE = 13;
+  const KEY_ENTER = 32;
+
+  if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
+
 class StreetModeSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -15,16 +26,6 @@ class StreetModeSelector extends React.Component {
       isOpen: false,
       selectedStreetMode: props.selectedStreetMode,
     };
-  }
-
-  isKeyboardNavigationEvent(event) {
-    const KEY_SPACE = 13,
-      KEY_ENTER = 32;
-    if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
   }
 
   getStreetModeSelectButtons() {
@@ -47,8 +48,7 @@ class StreetModeSelector extends React.Component {
           label={lowerCaseName}
           onBtnClick={() => this.selectStreetMode(name)}
           onKeyDown={e =>
-            this.isKeyboardNavigationEvent(e) &&
-            this.selectStreetMode(name, true)
+            isKeyboardNavigationEvent(e) && this.selectStreetMode(name, true)
           }
           buttonRef={ref => {
             if (ref && isSelected) {
@@ -125,7 +125,7 @@ class StreetModeSelector extends React.Component {
                 className="clear-input"
                 onClick={() => this.closeDialog()}
                 onKeyDown={e =>
-                  this.isKeyboardNavigationEvent(e) && this.closeDialog(true)
+                  isKeyboardNavigationEvent(e) && this.closeDialog(true)
                 }
               >
                 <Icon img="icon-icon_close" />
@@ -140,9 +140,11 @@ class StreetModeSelector extends React.Component {
             className="street-mode-selector-toggle"
             onClick={() => this.openDialog()}
             onKeyDown={e =>
-              this.isKeyboardNavigationEvent(e) && this.openDialog(true)
+              isKeyboardNavigationEvent(e) && this.openDialog(true)
             }
-            ref={ref => (this.toggleStreetModeSelectorButton = ref)}
+            ref={ref => {
+              this.toggleStreetModeSelectorButton = ref;
+            }}
             role="button"
             tabIndex="0"
           >
@@ -163,15 +165,19 @@ StreetModeSelector.propTypes = {
   openingDirection: PropTypes.oneOf(['up', 'down']),
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
-  streetModes: PropTypes.shape({
-    defaultValue: PropTypes.bool,
-  }),
+  streetModeConfigs: PropTypes.arrayOf(
+    PropTypes.shape({
+      defaultValue: PropTypes.bool.isRequired,
+      icon: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 StreetModeSelector.defaultProps = {
   openingDirection: 'down',
   selectedStreetMode: undefined,
-  streetModes: {},
+  streetModeConfigs: [],
 };
 
 export default StreetModeSelector;

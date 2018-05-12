@@ -21,15 +21,25 @@ export const getModes = (location, config) => {
   return getDefaultModes(config);
 };
 
-export const getAvailableStreetModeConfigs = config => {
-  return Object.keys(config.streetModes)
+/**
+ * Retrieves an array of street mode configurations that have specified
+ * "availableForSelection": true. The full configuration will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export const getAvailableStreetModeConfigs = config =>
+  Object.keys(config.streetModes)
     .filter(sm => config.streetModes[sm].availableForSelection)
     .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }));
-};
 
-export const getAvailableStreetModes = config => {
-  return getAvailableStreetModeConfigs(config).map(sm => sm.name);
-};
+/**
+ * Retrieves all street modes that have specified "availableForSelection": true.
+ * Only the name of each street mode will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export const getAvailableStreetModes = config =>
+  getAvailableStreetModeConfigs(config).map(sm => sm.name);
 
 /**
  * Retrieves the current street mode from either 1. the URI, 2. localStorage
@@ -54,23 +64,26 @@ export const getStreetMode = (location, config) => {
   return defaultStreetModes.length > 0 ? defaultStreetModes[0].name : undefined;
 };
 
-export const getAvailableTransportModes = config => {
-  return Object.keys(config.transportModes)
+/**
+ * Retrieves all transport modes that have specified "availableForSelection": true.
+ * Only the name of each transport mode will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export const getAvailableTransportModes = config =>
+  Object.keys(config.transportModes)
     .filter(tm => config.transportModes[tm].availableForSelection)
     .map(tm => tm.toUpperCase());
-};
 
 export const buildStreetModeQuery = (
   allModes,
   availableStreetModes,
   streetMode,
-) => {
-  return {
-    modes: without(allModes, ...availableStreetModes)
-      .concat(streetMode.toUpperCase())
-      .join(','),
-  };
-};
+) => ({
+  modes: without(allModes, ...availableStreetModes)
+    .concat(streetMode.toUpperCase())
+    .join(','),
+});
 
 export const replaceQueryParams = (router, location, newParams) => {
   router.replace({
