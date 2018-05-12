@@ -131,8 +131,8 @@ describe('modeUtils', () => {
         },
       };
 
-      const mode = utils.getStreetMode(location, config);
-      expect(mode).to.equal(StreetMode.Walk);
+      const mode = utils.getStreetMode(location, configWithSingleDefault);
+      expect(mode).to.equal(StreetMode.Car);
     });
 
     it('for an empty location it should return the first street mode that has "defaultValue": true', () => {
