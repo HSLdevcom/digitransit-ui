@@ -1,3 +1,8 @@
 {
-  "presets": [["env", { "targets": { "node": "current" } }], "stage-2", "react"]
+  "presets": [
+    ["env", { "targets": { "node": "current" } }],
+    "stage-2",
+    "react"
+  ],
+  "plugins": ["dynamic-import-node"]
 }

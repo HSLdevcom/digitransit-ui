@@ -130,7 +130,7 @@ const getItineraryStops = sentLegObj => (
   </div>
 );
 
-function TransferMap(props) {
+export function TransferMap(props) {
   const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
   const nextLeg = props.originalLegs[props.index + 1];
   const previousLeg = props.originalLegs[props.index - 1];
@@ -218,7 +218,7 @@ TransferMap.propTypes = {
 const isWalking = legOrMode =>
   ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
 
-function PrintableLeg(props) {
+export function PrintableLeg(props) {
   const legMode = getLegMode(props.legObj) || '';
   const isVehicle =
     legMode !== 'WALK' &&
@@ -315,8 +315,8 @@ function PrintableLeg(props) {
         <div
           className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}
         >
-          {// For vehicle leg maps
-          isWalking(legMode) && (
+          {(isWalking(legMode) || // For vehicle leg maps
+            (props.originalLegs.length === 1 && !isVehicle)) && ( // If there's only one leg during walking/cycling/car mode
             <TransferMap
               originalLegs={props.originalLegs}
               index={props.index}
@@ -324,16 +324,6 @@ function PrintableLeg(props) {
               mapsLoaded={() => props.mapsLoaded()}
             />
           )}
-          {// If there's only one leg during walking/cycling/car mode
-          props.originalLegs.length === 1 &&
-            !isVehicle && (
-              <TransferMap
-                originalLegs={props.originalLegs}
-                index={props.index}
-                legObj={props.legObj}
-                mapsLoaded={() => props.mapsLoaded()}
-              />
-            )}
         </div>
       </div>
     </div>
