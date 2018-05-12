@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
-import get from 'lodash/get';
-import isMatch from 'lodash/isMatch';
-import keys from 'lodash/keys';
-import pick from 'lodash/pick';
-import sortBy from 'lodash/sortBy';
-import some from 'lodash/some';
+import { get, isEqual, isMatch, keys, pick, some, sortBy } from 'lodash';
 import polyline from 'polyline-encoded';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
-import isEqual from 'lodash/isEqual';
 import { dtLocationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import DesktopView from '../component/DesktopView';
@@ -28,6 +22,8 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
+import StreetModeSelector from './StreetModeSelector';
+import * as ModeUtils from '../util/modeUtils';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -230,7 +226,37 @@ class SummaryPage extends React.Component {
         fitBounds
         bounds={bounds}
         showScaleBar
-      />
+      >
+        {this.context.config.features.showStreetModeQuickSelect && (
+          <div className="summary-map-buttons">
+            <StreetModeSelector
+              openingDirection="up"
+              selectedStreetMode={ModeUtils.getStreetMode(
+                this.context.location,
+                this.context.config,
+              )}
+              selectStreetMode={mode => {
+                const modesQuery = ModeUtils.buildStreetModeQuery(
+                  ModeUtils.getModes(
+                    this.context.location,
+                    this.context.config,
+                  ),
+                  ModeUtils.getAvailableStreetModes(this.context.config),
+                  mode,
+                );
+                ModeUtils.replaceQueryParams(
+                  this.context.router,
+                  this.context.location,
+                  modesQuery,
+                );
+              }}
+              streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
+                this.context.config,
+              )}
+            />
+          </div>
+        )}
+      </MapContainer>
     );
   }
 

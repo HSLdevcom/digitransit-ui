@@ -20,6 +20,21 @@ div.map {
   display: flex;
   flex-direction: column;
   position: relative;
+
+  .summary-map-buttons {
+    bottom: 36px;
+    display: flex;
+    left: 20px;
+    max-height: 36px;
+    position: absolute;
+    z-index: index($zindex, map-buttons);
+
+    & [role='button'] {
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+      max-height: 36px;
+      max-width: 36px;
+    }
+  }
 }
 
 div.map.small {
