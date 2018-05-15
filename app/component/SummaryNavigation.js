@@ -137,18 +137,20 @@ class SummaryNavigation extends React.Component {
 
   renderStreetModeSelector = (config, location, router) =>
     config.features.showStreetModeQuickSelect && (
-      <StreetModeSelectorPanel
-        selectedStreetMode={ModeUtils.getStreetMode(location, config)}
-        selectStreetMode={mode => {
-          const modesQuery = ModeUtils.buildStreetModeQuery(
-            ModeUtils.getModes(location, config),
-            ModeUtils.getAvailableStreetModes(config),
-            mode,
-          );
-          ModeUtils.replaceQueryParams(router, location, modesQuery);
-        }}
-        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-      />
+      <div className="street-mode-selector-panel-container">
+        <StreetModeSelectorPanel
+          selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+          selectStreetMode={mode => {
+            const modesQuery = ModeUtils.buildStreetModeQuery(
+              ModeUtils.getModes(location, config),
+              ModeUtils.getAvailableStreetModes(config),
+              mode,
+            );
+            ModeUtils.replaceQueryParams(router, location, modesQuery);
+          }}
+          streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+        />
+      </div>
     );
 
   render() {
@@ -192,9 +194,7 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        <div className="street-mode-selector-panel-container">
-          {this.renderStreetModeSelector(config, location, router)}
-        </div>
+        {this.renderStreetModeSelector(config, location, router)}
         <div
           className={cx('quicksettings-separator-line', {
             hidden: !this.props.isQuickSettingsOpen,

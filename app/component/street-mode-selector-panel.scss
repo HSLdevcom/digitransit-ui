@@ -20,8 +20,8 @@
     & button {
       background-color: inherit;
       color: $gray;
-      margin-bottom: 0.5em;
-      padding: 0;
+      margin-bottom: 0.25em;
+      padding: 0 0 0.25em 0;
       width: 4em;
 
       &.selected,
@@ -31,7 +31,7 @@
 
         &::after {
           background: $primary-color;
-          bottom: -0.25em;
+          bottom: 0;
           content: '';
           height: 3px;
           left: 20%;

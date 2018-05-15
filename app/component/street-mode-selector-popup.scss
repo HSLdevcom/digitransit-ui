@@ -34,7 +34,8 @@
     & button {
       background-color: inherit;
       color: $gray;
-      padding: 0;
+      margin-bottom: 0.5em;
+      padding: 0 0 0.5em 0;
       width: 6em;
 
       &.selected,
@@ -44,7 +45,7 @@
 
         &::after {
           background: $primary-color;
-          bottom: -0.5em;
+          bottom: 0;
           content: '';
           height: 3px;
           left: 20%;
