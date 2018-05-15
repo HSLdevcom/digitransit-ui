@@ -26,6 +26,10 @@ class SummaryPlanContainer extends React.Component {
       hash: PropTypes.string,
     }).isRequired,
     config: PropTypes.object.isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -85,6 +89,14 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const range = this.props.serviceTimeRange;
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const END = now.clone().add(MAXRANGE, 'd');
+    let end = moment.unix(range.end);
+    end = moment.max(moment.min(end, END), now); // always include today!
+    end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
+
     const latestDepartureTime = this.props.itineraries.reduce(
       (previous, current) => {
         const startTime = moment(current.startTime);
@@ -100,6 +112,13 @@ class SummaryPlanContainer extends React.Component {
     );
 
     latestDepartureTime.add(1, 'minutes');
+
+    if (latestDepartureTime >= end) {
+      // Departure time is going beyond available time range
+      this.props.setError('no-route-end-date-not-in-range');
+      this.props.setLoading(false);
+      return;
+    }
 
     if (this.context.location.query.arriveBy !== 'true') {
       // user does not have arrive By
@@ -155,6 +174,14 @@ class SummaryPlanContainer extends React.Component {
 
   onEarlier = () => {
     this.props.setLoading(true);
+
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const range = this.props.serviceTimeRange;
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const START = now.clone().subtract(MAXRANGE, 'd');
+    let start = moment.unix(range.start);
+    start = moment.min(moment.max(start, START), now); // always include today!
+
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
         const endTime = moment(current.endTime);
@@ -204,22 +231,29 @@ class SummaryPlanContainer extends React.Component {
           if (data[0].plan.itineraries.length === 0) {
             // Could not find routes arriving at original departure time
             // --> cannot calculate earlier start time
-            this.props.setError('start-date-too-early');
+            this.props.setError('no-route-start-date-too-early');
             this.props.setLoading(false);
           } else {
-            const min = data[0].plan.itineraries.reduce(
+            let min = data[0].plan.itineraries.reduce(
               (previous, { startTime }) =>
                 startTime < previous ? startTime : previous,
               Number.MAX_VALUE,
             );
+            min = moment(min).subtract(1, 'minutes');
+
+            if (min <= start) {
+              // Start time out of range
+              this.props.setError('no-route-start-date-too-early');
+              this.props.setLoading(false);
+              return;
+            }
+
             this.props.setLoading(false);
             this.context.router.replace({
               ...this.context.location,
               query: {
                 ...this.context.location.query,
-                time: moment(min)
-                  .subtract(1, 'minutes')
-                  .unix(),
+                time: moment(min).unix(),
               },
             });
           }
@@ -301,14 +335,15 @@ class SummaryPlanContainer extends React.Component {
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
-    if (this.props.error && this.props.error === 'start-date-too-early') {
+
+    if (this.props.error) {
       return (
         <div className="summary-list-container summary-no-route-found">
           <div className="flex-horizontal">
             <Icon className="no-route-icon" img="icon-icon_caution" />
             <div>
               <FormattedMessage
-                id="no-route-start-date-too-early"
+                id={this.props.error}
                 defaultMessage="Käytössä oleva aikataulu ei sisällä aiempia reittejä."
               />
             </div>
@@ -350,6 +385,12 @@ export default Relay.createContainer(withConfig, {
     plan: () => Relay.QL`
       fragment on Plan {
         date
+      }
+    `,
+    serviceTimeRange: () => Relay.QL`
+      fragment on serviceTimeRange {
+        start
+        end
       }
     `,
     itineraries: () => Relay.QL`
