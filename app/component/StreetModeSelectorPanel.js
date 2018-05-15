@@ -6,14 +6,6 @@ import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 class StreetModeSelectorPanel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  selectStreetMode(streetMode, applyFocus = false) {
-    this.props.selectStreetMode(streetMode.toUpperCase());
-  }
-
   getStreetModeSelectButtons() {
     const { selectedStreetMode, streetModeConfigs } = this.props;
 
@@ -33,12 +25,16 @@ class StreetModeSelectorPanel extends React.Component {
           label={lowerCaseName}
           onBtnClick={() => this.selectStreetMode(name)}
           onKeyDown={e =>
-            isKeyboardSelectionEvent(e) && this.selectStreetMode(name, true)
+            isKeyboardSelectionEvent(e) && this.selectStreetMode(name)
           }
           state={isSelected}
         />
       );
     });
+  }
+
+  selectStreetMode(streetMode) {
+    this.props.selectStreetMode(streetMode.toUpperCase());
   }
 
   render() {

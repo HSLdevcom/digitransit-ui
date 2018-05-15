@@ -48,9 +48,7 @@ describe('browser', () => {
       const event = {
         key: 'Enter',
         preventDefault: () => {
-          {
-            wasCalled = true;
-          }
+          wasCalled = true;
         },
       };
 
@@ -63,9 +61,7 @@ describe('browser', () => {
       const event = {
         key: 'Tab',
         preventDefault: () => {
-          {
-            wasCalled = true;
-          }
+          wasCalled = true;
         },
       };
 
