@@ -24,13 +24,11 @@ class StreetModeSelector extends React.Component {
 
     this.state = {
       isOpen: false,
-      selectedStreetMode: props.selectedStreetMode,
     };
   }
 
   getStreetModeSelectButtons() {
-    const { streetModeConfigs } = this.props;
-    const { selectedStreetMode } = this.state;
+    const { selectedStreetMode, streetModeConfigs } = this.props;
 
     if (!streetModeConfigs.length) {
       return null;
@@ -93,20 +91,17 @@ class StreetModeSelector extends React.Component {
   }
 
   selectStreetMode(streetMode, applyFocus = false) {
-    this.setState(
-      {
-        selectedStreetMode: streetMode,
-      },
-      () => {
-        this.closeDialog(applyFocus);
-        this.props.selectStreetMode(streetMode.toUpperCase());
-      },
-    );
+    this.props.selectStreetMode(streetMode.toUpperCase());
+    this.closeDialog(applyFocus);
   }
 
   render() {
-    const { openingDirection, streetModeConfigs } = this.props;
-    const { isOpen, selectedStreetMode } = this.state;
+    const {
+      openingDirection,
+      selectedStreetMode,
+      streetModeConfigs,
+    } = this.props;
+    const { isOpen } = this.state;
 
     return (
       <div className="street-mode-selector-container">
