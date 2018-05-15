@@ -1,0 +1,75 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import ToggleButton from './ToggleButton';
+import { isKeyboardSelectionEvent } from '../util/browser';
+
+class StreetModeSelectorPanel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  selectStreetMode(streetMode, applyFocus = false) {
+    this.props.selectStreetMode(streetMode.toUpperCase());
+  }
+
+  getStreetModeSelectButtons() {
+    const { selectedStreetMode, streetModeConfigs } = this.props;
+
+    if (!streetModeConfigs.length) {
+      return null;
+    }
+
+    return streetModeConfigs.map(streetMode => {
+      const { icon, name } = streetMode;
+      const isSelected = name === selectedStreetMode;
+      const lowerCaseName = name.toLowerCase();
+      return (
+        <ToggleButton
+          checkedClass="selected"
+          key={name}
+          icon={icon}
+          label={lowerCaseName}
+          onBtnClick={() => this.selectStreetMode(name)}
+          onKeyDown={e =>
+            isKeyboardSelectionEvent(e) && this.selectStreetMode(name, true)
+          }
+          state={isSelected}
+        />
+      );
+    });
+  }
+
+  render() {
+    return (
+      <div className="street-mode-selector-panel">
+        <div className="street-mode-selector-panel-header">
+          <FormattedMessage id="main-mode" defaultMessage="I'm travelling by" />
+        </div>
+        <div className="street-mode-selector-panel-buttons">
+          {this.getStreetModeSelectButtons()}
+        </div>
+      </div>
+    );
+  }
+}
+
+StreetModeSelectorPanel.propTypes = {
+  selectStreetMode: PropTypes.func.isRequired,
+  selectedStreetMode: PropTypes.string,
+  streetModeConfigs: PropTypes.arrayOf(
+    PropTypes.shape({
+      defaultValue: PropTypes.bool.isRequired,
+      icon: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+StreetModeSelectorPanel.defaultProps = {
+  selectedStreetMode: undefined,
+  streetModeConfigs: [],
+};
+
+export default StreetModeSelectorPanel;

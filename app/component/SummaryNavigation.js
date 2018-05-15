@@ -11,6 +11,8 @@ import { parseLocation } from '../util/path';
 import Icon from './Icon';
 import SecondaryButton from './SecondaryButton';
 import QuickSettingsPanel from './QuickSettingsPanel';
+import StreetModeSelectorPanel from './StreetModeSelectorPanel';
+import * as ModeUtils from '../util/modeUtils';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -31,6 +33,7 @@ class SummaryNavigation extends React.Component {
   };
 
   static contextTypes = {
+    config: PropTypes.object.isRequired,
     piwik: PropTypes.object,
     router: routerShape,
     location: PropTypes.object.isRequired,
@@ -132,7 +135,25 @@ class SummaryNavigation extends React.Component {
       undefined
     );
 
+  renderStreetModeSelector = (config, location, router) =>
+    config.features.showStreetModeQuickSelect && (
+      <StreetModeSelectorPanel
+        selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+        selectStreetMode={mode => {
+          const modesQuery = ModeUtils.buildStreetModeQuery(
+            ModeUtils.getModes(location, config),
+            ModeUtils.getAvailableStreetModes(config),
+            mode,
+          );
+          ModeUtils.replaceQueryParams(router, location, modesQuery);
+        }}
+        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+      />
+    );
+
   render() {
+    const { config, location, router } = this.context;
+
     const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -171,6 +192,9 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
+        <div className="street-mode-selector-panel-container">
+          {this.renderStreetModeSelector(config, location, router)}
+        </div>
         <div
           className={cx('quicksettings-separator-line', {
             hidden: !this.props.isQuickSettingsOpen,
