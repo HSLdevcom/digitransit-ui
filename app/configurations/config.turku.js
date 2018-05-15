@@ -40,10 +40,18 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  cityBike: {
+    showCityBikes: true,
+  },
+
   transportModes: {
     ferry: {
       availableForSelection: true,
       defaultValue: true,
+    },
+
+    citybike: {
+      availableForSelection: true,
     },
   },
 
