@@ -4,6 +4,7 @@
     "app/**/*.js"
   ],
   "reporter": [
+    "lcovonly",
     "html",
     "text-summary"
   ]
