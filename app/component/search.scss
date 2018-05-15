@@ -30,8 +30,8 @@ $item-border-color: #eee;
   z-index: index($zindex, search-panel);
 
   & .autosuggest-input-container,
-  & .street-mode-selector-options,
-  & .street-mode-selector-toggle {
+  & .street-mode-selector-popup-options,
+  & .street-mode-selector-popup-toggle {
     pointer-events: auto;
   }
 }

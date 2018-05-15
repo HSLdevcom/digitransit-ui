@@ -32,7 +32,7 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
-import StreetModeSelector from './StreetModeSelector';
+import StreetModeSelectorPopup from './StreetModeSelectorPopup';
 import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 
@@ -194,7 +194,7 @@ class IndexPage extends React.Component {
     openingDirection = 'down',
   ) =>
     config.features.showStreetModeQuickSelect && (
-      <StreetModeSelector
+      <StreetModeSelectorPopup
         openingDirection={openingDirection}
         selectedStreetMode={ModeUtils.getStreetMode(location, config)}
         selectStreetMode={mode => {

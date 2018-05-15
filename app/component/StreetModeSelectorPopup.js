@@ -18,7 +18,7 @@ const isKeyboardNavigationEvent = event => {
   return true;
 };
 
-class StreetModeSelector extends React.Component {
+class StreetModeSelectorPopup extends React.Component {
   constructor(props) {
     super(props);
 
@@ -104,14 +104,14 @@ class StreetModeSelector extends React.Component {
     const { isOpen } = this.state;
 
     return (
-      <div className="street-mode-selector-container">
+      <div className="street-mode-selector-popup-container">
         {isOpen ? (
           <div
-            className={cx('street-mode-selector-options', {
+            className={cx('street-mode-selector-popup-options', {
               'direction-up': openingDirection === 'up',
             })}
           >
-            <div className="street-mode-selector-header">
+            <div className="street-mode-selector-popup-header">
               <FormattedMessage
                 id="main-mode"
                 defaultMessage="I'm travelling by"
@@ -126,13 +126,13 @@ class StreetModeSelector extends React.Component {
                 <Icon img="icon-icon_close" />
               </button>
             </div>
-            <div className="street-mode-selector-buttons">
+            <div className="street-mode-selector-popup-buttons">
               {this.getStreetModeSelectButtons()}
             </div>
           </div>
         ) : (
           <div
-            className="street-mode-selector-toggle"
+            className="street-mode-selector-popup-toggle"
             onClick={() => this.openDialog()}
             onKeyDown={e =>
               isKeyboardNavigationEvent(e) && this.openDialog(true)
@@ -156,7 +156,7 @@ class StreetModeSelector extends React.Component {
   }
 }
 
-StreetModeSelector.propTypes = {
+StreetModeSelectorPopup.propTypes = {
   openingDirection: PropTypes.oneOf(['up', 'down']),
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
@@ -169,10 +169,10 @@ StreetModeSelector.propTypes = {
   ),
 };
 
-StreetModeSelector.defaultProps = {
+StreetModeSelectorPopup.defaultProps = {
   openingDirection: 'down',
   selectedStreetMode: undefined,
   streetModeConfigs: [],
 };
 
-export default StreetModeSelector;
+export default StreetModeSelectorPopup;
