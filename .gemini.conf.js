@@ -73,7 +73,7 @@ module.exports = {
         "os_version": "10",
         "browserName": "firefox",
         "version": "47",
-        "locationContextEnabled": false
+        "locationContextEnabled": false,
         "browserstack.timezone": "Europe/Helsinki",
         "browserstack.video": false
       }
