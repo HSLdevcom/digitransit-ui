@@ -286,6 +286,7 @@ export default {
     'HSL:seu2': 'HSL:seu',
     'HSL:seu3': 'HSL:seu',
     'HSL:seu4': 'HSL:seu',
+    'HSL:seu5': 'HSL:seu',
     'HSL:lse': 'HSL:lse',
     'HSL:lse2': 'HSL:lse',
     'HSL:lse3': 'HSL:lse',
