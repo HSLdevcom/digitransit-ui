@@ -23,7 +23,8 @@ module.exports = {
         "browser": "IE",
         "browser_version": "11",
         "locationContextEnabled": false,
-        "browserstack.timezone": "Europe/Helsinki"
+        "browserstack.timezone": "Europe/Helsinki",
+        "browserstack.video": false
       }
     },
     "chrome": {
@@ -34,7 +35,8 @@ module.exports = {
         "browserName": "chrome",
         "version": "64",
         "locationContextEnabled": false,
-        "browserstack.timezone": "Europe/Helsinki"
+        "browserstack.timezone": "Europe/Helsinki",
+        "browserstack.video": false
       }
     },
     "safari10": {
@@ -48,7 +50,8 @@ module.exports = {
            "technologyPreview": true
 	},
         "locationContextEnabled": false,
-        "browserstack.timezone": "Europe/Helsinki"
+        "browserstack.timezone": "Europe/Helsinki",
+        "browserstack.video": false
       }
     },
     "edge15": {
@@ -59,7 +62,8 @@ module.exports = {
         "browserName": "edge",
         "version": "15",
         "locationContextEnabled": false,
-        "browserstack.timezone": "Europe/Helsinki"
+        "browserstack.timezone": "Europe/Helsinki",
+        "browserstack.video": false
       }
     },
     "firefox": {
@@ -69,8 +73,9 @@ module.exports = {
         "os_version": "10",
         "browserName": "firefox",
         "version": "47",
-        "locationContextEnabled": false,
-        "browserstack.timezone": "Europe/Helsinki"
+        "locationContextEnabled": false
+        "browserstack.timezone": "Europe/Helsinki",
+        "browserstack.video": false
       }
     }
   }
