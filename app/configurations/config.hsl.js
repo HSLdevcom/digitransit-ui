@@ -275,8 +275,11 @@ export default {
 
   fareMapping: {
     'HSL:hki': 'HSL:hki',
+    'HSL:hki2': 'HSL:hki',
     'HSL:esp': 'HSL:esp',
+    'HSL:esp2': 'HSL:esp',
     'HSL:van': 'HSL:van',
+    'HSL:van2': 'HSL:van',
     'HSL:ker': 'HSL:ker',
     'HSL:kir': 'HSL:kir',
     'HSL:seu': 'HSL:seu',
@@ -288,7 +291,9 @@ export default {
     'HSL:lse3': 'HSL:lse',
     'HSL:lse4': 'HSL:lse',
     'HSL:lse5': 'HSL:lse',
+    'HSL:lse6': 'HSL:lse',
     'HSL:kse': 'HSL:kse',
+    'HSL:kse1': 'HSL:kse',
     'HSL:kse2': 'HSL:kse',
     'HSL:kse3': 'HSL:kse',
     'HSL:kse4': 'HSL:kse',
@@ -296,6 +301,14 @@ export default {
     'HSL:kse6': 'HSL:kse',
     'HSL:kse7': 'HSL:kse',
     'HSL:kse8': 'HSL:kse',
+    'HSL:kse9': 'HSL:kse',
+    'HSL:kse10': 'HSL:kse',
+    'HSL:kse11': 'HSL:kse',
+    'HSL:kse12': 'HSL:kse',
+    'HSL:kse13': 'HSL:kse',
+    'HSL:kse14': 'HSL:kse',
+    'HSL:kse15': 'HSL:kse',
+    'HSL:kse16': 'HSL:kse',
   },
 
   staticMessages: [
