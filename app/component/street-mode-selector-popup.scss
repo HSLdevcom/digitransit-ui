@@ -1,18 +1,14 @@
+@import 'street-mode-selector.scss';
+
 .street-mode-selector-popup-container {
   position: relative;
 
   & .street-mode-selector-popup-header {
-    align-items: center;
-    display: flex;
+    @extend %header;
+
     height: 3em;
     justify-content: space-between;
     padding-left: 10px;
-
-    & > span {
-      color: $gray;
-      font-weight: 500;
-      letter-spacing: -0.025em;
-    }
   }
 
   & .street-mode-selector-popup-options {
@@ -27,44 +23,17 @@
   }
 
   & .street-mode-selector-popup-buttons {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 1em;
+    @extend %buttons;
 
     & button {
-      background-color: inherit;
-      color: $gray;
       margin-bottom: 0.5em;
       padding: 0 0 0.5em 0;
       width: 6em;
 
-      &.selected,
-      &:focus,
-      &:hover {
-        color: $primary-color;
-
-        &::after {
-          background: $primary-color;
-          bottom: 0;
-          content: '';
-          height: 3px;
-          left: 20%;
-          position: absolute;
-          width: 60%;
-        }
-      }
-
       & .icon-holder {
         height: 3em;
-        margin: 0 auto;
         padding: 0.25em;
         width: 3em;
-
-        & .icon {
-          color: inherit;
-          height: 100%;
-          width: 100%;
-        }
       }
     }
   }

@@ -1,57 +1,13 @@
+@import 'street-mode-selector.scss';
+
 .street-mode-selector-panel {
   display: flex;
 
   & .street-mode-selector-panel-header {
-    align-items: center;
-    display: flex;
-
-    & > span {
-      color: $gray;
-      font-weight: 500;
-      letter-spacing: -0.025em;
-    }
+    @extend %header;
   }
 
   & .street-mode-selector-panel-buttons {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0 1em;
-
-    & button {
-      background-color: inherit;
-      color: $gray;
-      margin-bottom: 0.25em;
-      padding: 0 0 0.25em 0;
-      width: 4em;
-
-      &.selected,
-      &:focus,
-      &:hover {
-        color: $primary-color;
-
-        &::after {
-          background: $primary-color;
-          bottom: 0;
-          content: '';
-          height: 3px;
-          left: 20%;
-          position: absolute;
-          width: 60%;
-        }
-      }
-
-      & .icon-holder {
-        height: 2em;
-        margin: 0 auto;
-        padding: 0.125em;
-        width: 2em;
-
-        & .icon {
-          color: inherit;
-          height: auto;
-          width: auto;
-        }
-      }
-    }
+    @extend %buttons;
   }
 }
