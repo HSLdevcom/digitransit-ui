@@ -6,17 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
-
-const isKeyboardNavigationEvent = event => {
-  const KEY_SPACE = 13;
-  const KEY_ENTER = 32;
-
-  if (!event || ![KEY_SPACE, KEY_ENTER].includes(event.which)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 class StreetModeSelectorPopup extends React.Component {
   constructor(props) {
@@ -46,7 +36,7 @@ class StreetModeSelectorPopup extends React.Component {
           label={lowerCaseName}
           onBtnClick={() => this.selectStreetMode(name)}
           onKeyDown={e =>
-            isKeyboardNavigationEvent(e) && this.selectStreetMode(name, true)
+            isKeyboardSelectionEvent(e) && this.selectStreetMode(name, true)
           }
           buttonRef={ref => {
             if (ref && isSelected) {
@@ -120,7 +110,7 @@ class StreetModeSelectorPopup extends React.Component {
                 className="clear-input"
                 onClick={() => this.closeDialog()}
                 onKeyDown={e =>
-                  isKeyboardNavigationEvent(e) && this.closeDialog(true)
+                  isKeyboardSelectionEvent(e) && this.closeDialog(true)
                 }
               >
                 <Icon img="icon-icon_close" />
@@ -135,7 +125,7 @@ class StreetModeSelectorPopup extends React.Component {
             className="street-mode-selector-popup-toggle"
             onClick={() => this.openDialog()}
             onKeyDown={e =>
-              isKeyboardNavigationEvent(e) && this.openDialog(true)
+              isKeyboardSelectionEvent(e) && this.openDialog(true)
             }
             ref={ref => {
               this.toggleStreetModeSelectorButton = ref;
