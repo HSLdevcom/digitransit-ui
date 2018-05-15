@@ -1,0 +1,10 @@
+{
+  "all": true,
+  "include": [
+    "app/**/*.js"
+  ],
+  "reporter": [
+    "html",
+    "text-summary"
+  ]
+}
