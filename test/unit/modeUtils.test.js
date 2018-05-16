@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { createMemoryHistory } from 'react-router';
 import { StreetMode, TransportMode } from '../../app/constants';
 import * as utils from '../../app/util/modeUtils';
 
@@ -218,9 +219,32 @@ describe('modeUtils', () => {
         availableStreetModes,
         streetMode,
       );
+
       const modes = query.modes ? query.modes.split(',') : [];
       expect(modes.length).to.equal(4);
       expect(modes).to.contain(StreetMode.Walk);
+      expect(modes).to.contain(TransportMode.Rail);
+      expect(modes).to.contain(TransportMode.Bus);
+      expect(modes).to.contain(TransportMode.Citybike);
+    });
+  });
+
+  describe('setStreetMode', () => {
+    it('should apply the selected streetMode to the current url', () => {
+      const location = {
+        query: {
+          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+        },
+      };
+      const streetMode = StreetMode.ParkAndRide;
+      const router = createMemoryHistory();
+
+      utils.setStreetMode(streetMode, location, config, router);
+
+      const query = router.getCurrentLocation().query;
+      const modes = query.modes ? query.modes.split(',') : [];
+      expect(modes.length).to.equal(4);
+      expect(modes).to.contain(StreetMode.ParkAndRide);
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Citybike);

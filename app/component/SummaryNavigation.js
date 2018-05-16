@@ -140,14 +140,9 @@ class SummaryNavigation extends React.Component {
       <div className="street-mode-selector-panel-container">
         <StreetModeSelectorPanel
           selectedStreetMode={ModeUtils.getStreetMode(location, config)}
-          selectStreetMode={mode => {
-            const modesQuery = ModeUtils.buildStreetModeQuery(
-              ModeUtils.getModes(location, config),
-              ModeUtils.getAvailableStreetModes(config),
-              mode,
-            );
-            ModeUtils.replaceQueryParams(router, location, modesQuery);
-          }}
+          selectStreetMode={streetMode =>
+            ModeUtils.setStreetMode(streetMode, location, config, router)
+          }
           streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
         />
       </div>
