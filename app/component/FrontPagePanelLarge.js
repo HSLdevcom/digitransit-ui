@@ -58,7 +58,7 @@ FrontPagePanelLarge.description = () => (
 );
 
 FrontPagePanelLarge.propTypes = {
-  selectedPanel: PropTypes.number,
+  selectedPanel: PropTypes.oneOf([1, 2]),
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   children: PropTypes.node,
@@ -66,6 +66,7 @@ FrontPagePanelLarge.propTypes = {
 
 FrontPagePanelLarge.defaultProps = {
   selectedPanel: 1,
+  children: null,
 };
 
 export default FrontPagePanelLarge;

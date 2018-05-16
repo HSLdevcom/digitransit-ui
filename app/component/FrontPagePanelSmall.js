@@ -22,7 +22,7 @@ const FrontPagePanelSmall = (
 
   if (selectedPanel === 1) {
     nearbyClasses.push('selected');
-  } else if (selectedPanel === 2) {
+  } else {
     favouritesClasses.push('selected');
   }
 
@@ -88,8 +88,13 @@ FrontPagePanelSmall.description = () => (
   </div>
 );
 
+FrontPagePanelSmall.defaultProps = {
+  selectedPanel: 1,
+  children: null,
+};
+
 FrontPagePanelSmall.propTypes = {
-  selectedPanel: PropTypes.number,
+  selectedPanel: PropTypes.oneOf([1, 2]),
   nearbyClicked: PropTypes.func.isRequired,
   favouritesClicked: PropTypes.func.isRequired,
   mapExpanded: PropTypes.bool.isRequired,
