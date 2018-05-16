@@ -231,17 +231,17 @@ describe('modeUtils', () => {
 
   describe('setStreetMode', () => {
     it('should apply the selected streetMode to the current url', () => {
-      const location = {
+      const streetMode = StreetMode.ParkAndRide;
+      const router = createMemoryHistory();
+      router.location = {
         query: {
           modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
         },
       };
-      const streetMode = StreetMode.ParkAndRide;
-      const router = createMemoryHistory();
 
-      utils.setStreetMode(streetMode, location, config, router);
+      utils.setStreetMode(streetMode, config, router);
 
-      const query = router.getCurrentLocation().query;
+      const { query } = router.getCurrentLocation();
       const modes = query.modes ? query.modes.split(',') : [];
       expect(modes.length).to.equal(4);
       expect(modes).to.contain(StreetMode.ParkAndRide);

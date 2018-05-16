@@ -113,11 +113,11 @@ export const replaceQueryParams = (router, location, newParams) => {
  * Updates the browser's url to reflect the selected street mode.
  *
  * @param {*} streetMode The street mode to select
- * @param {*} location The current location
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
  */
-export const setStreetMode = (streetMode, location, config, router) => {
+export const setStreetMode = (streetMode, config, router) => {
+  const { location } = router;
   const modesQuery = buildStreetModeQuery(
     getModes(location, config),
     getAvailableStreetModes(config),

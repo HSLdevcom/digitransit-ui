@@ -134,11 +134,12 @@ class CustomizeSearch extends React.Component {
       return null;
     }
 
+    const { config, router } = this.context;
     return this.availableStreetModes.map((streetMode, index) => (
       <ToggleButton
         key={`toggle-button-${streetMode}`}
-        icon={this.context.config.streetModes[streetMode].icon}
-        onBtnClick={() => this.toggleStreetMode(streetMode)}
+        icon={config.streetModes[streetMode].icon}
+        onBtnClick={() => ModeUtils.setStreetMode(streetMode, config, router)}
         state={this.getMode(streetMode)}
         checkedClass={streetMode}
         label={streetMode}

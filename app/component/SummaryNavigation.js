@@ -135,13 +135,13 @@ class SummaryNavigation extends React.Component {
       undefined
     );
 
-  renderStreetModeSelector = (config, location, router) =>
+  renderStreetModeSelector = (config, router) =>
     config.features.showStreetModeQuickSelect && (
       <div className="street-mode-selector-panel-container">
         <StreetModeSelectorPanel
-          selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+          selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
           selectStreetMode={streetMode =>
-            ModeUtils.setStreetMode(streetMode, location, config, router)
+            ModeUtils.setStreetMode(streetMode, config, router)
           }
           streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
         />
@@ -149,8 +149,7 @@ class SummaryNavigation extends React.Component {
     );
 
   render() {
-    const { config, location, router } = this.context;
-
+    const { config, router } = this.context;
     const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -189,7 +188,7 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        {this.renderStreetModeSelector(config, location, router)}
+        {this.renderStreetModeSelector(config, router)}
         <div
           className={cx('quicksettings-separator-line', {
             hidden: !this.props.isQuickSettingsOpen,

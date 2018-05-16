@@ -183,18 +183,13 @@ class IndexPage extends React.Component {
     );
   };
 
-  renderStreetModeSelector = (
-    config,
-    location,
-    router,
-    openingDirection = 'down',
-  ) =>
+  renderStreetModeSelector = (config, router, openingDirection = 'down') =>
     config.features.showStreetModeQuickSelect && (
       <StreetModeSelectorPopup
         openingDirection={openingDirection}
-        selectedStreetMode={ModeUtils.getStreetMode(location, config)}
+        selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
         selectStreetMode={streetMode =>
-          ModeUtils.setStreetMode(streetMode, location, config, router)
+          ModeUtils.setStreetMode(streetMode, config, router)
         }
         streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
       />
@@ -202,7 +197,7 @@ class IndexPage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { config, location, router } = this.context;
+    const { config, router } = this.context;
     const { breakpoint, destination, origin, routes, tab } = this.props;
     const { mapExpanded } = this.state;
 
@@ -249,12 +244,7 @@ class IndexPage extends React.Component {
               showScaleBar
               origin={origin}
               renderCustomButtons={() =>
-                this.renderStreetModeSelector(
-                  config,
-                  location,
-                  router,
-                  openingDirection,
-                )
+                this.renderStreetModeSelector(config, router, openingDirection)
               }
             />
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -286,12 +276,7 @@ class IndexPage extends React.Component {
             showStops
             origin={origin}
             renderCustomButtons={() =>
-              this.renderStreetModeSelector(
-                config,
-                location,
-                router,
-                openingDirection,
-              )
+              this.renderStreetModeSelector(config, router, openingDirection)
             }
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
