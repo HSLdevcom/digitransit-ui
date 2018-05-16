@@ -49,6 +49,9 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
     font-size: 17px;
   }
   a {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 30px;
     height: 30px;
     line-height: 30px;
