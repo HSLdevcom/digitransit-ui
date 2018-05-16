@@ -904,7 +904,7 @@ const translations = {
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
-    'main-mode': 'Olen liikkeellä',
+    'main-mode': 'Kulkumuoto',
     map: 'Kartta',
     'messagebar-label-close-message-bar': 'Sulje banneri',
     'messagebar-label-page': 'Sivu',
