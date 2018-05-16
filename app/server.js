@@ -21,7 +21,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 // Libraries
 import serialize from 'serialize-javascript';
 import { IntlProvider } from 'react-intl';
-import polyfillService from 'polyfill-service';
+import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -70,7 +70,7 @@ function getPolyfills(userAgent, config) {
     userAgent = ''; // eslint-disable-line no-param-reassign
   }
 
-  const normalizedUA = polyfillService.normalizeUserAgent(userAgent);
+  const normalizedUA = polyfillLibrary.normalizeUserAgent(userAgent);
   let polyfill = polyfillls.get(normalizedUA);
 
   if (polyfill) {
@@ -96,7 +96,7 @@ function getPolyfills(userAgent, config) {
     };
   });
 
-  polyfill = polyfillService
+  polyfill = polyfillLibrary
     .getPolyfillString({
       uaString: userAgent,
       features,

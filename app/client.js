@@ -233,7 +233,7 @@ const callback = () =>
     });
   });
 
-// Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
+// Guard againist Samsung et.al. which are not properly polyfilled by polyfill-library
 if (typeof window.Intl !== 'undefined') {
   callback();
 } else {
