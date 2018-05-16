@@ -170,15 +170,10 @@ export default {
   // TODO: Switch off in autumn
   cityBike: {
     showCityBikes: true,
+    showStationId: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat',
-      sv: 'https://www.hsl.fi/sv/stadscyklar',
-      en: 'https://www.hsl.fi/en/citybikes',
-    },
-
-    infoUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyörät',
       sv: 'https://www.hsl.fi/sv/stadscyklar',
       en: 'https://www.hsl.fi/en/citybikes',
     },
