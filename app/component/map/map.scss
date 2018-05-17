@@ -73,6 +73,10 @@ div.leaflet-container {
   @include font-map-container;
 }
 
+.component-example div.leaflet-container {
+  position: relative;
+}
+
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
   color: $current-location-color;
