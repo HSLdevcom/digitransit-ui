@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import elementResizeDetectorMaker from 'element-resize-detector';
+import throttle from 'lodash/throttle';
 
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
@@ -62,15 +62,14 @@ export default class Map extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
-  componentDidMount = () => {
-    this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
-    /* eslint-disable no-underscore-dangle */
-    this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
-  };
+  componentDidMount() {
+    this.resizeMap = throttle(this.resizeMap, 100);
+    window.addEventListener('resize', this.resizeMap);
+  }
 
-  componentWillUnmount = () => {
-    this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
-  };
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeMap);
+  }
 
   setLoaded = () => {
     this.props.loaded();

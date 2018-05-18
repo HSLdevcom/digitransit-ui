@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
+import throttle from 'lodash/throttle';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getHomeUrl, parseLocation } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
@@ -14,12 +15,12 @@ import DesktopView from './DesktopView';
 import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
 import ErrorBoundary from './ErrorBoundary';
 
+import { isBrowser } from '../util/browser';
+
 class TopLevel extends React.Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     children: PropTypes.node,
-    width: PropTypes.number,
-    height: PropTypes.number,
     header: PropTypes.node,
     map: PropTypes.node,
     content: PropTypes.node,
@@ -74,20 +75,39 @@ class TopLevel extends React.Component {
       );
 
     this.metadata = meta(intl.locale, host, url, config);
+    this.state = { breakpoint: this.getBreakpoint() };
   }
 
   getChildContext() {
     return {
       location: this.props.location,
-      breakpoint: this.getBreakpoint(),
+      breakpoint: this.state.breakpoint,
     };
   }
 
-  getBreakpoint = () => {
-    if (this.props.width) {
-      if (this.props.width < 400) {
+  componentDidMount() {
+    this.updateBreakpoint = throttle(
+      () =>
+        this.setState(
+          ({ breakpoint }) =>
+            this.getBreakpoint() !== breakpoint
+              ? { breakpoint: this.getBreakpoint() }
+              : null,
+        ),
+      100,
+    );
+    window.addEventListener('resize', this.updateBreakpoint);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateBreakpoint);
+  }
+
+  getBreakpoint() {
+    if (isBrowser) {
+      if (window.innerWidth < 400) {
         return 'small';
-      } else if (this.props.width < 900) {
+      } else if (window.innerWidth < 900) {
         return 'medium';
       }
     } else if (
@@ -97,7 +117,7 @@ class TopLevel extends React.Component {
       return 'small';
     }
     return 'large';
-  };
+  }
 
   render() {
     this.topBarOptions = Object.assign(
@@ -118,7 +138,7 @@ class TopLevel extends React.Component {
 
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;
-    } else if (this.props.width < 900) {
+    } else if (this.state.breakpoint !== 'large') {
       content = (
         <MobileView
           map={this.disableMapOnMobile || this.props.map}
@@ -126,7 +146,7 @@ class TopLevel extends React.Component {
           header={this.props.header}
         />
       );
-    } else if (this.props.width >= 900) {
+    } else {
       content = (
         <DesktopView
           title={this.props.title}
