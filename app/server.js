@@ -47,13 +47,28 @@ const polyfillls = LRU(200);
 Relay.disableQueryCaching();
 
 let assets;
+let mainAssets;
 let manifest;
 
 if (process.env.NODE_ENV !== 'development') {
-  assets = require('../manifest.json'); // eslint-disable-line global-require, import/no-unresolved
+  // eslint-disable-next-line global-require, import/no-unresolved
+  assets = require('../manifest.json');
+  // eslint-disable-next-line global-require, import/no-unresolved
+  mainAssets = require('../stats.json').entrypoints.main.assets.filter(
+    asset => !asset.endsWith('.map'),
+  );
 
-  const manifestFile = assets['manifest.js'];
-  manifest = fs.readFileSync(path.join(appRoot, '_static', manifestFile));
+  const manifestFiles = mainAssets.filter(asset =>
+    asset.startsWith('js/runtime'),
+  );
+
+  manifest = manifestFiles
+    .map(manifestFile =>
+      fs.readFileSync(path.join(appRoot, '_static', manifestFile)),
+    )
+    .join('\n');
+
+  mainAssets = mainAssets.filter(asset => !manifestFiles.includes(asset));
 }
 
 function getPolyfills(userAgent, config) {
@@ -241,49 +256,52 @@ export default function(req, res, next) {
       res.status(404);
     }
 
+    const spriteName = config.sprites;
+
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.write('<!doctype html>\n');
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
+
+    // Write preload hints before doing anything else
+    if (process.env.NODE_ENV !== 'development') {
+      const preloads = [
+        { as: 'style', href: config.URL.FONT },
+        {
+          as: 'style',
+          href: `${config.APP_PATH}/${assets[`${config.CONFIG}_theme.css`]}`,
+        },
+        ...mainAssets.map(asset => ({
+          as: 'script',
+          href: `${config.APP_PATH}/${asset}`,
+        })),
+      ];
+
+      preloads.forEach(({ as, href }) =>
+        res.write(`<link rel="preload" as="${as}" href="${href}">\n`),
+      );
+
+      const preconnects = [
+        config.URL.API_URL,
+        config.URL.MAP_URL,
+        'https://dev.hsl.fi/',
+        config.staticMessagesUrl,
+      ];
+
+      preconnects.forEach(href =>
+        res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
+      );
+
+      res.write(
+        `<link rel="stylesheet" type="text/css" href="${config.APP_PATH}/${
+          assets[`${config.CONFIG}_theme.css`]
+        }"/>\n`,
+      );
+    }
+
     res.write(
       `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
     );
-
-    // Write stylesheets and preload hints before doing anything else
-    if (process.env.NODE_ENV !== 'development') {
-      const mainHref = `${config.APP_PATH}/${assets['main.css']}`;
-      const themeHref = `${config.APP_PATH}/${
-        assets[`${config.CONFIG}_theme.css`]
-      }`;
-
-      res.write(
-        `<link rel="stylesheet" type="text/css" href="${mainHref}"/>\n`,
-      );
-      res.write(
-        `<link rel="stylesheet" type="text/css" href="${themeHref}"/>\n`,
-      );
-
-      res.write(
-        `<link rel="preload" as="script" href="${config.APP_PATH}/${
-          assets['common.js']
-        }">\n`,
-      );
-      res.write(
-        `<link rel="preload" as="script" href="${config.APP_PATH}/${
-          assets['main.js']
-        }">\n`,
-      );
-
-      res.write(
-        `<link rel="preconnect" crossorigin href="${config.URL.API_URL}">\n`,
-      );
-      res.write(
-        `<link rel="preconnect" crossorigin href="${config.URL.MAP_URL}">\n`,
-      );
-      res.write(
-        `<link rel="preconnect" crossorigin as="font" href="https://dev.hsl.fi/">\n`,
-      );
-    }
 
     const networkLayer = getNetworkLayer(config, agent);
 
@@ -329,8 +347,6 @@ export default function(req, res, next) {
     res.write('</head>\n');
     res.write('<body>\n');
 
-    const spriteName = config.sprites;
-
     if (process.env.NODE_ENV !== 'development') {
       res.write('<script>\n');
       res.write(`fetch('${config.APP_PATH}/${assets[spriteName]}')
@@ -362,13 +378,17 @@ export default function(req, res, next) {
       res.write('<script async src="/proxy/js/bundle.js"></script>\n');
     } else {
       res.write('<script>');
-      res.write(manifest);
-      res.write('\n</script>\n');
       res.write(
-        `<script src="${config.APP_PATH}/${assets['common.js']}"></script>\n`,
+        manifest.replace(
+          /\/\/# sourceMappingURL=/g,
+          `$&${config.APP_PATH}/js/`,
+        ),
       );
-      res.write(
-        `<script src="${config.APP_PATH}/${assets['main.js']}"></script>\n`,
+      res.write('\n</script>\n');
+      mainAssets.forEach(asset =>
+        res.write(
+          `<script src="${config.APP_PATH}/${asset}" defer></script>\n`,
+        ),
       );
     }
     res.write('</body>\n');
