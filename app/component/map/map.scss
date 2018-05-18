@@ -64,10 +64,14 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
     font-size: 17px;
   }
   a {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 30px;
     height: 30px;
     line-height: 30px;
     font-size: 22px;
+    color: currentColor;
   }
 }
 
@@ -76,13 +80,17 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 }
 
 div.leaflet-container {
-  position: relative;
+  position: absolute;
   flex: 1;
   width: 100%;
   height: 100%;
   background: none;
   z-index: index($zindex, map-container);
   @include font-map-container;
+}
+
+.component-example div.leaflet-container {
+  position: relative;
 }
 
 div.current-location-marker > span > svg.icon {

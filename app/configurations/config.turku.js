@@ -42,6 +42,12 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     showCityBikes: true,
+    showStationId: false,
+    useUrl: {
+      fi: 'https://www.foli.fi/kaupunkipyorat',
+      sv: 'https://www.foli.fi/sv/stadscyklar',
+      en: 'https://www.foli.fi/en/citybikes',
+    },
   },
 
   transportModes: {

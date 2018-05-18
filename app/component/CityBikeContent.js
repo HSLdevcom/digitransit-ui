@@ -22,7 +22,7 @@ const CityBikeContent = ({ station, lang }, { config }) => (
         fewAvailableCount={config.cityBike.fewAvailableCount}
       />
     )}
-    <CityBikeUse lang={lang} />
+    {config.cityBike.useUrl[lang] && <CityBikeUse lang={lang} />}
   </div>
 );
 
