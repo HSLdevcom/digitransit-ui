@@ -17,6 +17,7 @@ import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
+import { BreakpointConsumer } from '../../util/withBreakpoint';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -59,7 +60,6 @@ export default class Map extends React.Component {
     executeAction: PropTypes.func.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -159,14 +159,18 @@ export default class Map extends React.Component {
             position={config.map.controls.scale.position}
           />
         )}
-        {this.context.breakpoint === 'large' &&
-          !this.props.disableZoom && (
-            <ZoomControl
-              position={config.map.controls.zoom.position}
-              zoomInText={zoomInText}
-              zoomOutText={zoomOutText}
-            />
-          )}
+        <BreakpointConsumer>
+          {breakpoint =>
+            breakpoint === 'large' &&
+            !this.props.disableZoom && (
+              <ZoomControl
+                position={config.map.controls.zoom.position}
+                zoomInText={zoomInText}
+                zoomOutText={zoomOutText}
+              />
+            )
+          }
+        </BreakpointConsumer>
         {this.props.leafletObjs}
         <VectorTileLayerContainer
           hilightedStops={this.props.hilightedStops}

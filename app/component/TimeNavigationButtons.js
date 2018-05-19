@@ -6,6 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
 import Icon from './Icon';
+import withBreakpoint from '../util/withBreakpoint';
 
 // TODO: sptlit into container and view
 
@@ -20,10 +21,10 @@ class TimeNavigationButtons extends React.Component {
     onEarlier: PropTypes.func.isRequired,
     onLater: PropTypes.func.isRequired,
     onNow: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
-    breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
   };
 
@@ -61,7 +62,7 @@ class TimeNavigationButtons extends React.Component {
     return (
       <div
         className={cx('time-navigation-buttons', {
-          'bp-large': this.context.breakpoint === 'large',
+          'bp-large': this.props.breakpoint === 'large',
         })}
       >
         {itineraryFeedback}
@@ -90,4 +91,4 @@ class TimeNavigationButtons extends React.Component {
   }
 }
 
-export default TimeNavigationButtons;
+export default withBreakpoint(TimeNavigationButtons);

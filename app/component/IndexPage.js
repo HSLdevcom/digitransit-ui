@@ -3,7 +3,6 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -32,6 +31,7 @@ import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
 import events from '../util/events';
+import withBreakpoint from '../util/withBreakpoint';
 
 const debug = d('IndexPage.js');
 
@@ -77,7 +77,6 @@ class IndexPage extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    this.handleBreakpointProps(nextProps);
     this.handleLocationProps(nextProps);
   };
 
@@ -97,20 +96,6 @@ class IndexPage extends React.Component {
         return 1;
       default:
         return undefined;
-    }
-  };
-
-  handleBreakpointProps = nextProps => {
-    const frombp = this.props.breakpoint;
-    const tobp = nextProps.breakpoint;
-
-    if (frombp === tobp) {
-      return;
-    }
-
-    if (this.getSelectedTab() === undefined) {
-      // auto open nearby tab on bp change to large
-      this.clickNearby();
     }
   };
 
@@ -302,9 +287,7 @@ const Index = shouldUpdate(
     ),
 )(IndexPage);
 
-const IndexPageWithBreakpoint = getContext({
-  breakpoint: PropTypes.string.isRequired,
-})(Index);
+const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithLang = connectToStores(
   IndexPageWithBreakpoint,

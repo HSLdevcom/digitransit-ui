@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
@@ -18,6 +17,7 @@ import {
   getTotalWalkingDistance,
   isCallAgencyPickupType,
 } from '../util/legUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 /*
 const dummyalerts = [{
@@ -682,8 +682,6 @@ SummaryRow.description = () => {
   );
 };
 
-const withBreakPoint = getContext({
-  breakpoint: PropTypes.string.isRequired,
-})(SummaryRow);
+const SummaryRowWithBreakpoint = withBreakpoint(SummaryRow);
 
-export { SummaryRow as component, withBreakPoint as default };
+export { SummaryRow as component, SummaryRowWithBreakpoint as default };

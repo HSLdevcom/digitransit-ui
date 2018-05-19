@@ -30,7 +30,7 @@ export const isEmpty = s =>
 
 export const getEndpointPath = (origin, destination, tab) => {
   if (isEmpty(origin) && isEmpty(destination)) {
-    return '';
+    return '/';
   }
   return [
     '',

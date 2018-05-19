@@ -29,6 +29,7 @@ import { BUILD_TIME } from './buildInfo';
 import createPiwik from './util/piwik';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
+import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -183,37 +184,44 @@ const callback = () =>
         } else {
           IsomorphicRouter.prepareInitialRender(Relay.Store, renderProps).then(
             props => {
-              ReactDOM.hydrate(
-                <ContextProvider
-                  translations={translations}
-                  context={context.getComponentContext()}
+              const root = document.getElementById('app');
+              const { initialBreakpoint } = root.dataset;
+
+              const content = (
+                <ClientBreakpointProvider
+                  serverGuessedBreakpoint={initialBreakpoint}
                 >
-                  <ErrorBoundary>
-                    <MuiThemeProvider
-                      muiTheme={getMuiTheme(MUITheme(config), {
-                        userAgent: navigator.userAgent,
-                      })}
-                    >
-                      <Router {...props} onUpdate={track} />
-                    </MuiThemeProvider>
-                  </ErrorBoundary>
-                </ContextProvider>,
-                document.getElementById('app'),
-                () => {
-                  // Run only in production mode and when built in a docker container
-                  if (
-                    process.env.NODE_ENV === 'production' &&
-                    BUILD_TIME !== 'unset'
-                  ) {
-                    OfflinePlugin.install({
-                      onUpdateReady: () => OfflinePlugin.applyUpdate(),
-                      onUpdated: () => {
-                        hasSwUpdate = true;
-                      },
-                    });
-                  }
-                },
+                  <ContextProvider
+                    translations={translations}
+                    context={context.getComponentContext()}
+                  >
+                    <ErrorBoundary>
+                      <MuiThemeProvider
+                        muiTheme={getMuiTheme(MUITheme(config), {
+                          userAgent: navigator.userAgent,
+                        })}
+                      >
+                        <Router {...props} onUpdate={track} />
+                      </MuiThemeProvider>
+                    </ErrorBoundary>
+                  </ContextProvider>
+                </ClientBreakpointProvider>
               );
+
+              ReactDOM.hydrate(content, root, () => {
+                // Run only in production mode and when built in a docker container
+                if (
+                  process.env.NODE_ENV === 'production' &&
+                  BUILD_TIME !== 'unset'
+                ) {
+                  OfflinePlugin.install({
+                    onUpdateReady: () => OfflinePlugin.applyUpdate(),
+                    onUpdated: () => {
+                      hasSwUpdate = true;
+                    },
+                  });
+                }
+              });
             },
           );
         }

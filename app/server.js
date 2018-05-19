@@ -33,6 +33,7 @@ import appCreator from './app';
 import translations from './translations';
 import MUITheme from './MuiTheme';
 import configureMoment from './util/configure-moment';
+import { BreakpointProvider, getServerBreakpoint } from './util/withBreakpoint';
 
 // configuration
 import { getConfiguration } from './config';
@@ -134,22 +135,28 @@ const ContextProvider = provideContext(IntlProvider, {
 });
 
 function getContent(context, renderProps, locale, userAgent) {
-  // TODO: This should be moved to a place to coexist with similar content from client.js
-  return ReactDOM.renderToString(
-    <ContextProvider
-      locale={locale}
-      messages={translations[locale]}
-      context={context.getComponentContext()}
-    >
-      <MuiThemeProvider
-        muiTheme={getMuiTheme(MUITheme(context.getComponentContext().config), {
-          userAgent,
-        })}
+  const breakpoint = getServerBreakpoint(userAgent);
+  const content = ReactDOM.renderToString(
+    <BreakpointProvider value={breakpoint}>
+      <ContextProvider
+        locale={locale}
+        messages={translations[locale]}
+        context={context.getComponentContext()}
       >
-        {IsomorphicRouter.render(renderProps)}
-      </MuiThemeProvider>
-    </ContextProvider>,
+        <MuiThemeProvider
+          muiTheme={getMuiTheme(
+            MUITheme(context.getComponentContext().config),
+            {
+              userAgent,
+            },
+          )}
+        >
+          {IsomorphicRouter.render(renderProps)}
+        </MuiThemeProvider>
+      </ContextProvider>
+    </BreakpointProvider>,
   );
+  return `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
 }
 
 const isRobotRequest = agent =>
@@ -362,7 +369,7 @@ export default function(req, res, next) {
       res.write('</div>\n');
     }
 
-    res.write(`<div id="app">${content}</div>\n`);
+    res.write(content || '<div id="app" />');
 
     res.write(
       `<script>\nwindow.state=${serialize(
