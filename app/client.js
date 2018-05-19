@@ -17,6 +17,7 @@ import {
   batchMiddleware,
 } from 'react-relay-network-layer/lib';
 import OfflinePlugin from 'offline-plugin/runtime';
+import Helmet from 'react-helmet';
 
 import Raven from './util/Raven';
 import configureMoment from './util/configure-moment';
@@ -30,6 +31,7 @@ import createPiwik from './util/piwik';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
+import meta from './meta';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -169,7 +171,6 @@ const callback = () =>
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
       piwik: PropTypes.object,
       raven: PropTypes.object,
-      url: PropTypes.string,
       config: PropTypes.object,
       headers: PropTypes.object,
     });
@@ -201,7 +202,19 @@ const callback = () =>
                           userAgent: navigator.userAgent,
                         })}
                       >
-                        <Router {...props} onUpdate={track} />
+                        <React.Fragment>
+                          <Helmet
+                            {...meta(
+                              context
+                                .getStore('PreferencesStore')
+                                .getLanguage(),
+                              window.location.host,
+                              window.location.href,
+                              config,
+                            )}
+                          />
+                          <Router {...props} onUpdate={track} />
+                        </React.Fragment>
                       </MuiThemeProvider>
                     </ErrorBoundary>
                   </ContextProvider>

@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import Helmet from 'react-helmet';
-import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getHomeUrl, parseLocation } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
-import meta from '../meta';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -38,9 +35,6 @@ class TopLevel extends React.Component {
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    intl: intlShape,
-    url: PropTypes.string.isRequired,
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   };
@@ -56,7 +50,7 @@ class TopLevel extends React.Component {
     location: PropTypes.object,
   };
 
-  constructor(props, { url, headers, config, intl }) {
+  constructor(props, { headers, config }) {
     super(props);
     const host = headers && (headers['x-forwarded-host'] || headers.host);
 
@@ -71,8 +65,6 @@ class TopLevel extends React.Component {
       ) : (
         undefined
       );
-
-    this.metadata = meta(intl.locale, host, url, config);
   }
 
   getChildContext() {
@@ -132,7 +124,6 @@ class TopLevel extends React.Component {
             homeUrl={homeUrl}
           />
         )}
-        <Helmet {...this.metadata} />
         <section id="mainContent" className="content">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>

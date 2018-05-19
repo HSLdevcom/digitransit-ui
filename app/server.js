@@ -34,6 +34,7 @@ import translations from './translations';
 import MUITheme from './MuiTheme';
 import configureMoment from './util/configure-moment';
 import { BreakpointProvider, getServerBreakpoint } from './util/withBreakpoint';
+import meta from './meta';
 
 // configuration
 import { getConfiguration } from './config';
@@ -134,8 +135,9 @@ const ContextProvider = provideContext(IntlProvider, {
   headers: PropTypes.object,
 });
 
-function getContent(context, renderProps, locale, userAgent) {
+function getContent(context, renderProps, locale, userAgent, req) {
   const breakpoint = getServerBreakpoint(userAgent);
+  const { config } = context.getComponentContext();
   const content = ReactDOM.renderToString(
     <BreakpointProvider value={breakpoint}>
       <ContextProvider
@@ -144,14 +146,19 @@ function getContent(context, renderProps, locale, userAgent) {
         context={context.getComponentContext()}
       >
         <MuiThemeProvider
-          muiTheme={getMuiTheme(
-            MUITheme(context.getComponentContext().config),
-            {
-              userAgent,
-            },
-          )}
+          muiTheme={getMuiTheme(MUITheme(config), { userAgent })}
         >
-          {IsomorphicRouter.render(renderProps)}
+          <React.Fragment>
+            <Helmet
+              {...meta(
+                context.getStore('PreferencesStore').getLanguage(),
+                req.hostname,
+                `https://${req.hostname}${req.originalUrl}`,
+                config,
+              )}
+            />
+            {IsomorphicRouter.render(renderProps)}
+          </React.Fragment>
         </MuiThemeProvider>
       </ContextProvider>
     </BreakpointProvider>,
@@ -209,7 +216,6 @@ export default function(req, res, next) {
   const locale = getLocale(req, res, config);
   const application = appCreator(config);
   const context = application.createContext({
-    url: req.url,
     headers: req.headers,
     config,
   });
@@ -329,6 +335,7 @@ export default function(req, res, next) {
                 relayData.props,
                 locale,
                 req.headers['user-agent'],
+                req,
               )
             : undefined;
 

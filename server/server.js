@@ -103,6 +103,9 @@ function setUpRoutes() {
     require('./reittiopasParameterMiddleware').default,
   );
   app.use(require('../app/server').default);
+
+  // Make sure req has the correct hostname extracted from the proxy info
+  app.enable('trust proxy');
 }
 
 function startServer() {
