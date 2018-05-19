@@ -16,6 +16,9 @@ class RouteStopListContainer extends React.PureComponent {
     vehicles: PropTypes.object,
     position: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      setVariables: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {

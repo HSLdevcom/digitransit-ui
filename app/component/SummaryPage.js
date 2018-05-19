@@ -159,7 +159,12 @@ class SummaryPage extends React.Component {
   };
 
   renderMap() {
-    const { plan: { plan }, location: { state, query }, from, to } = this.props;
+    const {
+      plan: { plan },
+      location: { state, query },
+      from,
+      to,
+    } = this.props;
     const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
 
@@ -237,7 +242,9 @@ class SummaryPage extends React.Component {
   render() {
     const {
       breakpoint,
-      queryAggregator: { readyState: { done, error } },
+      queryAggregator: {
+        readyState: { done, error },
+      },
     } = this.context;
 
     if (
