@@ -85,13 +85,16 @@ const productionPlugins = [
 
 module.exports = {
   mode,
-  entry: { main: './app/client', ...(isProduction ? themeEntries : {}) },
+  entry: {
+    main: ['./app/util/publicPath', './app/client'],
+    ...(isProduction ? themeEntries : {}),
+  },
   output: {
     path: path.join(__dirname, '_static'),
     filename: isDevelopment ? 'js/bundle.js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
     publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
-    // crossOriginLoading: "anonymous",
+    crossOriginLoading: 'anonymous',
   },
   module: {
     rules: [

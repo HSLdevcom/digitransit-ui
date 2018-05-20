@@ -271,6 +271,8 @@ export default function(req, res, next) {
 
     const spriteName = config.sprites;
 
+    const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
+
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.write('<!doctype html>\n');
     res.write(`<html lang="${locale}">\n`);
@@ -282,16 +284,22 @@ export default function(req, res, next) {
         { as: 'style', href: config.URL.FONT },
         {
           as: 'style',
-          href: `${config.APP_PATH}/${assets[`${config.CONFIG}_theme.css`]}`,
+          href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
+          crossorigin: true,
         },
         ...mainAssets.map(asset => ({
           as: 'script',
-          href: `${config.APP_PATH}/${asset}`,
+          href: `${ASSET_URL}/${asset}`,
+          crossorigin: true,
         })),
       ];
 
-      preloads.forEach(({ as, href }) =>
-        res.write(`<link rel="preload" as="${as}" href="${href}">\n`),
+      preloads.forEach(({ as, href, crossorigin }) =>
+        res.write(
+          `<link rel="preload" as="${as}" ${
+            crossorigin ? 'crossorigin' : ''
+          } href="${href}">\n`,
+        ),
       );
 
       const preconnects = [
@@ -306,13 +314,14 @@ export default function(req, res, next) {
       );
 
       res.write(
-        `<link rel="stylesheet" type="text/css" href="${config.APP_PATH}/${
+        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
           assets[`${config.CONFIG}_theme.css`]
         }"/>\n`,
       );
     }
 
     res.write(
+      // TODO: Add crossorigin here, when dev.hsl.fi supports it.
       `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
     );
 
@@ -363,7 +372,7 @@ export default function(req, res, next) {
 
     if (process.env.NODE_ENV !== 'development') {
       res.write('<script>\n');
-      res.write(`fetch('${config.APP_PATH}/${assets[spriteName]}')
+      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
         .then(function(response) {return response.text();}).then(function(blob) {
           var div = document.createElement('div');
           div.innerHTML = blob;
@@ -393,15 +402,13 @@ export default function(req, res, next) {
     } else {
       res.write('<script>');
       res.write(
-        manifest.replace(
-          /\/\/# sourceMappingURL=/g,
-          `$&${config.APP_PATH}/js/`,
-        ),
+        manifest.replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}/js/`),
       );
       res.write('\n</script>\n');
+      res.write(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
       mainAssets.forEach(asset =>
         res.write(
-          `<script src="${config.APP_PATH}/${asset}" defer></script>\n`,
+          `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
         ),
       );
     }

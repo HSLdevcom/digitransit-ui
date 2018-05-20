@@ -4,6 +4,7 @@
 
 /* ********* Polyfills (for node) ********* */
 const path = require('path');
+const fs = require('fs');
 
 require('babel-core/register')({
   babelrc: false,
@@ -47,6 +48,29 @@ const app = express();
 
 /* Setup functions */
 function setUpStaticFolders() {
+  // First set up a specific path for sw.js
+  if (process.env.ASSET_URL) {
+    const swText = fs.readFileSync(
+      path.join(process.cwd(), '_static', 'sw.js'),
+      { encoding: 'utf8' },
+    );
+    const injectionPoint = swText.indexOf(';') + 2;
+    const swPreText = swText.substring(0, injectionPoint);
+    const swPostText = swText.substring(injectionPoint);
+    const swInjectionText = fs
+      .readFileSync(path.join(process.cwd(), 'server', 'swInjection.js'), {
+        encoding: 'utf8',
+      })
+      .replace(/ASSET_URL/g, process.env.ASSET_URL);
+    const swTextInjected = swPreText + swInjectionText + swPostText;
+
+    app.get(`${config.APP_PATH}/sw.js`, (req, res) => {
+      res.setHeader('Cache-Control', 'public, max-age=0');
+      res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
+      res.send(swTextInjected);
+    });
+  }
+
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
   const oneDay = 86400000;
@@ -63,6 +87,8 @@ function setUpStaticFolders() {
         ) {
           res.setHeader('Cache-Control', 'public, max-age=0');
         }
+        // Always set cors header
+        res.header('Access-Control-Allow-Origin', '*');
       },
     }),
   );
