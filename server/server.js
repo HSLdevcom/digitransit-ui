@@ -6,15 +6,7 @@
 const path = require('path');
 const fs = require('fs');
 
-require('babel-core/register')({
-  babelrc: false,
-  presets: [['env', { targets: { node: 'current' } }], 'stage-2', 'react'],
-  plugins: [
-    'dynamic-import-node',
-    ['relay', { compat: true, schema: 'build/schema.json' }],
-  ],
-  ignore: [/node_modules/],
-});
+require('@babel/register')();
 
 global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');

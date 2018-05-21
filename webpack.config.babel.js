@@ -106,24 +106,29 @@ module.exports = {
           babelrc: false,
           presets: [
             [
-              'env',
+              '@babel/preset-env',
               {
                 // loose is needed by older Androids < 4.3 and IE10
                 loose: true,
                 modules: false,
               },
             ],
-            'react',
-            'stage-2',
+            ['@babel/preset-stage-3', { loose: true, useBuiltIns: true }],
+            [
+              '@babel/preset-react',
+              { development: isDevelopment, useBuiltIns: true },
+            ],
           ],
           plugins: [
             ['relay', { compat: true, schema: 'build/schema.json' }],
             [
-              'transform-runtime',
+              '@babel/plugin-transform-runtime',
               {
                 helpers: true,
                 polyfill: false,
                 regenerator: true,
+                useBuiltIns: true,
+                useESModules: true,
               },
             ],
           ],
