@@ -3,6 +3,7 @@ import React from 'react';
 import get from 'lodash/get';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
+import { routerShape, locationShape } from 'react-router';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -10,7 +11,6 @@ import MapContainer from './map/MapContainer';
 import { otpToLocation } from '../util/otpStrings';
 import { isBrowser } from '../util/browser';
 import { dtLocationShape } from '../util/shapes';
-import withBreakpoint from '../util/withBreakpoint';
 
 let L;
 
@@ -167,4 +167,9 @@ ItineraryPageMap.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
-export default withBreakpoint(ItineraryPageMap);
+ItineraryPageMap.contextTypes = {
+  location: locationShape.isRequired,
+  router: routerShape.isRequired,
+};
+
+export default ItineraryPageMap;
