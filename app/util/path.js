@@ -70,7 +70,7 @@ export const getPathWithEndpoints = (origin, destination, tab) =>
 export const getPathWithEndpointObjects = (
   origin,
   destination,
-  tab: TAB_NEARBY,
+  tab = TAB_NEARBY,
 ) => {
   const r = isItinerarySearchObjects(origin, destination)
     ? getRoutePath(
