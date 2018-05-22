@@ -31,6 +31,8 @@ class DTAutosuggestPanel extends React.Component {
     setviaPointNames: PropTypes.func,
     tab: PropTypes.string,
     addMoreViapoints: PropTypes.func,
+    removeViapoints: PropTypes.func,
+    updateViaPoints: PropTypes.func,
   };
 
   static defaultProps = {
@@ -85,14 +87,7 @@ class DTAutosuggestPanel extends React.Component {
           : Object.assign([], arrayCheck, {
               [i]: itemToAdd[0],
             });
-
-      this.context.router.replace({
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          intermediatePlaces: addedViapoints.filter(o => o !== ' '),
-        },
-      });
+      this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
       this.props.setviaPointNames(item.address, i);
     }
   };
@@ -184,18 +179,27 @@ class DTAutosuggestPanel extends React.Component {
                 role="button"
                 tabIndex={0}
                 style={{
-                  display:
-                    !this.props.isViaPoint ||
-                    i !== this.props.viaPointNames.length - 1 ||
-                    o === ' '
-                      ? 'none'
-                      : 'block',
+                  display: !this.props.isViaPoint ? 'none' : 'block',
                 }}
                 onClick={() => this.props.addMoreViapoints(i)}
                 onKeyPress={() => this.props.addMoreViapoints(i)}
               >
                 <span>
                   <Icon img="icon-icon_plus" />
+                </span>
+              </div>
+              <div
+                className="removeViaPoint"
+                role="button"
+                tabIndex={0}
+                style={{
+                  display: !this.props.isViaPoint ? 'none' : 'block',
+                }}
+                onClick={() => this.props.removeViapoints(i)}
+                onKeyPress={() => this.props.removeViapoints(i)}
+              >
+                <span>
+                  <Icon img="icon-icon_minus" />
                 </span>
               </div>
             </div>

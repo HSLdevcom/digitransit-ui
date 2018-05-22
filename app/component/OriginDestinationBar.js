@@ -44,6 +44,16 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
+  updateViaPoints = newViaPoints => {
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        intermediatePlaces: newViaPoints,
+      },
+    });
+  };
+
   swapEndpoints = () => {
     navigateTo({
       base: this.context.location,
@@ -75,6 +85,30 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
+  removeViapoints = index => {
+    const arrayCheck = Array.isArray(
+      this.context.location.query.intermediatePlaces,
+    )
+      ? this.context.location.query.intermediatePlaces.slice(0)
+      : [this.context.location.query.intermediatePlaces || ' '];
+
+    const pointToBeRemoved = arrayCheck.filter((o2, i) => i === index)[0];
+
+    const viaPointsWithRemoved = this.state.viaPointNames.filter(
+      o => o !== pointToBeRemoved.split('::')[0],
+    );
+
+    this.updateViaPoints(
+      this.context.location.query.intermediatePlaces.filter(
+        o => o !== pointToBeRemoved,
+      ),
+    );
+
+    this.setState({
+      viaPointNames: viaPointsWithRemoved,
+    });
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     console.log(this.state.viaPointNames);
@@ -94,6 +128,8 @@ export default class OriginDestinationBar extends React.Component {
           viaPointNames={this.state.viaPointNames}
           setviaPointNames={this.setviaPointNames}
           addMoreViapoints={this.addMoreViapoints}
+          removeViapoints={this.removeViapoints}
+          updateViaPoints={this.updateViaPoints}
         />
         <div className="itinerary-search-controls">
           <div className="switch" onClick={() => this.swapEndpoints()}>
