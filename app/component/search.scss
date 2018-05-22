@@ -339,6 +339,7 @@ div.autosuggest-panel {
     width: 90%;
     margin-left: 0;
     margin-right: 1em;
+    position: relative;
     #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
       width: 504.5px;
       z-index: 1006;
@@ -431,6 +432,9 @@ div.autosuggest-panel {
     background: rgba(0, 0, 0, 0.57);
     &.hidden {
       display: none;
+    }
+    &.isItinerary {
+      position: fixed;
     }
   }
 

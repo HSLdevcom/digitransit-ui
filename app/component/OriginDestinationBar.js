@@ -79,30 +79,18 @@ export default class OriginDestinationBar extends React.Component {
 
   addMoreViapoints = () => {
     this.setState({
-      viaPointNames: this.state.viaPointNames
-        .filter(o => o !== ' ')
-        .concat([' ']),
+      viaPointNames: this.state.viaPointNames.concat([' ']),
     });
   };
 
   removeViapoints = index => {
-    const arrayCheck = Array.isArray(
-      this.context.location.query.intermediatePlaces,
-    )
-      ? this.context.location.query.intermediatePlaces.slice(0)
-      : [this.context.location.query.intermediatePlaces || ' '];
-
-    const pointToBeRemoved = arrayCheck.filter((o2, i) => i === index)[0];
+    const currentPlaces = this.context.location.query.intermediatePlaces;
 
     const viaPointsWithRemoved = this.state.viaPointNames.filter(
-      o => o !== pointToBeRemoved.split('::')[0],
+      (o, i) => i !== index,
     );
 
-    this.updateViaPoints(
-      this.context.location.query.intermediatePlaces.filter(
-        o => o !== pointToBeRemoved,
-      ),
-    );
+    this.updateViaPoints(currentPlaces.filter((o, i) => i !== index));
 
     this.setState({
       viaPointNames: viaPointsWithRemoved,
@@ -130,6 +118,7 @@ export default class OriginDestinationBar extends React.Component {
           addMoreViapoints={this.addMoreViapoints}
           removeViapoints={this.removeViapoints}
           updateViaPoints={this.updateViaPoints}
+          toggleViaPoint={this.toggleViaPoint}
         />
         <div className="itinerary-search-controls">
           <div className="switch" onClick={() => this.swapEndpoints()}>
@@ -146,6 +135,7 @@ export default class OriginDestinationBar extends React.Component {
               <Icon img="icon-icon_plus" />
             </span>
           </div>
+          {/*
           <div
             className="removeViaPoint"
             style={{ display: this.state.isViaPoint ? 'block' : 'none' }}
@@ -155,6 +145,7 @@ export default class OriginDestinationBar extends React.Component {
               <Icon img="icon-icon_close" />
             </span>
           </div>
+          */}
         </div>
       </div>
     );

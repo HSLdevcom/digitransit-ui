@@ -33,6 +33,7 @@ class DTAutosuggestPanel extends React.Component {
     addMoreViapoints: PropTypes.func,
     removeViapoints: PropTypes.func,
     updateViaPoints: PropTypes.func,
+    toggleViaPoint: PropTypes.func,
   };
 
   static defaultProps = {
@@ -107,6 +108,7 @@ class DTAutosuggestPanel extends React.Component {
           'dark-overlay',
           {
             hidden: !this.state.showDarkOverlay,
+            isItinerary: this.props.isItinerary,
           },
         ])}
       />
@@ -175,6 +177,24 @@ class DTAutosuggestPanel extends React.Component {
                 onLocationSelected={item => this.checkInputForViapoint(item, i)}
               />
               <div
+                className="removeViaPoint"
+                role="button"
+                tabIndex={0}
+                style={{
+                  display: !this.props.isViaPoint ? 'none' : 'block',
+                }}
+                onClick={() =>
+                  this.props.viaPointNames.length > 1
+                    ? this.props.removeViapoints(i)
+                    : this.props.toggleViaPoint(false)
+                }
+                onKeyPress={() => this.props.removeViapoints(i)}
+              >
+                <span>
+                  <Icon img="icon-icon_close" />
+                </span>
+              </div>
+              <div
                 className="addViaPoint more"
                 role="button"
                 tabIndex={0}
@@ -186,20 +206,6 @@ class DTAutosuggestPanel extends React.Component {
               >
                 <span>
                   <Icon img="icon-icon_plus" />
-                </span>
-              </div>
-              <div
-                className="removeViaPoint"
-                role="button"
-                tabIndex={0}
-                style={{
-                  display: !this.props.isViaPoint ? 'none' : 'block',
-                }}
-                onClick={() => this.props.removeViapoints(i)}
-                onKeyPress={() => this.props.removeViapoints(i)}
-              >
-                <span>
-                  <Icon img="icon-icon_minus" />
                 </span>
               </div>
             </div>
