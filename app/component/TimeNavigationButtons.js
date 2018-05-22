@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
 import Icon from './Icon';
-import { BreakpointConsumer } from '../../util/withBreakpoint';
+import { BreakpointConsumer } from '../util/withBreakpoint';
 
 // TODO: sptlit into container and view
 
