@@ -6,7 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ItineraryFeedback from './itinerary-feedback';
 import Icon from './Icon';
-import withBreakpoint from '../util/withBreakpoint';
+import { BreakpointConsumer } from '../../util/withBreakpoint';
 
 // TODO: sptlit into container and view
 
@@ -21,7 +21,6 @@ class TimeNavigationButtons extends React.Component {
     onEarlier: PropTypes.func.isRequired,
     onLater: PropTypes.func.isRequired,
     onNow: PropTypes.func.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -60,35 +59,39 @@ class TimeNavigationButtons extends React.Component {
     ) : null;
 
     return (
-      <div
-        className={cx('time-navigation-buttons', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
-      >
-        {itineraryFeedback}
-        <button
-          className="standalone-btn time-navigation-earlier-btn"
-          onClick={this.props.onEarlier}
-        >
-          {leftArrow}
-          <FormattedMessage id="earlier" defaultMessage="Earlier" />
-        </button>
-        <button
-          className="standalone-btn time-navigation-now-btn"
-          onClick={this.props.onNow}
-        >
-          <FormattedMessage id="now" defaultMessage="Now" />
-        </button>
-        <button
-          className="standalone-btn time-navigation-later-btn"
-          onClick={this.props.onLater}
-        >
-          <FormattedMessage id="later" defaultMessage="Later" />
-          {rightArrow}
-        </button>
-      </div>
+      <BreakpointConsumer>
+        {breakpoint => (
+          <div
+            className={cx('time-navigation-buttons', {
+              'bp-large': breakpoint === 'large',
+            })}
+          >
+            {itineraryFeedback}
+            <button
+              className="standalone-btn time-navigation-earlier-btn"
+              onClick={this.props.onEarlier}
+            >
+              {leftArrow}
+              <FormattedMessage id="earlier" defaultMessage="Earlier" />
+            </button>
+            <button
+              className="standalone-btn time-navigation-now-btn"
+              onClick={this.props.onNow}
+            >
+              <FormattedMessage id="now" defaultMessage="Now" />
+            </button>
+            <button
+              className="standalone-btn time-navigation-later-btn"
+              onClick={this.props.onLater}
+            >
+              <FormattedMessage id="later" defaultMessage="Later" />
+              {rightArrow}
+            </button>
+          </div>
+        )}
+      </BreakpointConsumer>
     );
   }
 }
 
-export default withBreakpoint(TimeNavigationButtons);
+export default TimeNavigationButtons;
