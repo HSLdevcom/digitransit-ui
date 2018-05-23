@@ -30,7 +30,7 @@ export const isEmpty = s =>
 
 export const getEndpointPath = (origin, destination, tab) => {
   if (isEmpty(origin) && isEmpty(destination)) {
-    return '';
+    return '/';
   }
   return [
     '',
@@ -70,7 +70,7 @@ export const getPathWithEndpoints = (origin, destination, tab) =>
 export const getPathWithEndpointObjects = (
   origin,
   destination,
-  tab: TAB_NEARBY,
+  tab = TAB_NEARBY,
 ) => {
   const r = isItinerarySearchObjects(origin, destination)
     ? getRoutePath(

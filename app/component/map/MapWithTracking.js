@@ -13,7 +13,6 @@ const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
-  'breakpoint',
   'lat',
   'lon',
   'zoom',

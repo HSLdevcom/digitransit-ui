@@ -22,6 +22,7 @@ import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
+import withBreakpoint from '../util/withBreakpoint';
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -29,7 +30,6 @@ function getActiveIndex(state) {
 
 class SummaryPage extends React.Component {
   static contextTypes = {
-    breakpoint: PropTypes.string.isRequired,
     queryAggregator: PropTypes.shape({
       readyState: PropTypes.shape({
         done: PropTypes.bool.isRequired,
@@ -68,6 +68,7 @@ class SummaryPage extends React.Component {
         printPage: PropTypes.object,
       }).isRequired,
     ).isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static hcParameters = {
@@ -106,12 +107,12 @@ class SummaryPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps, context) {
+  componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.from, this.props.from)) {
       this.context.executeAction(storeOrigin, nextProps.from);
     }
 
-    if (context.breakpoint === 'large' && this.state.center) {
+    if (nextProps.breakpoint === 'large' && this.state.center) {
       this.setState({ center: null });
     }
   }
@@ -153,7 +154,12 @@ class SummaryPage extends React.Component {
   };
 
   renderMap() {
-    const { plan: { plan }, location: { state, query }, from, to } = this.props;
+    const {
+      plan: { plan },
+      location: { state, query },
+      from,
+      to,
+    } = this.props;
     const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
 
@@ -230,8 +236,9 @@ class SummaryPage extends React.Component {
 
   render() {
     const {
-      breakpoint,
-      queryAggregator: { readyState: { done, error } },
+      queryAggregator: {
+        readyState: { done, error },
+      },
     } = this.context;
 
     if (
@@ -277,7 +284,7 @@ class SummaryPage extends React.Component {
     }
 
     const hasDefaultPreferences = this.hasDefaultPreferences();
-    if (breakpoint === 'large') {
+    if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
         content = (
@@ -390,7 +397,7 @@ class SummaryPage extends React.Component {
   }
 }
 
-export default Relay.createContainer(SummaryPage, {
+export default Relay.createContainer(withBreakpoint(SummaryPage), {
   fragments: {
     plan: () => Relay.QL`
       fragment on QueryType {

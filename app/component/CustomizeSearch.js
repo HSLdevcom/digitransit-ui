@@ -20,7 +20,11 @@ import {
 } from '../store/localStorage';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
-import { getDefaultModes } from './../util/planParamUtil';
+import {
+  getDefaultModes,
+  defaultSettings,
+  WALKBOARDCOST_DEFAULT,
+} from './../util/planParamUtil';
 import * as ModeUtils from '../util/modeUtils';
 
 // find the array slot closest to a value
@@ -39,19 +43,7 @@ function mapToSlider(value, arr) {
 }
 
 const WALKBOARDCOST_MIN = 1;
-const WALKBOARDCOST_DEFAULT = 600;
 const WALKBOARDCOST_MAX = 3600;
-
-// Get default settings
-export const defaultSettings = {
-  accessibilityOption: 0,
-  minTransferTime: 120,
-  walkBoardCost: WALKBOARDCOST_DEFAULT,
-  transferPenalty: 0,
-  walkReluctance: 2,
-  walkSpeed: 1.2,
-  ticketTypes: 'none',
-};
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
