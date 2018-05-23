@@ -176,37 +176,39 @@ class DTAutosuggestPanel extends React.Component {
                 value={o}
                 onLocationSelected={item => this.checkInputForViapoint(item, i)}
               />
-              <div
-                className="removeViaPoint"
-                role="button"
-                tabIndex={0}
-                style={{
-                  display: !this.props.isViaPoint ? 'none' : 'block',
-                }}
-                onClick={() =>
-                  this.props.viaPointNames.length > 1
-                    ? this.props.removeViapoints(i)
-                    : this.props.toggleViaPoint(false)
-                }
-                onKeyPress={() => this.props.removeViapoints(i)}
-              >
-                <span>
-                  <Icon img="icon-icon_close" />
-                </span>
-              </div>
-              <div
-                className="addViaPoint more"
-                role="button"
-                tabIndex={0}
-                style={{
-                  display: !this.props.isViaPoint ? 'none' : 'block',
-                }}
-                onClick={() => this.props.addMoreViapoints(i)}
-                onKeyPress={() => this.props.addMoreViapoints(i)}
-              >
-                <span>
-                  <Icon img="icon-icon_plus" />
-                </span>
+              <div className="viapoint-controls">
+                <div
+                  className="removeViaPoint"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display: !this.props.isViaPoint ? 'none' : 'block',
+                  }}
+                  onClick={() =>
+                    this.props.viaPointNames.length > 1
+                      ? this.props.removeViapoints(i)
+                      : this.props.toggleViaPoint(false)
+                  }
+                  onKeyPress={() => this.props.removeViapoints(i)}
+                >
+                  <span>
+                    <Icon img="icon-icon_close" />
+                  </span>
+                </div>
+                <div
+                  className="addViaPoint more"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display: !this.props.isViaPoint ? 'none' : 'block',
+                  }}
+                  onClick={() => this.props.addMoreViapoints(i)}
+                  onKeyPress={() => this.props.addMoreViapoints(i)}
+                >
+                  <span>
+                    <Icon img="icon-icon_plus" />
+                  </span>
+                </div>
               </div>
             </div>
           ))}

@@ -416,7 +416,7 @@ div.autosuggest-panel {
   }
   .viapoint-input-container {
     display: flex;
-    width: 91%;
+    width: 100%;
   }
   .mobile .autosuggest-panel.small {
     flex-flow: wrap;
@@ -476,7 +476,7 @@ div.autosuggest-panel {
   }
   #react-autowhatever-viapoint {
     &.react-autosuggest__suggestions-container--open {
-    position: fixed;
+    // position: fixed;
     background: #fff;
     width: 52.5%;
     height: auto;
@@ -514,10 +514,19 @@ div.autosuggest-panel {
       top: 3px;
     }
   }
+}
+
+.viapoint-controls {
+  display: flex;
+  position: absolute;
+  right: -3.5em;
+  top: 0.5em;
+
   .addViaPoint {
     text-align: center;
     color: $link-color;
     cursor: pointer;
+    margin-left: 1em;
     &:hover {
       color: #0062a1;
     }
@@ -531,11 +540,13 @@ div.autosuggest-panel {
     color: $link-color;
     text-align: center;
     font-size: 1em;
+    color: #007ac9;
     span {
       font-size: $font-size-xsmall;
     }
   }
 }
+
 .mobile .itinerary-search-controls {
   top: 0.6em;
   overflow-x: hidden;
@@ -690,7 +701,9 @@ input.react-autosuggest__input{
 }
 .viapoint-input-container {
   z-index: 802;
+  position: relative;
 }
+
 .autosuggest-input-container {
     z-index: 803;
     position: absolute;
@@ -721,7 +734,7 @@ input.react-autosuggest__input{
   width: 100%;
   position: static;
   &.viapoint {
-    width: 94%;
+    width: 90%;
   }
   input[type="text"]{
     border-top: 1px solid #ddd;
