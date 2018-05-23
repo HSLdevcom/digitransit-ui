@@ -14,6 +14,7 @@ import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
+import withBreakpoint from '../util/withBreakpoint';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -21,10 +22,10 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     location: PropTypes.object,
     focus: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
-    breakpoint: PropTypes.string.isRequired,
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
@@ -67,7 +68,7 @@ class ItineraryTab extends React.Component {
 
     return (
       <div className="itinerary-tab">
-        {this.context.breakpoint !== 'large' && (
+        {this.props.breakpoint !== 'large' && (
           <ItinerarySummary itinerary={this.props.itinerary}>
             <TimeFrame
               startTime={this.props.itinerary.startTime}
@@ -77,7 +78,7 @@ class ItineraryTab extends React.Component {
             />
           </ItinerarySummary>
         )}
-        {this.context.breakpoint === 'large' && (
+        {this.props.breakpoint === 'large' && (
           <div className="itinerary-timeframe">
             <DateWarning
               date={this.props.itinerary.startTime}
@@ -88,7 +89,7 @@ class ItineraryTab extends React.Component {
         <div className="momentum-scroll itinerary-tabs__scroll">
           <div
             className={cx('itinerary-main', {
-              'bp-large': this.context.breakpoint === 'large',
+              'bp-large': this.props.breakpoint === 'large',
             })}
           >
             <ItineraryLegs
@@ -114,7 +115,7 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default Relay.createContainer(ItineraryTab, {
+export default Relay.createContainer(withBreakpoint(ItineraryTab), {
   fragments: {
     searchTime: () => Relay.QL`
       fragment on Plan {

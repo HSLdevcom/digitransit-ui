@@ -1,8 +1,11 @@
 {
   "presets": [
-    ["env", { "targets": { "node": "current" } }],
-    "stage-2",
-    "react"
+    ["@babel/preset-env", { "targets": { "node": "current", "browsers": [] }}],
+    "@babel/preset-stage-3",
+    "@babel/preset-react"
   ],
-  "plugins": ["dynamic-import-node"]
+  "plugins": [
+    "dynamic-import-node",
+    ["relay", { "compat": true, "schema": "build/schema.json" }]
+  ]
 }

@@ -78,7 +78,7 @@ export function startRealTimeClient(actionContext, originalOptions, done) {
   const topics = options.map(option => getTopic(option));
 
   import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
-    const client = mqtt.connect(actionContext.config.URL.MQTT);
+    const client = mqtt.default.connect(actionContext.config.URL.MQTT);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>
       parseMessage(topic, message, actionContext),

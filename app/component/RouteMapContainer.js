@@ -12,12 +12,12 @@ import RouteLine from './map/route/RouteLine';
 import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { getStartTime } from '../util/timeUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 class RouteMapContainer extends React.PureComponent {
   static contextTypes = {
     router: routerShape.isRequired, // eslint-disable-line react/no-typos
     location: PropTypes.object.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   static propTypes = {
@@ -30,6 +30,7 @@ class RouteMapContainer extends React.PureComponent {
     tripId: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -51,8 +52,8 @@ class RouteMapContainer extends React.PureComponent {
   }
 
   render() {
-    const { router, location, breakpoint } = this.context;
-    const { pattern, lat, lon, routes, tripId } = this.props;
+    const { router, location } = this.context;
+    const { pattern, lat, lon, routes, tripId, breakpoint } = this.props;
     const { hasCentered, shouldFitBounds } = this.state;
 
     const fullscreen = some(routes, route => route.fullscreenMap);
@@ -166,7 +167,7 @@ export const RouteMapFragments = {
 };
 
 const RouteMapContainerWithVehicles = connectToStores(
-  RouteMapContainer,
+  withBreakpoint(RouteMapContainer),
   ['RealTimeInformationStore'],
   ({ getStore }, { trip }) => {
     if (trip) {
