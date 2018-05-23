@@ -51,7 +51,7 @@ function addMetaData(config) {
           e.content = '#fff';
         } else if (e.name === 'apple-mobile-web-app-status-bar-style') {
           // eslint-disable-next-line no-param-reassign
-          e.content = 'black';
+          e.content = 'white';
         }
       });
       data.link.forEach(e => {
