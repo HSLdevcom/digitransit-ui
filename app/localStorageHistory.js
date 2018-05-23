@@ -43,30 +43,32 @@ const REPLACE = entry => {
 const getEntries = () => history.entries;
 const getIndex = () => history.index;
 
+const getLocationListener = () => event => {
+  switch (event.action) {
+    case 'POP':
+      POP(event);
+      break;
+    case 'REPLACE':
+      REPLACE(event);
+      break;
+    case 'PUSH':
+      PUSH(event);
+      break;
+    default:
+      console.error('unhandled history event:', event);
+  }
+  if (this && this[event.action] !== undefined) {
+    this[event.action](event);
+  }
+};
+
 const createLocalStorageHistory = () => {
   const hist = createMemoryHistory({
     current: getIndex(),
     entries: getEntries(),
   });
-  hist.listen(event => {
-    switch (event.action) {
-      case 'POP':
-        POP(event);
-        break;
-      case 'REPLACE':
-        REPLACE(event);
-        break;
-      case 'PUSH':
-        PUSH(event);
-        break;
-      default:
-        console.error('unhandled history event:', event);
-    }
-    if (this[event.action] !== undefined) {
-      this[event.action](event);
-    }
-  });
+  hist.listen(getLocationListener());
   return hist;
 };
 
-export { createLocalStorageHistory as default, getIndex };
+export { createLocalStorageHistory as default, getIndex, getLocationListener };
