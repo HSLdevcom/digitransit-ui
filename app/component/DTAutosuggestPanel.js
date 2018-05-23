@@ -36,7 +36,6 @@ class DTAutosuggestPanel extends React.Component {
   static defaultProps = {
     originPlaceHolder: 'give-origin',
     searchType: 'endpoint',
-    containerHeight: undefined,
   };
 
   constructor(props) {
