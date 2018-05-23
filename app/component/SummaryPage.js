@@ -247,7 +247,6 @@ class SummaryPage extends React.Component {
         error={props.error}
         setLoading={this.setLoading}
         setError={this.setError}
-        serviceTimeRange={props.serviceTimeRange}
       >
         {this.context.breakpoint === 'large' &&
           this.props.content &&
@@ -313,18 +312,22 @@ class SummaryPage extends React.Component {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
         content = (
-          <Relay.Renderer
-            Container={SummaryPlanContainer}
-            queryConfig={{
-              params: { error },
-              name: 'ServiceTimeRange',
-              queries: {
-                serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-              },
-            }}
-            environment={Relay.Store}
-            render={this.renderSummaryPlanContainer}
-          />
+          <SummaryPlanContainer
+            plan={this.props.plan.plan}
+            itineraries={this.props.plan.plan.itineraries}
+            params={this.props.params}
+            error={error}
+            setLoading={this.setLoading}
+            setError={this.setError}
+          >
+            {this.props.content &&
+              React.cloneElement(this.props.content, {
+                itinerary: this.props.plan.plan.itineraries[
+                  this.props.params.hash
+                ],
+                focus: this.updateCenter,
+              })}
+          </SummaryPlanContainer>
         );
       } else {
         content = (
@@ -386,17 +389,13 @@ class SummaryPage extends React.Component {
       );
     } else {
       content = (
-        <Relay.Renderer
-          Container={SummaryPlanContainer}
-          queryConfig={{
-            params: { error },
-            name: 'ServiceTimeRange',
-            queries: {
-              serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-            },
-          }}
-          environment={Relay.Store}
-          render={this.renderSummaryPlanContainer}
+        <SummaryPlanContainer
+          plan={this.props.plan.plan}
+          itineraries={this.props.plan.plan.itineraries}
+          params={this.props.params}
+          error={error}
+          setLoading={this.setLoading}
+          setError={this.setError}
         />
       );
     }

@@ -2,12 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
-import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import getContext from 'recompose/getContext';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
-import Icon from './Icon';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
 import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
@@ -39,6 +37,21 @@ class SummaryPlanContainer extends React.Component {
     location: PropTypes.object.isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
+
+  componentWillMount() {
+    const trQuery = Relay.createQuery(this.getTimeRangeQuery(), {});
+    Relay.Store.primeCache({ trQuery }, status => {
+      if (status.ready === true) {
+        const data = Relay.Store.readQuery(trQuery);
+        if (data[0]) {
+          this.props.serviceTimeRange = {
+            start: data[0].start,
+            end: data[0].end,
+          };
+        }
+      }
+    });
+  }
 
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
@@ -89,12 +102,16 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
+    let end;
     const MAXRANGE = 30; // limit day selection to sensible range ?
-    const range = this.props.serviceTimeRange;
     const now = this.context.getStore('TimeStore').getCurrentTime();
     const END = now.clone().add(MAXRANGE, 'd');
-    let end = moment.unix(range.end);
-    end = moment.max(moment.min(end, END), now); // always include today!
+    if (this.props.serviceTimeRange) {
+      end = moment.unix(this.props.serviceTimeRange.end);
+      end = moment.max(moment.min(end, END), now); // always include today!
+    } else {
+      end = END;
+    }
     end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
 
     const latestDepartureTime = this.props.itineraries.reduce(
@@ -174,13 +191,16 @@ class SummaryPlanContainer extends React.Component {
 
   onEarlier = () => {
     this.props.setLoading(true);
-
+    let start;
     const MAXRANGE = 30; // limit day selection to sensible range ?
-    const range = this.props.serviceTimeRange;
     const now = this.context.getStore('TimeStore').getCurrentTime();
     const START = now.clone().subtract(MAXRANGE, 'd');
-    let start = moment.unix(range.start);
-    start = moment.min(moment.max(start, START), now); // always include today!
+    if (this.props.serviceTimeRange) {
+      start = moment.unix(this.props.serviceTimeRange.start);
+      start = moment.min(moment.max(start, START), now); // always include today!
+    } else {
+      start = START;
+    }
 
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
@@ -273,6 +293,13 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
+  getTimeRangeQuery = () => Relay.QL`query {
+    serviceTimeRange {
+      start
+      end
+    }
+  }`;
+
   getQuery = () => Relay.QL`
     query Plan(
       $intermediatePlaces:[InputCoordinates]!,
@@ -336,22 +363,6 @@ class SummaryPlanContainer extends React.Component {
       return <Loading />;
     }
 
-    if (this.props.error) {
-      return (
-        <div className="summary-list-container summary-no-route-found">
-          <div className="flex-horizontal">
-            <Icon className="no-route-icon" img="icon-icon_caution" />
-            <div>
-              <FormattedMessage
-                id={this.props.error}
-                defaultMessage="Käytössä oleva aikataulu ei sisällä aiempia reittejä."
-              />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
@@ -362,6 +373,7 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
           open={Number(this.props.params.hash)}
+          error={this.props.error}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
@@ -385,12 +397,6 @@ export default Relay.createContainer(withConfig, {
     plan: () => Relay.QL`
       fragment on Plan {
         date
-      }
-    `,
-    serviceTimeRange: () => Relay.QL`
-      fragment on serviceTimeRange {
-        start
-        end
       }
     `,
     itineraries: () => Relay.QL`
