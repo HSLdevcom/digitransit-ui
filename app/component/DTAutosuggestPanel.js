@@ -67,40 +67,50 @@ class DTAutosuggestPanel extends React.Component {
         },
       ])}
     >
-      <DTEndpointAutosuggest
-        id="origin"
-        autoFocus={
-          // Disable autofocus if using IE11
-          isIe
-            ? false
-            : this.props.breakpoint === 'large' && !this.props.origin.ready
-        }
-        refPoint={this.props.origin}
-        className={this.class(this.props.origin)}
-        searchType={this.props.searchType}
-        placeholder={this.props.originPlaceHolder}
-        value={this.value(this.props.origin)}
-        isFocused={this.isFocused}
-        onLocationSelected={location => {
-          let origin = { ...location, ready: true };
-          let { destination } = this.props;
-          if (location.type === 'CurrentLocation') {
-            origin = { ...location, gps: true, ready: !!location.lat };
-            if (destination.gps === true) {
-              // destination has gps, clear destination
-              destination = { set: false };
-            }
-          }
-          navigateTo({
-            base: this.context.location,
-            origin,
-            destination,
-            context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-            router: this.context.router,
-            tab: this.props.tab,
-          });
-        }}
+      <div
+        className={cx([
+          'dark-overlay',
+          {
+            hidden: !this.state.showDarkOverlay,
+          },
+        ])}
       />
+      {
+        <DTEndpointAutosuggest
+          id="origin"
+          autoFocus={
+            // Disable autofocus if using IE11
+            isIe
+              ? false
+              : this.props.breakpoint === 'large' && !this.props.origin.ready
+          }
+          refPoint={this.props.origin}
+          className={this.class(this.props.origin)}
+          searchType={this.props.searchType}
+          placeholder={this.props.originPlaceHolder}
+          value={this.value(this.props.origin)}
+          isFocused={this.isFocused}
+          onLocationSelected={location => {
+            let origin = { ...location, ready: true };
+            let { destination } = this.props;
+            if (location.type === 'CurrentLocation') {
+              origin = { ...location, gps: true, ready: !!location.lat };
+              if (destination.gps === true) {
+                // destination has gps, clear destination
+                destination = { set: false };
+              }
+            }
+            navigateTo({
+              base: this.context.location,
+              origin,
+              destination,
+              context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
+              router: this.context.router,
+              tab: this.props.tab,
+            });
+          }}
+        />
+      }
       {this.props.isViaPoint && (
         <div className="viapoint-input-container">
           <div className="viapoint-before">
@@ -114,7 +124,7 @@ class DTAutosuggestPanel extends React.Component {
             id="viapoint"
             autoFocus={
               // Disable autofocus if using IE11
-              isIe ? false : this.context.breakpoint === 'large'
+              isIe ? false : this.props.breakpoint === 'large'
             }
             refPoint={this.props.origin}
             searchType="endpoint"
@@ -139,41 +149,6 @@ class DTAutosuggestPanel extends React.Component {
           />
         </div>
       )}
-      {(this.props.destination && this.props.destination.set) ||
-      this.props.origin.ready ||
-      this.props.isItinerary ? (
-        <DTEndpointAutosuggest
-          id="destination"
-          autoFocus={
-            // Disable autofocus if using IE11
-            isIe ? false : this.props.breakpoint === 'large'
-          }
-          refPoint={this.props.origin}
-          searchType={this.props.searchType}
-          placeholder="give-destination"
-          className={this.class(this.props.destination)}
-          isFocused={this.isFocused}
-          value={this.value(this.props.destination)}
-          onLocationSelected={location => {
-            let { origin } = this.props;
-            let destination = { ...location, ready: true };
-            if (location.type === 'CurrentLocation') {
-              destination = { ...location, gps: true, ready: !!location.lat };
-              if (origin.gps === true) {
-                origin = { set: false };
-              }
-            }
-            navigateTo({
-              base: this.context.location,
-              origin,
-              destination,
-              context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
-              router: this.context.router,
-              tab: this.props.tab,
-            });
-          }}
-        />
-      ) : null}
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
       this.props.isItinerary ? (
