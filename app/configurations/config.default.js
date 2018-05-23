@@ -170,15 +170,10 @@ export default {
   // TODO: Switch off in autumn
   cityBike: {
     showCityBikes: true,
+    showStationId: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat',
-      sv: 'https://www.hsl.fi/sv/stadscyklar',
-      en: 'https://www.hsl.fi/en/citybikes',
-    },
-
-    infoUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyörät',
       sv: 'https://www.hsl.fi/sv/stadscyklar',
       en: 'https://www.hsl.fi/en/citybikes',
     },
@@ -552,6 +547,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    kouvola: 'kouvola',
     tampere: 'tampere',
     mikkeli: 'mikkeli',
     kotka: 'kotka',
@@ -575,6 +571,7 @@ export default {
     { id: '29', expr: 'kotka' },
     { id: '31', expr: 'mikkeli' },
     { id: '35', expr: 'tampere' },
+    { id: '43', expr: 'kouvola' },
     // put generic expressions last so that they do not match waltti cities
     // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
     { id: '5', expr: 'dev.reittiopas' },

@@ -3,7 +3,8 @@ $stop-thin-opacity: 0.2;
 
 div.map {
   width: 100%;
-
+  max-height: 100%;
+  position: relative;
   .leaflet-container .leaflet-control-attribution {
     background: rgba(255, 255, 255, 0.4);
     color: $dark-gray
@@ -48,10 +49,14 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
     font-size: 17px;
   }
   a {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 30px;
     height: 30px;
     line-height: 30px;
     font-size: 22px;
+    color: currentColor;
   }
 }
 
@@ -60,12 +65,16 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 }
 
 div.leaflet-container {
-  position: relative;
+  position: absolute;
   flex: 1;
   width: 100%;
   height: 100%;
   background: none;
   @include font-map-container;
+}
+
+.component-example div.leaflet-container {
+  position: relative;
 }
 
 div.current-location-marker > span > svg.icon {
@@ -155,7 +164,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon  {
 
 .toggle-positioning-container {
   position: absolute;
-  z-index: 802;
+  z-index: 800;
   bottom: 18px;
   left: 20px;
   background-color: $white;

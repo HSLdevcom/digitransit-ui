@@ -46,7 +46,11 @@ class RoutePatternSelect extends Component {
     const options =
       this.props.route.patterns.find(
         o => o.tripsForDate && o.tripsForDate.length > 0,
-      ) !== undefined
+      ) !== undefined ||
+      (this.props.route.patterns.find(
+        o => o.tripsForDate && o.tripsForDate.length > 0,
+      ) === undefined &&
+        this.props.activeTab === 'aikataulu')
         ? this.props.route.patterns
             .filter(
               o =>
@@ -77,7 +81,14 @@ class RoutePatternSelect extends Component {
     return this.state.loading === true ? (
       <div className={cx('route-pattern-select', this.props.className)} />
     ) : (
-      <div className={cx('route-pattern-select', this.props.className)}>
+      <div
+        className={cx('route-pattern-select', this.props.className, {
+          hidden:
+            this.props.route.patterns.find(
+              o => o.tripsForDate && o.tripsForDate.length > 0,
+            ) === undefined && this.props.activeTab !== 'aikataulu',
+        })}
+      >
         <Icon img="icon-icon_arrow-dropdown" />
         <select
           onChange={this.props.onSelectChange}

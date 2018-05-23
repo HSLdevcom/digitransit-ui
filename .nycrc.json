@@ -1,0 +1,11 @@
+{
+  "all": true,
+  "include": [
+    "app/**/*.js"
+  ],
+  "reporter": [
+    "lcovonly",
+    "html",
+    "text-summary"
+  ]
+}

@@ -19,6 +19,7 @@ const StopCardContainer = connectToStores(
         limit={props.limit}
         isTerminal={props.isTerminal}
         currentTime={props.relay.variables.startTime}
+        showPlatformCodes
       />
     ),
   }),

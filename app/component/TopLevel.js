@@ -1,25 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import Helmet from 'react-helmet';
-import { intlShape } from 'react-intl';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getHomeUrl, parseLocation } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
-import meta from '../meta';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import HSLAdformTrackingPixel from './HSLAdformTrackingPixel';
 import ErrorBoundary from './ErrorBoundary';
+import { DesktopOrMobile } from '../util/withBreakpoint';
 
 class TopLevel extends React.Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     children: PropTypes.node,
-    width: PropTypes.number,
-    height: PropTypes.number,
     header: PropTypes.node,
     map: PropTypes.node,
     content: PropTypes.node,
@@ -39,9 +35,6 @@ class TopLevel extends React.Component {
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    intl: intlShape,
-    url: PropTypes.string.isRequired,
     headers: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   };
@@ -55,13 +48,13 @@ class TopLevel extends React.Component {
 
   static childContextTypes = {
     location: PropTypes.object,
-    breakpoint: PropTypes.string.isRequired,
   };
 
-  constructor(props, { url, headers, config, intl }) {
+  constructor(props, { headers, config }) {
     super(props);
     const host = headers && (headers['x-forwarded-host'] || headers.host);
 
+    // TODO: Move this to server.js
     const hasTrackingPixel = get(config, 'showHSLTracking', false);
     this.trackingPixel =
       host &&
@@ -72,32 +65,13 @@ class TopLevel extends React.Component {
       ) : (
         undefined
       );
-
-    this.metadata = meta(intl.locale, host, url, config);
   }
 
   getChildContext() {
     return {
       location: this.props.location,
-      breakpoint: this.getBreakpoint(),
     };
   }
-
-  getBreakpoint = () => {
-    if (this.props.width) {
-      if (this.props.width < 400) {
-        return 'small';
-      } else if (this.props.width < 900) {
-        return 'medium';
-      }
-    } else if (
-      'user-agent' in this.context.headers &&
-      this.context.headers['user-agent'].toLowerCase().includes('mobile')
-    ) {
-      return 'small';
-    }
-    return 'large';
-  };
 
   render() {
     this.topBarOptions = Object.assign(
@@ -118,22 +92,25 @@ class TopLevel extends React.Component {
 
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;
-    } else if (this.props.width < 900) {
+    } else {
       content = (
-        <MobileView
-          map={this.disableMapOnMobile || this.props.map}
-          content={this.props.content}
-          header={this.props.header}
-        />
-      );
-    } else if (this.props.width >= 900) {
-      content = (
-        <DesktopView
-          title={this.props.title}
-          map={this.props.map}
-          content={this.props.content}
-          header={this.props.header}
-          homeUrl={homeUrl}
+        <DesktopOrMobile
+          mobile={() => (
+            <MobileView
+              map={this.disableMapOnMobile || this.props.map}
+              content={this.props.content}
+              header={this.props.header}
+            />
+          )}
+          desktop={() => (
+            <DesktopView
+              title={this.props.title}
+              map={this.props.map}
+              content={this.props.content}
+              header={this.props.header}
+              homeUrl={homeUrl}
+            />
+          )}
         />
       );
     }
@@ -147,7 +124,6 @@ class TopLevel extends React.Component {
             homeUrl={homeUrl}
           />
         )}
-        <Helmet {...this.metadata} />
         <section id="mainContent" className="content">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>

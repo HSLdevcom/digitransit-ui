@@ -1,12 +1,13 @@
-
-.departure  {
+.departure {
   // parent class for time, vehicle-number, destination
   background: $white;
+  display: flex;
+  justify-content: flex-start;
   line-height: $line-height-normal;
-  position: relative;
-  overflow-y: visible;
-  white-space: nowrap;
   margin: 0;
+  overflow-y: visible;
+  position: relative;
+  white-space: nowrap;
 
   .vehicle-number {
     width: 2.5em;
@@ -15,12 +16,22 @@
   & .route-number {
     width: 3em;
   }
+
   .icon {
     font-size: 1em;
     vertical-align: -1px;
   }
+
   .route-destination {
+    flex: 1;
     padding-left: 0.5em;
+
+    & .destination {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
   }
 }
 
@@ -56,10 +67,17 @@
   padding: 0 5px;
   vertical-align: top;
   overflow: hidden;
-  mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+  mask-image: linear-gradient(
+    to left,
+    transparent,
+    rgba(0, 0, 0, 0.2) 5px,
+    black 7px,
+    black
+  );
 }
-.departure > div, .departure > span {
-    vertical-align: middle;
+.departure > div,
+.departure > span {
+  vertical-align: middle;
 }
 
 .desktop .route-destination {
@@ -84,19 +102,19 @@
     &.bus::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($bus-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle stroke-width='2.5' stroke='#{rgba($bus-color, 0.9999999)}' fill='white' cx='11' cy='10' r='4'/></svg>");
     }
-    &.tram::after{
+    &.tram::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($tram-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($tram-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
     }
-    &.rail::after{
+    &.rail::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($rail-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($rail-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
     }
-    &.subway::after{
+    &.subway::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($metro-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($metro-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
     }
-    &.ferry::after{
+    &.ferry::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($ferry-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($ferry-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
     }
-    &.citybike::after{
+    &.citybike::after {
       content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='19'><line x1='2' y1='10' x2='10' y2='10' stroke='#{rgba($citybike-color, 0.9999999)}' stroke-width='3.5' stroke-linecap='round'/><circle  stroke-width='2.5' stroke='#{rgba($citybike-color, 0.9999999)}' fill='white' cx='10' cy='10' r='4'/></svg>");
     }
   }
@@ -153,7 +171,8 @@
   width: 0.5em;
 }
 
-.canceled .time, .time.canceled {
+.canceled .time,
+.time.canceled {
   position: relative;
   display: inline-block;
   color: $cancelation-black;
@@ -184,7 +203,7 @@
   padding-bottom: inherit;
 }
 
-.next-departure-row  {
+.next-departure-row {
   background: $white;
   line-height: $line-height-normal;
   position: relative;
@@ -334,7 +353,7 @@
 
 .mobile {
   .departure-list-header {
-     margin-top: 0em;
+    margin-top: 0em;
   }
 }
 

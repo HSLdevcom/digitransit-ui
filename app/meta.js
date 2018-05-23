@@ -38,7 +38,7 @@ export default function getMetadata(lang, host, url, config) {
       },
       {
         property: 'og:url',
-        content: `https://${host}${url}`,
+        content: url,
       },
       {
         property: 'og:type',

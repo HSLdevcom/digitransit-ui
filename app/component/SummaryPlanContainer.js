@@ -9,6 +9,7 @@ import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
 import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
+import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -28,6 +29,7 @@ class SummaryPlanContainer extends React.Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -35,7 +37,6 @@ class SummaryPlanContainer extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   componentWillMount() {
@@ -67,7 +68,7 @@ class SummaryPlanContainer extends React.Component {
 
   onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
-      if (this.context.breakpoint === 'large') {
+      if (this.props.breakpoint === 'large') {
         this.context.router.replace({
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
@@ -89,7 +90,7 @@ class SummaryPlanContainer extends React.Component {
         this.props.params.to,
       )}/${index}`;
 
-      if (this.context.breakpoint === 'large') {
+      if (this.props.breakpoint === 'large') {
         newState.pathname = indexPath;
         this.context.router.replace(newState);
       } else {
@@ -390,7 +391,7 @@ class SummaryPlanContainer extends React.Component {
 
 const withConfig = getContext({
   config: PropTypes.object.isRequired,
-})(SummaryPlanContainer);
+})(withBreakpoint(SummaryPlanContainer));
 
 export default Relay.createContainer(withConfig, {
   fragments: {
