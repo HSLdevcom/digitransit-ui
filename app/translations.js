@@ -1753,10 +1753,12 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
-    'no-route-end-date-not-in-range': 'Tidtabellen har inga resor som avgår senare.',
+    'no-route-end-date-not-in-range':
+      'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
-    'no-route-start-date-too-early': 'Tidtabellen har inga resor som avgår tidigare.',
+    'no-route-start-date-too-early':
+      'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
