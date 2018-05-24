@@ -8,7 +8,7 @@ import SummaryRow from './SummaryRow';
 import Icon from './Icon';
 
 function ItinerarySummaryListContainer(props, context) {
-  if (props.itineraries && props.itineraries.length > 0) {
+  if (!props.error && props.itineraries && props.itineraries.length > 0) {
     const open = props.open && Number(props.open);
     const summaries = props.itineraries.map((itinerary, i) => (
       <SummaryRow
@@ -31,7 +31,7 @@ function ItinerarySummaryListContainer(props, context) {
     );
   }
   const { from, to } = props.relay.route.params;
-  if (!from.lat || !from.lon || !to.lat || !to.lon) {
+  if (!props.error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
     return (
       <div className="summary-list-container summary-no-route-found">
         <FormattedMessage
@@ -44,7 +44,9 @@ function ItinerarySummaryListContainer(props, context) {
 
   let msg;
   let outside;
-  if (!inside([from.lon, from.lat], context.config.areaPolygon)) {
+  if (props.error) {
+    msg = props.error;
+  } else if (!inside([from.lon, from.lat], context.config.areaPolygon)) {
     msg = 'origin-outside-service';
     outside = true;
   } else if (!inside([to.lon, to.lat], context.config.areaPolygon)) {
@@ -96,6 +98,7 @@ ItinerarySummaryListContainer.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   open: PropTypes.number,
+  error: PropTypes.string,
   children: PropTypes.node,
   relay: PropTypes.shape({
     route: PropTypes.shape({
