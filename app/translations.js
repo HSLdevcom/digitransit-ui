@@ -126,11 +126,11 @@ const translations = {
     'no-position-no-stops':
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
     'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
@@ -370,9 +370,11 @@ const translations = {
     'no-position-no-stops':
       'Die nächsten Haltestellen können nicht gezeigt werden, da Ihr Standort unbekannt ist.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
+    'no-route-start-date-not-in-range':
+      'Current timetable does not include routes departing earlier.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
     now: 'Jetzt',
@@ -634,11 +636,11 @@ const translations = {
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
     'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
@@ -1217,11 +1219,11 @@ const translations = {
     'no-position-no-stops':
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
     'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
@@ -1468,11 +1470,11 @@ const translations = {
     'no-position-no-stops':
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
     'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
     'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
@@ -1751,12 +1753,10 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
-    'no-route-end-date-not-in-range':
-      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
+    'no-route-end-date-not-in-range': 'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
-    'no-route-start-date-too-early':
-      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
+    'no-route-start-date-too-early': 'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',
