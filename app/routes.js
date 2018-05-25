@@ -480,6 +480,14 @@ export default config => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
+      <Route
+        path="/admin"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "admin" */ './component/AdminPage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
       <Route path="/js/:name" component={Error404} />
       <Route path="/css/:name" component={Error404} />
       <Route

@@ -105,6 +105,29 @@ export function resetCustomizedSettings() {
   }
 }
 
+  // Get advanced routing parameters (not for normal use)
+export function getRoutingSettings() {
+  return getItemAsJson('routingSettings');
+}
+
+export function setRoutingSettings(data) {
+  // Get old settings and test if set values have changed
+  const oldSettings = getRoutingSettings();
+  const newSettings = {
+    ignoreRealtimeUpdates: data.ignoreRealtimeUpdates
+      ? data.ignoreRealtimeUpdates
+      : oldSettings.ignoreRealtimeUpdates,
+  };
+  setItem('routingSettings', newSettings);
+}
+
+export function resetRoutingSettings() {
+  const localStorage = getLocalStorage(isBrowser);
+  if (localStorage) {
+    localStorage.removeItem('routingSettings');
+  }
+}
+
 export function getFavouriteLocationsStorage() {
   return getItemAsJson('favouriteLocations');
 }

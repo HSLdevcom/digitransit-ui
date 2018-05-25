@@ -2,7 +2,7 @@ import omitBy from 'lodash/omitBy';
 
 import moment from 'moment';
 // Localstorage data
-import { getCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings, getRoutingSettings } from '../store/localStorage';
 import { otpToLocation } from './otpStrings';
 
 export const WALKBOARDCOST_DEFAULT = 600;
@@ -41,12 +41,17 @@ function setTicketTypes(ticketType, settingsTicketType) {
   return null;
 }
 
+function isTrue(val) {
+  return val == "true";
+}
+
 function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
 export const getSettings = () => {
   const custSettings = getCustomizedSettings();
+  const routingSettings = getRoutingSettings();
 
   return {
     walkSpeed:
@@ -81,6 +86,10 @@ export const getSettings = () => {
     transferPenalty:
       custSettings.transferPenalty !== undefined
         ? Number(custSettings.transferPenalty)
+        : undefined,
+    ignoreRealtimeUpdates:
+      routingSettings.ignoreRealtimeUpdates !== undefined
+        ? isTrue(routingSettings.ignoreRealtimeUpdates)
         : undefined,
   };
 };
@@ -118,6 +127,7 @@ export const preparePlanParams = config => (
         accessibilityOption,
         ticketTypes,
         transferPenalty,
+        ignoreRealtimeUpdates,
       },
     },
   },
@@ -171,6 +181,10 @@ export const preparePlanParams = config => (
           transferPenalty !== undefined
             ? Number(transferPenalty)
             : settings.transferPenalty,
+        ignoreRealtimeUpdates:
+          ignoreRealtimeUpdates !== undefined
+            ? isTrue(ignoreRealtimeUpdates)
+            : settings.ignoreRealtimeUpdates,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

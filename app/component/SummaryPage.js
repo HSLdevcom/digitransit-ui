@@ -448,8 +448,8 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
-          preferred: $preferred,
-          itineraryFiltering: $itineraryFiltering)
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates,
+          preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -494,6 +494,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       arriveBy: false,
       disableRemainingWeightHeuristic: false,
       transferPenalty: null,
+      ignoreRealtimeUpdates: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
