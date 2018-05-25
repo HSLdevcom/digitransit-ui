@@ -99,6 +99,10 @@ export const getSettings = () => {
       routingSettings.walkOnStreetReluctance !== undefined
         ? Number(routingSettings.walkOnStreetReluctance)
         : undefined,
+    waitReluctance:
+      routingSettings.waitReluctance !== undefined
+        ? Number(routingSettings.waitReluctance)
+        : undefined,
     bikeSpeed:
       routingSettings.bikeSpeed !== undefined
         ? Number(routingSettings.bikeSpeed)
@@ -142,6 +146,7 @@ export const preparePlanParams = config => (
         ignoreRealtimeUpdates,
         maxPreTransitTime,
         walkOnStreetReluctance,
+        waitReluctance,
         bikeSpeed,
       },
     },
@@ -208,6 +213,10 @@ export const preparePlanParams = config => (
           walkOnStreetReluctance !== undefined
             ? Number(walkOnStreetReluctance)
             : settings.walkOnStreetReluctance,
+        waitReluctance:
+          waitReluctance !== undefined
+            ? Number(waitReluctance)
+            : settings.waitReluctance,
         bikeSpeed:
           bikeSpeed !== undefined
             ? Number(bikeSpeed)

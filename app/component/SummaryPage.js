@@ -451,6 +451,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           ignoreRealtimeUpdates: $ignoreRealtimeUpdates,
           maxPreTransitTime: $maxPreTransitTime,
           walkOnStreetReluctance: $walkOnStreetReluctance,
+          waitReluctance: $waitReluctance,
           bikeSpeed: $bikeSpeed,
           preferred: $preferred)
         {
@@ -500,6 +501,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       ignoreRealtimeUpdates: null,
       maxPreTransitTime: null,
       walkOnStreetReluctance: null,
+      waitReluctance: null,
       bikeSpeed: null,
       modes: null,
       maxWalkDistance: 0,

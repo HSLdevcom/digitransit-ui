@@ -11,6 +11,7 @@ export const defaultRoutingSettings = {
   bikeSpeed: 5.0,
   maxPreTransitTime: 1800,
   walkOnStreetReluctance: 1.0,
+  waitReluctance: 1.0,
 };
 
 const AdminPage = (context) => {
@@ -75,6 +76,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateWaitReluctance = ({ target }) => {
+    const waitReluctance = target.value;
+    if (waitReluctance < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.waitReluctance;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        waitReluctance,
+      },
+    });
+  };
+
   const updateBikeSpeed = ({ target }) => {
     const bikeSpeed = target.value;
     if (bikeSpeed < 0) {
@@ -113,6 +129,10 @@ const AdminPage = (context) => {
       <label>
         Multiplier for reluctancy to walk on streets where car traffic is allowed. If value is over 1, streets with no cars will be preferred. If under 1, vice versa. (default 1.0)
         <input type="number" step="any" min="0" onInput={updateWalkOnStreetReluctance} onChange={updateWalkOnStreetReluctance} value={merged.walkOnStreetReluctance}/>
+      </label>
+      <label>
+        Multiplier for reluctancy to wait at a transit stop compared to being on transit vehicle. If value is over 1, extra time is rather spent on transit vehicle than on transit stop. If under 1, vice versa. Note, changing this value to be over 1.0 has a side effect where you are guided to walk along the bus line instead of waiting. (default 1.0)
+        <input type="number" step="any" min="0" onInput={updateWaitReluctance} onChange={updateWaitReluctance} value={merged.waitReluctance}/>
       </label>
       <label>
         Bike speed m/s (default 5.0)

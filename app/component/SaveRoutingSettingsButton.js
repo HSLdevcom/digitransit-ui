@@ -22,6 +22,9 @@ class SaveRoutingSettingsButton extends React.Component {
       walkOnStreetReluctance: this.context.location.query.walkOnStreetReluctance
         ? this.context.location.query.walkOnStreetReluctance
         : undefined,
+      waitReluctance: this.context.location.query.waitReluctance
+        ? this.context.location.query.waitReluctance
+        : undefined,
       bikeSpeed: this.context.location.query.bikeSpeed
         ? this.context.location.query.bikeSpeed
         : undefined,

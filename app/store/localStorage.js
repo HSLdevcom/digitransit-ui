@@ -123,6 +123,9 @@ export function setRoutingSettings(data) {
     walkOnStreetReluctance: data.walkOnStreetReluctance
       ? data.walkOnStreetReluctance
       : oldSettings.walkOnStreetReluctance,
+    waitReluctance: data.waitReluctance
+      ? data.waitReluctance
+      : oldSettings.waitReluctance,
     bikeSpeed: data.bikeSpeed
       ? data.bikeSpeed
       : oldSettings.bikeSpeed,
