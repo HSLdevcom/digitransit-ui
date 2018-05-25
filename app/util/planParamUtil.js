@@ -91,6 +91,10 @@ export const getSettings = () => {
       routingSettings.ignoreRealtimeUpdates !== undefined
         ? isTrue(routingSettings.ignoreRealtimeUpdates)
         : undefined,
+    maxPreTransitTime:
+      routingSettings.maxPreTransitTime !== undefined
+        ? Number(routingSettings.maxPreTransitTime)
+        : undefined,
     bikeSpeed:
       routingSettings.bikeSpeed !== undefined
         ? Number(routingSettings.bikeSpeed)
@@ -132,6 +136,7 @@ export const preparePlanParams = config => (
         ticketTypes,
         transferPenalty,
         ignoreRealtimeUpdates,
+        maxPreTransitTime,
         bikeSpeed,
       },
     },
@@ -190,6 +195,10 @@ export const preparePlanParams = config => (
           ignoreRealtimeUpdates !== undefined
             ? isTrue(ignoreRealtimeUpdates)
             : settings.ignoreRealtimeUpdates,
+        maxPreTransitTime:
+          maxPreTransitTime !== undefined
+            ? Number(maxPreTransitTime)
+            : settings.maxPreTransitTime,
         bikeSpeed:
           bikeSpeed !== undefined
             ? Number(bikeSpeed)

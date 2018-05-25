@@ -9,6 +9,7 @@ import SaveRoutingSettingsButton from './SaveRoutingSettingsButton';
 export const defaultRoutingSettings = {
   ignoreRealtimeUpdates: false,
   bikeSpeed: 5.0,
+  maxPreTransitTime: 1800,
 };
 
 const AdminPage = (context) => {
@@ -43,6 +44,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateMaxPreTransitTime = ({ target }) => {
+    const maxPreTransitTime = target.value;
+    if (maxPreTransitTime < 0) {
+      alert('Insert positive number');
+      target.value = mergedCurrent.maxPreTransitTime;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        maxPreTransitTime,
+      },
+    });
+  };
+
   const updateBikeSpeed = ({ target }) => {
     const bikeSpeed = target.value;
     if (bikeSpeed < 0) {
@@ -73,6 +89,10 @@ const AdminPage = (context) => {
             True
           </option>
         </select>
+      </label>
+      <label>
+        Soft limit for maximum time in seconds before car parking (default 1800)
+        <input type="number" step="any" min="0" onInput={updateMaxPreTransitTime} onChange={updateMaxPreTransitTime} value={merged.maxPreTransitTime}/>
       </label>
       <label>
         Bike speed m/s (default 5.0)

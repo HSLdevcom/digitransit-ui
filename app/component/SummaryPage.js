@@ -449,6 +449,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
           ignoreRealtimeUpdates: $ignoreRealtimeUpdates,
+          maxPreTransitTime: $maxPreTransitTime,
           bikeSpeed: $bikeSpeed,
           preferred: $preferred)
         {
@@ -496,6 +497,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       disableRemainingWeightHeuristic: false,
       transferPenalty: null,
       ignoreRealtimeUpdates: null,
+      maxPreTransitTime: null,
       bikeSpeed: null,
       modes: null,
       maxWalkDistance: 0,

@@ -117,6 +117,9 @@ export function setRoutingSettings(data) {
     ignoreRealtimeUpdates: data.ignoreRealtimeUpdates
       ? data.ignoreRealtimeUpdates
       : oldSettings.ignoreRealtimeUpdates,
+    maxPreTransitTime: data.maxPreTransitTime
+      ? data.maxPreTransitTime
+      : oldSettings.maxPreTransitTime,
     bikeSpeed: data.bikeSpeed
       ? data.bikeSpeed
       : oldSettings.bikeSpeed,
