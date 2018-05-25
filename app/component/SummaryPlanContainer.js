@@ -278,6 +278,7 @@ class SummaryPlanContainer extends React.Component {
       $transferPenalty: Int!,
       $ignoreRealtimeUpdates: Boolean!,
       $maxPreTransitTime: Int!,
+      $walkOnStreetReluctance: Float!,
       $bikeSpeed: Float!,
     ) { viewer {
         plan(
@@ -300,6 +301,7 @@ class SummaryPlanContainer extends React.Component {
           transferPenalty:$transferPenalty,
           ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
           maxPreTransitTime: $maxPreTransitTime,
+          walkOnStreetReluctance: $walkOnStreetReluctance,
           bikeSpeed: $bikeSpeed,
         ) {itineraries {startTime,endTime}}
       }

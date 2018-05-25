@@ -10,6 +10,7 @@ export const defaultRoutingSettings = {
   ignoreRealtimeUpdates: false,
   bikeSpeed: 5.0,
   maxPreTransitTime: 1800,
+  walkOnStreetReluctance: 1.0,
 };
 
 const AdminPage = (context) => {
@@ -47,7 +48,7 @@ const AdminPage = (context) => {
   const updateMaxPreTransitTime = ({ target }) => {
     const maxPreTransitTime = target.value;
     if (maxPreTransitTime < 0) {
-      alert('Insert positive number');
+      alert('Insert a positive number');
       target.value = mergedCurrent.maxPreTransitTime;
     }
     context.router.replace({
@@ -59,10 +60,25 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateWalkOnStreetReluctance = ({ target }) => {
+    const walkOnStreetReluctance = target.value;
+    if (walkOnStreetReluctance < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.walkOnStreetReluctance;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        walkOnStreetReluctance,
+      },
+    });
+  };
+
   const updateBikeSpeed = ({ target }) => {
     const bikeSpeed = target.value;
     if (bikeSpeed < 0) {
-      alert('Bike speed needs to be over 0');
+      alert('Insert a positive number');
       target.value = mergedCurrent.bikeSpeed;
     }
     context.router.replace({
@@ -92,7 +108,11 @@ const AdminPage = (context) => {
       </label>
       <label>
         Soft limit for maximum time in seconds before car parking (default 1800)
-        <input type="number" step="any" min="0" onInput={updateMaxPreTransitTime} onChange={updateMaxPreTransitTime} value={merged.maxPreTransitTime}/>
+        <input type="number" step="1" min="0" onInput={updateMaxPreTransitTime} onChange={updateMaxPreTransitTime} value={merged.maxPreTransitTime}/>
+      </label>
+      <label>
+        Multiplier for reluctancy to walk on streets where car traffic is allowed. If value is over 1, streets with no cars will be preferred. If under 1, vice versa. (default 1.0)
+        <input type="number" step="any" min="0" onInput={updateWalkOnStreetReluctance} onChange={updateWalkOnStreetReluctance} value={merged.walkOnStreetReluctance}/>
       </label>
       <label>
         Bike speed m/s (default 5.0)

@@ -120,6 +120,9 @@ export function setRoutingSettings(data) {
     maxPreTransitTime: data.maxPreTransitTime
       ? data.maxPreTransitTime
       : oldSettings.maxPreTransitTime,
+    walkOnStreetReluctance: data.walkOnStreetReluctance
+      ? data.walkOnStreetReluctance
+      : oldSettings.walkOnStreetReluctance,
     bikeSpeed: data.bikeSpeed
       ? data.bikeSpeed
       : oldSettings.bikeSpeed,
