@@ -449,6 +449,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
           ignoreRealtimeUpdates: $ignoreRealtimeUpdates,
+          bikeSpeed: $bikeSpeed,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -495,6 +496,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       disableRemainingWeightHeuristic: false,
       transferPenalty: null,
       ignoreRealtimeUpdates: null,
+      bikeSpeed: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

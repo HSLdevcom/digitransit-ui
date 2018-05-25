@@ -8,6 +8,7 @@ import SaveRoutingSettingsButton from './SaveRoutingSettingsButton';
 
 export const defaultRoutingSettings = {
   ignoreRealtimeUpdates: false,
+  bikeSpeed: 5.0,
 };
 
 const AdminPage = (context) => {
@@ -15,6 +16,11 @@ const AdminPage = (context) => {
     ...defaultRoutingSettings,
     ...getRoutingSettings(),
     ...context.location.query,
+  };
+
+  const mergedCurrent = {
+    ...defaultRoutingSettings,
+    ...getRoutingSettings(),
   };
 
   const replaceParams = newParams =>
@@ -37,10 +43,25 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateBikeSpeed = ({ target }) => {
+    const bikeSpeed = target.value;
+    if (bikeSpeed < 0) {
+      alert('Bike speed needs to be over 0');
+      target.value = mergedCurrent.bikeSpeed;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        bikeSpeed,
+      },
+    });
+  };
+
   return (
     <div className="page-frame fullscreen momentum-scroll">
       <label>
-          Ignore realtime updates (default false):
+        Ignore realtime updates (default false):
         <select
           value={merged.ignoreRealtimeUpdates}
           onChange={toggleRealtimeUpdates}
@@ -52,6 +73,10 @@ const AdminPage = (context) => {
             True
           </option>
         </select>
+      </label>
+      <label>
+        Bike speed m/s (default 5.0)
+        <input type="number" step="any" min="0" onInput={updateBikeSpeed} onChange={updateBikeSpeed} value={merged.bikeSpeed}/>
       </label>
       <SaveRoutingSettingsButton />
     </div>

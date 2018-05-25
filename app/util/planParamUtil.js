@@ -91,6 +91,10 @@ export const getSettings = () => {
       routingSettings.ignoreRealtimeUpdates !== undefined
         ? isTrue(routingSettings.ignoreRealtimeUpdates)
         : undefined,
+    bikeSpeed:
+      routingSettings.bikeSpeed !== undefined
+        ? Number(routingSettings.bikeSpeed)
+        : undefined,
   };
 };
 
@@ -128,6 +132,7 @@ export const preparePlanParams = config => (
         ticketTypes,
         transferPenalty,
         ignoreRealtimeUpdates,
+        bikeSpeed,
       },
     },
   },
@@ -185,6 +190,10 @@ export const preparePlanParams = config => (
           ignoreRealtimeUpdates !== undefined
             ? isTrue(ignoreRealtimeUpdates)
             : settings.ignoreRealtimeUpdates,
+        bikeSpeed:
+          bikeSpeed !== undefined
+            ? Number(bikeSpeed)
+            : settings.bikeSpeed,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

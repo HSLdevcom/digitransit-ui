@@ -117,6 +117,9 @@ export function setRoutingSettings(data) {
     ignoreRealtimeUpdates: data.ignoreRealtimeUpdates
       ? data.ignoreRealtimeUpdates
       : oldSettings.ignoreRealtimeUpdates,
+    bikeSpeed: data.bikeSpeed
+      ? data.bikeSpeed
+      : oldSettings.bikeSpeed,
   };
   setItem('routingSettings', newSettings);
 }

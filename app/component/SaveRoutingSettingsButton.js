@@ -16,6 +16,9 @@ class SaveRoutingSettingsButton extends React.Component {
       ignoreRealtimeUpdates: this.context.location.query.ignoreRealtimeUpdates
         ? this.context.location.query.ignoreRealtimeUpdates
         : undefined,
+      bikeSpeed: this.context.location.query.bikeSpeed
+        ? this.context.location.query.bikeSpeed
+        : undefined,
     };
     setRoutingSettings(settings);
     alert('Settings updated');
