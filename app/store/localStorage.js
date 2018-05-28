@@ -135,6 +135,9 @@ export function setRoutingSettings(data) {
     bikeSwitchCost: data.bikeSwitchCost
       ? data.bikeSwitchCost
       : oldSettings.bikeSwitchCost,
+    bikeBoardCost: data.bikeBoardCost
+      ? data.bikeBoardCost
+      : oldSettings.bikeBoardCost,
   };
   setItem('routingSettings', newSettings);
 }

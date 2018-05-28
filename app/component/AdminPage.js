@@ -14,6 +14,7 @@ export const defaultRoutingSettings = {
   bikeSpeed: 5.0,
   bikeSwitchTime: 0,
   bikeSwitchCost: 0,
+  bikeBoardCost: 600,
 };
 
 const AdminPage = (context) => {
@@ -138,6 +139,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateBikeBoardCost = ({ target }) => {
+    const bikeBoardCost = target.value;
+    if (bikeBoardCost < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.bikeBoardCost;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        bikeBoardCost,
+      },
+    });
+  };
+
   return (
     <div className="page-frame fullscreen momentum-scroll">
       <label>
@@ -177,6 +193,10 @@ const AdminPage = (context) => {
       <label>
         What is the cost to unpark a bike and get on it or to get off a bike and park it. (default 0).
         <input type="number" step="1" min="0" onInput={updateBikeSwitchCost} onChange={updateBikeSwitchCost} value={merged.bikeSwitchCost}/>
+      </label>
+      <label>
+        Cost for boarding a vehicle with a bicycle. (default 600).
+        <input type="number" step="1" min="0" onInput={updateBikeBoardCost} onChange={updateBikeBoardCost} value={merged.bikeBoardCost}/>
       </label>
       <SaveRoutingSettingsButton />
     </div>

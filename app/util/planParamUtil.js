@@ -115,6 +115,10 @@ export const getSettings = () => {
       routingSettings.bikeSwitchCost !== undefined
         ? Number(routingSettings.bikeSwitchCost)
         : undefined,
+    bikeBoardCost:
+      routingSettings.bikeBoardCost !== undefined
+        ? Number(routingSettings.bikeBoardCost)
+        : undefined,
   };
 };
 
@@ -158,6 +162,7 @@ export const preparePlanParams = config => (
         bikeSpeed,
         bikeSwitchTime,
         bikeSwitchCost,
+        bikeBoardCost,
       },
     },
   },
@@ -239,6 +244,10 @@ export const preparePlanParams = config => (
           bikeSwitchCost !== undefined
             ? Number(bikeSwitchCost)
             : settings.bikeSwitchCost,
+        bikeBoardCost:
+          bikeBoardCost !== undefined
+            ? Number(bikeBoardCost)
+            : settings.bikeBoardCost,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),
