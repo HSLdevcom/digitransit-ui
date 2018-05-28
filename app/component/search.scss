@@ -348,7 +348,8 @@ div.autosuggest-panel {
       z-index: 1006;
     }
     #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-      width: 474px;
+      width: 454px;
+      max-height: 50vh;
     }
     input.react-autosuggest__input {
       background: $white;
@@ -416,6 +417,7 @@ div.autosuggest-panel {
   .viapoint-input-container {
     display: flex;
     width: 100%;
+    position: static;
   }
   .mobile .autosuggest-panel.small {
     flex-flow: wrap;
@@ -494,6 +496,7 @@ div.autosuggest-panel {
   position: relative;
   display: flex;
   flex-flow: column;
+  max-height: 3em;
   .switch {
     padding: $padding-xxsmall;
     background-color: $white;
@@ -517,9 +520,8 @@ div.autosuggest-panel {
 
 .viapoint-controls {
   display: flex;
-  position: absolute;
-  right: -3.5em;
-  top: 0.5em;
+  margin-left: 2em;
+  padding-top: 0.5em;
 
   .addViaPoint {
     text-align: center;
@@ -726,18 +728,21 @@ input.react-autosuggest__input{
     margin-top: calc(4em + 8px);
   }
 }
+
 .isItinerary .autosuggest-input-container {
   margin: 0;
+  width: 100%;
+  position: static;
   &#destination-container {
     margin: 0;
   }
   &.destination {
     z-index: 801;
   }
-  width: 100%;
-  position: static;
   &.viapoint {
     width: 90%;
+    z-index: auto;
+    position: relative;
   }
   input[type="text"]{
     border-top: 1px solid #ddd;
@@ -747,6 +752,7 @@ input.react-autosuggest__input{
   #react-autowhatever-origin, #react-autowhatever-destination, #react-autowhatever-viapoint {
     &.react-autosuggest__suggestions-container--open {
       margin: -8px 0 0 0;
+      max-height: 40vh;
     }
   }
 }

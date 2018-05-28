@@ -6,8 +6,6 @@
   justify-content: space-around;
   align-items: initial;
   padding-left: 1.2em;
-  overflow-y: scroll;
-  max-height: 10em;
 
   .field-link{
     @include font-book;

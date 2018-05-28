@@ -28,19 +28,9 @@ export default class OriginDestinationBar extends React.Component {
     viaPointNames: this.props.initialViaPoints,
   };
 
-  setviaPointNames = (name, i) => {
-    // Check if viapoint already exists, add viapoint to the chosen index
-    const oldState = this.state.viaPointNames.slice(0);
-    let newState;
-    if (oldState.filter(o => o === name).length > 0) {
-      newState = oldState;
-    } else {
-      newState = Object.assign([], oldState, {
-        [i]: name,
-      });
-    }
+  setviaPointNames = viapoints => {
     this.setState({
-      viaPointNames: newState.filter(o => o !== ' '),
+      viaPointNames: viapoints.map(o => o.split('::')[0]),
     });
   };
 
@@ -77,14 +67,21 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
-  addMoreViapoints = () => {
+  addMoreViapoints = i => {
+    const oldViaPoints = this.state.viaPointNames.slice(0);
+    oldViaPoints.splice(i + 1, 0, ' ');
     this.setState({
-      viaPointNames: this.state.viaPointNames.concat([' ']),
+      viaPointNames: oldViaPoints,
     });
   };
 
+  checkAndConvertArray = val =>
+    Array.isArray(val) ? val.slice(0) : [val || ' '];
+
   removeViapoints = index => {
-    const currentPlaces = this.context.location.query.intermediatePlaces;
+    const currentPlaces = this.checkAndConvertArray(
+      this.context.location.query.intermediatePlaces,
+    );
 
     const viaPointsWithRemoved = this.state.viaPointNames.filter(
       (o, i) => i !== index,
@@ -135,17 +132,6 @@ export default class OriginDestinationBar extends React.Component {
               <Icon img="icon-icon_plus" />
             </span>
           </div>
-          {/*
-          <div
-            className="removeViaPoint"
-            style={{ display: this.state.isViaPoint ? 'block' : 'none' }}
-            onClick={() => this.toggleViaPoint(false)}
-          >
-            <span>
-              <Icon img="icon-icon_close" />
-            </span>
-          </div>
-          */}
         </div>
       </div>
     );

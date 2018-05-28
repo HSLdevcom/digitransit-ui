@@ -72,24 +72,16 @@ class DTAutosuggestPanel extends React.Component {
         ? this.context.location.query.intermediatePlaces.slice(0)
         : [this.context.location.query.intermediatePlaces || ' '];
 
-      const itemToAdd = [
-        locationToOTP({
-          lat: item.lat,
-          lon: item.lon,
-          address: item.address,
-        }),
-      ];
+      const itemToAdd = locationToOTP({
+        lat: item.lat,
+        lon: item.lon,
+        address: item.address,
+      });
+      arrayCheck.splice(i, 0, itemToAdd);
+      const addedViapoints = arrayCheck;
 
-      // Add new viapoint by replacing the index for either empty space ' '
-      // or a previous point being changed
-      const addedViapoints =
-        arrayCheck.filter((o, index) => i === index).length === 0
-          ? arrayCheck.concat(itemToAdd)
-          : Object.assign([], arrayCheck, {
-              [i]: itemToAdd[0],
-            });
       this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
-      this.props.setviaPointNames(item.address, i);
+      this.props.setviaPointNames(addedViapoints);
     }
   };
 
@@ -200,7 +192,11 @@ class DTAutosuggestPanel extends React.Component {
                   role="button"
                   tabIndex={0}
                   style={{
-                    display: !this.props.isViaPoint ? 'none' : 'block',
+                    display:
+                      !this.props.isViaPoint ||
+                      this.props.viaPointNames.length > 4
+                        ? 'none'
+                        : 'block',
                   }}
                   onClick={() => this.props.addMoreViapoints(i)}
                   onKeyPress={() => this.props.addMoreViapoints(i)}
