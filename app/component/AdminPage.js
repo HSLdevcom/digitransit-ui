@@ -15,6 +15,7 @@ export const defaultRoutingSettings = {
   bikeSwitchTime: 0,
   bikeSwitchCost: 0,
   bikeBoardCost: 600,
+  carParkCarLegWeight: 1,
 };
 
 const AdminPage = (context) => {
@@ -154,6 +155,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateCarParkCarLegWeight = ({ target }) => {
+    const carParkCarLegWeight = target.value;
+    if (carParkCarLegWeight < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.carParkCarLegWeight;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        carParkCarLegWeight,
+      },
+    });
+  };
+
   return (
     <div className="page-frame fullscreen momentum-scroll">
       <label>
@@ -197,6 +213,10 @@ const AdminPage = (context) => {
       <label>
         Cost for boarding a vehicle with a bicycle. (default 600).
         <input type="number" step="1" min="0" onInput={updateBikeBoardCost} onChange={updateBikeBoardCost} value={merged.bikeBoardCost}/>
+      </label>
+      <label>
+        Cost for car travels. Increase this value to make car trips shorter. (default 1).
+        <input type="number" step="any" min="0" onInput={updateCarParkCarLegWeight} onChange={updateCarParkCarLegWeight} value={merged.carParkCarLegWeight}/>
       </label>
       <SaveRoutingSettingsButton />
     </div>

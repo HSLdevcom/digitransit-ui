@@ -37,6 +37,9 @@ class SaveRoutingSettingsButton extends React.Component {
       bikeBoardCost: this.context.location.query.bikeBoardCost
         ? this.context.location.query.bikeBoardCost
         : undefined,
+      carParkCarLegWeight: this.context.location.query.carParkCarLegWeight
+        ? this.context.location.query.carParkCarLegWeight
+        : undefined,
     };
     setRoutingSettings(settings);
     alert('Settings updated');

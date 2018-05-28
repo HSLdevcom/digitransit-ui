@@ -456,6 +456,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           bikeSwitchTime: $bikeSwitchTime,
           bikeSwitchCost: $bikeSwitchCost,
           bikeBoardCost: $bikeBoardCost,
+          carParkCarLegWeight, $carParkCarLegWeight,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -509,6 +510,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       bikeSwitchTime: null,
       bikeSwitchCost: null,
       bikeBoardCost: null,
+      carParkCarLegWeight: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

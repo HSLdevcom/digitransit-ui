@@ -119,6 +119,10 @@ export const getSettings = () => {
       routingSettings.bikeBoardCost !== undefined
         ? Number(routingSettings.bikeBoardCost)
         : undefined,
+    carParkCarLegWeight:
+      routingSettings.carParkCarLegWeight !== undefined
+        ? Number(routingSettings.carParkCarLegWeight)
+        : undefined,
   };
 };
 
@@ -163,6 +167,7 @@ export const preparePlanParams = config => (
         bikeSwitchTime,
         bikeSwitchCost,
         bikeBoardCost,
+        carParkCarLegWeight,
       },
     },
   },
@@ -248,6 +253,10 @@ export const preparePlanParams = config => (
           bikeBoardCost !== undefined
             ? Number(bikeBoardCost)
             : settings.bikeBoardCost,
+        carParkCarLegWeight:
+          carParkCarLegWeight !== undefined
+            ? Number(carParkCarLegWeight)
+            : settings.carParkCarLegWeight,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

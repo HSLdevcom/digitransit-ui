@@ -138,6 +138,9 @@ export function setRoutingSettings(data) {
     bikeBoardCost: data.bikeBoardCost
       ? data.bikeBoardCost
       : oldSettings.bikeBoardCost,
+    carParkCarLegWeight: data.carParkCarLegWeight
+      ? data.carParkCarLegWeight
+      : oldSettings.carParkCarLegWeight,
   };
   setItem('routingSettings', newSettings);
 }
