@@ -132,6 +132,9 @@ export function setRoutingSettings(data) {
     bikeSwitchTime: data.bikeSwitchTime
       ? data.bikeSwitchTime
       : oldSettings.bikeSwitchTime,
+    bikeSwitchCost: data.bikeSwitchCost
+      ? data.bikeSwitchCost
+      : oldSettings.bikeSwitchCost,
   };
   setItem('routingSettings', newSettings);
 }

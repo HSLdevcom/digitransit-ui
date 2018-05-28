@@ -13,6 +13,7 @@ export const defaultRoutingSettings = {
   waitReluctance: 1.0,
   bikeSpeed: 5.0,
   bikeSwitchTime: 0,
+  bikeSwitchCost: 0,
 };
 
 const AdminPage = (context) => {
@@ -122,6 +123,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateBikeSwitchCost = ({ target }) => {
+    const bikeSwitchCost = target.value;
+    if (bikeSwitchCost < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.bikeSwitchCost;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        bikeSwitchCost,
+      },
+    });
+  };
+
   return (
     <div className="page-frame fullscreen momentum-scroll">
       <label>
@@ -157,6 +173,10 @@ const AdminPage = (context) => {
       <label>
         How long it takes to unpark a bike and get on it or to get off a bike and park it in seconds. (default 0).
         <input type="number" step="1" min="0" onInput={updateBikeSwitchTime} onChange={updateBikeSwitchTime} value={merged.bikeSwitchTime}/>
+      </label>
+      <label>
+        What is the cost to unpark a bike and get on it or to get off a bike and park it. (default 0).
+        <input type="number" step="1" min="0" onInput={updateBikeSwitchCost} onChange={updateBikeSwitchCost} value={merged.bikeSwitchCost}/>
       </label>
       <SaveRoutingSettingsButton />
     </div>
