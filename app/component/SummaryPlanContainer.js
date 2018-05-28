@@ -281,6 +281,7 @@ class SummaryPlanContainer extends React.Component {
       $walkOnStreetReluctance: Float!,
       $waitReluctance: Float!,
       $bikeSpeed: Float!,
+      $bikeSwitchTime: Int!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -305,6 +306,7 @@ class SummaryPlanContainer extends React.Component {
           walkOnStreetReluctance: $walkOnStreetReluctance,
           waitReluctance: $waitReluctance,
           bikeSpeed: $bikeSpeed,
+          bikeSwitchTime: $bikeSwitchTime,
         ) {itineraries {startTime,endTime}}
       }
     }`;

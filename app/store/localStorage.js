@@ -129,6 +129,9 @@ export function setRoutingSettings(data) {
     bikeSpeed: data.bikeSpeed
       ? data.bikeSpeed
       : oldSettings.bikeSpeed,
+    bikeSwitchTime: data.bikeSwitchTime
+      ? data.bikeSwitchTime
+      : oldSettings.bikeSwitchTime,
   };
   setItem('routingSettings', newSettings);
 }

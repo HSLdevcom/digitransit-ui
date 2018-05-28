@@ -453,6 +453,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           walkOnStreetReluctance: $walkOnStreetReluctance,
           waitReluctance: $waitReluctance,
           bikeSpeed: $bikeSpeed,
+          bikeSwitchTime: $bikeSwitchTime,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -503,6 +504,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       walkOnStreetReluctance: null,
       waitReluctance: null,
       bikeSpeed: null,
+      bikeSwitchTime: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

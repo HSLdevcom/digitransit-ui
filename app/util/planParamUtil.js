@@ -107,6 +107,10 @@ export const getSettings = () => {
       routingSettings.bikeSpeed !== undefined
         ? Number(routingSettings.bikeSpeed)
         : undefined,
+    bikeSwitchTime:
+      routingSettings.bikeSwitchTime !== undefined
+        ? Number(routingSettings.bikeSwitchTime)
+        : undefined,
   };
 };
 
@@ -148,6 +152,7 @@ export const preparePlanParams = config => (
         walkOnStreetReluctance,
         waitReluctance,
         bikeSpeed,
+        bikeSwitchTime,
       },
     },
   },
@@ -221,6 +226,10 @@ export const preparePlanParams = config => (
           bikeSpeed !== undefined
             ? Number(bikeSpeed)
             : settings.bikeSpeed,
+        bikeSwitchTime:
+          bikeSwitchTime !== undefined
+            ? Number(bikeSwitchTime)
+            : settings.bikeSwitchTime,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

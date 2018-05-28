@@ -28,6 +28,9 @@ class SaveRoutingSettingsButton extends React.Component {
       bikeSpeed: this.context.location.query.bikeSpeed
         ? this.context.location.query.bikeSpeed
         : undefined,
+      bikeSwitchTime: this.context.location.query.bikeSwitchTime
+        ? this.context.location.query.bikeSwitchTime
+        : undefined,
     };
     setRoutingSettings(settings);
     alert('Settings updated');
