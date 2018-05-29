@@ -141,6 +141,9 @@ export function setRoutingSettings(data) {
     carParkCarLegWeight: data.carParkCarLegWeight
       ? data.carParkCarLegWeight
       : oldSettings.carParkCarLegWeight,
+    heuristicStepsPerMainStep: data.heuristicStepsPerMainStep
+      ? data.heuristicStepsPerMainStep
+      : oldSettings.heuristicStepsPerMainStep,
   };
   setItem('routingSettings', newSettings);
 }

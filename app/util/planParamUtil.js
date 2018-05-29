@@ -123,6 +123,10 @@ export const getSettings = () => {
       routingSettings.carParkCarLegWeight !== undefined
         ? Number(routingSettings.carParkCarLegWeight)
         : undefined,
+    heuristicStepsPerMainStep:
+      routingSettings.heuristicStepsPerMainStep !== undefined
+        ? Number(routingSettings.heuristicStepsPerMainStep)
+        : undefined,
   };
 };
 
@@ -168,6 +172,7 @@ export const preparePlanParams = config => (
         bikeSwitchCost,
         bikeBoardCost,
         carParkCarLegWeight,
+        heuristicStepsPerMainStep,
       },
     },
   },
@@ -257,6 +262,10 @@ export const preparePlanParams = config => (
           carParkCarLegWeight !== undefined
             ? Number(carParkCarLegWeight)
             : settings.carParkCarLegWeight,
+        heuristicStepsPerMainStep:
+          heuristicStepsPerMainStep !== undefined
+            ? Number(heuristicStepsPerMainStep)
+            : settings.heuristicStepsPerMainStep,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

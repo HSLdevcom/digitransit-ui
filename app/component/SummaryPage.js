@@ -456,7 +456,8 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           bikeSwitchTime: $bikeSwitchTime,
           bikeSwitchCost: $bikeSwitchCost,
           bikeBoardCost: $bikeBoardCost,
-          carParkCarLegWeight, $carParkCarLegWeight,
+          carParkCarLegWeight: $carParkCarLegWeight,
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -511,6 +512,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       bikeSwitchCost: null,
       bikeBoardCost: null,
       carParkCarLegWeight: null,
+      heuristicStepsPerMainStep: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

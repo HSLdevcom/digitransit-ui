@@ -16,6 +16,7 @@ export const defaultRoutingSettings = {
   bikeSwitchCost: 0,
   bikeBoardCost: 600,
   carParkCarLegWeight: 1,
+  heuristicStepsPerMainStep: 8,
 };
 
 const AdminPage = (context) => {
@@ -170,6 +171,21 @@ const AdminPage = (context) => {
     });
   };
 
+  const updateHeuristicStepsPerMainStep = ({ target }) => {
+    const heuristicStepsPerMainStep = target.value;
+    if (heuristicStepsPerMainStep < 0) {
+      alert('Insert a positive number');
+      target.value = mergedCurrent.heuristicStepsPerMainStep;
+    }
+    context.router.replace({
+      pathname: context.location.pathname,
+      query: {
+        ...context.location.query,
+        heuristicStepsPerMainStep,
+      },
+    });
+  };
+
   return (
     <div className="page-frame fullscreen momentum-scroll">
       <label>
@@ -217,6 +233,10 @@ const AdminPage = (context) => {
       <label>
         Cost for car travels. Increase this value to make car trips shorter. (default 1).
         <input type="number" step="any" min="0" onInput={updateCarParkCarLegWeight} onChange={updateCarParkCarLegWeight} value={merged.carParkCarLegWeight}/>
+      </label>
+      <label>
+        The number of heuristic steps per main step when using interleaved bidirectional heuristics. (default 8).
+        <input type="number" step="1" min="0" onInput={updateHeuristicStepsPerMainStep} onChange={updateHeuristicStepsPerMainStep} value={merged.heuristicStepsPerMainStep}/>
       </label>
       <SaveRoutingSettingsButton />
     </div>
