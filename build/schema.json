@@ -1484,6 +1484,26 @@
                                     "ofType": null
                                 },
                                 "defaultValue": null
+                            },
+                            {
+                                "name": "heuristicStepsPerMainStep",
+                                "description": "Tuning parameter for the search algorithm.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "compactLegsByReversedSearch",
+                                "description": "Whether legs should be compacted by performing a reversed search. Experimental argument, will be removed!.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
                             }
                         ],
                         "type": {
