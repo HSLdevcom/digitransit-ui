@@ -79,6 +79,7 @@ export default {
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,
+  itineraryFiltering: 2.5, // drops 40% worse routes
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020

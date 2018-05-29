@@ -30,6 +30,8 @@ import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
+export const ITINERARYFILTERING_DEFAULT = 2.0;
+
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
 }
@@ -85,7 +87,7 @@ class SummaryPage extends React.Component {
     walkSpeed: 1.2,
     wheelchair: false,
     accessibilityOption: 0,
-  };
+};
 
   constructor(props, context) {
     super(props, context);
@@ -149,6 +151,7 @@ class SummaryPage extends React.Component {
         .sort()
         .join(','),
       maxWalkDistance: config.maxWalkDistance,
+      itineraryFiltering: config.itineraryFiltering,
       preferred: { agencies: config.preferredAgency || '' },
     };
   };
@@ -453,7 +456,8 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
-          preferred: $preferred)
+          preferred: $preferred,
+          itineraryFiltering: $itineraryFiltering)
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -496,6 +500,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       maxWalkDistance: 0,
       preferred: null,
       ticketTypes: null,
+      itineraryFiltering: ITINERARYFILTERING_DEFAULT,
     },
     ...SummaryPage.hcParameters,
   },
