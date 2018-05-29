@@ -72,11 +72,9 @@ class SummaryNavigation extends React.Component {
   getInitialViaPoints = () => {
     if (this.context.location.query.intermediatePlaces) {
       if (typeof this.context.location.query.intermediatePlaces === 'string') {
-        return [this.context.location.query.intermediatePlaces.split('::')[0]];
+        return [this.context.location.query.intermediatePlaces];
       }
-      return this.context.location.query.intermediatePlaces.map(
-        o => o.split('::')[0],
-      );
+      return this.context.location.query.intermediatePlaces;
     }
     return [' '];
   };

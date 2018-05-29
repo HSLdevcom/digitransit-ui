@@ -65,19 +65,27 @@ class DTAutosuggestPanel extends React.Component {
     if (
       this.props.viaPointNames.filter(o2 => o2 === item.address).length === 0
     ) {
-      // Check if there are more than one viapoints, if not, convert parameters to array
-      const arrayCheck = Array.isArray(
-        this.context.location.query.intermediatePlaces,
-      )
-        ? this.context.location.query.intermediatePlaces.slice(0)
-        : [this.context.location.query.intermediatePlaces || ' '];
+      const arrayCheck = this.props.viaPointNames.map(
+        o =>
+          o !== ' '
+            ? locationToOTP({
+                lat: o.split('::')[1].split(',')[0],
+                lon: o.split('::')[1].split(',')[1],
+                address: o.split('::')[0],
+              })
+            : o,
+      );
 
       const itemToAdd = locationToOTP({
         lat: item.lat,
         lon: item.lon,
         address: item.address,
       });
-      arrayCheck.splice(i, 0, itemToAdd);
+      if (arrayCheck.filter((o, index) => index !== i).length === 0) {
+        arrayCheck.splice(i, 0, itemToAdd);
+      } else {
+        arrayCheck.splice(i, 1, itemToAdd);
+      }
       const addedViapoints = arrayCheck;
 
       this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
@@ -165,7 +173,7 @@ class DTAutosuggestPanel extends React.Component {
                 placeholder="via-point"
                 className="viapoint"
                 isFocused={this.isFocused}
-                value={o}
+                value={o.split('::')[0]}
                 onLocationSelected={item => this.checkInputForViapoint(item, i)}
               />
               <div className="viapoint-controls">

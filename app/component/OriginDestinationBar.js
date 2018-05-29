@@ -30,7 +30,7 @@ export default class OriginDestinationBar extends React.Component {
 
   setviaPointNames = viapoints => {
     this.setState({
-      viaPointNames: viapoints.map(o => o.split('::')[0]),
+      viaPointNames: viapoints,
     });
   };
 
