@@ -173,7 +173,7 @@ export const preparePlanParams = config => (
             : settings.transferPenalty,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
-            modes && modes.split(',').includes('CITYBIKE'),
+          modes && modes.split(',').includes('CITYBIKE'),
       },
       nullOrUndefined,
     ),
