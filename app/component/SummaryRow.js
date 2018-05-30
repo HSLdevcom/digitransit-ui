@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import getContext from 'recompose/getContext';
 import { FormattedMessage, intlShape } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
@@ -14,7 +13,11 @@ import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import ComponentUsageExample from './ComponentUsageExample';
-import { isCallAgencyPickupType } from '../util/legUtils';
+import {
+  getTotalWalkingDistance,
+  isCallAgencyPickupType,
+} from '../util/legUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 /*
 const dummyalerts = [{
@@ -308,7 +311,7 @@ const SummaryRow = (
               </span>
               <div className="itinerary-walking-distance">
                 <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                {displayDistance(data.walkDistance, config)}
+                {displayDistance(getTotalWalkingDistance(data), config)}
               </div>
             </div>,
             <button
@@ -404,7 +407,7 @@ const exampleDataVia = t1 => ({
       startTime: t1 + 10000,
       endTime: t1 + 20000,
       mode: 'WALK',
-      distance: 483.84600000000006,
+      distance: 200,
       duration: 438,
       rentedBike: false,
       route: null,
@@ -429,7 +432,7 @@ const exampleDataVia = t1 => ({
       endTime: t1 + 40000,
       mode: 'WALK',
       intermediatePlace: true,
-      distance: 586.4621425755712,
+      distance: 400,
       duration: 600,
       rentedBike: false,
       route: null,
@@ -453,7 +456,7 @@ const exampleDataVia = t1 => ({
       startTime: t1 + 50000,
       endTime: t1 + 60000,
       mode: 'WALK',
-      distance: 291.098,
+      distance: 170,
       duration: 259,
       rentedBike: false,
       route: null,
@@ -679,8 +682,6 @@ SummaryRow.description = () => {
   );
 };
 
-const withBreakPoint = getContext({
-  breakpoint: PropTypes.string.isRequired,
-})(SummaryRow);
+const SummaryRowWithBreakpoint = withBreakpoint(SummaryRow);
 
-export { SummaryRow as component, withBreakPoint as default };
+export { SummaryRow as component, SummaryRowWithBreakpoint as default };

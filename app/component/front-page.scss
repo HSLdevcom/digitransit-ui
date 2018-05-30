@@ -25,7 +25,6 @@ $heading-color: #858585;
 }
 
 .frontpage-panel-wrapper {
-  height: 200px;
   //overflow: scroll;
   &.expanded-panel {
     flex-grow: 0;
@@ -66,7 +65,7 @@ $heading-color: #858585;
   position: absolute;
   top: 16px;
   right: 30px;
-  z-index: 802;
+  z-index: 800;
   height: calc(100% - 100px);
   max-height: 1000px;
   min-width: 340px;
@@ -148,7 +147,7 @@ $heading-color: #858585;
 }
 
 .tabs-row {
-  z-index: 998;
+  z-index: 800;
   background: $light-gray;
   position: relative;
   display: flex;
@@ -289,6 +288,7 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
+  min-height: 280px; // Stop near you/favorites tabs from taking up all the space
 }
 
 // <Tab> component

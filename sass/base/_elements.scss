@@ -155,14 +155,13 @@ $border-radius-rounded: 30px;
   right: 10px;
   font-size: 17px;
   border-radius: $border-radius;
-  z-index: 802;
+  z-index: 800;
   .icon {
    margin: 0.5em 0.5em 0 0.5em;
    fill: rgb(255, 255, 255);
  }
  &.expanded {
    top: -3em;
-   z-index: 1000;
  }
  &.routePage, &.stopPage {
   bottom: 0.7em;

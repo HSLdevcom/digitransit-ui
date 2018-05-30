@@ -12,6 +12,7 @@ import Loading from './Loading';
 import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
 import { TAB_FAVOURITES } from '../util/path';
+import withBreakpoint from '../util/withBreakpoint';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -53,10 +54,14 @@ FavouriteRoutes.propTypes = {
   origin: dtLocationShape.isRequired,
 };
 
-const FavouritesPanel = (
-  { origin, routes, currentTime, favouriteLocations, favouriteStops },
-  context,
-) => (
+const FavouritesPanel = ({
+  origin,
+  routes,
+  currentTime,
+  favouriteLocations,
+  favouriteStops,
+  breakpoint,
+}) => (
   <div className="frontpage-panel">
     <FavouriteLocationsContainer
       origin={origin}
@@ -64,8 +69,7 @@ const FavouritesPanel = (
       favourites={[...favouriteLocations, ...favouriteStops]}
     />
     <div
-      className={`nearby-table-container ${context.breakpoint !== 'large' &&
-        `mobile`}`}
+      className={`nearby-table-container ${breakpoint !== 'large' && `mobile`}`}
     >
       <table className="nearby-departures-table">
         <thead>
@@ -85,10 +89,7 @@ FavouritesPanel.propTypes = {
   currentTime: PropTypes.number.isRequired,
   favouriteLocations: PropTypes.array,
   favouriteStops: PropTypes.array,
-};
-
-FavouritesPanel.contextTypes = {
-  breakpoint: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 const FilteredFavouritesPanel = shouldUpdate(
@@ -101,7 +102,7 @@ const FilteredFavouritesPanel = shouldUpdate(
     (!nextProps.origin.gps &&
       (nextProps.origin.lat !== props.origin.lat ||
         nextProps.origin.lon !== props.origin.lon)),
-)(FavouritesPanel);
+)(withBreakpoint(FavouritesPanel));
 
 export default connectToStores(
   ctx => (

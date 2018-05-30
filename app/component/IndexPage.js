@@ -3,7 +3,6 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
@@ -32,6 +31,7 @@ import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
 import events from '../util/events';
+import withBreakpoint from '../util/withBreakpoint';
 
 const debug = d('IndexPage.js');
 
@@ -50,6 +50,13 @@ class IndexPage extends React.Component {
     destination: dtLocationShape.isRequired,
     tab: PropTypes.string,
     showSpinner: PropTypes.bool.isRequired,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        footerOptions: PropTypes.shape({
+          hidden: PropTypes.bool,
+        }),
+      }).isRequired,
+    ).isRequired,
   };
 
   constructor(props, context) {
@@ -70,7 +77,6 @@ class IndexPage extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    this.handleBreakpointProps(nextProps);
     this.handleLocationProps(nextProps);
   };
 
@@ -90,20 +96,6 @@ class IndexPage extends React.Component {
         return 1;
       default:
         return undefined;
-    }
-  };
-
-  handleBreakpointProps = nextProps => {
-    const frombp = this.props.breakpoint;
-    const tobp = nextProps.breakpoint;
-
-    if (frombp === tobp) {
-      return;
-    }
-
-    if (this.getSelectedTab() === undefined) {
-      // auto open nearby tab on bp change to large
-      this.clickNearby();
     }
   };
 
@@ -157,27 +149,27 @@ class IndexPage extends React.Component {
   };
 
   renderTab = () => {
+    let Tab;
     switch (this.props.tab) {
       case TAB_NEARBY:
-        return (
-          <NearbyRoutesPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-          />
-        );
+        Tab = NearbyRoutesPanel;
+        break;
       case TAB_FAVOURITES:
-        return (
-          <FavouritesPanel
-            origin={this.props.origin}
-            destination={this.props.destination}
-          />
-        );
+        Tab = FavouritesPanel;
+        break;
       default:
-        return null;
+        Tab = NearbyRoutesPanel;
     }
+    return (
+      <Tab origin={this.props.origin} destination={this.props.destination} />
+    );
   };
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const footerOptions = Object.assign(
+      {},
+      ...this.props.routes.map(route => route.footerOptions),
+    );
     const selectedMainTab = this.getSelectedTab();
 
     return this.props.breakpoint === 'large' ? (
@@ -211,15 +203,17 @@ class IndexPage extends React.Component {
           origin={this.props.origin}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
-        <div id="page-footer-container">
-          <PageFooter
-            content={
-              (this.context.config.footer &&
-                this.context.config.footer.content) ||
-              []
-            }
-          />
-        </div>
+        {!footerOptions.hidden && (
+          <div id="page-footer-container">
+            <PageFooter
+              content={
+                (this.context.config.footer &&
+                  this.context.config.footer.content) ||
+                []
+              }
+            />
+          </div>
+        )}
       </div>
     ) : (
       <div
@@ -293,9 +287,7 @@ const Index = shouldUpdate(
     ),
 )(IndexPage);
 
-const IndexPageWithBreakpoint = getContext({
-  breakpoint: PropTypes.string.isRequired,
-})(Index);
+const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithLang = connectToStores(
   IndexPageWithBreakpoint,

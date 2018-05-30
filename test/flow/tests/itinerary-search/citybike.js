@@ -1,6 +1,14 @@
+const moment = require('moment');
+
 module.exports = {
-  '@disabled': true, // TODO: add citybikes back in april
+  '@disabled': false, // TODO: remove citybikes on 2018-10-31
   tags: ['citybike'],
+  'Citybikes should be removed after 2018-10-31': browser => {
+    if (moment().date() > moment('2018-10-31').date()) {
+      browser.assert.fail('Citybikes should be removed by now');
+    }
+  },
+
   "Citybikes are used when it's the only modality": browser => {
     browser.url(browser.launch_url);
 
@@ -9,8 +17,8 @@ module.exports = {
 
     const customizeSearch = browser.page.customizeSearch();
     customizeSearch.openQuickSettings();
-    customizeSearch.disableAllModalitiesExcept('citybike');
     customizeSearch.enableModality('citybike');
+    customizeSearch.disableAllModalitiesExcept('citybike');
 
     browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 

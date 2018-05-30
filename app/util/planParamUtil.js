@@ -3,8 +3,19 @@ import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
-import { defaultSettings } from '../component/CustomizeSearch';
 import { otpToLocation } from './otpStrings';
+
+export const WALKBOARDCOST_DEFAULT = 600;
+
+export const defaultSettings = {
+  accessibilityOption: 0,
+  minTransferTime: 120,
+  walkBoardCost: WALKBOARDCOST_DEFAULT,
+  transferPenalty: 0,
+  walkReluctance: 2,
+  walkSpeed: 1.2,
+  ticketTypes: 'none',
+};
 
 function getIntermediatePlaces(intermediatePlaces) {
   if (!intermediatePlaces) {
@@ -82,6 +93,13 @@ export const getDefaultModes = config => [
     .filter(mode => config.streetModes[mode].defaultValue)
     .map(mode => mode.toUpperCase()),
 ];
+
+// all modes except one, citybike, have the same values in UI code and in OTP
+// this is plain madness but hard to change afterwards
+export const getDefaultOTPModes = config =>
+  getDefaultModes(config).map(
+    mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode),
+  );
 
 export const preparePlanParams = config => (
   { from, to },

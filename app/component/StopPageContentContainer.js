@@ -3,13 +3,13 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
 
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import TimetableContainer from './TimetableContainer';
 import Error404 from './404';
+import withBreakpoint from '../util/withBreakpoint';
 
 class StopPageContentOptions extends React.Component {
   static propTypes = {
@@ -89,9 +89,10 @@ const DepartureListContainerWithProps = mapProps(props => ({
   isTerminal: !props.params.stopId,
   rowClasses: 'padding-normal border-bottom',
   currentTime: props.relay.variables.startTime,
+  showPlatformCodes: true,
 }))(DepartureListContainer);
 
-const StopPageContent = getContext({ breakpoint: PropTypes.string.isRequired })(
+const StopPageContent = withBreakpoint(
   props =>
     some(props.routes, 'fullscreenMap') &&
     props.breakpoint !== 'large' ? null : (

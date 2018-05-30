@@ -100,6 +100,13 @@ table.nearby-departures-table {
                     .route-destination {
                         display: block;
                         width: auto;
+
+                        & .destination {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            width: 100%;
+                        }
                     }
                     span.city-bike-station-name {
                         width: 100%;

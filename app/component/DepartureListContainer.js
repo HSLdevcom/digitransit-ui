@@ -58,6 +58,11 @@ class DepartureListContainer extends Component {
     routeLinks: PropTypes.bool,
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
+    showPlatformCodes: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showPlatformCodes: false,
   };
 
   onScroll = () => {
@@ -124,7 +129,7 @@ class DepartureListContainer extends Component {
           className={cx(classes, this.props.rowClasses)}
           canceled={departure.canceled}
           isArrival={departure.isArrival}
-          isTerminal={this.props.isTerminal}
+          showPlatformCode={this.props.showPlatformCodes}
         />
       );
 

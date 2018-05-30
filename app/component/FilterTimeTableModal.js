@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import groupBy from 'lodash/groupBy';
 import intersection from 'lodash/intersection';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -39,21 +38,20 @@ class FilterTimeTableModal extends React.Component {
   };
 
   handleCheckbox = routesToAdd => {
-    const oldHiddenRoutes =
+    const chosenRoutes =
       this.state.showRoutes.length > 0 ? this.state.showRoutes.slice() : [];
-    let newVal = routesToAdd;
-    if (oldHiddenRoutes.length > 0) {
-      newVal =
-        intersection(oldHiddenRoutes, routesToAdd).length === 0
-          ? oldHiddenRoutes.concat(routesToAdd)
-          : oldHiddenRoutes.filter(o => routesToAdd.indexOf(o) < 0);
-    }
-    if (newVal.length === 0) {
-      this.updateParent({ showRoutes: newVal, allRoutes: true });
-      this.setState({ showRoutes: newVal, allRoutes: true });
+
+    const newChosenRoutes =
+      chosenRoutes.indexOf(routesToAdd) < 0
+        ? chosenRoutes.concat([routesToAdd]) // concat when handling React state based array to avoid array length being assigned as a value
+        : chosenRoutes.map(o => o !== routesToAdd && o).filter(o => o);
+
+    if (newChosenRoutes.length === 0) {
+      this.updateParent({ showRoutes: newChosenRoutes, allRoutes: true });
+      this.setState({ showRoutes: newChosenRoutes, allRoutes: true });
     } else {
-      this.updateParent({ showRoutes: newVal });
-      this.setState({ allRoutes: false, showRoutes: newVal });
+      this.updateParent({ showRoutes: newChosenRoutes });
+      this.setState({ allRoutes: false, showRoutes: newChosenRoutes });
     }
   };
 
@@ -63,22 +61,39 @@ class FilterTimeTableModal extends React.Component {
     });
   }
 
-  constructRouteDivs = val => {
+  constructRouteDivs = () => {
     const routeDivs = [];
     const LONG_LINE_NAME = 5;
-    val.forEach(o =>
+    // Find out which departures are ARRIVING to their final stop, not real departures
+    // then remove them
+    const routesWithStopTimes = this.props.stop.stoptimesForServiceDate
+      .map(
+        o =>
+          o.stoptimes.length > 0 &&
+          o.stoptimes[0].pickupType !== 'NONE' && {
+            code: o.pattern.code,
+            headsign: o.pattern.headsign,
+            shortName: o.pattern.route.shortName,
+            mode: o.pattern.route.mode,
+            agency: o.pattern.route.agency.name,
+          },
+      )
+      .filter(o => o)
+      .sort(routeCompare);
+
+    routesWithStopTimes.forEach(o =>
       routeDivs.push(
-        <div key={o.codes[0]} className="route-row">
+        <div key={o.code} className="route-row">
           <div className="checkbox-container">
             <input
               type="checkbox"
-              checked={intersection(this.state.showRoutes, o.codes).length > 0}
-              id={`input-${o.codes[0]}`}
-              onChange={() => this.handleCheckbox(o.codes)}
+              checked={intersection(this.state.showRoutes, [o.code]).length > 0}
+              id={`input-${o.code}`}
+              onChange={() => this.handleCheckbox(o.code)}
             />
             {/* TODO: Add label for this */}
             {/* eslint-disable jsx-a11y/label-has-for */}
-            <label htmlFor={`input-${o.codes[0]}`} />
+            <label htmlFor={`input-${o.code}`} />
             {/* eslint-enable jsx-a11y/label-has-for */}
           </div>
           <div className="route-mode">
@@ -109,42 +124,9 @@ class FilterTimeTableModal extends React.Component {
     }
   };
 
-  constructRoutes = () => {
-    const patternGroups = groupBy(
-      this.props.stop.stoptimesForServiceDate.map(a => a.pattern),
-      pattern =>
-        JSON.stringify([
-          pattern.headsign,
-          pattern.route.shortName,
-          pattern.route.mode,
-          pattern.route.agency.name,
-        ]),
-    );
-
-    const mappedGroups = Object.entries(patternGroups).map(([key, group]) => [
-      JSON.parse(key),
-      group.map(pattern => pattern.code),
-    ]);
-    const cleanedUpavailableRoutes = mappedGroups.map(
-      ([[headsign, shortName, mode, agency], codes]) => ({
-        headsign,
-        shortName,
-        mode,
-        agency,
-        codes,
-      }),
-    );
-
-    return cleanedUpavailableRoutes.sort(routeCompare);
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    // const availableRoutes = (
-    //    this.props.stop.stoptimesForServiceDate).map(o => Object.assign(o.pattern),
-    //    );
-    const routes = this.constructRoutes();
-    const routeList = this.constructRouteDivs(routes);
+    const routeList = this.constructRouteDivs();
     return (
       <div>
         <div className="filter-stop-modal-overlay" />

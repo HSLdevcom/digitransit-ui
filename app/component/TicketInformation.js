@@ -76,7 +76,6 @@ TicketInformation.propTypes = {
 
 TicketInformation.contextTypes = {
   config: PropTypes.object,
-  breakpoint: PropTypes.string,
 };
 
 TicketInformation.displayName = 'TicketInformation';

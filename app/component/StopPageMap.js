@@ -8,6 +8,7 @@ import MapContainer from './map/MapContainer';
 import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
+import withBreakpoint from '../util/withBreakpoint';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
@@ -53,7 +54,7 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
-const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
+const StopPageMap = ({ stop, routes, params, breakpoint }, { router }) => {
   if (!stop) {
     return false;
   }
@@ -92,7 +93,6 @@ const StopPageMap = ({ stop, routes, params }, { breakpoint, router }) => {
 };
 
 StopPageMap.contextTypes = {
-  breakpoint: PropTypes.string.isRequired,
   router: routerShape.isRequired,
 };
 
@@ -111,9 +111,10 @@ StopPageMap.propTypes = {
     PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
     PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
   ]).isRequired,
+  breakpoint: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(StopPageMap, {
+export default Relay.createContainer(withBreakpoint(StopPageMap), {
   fragments: {
     stop: () => Relay.QL`
       fragment on Stop {

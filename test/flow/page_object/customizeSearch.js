@@ -1,13 +1,14 @@
 const async = require('async');
 
-// TODO: add citybikes back in april
+// TODO: remove citybikes on 2018-10-31
 const modalities = [
   'bus',
   'tram',
   'rail',
   'subway',
   'ferry',
-  /* 'citybike', */ 'airplane',
+  'citybike',
+  'airplane',
 ];
 
 function openQuickSettings() {

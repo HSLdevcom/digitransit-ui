@@ -1,5 +1,6 @@
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_PATH = process.env.APP_CONTEXT || '';
@@ -19,7 +20,7 @@ export default {
   URL: {
     API_URL,
     MAP_URL,
-    OTP: `${API_URL}/routing/v1/routers/finland/`,
+    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
       default: `${MAP_URL}/map/v1/hsl-map/`,
       sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
@@ -27,12 +28,14 @@ export default {
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
     MQTT: 'wss://mqtt.hsl.fi',
-    ALERTS: `${API_URL}/realtime/service-alerts/v1`,
+    ALERTS: process.env.ALERTS_URL || `${API_URL}/realtime/service-alerts/v1`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
-    REALTIME: `${API_URL}/realtime/vehicle-positions/v1`,
-    PELIAS: `${API_URL}/geocoding/v1/search`,
-    PELIAS_REVERSE_GEOCODER: `${API_URL}/geocoding/v1/reverse`,
+    REALTIME:
+      process.env.VEHICLE_URL || `${API_URL}/realtime/vehicle-positions/v1`,
+    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
+    PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL ||
+      GEOCODING_BASE_URL}/reverse`,
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -164,18 +167,13 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch back in april
+  // TODO: Switch off in autumn
   cityBike: {
     showCityBikes: true,
+    showStationId: true,
 
     useUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat',
-      sv: 'https://www.hsl.fi/sv/stadscyklar',
-      en: 'https://www.hsl.fi/en/citybikes',
-    },
-
-    infoUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyörät',
       sv: 'https://www.hsl.fi/sv/stadscyklar',
       en: 'https://www.hsl.fi/en/citybikes',
     },
@@ -276,10 +274,9 @@ export default {
       defaultValue: true,
     },
 
-    // TODO: Switch back in april
     citybike: {
-      availableForSelection: false,
-      defaultValue: true,
+      availableForSelection: true, // TODO: Turn off in autumn
+      defaultValue: false, // always false
     },
 
     airplane: {
@@ -550,6 +547,8 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    kouvola: 'kouvola',
+    tampere: 'tampere',
     mikkeli: 'mikkeli',
     kotka: 'kotka',
     jyvaskyla: 'jyvaskyla',
@@ -571,6 +570,8 @@ export default {
     { id: '21', expr: 'oulu' },
     { id: '29', expr: 'kotka' },
     { id: '31', expr: 'mikkeli' },
+    { id: '35', expr: 'tampere' },
+    { id: '43', expr: 'kouvola' },
     // put generic expressions last so that they do not match waltti cities
     // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
     { id: '5', expr: 'dev.reittiopas' },

@@ -37,6 +37,7 @@ export const departure = {
     name: 'Kellosilta',
     desc: 'Ratamestarinkatu 9',
     gtfsId: 'JOLI:1007',
+    platformCode: '1-6',
   },
 
   stoptime: 1444185960,
@@ -88,6 +89,7 @@ export const station = {
   name: 'Fredrikinkatu 27',
   lon: 24.939603788199364,
   lat: 60.1626075196532,
+  state: 'Station on',
 };
 
 export const favouriteLocation = {

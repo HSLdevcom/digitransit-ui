@@ -16,6 +16,7 @@ import {
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
 import { PREFIX_ROUTES } from '../util/path';
+import withBreakpoint from '../util/withBreakpoint';
 
 class RoutePage extends React.Component {
   static contextTypes = {
@@ -23,7 +24,6 @@ class RoutePage extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     intl: intlShape.isRequired,
-    breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
   };
 
@@ -35,6 +35,7 @@ class RoutePage extends React.Component {
     params: PropTypes.shape({
       patternId: PropTypes.string.isRequired,
     }).isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -80,7 +81,6 @@ class RoutePage extends React.Component {
       this.context.router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
-
     let activeTab;
     if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
       activeTab = 'pysakit';
@@ -108,10 +108,10 @@ class RoutePage extends React.Component {
         <div className="tabs route-tabs">
           <nav
             className={cx('tabs-navigation', {
-              'bp-large': this.context.breakpoint === 'large',
+              'bp-large': this.props.breakpoint === 'large',
             })}
           >
-            {this.context.breakpoint === 'large' && (
+            {this.props.breakpoint === 'large' && (
               <RouteNumber
                 color={
                   this.props.route.color ? `#${this.props.route.color}` : null
@@ -178,8 +178,10 @@ class RoutePage extends React.Component {
               params={this.props.params}
               route={this.props.route}
               onSelectChange={this.onPatternChange}
+              gtfsId={this.props.route.gtfsId}
+              activeTab={activeTab}
               className={cx({
-                'bp-large': this.context.breakpoint === 'large',
+                'bp-large': this.props.breakpoint === 'large',
               })}
             />
           )}
@@ -190,7 +192,7 @@ class RoutePage extends React.Component {
   }
 }
 
-export default Relay.createContainer(RoutePage, {
+export default Relay.createContainer(withBreakpoint(RoutePage), {
   fragments: {
     route: () =>
       Relay.QL`

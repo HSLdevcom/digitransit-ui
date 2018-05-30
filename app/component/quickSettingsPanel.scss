@@ -44,6 +44,10 @@
             &:hover, &:active, &:focus {
               background-color: $btn-subway-active-background-color
             }
+            .icon-holder > span > svg.icon {
+              font-size: 1.4em;
+              margin-top: -0.2em;
+            }
           }
           &.ferry {
             background-color: $btn-ferry-active-background-color;
