@@ -6,6 +6,7 @@ import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
+import merge from 'lodash/merge';
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { distance } from './geo-utils';
@@ -38,18 +39,6 @@ const mapRoute = item => ({
     coordinates: null,
   },
 });
-
-function sortByDistance(stops, refLatLng) {
-  if (refLatLng && refLatLng.lat && refLatLng.lng) {
-    return sortBy(stops, item =>
-      distance(refLatLng, {
-        lat: item.lat,
-        lng: item.lon,
-      }),
-    );
-  }
-  return stops;
-}
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
@@ -223,14 +212,30 @@ function getFavouriteRoutes(favourites, input) {
 }
 
 function getFavouriteStops(favourites, input, origin) {
+  // Currently we're updating only stops as there isn't suitable query for stations
+  const stopQuery = Relay.createQuery(
+    Relay.QL`
+    query favouriteStops($ids: [String!]!) {
+      stops(ids: $ids ) {
+        gtfsId
+        lat
+        lon
+        name
+        desc
+        code
+        routes { mode }
+      }
+    }`,
+    { ids: favourites.map(item => item.id) },
+  );
+
   const refLatLng = origin &&
     origin.lat &&
     origin.lon && { lat: origin.lat, lng: origin.lon };
 
-  const stops = sortByDistance(favourites, refLatLng);
-  return Promise.resolve(
-    filterMatchingToInput(stops, input, ['locationName', 'address']).map(
-      stop => ({
+  return getRelayQuery(stopQuery)
+    .then(stops =>
+      merge(stops, favourites).map(stop => ({
         type: 'FavouriteStop',
         properties: {
           ...stop,
@@ -239,9 +244,26 @@ function getFavouriteStops(favourites, input, origin) {
         geometry: {
           coordinates: [stop.lon, stop.lat],
         },
-      }),
-    ),
-  );
+      })),
+    )
+    .then(stops =>
+      filterMatchingToInput(stops, input, [
+        'properties.locationName',
+        'properties.name',
+        'properties.desc',
+      ]),
+    )
+    .then(
+      stops =>
+        refLatLng
+          ? sortBy(stops, stop =>
+              distance(refLatLng, {
+                lat: stop.lat,
+                lng: stop.lon,
+              }),
+            )
+          : stops,
+    );
 }
 
 function getRoutes(input, config) {
