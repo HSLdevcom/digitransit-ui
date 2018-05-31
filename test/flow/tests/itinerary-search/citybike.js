@@ -10,30 +10,15 @@ module.exports = {
   },
 
   "Citybikes are used when it's the only modality": browser => {
-    browser.url(browser.launch_url);
-
-    browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
-    browser.page.itinerarySummary().waitForFirstItineraryRow();
-
-    const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.openQuickSettings();
-    customizeSearch.enableModality('citybike');
-    customizeSearch.disableAllModalitiesExcept('citybike');
-
+    browser.url('http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK%2CCITYBIKE');
     browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 
     browser.end();
   },
 
   'Citybikes are not used when disabled': browser => {
-    browser.url(browser.launch_url);
-
-    browser.page.searchFields().itinerarySearch('Katajanokka', 'Kauppatori');
+    browser.url('http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK');
     browser.page.itinerarySummary().waitForFirstItineraryRow();
-
-    const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.openQuickSettings();
-    customizeSearch.disableAllModalitiesExcept();
 
     browser.page
       .itinerarySummary()
