@@ -26,7 +26,7 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "pause_ms": 10,
+        "pause_ms": 100,
         "itinerarySearchTimeout": 15000,
         "elementVisibleTimeout": 15000
       },

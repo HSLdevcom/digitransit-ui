@@ -3,6 +3,7 @@ function setOrigin(origin) {
     '@searchOrigin',
     this.api.globals.elementVisibleTimeout,
   );
+  this.api.pause(this.api.globals.pause_ms);
   this.checkedClick(this.elements.clearOrigin.selector);
   this.api.pause(this.api.globals.pause_ms);
   this.setValue('@searchOrigin', origin);
