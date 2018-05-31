@@ -10,14 +10,18 @@ module.exports = {
   },
 
   "Citybikes are used when it's the only modality": browser => {
-    browser.url('http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK%2CCITYBIKE');
+    browser.url(
+      'http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK%2CCITYBIKE',
+    );
     browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
 
     browser.end();
   },
 
   'Citybikes are not used when disabled': browser => {
-    browser.url('http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK');
+    browser.url(
+      'http://localhost:8080/reitti/Katajanokka%3A%3A60.16716%2C24.97992/Kauppatori%3A%3A60.16736%2C24.95171?modes=WALK',
+    );
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     browser.page
