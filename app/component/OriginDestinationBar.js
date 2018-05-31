@@ -96,7 +96,6 @@ export default class OriginDestinationBar extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    console.log(this.state.viaPointNames);
     return (
       <div
         className={cx(

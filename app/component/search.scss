@@ -516,6 +516,18 @@ div.autosuggest-panel {
       top: 3px;
     }
   }
+  .addViaPoint {
+    text-align: center;
+    color: #007ac9;
+    cursor: pointer;
+    &:hover {
+      color: #0062a1;
+    }
+    .more {
+      position: absolute;
+      right: 0;
+    }
+  }
 }
 
 .viapoint-controls {
@@ -525,7 +537,7 @@ div.autosuggest-panel {
 
   .addViaPoint {
     text-align: center;
-    color: $link-color;
+    color: #007ac9;
     cursor: pointer;
     margin-left: 1em;
     &:hover {
@@ -554,7 +566,6 @@ div.autosuggest-panel {
 
 .mobile .itinerary-search-controls {
   top: 0.6em;
-  overflow-x: hidden;
   margin-right: 0.5em;
   .switch {
     font-size: 1.4em;

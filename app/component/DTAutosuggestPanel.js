@@ -81,7 +81,12 @@ class DTAutosuggestPanel extends React.Component {
         lon: item.lon,
         address: item.address,
       });
-      if (arrayCheck.filter((o, index) => index !== i).length === 0) {
+      // Check if the viapoint is being edited or a new one is being added
+      // Also replace the initial empty placeholder space
+      if (
+        arrayCheck.filter((o, index) => index !== i).length === 0 &&
+        (arrayCheck.length > 2 && arrayCheck[1] !== ' ')
+      ) {
         arrayCheck.splice(i, 0, itemToAdd);
       } else {
         arrayCheck.splice(i, 1, itemToAdd);
