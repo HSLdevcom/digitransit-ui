@@ -5,15 +5,17 @@ import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { getRoutingSettings } from '../store/localStorage';
 import SaveRoutingSettingsButton from './SaveRoutingSettingsButton';
+import Loading from './Loading';
 
 const AdminForm = ({ router, location, loading, dataConDefaults }) => {
   if (loading) {
     return (
       <div className="page-frame fullscreen momentum-scroll">
-        <h2>Loading</h2>
+        <Loading />
       </div>
     );
   } else {
+
     const OTPDefaults = {
       ignoreRealtimeUpdates: false,
       maxPreTransitTime: 1800,
@@ -26,14 +28,12 @@ const AdminForm = ({ router, location, loading, dataConDefaults }) => {
       carParkCarLegWeight: 1,
       heuristicStepsPerMainStep: 8,
     };
-    console.log(dataConDefaults);
 
     const defaultRoutingSettings = {
       ...OTPDefaults,
       ...dataConDefaults,
     };
 
-    console.log(defaultRoutingSettings);
     const merged = {
       ...defaultRoutingSettings,
       ...getRoutingSettings(),
@@ -44,15 +44,6 @@ const AdminForm = ({ router, location, loading, dataConDefaults }) => {
       ...defaultRoutingSettings,
       ...getRoutingSettings(),
     };
-
-    const replaceParams = newParams =>
-    router.replace({
-      ...location,
-      query: {
-        ...location.query,
-        ...newParams,
-      },
-    });
 
     const toggleRealtimeUpdates = ({ target }) => {
       const ignoreRealtimeUpdates = target.value;
@@ -200,6 +191,21 @@ const AdminForm = ({ router, location, loading, dataConDefaults }) => {
       });
     };
 
+    const updateParam = (param, target, min) => {
+      const newValue = target.value;
+      if (newValue < min) {
+        alert(`Insert a number that is greater than or equal to ${min}`);
+        target.value = mergedCurrent[param];
+      }
+      router.replace({
+        pathname: location.pathname,
+        query: {
+          ...location.query,
+          [param]: value,
+        }
+      })
+    };
+
     return (
       <div className="page-frame fullscreen momentum-scroll">
         <label>
@@ -276,17 +282,10 @@ class AdminPage extends React.Component {
     if (this.context.config.CONFIG != 'default') {
       const OTPURLSplit = this.context.config.URL.OTP.split('/');
       const dataContainerURL = `${this.context.config.URL.API_URL}/routing-data/v2/${OTPURLSplit[OTPURLSplit.length - 2]}/router-config.json`;
-      console.log(dataContainerURL);
-      fetch(dataContainerURL, {
-        mode: 'no-cors',
-        cache: 'reload',
-      }).then(res => {
-        console.log(res);
+      fetch(dataContainerURL).then(res => {
         res.json().then(json => {
-          console.log(json.routingDefaults);
           this.setState({ router, location, loading: false, dataConDefaults: json.routingDefaults});
         }).catch((err) => {
-          console.log(err);
           this.setState({ router, location, loading: false, dataConDefaults: {}});
         })
       }).catch((err) => {
