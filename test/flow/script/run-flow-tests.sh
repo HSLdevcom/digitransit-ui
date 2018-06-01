@@ -5,8 +5,8 @@
 # set -e
 # set -x
 
-SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
-SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
+SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-3.9.1.jar"
+SELENIUM_URL="https://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar"
 FIREFOX_BINARY="firefox/firefox-bin"
 FIREFOX_URL="https://download-installer.cdn.mozilla.net/pub/firefox/releases/45.4.0esr/linux-x86_64/fi/firefox-45.4.0esr.tar.bz2"
 
