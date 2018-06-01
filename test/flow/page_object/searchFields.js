@@ -1,6 +1,6 @@
 function setOrigin(origin) {
   this.waitForElementPresent(
-    '@searchOrigin',
+    '@clearOrigin',
     this.api.globals.elementVisibleTimeout,
   );
   this.api.pause(this.api.globals.pause_ms);
