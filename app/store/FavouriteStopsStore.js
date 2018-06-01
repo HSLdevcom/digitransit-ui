@@ -1,4 +1,5 @@
 import Store from 'fluxible/addons/BaseStore';
+import maxBy from 'lodash/maxBy';
 import find from 'lodash/find';
 import {
   getFavouriteStopsStorage,
@@ -20,9 +21,11 @@ class FavouriteStopsStore extends Store {
 
   getById = id => find(this.stops, stop => id === stop.id);
 
-  isFavourite(id) {
-    return find(this.stops, { id });
+  isFavourite(gtfsId) {
+    return find(this.stops, { gtfsId });
   }
+
+  getMaxId = collection => (maxBy(collection, stop => stop.id) || { id: 0 }).id;
 
   storeStops() {
     setFavouriteStopsStorage(this.stops);
@@ -33,7 +36,13 @@ class FavouriteStopsStore extends Store {
       throw new Error(`stop is not a object:${JSON.stringify(stop)}`);
     }
 
-    if (this.isFavourite(stop.id)) {
+    if (stop.id === undefined) {
+      // new
+      this.stops.push({
+        ...stop,
+        id: 1 + this.getMaxId(this.stops),
+      });
+    } else {
       // update
       this.stops = this.stops.map(currentStop => {
         if (currentStop.id === stop.id) {
@@ -41,9 +50,6 @@ class FavouriteStopsStore extends Store {
         }
         return currentStop;
       });
-    } else {
-      // insert
-      this.stops.push(stop);
     }
 
     this.storeStops();

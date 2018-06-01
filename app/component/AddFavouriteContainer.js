@@ -70,7 +70,7 @@ class AddFavouriteContainer extends React.Component {
     this.setState({
       favourite: {
         ...this.state.favourite,
-        id: location.id,
+        id: this.state.favourite.id,
         gtfsId: location.id,
         code: location.code,
         layer: location.layer,
@@ -92,6 +92,19 @@ class AddFavouriteContainer extends React.Component {
 
   save = () => {
     if (this.canSave()) {
+      // Old favourite needs to be removed if location type changes
+      if (this.props.favourite.gtfsId && !this.state.favourite.gtfsId) {
+        this.context.executeAction(deleteFavouriteStop, {
+          id: this.state.favourite.id,
+        });
+        delete this.state.favourite.id;
+      } else if (!this.props.favourite.gtfsId && this.state.favourite.gtfsId) {
+        this.context.executeAction(deleteFavouriteLocation, {
+          id: this.state.favourite.id,
+        });
+        delete this.state.favourite.id;
+      }
+
       if (
         (isStop(this.state.favourite) || isTerminal(this.state.favourite)) &&
         this.state.favourite.gtfsId
@@ -288,7 +301,9 @@ const AddFavouriteContainerWithFavourite = connectToStores(
   ['FavouriteLocationStore', 'FavouriteStopsStore'],
   (context, props) => ({
     favourite: props.location.pathname.includes('pysakki')
-      ? context.getStore('FavouriteStopsStore').getById(props.params.id)
+      ? context
+          .getStore('FavouriteStopsStore')
+          .getById(parseInt(props.params.id, 10))
       : context
           .getStore('FavouriteLocationStore')
           .getById(parseInt(props.params.id, 10)),
