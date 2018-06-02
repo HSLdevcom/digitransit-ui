@@ -163,7 +163,7 @@
     "postcss-loader": "2.1.5",
     "prettier": "1.12.1",
     "relay-compiler": "1.6.0",
-    "sass-loader": "7.0.1",
+    "sass-loader": "7.0.2",
     "selenium-webdriver": "3.6.0",
     "stats-webpack-plugin": "0.6.2",
     "style-loader": "0.21.0",
