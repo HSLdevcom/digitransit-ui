@@ -46,6 +46,8 @@ export default {
   },
 
   maxWalkDistance: 2500,
+  itineraryFiltering: 2.5, // drops 40% worse routes
+
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 14,
