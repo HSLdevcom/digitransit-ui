@@ -107,6 +107,12 @@ export default {
   },
 
   streetModes: {
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'biking',
+    },
+
     car_park: {
       availableForSelection: true,
       defaultValue: false,
