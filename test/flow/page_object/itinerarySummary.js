@@ -53,7 +53,10 @@ function clickLater() {
 }
 
 function clickEarlier() {
-  this.waitForElementVisible('@earlier', this.api.globals.elementVisibleTimeout);
+  this.waitForElementVisible(
+    '@earlier',
+    this.api.globals.elementVisibleTimeout,
+  );
   return this.api.checkedClick(this.elements.earlier.selector);
 }
 
