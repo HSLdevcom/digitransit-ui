@@ -37,6 +37,7 @@ export const departure = {
     name: 'Kellosilta',
     desc: 'Ratamestarinkatu 9',
     gtfsId: 'JOLI:1007',
+    platformCode: '1-6',
   },
 
   stoptime: 1444185960,

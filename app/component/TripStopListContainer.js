@@ -9,6 +9,7 @@ import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
 import { getDistanceToNearestStop } from '../util/geo-utils';
+import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -18,10 +19,10 @@ class TripStopListContainer extends React.PureComponent {
     locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
     tripStart: PropTypes.string.isRequired,
+    breakpoint: PropTypes.string,
   };
 
   static contextTypes = {
-    breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
   };
 
@@ -31,13 +32,13 @@ class TripStopListContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.context.breakpoint === 'large') {
+    if (this.props.breakpoint === 'large') {
       this.scrollToSelectedTailIcon();
     }
   }
 
   componentDidUpdate() {
-    if (this.context.breakpoint === 'large' && !this.state.hasScrolled) {
+    if (this.props.breakpoint === 'large' && !this.state.hasScrolled) {
       this.scrollToSelectedTailIcon();
     }
   }
@@ -135,7 +136,7 @@ class TripStopListContainer extends React.PureComponent {
           route={this.props.trip.route.gtfsId}
           last={index === this.props.trip.stoptimesForDate.length - 1}
           first={index === 0}
-          className={`bp-${this.context.breakpoint}`}
+          className={`bp-${this.props.breakpoint}`}
         />
       );
     });
@@ -162,7 +163,7 @@ class TripStopListContainer extends React.PureComponent {
 
 export default Relay.createContainer(
   connectToStores(
-    TripStopListContainer,
+    withBreakpoint(TripStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,

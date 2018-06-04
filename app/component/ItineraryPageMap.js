@@ -3,6 +3,7 @@ import React from 'react';
 import get from 'lodash/get';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
+import { routerShape, locationShape } from 'react-router';
 
 import LocationMarker from './map/LocationMarker';
 import ItineraryLine from './map/ItineraryLine';
@@ -20,9 +21,9 @@ if (isBrowser) {
 
 let timeout;
 
-export default function ItineraryPageMap(
-  { itinerary, params, from, to, routes, center },
-  { breakpoint, router, location },
+function ItineraryPageMap(
+  { itinerary, params, from, to, routes, center, breakpoint },
+  { router, location },
 ) {
   const leafletObjs = [
     <LocationMarker
@@ -163,4 +164,12 @@ ItineraryPageMap.propTypes = {
       fullscreenMap: PropTypes.bool,
     }).isRequired,
   ).isRequired,
+  breakpoint: PropTypes.string.isRequired,
 };
+
+ItineraryPageMap.contextTypes = {
+  location: locationShape.isRequired,
+  router: routerShape.isRequired,
+};
+
+export default ItineraryPageMap;

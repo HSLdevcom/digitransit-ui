@@ -8,9 +8,8 @@ import get from 'lodash/get';
 import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import { getDefaultModes } from './../util/planParamUtil';
+import { getDefaultModes, defaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
-import { defaultSettings } from './CustomizeSearch';
 
 /* define what belongs to predefined 'quick' parameter selections */
 const quickOptionParams = [

@@ -125,8 +125,12 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
+    'no-route-end-date-not-in-range':
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
+    'no-route-start-date-too-early':
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag.',
@@ -365,8 +369,12 @@ const translations = {
     'no-position': 'Kein Standort',
     'no-position-no-stops':
       'Die nächsten Haltestellen können nicht gezeigt werden, da Ihr Standort unbekannt ist.',
+    'no-route-end-date-not-in-range':
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
+    'no-route-start-date-not-in-range':
+      'Current timetable does not include routes departing earlier.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden.',
     now: 'Jetzt',
@@ -512,15 +520,16 @@ const translations = {
     'buy-ticket': 'How to buy a ticket (HSL.fi)',
     call: 'Call',
     cancel: 'Cancel',
-    car_park: 'park & ride',
+    car: 'Car',
     'car-distance-duration': 'Drive {distance} ({duration})',
+    car_park: 'park & ride',
     cause: 'cause',
     'char-left': 'characters',
     'choose-stop': 'Select stop',
     citybike: 'City bike',
-    citybike_off: 'Closed',
     'citybike-distance-duration': 'Bike {distance} ({duration})',
     'citybike-register-required': 'To use city bikes, you need to register',
+    citybike_off: 'Closed',
     close: 'Close',
     'contact-information': '{contactName} contact details',
     'create-account': 'Create {contactName} account',
@@ -626,8 +635,12 @@ const translations = {
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
+    'no-route-end-date-not-in-range':
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+    'no-route-start-date-too-early':
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Please select origin and destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'No journeys found for the selected date.',
@@ -806,16 +819,17 @@ const translations = {
     'buy-ticket': 'Näin ostat lipun (HSL.fi)',
     call: 'Soita',
     cancel: 'Peruuta',
-    car_park: 'liityntäpysäköinti',
+    car: 'Auto',
     'car-distance-duration': 'Aja {distance} ({duration})',
+    car_park: 'liityntäpysäköinti',
     cause: 'syy',
     'char-left': 'merkkiä',
     'choose-stop': 'Valitse pysäkki',
     citybike: 'Kaupunkipyörä',
-    citybike_off: 'Suljettu',
     'citybike-distance-duration': 'Pyöräile {distance} ({duration})',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
+    citybike_off: 'Suljettu',
     close: 'Sulje',
     'contact-information': '{contactName}:n yhteystiedot',
     'create-account': 'Luo {contactName} tunnus',
@@ -924,8 +938,12 @@ const translations = {
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
+    'no-route-end-date-not-in-range':
+      'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+    'no-route-start-date-too-early':
+      'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ei löydy matkoja.',
@@ -1200,8 +1218,12 @@ const translations = {
     'no-position': 'Aucune position',
     'no-position-no-stops':
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
+    'no-route-end-date-not-in-range':
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+    'no-route-start-date-too-early':
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found': "Il n'y a pas de trajet possible au jour choisi.",
@@ -1447,8 +1469,12 @@ const translations = {
     'no-position': 'Ingen posisjon',
     'no-position-no-stops':
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
+    'no-route-end-date-not-in-range':
+      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
+    'no-route-start-date-too-early':
+      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen reiser tilgjenelig for denne dagen.',
@@ -1606,16 +1632,17 @@ const translations = {
     'buy-ticket': 'Så här köper du biljetten (HSL.fi)',
     call: 'Ring',
     cancel: 'Avbryt',
-    car_park: 'infartsparkering',
+    car: 'Bil',
     'car-distance-duration': 'Kör {distance} ({duration})',
+    car_park: 'infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
     'choose-stop': 'Välj hållplats',
     citybike: 'Stadscykel',
-    citybike_off: 'Stängd',
     'citybike-distance-duration': 'Cykla {distance} ({duration})',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
+    citybike_off: 'Stängd',
     close: 'Stäng',
     'contact-information': '{contactName} Kontaktuppgifter',
     'create-account': 'Skapa {contactName} konto',
@@ -1726,8 +1753,12 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
+    'no-route-end-date-not-in-range':
+      'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
+    'no-route-start-date-too-early':
+      'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen.',

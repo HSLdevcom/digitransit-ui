@@ -11,6 +11,7 @@ import { parseLocation } from '../util/path';
 import Icon from './Icon';
 import SecondaryButton from './SecondaryButton';
 import QuickSettingsPanel from './QuickSettingsPanel';
+import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryNavigation extends React.Component {
   static propTypes = {
@@ -23,6 +24,7 @@ class SummaryNavigation extends React.Component {
     endTime: PropTypes.number,
     isQuickSettingsOpen: PropTypes.bool.isRequired,
     toggleQuickSettings: PropTypes.func.isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -34,7 +36,6 @@ class SummaryNavigation extends React.Component {
     piwik: PropTypes.object,
     router: routerShape,
     location: PropTypes.object.isRequired,
-    breakpoint: PropTypes.string,
   };
 
   componentDidMount() {
@@ -144,7 +145,7 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const quickSettingsIcon = this.checkQuickSettingsIcon();
-    const className = cx({ 'bp-large': this.context.breakpoint === 'large' });
+    const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
       drawerWidth =
@@ -230,4 +231,4 @@ class SummaryNavigation extends React.Component {
   }
 }
 
-export default SummaryNavigation;
+export default withBreakpoint(SummaryNavigation);

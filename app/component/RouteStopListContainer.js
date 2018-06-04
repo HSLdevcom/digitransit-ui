@@ -8,6 +8,7 @@ import cx from 'classnames';
 
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import RouteStop from './RouteStop';
+import withBreakpoint from '../util/withBreakpoint';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -16,10 +17,13 @@ class RouteStopListContainer extends React.PureComponent {
     vehicles: PropTypes.object,
     position: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      setVariables: PropTypes.func.isRequired,
+    }).isRequired,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
-    breakpoint: PropTypes.string,
     config: PropTypes.object.isRequired,
   };
 
@@ -68,7 +72,7 @@ class RouteStopListContainer extends React.PureComponent {
       vehicle => `HSL:${vehicle.next_stop}`,
     );
 
-    const rowClassName = `bp-${this.context.breakpoint}`;
+    const rowClassName = `bp-${this.props.breakpoint}`;
 
     return stops.map((stop, i) => {
       const isNearest =
@@ -114,7 +118,7 @@ class RouteStopListContainer extends React.PureComponent {
 
 export default Relay.createContainer(
   connectToStores(
-    RouteStopListContainer,
+    withBreakpoint(RouteStopListContainer),
     ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,

@@ -2,14 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
-import ContainerDimensions from 'react-container-dimensions';
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import NetworkError from './component/NetworkError';
 import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
-import { isBrowser } from './util/browser';
 import scrollTop from './util/scroll';
 import {
   PREFIX_ROUTES,
@@ -131,17 +129,7 @@ export default config => {
     routerProps: PropTypes.object.isRequired,
   };
   return (
-    <Route
-      component={props =>
-        isBrowser ? (
-          <ContainerDimensions>
-            <TopLevel {...props} />
-          </ContainerDimensions>
-        ) : (
-          <TopLevel {...props} />
-        )
-      }
-    >
+    <Route component={TopLevel}>
       <Route
         path="/styleguide"
         getComponent={(location, cb) => {

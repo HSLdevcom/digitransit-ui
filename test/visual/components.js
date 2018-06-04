@@ -250,3 +250,13 @@ testVariation('SuggestionItem', 'Stop-without-timetable', 5);
 testVariation('DateWarning', 'tomorrow-show-warning', 2);
 
 testVariation('Error404');
+
+testVariation('StopMarkerPopup', 'empty', 1);
+testVariation('StopMarkerPopup', 'basic', 2);
+testVariation('StopMarkerPopup', 'real-time', 3, [
+  'div.departure-list > p:nth-child(1) > span.realtime svg.realtime',
+  'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
+  'div.departure-list > p:nth-child(4) > span.realtime svg.realtime',
+]).then(skip('ie11'));
+testVariation('StopMarkerPopup', 'tomorrow', 4);
+testVariation('StopMarkerPopup', 'missing-platform', 5);

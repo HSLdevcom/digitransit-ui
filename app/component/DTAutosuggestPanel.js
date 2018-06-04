@@ -8,6 +8,7 @@ import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { isIe } from '../util/browser';
+import withBreakpoint from '../util/withBreakpoint';
 
 /**
  * Launches route search if both origin and destination are set.
@@ -17,7 +18,6 @@ class DTAutosuggestPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    breakpoint: PropTypes.string,
   };
 
   static propTypes = {
@@ -34,6 +34,7 @@ class DTAutosuggestPanel extends React.Component {
     removeViapoints: PropTypes.func,
     updateViaPoints: PropTypes.func,
     toggleViaPoint: PropTypes.func,
+    breakpoint: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -103,7 +104,7 @@ class DTAutosuggestPanel extends React.Component {
       className={cx([
         'autosuggest-panel',
         {
-          small: this.context.breakpoint !== 'large',
+          small: this.props.breakpoint !== 'large',
           isItinerary: this.props.isItinerary,
         },
       ])}
@@ -124,7 +125,7 @@ class DTAutosuggestPanel extends React.Component {
             // Disable autofocus if using IE11
             isIe
               ? false
-              : this.context.breakpoint === 'large' && !this.props.origin.ready
+              : this.props.breakpoint === 'large' && !this.props.origin.ready
           }
           refPoint={this.props.origin}
           className={this.class(this.props.origin)}
@@ -233,7 +234,7 @@ class DTAutosuggestPanel extends React.Component {
           id="destination"
           autoFocus={
             // Disable autofocus if using IE11
-            isIe ? false : this.context.breakpoint === 'large'
+            isIe ? false : this.props.breakpoint === 'large'
           }
           refPoint={this.props.origin}
           searchType={this.props.searchType}
@@ -265,4 +266,4 @@ class DTAutosuggestPanel extends React.Component {
   );
 }
 
-export default DTAutosuggestPanel;
+export default withBreakpoint(DTAutosuggestPanel);
