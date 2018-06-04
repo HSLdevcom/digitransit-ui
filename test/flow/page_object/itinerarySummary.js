@@ -42,9 +42,19 @@ function clickSwapOriginDestination() {
   return this.api.checkedClick(this.elements.swapDir.selector);
 }
 
+function clickNow() {
+  this.waitForElementVisible('@now', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.now.selector);
+}
+
 function clickLater() {
   this.waitForElementVisible('@later', this.api.globals.elementVisibleTimeout);
   return this.api.checkedClick(this.elements.later.selector);
+}
+
+function clickEarlier() {
+  this.waitForElementVisible('@earlier', this.api.globals.elementVisibleTimeout);
+  return this.api.checkedClick(this.elements.earlier.selector);
 }
 
 function clickChangeDestination() {
@@ -72,6 +82,8 @@ module.exports = {
       chooseSecondItinerarySuggestion,
       clickSwapOriginDestination,
       clickLater,
+      clickEarlier,
+      clickNow,
       clickChangeDestination,
       waitClose,
       waitForSearchModal,
@@ -82,6 +94,8 @@ module.exports = {
     secondItinerarySummaryRow: '.itinerary-summary-row:nth-of-type(2)',
     swapDir: '.switch',
     later: '.time-navigation-later-btn',
+    earlier: '.time-navigation-earlier-btn',
+    now: '.time-navigation-now-btn',
     destination: '#open-destination',
   },
 };
