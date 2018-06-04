@@ -69,12 +69,12 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(newState);
   };
 
-  getInitialViaPoints = () => {
-    if (this.context.location.query.intermediatePlaces) {
-      if (typeof this.context.location.query.intermediatePlaces === 'string') {
-        return [this.context.location.query.intermediatePlaces];
+  getInitialViaPoints = val => {
+    if (val) {
+      if (typeof val === 'string') {
+        return [val];
       }
-      return this.context.location.query.intermediatePlaces;
+      return val;
     }
     return [' '];
   };
@@ -180,7 +180,9 @@ class SummaryNavigation extends React.Component {
           className={className}
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
-          initialViaPoints={this.getInitialViaPoints()}
+          initialViaPoints={this.getInitialViaPoints(
+            this.context.location.query.intermediatePlaces,
+          )}
         />
         <div
           className={cx('quicksettings-separator-line', {
