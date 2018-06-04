@@ -1,10 +1,10 @@
 function setOrigin(origin) {
-  this.waitForElementPresent(
-    '@clearOrigin',
-    this.api.globals.elementVisibleTimeout,
-  );
   this.waitForElementNotPresent(
     '@spinner',
+    this.api.globals.elementVisibleTimeout,
+  );
+  this.waitForElementVisible(
+    '@clearOrigin',
     this.api.globals.elementVisibleTimeout,
   );
   this.checkedClick(this.elements.clearOrigin.selector);
