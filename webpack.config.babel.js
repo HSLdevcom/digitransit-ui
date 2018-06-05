@@ -57,6 +57,7 @@ const productionPlugins = [
     externals: ['/'],
     cacheMaps: [
       {
+        // eslint-disable-next-line object-shorthand
         match: function(requestUrl) {
           return requestUrl.pathname;
         },
