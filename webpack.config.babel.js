@@ -57,7 +57,7 @@ const productionPlugins = [
     externals: ['/'],
     cacheMaps: [
       {
-        match(requestUrl) {
+        match: function(requestUrl) {
           return requestUrl.pathname;
         },
         requestTypes: ['navigate'],
