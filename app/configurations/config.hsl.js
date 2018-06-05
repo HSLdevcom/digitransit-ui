@@ -107,6 +107,16 @@ export default {
   },
 
   streetModes: {
+    public_transport: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    walk: {
+      defaultValue: false,
+      exclusive: true,
+    },
+
     bicycle: {
       availableForSelection: true,
       defaultValue: false,

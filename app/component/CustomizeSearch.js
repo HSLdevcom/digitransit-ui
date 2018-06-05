@@ -21,7 +21,6 @@ import {
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import {
-  getDefaultModes,
   defaultSettings,
   WALKBOARDCOST_DEFAULT,
 } from './../util/planParamUtil';
@@ -322,7 +321,7 @@ class CustomizeSearch extends React.Component {
       walkBoardCost: defaultSettings.walkBoardCost,
       minTransferTime: defaultSettings.minTransferTime,
       accessibilityOption: defaultSettings.accessibilityOption,
-      modes: getDefaultModes(this.context.config).toString(),
+      modes: ModeUtils.getDefaultModes(this.context.config).toString(),
       ticketTypes: defaultSettings.ticketTypes,
     });
   };
@@ -333,16 +332,6 @@ class CustomizeSearch extends React.Component {
     });
   }
 
-  toggleStreetMode(mode) {
-    this.replaceParams({
-      modes: without(
-        this.getModes(),
-        ...this.availableStreetModes.map(m => m.toUpperCase()),
-      )
-        .concat(mode.toUpperCase())
-        .join(','),
-    });
-  }
   actions = {
     toggleBusState: () => this.toggleTransportMode('bus'),
     toggleTramState: () => this.toggleTransportMode('tram'),

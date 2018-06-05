@@ -1,5 +1,4 @@
-import { intersection, isEmpty, isString, without } from 'lodash';
-import { getDefaultModes } from './planParamUtil';
+import { intersection, isEmpty, isString, sortedUniq, without } from 'lodash';
 import { getCustomizedSettings } from '../store/localStorage';
 
 /**
@@ -22,6 +21,28 @@ export const getModes = (location, config) => {
 };
 
 /**
+ * Retrieves all modes (as in both transport and street modes) that are
+ * both available and marked as default.
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of modes
+ */
+export const getDefaultModes = config => [
+  ...getDefaultTransportModes(config),
+  ...getDefaultStreetModes(config),
+];
+
+/**
+ * Retrieves all modes (as in both transport and street modes) that are
+ * both available and marked as default and maps them to their OTP counterparts.
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of OTP modes
+ */
+export const getDefaultOTPModes = config =>
+  filterModes(config, getDefaultModes(config));
+
+/**
  * Retrieves an array of street mode configurations that have specified
  * "availableForSelection": true. The full configuration will be returned.
  *
@@ -31,6 +52,11 @@ export const getAvailableStreetModeConfigs = config =>
   Object.keys(config.streetModes)
     .filter(sm => config.streetModes[sm].availableForSelection)
     .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }));
+
+export const getDefaultStreetModes = config =>
+  getAvailableStreetModeConfigs(config)
+    .filter(sm => sm.defaultValue)
+    .map(sm => sm.name);
 
 /**
  * Retrieves all street modes that have specified "availableForSelection": true.
@@ -74,6 +100,11 @@ export const getAvailableTransportModeConfigs = config =>
   Object.keys(config.transportModes)
     .filter(tm => config.transportModes[tm].availableForSelection)
     .map(tm => ({ ...config.transportModes[tm], name: tm.toUpperCase() }));
+
+export const getDefaultTransportModes = config =>
+  getAvailableTransportModeConfigs(config)
+    .filter(tm => tm.defaultValue)
+    .map(tm => tm.name);
 
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
@@ -190,10 +221,11 @@ export const filterModes = (config, modes) => {
   if (!isString(modes)) {
     return '';
   }
-  return modes
-    .split(',')
-    .map(mode => getOTPMode(config, mode))
-    .filter(mode => !!mode)
-    .sort()
-    .join(',');
+  return sortedUniq(
+    modes
+      .split(',')
+      .map(mode => getOTPMode(config, mode))
+      .filter(mode => !!mode)
+      .sort(),
+  ).join(',');
 };

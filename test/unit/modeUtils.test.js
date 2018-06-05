@@ -418,5 +418,125 @@ describe('modeUtils', () => {
 
       expect(result).to.equal('BUS,WALK');
     });
+
+    it('should return only distinct OTP modes', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          public_transport: 'WALK',
+          walk: 'WALK',
+        },
+      };
+      const modes = 'PUBLIC_TRANSPORT,BUS,WALK';
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('BUS,WALK');
+    });
+  });
+
+  describe('getDefaultStreetModes', () => {
+    it('should include only modes that are both available and default', () => {
+      const modeConfig = {
+        streetModes: {
+          a: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          b: {
+            availableForSelection: false,
+            defaultValue: true,
+          },
+          c: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+      const result = utils.getDefaultStreetModes(modeConfig);
+
+      expect(result.length).to.equal(1);
+      expect(result).to.contain('A');
+    });
+  });
+
+  describe('getDefaultTransportModes', () => {
+    it('should include only modes that are both available and default', () => {
+      const modeConfig = {
+        transportModes: {
+          d: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          e: {
+            availableForSelection: false,
+            defaultValue: true,
+          },
+          f: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+      const result = utils.getDefaultTransportModes(modeConfig);
+
+      expect(result.length).to.equal(1);
+      expect(result).to.contain('D');
+    });
+  });
+
+  describe('getDefaultModes', () => {
+    it('should include only modes that are both available and default', () => {
+      const modeConfig = {
+        streetModes: {
+          a: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          b: {
+            availableForSelection: false,
+            defaultValue: true,
+          },
+          c: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+        transportModes: {
+          d: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+          e: {
+            availableForSelection: false,
+            defaultValue: true,
+          },
+          f: {
+            availableForSelection: true,
+            defaultValue: false,
+          },
+        },
+      };
+      const result = utils.getDefaultModes(modeConfig);
+
+      expect(result.length).to.equal(2);
+      expect(result).to.contain('A');
+      expect(result).to.contain('D');
+    });
+  });
+
+  describe('getDefaultOTPModes', () => {
+    it('should map non-OTP modes to their OTP counterparts', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          walk: 'WALK',
+          public_transport: 'WALK',
+        },
+      };
+      const modes = 'BUS,CAR_PARK,WALK,UNKNOWN,PUBLIC_TRANSPORT';
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('BUS,WALK');
+    });
   });
 });

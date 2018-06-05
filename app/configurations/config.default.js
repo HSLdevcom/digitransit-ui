@@ -299,16 +299,16 @@ export default {
 
   streetModes: {
     public_transport: {
-      availableForSelection: true,
-      defaultValue: true,
+      availableForSelection: false,
+      defaultValue: false,
       exclusive: false,
       icon: 'public_transport',
     },
 
     walk: {
       availableForSelection: true,
-      defaultValue: false,
-      exclusive: true,
+      defaultValue: true,
+      exclusive: false,
       icon: 'walk',
     },
 

@@ -4,7 +4,7 @@ import moment from 'moment';
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
 import { otpToLocation } from './otpStrings';
-import { filterModes } from './modeUtils';
+import { filterModes, getDefaultModes } from './modeUtils';
 
 export const WALKBOARDCOST_DEFAULT = 600;
 
@@ -80,22 +80,6 @@ export const getSettings = config => {
         : undefined,
   };
 };
-
-export const getDefaultModes = config => [
-  ...Object.keys(config.transportModes)
-    .filter(mode => config.transportModes[mode].defaultValue)
-    .map(mode => mode.toUpperCase()),
-  ...Object.keys(config.streetModes)
-    .filter(mode => config.streetModes[mode].defaultValue)
-    .map(mode => mode.toUpperCase()),
-];
-
-// all modes except one, citybike, have the same values in UI code and in OTP
-// this is plain madness but hard to change afterwards
-export const getDefaultOTPModes = config =>
-  getDefaultModes(config).map(
-    mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode),
-  );
 
 export const preparePlanParams = config => (
   { from, to },
