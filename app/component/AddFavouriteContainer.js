@@ -93,12 +93,20 @@ class AddFavouriteContainer extends React.Component {
   save = () => {
     if (this.canSave()) {
       // Old favourite needs to be removed if location type changes
-      if (this.props.favourite.gtfsId && !this.state.favourite.gtfsId) {
+      if (
+        this.props.favourite &&
+        this.props.favourite.gtfsId &&
+        !this.state.favourite.gtfsId
+      ) {
         this.context.executeAction(deleteFavouriteStop, {
           id: this.state.favourite.id,
         });
         delete this.state.favourite.id;
-      } else if (!this.props.favourite.gtfsId && this.state.favourite.gtfsId) {
+      } else if (
+        this.props.favourite &&
+        !this.props.favourite.gtfsId &&
+        this.state.favourite.gtfsId
+      ) {
         this.context.executeAction(deleteFavouriteLocation, {
           id: this.state.favourite.id,
         });
