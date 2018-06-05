@@ -356,7 +356,7 @@ describe('modeUtils', () => {
       expect(utils.filterModes(config, null)).to.equal('');
     });
 
-    it('should return an emptry string modes is not an array or a string', () => {
+    it('should return an empty string if modes is not an array or a string', () => {
       expect(utils.filterModes(config, {})).to.equal('');
     });
 
