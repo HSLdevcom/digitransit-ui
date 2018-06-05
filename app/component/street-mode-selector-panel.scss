@@ -9,5 +9,9 @@
 
   & .street-mode-selector-panel-buttons {
     @extend %buttons;
+
+    & > .btn:not(:first-child) {
+      border-left: 1px solid $light-gray;
+    }
   }
 }

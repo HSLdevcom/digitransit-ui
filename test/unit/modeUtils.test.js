@@ -210,13 +210,12 @@ describe('modeUtils', () => {
           modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
         },
       };
-      const allModes = utils.getModes(location, config);
-      const availableStreetModes = utils.getAvailableStreetModes(config);
+      const currentModes = utils.getModes(location, config);
       const streetMode = StreetMode.Walk;
 
       const query = utils.buildStreetModeQuery(
-        allModes,
-        availableStreetModes,
+        config,
+        currentModes,
         streetMode,
       );
 
@@ -226,6 +225,49 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Citybike);
+    });
+
+    it('should always include default transportModes in the query when isExclusive=false and no transportModes are selected', () => {
+      const location = {
+        query: {
+          modes: 'CAR',
+        },
+      };
+      const currentModes = utils.getModes(location, config);
+      const streetMode = StreetMode.Walk;
+
+      const query = utils.buildStreetModeQuery(
+        config,
+        currentModes,
+        streetMode,
+      );
+
+      const modes = query.modes ? query.modes.split(',') : [];
+      expect(modes.length).to.equal(3);
+      expect(modes).to.contain(StreetMode.Walk);
+      expect(modes).to.contain(TransportMode.Rail);
+      expect(modes).to.contain(TransportMode.Bus);
+    });
+
+    it('should remove every other mode from the query when isExclusive=true', () => {
+      const location = {
+        query: {
+          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+        },
+      };
+      const currentModes = utils.getModes(location, config);
+      const streetMode = StreetMode.Walk;
+
+      const query = utils.buildStreetModeQuery(
+        config,
+        currentModes,
+        streetMode,
+        true,
+      );
+
+      const modes = query.modes ? query.modes.split(',') : [];
+      expect(modes.length).to.equal(1);
+      expect(modes).to.contain(StreetMode.Walk);
     });
   });
 
@@ -248,6 +290,133 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Rail);
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Citybike);
+    });
+
+    it('should remove every other mode from the current url when isExclusive=true', () => {
+      const streetMode = StreetMode.ParkAndRide;
+      const router = createMemoryHistory();
+      router.location = {
+        query: {
+          modes: 'CAR,WALK,RAIL,BUS,CITYBIKE',
+        },
+      };
+
+      utils.setStreetMode(streetMode, config, router, true);
+
+      const { query } = router.getCurrentLocation();
+      const modes = query.modes ? query.modes.split(',') : [];
+      expect(modes.length).to.equal(1);
+      expect(modes).to.contain(StreetMode.ParkAndRide);
+    });
+  });
+
+  describe('getOTPMode', () => {
+    it('should return undefined if the given mode is undefined', () => {
+      expect(utils.getOTPMode(config, undefined)).to.equal(undefined);
+    });
+
+    it('should return undefined if the given mode is not a string', () => {
+      expect(utils.getOTPMode(config, {})).to.equal(undefined);
+    });
+
+    it('should not matter if the given mode is in UPPERCASE or lowercase', () => {
+      const modeConfig = {
+        modeToOTP: {
+          walk: 'WALK',
+        },
+      };
+      const upperCaseMode = 'WALK';
+      const lowerCaseMode = 'walk';
+
+      expect(utils.getOTPMode(modeConfig, upperCaseMode)).to.equal('WALK');
+      expect(utils.getOTPMode(modeConfig, lowerCaseMode)).to.equal('WALK');
+    });
+
+    it('should return the configured OTP mode in UPPERCASE', () => {
+      const modeConfig = {
+        modeToOTP: {
+          walk: 'walk',
+        },
+      };
+
+      expect(utils.getOTPMode(modeConfig, StreetMode.Walk)).to.equal('WALK');
+    });
+
+    it('should return undefined for a missing mode', () => {
+      const modeConfig = {
+        modeToOTP: {},
+      };
+
+      expect(utils.getOTPMode(modeConfig, StreetMode.Walk)).to.equal(undefined);
+    });
+  });
+
+  describe('filterModes', () => {
+    it('should return an empty string if modes is not available', () => {
+      expect(utils.filterModes(config, null)).to.equal('');
+    });
+
+    it('should return an emptry string modes is not an array or a string', () => {
+      expect(utils.filterModes(config, {})).to.equal('');
+    });
+
+    it('should support a modes array', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          car_park: 'CAR_PARK',
+          walk: 'WALK',
+        },
+      };
+      const modes = [
+        StreetMode.ParkAndRide,
+        StreetMode.Walk,
+        TransportMode.Bus,
+      ];
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('BUS,CAR_PARK,WALK');
+    });
+
+    it('should support a single mode', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          car_park: 'CAR_PARK',
+          walk: 'WALK',
+        },
+      };
+      const modes = 'CAR_PARK';
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('CAR_PARK');
+    });
+
+    it('should support a comma-separated modes string', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          car_park: 'CAR_PARK',
+          walk: 'WALK',
+        },
+      };
+      const modes = 'WALK,BUS,CAR_PARK';
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('BUS,CAR_PARK,WALK');
+    });
+
+    it('should omit missing OTP modes', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          walk: 'WALK',
+        },
+      };
+      const modes = 'BUS,CAR_PARK,WALK,UNKNOWN';
+      const result = utils.filterModes(modeConfig, modes);
+
+      expect(result).to.equal('BUS,WALK');
     });
   });
 });

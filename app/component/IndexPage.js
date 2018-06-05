@@ -172,8 +172,8 @@ class IndexPage extends React.Component {
       <StreetModeSelectorPopup
         openingDirection={openingDirection}
         selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
-        selectStreetMode={streetMode =>
-          ModeUtils.setStreetMode(streetMode, config, router)
+        selectStreetMode={(streetMode, isExclusive) =>
+          ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
         }
         streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
       />

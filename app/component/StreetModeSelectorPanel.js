@@ -14,18 +14,18 @@ class StreetModeSelectorPanel extends React.Component {
     }
 
     return streetModeConfigs.map(streetMode => {
-      const { icon, name } = streetMode;
+      const { exclusive, icon, name } = streetMode;
       const isSelected = name === selectedStreetMode;
-      const lowerCaseName = name.toLowerCase();
       return (
         <ToggleButton
           checkedClass="selected"
           key={name}
           icon={icon}
-          label={lowerCaseName}
-          onBtnClick={() => this.selectStreetMode(name)}
+          label={`street-mode-${name.toLowerCase()}`}
+          onBtnClick={() => this.selectStreetMode(name, exclusive)}
           onKeyDown={e =>
-            isKeyboardSelectionEvent(e) && this.selectStreetMode(name)
+            isKeyboardSelectionEvent(e) &&
+            this.selectStreetMode(name, exclusive)
           }
           state={isSelected}
         />
@@ -33,8 +33,8 @@ class StreetModeSelectorPanel extends React.Component {
     });
   }
 
-  selectStreetMode(streetMode) {
-    this.props.selectStreetMode(streetMode.toUpperCase());
+  selectStreetMode(name, exclusive) {
+    this.props.selectStreetMode(name.toUpperCase(), exclusive);
   }
 
   render() {

@@ -1,4 +1,4 @@
-import { intersection, without } from 'lodash';
+import { intersection, isEmpty, isString, without } from 'lodash';
 import { getDefaultModes } from './planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 
@@ -66,31 +66,53 @@ export const getStreetMode = (location, config) => {
 
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
+ * The full configuration will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export const getAvailableTransportModeConfigs = config =>
+  Object.keys(config.transportModes)
+    .filter(tm => config.transportModes[tm].availableForSelection)
+    .map(tm => ({ ...config.transportModes[tm], name: tm.toUpperCase() }));
+
+/**
+ * Retrieves all transport modes that have specified "availableForSelection": true.
  * Only the name of each transport mode will be returned.
  *
  * @param {*} config The configuration for the software installation
  */
 export const getAvailableTransportModes = config =>
-  Object.keys(config.transportModes)
-    .filter(tm => config.transportModes[tm].availableForSelection)
-    .map(tm => tm.toUpperCase());
+  getAvailableTransportModeConfigs(config).map(tm => tm.name);
 
 /**
  * Builds a query for the router component to use to update its location url.
  *
- * @param {*} allModes All available transport and street modes
- * @param {*} availableStreetModes All available street modes
+ * @param {*} config The configuration for the software installation
+ * @param {*} currentModes All currently selected transport and street modes
  * @param {*} streetMode The street mode to select
+ * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
 export const buildStreetModeQuery = (
-  allModes,
-  availableStreetModes,
+  config,
+  currentModes,
   streetMode,
-) => ({
-  modes: without(allModes, ...availableStreetModes)
-    .concat(streetMode.toUpperCase())
-    .join(','),
-});
+  isExclusive = false,
+) => {
+  let transportModes = without(
+    currentModes,
+    ...getAvailableStreetModes(config),
+  );
+  if (isEmpty(transportModes)) {
+    transportModes = getAvailableTransportModeConfigs(config)
+      .filter(tm => tm.defaultValue)
+      .map(tm => tm.name);
+  }
+  return {
+    modes: isExclusive
+      ? streetMode.toUpperCase()
+      : transportModes.concat(streetMode.toUpperCase()).join(','),
+  };
+};
 
 /**
  * Updates the browser's url with the given parameters.
@@ -115,13 +137,63 @@ export const replaceQueryParams = (router, location, newParams) => {
  * @param {*} streetMode The street mode to select
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
+ * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
  */
-export const setStreetMode = (streetMode, config, router) => {
+export const setStreetMode = (
+  streetMode,
+  config,
+  router,
+  isExclusive = false,
+) => {
   const { location } = router;
   const modesQuery = buildStreetModeQuery(
+    config,
     getModes(location, config),
-    getAvailableStreetModes(config),
     streetMode,
+    isExclusive,
   );
   replaceQueryParams(router, location, modesQuery);
+};
+
+/**
+ * Retrieves the related OTP mode from the given configuration, if available.
+ * This will return undefined if the given mode cannot be mapped.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to map
+ * @returns The mapped mode, or undefined
+ */
+export const getOTPMode = (config, mode) => {
+  if (!isString(mode)) {
+    return undefined;
+  }
+  const otpMode = config.modeToOTP[mode.toLowerCase()];
+  return otpMode ? otpMode.toUpperCase() : undefined;
+};
+
+/**
+ * Maps the given modes (either a string array or a comma-separated string of values)
+ * to their OTP counterparts. Any modes with no counterpart available will be dropped
+ * from the output.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String[]|String} modes The modes to filter
+ * @returns The filtered modes, or an empty string
+ */
+export const filterModes = (config, modes) => {
+  if (!modes) {
+    return '';
+  }
+  if (modes instanceof Array) {
+    modes = modes.join(',');
+  }
+  if (!isString(modes)) {
+    return '';
+  }
+  return modes
+    .split(',')
+    .map(mode => getOTPMode(config, mode))
+    .filter(mode => !!mode)
+    .sort()
+    .join(',');
 };

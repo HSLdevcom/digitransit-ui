@@ -27,18 +27,19 @@ class StreetModeSelectorPopup extends React.Component {
     }
 
     return streetModeConfigs.map(streetMode => {
-      const { icon, name } = streetMode;
+      const { exclusive, icon, name } = streetMode;
       const isSelected = name === selectedStreetMode;
-      const lowerCaseName = name.toLowerCase();
+      const labelId = `street-mode-${name.toLowerCase()}`;
       return (
         <ToggleButton
           checkedClass="selected"
           key={name}
           icon={icon}
-          label={lowerCaseName}
-          onBtnClick={() => this.selectStreetMode(name)}
+          label={labelId}
+          onBtnClick={() => this.selectStreetMode(name, exclusive)}
           onKeyDown={e =>
-            isKeyboardSelectionEvent(e) && this.selectStreetMode(name, true)
+            isKeyboardSelectionEvent(e) &&
+            this.selectStreetMode(name, exclusive, true)
           }
           buttonRef={ref => {
             if (ref && isSelected) {
@@ -47,10 +48,7 @@ class StreetModeSelectorPopup extends React.Component {
           }}
           state={isSelected}
         >
-          <FormattedMessage
-            id={`street-mode-${lowerCaseName}`}
-            defaultMessage={name}
-          />
+          <FormattedMessage id={labelId} defaultMessage={name} />
         </ToggleButton>
       );
     });
@@ -82,13 +80,13 @@ class StreetModeSelectorPopup extends React.Component {
     );
   }
 
-  selectStreetMode(streetMode, applyFocus = false) {
+  selectStreetMode(streetMode, isExclusive, applyFocus = false) {
     this.setState(
       {
         selectedStreetMode: streetMode,
       },
       () => {
-        this.props.selectStreetMode(streetMode.toUpperCase());
+        this.props.selectStreetMode(streetMode.toUpperCase(), isExclusive);
         this.closeDialog(applyFocus);
       },
     );
