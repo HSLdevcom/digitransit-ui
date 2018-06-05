@@ -4,7 +4,7 @@ import moment from 'moment';
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
 import { otpToLocation } from './otpStrings';
-import { filterModes, getDefaultModes } from './modeUtils';
+import { filterModes } from './modeUtils';
 
 export const WALKBOARDCOST_DEFAULT = 600;
 

@@ -2,47 +2,6 @@ import { intersection, isEmpty, isString, sortedUniq, without } from 'lodash';
 import { getCustomizedSettings } from '../store/localStorage';
 
 /**
- * Retrieves all modes (as in both transport and street modes)
- * from either 1. the URI, 2. localStorage or 3. the default configuration.
- *
- * @param {*} location The current location
- * @param {*} config The configuration for the software installation
- */
-export const getModes = (location, config) => {
-  if (location && location.query && location.query.modes) {
-    return decodeURI(location.query.modes)
-      .split('?')[0]
-      .split(',')
-      .map(m => m.toUpperCase());
-  } else if (getCustomizedSettings().modes) {
-    return getCustomizedSettings().modes;
-  }
-  return getDefaultModes(config);
-};
-
-/**
- * Retrieves all modes (as in both transport and street modes) that are
- * both available and marked as default.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of modes
- */
-export const getDefaultModes = config => [
-  ...getDefaultTransportModes(config),
-  ...getDefaultStreetModes(config),
-];
-
-/**
- * Retrieves all modes (as in both transport and street modes) that are
- * both available and marked as default and maps them to their OTP counterparts.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of OTP modes
- */
-export const getDefaultOTPModes = config =>
-  filterModes(config, getDefaultModes(config));
-
-/**
  * Retrieves an array of street mode configurations that have specified
  * "availableForSelection": true. The full configuration will be returned.
  *
@@ -66,29 +25,6 @@ export const getDefaultStreetModes = config =>
  */
 export const getAvailableStreetModes = config =>
   getAvailableStreetModeConfigs(config).map(sm => sm.name);
-
-/**
- * Retrieves the current street mode from either 1. the URI, 2. localStorage
- * or 3. the default configuration. This will return undefined if no
- * applicable street mode can be found.
- *
- * @param {*} location The current location
- * @param {*} config The configuration for the software installation
- */
-export const getStreetMode = (location, config) => {
-  const currentStreetModes = intersection(
-    getModes(location, config),
-    getAvailableStreetModes(config),
-  );
-  if (currentStreetModes.length > 0) {
-    return currentStreetModes[0];
-  }
-
-  const defaultStreetModes = getAvailableStreetModeConfigs(config).filter(
-    sm => sm.defaultValue,
-  );
-  return defaultStreetModes.length > 0 ? defaultStreetModes[0].name : undefined;
-};
 
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
@@ -163,30 +99,6 @@ export const replaceQueryParams = (router, location, newParams) => {
 };
 
 /**
- * Updates the browser's url to reflect the selected street mode.
- *
- * @param {*} streetMode The street mode to select
- * @param {*} config The configuration for the software installation
- * @param {*} router The router
- * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
- */
-export const setStreetMode = (
-  streetMode,
-  config,
-  router,
-  isExclusive = false,
-) => {
-  const { location } = router;
-  const modesQuery = buildStreetModeQuery(
-    config,
-    getModes(location, config),
-    streetMode,
-    isExclusive,
-  );
-  replaceQueryParams(router, location, modesQuery);
-};
-
-/**
  * Retrieves the related OTP mode from the given configuration, if available.
  * This will return undefined if the given mode cannot be mapped.
  *
@@ -215,17 +127,103 @@ export const filterModes = (config, modes) => {
   if (!modes) {
     return '';
   }
-  if (modes instanceof Array) {
-    modes = modes.join(',');
-  }
-  if (!isString(modes)) {
+  const modesStr = modes instanceof Array ? modes.join(',') : modes;
+  if (!isString(modesStr)) {
     return '';
   }
   return sortedUniq(
-    modes
+    modesStr
       .split(',')
       .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),
   ).join(',');
+};
+
+/**
+ * Retrieves all modes (as in both transport and street modes) that are
+ * both available and marked as default.
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of modes
+ */
+export const getDefaultModes = config => [
+  ...getDefaultTransportModes(config),
+  ...getDefaultStreetModes(config),
+];
+
+/**
+ * Retrieves all modes (as in both transport and street modes) that are
+ * both available and marked as default and maps them to their OTP counterparts.
+ *
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of OTP modes
+ */
+export const getDefaultOTPModes = config =>
+  filterModes(config, getDefaultModes(config));
+
+/**
+ * Retrieves all modes (as in both transport and street modes)
+ * from either 1. the URI, 2. localStorage or 3. the default configuration.
+ *
+ * @param {*} location The current location
+ * @param {*} config The configuration for the software installation
+ */
+export const getModes = (location, config) => {
+  if (location && location.query && location.query.modes) {
+    return decodeURI(location.query.modes)
+      .split('?')[0]
+      .split(',')
+      .map(m => m.toUpperCase());
+  } else if (getCustomizedSettings().modes) {
+    return getCustomizedSettings().modes;
+  }
+  return getDefaultModes(config);
+};
+
+/**
+ * Retrieves the current street mode from either 1. the URI, 2. localStorage
+ * or 3. the default configuration. This will return undefined if no
+ * applicable street mode can be found.
+ *
+ * @param {*} location The current location
+ * @param {*} config The configuration for the software installation
+ */
+export const getStreetMode = (location, config) => {
+  const currentStreetModes = intersection(
+    getModes(location, config),
+    getAvailableStreetModes(config),
+  );
+  if (currentStreetModes.length > 0) {
+    return currentStreetModes[0];
+  }
+
+  const defaultStreetModes = getAvailableStreetModeConfigs(config).filter(
+    sm => sm.defaultValue,
+  );
+  return defaultStreetModes.length > 0 ? defaultStreetModes[0].name : undefined;
+};
+
+/**
+ * Updates the browser's url to reflect the selected street mode.
+ *
+ * @param {*} streetMode The street mode to select
+ * @param {*} config The configuration for the software installation
+ * @param {*} router The router
+ * @param {boolean} isExclusive True, if only this mode shoud be selected; otherwise false.
+ */
+export const setStreetMode = (
+  streetMode,
+  config,
+  router,
+  isExclusive = false,
+) => {
+  const { location } = router;
+  const modesQuery = buildStreetModeQuery(
+    config,
+    getModes(location, config),
+    streetMode,
+    isExclusive,
+  );
+  replaceQueryParams(router, location, modesQuery);
 };

@@ -5,7 +5,6 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
-import without from 'lodash/without';
 import cx from 'classnames';
 
 import Icon from './Icon';
