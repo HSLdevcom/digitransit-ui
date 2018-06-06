@@ -1,5 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
-import includes from 'lodash/includes';
+import maxBy from 'lodash/maxBy';
+import find from 'lodash/find';
 import {
   getFavouriteStopsStorage,
   setFavouriteStopsStorage,
@@ -8,39 +9,62 @@ import {
 class FavouriteStopsStore extends Store {
   static storeName = 'FavouriteStopsStore';
 
-  stops = this.getStops();
+  constructor(dispatcher) {
+    super(dispatcher);
+    this.stops = this.getStops();
+  }
 
   // eslint-disable-next-line class-methods-use-this
   getStops() {
     return getFavouriteStopsStorage();
   }
 
-  isFavourite(id) {
-    return includes(this.stops, id);
+  getById = id => find(this.stops, stop => id === stop.id);
+
+  isFavourite(gtfsId) {
+    return find(this.stops, { gtfsId });
   }
+
+  getMaxId = collection => (maxBy(collection, stop => stop.id) || { id: 0 }).id;
 
   storeStops() {
     setFavouriteStopsStorage(this.stops);
   }
 
-  toggleFavouriteStop(stopId) {
-    if (typeof stopId !== 'string') {
-      throw new Error(`stopId is not a string:${JSON.stringify(stopId)}`);
+  addFavouriteStop(stop) {
+    if (typeof stop !== 'object') {
+      throw new Error(`stop is not a object:${JSON.stringify(stop)}`);
     }
 
-    const newStops = this.stops.filter(id => id !== stopId);
-
-    if (newStops.length === this.stops.length) {
-      newStops.push(stopId);
+    if (stop.id === undefined) {
+      // new
+      this.stops.push({
+        ...stop,
+        id: 1 + this.getMaxId(this.stops),
+      });
+    } else {
+      // update
+      this.stops = this.stops.map(currentStop => {
+        if (currentStop.id === stop.id) {
+          return stop;
+        }
+        return currentStop;
+      });
     }
 
-    this.stops = newStops;
     this.storeStops();
-    this.emitChange(stopId);
+    this.emitChange();
+  }
+
+  deleteFavouriteStop(stop) {
+    this.stops = this.stops.filter(currentStop => currentStop.id !== stop.id);
+    this.storeStops();
+    this.emitChange();
   }
 
   static handlers = {
-    AddFavouriteStop: 'toggleFavouriteStop',
+    AddFavouriteStop: 'addFavouriteStop',
+    DeleteFavouriteStop: 'deleteFavouriteStop',
   };
 }
 

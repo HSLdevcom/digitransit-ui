@@ -17,7 +17,11 @@ export const getStopCode = ({ id, code }) => {
   if (code) {
     return code;
   }
-  if (id === undefined || id.indexOf('#') === -1) {
+  if (
+    id === undefined ||
+    typeof id.indexOf === 'undefined' ||
+    id.indexOf('#') === -1
+  ) {
     return undefined;
   }
   // id from pelias
@@ -29,7 +33,7 @@ export const getGTFSId = ({ id, gtfsId }) => {
     return gtfsId;
   }
 
-  if (id.indexOf('GTFS:') === 0) {
+  if (id && typeof id.indexOf === 'function' && id.indexOf('GTFS:') === 0) {
     if (id.indexOf('#') === -1) {
       return id.substring(5);
     }
@@ -42,7 +46,8 @@ export const getGTFSId = ({ id, gtfsId }) => {
 export const isStop = ({ layer }) =>
   layer === 'stop' || layer === 'favouriteStop';
 
-export const isTerminal = ({ layer }) => layer === 'station';
+export const isTerminal = ({ layer }) =>
+  layer === 'station' || layer === 'favouriteStation';
 
 export const getNameLabel = memoize(
   (suggestion, plain = false) => {
@@ -81,7 +86,14 @@ export const getNameLabel = memoize(
             '',
           ),
         ];
+      case 'favouriteStation':
       case 'favouriteStop':
+        return plain
+          ? [suggestion.locationName]
+          : [
+              suggestion.locationName,
+              <span key={suggestion.id}>{suggestion.address}</span>,
+            ];
       case 'stop':
         return plain
           ? [suggestion.name || suggestion.label, getLocality(suggestion)]
@@ -124,15 +136,21 @@ export function getLabel(properties) {
     case 'favouritePlace':
       return parts[0];
     default:
-      return parts.length > 1 ? parts.join(', ') : parts[1] || parts[0];
+      return parts.length > 1 && parts[1] !== ''
+        ? parts.join(', ')
+        : parts[1] || parts[0];
   }
 }
 
 export function suggestionToLocation(item) {
   const name = getLabel(item.properties);
+
   return {
     address: name,
     type: item.type,
+    id: getGTFSId(item.properties),
+    code: getStopCode(item.properties),
+    layer: item.properties.layer,
     lat:
       item.lat ||
       (item.geometry &&
@@ -152,6 +170,7 @@ export function getIcon(layer) {
     ['favouritePlace', 'icon-icon_star'],
     ['favouriteRoute', 'icon-icon_star'],
     ['favouriteStop', 'icon-icon_star'],
+    ['favouriteStation', 'icon-icon_star'],
     ['favourite', 'icon-icon_star'],
     ['address', 'icon-icon_place'],
     ['stop', 'icon-icon_bus-stop'],

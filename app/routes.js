@@ -451,7 +451,15 @@ export default config => {
         </Route>
       </Route>
       <Route
-        path="/suosikki/muokkaa/:id"
+        path="/suosikki/muokkaa/sijainti/:id"
+        getComponent={(location, cb) => {
+          import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
+            .then(loadRoute(cb))
+            .catch(errorLoading);
+        }}
+      />
+      <Route
+        path="/suosikki/muokkaa/pysakki/:id"
         getComponent={(location, cb) => {
           import(/* webpackChunkName: "add-favourite" */ './component/AddFavouritePage')
             .then(loadRoute(cb))
