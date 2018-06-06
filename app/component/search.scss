@@ -370,21 +370,6 @@ div.map {
     margin-left: 0;
     margin-right: 1em;
 
-    #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-      width: 504.5px;
-      z-index: 1006;
-    }
-
-    #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-      width: 504.5px;
-      z-index: 1006;
-    }
-
-    #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-      width: 454px;
-      max-height: 50vh;
-    }
-
     input.react-autosuggest__input {
       background: $white;
     }
@@ -426,6 +411,7 @@ div.map {
       background: #fff;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
+      margin-top: -0.5em;
       max-height: 60vh;
       overflow-x: hidden;
       overflow-y: scroll;
@@ -665,6 +651,18 @@ input.react-autosuggest__input {
   &.viapoint-2 > div.viapoint {
     z-index: index($zindex, viapoint-input-2);
   }
+
+  &.viapoint-3 > div.viapoint {
+    z-index: index($zindex, viapoint-input-3);
+  }
+
+  &.viapoint-4 > div.viapoint {
+    z-index: index($zindex, viapoint-input-4);
+  }
+
+  &.viapoint-5 > div.viapoint {
+    z-index: index($zindex, viapoint-input-5);
+  }
 }
 
 .autosuggest-input-container {
@@ -682,23 +680,18 @@ input.react-autosuggest__input {
 .isItinerary .autosuggest-input-container {
   margin: 0;
   width: 100%;
-  position: static;
-  &#destination-container {
-    margin: 0;
-  }
+  position: relative;
+
   input[type='text'] {
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
   }
-  #react-autowhatever-origin,
-  #react-autowhatever-destination,
-  #react-autowhatever-viapoint {
-    &.react-autosuggest__suggestions-container--open {
-      margin: -8px 0 0 0;
-      max-height: 40vh;
-    }
-  }
+
+  // .react-autosuggest__suggestions-container--open {
+  //   margin: -8px 0 0 0;
+  //   max-height: 40vh;
+  // }
 }
 
 .viapoint-before {
