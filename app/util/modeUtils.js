@@ -8,9 +8,11 @@ import { getCustomizedSettings } from '../store/localStorage';
  * @param {*} config The configuration for the software installation
  */
 export const getAvailableStreetModeConfigs = config =>
-  Object.keys(config.streetModes)
-    .filter(sm => config.streetModes[sm].availableForSelection)
-    .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }));
+  config.streetModes
+    ? Object.keys(config.streetModes)
+        .filter(sm => config.streetModes[sm].availableForSelection)
+        .map(sm => ({ ...config.streetModes[sm], name: sm.toUpperCase() }))
+    : [];
 
 export const getDefaultStreetModes = config =>
   getAvailableStreetModeConfigs(config)
@@ -33,9 +35,11 @@ export const getAvailableStreetModes = config =>
  * @param {*} config The configuration for the software installation
  */
 export const getAvailableTransportModeConfigs = config =>
-  Object.keys(config.transportModes)
-    .filter(tm => config.transportModes[tm].availableForSelection)
-    .map(tm => ({ ...config.transportModes[tm], name: tm.toUpperCase() }));
+  config.transportModes
+    ? Object.keys(config.transportModes)
+        .filter(tm => config.transportModes[tm].availableForSelection)
+        .map(tm => ({ ...config.transportModes[tm], name: tm.toUpperCase() }))
+    : [];
 
 export const getDefaultTransportModes = config =>
   getAvailableTransportModeConfigs(config)
@@ -115,6 +119,18 @@ export const getOTPMode = (config, mode) => {
 };
 
 /**
+ * Checks if the given mode has been configured as availableForSelection.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to check
+ */
+const isModeAvailable = (config, mode) =>
+  [
+    ...getAvailableStreetModes(config),
+    ...getAvailableTransportModes(config),
+  ].includes(mode.toUpperCase());
+
+/**
  * Maps the given modes (either a string array or a comma-separated string of values)
  * to their OTP counterparts. Any modes with no counterpart available will be dropped
  * from the output.
@@ -134,6 +150,7 @@ export const filterModes = (config, modes) => {
   return sortedUniq(
     modesStr
       .split(',')
+      .filter(mode => isModeAvailable(config, mode))
       .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),
