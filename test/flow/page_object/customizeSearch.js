@@ -1,5 +1,3 @@
-const async = require('async');
-
 // TODO: remove citybikes on 2018-10-31
 const modalities = [
   'bus',
@@ -49,43 +47,48 @@ function exists(selector, callback) {
 
 function enableModality(mode) {
   this.api.debug(`enabling ${mode}`);
-  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
+  const modeSelector = `.toggle-modes>.btn-bar>.${mode}`;
+  exists.call(this, modeSelector, (selector, found) => {
     if (!found) {
       const nth = modalities.indexOf(mode) + 1;
       this.checkedClick(`.toggle-modes>.btn-bar>.btn:nth-of-type(${nth})`);
     }
   });
   this.waitForElementPresent(
-    `.toggle-modes > .btn-bar > .${mode}`,
+    modeSelector,
     this.api.globals.elementVisibleTimeout,
   );
 }
 
-function disableModality(mode, asyncCallback = () => {}) {
+function disableModality(mode) {
   this.api.debug(`disabling ${mode}`);
-  exists.call(this, `.toggle-modes>.btn-bar>.${mode}`, (selector, found) => {
+  const modeSelector = `.toggle-modes>.btn-bar>.${mode}`;
+  exists.call(this, modeSelector, (selector, found) => {
     if (found) {
-      this.checkedClick(selector);
+      this.waitForElementPresent(
+        modeSelector,
+        this.api.globals.elementVisibleTimeout,
+      );
+      this.waitForElementVisible(
+        modeSelector,
+        this.api.globals.elementVisibleTimeout,
+      );
+      this.checkedClick(modeSelector);
     }
   });
   this.waitForElementNotPresent(
-    `.toggle-modes > .btn-bar > .${mode}`,
+    modeSelector,
     this.api.globals.elementVisibleTimeout,
-    true,
-    () => {
-      asyncCallback();
-    },
   );
 }
 
 function disableAllModalitiesExcept(except) {
   this.api.debug(`disabling all but ${except}`);
 
-  async.eachSeries(modalities, (modality, callback) => {
-    this.api.pause(this.api.globals.pause_ms);
+  modalities.forEach(modality => {
     this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
-      disableModality.call(this, modality, callback);
+      disableModality.call(this, modality);
     }
   });
   this.api.debug('all iterated');
