@@ -19,12 +19,17 @@ class SummaryPlanContainer extends React.Component {
     children: PropTypes.node,
     error: PropTypes.string,
     setLoading: PropTypes.func.isRequired,
+    setError: PropTypes.func.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
     }).isRequired,
     config: PropTypes.object.isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
+    }).isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 
@@ -34,6 +39,21 @@ class SummaryPlanContainer extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
   };
+
+  componentWillMount() {
+    const trQuery = Relay.createQuery(this.getTimeRangeQuery(), {});
+    Relay.Store.primeCache({ trQuery }, status => {
+      if (status.ready === true) {
+        const data = Relay.Store.readQuery(trQuery);
+        if (data[0]) {
+          this.props.serviceTimeRange = {
+            start: data[0].start,
+            end: data[0].end,
+          };
+        }
+      }
+    });
+  }
 
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
@@ -84,6 +104,18 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
+    let end;
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const END = now.clone().add(MAXRANGE, 'd');
+    if (this.props.serviceTimeRange) {
+      end = moment.unix(this.props.serviceTimeRange.end);
+      end = moment.max(moment.min(end, END), now); // always include today!
+    } else {
+      end = END;
+    }
+    end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
+
     const latestDepartureTime = this.props.itineraries.reduce(
       (previous, current) => {
         const startTime = moment(current.startTime);
@@ -99,6 +131,13 @@ class SummaryPlanContainer extends React.Component {
     );
 
     latestDepartureTime.add(1, 'minutes');
+
+    if (latestDepartureTime >= end) {
+      // Departure time is going beyond available time range
+      this.props.setError('no-route-end-date-not-in-range');
+      this.props.setLoading(false);
+      return;
+    }
 
     if (this.context.location.query.arriveBy !== 'true') {
       // user does not have arrive By
@@ -154,6 +193,17 @@ class SummaryPlanContainer extends React.Component {
 
   onEarlier = () => {
     this.props.setLoading(true);
+    let start;
+    const MAXRANGE = 30; // limit day selection to sensible range ?
+    const now = this.context.getStore('TimeStore').getCurrentTime();
+    const START = now.clone().subtract(MAXRANGE, 'd');
+    if (this.props.serviceTimeRange) {
+      start = moment.unix(this.props.serviceTimeRange.start);
+      start = moment.min(moment.max(start, START), now); // always include today!
+    } else {
+      start = START;
+    }
+
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
         const endTime = moment(current.endTime);
@@ -200,21 +250,35 @@ class SummaryPlanContainer extends React.Component {
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
           const data = Relay.Store.readQuery(query);
-          const min = data[0].plan.itineraries.reduce(
-            (previous, { startTime }) =>
-              startTime < previous ? startTime : previous,
-            Number.MAX_VALUE,
-          );
-          this.props.setLoading(false);
-          this.context.router.replace({
-            ...this.context.location,
-            query: {
-              ...this.context.location.query,
-              time: moment(min)
-                .subtract(1, 'minutes')
-                .unix(),
-            },
-          });
+          if (data[0].plan.itineraries.length === 0) {
+            // Could not find routes arriving at original departure time
+            // --> cannot calculate earlier start time
+            this.props.setError('no-route-start-date-too-early');
+            this.props.setLoading(false);
+          } else {
+            let min = data[0].plan.itineraries.reduce(
+              (previous, { startTime }) =>
+                startTime < previous ? startTime : previous,
+              Number.MAX_VALUE,
+            );
+            min = moment(min).subtract(1, 'minutes');
+
+            if (min <= start) {
+              // Start time out of range
+              this.props.setError('no-route-start-date-too-early');
+              this.props.setLoading(false);
+              return;
+            }
+
+            this.props.setLoading(false);
+            this.context.router.replace({
+              ...this.context.location,
+              query: {
+                ...this.context.location.query,
+                time: moment(min).unix(),
+              },
+            });
+          }
         }
       });
     }
@@ -230,6 +294,13 @@ class SummaryPlanContainer extends React.Component {
       },
     });
   };
+
+  getTimeRangeQuery = () => Relay.QL`query {
+    serviceTimeRange {
+      start
+      end
+    }
+  }`;
 
   getQuery = () => Relay.QL`
     query Plan(
@@ -293,6 +364,7 @@ class SummaryPlanContainer extends React.Component {
     if (!this.props.itineraries && this.props.error === null) {
       return <Loading />;
     }
+
     return (
       <div className="summary">
         <ItinerarySummaryListContainer
@@ -303,6 +375,7 @@ class SummaryPlanContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           activeIndex={activeIndex}
           open={Number(this.props.params.hash)}
+          error={this.props.error}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

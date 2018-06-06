@@ -1,5 +1,5 @@
 /* Calculate some extra width for typeahead results*/
-$search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
+$search-result-width: grid-calc($total-columns + 1, $total-columns) + 1;
 $search-result-background-color: $white;
 $search-result-text-font-family: $font-family;
 $search-result-text-font-weight: $font-weight-book;
@@ -360,30 +360,35 @@ div.map {
   }
 }
 
-div.autosuggest-panel {
+.autosuggest-panel {
   &.isItinerary {
     padding-top: 0;
     margin-top: 0;
     display: flex;
     flex-direction: column;
-    flex-flow: inherit;
     width: 90%;
     margin-left: 0;
     margin-right: 1em;
+
     #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
       width: 504.5px;
       z-index: 1006;
     }
+
     #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
       width: 504.5px;
       z-index: 1006;
     }
+
     #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-      width: 474.5px;
+      width: 454px;
+      max-height: 50vh;
     }
+
     input.react-autosuggest__input {
       background: $white;
     }
+
     .clear-input {
       border-top: 1px solid #ddd;
       border-right: 1px solid #ddd;
@@ -391,14 +396,14 @@ div.autosuggest-panel {
     }
   }
 
-  &.small {
-    width: 100%;
-    margin-left: 0;
-    position: static;
+  .viapoints-list {
+    position: relative;
   }
 
-  .mobile .autosuggest-panel.small {
-    flex-flow: wrap;
+  .viapoint-input-container {
+    display: flex;
+    width: 110%;
+    position: static;
   }
 
   .dark-overlay {
@@ -409,11 +414,15 @@ div.autosuggest-panel {
     left: 0;
     top: 0;
     background: rgba(0, 0, 0, 0.57);
+    &.hidden {
+      display: none;
+    }
   }
 
   .react-autosuggest__container {
     width: 100%;
-    & .react-autosuggest__suggestions-container--open {
+
+    .react-autosuggest__suggestions-container--open {
       background: #fff;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -425,20 +434,10 @@ div.autosuggest-panel {
     }
   }
 
-  #react-autowhatever-viapoint {
-    &.react-autosuggest__suggestions-container--open {
-      position: absolute;
-      background: #fff;
-      width: 52.5%;
-      height: auto;
-      max-height: 60%;
-      overflow-x: hidden;
-      overflow-y: scroll;
-      z-index: 1005;
-      margin-top: -8px;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
+  &.small
+    .react-autosuggest__container
+    .react-autosuggest__suggestions-container--open {
+    max-height: unset;
   }
 }
 
@@ -446,6 +445,8 @@ div.autosuggest-panel {
   position: relative;
   display: flex;
   flex-flow: column;
+  max-height: 3em;
+
   .switch {
     padding: $padding-xxsmall;
     background-color: $white;
@@ -457,20 +458,49 @@ div.autosuggest-panel {
     transform: rotate(90deg);
     border: none;
     background-color: initial;
+
     &:hover {
       color: #0062a1;
     }
+
     .icon {
       position: relative;
       top: 3px;
     }
   }
+
   .addViaPoint {
     text-align: center;
-    color: $link-color;
+    color: #007ac9;
     cursor: pointer;
+
     &:hover {
       color: #0062a1;
+    }
+
+    .more {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+.viapoint-controls {
+  display: flex;
+  margin-left: 2em;
+  padding-top: 0.5em;
+
+  .addViaPoint {
+    text-align: center;
+    color: #007ac9;
+    cursor: pointer;
+    margin-left: 1em;
+    &:hover {
+      color: #0062a1;
+    }
+    .more {
+      position: absolute;
+      right: 0;
     }
   }
   .removeViaPoint {
@@ -478,15 +508,19 @@ div.autosuggest-panel {
     color: $link-color;
     text-align: center;
     font-size: 1em;
+    color: #007ac9;
     span {
       font-size: $font-size-xsmall;
     }
   }
 }
 
+.small .viapoint-controls {
+  right: -2.5em;
+}
+
 .mobile .itinerary-search-controls {
   top: 0.6em;
-  overflow-x: hidden;
   margin-right: 0.5em;
   .switch {
     font-size: 1.4em;
@@ -504,14 +538,9 @@ div.autosuggest-panel {
   }
 }
 
-.autosuggest-panel.small {
+.small.autosuggest-panel {
   &.isItinerary {
-    position: static;
-    margin-left: 0;
-    padding-top: 0;
-    flex-direction: column;
-
-    & .autosuggest-input-container {
+    .autosuggest-input-container {
       &.origin,
       &.destination,
       &.viapoint {
@@ -521,68 +550,11 @@ div.autosuggest-panel {
         width: 100%;
       }
     }
-
-    .react-autosuggest__container {
-      width: 94%;
-      margin-right: 0;
-    }
-
-    #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-      width: 100%;
-      z-index: 1007;
-      left: 0;
-      right: 0;
-    }
-
-    #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-      width: 100%;
-      left: 0;
-      right: 0;
-    }
-
-    #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-      min-height: 100%;
-      height: auto;
-      position: absolute;
-      width: 100%;
-      margin-top: -8px;
-      display: block;
-      overflow: visible;
-      z-index: 1006;
-    }
-
-    .react-autosuggest__container {
-      width: 100%;
-      margin-right: 0;
-      margin-left: 0;
-    }
   }
 
   .autosuggest-input-container {
     margin: 1em 1em 0 1em;
     width: calc(100% - 2em);
-
-    &.origin {
-      position: absolute;
-      top: 0;
-    }
-
-    &.destination {
-      position: absolute;
-      top: 4em;
-    }
-
-    & .react-autosuggest__suggestions-container--open {
-      min-height: 100%;
-      height: auto;
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: auto;
-      margin-left: 0;
-      display: block;
-      overflow: visible;
-    }
   }
 
   .react-autosuggest__container {
@@ -685,7 +657,14 @@ input.react-autosuggest__input {
 .viapoint-input-container {
   display: flex;
   width: 100%;
-  z-index: index($zindex, viapoint-input);
+
+  &.viapoint-1 > div.viapoint {
+    z-index: index($zindex, viapoint-input-1);
+  }
+
+  &.viapoint-2 > div.viapoint {
+    z-index: index($zindex, viapoint-input-2);
+  }
 }
 
 .autosuggest-input-container {
@@ -698,20 +677,14 @@ input.react-autosuggest__input {
   &.destination {
     z-index: index($zindex, destination-input);
   }
-
-  &#destination-container {
-    margin-top: calc(4em + 8px);
-  }
 }
+
 .isItinerary .autosuggest-input-container {
   margin: 0;
-  &#destination-container {
-    margin: 0;
-  }
   width: 100%;
   position: static;
-  &.viapoint {
-    width: 94%;
+  &#destination-container {
+    margin: 0;
   }
   input[type='text'] {
     border-top: 1px solid #ddd;
@@ -723,6 +696,7 @@ input.react-autosuggest__input {
   #react-autowhatever-viapoint {
     &.react-autosuggest__suggestions-container--open {
       margin: -8px 0 0 0;
+      max-height: 40vh;
     }
   }
 }
@@ -734,11 +708,11 @@ input.react-autosuggest__input {
   font-size: 1.3em;
   .viapoint-before_line-top,
   .viapoint-before_line-bottom {
-    height: 15px;
+    height: 0.6em;
     background: #d6d8da;
     width: 2px;
     margin: 0 auto;
-    margin-top: -7px;
+    margin-top: -0.25em;
   }
 }
 

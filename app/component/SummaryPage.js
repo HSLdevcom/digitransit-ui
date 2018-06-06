@@ -127,6 +127,10 @@ class SummaryPage extends React.Component {
     this.setState({ loading });
   };
 
+  setError = error => {
+    this.context.queryAggregator.readyState.error = error;
+  };
+
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
   };
@@ -240,6 +244,27 @@ class SummaryPage extends React.Component {
     );
   }
 
+  renderSummaryPlanContainer = ({ done, props }) =>
+    done ? (
+      <SummaryPlanContainer
+        plan={this.props.plan.plan}
+        itineraries={this.props.plan.plan.itineraries}
+        params={this.props.params}
+        error={props.error}
+        setLoading={this.setLoading}
+        setError={this.setError}
+      >
+        {this.context.breakpoint === 'large' &&
+          this.props.content &&
+          React.cloneElement(this.props.content, {
+            itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
+            focus: this.updateCenter,
+          })}
+      </SummaryPlanContainer>
+    ) : (
+      undefined
+    );
+
   render() {
     const {
       queryAggregator: {
@@ -300,6 +325,7 @@ class SummaryPage extends React.Component {
             params={this.props.params}
             error={error}
             setLoading={this.setLoading}
+            setError={this.setError}
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
@@ -374,7 +400,9 @@ class SummaryPage extends React.Component {
           plan={this.props.plan.plan}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
+          error={error}
           setLoading={this.setLoading}
+          setError={this.setError}
         />
       );
     }

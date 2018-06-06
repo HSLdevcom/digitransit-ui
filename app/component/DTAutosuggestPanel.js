@@ -27,9 +27,13 @@ class DTAutosuggestPanel extends React.Component {
     isViaPoint: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
-    viaPointName: PropTypes.string,
-    setViaPointName: PropTypes.func,
+    viaPointNames: PropTypes.array,
+    setviaPointNames: PropTypes.func,
     tab: PropTypes.string,
+    addMoreViapoints: PropTypes.func,
+    removeViapoints: PropTypes.func,
+    updateViaPoints: PropTypes.func,
+    toggleViaPoint: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
   };
 
@@ -57,6 +61,44 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ showDarkOverlay: val });
   };
 
+  checkInputForViapoint = (item, i) => {
+    // Check if the name exists in viapoints already or not
+    if (
+      this.props.viaPointNames.filter(o2 => o2 === item.address).length === 0
+    ) {
+      const arrayCheck = this.props.viaPointNames.map(
+        o =>
+          o !== ' '
+            ? locationToOTP({
+                lat: o.split('::')[1].split(',')[0],
+                lon: o.split('::')[1].split(',')[1],
+                address: o.split('::')[0],
+              })
+            : o,
+      );
+
+      const itemToAdd = locationToOTP({
+        lat: item.lat,
+        lon: item.lon,
+        address: item.address,
+      });
+      // Check if the viapoint is being edited or a new one is being added
+      // Also replace the initial empty placeholder space
+      if (
+        arrayCheck.filter((o, index) => index !== i).length === 0 &&
+        (arrayCheck.length > 2 && arrayCheck[1] !== ' ')
+      ) {
+        arrayCheck.splice(i, 0, itemToAdd);
+      } else {
+        arrayCheck.splice(i, 1, itemToAdd);
+      }
+      const addedViapoints = arrayCheck;
+
+      this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
+      this.props.setviaPointNames(addedViapoints);
+    }
+  };
+
   render = () => (
     <div
       className={cx([
@@ -72,6 +114,7 @@ class DTAutosuggestPanel extends React.Component {
           'dark-overlay',
           {
             hidden: !this.state.showDarkOverlay,
+            isItinerary: this.props.isItinerary,
           },
         ])}
       />
@@ -111,44 +154,79 @@ class DTAutosuggestPanel extends React.Component {
           }}
         />
       }
-      {this.props.isViaPoint && (
-        <div className="viapoint-input-container">
-          <div className="viapoint-before">
-            <div className="viapoint-before_line-top" />
-            <div className="viapoint-icon">
-              <Icon img="icon-icon_place" />
+      <div
+        className="viapoints-list"
+        style={{ display: this.props.isViaPoint ? 'block' : 'none' }}
+      >
+        {this.props.isViaPoint &&
+          this.props.viaPointNames.map((o, i) => (
+            <div
+              className={`viapoint-input-container viapoint-${i + 1}`}
+              // eslint-disable-next-line
+              key={`viapoint-${o === ' ' && 'empty'}${i}`}
+            >
+              <div className="viapoint-before">
+                <div className="viapoint-before_line-top" />
+                <div className="viapoint-icon">
+                  <Icon img="icon-icon_place" />
+                </div>
+                <div className="viapoint-before_line-bottom" />
+              </div>
+              <DTEndpointAutosuggest
+                id="viapoint"
+                autoFocus={
+                  // Disable autofocus if using IE11
+                  isIe ? false : this.context.breakpoint === 'large'
+                }
+                refPoint={this.props.origin}
+                searchType="endpoint"
+                placeholder="via-point"
+                className="viapoint"
+                isFocused={this.isFocused}
+                value={o.split('::')[0]}
+                onLocationSelected={item => this.checkInputForViapoint(item, i)}
+              />
+              <div className="viapoint-controls">
+                <div
+                  className="removeViaPoint"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display: !this.props.isViaPoint ? 'none' : 'block',
+                  }}
+                  onClick={() =>
+                    this.props.viaPointNames.length > 1
+                      ? this.props.removeViapoints(i)
+                      : this.props.toggleViaPoint(false)
+                  }
+                  onKeyPress={() => this.props.removeViapoints(i)}
+                >
+                  <span>
+                    <Icon img="icon-icon_close" />
+                  </span>
+                </div>
+                <div
+                  className="addViaPoint more"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display:
+                      !this.props.isViaPoint ||
+                      this.props.viaPointNames.length > 4
+                        ? 'none'
+                        : 'block',
+                  }}
+                  onClick={() => this.props.addMoreViapoints(i)}
+                  onKeyPress={() => this.props.addMoreViapoints(i)}
+                >
+                  <span>
+                    <Icon img="icon-icon_plus" />
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="viapoint-before_line-bottom" />
-          </div>
-          <DTEndpointAutosuggest
-            id="viapoint"
-            autoFocus={
-              // Disable autofocus if using IE11
-              isIe ? false : this.props.breakpoint === 'large'
-            }
-            refPoint={this.props.origin}
-            searchType="endpoint"
-            placeholder="via-point"
-            className="viapoint"
-            isFocused={this.isFocused}
-            value={this.props.viaPointName}
-            onLocationSelected={item => {
-              this.context.router.replace({
-                ...this.context.location,
-                query: {
-                  ...this.context.location.query,
-                  intermediatePlaces: locationToOTP({
-                    lat: item.lat,
-                    lon: item.lon,
-                    address: item.address,
-                  }),
-                },
-              });
-              this.props.setViaPointName(item.address);
-            }}
-          />
-        </div>
-      )}
+          ))}
+      </div>
       {(this.props.destination && this.props.destination.set) ||
       this.props.origin.ready ||
       this.props.isItinerary ? (

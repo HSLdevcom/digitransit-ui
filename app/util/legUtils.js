@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import forEach from 'lodash/forEach';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
@@ -105,19 +106,28 @@ export const compressLegs = originalLegs => {
   const compressedLegs = [];
   let compressedLeg;
 
-  originalLegs.forEach(currentLeg => {
+  forEach(originalLegs, currentLeg => {
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
-    } else if (
-      usingOwnBicycle &&
-      continueWithBicycle(compressedLeg, currentLeg)
-    ) {
+      return;
+    }
+
+    if (currentLeg.intermediatePlace) {
+      compressedLegs.push(compressedLeg);
+      compressedLeg = cloneDeep(currentLeg);
+      return;
+    }
+
+    if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = currentLeg.to;
       compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.Bicycle;
-    } else if (
+      return;
+    }
+
+    if (
       currentLeg.rentedBike &&
       continueWithRentedBicycle(compressedLeg, currentLeg)
     ) {
@@ -126,17 +136,18 @@ export const compressLegs = originalLegs => {
       compressedLeg.to = currentLeg.to;
       compressedLeg.endTime += currentLeg.endTime;
       compressedLeg.mode = LegMode.CityBike;
-    } else {
-      if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
-        compressedLeg.mode = LegMode.BicycleWalk;
-      }
+      return;
+    }
 
-      compressedLegs.push(compressedLeg);
-      compressedLeg = cloneDeep(currentLeg);
+    if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+      compressedLeg.mode = LegMode.BicycleWalk;
+    }
 
-      if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
-        compressedLeg.mode = LegMode.BicycleWalk;
-      }
+    compressedLegs.push(compressedLeg);
+    compressedLeg = cloneDeep(currentLeg);
+
+    if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+      compressedLeg.mode = LegMode.BicycleWalk;
     }
   });
 
