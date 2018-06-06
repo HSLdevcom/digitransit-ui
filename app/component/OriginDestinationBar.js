@@ -14,6 +14,7 @@ export default class OriginDestinationBar extends React.Component {
     className: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
+    initialViaPoints: PropTypes.array,
   };
 
   static contextTypes = {
@@ -24,14 +25,22 @@ export default class OriginDestinationBar extends React.Component {
 
   state = {
     isViaPoint: this.context.location.query.intermediatePlaces && true,
-    viaPointName: this.context.location.query.intermediatePlaces
-      ? this.context.location.query.intermediatePlaces.split('::')[0]
-      : '',
+    viaPointNames: this.props.initialViaPoints,
   };
 
-  setViaPointName = name => {
+  setviaPointNames = viapoints => {
     this.setState({
-      viaPointName: name,
+      viaPointNames: viapoints,
+    });
+  };
+
+  updateViaPoints = newViaPoints => {
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        intermediatePlaces: newViaPoints,
+      },
     });
   };
 
@@ -54,7 +63,34 @@ export default class OriginDestinationBar extends React.Component {
     }
     this.setState({
       isViaPoint: val,
-      viaPointName: !val ? '' : this.state.viaPointName,
+      viaPointNames: !val ? [' '] : this.state.viaPointNames,
+    });
+  };
+
+  addMoreViapoints = i => {
+    const oldViaPoints = this.state.viaPointNames.slice(0);
+    oldViaPoints.splice(i + 1, 0, ' ');
+    this.setState({
+      viaPointNames: oldViaPoints,
+    });
+  };
+
+  checkAndConvertArray = val =>
+    Array.isArray(val) ? val.slice(0) : [val || ' '];
+
+  removeViapoints = index => {
+    const currentPlaces = this.checkAndConvertArray(
+      this.context.location.query.intermediatePlaces,
+    );
+
+    const viaPointsWithRemoved = this.state.viaPointNames.filter(
+      (o, i) => i !== index,
+    );
+
+    this.updateViaPoints(currentPlaces.filter((o, i) => i !== index));
+
+    this.setState({
+      viaPointNames: viaPointsWithRemoved,
     });
   };
 
@@ -73,8 +109,12 @@ export default class OriginDestinationBar extends React.Component {
           destination={this.props.destination}
           isItinerary
           isViaPoint={this.state.isViaPoint}
-          viaPointName={this.state.viaPointName}
-          setViaPointName={this.setViaPointName}
+          viaPointNames={this.state.viaPointNames}
+          setviaPointNames={this.setviaPointNames}
+          addMoreViapoints={this.addMoreViapoints}
+          removeViapoints={this.removeViapoints}
+          updateViaPoints={this.updateViaPoints}
+          toggleViaPoint={this.toggleViaPoint}
         />
         <div className="itinerary-search-controls">
           <div className="switch" onClick={() => this.swapEndpoints()}>
@@ -89,15 +129,6 @@ export default class OriginDestinationBar extends React.Component {
           >
             <span>
               <Icon img="icon-icon_plus" />
-            </span>
-          </div>
-          <div
-            className="removeViaPoint"
-            style={{ display: this.state.isViaPoint ? 'block' : 'none' }}
-            onClick={() => this.toggleViaPoint(false)}
-          >
-            <span>
-              <Icon img="icon-icon_close" />
             </span>
           </div>
         </div>
