@@ -1,8 +1,13 @@
 function setOrigin(origin) {
-  this.waitForElementPresent(
-    '@searchOrigin',
+  this.waitForElementNotPresent(
+    '@spinner',
     this.api.globals.elementVisibleTimeout,
   );
+  this.waitForElementVisible(
+    '@clearOrigin',
+    this.api.globals.elementVisibleTimeout,
+  );
+  this.api.pause(this.api.globals.pause_ms);
   this.checkedClick(this.elements.clearOrigin.selector);
   this.api.pause(this.api.globals.pause_ms);
   this.setValue('@searchOrigin', origin);
@@ -129,6 +134,9 @@ module.exports = {
     },
     geolocationSelected: {
       selector: '.search-current-origin-tip svg.icon',
+    },
+    spinner: {
+      selector: '.overlay-with-spinner',
     },
   },
 };

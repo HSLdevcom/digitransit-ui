@@ -1112,6 +1112,16 @@
                                 "defaultValue": null
                             },
                             {
+                                "name": "itineraryFiltering",
+                                "description": "How easily bad itineraries are filtered. Default value: 0.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Float",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
                                 "name": "walkReluctance",
                                 "description": "A multiplier for how bad walking is, compared to being in transit for equal lengths of time.Empirically, values between 10 and 20 seem to correspond well to the concept of not wanting to walk too much without asking for totally ridiculous itineraries, but this observation should in no way be taken as scientific or definitive. Your mileage may vary. Default value: 2.0 ",
                                 "type": {
@@ -1451,6 +1461,26 @@
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "heuristicStepsPerMainStep",
+                                "description": "Tuning parameter for the search algorithm.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "compactLegsByReversedSearch",
+                                "description": "Whether legs should be compacted by performing a reversed search. Experimental argument, will be removed!.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
                                     "ofType": null
                                 },
                                 "defaultValue": null

@@ -7,7 +7,7 @@
 
   "selenium": {
     "start_process": true,
-    "server_path": "test/flow/binaries/selenium-server-standalone-2.53.0.jar",
+    "server_path": "test/flow/binaries/selenium-server-standalone-3.9.1.jar",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
@@ -26,9 +26,9 @@
       "selenium_host": "localhost",
       "silent": true,
       "globals": {
-        "pause_ms": 10,
-        "itinerarySearchTimeout": 15000,
-        "elementVisibleTimeout": 15000
+        "pause_ms": 200,
+        "itinerarySearchTimeout": 10000,
+        "elementVisibleTimeout": 10000
       },
       "screenshots": {
         "enabled": true,

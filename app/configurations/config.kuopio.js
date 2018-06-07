@@ -69,6 +69,8 @@ export default configMerger(walttiConfig, {
     },
   ],
 
+  showTicketInformation: true,
+
   footer: {
     content: [
       { label: `© Kuopio ${walttiConfig.YEAR}` },

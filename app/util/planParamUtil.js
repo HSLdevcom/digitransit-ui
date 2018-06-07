@@ -148,6 +148,7 @@ export const preparePlanParams = config => (
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),
+        itineraryFiltering: config.itineraryFiltering,
       },
       nullOrUndefined,
     ),

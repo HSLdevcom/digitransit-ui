@@ -18,6 +18,6 @@ yarn install
 
 CONFIG=hsl yarn dev &
 
-wget -N http://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip
+wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 CHROMEDRIVER=./chromedriver test/flow/script/run-flow-tests.sh

@@ -9,3 +9,4 @@ Makefile
 docker-compose.yml
 win-launch-scripts/
 docs/
+node_modules
