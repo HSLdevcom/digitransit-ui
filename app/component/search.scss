@@ -36,10 +36,6 @@ $item-border-color: #eee;
   }
 }
 
-.autosuggest-input-container {
-  position: relative;
-}
-
 .front-page {
   //for index page only
   .autosuggest-input-container {
@@ -666,6 +662,8 @@ input.react-autosuggest__input {
 
 .autosuggest-input-container {
   margin-top: 1em;
+  position: relative;
+  width: 100%;
 
   &.origin {
     z-index: index($zindex, origin-input);
@@ -678,8 +676,6 @@ input.react-autosuggest__input {
 
 .isItinerary .autosuggest-input-container {
   margin: 0;
-  width: 100%;
-  position: relative;
 
   input[type='text'] {
     border-top: 1px solid #ddd;
