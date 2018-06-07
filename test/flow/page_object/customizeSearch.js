@@ -89,6 +89,7 @@ function disableAllModalitiesExcept(except) {
     this.api.debug(`iterating ${modality}`);
     if (modality !== except) {
       disableModality.call(this, modality);
+      this.api.pause(2*this.api.globals.pause_ms);
     }
   });
   this.api.debug('all iterated');
