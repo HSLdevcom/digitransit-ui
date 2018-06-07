@@ -37,7 +37,6 @@ $item-border-color: #eee;
 }
 
 .autosuggest-input-container {
-  display: flex;
   position: relative;
 }
 
@@ -381,14 +380,8 @@ div.map {
     }
   }
 
-  .viapoints-list {
-    position: relative;
-  }
-
   .viapoint-input-container {
-    display: flex;
-    width: 110%;
-    position: static;
+    position: relative;
   }
 
   .dark-overlay {
@@ -399,6 +392,7 @@ div.map {
     left: 0;
     top: 0;
     background: rgba(0, 0, 0, 0.57);
+
     &.hidden {
       display: none;
     }
@@ -428,10 +422,10 @@ div.map {
 }
 
 .itinerary-search-controls {
-  position: relative;
   display: flex;
   flex-flow: column;
   max-height: 3em;
+  position: relative;
 
   .switch {
     padding: $padding-xxsmall;
@@ -456,9 +450,9 @@ div.map {
   }
 
   .addViaPoint {
-    text-align: center;
-    color: #007ac9;
+    color: $link-color;
     cursor: pointer;
+    text-align: center;
 
     &:hover {
       color: #0062a1;
@@ -473,28 +467,34 @@ div.map {
 
 .viapoint-controls {
   display: flex;
-  margin-left: 2em;
+  justify-content: center;
   padding-top: 0.5em;
+  position: absolute;
+  right: -3.75em;
+  width: 3em;
 
   .addViaPoint {
-    text-align: center;
-    color: #007ac9;
+    color: $link-color;
     cursor: pointer;
     margin-left: 1em;
+    text-align: center;
+
     &:hover {
       color: #0062a1;
     }
+
     .more {
       position: absolute;
       right: 0;
     }
   }
+
   .removeViaPoint {
-    cursor: pointer;
     color: $link-color;
-    text-align: center;
+    cursor: pointer;
     font-size: 1em;
-    color: #007ac9;
+    text-align: center;
+
     span {
       font-size: $font-size-xsmall;
     }
@@ -502,7 +502,7 @@ div.map {
 }
 
 .small .viapoint-controls {
-  right: -2.5em;
+  right: -3.5em;
 }
 
 .mobile .itinerary-search-controls {
@@ -642,7 +642,6 @@ input.react-autosuggest__input {
 
 .viapoint-input-container {
   display: flex;
-  width: 100%;
 
   &.viapoint-1 > div.viapoint {
     z-index: index($zindex, viapoint-input-1);
@@ -687,11 +686,6 @@ input.react-autosuggest__input {
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
   }
-
-  // .react-autosuggest__suggestions-container--open {
-  //   margin: -8px 0 0 0;
-  //   max-height: 40vh;
-  // }
 }
 
 .viapoint-before {
