@@ -1,4 +1,5 @@
 import { intersection, isEmpty, isString, sortedUniq, without } from 'lodash';
+import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 
 /**
@@ -83,23 +84,6 @@ export const buildStreetModeQuery = (
       ? streetMode.toUpperCase()
       : transportModes.concat(streetMode.toUpperCase()).join(','),
   };
-};
-
-/**
- * Updates the browser's url with the given parameters.
- *
- * @param {*} router The router
- * @param {*} location The current location
- * @param {*} newParams The location query params to apply
- */
-export const replaceQueryParams = (router, location, newParams) => {
-  router.replace({
-    ...location,
-    query: {
-      ...location.query,
-      ...newParams,
-    },
-  });
 };
 
 /**
