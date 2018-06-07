@@ -1,0 +1,17 @@
+@import './street-mode-selector.scss';
+
+.street-mode-selector-panel {
+  display: flex;
+
+  & .street-mode-selector-panel-header {
+    @extend %header;
+  }
+
+  & .street-mode-selector-panel-buttons {
+    @extend %buttons;
+
+    & > .btn:not(:first-child) {
+      border-left: 1px solid $light-gray;
+    }
+  }
+}

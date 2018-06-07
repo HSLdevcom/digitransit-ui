@@ -8,8 +8,9 @@ import get from 'lodash/get';
 import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import { getDefaultModes, defaultSettings } from './../util/planParamUtil';
+import { defaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
+import { getModes } from '../util/modeUtils';
 
 /* define what belongs to predefined 'quick' parameter selections */
 const quickOptionParams = [
@@ -94,16 +95,7 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
-  getModes() {
-    if (this.context.location.query.modes) {
-      return decodeURI(this.context.location.query.modes)
-        .split('?')[0]
-        .split(',');
-    } else if (getCustomizedSettings().modes) {
-      return getCustomizedSettings().modes;
-    }
-    return getDefaultModes(this.context.config);
-  }
+  getModes = () => getModes(this.context.location, this.context.config);
 
   getMode(mode) {
     return this.getModes().includes(mode.toUpperCase());

@@ -8,7 +8,8 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
-import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
+import { preparePlanParams } from '../util/planParamUtil';
+import { getDefaultOTPModes } from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {

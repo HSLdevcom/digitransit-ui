@@ -92,6 +92,10 @@ export default {
     description: APP_DESCRIPTION,
   },
 
+  features: {
+    showStreetModeQuickSelect: true,
+  },
+
   showTicketInformation: true,
   ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
@@ -103,6 +107,22 @@ export default {
   },
 
   streetModes: {
+    public_transport: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    walk: {
+      defaultValue: false,
+      exclusive: true,
+    },
+
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'biking',
+    },
+
     car_park: {
       availableForSelection: true,
       defaultValue: false,

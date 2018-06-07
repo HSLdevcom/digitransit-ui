@@ -161,7 +161,7 @@ class DTAutosuggestPanel extends React.Component {
         {this.props.isViaPoint &&
           this.props.viaPointNames.map((o, i) => (
             <div
-              className="viapoint-input-container"
+              className={`viapoint-input-container viapoint-${i + 1}`}
               // eslint-disable-next-line
               key={`viapoint-${o === ' ' && 'empty'}${i}`}
             >

@@ -234,6 +234,11 @@ export default {
     description: APP_DESCRIPTION,
     keywords: 'digitransit',
   },
+
+  features: {
+    showStreetModeQuickSelect: false,
+  },
+
   // Ticket information feature toggle
   showTicketInformation: false,
   showRouteInformation: false,
@@ -250,7 +255,9 @@ export default {
     bicycle: 'BICYCLE',
     car: 'CAR',
     car_park: 'CAR_PARK',
+    public_transport: 'WALK',
   },
+
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {
@@ -291,27 +298,38 @@ export default {
   },
 
   streetModes: {
+    public_transport: {
+      availableForSelection: false,
+      defaultValue: false,
+      exclusive: false,
+      icon: 'public_transport',
+    },
+
     walk: {
       availableForSelection: true,
       defaultValue: true,
+      exclusive: false,
       icon: 'walk',
     },
 
     bicycle: {
       availableForSelection: true,
       defaultValue: false,
+      exclusive: true,
       icon: 'bicycle-withoutBox',
     },
 
     car: {
       availableForSelection: true,
       defaultValue: false,
+      exclusive: true,
       icon: 'car-withoutBox',
     },
 
     car_park: {
       availableForSelection: false,
       defaultValue: false,
+      exclusive: false,
       icon: 'car_park-withoutBox',
     },
   },
