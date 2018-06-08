@@ -148,7 +148,7 @@
     "file-loader": "1.1.11",
     "gemini": "5.7.1",
     "gemini-browserstack": "1.1.0",
-    "graphql": "0.13.2",
+    "graphql": "14.0.0-rc.1",
     "html-reporter": "1.2.0",
     "iltorb": "2.3.2",
     "mini-css-extract-plugin": "0.4.0",
