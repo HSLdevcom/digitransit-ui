@@ -158,7 +158,7 @@ export const getDefaultModes = config => [
  * both available and marked as default and maps them to their OTP counterparts.
  *
  * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of OTP modes
+ * @returns {String} a comma-separated list of OTP modes
  */
 export const getDefaultOTPModes = config =>
   filterModes(config, getDefaultModes(config));
