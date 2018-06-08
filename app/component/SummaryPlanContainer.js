@@ -39,21 +39,6 @@ class SummaryPlanContainer extends React.Component {
     location: PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
-    const trQuery = Relay.createQuery(this.getTimeRangeQuery(), {});
-    Relay.Store.primeCache({ trQuery }, status => {
-      if (status.ready === true) {
-        const data = Relay.Store.readQuery(trQuery);
-        if (data[0]) {
-          this.props.serviceTimeRange = {
-            start: data[0].start,
-            end: data[0].end,
-          };
-        }
-      }
-    });
-  }
-
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
       this.onSelectImmediately(index);
@@ -294,12 +279,6 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
-  getTimeRangeQuery = () => Relay.QL`query {
-    serviceTimeRange {
-      start
-      end
-    }
-  }`;
 
   getQuery = () => Relay.QL`
     query Plan(

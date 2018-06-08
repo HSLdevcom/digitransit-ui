@@ -64,6 +64,10 @@ class SummaryPage extends React.Component {
         itineraries: PropTypes.array,
       }).isRequired,
     }).isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
+    }).isRequired,
     content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
@@ -251,6 +255,7 @@ class SummaryPage extends React.Component {
     done ? (
       <SummaryPlanContainer
         plan={this.props.plan.plan}
+        serviceTimeRange={this.props.serviceTimeRange}
         itineraries={this.props.plan.plan.itineraries}
         params={this.props.params}
         error={props.error}
@@ -359,6 +364,7 @@ class SummaryPage extends React.Component {
           header={
             <SummaryNavigation
               params={this.props.params}
+              serviceTimeRange={this.props.serviceTimeRange}
               hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -401,6 +407,7 @@ class SummaryPage extends React.Component {
       content = (
         <SummaryPlanContainer
           plan={this.props.plan.plan}
+          serviceTimeRange={this.props.serviceTimeRange}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
           error={error}
@@ -417,6 +424,7 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
+              serviceTimeRange={this.props.serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
               isQuickSettingsOpen={this.state.isQuickSettingsOpen}
@@ -476,6 +484,12 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
             }
           }
         }
+      }
+    `,
+    serviceTimeRange: () => Relay.QL`
+      fragment on serviceTimeRange {
+        start
+        end
       }
     `,
   },
