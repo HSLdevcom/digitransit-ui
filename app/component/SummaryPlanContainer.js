@@ -279,7 +279,6 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
-
   getQuery = () => Relay.QL`
     query Plan(
       $intermediatePlaces:[InputCoordinates]!,
