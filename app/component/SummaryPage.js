@@ -329,6 +329,7 @@ class SummaryPage extends React.Component {
         content = (
           <SummaryPlanContainer
             plan={this.props.plan.plan}
+            serviceTimeRange={this.props.serviceTimeRange}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
             error={error}

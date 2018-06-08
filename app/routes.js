@@ -126,7 +126,7 @@ export default config => {
           ...routerProps,
           ...preparePlanParams(config)(routerProps.params, routerProps),
           plan: { plan: {} },
-          serviceTimeRange: { serviceTimeRange: {} },
+          serviceTimeRange: { start: 0, end: 0, },
           loading: true,
         });
 
