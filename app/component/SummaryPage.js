@@ -25,9 +25,9 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
-import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
+import { getIntermediatePlaces } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 export const ITINERARYFILTERING_DEFAULT = 2.0;
@@ -201,29 +201,16 @@ class SummaryPage extends React.Component {
       );
     }
 
-    if (query && query.intermediatePlaces) {
-      if (Array.isArray(query.intermediatePlaces)) {
-        query.intermediatePlaces.map(otpToLocation).forEach((location, i) => {
-          leafletObjs.push(
-            <LocationMarker
-              key={`via_${i}`}
-              position={location}
-              className="via"
-              noText
-            />,
-          );
-        });
-      } else {
-        leafletObjs.push(
-          <LocationMarker
-            key="via"
-            position={otpToLocation(query.intermediatePlaces)}
-            className="via"
-            noText
-          />,
-        );
-      }
-    }
+    getIntermediatePlaces(query).forEach((location, i) => {
+      leafletObjs.push(
+        <LocationMarker
+          key={`via_${i}`}
+          position={location}
+          className="via"
+          noText
+        />,
+      );
+    });
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array

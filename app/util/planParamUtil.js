@@ -1,10 +1,11 @@
 import omitBy from 'lodash/omitBy';
-
 import moment from 'moment';
+
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
-import { otpToLocation } from './otpStrings';
 import { filterModes } from './modeUtils';
+import { otpToLocation } from './otpStrings';
+import { getIntermediatePlaces } from './queryUtils';
 
 export const WALKBOARDCOST_DEFAULT = 600;
 
@@ -17,17 +18,6 @@ export const defaultSettings = {
   walkSpeed: 1.2,
   ticketTypes: 'none',
 };
-
-function getIntermediatePlaces(intermediatePlaces) {
-  if (!intermediatePlaces) {
-    return [];
-  } else if (Array.isArray(intermediatePlaces)) {
-    return intermediatePlaces.map(otpToLocation);
-  } else if (typeof intermediatePlaces === 'string') {
-    return [otpToLocation(intermediatePlaces)];
-  }
-  return [];
-}
 
 function setTicketTypes(ticketType, settingsTicketType) {
   if (ticketType !== undefined && ticketType !== 'none') {
@@ -112,7 +102,7 @@ export const preparePlanParams = config => (
         toPlace: to,
         from: otpToLocation(from),
         to: otpToLocation(to),
-        intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
+        intermediatePlaces: getIntermediatePlaces({ intermediatePlaces }),
         numItineraries: numItineraries ? Number(numItineraries) : undefined,
         modes: modes ? filterModes(config, modes) : settings.modes,
         date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
