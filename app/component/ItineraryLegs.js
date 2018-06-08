@@ -216,7 +216,7 @@ class ItineraryLegs extends React.Component {
       />,
     );
 
-    return <div>{legs}</div>;
+    return <React.Fragment>{legs}</React.Fragment>;
   }
 }
 
