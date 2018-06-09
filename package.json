@@ -146,7 +146,7 @@
     "eslint-plugin-react": "7.8.2",
     "favicons-webpack-plugin": "0.0.9",
     "file-loader": "1.1.11",
-    "gemini": "5.7.1",
+    "gemini": "5.7.2",
     "gemini-browserstack": "1.1.0",
     "graphql": "0.13.2",
     "html-reporter": "1.2.0",
