@@ -286,6 +286,7 @@ class SummaryPlanContainer extends React.Component {
       $bikeBoardCost: Int!,
       $carParkCarLegWeight: Float!,
       $maxTransfers: Int!,
+      $waitAtBeginningFactor: Float!,
       $heuristicStepsPerMainStep: Int!,
     ) { viewer {
         plan(
@@ -316,6 +317,7 @@ class SummaryPlanContainer extends React.Component {
           bikeBoardCost: $bikeBoardCost,
           carParkCarLegWeight: $carParkCarLegWeight,
           maxTransfers: $maxTransfers,
+          waitAtBeginningFactor: $waitAtBeginningFactor,
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
         ) {itineraries {startTime,endTime}}
       }

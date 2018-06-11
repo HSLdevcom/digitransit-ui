@@ -144,6 +144,9 @@ export function setRoutingSettings(data) {
     maxTransfers: data.maxTransfers
       ? data.maxTransfers
       : oldSettings.maxTransfers,
+    waitAtBeginningFactor: data.waitAtBeginningFactor
+      ? data.waitAtBeginningFactor
+      : oldSettings.waitAtBeginningFactor,
     heuristicStepsPerMainStep: data.heuristicStepsPerMainStep
       ? data.heuristicStepsPerMainStep
       : oldSettings.heuristicStepsPerMainStep,

@@ -458,6 +458,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           bikeBoardCost: $bikeBoardCost,
           carParkCarLegWeight: $carParkCarLegWeight,
           maxTransfers: $maxTransfers,
+          waitAtBeginningFactor: $waitAtBeginningFactor,
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           preferred: $preferred)
         {
@@ -514,6 +515,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       bikeBoardCost: null,
       carParkCarLegWeight: null,
       maxTransfers: null,
+      waitAtBeginningFactor: null,
       heuristicStepsPerMainStep: null,
       modes: null,
       maxWalkDistance: 0,

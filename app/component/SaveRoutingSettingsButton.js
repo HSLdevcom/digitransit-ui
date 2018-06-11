@@ -43,6 +43,9 @@ class SaveRoutingSettingsButton extends React.Component {
       maxTransfers: this.context.location.query.maxTransfers
         ? this.context.location.query.maxTransfers
         : undefined,
+      waitAtBeginningFactor: this.context.location.query.waitAtBeginningFactor
+        ? this.context.location.query.waitAtBeginningFactor
+        : undefined,
       heuristicStepsPerMainStep: this.context.location.query.heuristicStepsPerMainStep
         ? this.context.location.query.heuristicStepsPerMainStep
         : undefined,

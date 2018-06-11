@@ -127,6 +127,10 @@ export const getSettings = () => {
       routingSettings.maxTransfers !== undefined
         ? Number(routingSettings.maxTransfers)
         : undefined,
+    waitAtBeginningFactor:
+      routingSettings.waitAtBeginningFactor !== undefined
+        ? Number(routingSettings.waitAtBeginningFactor)
+        : undefined,
     heuristicStepsPerMainStep:
       routingSettings.heuristicStepsPerMainStep !== undefined
         ? Number(routingSettings.heuristicStepsPerMainStep)
@@ -177,6 +181,7 @@ export const preparePlanParams = config => (
         bikeBoardCost,
         carParkCarLegWeight,
         maxTransfers,
+        waitAtBeginningFactor,
         heuristicStepsPerMainStep,
       },
     },
@@ -271,6 +276,10 @@ export const preparePlanParams = config => (
           maxTransfers !== undefined
             ? Number(maxTransfers)
             : settings.maxTransfers,
+        waitAtBeginningFactor:
+          waitAtBeginningFactor !== undefined
+            ? Number(waitAtBeginningFactor)
+            : settings.waitAtBeginningFactor,
         heuristicStepsPerMainStep:
           heuristicStepsPerMainStep !== undefined
             ? Number(heuristicStepsPerMainStep)

@@ -27,6 +27,7 @@ class AdminForm extends React.Component {
         bikeBoardCost: 600,
         carParkCarLegWeight: 1,
         maxTransfers: 2,
+        waitAtBeginningFactor: 0.4,
         heuristicStepsPerMainStep: 8,
       };
   
@@ -123,6 +124,14 @@ class AdminForm extends React.Component {
           <label>
             Maximum number of transfers. (default {defaultRoutingSettings.maxTransfers}).
             <input type="number" step="1" min="0" onInput={(e) => updateInputParam('maxTransfers', e.target, 0)} onChange={(e) => updateInputParam('maxTransfers', e.target, 0)} value={merged.maxTransfers}/>
+          </label>
+          <label>
+            Multiplier for reluctancy to wait at the start of the trip compared to other legs. If value is under 1, waiting before the first transit trip is less bad than for the rest of the legs. If over 1, vice versa. (default {defaultRoutingSettings.waitAtBeginningFactor}).
+            <input type="number" step="any" min="0" onInput={(e) => updateInputParam('waitAtBeginningFactor', e.target, 0)} onChange={(e) => updateInputParam('waitAtBeginningFactor', e.target, 0)} value={merged.waitAtBeginningFactor}/>
+          </label>
+          <label>
+            The number of heuristic steps per main step when using interleaved bidirectional heuristics. (default {defaultRoutingSettings.heuristicStepsPerMainStep}).
+            <input type="number" step="1" min="0" onInput={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} onChange={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} value={merged.heuristicStepsPerMainStep}/>
           </label>
           <label>
             The number of heuristic steps per main step when using interleaved bidirectional heuristics. (default {defaultRoutingSettings.heuristicStepsPerMainStep}).
