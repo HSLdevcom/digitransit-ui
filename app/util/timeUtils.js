@@ -35,3 +35,18 @@ export const dateOrEmpty = (momentTime, momentRefTime) => {
 };
 
 export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
+
+export const validateServiceTimeRange = serviceTimeRange => {
+  const MAXRANGE = 30; // sensible range
+  const now = moment();
+  const START = now.clone().subtract(MAXRANGE, 'd');
+  let start = moment.unix(serviceTimeRange.start);
+  start = moment.min(moment.max(start, START), now); // always include today!
+
+  const END = now.clone().add(MAXRANGE, 'd');
+  let end = moment.unix(serviceTimeRange.end);
+  end = moment.max(moment.min(end, END), now); // always include today!
+  end = end.endOf('day'); // make sure last day is included, while comparing timestamps
+
+  return { start: start.unix(), end: end.unix() };
+};
