@@ -29,6 +29,7 @@ import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { validateServiceTimeRange } from '../util/timeUtils';
 
 export const ITINERARYFILTERING_DEFAULT = 2.0;
 
@@ -255,7 +256,7 @@ class SummaryPage extends React.Component {
     done ? (
       <SummaryPlanContainer
         plan={this.props.plan.plan}
-        serviceTimeRange={this.props.serviceTimeRange}
+        serviceTimeRange={validateServiceTimeRange(this.props.serviceTimeRange)}
         itineraries={this.props.plan.plan.itineraries}
         params={this.props.params}
         error={props.error}
@@ -322,6 +323,9 @@ class SummaryPage extends React.Component {
       );
     }
 
+    const serviceTimeRange = validateServiceTimeRange(
+      this.props.serviceTimeRange,
+    );
     const hasDefaultPreferences = this.hasDefaultPreferences();
     if (this.props.breakpoint === 'large') {
       let content;
@@ -329,7 +333,7 @@ class SummaryPage extends React.Component {
         content = (
           <SummaryPlanContainer
             plan={this.props.plan.plan}
-            serviceTimeRange={this.props.serviceTimeRange}
+            serviceTimeRange={serviceTimeRange}
             itineraries={this.props.plan.plan.itineraries}
             params={this.props.params}
             error={error}
@@ -365,7 +369,7 @@ class SummaryPage extends React.Component {
           header={
             <SummaryNavigation
               params={this.props.params}
-              serviceTimeRange={this.props.serviceTimeRange}
+              serviceTimeRange={serviceTimeRange}
               hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
@@ -408,7 +412,7 @@ class SummaryPage extends React.Component {
       content = (
         <SummaryPlanContainer
           plan={this.props.plan.plan}
-          serviceTimeRange={this.props.serviceTimeRange}
+          serviceTimeRange={serviceTimeRange}
           itineraries={this.props.plan.plan.itineraries}
           params={this.props.params}
           error={error}
@@ -425,7 +429,7 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
-              serviceTimeRange={this.props.serviceTimeRange}
+              serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
               isQuickSettingsOpen={this.state.isQuickSettingsOpen}

@@ -99,11 +99,7 @@ const planQueries = {
         ${Component.getFragment('plan', variables)}
       }
     }`,
-  serviceTimeRange: () => Relay.QL`
-    query {
-      serviceTimeRange
-    }
-  `,
+  serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
 };
 
 function errorLoading(err) {
@@ -126,7 +122,7 @@ export default config => {
           ...routerProps,
           ...preparePlanParams(config)(routerProps.params, routerProps),
           plan: { plan: {} },
-          serviceTimeRange: { start: 0, end: 0, },
+          serviceTimeRange: { start: 0, end: 0 },
           loading: true,
         });
 

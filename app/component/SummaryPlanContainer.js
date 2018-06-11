@@ -88,18 +88,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
-    let end;
-    const MAXRANGE = 30; // limit day selection to sensible range ?
-    const now = this.context.getStore('TimeStore').getCurrentTime();
-    const END = now.clone().add(MAXRANGE, 'd');
-    if (this.props.serviceTimeRange) {
-      end = moment.unix(this.props.serviceTimeRange.end);
-      end = moment.max(moment.min(end, END), now); // always include today!
-    } else {
-      end = END;
-    }
-    end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
-
+    const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = this.props.itineraries.reduce(
       (previous, current) => {
         const startTime = moment(current.startTime);
@@ -177,16 +166,7 @@ class SummaryPlanContainer extends React.Component {
 
   onEarlier = () => {
     this.props.setLoading(true);
-    let start;
-    const MAXRANGE = 30; // limit day selection to sensible range ?
-    const now = this.context.getStore('TimeStore').getCurrentTime();
-    const START = now.clone().subtract(MAXRANGE, 'd');
-    if (this.props.serviceTimeRange) {
-      start = moment.unix(this.props.serviceTimeRange.start);
-      start = moment.min(moment.max(start, START), now); // always include today!
-    } else {
-      start = START;
-    }
+    const start = moment.unix(this.props.serviceTimeRange.start);
 
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
