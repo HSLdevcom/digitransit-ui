@@ -15,6 +15,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
+import { validateServiceTimeRange } from './util/timeUtils';
 
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
@@ -122,7 +123,7 @@ export default config => {
           ...routerProps,
           ...preparePlanParams(config)(routerProps.params, routerProps),
           plan: { plan: {} },
-          serviceTimeRange: { start: 0, end: 0 },
+          serviceTimeRange: validateServiceTimeRange(), // use default range
           loading: true,
         });
 
