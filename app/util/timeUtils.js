@@ -36,17 +36,39 @@ export const dateOrEmpty = (momentTime, momentRefTime) => {
 
 export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 
-export const validateServiceTimeRange = serviceTimeRange => {
-  const MAXRANGE = 30; // sensible range
-  const now = moment();
-  const START = now.clone().subtract(MAXRANGE, 'd');
-  let start = moment.unix(serviceTimeRange.start);
-  start = moment.min(moment.max(start, START), now); // always include today!
+export const validateServiceTimeRange = (serviceTimeRange, now) => {
+  const RANGE_PAST = 7; // sensible range as days
+  const RANGE_FUTURE = 30;
+  const NOW = now ? moment.unix(now) : moment();
+  const START = NOW.clone()
+    .subtract(RANGE_PAST, 'd')
+    .unix();
+  const END = NOW.clone()
+    .add(RANGE_FUTURE, 'd')
+    .unix();
+  const NOWUX = NOW.unix();
 
-  const END = now.clone().add(MAXRANGE, 'd');
-  let end = moment.unix(serviceTimeRange.end);
-  end = moment.max(moment.min(end, END), now); // always include today!
-  end = end.endOf('day'); // make sure last day is included, while comparing timestamps
+  if (!serviceTimeRange) {
+    // empty param returns a default range
+    return {
+      start: START,
+      end: END,
+    };
+  }
 
-  return { start: start.unix(), end: end.unix() };
+  // always include today!
+  let start = Math.min(Math.max(serviceTimeRange.start, START), NOWUX);
+  // make sure whole day is included, for comparing timestamps
+  start = moment
+    .unix(start)
+    .startOf('day')
+    .unix();
+
+  let end = Math.max(Math.min(serviceTimeRange.end, END), NOWUX);
+  end = moment
+    .unix(end)
+    .endOf('day')
+    .unix();
+
+  return { start, end };
 };
