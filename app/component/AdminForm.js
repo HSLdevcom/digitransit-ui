@@ -26,6 +26,7 @@ class AdminForm extends React.Component {
         bikeSwitchCost: 0,
         bikeBoardCost: 600,
         carParkCarLegWeight: 1,
+        maxTransfers: 2,
         heuristicStepsPerMainStep: 8,
       };
   
@@ -118,6 +119,10 @@ class AdminForm extends React.Component {
           <label>
             Cost for car travels. Increase this value to make car trips shorter. (default {defaultRoutingSettings.carParkCarLegWeight}).
             <input type="number" step="any" min="0" onInput={(e) => updateInputParam('carParkCarLegWeight', e.target, 0)} onChange={(e) => updateInputParam('carParkCarLegWeight', e.target, 0)} value={merged.carParkCarLegWeight}/>
+          </label>
+          <label>
+            Maximum number of transfers. (default {defaultRoutingSettings.maxTransfers}).
+            <input type="number" step="1" min="0" onInput={(e) => updateInputParam('maxTransfers', e.target, 0)} onChange={(e) => updateInputParam('maxTransfers', e.target, 0)} value={merged.maxTransfers}/>
           </label>
           <label>
             The number of heuristic steps per main step when using interleaved bidirectional heuristics. (default {defaultRoutingSettings.heuristicStepsPerMainStep}).

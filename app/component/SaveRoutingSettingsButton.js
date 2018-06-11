@@ -40,6 +40,9 @@ class SaveRoutingSettingsButton extends React.Component {
       carParkCarLegWeight: this.context.location.query.carParkCarLegWeight
         ? this.context.location.query.carParkCarLegWeight
         : undefined,
+      maxTransfers: this.context.location.query.maxTransfers
+        ? this.context.location.query.maxTransfers
+        : undefined,
       heuristicStepsPerMainStep: this.context.location.query.heuristicStepsPerMainStep
         ? this.context.location.query.heuristicStepsPerMainStep
         : undefined,

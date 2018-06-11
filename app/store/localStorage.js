@@ -141,6 +141,9 @@ export function setRoutingSettings(data) {
     carParkCarLegWeight: data.carParkCarLegWeight
       ? data.carParkCarLegWeight
       : oldSettings.carParkCarLegWeight,
+    maxTransfers: data.maxTransfers
+      ? data.maxTransfers
+      : oldSettings.maxTransfers,
     heuristicStepsPerMainStep: data.heuristicStepsPerMainStep
       ? data.heuristicStepsPerMainStep
       : oldSettings.heuristicStepsPerMainStep,

@@ -123,6 +123,10 @@ export const getSettings = () => {
       routingSettings.carParkCarLegWeight !== undefined
         ? Number(routingSettings.carParkCarLegWeight)
         : undefined,
+    maxTransfers:
+      routingSettings.maxTransfers !== undefined
+        ? Number(routingSettings.maxTransfers)
+        : undefined,
     heuristicStepsPerMainStep:
       routingSettings.heuristicStepsPerMainStep !== undefined
         ? Number(routingSettings.heuristicStepsPerMainStep)
@@ -172,6 +176,7 @@ export const preparePlanParams = config => (
         bikeSwitchCost,
         bikeBoardCost,
         carParkCarLegWeight,
+        maxTransfers,
         heuristicStepsPerMainStep,
       },
     },
@@ -262,6 +267,10 @@ export const preparePlanParams = config => (
           carParkCarLegWeight !== undefined
             ? Number(carParkCarLegWeight)
             : settings.carParkCarLegWeight,
+        maxTransfers:
+          maxTransfers !== undefined
+            ? Number(maxTransfers)
+            : settings.maxTransfers,
         heuristicStepsPerMainStep:
           heuristicStepsPerMainStep !== undefined
             ? Number(heuristicStepsPerMainStep)
