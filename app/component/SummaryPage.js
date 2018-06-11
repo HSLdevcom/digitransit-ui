@@ -252,28 +252,6 @@ class SummaryPage extends React.Component {
     );
   }
 
-  renderSummaryPlanContainer = ({ done, props }) =>
-    done ? (
-      <SummaryPlanContainer
-        plan={this.props.plan.plan}
-        serviceTimeRange={validateServiceTimeRange(this.props.serviceTimeRange)}
-        itineraries={this.props.plan.plan.itineraries}
-        params={this.props.params}
-        error={props.error}
-        setLoading={this.setLoading}
-        setError={this.setError}
-      >
-        {this.context.breakpoint === 'large' &&
-          this.props.content &&
-          React.cloneElement(this.props.content, {
-            itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
-            focus: this.updateCenter,
-          })}
-      </SummaryPlanContainer>
-    ) : (
-      undefined
-    );
-
   render() {
     const {
       queryAggregator: {
