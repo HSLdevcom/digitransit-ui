@@ -4,6 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'react-router';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, TAB_NEARBY } from '../util/path';
+import { isBrowser } from '../util/browser';
 import OriginSelectorRow from './OriginSelectorRow';
 import { suggestionToLocation, getIcon } from '../util/suggestionUtils';
 import GeopositionSelector from './GeopositionSelector';
@@ -43,57 +44,63 @@ const OriginSelector = (
 
   const isGeocodingResult = item => item.geometry && item.properties;
 
-  const names = favouriteLocations
-    .map(f => (
-      <OriginSelectorRow
-        key={`f-${f.locationName}`}
-        icon={getIcon('favourite')}
-        onClick={() => {
-          setOrigin({ ...f, address: f.locationName });
-        }}
-        label={f.locationName}
-      />
-    ))
-    .concat(
-      favouriteStops.map(f => (
-        <OriginSelectorRow
-          key={`f-${f.locationName}`}
-          icon={getIcon('favourite')}
-          onClick={() => {
-            setOrigin({ ...f, address: f.locationName });
-          }}
-          label={f.locationName}
-        />
-      )),
-    )
-    .concat(
-      oldSearches
-        .filter(isGeocodingResult)
-        .filter(notInFavouriteLocations)
-        .filter(notInFavouriteStops)
-        .map(s => (
+  // React doesn't anymore compare all elements rendered on server side to
+  // those rendered on client side. Thanks to this fav icons aren't patched
+  // and icons of default locations are shown. So don't render those on
+  // server side.
+  const names = !isBrowser
+    ? []
+    : favouriteLocations
+        .map(f => (
           <OriginSelectorRow
-            key={`o-${s.properties.label || s.properties.name}`}
-            icon={getIcon(s.properties.layer)}
-            label={s.properties.label || s.properties.name}
+            key={`f-${f.locationName}`}
+            icon={getIcon('favourite')}
             onClick={() => {
-              setOrigin(suggestionToLocation(s));
+              setOrigin({ ...f, address: f.locationName });
             }}
+            label={f.locationName}
           />
-        )),
-    )
-    .concat(
-      config.defaultOrigins.map(o => (
-        <OriginSelectorRow
-          key={`o-${o.label}`}
-          icon={o.icon}
-          label={o.label}
-          onClick={() => {
-            setOrigin({ ...o, address: o.label });
-          }}
-        />
-      )),
-    );
+        ))
+        .concat(
+          favouriteStops.map(f => (
+            <OriginSelectorRow
+              key={`f-${f.locationName}`}
+              icon={getIcon('favourite')}
+              onClick={() => {
+                setOrigin({ ...f, address: f.locationName });
+              }}
+              label={f.locationName}
+            />
+          )),
+        )
+        .concat(
+          oldSearches
+            .filter(isGeocodingResult)
+            .filter(notInFavouriteLocations)
+            .filter(notInFavouriteStops)
+            .map(s => (
+              <OriginSelectorRow
+                key={`o-${s.properties.label || s.properties.name}`}
+                icon={getIcon(s.properties.layer)}
+                label={s.properties.label || s.properties.name}
+                onClick={() => {
+                  setOrigin(suggestionToLocation(s));
+                }}
+              />
+            )),
+        )
+        .concat(
+          config.defaultOrigins.map(o => (
+            <OriginSelectorRow
+              key={`o-${o.label}`}
+              icon={o.icon}
+              label={o.label}
+              onClick={() => {
+                setOrigin({ ...o, address: o.label });
+              }}
+            />
+          )),
+        );
 
   return (
     <ul>
