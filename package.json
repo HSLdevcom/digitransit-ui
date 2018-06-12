@@ -57,7 +57,7 @@
   "dependencies": {
     "@babel/core": "7.0.0-beta.49",
     "@babel/preset-env": "7.0.0-beta.49",
-    "@babel/preset-react": "7.0.0-beta.49",
+    "@babel/preset-react": "7.0.0-beta.50",
     "@babel/preset-stage-3": "7.0.0-beta.49",
     "@babel/register": "7.0.0-beta.49",
     "@mapbox/sphericalmercator": "1.1.0",
