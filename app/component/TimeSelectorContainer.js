@@ -23,7 +23,7 @@ class TimeSelectorContainer extends Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    time: PropTypes.number.isRequired,
+    time: PropTypes.instanceOf(moment).isRequired,
     arriveBy: PropTypes.string.isRequired,
     now: PropTypes.shape({}).isRequired,
   };
