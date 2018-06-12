@@ -49,6 +49,9 @@ class SaveRoutingSettingsButton extends React.Component {
       heuristicStepsPerMainStep: this.context.location.query.heuristicStepsPerMainStep
         ? this.context.location.query.heuristicStepsPerMainStep
         : undefined,
+      compactLegsByReversedSearch: this.context.location.query.compactLegsByReversedSearch
+        ? this.context.location.query.compactLegsByReversedSearch
+        : undefined,
     };
     setRoutingSettings(settings);
     alert('Settings updated');

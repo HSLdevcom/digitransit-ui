@@ -135,6 +135,10 @@ export const getSettings = () => {
       routingSettings.heuristicStepsPerMainStep !== undefined
         ? Number(routingSettings.heuristicStepsPerMainStep)
         : undefined,
+    compactLegsByReversedSearch:
+      routingSettings.compactLegsByReversedSearch !== undefined
+        ? isTrue(routingSettings.compactLegsByReversedSearch)
+        : undefined,
   };
 };
 
@@ -183,6 +187,7 @@ export const preparePlanParams = config => (
         maxTransfers,
         waitAtBeginningFactor,
         heuristicStepsPerMainStep,
+        compactLegsByReversedSearch,
       },
     },
   },
@@ -284,6 +289,10 @@ export const preparePlanParams = config => (
           heuristicStepsPerMainStep !== undefined
             ? Number(heuristicStepsPerMainStep)
             : settings.heuristicStepsPerMainStep,
+        compactLegsByReversedSearch:
+          compactLegsByReversedSearch !== undefined
+            ? Number(compactLegsByReversedSearch)
+            : settings.compactLegsByReversedSearch,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

@@ -29,6 +29,7 @@ class AdminForm extends React.Component {
         maxTransfers: 2,
         waitAtBeginningFactor: 0.4,
         heuristicStepsPerMainStep: 8,
+        compactLegsByReversedSearch: true,
       };
   
       const defaultRoutingSettings = {
@@ -72,11 +73,14 @@ class AdminForm extends React.Component {
           }
         })
       };
+
+      console.log(defaultRoutingSettings);
+      console.log(merged);
   
       return (
         <div className="page-frame fullscreen momentum-scroll">
           <label>
-            Ignore realtime updates (default false):
+            Ignore realtime updates (default {defaultRoutingSettings.ignoreRealtimeUpdates.toString()}):
             <select
               value={merged.ignoreRealtimeUpdates}
               onChange={(e) => updateSelectParam('ignoreRealtimeUpdates', e.target)}
@@ -134,8 +138,18 @@ class AdminForm extends React.Component {
             <input type="number" step="1" min="0" onInput={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} onChange={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} value={merged.heuristicStepsPerMainStep}/>
           </label>
           <label>
-            The number of heuristic steps per main step when using interleaved bidirectional heuristics. (default {defaultRoutingSettings.heuristicStepsPerMainStep}).
-            <input type="number" step="1" min="0" onInput={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} onChange={(e) => updateInputParam('heuristicStepsPerMainStep', e.target, 0)} value={merged.heuristicStepsPerMainStep}/>
+            When true, do a full reversed search to compact the legs of the GraphPath. It can remove pointless wait at transit stops at performance cost (default {defaultRoutingSettings.compactLegsByReversedSearch.toString()}):
+            <select
+              value={merged.compactLegsByReversedSearch}
+              onChange={(e) => updateSelectParam('compactLegsByReversedSearch', e.target)}
+            >
+              <option value="false">
+                false
+              </option>
+              <option value="true">
+                true
+              </option>
+            </select>
           </label>
           <SaveRoutingSettingsButton />
         </div>

@@ -150,6 +150,9 @@ export function setRoutingSettings(data) {
     heuristicStepsPerMainStep: data.heuristicStepsPerMainStep
       ? data.heuristicStepsPerMainStep
       : oldSettings.heuristicStepsPerMainStep,
+    compactLegsByReversedSearch: data.compactLegsByReversedSearch
+      ? data.compactLegsByReversedSearch
+      : oldSettings.compactLegsByReversedSearch,
   };
   setItem('routingSettings', newSettings);
 }

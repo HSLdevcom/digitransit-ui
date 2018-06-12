@@ -288,6 +288,7 @@ class SummaryPlanContainer extends React.Component {
       $maxTransfers: Int!,
       $waitAtBeginningFactor: Float!,
       $heuristicStepsPerMainStep: Int!,
+      $compactLegsByReversedSearch: Boolean!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -319,6 +320,7 @@ class SummaryPlanContainer extends React.Component {
           maxTransfers: $maxTransfers,
           waitAtBeginningFactor: $waitAtBeginningFactor,
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
+          compactLegsByReversedSearch: $compactLegsByReversedSearch,
         ) {itineraries {startTime,endTime}}
       }
     }`;
