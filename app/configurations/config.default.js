@@ -79,6 +79,7 @@ export default {
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,
+  itineraryFiltering: 1.5, // drops 66% worse routes
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
@@ -234,6 +235,11 @@ export default {
     description: APP_DESCRIPTION,
     keywords: 'digitransit',
   },
+
+  features: {
+    showStreetModeQuickSelect: false,
+  },
+
   // Ticket information feature toggle
   showTicketInformation: false,
   showRouteInformation: false,
@@ -250,7 +256,9 @@ export default {
     bicycle: 'BICYCLE',
     car: 'CAR',
     car_park: 'CAR_PARK',
+    public_transport: 'WALK',
   },
+
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {
@@ -291,27 +299,38 @@ export default {
   },
 
   streetModes: {
+    public_transport: {
+      availableForSelection: false,
+      defaultValue: false,
+      exclusive: false,
+      icon: 'public_transport',
+    },
+
     walk: {
       availableForSelection: true,
       defaultValue: true,
+      exclusive: false,
       icon: 'walk',
     },
 
     bicycle: {
       availableForSelection: true,
       defaultValue: false,
+      exclusive: true,
       icon: 'bicycle-withoutBox',
     },
 
     car: {
       availableForSelection: true,
       defaultValue: false,
+      exclusive: true,
       icon: 'car-withoutBox',
     },
 
     car_park: {
       availableForSelection: false,
       defaultValue: false,
+      exclusive: false,
       icon: 'car_park-withoutBox',
     },
   },
@@ -547,6 +566,7 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
     mikkeli: 'mikkeli',
@@ -572,6 +592,7 @@ export default {
     { id: '31', expr: 'mikkeli' },
     { id: '35', expr: 'tampere' },
     { id: '43', expr: 'kouvola' },
+    { id: '49', expr: 'rovaniemi' },
     // put generic expressions last so that they do not match waltti cities
     // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
     { id: '5', expr: 'dev.reittiopas' },

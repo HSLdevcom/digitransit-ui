@@ -4,6 +4,7 @@ $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
 /* Base styles */
+@import 'base/zindex';
 @import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';
@@ -43,6 +44,8 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/visual/index';
 @import '../app/component/departures-table.scss';
 @import '../app/component/quickSettingsPanel';
+@import '../app/component/street-mode-selector-panel.scss';
+@import '../app/component/street-mode-selector-popup.scss';
 @import '~zurb-foundation-5/scss/foundation/components/forms';
 
 /* Modal */

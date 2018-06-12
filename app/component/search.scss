@@ -1,6 +1,5 @@
-
 /* Calculate some extra width for typeahead results*/
-$search-result-width: grid-calc($total-columns+1, $total-columns) + 1;
+$search-result-width: grid-calc($total-columns + 1, $total-columns) + 1;
 $search-result-background-color: $white;
 $search-result-text-font-family: $font-family;
 $search-result-text-font-weight: $font-weight-book;
@@ -17,15 +16,24 @@ $search-form-border-radius: $border-radius;
 $search-form-transparency: $transparency;
 $search-form-input-height: 3em;
 $search-form-input-overlay-height: 27px;
-$search-form-input-overlay-border-color: #E1E1E1;
-$search-form-input-overlay-background-color: #EEF1F3;
+$search-form-input-overlay-border-color: #e1e1e1;
+$search-form-input-overlay-background-color: #eef1f3;
 $search-form-location-icon-size: 18px;
 $search-header-height: 45px;
 $item-border-color: #eee;
 
-.autosuggest-input-container {
-  position: relative;
-  display: flex;
+.search-container {
+  margin-left: 5%;
+  pointer-events: none;
+  position: absolute;
+  width: 52.5%;
+  z-index: index($zindex, search-panel);
+
+  & .autosuggest-input-container,
+  & .street-mode-selector-popup-options,
+  & .street-mode-selector-popup-toggle {
+    pointer-events: auto;
+  }
 }
 
 .front-page {
@@ -34,11 +42,11 @@ $item-border-color: #eee;
     box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
   }
   #origin {
-    margin:0;
+    margin: 0;
     font-size: 1rem;
   }
   #destination {
-    margin:0;
+    margin: 0;
     font-size: 1rem;
   }
 
@@ -131,7 +139,12 @@ ul.react-autowhatever__items-list {
 
   .suggestion-name {
     span {
-      .bus, .tram, .rail, .subway, .ferry, .airplane {
+      .bus,
+      .tram,
+      .rail,
+      .subway,
+      .ferry,
+      .airplane {
         font-weight: $font-weight-medium;
         font-family: $font-family-narrow;
         font-size: $font-size-normal;
@@ -200,8 +213,11 @@ ul.react-autowhatever__items-list {
       background: $medium-gray !important;
     }
 
-    .suggestion-name, .suggestion-type, .suggestion-label {
-      &, * {
+    .suggestion-name,
+    .suggestion-type,
+    .suggestion-label {
+      &,
+      * {
         color: $medium-gray !important;
         background: $medium-gray !important;
       }
@@ -229,18 +245,26 @@ ul.react-autowhatever__items-list {
     color: $current-location-color;
   }
 
-  .use-own-position, .suggestion-name, .suggestion-label {
+  .use-own-position,
+  .suggestion-name,
+  .suggestion-label {
     margin: 0;
     @include font-book;
   }
 
-  .suggestion-name, .use-own-position {
+  .suggestion-name,
+  .use-own-position {
     font-size: $font-size-small;
   }
 
   .suggestion-name {
     span {
-      .bus, .tram, .rail, .subway, .ferry, .airplane {
+      .bus,
+      .tram,
+      .rail,
+      .subway,
+      .ferry,
+      .airplane {
         font-weight: $font-weight-medium;
         font-family: $font-family-narrow;
         font-size: $font-size-normal;
@@ -254,9 +278,12 @@ ul.react-autowhatever__items-list {
     }
   }
 
-
-  &.OldSearch, &.FavouritePlace, &.CurrentLocation {
-    p.suggestion-name, span.suggestion-type {
+  &.OldSearch,
+  &.FavouritePlace,
+  &.FavouriteStop,
+  &.CurrentLocation {
+    p.suggestion-name,
+    span.suggestion-type {
       color: $visited-link-color;
     }
   }
@@ -287,14 +314,14 @@ ul.react-autowhatever__items-list {
       display: flex;
       align-items: center;
     }
-    span { //icon span
+    span {
+      //icon span
       display: inline-block;
       padding-right: $padding-small;
       color: $link-color;
     }
     div.suggestion-item-timetable-label {
-
-      display:inline-block;
+      display: inline-block;
       @include font-bold;
       color: $link-color;
       text-transform: uppercase;
@@ -329,108 +356,39 @@ div.map {
   }
 }
 
-div.autosuggest-panel {
+.autosuggest-panel {
   &.isItinerary {
     padding-top: 0;
     margin-top: 0;
     display: flex;
     flex-direction: column;
-    flex-flow: inherit;
     width: 90%;
     margin-left: 0;
     margin-right: 1em;
-    #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-      width: 504.5px;
-      z-index: 1006;
-    }
-    #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-      width: 504.5px;
-      z-index: 1006;
-    }
-    #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-      width: 454px;
-      max-height: 50vh;
-    }
     input.react-autosuggest__input {
       background: $white;
     }
+
     .clear-input {
       border-top: 1px solid #ddd;
       border-right: 1px solid #ddd;
       border-bottom: 1px solid #ddd;
     }
   }
-  &.small {
-    width: 100%;
-    margin-left: 0;
-    position: static;
 
-    .react-autosuggest__container {
-      width: 100%;
-      position: relative;
-      margin: 0 auto;
-      &.viapoint {
-        width: 94%;
-      }
-    }
-    &.isItinerary {
-      position: static;
-      margin-left: 0;
-      padding-top: 0;
-      flex-direction: column;
-      .react-autosuggest__container {
-        width: 94%;
-        margin-right: 0;
-      }
-      #react-autowhatever-origin.react-autosuggest__suggestions-container--open {
-        width: 100%;
-        z-index: 1007;
-        left: 0;
-        right: 0;
-      }
-      #react-autowhatever-destination.react-autosuggest__suggestions-container--open {
-        width: 100%;
-        left: 0;
-        right: 0;
-      }
-      #react-autowhatever-viapoint.react-autosuggest__suggestions-container--open {
-        min-height: 100%;
-        height: auto;
-        position: absolute;
-        width: 100%;
-        margin-top: -8px;
-        display: block;
-        overflow: visible;
-        z-index: 1006;
-      }
-      .react-autosuggest__container {
-        width: 95%;
-        margin-right: 0;
-        margin-left: 0.5em;
-      }
-    }
-  }
-  .viapoints-list {
-    flex: 0 1 110%;
-    position: relative;
-  }
   .viapoint-input-container {
-    display: flex;
-    width: 110%;
-    position: static;
-  }
-  .mobile .autosuggest-panel.small {
-    flex-flow: wrap;
+    position: relative;
   }
 
   .dark-overlay {
-    z-index: 801;
+    z-index: index($zindex, search-overlay);
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     background: rgba(0, 0, 0, 0.57);
+
     &.hidden {
       display: none;
     }
@@ -441,62 +399,33 @@ div.autosuggest-panel {
 
   .react-autosuggest__container {
     width: 100%;
+
+    .react-autosuggest__suggestions-container--open {
+      background: #fff;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      margin-top: -0.5em;
+      max-height: 60vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      position: absolute;
+      width: 100%;
+    }
   }
 
-  #react-autowhatever-origin {
-    &.react-autosuggest__suggestions-container--open {
-    position: absolute;
-    background: #fff;
-    width: 52.5%;
-    height: auto;
-    max-height: 60%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    z-index: 998;
-    margin-top: calc(4em - 8px);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    margin-left: 5%;
-    }
-  }
-  #react-autowhatever-destination {
-    &.react-autosuggest__suggestions-container--open {
-    position: absolute;
-    background: #fff;
-    width: 52.5%;
-    height: auto;
-    max-height: 60%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    z-index: 996;
-    margin-top: calc(8em - 8px);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    margin-left: 5%;
-    }
-  }
-  #react-autowhatever-viapoint {
-    &.react-autosuggest__suggestions-container--open {
-    position: absolute;
-    background: #fff;
-    width: 52.5%;
-    height: auto;
-    max-height: 60%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    z-index: 1005;
-    margin-top: -8px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    }
+  &.small
+    .react-autosuggest__container
+    .react-autosuggest__suggestions-container--open {
+    max-height: unset;
   }
 }
 
 .itinerary-search-controls {
-  position: relative;
   display: flex;
   flex-flow: column;
   max-height: 3em;
+  position: relative;
+
   .switch {
     padding: $padding-xxsmall;
     background-color: $white;
@@ -508,21 +437,26 @@ div.autosuggest-panel {
     transform: rotate(90deg);
     border: none;
     background-color: initial;
+
     &:hover {
       color: #0062a1;
     }
+
     .icon {
       position: relative;
       top: 3px;
     }
   }
+
   .addViaPoint {
-    text-align: center;
-    color: #007ac9;
+    color: $link-color;
     cursor: pointer;
+    text-align: center;
+
     &:hover {
       color: #0062a1;
     }
+
     .more {
       position: absolute;
       right: 0;
@@ -532,28 +466,34 @@ div.autosuggest-panel {
 
 .viapoint-controls {
   display: flex;
-  margin-left: 2em;
+  justify-content: center;
   padding-top: 0.5em;
+  position: absolute;
+  right: -3.75em;
+  width: 3em;
 
   .addViaPoint {
-    text-align: center;
-    color: #007ac9;
+    color: $link-color;
     cursor: pointer;
     margin-left: 1em;
+    text-align: center;
+
     &:hover {
       color: #0062a1;
     }
+
     .more {
       position: absolute;
       right: 0;
     }
   }
+
   .removeViaPoint {
-    cursor: pointer;
     color: $link-color;
-    text-align: center;
+    cursor: pointer;
     font-size: 1em;
-    color: #007ac9;
+    text-align: center;
+
     span {
       font-size: $font-size-xsmall;
     }
@@ -561,7 +501,7 @@ div.autosuggest-panel {
 }
 
 .small .viapoint-controls {
-  right: -2.5em;
+  right: -3.5em;
 }
 
 .mobile .itinerary-search-controls {
@@ -583,57 +523,31 @@ div.autosuggest-panel {
   }
 }
 
-.autosuggest-panel.small {
-  &.isItinerary .autosuggest-input-container {
-    min-height: 3em;
-    &#origin-container, &#destination-container {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-    }
-    &.origin, &.destination {
-      position: static;
+.small.autosuggest-panel {
+  &.isItinerary {
+    .autosuggest-input-container {
+      &.origin,
+      &.destination,
+      &.viapoint {
+        margin: 0;
+        padding: 0;
+        position: static;
+        width: 100%;
+      }
     }
   }
+
   .autosuggest-input-container {
-    &#origin-container, &#destination-container {
-      width: calc(100% - 2em);
-      margin-left: 1em;
-      margin-right: 1em;
-    }
+    margin: 1em 1em 0 1em;
+    width: calc(100% - 2em);
+  }
+
+  .react-autosuggest__container {
     width: 100%;
-    margin-left: 0;
-    &.origin, &.destination {
-      position: static;
-      top: 0;
-    }
-  }
-  #react-autowhatever-origin {
-    &.react-autosuggest__suggestions-container--open {
-      min-height: 100%;
-      height: auto;
-      position: absolute;
-      left: 1em;
-      right: 1em;
-      width: auto;
-      margin-top: 4em;
-      margin-left: 0;
-      display: block;
-      overflow: visible;
-    }
-  }
-  #react-autowhatever-destination {
-    &.react-autosuggest__suggestions-container--open {
-      min-height: 100%;
-      height: auto;
-      position: absolute;
-      left: 1em;
-      right: 1em;
-      width: auto;
-      margin-top: calc(7em + 8px);
-      margin-left: 0;
-      display: block;
-      overflow: visible;
+    position: relative;
+    margin: 0 auto;
+    &.viapoint {
+      width: 94%;
     }
   }
 }
@@ -643,59 +557,68 @@ div.autosuggest-panel {
 }
 
 .isItinerary {
-.autosuggest-input-icon {
-  display: block;
-  position: absolute;
-  z-index: 801;
-  width: 1.45em;
-  height: 1.45em;
-  margin-top: 0.6em;
-  margin-left: 0.5em;
-  &.viapoint {
-    display: none;
-  }
-  &.origin {
-    z-index: 803;
-  }
-  .icon {
-    width: 100%;
-    height: 100%;
-  }
-  &.origin:before {
-    content: 'A';
+  .autosuggest-input-icon {
+    display: block;
     position: absolute;
-    color: #fff;
-    font-size: 0.5em;
-    left: 1.1em;
-    top: 0.4em;
+    width: 1.45em;
+    height: 1.45em;
+    margin-top: 0.6em;
+    margin-left: 0.5em;
+
+    &.viapoint {
+      display: none;
+    }
+
+    &.origin,
+    &.destination {
+      z-index: 1;
+    }
+
+    .icon {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.origin:before {
+      content: 'A';
+      position: absolute;
+      color: #fff;
+      font-size: 0.5em;
+      left: 1.1em;
+      top: 0.4em;
+    }
+
+    &.destination:before {
+      content: 'B';
+      position: absolute;
+      color: #fff;
+      font-size: 0.5em;
+      left: 1.1em;
+      top: 0.4em;
+    }
+
+    &.origin .icon {
+      color: #64be14;
+    }
+
+    &.destination .icon {
+      color: #f092cd;
+    }
   }
-  &.destination:before {
-    content: 'B';
-    position: absolute;
-    color: #fff;
-    font-size: 0.5em;
-    left: 1.1em;
-    top: 0.4em;
-  }
-  &.origin .icon {
-    color: #64be14;
-  }
-  &.destination .icon {
-    color: #f092cd;
-  }
-}
 }
 
-input.react-autosuggest__input{
+input.react-autosuggest__input {
   &.location {
     padding-left: 3em;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>") no-repeat scroll 0.7rem 0.7rem;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#{rgba($primary-color, 0.9999999)}' width='19' height='19'><path d='M16.0370 6.3742c0.0000 3.5064 -6.3234 12.6769 -6.3234 12.6769s-6.3234 -9.1706 -6.3234 -12.6769c0.0000 -3.4764 2.8171 -6.3234 6.3234 -6.3234s6.3234 2.8470 6.3234 6.3234zM12.5306 6.3442c0.0000 -1.5284 -1.2587 -2.7871 -2.8171 -2.7871c-1.5584 0.0000 -2.8171 1.2587 -2.8171 2.7871c0.0000 1.5584 1.2587 2.8171 2.8171 2.8171c1.5584 0.0000 2.8171 -1.2587 2.8171 -2.8171z'/></svg>")
+      no-repeat scroll 0.7rem 0.7rem;
     background-color: white;
     background-size: 1.5rem;
   }
   &.position {
     padding-left: 3em;
-    background: url("data:image/svg+xml;utf8;charset=utf-8,%3Csvg%20width%3D%2220px%22%20height%3D%2220px%22%20viewBox%3D%220%200%2038%2038%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0D%0A%20%20%20%20%3Cdefs%3E%0D%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M23.5788538%2C26.0741036%20C23.0354072%2C26.0741036%2022.5692711%2C25.7273437%2022.4930976%2C25.2259631%20L21.8643443%2C23.5794398%20L21.5539658%2C23.5794398%20L21.5539658%2C26.1215873%20L15.7704665%2C26.1215873%20L15.7704665%2C23.5794398%20L15.460088%2C23.5794398%20L14.9235009%2C25.1873079%20C14.8075353%2C25.6886885%2014.3413991%2C26.0354484%2013.8366077%2C26.0354484%20C13.1760587%2C26.0354484%2012.6724042%2C25.4954126%2012.6724042%2C24.9565137%20C12.6724042%2C24.8018929%2012.6724042%2C24.648409%2012.7497146%2C24.4949252%20L14.0628164%2C20.6518772%20C14.4505053%2C19.5729425%2015.032607%2C19.1875275%2016.0035346%2C19.1875275%20L21.2435873%2C19.1875275%20C22.213378%2C19.1875275%2022.8341349%2C19.5729425%2023.1843055%2C20.6518772%20L24.6657469%2C24.5324435%20C24.7044021%2C24.6870642%2024.7044021%2C24.8405481%2024.7044021%2C24.9951689%20C24.7044021%2C25.5340678%2024.2382659%2C26.0741036%2023.5788538%2C26.0741036%20Z%20M18.6809753%2C18.2245583%20L18.643457%2C18.2245583%20C17.0517725%2C18.2245583%2015.7318113%2C16.9148294%2015.7318113%2C15.2969958%20C15.7318113%2C13.6791622%2017.0517725%2C12.3694332%2018.6809753%2C12.3694332%20C20.2726598%2C12.3694332%2021.592621%2C13.6791622%2021.592621%2C15.2969958%20C21.592621%2C16.9148294%2020.2726598%2C18.2245583%2018.6809753%2C18.2245583%20Z%22%20id%3D%22path-1%22%3E%3C%2Fpath%3E%0D%0A%20%20%20%20%3C%2Fdefs%3E%0D%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0D%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22l%C3%A4hell%C3%A4si%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2217.5265812%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2213.3151577%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%226.591%22%20fill='#{rgba($current-location-color, 0.9999999)}'%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%227.32737159%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cmask%20id%3D%22mask-2%22%20fill%3D%22white%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fmask%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20id%3D%22Mask%22%20fill%3D%22%23FFFFFF%22%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0D%0A%20%20%20%20%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E") no-repeat scroll 0.7rem 0.7rem;
+    background: url("data:image/svg+xml;utf8;charset=utf-8,%3Csvg%20width%3D%2220px%22%20height%3D%2220px%22%20viewBox%3D%220%200%2038%2038%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0D%0A%20%20%20%20%3Cdefs%3E%0D%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M23.5788538%2C26.0741036%20C23.0354072%2C26.0741036%2022.5692711%2C25.7273437%2022.4930976%2C25.2259631%20L21.8643443%2C23.5794398%20L21.5539658%2C23.5794398%20L21.5539658%2C26.1215873%20L15.7704665%2C26.1215873%20L15.7704665%2C23.5794398%20L15.460088%2C23.5794398%20L14.9235009%2C25.1873079%20C14.8075353%2C25.6886885%2014.3413991%2C26.0354484%2013.8366077%2C26.0354484%20C13.1760587%2C26.0354484%2012.6724042%2C25.4954126%2012.6724042%2C24.9565137%20C12.6724042%2C24.8018929%2012.6724042%2C24.648409%2012.7497146%2C24.4949252%20L14.0628164%2C20.6518772%20C14.4505053%2C19.5729425%2015.032607%2C19.1875275%2016.0035346%2C19.1875275%20L21.2435873%2C19.1875275%20C22.213378%2C19.1875275%2022.8341349%2C19.5729425%2023.1843055%2C20.6518772%20L24.6657469%2C24.5324435%20C24.7044021%2C24.6870642%2024.7044021%2C24.8405481%2024.7044021%2C24.9951689%20C24.7044021%2C25.5340678%2024.2382659%2C26.0741036%2023.5788538%2C26.0741036%20Z%20M18.6809753%2C18.2245583%20L18.643457%2C18.2245583%20C17.0517725%2C18.2245583%2015.7318113%2C16.9148294%2015.7318113%2C15.2969958%20C15.7318113%2C13.6791622%2017.0517725%2C12.3694332%2018.6809753%2C12.3694332%20C20.2726598%2C12.3694332%2021.592621%2C13.6791622%2021.592621%2C15.2969958%20C21.592621%2C16.9148294%2020.2726598%2C18.2245583%2018.6809753%2C18.2245583%20Z%22%20id%3D%22path-1%22%3E%3C%2Fpath%3E%0D%0A%20%20%20%20%3C%2Fdefs%3E%0D%0A%20%20%20%20%3Cg%20id%3D%22Page-1%22%20stroke%3D%22none%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%0D%0A%20%20%20%20%20%20%20%20%3Cg%20id%3D%22l%C3%A4hell%C3%A4si%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2217.5265812%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%222.197%22%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%2213.3151577%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20id%3D%22Oval%22%20stroke='#{rgba($current-location-color, 0.9999999)}'%20stroke-width%3D%226.591%22%20fill='#{rgba($current-location-color, 0.9999999)}'%20cx%3D%2218.6884032%22%20cy%3D%2219.2455103%22%20r%3D%227.32737159%22%3E%3C%2Fcircle%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cmask%20id%3D%22mask-2%22%20fill%3D%22white%22%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fmask%3E%0D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cuse%20id%3D%22Mask%22%20fill%3D%22%23FFFFFF%22%20xlink%3Ahref%3D%22%23path-1%22%3E%3C%2Fuse%3E%0D%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0D%0A%20%20%20%20%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E")
+      no-repeat scroll 0.7rem 0.7rem;
     background-color: white;
     background-size: 1.5rem;
   }
@@ -715,56 +638,52 @@ input.react-autosuggest__input{
   appearance: none;
   box-shadow: none;
 }
+
 .viapoint-input-container {
-  z-index: 802;
-  position: relative;
+  display: flex;
+
+  &.viapoint-1 > div.viapoint {
+    z-index: index($zindex, viapoint-input-1);
+  }
+
+  &.viapoint-2 > div.viapoint {
+    z-index: index($zindex, viapoint-input-2);
+  }
+
+  &.viapoint-3 > div.viapoint {
+    z-index: index($zindex, viapoint-input-3);
+  }
+
+  &.viapoint-4 > div.viapoint {
+    z-index: index($zindex, viapoint-input-4);
+  }
+
+  &.viapoint-5 > div.viapoint {
+    z-index: index($zindex, viapoint-input-5);
+  }
 }
 
 .autosuggest-input-container {
-    z-index: 803;
-    position: absolute;
-    margin-left: 5%;
-    margin-top: 1em;
-    width: 52.5%;
-  &.origin, &.destination {
-    position: static;
-    width: auto;
-    margin: 0;
+  margin-top: 1em;
+  position: relative;
+  width: 100%;
+
+  &.origin {
+    z-index: index($zindex, origin-input);
   }
+
   &.destination {
-    display: block;
-    z-index: 802;
-  }
-  &#destination-container {
-    margin-top: calc(4em + 8px);
+    z-index: index($zindex, destination-input);
   }
 }
 
 .isItinerary .autosuggest-input-container {
   margin: 0;
-  width: 100%;
-  position: static;
-  &#destination-container {
-    margin: 0;
-  }
-  &.destination {
-    z-index: 801;
-  }
-  &.viapoint {
-    width: 90%;
-    z-index: auto;
-    position: relative;
-  }
-  input[type="text"]{
+
+  input[type='text'] {
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-  }
-  #react-autowhatever-origin, #react-autowhatever-destination, #react-autowhatever-viapoint {
-    &.react-autosuggest__suggestions-container--open {
-      margin: -8px 0 0 0;
-      max-height: 40vh;
-    }
   }
 }
 
@@ -773,12 +692,13 @@ input.react-autosuggest__input{
   color: #4e4e4e;
   text-align: center;
   font-size: 1.3em;
-  .viapoint-before_line-top, .viapoint-before_line-bottom {
-    height: 15px;
+  .viapoint-before_line-top,
+  .viapoint-before_line-bottom {
+    height: 0.6em;
     background: #d6d8da;
     width: 2px;
     margin: 0 auto;
-    margin-top: -7px;
+    margin-top: -0.25em;
   }
 }
 
@@ -787,7 +707,7 @@ input.react-autosuggest__input{
   border-bottom-right-radius: 0;
   box-shadow: none;
   outline: none;
-  border:none;
+  border: none;
 }
 
 .react-autosuggest__container input {
@@ -803,7 +723,7 @@ input.react-autosuggest__input{
 }
 
 input.react-autosuggest__input::-ms-clear {
-  display:none;
+  display: none;
 }
 
 button.clear-input {
@@ -813,14 +733,15 @@ button.clear-input {
   border-bottom-right-radius: 4px;
   align-items: center;
   padding: 8px 12px 8px 12px;
-  margin-left:-4px;
+  margin-left: -4px;
   font-size: 0.875rem; //for sizing the height of button
   height: 3em;
   margin-bottom: 0px;
   color: $gray;
   outline: none;
-  span { //icon size
-    font-size:1.1rem;
+  span {
+    //icon size
+    font-size: 1.1rem;
   }
   &:hover {
     background: $white;
@@ -839,4 +760,3 @@ button.clear-input {
 .suggestion-is-updating {
   visibility: hidden;
 }
-

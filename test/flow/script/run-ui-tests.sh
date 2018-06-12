@@ -26,7 +26,7 @@ else
   ARCHITECTURE=''
 fi
 
-SELENIUM_URL="https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar"
+SELENIUM_URL="https://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar"
 
 if [[ $PLATFORM == 'Darwin' ]]; then
   BROWSERSTACK_LOCAL_URL="https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip"
@@ -42,7 +42,7 @@ fi
 NIGHTWATCH_BINARY="./node_modules/nightwatch/bin/nightwatch"
 BROWSERSTACK_LOCAL_BINARY="./test/flow/binaries/BrowserStackLocal"
 SAUCELABS_CONNECT_BINARY="./test/flow/binaries/sc"
-SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-2.53.0.jar"
+SELENIUM_BINARY="./test/flow/binaries/selenium-server-standalone-3.9.1.jar"
 
 # checks for dependencies and downloads them if needed
 function checkDependencies {

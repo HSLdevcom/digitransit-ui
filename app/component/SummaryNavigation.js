@@ -11,6 +11,8 @@ import { parseLocation } from '../util/path';
 import Icon from './Icon';
 import SecondaryButton from './SecondaryButton';
 import QuickSettingsPanel from './QuickSettingsPanel';
+import StreetModeSelectorPanel from './StreetModeSelectorPanel';
+import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryNavigation extends React.Component {
@@ -33,6 +35,7 @@ class SummaryNavigation extends React.Component {
   };
 
   static contextTypes = {
+    config: PropTypes.object.isRequired,
     piwik: PropTypes.object,
     router: routerShape,
     location: PropTypes.object.isRequired,
@@ -143,7 +146,21 @@ class SummaryNavigation extends React.Component {
       undefined
     );
 
+  renderStreetModeSelector = (config, router) =>
+    config.features.showStreetModeQuickSelect && (
+      <div className="street-mode-selector-panel-container">
+        <StreetModeSelectorPanel
+          selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+          selectStreetMode={(streetMode, isExclusive) =>
+            ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+          }
+          streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+        />
+      </div>
+    );
+
   render() {
+    const { config, router } = this.context;
     const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     let drawerWidth = 291;
@@ -185,6 +202,7 @@ class SummaryNavigation extends React.Component {
             this.context.location.query.intermediatePlaces,
           )}
         />
+        {this.renderStreetModeSelector(config, router)}
         <div
           className={cx('quicksettings-separator-line', {
             hidden: !this.props.isQuickSettingsOpen,

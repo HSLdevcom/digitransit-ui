@@ -8,6 +8,7 @@ import Icon from './Icon';
 import DepartureTime from './DepartureTime';
 import RouteNumber from './RouteNumber';
 import { favouriteLocation as favouriteLocationExample } from './ExampleData';
+import { isStop, isTerminal } from '../util/suggestionUtils';
 
 const FavouriteLocation = ({
   favourite,
@@ -57,6 +58,10 @@ const FavouriteLocation = ({
     info = <Icon img="icon-icon_walk" viewBox="6 0 40 40" />;
   }
 
+  const favouriteType =
+    (isStop(favourite) || isTerminal(favourite)) && favourite.gtfsId
+      ? 'pysakki'
+      : 'sijainti';
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
@@ -74,7 +79,7 @@ const FavouriteLocation = ({
         onClick={e => {
           e.stopPropagation();
         }}
-        to={`/suosikki/muokkaa/${id}`}
+        to={`/suosikki/muokkaa/${favouriteType}/${id}`}
         className="cursor-pointer no-decoration"
       >
         <div className="favourite-edit-icon-click-area">

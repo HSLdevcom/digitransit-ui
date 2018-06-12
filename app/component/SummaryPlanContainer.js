@@ -8,7 +8,8 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
-import { preparePlanParams, getDefaultOTPModes } from '../util/planParamUtil';
+import { preparePlanParams } from '../util/planParamUtil';
+import { getDefaultOTPModes } from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {
@@ -318,6 +319,7 @@ class SummaryPlanContainer extends React.Component {
       $arriveBy: Boolean!,
       $modes: String!,
       $transferPenalty: Int!,
+      $itineraryFiltering: Float!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -337,6 +339,7 @@ class SummaryPlanContainer extends React.Component {
           preferred:$preferred,
           modes:$modes
           transferPenalty:$transferPenalty,
+          itineraryFiltering:$itineraryFiltering,
         ) {itineraries {startTime,endTime}}
       }
     }`;

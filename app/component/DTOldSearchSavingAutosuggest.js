@@ -47,7 +47,9 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       default:
     }
 
-    this.context.executeAction(saveSearch, { item, type });
+    if (item.type !== 'FavouriteStop') {
+      this.context.executeAction(saveSearch, { item, type });
+    }
     this.props.onSelect(item, type);
   };
 

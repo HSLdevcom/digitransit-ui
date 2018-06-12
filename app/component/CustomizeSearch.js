@@ -5,7 +5,6 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
-import without from 'lodash/without';
 import cx from 'classnames';
 
 import Icon from './Icon';
@@ -21,10 +20,10 @@ import {
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import {
-  getDefaultModes,
   defaultSettings,
   WALKBOARDCOST_DEFAULT,
 } from './../util/planParamUtil';
+import * as ModeUtils from '../util/modeUtils';
 
 // find the array slot closest to a value
 function mapToSlider(value, arr) {
@@ -106,17 +105,10 @@ class CustomizeSearch extends React.Component {
       1.2,
     );
 
-    this.availableStreetModes = Object.keys(
-      this.context.config.streetModes,
-    ).filter(
-      streetMode =>
-        this.context.config.streetModes[streetMode].availableForSelection,
-    );
-
-    this.availableTransportModes = Object.keys(
-      this.context.config.transportModes,
-    ).filter(
-      mode => this.context.config.transportModes[mode].availableForSelection,
+    const { config } = this.context;
+    this.availableStreetModes = ModeUtils.getAvailableStreetModeConfigs(config);
+    this.availableTransportModes = ModeUtils.getAvailableTransportModeConfigs(
+      config,
     );
   }
 
@@ -125,20 +117,26 @@ class CustomizeSearch extends React.Component {
       return null;
     }
 
-    return this.availableStreetModes.map((streetMode, index) => (
-      <ToggleButton
-        key={`toggle-button-${streetMode}`}
-        icon={this.context.config.streetModes[streetMode].icon}
-        onBtnClick={() => this.toggleStreetMode(streetMode)}
-        state={this.getMode(streetMode)}
-        checkedClass={streetMode}
-        label={streetMode}
-        className={cx('small-4', {
-          'first-btn': index === 0,
-          'last-btn': index === this.availableStreetModes.length - 1,
-        })}
-      />
-    ));
+    const { config, router } = this.context;
+    return this.availableStreetModes.map(({ exclusive, icon, name }, index) => {
+      const lowerCaseName = name.toLowerCase();
+      return (
+        <ToggleButton
+          checkedClass={lowerCaseName}
+          key={`toggle-button-${lowerCaseName}`}
+          icon={icon}
+          onBtnClick={() =>
+            ModeUtils.setStreetMode(name, config, router, exclusive)
+          }
+          state={this.getMode(name)}
+          label={`street-mode-${lowerCaseName}`}
+          className={cx('small-4', {
+            'first-btn': index === 0,
+            'last-btn': index === this.availableStreetModes.length - 1,
+          })}
+        />
+      );
+    });
   };
 
   getWalkReluctanceSlider = val => (
@@ -295,14 +293,8 @@ class CustomizeSearch extends React.Component {
   );
 
   getModes() {
-    if (this.context.location.query.modes) {
-      return decodeURI(this.context.location.query.modes)
-        .split('?')[0]
-        .split(',');
-    } else if (getCustomizedSettings().modes) {
-      return getCustomizedSettings().modes;
-    }
-    return getDefaultModes(this.context.config);
+    const { location, config } = this.context;
+    return ModeUtils.getModes(location, config);
   }
 
   getMode(mode) {
@@ -326,7 +318,7 @@ class CustomizeSearch extends React.Component {
       walkBoardCost: defaultSettings.walkBoardCost,
       minTransferTime: defaultSettings.minTransferTime,
       accessibilityOption: defaultSettings.accessibilityOption,
-      modes: getDefaultModes(this.context.config).toString(),
+      modes: ModeUtils.getDefaultModes(this.context.config).toString(),
       ticketTypes: defaultSettings.ticketTypes,
     });
   };
@@ -337,16 +329,6 @@ class CustomizeSearch extends React.Component {
     });
   }
 
-  toggleStreetMode(mode) {
-    this.replaceParams({
-      modes: without(
-        this.getModes(),
-        ...this.availableStreetModes.map(m => m.toUpperCase()),
-      )
-        .concat(mode.toUpperCase())
-        .join(','),
-    });
-  }
   actions = {
     toggleBusState: () => this.toggleTransportMode('bus'),
     toggleTramState: () => this.toggleTransportMode('tram'),
@@ -417,8 +399,8 @@ class CustomizeSearch extends React.Component {
               action={this.actions}
               buttonClass="mode-icon"
               selectedModes={this.availableTransportModes
-                .filter(mode => this.getMode(mode))
-                .map(mode => mode.toUpperCase())}
+                .filter(mode => this.getMode(mode.name))
+                .map(mode => mode.name.toUpperCase())}
             />
           </section>
 

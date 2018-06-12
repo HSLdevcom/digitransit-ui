@@ -4,6 +4,7 @@ import moment from 'moment';
 // Localstorage data
 import { getCustomizedSettings } from '../store/localStorage';
 import { otpToLocation } from './otpStrings';
+import { filterModes } from './modeUtils';
 
 export const WALKBOARDCOST_DEFAULT = 600;
 
@@ -45,7 +46,7 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-export const getSettings = () => {
+export const getSettings = config => {
   const custSettings = getCustomizedSettings();
 
   return {
@@ -62,12 +63,7 @@ export const getSettings = () => {
         ? Number(custSettings.walkBoardCost)
         : undefined,
     modes: custSettings.modes
-      ? custSettings.modes
-          .toString()
-          .split(',')
-          .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
-          .sort()
-          .join(',')
+      ? filterModes(config, custSettings.modes)
       : undefined,
     minTransferTime:
       custSettings.minTransferTime !== undefined
@@ -84,22 +80,6 @@ export const getSettings = () => {
         : undefined,
   };
 };
-
-export const getDefaultModes = config => [
-  ...Object.keys(config.transportModes)
-    .filter(mode => config.transportModes[mode].defaultValue)
-    .map(mode => mode.toUpperCase()),
-  ...Object.keys(config.streetModes)
-    .filter(mode => config.streetModes[mode].defaultValue)
-    .map(mode => mode.toUpperCase()),
-];
-
-// all modes except one, citybike, have the same values in UI code and in OTP
-// this is plain madness but hard to change afterwards
-export const getDefaultOTPModes = config =>
-  getDefaultModes(config).map(
-    mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode),
-  );
 
 export const preparePlanParams = config => (
   { from, to },
@@ -122,7 +102,7 @@ export const preparePlanParams = config => (
     },
   },
 ) => {
-  const settings = getSettings();
+  const settings = getSettings(config);
 
   return {
     ...defaultSettings,
@@ -134,13 +114,7 @@ export const preparePlanParams = config => (
         to: otpToLocation(to),
         intermediatePlaces: getIntermediatePlaces(intermediatePlaces),
         numItineraries: numItineraries ? Number(numItineraries) : undefined,
-        modes: modes
-          ? modes
-              .split(',')
-              .map(mode => (mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode))
-              .sort()
-              .join(',')
-          : settings.modes,
+        modes: modes ? filterModes(config, modes) : settings.modes,
         date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
         time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
         walkReluctance:
@@ -174,6 +148,7 @@ export const preparePlanParams = config => (
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),
+        itineraryFiltering: config.itineraryFiltering,
       },
       nullOrUndefined,
     ),

@@ -55,7 +55,15 @@ const productionPlugins = [
     // TODO: Can be enabled after cors headers have been added
     // externals: ['https://dev.hsl.fi/tmp/452925/86FC9FC158618AB68.css'],
     externals: ['/'],
-    appShell: '/',
+    cacheMaps: [
+      {
+        // eslint-disable-next-line object-shorthand
+        match: function(requestUrl) {
+          return requestUrl.pathname;
+        },
+        requestTypes: ['navigate'],
+      },
+    ],
     updateStrategy: 'changed',
     autoUpdate: 1000 * 60,
     safeToUseOptionalCaches: true,

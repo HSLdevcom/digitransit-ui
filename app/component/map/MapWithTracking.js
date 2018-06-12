@@ -44,6 +44,7 @@ class MapWithTrackingStateHandler extends React.Component {
       defaultEndpoint: dtLocationShape.isRequired,
     }).isRequired,
     children: PropTypes.array,
+    renderCustomButtons: PropTypes.func,
   };
 
   constructor(props) {
@@ -118,7 +119,14 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   render() {
-    const { position, origin, config, children, ...rest } = this.props;
+    const {
+      position,
+      origin,
+      config,
+      children,
+      renderCustomButtons,
+      ...rest
+    } = this.props;
     let location;
 
     if (
@@ -163,19 +171,22 @@ class MapWithTrackingStateHandler extends React.Component {
         leafletObjs={leafletObjs}
       >
         {children}
-        {this.props.position.hasLocation && (
-          <ToggleMapTracking
-            key="toggleMapTracking"
-            handleClick={
-              this.state.mapTracking
-                ? this.disableMapTracking
-                : this.enableMapTracking
-            }
-            className={`icon-mapMarker-toggle-positioning-${
-              this.state.mapTracking ? 'online' : 'offline'
-            }`}
-          />
-        )}
+        <div className="map-with-tracking-buttons">
+          {this.props.position.hasLocation && (
+            <ToggleMapTracking
+              key="toggleMapTracking"
+              handleClick={
+                this.state.mapTracking
+                  ? this.disableMapTracking
+                  : this.enableMapTracking
+              }
+              className={`icon-mapMarker-toggle-positioning-${
+                this.state.mapTracking ? 'online' : 'offline'
+              }`}
+            />
+          )}
+          {renderCustomButtons && renderCustomButtons()}
+        </div>
       </Component>
     );
   }

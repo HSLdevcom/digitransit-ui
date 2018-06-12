@@ -6,10 +6,11 @@ import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
+import merge from 'lodash/merge';
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { distance } from './geo-utils';
-import { uniqByLabel } from './suggestionUtils';
+import { uniqByLabel, isStop } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
 import { PREFIX_ROUTES } from '../util/path';
 
@@ -38,20 +39,6 @@ const mapRoute = item => ({
     coordinates: null,
   },
 });
-
-function mapStops(stops) {
-  return stops.map(item => ({
-    type: 'Stop',
-    properties: {
-      ...item,
-      mode: item.routes.length > 0 && item.routes[0].mode.toLowerCase(),
-      layer: 'stop',
-    },
-    geometry: {
-      coordinates: [item.lon, item.lat],
-    },
-  }));
-}
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
@@ -225,7 +212,8 @@ function getFavouriteRoutes(favourites, input) {
 }
 
 function getFavouriteStops(favourites, input, origin) {
-  const query = Relay.createQuery(
+  // Currently we're updating only stops as there isn't suitable query for stations
+  const stopQuery = Relay.createQuery(
     Relay.QL`
     query favouriteStops($ids: [String!]!) {
       stops(ids: $ids ) {
@@ -238,22 +226,29 @@ function getFavouriteStops(favourites, input, origin) {
         routes { mode }
       }
     }`,
-    { ids: favourites },
+    { ids: favourites.map(item => item.gtfsId) },
   );
 
-  const refLatLng = origin.lat &&
+  const refLatLng = origin &&
+    origin.lat &&
     origin.lon && { lat: origin.lat, lng: origin.lon };
 
-  return getRelayQuery(query)
-    .then(favouriteStops =>
-      mapStops(favouriteStops).map(favourite => ({
-        ...favourite,
-        properties: { ...favourite.properties, layer: 'favouriteStop' },
+  return getRelayQuery(stopQuery)
+    .then(stops =>
+      merge(stops, favourites).map(stop => ({
         type: 'FavouriteStop',
+        properties: {
+          ...stop,
+          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+        },
+        geometry: {
+          coordinates: [stop.lon, stop.lat],
+        },
       })),
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
+        'properties.locationName',
         'properties.name',
         'properties.desc',
       ]),
@@ -261,10 +256,10 @@ function getFavouriteStops(favourites, input, origin) {
     .then(
       stops =>
         refLatLng
-          ? sortBy(stops, item =>
+          ? sortBy(stops, stop =>
               distance(refLatLng, {
-                lat: item.geometry.coordinates[1],
-                lng: item.geometry.coordinates[0],
+                lat: stop.lat,
+                lng: stop.lon,
               }),
             )
           : stops,
@@ -314,6 +309,7 @@ function getRoutes(input, config) {
 export const getAllEndpointLayers = () => [
   'CurrentPosition',
   'FavouritePlace',
+  'FavouriteStop',
   'OldSearch',
   'Geocoding',
   'Stops',
@@ -338,6 +334,7 @@ export function executeSearchImmediate(
       'FavouriteLocationStore',
     ).getLocations();
     const oldSearches = getStore('OldSearchesStore').getOldSearches('endpoint');
+    const favouriteStops = getStore('FavouriteStopsStore').getStops();
     const language = getStore('PreferencesStore').getLanguage();
     const searchComponents = [];
 
@@ -349,6 +346,9 @@ export function executeSearchImmediate(
     }
     if (endpointLayers.includes('FavouritePlace')) {
       searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+    }
+    if (endpointLayers.includes('FavouriteStop')) {
+      searchComponents.push(getFavouriteStops(favouriteStops, input, refPoint));
     }
     if (endpointLayers.includes('OldSearch')) {
       const dropLayers = ['currentPosition'];
@@ -452,11 +452,9 @@ export function executeSearchImmediate(
     searchSearches = { type: 'search', term: input, results: [] };
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
-    const favouriteStops = getStore('FavouriteStopsStore').getStops();
 
     searchSearchesPromise = Promise.all([
       getFavouriteRoutes(favouriteRoutes, input),
-      getFavouriteStops(favouriteStops, input, refPoint),
       getOldSearches(oldSearches, input),
       getRoutes(input, config),
     ])
