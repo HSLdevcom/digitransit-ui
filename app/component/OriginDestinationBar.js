@@ -79,15 +79,11 @@ export default class OriginDestinationBar extends React.Component {
     Array.isArray(val) ? val.slice(0) : [val || ' '];
 
   removeViapoints = index => {
-    const currentPlaces = this.checkAndConvertArray(
-      this.context.location.query.intermediatePlaces,
-    );
-
     const viaPointsWithRemoved = this.state.viaPointNames.filter(
       (o, i) => i !== index,
     );
 
-    this.updateViaPoints(currentPlaces.filter((o, i) => i !== index));
+    this.updateViaPoints(viaPointsWithRemoved.filter(o => o !== ' '));
 
     this.setState({
       viaPointNames: viaPointsWithRemoved,

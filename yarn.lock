@@ -7923,22 +7923,14 @@ mocha@5.2.0:
     mkdirp "0.5.1"
     supports-color "5.4.0"
 
-<<<<<<< HEAD
-mock-local-storage@^1.0.5:
-=======
 mock-local-storage@1.0.5:
->>>>>>> cc6fb75fb982f2f3de07a549ebfded4a259b0f26
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/mock-local-storage/-/mock-local-storage-1.0.5.tgz#899ff300027cefed47816e6dc539bb059fcce489"
   dependencies:
     core-js "^0.8.3"
     global "^4.3.2"
 
-<<<<<<< HEAD
-mockdate@^2.0.2:
-=======
 mockdate@2.0.2:
->>>>>>> cc6fb75fb982f2f3de07a549ebfded4a259b0f26
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-2.0.2.tgz#5ae0c0eaf8fe23e009cd01f9889b42c4f634af12"
 
