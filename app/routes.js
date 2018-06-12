@@ -15,6 +15,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
+import { validateServiceTimeRange } from './util/timeUtils';
 
 const ComponentLoading404Renderer = {
   /* eslint-disable react/prop-types */
@@ -99,6 +100,7 @@ const planQueries = {
         ${Component.getFragment('plan', variables)}
       }
     }`,
+  serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
 };
 
 function errorLoading(err) {
@@ -121,6 +123,7 @@ export default config => {
           ...routerProps,
           ...preparePlanParams(config)(routerProps.params, routerProps),
           plan: { plan: {} },
+          serviceTimeRange: validateServiceTimeRange(), // use default range
           loading: true,
         });
 
