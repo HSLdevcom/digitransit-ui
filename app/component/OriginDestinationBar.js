@@ -87,6 +87,7 @@ export default class OriginDestinationBar extends React.Component {
 
     this.setState({
       viaPointNames: viaPointsWithRemoved,
+      isViaPoint: viaPointsWithRemoved.length !== 0,
     });
   };
 

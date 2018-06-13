@@ -14,6 +14,10 @@ describe('<OriginDestinationBar />', () => {
     'Museokatu 5, Helsinki::60.174856,24.929014',
   ];
 
+  const exampleSingleViapoint = [
+    'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+  ];
+
   const exampleQuery =
     'intermediatePlaces=Kluuvi%2C+luoteinen%2C+Kluuvi%2C+Helsinki%3A%3A60.173123%2C24.948365&intermediatePlaces=Kamppi+1241%2C+Helsinki%3A%3A60.169119%2C24.932058';
 
@@ -71,5 +75,14 @@ describe('<OriginDestinationBar />', () => {
     expect(wrapperNoParams.find('.addViaPoint')).to.have.length(1);
     wrapperNoParams.find('.addViaPoint').simulate('click');
     expect(wrapperNoParams.state('isViaPoint')).to.equal(true);
+  });
+
+  it('should set isViaPoint to false when all viapoints are removed', () => {
+    wrapperNoParams.setState({
+      isViaPoint: true,
+      viaPointNames: exampleSingleViapoint,
+    });
+    wrapperNoParams.instance().removeViapoints(0);
+    expect(wrapperNoParams.state('isViaPoint')).to.equal(false);
   });
 });
