@@ -289,14 +289,6 @@ const Index = shouldUpdate(
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
 
-const IndexPageWithLang = connectToStores(
-  IndexPageWithBreakpoint,
-  ['PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
 /* eslint-disable no-param-reassign */
 const processLocation = (locationString, locationState, intl) => {
   let location;
@@ -332,7 +324,7 @@ const processLocation = (locationString, locationState, intl) => {
 const tabs = [TAB_FAVOURITES, TAB_NEARBY];
 
 const IndexPageWithPosition = connectToStores(
-  IndexPageWithLang,
+  IndexPageWithBreakpoint,
   ['PositionStore'],
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
@@ -417,6 +409,8 @@ const IndexPageWithPosition = connectToStores(
         }
       });
     }
+    newProps.lang = context.getStore('PreferencesStore').getLanguage();
+
     return newProps;
   },
 );
