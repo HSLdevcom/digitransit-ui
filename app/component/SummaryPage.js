@@ -461,6 +461,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           waitAtBeginningFactor: $waitAtBeginningFactor,
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
+          itineraryFiltering: $itineraryFiltering,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
@@ -519,6 +520,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       waitAtBeginningFactor: null,
       heuristicStepsPerMainStep: null,
       compactLegsByReversedSearch: null,
+      itineraryFiltering: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

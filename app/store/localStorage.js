@@ -153,6 +153,9 @@ export function setRoutingSettings(data) {
     compactLegsByReversedSearch: data.compactLegsByReversedSearch
       ? data.compactLegsByReversedSearch
       : oldSettings.compactLegsByReversedSearch,
+    itineraryFiltering: data.itineraryFiltering
+      ? data.itineraryFiltering
+      : oldSettings.itineraryFiltering,
   };
   setItem('routingSettings', newSettings);
 }

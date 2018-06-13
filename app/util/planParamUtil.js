@@ -139,6 +139,10 @@ export const getSettings = () => {
       routingSettings.compactLegsByReversedSearch !== undefined
         ? isTrue(routingSettings.compactLegsByReversedSearch)
         : undefined,
+    itineraryFiltering:
+      routingSettings.itineraryFiltering !== undefined
+        ? Number(routingSettings.itineraryFiltering)
+        : undefined,
   };
 };
 
@@ -188,6 +192,7 @@ export const preparePlanParams = config => (
         waitAtBeginningFactor,
         heuristicStepsPerMainStep,
         compactLegsByReversedSearch,
+        itineraryFiltering,
       },
     },
   },
@@ -291,8 +296,12 @@ export const preparePlanParams = config => (
             : settings.heuristicStepsPerMainStep,
         compactLegsByReversedSearch:
           compactLegsByReversedSearch !== undefined
-            ? Number(compactLegsByReversedSearch)
+            ? isTrue(compactLegsByReversedSearch)
             : settings.compactLegsByReversedSearch,
+        itineraryFiltering:
+          itineraryFiltering !== undefined
+            ? Number(itineraryFiltering)
+            : settings.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),

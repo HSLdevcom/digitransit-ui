@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getRoutingSettings } from '../store/localStorage';
-import SaveRoutingSettingsButton from './SaveRoutingSettingsButton';
+import { getRoutingSettings, resetRoutingSettings } from '../store/localStorage';
+import RoutingSettingsButtons from './RoutingSettingsButtons';
 import Loading from './Loading';
 
 class AdminForm extends React.Component {
@@ -30,6 +30,7 @@ class AdminForm extends React.Component {
         waitAtBeginningFactor: 0.4,
         heuristicStepsPerMainStep: 8,
         compactLegsByReversedSearch: true,
+        itineraryFiltering: 0,
       };
   
       const defaultRoutingSettings = {
@@ -70,13 +71,19 @@ class AdminForm extends React.Component {
           query: {
             ...location.query,
             [param]: newValue,
-          }
-        })
+          },
+        });
       };
 
-      console.log(defaultRoutingSettings);
-      console.log(merged);
-  
+      const resetParameters = () => {
+        console.log(location.query);
+        resetRoutingSettings();
+        router.replace({
+          pathname: location.pathname,
+          query: {},
+        });
+      };
+
       return (
         <div className="page-frame fullscreen momentum-scroll">
           <label>
@@ -151,7 +158,11 @@ class AdminForm extends React.Component {
               </option>
             </select>
           </label>
-          <SaveRoutingSettingsButton />
+          <label>
+            How easily bad itineraries are filtered. Value 0 disables filtering. The higher the value, the easier less good routes get filtered from response. Recommended value range is 0.2 - 5. Value 1 means that if an itinerary is twice as worse than another one in some respect (say 100% more walking), it will be filtered. Value 0.5 filters 200% worse itineraries and value 2 defines 50% filtering level. Value 5 filters 20% worse routes. (default {defaultRoutingSettings.itineraryFiltering}).
+            <input type="number" step="any" min="0" onInput={(e) => updateInputParam('itineraryFiltering', e.target, 0)} onChange={(e) => updateInputParam('itineraryFiltering', e.target, 0)} value={merged.itineraryFiltering}/>
+          </label>
+          <RoutingSettingsButtons onReset={resetParameters} />
         </div>
       );
     }

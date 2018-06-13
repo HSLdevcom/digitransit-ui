@@ -1,17 +1,19 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { locationShape } from 'react-router';
 import { setRoutingSettings } from '../store/localStorage';
 
-class SaveRoutingSettingsButton extends React.Component {
+class RoutingSettingsButtons extends React.Component {
   static contextTypes = {
     location: locationShape.isRequired,
   };
 
+  static propTypes = {
+    onReset: PropTypes.func.isRequired,
+  };
+
   setSettingsData = () => {
-    console.log(this.context.location.query);
-    // Test if has new set values
     const settings = {
       ignoreRealtimeUpdates: this.context.location.query.ignoreRealtimeUpdates
         ? this.context.location.query.ignoreRealtimeUpdates
@@ -52,9 +54,16 @@ class SaveRoutingSettingsButton extends React.Component {
       compactLegsByReversedSearch: this.context.location.query.compactLegsByReversedSearch
         ? this.context.location.query.compactLegsByReversedSearch
         : undefined,
+      itineraryFiltering: this.context.location.query.itineraryFiltering
+        ? this.context.location.query.itineraryFiltering
+        : undefined,
     };
     setRoutingSettings(settings);
     alert('Settings updated');
+  };
+
+  resetSettings = () => {
+    this.props.onReset();
   };
 
   render() {
@@ -62,17 +71,25 @@ class SaveRoutingSettingsButton extends React.Component {
       <div className="save-settings">
       <hr />
       <button
-          className="save-settings-button"
           onClick={this.setSettingsData}
+          style={{
+            margin: "0 10px 0 0",
+          }}
       >
           <FormattedMessage
           defaultMessage="Tallenna asetukset"
           id="settings-savebutton"
           />
       </button>
+      <button onClick={this.resetSettings}>
+        <FormattedMessage
+            defaultMessage="Palauta oletusasetukset"
+            id="settings-reset"
+        />
+      </button>
       </div>
     );
   }
 }
 
-export default SaveRoutingSettingsButton;
+export default RoutingSettingsButtons;
