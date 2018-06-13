@@ -92,6 +92,7 @@ class SummaryPage extends React.Component {
     walkSpeed: 1.2,
     wheelchair: false,
     accessibilityOption: 0,
+    ticketTypes: null,
   };
 
   constructor(props, context) {
