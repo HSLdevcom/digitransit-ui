@@ -76,6 +76,14 @@ DisruptionInfo.contextTypes = {
   }).isRequired,
 };
 
+DisruptionInfo.propTypes = {
+  isBrowser: PropTypes.bool,
+};
+
+DisruptionInfo.defaultProps = {
+  isBrowser: false,
+};
+
 DisruptionInfo.description = () => (
   <div>
     <p>
