@@ -3,7 +3,7 @@ import React from 'react';
 
 const heading = (e, key) => {
   if (e.type === 'heading') {
-    return <h2 key={`${key}-h2`}>{e.content}</h2>;
+    return <h2 key={`${key}-heading`}>{e.content}</h2>;
   }
   return null;
 };
@@ -19,7 +19,7 @@ const span = (e, key) => {
 const a = (e, key) => {
   if (e.type === 'a') {
     return (
-      <a key={`${key}-a`} href={e.href}>
+      <a key={`${key}-link`} href={e.href}>
         {e.content}
       </a>
     );
@@ -30,7 +30,7 @@ const a = (e, key) => {
 const elements = [heading, span, a];
 
 const renderContent = content =>
-  content.map((fragment, i) => elements.map(t => t(fragment, `${i}`)));
+  content.map((fragment, i) => elements.map(t => t(fragment, i)));
 
 /*
  * Renders message
@@ -44,7 +44,6 @@ const MessageBarMessage = ({ content, onMaximize }) => (
 );
 
 MessageBarMessage.propTypes = {
-  id: PropTypes.string.isRequired,
   content: PropTypes.array,
   onMaximize: PropTypes.func.isRequired,
 };
