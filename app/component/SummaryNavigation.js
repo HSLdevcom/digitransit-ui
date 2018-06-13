@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
@@ -27,6 +26,10 @@ class SummaryNavigation extends React.Component {
     isQuickSettingsOpen: PropTypes.bool.isRequired,
     toggleQuickSettings: PropTypes.func.isRequired,
     breakpoint: PropTypes.string.isRequired,
+    serviceTimeRange: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -135,17 +138,6 @@ class SummaryNavigation extends React.Component {
     }
   };
 
-  renderTimeSelectorContainer = ({ done, props }) =>
-    done ? (
-      <TimeSelectorContainer
-        {...props}
-        startTime={this.props.startTime}
-        endTime={this.props.endTime}
-      />
-    ) : (
-      undefined
-    );
-
   renderStreetModeSelector = (config, router) =>
     config.features.showStreetModeQuickSelect && (
       <div className="street-mode-selector-panel-container">
@@ -213,17 +205,10 @@ class SummaryNavigation extends React.Component {
             quickSettingsOpen: this.props.isQuickSettingsOpen,
           })}
         >
-          <Relay.Renderer
-            Container={TimeSelectorContainer}
-            queryConfig={{
-              params: {},
-              name: 'ServiceTimeRangRoute',
-              queries: {
-                serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
-              },
-            }}
-            environment={Relay.Store}
-            render={this.renderTimeSelectorContainer}
+          <TimeSelectorContainer
+            startTime={this.props.startTime}
+            endTime={this.props.endTime}
+            serviceTimeRange={this.props.serviceTimeRange}
           />
           <div className="button-container">
             <div className="icon-holder">

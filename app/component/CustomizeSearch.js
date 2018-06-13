@@ -273,9 +273,9 @@ class CustomizeSearch extends React.Component {
           defaultMessage: 'Accessibility',
         })}
         name="accessible"
-        selected={val || 0}
+        selected={val || this.context.config.accessibilityOptions[0].value}
         options={this.context.config.accessibilityOptions.map((o, i) => ({
-          displayName: (
+          displayNameObject: (
             <FormattedMessage
               defaultMessage={
                 this.context.config.accessibilityOptions[i].displayName
@@ -283,6 +283,7 @@ class CustomizeSearch extends React.Component {
               id={this.context.config.accessibilityOptions[i].messageId}
             />
           ),
+          displayName: this.context.config.accessibilityOptions[i].displayName,
           value: this.context.config.accessibilityOptions[i].value,
         }))}
         onSelectChange={e =>

@@ -27,7 +27,7 @@
       "silent": true,
       "globals": {
         "pause_ms": 200,
-        "itinerarySearchTimeout": 10000,
+        "itinerarySearchTimeout": 15000,
         "elementVisibleTimeout": 10000
       },
       "screenshots": {

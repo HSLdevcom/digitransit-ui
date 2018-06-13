@@ -38,7 +38,6 @@ class MessageBar extends Component {
     this.validMessages().map(el => (
       <MessageBarMessage
         key={el.id}
-        id={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang] || el.content.fi}
       />

@@ -61,45 +61,43 @@ class MainMenuContainer extends Component {
     MainMenu: () => importLazy(import('./MainMenu')),
   };
 
-  render() {
-    return (
-      <div>
-        <LazilyLoad modules={this.mainMenuModules}>
-          {({ Drawer, MainMenu }) => (
-            <Drawer
-              className="offcanvas"
-              disableSwipeToOpen
-              docked={false}
-              open={this.getOffcanvasState()}
-              openSecondary
-              onRequestChange={this.onRequestChange}
-            >
-              <MainMenu
-                toggleVisibility={this.toggleOffcanvas}
-                showDisruptionInfo={this.getOffcanvasState()}
-                visible={this.getOffcanvasState()}
-                homeUrl={this.props.homeUrl}
-              />
-            </Drawer>
-          )}
-        </LazilyLoad>
-        {this.context.config.mainMenu.show ? (
-          <div className="icon-holder cursor-pointer main-menu-toggle">
-            <button
-              aria-label={this.context.intl.formatMessage({
-                id: 'main-menu-label-open',
-                defaultMessage: 'Open the main menu',
-              })}
-              onClick={this.toggleOffcanvas}
-              className="noborder cursor-pointer"
-            >
-              <Icon img="icon-icon_menu" className="icon" />
-            </button>
-          </div>
-        ) : null}
-      </div>
-    );
-  }
+  render = () => (
+    <React.Fragment>
+      <LazilyLoad modules={this.mainMenuModules}>
+        {({ Drawer, MainMenu }) => (
+          <Drawer
+            className="offcanvas"
+            disableSwipeToOpen
+            docked={false}
+            open={this.getOffcanvasState()}
+            openSecondary
+            onRequestChange={this.onRequestChange}
+          >
+            <MainMenu
+              toggleVisibility={this.toggleOffcanvas}
+              showDisruptionInfo={this.getOffcanvasState()}
+              visible={this.getOffcanvasState()}
+              homeUrl={this.props.homeUrl}
+            />
+          </Drawer>
+        )}
+      </LazilyLoad>
+      {this.context.config.mainMenu.show ? (
+        <div className="icon-holder cursor-pointer main-menu-toggle">
+          <button
+            aria-label={this.context.intl.formatMessage({
+              id: 'main-menu-label-open',
+              defaultMessage: 'Open the main menu',
+            })}
+            onClick={this.toggleOffcanvas}
+            className="noborder cursor-pointer"
+          >
+            <Icon img="icon-icon_menu" className="icon" />
+          </button>
+        </div>
+      ) : null}
+    </React.Fragment>
+  );
 }
 
 export default MainMenuContainer;
