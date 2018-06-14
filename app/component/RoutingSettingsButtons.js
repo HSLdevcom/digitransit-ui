@@ -60,6 +60,9 @@ class RoutingSettingsButtons extends React.Component {
       compactLegsByReversedSearch: this.context.location.query.compactLegsByReversedSearch
         ? this.context.location.query.compactLegsByReversedSearch
         : undefined,
+      disableRemainingWeightHeuristic: this.context.location.query.disableRemainingWeightHeuristic
+        ? this.context.location.query.disableRemainingWeightHeuristic
+        : undefined,
       itineraryFiltering: this.context.location.query.itineraryFiltering
         ? this.context.location.query.itineraryFiltering
         : undefined,

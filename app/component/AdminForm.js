@@ -37,6 +37,7 @@ class AdminForm extends React.Component {
       waitAtBeginningFactor: 0.4,
       heuristicStepsPerMainStep: 8,
       compactLegsByReversedSearch: true,
+      disableRemainingWeightHeuristic: false,
       itineraryFiltering: 0,
     };
 
@@ -164,6 +165,20 @@ class AdminForm extends React.Component {
           <select
             value={merged.compactLegsByReversedSearch}
             onChange={(e) => updateSelectParam('compactLegsByReversedSearch', e.target)}
+          >
+            <option value="false">
+              false
+            </option>
+            <option value="true">
+              true
+            </option>
+          </select>
+        </label>
+        <label>
+          When true, routing uses Dijkstra's algorithm instead of default A* algorithm. When citybike is selected as one of the available travel modes, this parameter is true regardless of what is selected here (default {defaultRoutingSettings.disableRemainingWeightHeuristic.toString()}):
+          <select
+            value={merged.disableRemainingWeightHeuristic}
+            onChange={(e) => updateSelectParam('disableRemainingWeightHeuristic', e.target)}
           >
             <option value="false">
               false

@@ -49,23 +49,35 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-function getMaxWalkDistance(modes, maxWalkDistance, settings, config) {
-  let finalMaxWalkDistance;
+function getMaxWalkDistance(modes, settings, config) {
+  let maxWalkDistance;
   if (typeof modes === 'undefined' ||
   (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) {
     if (!nullOrUndefined(settings.maxWalkDistance)) {
-      finalMaxWalkDistance = settings.maxWalkDistance;
+      maxWalkDistance = settings.maxWalkDistance;
     } else {
-      finalMaxWalkDistance = config.maxWalkDistance;
+      maxWalkDistance = config.maxWalkDistance;
     }
   } else {
     if (!nullOrUndefined(settings.maxBikingDistance)) {
-      finalMaxWalkDistance = settings.maxBikingDistance;
+      maxWalkDistance = settings.maxBikingDistance;
     } else {
-      finalMaxWalkDistance = config.maxBikingDistance;
+      maxWalkDistance = config.maxBikingDistance;
     }
   }
-  return finalMaxWalkDistance;
+  return maxWalkDistance;
+}
+
+function getDisableRemainingWeightHeuristic(modes, settings) {
+  let disableRemainingWeightHeuristic;
+  if (modes && modes.split(',').includes('CITYBIKE')) {
+    disableRemainingWeightHeuristic = true;
+  } else if (nullOrUndefined(settings.disableRemainingWeightHeuristic)) {
+    disableRemainingWeightHeuristic = false;
+  } else {
+    disableRemainingWeightHeuristic = settings.disableRemainingWeightHeuristic;
+  }
+  return disableRemainingWeightHeuristic;
 }
 
 export const getSettings = () => {
@@ -166,6 +178,10 @@ export const getSettings = () => {
       routingSettings.compactLegsByReversedSearch !== undefined
         ? isTrue(routingSettings.compactLegsByReversedSearch)
         : undefined,
+    disableRemainingWeightHeuristic:
+      routingSettings.disableRemainingWeightHeuristic !== undefined
+        ? isTrue(routingSettings.disableRemainingWeightHeuristic)
+        : undefined,
     itineraryFiltering:
       routingSettings.itineraryFiltering !== undefined
         ? Number(routingSettings.itineraryFiltering)
@@ -261,7 +277,7 @@ export const preparePlanParams = config => (
         walkSpeed:
           walkSpeed !== undefined ? Number(walkSpeed) : settings.walkSpeed,
         arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        maxWalkDistance: getMaxWalkDistance(modes, maxWalkDistance, settings, config),
+        maxWalkDistance: getMaxWalkDistance(modes, settings, config),
         wheelchair:
           accessibilityOption !== undefined
             ? Number(accessibilityOption) === 1
@@ -286,8 +302,7 @@ export const preparePlanParams = config => (
         itineraryFiltering: settings.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
-          modes && modes.split(',').includes('CITYBIKE'),
-        itineraryFiltering: config.itineraryFiltering,
+          getDisableRemainingWeightHeuristic(modes, settings),
       },
       nullOrUndefined,
     ),

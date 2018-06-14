@@ -159,6 +159,9 @@ export function setRoutingSettings(data) {
     compactLegsByReversedSearch: data.compactLegsByReversedSearch
       ? data.compactLegsByReversedSearch
       : oldSettings.compactLegsByReversedSearch,
+    disableRemainingWeightHeuristic: data.disableRemainingWeightHeuristic
+      ? data.disableRemainingWeightHeuristic
+      : oldSettings.disableRemainingWeightHeuristic,
     itineraryFiltering: data.itineraryFiltering
       ? data.itineraryFiltering
       : oldSettings.itineraryFiltering,
