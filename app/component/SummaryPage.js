@@ -31,7 +31,7 @@ import { getHomeUrl } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { validateServiceTimeRange } from '../util/timeUtils';
 
-export const ITINERARYFILTERING_DEFAULT = 2.0;
+export const ITINERARYFILTERING_DEFAULT = 1.5;
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -520,7 +520,6 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       waitAtBeginningFactor: null,
       heuristicStepsPerMainStep: null,
       compactLegsByReversedSearch: null,
-      itineraryFiltering: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,

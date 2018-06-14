@@ -299,7 +299,10 @@ export const preparePlanParams = config => (
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
         heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
         compactLegsByReversedSearch: settings.compactLegsByReversedSearch,
-        itineraryFiltering: settings.itineraryFiltering,
+        itineraryFiltering:
+          settings.itineraryFiltering !== undefined
+          ? settings.itineraryFiltering
+          : config.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           getDisableRemainingWeightHeuristic(modes, settings),

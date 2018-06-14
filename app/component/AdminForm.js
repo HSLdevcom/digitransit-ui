@@ -22,8 +22,6 @@ class AdminForm extends React.Component {
     const { router, dataConDefaults } = this.props;
     const location = router.location;
     const OTPDefaults = {
-      maxWalkDistance: this.context.config.maxWalkDistance,
-      maxBikingDistance: this.context.config.maxBikingDistance,
       ignoreRealtimeUpdates: false,
       maxPreTransitTime: 1800,
       walkOnStreetReluctance: 1.0,
@@ -38,12 +36,18 @@ class AdminForm extends React.Component {
       heuristicStepsPerMainStep: 8,
       compactLegsByReversedSearch: true,
       disableRemainingWeightHeuristic: false,
-      itineraryFiltering: 0,
     };
+
+    const UIDefaults = {
+      maxWalkDistance: this.context.config.maxWalkDistance,
+      maxBikingDistance: this.context.config.maxBikingDistance,
+      itineraryFiltering: this.context.config.itineraryFiltering,
+    }
 
     const defaultRoutingSettings = {
       ...OTPDefaults,
       ...dataConDefaults,
+      ...UIDefaults,
     };
 
     const merged = {
