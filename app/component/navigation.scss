@@ -89,18 +89,6 @@ $content-background-color: $background-color;
     background-repeat: no-repeat;
     cursor: pointer;
   }
-  .hamburger-large {
-    .main-menu-toggle {
-      top: 10px;
-      div.logo {
-        background-image: $nav-logo;
-        background-size: contain;
-        background-repeat: no-repeat;
-        height: $topbar-height;
-        max-width: 170px;
-      }
-    }
-  }
 }
 
 .flex-horizontal {
