@@ -114,6 +114,12 @@ export function setRoutingSettings(data) {
   // Get old settings and test if set values have changed
   const oldSettings = getRoutingSettings();
   const newSettings = {
+    maxWalkDistance: data.maxWalkDistance
+      ? data.maxWalkDistance
+      : oldSettings.maxWalkDistance,
+    maxBikingDistance: data.maxBikingDistance
+      ? data.maxBikingDistance
+      : oldSettings.maxBikingDistance,
     ignoreRealtimeUpdates: data.ignoreRealtimeUpdates
       ? data.ignoreRealtimeUpdates
       : oldSettings.ignoreRealtimeUpdates,

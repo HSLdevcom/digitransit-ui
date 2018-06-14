@@ -15,6 +15,12 @@ class RoutingSettingsButtons extends React.Component {
 
   setSettingsData = () => {
     const settings = {
+      maxWalkDistance: this.context.location.query.maxWalkDistance
+        ? this.context.location.query.maxWalkDistance
+        : undefined,
+      maxBikingDistance: this.context.location.query.maxBikingDistance
+        ? this.context.location.query.maxBikingDistance
+        : undefined,
       ignoreRealtimeUpdates: this.context.location.query.ignoreRealtimeUpdates
         ? this.context.location.query.ignoreRealtimeUpdates
         : undefined,

@@ -49,6 +49,25 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
+function getMaxWalkDistance(modes, maxWalkDistance, settings, config) {
+  let finalMaxWalkDistance;
+  if (typeof modes === 'undefined' ||
+  (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) {
+    if (!nullOrUndefined(settings.maxWalkDistance)) {
+      finalMaxWalkDistance = settings.maxWalkDistance;
+    } else {
+      finalMaxWalkDistance = config.maxWalkDistance;
+    }
+  } else {
+    if (!nullOrUndefined(settings.maxBikingDistance)) {
+      finalMaxWalkDistance = settings.maxBikingDistance;
+    } else {
+      finalMaxWalkDistance = config.maxBikingDistance;
+    }
+  }
+  return finalMaxWalkDistance;
+}
+
 export const getSettings = () => {
   const custSettings = getCustomizedSettings();
   const routingSettings = getRoutingSettings();
@@ -86,6 +105,14 @@ export const getSettings = () => {
     transferPenalty:
       custSettings.transferPenalty !== undefined
         ? Number(custSettings.transferPenalty)
+        : undefined,
+    maxWalkDistance:
+      routingSettings.maxWalkDistance !== undefined
+        ? Number(routingSettings.maxWalkDistance)
+        : undefined,
+    maxBikingDistance:
+      routingSettings.maxBikingDistance !== undefined
+        ? Number(routingSettings.maxBikingDistance)
         : undefined,
     ignoreRealtimeUpdates:
       routingSettings.ignoreRealtimeUpdates !== undefined
@@ -179,6 +206,7 @@ export const preparePlanParams = config => (
         accessibilityOption,
         ticketTypes,
         transferPenalty,
+        maxWalkDistance,
         ignoreRealtimeUpdates,
         maxPreTransitTime,
         walkOnStreetReluctance,
@@ -233,11 +261,7 @@ export const preparePlanParams = config => (
         walkSpeed:
           walkSpeed !== undefined ? Number(walkSpeed) : settings.walkSpeed,
         arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        maxWalkDistance:
-          typeof modes === 'undefined' ||
-          (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
-            ? config.maxWalkDistance
-            : config.maxBikingDistance,
+        maxWalkDistance: getMaxWalkDistance(modes, maxWalkDistance, settings, config),
         wheelchair:
           accessibilityOption !== undefined
             ? Number(accessibilityOption) === 1
@@ -246,62 +270,20 @@ export const preparePlanParams = config => (
           transferPenalty !== undefined
             ? Number(transferPenalty)
             : settings.transferPenalty,
-        ignoreRealtimeUpdates:
-          ignoreRealtimeUpdates !== undefined
-            ? isTrue(ignoreRealtimeUpdates)
-            : settings.ignoreRealtimeUpdates,
-        maxPreTransitTime:
-          maxPreTransitTime !== undefined
-            ? Number(maxPreTransitTime)
-            : settings.maxPreTransitTime,
-        walkOnStreetReluctance:
-          walkOnStreetReluctance !== undefined
-            ? Number(walkOnStreetReluctance)
-            : settings.walkOnStreetReluctance,
-        waitReluctance:
-          waitReluctance !== undefined
-            ? Number(waitReluctance)
-            : settings.waitReluctance,
-        bikeSpeed:
-          bikeSpeed !== undefined
-            ? Number(bikeSpeed)
-            : settings.bikeSpeed,
-        bikeSwitchTime:
-          bikeSwitchTime !== undefined
-            ? Number(bikeSwitchTime)
-            : settings.bikeSwitchTime,
-        bikeSwitchCost:
-          bikeSwitchCost !== undefined
-            ? Number(bikeSwitchCost)
-            : settings.bikeSwitchCost,
-        bikeBoardCost:
-          bikeBoardCost !== undefined
-            ? Number(bikeBoardCost)
-            : settings.bikeBoardCost,
-        carParkCarLegWeight:
-          carParkCarLegWeight !== undefined
-            ? Number(carParkCarLegWeight)
-            : settings.carParkCarLegWeight,
-        maxTransfers:
-          maxTransfers !== undefined
-            ? Number(maxTransfers)
-            : settings.maxTransfers,
-        waitAtBeginningFactor:
-          waitAtBeginningFactor !== undefined
-            ? Number(waitAtBeginningFactor)
-            : settings.waitAtBeginningFactor,
-        heuristicStepsPerMainStep:
-          heuristicStepsPerMainStep !== undefined
-            ? Number(heuristicStepsPerMainStep)
-            : settings.heuristicStepsPerMainStep,
-        compactLegsByReversedSearch:
-          compactLegsByReversedSearch !== undefined
-            ? isTrue(compactLegsByReversedSearch)
-            : settings.compactLegsByReversedSearch,
-        itineraryFiltering:
-          itineraryFiltering !== undefined
-            ? Number(itineraryFiltering)
-            : settings.itineraryFiltering,
+        ignoreRealtimeUpdates: settings.ignoreRealtimeUpdates,
+        maxPreTransitTime: settings.maxPreTransitTime,
+        walkOnStreetReluctance: settings.walkOnStreetReluctance,
+        waitReluctance: settings.waitReluctance,
+        bikeSpeed: settings.bikeSpeed,
+        bikeSwitchTime: settings.bikeSwitchTime,
+        bikeSwitchCost: settings.bikeSwitchCost,
+        bikeBoardCost: settings.bikeBoardCost,
+        carParkCarLegWeight: settings.carParkCarLegWeight,
+        maxTransfers: settings.maxTransfers,
+        waitAtBeginningFactor: settings.waitAtBeginningFactor,
+        heuristicStepsPerMainStep: settings.heuristicStepsPerMainStep,
+        compactLegsByReversedSearch: settings.compactLegsByReversedSearch,
+        itineraryFiltering: settings.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic:
           modes && modes.split(',').includes('CITYBIKE'),
