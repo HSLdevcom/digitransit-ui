@@ -309,19 +309,6 @@ class SummaryPlanContainer extends React.Component {
           preferred:$preferred,
           modes:$modes
           transferPenalty:$transferPenalty,
-          ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
-          maxPreTransitTime: $maxPreTransitTime,
-          walkOnStreetReluctance: $walkOnStreetReluctance,
-          waitReluctance: $waitReluctance,
-          bikeSpeed: $bikeSpeed,
-          bikeSwitchTime: $bikeSwitchTime,
-          bikeSwitchCost: $bikeSwitchCost,
-          bikeBoardCost: $bikeBoardCost,
-          carParkCarLegWeight: $carParkCarLegWeight,
-          maxTransfers: $maxTransfers,
-          waitAtBeginningFactor: $waitAtBeginningFactor,
-          heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
-          compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
         ) {itineraries {startTime,endTime}}
       }
