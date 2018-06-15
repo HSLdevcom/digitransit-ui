@@ -1,11 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import { describe, it } from 'mocha';
+import { shallow } from 'enzyme';
+import { before, describe, it } from 'mocha';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
-
-configure({ adapter: new Adapter() });
 
 describe('<OriginDestinationBar />', () => {
   const exampleViapoints = [
@@ -28,18 +25,22 @@ describe('<OriginDestinationBar />', () => {
     return fn;
   };
 
-  const wrapper = shallow(<OriginDestinationBar />, {
-    context: {
-      location: { query: exampleQuery },
-      router: { replace: mockFunction },
-    },
-  });
+  let wrapper;
+  let wrapperNoParams;
 
-  const wrapperNoParams = shallow(<OriginDestinationBar />, {
-    context: {
-      location: { query: '' },
-      router: { replace: mockFunction },
-    },
+  before(() => {
+    wrapper = shallow(<OriginDestinationBar />, {
+      context: {
+        location: { query: exampleQuery },
+        router: { replace: mockFunction },
+      },
+    });
+    wrapperNoParams = shallow(<OriginDestinationBar />, {
+      context: {
+        location: { query: '' },
+        router: { replace: mockFunction },
+      },
+    });
   });
 
   it('should initialize viapoints from url', () => {
