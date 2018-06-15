@@ -11,7 +11,7 @@ const AppBarSmall = (
   { disableBackButton, showLogo, title, homeUrl },
   { config },
 ) => (
-  <div>
+  <React.Fragment>
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
@@ -25,7 +25,7 @@ const AppBarSmall = (
       <MainMenuContainer homeUrl={homeUrl} />
     </nav>
     <MessageBar />
-  </div>
+  </React.Fragment>
 );
 
 AppBarSmall.displayName = 'AppBarSmall';

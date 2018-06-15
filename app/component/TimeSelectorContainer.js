@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Relay from 'react-relay/classic';
 import { routerShape, locationShape } from 'react-router';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
@@ -24,23 +23,17 @@ class TimeSelectorContainer extends Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    time: PropTypes.number.isRequired,
+    time: PropTypes.instanceOf(moment).isRequired,
     arriveBy: PropTypes.string.isRequired,
     now: PropTypes.shape({}).isRequired,
   };
 
   getDates() {
-    const MAXRANGE = 30; // limit day selection to sensible range ?
     const dates = [];
-    const range = this.props.serviceTimeRange;
     const { now } = this.props;
-    const START = now.clone().subtract(MAXRANGE, 'd');
-    const END = now.clone().add(MAXRANGE, 'd');
-    let start = moment.unix(range.start);
-    start = moment.min(moment.max(start, START), now); // always include today!
-    let end = moment.unix(range.end);
-    end = moment.max(moment.min(end, END), now); // always include today!
-    end = end.endOf('day'); // make sure last day is included, while is comparing timestamps
+    const start = moment.unix(this.props.serviceTimeRange.start);
+    const end = moment.unix(this.props.serviceTimeRange.end);
+
     const tomorrow = now.clone().add(1, 'd');
     const endValue = end.unix();
     start.hours(this.props.time.hours());
@@ -140,17 +133,6 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
   now: context.getStore('TimeStore').getCurrentTime(),
 }));
 
-const withLocation = getContext({
+export default getContext({
   location: locationShape.isRequired,
 })(withNow);
-
-export default Relay.createContainer(withLocation, {
-  fragments: {
-    serviceTimeRange: () => Relay.QL`
-      fragment on serviceTimeRange {
-        start
-        end
-      }
-    `,
-  },
-});
