@@ -1,4 +1,5 @@
 import { intersection, isEmpty, isString, sortedUniq, without } from 'lodash';
+import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 
 /**
@@ -86,23 +87,6 @@ export const buildStreetModeQuery = (
 };
 
 /**
- * Updates the browser's url with the given parameters.
- *
- * @param {*} router The router
- * @param {*} location The current location
- * @param {*} newParams The location query params to apply
- */
-export const replaceQueryParams = (router, location, newParams) => {
-  router.replace({
-    ...location,
-    query: {
-      ...location.query,
-      ...newParams,
-    },
-  });
-};
-
-/**
  * Retrieves the related OTP mode from the given configuration, if available.
  * This will return undefined if the given mode cannot be mapped.
  *
@@ -174,7 +158,7 @@ export const getDefaultModes = config => [
  * both available and marked as default and maps them to their OTP counterparts.
  *
  * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of OTP modes
+ * @returns {String} a comma-separated list of OTP modes
  */
 export const getDefaultOTPModes = config =>
   filterModes(config, getDefaultModes(config));

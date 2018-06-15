@@ -138,6 +138,19 @@ class SummaryNavigation extends React.Component {
     }
   };
 
+  renderStreetModeSelector = (config, router) =>
+    config.features.showStreetModeQuickSelect && (
+      <div className="street-mode-selector-panel-container">
+        <StreetModeSelectorPanel
+          selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+          selectStreetMode={(streetMode, isExclusive) =>
+            ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+          }
+          streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+        />
+      </div>
+    );
+
   render() {
     const { config, router } = this.context;
     const quickSettingsIcon = this.checkQuickSettingsIcon();

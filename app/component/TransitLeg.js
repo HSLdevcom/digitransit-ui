@@ -201,9 +201,9 @@ class TransitLeg extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {[].concat([this.renderMain()]).concat([this.renderIntermediate()])}
-      </div>
+      </React.Fragment>
     );
   }
 }

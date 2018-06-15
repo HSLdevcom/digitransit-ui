@@ -130,7 +130,7 @@ class SummaryPlanContainer extends React.Component {
       );
 
       const tunedParams = {
-        ...{ modes: getDefaultOTPModes(this.props.config).join(',') },
+        ...{ modes: getDefaultOTPModes(this.props.config) },
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
@@ -201,7 +201,7 @@ class SummaryPlanContainer extends React.Component {
       );
 
       const tunedParams = {
-        ...{ modes: getDefaultOTPModes(this.props.config).join(',') },
+        ...{ modes: getDefaultOTPModes(this.props.config) },
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
