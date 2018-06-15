@@ -1,6 +1,7 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 const { Provider, Consumer } = createContext('large');
 
@@ -58,6 +59,10 @@ export class ClientProvider extends React.Component {
 }
 
 export const BreakpointProvider = Provider;
+
+/**
+ * Extracts breakpoint information (can be one of: large, medium and small) from the context.
+ */
 export const BreakpointConsumer = Consumer;
 
 export function DesktopOrMobile({ desktop, mobile }) {
@@ -73,12 +78,46 @@ DesktopOrMobile.propTypes = {
   mobile: PropTypes.func.isRequired,
 };
 
-export default function withBreakpoint(Component) {
-  return function WithBreakpoint(props) {
-    return (
-      <Consumer>
-        {breakpoint => <Component {...props} breakpoint={breakpoint} />}
-      </Consumer>
-    );
-  };
+function getDisplayName(Component) {
+  return Component.displayName || Component.name || 'Component';
 }
+
+/**
+ * Extends the given Component with breakpoint handling. The breakpoint is
+ * extracted from context and given to the extended component as a property.
+ *
+ * @param {*} Component The component to extend with breakpoint handling
+ * @param {boolean} forwardRef Whether any ref given to the HOC should be forwarded to the extended Component.
+ */
+function withBreakpoint(Component, { forwardRef } = { forwardRef: false }) {
+  // eslint-disable-next-line react/no-multi-comp
+  class WithBreakpoint extends React.Component {
+    render() {
+      // eslint-disable-next-line react/prop-types
+      const { breakpoint, forwardedRef, ...rest } = this.props;
+      return <Component breakpoint={breakpoint} ref={forwardedRef} {...rest} />;
+    }
+  }
+  WithBreakpoint.displayName = `WithBreakpoint(${getDisplayName(Component)})`;
+  hoistNonReactStatics(WithBreakpoint, Component);
+
+  return forwardRef
+    ? React.forwardRef((props, ref) => (
+        <Consumer>
+          {breakpoint => (
+            <WithBreakpoint
+              {...props}
+              breakpoint={breakpoint}
+              forwardedRef={ref}
+            />
+          )}
+        </Consumer>
+      ))
+    : props => (
+        <Consumer>
+          {breakpoint => <WithBreakpoint {...props} breakpoint={breakpoint} />}
+        </Consumer>
+      );
+}
+
+export default withBreakpoint;

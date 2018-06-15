@@ -4164,13 +4164,13 @@ envinfo@^5.7.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-5.10.0.tgz#503a9774ae15b93ea68bdfae2ccd6306624ea6df"
 
-"enzyme-adapter-react-16@npm:enzyme-react-adapter-future":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/enzyme-react-adapter-future/-/enzyme-react-adapter-future-1.1.3.tgz#f0c102f098086a0ad0270bbdaf9da5113297dc05"
+enzyme-adapter-react-16@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.1.1.tgz#a8f4278b47e082fbca14f5bfb1ee50ee650717b4"
   dependencies:
     enzyme-adapter-utils "^1.3.0"
     lodash "^4.17.4"
-    object.assign "^4.1.0"
+    object.assign "^4.0.4"
     object.values "^1.0.4"
     prop-types "^15.6.0"
     react-reconciler "^0.7.0"
@@ -5870,13 +5870,13 @@ hoek@4.x.x:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
 
+hoist-non-react-statics@2.5.4, hoist-non-react-statics@^2.3.1:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.4.tgz#fc3b1ac05d2ae3abedec84eba846511b0d4fcc4f"
+
 hoist-non-react-statics@^1.0.4:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
-
-hoist-non-react-statics@^2.3.1:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.4.tgz#fc3b1ac05d2ae3abedec84eba846511b0d4fcc4f"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
