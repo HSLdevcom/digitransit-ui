@@ -4,11 +4,6 @@ import { routerShape, locationShape } from 'react-router';
 import AdminForm from './AdminForm';
 
 class AdminPage extends React.Component {
-  static propTypes = {
-    router: routerShape.isRequired,
-    location: locationShape.isRequired,
-  };
-  
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };
@@ -16,21 +11,20 @@ class AdminPage extends React.Component {
   state = { loading: true };
 
   componentDidMount() {
-    const router = this.props.router;
     if (this.context.config.CONFIG != 'default') {
       const OTPURLSplit = this.context.config.URL.OTP.split('/');
       const dataContainerURL = `${this.context.config.URL.API_URL}/routing-data/v2/${OTPURLSplit[OTPURLSplit.length - 2]}/router-config.json`;
       fetch(dataContainerURL).then(res => {
         res.json().then(json => {
-          this.setState({ router, loading: false, dataConDefaults: json.routingDefaults});
+          this.setState({ loading: false, dataConDefaults: json.routingDefaults});
         }).catch((err) => {
-          this.setState({ router, loading: false, dataConDefaults: {}});
+          this.setState({ loading: false, dataConDefaults: {}});
         })
       }).catch((err) => {
-        this.setState({ router, loading: false, dataConDefaults: {}});
+        this.setState({ loading: false, dataConDefaults: {}});
       });
     } else {
-      this.setState({ router, loading: false, dataConDefaults: {}});
+      this.setState({ loading: false, dataConDefaults: {}});
     }
   };
 

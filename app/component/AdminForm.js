@@ -8,6 +8,7 @@ import Loading from './Loading';
 class AdminForm extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
   };
 
   renderLoading() {
@@ -19,8 +20,8 @@ class AdminForm extends React.Component {
   }
   
   renderForm() {
-    const { router, dataConDefaults } = this.props;
-    const location = router.location;
+    const { dataConDefaults } = this.props;
+    const location = this.context.router.location;
     const OTPDefaults = {
       ignoreRealtimeUpdates: false,
       maxPreTransitTime: 1800,
@@ -63,7 +64,7 @@ class AdminForm extends React.Component {
 
     const updateSelectParam = (param, target) => {
       const newValue = target.value;
-      router.replace({
+      this.context.router.replace({
         pathname: location.pathname,
         query: {
           ...location.query,
@@ -78,7 +79,7 @@ class AdminForm extends React.Component {
         alert(`Insert a number that is greater than or equal to ${min}`);
         target.value = mergedCurrent[param];
       }
-      router.replace({
+      this.context.router.replace({
         pathname: location.pathname,
         query: {
           ...location.query,
@@ -90,7 +91,7 @@ class AdminForm extends React.Component {
     const resetParameters = () => {
       console.log(location.query);
       resetRoutingSettings();
-      router.replace({
+      this.context.router.replace({
         pathname: location.pathname,
         query: {},
       });

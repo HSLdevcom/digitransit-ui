@@ -42,7 +42,7 @@ function setTicketTypes(ticketType, settingsTicketType) {
 }
 
 function isTrue(val) {
-  return val == "true";
+  return val === "true";
 }
 
 function nullOrUndefined(val) {
