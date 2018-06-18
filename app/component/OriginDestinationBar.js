@@ -8,6 +8,7 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -114,15 +115,26 @@ export default class OriginDestinationBar extends React.Component {
           toggleViaPoint={this.toggleViaPoint}
         />
         <div className="itinerary-search-controls">
-          <div className="switch" onClick={() => this.swapEndpoints()}>
+          <div
+            className="switch"
+            onClick={() => this.swapEndpoints()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.swapEndpoints()
+            }
+            tabIndex="0"
+          >
             <span>
               <Icon img="icon-icon_direction-b" />
             </span>
           </div>
           <div
             className="addViaPoint"
-            style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
             onClick={() => this.toggleViaPoint(true)}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.toggleViaPoint(true)
+            }
+            style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
+            tabIndex="0"
           >
             <span>
               <Icon img="icon-icon_plus" />

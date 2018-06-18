@@ -7,7 +7,7 @@ import Icon from './Icon';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import { dtLocationShape } from '../util/shapes';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
-import { isIe } from '../util/browser';
+import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
 /**
@@ -199,7 +199,12 @@ class DTAutosuggestPanel extends React.Component {
                       ? this.props.removeViapoints(i)
                       : this.props.toggleViaPoint(false)
                   }
-                  onKeyPress={() => this.props.removeViapoints(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.props.viaPointNames.length > 1
+                      ? this.props.removeViapoints(i)
+                      : this.props.toggleViaPoint(false)
+                  }
                 >
                   <span>
                     <Icon img="icon-icon_close" />
@@ -217,7 +222,10 @@ class DTAutosuggestPanel extends React.Component {
                         : 'block',
                   }}
                   onClick={() => this.props.addMoreViapoints(i)}
-                  onKeyPress={() => this.props.addMoreViapoints(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.props.addMoreViapoints(i)
+                  }
                 >
                   <span>
                     <Icon img="icon-icon_plus" />
