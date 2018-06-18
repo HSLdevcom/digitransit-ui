@@ -80,7 +80,7 @@ class RoutingSettingsButtons extends React.Component {
         : undefined,
     };
 
-    if (Number(settings.safetyFactor) + Number(settings.slopeFactor) + Number(settings.timeFactor) !== 1.0) {
+    if (settings.optimize === 'TRIANGLE' && Number(settings.safetyFactor) + Number(settings.slopeFactor) + Number(settings.timeFactor) !== 1.0) {
       alert("Cycling safety, slope, and time factors should equal to 1.0");
     } else {
       setRoutingSettings(settings);

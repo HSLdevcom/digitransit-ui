@@ -77,6 +77,26 @@ class AdminForm extends React.Component {
       });
     };
 
+    const updateOptimize = (param, target) => {
+      const newValue = target.value;
+      const currentTriangle =
+        newValue === 'TRIANGLE'
+        ? {
+            safetyFactor: merged.safetyFactor,
+            slopeFactor: merged.slopeFactor,
+            timeFactor: merged.timeFactor,
+          }
+        : {};
+      this.context.router.replace({
+        pathname: location.pathname,
+        query: {
+          ...location.query,
+          ...currentTriangle,
+          [param]: newValue,
+        },
+      });
+    };
+
     const updateInputParam = (param, target, min) => {
       const newValue = target.value;
       if (newValue < min) {
@@ -101,16 +121,10 @@ class AdminForm extends React.Component {
         alert(`Insert a number that is greater than or equal to 1`)
         target.value = mergedCurrent[param];
       }
-      let currentTriangle = {
-        safetyFactor: merged.safetyFactor,
-        slopeFactor: merged.slopeFactor,
-        timeFactor: merged.timeFactor,
-      };
       this.context.router.replace({
         pathname: location.pathname,
         query: {
           ...location.query,
-          ...currentTriangle,
           [param]: newValue,
         },
       });
@@ -134,7 +148,7 @@ class AdminForm extends React.Component {
           Routing optimization type for cycling. QUICK finds the quickest routes, SAFE prefers routes that are safer and GREENWAYS prefers travel through paths and parks. TRIANGLE allows to configure the emphasis on safety, avoiding slopes and travel time. (default {defaultRoutingSettings.optimize}, parameter name: optimize):
           <select
             value={merged.optimize}
-            onChange={(e) => updateSelectParam('optimize', e.target)}
+            onChange={(e) => updateOptimize('optimize', e.target)}
           >
             <option value="QUICK">
               QUICK
