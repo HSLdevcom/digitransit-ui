@@ -76,7 +76,7 @@
     "fluxible-addons-react": "0.2.14",
     "foundation-apps": "1.2.0",
     "history": "3.3.0",
-    "hoist-non-react-statics": "2.5.4",
+    "hoist-non-react-statics": "2.5.5",
     "htm-to-json": "0.1.4",
     "intl": "1.2.5",
     "isomorphic-relay": "github:hannesj/isomorphic-relay#feature-relay-1-public",
