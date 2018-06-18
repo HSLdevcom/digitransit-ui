@@ -72,6 +72,7 @@ class MainMenuContainer extends Component {
             open={this.getOffcanvasState()}
             openSecondary
             onRequestChange={this.onRequestChange}
+            style={{ position: 'absolute' }}
           >
             <MainMenu
               toggleVisibility={this.toggleOffcanvas}

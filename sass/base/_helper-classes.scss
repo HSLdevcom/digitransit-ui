@@ -91,9 +91,9 @@
 .inline-block {
   display: inline-block;
 }
-.clear  {
-  float:none;
-  clear:both;
+.clear {
+  float: none;
+  clear: both;
 }
 // parent DOM-element requires overflow:hidden; height: x;
 .scrollable {
@@ -108,15 +108,15 @@
 }
 
 @media print {
-    .fullscreen {
-      height: auto;
-    }
+  .fullscreen {
+    height: auto;
+  }
 }
 
-.padding-small  {
+.padding-small {
   padding: 0.45em 1em;
 }
-.padding-normal  {
+.padding-normal {
   padding: 0.7em 1em;
 }
 .padding-vertical-small {
@@ -131,10 +131,10 @@
 .padding-horizontal-large {
   padding: 0 2em;
 }
-.no-padding  {
+.no-padding {
   padding: 0 !important;
 }
-.no-margin  {
+.no-margin {
   margin: 0 !important;
 }
 /* Appearance */
@@ -147,25 +147,25 @@
 .bold {
   font-weight: $font-weight-bold;
 }
-.no-decoration  {
+.no-decoration {
   text-decoration: none;
 }
 .large-text {
   font-size: 1.1em;
 }
-.uppercase  {
+.uppercase {
   text-transform: uppercase;
 }
 .capitalize {
   text-transform: capitalize;
 }
-.hover  {
+.hover {
   &:hover {
-    opacity:0.8;
+    opacity: 0.8;
     transition: 0.1s ease-in-out;
   }
 }
-.hide-dropdown  {
+.hide-dropdown {
   background-image: none;
 }
 .large-icon {
@@ -179,14 +179,17 @@ body .large {
     height: 20px;
   }
 }
-.border-bottom  {
+.border-bottom {
   border-bottom: 1px solid $light-gray;
 }
-.border-top  {
+.border-top {
   border-top: 1px solid $light-gray;
 }
-.border-dashed  {
+.border-dashed {
   border: 1px dashed $light-gray;
+}
+.collapsed {
+  display: none;
 }
 .hidden {
   visibility: hidden;
