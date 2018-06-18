@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 function Icon(props) {
   return (
-    <span aria-hidden>
+    <span aria-hidden style={{ pointerEvents: 'none' }}>
       <svg
         id={props.id}
         style={{ fill: props.color ? props.color : null }}
