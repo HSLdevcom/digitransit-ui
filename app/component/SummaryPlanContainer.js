@@ -284,6 +284,8 @@ class SummaryPlanContainer extends React.Component {
       $bikeSwitchTime: Int!,
       $bikeSwitchCost: Int!,
       $bikeBoardCost: Int!,
+      $optimize: String!,
+      $triangle: InputTriangle!,
       $carParkCarLegWeight: Float!,
       $maxTransfers: Int!,
       $waitAtBeginningFactor: Float!,

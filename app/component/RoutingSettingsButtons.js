@@ -45,6 +45,18 @@ class RoutingSettingsButtons extends React.Component {
       bikeBoardCost: this.context.location.query.bikeBoardCost
         ? this.context.location.query.bikeBoardCost
         : undefined,
+      optimize: this.context.location.query.optimize
+        ? this.context.location.query.optimize
+        : undefined,
+      safetyFactor: this.context.location.query.safetyFactor
+        ? this.context.location.query.safetyFactor
+        : undefined,
+      slopeFactor: this.context.location.query.slopeFactor
+        ? this.context.location.query.slopeFactor
+        : undefined,
+      timeFactor: this.context.location.query.timeFactor
+        ? this.context.location.query.timeFactor
+        : undefined,
       carParkCarLegWeight: this.context.location.query.carParkCarLegWeight
         ? this.context.location.query.carParkCarLegWeight
         : undefined,
@@ -67,8 +79,13 @@ class RoutingSettingsButtons extends React.Component {
         ? this.context.location.query.itineraryFiltering
         : undefined,
     };
-    setRoutingSettings(settings);
-    alert('Settings updated');
+
+    if (Number(settings.safetyFactor) + Number(settings.slopeFactor) + Number(settings.timeFactor) !== 1.0) {
+      alert("Cycling safety, slope, and time factors should equal to 1.0");
+    } else {
+      setRoutingSettings(settings);
+      alert('Settings updated');
+    }
   };
 
   resetSettings = () => {

@@ -31,6 +31,10 @@ class AdminForm extends React.Component {
       bikeSwitchTime: 0,
       bikeSwitchCost: 0,
       bikeBoardCost: 600,
+      optimize: 'QUICK',
+      safetyFactor: 0.334,
+      slopeFactor: 0.333,
+      timeFactor: 0.333,
       carParkCarLegWeight: 1,
       maxTransfers: 2,
       waitAtBeginningFactor: 0.4,
@@ -88,6 +92,30 @@ class AdminForm extends React.Component {
       });
     };
 
+    const updateTriangleParam = (param, target) => {
+      const newValue = target.value;
+      if (newValue < 0) {
+        alert(`Insert a number that is greater than or equal to 0`);
+        target.value = mergedCurrent[param];
+      } else if (newValue > 1) {
+        alert(`Insert a number that is greater than or equal to 1`)
+        target.value = mergedCurrent[param];
+      }
+      let currentTriangle = {
+        safetyFactor: merged.safetyFactor,
+        slopeFactor: merged.slopeFactor,
+        timeFactor: merged.timeFactor,
+      };
+      this.context.router.replace({
+        pathname: location.pathname,
+        query: {
+          ...location.query,
+          ...currentTriangle,
+          [param]: newValue,
+        },
+      });
+    };
+
     const resetParameters = () => {
       console.log(location.query);
       resetRoutingSettings();
@@ -99,6 +127,44 @@ class AdminForm extends React.Component {
 
     return (
       <div className="page-frame fullscreen momentum-scroll">
+        <label>
+          Routing optimization type for cycling. QUICK finds the quickest routes, SAFE prefers routes that are safer and GREENWAYS prefers travel through paths and parks. TRIANGLE allows to configure the emphasis on safety, avoiding slopes and travel time. (default {defaultRoutingSettings.optimize}):
+          <select
+            value={merged.optimize}
+            onChange={(e) => updateSelectParam('optimize', e.target)}
+          >
+            <option value="QUICK">
+              QUICK
+            </option>
+            <option value="SAFE">
+              SAFE
+            </option>
+            <option value="GREENWAYS">
+              GREENWAYS
+            </option>
+            <option value="TRIANGLE">
+              TRIANGLE
+            </option>
+          </select>
+        </label>
+        {merged.optimize === 'TRIANGLE' &&
+          <React.Fragment>
+          <h3>The sum of the following three values should equal to 1.0</h3>
+          <label>
+            Relative importance of safety in cycling (default {defaultRoutingSettings.safetyFactor}).
+            <input type="number" step="any" min="0" onInput={(e) => updateTriangleParam('safetyFactor', e.target)} onChange={(e) => updateTriangleParam('safetyFactor', e.target)} value={merged.safetyFactor}/>
+          </label>
+          <label>
+            Relative importance of avoiding slopes in cycling. (default {defaultRoutingSettings.slopeFactor}).
+            <input type="number" step="any" min="0" onInput={(e) => updateTriangleParam('slopeFactor', e.target)} onChange={(e) => updateTriangleParam('slopeFactor', e.target)} value={merged.slopeFactor}/>
+          </label>
+          <label>
+            Relative importance of travel time optimizatio in cycling. (default {defaultRoutingSettings.timeFactor}).
+            <input type="number" step="any" min="0" onInput={(e) => updateTriangleParam('timeFactor', e.target)} onChange={(e) => updateTriangleParam('timeFactor', e.target)} value={merged.timeFactor}/>
+          </label>
+          </React.Fragment>
+        }
+        <hr />
         <label>
           Soft limit for maximum walking distance in meters (default {defaultRoutingSettings.maxWalkDistance})
           <input type="number" step="any" min="0" onInput={(e) => updateInputParam('maxWalkDistance', e.target, 0)} onChange={(e) => updateInputParam('maxWalkDistance', e.target, 0)} value={merged.maxWalkDistance}/>

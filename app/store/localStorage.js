@@ -144,6 +144,18 @@ export function setRoutingSettings(data) {
     bikeBoardCost: data.bikeBoardCost
       ? data.bikeBoardCost
       : oldSettings.bikeBoardCost,
+    optimize: data.optimize
+      ? data.optimize
+      : oldSettings.optimize,
+    safetyFactor: data.safetyFactor
+      ? data.safetyFactor
+      : oldSettings.safetyFactor,
+    slopeFactor: data.slopeFactor
+      ? data.slopeFactor
+      : oldSettings.slopeFactor,
+    timeFactor: data.timeFactor
+      ? data.timeFactor
+      : oldSettings.timeFactor,
     carParkCarLegWeight: data.carParkCarLegWeight
       ? data.carParkCarLegWeight
       : oldSettings.carParkCarLegWeight,

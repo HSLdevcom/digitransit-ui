@@ -158,6 +158,22 @@ export const getSettings = () => {
       routingSettings.bikeBoardCost !== undefined
         ? Number(routingSettings.bikeBoardCost)
         : undefined,
+    optimize:
+      routingSettings.optimize !== undefined
+        ? routingSettings.optimize
+        : undefined,
+    safetyFactor:
+      routingSettings.safetyFactor !== undefined
+        ? Number(routingSettings.safetyFactor)
+        : undefined,
+    slopeFactor:
+      routingSettings.slopeFactor !== undefined
+        ? Number(routingSettings.slopeFactor)
+        : undefined,
+    timeFactor:
+      routingSettings.timeFactor !== undefined
+        ? Number(routingSettings.timeFactor)
+        : undefined,
     carParkCarLegWeight:
       routingSettings.carParkCarLegWeight !== undefined
         ? Number(routingSettings.carParkCarLegWeight)
@@ -231,6 +247,10 @@ export const preparePlanParams = config => (
         bikeSwitchTime,
         bikeSwitchCost,
         bikeBoardCost,
+        optimize,
+        safetyFactor,
+        slopeFactor,
+        timeFactor,
         carParkCarLegWeight,
         maxTransfers,
         waitAtBeginningFactor,
@@ -294,6 +314,15 @@ export const preparePlanParams = config => (
         bikeSwitchTime: settings.bikeSwitchTime,
         bikeSwitchCost: settings.bikeSwitchCost,
         bikeBoardCost: settings.bikeBoardCost,
+        optimize: settings.optimize,
+        triangle:
+          settings.optimize === 'TRIANGLE'
+          ? {
+            safetyFactor: settings.safetyFactor,
+            slopeFactor: settings.slopeFactor,
+            timeFactor: settings.timeFactor,
+          }
+          : null,
         carParkCarLegWeight: settings.carParkCarLegWeight,
         maxTransfers: settings.maxTransfers,
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
