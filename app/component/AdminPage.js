@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape, locationShape } from 'react-router';
 import AdminForm from './AdminForm';
 
 class AdminPage extends React.Component {
