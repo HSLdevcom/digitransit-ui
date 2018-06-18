@@ -14,7 +14,7 @@ import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
-import withBreakpoint from '../util/withBreakpoint';
+import { BreakpointConsumer } from '../util/withBreakpoint';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -22,7 +22,6 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     location: PropTypes.object,
     focus: PropTypes.func.isRequired,
-    breakpoint: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -68,54 +67,57 @@ class ItineraryTab extends React.Component {
 
     return (
       <div className="itinerary-tab">
-        {this.props.breakpoint !== 'large' && (
-          <ItinerarySummary itinerary={this.props.itinerary}>
-            <TimeFrame
-              startTime={this.props.itinerary.startTime}
-              endTime={this.props.itinerary.endTime}
-              refTime={this.props.searchTime}
-              className="timeframe--itinerary-summary"
-            />
-          </ItinerarySummary>
-        )}
-        {this.props.breakpoint === 'large' && (
-          <div className="itinerary-timeframe">
-            <DateWarning
-              date={this.props.itinerary.startTime}
-              refTime={this.props.searchTime}
-            />
-          </div>
-        )}
-        <div className="momentum-scroll itinerary-tabs__scroll">
-          <div
-            className={cx('itinerary-main', {
-              'bp-large': this.props.breakpoint === 'large',
-            })}
-          >
-            <ItineraryLegs
-              itinerary={this.props.itinerary}
-              focusMap={this.handleFocus}
-            />
-            {config.showTicketInformation && (
-              <TicketInformation fares={this.props.itinerary.fares} />
-            )}
-            {routeInformation}
-          </div>
-          <div className="row print-itinerary-button-container">
-            <SecondaryButton
-              ariaLabel="print"
-              buttonName="print"
-              buttonClickAction={e => this.printItinerary(e)}
-              buttonIcon="icon-icon_print"
-            />
-          </div>
-        </div>
+        <BreakpointConsumer>
+          {breakpoint => [
+            breakpoint !== 'large' ? (
+              <ItinerarySummary itinerary={this.props.itinerary} key="summary">
+                <TimeFrame
+                  startTime={this.props.itinerary.startTime}
+                  endTime={this.props.itinerary.endTime}
+                  refTime={this.props.searchTime}
+                  className="timeframe--itinerary-summary"
+                />
+              </ItinerarySummary>
+            ) : (
+              <div className="itinerary-timeframe" key="timeframe">
+                <DateWarning
+                  date={this.props.itinerary.startTime}
+                  refTime={this.props.searchTime}
+                />
+              </div>
+            ),
+            <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
+              <div
+                className={cx('itinerary-main', {
+                  'bp-large': breakpoint === 'large',
+                })}
+              >
+                <ItineraryLegs
+                  itinerary={this.props.itinerary}
+                  focusMap={this.handleFocus}
+                />
+                {config.showTicketInformation && (
+                  <TicketInformation fares={this.props.itinerary.fares} />
+                )}
+                {routeInformation}
+              </div>
+              <div className="row print-itinerary-button-container">
+                <SecondaryButton
+                  ariaLabel="print"
+                  buttonName="print"
+                  buttonClickAction={e => this.printItinerary(e)}
+                  buttonIcon="icon-icon_print"
+                />
+              </div>
+            </div>,
+          ]}
+        </BreakpointConsumer>
       </div>
     );
   }
 }
 
-export default Relay.createContainer(withBreakpoint(ItineraryTab), {
+export default Relay.createContainer(ItineraryTab, {
   fragments: {
     searchTime: () => Relay.QL`
       fragment on Plan {
