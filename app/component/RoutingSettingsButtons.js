@@ -106,7 +106,12 @@ class RoutingSettingsButtons extends React.Component {
       setRoutingSettings(settings);
       this.setState({
         open: true,
-        message: 'Changes saved!',
+        message:
+          <FormattedMessage
+            tagName="span"
+            defaultMessage="Tallenna asetukset"
+            id="settings-saved"
+          />
       });
     }
   };

@@ -135,7 +135,6 @@ class AdminForm extends React.Component {
     };
 
     const resetParameters = () => {
-      console.log(location.query);
       resetRoutingSettings();
       this.context.router.replace({
         pathname: location.pathname,
