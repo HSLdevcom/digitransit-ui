@@ -121,6 +121,7 @@ export default class OriginDestinationBar extends React.Component {
             onKeyPress={e =>
               isKeyboardSelectionEvent(e) && this.swapEndpoints()
             }
+            role="button"
             tabIndex="0"
           >
             <span>
@@ -133,6 +134,7 @@ export default class OriginDestinationBar extends React.Component {
             onKeyPress={e =>
               isKeyboardSelectionEvent(e) && this.toggleViaPoint(true)
             }
+            role="button"
             style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
             tabIndex="0"
           >
