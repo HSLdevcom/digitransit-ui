@@ -2,6 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { before, describe, it } from 'mocha';
+
+import { mockContext, mockChildContextTypes } from './helpers/mock-context';
+import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
 
 describe('<OriginDestinationBar />', () => {
@@ -85,5 +88,62 @@ describe('<OriginDestinationBar />', () => {
     });
     wrapperNoParams.instance().removeViapoints(0);
     expect(wrapperNoParams.state('isViaPoint')).to.equal(false);
+  });
+
+  it('should show the add via point button after removing an empty via point with a keypress', () => {
+    const props = {
+      initialViaPoints: [' '],
+      origin: {},
+    };
+    const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
+      context: {
+        ...mockContext,
+        location: { query: '' },
+        router: { replace: mockFunction },
+      },
+      childContextTypes: mockChildContextTypes,
+    });
+
+    comp.find('.itinerary-search-controls > .addViaPoint').simulate('click');
+    comp.find('.removeViaPoint').simulate('keypress', { key: 'Enter' });
+
+    expect(comp.find('.viapoints-list').prop('style')).to.deep.equal({
+      display: 'none',
+    });
+    expect(
+      comp.find('.itinerary-search-controls > .addViaPoint').prop('style'),
+    ).to.deep.equal({
+      display: 'block',
+    });
+  });
+
+  it('should add a via point after adding and then removing a viapoint with a keypress', () => {
+    const props = {
+      initialViaPoints: [' '],
+      origin: {},
+    };
+    const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
+      context: {
+        ...mockContext,
+        location: { query: '' },
+        router: { replace: mockFunction },
+      },
+      childContextTypes: mockChildContextTypes,
+    });
+
+    comp.find('.itinerary-search-controls > .addViaPoint').simulate('click');
+    comp.find('.removeViaPoint').simulate('keypress', { key: 'Enter' });
+    comp.find('.itinerary-search-controls > .addViaPoint').simulate('click');
+
+    expect(
+      comp.find('.itinerary-search-controls > .addViaPoint').prop('style'),
+    ).to.deep.equal({
+      display: 'none',
+    });
+    expect(comp.find('.viapoints-list').length).to.equal(1);
+    expect(comp.find('.viapoints-list').prop('style')).to.deep.equal({
+      display: 'block',
+    });
+    expect(comp.find('.removeViaPoint').length).to.equal(1);
   });
 });
