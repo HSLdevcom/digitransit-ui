@@ -23,7 +23,8 @@ export const replaceQueryParams = (router, newParams) => {
 
 /**
  * Extracts the location information from the intermediatePlaces
- * query parameter, if available.
+ * query parameter, if available. The locations will be returned in
+ * non-OTP mode (i.e. mapped to lat?, lon? and address).
  *
  * @typedef Query
  * @prop {String|String[]} intermediatePlaces
@@ -57,10 +58,10 @@ export const getIntermediatePlaces = query => {
  */
 export const setIntermediatePlaces = (router, newIntermediatePlaces) => {
   if (
-    !Array.isArray(newIntermediatePlaces) &&
-    !isString(newIntermediatePlaces)
+    isString(newIntermediatePlaces) ||
+    (Array.isArray(newIntermediatePlaces) &&
+      newIntermediatePlaces.every(isString))
   ) {
-    return;
+    replaceQueryParams(router, { intermediatePlaces: newIntermediatePlaces });
   }
-  replaceQueryParams(router, { intermediatePlaces: newIntermediatePlaces });
 };
