@@ -146,4 +146,37 @@ describe('<OriginDestinationBar />', () => {
     });
     expect(comp.find('.removeViaPoint').length).to.equal(1);
   });
+
+  describe('swapEndpoints', () => {
+    it('should also swap via points', () => {
+      const props = {
+        destination: {},
+        initialViaPoints: [
+          'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+          'Kamppi 1241, Helsinki::60.169119,24.932058',
+        ],
+        origin: {},
+      };
+      const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
+        context: {
+          ...mockContext,
+          location: {
+            query:
+              'intermediatePlaces=Kluuvi%2C+luoteinen%2C+Kluuvi%2C+Helsinki%3A%3A60.173123%2C24.948365&intermediatePlaces=Kamppi+1241%2C+Helsinki%3A%3A60.169119%2C24.932058',
+          },
+          router: {
+            replace: () => {},
+          },
+        },
+        childContextTypes: mockChildContextTypes,
+      });
+
+      comp.find('.switch').simulate('click');
+
+      expect(comp.state('viaPointNames')).to.deep.equal([
+        'Kamppi 1241, Helsinki::60.169119,24.932058',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ]);
+    });
+  });
 });
