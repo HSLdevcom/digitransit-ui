@@ -2,7 +2,10 @@ import omitBy from 'lodash/omitBy';
 
 import moment from 'moment';
 // Localstorage data
-import { getCustomizedSettings, getRoutingSettings } from '../store/localStorage';
+import {
+  getCustomizedSettings,
+  getRoutingSettings,
+} from '../store/localStorage';
 import { otpToLocation } from './otpStrings';
 
 export const WALKBOARDCOST_DEFAULT = 600;
@@ -42,7 +45,7 @@ function setTicketTypes(ticketType, settingsTicketType) {
 }
 
 function isTrue(val) {
-  return val === "true";
+  return val === 'true';
 }
 
 function nullOrUndefined(val) {
@@ -51,19 +54,19 @@ function nullOrUndefined(val) {
 
 function getMaxWalkDistance(modes, settings, config) {
   let maxWalkDistance;
-  if (typeof modes === 'undefined' ||
-  (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))) {
+  if (
+    typeof modes === 'undefined' ||
+    (typeof modes === 'string' && !modes.split(',').includes('BICYCLE'))
+  ) {
     if (!nullOrUndefined(settings.maxWalkDistance)) {
-      maxWalkDistance = settings.maxWalkDistance;
+      ({ maxWalkDistance } = settings);
     } else {
-      maxWalkDistance = config.maxWalkDistance;
+      ({ maxWalkDistance } = config);
     }
+  } else if (!nullOrUndefined(settings.maxBikingDistance)) {
+    maxWalkDistance = settings.maxBikingDistance;
   } else {
-    if (!nullOrUndefined(settings.maxBikingDistance)) {
-      maxWalkDistance = settings.maxBikingDistance;
-    } else {
-      maxWalkDistance = config.maxBikingDistance;
-    }
+    maxWalkDistance = config.maxBikingDistance;
   }
   return maxWalkDistance;
 }
@@ -75,7 +78,7 @@ function getDisableRemainingWeightHeuristic(modes, settings) {
   } else if (nullOrUndefined(settings.disableRemainingWeightHeuristic)) {
     disableRemainingWeightHeuristic = false;
   } else {
-    disableRemainingWeightHeuristic = settings.disableRemainingWeightHeuristic;
+    ({ disableRemainingWeightHeuristic } = settings);
   }
   return disableRemainingWeightHeuristic;
 }
@@ -278,7 +281,7 @@ export const preparePlanParams = config => (
         walkSpeed:
           walkSpeed !== undefined ? Number(walkSpeed) : settings.walkSpeed,
         arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        maxWalkDistance: getMaxWalkDistance(modes, settings, config),
+        maxWalkDistance: getMaxWalkDistance(modes, settings, config),
         wheelchair:
           accessibilityOption !== undefined
             ? Number(accessibilityOption) === 1
@@ -298,12 +301,12 @@ export const preparePlanParams = config => (
         optimize: settings.optimize,
         triangle:
           settings.optimize === 'TRIANGLE'
-          ? {
-            safetyFactor: settings.safetyFactor,
-            slopeFactor: settings.slopeFactor,
-            timeFactor: settings.timeFactor,
-          }
-          : null,
+            ? {
+                safetyFactor: settings.safetyFactor,
+                slopeFactor: settings.slopeFactor,
+                timeFactor: settings.timeFactor,
+              }
+            : null,
         carParkCarLegWeight: settings.carParkCarLegWeight,
         maxTransfers: settings.maxTransfers,
         waitAtBeginningFactor: settings.waitAtBeginningFactor,
@@ -311,11 +314,13 @@ export const preparePlanParams = config => (
         compactLegsByReversedSearch: settings.compactLegsByReversedSearch,
         itineraryFiltering:
           settings.itineraryFiltering !== undefined
-          ? settings.itineraryFiltering
-          : config.itineraryFiltering,
+            ? settings.itineraryFiltering
+            : config.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
-        disableRemainingWeightHeuristic:
-          getDisableRemainingWeightHeuristic(modes, settings),
+        disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
+          modes,
+          settings,
+        ),
       },
       nullOrUndefined,
     ),

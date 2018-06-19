@@ -105,7 +105,7 @@ export function resetCustomizedSettings() {
   }
 }
 
-  // Get advanced routing parameters (not for normal use)
+// Get advanced routing parameters (not for normal use)
 export function getRoutingSettings() {
   return getItemAsJson('routingSettings');
 }
@@ -132,9 +132,7 @@ export function setRoutingSettings(data) {
     waitReluctance: data.waitReluctance
       ? data.waitReluctance
       : oldSettings.waitReluctance,
-    bikeSpeed: data.bikeSpeed
-      ? data.bikeSpeed
-      : oldSettings.bikeSpeed,
+    bikeSpeed: data.bikeSpeed ? data.bikeSpeed : oldSettings.bikeSpeed,
     bikeSwitchTime: data.bikeSwitchTime
       ? data.bikeSwitchTime
       : oldSettings.bikeSwitchTime,
@@ -144,18 +142,12 @@ export function setRoutingSettings(data) {
     bikeBoardCost: data.bikeBoardCost
       ? data.bikeBoardCost
       : oldSettings.bikeBoardCost,
-    optimize: data.optimize
-      ? data.optimize
-      : oldSettings.optimize,
+    optimize: data.optimize ? data.optimize : oldSettings.optimize,
     safetyFactor: data.safetyFactor
       ? data.safetyFactor
       : oldSettings.safetyFactor,
-    slopeFactor: data.slopeFactor
-      ? data.slopeFactor
-      : oldSettings.slopeFactor,
-    timeFactor: data.timeFactor
-      ? data.timeFactor
-      : oldSettings.timeFactor,
+    slopeFactor: data.slopeFactor ? data.slopeFactor : oldSettings.slopeFactor,
+    timeFactor: data.timeFactor ? data.timeFactor : oldSettings.timeFactor,
     carParkCarLegWeight: data.carParkCarLegWeight
       ? data.carParkCarLegWeight
       : oldSettings.carParkCarLegWeight,

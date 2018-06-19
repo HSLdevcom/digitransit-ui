@@ -1,10 +1,14 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { resetCustomizedSettings, resetRoutingSettings, getRoutingSettings, setRoutingSettings  } from '../../app/store/localStorage';
-
+import {
+  resetCustomizedSettings,
+  resetRoutingSettings,
+  getRoutingSettings,
+  setRoutingSettings,
+} from '../../app/store/localStorage';
 
 const ROUTING_SETTINGS = {
-  ignoreRealtimeUpdates: "false",
+  ignoreRealtimeUpdates: 'false',
   maxPreTransitTime: '1800',
   walkOnStreetReluctance: '1.0',
   waitReluctance: '1.0',
@@ -20,12 +24,12 @@ const ROUTING_SETTINGS = {
   maxTransfers: '2',
   waitAtBeginningFactor: '0.4',
   heuristicStepsPerMainStep: '8',
-  compactLegsByReversedSearch: "true",
-  disableRemainingWeightHeuristic: "false",
-  maxWalkDistance: "2000",
-  maxBikingDistance: "100000",
-  itineraryFiltering: "true",
-}
+  compactLegsByReversedSearch: 'true',
+  disableRemainingWeightHeuristic: 'false',
+  maxWalkDistance: '2000',
+  maxBikingDistance: '100000',
+  itineraryFiltering: 'true',
+};
 
 describe('localStorage', () => {
   describe('resetCustomizedSettings', () => {
@@ -36,6 +40,7 @@ describe('localStorage', () => {
 
   describe('getRoutingSettings', () => {
     it('result should be empty', () => {
+      // eslint-disable-next-line
       expect(getRoutingSettings()).to.be.empty;
     });
   });
@@ -48,7 +53,6 @@ describe('localStorage', () => {
 
   describe('Test that routing settings have been changed', () => {
     it('Settings should be equal to what they were set earlier', () => {
-      console.log(getRoutingSettings());
       expect(getRoutingSettings()).to.deep.equal(ROUTING_SETTINGS);
     });
   });
@@ -56,7 +60,8 @@ describe('localStorage', () => {
   describe('resetRoutingSettings', () => {
     it('reseting routing settings should work', () => {
       resetRoutingSettings();
-      expect(getRoutingSettings()).to.be.empty;
+      // eslint-disable-next-line
+      expect(getRoutingSettings()).to.be.empty; 
     });
   });
 });
