@@ -4,10 +4,13 @@ import cx from 'classnames';
 
 function Icon(props) {
   return (
-    <span aria-hidden style={{ pointerEvents: 'none' }}>
+    <span aria-hidden>
       <svg
         id={props.id}
-        style={{ fill: props.color ? props.color : null }}
+        style={{
+          fill: props.color ? props.color : null,
+          pointerEvents: props.pointerEvents ? 'auto' : 'none',
+        }}
         viewBox={props.viewBox}
         className={cx('icon', props.className)}
       >
@@ -18,14 +21,19 @@ function Icon(props) {
 }
 
 Icon.propTypes = {
-  id: PropTypes.string,
-  viewBox: PropTypes.string,
-  color: PropTypes.string,
   className: PropTypes.string,
+  color: PropTypes.string,
+  id: PropTypes.string,
   img: PropTypes.string.isRequired,
+  pointerEvents: PropTypes.bool,
+  viewBox: PropTypes.string,
 };
 
 Icon.defaultProps = {
+  className: undefined,
+  color: undefined,
+  id: undefined,
+  pointerEvents: false,
   viewBox: '0 0 40 40',
 };
 
