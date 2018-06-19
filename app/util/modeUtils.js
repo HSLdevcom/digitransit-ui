@@ -219,12 +219,11 @@ export const setStreetMode = (
   router,
   isExclusive = false,
 ) => {
-  const { location } = router;
   const modesQuery = buildStreetModeQuery(
     config,
-    getModes(location, config),
+    getModes(router.location, config),
     streetMode,
     isExclusive,
   );
-  replaceQueryParams(router, location, modesQuery);
+  replaceQueryParams(router, modesQuery);
 };

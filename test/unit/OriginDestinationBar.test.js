@@ -2,10 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { before, describe, it } from 'mocha';
+import { createMemoryHistory } from 'react-router';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
+import { replaceQueryParams } from '../../app/util/queryUtils';
 
 describe('<OriginDestinationBar />', () => {
   const exampleViapoints = [
@@ -18,38 +20,21 @@ describe('<OriginDestinationBar />', () => {
     'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
   ];
 
-  const exampleQuery =
-    'intermediatePlaces=Kluuvi%2C+luoteinen%2C+Kluuvi%2C+Helsinki%3A%3A60.173123%2C24.948365&intermediatePlaces=Kamppi+1241%2C+Helsinki%3A%3A60.169119%2C24.932058';
-
-  const mockFunction = () => {
-    const calls = [];
-    const fn = (...args) => calls.push(args);
-    fn.calls = calls;
-    return fn;
-  };
-
   let wrapper;
-  let wrapperNoParams;
 
   before(() => {
     wrapper = shallow(<OriginDestinationBar />, {
       context: {
-        location: { query: exampleQuery },
-        router: { replace: mockFunction },
-      },
-    });
-    wrapperNoParams = shallow(<OriginDestinationBar />, {
-      context: {
-        location: { query: '' },
-        router: { replace: mockFunction },
+        router: createMemoryHistory(),
       },
     });
   });
 
-  it('should initialize viapoints from url', () => {
-    wrapper.setState({ isViaPoint: true, viaPointNames: exampleViapoints });
-    expect(wrapper.state('viaPointNames')).to.equal(exampleViapoints);
-  });
+  // TODO: this component does not initialize anything from the url
+  // it('should initialize viapoints from url', () => {
+  //   wrapper.setState({ isViaPoint: true, viaPointNames: exampleViapoints });
+  //   expect(wrapper.state('viaPointNames')).to.equal(exampleViapoints);
+  // });
 
   it('should add a new viapoint to a set index and save the state', () => {
     const testIndex =
@@ -76,18 +61,18 @@ describe('<OriginDestinationBar />', () => {
   });
 
   it('should render an add viapoint button that sets viapoint to true', () => {
-    expect(wrapperNoParams.find('.addViaPoint')).to.have.length(1);
-    wrapperNoParams.find('.addViaPoint').simulate('click');
-    expect(wrapperNoParams.state('isViaPoint')).to.equal(true);
+    expect(wrapper.find('.addViaPoint')).to.have.length(1);
+    wrapper.find('.addViaPoint').simulate('click');
+    expect(wrapper.state('isViaPoint')).to.equal(true);
   });
 
   it('should set isViaPoint to false when all viapoints are removed', () => {
-    wrapperNoParams.setState({
+    wrapper.setState({
       isViaPoint: true,
       viaPointNames: exampleSingleViapoint,
     });
-    wrapperNoParams.instance().removeViapoints(0);
-    expect(wrapperNoParams.state('isViaPoint')).to.equal(false);
+    wrapper.instance().removeViapoints(0);
+    expect(wrapper.state('isViaPoint')).to.equal(false);
   });
 
   it('should show the add via point button after removing an empty via point with a keypress', () => {
@@ -98,8 +83,7 @@ describe('<OriginDestinationBar />', () => {
     const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
       context: {
         ...mockContext,
-        location: { query: '' },
-        router: { replace: mockFunction },
+        router: createMemoryHistory(),
       },
       childContextTypes: mockChildContextTypes,
     });
@@ -125,8 +109,7 @@ describe('<OriginDestinationBar />', () => {
     const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
       context: {
         ...mockContext,
-        location: { query: '' },
-        router: { replace: mockFunction },
+        router: createMemoryHistory(),
       },
       childContextTypes: mockChildContextTypes,
     });
@@ -157,22 +140,31 @@ describe('<OriginDestinationBar />', () => {
         ],
         origin: {},
       };
+
+      const router = createMemoryHistory();
+      replaceQueryParams(router, {
+        intermediatePlaces: [
+          'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+          'Kamppi 1241, Helsinki::60.169119,24.932058',
+        ],
+      });
+
       const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
         context: {
           ...mockContext,
-          location: {
-            query:
-              'intermediatePlaces=Kluuvi%2C+luoteinen%2C+Kluuvi%2C+Helsinki%3A%3A60.173123%2C24.948365&intermediatePlaces=Kamppi+1241%2C+Helsinki%3A%3A60.169119%2C24.932058',
-          },
-          router: {
-            replace: () => {},
-          },
+          router,
         },
         childContextTypes: mockChildContextTypes,
       });
 
       comp.find('.switch').simulate('click');
 
+      expect(
+        router.getCurrentLocation().query.intermediatePlaces,
+      ).to.deep.equal([
+        'Kamppi 1241, Helsinki::60.169119,24.932058',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ]);
       expect(comp.state('viaPointNames')).to.deep.equal([
         'Kamppi 1241, Helsinki::60.169119,24.932058',
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',

@@ -8,10 +8,10 @@ import { otpToLocation } from './otpStrings';
  * Updates the browser's url with the given parameters.
  *
  * @param {*} router The router
- * @param {*} location The current location
  * @param {*} newParams The location query params to apply
  */
-export const replaceQueryParams = (router, location, newParams) => {
+export const replaceQueryParams = (router, newParams) => {
+  const location = router.getCurrentLocation();
   router.replace({
     ...location,
     query: {
@@ -47,4 +47,20 @@ export const getIntermediatePlaces = query => {
     return [otpToLocation(intermediatePlaces)];
   }
   return [];
+};
+
+/**
+ * Updates the intermediatePlaces query parameter with the given values.
+ *
+ * @param {*} router The router
+ * @param {String|String[]} newIntermediatePlaces A string or an array of intermediate locations
+ */
+export const setIntermediatePlaces = (router, newIntermediatePlaces) => {
+  if (
+    !Array.isArray(newIntermediatePlaces) &&
+    !isString(newIntermediatePlaces)
+  ) {
+    return;
+  }
+  replaceQueryParams(router, { intermediatePlaces: newIntermediatePlaces });
 };
