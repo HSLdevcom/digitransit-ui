@@ -20,6 +20,27 @@ export const defaultSettings = {
   ticketTypes: 'none',
 };
 
+// These values need to be null so if no values for the variables are defined somewhere else,
+// these variables will be left out from queries
+export const defaultRoutingSettings = {
+  ignoreRealtimeUpdates: null,
+  maxPreTransitTime: null,
+  walkOnStreetReluctance: null,
+  waitReluctance: null,
+  bikeSpeed: null,
+  bikeSwitchTime: null,
+  bikeSwitchCost: null,
+  bikeBoardCost: null,
+  optimize: null,
+  triangle: null,
+  carParkCarLegWeight: null,
+  maxTransfers: null,
+  waitAtBeginningFactor: null,
+  heuristicStepsPerMainStep: null,
+  compactLegsByReversedSearch: null,
+  disableRemainingWeightHeuristic: null,
+};
+
 function getIntermediatePlaces(intermediatePlaces) {
   if (!intermediatePlaces) {
     return [];

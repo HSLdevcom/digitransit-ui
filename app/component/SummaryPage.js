@@ -30,6 +30,7 @@ import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { validateServiceTimeRange } from '../util/timeUtils';
+import { defaultRoutingSettings } from '../util/planParamUtil';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -509,27 +510,13 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       arriveBy: false,
       disableRemainingWeightHeuristic: false,
       transferPenalty: null,
-      ignoreRealtimeUpdates: null,
-      maxPreTransitTime: null,
-      walkOnStreetReluctance: null,
-      waitReluctance: null,
-      bikeSpeed: null,
-      bikeSwitchTime: null,
-      bikeSwitchCost: null,
-      bikeBoardCost: null,
-      optimize: null,
-      triangle: null,
-      carParkCarLegWeight: null,
-      maxTransfers: null,
-      waitAtBeginningFactor: null,
-      heuristicStepsPerMainStep: null,
-      compactLegsByReversedSearch: null,
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
     },
+    ...defaultRoutingSettings,
     ...SummaryPage.hcParameters,
   },
 });
