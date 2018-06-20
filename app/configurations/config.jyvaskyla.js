@@ -82,7 +82,7 @@ export default configMerger(walttiConfig, {
       {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
-        href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38'
+        href: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38',
         icon: 'icon-icon_speech-bubble',
       },
       {
