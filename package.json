@@ -99,7 +99,7 @@
     "polyline-encoded": "0.0.8",
     "proj4": "2.4.4",
     "prop-types": "15.6.1",
-    "raven": "2.6.2",
+    "raven": "2.6.3",
     "raven-js": "3.26.1",
     "react": "16.4.0",
     "react-autosuggest": "9.3.4",
