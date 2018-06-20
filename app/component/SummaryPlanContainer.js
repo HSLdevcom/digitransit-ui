@@ -151,7 +151,6 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onEarlier = () => {
-    this.props.setLoading(true);
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
         const endTime = moment(current.endTime);
@@ -168,7 +167,7 @@ class SummaryPlanContainer extends React.Component {
 
     earliestArrivalTime.subtract(1, 'minutes');
 
-    if (this.context.location.query.arriveBy === true) {
+    if (this.context.location.query.arriveBy === 'true') {
       // user has arriveBy already
       this.context.router.replace({
         ...this.context.location,
@@ -178,6 +177,8 @@ class SummaryPlanContainer extends React.Component {
         },
       });
     } else {
+      this.props.setLoading(true);
+
       const params = preparePlanParams(this.props.config)(
         this.context.router.params,
         this.context,
