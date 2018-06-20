@@ -179,18 +179,16 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
 }
 
-.bp-medium {
-  & .map-with-tracking-buttons {
-    bottom: 20px;
-    left: 1em;
-  }
+.bp-large .map-with-tracking-buttons {
+  bottom: 32px;
 }
 
 .map-with-tracking-buttons {
-  bottom: 36px;
+  bottom: 18px;
   display: flex;
-  left: 20px;
+  left: 1em;
   max-height: 36px;
+  max-width: calc(100% - 2em);
   position: absolute;
   z-index: index($zindex, map-buttons);
 
@@ -595,7 +593,7 @@ div.map-click-prevent-overlay {
 
 .smallspinner {
   div.spinner-loader {
-    width: $spinner-size*0.5;
-    height: $spinner-size*0.5;
+    width: $spinner-size * 0.5;
+    height: $spinner-size * 0.5;
   }
 }
