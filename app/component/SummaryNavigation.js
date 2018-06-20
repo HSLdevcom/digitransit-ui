@@ -148,7 +148,11 @@ class SummaryNavigation extends React.Component {
               open={this.getOffcanvasState()}
               onRequestChange={this.onRequestChange}
               // Needed for the closing arrow button that's left of the drawer.
-              containerStyle={{ background: 'transparent', boxShadow: 'none' }}
+              containerStyle={{
+                background: 'transparent',
+                boxShadow: 'none',
+                '-moz-transform': 'none', // needed to prevent showing an extra scrollbar in FF
+              }}
               width={drawerWidth}
             >
               <CustomizeSearch
