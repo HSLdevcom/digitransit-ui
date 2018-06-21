@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import PropTypes from 'prop-types';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { shallowWithIntl, mountWithIntl } from './helpers/mock-intl-enzyme';
