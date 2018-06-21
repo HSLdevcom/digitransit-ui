@@ -135,6 +135,7 @@ class SummaryNavigation extends React.Component {
           ? Math.min(600, 0.5 * window.innerWidth)
           : 291;
     }
+    const isOpen = this.getOffcanvasState();
 
     return (
       <div style={{ background: '#f4f4f5' }}>
@@ -145,18 +146,18 @@ class SummaryNavigation extends React.Component {
               disableSwipeToOpen
               openSecondary
               docked={false}
-              open={this.getOffcanvasState()}
+              open={isOpen}
               onRequestChange={this.onRequestChange}
               // Needed for the closing arrow button that's left of the drawer.
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
-                '-moz-transform': 'none', // needed to prevent showing an extra scrollbar in FF
+                ...(isOpen && { '-moz-transform': 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}
             >
               <CustomizeSearch
-                isOpen={this.getOffcanvasState()}
+                isOpen={isOpen}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />
