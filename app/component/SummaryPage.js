@@ -30,8 +30,9 @@ import { getHomeUrl } from '../util/path';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { validateServiceTimeRange } from '../util/timeUtils';
+import { defaultRoutingSettings } from '../util/planParamUtil';
 
-export const ITINERARYFILTERING_DEFAULT = 2.0;
+export const ITINERARYFILTERING_DEFAULT = 1.5;
 
 function getActiveIndex(state) {
   return (state && state.summaryPageSelected) || 0;
@@ -435,8 +436,23 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic,
           arriveBy: $arriveBy,
           transferPenalty: $transferPenalty,
-          preferred: $preferred,
-          itineraryFiltering: $itineraryFiltering)
+          ignoreRealtimeUpdates: $ignoreRealtimeUpdates,
+          maxPreTransitTime: $maxPreTransitTime,
+          walkOnStreetReluctance: $walkOnStreetReluctance,
+          waitReluctance: $waitReluctance,
+          bikeSpeed: $bikeSpeed,
+          bikeSwitchTime: $bikeSwitchTime,
+          bikeSwitchCost: $bikeSwitchCost,
+          bikeBoardCost: $bikeBoardCost,
+          optimize: $optimize,
+          triangle: $triangle,
+          carParkCarLegWeight: $carParkCarLegWeight,
+          maxTransfers: $maxTransfers,
+          waitAtBeginningFactor: $waitAtBeginningFactor,
+          heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
+          compactLegsByReversedSearch: $compactLegsByReversedSearch,
+          itineraryFiltering: $itineraryFiltering,
+          preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -487,6 +503,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
     },
+    ...defaultRoutingSettings,
     ...SummaryPage.hcParameters,
   },
 });
