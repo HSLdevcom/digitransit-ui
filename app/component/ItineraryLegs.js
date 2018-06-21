@@ -172,6 +172,7 @@ class ItineraryLegs extends React.Component {
             key={j}
             index={j}
             leg={leg}
+            previousLeg={previousLeg}
             focusAction={this.focus(leg.from)}
           >
             {this.stopCode(leg.from.stop)}
