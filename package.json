@@ -126,7 +126,7 @@
     "@babel/runtime": "7.0.0-beta.51",
     "async": "2.6.1",
     "autoprefixer": "8.6.2",
-    "babel-eslint": "8.2.3",
+    "babel-eslint": "8.2.4",
     "babel-loader": "8.0.0-beta.3",
     "babel-plugin-transform-react-remove-prop-types": "0.4.13",
     "brotli-webpack-plugin": "1.0.0",
