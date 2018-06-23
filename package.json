@@ -143,7 +143,7 @@
     "eslint-plugin-graphql": "2.1.1",
     "eslint-plugin-import": "2.12.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
-    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-prettier": "2.6.1",
     "eslint-plugin-react": "7.8.2",
     "favicons-webpack-plugin": "0.0.9",
     "file-loader": "1.1.11",
