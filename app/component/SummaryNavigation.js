@@ -105,7 +105,7 @@ class SummaryNavigation extends React.Component {
 
   customizeSearchModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
-    CustomizeSearch: () => importLazy(import('./CustomizeSearch')),
+    CustomizeSearch: () => importLazy(import('./CustomizeSearchNew')),
   };
 
   toggleQuickSettingsPanel = () => {

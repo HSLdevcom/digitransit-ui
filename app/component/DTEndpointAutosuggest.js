@@ -27,6 +27,7 @@ class DTEndpointAutosuggest extends React.Component {
     searchType: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
     onLocationSelected: PropTypes.func.isRequired,
+    onRouteSelected: PropTypes.func,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -34,6 +35,7 @@ class DTEndpointAutosuggest extends React.Component {
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array,
     isFocused: PropTypes.func,
+    isPreferredRouteSearch: PropTypes.bool,
     locationState: PropTypes.object.isRequired,
     showSpinner: PropTypes.bool,
   };
@@ -41,6 +43,8 @@ class DTEndpointAutosuggest extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
+    onRouteSelected: '',
+    isPreferredRouteSearch: false,
     layers: getAllEndpointLayers(),
     showSpinner: false,
   };
@@ -109,6 +113,11 @@ class DTEndpointAutosuggest extends React.Component {
   };
 
   onSuggestionSelected = item => {
+    // preferred route selection
+    if (this.props.isPreferredRouteSearch) {
+      this.props.onRouteSelected(item);
+      return;
+    }
     // stop
     if (item.timetableClicked === true) {
       const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
@@ -123,7 +132,6 @@ class DTEndpointAutosuggest extends React.Component {
       this.context.router.push(item.properties.link);
       return;
     }
-
     const location = suggestionToLocation(item);
 
     if (
