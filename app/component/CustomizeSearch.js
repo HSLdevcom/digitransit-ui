@@ -240,7 +240,7 @@ class CustomizeSearch extends React.Component {
         max={20}
         value={mapToSlider(val, this.walkingSpeedSliderValues)}
         step={1}
-        writtenValue={`${Math.floor(val * 60)} m/min`}
+        writtenValue={`${Math.floor(val * 3.6 * 10) / 10} km/h`}
         minText={this.context.intl.formatMessage({
           id: 'slow',
           defaultMessage: 'Slow',
