@@ -28,6 +28,7 @@ class StreetModeSelectorPanel extends React.Component {
             this.selectStreetMode(name, exclusive)
           }
           state={isSelected}
+          viewId={this.props.viewId}
         />
       );
     });
@@ -39,7 +40,7 @@ class StreetModeSelectorPanel extends React.Component {
 
   render() {
     return (
-      <div className="street-mode-selector-panel">
+      <div className={`street-mode-selector-panel ${this.props.viewId}`}>
         <div className="street-mode-selector-panel-header">
           <FormattedMessage id="main-mode" defaultMessage="I'm travelling by" />
         </div>
@@ -61,6 +62,7 @@ StreetModeSelectorPanel.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
+  viewId: PropTypes.string,
 };
 
 StreetModeSelectorPanel.defaultProps = {

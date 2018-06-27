@@ -189,11 +189,11 @@ class CustomizeSearch extends React.Component {
     defaultValues.modes = ModeUtils.getAvailableTransportModeConfigs(
       config,
     ).map(o => o.name);
-    /*
+
     console.log(customizedSettings);
     console.log(urlParameters);
     console.log(defaultValues);
-    */
+
     const obj = {};
 
     if (urlParameters) {
@@ -223,7 +223,6 @@ class CustomizeSearch extends React.Component {
   };
 
   toggleTransportMode(mode, otpMode) {
-    /*
     this.context.router.replace({
       ...this.context.location,
       query: {
@@ -233,7 +232,6 @@ class CustomizeSearch extends React.Component {
         ]).join(','),
       },
     });
-    */
   }
 
   checkAndConvertModes = modes => {
@@ -263,18 +261,18 @@ class CustomizeSearch extends React.Component {
             {
               displayName: 'default',
               displayNameObject: this.context.intl.formatMessage({
-                id: 'accessibility-limited',
-                defaultMessage: 'Wheelchair',
-              }),
-              value: 'accessibility-limited',
-            },
-            {
-              displayName: 'default',
-              displayNameObject: this.context.intl.formatMessage({
                 id: 'accessibility-nolimit',
                 defaultMessage: 'No wheelchair',
               }),
               value: 'default-value',
+            },
+            {
+              displayName: 'default',
+              displayNameObject: this.context.intl.formatMessage({
+                id: 'accessibility-limited',
+                defaultMessage: 'Wheelchair',
+              }),
+              value: 'accessibility-limited',
             },
           ],
         },
