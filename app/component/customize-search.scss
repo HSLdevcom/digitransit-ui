@@ -35,51 +35,56 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
     }
   }
 
-  .checkbox-container {
-    display: block;
-    user-select: none;
+  .close-offcanvas {
+    position: absolute;
+    right: 2em;
+  }
+
+  .option-checbox {
     position: relative;
-    height: 25px;
-    width: 25px;
     margin-right: 1em;
 
-    .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      background-color: #fff;
-      border-radius: 4px;
-      border: rgb(136, 136, 136) 1px solid;
-      &:after {
-        content: "✔";
-        color: $primary-color;
-        font-size: $font-size-large;
-        margin-left: 4px;
-        position: absolute;
-        display: none;
-      }
-    }
-    input[type="checkbox"] {
+    & input[type=checkbox] {
+      visibility: hidden;
       height: 20px;
       width: 20px;
-      background: #fff;
-      cursor: pointer;
-      position: absolute;
-      opacity: 0;
-      &:checked ~ .checkmark {
+      &:checked + label {
+        &:before {
+          content: '✔';
+          font-size: 1em;
+          line-height: 1;
+          color: $primary-color;
+          font-weight: 700;
+          font-family: $font-family;
+          transform: rotateY(15deg);
+          margin-left: 0.2em;
+          margin-top: 0.2em;
+        }
+      }
+      &:checked ~ label {
         border: #007ac9 1px solid;
       }
-      &:checked ~ .checkmark:after {
-        display: block;
+    }
+    & label {
+      height: 20px;
+      width: 20px;
+      border: 1px solid #78909c;
+      border-radius: 4px;
+      background-color: $white;
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+      &:hover {
+        border: 1px solid $primary-color;
       }
     }
+
+  }
   }
 
   .settings-option-container {
     padding: $customizedSettings-padding;
-    
+
     h1 {
       text-transform: initial;
       font-size: $font-size-large;
@@ -91,6 +96,9 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
   .biketransport-option {
     display: flex;
+    .option-checkbox {
+      margin-top: 0.4em;
+    }
     span {
       font-weight: 400;
     }
@@ -108,6 +116,10 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
   .mode-option-container {
     display: flex;
+
+    .option-checbox {
+      margin-top: 1em;
+    }
 
     .mode-option-block {
       width: 100%;
@@ -154,30 +166,87 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
     padding: 0;
   }
 
-  
-  .preferred-routes-input-container {
-
-    .react-autosuggest__container input {
-      border-radius: 4px;
-      height: 3.5em;
-      font-size: 1rem;
-      font-weight: 700;
-      border: 1px solid #dddddd;
-      cursor: pointer;
+.avoid-routes-container {
+  button.noborder.clear-input {
+    background-color: #007ac9;
+    height: 4em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    .icon {
+      color: #fff;
     }
+}
+}
 
+.preferred-routes-input-container {
+
+      .react-autosuggest__container input {
+        border-radius: 4px;
+        height: 3.5em;
+        font-size: 1rem;
+        font-weight: 700;
+        border: 1px solid #dddddd;
+        cursor: pointer;
+      }
+    button.noborder.clear-input {
+        background-color: #007ac9;
+        height: 4em;
+        padding-right: 1.5em;
+        padding-left: 1.5em;
+        .icon {
+          color: #fff;
+        }
+    }
+  }
+
+  .preferred-routes-list {
+    color: rgb(51, 51, 51);
+
+    button {
+      border-radius: 50%;
+      background: white;
+      border: 1px solid rgb(221,221,221);
+      padding: 0;
+      height: 17px;
+      width: 17px;
+      line-height: 0;
+      margin-right: 0.5em;
+      .icon {
+        color: #007ac9;
+        font-size: 0.4em;
+      }
+      &:hover {
+        border: 1px solid #007ac9;
+      }
+    }
   }
 
   .route-preferences-container {
 
     .routepreferences-option {
       display: flex;
-  
+
       .checkbox-container .checkmark {
         border: rgb(136, 136, 136) 1px solid;
       }
       span {
         font-weight: 400;
+      }
+    }
+  }
+
+  .save-controls-container {
+    text-align: center;
+    button {
+      border-radius: 100px;
+      span {
+        color: $white;
+      }
+    }
+    .reset-settings {
+      background-color: transparent;
+      span {
+        color: rgb(0, 122, 201);
       }
     }
   }
@@ -216,8 +285,7 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
       }
     }
   }
-
-  .street-mode-selector-panel {
+  .street-mode-selector-panel.customized-settings {
     flex-direction: column;
     padding-left: 0;
 
@@ -234,8 +302,13 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
     .street-mode-selector-panel-buttons button {
       width: 7em;
+      .button-mode {
+        font-size: $font-size-xxxsmall;
+        color: #007ac9;
+      }
     }
   }
+
   /*
 
   .sub-header-h5 {
@@ -341,8 +414,8 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
     color: $black;
     outline: none;
   }
-  */
 }
+*/
 /*
 .add-via-point-button-label {
   width: 100%;

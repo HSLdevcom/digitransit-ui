@@ -101,7 +101,6 @@ class SaveCustomizedSettingsButton extends React.Component {
       <div>
         <section className="offcanvas-section">
           <div className="save-settings">
-            <hr />
             <button
               className="save-settings-button"
               onClick={this.setSettingsData}

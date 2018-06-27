@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
-import { FormattedMessage } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
+import Icon from './Icon';
 import Select from './Select';
 
 class FareZoneSelector extends React.Component {
@@ -10,6 +11,10 @@ class FareZoneSelector extends React.Component {
     currentOption: PropTypes.string.isRequired,
     headerText: PropTypes.string.isRequired,
     updateValue: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   createFareZoneObjects = options => {
@@ -42,15 +47,18 @@ class FareZoneSelector extends React.Component {
   render() {
     const mappedOptions = this.createFareZoneObjects(this.props.options);
     return (
-      <section className="offcanvas-section">
-        <Select
-          headerText={this.props.headerText}
-          name="ticket"
-          selected={this.props.currentOption}
-          options={mappedOptions}
-          onSelectChange={e => this.props.updateValue(e.target.value)}
-        />
-      </section>
+      <div className="option-container">
+        <h1>{this.props.headerText}</h1>
+        <div className="select-container">
+          <Select
+            name="ticket"
+            selected={this.props.currentOption}
+            options={mappedOptions}
+            onSelectChange={e => this.props.updateValue(e.target.value)}
+          />
+          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+        </div>
+      </div>
     );
   }
 }
