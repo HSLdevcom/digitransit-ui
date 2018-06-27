@@ -8,8 +8,11 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
-import { preparePlanParams } from '../util/planParamUtil';
 import { getDefaultOTPModes } from '../util/modeUtils';
+import {
+  preparePlanParams,
+  defaultRoutingSettings,
+} from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {
@@ -130,7 +133,9 @@ class SummaryPlanContainer extends React.Component {
       );
 
       const tunedParams = {
+        wheelchair: null,
         ...{ modes: getDefaultOTPModes(this.props.config) },
+        ...defaultRoutingSettings,
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
@@ -166,7 +171,6 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onEarlier = () => {
-    this.props.setLoading(true);
     const start = moment.unix(this.props.serviceTimeRange.start);
 
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -185,7 +189,7 @@ class SummaryPlanContainer extends React.Component {
 
     earliestArrivalTime.subtract(1, 'minutes');
 
-    if (this.context.location.query.arriveBy === true) {
+    if (this.context.location.query.arriveBy === 'true') {
       // user has arriveBy already
       this.context.router.replace({
         ...this.context.location,
@@ -195,13 +199,17 @@ class SummaryPlanContainer extends React.Component {
         },
       });
     } else {
+      this.props.setLoading(true);
+
       const params = preparePlanParams(this.props.config)(
         this.context.router.params,
         this.context,
       );
 
       const tunedParams = {
+        wheelchair: null,
         ...{ modes: getDefaultOTPModes(this.props.config) },
+        ...defaultRoutingSettings,
         ...params,
         numItineraries:
           this.props.itineraries.length > 0 ? this.props.itineraries.length : 3,
@@ -269,6 +277,8 @@ class SummaryPlanContainer extends React.Component {
       $walkReluctance:Float!,
       $walkSpeed:Float!,
       $maxWalkDistance:Float!,
+      $wheelchair:Boolean!,
+      $disableRemainingWeightHeuristic:Boolean!,
       $preferred:InputPreferred!,
       $fromPlace:String!,
       $toPlace:String!
@@ -277,6 +287,21 @@ class SummaryPlanContainer extends React.Component {
       $arriveBy: Boolean!,
       $modes: String!,
       $transferPenalty: Int!,
+      $ignoreRealtimeUpdates: Boolean!,
+      $maxPreTransitTime: Int!,
+      $walkOnStreetReluctance: Float!,
+      $waitReluctance: Float!,
+      $bikeSpeed: Float!,
+      $bikeSwitchTime: Int!,
+      $bikeSwitchCost: Int!,
+      $bikeBoardCost: Int!,
+      $optimize: OptimizeType!,
+      $triangle: InputTriangle!,
+      $carParkCarLegWeight: Float!,
+      $maxTransfers: Int!,
+      $waitAtBeginningFactor: Float!,
+      $heuristicStepsPerMainStep: Int!,
+      $compactLegsByReversedSearch: Boolean!,
       $itineraryFiltering: Float!,
     ) { viewer {
         plan(
@@ -291,13 +316,28 @@ class SummaryPlanContainer extends React.Component {
           minTransferTime:$minTransferTime,
           walkSpeed:$walkSpeed,
           maxWalkDistance:$maxWalkDistance,
-          wheelchair:false,
-          disableRemainingWeightHeuristic:false,
+          wheelchair:$wheelchair,
+          disableRemainingWeightHeuristic:$disableRemainingWeightHeuristic,
           arriveBy:$arriveBy,
           preferred:$preferred,
           modes:$modes
           transferPenalty:$transferPenalty,
-          itineraryFiltering:$itineraryFiltering,
+          ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
+          maxPreTransitTime:$maxPreTransitTime,
+          walkOnStreetReluctance:$walkOnStreetReluctance,
+          waitReluctance:$waitReluctance,
+          bikeSpeed:$bikeSpeed,
+          bikeSwitchTime:$bikeSwitchTime,
+          bikeSwitchCost:$bikeSwitchCost,
+          bikeBoardCost:$bikeBoardCost,
+          optimize:$optimize,
+          triangle:$triangle,
+          carParkCarLegWeight:$carParkCarLegWeight,
+          maxTransfers:$maxTransfers,
+          waitAtBeginningFactor:$waitAtBeginningFactor,
+          heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
+          compactLegsByReversedSearch:$compactLegsByReversedSearch,
+          itineraryFiltering: $itineraryFiltering,
         ) {itineraries {startTime,endTime}}
       }
     }`;

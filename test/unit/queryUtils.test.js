@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { createMemoryHistory } from 'react-router';
 import * as utils from '../../app/util/queryUtils';
 
 describe('queryUtils', () => {
@@ -64,6 +65,62 @@ describe('queryUtils', () => {
       const result = utils.getIntermediatePlaces(query);
       expect(Array.isArray(result)).to.equal(true);
       expect(result.length).to.equal(0);
+    });
+  });
+
+  describe('setIntermediatePlaces', () => {
+    it('should not modify the query if the parameter is neither a string nor an array', () => {
+      const router = createMemoryHistory();
+      utils.setIntermediatePlaces(router, {});
+      const { intermediatePlaces } = router.getCurrentLocation().query;
+      expect(intermediatePlaces).to.equal(undefined);
+    });
+
+    it('should not modify the query if the parameter is an array but not a string array', () => {
+      const router = createMemoryHistory();
+      const intermediatePlaces = [
+        {
+          lat: 60.217992,
+          lon: 24.75494,
+          address: 'Kera, Espoo',
+        },
+        {
+          lat: 60.219235,
+          lon: 24.81329,
+          address: 'Leppävaara, Espoo',
+        },
+      ];
+
+      utils.setIntermediatePlaces(router, intermediatePlaces);
+
+      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
+        undefined,
+      );
+    });
+
+    it('should modify the query if the parameter is a string', () => {
+      const router = createMemoryHistory();
+      const intermediatePlace = 'Kera, Espoo::60.217992,24.75494';
+
+      utils.setIntermediatePlaces(router, intermediatePlace);
+
+      expect(router.getCurrentLocation().query.intermediatePlaces).to.equal(
+        intermediatePlace,
+      );
+    });
+
+    it('should modify the query if the parameter is a string array', () => {
+      const router = createMemoryHistory();
+      const intermediatePlaces = [
+        'Kera, Espoo::60.217992,24.75494',
+        'Leppävaara, Espoo::60.219235,24.81329',
+      ];
+
+      utils.setIntermediatePlaces(router, intermediatePlaces);
+
+      expect(
+        router.getCurrentLocation().query.intermediatePlaces,
+      ).to.deep.equal(intermediatePlaces);
     });
   });
 });

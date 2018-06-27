@@ -66,7 +66,7 @@ ToggleButton.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
-  children: PropTypes.array,
+  children: PropTypes.node,
   buttonRef: PropTypes.func,
   viewId: PropTypes.string,
 };

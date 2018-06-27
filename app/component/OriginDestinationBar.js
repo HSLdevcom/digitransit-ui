@@ -4,10 +4,16 @@ import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import omit from 'lodash/omit';
 import cx from 'classnames';
-import { dtLocationShape } from '../util/shapes';
-import Icon from './Icon';
+
 import DTAutosuggestPanel from './DTAutosuggestPanel';
+import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
+import {
+  getIntermediatePlaces,
+  setIntermediatePlaces,
+} from '../util/queryUtils';
+import { dtLocationShape } from '../util/shapes';
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -20,13 +26,16 @@ export default class OriginDestinationBar extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    location: PropTypes.object.isRequired,
   };
 
   state = {
-    isViaPoint: this.context.location.query.intermediatePlaces && true,
+    isViaPoint: this.location.query.intermediatePlaces && true,
     viaPointNames: this.props.initialViaPoints,
   };
+
+  get location() {
+    return this.context.router.getCurrentLocation();
+  }
 
   setviaPointNames = viapoints => {
     this.setState({
@@ -34,19 +43,19 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
-  updateViaPoints = newViaPoints => {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        intermediatePlaces: newViaPoints,
-      },
-    });
-  };
+  updateViaPoints = newViaPoints =>
+    setIntermediatePlaces(this.context.router, newViaPoints);
 
   swapEndpoints = () => {
+    const { location } = this;
+    const intermediatePlaces = getIntermediatePlaces(location.query);
+    if (intermediatePlaces.length > 1) {
+      location.query.intermediatePlaces.reverse();
+      this.setviaPointNames(location.query.intermediatePlaces);
+    }
+
     navigateTo({
-      base: this.context.location,
+      base: location,
       origin: this.props.destination,
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,
@@ -56,9 +65,10 @@ export default class OriginDestinationBar extends React.Component {
 
   toggleViaPoint = val => {
     if (val === false) {
+      const { location } = this;
       this.context.router.replace({
-        ...this.context.location,
-        query: omit(this.context.location.query, ['intermediatePlaces']),
+        ...location,
+        query: omit(location.query, ['intermediatePlaces']),
       });
     }
     this.setState({
@@ -114,15 +124,28 @@ export default class OriginDestinationBar extends React.Component {
           toggleViaPoint={this.toggleViaPoint}
         />
         <div className="itinerary-search-controls">
-          <div className="switch" onClick={() => this.swapEndpoints()}>
+          <div
+            className="switch"
+            onClick={() => this.swapEndpoints()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.swapEndpoints()
+            }
+            role="button"
+            tabIndex="0"
+          >
             <span>
               <Icon img="icon-icon_direction-b" />
             </span>
           </div>
           <div
             className="addViaPoint"
-            style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
             onClick={() => this.toggleViaPoint(true)}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.toggleViaPoint(true)
+            }
+            role="button"
+            style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
+            tabIndex="0"
           >
             <span>
               <Icon img="icon-icon_plus" />

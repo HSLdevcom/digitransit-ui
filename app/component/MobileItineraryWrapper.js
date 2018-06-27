@@ -7,7 +7,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 import Icon from './Icon';
-
+import { isBrowser } from '../util/browser';
 import { getRoutePath } from '../util/path';
 
 export default class MobileItineraryWrapper extends React.Component {
@@ -127,20 +127,22 @@ export default class MobileItineraryWrapper extends React.Component {
       undefined
     ) : (
       <div className="itinerary-tabs-container" key="tabs">
-        <Tabs
-          onChange={this.switchSlide}
-          value={index}
-          tabItemContainerStyle={{
-            backgroundColor: '#eef1f3',
-            lineHeight: '18px',
-            width: '60px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-          inkBarStyle={{ display: 'none' }}
-        >
-          {this.getTabs(this.props.children, index)}
-        </Tabs>
+        {isBrowser ? (
+          <Tabs
+            onChange={this.switchSlide}
+            value={index}
+            tabItemContainerStyle={{
+              backgroundColor: '#eef1f3',
+              lineHeight: '18px',
+              width: '60px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+            inkBarStyle={{ display: 'none' }}
+          >
+            {this.getTabs(this.props.children, index)}
+          </Tabs>
+        ) : null}
       </div>
     );
 
