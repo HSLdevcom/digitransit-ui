@@ -1,7 +1,7 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 
-import { filterModes } from './modeUtils';
+import { filterModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces } from './queryUtils';
 import {
@@ -94,7 +94,7 @@ function getDisableRemainingWeightHeuristic(modes, settings) {
   return disableRemainingWeightHeuristic;
 }
 
-export const getSettings = config => {
+export const getSettings = () => {
   const custSettings = getCustomizedSettings();
   const routingSettings = getRoutingSettings();
 
@@ -111,9 +111,7 @@ export const getSettings = config => {
       custSettings.walkBoardCost !== undefined
         ? Number(custSettings.walkBoardCost)
         : undefined,
-    modes: custSettings.modes
-      ? filterModes(config, custSettings.modes)
-      : undefined,
+    modes: undefined,
     minTransferTime:
       custSettings.minTransferTime !== undefined
         ? Number(custSettings.minTransferTime)
@@ -235,7 +233,11 @@ export const preparePlanParams = config => (
     },
   },
 ) => {
-  const settings = getSettings(config);
+  const settings = getSettings();
+  const modesOrDefault = filterModes(
+    config,
+    getModes({ query: { modes } }, config),
+  );
 
   return {
     ...defaultSettings,
@@ -247,7 +249,6 @@ export const preparePlanParams = config => (
         to: otpToLocation(to),
         intermediatePlaces: getIntermediatePlaces({ intermediatePlaces }),
         numItineraries: numItineraries ? Number(numItineraries) : undefined,
-        modes: modes ? filterModes(config, modes) : settings.modes,
         date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
         time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
         walkReluctance:
@@ -265,7 +266,7 @@ export const preparePlanParams = config => (
         walkSpeed:
           walkSpeed !== undefined ? Number(walkSpeed) : settings.walkSpeed,
         arriveBy: arriveBy ? arriveBy === 'true' : undefined,
-        maxWalkDistance: getMaxWalkDistance(modes, settings, config),
+        maxWalkDistance: getMaxWalkDistance(modesOrDefault, settings, config),
         wheelchair:
           accessibilityOption !== undefined
             ? Number(accessibilityOption) === 1
@@ -302,12 +303,13 @@ export const preparePlanParams = config => (
             : config.itineraryFiltering,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
-          modes,
+          modesOrDefault,
           settings,
         ),
       },
       nullOrUndefined,
     ),
+    modes: modesOrDefault,
     ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
   };
 };
