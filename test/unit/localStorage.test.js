@@ -5,6 +5,7 @@ import {
   resetRoutingSettings,
   getRoutingSettings,
   setRoutingSettings,
+  getCustomizedSettings,
 } from '../../app/store/localStorage';
 
 const ROUTING_SETTINGS = {
@@ -61,7 +62,13 @@ describe('localStorage', () => {
     it('reseting routing settings should work', () => {
       resetRoutingSettings();
       // eslint-disable-next-line
-      expect(getRoutingSettings()).to.be.empty; 
+      expect(getRoutingSettings()).to.be.empty;
+    });
+  });
+
+  describe('getCustomizedSettings', () => {
+    it('should return an empty object by default', () => {
+      expect(getCustomizedSettings()).to.deep.equal({});
     });
   });
 });
