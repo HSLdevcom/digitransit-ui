@@ -69,7 +69,7 @@ export function removeItem(k) {
 }
 
 export function getCustomizedSettings() {
-  return getItemAsJson('customizedSettings');
+  return getItemAsJson('customizedSettings', '{}');
 }
 
 export function setCustomizedSettings(data) {

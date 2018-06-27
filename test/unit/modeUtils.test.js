@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
 import { StreetMode, TransportMode } from '../../app/constants';
 import * as utils from '../../app/util/modeUtils';
+import { setCustomizedSettings } from '../../app/store/localStorage';
 
 const config = {
   transportModes: {
@@ -79,7 +80,44 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Bus);
     });
 
-    it('should retrieve all modes with "defaultValue": true from config if the location query is not available', () => {
+    it('should retrieve modes from localStorage if the location query is not available', () => {
+      setCustomizedSettings({
+        modes: [StreetMode.ParkAndRide, TransportMode.Bus],
+      });
+      const location = {
+        query: {
+          modes: undefined,
+        },
+      };
+
+      const modes = utils.getModes(location, config);
+      expect(modes.length).to.equal(2);
+      expect(modes).to.contain(StreetMode.ParkAndRide);
+      expect(modes).to.contain(TransportMode.Bus);
+
+      global.localStorage.clear();
+    });
+
+    it('should retrieve all modes with "defaultValue": true from config if the location query is not available and localStorage has an empty modes list', () => {
+      setCustomizedSettings({
+        modes: [],
+      });
+      const location = {
+        query: {
+          modes: undefined,
+        },
+      };
+
+      const modes = utils.getModes(location, config);
+      expect(modes.length).to.equal(3);
+      expect(modes).to.contain(StreetMode.Walk);
+      expect(modes).to.contain(TransportMode.Bus);
+      expect(modes).to.contain(TransportMode.Rail);
+
+      global.localStorage.clear();
+    });
+
+    it('should retrieve all modes with "defaultValue": true from config if the location query and localStorage are not available', () => {
       const location = {
         query: {
           modes: undefined,

@@ -176,8 +176,10 @@ export const getModes = (location, config) => {
       .split('?')[0]
       .split(',')
       .map(m => m.toUpperCase());
-  } else if (getCustomizedSettings().modes) {
-    return getCustomizedSettings().modes;
+  }
+  const { modes } = getCustomizedSettings();
+  if (Array.isArray(modes) && !isEmpty(modes)) {
+    return modes;
   }
   return getDefaultModes(config);
 };
