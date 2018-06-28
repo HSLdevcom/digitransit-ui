@@ -2,24 +2,6 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
 .customize-search-wrapper {
   height:100%;
-/*
-  .offcanvas-close {
-    float: left;
-    margin-top: 10px;
-    border-radius: $border-radius 0 0 $border-radius;
-    width: 35px;
-    padding: 30px 8px;
-    background: #333;
-
-    .action-arrow {
-      font-size: 25px;
-
-      svg {
-        color: #ffffff;
-      }
-    }
-  }
-  */
 }
 
 .customize-search {
@@ -28,6 +10,7 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
   padding-bottom: 20px;
   height:100%;
   overflow-y: auto;
+  position: relative;
 
   div {
     span {
@@ -38,6 +21,8 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
   .close-offcanvas {
     position: absolute;
     right: 2em;
+    background-color: transparent;
+    color: #007ac9;
   }
 
   .option-checbox {
@@ -300,12 +285,28 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
       }
     }
 
-    .street-mode-selector-panel-buttons button {
-      width: 7em;
-      .button-mode {
-        font-size: $font-size-xxxsmall;
-        color: #007ac9;
+    .street-mode-selector-panel-buttons {
+      button {
+        width: 7em;
       }
+      .icon-holder {
+        .icon {
+          color: #007ac9;
+          &:hover {
+            color: #333;
+          }
+        }
+      }
+      & .selected {
+        .icon-holder .icon {
+          color: #333;
+        }
+      }
+    }
+
+    .button-mode span {
+      font-size: $font-size-xxxsmall;
+      color: #007ac9;
     }
   }
 

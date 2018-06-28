@@ -18,7 +18,6 @@ import Select from './Select';
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-import { getModes } from '../util/modeUtils';
 
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 
@@ -227,9 +226,10 @@ class CustomizeSearch extends React.Component {
       ...this.context.location,
       query: {
         ...this.context.location.query,
-        modes: xor(getModes(this.context.location, this.context.config), [
-          (otpMode || mode).toUpperCase(),
-        ]).join(','),
+        modes: xor(
+          ModeUtils.getModes(this.context.location, this.context.config),
+          [(otpMode || mode).toUpperCase()],
+        ).join(','),
       },
     });
   }
@@ -509,9 +509,13 @@ class CustomizeSearch extends React.Component {
           tabIndex={0}
         >
           <section className="offcanvas-section">
-            <div className="close-offcanvas">
+            <button
+              className="close-offcanvas"
+              onClick={this.props.onToggleClick}
+              onKeyPress={this.props.onToggleClick}
+            >
               <Icon className="close-icon" img="icon-icon_close" />
-            </div>
+            </button>
             {this.renderStreetModeSelector(config, router)}
             <div className="customized-search-separator-line" />
             {this.renderBikeTransportSelector(
