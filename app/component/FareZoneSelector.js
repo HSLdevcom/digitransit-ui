@@ -47,16 +47,21 @@ class FareZoneSelector extends React.Component {
   render() {
     const mappedOptions = this.createFareZoneObjects(this.props.options);
     return (
-      <div className="option-container">
-        <h1>{this.props.headerText}</h1>
-        <div className="select-container">
-          <Select
-            name="ticket"
-            selected={this.props.currentOption}
-            options={mappedOptions}
-            onSelectChange={e => this.props.updateValue(e.target.value)}
-          />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
+      <div className="settings-option-container ticket-options-container">
+        <div className="option-container">
+          <h1>{this.props.headerText}</h1>
+          <div className="select-container">
+            <Select
+              name="ticket"
+              selected={this.props.currentOption}
+              options={mappedOptions}
+              onSelectChange={e => this.props.updateValue(e.target.value)}
+            />
+            <Icon
+              className="fake-select-arrow"
+              img="icon-icon_arrow-dropdown"
+            />
+          </div>
         </div>
       </div>
     );

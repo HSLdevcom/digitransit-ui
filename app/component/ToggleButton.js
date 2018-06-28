@@ -43,7 +43,7 @@ class ToggleButton extends React.Component {
             <Icon img={`icon-icon_${icon}`} className="" />
           </div>
         )}
-        {this.props.viewId === 'customized-settings' && (
+        {this.props.viewid === 'customized-settings' && (
           <div className="button-mode">
             <span>{intl.formatMessage({ id: label })}</span>
           </div>
@@ -68,7 +68,7 @@ ToggleButton.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node,
   buttonRef: PropTypes.func,
-  viewId: PropTypes.string,
+  viewid: PropTypes.string,
 };
 
 export default ToggleButton;

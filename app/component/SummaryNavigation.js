@@ -160,7 +160,7 @@ class SummaryNavigation extends React.Component {
       drawerWidth =
         0.5 * window.innerWidth > 291
           ? Math.min(600, 0.5 * window.innerWidth)
-          : 291;
+          : '100%';
     }
     const isOpen = this.getOffcanvasState();
 
@@ -179,6 +179,7 @@ class SummaryNavigation extends React.Component {
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
+                // width: this.props.breakpoint !== 'large' ? '100%' : '600px',
                 ...(isOpen && { '-moz-transform': 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}

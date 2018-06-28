@@ -1,4 +1,4 @@
-$customizedSettings-padding: 0.5em 1em 0.5em 1em;
+$customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
 .customize-search-wrapper {
   height:100%;
@@ -6,8 +6,6 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
 .customize-search {
   background: #f4f4f5;
-  padding-top: 10px;
-  padding-bottom: 20px;
   height:100%;
   overflow-y: auto;
   position: relative;
@@ -20,9 +18,11 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
 
   .close-offcanvas {
     position: absolute;
-    right: 2em;
     background-color: transparent;
     color: #007ac9;
+    right: 1em;
+    top: 1em;
+    padding: 0;
   }
 
   .option-checbox {
@@ -68,6 +68,7 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
   }
 
   .settings-option-container {
+    border-top: 1px solid #e3e3e4;
     padding: $customizedSettings-padding;
 
     h1 {
@@ -77,6 +78,11 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
       font-weight: $font-weight-bold;
       font-family: $font-family;
     }
+  }
+
+  .desktop .settings-option-container.street-mode-selector-panel-container {
+    border-top: none;
+      padding: $customizedSettings-padding;
   }
 
   .biketransport-option {
@@ -112,6 +118,7 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
       background-color: currentColor;
       margin-bottom: 0.1em;
       display: flex;
+      cursor: pointer;
 
       span {
         color: #fff;
@@ -142,13 +149,6 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
         }
       }
     }
-  }
-
-  .customized-search-separator-line {
-    width: 100%;
-    height: 1px;
-    background-color: #e3e3e4;
-    padding: 0;
   }
 
 .avoid-routes-container {
@@ -187,21 +187,24 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
   .preferred-routes-list {
     color: rgb(51, 51, 51);
 
-    button {
-      border-radius: 50%;
-      background: white;
-      border: 1px solid rgb(221,221,221);
-      padding: 0;
-      height: 17px;
-      width: 17px;
-      line-height: 0;
-      margin-right: 0.5em;
-      .icon {
-        color: #007ac9;
-        font-size: 0.4em;
-      }
-      &:hover {
-        border: 1px solid #007ac9;
+    .route-name {
+      button {
+        border-radius: 50%;
+        background: white;
+        border: 1px solid rgb(221,221,221);
+        padding: 0;
+        height: 17px;
+        width: 17px;
+        line-height: 0;
+        margin-right: 0.5em;
+        margin-bottom: 0;
+        .icon {
+          color: #007ac9;
+          font-size: 0.4em;
+        }
+        &:hover {
+          border: 1px solid #007ac9;
+        }
       }
     }
   }
@@ -272,7 +275,6 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
   }
   .street-mode-selector-panel.customized-settings {
     flex-direction: column;
-    padding-left: 0;
 
     .street-mode-selector-panel-header {
       padding-left: 0;
@@ -292,9 +294,6 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
       .icon-holder {
         .icon {
           color: #007ac9;
-          &:hover {
-            color: #333;
-          }
         }
       }
       & .selected {
@@ -307,6 +306,11 @@ $customizedSettings-padding: 0.5em 1em 0.5em 1em;
     .button-mode span {
       font-size: $font-size-xxxsmall;
       color: #007ac9;
+    }
+  }
+  .mobile {
+    .street-mode-selector-panel.customized-settings {
+      padding: $customizedSettings-padding;
     }
   }
 

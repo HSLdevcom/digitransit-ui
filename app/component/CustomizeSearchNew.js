@@ -49,11 +49,16 @@ class CustomizeSearch extends React.Component {
         className="biketransport-option"
         key={`biketransport-${o.optionName}`}
       >
-        <div className="option-checbox">
+        {/* eslint-disable-next-line */}
+        <div className="option-checbox" tabIndex={0}>
           <input
             type="checkbox"
             id={`input-${o.optionName}`}
             onChange={() => console.log(o.optionName)}
+            aria-label={this.context.intl.formatMessage({
+              id: `biketransport-${o.optionName}`,
+              defaultMessage: `${o.defaultMessage}`,
+            })}
           />
           {/* eslint-disable jsx-a11y/label-has-for */}
           <label htmlFor={`input-${o.optionName}`} />
@@ -67,8 +72,6 @@ class CustomizeSearch extends React.Component {
     ));
 
   getTransportModes = (modes, currentModes) => {
-    console.log(modes);
-    console.log(currentModes);
     const isBikeRejected =
       currentModes.filter(o2 => o2 === 'BICYCLE' || o2 === 'BUS').length > 1;
     return modes.map((o, i) => (
@@ -76,18 +79,26 @@ class CustomizeSearch extends React.Component {
         className="mode-option-container"
         key={`mode-option-${o.name.toLowerCase()}`}
       >
-        <div className="option-checbox">
+        {/* eslint-disable-next-line */}
+        <div className="option-checbox" tabIndex={0} onKeyPress={() => this.toggleTransportMode(o.name)}>
           <input
             type="checkbox"
             checked={currentModes.filter(o2 => o2 === o.name).length > 0}
             id={`input-${o.name}`}
             onChange={() => this.toggleTransportMode(o.name)}
+            aria-label={this.context.intl.formatMessage({
+              id: `${o.name.toLowerCase()}`,
+              defaultMessage: `${o.name}`,
+            })}
           />
           {/* eslint-disable jsx-a11y/label-has-for */}
           <label htmlFor={`input-${o.name}`} />
           {/* eslint-enable jsx-a11y/label-has-for */}
         </div>
         <div
+          role="button"
+          tabIndex={0}
+          aria-label={`${o.name.toLowerCase()}`}
           className={`mode-option-block ${o.name.toLowerCase()}`}
           style={{
             borderTopLeftRadius: i === 0 && '6px',
@@ -95,7 +106,8 @@ class CustomizeSearch extends React.Component {
             borderBottomLeftRadius: i === modes.length - 1 && '6px',
             borderBottomRightRadius: i === modes.length - 1 && '6px',
           }}
-          onChange={() => this.toggleTransportMode(o.name)}
+          onKeyPress={() => this.toggleTransportMode(o.name)}
+          onClick={() => this.toggleTransportMode(o.name)}
         >
           <div className="mode-icon">
             {isBikeRejected && o.name === 'BUS' ? (
@@ -171,9 +183,13 @@ class CustomizeSearch extends React.Component {
         <div className="select-container">
           <Select
             name={o.title}
-            selected={o.options}
+            selected={o.currentSelection}
             options={o.options}
-            onSelectChange={e => console.log(e)}
+            onSelectChange={e =>
+              this.updateParameters({
+                [o.paramTitle]: e.target.value,
+              })
+            }
           />
           <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
         </div>
@@ -207,6 +223,26 @@ class CustomizeSearch extends React.Component {
     console.log(obj);
     return obj;
   };
+
+  updateParameters = value => {
+    console.log(value);
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        ...value,
+      },
+    });
+  };
+
+  /**  replaceParams = newParams =>
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        ...newParams,
+      },
+    }); */
 
   resetParameters = () => {
     resetCustomizedSettings();
@@ -252,55 +288,46 @@ class CustomizeSearch extends React.Component {
       },
     });
 
-  renderAccesibilitySelector = () => (
+  renderAccesibilitySelector = val => (
     <div className="settings-option-container accessibility-options-selector">
       {this.getSelectOptions([
         {
           title: 'accessibility',
-          options: [
-            {
-              displayName: 'default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'accessibility-nolimit',
-                defaultMessage: 'No wheelchair',
-              }),
-              value: 'default-value',
-            },
-            {
-              displayName: 'default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'accessibility-limited',
-                defaultMessage: 'Wheelchair',
-              }),
-              value: 'accessibility-limited',
-            },
-          ],
+          paramTitle: 'accessibilityOption',
+          currentSelection: val,
+          options: this.context.config.accessibilityOptions.map((o, i) => ({
+            displayNameObject: (
+              <FormattedMessage
+                defaultMessage={
+                  this.context.config.accessibilityOptions[i].displayName
+                }
+                id={this.context.config.accessibilityOptions[i].messageId}
+              />
+            ),
+            displayName: this.context.config.accessibilityOptions[i]
+              .displayName,
+            value: this.context.config.accessibilityOptions[i].value,
+          })),
         },
       ])}
     </div>
   );
 
-  renderBikingOptions = () => (
+  renderBikingOptions = val => (
     <div className="settings-option-container bike-options-selector">
       {this.getSelectOptions([
         {
           title: 'biking-amount',
+          paramTitle: 'bikingAmount',
+          currentSelection: val,
           options: [
             {
-              displayName: 'default',
+              displayName: 'biking-amount-default',
               displayNameObject: this.context.intl.formatMessage({
-                id: 'default',
-                defaultMessage: 'default-amount',
+                id: 'biking-amount-default',
+                defaultMessage: 'Oletusarvo',
               }),
-              value: 'default-value',
-            },
-            {
-              displayName: 'example-2',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'example-2',
-                defaultMessage: 'example-2',
-              }),
-              value: 'default-value',
+              value: 'biking-amount-default',
             },
           ],
         },
@@ -308,20 +335,12 @@ class CustomizeSearch extends React.Component {
           title: 'biking-speed',
           options: [
             {
-              displayName: 'default',
+              displayName: 'biking-speed-default',
               displayNameObject: this.context.intl.formatMessage({
-                id: 'default',
-                defaultMessage: 'default-speed',
+                id: 'biking-speed-default',
+                defaultMessage: 'Hidas 30m/min',
               }),
-              value: 'default-value',
-            },
-            {
-              displayName: 'example-2',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'example-2',
-                defaultMessage: 'example-2',
-              }),
-              value: 'default-value',
+              value: 'biking-speed-default',
             },
           ],
         },
@@ -402,51 +421,40 @@ class CustomizeSearch extends React.Component {
             ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
           }
           streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-          viewId="customized-settings"
+          viewid="customized-settings"
         />
       </div>
     );
 
-  renderTicketTypeOptions = val => (
-    <div className="settings-option-container ticket-options-container">
-      <FareZoneSelector
-        headerText={this.context.intl.formatMessage({
-          id: 'zones',
-          defaultMessage: 'Fare zones',
-        })}
-        options={get(this.context.config, 'fareMapping', {})}
-        currentOption={val || 'none'}
-        updateValue={newval => this.replaceParams({ ticketTypes: newval })}
-      />
-    </div>
-  );
-
-  renderTransferOptions = () => (
+  renderTransferOptions = val => (
     <div className="settings-option-container transfer-options-container">
       {this.getSelectOptions([
         {
           title: 'transfers',
+          paramTitle: 'walkBoardCost',
+          currentSelection: val,
           options: [
             {
               displayName: 'transfer-amount',
               displayNameObject: this.context.intl.formatMessage({
-                id: 'default',
-                defaultMessage: 'default-transfer-amount',
+                id: 'default-transfer-amount',
+                defaultMessage: 'Oletusarvo',
               }),
-              value: 'default-value',
+              value: 'default-transfer-amount',
             },
           ],
         },
         {
           title: 'transfers-margin',
+          paramTitle: 'minTransferTime',
           options: [
             {
-              displayName: 'transfer-time-min',
+              displayName: 'transfer-margin-default',
               displayNameObject: this.context.intl.formatMessage({
-                id: 'default',
-                defaultMessage: 'default-transfer-time-min',
+                id: 'transfer-margin-default',
+                defaultMessage: '3 minuuttia',
               }),
-              value: 'default-value',
+              value: 'transfer-margin-default',
             },
           ],
         },
@@ -479,11 +487,6 @@ class CustomizeSearch extends React.Component {
 
   render() {
     const { config, router } = this.context;
-    /*
-    const currentModes = this.checkAndConvertModes(
-      this.context.location.query.modes,
-    );
-    */
     const currentOptions = this.getCurrentOptions();
     const merged = {
       ...defaultSettings,
@@ -517,28 +520,36 @@ class CustomizeSearch extends React.Component {
               <Icon className="close-icon" img="icon-icon_close" />
             </button>
             {this.renderStreetModeSelector(config, router)}
-            <div className="customized-search-separator-line" />
-            {this.renderBikeTransportSelector(
-              this.checkAndConvertModes(currentOptions.modes),
-            )}
-            <div className="customized-search-separator-line" />
+            {this.checkAndConvertModes(currentOptions.modes).filter(
+              o => o === 'BICYCLE',
+            ).length > 0 &&
+              this.renderBikeTransportSelector(
+                this.checkAndConvertModes(currentOptions.modes),
+              )}
             {this.renderTransportModeSelector(
               config,
               this.checkAndConvertModes(currentOptions.modes),
             )}
-            <div className="customized-search-separator-line" />
-            {this.renderBikingOptions()}
-            <div className="customized-search-separator-line" />
-            {this.renderTransferOptions()}
-            <div className="customized-search-separator-line" />
-            {this.renderTicketTypeOptions(merged.ticketTypes)}
-            <div className="customized-search-separator-line" />
+            {this.checkAndConvertModes(currentOptions.modes).filter(
+              o => o === 'BICYCLE',
+            ).length > 0 && this.renderBikingOptions()}
+            {this.renderTransferOptions(currentOptions.minTransferTime)}
+            <FareZoneSelector
+              headerText={this.context.intl.formatMessage({
+                id: 'zones',
+                defaultMessage: 'Fare zones',
+              })}
+              options={get(this.context.config, 'fareMapping', {})}
+              currentOption={merged.ticketTypes || 'none'}
+              updateValue={newval =>
+                this.replaceParams({ ticketTypes: newval })
+              }
+            />
             <PreferredRoutes />
-            <div className="customized-search-separator-line" />
             {this.renderRoutePreferences()}
-            <div className="customized-search-separator-line" />
-            {this.renderAccesibilitySelector()}
-            <div className="customized-search-separator-line" />
+            {this.renderAccesibilitySelector(
+              currentOptions.accessibilityOption,
+            )}
             {this.renderSaveAndResetButton()}
           </section>
         </div>
