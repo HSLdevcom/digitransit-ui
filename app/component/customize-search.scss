@@ -80,11 +80,6 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
   }
 
-  .desktop .settings-option-container.street-mode-selector-panel-container {
-    border-top: none;
-      padding: $customizedSettings-padding;
-  }
-
   .biketransport-option {
     display: flex;
     .option-checkbox {
@@ -279,6 +274,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     .street-mode-selector-panel-header {
       padding-left: 0;
       span {
+        color: rgb(51, 51, 51);
         text-transform: uppercase;
         letter-spacing: -0.6pt;
         font-size: $font-size-normal;
@@ -290,6 +286,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     .street-mode-selector-panel-buttons {
       button {
         width: 7em;
+        margin-bottom: 0;
       }
       .icon-holder {
         .icon {
@@ -300,190 +297,46 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
         .icon-holder .icon {
           color: #333;
         }
+        .button-mode {
+          span {
+            color: rgb(51, 51, 51);
+          }
+        }
+      }
+    & > .btn:not(:first-child) {
+        border: none;
+        &::before {
+            width: 1px;
+            background-color: #ddd;
+            height: 46%;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
       }
     }
 
-    .button-mode span {
-      font-size: $font-size-xxxsmall;
-      color: #007ac9;
+    .button-mode {
+      max-height: 1em;
+      margin-top: 0.5em;
+      margin-bottom: 1.5em;
+      line-height: 0.8em;
+        span {
+        font-size: $font-size-xxsmall;
+        font-weight: $font-weight-bold;
+        color: #007ac9;
+      }
     }
+  }
+  .desktop .settings-option-container.street-mode-selector-panel-container {
+    border-top: none;
+    padding: $customizedSettings-padding;
+    padding-bottom: 0;
   }
   .mobile {
     .street-mode-selector-panel.customized-settings {
       padding: $customizedSettings-padding;
+      padding-bottom: 0;
     }
   }
-
-  /*
-
-  .sub-header-h5 {
-    color: $medium-gray;
-  }
-
-  h4 {
-    color: $medium-gray;
-    font-size: $font-size-small;  // larger than normal
-    margin: 10px 0 5px 0;
-  }
-
-  hr {
-    margin: $padding-medium 0 0 0;
-    height: 2px;
-    border: 0;
-    opacity: 0.1;
-    background-color: #ffffff;
-  }
-
-  select, button {
-    @include font-medium;
-    font-size: $font-size-small;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    background-color: $dark-gray;
-    color: $white;
-    &:hover {
-      background-color: darken($dark-gray, 10%);
-    }
-    transition: background-color 300ms ease-out;
-    border-radius: $border-radius;
-    padding: $padding-medium;
-
-    &.noborder {
-      padding: 0;
-    }
-
-    &.btn {
-      height: 53px;
-      font-size: 1em;
-    }
-  }
-
-  .save-settings {
-    text-align: center;
-    hr {
-      height: 2px;
-      opacity: 0.1;
-      background-color: $white;
-      margin-bottom: 1.7em;
-    }
-  }
-
-  .save-settings-button {
-    width: 80%;
-    border-radius: 20px;
-  }
-
-  .reset-settings {
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 0;
-    background-color: transparent;
-    display: block;
-    &:hover {
-      background-color: transparent;
-    }
-  }
-
-  .reset-settings-button {
-    @include font-book;
-    line-height: 1.5em;
-
-    span {
-      color: #aaaaaa;
-      border-bottom: 2px dotted #aaaaaa;
-      transition: all 300ms ease-out;
-    }
-
-    &:hover {
-      span {
-        color: $medium-gray;
-        border-bottom: 2px dotted $medium-gray;
-      }
-    }
-  }
-
-  input[type="text"] {
-    background-color: transparent;
-    border: 1px solid $dark-gray;
-    border-radius: $border-radius;
-    color: $white;
-    display: block;
-    margin: 0;
-    width: 100%;
-    appearance: none;
-    box-shadow: none;
-    border-radius: none;
-  }
-  input[type="text"]:focus {
-    color: $black;
-    outline: none;
-  }
-}
-*/
-/*
-.add-via-point-button-label {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:center;
-
-  span:first-child {
-    height: 1em;
-  }
-}
-
-.via-point {
-  width: 100%;
-  display: flex;
-  color: $light-gray;
-  align-items: flex-end;
-
- button.link-name {
-    @include font-book;
-    overflow: hidden;
-    flex: 1;
-    border-bottom: solid 1px $dark-gray;
-    padding-bottom: $padding-xsmall;
-    padding-top: $padding-medium;
-    padding-left: 0;
-    padding-right: 0;
-    border-radius: 0;
-
-    span {
-      @extend .overflow-fade;
-      white-space: nowrap;
-      width: 100%;
-      flex: 1;
-    }
-  }
-
-  button {
-    background: transparent;
-    width: auto;
-    padding: 0;
-  }
-
-  .icon-button {
-    margin-left: $padding-large;
-    margin-right: $padding-small;
-    margin-bottom: $padding-xsmall;
-  }
-}
-
-.via-point-modal .search-modal-overlay {
-  z-index: 1301;
-}
-
-.via-point-modal div.search-modal {
-  z-index: 1302;
-  top: -40px;
-}
-
-.mobile {
-  .reset-settings {
-    max-width: 100%;
-  }
-}
-*/

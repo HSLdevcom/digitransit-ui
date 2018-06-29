@@ -163,7 +163,7 @@ class CustomizeSearch extends React.Component {
             {/* eslint-enable jsx-a11y/label-has-for */}
           </div>
           <FormattedMessage
-            id={`routepreferences-${o.optionName}`}
+            id={`${o.optionName}`}
             defaultMessage={`${o.defaultMessage}`}
           />
         </div>
@@ -205,10 +205,6 @@ class CustomizeSearch extends React.Component {
       config,
     ).map(o => o.name);
 
-    console.log(customizedSettings);
-    console.log(urlParameters);
-    console.log(defaultValues);
-
     const obj = {};
 
     if (urlParameters) {
@@ -220,12 +216,10 @@ class CustomizeSearch extends React.Component {
         obj[key] = urlParameters[key] ? urlParameters[key] : defaultValues[key];
       });
     }
-    console.log(obj);
     return obj;
   };
 
   updateParameters = value => {
-    console.log(value);
     this.context.router.replace({
       ...this.context.location,
       query: {
@@ -234,15 +228,6 @@ class CustomizeSearch extends React.Component {
       },
     });
   };
-
-  /**  replaceParams = newParams =>
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        ...newParams,
-      },
-    }); */
 
   resetParameters = () => {
     resetCustomizedSettings();
@@ -341,6 +326,42 @@ class CustomizeSearch extends React.Component {
                 defaultMessage: 'Hidas 30m/min',
               }),
               value: 'biking-speed-default',
+            },
+          ],
+        },
+      ])}
+    </div>
+  );
+
+  renderWalkingOptions = val => (
+    <div className="settings-option-container walk-options-selector">
+      {this.getSelectOptions([
+        {
+          title: 'walking',
+          paramTitle: 'walkReluctance',
+          currentSelection: val,
+          options: [
+            {
+              displayName: 'walking-amount-default',
+              displayNameObject: this.context.intl.formatMessage({
+                id: 'walking-amount-default',
+                defaultMessage: 'Oletusarvo',
+              }),
+              value: 'walking-amount-default',
+            },
+          ],
+        },
+        {
+          title: 'walking-speed',
+          paramTitle: 'walkSpeed',
+          options: [
+            {
+              displayName: 'walking-speed-default',
+              displayNameObject: this.context.intl.formatMessage({
+                id: 'walking-speed-default',
+                defaultMessage: 'Hidas 30m/min',
+              }),
+              value: 'walking-speed-default',
             },
           ],
         },
@@ -493,6 +514,7 @@ class CustomizeSearch extends React.Component {
       ...getCustomizedSettings(),
       ...this.context.location.query,
     };
+    const checkedModes = this.checkAndConvertModes(currentOptions.modes);
     return (
       <div
         aria-hidden={!this.props.isOpen}
@@ -520,19 +542,12 @@ class CustomizeSearch extends React.Component {
               <Icon className="close-icon" img="icon-icon_close" />
             </button>
             {this.renderStreetModeSelector(config, router)}
-            {this.checkAndConvertModes(currentOptions.modes).filter(
-              o => o === 'BICYCLE',
-            ).length > 0 &&
-              this.renderBikeTransportSelector(
-                this.checkAndConvertModes(currentOptions.modes),
-              )}
-            {this.renderTransportModeSelector(
-              config,
-              this.checkAndConvertModes(currentOptions.modes),
-            )}
-            {this.checkAndConvertModes(currentOptions.modes).filter(
-              o => o === 'BICYCLE',
-            ).length > 0 && this.renderBikingOptions()}
+            {checkedModes.filter(o => o === 'BICYCLE').length > 0 &&
+              this.renderBikeTransportSelector(checkedModes)}
+            {this.renderTransportModeSelector(config, checkedModes)}
+            {checkedModes.filter(o => o === 'BICYCLE').length > 0
+              ? this.renderBikingOptions()
+              : this.renderWalkingOptions()}
             {this.renderTransferOptions(currentOptions.minTransferTime)}
             <FareZoneSelector
               headerText={this.context.intl.formatMessage({
