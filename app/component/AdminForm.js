@@ -18,10 +18,11 @@ class AdminForm extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     dataConDefaults: PropTypes.object.isRequired,
+    modeWeight: PropTypes.object.isRequired,
   };
 
   renderForm() {
-    const { dataConDefaults } = this.props;
+    const { dataConDefaults, modeWeightDefaults } = this.props;
     const { location } = this.context.router;
     const OTPDefaults = {
       ignoreRealtimeUpdates: false,
@@ -42,6 +43,12 @@ class AdminForm extends React.Component {
       heuristicStepsPerMainStep: 8,
       compactLegsByReversedSearch: true,
       disableRemainingWeightHeuristic: false,
+      busWeight: 1.0,
+      railWeight: 1.0,
+      subwayWeight: 1.0,
+      tramWeight: 1.0,
+      ferryWeight: 1.0,
+      airplaneWeight: 1.0,
     };
 
     const UIDefaults = {
@@ -53,6 +60,7 @@ class AdminForm extends React.Component {
     const defaultRoutingSettings = {
       ...OTPDefaults,
       ...dataConDefaults,
+      ...modeWeightDefaults,
       ...UIDefaults,
     };
 
@@ -447,6 +455,96 @@ class AdminForm extends React.Component {
             value={merged.itineraryFiltering}
           />
         </label>
+        {this.context.config.transportModes.bus.availableForSelection && (
+          <label htmlFor="busWeight">
+            The weight of bus traverse mode. Values over 1 add cost to bus travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.busWeight}, parameter name:
+            modeWeight.BUS).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('busWeight', e.target)}
+              value={merged.busWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.rail.availableForSelection && (
+          <label htmlFor="railWeight">
+            The weight of railway traverse mode. Values over 1 add cost to railway travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.railWeight}, parameter name:
+            modeWeight.RAIL).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('railWeight', e.target)}
+              value={merged.railWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.subway.availableForSelection && (
+          <label htmlFor="subwayWeight">
+            The weight of subway traverse mode. Values over 1 add cost to subway travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.subwayWeight}, parameter name:
+            modeWeight.SUBWAY).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('subwayWeight', e.target)}
+              value={merged.subwayWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.tram.availableForSelection && (
+          <label htmlFor="tramWeight">
+            The weight of tram traverse mode. Values over 1 add cost to tram travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.tramWeight}, parameter name:
+            modeWeight.TRAM).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('tramWeight', e.target)}
+              value={merged.tramWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.ferry.availableForSelection && (
+          <label htmlFor="ferryWeight">
+            The weight of ferry traverse mode. Values over 1 add cost to ferry travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.ferryWeight}, parameter name:
+            modeWeight.FERRY).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('ferryWeight', e.target)}
+              value={merged.ferryWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.airplane.availableForSelection && (
+          <label htmlFor="airplaneWeight">
+            The weight of airplane traverse mode. Values over 1 add cost to airplane travel
+            and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.airplaneWeight}, parameter name:
+            modeWeight.AIRPLANE).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('airplaneWeight', e.target)}
+              value={merged.airplaneWeight}
+            />
+          </label>
+        )}
         <RoutingSettingsButtons onReset={resetParameters} />
       </div>
     );

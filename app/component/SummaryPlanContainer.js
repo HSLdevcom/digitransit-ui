@@ -303,6 +303,7 @@ class SummaryPlanContainer extends React.Component {
       $heuristicStepsPerMainStep: Int!,
       $compactLegsByReversedSearch: Boolean!,
       $itineraryFiltering: Float!,
+      $modeWeight: InputModeWeight!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,

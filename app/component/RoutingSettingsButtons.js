@@ -92,6 +92,24 @@ class RoutingSettingsButtons extends React.Component {
       itineraryFiltering: this.context.location.query.itineraryFiltering
         ? this.context.location.query.itineraryFiltering
         : undefined,
+      busWeight: this.context.location.query.busWeight
+        ? this.context.location.query.busWeight
+        : undefined,
+      railWeight: this.context.location.query.railWeight
+        ? this.context.location.query.railWeight
+        : undefined,
+      subwayWeight: this.context.location.query.subwayWeight
+        ? this.context.location.query.subwayWeight
+        : undefined,
+      tramWeight: this.context.location.query.tramWeight
+        ? this.context.location.query.tramWeight
+        : undefined,
+      ferryWeight: this.context.location.query.ferryWeight
+        ? this.context.location.query.ferryWeight
+        : undefined,
+      airplaneWeight: this.context.location.query.airplaneWeight
+        ? this.context.location.query.airplaneWeight
+        : undefined,
     };
 
     if (
