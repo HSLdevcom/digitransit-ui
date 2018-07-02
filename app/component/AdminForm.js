@@ -18,7 +18,7 @@ class AdminForm extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     dataConDefaults: PropTypes.object.isRequired,
-    modeWeight: PropTypes.object.isRequired,
+    modeWeightDefaults: PropTypes.object.isRequired,
   };
 
   renderForm() {
@@ -168,8 +168,8 @@ class AdminForm extends React.Component {
         <label htmlFor="optimize">
           Routing optimization type for cycling. QUICK finds the quickest
           routes, SAFE prefers routes that are safer and GREENWAYS prefers
-          travel through bicycle routes and trails. TRIANGLE allows to configure the
-          emphasis on safety, avoiding slopes and travel time. (default{' '}
+          travel through bicycle routes and trails. TRIANGLE allows to configure
+          the emphasis on safety, avoiding slopes and travel time. (default{' '}
           {defaultRoutingSettings.optimize}, parameter name: optimize).
           <select
             value={merged.optimize}
@@ -457,10 +457,9 @@ class AdminForm extends React.Component {
         </label>
         {this.context.config.transportModes.bus.availableForSelection && (
           <label htmlFor="busWeight">
-            The weight of bus traverse mode. Values over 1 add cost to bus travel
-            and values under 1 decrease cost (default{' '}
-            {defaultRoutingSettings.busWeight}, parameter name:
-            modeWeight.BUS).
+            The weight of bus traverse mode. Values over 1 add cost to bus
+            travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.busWeight}, parameter name: modeWeight.BUS).
             <input
               type="number"
               step="any"
@@ -472,8 +471,8 @@ class AdminForm extends React.Component {
         )}
         {this.context.config.transportModes.rail.availableForSelection && (
           <label htmlFor="railWeight">
-            The weight of railway traverse mode. Values over 1 add cost to railway travel
-            and values under 1 decrease cost (default{' '}
+            The weight of railway traverse mode. Values over 1 add cost to
+            railway travel and values under 1 decrease cost (default{' '}
             {defaultRoutingSettings.railWeight}, parameter name:
             modeWeight.RAIL).
             <input
@@ -487,8 +486,8 @@ class AdminForm extends React.Component {
         )}
         {this.context.config.transportModes.subway.availableForSelection && (
           <label htmlFor="subwayWeight">
-            The weight of subway traverse mode. Values over 1 add cost to subway travel
-            and values under 1 decrease cost (default{' '}
+            The weight of subway traverse mode. Values over 1 add cost to subway
+            travel and values under 1 decrease cost (default{' '}
             {defaultRoutingSettings.subwayWeight}, parameter name:
             modeWeight.SUBWAY).
             <input
@@ -502,8 +501,8 @@ class AdminForm extends React.Component {
         )}
         {this.context.config.transportModes.tram.availableForSelection && (
           <label htmlFor="tramWeight">
-            The weight of tram traverse mode. Values over 1 add cost to tram travel
-            and values under 1 decrease cost (default{' '}
+            The weight of tram traverse mode. Values over 1 add cost to tram
+            travel and values under 1 decrease cost (default{' '}
             {defaultRoutingSettings.tramWeight}, parameter name:
             modeWeight.TRAM).
             <input
@@ -517,8 +516,8 @@ class AdminForm extends React.Component {
         )}
         {this.context.config.transportModes.ferry.availableForSelection && (
           <label htmlFor="ferryWeight">
-            The weight of ferry traverse mode. Values over 1 add cost to ferry travel
-            and values under 1 decrease cost (default{' '}
+            The weight of ferry traverse mode. Values over 1 add cost to ferry
+            travel and values under 1 decrease cost (default{' '}
             {defaultRoutingSettings.ferryWeight}, parameter name:
             modeWeight.FERRY).
             <input
@@ -532,8 +531,8 @@ class AdminForm extends React.Component {
         )}
         {this.context.config.transportModes.airplane.availableForSelection && (
           <label htmlFor="airplaneWeight">
-            The weight of airplane traverse mode. Values over 1 add cost to airplane travel
-            and values under 1 decrease cost (default{' '}
+            The weight of airplane traverse mode. Values over 1 add cost to
+            airplane travel and values under 1 decrease cost (default{' '}
             {defaultRoutingSettings.airplaneWeight}, parameter name:
             modeWeight.AIRPLANE).
             <input

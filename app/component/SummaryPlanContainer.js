@@ -339,6 +339,7 @@ class SummaryPlanContainer extends React.Component {
           heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
           compactLegsByReversedSearch:$compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
+          modeWeight: $modeWeight,
         ) {itineraries {startTime,endTime}}
       }
     }`;

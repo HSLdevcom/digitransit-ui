@@ -7,17 +7,18 @@ class AdminPage extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  state = { loading: true, dataConDefaults: {}, modeWeight: {} };
+  state = { loading: true, dataConDefaults: {}, modeWeightDefaults: {} };
 
   componentDidMount() {
-    const flattenModeWeight = (modeWeights) => {
-      console.log(modeWeights);
-      for (let weight in modeWeights) {
-        modeWeights[`${weight.toLowerCase()}Weight`] = modeWeights[weight];
-        delete modeWeights[weight];
-      }
-      return modeWeights;
-    }
+    const flattenModeWeight = modeWeights => {
+      const flattenedWeight = modeWeights;
+      modeWeights.forEach(weight => {
+        flattenedWeight[`${weight.toLowerCase()}Weight`] =
+          flattenedWeight[weight];
+        delete flattenedWeight[weight];
+      });
+      return flattenedWeight;
+    };
 
     const OTPURLSplit = this.context.config.URL.OTP.split('/');
     const dataContainerURL = `${
@@ -32,9 +33,10 @@ class AdminPage extends React.Component {
           this.setState({
             loading: false,
             dataConDefaults: result.routingDefaults,
-            modeWeightDefaults: result.modeWeight !== undefined
-              ? flattenModeWeight(result.modeWeight)
-              : {},
+            modeWeightDefaults:
+              result.modeWeight !== undefined
+                ? flattenModeWeight(result.modeWeight)
+                : {},
           });
         },
         err => {

@@ -369,14 +369,17 @@ export const preparePlanParams = config => (
           settings.tramWeight !== undefined ||
           settings.ferryWeight !== undefined ||
           settings.airplaneWeight !== undefined
-            ? omitBy({
-              BUS: settings.busWeight,
-              RAIL: settings.railWeight,
-              SUBWAY: settings.subwayWeight,
-              TRAM: settings.tramWeight,
-              FERRY: settings.ferryWeight,
-              AIRPLANE: settings.airplaneWeight,
-            }, nullOrUndefined)
+            ? omitBy(
+                {
+                  BUS: settings.busWeight,
+                  RAIL: settings.railWeight,
+                  SUBWAY: settings.subwayWeight,
+                  TRAM: settings.tramWeight,
+                  FERRY: settings.ferryWeight,
+                  AIRPLANE: settings.airplaneWeight,
+                },
+                nullOrUndefined,
+              )
             : null,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
