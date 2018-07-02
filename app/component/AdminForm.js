@@ -168,7 +168,7 @@ class AdminForm extends React.Component {
         <label htmlFor="optimize">
           Routing optimization type for cycling. QUICK finds the quickest
           routes, SAFE prefers routes that are safer and GREENWAYS prefers
-          travel through paths and parks. TRIANGLE allows to configure the
+          travel through bicycle routes and trails. TRIANGLE allows to configure the
           emphasis on safety, avoiding slopes and travel time. (default{' '}
           {defaultRoutingSettings.optimize}, parameter name: optimize).
           <select
