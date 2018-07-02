@@ -99,11 +99,10 @@ class AdminForm extends React.Component {
     };
 
     const updateInputParam = (param, target, min) => {
-      const newValue = target.value;
+      let newValue = target.value;
       if (newValue < min) {
         alert(`Insert a number that is greater than or equal to ${min}`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       }
       this.context.router.replace({
         pathname: location.pathname,
@@ -115,15 +114,13 @@ class AdminForm extends React.Component {
     };
 
     const updateTriangleParam = (param, target) => {
-      const newValue = target.value;
+      let newValue = target.value;
       if (newValue < 0) {
         alert(`Insert a number that is greater than or equal to 0`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       } else if (newValue > 1) {
         alert(`Insert a number that is greater than or equal to 1`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       }
       this.context.router.replace({
         pathname: location.pathname,
@@ -187,7 +184,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('safetyFactor', e.target)}
                 onChange={e => updateTriangleParam('safetyFactor', e.target)}
                 value={merged.safetyFactor}
               />
@@ -200,7 +196,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('slopeFactor', e.target)}
                 onChange={e => updateTriangleParam('slopeFactor', e.target)}
                 value={merged.slopeFactor}
               />
@@ -213,7 +208,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('timeFactor', e.target)}
                 onChange={e => updateTriangleParam('timeFactor', e.target)}
                 value={merged.timeFactor}
               />
@@ -229,7 +223,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('maxWalkDistance', e.target, 0)}
             onChange={e => updateInputParam('maxWalkDistance', e.target, 0)}
             value={merged.maxWalkDistance}
           />
@@ -242,7 +235,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('maxBikingDistance', e.target, 0)}
             onChange={e => updateInputParam('maxBikingDistance', e.target, 0)}
             value={merged.maxBikingDistance}
           />
@@ -267,7 +259,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('maxPreTransitTime', e.target, 0)}
             onChange={e => updateInputParam('maxPreTransitTime', e.target, 0)}
             value={merged.maxPreTransitTime}
           />
@@ -282,9 +273,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e =>
-              updateInputParam('walkOnStreetReluctance', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('walkOnStreetReluctance', e.target, 0)
             }
@@ -303,7 +291,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('waitReluctance', e.target, 0)}
             onChange={e => updateInputParam('waitReluctance', e.target, 0)}
             value={merged.waitReluctance}
           />
@@ -315,7 +302,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('bikeSpeed', e.target, 0)}
             onChange={e => updateInputParam('bikeSpeed', e.target, 0)}
             value={merged.bikeSpeed}
           />
@@ -329,7 +315,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeSwitchTime', e.target, 0)}
             onChange={e => updateInputParam('bikeSwitchTime', e.target, 0)}
             value={merged.bikeSwitchTime}
           />
@@ -342,7 +327,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeSwitchCost', e.target, 0)}
             onChange={e => updateInputParam('bikeSwitchCost', e.target, 0)}
             value={merged.bikeSwitchCost}
           />
@@ -355,7 +339,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeBoardCost', e.target, 0)}
             onChange={e => updateInputParam('bikeBoardCost', e.target, 0)}
             value={merged.bikeBoardCost}
           />
@@ -368,7 +351,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('carParkCarLegWeight', e.target, 0)}
             onChange={e => updateInputParam('carParkCarLegWeight', e.target, 0)}
             value={merged.carParkCarLegWeight}
           />
@@ -380,7 +362,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('maxTransfers', e.target, 0)}
             onChange={e => updateInputParam('maxTransfers', e.target, 0)}
             value={merged.maxTransfers}
           />
@@ -395,9 +376,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e =>
-              updateInputParam('waitAtBeginningFactor', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('waitAtBeginningFactor', e.target, 0)
             }
@@ -413,9 +391,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e =>
-              updateInputParam('heuristicStepsPerMainStep', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('heuristicStepsPerMainStep', e.target, 0)
             }
@@ -468,7 +443,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('itineraryFiltering', e.target, 0)}
             onChange={e => updateInputParam('itineraryFiltering', e.target, 0)}
             value={merged.itineraryFiltering}
           />
