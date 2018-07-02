@@ -19,20 +19,21 @@ class DTAutosuggest extends React.Component {
 
   static propTypes = {
     autoFocus: PropTypes.bool,
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     executeSearch: PropTypes.func,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
     layers: PropTypes.arrayOf(PropTypes.string).isRequired,
     placeholder: PropTypes.string.isRequired,
     refPoint: dtLocationShape.isRequired,
-    searchType: PropTypes.string.isRequired,
+    searchType: PropTypes.oneOf(['all', 'endpoint']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
   };
 
   static defaultProps = {
     autoFocus: false,
+    className: '',
     executeSearch,
     isFocused: () => {},
     value: '',
