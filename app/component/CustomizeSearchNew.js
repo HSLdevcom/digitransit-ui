@@ -40,7 +40,7 @@ class CustomizeSearch extends React.Component {
 
   onRouteSelected = val => {
     console.log(val);
-    // Implement preferred routes feature here
+    // TODO: Implement preferred routes feature here
   };
 
   getBikeTransportOptions = val =>
@@ -201,9 +201,7 @@ class CustomizeSearch extends React.Component {
     const customizedSettings = getCustomizedSettings();
     const urlParameters = location.query;
     const defaultValues = defaultSettings;
-    defaultValues.modes = ModeUtils.getAvailableTransportModeConfigs(
-      config,
-    ).map(o => o.name);
+    defaultValues.modes = ModeUtils.getDefaultModes(config);
 
     const obj = {};
 
