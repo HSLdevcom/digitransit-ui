@@ -16,7 +16,7 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
-class DTEndpointAutosuggest extends React.Component {
+export class DTEndpointAutosuggest extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -126,11 +126,7 @@ class DTEndpointAutosuggest extends React.Component {
 
     const location = suggestionToLocation(item);
 
-    if (
-      item.properties.layer === 'currentPosition' &&
-      !item.properties.lat &&
-      this.props.id !== 'viapoint'
-    ) {
+    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
       this.setState({ pendingCurrentLocation: true }, () =>
         this.context.executeAction(startLocationWatch),
       );
