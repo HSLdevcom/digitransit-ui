@@ -155,7 +155,7 @@ $border-radius-rounded: 30px;
   right: 10px;
   font-size: 17px;
   border-radius: $border-radius;
-  z-index: index($zindex, map-buttons);
+  z-index: index($zindex, map-fullscreen-toggle);
   .icon {
     margin: 0.5em 0.5em 0 0.5em;
     fill: rgb(255, 255, 255);
