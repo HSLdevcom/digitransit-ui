@@ -228,16 +228,12 @@ class CustomizeSearch extends React.Component {
   };
 
   resetParameters = () => {
+    const defaultValues = defaultSettings;
+    defaultValues.modes = ModeUtils.getDefaultModes(
+      this.context.config,
+    ).toString();
     resetCustomizedSettings();
-    this.replaceParams({
-      walkSpeed: defaultSettings.walkSpeed,
-      walkReluctance: defaultSettings.walkReluctance,
-      walkBoardCost: defaultSettings.walkBoardCost,
-      minTransferTime: defaultSettings.minTransferTime,
-      accessibilityOption: defaultSettings.accessibilityOption,
-      modes: ModeUtils.getDefaultModes(this.context.config).toString(),
-      ticketTypes: defaultSettings.ticketTypes,
-    });
+    this.updateParameters(defaultValues);
   };
 
   toggleTransportMode(mode, otpMode) {
@@ -261,15 +257,6 @@ class CustomizeSearch extends React.Component {
     }
     return [];
   };
-
-  replaceParams = newParams =>
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        ...newParams,
-      },
-    });
 
   renderAccesibilitySelector = val => (
     <div className="settings-option-container accessibility-options-selector">
