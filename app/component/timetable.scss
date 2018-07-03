@@ -64,66 +64,66 @@
         vertical-align: top;
       }
     }
-      background-color: $white;
-      border: 1px solid $light-gray;
-      border-top: none;
-      padding: $padding-medium $padding-large $padding-large $padding-large;
-      &>span {
-        width: 85px;
-      	font-size: $font-size-normal;
-        display: inline-block;
-        overflow: hidden;
+    background-color: $white;
+    border: 1px solid $light-gray;
+    border-top: none;
+    padding: $padding-medium $padding-large $padding-large $padding-large;
+    & > span {
+      width: 85px;
+      font-size: $font-size-normal;
+      display: inline-block;
+      overflow: hidden;
+    }
+    .mobile h1.title {
+      font-size: $font-size-large;
+    }
+    h1.title {
+      font-size: $font-size-xlarge;
+      @media print {
+        display: none;
       }
-      .mobile h1.title {
-        font-size: $font-size-large;
+    }
+    .line-name {
+      white-space: nowrap;
+    }
+    .timetable-rowcontainer {
+      display: table-cell;
+      width: 100%;
+      height: 100%;
+      @media print {
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+        padding-left: 1em;
+        overflow: visible;
       }
-      h1.title {
-        font-size: $font-size-xlarge;
-        @media print {
-          display: none;
+    }
+    @media print {
+      border-bottom: 1px dotted $black;
+      border-left: none;
+      border-right: none;
+      padding-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-right: 0;
+      width: 100%;
+      display: block;
+      .timetablerow-linetime {
+        margin-right: 0.3em;
+      }
+      span {
+        font-size: 12px;
+        &.line-name {
+          font-weight: 400;
         }
       }
-      .line-name {
-        white-space: nowrap;
-      }
-      .timetable-rowcontainer {
-        display: table-cell;
-        width: 100%;
-        height: 100%;
-        @media print {
-          padding-top: 0.6em;
-          padding-bottom: 0.6em;
-          padding-left: 1em;
-          overflow: visible;
-        }
-      }
-  @media print {
-    border-bottom: 1px dotted $black;
-    border-left: none;
-    border-right: none;
-    padding-left: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
-    width: 100%;
-    display: block;
-    .timetablerow-linetime {
-      margin-right: 0.3em;
-    }
-    span {
-      font-size: 12px;
-      &.line-name {
-      font-weight: 400;
     }
   }
-  }
-}
   .route-remarks {
-      background: $white;
-      padding-top: 0.7em;
-      padding-right: 1.5em;
-      padding-bottom: 1.5em;
-      padding-left: 1.5em;
+    background: $white;
+    padding-top: 0.7em;
+    padding-right: 1.5em;
+    padding-bottom: 1.5em;
+    padding-left: 1.5em;
   }
 }
 .mobile .timetable {
