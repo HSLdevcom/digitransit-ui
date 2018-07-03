@@ -4,7 +4,7 @@ import React from 'react';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import mockRouter from './helpers/mock-router';
-import { DTEndpointAutosuggest } from '../../app/component/DTEndpointAutosuggest';
+import { DTEndpointAutosuggestComponent } from '../../app/component/DTEndpointAutosuggest';
 
 describe('<DTEndpointAutosuggest />', () => {
   describe('onSuggestionSelected', () => {
@@ -34,12 +34,15 @@ describe('<DTEndpointAutosuggest />', () => {
         searchType: 'endpoint',
         value: ' ',
       };
-      const wrapper = shallowWithIntl(<DTEndpointAutosuggest {...props} />, {
-        context: {
-          executeAction: () => {},
-          router: mockRouter,
+      const wrapper = shallowWithIntl(
+        <DTEndpointAutosuggestComponent {...props} />,
+        {
+          context: {
+            executeAction: () => {},
+            router: mockRouter,
+          },
         },
-      });
+      );
 
       const selectedItem = {
         type: 'Feature',
@@ -102,14 +105,17 @@ describe('<DTEndpointAutosuggest />', () => {
       };
 
       let wasCalled = false;
-      const wrapper = shallowWithIntl(<DTEndpointAutosuggest {...props} />, {
-        context: {
-          executeAction: () => {
-            wasCalled = true;
+      const wrapper = shallowWithIntl(
+        <DTEndpointAutosuggestComponent {...props} />,
+        {
+          context: {
+            executeAction: () => {
+              wasCalled = true;
+            },
+            router: mockRouter,
           },
-          router: mockRouter,
         },
-      });
+      );
 
       const selectedItem = {
         type: 'CurrentLocation',

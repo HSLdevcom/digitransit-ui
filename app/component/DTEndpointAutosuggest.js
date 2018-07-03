@@ -16,7 +16,7 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
-export class DTEndpointAutosuggest extends React.Component {
+export class DTEndpointAutosuggestComponent extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -157,7 +157,7 @@ export class DTEndpointAutosuggest extends React.Component {
 }
 
 export default connectToStores(
-  DTEndpointAutosuggest,
+  DTEndpointAutosuggestComponent,
   ['PositionStore'],
   context => ({
     locationState: context.getStore('PositionStore').getLocationState(),
