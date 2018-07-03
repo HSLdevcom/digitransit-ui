@@ -12,7 +12,7 @@ class AdminPage extends React.Component {
   componentDidMount() {
     const flattenModeWeight = modeWeights => {
       const flattenedWeight = modeWeights;
-      modeWeights.forEach(weight => {
+      Object.keys(modeWeights).forEach(weight => {
         flattenedWeight[`${weight.toLowerCase()}Weight`] =
           flattenedWeight[weight];
         delete flattenedWeight[weight];
