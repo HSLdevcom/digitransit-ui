@@ -1,16 +1,12 @@
 .quicksettings-container {
-    display: none;
+    display: block;
     background-color: $background-color-lighter;
     padding-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;
 
-    &.visible {
-        display: block;
-    }
-
     .bottom-row {
-      margin-top: 0.7em;
+      margin-top: 0.3em;
       display: flex;
       flex: 0 1 auto;
       flex-direction: row;

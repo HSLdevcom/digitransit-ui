@@ -32,10 +32,7 @@ export default function RightOffcanvasToggle(
             ) : null}
           </div>
           <div>
-            <FormattedMessage
-              id="more-settings"
-              defaultMessage="More Settings"
-            />
+            <FormattedMessage id="settings" defaultMessage="Settings" />
           </div>
         </div>
       </button>
