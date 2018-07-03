@@ -234,21 +234,31 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-ticket-type {
-    white-space: normal;
-    flex-shrink: 1;
     display: inline;
+    flex-shrink: 1;
     margin-left: 0.3em;
     padding-right: 1em;
+    white-space: normal;
+
+    .ticket-type-title {
+      color: $black;
+      font-weight: $font-weight-medium;
+    }
 
     .ticket-type-group,
     .ticket-type-zone {
       @include font-book;
       color: $gray;
+
+      &.multi-component {
+        display: list-item;
+        margin-left: 1.5em;
+      }
     }
 
     .ticket-type-fare {
-      font-weight: $font-weight-bold;
       color: $black;
+      font-weight: $font-weight-bold;
     }
   }
 }
