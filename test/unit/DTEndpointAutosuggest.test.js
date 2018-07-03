@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'react-router';
 
-import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import mockRouter from './helpers/mock-router';
 import { DTEndpointAutosuggest } from '../../app/component/DTEndpointAutosuggest';
