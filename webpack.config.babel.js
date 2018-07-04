@@ -70,10 +70,9 @@ const productionPlugins = [
     ServiceWorker: {
       entry: './app/util/font-sw.js',
       events: true,
-      publicPath: 'sw.js',
+      publicPath: '/sw.js',
     },
     version: '[hash]',
-    relativePaths: true,
   }),
   new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',

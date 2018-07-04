@@ -32,8 +32,9 @@ function addMetaData(config) {
   }
 
   const html = stats.html.join(' ');
-  const appPathPrefix =
+  const APP_PATH =
     config.APP_PATH && config.APP_PATH !== '' ? `${config.APP_PATH}'/'` : '/';
+  const appPathPrefix = process.env.ASSET_URL || APP_PATH;
 
   htmlParser.convert_html_to_json(html, (err, data) => {
     if (!err) {
@@ -57,6 +58,9 @@ function addMetaData(config) {
       data.link.forEach(e => {
         // eslint-disable-next-line no-param-reassign
         delete e.innerHTML;
+        if (e.href.startsWith('../icons')) {
+          e.href = appPathPrefix + e.href.substring(3);
+        }
       });
 
       // eslint-disable-next-line no-param-reassign
