@@ -32,6 +32,7 @@ import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
+import { isIOSApp } from './util/browser';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -187,6 +188,12 @@ const callback = () =>
             props => {
               const root = document.getElementById('app');
               const { initialBreakpoint } = root.dataset;
+
+              // KLUDGE: SSR and CSR mismatch breaks the UI in iOS PWA mode
+              // see: https://github.com/facebook/react/issues/11336
+              if (isIOSApp) {
+                root.innerHTML = '';
+              }
 
               const content = (
                 <ClientBreakpointProvider
