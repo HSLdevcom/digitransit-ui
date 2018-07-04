@@ -303,6 +303,7 @@ class SummaryPlanContainer extends React.Component {
       $heuristicStepsPerMainStep: Int!,
       $compactLegsByReversedSearch: Boolean!,
       $itineraryFiltering: Float!,
+      $modeWeight: InputModeWeight!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -338,6 +339,7 @@ class SummaryPlanContainer extends React.Component {
           heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
           compactLegsByReversedSearch:$compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
+          modeWeight: $modeWeight,
         ) {itineraries {startTime,endTime}}
       }
     }`;
