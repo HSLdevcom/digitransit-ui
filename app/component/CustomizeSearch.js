@@ -340,7 +340,6 @@ class CustomizeSearch extends React.Component {
               'ItinerarySettings',
               'ExtraSettings',
               upperFirst(key),
-              newParams[key],
             );
             break;
           case 'ticketTypes':
