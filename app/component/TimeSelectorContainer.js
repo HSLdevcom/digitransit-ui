@@ -24,7 +24,6 @@ class TimeSelectorContainer extends Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     time: PropTypes.instanceOf(moment).isRequired,
-    arriveBy: PropTypes.string.isRequired,
     now: PropTypes.shape({}).isRequired,
   };
 
@@ -69,17 +68,6 @@ class TimeSelectorContainer extends Component {
     return dates;
   }
 
-  setArriveBy = ({ target }) => {
-    const arriveBy = target.value;
-    this.context.router.replace({
-      pathname: this.context.location.pathname,
-      query: {
-        ...this.context.location.query,
-        arriveBy,
-      },
-    });
-  };
-
   setTime = debounce(newTime => {
     this.context.router.replace({
       pathname: this.context.location.pathname,
@@ -110,9 +98,7 @@ class TimeSelectorContainer extends Component {
   render() {
     return (
       <TimeSelectors
-        arriveBy={this.props.arriveBy}
         time={this.props.time}
-        setArriveBy={this.setArriveBy}
         changeTime={this.changeTime}
         changeDate={this.changeDate}
         dates={this.getDates()}
