@@ -70,6 +70,15 @@ export default class MobileItineraryWrapper extends React.Component {
   focusMap = (lat, lon) => this.props.focus(lat, lon);
 
   switchSlide = index => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ItineraryDetailsClick',
+        'ItineraryDetailsExpand',
+        index,
+      );
+    }
+
     this.context.router.replace({
       ...this.context.location,
       pathname: `${getRoutePath(

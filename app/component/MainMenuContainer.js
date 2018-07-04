@@ -37,9 +37,9 @@ class MainMenuContainer extends Component {
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
-        'Offcanvas',
-        'Index',
-        newState ? 'open' : 'close',
+        'ItinerarySettings',
+        'ExtraSettingsPanelClick',
+        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
       );
     }
 

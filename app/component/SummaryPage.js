@@ -50,6 +50,7 @@ class SummaryPage extends React.Component {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
+    piwik: PropTypes.object,
   };
 
   static propTypes = {
@@ -169,6 +170,13 @@ class SummaryPage extends React.Component {
   };
 
   toggleQuickSettingsPanel = val => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'SettingsButtonClick',
+        val ? 'SettingsButtonExpand' : 'SettingsButtonCollapse',
+      );
+    }
     this.setState({ isQuickSettingsOpen: val });
   };
 

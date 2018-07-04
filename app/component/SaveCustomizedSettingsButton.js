@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Snackbar from 'material-ui/Snackbar';
 
@@ -8,6 +9,7 @@ import { setCustomizedSettings } from '../store/localStorage';
 class SaveCustomizedSettingsButton extends React.Component {
   static contextTypes = {
     location: locationShape.isRequired,
+    piwik: PropTypes.object,
   };
 
   constructor(props) {
@@ -19,6 +21,13 @@ class SaveCustomizedSettingsButton extends React.Component {
   }
 
   setSettingsData = () => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'SettingsPanelSaveSettingsButton',
+        'SaveSettings',
+      );
+    }
     // Test if has new set values
     const settings = {
       accessibilityOption: !(

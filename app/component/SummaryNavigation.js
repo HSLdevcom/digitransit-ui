@@ -106,9 +106,9 @@ class SummaryNavigation extends React.Component {
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
-        'Offcanvas',
-        'Customize Search',
-        newState ? 'close' : 'open',
+        'ItinerarySettings',
+        'ExtraSettingsPanelClick',
+        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
       );
     }
 
