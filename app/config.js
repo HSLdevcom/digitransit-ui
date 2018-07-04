@@ -59,8 +59,6 @@ function addMetaData(config) {
         // eslint-disable-next-line no-param-reassign
         delete e.innerHTML;
         if (e.href.startsWith('../icons')) {
-          console.log(e.href);
-          console.log(appPathPrefix);
           e.href = appPathPrefix + e.href.substring(3);
         }
       });
