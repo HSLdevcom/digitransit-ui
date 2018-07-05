@@ -331,6 +331,10 @@ $route-schedule-date-height: 36px;
   flex-direction: column;
   flex: 1;
   background: $white;
+
+  @media print {
+    display: block;
+  }
 }
 
 .route-schedule-list-wrapper {
@@ -338,8 +342,13 @@ $route-schedule-date-height: 36px;
   display: flex;
   flex-direction: column;
 
+  @media print {
+    display: block;
+  }
+
   .route-schedule-header {
     min-height: 52px;
+
     @media print {
       margin-left: 0;
       margin-right: auto;
