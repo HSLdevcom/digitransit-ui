@@ -73,7 +73,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
     h1 {
       text-transform: initial;
-      font-size: $font-size-large;
+      font-size: $font-size-normal;
       letter-spacing: -0.6pt;
       font-weight: $font-weight-bold;
       font-family: $font-family;
@@ -87,6 +87,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
     span {
       font-weight: 400;
+      margin-top: -0.4em;
     }
   }
 
@@ -206,6 +207,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
   .route-preferences-container {
 
+    h1 {
+      text-transform: uppercase;
+      font-size: $font-size-normal;
+    }
+
     .routepreferences-option {
       display: flex;
 
@@ -237,18 +243,21 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   .option-container {
     h1 {
       text-transform: initial;
-      font-size: $font-size-large;
+      font-size: $font-size-normal;
       letter-spacing: -0.6pt;
       font-weight: $font-weight-bold;
       font-family: $font-family;
+    }
+    h4 {
+      display: none;
     }
     .select-container {
       position: relative;
 
       .icon.fake-select-arrow {
         position: absolute;
-        right: 1em;
-        top: 0.5em;
+        right: 0.7em;
+        top: 0.7em;
         font-size: 1.5em;
         color: #007ac9;
         pointer-events: none;

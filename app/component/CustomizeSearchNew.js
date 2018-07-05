@@ -542,10 +542,10 @@ class CustomizeSearch extends React.Component {
               options={get(this.context.config, 'fareMapping', {})}
               currentOption={merged.ticketTypes || 'none'}
               updateValue={newval =>
-                this.replaceParams({ ticketTypes: newval })
+                this.updateParameters({ ticketTypes: newval })
               }
             />
-            <PreferredRoutes />
+            <PreferredRoutes onRouteSelected={this.onRouteSelected} />
             {this.renderRoutePreferences()}
             {this.renderAccesibilitySelector(
               currentOptions.accessibilityOption,
