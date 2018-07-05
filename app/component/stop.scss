@@ -10,6 +10,10 @@
   height: 100%;
   border-top: 1px solid #dddddd;
   position: relative;
+
+  @media print {
+    display: block;
+  }
 }
 
 .stop-page-content {
@@ -447,7 +451,7 @@ hr.action-bar {
 }
 
 .timetablerow-linetime {
-  float: left;
+  display: inline-block;
   margin-right: 1.2em;
   min-width: 4.1em;
 }
