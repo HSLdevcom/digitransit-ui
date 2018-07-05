@@ -15,6 +15,11 @@ class Select extends React.Component {
     ).isRequired,
   };
 
+  static defaultProps = {
+    headerText: undefined,
+    selected: undefined,
+  };
+
   static getOptionTags(options) {
     return options.map(option => (
       <option key={option.displayName + option.value} value={option.value}>
@@ -26,16 +31,17 @@ class Select extends React.Component {
   }
 
   render() {
+    const { headerText } = this.props;
     return (
-      <div>
-        <h4>{this.props.headerText}</h4>
+      <React.Fragment>
+        {headerText && <h4>{headerText}</h4>}
         <select
           onChange={this.props.onSelectChange}
           value={this.props.selected}
         >
           {Select.getOptionTags(this.props.options)}
         </select>
-      </div>
+      </React.Fragment>
     );
   }
 }
