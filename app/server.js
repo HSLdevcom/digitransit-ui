@@ -271,7 +271,7 @@ export default function(req, res, next) {
 
     const spriteName = config.sprites;
 
-    const ASSET_URL = process.env.ASSET_URL || `${config.APP_PATH}/`;
+    const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
 
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.write('<!doctype html>\n');
@@ -284,12 +284,12 @@ export default function(req, res, next) {
         { as: 'style', href: config.URL.FONT },
         {
           as: 'style',
-          href: `${ASSET_URL}${assets[`${config.CONFIG}_theme.css`]}`,
+          href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
           crossorigin: true,
         },
         ...mainAssets.map(asset => ({
           as: 'script',
-          href: `${ASSET_URL}${asset}`,
+          href: `${ASSET_URL}/${asset}`,
           crossorigin: true,
         })),
       ];
@@ -314,7 +314,7 @@ export default function(req, res, next) {
       );
 
       res.write(
-        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}${
+        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
           assets[`${config.CONFIG}_theme.css`]
         }"/>\n`,
       );
@@ -372,7 +372,7 @@ export default function(req, res, next) {
 
     if (process.env.NODE_ENV !== 'development') {
       res.write('<script>\n');
-      res.write(`fetch('${ASSET_URL}${assets[spriteName]}')
+      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
         .then(function(response) {return response.text();}).then(function(blob) {
           var div = document.createElement('div');
           div.innerHTML = blob;
@@ -402,13 +402,13 @@ export default function(req, res, next) {
     } else {
       res.write('<script>');
       res.write(
-        manifest.replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}js/`),
+        manifest.replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}/js/`),
       );
       res.write('\n</script>\n');
-      res.write(`<script>window.ASSET_URL="${ASSET_URL}"</script>\n`);
+      res.write(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
       mainAssets.forEach(asset =>
         res.write(
-          `<script src="${ASSET_URL}${asset}" crossorigin defer></script>\n`,
+          `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
         ),
       );
     }
