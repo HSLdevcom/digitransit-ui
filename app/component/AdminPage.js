@@ -7,9 +7,19 @@ class AdminPage extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  state = { loading: true, dataConDefaults: {} };
+  state = { loading: true, dataConDefaults: {}, modeWeightDefaults: {} };
 
   componentDidMount() {
+    const flattenModeWeight = modeWeights => {
+      const flattenedWeight = modeWeights;
+      Object.keys(modeWeights).forEach(weight => {
+        flattenedWeight[`${weight.toLowerCase()}Weight`] =
+          flattenedWeight[weight];
+        delete flattenedWeight[weight];
+      });
+      return flattenedWeight;
+    };
+
     const OTPURLSplit = this.context.config.URL.OTP.split('/');
     const dataContainerURL = `${
       this.context.config.URL.API_URL
@@ -23,6 +33,10 @@ class AdminPage extends React.Component {
           this.setState({
             loading: false,
             dataConDefaults: result.routingDefaults,
+            modeWeightDefaults:
+              result.modeWeight !== undefined
+                ? flattenModeWeight(result.modeWeight)
+                : {},
           });
         },
         err => {

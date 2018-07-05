@@ -39,6 +39,7 @@ export const defaultRoutingSettings = {
   heuristicStepsPerMainStep: null,
   compactLegsByReversedSearch: null,
   disableRemainingWeightHeuristic: null,
+  modeWeight: null,
 };
 
 function getIntermediatePlaces(intermediatePlaces) {
@@ -226,6 +227,30 @@ export const getSettings = () => {
       routingSettings.itineraryFiltering !== undefined
         ? Number(routingSettings.itineraryFiltering)
         : undefined,
+    busWeight:
+      routingSettings.busWeight !== undefined
+        ? Number(routingSettings.busWeight)
+        : undefined,
+    railWeight:
+      routingSettings.railWeight !== undefined
+        ? Number(routingSettings.railWeight)
+        : undefined,
+    subwayWeight:
+      routingSettings.subwayWeight !== undefined
+        ? Number(routingSettings.subwayWeight)
+        : undefined,
+    tramWeight:
+      routingSettings.tramWeight !== undefined
+        ? Number(routingSettings.tramWeight)
+        : undefined,
+    ferryWeight:
+      routingSettings.ferryWeight !== undefined
+        ? Number(routingSettings.ferryWeight)
+        : undefined,
+    airplaneWeight:
+      routingSettings.airplaneWeight !== undefined
+        ? Number(routingSettings.airplaneWeight)
+        : undefined,
   };
 };
 
@@ -337,6 +362,25 @@ export const preparePlanParams = config => (
           settings.itineraryFiltering !== undefined
             ? settings.itineraryFiltering
             : config.itineraryFiltering,
+        modeWeight:
+          settings.busWeight !== undefined ||
+          settings.railWeight !== undefined ||
+          settings.subwayWeight !== undefined ||
+          settings.tramWeight !== undefined ||
+          settings.ferryWeight !== undefined ||
+          settings.airplaneWeight !== undefined
+            ? omitBy(
+                {
+                  BUS: settings.busWeight,
+                  RAIL: settings.railWeight,
+                  SUBWAY: settings.subwayWeight,
+                  TRAM: settings.tramWeight,
+                  FERRY: settings.ferryWeight,
+                  AIRPLANE: settings.airplaneWeight,
+                },
+                nullOrUndefined,
+              )
+            : null,
         preferred: { agencies: config.preferredAgency || '' },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modes,
