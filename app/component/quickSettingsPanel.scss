@@ -84,7 +84,6 @@
     }
 
     .open-advanced-settings {
-      margin-right: 0.4em;
       flex: 0 1 auto;
       .right-offcanvas-toggle {
         background: none;
@@ -103,7 +102,7 @@
         display: flex;
         flex-direction: row;
         color: $link-color;
-        margin-right: 0.5em;
+        margin-left: 0.5em;
         width: 50%;
         > span {
           margin-left: -1.4rem;
@@ -152,6 +151,7 @@
       }
 }
 .mobile .quicksettings-container {
+    padding-bottom: $padding-medium;
     padding-left: $padding-small;
     padding-right: $padding-small;
 

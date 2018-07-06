@@ -82,11 +82,6 @@
   }
   .select-wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: $border-radius;
-    background: $background-color-lighter;
-    margin-right: 1px;
     flex: 0 1 14.5em;
 
     > span {
@@ -153,7 +148,7 @@
 }
 
 .mobile .time-selectors {
-  flex: 0 1 100%;
+  flex: 0 1 85%;
   .select-wrapper > span {
     margin-left: -1.4rem;
   }
@@ -199,6 +194,10 @@
   }
 }
 
+.mobile .time-input-container {
+  margin-right: 0;
+}
+
 .quicksettings-separator-line {
   display: block;
   width: auto;
@@ -216,7 +215,6 @@
 }
 
 .time-selector-settings-row {
-  overflow-x: hidden;
   background-color: $background-color-lighter;
   display: flex;
   justify-content: space-between;
