@@ -91,7 +91,7 @@
     "moment-timezone": "0.5.17",
     "mqtt": "2.18.1",
     "name-all-modules-plugin": "1.0.1",
-    "node-fetch": "s2.1.2",
+    "node-fetch": "2.1.2",
     "offline-plugin": "5.0.5",
     "pbf": "3.1.0",
     "point-in-polygon": "1.0.1",

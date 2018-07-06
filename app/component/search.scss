@@ -392,6 +392,9 @@ div.map {
     &.hidden {
       display: none;
     }
+    &.isItinerary {
+      position: fixed;
+    }
   }
 
   .react-autosuggest__container {
