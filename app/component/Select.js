@@ -9,7 +9,10 @@ class Select extends React.Component {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         displayName: PropTypes.string.isRequired,
-        displayNameObject: PropTypes.object,
+        displayNameObject: PropTypes.oneOfType([
+          PropTypes.node,
+          PropTypes.string,
+        ]),
         value: PropTypes.string.isRequired,
       }).isRequired,
     ).isRequired,
