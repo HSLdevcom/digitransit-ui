@@ -664,34 +664,6 @@ div.route-tabs {
   }
 }
 
-
-.nearby-routes .mode-filter {
-  &.btn-bar .btn {
-    border-right: 1px solid $light-gray;
-    border-top: 1px solid $light-gray;
-    border-bottom: 1px solid $light-gray;
-
-    &:first-child {
-      border-top-left-radius: $border-radius-bigger;
-      border-bottom-left-radius: $border-radius-bigger;
-      border-left: 1px solid $light-gray;
-    }
-    &:last-child {
-      border-top-right-radius: $border-radius-bigger;
-      border-bottom-right-radius: $border-radius-bigger;
-    }
-
-    & .icon-holder {
-      padding-top: 8px;
-      padding-bottom: 3px;
-
-      & .icon {
-        height: 24px;
-        width: 24px;
-      }
-    }
-  }
-}
 .fpccontainer > div > div > div.spinner-loader {
   top: 15%;
 }
