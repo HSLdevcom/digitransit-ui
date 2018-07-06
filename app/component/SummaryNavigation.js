@@ -3,12 +3,8 @@ import React from 'react';
 import cx from 'classnames';
 import { routerShape } from 'react-router';
 import OriginDestinationBar from './OriginDestinationBar';
-import TimeSelectorContainer from './TimeSelectorContainer';
-// import RightOffcanvasToggle from './RightOffcanvasToggle';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { parseLocation } from '../util/path';
-import Icon from './Icon';
-import SecondaryButton from './SecondaryButton';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import * as ModeUtils from '../util/modeUtils';
@@ -23,8 +19,6 @@ class SummaryNavigation extends React.Component {
     hasDefaultPreferences: PropTypes.bool.isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
-    isQuickSettingsOpen: PropTypes.bool.isRequired,
-    toggleQuickSettings: PropTypes.func.isRequired,
     breakpoint: PropTypes.string.isRequired,
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
@@ -91,25 +85,9 @@ class SummaryNavigation extends React.Component {
       this.context.location.state.customizeSearchOffcanvas) ||
     false;
 
-  checkQuickSettingsIcon = () => {
-    if (this.props.isQuickSettingsOpen) {
-      return `icon-icon_close`;
-    } else if (
-      !this.props.isQuickSettingsOpen &&
-      !this.props.hasDefaultPreferences
-    ) {
-      return `icon-icon_settings-adjusted`;
-    }
-    return `icon-icon_settings`;
-  };
-
   customizeSearchModules = {
     Drawer: () => importLazy(import('material-ui/Drawer')),
     CustomizeSearch: () => importLazy(import('./CustomizeSearchNew')),
-  };
-
-  toggleQuickSettingsPanel = () => {
-    this.props.toggleQuickSettings(!this.props.isQuickSettingsOpen);
   };
 
   toggleCustomizeSearchOffcanvas = () => {
@@ -153,7 +131,7 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const { config, router } = this.context;
-    const quickSettingsIcon = this.checkQuickSettingsIcon();
+    // const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
@@ -201,39 +179,12 @@ class SummaryNavigation extends React.Component {
           )}
         />
         {this.renderStreetModeSelector(config, router)}
-        <div
-          className={cx('quicksettings-separator-line', {
-            hidden: !this.props.isQuickSettingsOpen,
-          })}
-        />
-        <div
-          className={cx('time-selector-settings-row', className, {
-            quickSettingsOpen: this.props.isQuickSettingsOpen,
-          })}
-        >
-          <TimeSelectorContainer
-            startTime={this.props.startTime}
-            endTime={this.props.endTime}
-            serviceTimeRange={this.props.serviceTimeRange}
-          />
-          <div className="button-container">
-            <div className="icon-holder">
-              {!this.props.hasDefaultPreferences &&
-              !this.props.isQuickSettingsOpen ? (
-                <Icon img="icon-icon_attention" className="super-icon" />
-              ) : null}
-            </div>
-            <SecondaryButton
-              ariaLabel={this.props.isQuickSettingsOpen ? `close` : `settings`}
-              buttonName={this.props.isQuickSettingsOpen ? `close` : `settings`}
-              buttonClickAction={this.toggleQuickSettingsPanel}
-              buttonIcon={quickSettingsIcon}
-            />
-          </div>
-        </div>
+        <div className={cx('quicksettings-separator-line')} />
         <QuickSettingsPanel
-          visible={this.props.isQuickSettingsOpen}
           hasDefaultPreferences={this.props.hasDefaultPreferences}
+          timeSelectorStartTime={this.props.startTime}
+          timeSelectorEndTime={this.props.endTime}
+          timeSelectorServiceTimeRange={this.props.serviceTimeRange}
         />
       </div>
     );

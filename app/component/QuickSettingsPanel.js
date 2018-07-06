@@ -11,6 +11,7 @@ import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { defaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 import { getModes } from '../util/modeUtils';
+import TimeSelectorContainer from './TimeSelectorContainer';
 
 /* define what belongs to predefined 'quick' parameter selections */
 const quickOptionParams = [
@@ -49,8 +50,10 @@ const quickOptions = {
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
-    visible: PropTypes.bool.isRequired,
     hasDefaultPreferences: PropTypes.bool.isRequired,
+    timeSelectorStartTime: PropTypes.number,
+    timeSelectorEndTime: PropTypes.number,
+    timeSelectorServiceTimeRange: PropTypes.object.isRequired,
   };
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -155,6 +158,7 @@ class QuickSettingsPanel extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
+    /*
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
         'Offcanvas',
@@ -162,6 +166,7 @@ class QuickSettingsPanel extends React.Component {
         newState ? 'close' : 'open',
       );
     }
+    */
 
     if (newState) {
       this.context.router.push({
@@ -181,15 +186,13 @@ class QuickSettingsPanel extends React.Component {
     const quickOption = this.matchQuickOption();
 
     return (
-      <div
-        className={cx([
-          'quicksettings-container',
-          {
-            visible: this.props.visible,
-          },
-        ])}
-      >
-        <div className="top-row">
+      <div className={cx(['quicksettings-container'])}>
+        <div className={cx('time-selector-settings-row')}>
+          <TimeSelectorContainer
+            startTime={this.props.timeSelectorStartTime}
+            endTime={this.props.timeSelectorEndTime}
+            serviceTimeRange={this.props.timeSelectorServiceTimeRange}
+          />
           <div className="select-wrapper">
             <select
               className="arrive"
@@ -212,6 +215,29 @@ class QuickSettingsPanel extends React.Component {
             <Icon
               className="fake-select-arrow"
               img="icon-icon_arrow-dropdown"
+            />
+          </div>
+
+          <div className="open-advanced-settings">
+            <RightOffcanvasToggle
+              onToggleClick={this.toggleCustomizeSearchOffcanvas}
+              hasChanges={!this.props.hasDefaultPreferences}
+            />
+          </div>
+        </div>
+        <div className="bottom-row">
+          <div className="toggle-modes">
+            <ModeFilter
+              action={this.actions}
+              buttonClass="mode-icon"
+              selectedModes={Object.keys(this.context.config.transportModes)
+                .filter(
+                  mode =>
+                    this.context.config.transportModes[mode]
+                      .availableForSelection,
+                )
+                .filter(mode => this.getMode(mode))
+                .map(mode => mode.toUpperCase())}
             />
           </div>
           <div className="select-wrapper">
@@ -256,28 +282,6 @@ class QuickSettingsPanel extends React.Component {
             <Icon
               className="fake-select-arrow"
               img="icon-icon_arrow-dropdown"
-            />
-          </div>
-        </div>
-        <div className="bottom-row">
-          <div className="toggle-modes">
-            <ModeFilter
-              action={this.actions}
-              buttonClass="mode-icon"
-              selectedModes={Object.keys(this.context.config.transportModes)
-                .filter(
-                  mode =>
-                    this.context.config.transportModes[mode]
-                      .availableForSelection,
-                )
-                .filter(mode => this.getMode(mode))
-                .map(mode => mode.toUpperCase())}
-            />
-          </div>
-          <div className="open-advanced-settings">
-            <RightOffcanvasToggle
-              onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={!this.props.hasDefaultPreferences}
             />
           </div>
         </div>
