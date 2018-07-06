@@ -43,7 +43,7 @@ class DTEndpointAutosuggest extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
-    onRouteSelected: '',
+    onRouteSelected: undefined,
     isPreferredRouteSearch: false,
     layers: getAllEndpointLayers(),
     showSpinner: false,
@@ -114,7 +114,7 @@ class DTEndpointAutosuggest extends React.Component {
 
   onSuggestionSelected = item => {
     // preferred route selection
-    if (this.props.isPreferredRouteSearch) {
+    if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
       this.props.onRouteSelected(item);
       return;
     }

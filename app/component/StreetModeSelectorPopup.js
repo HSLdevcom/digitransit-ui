@@ -46,10 +46,9 @@ class StreetModeSelectorPopup extends React.Component {
               this.selectedStreetModeButton = ref;
             }
           }}
+          showButtonTitle
           state={isSelected}
-        >
-          <FormattedMessage id={labelId} defaultMessage={name} />
-        </ToggleButton>
+        />
       );
     });
   }

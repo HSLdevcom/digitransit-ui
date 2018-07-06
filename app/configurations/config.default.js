@@ -282,11 +282,6 @@ export default {
       defaultValue: true,
     },
 
-    citybike: {
-      availableForSelection: true, // TODO: Turn off in autumn
-      defaultValue: false, // always false
-    },
-
     airplane: {
       availableForSelection: true,
       defaultValue: true,
@@ -295,6 +290,11 @@ export default {
     ferry: {
       availableForSelection: true,
       defaultValue: true,
+    },
+
+    citybike: {
+      availableForSelection: true, // TODO: Turn off in autumn
+      defaultValue: false, // always false
     },
   },
 

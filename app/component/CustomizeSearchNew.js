@@ -80,7 +80,11 @@ class CustomizeSearch extends React.Component {
         key={`mode-option-${o.name.toLowerCase()}`}
       >
         {/* eslint-disable-next-line */}
-        <div className="option-checbox" tabIndex={0} onKeyPress={() => this.toggleTransportMode(o.name)}>
+        <div
+          className="option-checbox"
+          tabIndex={0} // eslint-disable-line
+          onKeyPress={() => this.toggleTransportMode(o.name)}
+        >
           <input
             type="checkbox"
             checked={currentModes.filter(o2 => o2 === o.name).length > 0}
@@ -258,30 +262,31 @@ class CustomizeSearch extends React.Component {
     return [];
   };
 
-  renderAccesibilitySelector = val => (
-    <div className="settings-option-container accessibility-options-selector">
-      {this.getSelectOptions([
-        {
-          title: 'accessibility',
-          paramTitle: 'accessibilityOption',
-          currentSelection: val,
-          options: this.context.config.accessibilityOptions.map((o, i) => ({
-            displayNameObject: (
-              <FormattedMessage
-                defaultMessage={
-                  this.context.config.accessibilityOptions[i].displayName
-                }
-                id={this.context.config.accessibilityOptions[i].messageId}
-              />
-            ),
-            displayName: this.context.config.accessibilityOptions[i]
-              .displayName,
-            value: this.context.config.accessibilityOptions[i].value,
-          })),
-        },
-      ])}
-    </div>
-  );
+  renderAccesibilitySelector = val => {
+    const {
+      config: { accessibilityOptions },
+      intl,
+    } = this.context;
+    return (
+      <div className="settings-option-container accessibility-options-selector">
+        {this.getSelectOptions([
+          {
+            title: 'accessibility',
+            paramTitle: 'accessibilityOption',
+            currentSelection: val,
+            options: accessibilityOptions.map((o, i) => ({
+              displayNameObject: intl.formatMessage({
+                defaultMessage: accessibilityOptions[i].displayName,
+                id: accessibilityOptions[i].messageId,
+              }),
+              displayName: accessibilityOptions[i].displayName,
+              value: accessibilityOptions[i].value,
+            })),
+          },
+        ])}
+      </div>
+    );
+  };
 
   renderBikingOptions = val => (
     <div className="settings-option-container bike-options-selector">
@@ -422,12 +427,13 @@ class CustomizeSearch extends React.Component {
     config.features.showStreetModeQuickSelect && (
       <div className="settings-option-container street-mode-selector-panel-container">
         <StreetModeSelectorPanel
+          className="customized-settings"
           selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
           selectStreetMode={(streetMode, isExclusive) =>
             ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
           }
+          showButtonTitles
           streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-          viewid="customized-settings"
         />
       </div>
     );
