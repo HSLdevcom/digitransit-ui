@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import Select from './Select';
 
@@ -18,27 +18,22 @@ class FareZoneSelector extends React.Component {
   };
 
   createFareZoneObjects = options => {
+    const { intl } = this.context;
     const optionsArray = Object.values(options);
-    const constructedOptions = optionsArray.map(o => {
-      const obj = {};
-      obj.displayName = o.replace(':', '_');
-      obj.displayNameObject = (
-        <FormattedMessage
-          defaultMessage={`ticket-type-${o}`}
-          id={`ticket-type-${o}`}
-        />
-      );
-      obj.value = o.replace(':', '_');
-      return obj;
-    });
+    const constructedOptions = optionsArray.map(o => ({
+      displayName: o.replace(':', '_'),
+      displayNameObject: intl.formatMessage({
+        defaultMessage: `ticket-type-${o}`,
+        id: `ticket-type-${o}`,
+      }),
+      value: o.replace(':', '_'),
+    }));
     constructedOptions.push({
       displayName: 'none',
-      displayNameObject: (
-        <FormattedMessage
-          defaultMessage="ticket-type-none"
-          id="ticket-type-none"
-        />
-      ),
+      displayNameObject: intl.formatMessage({
+        defaultMessage: 'ticket-type-none',
+        id: 'ticket-type-none',
+      }),
       value: 'none',
     });
     return uniqBy(constructedOptions, 'value');

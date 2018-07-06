@@ -9,10 +9,18 @@ class Select extends React.Component {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         displayName: PropTypes.string.isRequired,
-        displayNameObject: PropTypes.object,
+        displayNameObject: PropTypes.oneOfType([
+          PropTypes.node,
+          PropTypes.string,
+        ]),
         value: PropTypes.string.isRequired,
       }).isRequired,
     ).isRequired,
+  };
+
+  static defaultProps = {
+    headerText: undefined,
+    selected: undefined,
   };
 
   static getOptionTags(options) {
@@ -26,16 +34,17 @@ class Select extends React.Component {
   }
 
   render() {
+    const { headerText } = this.props;
     return (
-      <div>
-        <h4>{this.props.headerText}</h4>
+      <React.Fragment>
+        {headerText && <h4>{headerText}</h4>}
         <select
           onChange={this.props.onSelectChange}
           value={this.props.selected}
         >
           {Select.getOptionTags(this.props.options)}
         </select>
-      </div>
+      </React.Fragment>
     );
   }
 }

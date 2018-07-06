@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
 class ToggleButton extends React.Component {
@@ -17,6 +17,7 @@ class ToggleButton extends React.Component {
       label,
       children,
       buttonRef,
+      showButtonTitle,
       ...rest
     } = this.props;
 
@@ -43,12 +44,12 @@ class ToggleButton extends React.Component {
             <Icon img={`icon-icon_${icon}`} className="" />
           </div>
         )}
-        {this.props.viewid === 'customized-settings' && (
-          <div className="button-mode">
-            <span>{intl.formatMessage({ id: label })}</span>
+        {showButtonTitle && (
+          <div className="toggle-button-title">
+            <FormattedMessage id={label} />
           </div>
         )}
-        <div>{children}</div>
+        {children && <React.Fragment>{children}</React.Fragment>}
       </button>
     );
   }
@@ -68,7 +69,11 @@ ToggleButton.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node,
   buttonRef: PropTypes.func,
-  viewid: PropTypes.string,
+  showButtonTitle: PropTypes.bool,
+};
+
+ToggleButton.defaultProps = {
+  showButtonTitle: false,
 };
 
 export default ToggleButton;
