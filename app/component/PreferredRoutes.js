@@ -22,15 +22,15 @@ class PreferredRoutes extends React.Component {
         })}
       </h1>
       <DTEndpointAutosuggest
-        placeholder=" "
+        placeholder="give-route"
         searchType="all"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
         onRouteSelected={val => this.onRouteSelected(val)}
         id={`searchfield-${routeOptions.optionName}`}
         refPoint={{ lat: 0, lon: 0 }}
-        layers={['CurrentPosition', 'Geocoding', 'OldSearch', 'Stops']}
-        value=" "
+        layers={['Geocoding']}
+        value=""
         isPreferredRouteSearch
       />
       <div className="preferred-routes-list">
