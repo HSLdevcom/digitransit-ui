@@ -427,12 +427,13 @@ class CustomizeSearch extends React.Component {
     config.features.showStreetModeQuickSelect && (
       <div className="settings-option-container street-mode-selector-panel-container">
         <StreetModeSelectorPanel
+          className="customized-settings"
           selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
           selectStreetMode={(streetMode, isExclusive) =>
             ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
           }
+          showButtonTitles
           streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-          viewid="customized-settings"
         />
       </div>
     );

@@ -294,7 +294,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       .icon-holder .icon {
         color: #333;
       }
-      .button-mode {
+      .toggle-button-title {
         span {
           color: rgb(51, 51, 51);
         }
@@ -314,7 +314,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
   }
 
-  .button-mode {
+  .toggle-button-title {
     max-height: 1em;
     margin-top: 0.5em;
     margin-bottom: 1.5em;
