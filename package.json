@@ -122,7 +122,7 @@
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "7.0.0-beta.51",
+    "@babel/plugin-transform-runtime": "7.0.0-beta.52",
     "@babel/runtime": "7.0.0-beta.51",
     "async": "2.6.1",
     "autoprefixer": "8.6.2",
