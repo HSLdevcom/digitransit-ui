@@ -8,7 +8,11 @@ const NoFavouritesPanel = () => (
       <div className="nofavs-p black text-center">
         <div className="nofavs-img">
           {isBrowser && (
-            <img src={require('../../sass/themes/default/favourites_empty_tip.png')} />
+            <img
+              // eslint-disable-next-line global-require
+              src={require('../../sass/themes/default/favourites_empty_tip.png')}
+              alt="No favourites tip icon"
+            />
           )}
         </div>
         <FormattedMessage

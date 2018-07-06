@@ -57,9 +57,14 @@ class ItineraryCircleLine extends React.Component {
 
   render() {
     const marker = this.getMarker();
-    const legBeforeLineStyle = {color: this.props.color};
-    if (isBrowser && (this.props.modeClassName === 'walk' || this.props.modeClassName === 'bicycle')) {
-      legBeforeLineStyle["backgroundImage"] = `url(${require(`../../sass/themes/default/dotted-line-bg.png`)})`;
+    const legBeforeLineStyle = { color: this.props.color };
+    if (
+      isBrowser &&
+      (this.props.modeClassName === 'walk' ||
+        this.props.modeClassName === 'bicycle')
+    ) {
+      // eslint-disable-next-line global-require
+      legBeforeLineStyle.backgroundImage = `url(${require(`../../sass/themes/default/dotted-line-bg.png`)})`;
     }
     return (
       <div className={`leg-before ${this.props.modeClassName}`}>
