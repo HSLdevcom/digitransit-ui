@@ -242,17 +242,6 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 }
 
 .option-container {
-  h1 {
-    text-transform: initial;
-    font-size: $font-size-large;
-    letter-spacing: -0.6pt;
-    font-weight: $font-weight-bold;
-    font-family: $font-family;
-  }
-  .select-container {
-    position: relative;
-  }
-  .option-container {
     h1 {
       text-transform: initial;
       font-size: $font-size-normal;
@@ -289,7 +278,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
   }
 }
-}
+
 .street-mode-selector-panel.customized-settings {
   flex-direction: column;
 
