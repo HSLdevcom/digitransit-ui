@@ -1,9 +1,9 @@
 .quicksettings-container {
     display: block;
     background-color: $background-color-lighter;
-    padding-bottom: 1em;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-bottom: $padding-small;
+    padding-left: $padding-medium;
+    padding-right: $padding-medium;
 
     .bottom-row {
       margin-top: 0.3em;
@@ -152,8 +152,8 @@
       }
 }
 .mobile .quicksettings-container {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: $padding-small;
+    padding-right: $padding-small;
 
     .bottom-row .select-wrapper {
       width: 40%;

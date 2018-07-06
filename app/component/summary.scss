@@ -453,12 +453,12 @@
 
 .desktop {
   & .street-mode-selector-panel-container {
-    padding: 0 1em;
+    padding: 0 $padding-medium;
   }
 }
 
 .mobile {
   & .street-mode-selector-panel-container {
-    padding: 0 0.4em;
+    padding: 0 $padding-small;
   }
 }

@@ -1,11 +1,12 @@
 .origin-destination-bar {
   background-color: $background-color-lighter;
   width: 100%;
+  padding-left: $padding-medium;
+  padding-right: $padding-medium;
   padding-top: calc(#{$padding-large} - 15px);
   display: flex;
   justify-content: space-around;
   align-items: initial;
-  padding-left: 1.2em;
 
   .field-link{
     @include font-book;
@@ -74,9 +75,6 @@
   }
 
   &.bp-large {
-    flex-wrap: wrap;
-    padding-right: 20px;
-
     .field-link {
       width: 95%;
       padding-left: 30px;
@@ -104,7 +102,8 @@
 }
 .mobile {
   .origin-destination-bar {
-    padding-left: 0.4em;
+    padding-left: $padding-small;
+    padding-right: $padding-small;
     z-index: 999;
   }
 }
