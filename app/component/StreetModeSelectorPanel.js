@@ -35,7 +35,6 @@ class StreetModeSelectorPanel extends React.Component {
           }
           showButtonTitle={showButtonTitles}
           state={isSelected}
-          viewid={this.props.viewid}
         />
       );
     });
@@ -71,7 +70,6 @@ StreetModeSelectorPanel.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
-  viewid: PropTypes.string,
 };
 
 StreetModeSelectorPanel.defaultProps = {
