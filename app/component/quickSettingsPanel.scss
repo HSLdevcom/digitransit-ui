@@ -1,9 +1,7 @@
 .quicksettings-container {
     display: block;
     background-color: $background-color-lighter;
-    padding-bottom: $padding-small;
-    padding-left: $padding-medium;
-    padding-right: $padding-medium;
+    padding: $padding-small $padding-medium 1em $padding-medium;
 
     .bottom-row {
       margin-top: 0.3em;
@@ -68,7 +66,6 @@
           border-radius: 3px;
           border-right: none;
           margin-bottom: 0;
-          margin-left: 0.3em;
           height: 2em;
           max-width: 2em;
           .icon-holder {
@@ -79,6 +76,9 @@
               height: 1.4em;
             }
           }
+        }
+        .mode-icon ~ .mode-icon {
+          margin-left: $padding-xsmall;
         }
       }
     }
