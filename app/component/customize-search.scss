@@ -1,12 +1,12 @@
 $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
 .customize-search-wrapper {
-  height:100%;
+  height: 100%;
 }
 
 .customize-search {
   background: #f4f4f5;
-  height:100%;
+  height: 100%;
   overflow-y: auto;
   position: relative;
 
@@ -29,7 +29,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     position: relative;
     margin-right: 1em;
 
-    & input[type=checkbox] {
+    & input[type='checkbox'] {
       visibility: hidden;
       height: 20px;
       width: 20px;
@@ -63,88 +63,87 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
         border: 1px solid $primary-color;
       }
     }
-
   }
+}
+
+.settings-option-container {
+  border-top: 1px solid #e3e3e4;
+  padding: $customizedSettings-padding;
+
+  h1 {
+    text-transform: initial;
+    font-size: $font-size-large;
+    letter-spacing: -0.6pt;
+    font-weight: $font-weight-bold;
+    font-family: $font-family;
+  }
+}
+
+.biketransport-option {
+  display: flex;
+  .option-checkbox {
+    margin-top: 0.4em;
+  }
+  span {
+    font-weight: 400;
+  }
+}
+
+.transport-mode-header {
+  h1 {
+    text-transform: uppercase;
+    letter-spacing: -0.6pt;
+    font-size: $font-size-normal;
+    font-weight: $font-weight-bold;
+    font-family: $font-family;
+  }
+}
+
+.mode-option-container {
+  display: flex;
+
+  .option-checbox {
+    margin-top: 1em;
   }
 
-  .settings-option-container {
-    border-top: 1px solid #e3e3e4;
-    padding: $customizedSettings-padding;
-
-    h1 {
-      text-transform: initial;
-      font-size: $font-size-large;
-      letter-spacing: -0.6pt;
-      font-weight: $font-weight-bold;
-      font-family: $font-family;
-    }
-  }
-
-  .biketransport-option {
+  .mode-option-block {
+    width: 100%;
+    height: 3.5em;
+    background-color: currentColor;
+    margin-bottom: 0.1em;
     display: flex;
-    .option-checkbox {
-      margin-top: 0.4em;
-    }
+    cursor: pointer;
+
     span {
-      font-weight: 400;
+      color: #fff;
     }
-  }
-
-  .transport-mode-header {
-    h1 {
-      text-transform: uppercase;
-      letter-spacing: -0.6pt;
-      font-size: $font-size-normal;
-      font-weight: $font-weight-bold;
-      font-family: $font-family;
+    .icon {
+      font-size: 2.5em;
+      margin-top: 0.2em;
     }
-  }
-
-  .mode-option-container {
-    display: flex;
-
-    .option-checbox {
-      margin-top: 1em;
+    .mode-icon {
+      margin-left: 1em;
+      margin-right: 1em;
+      .subicon-caution .icon {
+        width: 16px;
+        height: 16px;
+        margin-left: 0.1em;
+        margin-top: -0.8em;
+      }
     }
-
-    .mode-option-block {
-      width: 100%;
-      height: 3.5em;
-      background-color: currentColor;
-      margin-bottom: 0.1em;
+    .mode-name {
       display: flex;
-      cursor: pointer;
-
+      flex-direction: column;
+      margin-top: 1em;
       span {
-        color: #fff;
+        line-height: 1.1em;
       }
-      .icon {
-        font-size: 2.5em;
-        margin-top: 0.2em;
-      }
-      .mode-icon {
-        margin-left: 1em;
-        margin-right: 1em;
-        .subicon-caution .icon {
-          width: 16px;
-          height: 16px;
-          margin-left: 0.1em;
-          margin-top: -0.8em;
-        }
-      }
-      .mode-name {
-        display: flex;
-        flex-direction: column;
-        margin-top: 1em;
-        span {
-          line-height: 1.1em;
-        }
-        .span-bike-not-allowed {
-          font-size: $font-size-xxsmall;
-        }
+      .span-bike-not-allowed {
+        font-size: $font-size-xxsmall;
       }
     }
   }
+}
 
 .avoid-routes-container {
   button.noborder.clear-input {
@@ -155,188 +154,186 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     .icon {
       color: #fff;
     }
-}
+  }
 }
 
 .preferred-routes-input-container {
-
-      .react-autosuggest__container input {
-        border-radius: 4px;
-        height: 3.5em;
-        font-size: 1rem;
-        font-weight: 700;
-        border: 1px solid #dddddd;
-        cursor: pointer;
-      }
-    button.noborder.clear-input {
-        background-color: #007ac9;
-        height: 4em;
-        padding-right: 1.5em;
-        padding-left: 1.5em;
-        .icon {
-          color: #fff;
-        }
+  .react-autosuggest__container input {
+    border-radius: 4px;
+    height: 3.5em;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+  }
+  button.noborder.clear-input {
+    background-color: #007ac9;
+    height: 4em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    .icon {
+      color: #fff;
     }
   }
+}
 
-  .preferred-routes-list {
-    color: rgb(51, 51, 51);
+.preferred-routes-list {
+  color: rgb(51, 51, 51);
 
-    .route-name {
-      button {
-        border-radius: 50%;
-        background: white;
-        border: 1px solid rgb(221,221,221);
-        padding: 0;
-        height: 17px;
-        width: 17px;
-        line-height: 0;
-        margin-right: 0.5em;
-        margin-bottom: 0;
-        .icon {
-          color: #007ac9;
-          font-size: 0.4em;
-        }
-        &:hover {
-          border: 1px solid #007ac9;
-        }
-      }
-    }
-  }
-
-  .route-preferences-container {
-
-    .routepreferences-option {
-      display: flex;
-
-      .checkbox-container .checkmark {
-        border: rgb(136, 136, 136) 1px solid;
-      }
-      span {
-        font-weight: 400;
-      }
-    }
-  }
-
-  .save-controls-container {
-    text-align: center;
+  .route-name {
     button {
-      border-radius: 100px;
-      span {
-        color: $white;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid rgb(221, 221, 221);
+      padding: 0;
+      height: 17px;
+      width: 17px;
+      line-height: 0;
+      margin-right: 0.5em;
+      margin-bottom: 0;
+      .icon {
+        color: #007ac9;
+        font-size: 0.4em;
       }
-    }
-    .reset-settings {
-      background-color: transparent;
-      span {
-        color: rgb(0, 122, 201);
+      &:hover {
+        border: 1px solid #007ac9;
       }
     }
   }
+}
 
-  .option-container {
-    h1 {
-      text-transform: initial;
-      font-size: $font-size-large;
+.route-preferences-container {
+  .routepreferences-option {
+    display: flex;
+
+    .checkbox-container .checkmark {
+      border: rgb(136, 136, 136) 1px solid;
+    }
+    span {
+      font-weight: 400;
+    }
+  }
+}
+
+.save-controls-container {
+  text-align: center;
+  button {
+    border-radius: 100px;
+    span {
+      color: $white;
+    }
+  }
+  .reset-settings {
+    background-color: transparent;
+    span {
+      color: rgb(0, 122, 201);
+    }
+  }
+}
+
+.option-container {
+  h1 {
+    text-transform: initial;
+    font-size: $font-size-large;
+    letter-spacing: -0.6pt;
+    font-weight: $font-weight-bold;
+    font-family: $font-family;
+  }
+  .select-container {
+    position: relative;
+
+    .icon.fake-select-arrow {
+      position: absolute;
+      right: 1em;
+      top: 0.5em;
+      font-size: 1.5em;
+      color: #007ac9;
+      pointer-events: none;
+    }
+
+    select {
+      border-radius: 4px;
+      height: 3.5em;
+      font-size: $font-size-normal;
+      font-weight: $font-weight-bold;
+      border: 1px solid rgb(221, 221, 221);
+      cursor: pointer;
+
+      &:hover {
+        border: solid 1px #007ac9;
+      }
+    }
+  }
+}
+.street-mode-selector-panel.customized-settings {
+  flex-direction: column;
+
+  .street-mode-selector-panel-header {
+    padding-left: 0;
+    span {
+      color: rgb(51, 51, 51);
+      text-transform: uppercase;
       letter-spacing: -0.6pt;
+      font-size: $font-size-normal;
       font-weight: $font-weight-bold;
       font-family: $font-family;
     }
-    .select-container {
-      position: relative;
-
-      .icon.fake-select-arrow {
-        position: absolute;
-        right: 1em;
-        top: 0.5em;
-        font-size: 1.5em;
-        color: #007ac9;
-        pointer-events: none;
-      }
-
-      select {
-        border-radius: 4px;
-        height: 3.5em;
-        font-size: $font-size-normal;
-        font-weight: $font-weight-bold;
-        border: 1px solid rgb(221,221,221);
-        cursor: pointer;
-
-        &:hover {
-          border: solid 1px #007ac9;
-        }
-      }
-    }
   }
-  .street-mode-selector-panel.customized-settings {
-    flex-direction: column;
 
-    .street-mode-selector-panel-header {
-      padding-left: 0;
-      span {
-        color: rgb(51, 51, 51);
-        text-transform: uppercase;
-        letter-spacing: -0.6pt;
-        font-size: $font-size-normal;
-        font-weight: $font-weight-bold;
-        font-family: $font-family;
+  .street-mode-selector-panel-buttons {
+    button {
+      width: 7em;
+      margin-bottom: 0;
+    }
+    .icon-holder {
+      .icon {
+        color: #007ac9;
       }
     }
-
-    .street-mode-selector-panel-buttons {
-      button {
-        width: 7em;
-        margin-bottom: 0;
+    & .selected {
+      .icon-holder .icon {
+        color: #333;
       }
-      .icon-holder {
-        .icon {
-          color: #007ac9;
-        }
-      }
-      & .selected {
-        .icon-holder .icon {
-          color: #333;
-        }
-        .button-mode {
-          span {
-            color: rgb(51, 51, 51);
-          }
-        }
-      }
-    & > .btn:not(:first-child) {
-        border: none;
-        &::before {
-            width: 1px;
-            background-color: #ddd;
-            height: 46%;
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-      }
-    }
-
-    .button-mode {
-      max-height: 1em;
-      margin-top: 0.5em;
-      margin-bottom: 1.5em;
-      line-height: 0.8em;
+      .button-mode {
         span {
-        font-size: $font-size-xxsmall;
-        font-weight: $font-weight-bold;
-        color: #007ac9;
+          color: rgb(51, 51, 51);
+        }
+      }
+    }
+    & > .btn:not(:first-child) {
+      border: none;
+      &::before {
+        width: 1px;
+        background-color: #ddd;
+        height: 46%;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
   }
-  .desktop .settings-option-container.street-mode-selector-panel-container {
-    border-top: none;
+
+  .button-mode {
+    max-height: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 1.5em;
+    line-height: 0.8em;
+    span {
+      font-size: $font-size-xxsmall;
+      font-weight: $font-weight-bold;
+      color: #007ac9;
+    }
+  }
+}
+.desktop .settings-option-container.street-mode-selector-panel-container {
+  border-top: none;
+  padding: $customizedSettings-padding;
+  padding-bottom: 0;
+}
+.mobile {
+  .street-mode-selector-panel.customized-settings {
     padding: $customizedSettings-padding;
     padding-bottom: 0;
   }
-  .mobile {
-    .street-mode-selector-panel.customized-settings {
-      padding: $customizedSettings-padding;
-      padding-bottom: 0;
-    }
-  }
+}
