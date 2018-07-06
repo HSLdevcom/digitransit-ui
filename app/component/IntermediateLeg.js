@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
+import { isBrowser } from '../util/browser';
 
 function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
   const modeClassName = mode.toLowerCase();
+  const legBeforeLineStyle = { color };
+  if (isBrowser && (this.props.modeClassName === 'walk' || this.props.modeClassName === 'bicycle')) {
+    legBeforeLineStyle["backgroundImage"] = `url(${require(`../../sass/themes/default/dotted-line-bg.png`)})`;
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -23,7 +28,7 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
             <circle strokeWidth="2" width={28} cx={11} cy={10} r={4} />
           </svg>
         </div>
-        <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
+        <div style={legBeforeLineStyle} className={`leg-before-line ${modeClassName}`} />
       </div>
       <div
         className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
