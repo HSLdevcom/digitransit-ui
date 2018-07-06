@@ -225,7 +225,6 @@ class QuickSettingsPanel extends React.Component {
             />
           </div>
         </div>
-        <div className="top-row" />
         <div className="bottom-row">
           <div className="toggle-modes">
             <ModeFilter
