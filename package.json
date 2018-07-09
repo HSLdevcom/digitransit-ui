@@ -73,7 +73,7 @@
     "express-http-proxy": "1.2.0",
     "express-static-gzip": "0.3.2",
     "fluxible": "1.4.0",
-    "fluxible-addons-react": "0.2.14",
+    "fluxible-addons-react": "0.2.15",
     "foundation-apps": "1.2.0",
     "history": "3.3.0",
     "hoist-non-react-statics": "2.5.4",
