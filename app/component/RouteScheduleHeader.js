@@ -30,7 +30,7 @@ function RouteScheduleHeader({
   const headerLineStyle = {};
   if (isBrowser) {
     // eslint-disable-next-line global-require
-    headerLineStyle.backgroundImage = `url(${require(`../../sass/themes/default/dotted-line-bg2.png`)})`;
+    headerLineStyle.backgroundImage = `url(${require(`../configurations/images/default/dotted-line-bg2.png`)})`;
   }
 
   const stopHeadersForPrinting = (

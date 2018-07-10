@@ -10,7 +10,7 @@ const NoFavouritesPanel = () => (
           {isBrowser && (
             <img
               // eslint-disable-next-line global-require
-              src={require('../../sass/themes/default/favourites_empty_tip.png')}
+              src={require('../configurations/images/default/favourites_empty_tip.png')}
               alt="No favourites tip icon"
             />
           )}
