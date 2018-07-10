@@ -17,7 +17,11 @@ const AppBarContainer = ({ router, location, homeUrl, logo, ...args }) => (
       />
     )}
     desktop={() => (
-      <AppBarLarge {...args} logo={logo} titleClicked={() => router.push(homeUrl)} />
+      <AppBarLarge
+        {...args}
+        logo={logo}
+        titleClicked={() => router.push(homeUrl)}
+      />
     )}
   />
 );

@@ -73,13 +73,12 @@ class TopLevel extends React.Component {
     };
   }
 
-  state = { logo: '/test' };
-
   componentDidMount() {
-    import(/* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`)
-      .then((logo) => {
-        this.setState({logo: logo.default});
-      })
+    import(/* webpackChunkName: "main" */ `../configurations/images/${
+      this.context.config.logo
+    }`).then(logo => {
+      this.setState({ logo: logo.default });
+    });
   }
 
   render() {

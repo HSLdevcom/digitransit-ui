@@ -42,7 +42,7 @@ export default {
   title: 'Reittihaku',
 
   // Navbar logo
-  logo: '../../sass/themes/default/digitransit-logo.png',
+  logo: 'default/digitransit-logo.png',
 
   contactName: {
     sv: 'Digitransit',

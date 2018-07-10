@@ -10,7 +10,10 @@ import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
 import { isBrowser } from '../util/browser';
 
-const AppBarLarge = ({ titleClicked, logo }, { router, location, config, intl }) => {
+const AppBarLarge = (
+  { titleClicked, logo },
+  { router, location, config, intl },
+) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -26,8 +29,11 @@ const AppBarLarge = ({ titleClicked, logo }, { router, location, config, intl })
     <div>
       <div className="top-bar bp-large flex-horizontal">
         <button className="noborder" onClick={titleClicked}>
-          {isBrowser && !config.textLogo ? (
-            <div className="navi-logo" style={ backgroundImage = `url(${logo})`} />
+          {isBrowser && !config.textLogo && logo ? (
+            <div
+              className="navi-logo"
+              style={{ backgroundImage: `url(${logo})` }}
+            />
           ) : (
             <section className="title">
               <span className="title">{config.title}</span>
