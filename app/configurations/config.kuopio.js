@@ -26,6 +26,9 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/kuopio/favicon.png',
 
+  // Navbar logo
+  logo: 'kuopio/logo.png',
+
   feedIds: ['Kuopio', 'KuopioEly'],
 
   searchParams: {

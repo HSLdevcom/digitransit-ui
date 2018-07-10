@@ -30,6 +30,9 @@ export default configMerger(walttiConfig, {
 
   favicon: './sass/themes/hameenlinna/favicon.png',
 
+  // Navbar logo
+  logo: 'hameenlinna/logo.png',
+
   feedIds: ['Hameenlinna', 'HameenlinnaEly'],
 
   searchParams: {

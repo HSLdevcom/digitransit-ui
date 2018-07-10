@@ -41,6 +41,9 @@ export default {
   APP_PATH: `${APP_PATH}`,
   title: 'Reittihaku',
 
+  // Navbar logo
+  logo: '../../sass/themes/default/digitransit-logo.png',
+
   contactName: {
     sv: 'Digitransit',
     fi: 'Digitransit',

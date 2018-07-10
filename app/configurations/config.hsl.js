@@ -30,6 +30,9 @@ export default {
 
   favicon: './sass/themes/hsl/icon_favicon-reittiopas.svg',
 
+  // Navbar logo
+  logo: 'hsl/reittiopas-logo.svg',
+
   feedIds: ['HSL'],
 
   preferredAgency: 'HSL',

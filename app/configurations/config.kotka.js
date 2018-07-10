@@ -28,6 +28,9 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  // Navbar logo
+  logo: 'kotka/ksjl.png',
+
   textLogo: false, // title text instead of logo img
 
   feedIds: ['Kotka'],
