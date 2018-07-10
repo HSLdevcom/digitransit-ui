@@ -160,7 +160,6 @@ div.spinner-loader {
   margin: $spinner-size*0.25 0 0 $spinner-size*-0.5;
   width: $spinner-size;
   height: $spinner-size;
-  background-image: $spinner-image;
   animation: spin 4s linear infinite;
   background-size: cover;
 }
