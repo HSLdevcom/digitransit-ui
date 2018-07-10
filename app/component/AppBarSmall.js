@@ -17,8 +17,8 @@ const AppBarSmall = (
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        {isBrowser && showLogo && !config.textLogo ? (
-          <div className="logo" style={ backgroundImage = `url(${logo})`} />
+        {isBrowser && showLogo && !config.textLogo && logo ? (
+          <div className="logo" style={{ backgroundImage: `url(${logo})` }} />
         ) : (
           <span className="title">{title}</span>
         )}
