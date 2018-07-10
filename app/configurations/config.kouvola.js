@@ -33,6 +33,9 @@ export default configMerger(walttiConfig, {
 
   textLogo: false, // title text instead of logo img
 
+  // Navbar logo
+  logo: 'kouvola/logo.png',
+
   favicon: './sass/themes/kouvola/favicon.png',
 
   feedIds: ['Kouvola'],

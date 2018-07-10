@@ -40,6 +40,9 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  // Navbar logo
+  logo: 'turku/foli-logo.png',
+
   cityBike: {
     showCityBikes: true,
     useUrl: {

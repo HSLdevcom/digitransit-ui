@@ -30,6 +30,9 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  // Navbar logo
+  logo: 'oulu/oulu-logo.png',
+
   searchParams: {
     'boundary.rect.min_lat': 64.71,
     'boundary.rect.max_lat': 65.38,

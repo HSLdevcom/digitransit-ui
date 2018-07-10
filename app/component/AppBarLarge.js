@@ -8,8 +8,9 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
+import { isBrowser } from '../util/browser';
 
-const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
+const AppBarLarge = ({ titleClicked, logo }, { router, location, config, intl }) => {
   const openDisruptionInfo = () => {
     router.push({
       ...location,
@@ -25,12 +26,12 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
     <div>
       <div className="top-bar bp-large flex-horizontal">
         <button className="noborder" onClick={titleClicked}>
-          {config.textLogo ? (
+          {isBrowser && !config.textLogo ? (
+            <div className="navi-logo" style={ backgroundImage = `url(${logo})`} />
+          ) : (
             <section className="title">
               <span className="title">{config.title}</span>
             </section>
-          ) : (
-            <div className="navi-logo" />
           )}
         </button>
         <div className="empty-space flex-grow" />
@@ -61,6 +62,7 @@ const AppBarLarge = ({ titleClicked }, { router, location, config, intl }) => {
 
 AppBarLarge.propTypes = {
   titleClicked: PropTypes.func.isRequired,
+  logo: PropTypes.string,
 };
 
 AppBarLarge.displayName = 'AppBarLarge';
