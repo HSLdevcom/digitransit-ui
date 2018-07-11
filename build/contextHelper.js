@@ -62,7 +62,9 @@ function getAllThemeEntries() {
 }
 
 function faviconPluginFromConfig(config) {
-  let logo = config.favicon || `./app/configurations/images/${config.CONFIG}/favicon.png`;
+  let logo =
+    config.favicon ||
+    `./app/configurations/images/${config.CONFIG}/favicon.png`;
   if (!fs.existsSync(logo)) {
     logo = './app/configurations/images/default/favicon.png';
   }
