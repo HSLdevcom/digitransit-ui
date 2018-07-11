@@ -33,7 +33,7 @@ export default {
   // Navbar logo
   logo: 'matka/matka-logo.png',
 
-  favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
+  favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
 
   feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
 
