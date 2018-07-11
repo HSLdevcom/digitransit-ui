@@ -17,6 +17,7 @@ class PreferredRoutes extends React.Component {
     onRouteSelected: PropTypes.func.isRequired,
     preferredRoutes: PropTypes.array,
     unPreferredRoutes: PropTypes.array,
+    removeRoute: PropTypes.func.isRequired,
   };
 
   getPreferredRouteNumbers = routeOptions => (
@@ -45,7 +46,11 @@ class PreferredRoutes extends React.Component {
         {routeOptions.preferredRoutes &&
           routeOptions.preferredRoutes.map(o => (
             <div className="route-name" key={o}>
-              <button onClick={e => console.log(e)}>
+              <button
+                onClick={() =>
+                  this.props.removeRoute(o, routeOptions.optionName)
+                }
+              >
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
               {o}
@@ -76,7 +81,6 @@ class PreferredRoutes extends React.Component {
   render() {
     return (
       <div className="settings-option-container">
-        {console.log(this.props.preferredRoutes)}
         {this.renderPreferredRouteNumbers()}
         {this.renderAvoidingRoutes()}
       </div>

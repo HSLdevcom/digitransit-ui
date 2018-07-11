@@ -39,16 +39,12 @@ class CustomizeSearch extends React.Component {
   };
 
   onRouteSelected = (val, preferType) => {
-    console.log(val);
     const routeToAdd = val.properties.gtfsId.replace(':', '_');
-    // this.updateParameters({ ticketTypes: newval })
     const currentRoutes =
       this.getCurrentOptions()[preferType] &&
       (this.getCurrentOptions()[preferType].match(/[,]/)
         ? this.getCurrentOptions()[preferType].split(',')
         : [this.getCurrentOptions()[preferType]]);
-
-    console.log(currentRoutes);
 
     let updatedValue;
     if (currentRoutes) {
@@ -58,22 +54,6 @@ class CustomizeSearch extends React.Component {
     } else {
       updatedValue = routeToAdd;
     }
-    /*
-    if (currentRoutes) {
-      if (currentRoutes.indexOf(',') !== -1) {
-        updatedValue =
-          currentRoutes.split(',').filter(o => o === routeToAdd).length > 1 &&
-          `${currentRoutes},${routeToAdd}`;
-      } else {
-        updatedValue =
-          currentRoutes !== routeToAdd && `${currentRoutes},${routeToAdd}`;
-      }
-    } else {
-      updatedValue = currentRoutes !== routeToAdd && `${routeToAdd}`;
-    }
-    */
-
-    console.log(updatedValue);
 
     if (updatedValue) {
       this.updateParameters({
@@ -257,8 +237,18 @@ class CustomizeSearch extends React.Component {
         obj[key] = urlParameters[key] ? urlParameters[key] : defaultValues[key];
       });
     }
-    console.log(obj);
     return obj;
+  };
+
+  removeRoute = (val, preferType) => {
+    const currentRoutes =
+      this.getCurrentOptions()[preferType] &&
+      (this.getCurrentOptions()[preferType].match(/[,]/)
+        ? this.getCurrentOptions()[preferType].split(',')
+        : [this.getCurrentOptions()[preferType]]);
+    this.updateParameters({
+      [preferType]: currentRoutes.filter(o => o !== val).toString(),
+    });
   };
 
   updateParameters = value => {
@@ -601,6 +591,7 @@ class CustomizeSearch extends React.Component {
                 currentOptions.unpreferred &&
                 currentOptions.unpreferred.split(',')
               }
+              removeRoute={this.removeRoute}
             />
             {this.renderRoutePreferences()}
             {this.renderAccesibilitySelector(
