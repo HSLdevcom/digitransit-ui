@@ -2,7 +2,7 @@ export default function getMetadata(lang, host, url, config) {
   const root = config.URL.ASSET_URL || config.APP_PATH;
   const path = config.iconPath || 'icons';
   const iconPath = `${root}/${path}`;
-  const imageHost = config.URL.ASSET_URL || `https://${host}`;
+  const imageHost = config.URL.ASSET_URL || `https://${host}`;
 
   const baseData = {
     title: config.title,
