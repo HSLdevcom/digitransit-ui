@@ -38,9 +38,48 @@ class CustomizeSearch extends React.Component {
     isOpen: false,
   };
 
-  onRouteSelected = val => {
+  onRouteSelected = (val, preferType) => {
     console.log(val);
-    // TODO: Implement preferred routes feature here
+    const routeToAdd = val.properties.gtfsId.replace(':', '_');
+    // this.updateParameters({ ticketTypes: newval })
+    const currentRoutes =
+      this.getCurrentOptions()[preferType] &&
+      (this.getCurrentOptions()[preferType].match(/[,]/)
+        ? this.getCurrentOptions()[preferType].split(',')
+        : [this.getCurrentOptions()[preferType]]);
+
+    console.log(currentRoutes);
+
+    let updatedValue;
+    if (currentRoutes) {
+      updatedValue =
+        currentRoutes.filter(o => o === routeToAdd).length === 0 &&
+        currentRoutes.concat([routeToAdd]).toString();
+    } else {
+      updatedValue = routeToAdd;
+    }
+    /*
+    if (currentRoutes) {
+      if (currentRoutes.indexOf(',') !== -1) {
+        updatedValue =
+          currentRoutes.split(',').filter(o => o === routeToAdd).length > 1 &&
+          `${currentRoutes},${routeToAdd}`;
+      } else {
+        updatedValue =
+          currentRoutes !== routeToAdd && `${currentRoutes},${routeToAdd}`;
+      }
+    } else {
+      updatedValue = currentRoutes !== routeToAdd && `${routeToAdd}`;
+    }
+    */
+
+    console.log(updatedValue);
+
+    if (updatedValue) {
+      this.updateParameters({
+        [preferType]: updatedValue,
+      });
+    }
   };
 
   getBikeTransportOptions = val =>
@@ -218,6 +257,7 @@ class CustomizeSearch extends React.Component {
         obj[key] = urlParameters[key] ? urlParameters[key] : defaultValues[key];
       });
     }
+    console.log(obj);
     return obj;
   };
 
@@ -506,6 +546,7 @@ class CustomizeSearch extends React.Component {
       ...this.context.location.query,
     };
     const checkedModes = this.checkAndConvertModes(currentOptions.modes);
+    console.log(currentOptions);
     return (
       <div
         aria-hidden={!this.props.isOpen}
@@ -551,7 +592,16 @@ class CustomizeSearch extends React.Component {
                 this.updateParameters({ ticketTypes: newval })
               }
             />
-            <PreferredRoutes onRouteSelected={this.onRouteSelected} />
+            <PreferredRoutes
+              onRouteSelected={this.onRouteSelected}
+              preferredRoutes={
+                currentOptions.preferred && currentOptions.preferred.split(',')
+              }
+              unPreferredRoutes={
+                currentOptions.unpreferred &&
+                currentOptions.unpreferred.split(',')
+              }
+            />
             {this.renderRoutePreferences()}
             {this.renderAccesibilitySelector(
               currentOptions.accessibilityOption,

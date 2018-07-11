@@ -19,6 +19,8 @@ export const defaultSettings = {
   walkReluctance: 2,
   walkSpeed: 1.2,
   ticketTypes: 'none',
+  preferred: undefined,
+  unpreferred: undefined,
 };
 
 // These values need to be null so if no values for the variables are defined somewhere else,
@@ -209,6 +211,12 @@ export const getSettings = () => {
       routingSettings.itineraryFiltering !== undefined
         ? Number(routingSettings.itineraryFiltering)
         : undefined,
+    preferred:
+      custSettings.preferred !== undefined ? custSettings.preferred : undefined,
+    unpreferred:
+      custSettings.unpreferred !== undefined
+        ? custSettings.unpreferred
+        : undefined,
   };
 };
 
@@ -229,6 +237,8 @@ export const preparePlanParams = config => (
         accessibilityOption,
         ticketTypes,
         transferPenalty,
+        preferred,
+        unpreferred,
       },
     },
   },
@@ -301,7 +311,13 @@ export const preparePlanParams = config => (
           settings.itineraryFiltering !== undefined
             ? settings.itineraryFiltering
             : config.itineraryFiltering,
-        preferred: { agencies: config.preferredAgency || '' },
+        preferred: {
+          agencies: config.preferredAgency || '',
+          routes: preferred !== undefined ? preferred : settings.preferred,
+        },
+        unpreferred: {
+          routes: unpreferred || settings.unpreferred,
+        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,

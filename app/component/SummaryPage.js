@@ -160,6 +160,7 @@ class SummaryPage extends React.Component {
       maxWalkDistance: config.maxWalkDistance,
       itineraryFiltering: config.itineraryFiltering,
       preferred: { agencies: config.preferredAgency || '' },
+      unpreferred: { routes: '' },
     };
   };
 
@@ -444,7 +445,8 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
-          preferred: $preferred)
+          preferred: $preferred,
+          unpreferred: $unpreferred),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -492,6 +494,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
+      unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
     },

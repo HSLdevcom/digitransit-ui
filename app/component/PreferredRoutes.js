@@ -15,6 +15,8 @@ class PreferredRoutes extends React.Component {
 
   static propTypes = {
     onRouteSelected: PropTypes.func.isRequired,
+    preferredRoutes: PropTypes.array,
+    unPreferredRoutes: PropTypes.array,
   };
 
   getPreferredRouteNumbers = routeOptions => (
@@ -30,7 +32,9 @@ class PreferredRoutes extends React.Component {
         searchType="all"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
-        onRouteSelected={val => this.props.onRouteSelected(val)}
+        onRouteSelected={val =>
+          this.props.onRouteSelected(val, routeOptions.optionName)
+        }
         id={`searchfield-${routeOptions.optionName}`}
         refPoint={{ lat: 0, lon: 0 }}
         layers={['Geocoding']}
@@ -40,11 +44,11 @@ class PreferredRoutes extends React.Component {
       <div className="preferred-routes-list">
         {routeOptions.preferredRoutes &&
           routeOptions.preferredRoutes.map(o => (
-            <div className="route-name" key={o.name}>
+            <div className="route-name" key={o}>
               <button onClick={e => console.log(e)}>
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
-              {o.name}
+              {o}
             </div>
           ))}
       </div>
@@ -54,8 +58,8 @@ class PreferredRoutes extends React.Component {
   renderAvoidingRoutes = () => (
     <div className="avoid-routes-container">
       {this.getPreferredRouteNumbers({
-        optionName: 'avoid-routes',
-        preferredRoutes: [],
+        optionName: 'unpreferred',
+        preferredRoutes: this.props.unPreferredRoutes,
       })}
     </div>
   );
@@ -63,8 +67,8 @@ class PreferredRoutes extends React.Component {
   renderPreferredRouteNumbers = () => (
     <div className="preferred-routes-container">
       {this.getPreferredRouteNumbers({
-        optionName: 'prefer-routes',
-        preferredRoutes: [],
+        optionName: 'preferred',
+        preferredRoutes: this.props.preferredRoutes,
       })}
     </div>
   );
@@ -72,6 +76,7 @@ class PreferredRoutes extends React.Component {
   render() {
     return (
       <div className="settings-option-container">
+        {console.log(this.props.preferredRoutes)}
         {this.renderPreferredRouteNumbers()}
         {this.renderAvoidingRoutes()}
       </div>
