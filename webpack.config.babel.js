@@ -160,7 +160,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg)$/,
+        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
         loader: isDevelopment ? 'file-loader' : 'url-loader',
         options: { limit: 10000 },
       },
