@@ -7,5 +7,12 @@
   "plugins": [
     "dynamic-import-node",
     ["relay", { "compat": true, "schema": "build/schema.json" }]
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
 }

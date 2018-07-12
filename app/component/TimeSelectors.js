@@ -42,9 +42,7 @@ TimeSelectors.description = () => (
     <p>A toolbar for changing arriveBy/departAt, date and time</p>
     <ComponentUsageExample>
       <TimeSelectors
-        arriveBy={false}
         time={moment('2016-05-18 09:30')}
-        setArriveBy={() => {}}
         changeTime={() => {}}
         changeDate={() => {}}
         dates={[

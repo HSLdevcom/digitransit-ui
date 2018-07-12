@@ -6,6 +6,7 @@ import { routerShape, locationShape } from 'react-router';
 import range from 'lodash/range';
 import xor from 'lodash/xor';
 import without from 'lodash/without';
+import upperFirst from 'lodash/upperFirst';
 import cx from 'classnames';
 
 import Icon from './Icon';
@@ -50,6 +51,7 @@ class CustomizeSearch extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     config: PropTypes.object.isRequired,
+    piwik: PropTypes.object,
   };
 
   static propTypes = {
@@ -310,7 +312,49 @@ class CustomizeSearch extends React.Component {
     return this.getModes().includes(mode.toUpperCase());
   }
 
-  replaceParams = newParams =>
+  replaceParams = newParams => {
+    if (this.context.piwik != null && newParams) {
+      const len = Object.keys(newParams).length;
+      if (len > 1) {
+        this.context.piwik.trackEvent(
+          'ItinerarySettings',
+          'SettingsPanelResetSettingsButton',
+          'ResetSettings',
+        );
+      } else if (len === 1) {
+        const key = Object.keys(newParams)[0];
+        switch (key) {
+          case 'modes':
+            this.context.piwik.trackEvent(
+              'ItinerarySettings',
+              'ExtraSettingsTransportModeSelection',
+              newParams[key],
+            );
+            break;
+          case 'walkReluctance':
+          case 'walkSpeed':
+          case 'walkBoardCost':
+          case 'minTransferTime':
+          case 'accessibilityOption':
+            this.context.piwik.trackEvent(
+              'ItinerarySettings',
+              'ExtraSettings',
+              upperFirst(key),
+            );
+            break;
+          case 'ticketTypes':
+            this.context.piwik.trackEvent(
+              'ItinerarySettings',
+              'ExtraSettingsTicketTypes',
+              newParams[key],
+            );
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
     this.context.router.replace({
       ...this.context.location,
       query: {
@@ -318,6 +362,7 @@ class CustomizeSearch extends React.Component {
         ...newParams,
       },
     });
+  };
 
   resetParameters = () => {
     resetCustomizedSettings();

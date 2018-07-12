@@ -62,6 +62,10 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 
 .map .leaflet-bottom {
   z-index: 800;
+
+  @media print {
+    display: none;
+  }
 }
 
 div.leaflet-container {
