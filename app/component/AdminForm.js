@@ -18,10 +18,11 @@ class AdminForm extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     dataConDefaults: PropTypes.object.isRequired,
+    modeWeightDefaults: PropTypes.object.isRequired,
   };
 
   renderForm() {
-    const { dataConDefaults } = this.props;
+    const { dataConDefaults, modeWeightDefaults } = this.props;
     const { location } = this.context.router;
     const OTPDefaults = {
       ignoreRealtimeUpdates: false,
@@ -42,6 +43,12 @@ class AdminForm extends React.Component {
       heuristicStepsPerMainStep: 8,
       compactLegsByReversedSearch: true,
       disableRemainingWeightHeuristic: false,
+      busWeight: 1.0,
+      railWeight: 1.0,
+      subwayWeight: 1.0,
+      tramWeight: 1.0,
+      ferryWeight: 1.0,
+      airplaneWeight: 1.0,
     };
 
     const UIDefaults = {
@@ -53,6 +60,7 @@ class AdminForm extends React.Component {
     const defaultRoutingSettings = {
       ...OTPDefaults,
       ...dataConDefaults,
+      ...modeWeightDefaults,
       ...UIDefaults,
     };
 
@@ -99,11 +107,10 @@ class AdminForm extends React.Component {
     };
 
     const updateInputParam = (param, target, min) => {
-      const newValue = target.value;
+      let newValue = target.value;
       if (newValue < min) {
         alert(`Insert a number that is greater than or equal to ${min}`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       }
       this.context.router.replace({
         pathname: location.pathname,
@@ -115,15 +122,13 @@ class AdminForm extends React.Component {
     };
 
     const updateTriangleParam = (param, target) => {
-      const newValue = target.value;
+      let newValue = target.value;
       if (newValue < 0) {
         alert(`Insert a number that is greater than or equal to 0`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       } else if (newValue > 1) {
         alert(`Insert a number that is greater than or equal to 1`);
-        // eslint-disable-next-line no-param-reassign
-        target.value = mergedCurrent[param];
+        newValue = mergedCurrent[param];
       }
       this.context.router.replace({
         pathname: location.pathname,
@@ -163,8 +168,8 @@ class AdminForm extends React.Component {
         <label htmlFor="optimize">
           Routing optimization type for cycling. QUICK finds the quickest
           routes, SAFE prefers routes that are safer and GREENWAYS prefers
-          travel through paths and parks. TRIANGLE allows to configure the
-          emphasis on safety, avoiding slopes and travel time. (default{' '}
+          travel through bicycle routes and trails. TRIANGLE allows to configure
+          the emphasis on safety, avoiding slopes and travel time. (default{' '}
           {defaultRoutingSettings.optimize}, parameter name: optimize).
           <select
             value={merged.optimize}
@@ -187,7 +192,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('safetyFactor', e.target)}
                 onChange={e => updateTriangleParam('safetyFactor', e.target)}
                 value={merged.safetyFactor}
               />
@@ -200,7 +204,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('slopeFactor', e.target)}
                 onChange={e => updateTriangleParam('slopeFactor', e.target)}
                 value={merged.slopeFactor}
               />
@@ -213,7 +216,6 @@ class AdminForm extends React.Component {
                 type="number"
                 step="any"
                 min="0"
-                onInput={e => updateTriangleParam('timeFactor', e.target)}
                 onChange={e => updateTriangleParam('timeFactor', e.target)}
                 value={merged.timeFactor}
               />
@@ -229,7 +231,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('maxWalkDistance', e.target, 0)}
             onChange={e => updateInputParam('maxWalkDistance', e.target, 0)}
             value={merged.maxWalkDistance}
           />
@@ -242,7 +243,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('maxBikingDistance', e.target, 0)}
             onChange={e => updateInputParam('maxBikingDistance', e.target, 0)}
             value={merged.maxBikingDistance}
           />
@@ -267,7 +267,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('maxPreTransitTime', e.target, 0)}
             onChange={e => updateInputParam('maxPreTransitTime', e.target, 0)}
             value={merged.maxPreTransitTime}
           />
@@ -282,9 +281,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e =>
-              updateInputParam('walkOnStreetReluctance', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('walkOnStreetReluctance', e.target, 0)
             }
@@ -303,7 +299,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('waitReluctance', e.target, 0)}
             onChange={e => updateInputParam('waitReluctance', e.target, 0)}
             value={merged.waitReluctance}
           />
@@ -315,7 +310,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('bikeSpeed', e.target, 0)}
             onChange={e => updateInputParam('bikeSpeed', e.target, 0)}
             value={merged.bikeSpeed}
           />
@@ -329,7 +323,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeSwitchTime', e.target, 0)}
             onChange={e => updateInputParam('bikeSwitchTime', e.target, 0)}
             value={merged.bikeSwitchTime}
           />
@@ -342,7 +335,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeSwitchCost', e.target, 0)}
             onChange={e => updateInputParam('bikeSwitchCost', e.target, 0)}
             value={merged.bikeSwitchCost}
           />
@@ -355,7 +347,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('bikeBoardCost', e.target, 0)}
             onChange={e => updateInputParam('bikeBoardCost', e.target, 0)}
             value={merged.bikeBoardCost}
           />
@@ -368,7 +359,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('carParkCarLegWeight', e.target, 0)}
             onChange={e => updateInputParam('carParkCarLegWeight', e.target, 0)}
             value={merged.carParkCarLegWeight}
           />
@@ -380,7 +370,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e => updateInputParam('maxTransfers', e.target, 0)}
             onChange={e => updateInputParam('maxTransfers', e.target, 0)}
             value={merged.maxTransfers}
           />
@@ -395,9 +384,6 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e =>
-              updateInputParam('waitAtBeginningFactor', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('waitAtBeginningFactor', e.target, 0)
             }
@@ -413,9 +399,6 @@ class AdminForm extends React.Component {
             type="number"
             step="1"
             min="0"
-            onInput={e =>
-              updateInputParam('heuristicStepsPerMainStep', e.target, 0)
-            }
             onChange={e =>
               updateInputParam('heuristicStepsPerMainStep', e.target, 0)
             }
@@ -468,11 +451,99 @@ class AdminForm extends React.Component {
             type="number"
             step="any"
             min="0"
-            onInput={e => updateInputParam('itineraryFiltering', e.target, 0)}
             onChange={e => updateInputParam('itineraryFiltering', e.target, 0)}
             value={merged.itineraryFiltering}
           />
         </label>
+        {this.context.config.transportModes.bus.availableForSelection && (
+          <label htmlFor="busWeight">
+            The weight of bus traverse mode. Values over 1 add cost to bus
+            travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.busWeight}, parameter name: modeWeight.BUS).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('busWeight', e.target)}
+              value={merged.busWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.rail.availableForSelection && (
+          <label htmlFor="railWeight">
+            The weight of railway traverse mode. Values over 1 add cost to
+            railway travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.railWeight}, parameter name:
+            modeWeight.RAIL).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('railWeight', e.target)}
+              value={merged.railWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.subway.availableForSelection && (
+          <label htmlFor="subwayWeight">
+            The weight of subway traverse mode. Values over 1 add cost to subway
+            travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.subwayWeight}, parameter name:
+            modeWeight.SUBWAY).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('subwayWeight', e.target)}
+              value={merged.subwayWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.tram.availableForSelection && (
+          <label htmlFor="tramWeight">
+            The weight of tram traverse mode. Values over 1 add cost to tram
+            travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.tramWeight}, parameter name:
+            modeWeight.TRAM).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('tramWeight', e.target)}
+              value={merged.tramWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.ferry.availableForSelection && (
+          <label htmlFor="ferryWeight">
+            The weight of ferry traverse mode. Values over 1 add cost to ferry
+            travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.ferryWeight}, parameter name:
+            modeWeight.FERRY).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('ferryWeight', e.target)}
+              value={merged.ferryWeight}
+            />
+          </label>
+        )}
+        {this.context.config.transportModes.airplane.availableForSelection && (
+          <label htmlFor="airplaneWeight">
+            The weight of airplane traverse mode. Values over 1 add cost to
+            airplane travel and values under 1 decrease cost (default{' '}
+            {defaultRoutingSettings.airplaneWeight}, parameter name:
+            modeWeight.AIRPLANE).
+            <input
+              type="number"
+              step="any"
+              min="0"
+              onChange={e => updateInputParam('airplaneWeight', e.target)}
+              value={merged.airplaneWeight}
+            />
+          </label>
+        )}
         <RoutingSettingsButtons onReset={resetParameters} />
       </div>
     );

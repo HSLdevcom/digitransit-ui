@@ -465,6 +465,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
+          modeWeight: $modeWeight,
           preferred: $preferred)
         {
           ${SummaryPlanContainer.getFragment('plan')}

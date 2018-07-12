@@ -169,6 +169,16 @@ export function setRoutingSettings(data) {
     itineraryFiltering: data.itineraryFiltering
       ? data.itineraryFiltering
       : oldSettings.itineraryFiltering,
+    busWeight: data.busWeight ? data.busWeight : oldSettings.busWeight,
+    railWeight: data.railWeight ? data.railWeight : oldSettings.railWeight,
+    subwayWeight: data.subwayWeight
+      ? data.subwayWeight
+      : oldSettings.subwayWeight,
+    tramWeight: data.tramWeight ? data.tramWeight : oldSettings.tramWeight,
+    ferryWeight: data.ferryWeight ? data.ferryWeight : oldSettings.ferryWeight,
+    airplaneWeight: data.airplaneWeight
+      ? data.airplaneWeight
+      : oldSettings.airplaneWeight,
   };
   setItem('routingSettings', newSettings);
 }
