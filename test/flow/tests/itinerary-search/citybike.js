@@ -33,7 +33,9 @@ module.exports = {
 
   'Mode toggling works': browser => {
     browser.url(browser.launch_url);
-    browser.page.searchFields().itinerarySearch('Katajanokka', 'Svenska Teatern');
+    browser.page
+      .searchFields()
+      .itinerarySearch('Katajanokka', 'Svenska Teatern');
     browser.page.itinerarySummary().waitForFirstItineraryRow();
 
     const customizeSearch = browser.page.customizeSearch();
