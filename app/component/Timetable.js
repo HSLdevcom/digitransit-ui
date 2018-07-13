@@ -232,9 +232,11 @@ class Timetable extends React.Component {
 
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
 
-    const stopPDFURL = `${this.context.config.URL.API_URL}/timetables/v1/${
-      stopIdSplitted[0].toLowerCase()
-    }/stops/${stopIdSplitted[1]}.pdf`;
+    const stopPDFURL = `${
+      this.context.config.URL.API_URL
+    }/timetables/v1/${stopIdSplitted[0].toLowerCase()}/stops/${
+      stopIdSplitted[1]
+    }.pdf`;
 
     return (
       <div className="timetable">
