@@ -162,21 +162,12 @@ class DTAutosuggest extends React.Component {
           type: this.props.searchType,
           config: this.context.config,
         },
-        result => {
-          if (result == null) {
+        searchResult => {
+          if (searchResult == null) {
             return;
           }
-          let suggestions = [];
-          const [res1, res2] = result;
-
-          if (res2 && res2.results) {
-            suggestions = suggestions.concat(res2.results);
-          }
-          if (res1 && res1.results) {
-            suggestions = suggestions.concat(res1.results);
-          }
           // XXX translates current location
-          suggestions = suggestions.map(suggestion => {
+          const suggestions = (searchResult.results || []).map(suggestion => {
             if (suggestion.type === 'CurrentLocation') {
               const translated = { ...suggestion };
               translated.properties.labelId = this.context.intl.formatMessage({
