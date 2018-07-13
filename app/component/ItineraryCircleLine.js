@@ -16,6 +16,18 @@ class ItineraryCircleLine extends React.Component {
     color: PropTypes.string,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMounted: false,
+    };
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ isMounted: true });
+  }
+
   getMarker = () => {
     if (this.props.index === 0 && this.props.isVia === false) {
       return (
@@ -60,12 +72,14 @@ class ItineraryCircleLine extends React.Component {
     const legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
+      this.state.isMounted &&
       (this.props.modeClassName === 'walk' ||
         this.props.modeClassName === 'bicycle')
     ) {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = `url(${require(`../configurations/images/default/dotted-line-bg.png`)})`;
     }
+
     return (
       <div className={`leg-before ${this.props.modeClassName}`}>
         {marker}
