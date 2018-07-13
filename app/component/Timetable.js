@@ -18,6 +18,7 @@ class Timetable extends React.Component {
     stop: PropTypes.shape({
       url: PropTypes.string,
       gtfsId: PropTypes.string,
+      locationType: PropTypes.string,
       stoptimesForServiceDate: PropTypes.arrayOf(
         PropTypes.shape({
           pattern: PropTypes.shape({
@@ -232,8 +233,11 @@ class Timetable extends React.Component {
 
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
 
+    console.log(this.props);
+
     const stopPDFURL =
       stopIdSplitted[0] === 'HSL' &&
+      this.props.stop.locationType !== 'STATION' &&
       `${
         this.context.config.URL.API_URL
       }/timetables/v1/${stopIdSplitted[0].toLowerCase()}/stops/${

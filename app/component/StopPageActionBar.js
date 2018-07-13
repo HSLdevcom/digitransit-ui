@@ -33,7 +33,7 @@ const StopPageActionBar = ({
       {stopPDFURL && (
         <SecondaryButton
           ariaLabel="print timetable"
-          buttonName="timetable"
+          buttonName="print-timetable"
           buttonClickAction={e => printStopPDF(e, stopPDFURL)}
           buttonIcon="icon-icon_print"
           smallSize
