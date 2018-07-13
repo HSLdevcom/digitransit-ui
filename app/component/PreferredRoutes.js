@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Relay from 'react-relay/classic';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
+import RouteDetails from './RouteDetails';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -54,11 +56,32 @@ class PreferredRoutes extends React.Component {
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
               {o}
+              {/* <RouteDetails gtfsId={o} /> */}
+              <Relay.Renderer
+                Container={RouteDetails}
+                forceFetch
+                queryConfig={{
+                  name: 'RouteQuery',
+                  queries: {
+                    root: () => Relay.QL`
+                    query {
+                          route(id: $gtfsId) {
+                            shortName
+                            longName
+                          }
+                        }
+                    `,
+                  },
+                  params: { gtfsId: o },
+                }}
+                environment={Relay.Store}
+              />
             </div>
           ))}
       </div>
     </div>
   );
+  /** */
 
   renderAvoidingRoutes = () => (
     <div className="avoid-routes-container">
@@ -87,4 +110,5 @@ class PreferredRoutes extends React.Component {
     );
   }
 }
+
 export default PreferredRoutes;
