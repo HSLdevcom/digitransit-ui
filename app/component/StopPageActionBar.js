@@ -32,7 +32,7 @@ const StopPageActionBar = ({
     <div className="print-button-container">
       {stopPDFURL && (
         <SecondaryButton
-          ariaLabel="print timetable"
+          ariaLabel="print-timetable"
           buttonName="print-timetable"
           buttonClickAction={e => printStopPDF(e, stopPDFURL)}
           buttonIcon="icon-icon_print"
