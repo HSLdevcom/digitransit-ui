@@ -46,6 +46,10 @@ class Timetable extends React.Component {
     }).isRequired,
   };
 
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.setRouteVisibilityState = this.setRouteVisibilityState.bind(this);
@@ -226,6 +230,12 @@ class Timetable extends React.Component {
 
     const timetableMap = this.groupArrayByHour(routesWithDetails);
 
+    const stopIdSplitted = this.props.stop.gtfsId.split(':');
+
+    const stopPDFURL = `${this.context.config.URL.API_URL}/timetables/v1/${
+      stopIdSplitted[0].toLowerCase()
+    }/stops/${stopIdSplitted[1]}.pdf`;
+
     return (
       <div className="timetable">
         {this.state.showFilterModal === true ? (
@@ -247,6 +257,7 @@ class Timetable extends React.Component {
             startDate={this.props.propsForStopPageActionBar.startDate}
             selectedDate={this.props.propsForStopPageActionBar.selectedDate}
             onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+            stopPDFURL={stopPDFURL}
           />
         </div>
         <div className="timetable-for-printing-header">
