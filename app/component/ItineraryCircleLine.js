@@ -74,7 +74,8 @@ class ItineraryCircleLine extends React.Component {
       isBrowser &&
       this.state.isMounted &&
       (this.props.modeClassName === 'walk' ||
-        this.props.modeClassName === 'bicycle')
+        this.props.modeClassName === 'bicycle' ||
+        this.props.modeClassName === 'bicycle_walk')
     ) {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = `url(${require(`../configurations/images/default/dotted-line-bg.png`)})`;
