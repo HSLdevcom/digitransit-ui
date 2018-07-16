@@ -914,7 +914,7 @@ const translations = {
     'long-transfers-margin': '12 min',
     'main-menu-label-close': 'Cerrar el menú principal',
     'main-menu-label-open': 'Abrir el menú principal',
-    'main-mode': "Viajo mediante",
+    'main-mode': 'Viajo mediante',
     map: 'Mapa',
     'messagebar-label-close-message-bar': 'Cerrar el banner',
     'messagebar-label-page': 'Página',
