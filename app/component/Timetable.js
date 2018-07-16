@@ -234,13 +234,13 @@ class Timetable extends React.Component {
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
 
     const stopPDFURL =
-      stopIdSplitted[0] === 'HSL' &&
-      this.props.stop.locationType !== 'STATION' &&
-      `${
-        this.context.config.URL.API_URL
-      }/timetables/v1/${stopIdSplitted[0].toLowerCase()}/stops/${
-        stopIdSplitted[1]
-      }.pdf`;
+      stopIdSplitted[0] === 'HSL' && this.props.stop.locationType !== 'STATION'
+        ? `${
+            this.context.config.URL.API_URL
+          }/timetables/v1/${stopIdSplitted[0].toLowerCase()}/stops/${
+            stopIdSplitted[1]
+          }.pdf`
+        : null;
 
     return (
       <div className="timetable">
