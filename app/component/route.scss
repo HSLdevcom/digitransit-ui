@@ -405,15 +405,14 @@ $route-schedule-date-height: 36px;
         color: $to-color;
       }
     }
-    .printable-stop-header_line {
-      background-image: url('../default/dotted-line-bg2.png');
-      background-size: 80% auto;
-      background-position-y: 0px;
-      background-position-x: 7px;
-      margin-right: 1em;
-      margin-top: 0.6em;
-      height: 6px;
-      width: 6.6em;
+  .printable-stop-header_line {
+    background-size: 80% auto;
+    background-position-y: 0px;
+    background-position-x: 7px;
+    margin-right: 1em;
+    margin-top: 0.6em;
+    height: 6px;
+    width: 6.6em;
     }
   }
 }

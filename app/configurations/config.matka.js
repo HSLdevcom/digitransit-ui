@@ -30,7 +30,10 @@ export default {
 
   title: APP_TITLE,
 
-  favicon: './sass/themes/hsl/icon_favicon-matkafi.svg',
+  // Navbar logo
+  logo: 'matka/matka-logo.png',
+
+  favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
 
   feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
 

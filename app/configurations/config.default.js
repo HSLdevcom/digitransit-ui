@@ -19,6 +19,7 @@ export default {
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
+    ASSET_URL: process.env.ASSET_URL,
     MAP_URL,
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/finland/`,
     MAP: {
@@ -40,6 +41,11 @@ export default {
 
   APP_PATH: `${APP_PATH}`,
   title: 'Reittihaku',
+
+  // Navbar logo
+  logo: 'default/digitransit-logo.png',
+
+  spinner: 'default/default-spinner.png',
 
   contactName: {
     sv: 'Digitransit',

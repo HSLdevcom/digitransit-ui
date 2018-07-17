@@ -70,10 +70,8 @@ const productionPlugins = [
     ServiceWorker: {
       entry: './app/util/font-sw.js',
       events: true,
-      publicPath: 'sw.js',
     },
     version: '[hash]',
-    relativePaths: true,
   }),
   new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
@@ -103,7 +101,7 @@ module.exports = {
     path: path.join(__dirname, '_static'),
     filename: isDevelopment ? 'js/bundle.js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
-    publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || '../'}`,
+    publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
     crossOriginLoading: 'anonymous',
   },
   module: {
@@ -162,7 +160,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg)$/,
+        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
         loader: isDevelopment ? 'file-loader' : 'url-loader',
         options: { limit: 10000 },
       },
