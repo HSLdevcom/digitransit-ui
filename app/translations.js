@@ -783,7 +783,7 @@ const translations = {
     'your-favourites': 'Favorites',
     zones: 'Fare zones',
   },
-  
+
   es: {
     'about-this-service': 'Sobre el servicio',
     accessibility: 'Accesibilidad',
@@ -791,7 +791,8 @@ const translations = {
     'accessibility-nolimit': 'Sin límites',
     'add-itinerary-via-point': 'Añadir punto intermedio al itinerario',
     'add-location': 'Añadir localización',
-    'add-location-to-favourites': 'Añadir una importante localización a tus Favoritos',
+    'add-location-to-favourites':
+      'Añadir una importante localización a tus Favoritos',
     address: 'Dirección',
     'address-or-stop': 'Dirección o parada',
     agency: 'Operador',
@@ -826,19 +827,22 @@ const translations = {
     'choose-stop': 'Seleccione parada',
     citybike: 'Bicicleta pública',
     'citybike-distance-duration': 'Bicicleta {distance} ({duration})',
-    'citybike-register-required': 'Para usar la red de bicicleta pública, necesita registrarse.',
+    'citybike-register-required':
+      'Para usar la red de bicicleta pública, necesita registrarse.',
     citybike_off: 'Cerrada',
     close: 'Cerrar',
     'contact-information': '{contactName} detalles de contacto',
     'create-account': 'Crear cuenta {contactName}',
     'cycle-distance-duration': 'Ir en bici {distance} ({duration})',
-    'cyclewalk-distance-duration': 'Anda junto a tu bici {distance} ({duration})',
+    'cyclewalk-distance-duration':
+      'Anda junto a tu bici {distance} ({duration})',
     datasources: 'Fuentes de datos',
     date: 'Fecha',
     delete: 'Eliminar',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Salidas',
-    description: 'Encuentre servicios de transporte público a localizaciones cercanas y lejanas.',
+    description:
+      'Encuentre servicios de transporte público a localizaciones cercanas y lejanas.',
     destination: 'Destino',
     'destination-outside-service':
       'Desafortunadamente no hemos encontrado rutas para su viaje. Su destino está fuera del área de servicio. Por favor cambie el destino.',
@@ -879,7 +883,8 @@ const translations = {
     'give-destination': 'Busque destino, ruta o parada',
     'give-name-to-location': 'De un nombre descriptivo a la localización',
     'give-origin': 'Introduzca su origen.',
-    'give-position': 'Introduzca su localización u origen en el cuadro de búsqueda.',
+    'give-position':
+      'Introduzca su localización u origen en el cuadro de búsqueda.',
     hour: 'Hora',
     'hour-short': 'h',
     'how-to-rate-service': '¿Qué nota le pondría al servicio?',
@@ -904,8 +909,7 @@ const translations = {
     'leaving-at': 'Sale a las',
     'likely-to-recommend':
       '¿Recomendaría el servicio a sus amigos o conocidos?',
-    'likely-to-use':
-      '¿Usaría este servicio en vez del ruteador actual?',
+    'likely-to-use': '¿Usaría este servicio en vez del ruteador actual?',
     loading: 'Cargando...',
     locate: 'Detectando localización',
     'location-examples': 'p.ej. Casa, Trabajo, Colegio,...',
@@ -1031,7 +1035,8 @@ const translations = {
     'terminal-page.title': 'Terminal {stop_name}',
     'terminal-page.title-short': 'Terminal',
     'terms-of-use': 'Términos de uso',
-    'ticket-and-price-info': 'Información sobre precios y títulos de transporte',
+    'ticket-and-price-info':
+      'Información sobre precios y títulos de transporte',
     'ticket-single-adult': 'Adulto',
     'ticket-type-HSL:esp': 'Espoo y Kauniainen',
     'ticket-type-HSL:hki': 'Helsinki',
