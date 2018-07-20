@@ -83,6 +83,8 @@ export default {
     bucketSize: 1000,
   },
 
+  defaultSettings: {},
+
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes

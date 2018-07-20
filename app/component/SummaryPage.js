@@ -148,6 +148,7 @@ class SummaryPage extends React.Component {
   initCustomizableParameters = config => {
     this.customizableParameters = {
       ...SummaryPage.hcParameters,
+      ...this.context.config.defaultSettings,
       modes: Object.keys(config.transportModes)
         .filter(mode => config.transportModes[mode].defaultValue === true)
         .map(mode => config.modeToOTP[mode])

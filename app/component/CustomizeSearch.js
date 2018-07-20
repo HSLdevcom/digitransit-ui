@@ -366,15 +366,18 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    this.replaceParams({
-      walkSpeed: defaultSettings.walkSpeed,
-      walkReluctance: defaultSettings.walkReluctance,
-      walkBoardCost: defaultSettings.walkBoardCost,
-      minTransferTime: defaultSettings.minTransferTime,
-      accessibilityOption: defaultSettings.accessibilityOption,
-      modes: getDefaultModes(this.context.config).toString(),
-      ticketTypes: defaultSettings.ticketTypes,
-    });
+    this.replaceParams(
+      {
+        walkSpeed: defaultSettings.walkSpeed,
+        walkReluctance: defaultSettings.walkReluctance,
+        walkBoardCost: defaultSettings.walkBoardCost,
+        minTransferTime: defaultSettings.minTransferTime,
+        accessibilityOption: defaultSettings.accessibilityOption,
+        modes: getDefaultModes(this.context.config).toString(),
+        ticketTypes: defaultSettings.ticketTypes,
+      },
+      ...this.context.config.defaultSettings,
+    );
   };
 
   toggleTransportMode(mode, otpMode) {
@@ -409,6 +412,7 @@ class CustomizeSearch extends React.Component {
     // compose current settings
     const merged = {
       ...defaultSettings,
+      ...this.context.config.defaultSettings,
       ...getCustomizedSettings(),
       ...this.context.location.query,
     };
