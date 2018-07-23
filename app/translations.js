@@ -982,6 +982,8 @@ const translations = {
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
+    'number-of-minutes':
+      '{number, plural, =0 {{number} minuuttia} one {1 minuutti} other {{number} minuuttia}}',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     or: 'tai',
@@ -1096,7 +1098,6 @@ const translations = {
     tickets: 'Matkaliput',
     time: 'Aika',
     timetable: 'Aikataulu',
-
     'to-stop': 'Pysäkille',
     today: 'Tänään',
     tomorrow: 'Huomenna',

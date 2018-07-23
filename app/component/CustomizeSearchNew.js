@@ -13,13 +13,18 @@ import {
   resetCustomizedSettings,
 } from '../store/localStorage';
 import { defaultSettings } from './../util/planParamUtil';
-import Select from './Select';
 
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
+import Select from './Select';
 
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
+import SelectOptionContainer from './CustomizeSearch/SelectOptionContainer';
+
+// const SettingsOptionContainer = props => (
+//   <div className="settings-option-container">{props && props.children}</div>
+// );
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -438,13 +443,13 @@ class CustomizeSearch extends React.Component {
       </div>
     );
 
-  renderTransferOptions = val => (
+  renderTransferOptions = (walkBoardCost, minTransferTime) => (
     <div className="settings-option-container transfer-options-container">
       {this.getSelectOptions([
         {
           title: 'transfers',
           paramTitle: 'walkBoardCost',
-          currentSelection: val,
+          currentSelection: walkBoardCost,
           options: [
             {
               displayName: 'transfer-amount',
@@ -456,21 +461,15 @@ class CustomizeSearch extends React.Component {
             },
           ],
         },
-        {
-          title: 'transfers-margin',
-          paramTitle: 'minTransferTime',
-          options: [
-            {
-              displayName: 'transfer-margin-default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'transfer-margin-default',
-                defaultMessage: '3 minuuttia',
-              }),
-              value: 'transfer-margin-default',
-            },
-          ],
-        },
       ])}
+      <SelectOptionContainer
+        currentSelection={minTransferTime}
+        displayPattern="number-of-minutes"
+        displayValueFormatter={seconds => seconds / 60}
+        options={[60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720]}
+        paramTitle="minTransferTime"
+        title="transfers-margin"
+      />
     </div>
   );
 
@@ -505,6 +504,7 @@ class CustomizeSearch extends React.Component {
       ...getCustomizedSettings(),
       ...this.context.location.query,
     };
+
     const checkedModes = this.checkAndConvertModes(currentOptions.modes);
     return (
       <div
@@ -539,7 +539,10 @@ class CustomizeSearch extends React.Component {
             {checkedModes.filter(o => o === 'BICYCLE').length > 0
               ? this.renderBikingOptions()
               : this.renderWalkingOptions()}
-            {this.renderTransferOptions(currentOptions.minTransferTime)}
+            {this.renderTransferOptions(
+              currentOptions.walkBoardCost,
+              currentOptions.minTransferTime,
+            )}
             <FareZoneSelector
               headerText={this.context.intl.formatMessage({
                 id: 'zones',
