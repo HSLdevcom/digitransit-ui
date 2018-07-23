@@ -195,19 +195,16 @@ $border-radius-rounded: 30px;
 .overflow-fade {
   overflow: hidden;
   mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
-  -webkit-mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
 }
 
 .overflow-fade-left {
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
-  -webkit-mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
 }
 
 .double-overflow-fade {
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 2%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0.2) 98%);
-  -webkit-mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 2%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0.2) 98%);
 }
 
 @keyframes realtimeInnerArch {
