@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
+import { isBrowser } from '../util/browser';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
@@ -14,6 +15,18 @@ class ItineraryCircleLine extends React.Component {
     isVia: PropTypes.bool,
     color: PropTypes.string,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMounted: false,
+    };
+  }
+
+  componentDidMount() {
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ isMounted: true });
+  }
 
   getMarker = () => {
     if (this.props.index === 0 && this.props.isVia === false) {
@@ -56,11 +69,23 @@ class ItineraryCircleLine extends React.Component {
 
   render() {
     const marker = this.getMarker();
+    const legBeforeLineStyle = { color: this.props.color };
+    if (
+      isBrowser &&
+      this.state.isMounted &&
+      (this.props.modeClassName === 'walk' ||
+        this.props.modeClassName === 'bicycle' ||
+        this.props.modeClassName === 'bicycle_walk')
+    ) {
+      // eslint-disable-next-line global-require
+      legBeforeLineStyle.backgroundImage = `url(${require(`../configurations/images/default/dotted-line-bg.png`)})`;
+    }
+
     return (
       <div className={`leg-before ${this.props.modeClassName}`}>
         {marker}
         <div
-          style={{ color: this.props.color }}
+          style={legBeforeLineStyle}
           className={`leg-before-line ${this.props.modeClassName}`}
         />
       </div>

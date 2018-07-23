@@ -58,8 +58,8 @@ function addMetaData(config) {
       data.link.forEach(e => {
         // eslint-disable-next-line no-param-reassign
         delete e.innerHTML;
-        if (e.href.startsWith('../icons')) {
-          e.href = appPathPrefix + e.href.substring(3);
+        if (process.env.ASSET_URL && e.href.startsWith('/icons')) {
+          e.href = appPathPrefix + e.href;
         }
       });
 

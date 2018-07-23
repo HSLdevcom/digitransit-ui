@@ -9,13 +9,14 @@ $route-schedule-date-height: 36px;
   flex-shrink: 0;
 
   overflow: hidden;
-  div, .columns.route-stop-time {
+  div,
+  .columns.route-stop-time {
     @include font-narrow-book;
     color: $gray;
     font-size: $font-size-small;
   }
   &.route-stop {
-    min-height:0;
+    min-height: 0;
   }
 
   &.bp-large {
@@ -23,7 +24,8 @@ $route-schedule-date-height: 36px;
       padding: 8px 10px 5px 20px;
     }
 
-    div, .columns.route-stop-time {
+    div,
+    .columns.route-stop-time {
       font-size: 16px;
     }
   }
@@ -60,7 +62,6 @@ $route-schedule-date-height: 36px;
   }
 }
 
-
 @media print {
   div.route-page-content {
     display: block;
@@ -74,7 +75,8 @@ $route-schedule-date-height: 36px;
   flex-grow: 1;
   flex-basis: 100%;
   background: $white;
-  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1), flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
+    flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &:empty {
     flex-basis: 0;
@@ -126,7 +128,8 @@ $route-schedule-date-height: 36px;
   flex-basis: auto;
 }
 
-.bp-medium, .bp-large {
+.bp-medium,
+.bp-large {
   &.location-details_container .route-now-content {
     & svg {
       font-size: 6em;
@@ -135,9 +138,9 @@ $route-schedule-date-height: 36px;
 }
 .bp-small {
   &.location-details_container .route-now-content {
-      & svg {
-        font-size: 3.8em;
-      }
+    & svg {
+      font-size: 3.8em;
+    }
   }
 }
 
@@ -219,27 +222,33 @@ $route-schedule-date-height: 36px;
         display: flex;
         flex-direction: column;
         flex: 2 0 0;
-          div {
-            display: flex;
-            span {
-              text-decoration: none;
-            }
-            .itinerary-stop-code {
-              display: block;
-              max-height: 18px;
-            }
-            .route-stop-address {
-              font-family: $font-family-narrow;
-              font-weight: 400;
-              letter-spacing: 0;
-              color: #666;
-              display: block;
-              word-break: keep-all;
-              mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
-              height: 1.25rem;
-              overflow: hidden;
-              width: 100%;
-            }
+        div {
+          display: flex;
+          span {
+            text-decoration: none;
+          }
+          .itinerary-stop-code {
+            display: block;
+            max-height: 18px;
+          }
+          .route-stop-address {
+            font-family: $font-family-narrow;
+            font-weight: 400;
+            letter-spacing: 0;
+            color: #666;
+            display: block;
+            word-break: keep-all;
+            mask-image: linear-gradient(
+              to left,
+              transparent,
+              rgba(0, 0, 0, 0.2) 5px,
+              black 7px,
+              black
+            );
+            height: 1.25rem;
+            overflow: hidden;
+            width: 100%;
+          }
         }
       }
       .departure-times-container {
@@ -261,10 +270,19 @@ $route-schedule-date-height: 36px;
   }
 }
 // To hide the line element in the last itinerary leg
-.route-stop-list > div:last-child > div.route-stop-now_circleline > .route-stop-now_line {
+.route-stop-list
+  > div:last-child
+  > div.route-stop-now_circleline
+  > .route-stop-now_line {
   display: none;
 }
-.small .route-stop-row_content-container > a .route-details_container > div > span .route-stop-address {
+.small
+  .route-stop-row_content-container
+  > a
+  .route-details_container
+  > div
+  > span
+  .route-stop-address {
   max-width: 7em;
 }
 
@@ -277,7 +295,7 @@ $route-schedule-date-height: 36px;
 }
 
 .nearest-route-stop > span > svg.icon {
-  transform: translate(0px,3px);
+  transform: translate(0px, 3px);
 }
 
 .route-header {
@@ -296,7 +314,6 @@ $route-schedule-date-height: 36px;
   }
 }
 
-
 .route-page-header.favourite-icon {
   position: absolute;
   top: 17px;
@@ -314,6 +331,10 @@ $route-schedule-date-height: 36px;
   flex-direction: column;
   flex: 1;
   background: $white;
+
+  @media print {
+    display: block;
+  }
 }
 
 .route-schedule-list-wrapper {
@@ -321,15 +342,19 @@ $route-schedule-date-height: 36px;
   display: flex;
   flex-direction: column;
 
+  @media print {
+    display: block;
+  }
+
   .route-schedule-header {
     min-height: 52px;
+
     @media print {
       margin-left: 0;
       margin-right: auto;
     }
   }
 }
-
 
 .route-schedule-list {
   padding-bottom: 0.7em;
@@ -344,14 +369,14 @@ $route-schedule-date-height: 36px;
 }
 
 .header-for-printing {
-  display:none;
+  display: none;
   @media print {
     display: block;
     h1 {
       font-size: 26px;
       font-weight: 500;
       font-family: $font-family;
-  }
+    }
   }
 }
 
@@ -359,29 +384,28 @@ $route-schedule-date-height: 36px;
   display: none;
   @media print {
     margin-top: 1em;
-    display:flex;
+    display: flex;
     font-size: 24px;
     font-weight: 700;
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
     }
-  .printable-stop-header_icon-from {
-    margin-right: 0.7em;
-    svg {
-      fill: $from-color;
-      color: $from-color;
+    .printable-stop-header_icon-from {
+      margin-right: 0.7em;
+      svg {
+        fill: $from-color;
+        color: $from-color;
+      }
     }
-  }
-  .printable-stop-header_icon-to {
-    margin-right: 0.7em;
-    svg {
-      fill: $to-color;
-      color: $to-color;
+    .printable-stop-header_icon-to {
+      margin-right: 0.7em;
+      svg {
+        fill: $to-color;
+        color: $to-color;
+      }
     }
-  }
   .printable-stop-header_line {
-    background-image: url('../default/dotted-line-bg2.png');
     background-size: 80% auto;
     background-position-y: 0px;
     background-position-x: 7px;
@@ -389,7 +413,7 @@ $route-schedule-date-height: 36px;
     margin-top: 0.6em;
     height: 6px;
     width: 6.6em;
-  }
+    }
   }
 }
 
@@ -446,12 +470,12 @@ $route-schedule-date-height: 36px;
 }
 
 .trip-separator {
-    width: 297px;
-    border-top: 2px dotted $black;
-    height: 1px;
-    margin-top: 0.8em;
-    margin-left: 1.5em;
-    margin-right: 1.5em;
+  width: 297px;
+  border-top: 2px dotted $black;
+  height: 1px;
+  margin-top: 0.8em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
 }
 /*
 .trip-separator:after {
@@ -463,7 +487,8 @@ $route-schedule-date-height: 36px;
   border-top: 1px solid $light-gray;
 }
 */
-.trip-from, .trip-to {
+.trip-from,
+.trip-to {
   background: #fff;
   width: 50px;
   font-size: $font-size-small;
@@ -491,38 +516,40 @@ $route-schedule-date-height: 36px;
   padding: 0 15px;
   background-color: #eef1f3;
 
-      .printable-date-container {
-      display: none;
-      @media print { display: flex; }
+  .printable-date-container {
+    display: none;
+    @media print {
+      display: flex;
+    }
 
-      .printable-date-icon {
-        margin-right: 0.8em;
-        svg {
+    .printable-date-icon {
+      margin-right: 0.8em;
+      svg {
         width: 47.3px;
         height: 42px;
       }
-      }
-      .printable-date-header {
-        font-size: 14px;
-      }
-      .printable-date-content {
-         font-size: 20px;
-         font-weight: 700;
-      }
     }
-    .secondary-button.print {
-      @media print {
-        display: none;
-      }
+    .printable-date-header {
+      font-size: 14px;
     }
+    .printable-date-content {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+  .secondary-button.print {
     @media print {
-      padding-left: 0;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      background-color: $white;
-      border-top: 1px solid $light-gray;
-      border-bottom: 1px solid $light-gray;
+      display: none;
     }
+  }
+  @media print {
+    padding-left: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: $white;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+  }
 }
 
 .mobile .route-page-action-bar .secondary-button {
@@ -601,14 +628,16 @@ div.route-tabs {
         display: none;
       }
 
-      &.activeAlert, &.activeAlert.is-active, &.activeAlert:hover {
+      &.activeAlert,
+      &.activeAlert.is-active,
+      &.activeAlert:hover {
         .icon {
           fill: $cancelation-red;
         }
       }
 
       &.is-active {
-        border-bottom: 2px solid $link-color ;
+        border-bottom: 2px solid $link-color;
         color: $black;
 
         .icon {
@@ -660,7 +689,6 @@ div.route-tabs {
       display: flex;
       flex-direction: column;
     }
-
   }
 }
 
@@ -669,12 +697,12 @@ div.route-tabs {
 }
 
 .mode-nearby {
-    &.btn {
-      background-color: white;
-      .icon{
-        color: #79919D;
-      }
+  &.btn {
+    background-color: white;
+    .icon {
+      color: #79919d;
     }
+  }
 }
 
 .route-pattern-select {
@@ -684,7 +712,7 @@ div.route-tabs {
   min-height: 49px;
 
   select {
-    padding:0 35px 0 10px;
+    padding: 0 35px 0 10px;
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
     @include font-medium;
@@ -722,12 +750,12 @@ div.route-tabs {
     select {
       height: 40px;
       font-size: 18px;
-      padding:0 48px 0 20px;
+      padding: 0 48px 0 20px;
       -webkit-padding-end: 48px;
       -webkit-padding-start: 20px;
       @media print {
-      padding-left: 0;
-    }
+        padding-left: 0;
+      }
     }
 
     .icon {
@@ -822,13 +850,12 @@ nav.top-bar .title .route-number {
   .route-number-title {
     font-size: 25px;
     span > span:nth-child(1) {
-        span > svg.icon {
-          //margin-top: -4px;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: $border-radius;
-        }
+      span > svg.icon {
+        //margin-top: -4px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: $border-radius;
+      }
     }
-
   }
 }
 
@@ -841,16 +868,18 @@ nav.top-bar .title .route-number {
   @extend .itinerary-leg-agency;
   padding: 0 0 0 10px;
   .agency-link-container {
-    max-width:calc(100% - 1em);
+    max-width: calc(100% - 1em);
     white-space: nowrap;
     padding-top: 0px;
     padding-bottom: 7px;
     .agency-link {
       font-size: 10px;
       padding: 0;
-      .external-link-container { max-width: calc(100% - 1em);}
+      .external-link-container {
+        max-width: calc(100% - 1em);
+      }
       a {
-        font-weight:$font-weight-bold;
+        font-weight: $font-weight-bold;
         color: $link-color;
         max-width: 100%;
       }

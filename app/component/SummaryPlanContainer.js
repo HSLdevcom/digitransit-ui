@@ -41,6 +41,7 @@ class SummaryPlanContainer extends React.Component {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
+    piwik: PropTypes.object,
   };
 
   onSelectActive = index => {
@@ -58,6 +59,14 @@ class SummaryPlanContainer extends React.Component {
   onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
       if (this.props.breakpoint === 'large') {
+        if (this.context.piwik != null) {
+          this.context.piwik.trackEvent(
+            'ItinerarySettings',
+            'ItineraryDetailsClick',
+            'ItineraryDetailsCollapse',
+            index,
+          );
+        }
         this.context.router.replace({
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
@@ -66,6 +75,14 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.goBack();
       }
     } else {
+      if (this.context.piwik != null) {
+        this.context.piwik.trackEvent(
+          'ItinerarySettings',
+          'ItineraryDetailsClick',
+          'ItineraryDetailsExpand',
+          index,
+        );
+      }
       const newState = {
         ...this.context.location,
         state: { summaryPageSelected: index },
@@ -92,6 +109,14 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ShowMoreRoutesClick',
+        'ShowMoreRoutesLater',
+      );
+    }
+
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = this.props.itineraries.reduce(
       (previous, current) => {
@@ -171,6 +196,14 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onEarlier = () => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ShowMoreRoutesClick',
+        'ShowMoreRoutesEarlier',
+      );
+    }
+
     const start = moment.unix(this.props.serviceTimeRange.start);
 
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -258,6 +291,14 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onNow = () => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ShowMoreRoutesClick',
+        'ShowMoreRoutesNow',
+      );
+    }
+
     this.context.router.replace({
       ...this.context.location,
       query: {
@@ -303,6 +344,7 @@ class SummaryPlanContainer extends React.Component {
       $heuristicStepsPerMainStep: Int!,
       $compactLegsByReversedSearch: Boolean!,
       $itineraryFiltering: Float!,
+      $modeWeight: InputModeWeight!,
     ) { viewer {
         plan(
           fromPlace:$fromPlace,
@@ -338,6 +380,7 @@ class SummaryPlanContainer extends React.Component {
           heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
           compactLegsByReversedSearch:$compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
+          modeWeight: $modeWeight,
         ) {itineraries {startTime,endTime}}
       }
     }`;

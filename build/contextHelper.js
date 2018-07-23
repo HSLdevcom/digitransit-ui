@@ -62,9 +62,11 @@ function getAllThemeEntries() {
 }
 
 function faviconPluginFromConfig(config) {
-  let logo = config.favicon || `./sass/themes/${config.CONFIG}/favicon.png`;
+  let logo =
+    config.favicon ||
+    `./app/configurations/images/${config.CONFIG}/favicon.png`;
   if (!fs.existsSync(logo)) {
-    logo = './sass/themes/default/favicon.png';
+    logo = './app/configurations/images/default/favicon.png';
   }
 
   return new FaviconsWebpackPlugin({

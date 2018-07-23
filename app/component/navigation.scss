@@ -72,21 +72,20 @@ $content-background-color: $background-color;
   .logo {
     height: 100%;
     min-height: 40px;
-    background-image: $nav-logo;
+    min-width: 8em;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
-    min-width: 8em;
+
   }
   .navi-logo {
     margin-left: 32px;
     width: $nav-logo-width;
     height: $nav-logo-height;
     min-width: 130px; //for ff
-    background-image: $nav-logo;
-    background-position: left center;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: left center;
     cursor: pointer;
   }
 }

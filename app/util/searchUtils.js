@@ -1,6 +1,7 @@
 import Relay from 'react-relay/classic';
 
 import get from 'lodash/get';
+import isString from 'lodash/isString';
 import take from 'lodash/take';
 import orderBy from 'lodash/orderBy';
 import sortBy from 'lodash/sortBy';
@@ -13,6 +14,36 @@ import { distance } from './geo-utils';
 import { uniqByLabel, isStop } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
 import { PREFIX_ROUTES } from '../util/path';
+
+/**
+ * LayerType depicts the type of the point-of-interest.
+ */
+const LayerType = {
+  Address: 'address',
+  FavouriteStop: 'favouriteStop',
+  Station: 'station',
+  Stop: 'stop',
+  Street: 'street',
+  Venue: 'venue',
+};
+
+/**
+ * SearchType depicts the type of the search.
+ */
+const SearchType = {
+  All: 'all',
+  Endpoint: 'endpoint',
+  Search: 'search',
+};
+
+/**
+ * SourceType depicts the source of the point-of-interest's information.
+ */
+const SourceType = {
+  GtfsHsl: 'gtfshsl',
+  OpenAddresses: 'openaddresses',
+  OpenStreetMap: 'openstreetmap',
+};
 
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
@@ -315,6 +346,83 @@ export const getAllEndpointLayers = () => [
   'Stops',
 ];
 
+/**
+ * Helper function to sort the results with. Order:
+ *  - routes and lines (if search done with numbers only)
+ *  - stations
+ *  - OSM points of interest
+ *  - stops
+ *
+ * @param {*[]} results The search results that were received
+ * @param {String} term The search term that was used
+ */
+export const sortSearchResults = (results, term = '') => {
+  if (!Array.isArray(results)) {
+    return results;
+  }
+
+  const isLineIdentifier = value =>
+    !!(isString(value) && value.match(/^[0-9]+/));
+
+  const getLayerSortOrder = layer => {
+    switch (layer) {
+      case LayerType.Station:
+        return 2;
+      case LayerType.Address:
+      case LayerType.Street:
+      case LayerType.Venue:
+      default:
+        return 1;
+      case LayerType.Stop:
+        return 0;
+    }
+  };
+
+  const getSourceSortOrder = source => {
+    switch (source) {
+      case SourceType.GtfsHsl:
+        return 1;
+      case SourceType.OpenAddresses:
+      case SourceType.OpenStreetMap:
+      default:
+        return 0;
+    }
+  };
+
+  const normalize = str =>
+    isString(str)
+      ? `${str
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')}`
+      : '';
+
+  const isMatch = (value, comparison) =>
+    value.length > 0 && comparison.length > 0 && value === comparison;
+
+  const normalizedSearchTerm = normalize(term);
+  const orderedResults = orderBy(
+    results,
+    [
+      result =>
+        isLineIdentifier(term) && isLineIdentifier(result.properties.shortName)
+          ? 1
+          : 0,
+      result =>
+        result.properties.layer === LayerType.Address &&
+        (isMatch(normalizedSearchTerm, normalize(result.properties.label)) ||
+          isMatch(normalizedSearchTerm, normalize(result.properties.name)))
+          ? 1
+          : 0,
+      result => getLayerSortOrder(result.properties.layer),
+      result => getSourceSortOrder(result.properties.source),
+      result => result.properties.confidence,
+    ],
+    ['desc', 'desc', 'desc', 'desc', 'desc'],
+  );
+  return orderedResults;
+};
+
 export function executeSearchImmediate(
   getStore,
   refPoint,
@@ -322,14 +430,14 @@ export function executeSearchImmediate(
   callback,
 ) {
   const position = getStore('PositionStore').getLocationState();
-  let endpointSearches;
-  let searchSearches;
+  const endpointSearches = { type: 'endpoint', term: input, results: [] };
+  const searchSearches = { type: 'search', term: input, results: [] };
+
   let endpointSearchesPromise;
   let searchSearchesPromise;
   const endpointLayers = layers || getAllEndpointLayers();
 
-  if (type === 'endpoint' || type === 'all') {
-    endpointSearches = { type: 'endpoint', term: input, results: [] };
+  if (type === SearchType.Endpoint || type === SearchType.All) {
     const favouriteLocations = getStore(
       'FavouriteLocationStore',
     ).getLocations();
@@ -442,14 +550,18 @@ export function executeSearchImmediate(
         endpointSearches.error = err;
       });
 
-    if (type === 'endpoint') {
-      endpointSearchesPromise.then(() => callback([endpointSearches]));
+    if (type === SearchType.Endpoint) {
+      endpointSearchesPromise.then(() =>
+        callback({
+          ...endpointSearches,
+          results: sortSearchResults(endpointSearches.results, input),
+        }),
+      );
       return;
     }
   }
 
-  if (type === 'search' || type === 'all') {
-    searchSearches = { type: 'search', term: input, results: [] };
+  if (type === SearchType.Search || type === SearchType.All) {
     const oldSearches = getStore('OldSearchesStore').getOldSearches('search');
     const favouriteRoutes = getStore('FavouriteRoutesStore').getRoutes();
 
@@ -469,15 +581,27 @@ export function executeSearchImmediate(
 
     if (type === 'search') {
       searchSearchesPromise.then(() => {
-        callback([searchSearches]);
+        callback({
+          ...searchSearches,
+          results: sortSearchResults(searchSearches.results, input),
+        });
       });
       return;
     }
   }
 
-  Promise.all([endpointSearchesPromise, searchSearchesPromise]).then(() =>
-    callback([searchSearches, endpointSearches]),
-  );
+  Promise.all([endpointSearchesPromise, searchSearchesPromise]).then(() => {
+    const results = [];
+    if (endpointSearches && Array.isArray(endpointSearches.results)) {
+      results.push(...endpointSearches.results);
+    }
+    if (searchSearches && Array.isArray(searchSearches.results)) {
+      results.push(...searchSearches.results);
+    }
+    callback({
+      results: sortSearchResults(results, input),
+    });
+  });
 }
 
 const debouncedSearch = debounce(executeSearchImmediate, 300, {
