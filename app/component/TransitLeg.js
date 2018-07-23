@@ -66,6 +66,7 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const originalTime = this.props.leg.realTime &&
+      this.props.leg.departureDelay &&
       this.props.leg.departureDelay >=
         this.context.config.itinerary.delayThreshold && [
         <br key="br" />,
@@ -239,7 +240,7 @@ TransitLeg.propTypes = {
       }).isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
-    departureDelay: PropTypes.number.isRequired,
+    departureDelay: PropTypes.number,
     intermediateStops: PropTypes.arrayOf(
       PropTypes.shape({
         gtfsId: PropTypes.string.isRequired,
