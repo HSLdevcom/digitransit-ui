@@ -3,7 +3,7 @@ import React from 'react';
 
 import { isBrowser } from '../util/browser';
 
-const LogoElement = ({ logo, title }, { config }) => {
+const LogoSmall = ({ logo, title }, { config }) => {
   if (config.textLogo) {
     return (
       <section className="title">
@@ -16,13 +16,13 @@ const LogoElement = ({ logo, title }, { config }) => {
   return <div className="logo" style={{ backgroundImage: 'none' }} />;
 };
 
-LogoElement.propTypes = {
+LogoSmall.propTypes = {
   logo: PropTypes.string,
   title: PropTypes.node,
 };
 
-LogoElement.contextTypes = {
+LogoSmall.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default LogoElement;
+export default LogoSmall;
