@@ -8,14 +8,7 @@ import { DesktopOrMobile } from '../util/withBreakpoint';
 
 const AppBarContainer = ({ router, location, homeUrl, logo, ...args }) => (
   <DesktopOrMobile
-    mobile={() => (
-      <AppBarSmall
-        {...args}
-        showLogo={location.pathname.indexOf(homeUrl) === 0}
-        logo={logo}
-        homeUrl={homeUrl}
-      />
-    )}
+    mobile={() => <AppBarSmall {...args} logo={logo} homeUrl={homeUrl} />}
     desktop={() => (
       <AppBarLarge
         {...args}
