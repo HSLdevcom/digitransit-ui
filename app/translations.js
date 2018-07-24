@@ -867,6 +867,7 @@ const translations = {
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
     datasources: 'Tietolähteet',
     date: 'Päivämäärä',
+    'default-value': 'oletusarvo',
     delete: 'Poista',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
@@ -930,6 +931,7 @@ const translations = {
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
+    'kilometers-per-hour': '{number} km/h',
     later: 'Myöhemmin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
@@ -983,9 +985,14 @@ const translations = {
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
-      '{number, plural, =0 {{number} minuuttia} one {1 minuutti} other {{number} minuuttia}}',
+      '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
+    'option-amount-default': 'Oletus',
+    'option-amount-least': 'Vähiten',
+    'option-amount-less': 'Vähemmän',
+    'option-amount-more': 'Enemmän',
+    'option-amount-most': 'Eniten',
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ceil from 'lodash/ceil';
 import get from 'lodash/get';
 import xor from 'lodash/xor';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -20,11 +21,11 @@ import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import Select from './Select';
 
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
-import SelectOptionContainer from './CustomizeSearch/SelectOptionContainer';
+import SelectOptionContainer, {
+  getFiveStepOptions,
+} from './CustomizeSearch/SelectOptionContainer';
 
-// const SettingsOptionContainer = props => (
-//   <div className="settings-option-container">{props && props.children}</div>
-// );
+import { replaceQueryParams } from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -328,41 +329,48 @@ class CustomizeSearch extends React.Component {
     </div>
   );
 
-  renderWalkingOptions = val => (
-    <div className="settings-option-container walk-options-selector">
-      {this.getSelectOptions([
-        {
-          title: 'walking',
-          paramTitle: 'walkReluctance',
-          currentSelection: val,
-          options: [
-            {
-              displayName: 'walking-amount-default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'walking-amount-default',
-                defaultMessage: 'Oletusarvo',
-              }),
-              value: 'walking-amount-default',
-            },
-          ],
-        },
-        {
-          title: 'walking-speed',
-          paramTitle: 'walkSpeed',
-          options: [
-            {
-              displayName: 'walking-speed-default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'walking-speed-default',
-                defaultMessage: 'Hidas 30m/min',
-              }),
-              value: 'walking-speed-default',
-            },
-          ],
-        },
-      ])}
-    </div>
-  );
+  renderWalkingOptions = (walkReluctance, walkSpeed) => {
+    const KPH = 0.2777;
+    return (
+      <div className="settings-option-container walk-options-selector">
+        <SelectOptionContainer
+          currentSelection={walkReluctance}
+          defaultValue={defaultSettings.walkReluctance}
+          highlightDefaultValue={false}
+          onOptionSelected={value =>
+            replaceQueryParams(this.context.router, { walkReluctance: value })
+          }
+          options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+          title="walking"
+        />
+        <SelectOptionContainer
+          currentSelection={walkSpeed}
+          defaultValue={defaultSettings.walkSpeed}
+          displayPattern="kilometers-per-hour"
+          displayValueFormatter={value => ceil(value * 3.6, 1)}
+          onOptionSelected={value =>
+            replaceQueryParams(this.context.router, { walkSpeed: value })
+          }
+          options={[
+            defaultSettings.walkSpeed,
+            1 * KPH,
+            2 * KPH,
+            3 * KPH,
+            4 * KPH,
+            5 * KPH,
+            6 * KPH,
+            7 * KPH,
+            8 * KPH,
+            9 * KPH,
+            10 * KPH,
+            11 * KPH,
+            12 * KPH,
+          ]}
+          title="walking-speed"
+        />
+      </div>
+    );
+  };
 
   renderBikeTransportSelector = () => (
     <div className="settings-option-container bike-transport-selector">
@@ -464,10 +472,27 @@ class CustomizeSearch extends React.Component {
       ])}
       <SelectOptionContainer
         currentSelection={minTransferTime}
+        defaultValue={defaultSettings.minTransferTime}
         displayPattern="number-of-minutes"
         displayValueFormatter={seconds => seconds / 60}
-        options={[60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720]}
-        paramTitle="minTransferTime"
+        onOptionSelected={value =>
+          this.updateParameters({ minTransferTime: value })
+        }
+        options={[
+          defaultSettings.minTransferTime,
+          60,
+          120,
+          180,
+          240,
+          300,
+          360,
+          420,
+          480,
+          540,
+          600,
+          660,
+          720,
+        ]}
         title="transfers-margin"
       />
     </div>
@@ -538,7 +563,10 @@ class CustomizeSearch extends React.Component {
             {this.renderTransportModeSelector(config, checkedModes)}
             {checkedModes.filter(o => o === 'BICYCLE').length > 0
               ? this.renderBikingOptions()
-              : this.renderWalkingOptions()}
+              : this.renderWalkingOptions(
+                  merged.walkReluctance,
+                  merged.walkSpeed,
+                )}
             {this.renderTransferOptions(
               currentOptions.walkBoardCost,
               currentOptions.minTransferTime,
