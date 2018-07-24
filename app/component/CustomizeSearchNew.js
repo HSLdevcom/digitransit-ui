@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import xor from 'lodash/xor';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
-import * as ModeUtils from '../util/modeUtils';
+
 import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
 import FareZoneSelector from './FareZoneSelector';
@@ -13,20 +13,20 @@ import {
   getCustomizedSettings,
   resetCustomizedSettings,
 } from '../store/localStorage';
+import * as ModeUtils from '../util/modeUtils';
 import { defaultSettings } from './../util/planParamUtil';
+import { replaceQueryParams } from '../util/queryUtils';
 
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-import Select from './Select';
 
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import SelectOptionContainer, {
   getFiveStepOptions,
-  getLinearSpeedOptions,
+  getLinearStepOptions,
+  getSpeedOptions,
 } from './CustomizeSearch/SelectOptionContainer';
-
-import { replaceQueryParams } from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -182,31 +182,6 @@ class CustomizeSearch extends React.Component {
     </div>
   );
 
-  getSelectOptions = selectOptions =>
-    selectOptions.map(o => (
-      <div className="option-container" key={o.title}>
-        <h1>
-          {this.context.intl.formatMessage({
-            id: o.title,
-            defaultMessage: 'option',
-          })}
-        </h1>
-        <div className="select-container">
-          <Select
-            name={o.title}
-            selected={o.currentSelection}
-            options={o.options}
-            onSelectChange={e =>
-              this.updateParameters({
-                [o.paramTitle]: e.target.value,
-              })
-            }
-          />
-          <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
-        </div>
-      </div>
-    ));
-
   getCurrentOptions = () => {
     const { location, config } = this.context;
     const customizedSettings = getCustomizedSettings();
@@ -228,23 +203,13 @@ class CustomizeSearch extends React.Component {
     return obj;
   };
 
-  updateParameters = value => {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        ...value,
-      },
-    });
-  };
-
   resetParameters = () => {
     const defaultValues = defaultSettings;
     defaultValues.modes = ModeUtils.getDefaultModes(
       this.context.config,
     ).toString();
     resetCustomizedSettings();
-    this.updateParameters(defaultValues);
+    replaceQueryParams(this.context.router, defaultValues);
   };
 
   toggleTransportMode(mode, otpMode) {
@@ -269,51 +234,43 @@ class CustomizeSearch extends React.Component {
     return [];
   };
 
-  renderAccesibilitySelector = val => {
+  renderAccessibilitySelector = accessibilityOption => {
     const {
       config: { accessibilityOptions },
-      intl,
     } = this.context;
     return (
-      <div className="settings-option-container accessibility-options-selector">
-        {this.getSelectOptions([
-          {
-            title: 'accessibility',
-            paramTitle: 'accessibilityOption',
-            currentSelection: val,
-            options: accessibilityOptions.map((o, i) => ({
-              displayNameObject: intl.formatMessage({
-                defaultMessage: accessibilityOptions[i].displayName,
-                id: accessibilityOptions[i].messageId,
-              }),
-              displayName: accessibilityOptions[i].displayName,
-              value: accessibilityOptions[i].value,
-            })),
-          },
-        ])}
+      <div className="settings-option-container">
+        <SelectOptionContainer
+          currentSelection={accessibilityOption}
+          defaultValue={defaultSettings.accessibilityOption}
+          options={accessibilityOptions.map((o, i) => ({
+            title: accessibilityOptions[i].messageId,
+            value: accessibilityOptions[i].value,
+          }))}
+          onOptionSelected={value =>
+            replaceQueryParams(this.context.router, {
+              accessibilityOption: value,
+            })
+          }
+          title="accessibility"
+        />
       </div>
     );
   };
 
-  renderBikingOptions = (val, bikeSpeed) => (
+  renderBikingOptions = (walkReluctance, bikeSpeed) => (
     <div className="settings-option-container">
-      {this.getSelectOptions([
-        {
-          title: 'biking-amount',
-          paramTitle: 'bikingAmount',
-          currentSelection: val,
-          options: [
-            {
-              displayName: 'biking-amount-default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'biking-amount-default',
-                defaultMessage: 'Oletusarvo',
-              }),
-              value: 'biking-amount-default',
-            },
-          ],
-        },
-      ])}
+      {/* OTP uses the same walkReluctance setting for bike routing */}
+      <SelectOptionContainer
+        currentSelection={walkReluctance}
+        defaultValue={defaultSettings.walkReluctance}
+        highlightDefaultValue={false}
+        onOptionSelected={value =>
+          replaceQueryParams(this.context.router, { walkReluctance: value })
+        }
+        options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+        title="biking-amount"
+      />
       <SelectOptionContainer
         currentSelection={bikeSpeed}
         defaultValue={defaultSettings.bikeSpeed}
@@ -322,7 +279,7 @@ class CustomizeSearch extends React.Component {
         onOptionSelected={value =>
           replaceQueryParams(this.context.router, { bikeSpeed: value })
         }
-        options={getLinearSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
+        options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
         sortByValue
         title="biking-speed"
       />
@@ -349,7 +306,7 @@ class CustomizeSearch extends React.Component {
         onOptionSelected={value =>
           replaceQueryParams(this.context.router, { walkSpeed: value })
         }
-        options={getLinearSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
+        options={getSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
         sortByValue
         title="walking-speed"
       />
@@ -454,21 +411,12 @@ class CustomizeSearch extends React.Component {
         onOptionSelected={value =>
           replaceQueryParams(this.context.router, { minTransferTime: value })
         }
-        options={[
+        options={getLinearStepOptions(
           defaultSettings.minTransferTime,
           60,
-          120,
-          180,
-          240,
-          300,
-          360,
-          420,
-          480,
-          540,
-          600,
-          660,
-          720,
-        ]}
+          60,
+          12,
+        )}
         sortByValue
         title="transfers-margin"
       />
@@ -564,7 +512,7 @@ class CustomizeSearch extends React.Component {
             />
             <PreferredRoutes onRouteSelected={this.onRouteSelected} />
             {this.renderRoutePreferences()}
-            {this.renderAccesibilitySelector(
+            {this.renderAccessibilitySelector(
               currentOptions.accessibilityOption,
             )}
             {this.renderSaveAndResetButton()}

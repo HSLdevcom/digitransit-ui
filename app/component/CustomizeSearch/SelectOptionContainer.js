@@ -36,22 +36,40 @@ export const getFiveStepOptions = (defaultValue, reverse = false) => {
 
 /**
  * Builds an array of options starting from the minimum value, including default value
+ * and having a total of stepCount steps with a size of stepSize.
+ *
+ * @param {*} defaultValue The default value.
+ * @param {*} minValue The minimum value.
+ * @param {*} stepSize The size of the step.
+ * @param {*} stepCount The total count of steps.
+ */
+export const getLinearStepOptions = (
+  defaultValue,
+  minValue,
+  stepSize,
+  stepCount,
+) => {
+  const options = [defaultValue];
+  for (let i = 0; i < stepCount; ++i) {
+    const currentValue = minValue + i * stepSize;
+    if (Math.abs(currentValue - defaultValue) > 0.01) {
+      options.push(currentValue);
+    }
+  }
+  return options;
+};
+
+/**
+ * Builds an array of options starting from the minimum value, including default value
  * and having a total of stepCount steps.
  *
  * @param {number} defaultValue The default value (in m/s).
  * @param {number} minValue The minimum value (in km/h).
  * @param {number} stepCount The total count of steps.
  */
-export const getLinearSpeedOptions = (defaultValue, minValue, stepCount) => {
-  const KPH = 0.2777; // an approximation of 1/3.6 which is 1 km/h in m/s
-  const options = [defaultValue];
-  for (let i = 0; i < stepCount; ++i) {
-    const currentValue = minValue * KPH + i * KPH;
-    if (Math.abs(currentValue - defaultValue) > 0.01) {
-      options.push(minValue * KPH + i * KPH);
-    }
-  }
-  return options;
+export const getSpeedOptions = (defaultValue, minValue, stepCount) => {
+  const KPH = 0.2777; // an approximation of 1 / 3.6 which is 1 km/h in m/s
+  return getLinearStepOptions(defaultValue, minValue * KPH, KPH, stepCount);
 };
 
 const SelectOptionContainer = (
