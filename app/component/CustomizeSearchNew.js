@@ -23,6 +23,7 @@ import Select from './Select';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import SelectOptionContainer, {
   getFiveStepOptions,
+  getLinearSpeedOptions,
 } from './CustomizeSearch/SelectOptionContainer';
 
 import { replaceQueryParams } from '../util/queryUtils';
@@ -294,8 +295,8 @@ class CustomizeSearch extends React.Component {
     );
   };
 
-  renderBikingOptions = val => (
-    <div className="settings-option-container bike-options-selector">
+  renderBikingOptions = (val, bikeSpeed) => (
+    <div className="settings-option-container">
       {this.getSelectOptions([
         {
           title: 'biking-amount',
@@ -312,65 +313,48 @@ class CustomizeSearch extends React.Component {
             },
           ],
         },
-        {
-          title: 'biking-speed',
-          options: [
-            {
-              displayName: 'biking-speed-default',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'biking-speed-default',
-                defaultMessage: 'Hidas 30m/min',
-              }),
-              value: 'biking-speed-default',
-            },
-          ],
-        },
       ])}
+      <SelectOptionContainer
+        currentSelection={bikeSpeed}
+        defaultValue={defaultSettings.bikeSpeed}
+        displayPattern="kilometers-per-hour"
+        displayValueFormatter={value => ceil(value * 3.6, 1)}
+        onOptionSelected={value =>
+          replaceQueryParams(this.context.router, { bikeSpeed: value })
+        }
+        options={getLinearSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
+        sortByValue
+        title="biking-speed"
+      />
     </div>
   );
 
-  renderWalkingOptions = (walkReluctance, walkSpeed) => {
-    const KPH = 0.2777;
-    return (
-      <div className="settings-option-container walk-options-selector">
-        <SelectOptionContainer
-          currentSelection={walkReluctance}
-          defaultValue={defaultSettings.walkReluctance}
-          highlightDefaultValue={false}
-          onOptionSelected={value =>
-            replaceQueryParams(this.context.router, { walkReluctance: value })
-          }
-          options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
-          title="walking"
-        />
-        <SelectOptionContainer
-          currentSelection={walkSpeed}
-          defaultValue={defaultSettings.walkSpeed}
-          displayPattern="kilometers-per-hour"
-          displayValueFormatter={value => ceil(value * 3.6, 1)}
-          onOptionSelected={value =>
-            replaceQueryParams(this.context.router, { walkSpeed: value })
-          }
-          options={[
-            defaultSettings.walkSpeed,
-            1 * KPH,
-            2 * KPH,
-            3 * KPH,
-            4 * KPH,
-            5 * KPH,
-            6 * KPH,
-            7 * KPH,
-            8 * KPH,
-            9 * KPH,
-            10 * KPH,
-            11 * KPH,
-            12 * KPH,
-          ]}
-          title="walking-speed"
-        />
-      </div>
-    );
-  };
+  renderWalkingOptions = (walkReluctance, walkSpeed) => (
+    <div className="settings-option-container">
+      <SelectOptionContainer
+        currentSelection={walkReluctance}
+        defaultValue={defaultSettings.walkReluctance}
+        highlightDefaultValue={false}
+        onOptionSelected={value =>
+          replaceQueryParams(this.context.router, { walkReluctance: value })
+        }
+        options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+        title="walking"
+      />
+      <SelectOptionContainer
+        currentSelection={walkSpeed}
+        defaultValue={defaultSettings.walkSpeed}
+        displayPattern="kilometers-per-hour"
+        displayValueFormatter={value => ceil(value * 3.6, 1)}
+        onOptionSelected={value =>
+          replaceQueryParams(this.context.router, { walkSpeed: value })
+        }
+        options={getLinearSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
+        sortByValue
+        title="walking-speed"
+      />
+    </div>
+  );
 
   renderBikeTransportSelector = () => (
     <div className="settings-option-container bike-transport-selector">
@@ -436,47 +420,39 @@ class CustomizeSearch extends React.Component {
     </div>
   );
 
-  renderStreetModeSelector = (config, router) =>
-    config.features.showStreetModeQuickSelect && (
-      <div className="settings-option-container street-mode-selector-panel-container">
-        <StreetModeSelectorPanel
-          className="customized-settings"
-          selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
-          selectStreetMode={(streetMode, isExclusive) =>
-            ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
-          }
-          showButtonTitles
-          streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-        />
-      </div>
-    );
+  renderStreetModeSelector = (config, router) => (
+    <div className="settings-option-container street-mode-selector-panel-container">
+      <StreetModeSelectorPanel
+        className="customized-settings"
+        selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+        selectStreetMode={(streetMode, isExclusive) =>
+          ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+        }
+        showButtonTitles
+        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+      />
+    </div>
+  );
 
   renderTransferOptions = (walkBoardCost, minTransferTime) => (
-    <div className="settings-option-container transfer-options-container">
-      {this.getSelectOptions([
-        {
-          title: 'transfers',
-          paramTitle: 'walkBoardCost',
-          currentSelection: walkBoardCost,
-          options: [
-            {
-              displayName: 'transfer-amount',
-              displayNameObject: this.context.intl.formatMessage({
-                id: 'default-transfer-amount',
-                defaultMessage: 'Oletusarvo',
-              }),
-              value: 'default-transfer-amount',
-            },
-          ],
-        },
-      ])}
+    <div className="settings-option-container">
+      <SelectOptionContainer
+        currentSelection={walkBoardCost}
+        defaultValue={defaultSettings.walkBoardCost}
+        highlightDefaultValue={false}
+        onOptionSelected={value =>
+          replaceQueryParams(this.context.router, { walkBoardCost: value })
+        }
+        options={getFiveStepOptions(defaultSettings.walkBoardCost, true)}
+        title="transfers"
+      />
       <SelectOptionContainer
         currentSelection={minTransferTime}
         defaultValue={defaultSettings.minTransferTime}
         displayPattern="number-of-minutes"
         displayValueFormatter={seconds => seconds / 60}
         onOptionSelected={value =>
-          this.updateParameters({ minTransferTime: value })
+          replaceQueryParams(this.context.router, { minTransferTime: value })
         }
         options={[
           defaultSettings.minTransferTime,
@@ -493,13 +469,14 @@ class CustomizeSearch extends React.Component {
           660,
           720,
         ]}
+        sortByValue
         title="transfers-margin"
       />
     </div>
   );
 
   renderTransportModeSelector = (config, currentModes) => (
-    <div className="settings-option-container transport-mode-selector-container">
+    <div className="settings-option-container">
       <div className="transport-mode-header">
         <h1>
           {this.context.intl.formatMessage({
@@ -562,10 +539,13 @@ class CustomizeSearch extends React.Component {
               this.renderBikeTransportSelector(checkedModes)}
             {this.renderTransportModeSelector(config, checkedModes)}
             {checkedModes.filter(o => o === 'BICYCLE').length > 0
-              ? this.renderBikingOptions()
+              ? this.renderBikingOptions(
+                  currentOptions.walkReluctance,
+                  currentOptions.bikeSpeed,
+                )
               : this.renderWalkingOptions(
-                  merged.walkReluctance,
-                  merged.walkSpeed,
+                  currentOptions.walkReluctance,
+                  currentOptions.walkSpeed,
                 )}
             {this.renderTransferOptions(
               currentOptions.walkBoardCost,
@@ -578,8 +558,8 @@ class CustomizeSearch extends React.Component {
               })}
               options={get(this.context.config, 'fareMapping', {})}
               currentOption={merged.ticketTypes || 'none'}
-              updateValue={newval =>
-                this.updateParameters({ ticketTypes: newval })
+              updateValue={value =>
+                replaceQueryParams(this.context.router, { ticketTypes: value })
               }
             />
             <PreferredRoutes onRouteSelected={this.onRouteSelected} />

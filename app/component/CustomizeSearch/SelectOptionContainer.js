@@ -8,30 +8,50 @@ import Icon from '../Icon';
 import Select from '../Select';
 
 export const getFiveStepOptions = (defaultValue, reverse = false) => {
-  const multipliers = [1 / 3, 2 / 3, 2, 5];
+  const multipliers = [0.2, 0.5, 2, 5];
   if (reverse) {
     multipliers.reverse();
   }
 
   return [
     {
-      title: 'option-amount-least',
+      title: 'option-least',
       value: ceil(multipliers[0] * defaultValue, 3),
     },
     {
-      title: 'option-amount-less',
+      title: 'option-less',
       value: ceil(multipliers[1] * defaultValue, 3),
     },
-    { title: 'option-amount-default', value: defaultValue },
+    { title: 'option-default', value: defaultValue },
     {
-      title: 'option-amount-more',
+      title: 'option-more',
       value: ceil(multipliers[2] * defaultValue, 3),
     },
     {
-      title: 'option-amount-most',
+      title: 'option-most',
       value: ceil(multipliers[3] * defaultValue, 3),
     },
   ];
+};
+
+/**
+ * Builds an array of options starting from the minimum value, including default value
+ * and having a total of stepCount steps.
+ *
+ * @param {number} defaultValue The default value (in m/s).
+ * @param {number} minValue The minimum value (in km/h).
+ * @param {number} stepCount The total count of steps.
+ */
+export const getLinearSpeedOptions = (defaultValue, minValue, stepCount) => {
+  const KPH = 0.2777; // an approximation of 1/3.6 which is 1 km/h in m/s
+  const options = [defaultValue];
+  for (let i = 0; i < stepCount; ++i) {
+    const currentValue = minValue * KPH + i * KPH;
+    if (Math.abs(currentValue - defaultValue) > 0.01) {
+      options.push(minValue * KPH + i * KPH);
+    }
+  }
+  return options;
 };
 
 const SelectOptionContainer = (
@@ -42,49 +62,51 @@ const SelectOptionContainer = (
     displayValueFormatter,
     highlightDefaultValue,
     options,
-    title,
     onOptionSelected,
+    sortByValue,
+    title,
   },
   { intl },
 ) => {
-  const getDefaultValueIdentifier = value =>
+  const applyDefaultValueIdentifier = (value, str) =>
     highlightDefaultValue && value === defaultValue
-      ? ` (${intl.formatMessage({ id: 'default-value' })})`
-      : '';
+      ? `${intl.formatMessage({ id: 'option-default' })} (${str})`
+      : `${str}`;
   const getFormattedValue = value =>
     displayValueFormatter ? displayValueFormatter(value) : value;
 
-  const selectOptions = options
-    .map(
-      o =>
-        o.title && o.value
-          ? {
-              displayName: `${o.title}_${o.value}`,
-              displayNameObject: `${intl.formatMessage(
+  const selectOptions = options.map(
+    o =>
+      o.title && o.value
+        ? {
+            displayName: `${o.title}_${o.value}`,
+            displayNameObject: applyDefaultValueIdentifier(
+              o.value,
+              intl.formatMessage(
                 { id: o.title },
                 {
                   title: o.title,
                 },
-              )}${getDefaultValueIdentifier(o.value)}`,
-              value: o.value,
-            }
-          : {
-              displayName: `${displayPattern}_${o}`,
-              displayNameObject: `${
-                displayPattern
-                  ? intl.formatMessage(
-                      { id: displayPattern },
-                      {
-                        number: getFormattedValue(o),
-                      },
-                    )
-                  : getFormattedValue(o)
-              }${getDefaultValueIdentifier(o)}`,
-              value: o,
-            },
-    )
-    .sort((a, b) => a.value - b.value);
-  const uniqueOptions = uniqBy(selectOptions, o => o.value);
+              ),
+            ),
+            value: o.value,
+          }
+        : {
+            displayName: `${displayPattern}_${o}`,
+            displayNameObject: applyDefaultValueIdentifier(
+              o,
+              displayPattern
+                ? intl.formatMessage(
+                    { id: displayPattern },
+                    {
+                      number: getFormattedValue(o),
+                    },
+                  )
+                : getFormattedValue(o),
+            ),
+            value: o,
+          },
+  );
 
   return (
     <div className="option-container">
@@ -98,7 +120,12 @@ const SelectOptionContainer = (
         <Select
           name={title}
           selected={currentSelection}
-          options={uniqueOptions}
+          options={uniqBy(
+            sortByValue
+              ? selectOptions.sort((a, b) => a.value - b.value)
+              : selectOptions,
+            o => o.value,
+          )}
           onSelectChange={e => onOptionSelected(e.target.value)}
         />
         <Icon className="fake-select-arrow" img="icon-icon_arrow-dropdown" />
@@ -107,30 +134,33 @@ const SelectOptionContainer = (
   );
 };
 
+const valueShape = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+
 SelectOptionContainer.propTypes = {
   currentSelection: PropTypes.string.isRequired,
-  defaultValue: PropTypes.oneOf([PropTypes.string, PropTypes.number])
-    .isRequired,
+  defaultValue: valueShape.isRequired,
   displayPattern: PropTypes.string,
   displayValueFormatter: PropTypes.func,
   highlightDefaultValue: PropTypes.bool,
   onOptionSelected: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
-    PropTypes.oneOf([
+    PropTypes.oneOfType([
       PropTypes.shape({
         title: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        value: valueShape.isRequired,
       }),
       PropTypes.number,
     ]).isRequired,
   ).isRequired,
   title: PropTypes.string.isRequired,
+  sortByValue: PropTypes.bool,
 };
 
 SelectOptionContainer.defaultProps = {
   displayPattern: undefined,
   displayValueFormatter: undefined,
   highlightDefaultValue: true,
+  sortByValue: false,
 };
 
 SelectOptionContainer.contextTypes = {
