@@ -1,4 +1,3 @@
-import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -8,16 +7,10 @@ import Checkbox from '../Checkbox';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
 import { isKeyboardSelectionEvent } from '../../util/browser';
-import { getAvailableTransportModes, getModes } from '../../util/modeUtils';
-import { replaceQueryParams } from '../../util/queryUtils';
-
-const toggleTransportMode = (router, config, mode) => {
-  const currentLocation = router.getCurrentLocation();
-  const modes = xor(getModes(currentLocation, config), [
-    mode.toUpperCase(),
-  ]).join(',');
-  replaceQueryParams(router, { modes });
-};
+import {
+  getAvailableTransportModes,
+  toggleTransportMode,
+} from '../../util/modeUtils';
 
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
   const isBikeRejected =
@@ -41,50 +34,50 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
         />
       </div>
       <div className="transport-modes-container">
-        {transportModes.map(modeName => (
+        {transportModes.map(mode => (
           <div
             className="mode-option-container"
-            key={`mode-option-${modeName.toLowerCase()}`}
+            key={`mode-option-${mode.toLowerCase()}`}
           >
             <Checkbox
-              checked={currentModes.filter(o2 => o2 === modeName).length > 0}
-              defaultMessage={modeName}
-              labelId={modeName.toLowerCase()}
-              onChange={() => toggleTransportMode(router, config, modeName)}
+              checked={currentModes.filter(o2 => o2 === mode).length > 0}
+              defaultMessage={mode}
+              labelId={mode.toLowerCase()}
+              onChange={() => toggleTransportMode(mode, config, router)}
               showLabel={false}
             />
             <div
               role="button"
               tabIndex={0}
-              aria-label={`${modeName.toLowerCase()}`}
-              className={`mode-option-block ${modeName.toLowerCase()}`}
+              aria-label={`${mode.toLowerCase()}`}
+              className={`mode-option-block ${mode.toLowerCase()}`}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) &&
-                toggleTransportMode(router, config, modeName)
+                toggleTransportMode(mode, config, router)
               }
-              onClick={() => toggleTransportMode(router, config, modeName)}
+              onClick={() => toggleTransportMode(mode, config, router)}
             >
               <div className="mode-icon">
-                {isBikeRejected && modeName === 'BUS' ? (
+                {isBikeRejected && mode === 'BUS' ? (
                   <IconWithBigCaution
                     color="currentColor"
-                    className={modeName.toLowerCase()}
-                    img={`icon-icon_${modeName.toLowerCase()}`}
+                    className={mode.toLowerCase()}
+                    img={`icon-icon_${mode.toLowerCase()}`}
                   />
                 ) : (
                   <Icon
-                    className={`${modeName}-icon`}
-                    img={`icon-icon_${modeName.toLowerCase()}`}
+                    className={`${mode}-icon`}
+                    img={`icon-icon_${mode.toLowerCase()}`}
                   />
                 )}
               </div>
               <div className="mode-name">
                 <FormattedMessage
-                  id={modeName.toLowerCase()}
-                  defaultMessage={modeName.toLowerCase()}
+                  id={mode.toLowerCase()}
+                  defaultMessage={mode.toLowerCase()}
                 />
                 {isBikeRejected &&
-                  modeName === 'BUS' && (
+                  mode === 'BUS' && (
                     <span className="span-bike-not-allowed">
                       {intl.formatMessage({
                         id: 'bike-not-allowed',
