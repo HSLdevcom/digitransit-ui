@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ceil from 'lodash/ceil';
 import get from 'lodash/get';
 import xor from 'lodash/xor';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -14,11 +13,10 @@ import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
-import SelectOptionContainer, {
-  getFiveStepOptions,
-  getLinearStepOptions,
-  getSpeedOptions,
-} from './CustomizeSearch/SelectOptionContainer';
+import BikingOptionsSection from './CustomizeSearch/BikingOptionsSection';
+import SelectOptionContainer from './CustomizeSearch/SelectOptionContainer';
+import WalkingOptionsSection from './CustomizeSearch/WalkingOptionsSection';
+import TransferOptionsSection from './CustomizeSearch/TransferOptionsSection';
 import {
   getCustomizedSettings,
   resetCustomizedSettings,
@@ -215,61 +213,6 @@ class CustomizeSearch extends React.Component {
     );
   };
 
-  renderBikingOptions = (walkReluctance, bikeSpeed) => (
-    <div className="settings-option-container">
-      {/* OTP uses the same walkReluctance setting for bike routing */}
-      <SelectOptionContainer
-        currentSelection={walkReluctance}
-        defaultValue={defaultSettings.walkReluctance}
-        highlightDefaultValue={false}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { walkReluctance: value })
-        }
-        options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
-        title="biking-amount"
-      />
-      <SelectOptionContainer
-        currentSelection={bikeSpeed}
-        defaultValue={defaultSettings.bikeSpeed}
-        displayPattern="kilometers-per-hour"
-        displayValueFormatter={value => ceil(value * 3.6, 1)}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { bikeSpeed: value })
-        }
-        options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
-        sortByValue
-        title="biking-speed"
-      />
-    </div>
-  );
-
-  renderWalkingOptions = (walkReluctance, walkSpeed) => (
-    <div className="settings-option-container">
-      <SelectOptionContainer
-        currentSelection={walkReluctance}
-        defaultValue={defaultSettings.walkReluctance}
-        highlightDefaultValue={false}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { walkReluctance: value })
-        }
-        options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
-        title="walking"
-      />
-      <SelectOptionContainer
-        currentSelection={walkSpeed}
-        defaultValue={defaultSettings.walkSpeed}
-        displayPattern="kilometers-per-hour"
-        displayValueFormatter={value => ceil(value * 3.6, 1)}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { walkSpeed: value })
-        }
-        options={getSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
-        sortByValue
-        title="walking-speed"
-      />
-    </div>
-  );
-
   renderBikeTransportSelector = () => (
     <div className="settings-option-container">
       {this.getBikeTransportOptions([
@@ -308,13 +251,6 @@ class CustomizeSearch extends React.Component {
     </div>
   );
 
-  renderSaveAndResetButton = () => (
-    <div className="settings-option-container save-controls-container">
-      <SaveCustomizedSettingsButton />
-      <ResetCustomizedSettingsButton onReset={this.resetParameters} />
-    </div>
-  );
-
   renderStreetModeSelector = (config, router) => (
     <div className="settings-option-container street-mode-selector-panel-container">
       <StreetModeSelectorPanel
@@ -325,38 +261,6 @@ class CustomizeSearch extends React.Component {
         }
         showButtonTitles
         streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-      />
-    </div>
-  );
-
-  renderTransferOptions = (walkBoardCost, minTransferTime) => (
-    <div className="settings-option-container">
-      <SelectOptionContainer
-        currentSelection={walkBoardCost}
-        defaultValue={defaultSettings.walkBoardCost}
-        highlightDefaultValue={false}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { walkBoardCost: value })
-        }
-        options={getFiveStepOptions(defaultSettings.walkBoardCost, true)}
-        title="transfers"
-      />
-      <SelectOptionContainer
-        currentSelection={minTransferTime}
-        defaultValue={defaultSettings.minTransferTime}
-        displayPattern="number-of-minutes"
-        displayValueFormatter={seconds => seconds / 60}
-        onOptionSelected={value =>
-          replaceQueryParams(this.context.router, { minTransferTime: value })
-        }
-        options={getLinearStepOptions(
-          defaultSettings.minTransferTime,
-          60,
-          60,
-          12,
-        )}
-        sortByValue
-        title="transfers-margin"
       />
     </div>
   );
@@ -426,19 +330,25 @@ class CustomizeSearch extends React.Component {
             {checkedModes.filter(o => o === 'BICYCLE').length > 0 &&
               this.renderBikeTransportSelector(checkedModes)}
             {this.renderTransportModeSelector(config, checkedModes)}
-            {checkedModes.filter(o => o === 'BICYCLE').length > 0
-              ? this.renderBikingOptions(
-                  currentOptions.walkReluctance,
-                  currentOptions.bikeSpeed,
-                )
-              : this.renderWalkingOptions(
-                  currentOptions.walkReluctance,
-                  currentOptions.walkSpeed,
-                )}
-            {this.renderTransferOptions(
-              currentOptions.walkBoardCost,
-              currentOptions.minTransferTime,
-            )}
+            <div className="settings-option-container">
+              {checkedModes.filter(o => o === 'BICYCLE').length > 0 ? (
+                <BikingOptionsSection
+                  walkReluctance={currentOptions.walkReluctance}
+                  bikeSpeed={currentOptions.bikeSpeed}
+                />
+              ) : (
+                <WalkingOptionsSection
+                  walkReluctance={currentOptions.walkReluctance}
+                  walkSpeed={currentOptions.walkSpeed}
+                />
+              )}
+            </div>
+            <div className="settings-option-container">
+              <TransferOptionsSection
+                walkBoardCost={currentOptions.walkBoardCost}
+                minTransferTime={currentOptions.minTransferTime}
+              />
+            </div>
             <FareZoneSelector
               headerText={this.context.intl.formatMessage({
                 id: 'zones',
@@ -455,7 +365,10 @@ class CustomizeSearch extends React.Component {
             {this.renderAccessibilitySelector(
               currentOptions.accessibilityOption,
             )}
-            {this.renderSaveAndResetButton()}
+            <div className="settings-option-container save-controls-container">
+              <SaveCustomizedSettingsButton />
+              <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            </div>
           </section>
         </div>
       </div>
