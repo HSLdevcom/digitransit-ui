@@ -7,6 +7,13 @@ import { intlShape } from 'react-intl';
 import Icon from '../Icon';
 import Select from '../Select';
 
+/**
+ * Builds an array of options: least, less, default, more, most with preset
+ * multipliers for each option.
+ *
+ * @param {number} defaultValue The default value.
+ * @param {boolean} reverse Whether a higher multiplier means less.
+ */
 export const getFiveStepOptions = (defaultValue, reverse = false) => {
   const multipliers = [0.2, 0.5, 2, 5];
   if (reverse) {
@@ -38,10 +45,10 @@ export const getFiveStepOptions = (defaultValue, reverse = false) => {
  * Builds an array of options starting from the minimum value, including default value
  * and having a total of stepCount steps with a size of stepSize.
  *
- * @param {*} defaultValue The default value.
- * @param {*} minValue The minimum value.
- * @param {*} stepSize The size of the step.
- * @param {*} stepCount The total count of steps.
+ * @param {number} defaultValue The default value.
+ * @param {number} minValue The minimum value.
+ * @param {number} stepSize The size of the step.
+ * @param {number} stepCount The total count of steps.
  */
 export const getLinearStepOptions = (
   defaultValue,

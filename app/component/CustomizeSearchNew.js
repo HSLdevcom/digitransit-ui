@@ -339,23 +339,19 @@ class CustomizeSearch extends React.Component {
         options: [
           {
             optionName: 'paved',
-            defaultMessage: 'Prefer paved roads',
+            defaultMessage: 'Prefer paved routes',
           },
           {
-            optionName: 'main-roads',
-            defaultMessage: 'Main roads',
-          },
-          {
-            optionName: 'light-traffic-roads',
-            defaultMessage: 'Light traffic roads',
+            optionName: 'greenways',
+            defaultMessage: 'Prefer cycleways',
           },
           {
             optionName: 'winter-maintenance',
-            defaultMessage: 'Routes with winter maintenance',
+            defaultMessage: 'Prefer routes with winter maintenance',
           },
           {
-            optionName: 'illuminated-routes',
-            defaultMessage: 'Illuminated routes',
+            optionName: 'illuminated',
+            defaultMessage: 'Prefer illuminated routes',
           },
         ],
       })}
