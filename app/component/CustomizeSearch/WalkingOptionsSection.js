@@ -1,11 +1,11 @@
 import ceil from 'lodash/ceil';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
 
 import SelectOptionContainer, {
   getFiveStepOptions,
   getSpeedOptions,
+  valueShape,
 } from './SelectOptionContainer';
 import { defaultSettings } from '../../util/planParamUtil';
 import { replaceQueryParams } from '../../util/queryUtils';
@@ -38,8 +38,8 @@ const WalkingOptionsSection = ({ walkReluctance, walkSpeed }, { router }) => (
 );
 
 WalkingOptionsSection.propTypes = {
-  walkReluctance: PropTypes.number.isRequired,
-  walkSpeed: PropTypes.number.isRequired,
+  walkReluctance: valueShape.isRequired,
+  walkSpeed: valueShape.isRequired,
 };
 
 WalkingOptionsSection.contextTypes = {

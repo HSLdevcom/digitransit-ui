@@ -159,10 +159,16 @@ const SelectOptionContainer = (
   );
 };
 
-const valueShape = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
+/**
+ * Represents the types of acceptable values.
+ */
+export const valueShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+]);
 
 SelectOptionContainer.propTypes = {
-  currentSelection: PropTypes.string.isRequired,
+  currentSelection: valueShape.isRequired,
   defaultValue: valueShape.isRequired,
   displayPattern: PropTypes.string,
   displayValueFormatter: PropTypes.func,
