@@ -27,7 +27,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
   .option-checbox {
     position: relative;
-    margin-right: 1em;
+    margin-right: 2em;
 
     & input[type='checkbox'] {
       visibility: hidden;
@@ -70,13 +70,13 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   border-top: 1px solid #e3e3e4;
   padding: $customizedSettings-padding;
 
-    h1 {
-      text-transform: initial;
-      font-size: $font-size-normal;
-      letter-spacing: -0.6pt;
-      font-weight: $font-weight-bold;
-      font-family: $font-family;
-    }
+  h1 {
+    text-transform: initial;
+    font-size: $font-size-normal;
+    letter-spacing: -0.6pt;
+    font-weight: $font-weight-bold;
+    font-family: $font-family;
+  }
 
   .biketransport-option {
     display: flex;
@@ -206,15 +206,14 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   }
 }
 
-  .route-preferences-container {
+.route-preferences-container {
+  h1 {
+    text-transform: uppercase;
+    font-size: $font-size-normal;
+  }
 
-    h1 {
-      text-transform: uppercase;
-      font-size: $font-size-normal;
-    }
-
-    .routepreferences-option {
-      display: flex;
+  .routepreferences-option {
+    display: flex;
 
     .checkbox-container .checkmark {
       border: rgb(136, 136, 136) 1px solid;
@@ -242,27 +241,27 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 }
 
 .option-container {
-    h1 {
-      text-transform: initial;
-      font-size: $font-size-normal;
-      letter-spacing: -0.6pt;
-      font-weight: $font-weight-bold;
-      font-family: $font-family;
-    }
-    h4 {
-      display: none;
-    }
-    .select-container {
-      position: relative;
+  h1 {
+    text-transform: initial;
+    font-size: $font-size-normal;
+    letter-spacing: -0.6pt;
+    font-weight: $font-weight-bold;
+    font-family: $font-family;
+  }
+  h4 {
+    display: none;
+  }
+  .select-container {
+    position: relative;
 
-      .icon.fake-select-arrow {
-        position: absolute;
-        right: 0.7em;
-        top: 0.7em;
-        font-size: 1.5em;
-        color: #007ac9;
-        pointer-events: none;
-      }
+    .icon.fake-select-arrow {
+      position: absolute;
+      right: 0.7em;
+      top: 0.7em;
+      font-size: 1.5em;
+      color: #007ac9;
+      pointer-events: none;
+    }
 
     select {
       border-radius: 4px;

@@ -58,18 +58,17 @@ class CustomizeSearch extends React.Component {
       >
         {/* eslint-disable-next-line */}
         <div className="option-checbox" tabIndex={0}>
-          <input
-            type="checkbox"
-            id={`input-${o.optionName}`}
-            onChange={() => console.log(o.optionName)}
-            aria-label={this.context.intl.formatMessage({
-              id: `biketransport-${o.optionName}`,
-              defaultMessage: `${o.defaultMessage}`,
-            })}
-          />
-          {/* eslint-disable jsx-a11y/label-has-for */}
-          <label htmlFor={`input-${o.optionName}`} />
-          {/* eslint-enable jsx-a11y/label-has-for */}
+          <label htmlFor={`input-${o.optionName}`}>
+            <input
+              type="checkbox"
+              id={`input-${o.optionName}`}
+              onChange={() => console.log(o.optionName)}
+              aria-label={this.context.intl.formatMessage({
+                id: `biketransport-${o.optionName}`,
+                defaultMessage: `${o.defaultMessage}`,
+              })}
+            />
+          </label>
         </div>
         <FormattedMessage
           id={`biketransport-${o.optionName}`}
@@ -92,19 +91,18 @@ class CustomizeSearch extends React.Component {
           tabIndex={0} // eslint-disable-line
           onKeyPress={() => this.toggleTransportMode(o.name)}
         >
-          <input
-            type="checkbox"
-            checked={currentModes.filter(o2 => o2 === o.name).length > 0}
-            id={`input-${o.name}`}
-            onChange={() => this.toggleTransportMode(o.name)}
-            aria-label={this.context.intl.formatMessage({
-              id: `${o.name.toLowerCase()}`,
-              defaultMessage: `${o.name}`,
-            })}
-          />
-          {/* eslint-disable jsx-a11y/label-has-for */}
-          <label htmlFor={`input-${o.name}`} />
-          {/* eslint-enable jsx-a11y/label-has-for */}
+          <label htmlFor={`input-${o.name}`}>
+            <input
+              type="checkbox"
+              checked={currentModes.filter(o2 => o2 === o.name).length > 0}
+              id={`input-${o.name}`}
+              onChange={() => this.toggleTransportMode(o.name)}
+              aria-label={this.context.intl.formatMessage({
+                id: `${o.name.toLowerCase()}`,
+                defaultMessage: `${o.name}`,
+              })}
+            />
+          </label>
         </div>
         <div
           role="button"
@@ -154,34 +152,6 @@ class CustomizeSearch extends React.Component {
     ));
   };
 
-  getRoutePreferences = preferenceOptions => (
-    <div className="route-preferences-input-container">
-      <h1>
-        {this.context.intl.formatMessage({
-          id: preferenceOptions.optionName,
-          defaultMessage: 'option',
-        })}
-      </h1>
-      {preferenceOptions.options.map(o => (
-        <div
-          className="routepreferences-option"
-          key={`routepreferences-${o.optionName}`}
-        >
-          <div className="option-checbox">
-            <input type="checkbox" onChange={e => console.log(e.target)} />
-            {/* eslint-disable jsx-a11y/label-has-for */}
-            <label htmlFor={`input-${o.name}`} />
-            {/* eslint-enable jsx-a11y/label-has-for */}
-          </div>
-          <FormattedMessage
-            id={`${o.optionName}`}
-            defaultMessage={`${o.defaultMessage}`}
-          />
-        </div>
-      ))}
-    </div>
-  );
-
   getCurrentOptions = () => {
     const { location, config } = this.context;
     const customizedSettings = getCustomizedSettings();
@@ -201,6 +171,34 @@ class CustomizeSearch extends React.Component {
       });
     }
     return obj;
+  };
+
+  getRoutePreferences = () => [
+    {
+      name: 'paved',
+      defaultMessage: 'Prefer paved routes',
+    },
+    {
+      name: 'greenways',
+      defaultMessage: 'Prefer cycleways',
+    },
+    {
+      name: 'winter-maintenance',
+      defaultMessage: 'Prefer routes with winter maintenance',
+    },
+    {
+      name: 'illuminated',
+      defaultMessage: 'Prefer illuminated routes',
+    },
+  ];
+
+  checkAndConvertModes = modes => {
+    if (!Array.isArray(modes)) {
+      return modes.match(/,/) ? modes.split(',') : [modes];
+    } else if (Array.isArray(modes)) {
+      return modes;
+    }
+    return [];
   };
 
   resetParameters = () => {
@@ -224,15 +222,6 @@ class CustomizeSearch extends React.Component {
       },
     });
   }
-
-  checkAndConvertModes = modes => {
-    if (!Array.isArray(modes)) {
-      return modes.match(/,/) ? modes.split(',') : [modes];
-    } else if (Array.isArray(modes)) {
-      return modes;
-    }
-    return [];
-  };
 
   renderAccessibilitySelector = accessibilityOption => {
     const {
@@ -334,27 +323,31 @@ class CustomizeSearch extends React.Component {
 
   renderRoutePreferences = () => (
     <div className="settings-option-container route-preferences-container">
-      {this.getRoutePreferences({
-        optionName: 'route-preferences',
-        options: [
-          {
-            optionName: 'paved',
-            defaultMessage: 'Prefer paved routes',
-          },
-          {
-            optionName: 'greenways',
-            defaultMessage: 'Prefer cycleways',
-          },
-          {
-            optionName: 'winter-maintenance',
-            defaultMessage: 'Prefer routes with winter maintenance',
-          },
-          {
-            optionName: 'illuminated',
-            defaultMessage: 'Prefer illuminated routes',
-          },
-        ],
-      })}
+      <h1>
+        {this.context.intl.formatMessage({
+          id: 'route-preferences',
+        })}
+      </h1>
+      {this.getRoutePreferences().map(o => (
+        <div
+          className="routepreferences-option"
+          key={`routepreferences-${o.name}`}
+        >
+          <div className="option-checbox">
+            <label htmlFor={`input-${o.name}`}>
+              <input
+                id={`input-${o.name}`}
+                type="checkbox"
+                onChange={e => console.log(e.target)}
+              />
+            </label>
+          </div>
+          <FormattedMessage
+            id={`${o.name}`}
+            defaultMessage={`${o.defaultMessage}`}
+          />
+        </div>
+      ))}
     </div>
   );
 
