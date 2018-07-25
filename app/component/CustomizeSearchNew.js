@@ -6,27 +6,27 @@ import xor from 'lodash/xor';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
 
+import Checkbox from './Checkbox';
 import Icon from './Icon';
 import IconWithBigCaution from './IconWithBigCaution';
 import FareZoneSelector from './FareZoneSelector';
-import {
-  getCustomizedSettings,
-  resetCustomizedSettings,
-} from '../store/localStorage';
-import * as ModeUtils from '../util/modeUtils';
-import { defaultSettings } from './../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
-
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
-
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import SelectOptionContainer, {
   getFiveStepOptions,
   getLinearStepOptions,
   getSpeedOptions,
 } from './CustomizeSearch/SelectOptionContainer';
+import {
+  getCustomizedSettings,
+  resetCustomizedSettings,
+} from '../store/localStorage';
+import { isKeyboardSelectionEvent } from '../util/browser';
+import * as ModeUtils from '../util/modeUtils';
+import { defaultSettings } from './../util/planParamUtil';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -52,70 +52,38 @@ class CustomizeSearch extends React.Component {
 
   getBikeTransportOptions = val =>
     val.map(o => (
-      <div
-        className="biketransport-option"
-        key={`biketransport-${o.optionName}`}
-      >
-        {/* eslint-disable-next-line */}
-        <div className="option-checbox" tabIndex={0}>
-          <label htmlFor={`input-${o.optionName}`}>
-            <input
-              type="checkbox"
-              id={`input-${o.optionName}`}
-              onChange={() => console.log(o.optionName)}
-              aria-label={this.context.intl.formatMessage({
-                id: `biketransport-${o.optionName}`,
-                defaultMessage: `${o.defaultMessage}`,
-              })}
-            />
-          </label>
-        </div>
-        <FormattedMessage
-          id={`biketransport-${o.optionName}`}
-          defaultMessage={`${o.defaultMessage}`}
-        />
-      </div>
+      <Checkbox
+        checked={false}
+        defaultMessage={o.defaultMessage}
+        key={`cb-${o.optionName}`}
+        labelId={o.optionName}
+        onChange={() => console.log(o.optionName)}
+      />
     ));
 
   getTransportModes = (modes, currentModes) => {
     const isBikeRejected =
       currentModes.filter(o2 => o2 === 'BICYCLE' || o2 === 'BUS').length > 1;
-    return modes.map((o, i) => (
+    return modes.map(o => (
       <div
         className="mode-option-container"
         key={`mode-option-${o.name.toLowerCase()}`}
       >
-        {/* eslint-disable-next-line */}
-        <div
-          className="option-checbox"
-          tabIndex={0} // eslint-disable-line
-          onKeyPress={() => this.toggleTransportMode(o.name)}
-        >
-          <label htmlFor={`input-${o.name}`}>
-            <input
-              type="checkbox"
-              checked={currentModes.filter(o2 => o2 === o.name).length > 0}
-              id={`input-${o.name}`}
-              onChange={() => this.toggleTransportMode(o.name)}
-              aria-label={this.context.intl.formatMessage({
-                id: `${o.name.toLowerCase()}`,
-                defaultMessage: `${o.name}`,
-              })}
-            />
-          </label>
-        </div>
+        <Checkbox
+          checked={currentModes.filter(o2 => o2 === o.name).length > 0}
+          defaultMessage={o.name}
+          labelId={o.name.toLowerCase()}
+          onChange={() => this.toggleTransportMode(o.name)}
+          showLabel={false}
+        />
         <div
           role="button"
           tabIndex={0}
           aria-label={`${o.name.toLowerCase()}`}
           className={`mode-option-block ${o.name.toLowerCase()}`}
-          style={{
-            borderTopLeftRadius: i === 0 && '6px',
-            borderTopRightRadius: i === 0 && '6px',
-            borderBottomLeftRadius: i === modes.length - 1 && '6px',
-            borderBottomRightRadius: i === modes.length - 1 && '6px',
-          }}
-          onKeyPress={() => this.toggleTransportMode(o.name)}
+          onKeyPress={e =>
+            isKeyboardSelectionEvent(e) && this.toggleTransportMode(o.name)
+          }
           onClick={() => this.toggleTransportMode(o.name)}
         >
           <div className="mode-icon">
@@ -303,18 +271,18 @@ class CustomizeSearch extends React.Component {
   );
 
   renderBikeTransportSelector = () => (
-    <div className="settings-option-container bike-transport-selector">
+    <div className="settings-option-container">
       {this.getBikeTransportOptions([
         {
-          optionName: 'only-bike',
+          optionName: 'biketransport-only-bike',
           defaultMessage: "I'm travelling only by bike",
         },
         {
-          optionName: 'citybike',
+          optionName: 'biketransport-citybike',
           defaultMessage: "I'm using a citybike",
         },
         {
-          optionName: 'keep-bike-with',
+          optionName: 'biketransport-keep-bike-with',
           defaultMessage: 'I want to keep my bike with me',
         },
       ])}
@@ -329,24 +297,13 @@ class CustomizeSearch extends React.Component {
         })}
       </h1>
       {this.getRoutePreferences().map(o => (
-        <div
-          className="routepreferences-option"
-          key={`routepreferences-${o.name}`}
-        >
-          <div className="option-checbox">
-            <label htmlFor={`input-${o.name}`}>
-              <input
-                id={`input-${o.name}`}
-                type="checkbox"
-                onChange={e => console.log(e.target)}
-              />
-            </label>
-          </div>
-          <FormattedMessage
-            id={`${o.name}`}
-            defaultMessage={`${o.defaultMessage}`}
-          />
-        </div>
+        <Checkbox
+          checked={false}
+          defaultMessage={o.defaultMessage}
+          key={`cb-${o.name}`}
+          labelId={o.name}
+          onChange={e => console.log(e.target)}
+        />
       ))}
     </div>
   );
@@ -420,10 +377,12 @@ class CustomizeSearch extends React.Component {
           defaultMessage="Pick a transport mode"
         />
       </div>
-      {this.getTransportModes(
-        ModeUtils.getAvailableTransportModeConfigs(config),
-        currentModes,
-      )}
+      <div className="transport-modes-container">
+        {this.getTransportModes(
+          ModeUtils.getAvailableTransportModeConfigs(config),
+          currentModes,
+        )}
+      </div>
     </div>
   );
 
