@@ -146,7 +146,7 @@ class CustomizeSearch extends React.Component {
             {this.renderStreetModeSelector(config, router)}
             {isUsingBicycle && (
               <div className="settings-option-container">
-                <BikeTransportOptionsSection />
+                <BikeTransportOptionsSection currentModes={checkedModes} />
               </div>
             )}
             <div className="settings-option-container">

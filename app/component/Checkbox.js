@@ -6,24 +6,29 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const Checkbox = (
-  { checked, onChange, labelId, defaultMessage, showLabel },
+  { checked, disabled, onChange, labelId, defaultMessage, showLabel },
   { intl },
 ) => (
   <div className="option-checkbox-container">
     <div
       aria-checked={checked}
       className="option-checkbox"
-      onKeyPress={e => isKeyboardSelectionEvent(e) && onChange(e)}
+      onKeyPress={e =>
+        !disabled &&
+        isKeyboardSelectionEvent(e) &&
+        onChange({ target: { checked: !checked } })
+      }
       role="checkbox"
       tabIndex={0}
     >
-      <label className={cx({ checked })} htmlFor={`input-${labelId}`}>
+      <label className={cx({ checked, disabled })} htmlFor={`input-${labelId}`}>
         <input
           aria-label={intl.formatMessage({
             id: labelId,
             defaultMessage,
           })}
           checked={checked}
+          disabled={disabled}
           id={`input-${labelId}`}
           onChange={onChange}
           type="checkbox"
@@ -39,6 +44,7 @@ const Checkbox = (
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   defaultMessage: PropTypes.string,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   labelId: PropTypes.string.isRequired,
   showLabel: PropTypes.bool,
@@ -47,6 +53,7 @@ Checkbox.propTypes = {
 Checkbox.defaultProps = {
   checked: false,
   defaultMessage: '',
+  disabled: false,
   showLabel: true,
 };
 

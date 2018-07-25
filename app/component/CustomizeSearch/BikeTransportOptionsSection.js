@@ -1,31 +1,55 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { routerShape } from 'react-router';
 
 import Checkbox from '../Checkbox';
+import { StreetMode, TransportMode } from '../../constants';
+import { toggleTransportMode, setStreetMode } from '../../util/modeUtils';
 
-const getBikeTransportOptions = () => [
-  {
-    name: 'biketransport-only-bike',
-    defaultMessage: "I'm travelling only by bike",
-  },
-  {
-    name: 'biketransport-citybike',
-    defaultMessage: "I'm using a citybike",
-  },
-  {
-    name: 'biketransport-keep-bike-with',
-    defaultMessage: 'I want to keep my bike with me',
-  },
-];
+const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
+  const onlyBike =
+    currentModes.length === 1 && currentModes[0] === StreetMode.Bicycle;
+  return (
+    <React.Fragment>
+      <Checkbox
+        checked={onlyBike}
+        defaultMessage="I'm travelling only by bike"
+        disabled={onlyBike}
+        key="cb-only-bike"
+        labelId="biketransport-only-bike"
+        onChange={e => {
+          if (e.target.checked) {
+            setStreetMode(StreetMode.Bicycle, config, router, true);
+          }
+        }}
+      />
+      <Checkbox
+        checked={currentModes.includes(TransportMode.Citybike)}
+        defaultMessage="I'm using a citybike"
+        key="cb-citybike"
+        labelId="biketransport-citybike"
+        onChange={() =>
+          toggleTransportMode(TransportMode.Citybike, config, router)
+        }
+      />
+      <Checkbox
+        checked={false}
+        defaultMessage="I want to keep my bike with me"
+        key="cb-keep-bike-with"
+        labelId="biketransport-keep-bike-with"
+        onChange={e => console.log(e.target.value)}
+      />
+    </React.Fragment>
+  );
+};
 
-const BikeTransportOptionsSection = () =>
-  getBikeTransportOptions().map(o => (
-    <Checkbox
-      checked={false}
-      defaultMessage={o.defaultMessage}
-      key={`cb-${o.name}`}
-      labelId={o.name}
-      onChange={() => console.log(o.name)}
-    />
-  ));
+BikeTransportOptionsSection.propTypes = {
+  currentModes: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+BikeTransportOptionsSection.contextTypes = {
+  config: PropTypes.object.isRequired,
+  router: routerShape.isRequired,
+};
 
 export default BikeTransportOptionsSection;

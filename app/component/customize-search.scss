@@ -59,6 +59,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
           position: absolute;
         }
       }
+
+      &.disabled {
+        background: $medium-gray;
+        cursor: disabled;
+      }
     }
 
     input[type='checkbox'] {
