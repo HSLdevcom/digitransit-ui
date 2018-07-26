@@ -19,7 +19,7 @@ const Checkbox = (
         onChange({ target: { checked: !checked } })
       }
       role="checkbox"
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
     >
       <label className={cx({ checked, disabled })} htmlFor={`input-${labelId}`}>
         <input

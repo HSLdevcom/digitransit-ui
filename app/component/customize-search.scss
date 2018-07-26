@@ -58,11 +58,17 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
           transform: rotateY(15deg);
           position: absolute;
         }
+
+        &.disabled:before {
+          color: $gray;
+        }
       }
 
       &.disabled {
-        background: $medium-gray;
-        cursor: disabled;
+        background: $light-gray;
+        border-color: currentColor;
+        cursor: not-allowed;
+        pointer-events: none;
       }
     }
 
