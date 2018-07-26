@@ -8,13 +8,13 @@ import ComponentUsageExample from './ComponentUsageExample';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 
-const AppBarSmall = ({ disableBackButton, title, homeUrl, logo }) => (
+const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
   <React.Fragment>
     <DisruptionInfo />
     <nav className="top-bar">
       {!disableBackButton && <BackButton />}
       <section className="title">
-        <LogoSmall logo={logo} title={title} />
+        <LogoSmall showLogo={showLogo} logo={logo} title={title} />
       </section>
       <MainMenuContainer homeUrl={homeUrl} />
     </nav>
@@ -42,6 +42,7 @@ AppBarSmall.description = () => (
 
 AppBarSmall.propTypes = {
   disableBackButton: PropTypes.bool,
+  showLogo: PropTypes.bool,
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,

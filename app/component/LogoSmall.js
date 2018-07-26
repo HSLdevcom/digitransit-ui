@@ -3,13 +3,9 @@ import React from 'react';
 
 import { isBrowser } from '../util/browser';
 
-const LogoSmall = ({ logo, title }, { config }) => {
-  if (config.textLogo) {
-    return (
-      <section className="title">
-        <span className="title">{title}</span>
-      </section>
-    );
+const LogoSmall = ({ showLogo, logo, title }, { config }) => {
+  if (config.textLogo || !showLogo) {
+    return <span className="title">{title}</span>;
   } else if (isBrowser && logo) {
     return <div className="logo" style={{ backgroundImage: `url(${logo})` }} />;
   }
@@ -17,6 +13,7 @@ const LogoSmall = ({ logo, title }, { config }) => {
 };
 
 LogoSmall.propTypes = {
+  showLogo: PropTypes.bool,
   logo: PropTypes.string,
   title: PropTypes.node,
 };

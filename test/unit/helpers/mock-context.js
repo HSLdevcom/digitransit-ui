@@ -4,6 +4,7 @@ export const mockContext = {
   getStore: () => ({
     on: () => {},
     getLanguage: () => 'en',
+    getMessages: () => [],
   }),
 };
 
