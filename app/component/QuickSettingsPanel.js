@@ -20,32 +20,6 @@ const quickOptionParams = [
   'transferPenalty',
 ];
 
-const quickOptions = {
-  'default-route': {
-    ...defaultSettings,
-  },
-  'fastest-route': {
-    ...defaultSettings,
-    minTransferTime: 60,
-    walkSpeed: 1.5,
-    walkBoardCost: 540,
-    walkReluctance: 1.5,
-    transferPenalty: 0,
-  },
-  'least-transfers': {
-    ...defaultSettings,
-    walkBoardCost: 600,
-    walkReluctance: 3,
-    transferPenalty: 5460,
-  },
-  'least-walking': {
-    ...defaultSettings,
-    walkBoardCost: 360,
-    walkReluctance: 5,
-    transferPenalty: 0,
-  },
-};
-
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
@@ -87,6 +61,38 @@ class QuickSettingsPanel extends React.Component {
     });
   };
 
+  getQuickOptions = () => {
+    const mergedDefaultSettings = {
+      ...defaultSettings,
+      ...this.context.config.defaultSettings,
+    };
+    return {
+      'default-route': {
+        ...mergedDefaultSettings,
+      },
+      'fastest-route': {
+        ...mergedDefaultSettings,
+        minTransferTime: 60,
+        walkSpeed: 1.5,
+        walkBoardCost: 540,
+        walkReluctance: 1.5,
+        transferPenalty: 0,
+      },
+      'least-transfers': {
+        ...mergedDefaultSettings,
+        walkBoardCost: 600,
+        walkReluctance: 3,
+        transferPenalty: 5460,
+      },
+      'least-walking': {
+        ...mergedDefaultSettings,
+        walkBoardCost: 360,
+        walkReluctance: 5,
+        transferPenalty: 0,
+      },
+    };
+  };
+
   setQuickOption = name => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
@@ -95,7 +101,7 @@ class QuickSettingsPanel extends React.Component {
         name,
       );
     }
-    const chosenMode = quickOptions[name];
+    const chosenMode = this.getQuickOptions()[name];
     this.context.router.replace({
       ...this.context.location,
       query: {
@@ -126,7 +132,7 @@ class QuickSettingsPanel extends React.Component {
 
   matchQuickOption = () => {
     const merged = {
-      ...quickOptions['default-route'],
+      ...this.getQuickOptions()['default-route'],
       ...getCustomizedSettings(),
       ...this.context.location.query,
     };
@@ -143,8 +149,8 @@ class QuickSettingsPanel extends React.Component {
 
     // Find out which quick option the user has selected
     let currentOption = 'customized-mode';
-    Object.keys(quickOptions).forEach(key => {
-      if (match(merged, quickOptions[key])) {
+    Object.keys(this.getQuickOptions()).forEach(key => {
+      if (match(merged, this.getQuickOptions()[key])) {
         currentOption = key;
       }
     });
