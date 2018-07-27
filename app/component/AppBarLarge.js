@@ -80,6 +80,10 @@ AppBarLarge.propTypes = {
   logo: PropTypes.string,
 };
 
+AppBarLarge.defaultProps = {
+  logo: undefined,
+};
+
 AppBarLarge.displayName = 'AppBarLarge';
 
 AppBarLarge.contextTypes = {

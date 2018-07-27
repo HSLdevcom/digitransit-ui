@@ -6,7 +6,6 @@ import { describe, it } from 'mocha';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import AppBarSmall from '../../app/component/AppBarSmall';
-import AppBarLarge from '../../app/component/AppBarLarge';
 
 describe('<AppBarSmall />', () => {
   it('should show logo image', () => {
@@ -90,54 +89,6 @@ describe('<AppBarSmall />', () => {
         },
       },
     );
-    expect(wrapper.find('.title span')).to.have.lengthOf(1);
-  });
-});
-
-describe('<AppBarLarge />', () => {
-  it('should show logo image', () => {
-    const wrapper = mountWithIntl(
-      <AppBarLarge titleClicked={false} logo="/" />,
-      {
-        context: {
-          ...mockContext,
-          config: {
-            textLogo: false,
-            mainMenu: {
-              show: true,
-            },
-          },
-        },
-        childContextTypes: {
-          ...mockChildContextTypes,
-          config: PropTypes.object,
-        },
-      },
-    );
-
-    expect(wrapper.find('.title span')).to.have.lengthOf(0);
-  });
-
-  it('should show text logo when textLogo is true', () => {
-    const wrapper = mountWithIntl(
-      <AppBarLarge titleClicked={false} logo="/" />,
-      {
-        context: {
-          ...mockContext,
-          config: {
-            textLogo: true,
-            mainMenu: {
-              show: true,
-            },
-          },
-        },
-        childContextTypes: {
-          ...mockChildContextTypes,
-          config: PropTypes.object,
-        },
-      },
-    );
-
     expect(wrapper.find('.title span')).to.have.lengthOf(1);
   });
 });
