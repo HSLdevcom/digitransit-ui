@@ -6,7 +6,8 @@ import { isBrowser } from '../util/browser';
 const LogoSmall = ({ showLogo, logo, title }, { config }) => {
   if (config.textLogo || !showLogo) {
     return <span className="title">{title}</span>;
-  } else if (isBrowser && logo) {
+  }
+  if (isBrowser && logo) {
     return <div className="logo" style={{ backgroundImage: `url(${logo})` }} />;
   }
   return <div className="logo" style={{ backgroundImage: 'none' }} />;
@@ -18,8 +19,16 @@ LogoSmall.propTypes = {
   title: PropTypes.node,
 };
 
+LogoSmall.defaultProps = {
+  showLogo: false,
+  logo: undefined,
+  title: undefined,
+};
+
 LogoSmall.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    textLogo: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 export default LogoSmall;
