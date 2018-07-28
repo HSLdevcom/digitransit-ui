@@ -71,7 +71,7 @@
     "element-resize-detector": "1.1.14",
     "express": "4.16.3",
     "express-http-proxy": "1.2.0",
-    "express-static-gzip": "0.3.2",
+    "express-static-gzip": "1.0.0",
     "fluxible": "1.4.0",
     "fluxible-addons-react": "0.2.14",
     "foundation-apps": "1.2.0",
