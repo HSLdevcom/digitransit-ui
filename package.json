@@ -129,7 +129,7 @@
     "babel-eslint": "8.2.3",
     "babel-loader": "8.0.0-beta.3",
     "babel-plugin-istanbul": "5.0.0",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.13",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.14",
     "brotli-webpack-plugin": "1.0.0",
     "chai": "4.1.2",
     "codecov": "3.0.2",
