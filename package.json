@@ -166,7 +166,7 @@
     "postcss-flexbugs-fixes": "3.3.1",
     "postcss-loader": "2.1.5",
     "prettier": "1.12.1",
-    "relay-compiler": "1.6.0",
+    "relay-compiler": "1.6.1",
     "sass-loader": "7.0.3",
     "selenium-webdriver": "4.0.0-alpha.1",
     "stats-webpack-plugin": "0.6.2",
