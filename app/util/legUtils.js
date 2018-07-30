@@ -158,6 +158,13 @@ export const compressLegs = originalLegs => {
   return compressedLegs;
 };
 
+const sumDistances = legs =>
+  legs.map(l => l.distance).reduce((x, y) => x + y, 0);
+const isWalkingLeg = leg =>
+  [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
+const isBikingLeg = leg =>
+  [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
+
 /**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
@@ -166,7 +173,12 @@ export const compressLegs = originalLegs => {
  */
 export const getTotalWalkingDistance = itinerary =>
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  itinerary.legs
-    .filter(l => getLegMode(l) === LegMode.Walk)
-    .map(l => l.distance)
-    .reduce((x, y) => x + y, 0);
+  sumDistances(itinerary.legs.filter(isWalkingLeg));
+
+/**
+ * Calculates and returns the total biking distance undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total biking distance from
+ */
+export const getTotalBikingDistance = itinerary =>
+  sumDistances(itinerary.legs.filter(isBikingLeg));
