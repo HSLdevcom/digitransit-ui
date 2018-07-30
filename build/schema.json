@@ -144,7 +144,7 @@
                         "args": [
                             {
                                 "name": "minLat",
-                                "description": null,
+                                "description": "Southern bound of the bounding box",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -154,7 +154,7 @@
                             },
                             {
                                 "name": "minLon",
-                                "description": null,
+                                "description": "Western bound of the bounding box",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -164,7 +164,7 @@
                             },
                             {
                                 "name": "maxLat",
-                                "description": null,
+                                "description": "Northern bound of the bounding box",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -174,7 +174,7 @@
                             },
                             {
                                 "name": "maxLon",
-                                "description": null,
+                                "description": "Eastern bound of the bounding box",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Float",
@@ -439,7 +439,7 @@
                     },
                     {
                         "name": "departureRow",
-                        "description": "Get a single departure row based on its id (format is Agency:StopId:PatternId)",
+                        "description": "Get a single departure row based on its id (format is FeedId:StopId:PatternId)",
                         "args": [
                             {
                                 "name": "id",
@@ -466,7 +466,7 @@
                     },
                     {
                         "name": "stop",
-                        "description": "Get a single stop based on its id (format is Agency:StopId)",
+                        "description": "Get a single stop based on its id (format is FeedId:StopId)",
                         "args": [
                             {
                                 "name": "id",
@@ -493,7 +493,7 @@
                     },
                     {
                         "name": "station",
-                        "description": "Get a single station (stop with location_type = 1) based on its id (format is Agency:StopId)",
+                        "description": "Get a single station (stop with location_type = 1) based on its id (format is FeedId:StopId)",
                         "args": [
                             {
                                 "name": "id",
@@ -587,7 +587,7 @@
                     },
                     {
                         "name": "route",
-                        "description": "Get a single route based on its id (format is Agency:RouteId)",
+                        "description": "Get a single route based on its id (format is FeedId:RouteId)",
                         "args": [
                             {
                                 "name": "id",
@@ -630,7 +630,7 @@
                     },
                     {
                         "name": "trip",
-                        "description": "Get a single trip based on its id (format is Agency:TripId)",
+                        "description": "Get a single trip based on its id (format is FeedId:TripId)",
                         "args": [
                             {
                                 "name": "id",
@@ -657,45 +657,61 @@
                     },
                     {
                         "name": "fuzzyTrip",
-                        "description": null,
+                        "description": "Finds a trip matching the given parameters. This query type is useful if the id of a trip is not known, but other details uniquely identifying the trip are available from some source (e.g. MQTT vehicle positions).",
                         "args": [
                             {
                                 "name": "route",
-                                "description": null,
+                                "description": "id of the route",
                                 "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
                                 },
                                 "defaultValue": null
                             },
                             {
                                 "name": "direction",
-                                "description": null,
+                                "description": "Direction of the trip, possible values: 0, 1",
                                 "type": {
-                                    "kind": "SCALAR",
-                                    "name": "Int",
-                                    "ofType": null
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
                                 },
                                 "defaultValue": null
                             },
                             {
                                 "name": "date",
-                                "description": null,
+                                "description": "Departure date of the trip, format: YYYY-MM-DD",
                                 "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
                                 },
                                 "defaultValue": null
                             },
                             {
                                 "name": "time",
-                                "description": null,
+                                "description": "Departure time of the trip, format: seconds since midnight of the departure date",
                                 "type": {
-                                    "kind": "SCALAR",
-                                    "name": "Int",
-                                    "ofType": null
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
                                 },
                                 "defaultValue": null
                             }
@@ -800,7 +816,7 @@
                         "args": [
                             {
                                 "name": "feeds",
-                                "description": null,
+                                "description": "Only return alerts in these feeds",
                                 "type": {
                                     "kind": "LIST",
                                     "name": null,
@@ -843,7 +859,7 @@
                     },
                     {
                         "name": "bikeRentalStations",
-                        "description": null,
+                        "description": "Get all bike rental stations in the graph",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -859,7 +875,7 @@
                     },
                     {
                         "name": "bikeRentalStation",
-                        "description": null,
+                        "description": "Get a single bike rental station based on its id",
                         "args": [
                             {
                                 "name": "id",
@@ -886,7 +902,7 @@
                     },
                     {
                         "name": "bikeParks",
-                        "description": null,
+                        "description": "Get all bike parks in the graph",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -902,7 +918,7 @@
                     },
                     {
                         "name": "bikePark",
-                        "description": null,
+                        "description": "Get a single bike park based on its id",
                         "args": [
                             {
                                 "name": "id",
@@ -929,7 +945,7 @@
                     },
                     {
                         "name": "carParks",
-                        "description": null,
+                        "description": "Get all car parks in the graph",
                         "args": [
                             {
                                 "name": "ids",
@@ -960,7 +976,7 @@
                     },
                     {
                         "name": "carPark",
-                        "description": null,
+                        "description": "Get a single car park based on its id",
                         "args": [
                             {
                                 "name": "id",
@@ -1247,7 +1263,7 @@
                             },
                             {
                                 "name": "preferred",
-                                "description": "Preferred",
+                                "description": "List of routes and agencies which are given higher preference when planning the itinerary",
                                 "type": {
                                     "kind": "INPUT_OBJECT",
                                     "name": "InputPreferred",
@@ -1257,7 +1273,7 @@
                             },
                             {
                                 "name": "unpreferred",
-                                "description": "Unpreferred",
+                                "description": "List of routes and agencies which are given lower preference when planning the itinerary",
                                 "type": {
                                     "kind": "INPUT_OBJECT",
                                     "name": "InputUnpreferred",
@@ -1287,7 +1303,7 @@
                             },
                             {
                                 "name": "banned",
-                                "description": "Banned",
+                                "description": "List of routes, trips, agencies and stops which are not used in the itinerary",
                                 "type": {
                                     "kind": "INPUT_OBJECT",
                                     "name": "InputBanned",
@@ -1689,7 +1705,7 @@
                     },
                     {
                         "name": "timezone",
-                        "description": null,
+                        "description": "ID of the time zone which this agency operates on",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -1717,7 +1733,7 @@
                     },
                     {
                         "name": "phone",
-                        "description": null,
+                        "description": "Phone number which customers can use to contact this agency",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -1729,7 +1745,7 @@
                     },
                     {
                         "name": "fareUrl",
-                        "description": null,
+                        "description": "URL to a web page which has information of fares used by this agency",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -1741,7 +1757,7 @@
                     },
                     {
                         "name": "routes",
-                        "description": null,
+                        "description": "List of routes operated by this agency",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -2156,7 +2172,7 @@
                     },
                     {
                         "name": "trips",
-                        "description": null,
+                        "description": "Trips which run on this pattern",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -2176,7 +2192,7 @@
                     },
                     {
                         "name": "tripsForDate",
-                        "description": null,
+                        "description": "Trips which run on this pattern on the specified date",
                         "args": [
                             {
                                 "name": "serviceDay",
@@ -2446,7 +2462,7 @@
                     },
                     {
                         "name": "wheelchairAccessible",
-                        "description": null,
+                        "description": "Whether the vehicle running this trip can be boarded by a wheelchair",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -2458,7 +2474,7 @@
                     },
                     {
                         "name": "bikesAllowed",
-                        "description": null,
+                        "description": "Whether bikes are allowed on board the vehicle running this trip",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -2506,23 +2522,15 @@
                     },
                     {
                         "name": "semanticHash",
-                        "description": null,
+                        "description": "Hash code of the trip. This value is stable and not dependent on the trip id.",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "OBJECT",
-                                        "name": "Stop",
-                                        "ofType": null
-                                    }
-                                }
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
                             }
                         },
                         "isDeprecated": false,
@@ -2534,6 +2542,60 @@
                         "args": [],
                         "type": {
                             "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "departureStoptime",
+                        "description": "Departure time from the first stop",
+                        "args": [
+                            {
+                                "name": "serviceDate",
+                                "description": "Date for which the departure time is returned. Format: YYYYMMDD. If this argument is not used, field `serviceDay` in the stoptime will have a value of 0.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "arrivalStoptime",
+                        "description": "Arrival time to the final stop",
+                        "args": [
+                            {
+                                "name": "serviceDate",
+                                "description": "Date for which the arrival time is returned. Format: YYYYMMDD. If this argument is not used, field `serviceDay` in the stoptime will have a value of 0.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
                                 "kind": "OBJECT",
@@ -2583,7 +2645,7 @@
                     },
                     {
                         "name": "geometry",
-                        "description": null,
+                        "description": "List of coordinates of this trip's route",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -2685,7 +2747,7 @@
                         "args": [
                             {
                                 "name": "id",
-                                "description": null,
+                                "description": "Id of the pattern",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "String",
@@ -2705,7 +2767,7 @@
                             },
                             {
                                 "name": "timeRange",
-                                "description": null,
+                                "description": "Return stoptimes within this time range, starting from `startTime`. Unit: Seconds",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -2748,7 +2810,7 @@
                     },
                     {
                         "name": "gtfsId",
-                        "description": null,
+                        "description": "Stop id in format FeedId:StopId",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -2816,7 +2878,7 @@
                     },
                     {
                         "name": "desc",
-                        "description": null,
+                        "description": "Description of the stop, usually a street name",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -2864,7 +2926,7 @@
                     },
                     {
                         "name": "parentStation",
-                        "description": null,
+                        "description": "The station which this stop is part of (or null if this stop is not part of a station)",
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
@@ -2876,7 +2938,7 @@
                     },
                     {
                         "name": "wheelchairBoarding",
-                        "description": null,
+                        "description": "Whether wheelchair boarding is possible for at least some of vehicles on this stop",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -2936,7 +2998,7 @@
                     },
                     {
                         "name": "cluster",
-                        "description": null,
+                        "description": "The cluster which this stop is part of",
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
@@ -2984,7 +3046,7 @@
                     },
                     {
                         "name": "patterns",
-                        "description": null,
+                        "description": "Patterns which pass through this stop",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -3000,7 +3062,7 @@
                     },
                     {
                         "name": "transfers",
-                        "description": null,
+                        "description": "List of nearby stops which can be used for transfers",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -3016,11 +3078,11 @@
                     },
                     {
                         "name": "stoptimesForServiceDate",
-                        "description": null,
+                        "description": "Returns list of stoptimes for the specified date",
                         "args": [
                             {
                                 "name": "date",
-                                "description": null,
+                                "description": "Date in format YYYYMMDD",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "String",
@@ -3030,7 +3092,7 @@
                             },
                             {
                                 "name": "omitNonPickups",
-                                "description": null,
+                                "description": "If true, only those departures which allow boarding are returned",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Boolean",
@@ -3067,7 +3129,7 @@
                             },
                             {
                                 "name": "timeRange",
-                                "description": null,
+                                "description": "Return stoptimes within this time range, starting from `startTime`. Unit: Seconds",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -3124,7 +3186,7 @@
                             },
                             {
                                 "name": "timeRange",
-                                "description": null,
+                                "description": "Return stoptimes within this time range, starting from `startTime`. Unit: Seconds",
                                 "type": {
                                     "kind": "SCALAR",
                                     "name": "Int",
@@ -3296,7 +3358,7 @@
                     },
                     {
                         "name": "lat",
-                        "description": null,
+                        "description": "Latitude of the center of this cluster (i.e. average latitude of stops in this cluster)",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -3312,7 +3374,7 @@
                     },
                     {
                         "name": "lon",
-                        "description": null,
+                        "description": "Longitude of the center of this cluster (i.e. average longitude of stops in this cluster)",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -3418,7 +3480,7 @@
             {
                 "kind": "OBJECT",
                 "name": "StoptimesInPattern",
-                "description": null,
+                "description": "Stoptimes grouped by pattern",
                 "fields": [
                     {
                         "name": "pattern",
@@ -3574,7 +3636,7 @@
                     },
                     {
                         "name": "arrivalDelay",
-                        "description": null,
+                        "description": "The offset from the scheduled arrival time in seconds. Negative values indicate that the trip is running ahead of schedule.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -3610,7 +3672,7 @@
                     },
                     {
                         "name": "departureDelay",
-                        "description": null,
+                        "description": "The offset from the scheduled departure time in seconds. Negative values indicate that the trip is running ahead of schedule",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -3634,7 +3696,7 @@
                     },
                     {
                         "name": "realtime",
-                        "description": null,
+                        "description": "true, if this stoptime has real-time data available",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -3646,7 +3708,7 @@
                     },
                     {
                         "name": "realtimeState",
-                        "description": null,
+                        "description": "State of real-time data",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -3658,7 +3720,7 @@
                     },
                     {
                         "name": "pickupType",
-                        "description": null,
+                        "description": "Whether the vehicle can be boarded at this stop. This field can also be used to indicate if boarding is possible only with special arrangements.",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -3670,7 +3732,7 @@
                     },
                     {
                         "name": "dropoffType",
-                        "description": null,
+                        "description": "Whether the vehicle can be disembarked at this stop. This field can also be used to indicate if disembarkation is possible only with special arrangements.",
                         "args": [],
                         "type": {
                             "kind": "ENUM",
@@ -3694,7 +3756,7 @@
                     },
                     {
                         "name": "trip",
-                        "description": null,
+                        "description": "Trip which this stoptime is for",
                         "args": [],
                         "type": {
                             "kind": "OBJECT",
@@ -3718,7 +3780,7 @@
                     },
                     {
                         "name": "headsign",
-                        "description": "Headsign of the trip on this stop.",
+                        "description": "Headsign of the trip on this stop. Trip headsigns can change during the trip (e.g. on routes which run on loops), so this value should be used instead of `tripHeadsign` to display the headsign relevant to the user. ",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -3833,7 +3895,7 @@
                     },
                     {
                         "name": "feed",
-                        "description": null,
+                        "description": "The feed in which this alert was published",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -4896,7 +4958,7 @@
                     },
                     {
                         "name": "bikesAvailable",
-                        "description": null,
+                        "description": "Number of bikes currently available on the rental station. The total capacity of this bike rental station is the sum of fields `bikesAvailable` and `spacesAvailable`.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -4908,7 +4970,7 @@
                     },
                     {
                         "name": "spacesAvailable",
-                        "description": null,
+                        "description": "Number of free spaces currently available on the rental station. The total capacity of this bike rental station is the sum of fields `bikesAvailable` and `spacesAvailable`.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -4920,7 +4982,7 @@
                     },
                     {
                         "name": "state",
-                        "description": null,
+                        "description": "A description of the current state of this bike rental station, e.g. \"Station on\"",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -4932,7 +4994,7 @@
                     },
                     {
                         "name": "realtime",
-                        "description": null,
+                        "description": "If true, values of `bikesAvailable` and `spacesAvailable` are updated from a real-time source. If false, values of `bikesAvailable` and `spacesAvailable` are always the total capacity divided by two.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5062,7 +5124,7 @@
                     },
                     {
                         "name": "spacesAvailable",
-                        "description": null,
+                        "description": "Number of spaces available for bikes",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5074,7 +5136,7 @@
                     },
                     {
                         "name": "realtime",
-                        "description": null,
+                        "description": "If true, value of `spacesAvailable` is updated from a real-time source.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5176,7 +5238,7 @@
                     },
                     {
                         "name": "maxCapacity",
-                        "description": null,
+                        "description": "Number of parking spaces at the car park",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5188,7 +5250,7 @@
                     },
                     {
                         "name": "spacesAvailable",
-                        "description": null,
+                        "description": "Number of currently available parking spaces at the car park",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5200,7 +5262,7 @@
                     },
                     {
                         "name": "realtime",
-                        "description": null,
+                        "description": "If true, value of `spacesAvailable` is updated from a real-time source.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5577,7 +5639,7 @@
                 "fields": [
                     {
                         "name": "startTime",
-                        "description": "Time when the trip departs. Format: Unix timestamp in milliseconds.",
+                        "description": "Time when the user leaves from the origin. Format: Unix timestamp in milliseconds.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5589,7 +5651,7 @@
                     },
                     {
                         "name": "endTime",
-                        "description": "Time when the trip arrives. Format: Unix timestamp in milliseconds.",
+                        "description": "Time when the user arrives to the destination.. Format: Unix timestamp in milliseconds.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5649,7 +5711,7 @@
                     },
                     {
                         "name": "legs",
-                        "description": "A list of Legs. Each Leg is either a walking (cycling, car) portion of the trip, or a transit trip on a particular vehicle. So a trip where the use walks to the Q train, transfers to the 6, then walks to their destination, has four legs.",
+                        "description": "A list of Legs. Each Leg is either a walking (cycling, car) portion of the itinerary, or a transit leg on a particular vehicle. So a itinerary where the user walks to the Q train, transfers to the 6, then walks to their destination, has four legs.",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -5685,7 +5747,7 @@
                     },
                     {
                         "name": "elevationGained",
-                        "description": "How much elevation is gained, in total, over the course of the trip, in meters.",
+                        "description": "How much elevation is gained, in total, over the course of the itinerary, in meters.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -5697,7 +5759,7 @@
                     },
                     {
                         "name": "elevationLost",
-                        "description": "How much elevation is lost, in total, over the course of the trip, in meters.",
+                        "description": "How much elevation is lost, in total, over the course of the itinerary, in meters.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6015,7 +6077,7 @@
                     },
                     {
                         "name": "points",
-                        "description": "The encoded points of the polyline.",
+                        "description": "List of coordinates of in a Google encoded polyline format (see https://developers.google.com/maps/documentation/utilities/polylinealgorithm)",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6148,7 +6210,7 @@
                     },
                     {
                         "name": "currency",
-                        "description": null,
+                        "description": "ISO 4217 currency code",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6160,7 +6222,7 @@
                     },
                     {
                         "name": "cents",
-                        "description": null,
+                        "description": "Fare price in cents. **Note:** this value is dependent on the currency used, as one cent is not necessarily ¹/₁₀₀ of the basic monerary unit.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6172,7 +6234,7 @@
                     },
                     {
                         "name": "components",
-                        "description": null,
+                        "description": "Components which this fare is composed of",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -6195,7 +6257,7 @@
             {
                 "kind": "OBJECT",
                 "name": "fareComponent",
-                "description": null,
+                "description": "Component of the fare (i.e. ticket) for a part of the itinerary",
                 "fields": [
                     {
                         "name": "fareId",
@@ -6211,7 +6273,7 @@
                     },
                     {
                         "name": "currency",
-                        "description": null,
+                        "description": "ISO 4217 currency code",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6223,7 +6285,7 @@
                     },
                     {
                         "name": "cents",
-                        "description": null,
+                        "description": "Fare price in cents. **Note:** this value is dependent on the currency used, as one cent is not necessarily ¹/₁₀₀ of the basic monerary unit.",
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
@@ -6235,7 +6297,7 @@
                     },
                     {
                         "name": "routes",
-                        "description": null,
+                        "description": "List of routes which use this fare component",
                         "args": [],
                         "type": {
                             "kind": "LIST",
@@ -6471,7 +6533,7 @@
                 "inputFields": [
                     {
                         "name": "routes",
-                        "description": "Set of preferred agencies by user.",
+                        "description": "A comma-separated list of ids of the routes preferred by the user.",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6481,7 +6543,7 @@
                     },
                     {
                         "name": "agencies",
-                        "description": "Set of preferred agencies by user.",
+                        "description": "A comma-separated list of ids of the agencies preferred by the user.",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6512,7 +6574,7 @@
                 "inputFields": [
                     {
                         "name": "routes",
-                        "description": "Set of unpreferred routes for given user.",
+                        "description": "A comma-separated list of ids of the routes unpreferred by the user.",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6522,7 +6584,7 @@
                     },
                     {
                         "name": "agencies",
-                        "description": "Set of unpreferred agencies for given user.",
+                        "description": "A comma-separated list of ids of the agencies unpreferred by the user.",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6543,7 +6605,7 @@
                 "inputFields": [
                     {
                         "name": "routes",
-                        "description": "Do not use certain named routes",
+                        "description": "A comma-separated list of banned route ids",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6553,7 +6615,7 @@
                     },
                     {
                         "name": "agencies",
-                        "description": "Do not use certain named agencies",
+                        "description": "A comma-separated list of banned agency ids",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6563,7 +6625,7 @@
                     },
                     {
                         "name": "trips",
-                        "description": "Do not use certain named trips",
+                        "description": "A comma-separated list of banned trip ids",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6573,7 +6635,7 @@
                     },
                     {
                         "name": "stops",
-                        "description": "Do not use certain stops. See for more information the bannedStops property in the RoutingResource class.",
+                        "description": "A comma-separated list of banned stop ids. Note that these stops are only banned for boarding and disembarking vehicles — it is possible to get an itinerary where a vehicle stops at one of these stops",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -6583,7 +6645,7 @@
                     },
                     {
                         "name": "stopsHard",
-                        "description": "Do not use certain stops. See for more information the bannedStopsHard property in the RoutingResource class.",
+                        "description": "A comma-separated list of banned stop ids. Only itineraries where these stops are not travelled through are returned, e.g. if a bus route stops at one of these stops, that route will not be used in the itinerary, even if the stop is not used for boarding or disembarking the vehicle. ",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",

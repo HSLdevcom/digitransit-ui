@@ -45,8 +45,6 @@ export default {
   // Navbar logo
   logo: 'default/digitransit-logo.png',
 
-  spinner: 'default/default-spinner.png',
-
   contactName: {
     sv: 'Digitransit',
     fi: 'Digitransit',
