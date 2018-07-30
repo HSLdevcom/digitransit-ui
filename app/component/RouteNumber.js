@@ -179,8 +179,8 @@ RouteNumber.propTypes = {
   className: PropTypes.string,
   hasDisruption: PropTypes.bool,
   fadeLong: PropTypes.bool,
-  withBar: PropTypes.bool.isRequired,
-  isCallAgency: PropTypes.bool.isRequired,
+  withBar: PropTypes.bool,
+  isCallAgency: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
@@ -189,6 +189,8 @@ RouteNumber.defaultProps = {
   hasDisruption: false,
   fadeLong: false,
   text: '',
+  withBar: false,
+  isCallAgency: false,
 };
 
 RouteNumber.contextTypes = {

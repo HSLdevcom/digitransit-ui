@@ -187,7 +187,7 @@ class CustomizeSearch extends React.Component {
         <div className="select-container">
           <Select
             name={o.title}
-            selected={o.currentSelection}
+            selected={`${o.currentSelection}`}
             options={o.options}
             onSelectChange={e =>
               this.updateParameters({

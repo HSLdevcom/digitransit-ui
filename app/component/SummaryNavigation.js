@@ -158,7 +158,7 @@ class SummaryNavigation extends React.Component {
                 background: 'transparent',
                 boxShadow: 'none',
                 // width: this.props.breakpoint !== 'large' ? '100%' : '600px',
-                ...(isOpen && { '-moz-transform': 'none' }), // needed to prevent showing an extra scrollbar in FF
+                ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}
             >
