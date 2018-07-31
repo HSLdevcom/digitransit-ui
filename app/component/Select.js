@@ -13,7 +13,8 @@ class Select extends React.Component {
           PropTypes.node,
           PropTypes.string,
         ]),
-        value: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
       }).isRequired,
     ).isRequired,
   };

@@ -930,6 +930,7 @@ const translations = {
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
+    'kilometers-per-hour': '{number} km/h',
     later: 'Myöhemmin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
@@ -982,8 +983,15 @@ const translations = {
     now: 'Nyt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
+    'number-of-minutes':
+      '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
+    'option-default': 'Oletusarvo',
+    'option-least': 'Vähiten',
+    'option-less': 'Vähemmän',
+    'option-more': 'Enemmän',
+    'option-most': 'Eniten',
     or: 'tai',
     origin: 'Lähtöpaikka',
     'origin-label-change': 'Vaihda lähtöpaikka',
@@ -1096,7 +1104,6 @@ const translations = {
     tickets: 'Matkaliput',
     time: 'Aika',
     timetable: 'Aikataulu',
-
     'to-stop': 'Pysäkille',
     today: 'Tänään',
     tomorrow: 'Huomenna',
