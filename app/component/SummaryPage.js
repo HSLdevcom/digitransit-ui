@@ -73,7 +73,7 @@ class SummaryPage extends React.Component {
     content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
-    }).isRequired,
+    }),
     from: dtLocationShape.isRequired,
     to: dtLocationShape.isRequired,
     routes: PropTypes.arrayOf(
@@ -83,6 +83,10 @@ class SummaryPage extends React.Component {
       }).isRequired,
     ).isRequired,
     breakpoint: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    map: undefined,
   };
 
   static hcParameters = {
@@ -445,6 +449,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
+          modeWeight: $modeWeight
           preferred: $preferred,
           unpreferred: $unpreferred),
         {

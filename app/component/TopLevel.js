@@ -73,6 +73,14 @@ class TopLevel extends React.Component {
     };
   }
 
+  componentDidMount() {
+    import(/* webpackChunkName: "main" */ `../configurations/images/${
+      this.context.config.logo
+    }`).then(logo => {
+      this.setState({ logo: logo.default });
+    });
+  }
+
   render() {
     this.topBarOptions = Object.assign(
       {},
@@ -121,6 +129,7 @@ class TopLevel extends React.Component {
           <AppBarContainer
             title={this.props.title}
             {...this.topBarOptions}
+            {...this.state}
             homeUrl={homeUrl}
           />
         )}

@@ -6,17 +6,22 @@ import AppBarSmall from './AppBarSmall';
 import AppBarLarge from './AppBarLarge';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 
-const AppBarContainer = ({ router, location, homeUrl, ...args }) => (
+const AppBarContainer = ({ router, location, homeUrl, logo, ...args }) => (
   <DesktopOrMobile
     mobile={() => (
       <AppBarSmall
         {...args}
         showLogo={location.pathname.indexOf(homeUrl) === 0}
+        logo={logo}
         homeUrl={homeUrl}
       />
     )}
     desktop={() => (
-      <AppBarLarge {...args} titleClicked={() => router.push(homeUrl)} />
+      <AppBarLarge
+        {...args}
+        logo={logo}
+        titleClicked={() => router.push(homeUrl)}
+      />
     )}
   />
 );
@@ -25,6 +30,7 @@ AppBarContainer.propTypes = {
   location: locationShape.isRequired,
   router: routerShape.isRequired,
   homeUrl: PropTypes.string.isRequired,
+  logo: PropTypes.string,
 };
 
 const WithContext = getContext({

@@ -18,6 +18,7 @@ class Timetable extends React.Component {
     stop: PropTypes.shape({
       url: PropTypes.string,
       gtfsId: PropTypes.string,
+      locationType: PropTypes.string,
       stoptimesForServiceDate: PropTypes.arrayOf(
         PropTypes.shape({
           pattern: PropTypes.shape({
@@ -44,6 +45,10 @@ class Timetable extends React.Component {
       selectedDate: PropTypes.string,
       onDateChange: PropTypes.function,
     }).isRequired,
+  };
+
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -226,6 +231,17 @@ class Timetable extends React.Component {
 
     const timetableMap = this.groupArrayByHour(routesWithDetails);
 
+    const stopIdSplitted = this.props.stop.gtfsId.split(':');
+
+    const stopPDFURL =
+      stopIdSplitted[0] === 'HSL' && this.props.stop.locationType !== 'STATION'
+        ? `${
+            this.context.config.URL.API_URL
+          }/timetables/v1/${stopIdSplitted[0].toLowerCase()}/stops/${
+            stopIdSplitted[1]
+          }.pdf`
+        : null;
+
     return (
       <div className="timetable">
         {this.state.showFilterModal === true ? (
@@ -247,6 +263,7 @@ class Timetable extends React.Component {
             startDate={this.props.propsForStopPageActionBar.startDate}
             selectedDate={this.props.propsForStopPageActionBar.selectedDate}
             onDateChange={this.props.propsForStopPageActionBar.onDateChange}
+            stopPDFURL={stopPDFURL}
           />
         </div>
         <div className="timetable-for-printing-header">

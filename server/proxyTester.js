@@ -14,5 +14,5 @@ const server = app.listen(port, () =>
 /*
   This file enables toy to test CDN functionality locally by starting with
   node server/proxyTester.js && \
-  ASSET_URL="http://localhost:9000/proxy/" yarn run start
+  ASSET_URL="http://localhost:9000/proxy" yarn run start
 */

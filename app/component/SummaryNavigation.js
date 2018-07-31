@@ -97,9 +97,9 @@ class SummaryNavigation extends React.Component {
   internalSetOffcanvas = newState => {
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
-        'Offcanvas',
-        'Customize Search',
-        newState ? 'close' : 'open',
+        'ItinerarySettings',
+        'ExtraSettingsPanelClick',
+        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
       );
     }
 
@@ -158,7 +158,7 @@ class SummaryNavigation extends React.Component {
                 background: 'transparent',
                 boxShadow: 'none',
                 // width: this.props.breakpoint !== 'large' ? '100%' : '600px',
-                ...(isOpen && { '-moz-transform': 'none' }), // needed to prevent showing an extra scrollbar in FF
+                ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}
             >

@@ -25,6 +25,15 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   toggleShowIntermediateStops = () => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'IntermediateStopsClick',
+        this.state.showIntermediateStops
+          ? 'IntermediateStopsCollapse'
+          : 'IntermediateStopsExpand',
+      );
+    }
     this.setState({ showIntermediateStops: !this.state.showIntermediateStops });
   };
 
@@ -57,6 +66,7 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const originalTime = this.props.leg.realTime &&
+      this.props.leg.departureDelay &&
       this.props.leg.departureDelay >=
         this.context.config.itinerary.delayThreshold && [
         <br key="br" />,
@@ -230,7 +240,7 @@ TransitLeg.propTypes = {
       }).isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
-    departureDelay: PropTypes.number.isRequired,
+    departureDelay: PropTypes.number,
     intermediateStops: PropTypes.arrayOf(
       PropTypes.shape({
         gtfsId: PropTypes.string.isRequired,
@@ -248,6 +258,7 @@ TransitLeg.propTypes = {
 TransitLeg.contextTypes = {
   focusFunction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  piwik: PropTypes.object,
 };
 
 export default TransitLeg;

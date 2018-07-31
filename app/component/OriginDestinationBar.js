@@ -26,6 +26,7 @@ export default class OriginDestinationBar extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
+    piwik: PropTypes.object,
   };
 
   state = {
@@ -71,6 +72,15 @@ export default class OriginDestinationBar extends React.Component {
         query: omit(location.query, ['intermediatePlaces']),
       });
     }
+
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ViaPointAddClick',
+        'AddViaPoint',
+      );
+    }
+
     this.setState({
       isViaPoint: val,
       viaPointNames: !val ? [' '] : this.state.viaPointNames,

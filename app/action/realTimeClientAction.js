@@ -1,3 +1,4 @@
+import ceil from 'lodash/ceil';
 import moment from 'moment';
 
 const modeTranslate = {
@@ -18,7 +19,7 @@ function getTopic(options) {
   return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
 }
 
-function parseMessage(topic, message, actionContext) {
+export function parseMessage(topic, message, actionContext) {
   let parsedMessage;
   const [
     ,
@@ -59,8 +60,8 @@ function parseMessage(topic, message, actionContext) {
     next_stop: nextStop,
     stop_index: parsedMessage.stop_index,
     timestamp: parsedMessage.tsi,
-    lat: parsedMessage.lat && parsedMessage.lat.toFixed(5),
-    long: parsedMessage.long && parsedMessage.long.toFixed(5),
+    lat: parsedMessage.lat && ceil(parsedMessage.lat, 5),
+    long: parsedMessage.long && ceil(parsedMessage.long, 5),
     heading: parsedMessage.hdg,
   };
 

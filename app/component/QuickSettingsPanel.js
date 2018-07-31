@@ -74,6 +74,14 @@ class QuickSettingsPanel extends React.Component {
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'LeavingArrivingSelection',
+        arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
+      );
+    }
+
     this.context.router.replace({
       pathname: this.context.location.pathname,
       query: {
@@ -84,6 +92,13 @@ class QuickSettingsPanel extends React.Component {
   };
 
   setQuickOption = name => {
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'ItineraryQuickSettingsSelection',
+        name,
+      );
+    }
     const chosenMode = quickOptions[name];
     this.context.router.replace({
       ...this.context.location,
@@ -132,13 +147,23 @@ class QuickSettingsPanel extends React.Component {
   };
 
   toggleTransportMode(mode, otpMode) {
+    const modes = xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+      ',',
+    );
+
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'QuickSettingsTransportModeSelection',
+        modes,
+      );
+    }
+
     this.context.router.replace({
       ...this.context.location,
       query: {
         ...this.context.location.query,
-        modes: xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-          ',',
-        ),
+        modes,
       },
     });
   }
@@ -161,9 +186,9 @@ class QuickSettingsPanel extends React.Component {
     /*
     if (this.context.piwik != null) {
       this.context.piwik.trackEvent(
-        'Offcanvas',
-        'Customize Search',
-        newState ? 'close' : 'open',
+        'ItinerarySettings',
+        'ExtraSettingsPanelClick',
+        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
       );
     }
     */

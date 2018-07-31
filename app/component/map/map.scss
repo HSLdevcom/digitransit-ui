@@ -77,6 +77,10 @@ div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
 
 .map .leaflet-bottom {
   z-index: $leaflet-overlay;
+
+  @media print {
+    display: none;
+  }
 }
 
 div.leaflet-container {
