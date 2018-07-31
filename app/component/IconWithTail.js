@@ -21,13 +21,13 @@ const IconWithTail = ({
     >
       {rotate !== undefined && (
         <use
-          filter={desaturate && 'url(#desaturate)'}
+          filter={desaturate ? 'url(#desaturate)' : undefined}
           xlinkHref="#icon-icon_vehicle-live-shadow"
           transform={`rotate(${rotate} 40 40)`}
         />
       )}
       <use
-        filter={desaturate && 'url(#desaturate)'}
+        filter={desaturate ? 'url(#desaturate)' : undefined}
         xlinkHref={`#${img}`}
         transform="translate(26 26) scale(0.35)  "
       />

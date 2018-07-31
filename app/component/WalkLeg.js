@@ -100,7 +100,7 @@ const walkLegShape = PropTypes.shape({
   mode: PropTypes.string.isRequired,
   rentedBike: PropTypes.bool,
   startTime: PropTypes.number.isRequired,
-}).isRequired;
+});
 
 WalkLeg.propTypes = {
   children: PropTypes.node,
