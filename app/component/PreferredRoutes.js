@@ -6,6 +6,7 @@ import { routerShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
+import RoutesRoute from '../route/RoutesRoute';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -59,20 +60,21 @@ class PreferredRoutes extends React.Component {
               {/* <RouteDetails gtfsId={o} /> */}
               <Relay.Renderer
                 Container={RouteDetails}
-                forceFetch
+                // queryConfig={new RoutesRoute({ ids: o.replace('_', ':') })}
                 queryConfig={{
                   name: 'RouteQuery',
                   queries: {
-                    root: () => Relay.QL`
-                    query {
-                          route(id: $gtfsId) {
-                            shortName
-                            longName
+                    route: Component => Relay.QL`
+                    query ($gtfsId: String!){
+                      route (id:$gtfsId) {
+                        ${Component.getFragment('route', {
+                          gtfsId: o.replace('_', ':'),
+                        })}
                           }
                         }
                     `,
                   },
-                  params: { gtfsId: o },
+                  params: { gtfsId: o.replace('_', ':') },
                 }}
                 environment={Relay.Store}
               />
