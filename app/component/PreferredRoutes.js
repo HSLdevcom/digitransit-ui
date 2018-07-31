@@ -6,7 +6,6 @@ import { routerShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import RouteDetails from './RouteDetails';
-import RoutesRoute from '../route/RoutesRoute';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -56,11 +55,8 @@ class PreferredRoutes extends React.Component {
               >
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
-              {o}
-              {/* <RouteDetails gtfsId={o} /> */}
               <Relay.Renderer
                 Container={RouteDetails}
-                // queryConfig={new RoutesRoute({ ids: o.replace('_', ':') })}
                 queryConfig={{
                   name: 'RouteQuery',
                   queries: {
@@ -83,7 +79,6 @@ class PreferredRoutes extends React.Component {
       </div>
     </div>
   );
-  /** */
 
   renderAvoidingRoutes = () => (
     <div className="avoid-routes-container">
