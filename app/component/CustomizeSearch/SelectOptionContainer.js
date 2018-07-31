@@ -144,7 +144,7 @@ const SelectOptionContainer = (
       <div className="select-container">
         <Select
           name={title}
-          selected={currentSelection}
+          selected={`${currentSelection}`}
           options={uniqBy(
             sortByValue
               ? selectOptions.sort((a, b) => a.value - b.value)
