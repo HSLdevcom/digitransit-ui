@@ -240,7 +240,8 @@ export const getSettings = () => {
       custSettings.preferred !== undefined ? custSettings.preferred : undefined,
     unpreferred:
       custSettings.unpreferred !== undefined
-        ? custSettings.unpreferred,
+        ? custSettings.unpreferred
+        : undefined,
   };
 };
 
