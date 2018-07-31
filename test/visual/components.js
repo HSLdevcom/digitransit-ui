@@ -231,6 +231,8 @@ testVariation('SummaryRow', 'passive-small-via', 11);
 testVariation('SummaryRow', 'active-large-via', 12);
 testVariation('SummaryRow', 'passive-small-call-agency', 13);
 testVariation('SummaryRow', 'active-large-call-agency', 14);
+testVariation('SummaryRow', 'passive-large-biking', 15);
+testVariation('SummaryRow', 'passive-small-biking', 16);
 
 testVariation('CallAgencyWarning');
 
