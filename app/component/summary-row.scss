@@ -42,7 +42,7 @@
   .itinerary-duration-and-distance {
     max-width: 4em;
     margin-top: $padding-small;
-    margin-left: 1em;
+    margin-left: $padding-medium;
   }
 
   .itinerary-duration {
@@ -50,6 +50,7 @@
     font-weight: $font-weight-bold;
   }
 
+  .itinerary-biking-distance,
   .itinerary-walking-distance {
     margin-top: -2px;
     color: $distance-gray;
@@ -112,6 +113,10 @@
         }
       }
     }
+  }
+
+  .itinerary-end-time-and-distance {
+    max-width: 4em;
   }
 
   .itinerary-end-time {
@@ -292,9 +297,13 @@
         margin-top: 19px;
       }
     }
+
     .itinerary-duration-and-distance {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 1em;
       width: 75px;
-      margin-top: 25px;
     }
 
     h2 {
@@ -306,6 +315,7 @@
       @include font-narrow-medium;
     }
 
+    .itinerary-biking-distance,
     .itinerary-walking-distance {
       font-size: 18px;
     }

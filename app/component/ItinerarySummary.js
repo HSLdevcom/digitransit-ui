@@ -2,7 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Duration from './Duration';
 import WalkDistance from './WalkDistance';
-import { getTotalWalkingDistance } from '../util/legUtils';
+import {
+  getTotalWalkingDistance,
+  getTotalBikingDistance,
+  containsBiking,
+} from '../util/legUtils';
 
 const ItinerarySummary = ({ itinerary, children }) => (
   <div className="itinerary-summary">
@@ -12,6 +16,13 @@ const ItinerarySummary = ({ itinerary, children }) => (
     />
     {children}
     <WalkDistance walkDistance={getTotalWalkingDistance(itinerary)} />
+    {containsBiking(itinerary) && (
+      <WalkDistance
+        className="biking-distance--itinerary-summary"
+        icon="icon_biking"
+        walkDistance={getTotalBikingDistance(itinerary)}
+      />
+    )}
   </div>
 );
 

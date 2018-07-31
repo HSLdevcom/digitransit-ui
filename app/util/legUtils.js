@@ -166,6 +166,13 @@ const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 
 /**
+ * Checks if any of the legs in the given itinerary contains biking.
+ *
+ * @param {*} itinerary the itinerary to check the legs for
+ */
+export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
+
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *

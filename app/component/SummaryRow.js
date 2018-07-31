@@ -16,6 +16,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import {
   getTotalWalkingDistance,
   isCallAgencyPickupType,
+  getTotalBikingDistance,
+  containsBiking,
 } from '../util/legUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -299,8 +301,20 @@ const SummaryRow = (
             <div className="itinerary-legs" key="legs">
               {legs}
             </div>,
-            <div className="itinerary-end-time" key="endtime">
-              {endTime.format('HH:mm')}
+            <div
+              className="itinerary-end-time-and-distance"
+              key="endtime-distance"
+            >
+              <div className="itinerary-end-time">
+                {endTime.format('HH:mm')}
+              </div>
+              {breakpoint !== 'large' &&
+                containsBiking(data) && (
+                  <div className="itinerary-biking-distance">
+                    <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
+                    {displayDistance(getTotalBikingDistance(data), config)}
+                  </div>
+                )}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -313,6 +327,13 @@ const SummaryRow = (
                 <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
                 {displayDistance(getTotalWalkingDistance(data), config)}
               </div>
+              {breakpoint === 'large' &&
+                containsBiking(data) && (
+                  <div className="itinerary-biking-distance">
+                    <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
+                    {displayDistance(getTotalBikingDistance(data), config)}
+                  </div>
+                )}
             </div>,
             <button
               title={itineraryLabel}
