@@ -9,7 +9,6 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
-  //align-items: center;
   user-select: none;
   $distance-gray: #7b7b7b;
   font-size: $font-size-normal;
@@ -37,7 +36,7 @@
   }
 
   .itinerary-timeframe {
-    padding-left:10px;
+    padding-left: 10px;
   }
 
   .itinerary-duration-and-distance {
@@ -135,13 +134,12 @@
       overflow: hidden;
       justify-content: center;
       &.large {
-          padding-top: 0;
+        padding-top: 0;
       }
       .route-number {
         width: 100%;
       }
     }
-
 
     .leg.via {
       flex: 1 1 0;
@@ -164,7 +162,9 @@
       width: 100%;
     }
 
-    .line.walk, .line.bicycle, .line.car {
+    .line.walk,
+    .line.bicycle,
+    .line.car {
       .bar-container {
         left: 2em;
       }
@@ -182,7 +182,7 @@
       right: 0;
       height: 100%;
       display: flex;
-      position:absolute;
+      position: absolute;
       align-items: center;
     }
 
@@ -200,7 +200,7 @@
       .bar-inner {
         width: 100%;
         height: 2px;
-        background-color: rgba(255,255,255,0.25);
+        background-color: rgba(255, 255, 255, 0.25);
       }
     }
 
@@ -261,25 +261,25 @@
     border-top: solid 1px $light-gray;
   }
   #IconWithBigCaution-default-id {
+    display: block;
+    span {
+      display: block;
+      &.subicon-caution {
+        font-size: 65%;
+        position: absolute;
+        left: -0.2em;
+        top: 1.1em;
+        .icon {
+          fill: #dc0451;
+          color: white;
           display: block;
-          span {
-            display: block;
-            &.subicon-caution {
-              font-size: 65%;
-              position: absolute;
-              left: -0.2em;
-              top: 1.1em;
-              .icon {
-                fill: #dc0451;
-                color: white;
-                display: block;
-                overflow: visible;
-                width: 13px;
-                height: 13px;
-              }
-            }
-          }
+          overflow: visible;
+          width: 13px;
+          height: 13px;
         }
+      }
+    }
+  }
 
   &.bp-large {
     min-height: 100px;
@@ -349,7 +349,6 @@
         margin-left: 6px;
         margin-top: 1px;
       }
-
     }
 
     .itinerary-end-time {
