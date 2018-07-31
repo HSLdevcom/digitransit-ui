@@ -152,7 +152,7 @@
     "gemini-browserstack": "1.1.0",
     "graphql": "0.13.2",
     "html-reporter": "1.2.0",
-    "iltorb": "2.3.2",
+    "iltorb": "2.4.0",
     "jsdom": "11.11.0",
     "mini-css-extract-plugin": "0.4.0",
     "mocha": "5.2.0",
