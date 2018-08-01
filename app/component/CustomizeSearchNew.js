@@ -106,16 +106,6 @@ class CustomizeSearch extends React.Component {
     });
   };
 
-  updateParameters = value => {
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        ...value,
-      },
-    });
-  };
-
   resetParameters = () => {
     const defaultValues = defaultSettings;
     defaultValues.modes = ModeUtils.getDefaultModes(
