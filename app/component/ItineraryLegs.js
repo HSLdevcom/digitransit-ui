@@ -193,6 +193,7 @@ class ItineraryLegs extends React.Component {
         ) {
           legs.push(
             <WaitLeg
+              index={j}
               key={`${j}w`}
               leg={leg}
               startTime={leg.endTime}

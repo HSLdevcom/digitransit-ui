@@ -1,4 +1,11 @@
-import { intersection, isEmpty, isString, sortedUniq, without } from 'lodash';
+import {
+  intersection,
+  isEmpty,
+  isString,
+  sortedUniq,
+  without,
+  xor,
+} from 'lodash';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 
@@ -228,4 +235,19 @@ export const setStreetMode = (
     isExclusive,
   );
   replaceQueryParams(router, modesQuery);
+};
+
+/**
+ * Updates the browser's url to reflect the selected transport mode.
+ *
+ * @param {*} transportMode The transport mode to select
+ * @param {*} config The configuration for the software installation
+ * @param {*} router The router
+ */
+export const toggleTransportMode = (transportMode, config, router) => {
+  const currentLocation = router.getCurrentLocation();
+  const modes = xor(getModes(currentLocation, config), [
+    transportMode.toUpperCase(),
+  ]).join(',');
+  replaceQueryParams(router, { modes });
 };

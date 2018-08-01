@@ -19,6 +19,7 @@ export const defaultSettings = {
   walkReluctance: 2,
   walkSpeed: 1.2,
   ticketTypes: 'none',
+  bikeSpeed: 5,
 };
 
 // These values need to be null so if no values for the variables are defined somewhere else,
