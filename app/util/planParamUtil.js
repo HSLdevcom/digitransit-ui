@@ -21,6 +21,7 @@ export const defaultSettings = {
   ticketTypes: 'none',
   preferred: undefined,
   unpreferred: undefined,
+  bikeSpeed: 5,
 };
 
 // These values need to be null so if no values for the variables are defined somewhere else,
