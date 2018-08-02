@@ -39,16 +39,13 @@ module.exports = {
         'browserstack.video': false,
       },
     },
-    safari10: {
+    safari11: {
       windowSize: '600x1024',
       desiredCapabilities: {
         os: 'OS X',
-        os_version: 'Sierra',
+        os_version: 'High Sierra',
         browserName: 'safari',
-        version: '10.1',
-        'safari.options': {
-          technologyPreview: true,
-        },
+        version: '11.1',
         locationContextEnabled: false,
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,
