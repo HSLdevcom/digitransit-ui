@@ -18,6 +18,7 @@ import {
   isCallAgencyPickupType,
   getTotalBikingDistance,
   containsBiking,
+  onlyBiking,
 } from '../util/legUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -256,6 +257,15 @@ const SummaryRow = (
     defaultMessage: 'Itinerary',
   });
 
+  const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
+  const renderBikingDistance = itinerary =>
+    containsBiking(itinerary) && (
+      <div className="itinerary-biking-distance">
+        <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
+        {displayDistance(getTotalBikingDistance(itinerary), config)}
+      </div>
+    );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className={classes} onClick={() => props.onSelect(props.hash)}>
@@ -308,13 +318,7 @@ const SummaryRow = (
               <div className="itinerary-end-time">
                 {endTime.format('HH:mm')}
               </div>
-              {breakpoint !== 'large' &&
-                containsBiking(data) && (
-                  <div className="itinerary-biking-distance">
-                    <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
-                    {displayDistance(getTotalBikingDistance(data), config)}
-                  </div>
-                )}
+              {isDefaultPosition && renderBikingDistance(data)}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -323,17 +327,13 @@ const SummaryRow = (
               <span className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </span>
-              <div className="itinerary-walking-distance">
-                <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                {displayDistance(getTotalWalkingDistance(data), config)}
-              </div>
-              {breakpoint === 'large' &&
-                containsBiking(data) && (
-                  <div className="itinerary-biking-distance">
-                    <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
-                    {displayDistance(getTotalBikingDistance(data), config)}
-                  </div>
-                )}
+              {!isDefaultPosition && renderBikingDistance(data)}
+              {!onlyBiking(data) && (
+                <div className="itinerary-walking-distance">
+                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                  {displayDistance(getTotalWalkingDistance(data), config)}
+                </div>
+              )}
             </div>,
             <button
               title={itineraryLabel}
