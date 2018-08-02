@@ -44,7 +44,7 @@ export default {
     duration: 926,
     fares: null,
   },
-  bikingBeforeWalking: {
+  bikingAndWalking: {
     startTime: 1533206085000,
     endTime: 1533206899000,
     legs: [

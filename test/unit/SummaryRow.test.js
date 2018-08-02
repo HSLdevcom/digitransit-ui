@@ -40,11 +40,11 @@ describe('<SummaryRow />', () => {
   it('should show biking distance before walking distance in desktop view', () => {
     const props = {
       breakpoint: 'large',
-      data: data.bikingBeforeWalking,
+      data: data.bikingAndWalking,
       hash: 1,
       onSelect: () => {},
       onSelectImmediately: () => {},
-      refTime: data.bikingBeforeWalking.startTime,
+      refTime: data.bikingAndWalking.startTime,
     };
     const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
       context: { config: {} },

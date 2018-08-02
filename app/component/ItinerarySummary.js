@@ -6,6 +6,7 @@ import {
   getTotalWalkingDistance,
   getTotalBikingDistance,
   containsBiking,
+  onlyBiking,
 } from '../util/legUtils';
 
 const ItinerarySummary = ({ itinerary, children }) => (
@@ -15,13 +16,15 @@ const ItinerarySummary = ({ itinerary, children }) => (
       className="duration--itinerary-summary"
     />
     {children}
-    <WalkDistance walkDistance={getTotalWalkingDistance(itinerary)} />
     {containsBiking(itinerary) && (
       <WalkDistance
         className="biking-distance--itinerary-summary"
         icon="icon_biking"
         walkDistance={getTotalBikingDistance(itinerary)}
       />
+    )}
+    {!onlyBiking(itinerary) && (
+      <WalkDistance walkDistance={getTotalWalkingDistance(itinerary)} />
     )}
   </div>
 );
