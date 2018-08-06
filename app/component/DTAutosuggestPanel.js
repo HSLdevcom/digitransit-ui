@@ -192,63 +192,61 @@ class DTAutosuggestPanel extends React.Component {
                 <div className="viapoint-before_line-bottom" />
                 */}
               </div>
-                <DTEndpointAutosuggest
-                  id="viapoint"
-                  autoFocus={
-                    // Disable autofocus if using IE11
-                    isIe ? false : this.context.breakpoint === 'large'
+              <DTEndpointAutosuggest
+                id="viapoint"
+                autoFocus={
+                  // Disable autofocus if using IE11
+                  isIe ? false : this.context.breakpoint === 'large'
+                }
+                refPoint={this.props.origin}
+                searchType="endpoint"
+                placeholder="via-point"
+                className="viapoint"
+                isFocused={this.isFocused}
+                value={o.split('::')[0]}
+                onLocationSelected={item => this.checkInputForViapoint(item, i)}
+              />
+              <div className="viapoint-controls">
+                <div
+                  className="addViaPointSlack"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display: !this.props.isViaPoint ? 'none' : 'block',
+                  }}
+                  onClick={() => this.showSlackInput(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) && this.showSlackInput(i)
                   }
-                  refPoint={this.props.origin}
-                  searchType="endpoint"
-                  placeholder="via-point"
-                  className="viapoint"
-                  isFocused={this.isFocused}
-                  value={o.split('::')[0]}
-                  onLocationSelected={item =>
-                    this.checkInputForViapoint(item, i)
+                >
+                  <span>
+                    <Icon img="icon-icon_time" />
+                  </span>
+                </div>
+                <div
+                  className="removeViaPoint"
+                  role="button"
+                  tabIndex={0}
+                  style={{
+                    display: !this.props.isViaPoint ? 'none' : 'block',
+                  }}
+                  onClick={() =>
+                    this.props.viaPointNames.length > 1
+                      ? this.props.removeViapoints(i)
+                      : this.props.toggleViaPoint(false)
                   }
-                />
-                <div className="viapoint-controls">
-                  <div
-                    className="addViaPointSlack"
-                    role="button"
-                    tabIndex={0}
-                    style={{
-                      display: !this.props.isViaPoint ? 'none' : 'block',
-                    }}
-                    onClick={() => this.showSlackInput(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) && this.showSlackInput(i)
-                    }
-                  >
-                    <span>
-                      <Icon img="icon-icon_time" />
-                    </span>
-                  </div>
-                  <div
-                    className="removeViaPoint"
-                    role="button"
-                    tabIndex={0}
-                    style={{
-                      display: !this.props.isViaPoint ? 'none' : 'block',
-                    }}
-                    onClick={() =>
-                      this.props.viaPointNames.length > 1
-                        ? this.props.removeViapoints(i)
-                        : this.props.toggleViaPoint(false)
-                    }
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.props.viaPointNames.length > 1
-                        ? this.props.removeViapoints(i)
-                        : this.props.toggleViaPoint(false)
-                    }
-                  >
-                    <span>
-                      <Icon img="icon-icon_close" />
-                    </span>
-                  </div>
-                  {/*
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.props.viaPointNames.length > 1
+                      ? this.props.removeViapoints(i)
+                      : this.props.toggleViaPoint(false)
+                  }
+                >
+                  <span>
+                    <Icon img="icon-icon_close" />
+                  </span>
+                </div>
+                {/*
                 <div
                   className="addViaPoint more"
                   role="button"
@@ -271,35 +269,44 @@ class DTAutosuggestPanel extends React.Component {
                   </span>
                 </div>
                 */}
-                </div>
+              </div>
 
-                <div
-                  className={cx(['input-viapoint-slack-container'])}
-                  style={{
-                    display:
-                      this.state.activeSlackInputs.filter(o2 => o2 === i)
-                        .length > 0
-                        ? 'flex'
-                        : 'none',
-                  }}
-                >
-                  <FormattedMessage
-                    defaultMessage="viapoint-slack-amount"
-                    id="viapoint-slack-amount"
+              <div
+                className={cx(['input-viapoint-slack-container'])}
+                style={{
+                  display:
+                    this.state.activeSlackInputs.filter(o2 => o2 === i).length >
+                    0
+                      ? 'flex'
+                      : 'none',
+                }}
+              >
+                <FormattedMessage
+                  defaultMessage="viapoint-slack-amount"
+                  id="viapoint-slack-amount"
+                />
+                <div className="select-wrapper">
+                  <Select
+                    name="viapoint-slack-amount"
+                    selected="20min"
+                    options={[
+                      {
+                        displayName: 'none',
+                        displayNameObject: this.context.intl.formatMessage({
+                          defaultMessage: '20min',
+                          id: '20min',
+                        }),
+                        value: 20,
+                      },
+                    ]}
+                    onSelectChange={e => console.log(e.target.value)}
                   />
-                  <div className="select-wrapper">
-                    <Select
-                      name="viapoint-slack-amount"
-                      selected="20min"
-                      options={['20min']}
-                      onSelectChange={e => console.log(e.target.value)}
-                    />
-                    <Icon
-                      className="fake-select-arrow"
-                      img="icon-icon_arrow-dropdown"
-                    />
-                  </div>
+                  <Icon
+                    className="fake-select-arrow"
+                    img="icon-icon_arrow-dropdown"
+                  />
                 </div>
+              </div>
             </div>
           ))}
       </div>
