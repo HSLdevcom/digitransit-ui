@@ -378,6 +378,8 @@ div.map {
 
   .viapoint-input-container {
     position: relative;
+    flex: 1 0 100%;
+    flex-direction: column;
   }
 
   .dark-overlay {
@@ -464,6 +466,34 @@ div.map {
   }
 }
 
+.viapoint-additions-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.destination-bar-container.viaPointsAvailable {
+  display: flex;
+  position: relative;
+  .addViaPoint.more {
+    color: $link-color;
+    margin-left: 1.5em;
+    margin-top: 0.7em;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    right: -2.5em;
+
+    &:hover {
+      color: #0062a1;
+    }
+  }
+}
+
+.viapoints-list {
+  width: 90%;
+}
+
 .viapoint-controls {
   display: flex;
   justify-content: center;
@@ -485,6 +515,18 @@ div.map {
     .more {
       position: absolute;
       right: 0;
+    }
+  }
+
+  .addViaPointSlack {
+    color: $link-color;
+    font-size: 1.1em;
+    padding-right: 0.6em;
+    margin-right: 0.6em;
+    border-right: 1px solid rgba(151,151,151, 0.2);
+    cursor: pointer;
+    &:hover {
+      color: #0062a1;
     }
   }
 
@@ -692,13 +734,68 @@ input.react-autosuggest__input {
   color: #4e4e4e;
   text-align: center;
   font-size: 1.3em;
-  .viapoint-before_line-top,
-  .viapoint-before_line-bottom {
-    height: 0.6em;
-    background: #d6d8da;
-    width: 2px;
-    margin: 0 auto;
-    margin-top: -0.25em;
+  .icon {
+    position: absolute;
+    left: 0;
+    transform: rotate(90deg);
+    top: 0.4em;
+  }
+}
+
+.input-viapoint-slack-container {
+  display: flex;
+  flex: 1 0 100%;
+  margin-bottom: 0.5em;
+  .select-wrapper {
+    display: flex;
+    flex-direction: row;
+    color: $link-color;
+    margin-left: 0.5em;
+    width: 50%;
+    > span {
+      margin-left: -1.4rem;
+      pointer-events: none;
+    }
+     .fake-select-arrow {
+        font-size: 0.7rem;
+        color: #007ac9;
+        margin-top: 1em;
+    }
+  }
+
+select {
+    vertical-align: middle;
+    text-align: left;
+    margin: 0;
+    padding: 0 1rem 0 0.9em;
+    font-family: $font-family;
+    font-size: $font-size-xxsmall;
+    display: inline-block;
+    background-color: $white;
+    color: $link-color;
+    border-radius: 5px;
+    border: solid 1px #ddd;
+    appearance: none;
+    font-weight: 700;
+    height: 2.6em;
+
+    &:hover {
+      background-color: $white;
+      border: solid 1px #007ac9;
+      //outline: none;
+    }
+    &:focus {
+      background-color: $white;
+      //outline: none;
+    }
+    &.text-time-selector, &.desktop {
+      padding: 0 0.5em 0 0.5em;
+      margin: 0 -0.5em 0 0;
+      text-align: center;
+    }
+    &.arrive, &.select-route-modes {
+        width: 100%;
+    }
   }
 }
 
