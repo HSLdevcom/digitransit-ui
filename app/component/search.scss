@@ -499,8 +499,7 @@ div.map {
   justify-content: center;
   padding-top: 0.5em;
   position: absolute;
-  right: -3.75em;
-  width: 3em;
+  right: -5em;
 
   .addViaPoint {
     color: $link-color;
@@ -520,7 +519,7 @@ div.map {
 
   .addViaPointSlack {
     color: $link-color;
-    font-size: 1.1em;
+    font-size: 1.2em;
     padding-right: 0.6em;
     margin-right: 0.6em;
     border-right: 1px solid rgba(151,151,151, 0.2);
@@ -533,7 +532,7 @@ div.map {
   .removeViaPoint {
     color: $link-color;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.2em;
     text-align: center;
 
     span {
@@ -543,7 +542,7 @@ div.map {
 }
 
 .small .viapoint-controls {
-  right: -3.5em;
+  right: -4.4em;
 }
 
 .mobile .itinerary-search-controls {
@@ -574,6 +573,10 @@ div.map {
         margin: 0;
         padding: 0;
         position: static;
+        width: 100%;
+      }
+      &.viapoint {
+        padding-left: 1.5em;
         width: 100%;
       }
     }
@@ -727,6 +730,11 @@ input.react-autosuggest__input {
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
   }
+
+  &.viapoint {
+    margin-left: 1.5em;
+    width: 98%;
+  }
 }
 
 .viapoint-before {
@@ -739,6 +747,7 @@ input.react-autosuggest__input {
     left: 0;
     transform: rotate(90deg);
     top: 0.4em;
+    color: rgb(207, 207, 207);
   }
 }
 
@@ -746,12 +755,16 @@ input.react-autosuggest__input {
   display: flex;
   flex: 1 0 100%;
   margin-bottom: 0.5em;
+  margin-left: 2.5em;
+  span {
+    font-weight: 400;
+  }
   .select-wrapper {
     display: flex;
     flex-direction: row;
     color: $link-color;
     margin-left: 0.5em;
-    width: 50%;
+    flex: 1 0 3em;
     > span {
       margin-left: -1.4rem;
       pointer-events: none;
