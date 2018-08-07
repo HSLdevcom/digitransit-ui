@@ -67,8 +67,6 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   showSlackInput = index => {
-    console.log(`show slack input ${index}`);
-    console.log(this.state.activeSlackInputs);
     this.setState({
       showInputSlack: !this.state.showInputSlack,
       activeSlackInputs:
@@ -184,13 +182,6 @@ class DTAutosuggestPanel extends React.Component {
             >
               <div className="viapoint-before">
                 <Icon img="icon-icon_ellipsis" />
-                {/*
-                <div className="viapoint-before_line-top" />
-                <div className="viapoint-icon">
-                  <Icon img="icon-icon_place" />
-                </div>
-                <div className="viapoint-before_line-bottom" />
-                */}
               </div>
               <DTEndpointAutosuggest
                 id="viapoint"
@@ -246,29 +237,6 @@ class DTAutosuggestPanel extends React.Component {
                     <Icon img="icon-icon_close" />
                   </span>
                 </div>
-                {/*
-                <div
-                  className="addViaPoint more"
-                  role="button"
-                  tabIndex={0}
-                  style={{
-                    display:
-                      !this.props.isViaPoint ||
-                      this.props.viaPointNames.length > 4
-                        ? 'none'
-                        : 'block',
-                  }}
-                  onClick={() => this.props.addMoreViapoints(i)}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    this.props.addMoreViapoints(i)
-                  }
-                >
-                  <span>
-                    <Icon img="icon-icon_plus" />
-                  </span>
-                </div>
-                */}
               </div>
 
               <div
