@@ -56,13 +56,13 @@ class DTAutosuggestPanel extends React.Component {
   getSlackTimeOptions = () => {
     const timeOptions = [];
     for (let i = 0; i <= 9; i++) {
+      const value = i * 10;
       timeOptions.push({
-        displayName: 'none',
-        displayNameObject: this.context.intl.formatMessage({
-          defaultMessage: `${i * 10} min`,
-          id: `${i * 10} min`,
-        }),
-        value: i * 10,
+        displayName: `${i}`,
+        displayNameObject: `${value} ${this.context.intl.formatMessage({
+          id: 'minute-short',
+        })}`,
+        value,
       });
     }
     return timeOptions;
@@ -80,13 +80,13 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ showDarkOverlay: val });
   };
 
-  showSlackInput = index => {
+  showSlackInput = val => {
     this.setState({
       showInputSlack: !this.state.showInputSlack,
       activeSlackInputs:
-        this.state.activeSlackInputs.filter(o => o === index).length > 0
-          ? this.state.activeSlackInputs.filter(o => o !== index)
-          : this.state.activeSlackInputs.concat([index]),
+        this.state.activeSlackInputs.filter(o => o === val).length > 0
+          ? this.state.activeSlackInputs.filter(o => o !== val)
+          : this.state.activeSlackInputs.concat([val]),
     });
   };
 
@@ -224,9 +224,10 @@ class DTAutosuggestPanel extends React.Component {
                     style={{
                       display: !this.props.isViaPoint ? 'none' : 'block',
                     }}
-                    onClick={() => this.showSlackInput(i)}
+                    onClick={() => this.showSlackInput(o.split('::')[0])}
                     onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) && this.showSlackInput(i)
+                      isKeyboardSelectionEvent(e) &&
+                      this.showSlackInput(o.split('::')[0])
                     }
                   >
                     <span>
@@ -262,8 +263,9 @@ class DTAutosuggestPanel extends React.Component {
                   className={cx(['input-viapoint-slack-container'])}
                   style={{
                     display:
-                      this.state.activeSlackInputs.filter(o2 => o2 === i)
-                        .length > 0
+                      this.state.activeSlackInputs.filter(
+                        o2 => o2 === o.split('::')[0],
+                      ).length > 0
                         ? 'flex'
                         : 'none',
                   }}
