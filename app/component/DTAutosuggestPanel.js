@@ -195,7 +195,7 @@ class DTAutosuggestPanel extends React.Component {
               <div
                 className={`viapoint-input-container viapoint-${i + 1}`}
                 // eslint-disable-next-line
-              key={`viapoint-${o === ' ' && 'empty'}${i}`}
+                key={`viapoint-${o === ' ' && 'empty'}${i}`}
               >
                 <div className="viapoint-before">
                   <Icon img="icon-icon_ellipsis" />
@@ -277,7 +277,7 @@ class DTAutosuggestPanel extends React.Component {
                   <div className="select-wrapper">
                     <Select
                       name="viapoint-slack-amount"
-                      selected={0}
+                      selected="0"
                       options={slackTime}
                       onSelectChange={e => console.log(e.target.value)}
                     />
