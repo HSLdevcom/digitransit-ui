@@ -58,8 +58,13 @@ TimetableRow.propTypes = {
       scheduledDeparture: PropTypes.number.isRequired,
     }),
   ).isRequired,
-  showRoutes: PropTypes.array,
-  timerows: PropTypes.array,
+  showRoutes: PropTypes.arrayOf(PropTypes.string),
+  timerows: PropTypes.arrayOf(PropTypes.string),
+};
+
+TimetableRow.defaultProps = {
+  showRoutes: [],
+  timerows: [],
 };
 
 export default TimetableRow;
