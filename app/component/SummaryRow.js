@@ -16,6 +16,9 @@ import ComponentUsageExample from './ComponentUsageExample';
 import {
   getTotalWalkingDistance,
   isCallAgencyPickupType,
+  getTotalBikingDistance,
+  containsBiking,
+  onlyBiking,
 } from '../util/legUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -254,6 +257,15 @@ const SummaryRow = (
     defaultMessage: 'Itinerary',
   });
 
+  const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
+  const renderBikingDistance = itinerary =>
+    containsBiking(itinerary) && (
+      <div className="itinerary-biking-distance">
+        <Icon img="icon-icon_biking" viewBox="0 0 40 40" />
+        {displayDistance(getTotalBikingDistance(itinerary), config)}
+      </div>
+    );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div className={classes} onClick={() => props.onSelect(props.hash)}>
@@ -299,8 +311,14 @@ const SummaryRow = (
             <div className="itinerary-legs" key="legs">
               {legs}
             </div>,
-            <div className="itinerary-end-time" key="endtime">
-              {endTime.format('HH:mm')}
+            <div
+              className="itinerary-end-time-and-distance"
+              key="endtime-distance"
+            >
+              <div className="itinerary-end-time">
+                {endTime.format('HH:mm')}
+              </div>
+              {isDefaultPosition && renderBikingDistance(data)}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -309,10 +327,13 @@ const SummaryRow = (
               <span className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </span>
-              <div className="itinerary-walking-distance">
-                <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                {displayDistance(getTotalWalkingDistance(data), config)}
-              </div>
+              {!isDefaultPosition && renderBikingDistance(data)}
+              {!onlyBiking(data) && (
+                <div className="itinerary-walking-distance">
+                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                  {displayDistance(getTotalWalkingDistance(data), config)}
+                </div>
+              )}
             </div>,
             <button
               title={itineraryLabel}
@@ -518,6 +539,50 @@ const exampleDataCallAgency = t1 => ({
   ],
 });
 
+const exampleDataBiking = t1 => ({
+  startTime: t1,
+  endTime: t1 + 1080000,
+  walkDistance: 770,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 10000,
+      endTime: t1 + 20000,
+      mode: 'WALK',
+      distance: 483.84600000000006,
+      duration: 438,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Messuaukio 1, Helsinki' },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 20000,
+      endTime: t1 + 30000,
+      mode: 'BICYCLE',
+      distance: 586.4621425755712,
+      duration: 120,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Ilmattarentie' },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: t1 + 30000,
+      endTime: t1 + 40000,
+      mode: 'WALK',
+      distance: 291.098,
+      duration: 259,
+      rentedBike: false,
+      route: null,
+      from: { name: 'Veturitie' },
+    },
+  ],
+});
+
 const nop = () => {};
 
 SummaryRow.description = () => {
@@ -673,6 +738,28 @@ SummaryRow.description = () => {
           refTime={today}
           breakpoint="large"
           data={exampleDataCallAgency(today)}
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-large-biking">
+        <SummaryRow
+          refTime={today}
+          breakpoint="large"
+          data={exampleDataBiking(today)}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="passive-small-biking">
+        <SummaryRow
+          refTime={today}
+          breakpoint="small"
+          data={exampleDataBiking(today)}
+          passive
           onSelect={nop}
           onSelectImmediately={nop}
           hash={1}
