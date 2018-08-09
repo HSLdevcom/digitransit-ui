@@ -32,7 +32,7 @@ class PreferredRoutes extends React.Component {
       </h1>
       <DTEndpointAutosuggest
         placeholder="give-route"
-        searchType="all"
+        searchType="search"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
         onRouteSelected={val =>
