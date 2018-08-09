@@ -16,16 +16,16 @@ class ItineraryCircleLine extends React.Component {
     color: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMounted: false,
-    };
-  }
+  state = {
+    imageUrl: 'none',
+  };
 
   componentDidMount() {
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ isMounted: true });
+    import(/* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line-bg.png`).then(
+      imageUrl => {
+        this.setState({ imageUrl: `url(${imageUrl.default})` });
+      },
+    );
   }
 
   getMarker = () => {
@@ -72,13 +72,12 @@ class ItineraryCircleLine extends React.Component {
     const legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
-      this.state.isMounted &&
       (this.props.modeClassName === 'walk' ||
         this.props.modeClassName === 'bicycle' ||
         this.props.modeClassName === 'bicycle_walk')
     ) {
       // eslint-disable-next-line global-require
-      legBeforeLineStyle.backgroundImage = `url(${require(`../configurations/images/default/dotted-line-bg.png`)})`;
+      legBeforeLineStyle.backgroundImage = this.state.imageUrl;
     }
 
     return (
