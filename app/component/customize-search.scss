@@ -72,8 +72,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
 
     input[type='checkbox'] {
-      visibility: hidden;
       height: 20px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      visibility: hidden;
       width: 20px;
     }
   }
