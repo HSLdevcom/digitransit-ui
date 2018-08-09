@@ -44,7 +44,7 @@ class CustomizeSearch extends React.Component {
   };
 
   onRouteSelected = (val, preferType) => {
-    const routeToAdd = val.properties.gtfsId.replace(':', '_');
+    const routeToAdd = val.properties.gtfsId.replace(':', '__');
     const currentRoutes =
       this.getCurrentOptions()[preferType] &&
       (this.getCurrentOptions()[preferType].match(/[,]/)

@@ -64,13 +64,13 @@ class PreferredRoutes extends React.Component {
                     query ($gtfsId: String!){
                       route (id:$gtfsId) {
                         ${Component.getFragment('route', {
-                          gtfsId: o.replace('_', ':'),
+                          gtfsId: o.replace('__', ':'),
                         })}
                           }
                         }
                     `,
                   },
-                  params: { gtfsId: o.replace('_', ':') },
+                  params: { gtfsId: o.replace('__', ':') },
                 }}
                 environment={Relay.Store}
               />
