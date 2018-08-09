@@ -43,7 +43,7 @@ module.exports = {
     customizeSearch.disableAllModalitiesExcept('citybike');
     customizeSearch.enableModality('citybike');
 
-    browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
+    browser.page.itinerarySummary().waitForItineraryRowOfType('citybike', 30);
 
     browser.end();
   },

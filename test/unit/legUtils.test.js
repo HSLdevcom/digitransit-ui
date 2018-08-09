@@ -94,6 +94,67 @@ describe('legUtils', () => {
       const distance = utils.getTotalWalkingDistance(itinerary);
       expect(distance).to.equal(3);
     });
+
+    it('should include bicycle_walk legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            distance: 1,
+            mode: utils.LegMode.Walk,
+          },
+          {
+            distance: 2,
+            mode: utils.LegMode.BicycleWalk,
+          },
+        ],
+      };
+      const distance = utils.getTotalWalkingDistance(itinerary);
+      expect(distance).to.equal(3);
+    });
+  });
+
+  describe('getTotalBikingDistance', () => {
+    it('should return 0 if there are no legs available', () => {
+      const itinerary = {
+        legs: [],
+      };
+      const distance = utils.getTotalBikingDistance(itinerary);
+      expect(distance).to.equal(0);
+    });
+
+    it('should include bicycle legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            distance: 1,
+            mode: utils.LegMode.Bicycle,
+          },
+          {
+            distance: 2,
+            mode: utils.LegMode.Walk,
+          },
+        ],
+      };
+      const distance = utils.getTotalBikingDistance(itinerary);
+      expect(distance).to.equal(1);
+    });
+
+    it('should include citybike legs', () => {
+      const itinerary = {
+        legs: [
+          {
+            distance: 1,
+            mode: utils.LegMode.CityBike,
+          },
+          {
+            distance: 2,
+            mode: utils.LegMode.Walk,
+          },
+        ],
+      };
+      const distance = utils.getTotalBikingDistance(itinerary);
+      expect(distance).to.equal(1);
+    });
   });
 
   const originalLegs = [

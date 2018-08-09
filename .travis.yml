@@ -51,7 +51,7 @@ jobs:
       node_js: "8"
       script: test/visual.sh
     - stage: visual
-      env: VISUAL=safari10
+      env: VISUAL=safari11
       node_js: "8"
       script: test/visual.sh
     - stage: visual
