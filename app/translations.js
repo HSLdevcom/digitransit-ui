@@ -611,6 +611,7 @@ const translations = {
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
+    'kilometers-per-hour': '{number} km/h',
     later: 'Later',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
@@ -658,8 +659,15 @@ const translations = {
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
+    'number-of-minutes':
+      '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'option-default': 'Default',
+    'option-least': 'Least',
+    'option-less': 'Less',
+    'option-more': 'More',
+    'option-most': 'Most',
     or: 'or',
     origin: 'Origin',
     'origin-outside-service':
