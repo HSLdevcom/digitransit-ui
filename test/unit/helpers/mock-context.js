@@ -26,6 +26,7 @@ export const mockContext = {
       isLocationingInProgress: false,
       locationingFailed: false,
     }),
+    getMessages: () => [],
     removeListener: noop,
   }),
   location: {
