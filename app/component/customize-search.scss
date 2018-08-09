@@ -47,16 +47,15 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
         border: #007ac9 1px solid;
 
         &:before {
-          content: '✔';
-          font-size: 1em;
+          content: "#{'\2714 \fe0e'}";
+          font-size: 1.25em;
           line-height: 1;
           color: $primary-color;
           font-weight: 700;
           font-family: $font-family;
-          margin-left: 0.2em;
+          margin-left: 0.1em;
           margin-top: 0.2em;
           transform: rotateY(15deg);
-          position: absolute;
         }
 
         &.disabled:before {
