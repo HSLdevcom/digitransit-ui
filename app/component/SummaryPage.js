@@ -163,7 +163,7 @@ class SummaryPage extends React.Component {
         .join(','),
       maxWalkDistance: config.maxWalkDistance,
       itineraryFiltering: config.itineraryFiltering,
-      preferred: { agencies: config.preferredAgency || '' },
+      preferred: { routes: '' },
       unpreferred: { routes: '' },
     };
   };

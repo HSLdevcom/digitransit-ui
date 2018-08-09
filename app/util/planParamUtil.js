@@ -357,8 +357,7 @@ export const preparePlanParams = config => (
               )
             : null,
         preferred: {
-          agencies: config.preferredAgency || '',
-          routes: preferred !== undefined ? preferred : settings.preferred,
+          routes: preferred || settings.preferred,
         },
         unpreferred: {
           routes: unpreferred || settings.unpreferred,
