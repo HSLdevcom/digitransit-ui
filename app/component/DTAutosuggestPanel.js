@@ -48,7 +48,6 @@ class DTAutosuggestPanel extends React.Component {
     super(props);
     this.state = {
       showDarkOverlay: false,
-      showInputSlack: false,
       activeSlackInputs: [],
     };
   }
@@ -82,7 +81,6 @@ class DTAutosuggestPanel extends React.Component {
 
   showSlackInput = val => {
     this.setState({
-      showInputSlack: !this.state.showInputSlack,
       activeSlackInputs:
         this.state.activeSlackInputs.filter(o => o === val).length > 0
           ? this.state.activeSlackInputs.filter(o => o !== val)
