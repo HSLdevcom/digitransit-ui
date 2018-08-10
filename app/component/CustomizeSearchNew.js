@@ -43,9 +43,26 @@ class CustomizeSearch extends React.Component {
     isOpen: false,
   };
 
-  onRouteSelected = val => {
-    console.log(val);
-    // TODO: Implement preferred routes feature here
+  onRouteSelected = (val, preferType) => {
+    const routeToAdd = val.properties.gtfsId.replace(':', '__');
+    const currentRoutes =
+      this.getCurrentOptions()[preferType] &&
+      (this.getCurrentOptions()[preferType].match(/[,]/)
+        ? this.getCurrentOptions()[preferType].split(',')
+        : [this.getCurrentOptions()[preferType]]);
+
+    let updatedValue;
+    if (currentRoutes) {
+      updatedValue =
+        currentRoutes.filter(o => o === routeToAdd).length === 0 &&
+        currentRoutes.concat([routeToAdd]).toString();
+    } else {
+      updatedValue = routeToAdd;
+    }
+
+    if (updatedValue) {
+      replaceQueryParams(this.context.router, { [preferType]: updatedValue });
+    }
   };
 
   getCurrentOptions = () => {
@@ -76,6 +93,17 @@ class CustomizeSearch extends React.Component {
       return modes;
     }
     return [];
+  };
+
+  removeRoute = (val, preferType) => {
+    const currentRoutes =
+      this.getCurrentOptions()[preferType] &&
+      (this.getCurrentOptions()[preferType].match(/[,]/)
+        ? this.getCurrentOptions()[preferType].split(',')
+        : [this.getCurrentOptions()[preferType]]);
+    replaceQueryParams(this.context.router, {
+      [preferType]: currentRoutes.filter(o => o !== val).toString(),
+    });
   };
 
   resetParameters = () => {
@@ -185,7 +213,17 @@ class CustomizeSearch extends React.Component {
                 replaceQueryParams(router, { ticketTypes: value })
               }
             />
-            <PreferredRoutes onRouteSelected={this.onRouteSelected} />
+            <PreferredRoutes
+              onRouteSelected={this.onRouteSelected}
+              preferredRoutes={
+                currentOptions.preferred && currentOptions.preferred.split(',')
+              }
+              unPreferredRoutes={
+                currentOptions.unpreferred &&
+                currentOptions.unpreferred.split(',')
+              }
+              removeRoute={this.removeRoute}
+            />
             <div className="settings-option-container">
               <RoutePreferencesSection />
             </div>
