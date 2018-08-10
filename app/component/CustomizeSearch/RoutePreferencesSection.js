@@ -5,19 +5,19 @@ import Checkbox from '../Checkbox';
 
 const getRoutePreferences = () => [
   {
-    name: 'paved',
+    name: 'route-prefer-paved',
     defaultMessage: 'Prefer paved routes',
   },
   {
-    name: 'greenways',
+    name: 'route-prefer-greenways',
     defaultMessage: 'Prefer cycleways',
   },
   {
-    name: 'winter-maintenance',
+    name: 'route-prefer-winter-maintenance',
     defaultMessage: 'Prefer routes with winter maintenance',
   },
   {
-    name: 'illuminated',
+    name: 'route-prefer-illuminated',
     defaultMessage: 'Prefer illuminated routes',
   },
 ];
