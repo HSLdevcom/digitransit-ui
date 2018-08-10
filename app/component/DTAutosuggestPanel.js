@@ -14,7 +14,7 @@ import withBreakpoint from '../util/withBreakpoint';
 /**
  * Launches route search if both origin and destination are set.
  */
-export class DTAutosuggestPanel extends React.Component {
+class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -381,4 +381,8 @@ export class DTAutosuggestPanel extends React.Component {
   };
 }
 
-export default withBreakpoint(DTAutosuggestPanel);
+const DTAutosuggestPanelWithBreakpoint = withBreakpoint(DTAutosuggestPanel);
+export {
+  DTAutosuggestPanel as component,
+  DTAutosuggestPanelWithBreakpoint as default,
+};

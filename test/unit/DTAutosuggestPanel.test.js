@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
-import { DTAutosuggestPanel } from '../../app/component/DTAutosuggestPanel';
+import { component as DTAutosuggestPanel } from '../../app/component/DTAutosuggestPanel';
 
 describe('<DTAutosuggestPanel />', () => {
   let context;
