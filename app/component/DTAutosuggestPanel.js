@@ -14,7 +14,7 @@ import withBreakpoint from '../util/withBreakpoint';
 /**
  * Launches route search if both origin and destination are set.
  */
-class DTAutosuggestPanel extends React.Component {
+export class DTAutosuggestPanel extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -79,12 +79,22 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ showDarkOverlay: val });
   };
 
-  showSlackInput = val => {
+  updateViaPointSlack = (activeSlackInputs, viaPointIndexToRemove) => {
+    const foundAtIndex = activeSlackInputs.indexOf(viaPointIndexToRemove);
+    if (foundAtIndex > -1) {
+      activeSlackInputs.splice(foundAtIndex, 1);
+    }
+    return activeSlackInputs.map(
+      value => (value > viaPointIndexToRemove ? value - 1 : value),
+    );
+  };
+
+  toggleSlackInput = viaPointIndex => {
+    const { activeSlackInputs } = this.state;
     this.setState({
-      activeSlackInputs:
-        this.state.activeSlackInputs.filter(o => o === val).length > 0
-          ? this.state.activeSlackInputs.filter(o => o !== val)
-          : this.state.activeSlackInputs.concat([val]),
+      activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
+        ? this.updateViaPointSlack(activeSlackInputs, viaPointIndex)
+        : activeSlackInputs.concat([viaPointIndex]),
     });
   };
 
@@ -124,6 +134,22 @@ class DTAutosuggestPanel extends React.Component {
       this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
       this.props.setviaPointNames(addedViapoints);
     }
+  };
+
+  handleRemoveViaPointClick = viaPointIndex => {
+    const { activeSlackInputs } = this.state;
+    this.setState(
+      {
+        activeSlackInputs: this.updateViaPointSlack(
+          activeSlackInputs,
+          viaPointIndex,
+        ),
+      },
+      () =>
+        this.props.viaPointNames.length > 1
+          ? this.props.removeViapoints(viaPointIndex)
+          : this.props.toggleViaPoint(false),
+    );
   };
 
   render = () => {
@@ -222,10 +248,9 @@ class DTAutosuggestPanel extends React.Component {
                     style={{
                       display: !this.props.isViaPoint ? 'none' : 'block',
                     }}
-                    onClick={() => this.showSlackInput(o.split('::')[0])}
+                    onClick={() => this.toggleSlackInput(i)}
                     onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.showSlackInput(o.split('::')[0])
+                      isKeyboardSelectionEvent(e) && this.toggleSlackInput(i)
                     }
                   >
                     <span>
@@ -239,16 +264,10 @@ class DTAutosuggestPanel extends React.Component {
                     style={{
                       display: !this.props.isViaPoint ? 'none' : 'block',
                     }}
-                    onClick={() =>
-                      this.props.viaPointNames.length > 1
-                        ? this.props.removeViapoints(i)
-                        : this.props.toggleViaPoint(false)
-                    }
+                    onClick={() => this.handleRemoveViaPointClick(i)}
                     onKeyPress={e =>
                       isKeyboardSelectionEvent(e) &&
-                      this.props.viaPointNames.length > 1
-                        ? this.props.removeViapoints(i)
-                        : this.props.toggleViaPoint(false)
+                      this.handleRemoveViaPointClick(i)
                     }
                   >
                     <span>
@@ -260,12 +279,9 @@ class DTAutosuggestPanel extends React.Component {
                 <div
                   className={cx(['input-viapoint-slack-container'])}
                   style={{
-                    display:
-                      this.state.activeSlackInputs.filter(
-                        o2 => o2 === o.split('::')[0],
-                      ).length > 0
-                        ? 'flex'
-                        : 'none',
+                    display: this.state.activeSlackInputs.includes(i)
+                      ? 'flex'
+                      : 'none',
                   }}
                 >
                   <FormattedMessage
