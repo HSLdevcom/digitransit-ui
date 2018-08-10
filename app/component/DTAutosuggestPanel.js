@@ -12,9 +12,27 @@ import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
-const ItinerarySearchControl = ({ children }) => (
-  <div className="itinerary-search-control">{children}</div>
-);
+const ItinerarySearchControl = ({
+  children,
+  className,
+  onClick,
+  onKeyPress,
+  ...rest
+}) =>
+  onClick && (
+    <div className="itinerary-search-control">
+      <div
+        {...rest}
+        className={className}
+        onClick={onClick}
+        onKeyPress={onKeyPress}
+        role="button"
+        tabIndex="0"
+      >
+        {children}
+      </div>
+    </div>
+  );
 
 /**
  * Launches route search if both origin and destination are set.
@@ -42,11 +60,13 @@ class DTAutosuggestPanel extends React.Component {
     updateViaPoints: PropTypes.func,
     toggleViaPoint: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
+    swapOrder: PropTypes.func,
   };
 
   static defaultProps = {
     originPlaceHolder: 'give-origin',
     searchType: 'endpoint',
+    swapOrder: undefined,
   };
 
   constructor(props) {
@@ -157,6 +177,11 @@ class DTAutosuggestPanel extends React.Component {
     );
   };
 
+  handleAddViaPointClick = () =>
+    this.props.isViaPoint
+      ? this.props.addMoreViapoints(this.props.viaPointNames.length - 1)
+      : this.props.toggleViaPoint(true);
+
   render = () => {
     const slackTime = this.getSlackTimeOptions();
 
@@ -214,18 +239,14 @@ class DTAutosuggestPanel extends React.Component {
               });
             }}
           />
-          <ItinerarySearchControl>
-            <div
-              className="switch"
-              onClick={() => this.props.swapOrder()}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && this.props.swapOrder()
-              }
-              role="button"
-              tabIndex="0"
-            >
-              <Icon img="icon-icon_direction-b" />
-            </div>
+          <ItinerarySearchControl
+            className="switch"
+            onClick={() => this.props.swapOrder()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && this.props.swapOrder()
+            }
+          >
+            <Icon img="icon-icon_direction-b" />
           </ItinerarySearchControl>
         </div>
         {this.props.isViaPoint &&
@@ -254,34 +275,24 @@ class DTAutosuggestPanel extends React.Component {
                     this.checkInputForViapoint(item, i)
                   }
                 />
-                <ItinerarySearchControl>
-                  <div
-                    className="addViaPointSlack"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => this.toggleSlackInput(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) && this.toggleSlackInput(i)
-                    }
-                  >
-                    <Icon img="icon-icon_time" />
-                  </div>
+                <ItinerarySearchControl
+                  className="addViaPointSlack"
+                  onClick={() => this.toggleSlackInput(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) && this.toggleSlackInput(i)
+                  }
+                >
+                  <Icon img="icon-icon_time" />
                 </ItinerarySearchControl>
-                <ItinerarySearchControl>
-                  <div
-                    className="removeViaPoint"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => this.handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      this.handleRemoveViaPointClick(i)
-                    }
-                  >
-                    <span>
-                      <Icon img="icon-icon_close" />
-                    </span>
-                  </div>
+                <ItinerarySearchControl
+                  className="removeViaPoint"
+                  onClick={() => this.handleRemoveViaPointClick(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.handleRemoveViaPointClick(i)
+                  }
+                >
+                  <Icon img="icon-icon_close" />
                 </ItinerarySearchControl>
               </div>
               <div
@@ -349,31 +360,16 @@ class DTAutosuggestPanel extends React.Component {
                 });
               }}
             />
-            <ItinerarySearchControl>
-              <div
-                className={cx('addViaPoint', 'more', {
-                  collapsed: this.props.viaPointNames.length > 4,
-                })}
-                role="button"
-                tabIndex={0}
-                onClick={() =>
-                  this.props.isViaPoint
-                    ? this.props.addMoreViapoints(
-                        this.props.viaPointNames.length - 1,
-                      )
-                    : this.props.toggleViaPoint(true)
-                }
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  (this.props.isViaPoint
-                    ? this.props.addMoreViapoints(
-                        this.props.viaPointNames.length - 1,
-                      )
-                    : this.props.toggleViaPoint(true))
-                }
-              >
-                <Icon img="icon-icon_plus" />
-              </div>
+            <ItinerarySearchControl
+              className={cx('addViaPoint', 'more', {
+                collapsed: this.props.viaPointNames.length > 4,
+              })}
+              onClick={() => this.handleAddViaPointClick()}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
+              }
+            >
+              <Icon img="icon-icon_plus" />
             </ItinerarySearchControl>
           </div>
         ) : null}
