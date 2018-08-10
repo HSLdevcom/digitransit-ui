@@ -610,7 +610,6 @@ const translations = {
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
     'journeyplanner.title': 'HSL Journey Planner',
-    'kilometers-per-hour': '{number} km/h',
     later: 'Later',
     leaves: 'Leaves',
     'leaving-at': 'Leaving at',
@@ -1246,7 +1245,6 @@ const translations = {
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
-    'kilometers-per-hour': '{number} km/h',
     later: 'Myöhemmin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
@@ -2152,8 +2150,15 @@ const translations = {
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
+    'number-of-minutes':
+      '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
+    'option-default': 'Standard',
+    'option-least': 'Minst',
+    'option-less': 'Mindre',
+    'option-more': 'Mera',
+    'option-most': 'Mest',
     or: 'eller',
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',

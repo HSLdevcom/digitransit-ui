@@ -25,8 +25,7 @@ const WalkingOptionsSection = ({ walkReluctance, walkSpeed }, { router }) => (
     <SelectOptionContainer
       currentSelection={walkSpeed}
       defaultValue={defaultSettings.walkSpeed}
-      displayPattern="kilometers-per-hour"
-      displayValueFormatter={value => ceil(value * 3.6, 1)}
+      displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value =>
         replaceQueryParams(router, { walkSpeed: value })
       }
