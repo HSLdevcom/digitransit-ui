@@ -209,6 +209,8 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   color: rgb(51, 51, 51);
 
   .route-name {
+    display: flex;
+    margin-top: 0.8em;
     button {
       border-radius: 50%;
       background: white;
@@ -225,6 +227,13 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       }
       &:hover {
         border: 1px solid #007ac9;
+      }
+    }
+    .route-prefer-details {
+      line-height: 1em;
+      display: flex;
+      :first-child {
+        margin-right: 0.3em;
       }
     }
   }

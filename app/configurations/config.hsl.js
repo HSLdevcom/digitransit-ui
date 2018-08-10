@@ -35,7 +35,6 @@ export default {
 
   feedIds: ['HSL'],
 
-  preferredAgency: 'HSL',
   showHSLTracking: true,
 
   defaultMapCenter: {

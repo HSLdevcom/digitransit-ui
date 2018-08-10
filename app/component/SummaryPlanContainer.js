@@ -321,6 +321,7 @@ class SummaryPlanContainer extends React.Component {
       $wheelchair:Boolean!,
       $disableRemainingWeightHeuristic:Boolean!,
       $preferred:InputPreferred!,
+      $unpreferred: InputUnpreferred!,
       $fromPlace:String!,
       $toPlace:String!
       $date: String!,
@@ -362,6 +363,7 @@ class SummaryPlanContainer extends React.Component {
           disableRemainingWeightHeuristic:$disableRemainingWeightHeuristic,
           arriveBy:$arriveBy,
           preferred:$preferred,
+          unpreferred: $unpreferred,
           modes:$modes
           transferPenalty:$transferPenalty,
           ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
