@@ -189,7 +189,7 @@ body .large {
   border: 1px dashed $light-gray;
 }
 .collapsed {
-  display: none;
+  display: none !important;
 }
 .hidden {
   visibility: hidden;

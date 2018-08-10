@@ -132,36 +132,8 @@ export default class OriginDestinationBar extends React.Component {
           removeViapoints={this.removeViapoints}
           updateViaPoints={this.updateViaPoints}
           toggleViaPoint={this.toggleViaPoint}
+          swapOrder={this.swapEndpoints}
         />
-        <div className="itinerary-search-controls">
-          <div
-            className="switch"
-            onClick={() => this.swapEndpoints()}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && this.swapEndpoints()
-            }
-            role="button"
-            tabIndex="0"
-          >
-            <span>
-              <Icon img="icon-icon_direction-b" />
-            </span>
-          </div>
-          <div
-            className="addViaPoint"
-            onClick={() => this.toggleViaPoint(true)}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && this.toggleViaPoint(true)
-            }
-            role="button"
-            style={{ display: !this.state.isViaPoint ? 'block' : 'none' }}
-            tabIndex="0"
-          >
-            <span>
-              <Icon img="icon-icon_plus" />
-            </span>
-          </div>
-        </div>
       </div>
     );
   }
