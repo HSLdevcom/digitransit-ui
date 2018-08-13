@@ -138,7 +138,7 @@
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
-    "eslint-config-prettier": "2.9.0",
+    "eslint-config-prettier": "2.10.0",
     "eslint-import-resolver-webpack": "0.10.0",
     "eslint-plugin-compat": "2.4.0",
     "eslint-plugin-graphql": "2.1.1",
