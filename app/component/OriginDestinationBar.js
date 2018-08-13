@@ -14,7 +14,7 @@ import { dtLocationShape } from '../util/shapes';
 
 const locationToOtp = location =>
   `${location.address}::${location.lat},${location.lon}${
-    location.slack ? `::${location.slack}` : ''
+    location.locationSlack ? `::${location.locationSlack}` : ''
   }`;
 
 export default class OriginDestinationBar extends React.Component {

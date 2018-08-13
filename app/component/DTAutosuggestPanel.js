@@ -135,7 +135,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
     const { viaPoints } = this.state;
-    viaPoints[i].slack = slackTimeInSeconds;
+    viaPoints[i].locationSlack = slackTimeInSeconds;
     this.setState({ viaPoints }, () =>
       this.props.updateViaPoints(
         viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
@@ -315,7 +315,8 @@ class DTAutosuggestPanel extends React.Component {
               <div className="select-wrapper">
                 <Select
                   name="viapoint-slack-amount"
-                  selected={`${(viaPoints[i] && viaPoints[i].slack) || 0}`}
+                  selected={`${(viaPoints[i] && viaPoints[i].locationSlack) ||
+                    0}`}
                   options={slackTime}
                   onSelectChange={e =>
                     this.handleViaPointSlackTimeSelected(e.target.value, i)

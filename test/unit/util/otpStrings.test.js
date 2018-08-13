@@ -41,29 +41,29 @@ describe('otpStrings', () =>
       const input =
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::1000';
       const location = utils.otpToLocation(input);
-      expect(location.slack).to.equal(1000);
+      expect(location.locationSlack).to.equal(1000);
     });
 
     it('should parse a valid slack time when coordinates are invalid', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::foo,bar::1000';
       const location = utils.otpToLocation(input);
-      expect(location.slack).to.equal(1000);
+      expect(location.locationSlack).to.equal(1000);
     });
 
     it('should ignore a missing slack time', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365';
       const location = utils.otpToLocation(input);
-      expect(Object.prototype.hasOwnProperty.call(location, 'slack')).to.equal(
-        false,
-      );
+      expect(
+        Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
+      ).to.equal(false);
     });
 
     it('should ignore an invalid slack time', () => {
       const input =
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::foo';
       const location = utils.otpToLocation(input);
-      expect(Object.prototype.hasOwnProperty.call(location, 'slack')).to.equal(
-        false,
-      );
+      expect(
+        Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
+      ).to.equal(false);
     });
   }));

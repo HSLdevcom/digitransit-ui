@@ -24,7 +24,7 @@ export const otpToLocation = otpString => {
   if (slack) {
     const parsedSlack = parseInt(slack, 10);
     if (!Number.isNaN(parsedSlack)) {
-      location.slack = parsedSlack;
+      location.locationSlack = parsedSlack;
     }
   }
   if (coords) {
