@@ -114,12 +114,14 @@ describe('<OriginDestinationBar />', () => {
       childContextTypes: mockChildContextTypes,
     });
 
-    comp.find('.itinerary-search-controls > .addViaPoint').simulate('click');
-    comp.find('.removeViaPoint').simulate('keypress', { key: 'Enter' });
-    comp.find('.itinerary-search-controls > .addViaPoint').simulate('click');
+    comp.find('.itinerary-search-control > .addViaPoint').simulate('click');
+    comp
+      .find('.itinerary-search-control > .removeViaPoint')
+      .simulate('keypress', { key: 'Enter' });
+    comp.find('.itinerary-search-control > .addViaPoint').simulate('click');
 
     expect(
-      comp.find('.itinerary-search-controls > .addViaPoint').prop('style'),
+      comp.find('.itinerary-search-control > .addViaPoint').prop('style'),
     ).to.deep.equal({
       display: 'none',
     });
@@ -127,7 +129,9 @@ describe('<OriginDestinationBar />', () => {
     expect(comp.find('.viapoints-list').prop('style')).to.deep.equal({
       display: 'block',
     });
-    expect(comp.find('.removeViaPoint').length).to.equal(1);
+    expect(
+      comp.find('.itinerary-search-control > .removeViaPoint').length,
+    ).to.equal(1);
   });
 
   describe('swapEndpoints', () => {
@@ -157,7 +161,7 @@ describe('<OriginDestinationBar />', () => {
         childContextTypes: mockChildContextTypes,
       });
 
-      comp.find('.switch').simulate('click');
+      comp.find('.itinerary-search-control > .switch').simulate('click');
 
       expect(
         router.getCurrentLocation().query.intermediatePlaces,

@@ -104,14 +104,20 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ showDarkOverlay: val });
   };
 
-  updateViaPointSlack = (activeSlackInputs, viaPointIndexToRemove) => {
-    const foundAtIndex = activeSlackInputs.indexOf(viaPointIndexToRemove);
+  updateViaPointSlack = (
+    activeSlackInputs,
+    updatedViaPointIndex,
+    viaPointRemoved = false,
+  ) => {
+    const foundAtIndex = activeSlackInputs.indexOf(updatedViaPointIndex);
     if (foundAtIndex > -1) {
       activeSlackInputs.splice(foundAtIndex, 1);
     }
-    return activeSlackInputs.map(
-      value => (value > viaPointIndexToRemove ? value - 1 : value),
-    );
+    return viaPointRemoved
+      ? activeSlackInputs.map(
+          value => (value > updatedViaPointIndex ? value - 1 : value),
+        )
+      : activeSlackInputs;
   };
 
   toggleSlackInput = viaPointIndex => {
@@ -168,6 +174,7 @@ class DTAutosuggestPanel extends React.Component {
         activeSlackInputs: this.updateViaPointSlack(
           activeSlackInputs,
           viaPointIndex,
+          true,
         ),
       },
       () =>

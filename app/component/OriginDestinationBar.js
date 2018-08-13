@@ -6,8 +6,6 @@ import omit from 'lodash/omit';
 import cx from 'classnames';
 
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import {
   getIntermediatePlaces,
