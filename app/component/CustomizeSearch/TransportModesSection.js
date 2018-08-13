@@ -15,8 +15,9 @@ import {
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
   const modesWithNoBike = ['BUS', 'TRAM'];
   const bikeRejectedModes =
-    currentModes.includes('BICYCLE') &&
-    currentModes.filter(o => modesWithNoBike.includes(o) && o);
+    currentModes &&
+    (currentModes.includes('BICYCLE') &&
+      currentModes.filter(o => modesWithNoBike.includes(o) && o));
   const transportModes = getAvailableTransportModes(config);
 
   return (
