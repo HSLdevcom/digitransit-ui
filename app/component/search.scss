@@ -434,58 +434,6 @@ div.map {
   }
 }
 
-.viapoint-controls {
-  display: flex;
-  justify-content: center;
-  padding-top: 0.5em;
-
-  .addViaPointSlack {
-    color: $link-color;
-    font-size: 1.2em;
-    padding-right: 0.6em;
-    margin-right: 0.6em;
-    border-right: 1px solid rgba(151, 151, 151, 0.2);
-    cursor: pointer;
-    &:hover {
-      color: #0062a1;
-    }
-  }
-
-  .removeViaPoint {
-    color: $link-color;
-    cursor: pointer;
-    font-size: 1.2em;
-    text-align: center;
-
-    span {
-      font-size: $font-size-xsmall;
-    }
-  }
-}
-
-.small .viapoint-controls {
-  right: -4.4em;
-}
-
-.mobile .itinerary-search-controls {
-  top: 0.6em;
-  margin-right: 0.5em;
-  .switch {
-    font-size: 1.4em;
-    margin-top: -0.5em;
-    .icon {
-      width: 1.2em;
-      height: 1.2em;
-    }
-  }
-  .addViaPoint {
-    margin-top: 0.4em;
-  }
-  .removeViaPoint {
-    margin-top: 0.4em;
-  }
-}
-
 .small.autosuggest-panel {
   &.isItinerary {
     .autosuggest-input-container {

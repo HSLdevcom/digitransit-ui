@@ -55,7 +55,7 @@ class DTAutosuggestPanel extends React.Component {
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
-    initialViaPoints: PropTypes.arrayOf(PropTypes.string),
+    initialViaPoints: PropTypes.arrayOf(dtLocationShape),
     tab: PropTypes.string,
     updateViaPoints: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
@@ -82,13 +82,15 @@ class DTAutosuggestPanel extends React.Component {
   getSlackTimeOptions = () => {
     const timeOptions = [];
     for (let i = 0; i <= 9; i++) {
-      const value = i * 10;
+      const valueInMinutes = i * 10;
       timeOptions.push({
         displayName: `${i}`,
-        displayNameObject: `${value} ${this.context.intl.formatMessage({
-          id: 'minute-short',
-        })}`,
-        value,
+        displayNameObject: `${valueInMinutes} ${this.context.intl.formatMessage(
+          {
+            id: 'minute-short',
+          },
+        )}`,
+        value: valueInMinutes * 60,
       });
     }
     return timeOptions;
@@ -131,12 +133,20 @@ class DTAutosuggestPanel extends React.Component {
     });
   };
 
+  handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
+    const { viaPoints } = this.state;
+    viaPoints[i].slack = slackTimeInSeconds;
+    this.setState({ viaPoints }, () =>
+      this.props.updateViaPoints(
+        viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
+      ),
+    );
+  };
+
   handleViaPointLocationSelected = (viaPointLocation, i) => {
     const { viaPoints } = this.state;
     viaPoints[i] = {
-      lat: viaPointLocation.lat,
-      lon: viaPointLocation.lon,
-      address: viaPointLocation.address,
+      ...viaPointLocation,
     };
     this.setState({ viaPoints }, () =>
       this.props.updateViaPoints(
@@ -265,7 +275,7 @@ class DTAutosuggestPanel extends React.Component {
                 placeholder="via-point"
                 className="viapoint"
                 isFocused={this.isFocused}
-                value={o ? o.address : undefined}
+                value={o ? o.address : ''}
                 onLocationSelected={item =>
                   this.handleViaPointLocationSelected(item, i)
                 }
@@ -305,9 +315,11 @@ class DTAutosuggestPanel extends React.Component {
               <div className="select-wrapper">
                 <Select
                   name="viapoint-slack-amount"
-                  selected="0"
+                  selected={`${(viaPoints[i] && viaPoints[i].slack) || 0}`}
                   options={slackTime}
-                  onSelectChange={e => console.log(e.target.value)}
+                  onSelectChange={e =>
+                    this.handleViaPointSlackTimeSelected(e.target.value, i)
+                  }
                 />
                 <Icon
                   className="fake-select-arrow"

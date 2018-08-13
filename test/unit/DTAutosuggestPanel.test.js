@@ -15,8 +15,10 @@ describe('<DTAutosuggestPanel />', () => {
     addViaPoint: '.itinerary-search-control > .addViaPoint',
     itinerarySearchControl: '.itinerary-search-control',
     removeViaPoint: '.itinerary-search-control > .removeViaPoint',
+    swap: '.itinerary-search-control > .switch',
     toggleViaPointSlack: '.itinerary-search-control > .addViaPointSlack',
     viaPointSlackContainer: '.input-viapoint-slack-container',
+    viaPointContainer: '.viapoint-container',
   };
 
   let context;
@@ -246,6 +248,48 @@ describe('<DTAutosuggestPanel />', () => {
     expect(containers.get(1).props.className).to.not.contain('collapsed');
   });
 
+  it('should show the add via point button after removing an empty via point with a keypress', () => {
+    const props = {
+      ...mockData,
+      initialViaPoints: [],
+      updateViaPoints: () => {},
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.addViaPoint).simulate('click');
+    wrapper
+      .find(selectors.removeViaPoint)
+      .simulate('keypress', { key: 'Enter' });
+
+    expect(wrapper.find(selectors.viaPointContainer)).to.have.lengthOf(0);
+    expect(wrapper.find(selectors.addViaPoint)).to.have.lengthOf(1);
+  });
+
+  it('should allow to add a maximum of 5 via points', () => {
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+      ],
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    expect(wrapper.find(selectors.viaPointContainer)).to.have.lengthOf(5);
+    expect(
+      wrapper.find(selectors.addViaPoint).get(0).props.className,
+    ).to.contain('collapsed');
+  });
+
   it('should add a via point after adding and then removing a viapoint with a keypress', () => {
     const props = {
       ...mockData,
@@ -263,7 +307,7 @@ describe('<DTAutosuggestPanel />', () => {
       .simulate('keypress', { key: 'Enter' });
     wrapper.find(selectors.addViaPoint).simulate('click');
 
-    expect(wrapper.find('.viapoint-container')).to.have.lengthOf(1);
+    expect(wrapper.find(selectors.viaPointContainer)).to.have.lengthOf(1);
     expect(wrapper.find(selectors.removeViaPoint)).to.have.lengthOf(1);
   });
 
@@ -279,5 +323,50 @@ describe('<DTAutosuggestPanel />', () => {
     });
 
     expect(wrapper.find(selectors.itinerarySearchControl)).to.have.lengthOf(0);
+  });
+
+  it('should also swap via points while keeping empty ones', () => {
+    let callCount = 0;
+    const viaPoints = [
+      'Kalasatama, Helsinki::60.187571,24.976301',
+      'Kamppi, Helsinki::60.168438,24.929283',
+    ].map(otpToLocation);
+    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+
+    const props = {
+      ...mockData,
+      initialViaPoints: viaPoints,
+      swapOrder: () => {
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.swap).simulate('click');
+
+    expect(callCount).to.equal(1);
+    expect(wrapper.state('viaPoints')[0]).to.deep.equal(
+      EMPTY_VIA_POINT_PLACE_HOLDER,
+    );
+    expect(wrapper.state('viaPoints')[1]).to.deep.equal(
+      EMPTY_VIA_POINT_PLACE_HOLDER,
+    );
+  });
+
+  it('should not display any via point containers if there are no via points available', () => {
+    const props = {
+      ...mockData,
+      initialViaPoints: [],
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    expect(wrapper.find(selectors.viaPointContainer)).to.have.lengthOf(0);
   });
 });

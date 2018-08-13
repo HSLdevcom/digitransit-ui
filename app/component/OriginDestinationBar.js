@@ -5,13 +5,17 @@ import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 
 import DTAutosuggestPanel from './DTAutosuggestPanel';
-import { locationToOTP } from '../util/otpStrings';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import {
   getIntermediatePlaces,
   setIntermediatePlaces,
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
+
+const locationToOtp = location =>
+  `${location.address}::${location.lat},${location.lon}${
+    location.slack ? `::${location.slack}` : ''
+  }`;
 
 export default class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -26,12 +30,16 @@ export default class OriginDestinationBar extends React.Component {
     piwik: PropTypes.object,
   };
 
+  static defaultProps = {
+    className: undefined,
+  };
+
   get location() {
     return this.context.router.getCurrentLocation();
   }
 
   updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOTP));
+    setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOtp));
 
   swapEndpoints = () => {
     const { location } = this;
@@ -48,26 +56,22 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  render() {
-    const { location } = this;
-    return (
-      <div
-        className={cx(
-          'origin-destination-bar',
-          this.props.className,
-          'flex-horizontal',
-        )}
-      >
-        <DTAutosuggestPanel
-          origin={this.props.origin}
-          destination={this.props.destination}
-          isItinerary
-          initialViaPoints={getIntermediatePlaces(location.query)}
-          updateViaPoints={this.updateViaPoints}
-          swapOrder={this.swapEndpoints}
-        />
-      </div>
-    );
-  }
+  render = () => (
+    <div
+      className={cx(
+        'origin-destination-bar',
+        this.props.className,
+        'flex-horizontal',
+      )}
+    >
+      <DTAutosuggestPanel
+        origin={this.props.origin}
+        destination={this.props.destination}
+        isItinerary
+        initialViaPoints={getIntermediatePlaces(this.location.query)}
+        updateViaPoints={this.updateViaPoints}
+        swapOrder={this.swapEndpoints}
+      />
+    </div>
+  );
 }
