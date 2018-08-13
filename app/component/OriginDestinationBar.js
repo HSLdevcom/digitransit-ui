@@ -1,11 +1,11 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
-import omit from 'lodash/omit';
-import cx from 'classnames';
 
 import DTAutosuggestPanel from './DTAutosuggestPanel';
+import { locationToOTP } from '../util/otpStrings';
 import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import {
   getIntermediatePlaces,
@@ -18,7 +18,6 @@ export default class OriginDestinationBar extends React.Component {
     className: PropTypes.string,
     origin: dtLocationShape,
     destination: dtLocationShape,
-    initialViaPoints: PropTypes.array,
   };
 
   static contextTypes = {
@@ -27,32 +26,19 @@ export default class OriginDestinationBar extends React.Component {
     piwik: PropTypes.object,
   };
 
-  state = {
-    isViaPoint: this.location.query.intermediatePlaces && true,
-    viaPointNames: this.props.initialViaPoints,
-  };
-
   get location() {
     return this.context.router.getCurrentLocation();
   }
 
-  setviaPointNames = viapoints => {
-    this.setState({
-      viaPointNames: viapoints,
-    });
-  };
-
   updateViaPoints = newViaPoints =>
-    setIntermediatePlaces(this.context.router, newViaPoints);
+    setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOTP));
 
   swapEndpoints = () => {
     const { location } = this;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
-      this.setviaPointNames(location.query.intermediatePlaces);
     }
-
     navigateTo({
       base: location,
       origin: this.props.destination,
@@ -62,55 +48,9 @@ export default class OriginDestinationBar extends React.Component {
     });
   };
 
-  toggleViaPoint = val => {
-    if (val === false) {
-      const { location } = this;
-      this.context.router.replace({
-        ...location,
-        query: omit(location.query, ['intermediatePlaces']),
-      });
-    }
-
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ViaPointAddClick',
-        'AddViaPoint',
-      );
-    }
-
-    this.setState({
-      isViaPoint: val,
-      viaPointNames: !val ? [' '] : this.state.viaPointNames,
-    });
-  };
-
-  addMoreViapoints = i => {
-    const oldViaPoints = this.state.viaPointNames.slice(0);
-    oldViaPoints.splice(i + 1, 0, ' ');
-    this.setState({
-      viaPointNames: oldViaPoints,
-    });
-  };
-
-  checkAndConvertArray = val =>
-    Array.isArray(val) ? val.slice(0) : [val || ' '];
-
-  removeViapoints = index => {
-    const viaPointsWithRemoved = this.state.viaPointNames.filter(
-      (o, i) => i !== index,
-    );
-
-    this.updateViaPoints(viaPointsWithRemoved.filter(o => o !== ' '));
-
-    this.setState({
-      viaPointNames: viaPointsWithRemoved,
-      isViaPoint: viaPointsWithRemoved.length !== 0,
-    });
-  };
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const { location } = this;
     return (
       <div
         className={cx(
@@ -123,13 +63,8 @@ export default class OriginDestinationBar extends React.Component {
           origin={this.props.origin}
           destination={this.props.destination}
           isItinerary
-          isViaPoint={this.state.isViaPoint}
-          viaPointNames={this.state.viaPointNames}
-          setviaPointNames={this.setviaPointNames}
-          addMoreViapoints={this.addMoreViapoints}
-          removeViapoints={this.removeViapoints}
+          initialViaPoints={getIntermediatePlaces(location.query)}
           updateViaPoints={this.updateViaPoints}
-          toggleViaPoint={this.toggleViaPoint}
           swapOrder={this.swapEndpoints}
         />
       </div>

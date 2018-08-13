@@ -1,16 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
+import isString from 'lodash/isString';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
-import { locationToOTP } from '../util/otpStrings';
+
+import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
 import Select from './Select';
-import DTEndpointAutosuggest from './DTEndpointAutosuggest';
-import { dtLocationShape } from '../util/shapes';
-import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { isIe, isKeyboardSelectionEvent } from '../util/browser';
+import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+
+export const EMPTY_VIA_POINT_PLACE_HOLDER = undefined;
 
 const ItinerarySearchControl = ({
   children,
@@ -49,21 +52,18 @@ class DTAutosuggestPanel extends React.Component {
     origin: dtLocationShape.isRequired,
     destination: dtLocationShape.isRequired,
     isItinerary: PropTypes.bool,
-    isViaPoint: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
-    viaPointNames: PropTypes.array,
-    setviaPointNames: PropTypes.func,
+    initialViaPoints: PropTypes.arrayOf(PropTypes.string),
     tab: PropTypes.string,
-    addMoreViapoints: PropTypes.func,
-    removeViapoints: PropTypes.func,
     updateViaPoints: PropTypes.func,
-    toggleViaPoint: PropTypes.func,
     breakpoint: PropTypes.string.isRequired,
     swapOrder: PropTypes.func,
   };
 
   static defaultProps = {
+    initialViaPoints: [],
+    isItinerary: false,
     originPlaceHolder: 'give-origin',
     searchType: 'endpoint',
     swapOrder: undefined,
@@ -72,8 +72,9 @@ class DTAutosuggestPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDarkOverlay: false,
       activeSlackInputs: [],
+      showDarkOverlay: false,
+      viaPoints: this.props.initialViaPoints.slice(),
     };
   }
 
@@ -105,22 +106,22 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   updateViaPointSlack = (
-    activeSlackInputs,
+    activeViaPointSlacks,
     updatedViaPointIndex,
     viaPointRemoved = false,
   ) => {
-    const foundAtIndex = activeSlackInputs.indexOf(updatedViaPointIndex);
+    const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
     if (foundAtIndex > -1) {
-      activeSlackInputs.splice(foundAtIndex, 1);
+      activeViaPointSlacks.splice(foundAtIndex, 1);
     }
     return viaPointRemoved
-      ? activeSlackInputs.map(
+      ? activeViaPointSlacks.map(
           value => (value > updatedViaPointIndex ? value - 1 : value),
         )
-      : activeSlackInputs;
+      : activeViaPointSlacks;
   };
 
-  toggleSlackInput = viaPointIndex => {
+  handleToggleViaPointSlackClick = viaPointIndex => {
     const { activeSlackInputs } = this.state;
     this.setState({
       activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
@@ -129,46 +130,23 @@ class DTAutosuggestPanel extends React.Component {
     });
   };
 
-  checkInputForViapoint = (item, i) => {
-    // Check if the name exists in viapoints already or not
-    if (
-      this.props.viaPointNames.filter(o2 => o2 === item.address).length === 0
-    ) {
-      const arrayCheck = this.props.viaPointNames.map(
-        o =>
-          o !== ' '
-            ? locationToOTP({
-                lat: o.split('::')[1].split(',')[0],
-                lon: o.split('::')[1].split(',')[1],
-                address: o.split('::')[0],
-              })
-            : o,
-      );
-
-      const itemToAdd = locationToOTP({
-        lat: item.lat,
-        lon: item.lon,
-        address: item.address,
-      });
-      // Check if the viapoint is being edited or a new one is being added
-      // Also replace the initial empty placeholder space
-      if (
-        arrayCheck.filter((o, index) => index !== i).length === 0 &&
-        (arrayCheck.length > 2 && arrayCheck[1] !== ' ')
-      ) {
-        arrayCheck.splice(i, 0, itemToAdd);
-      } else {
-        arrayCheck.splice(i, 1, itemToAdd);
-      }
-      const addedViapoints = arrayCheck;
-
-      this.props.updateViaPoints(addedViapoints.filter(o => o !== ' '));
-      this.props.setviaPointNames(addedViapoints);
-    }
+  handleViaPointLocationSelected = (viaPointLocation, i) => {
+    const { viaPoints } = this.state;
+    viaPoints[i] = {
+      lat: viaPointLocation.lat,
+      lon: viaPointLocation.lon,
+      address: viaPointLocation.address,
+    };
+    this.setState({ viaPoints }, () =>
+      this.props.updateViaPoints(
+        viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
+      ),
+    );
   };
 
   handleRemoveViaPointClick = viaPointIndex => {
-    const { activeSlackInputs } = this.state;
+    const { activeSlackInputs, viaPoints } = this.state;
+    viaPoints.splice(viaPointIndex, 1);
     this.setState(
       {
         activeSlackInputs: this.updateViaPointSlack(
@@ -176,20 +154,31 @@ class DTAutosuggestPanel extends React.Component {
           viaPointIndex,
           true,
         ),
+        viaPoints,
       },
-      () =>
-        this.props.viaPointNames.length > 1
-          ? this.props.removeViapoints(viaPointIndex)
-          : this.props.toggleViaPoint(false),
+      () => {
+        this.props.updateViaPoints(
+          viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
+        );
+      },
     );
   };
 
-  handleAddViaPointClick = () =>
-    this.props.isViaPoint
-      ? this.props.addMoreViapoints(this.props.viaPointNames.length - 1)
-      : this.props.toggleViaPoint(true);
+  handleAddViaPointClick = () => {
+    const { viaPoints } = this.state;
+    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    this.setState({ viaPoints });
+  };
+
+  handleSwapOrderClick = () => {
+    const { viaPoints } = this.state;
+    viaPoints.reverse();
+    this.setState({ viaPoints }, () => this.props.swapOrder());
+  };
 
   render = () => {
+    const { breakpoint, isItinerary, origin } = this.props;
+    const { viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
 
     return (
@@ -197,8 +186,8 @@ class DTAutosuggestPanel extends React.Component {
         className={cx([
           'autosuggest-panel',
           {
-            small: this.props.breakpoint !== 'large',
-            isItinerary: this.props.isItinerary,
+            small: breakpoint !== 'large',
+            isItinerary,
           },
         ])}
       >
@@ -207,7 +196,7 @@ class DTAutosuggestPanel extends React.Component {
             'dark-overlay',
             {
               hidden: !this.state.showDarkOverlay,
-              isItinerary: this.props.isItinerary,
+              isItinerary,
             },
           ])}
         />
@@ -216,21 +205,19 @@ class DTAutosuggestPanel extends React.Component {
             id="origin"
             autoFocus={
               // Disable autofocus if using IE11
-              isIe
-                ? false
-                : this.props.breakpoint === 'large' && !this.props.origin.ready
+              isIe ? false : breakpoint === 'large' && !origin.ready
             }
-            refPoint={this.props.origin}
-            className={this.class(this.props.origin)}
+            refPoint={origin}
+            className={this.class(origin)}
             searchType={this.props.searchType}
             placeholder={this.props.originPlaceHolder}
-            value={this.value(this.props.origin)}
+            value={this.value(origin)}
             isFocused={this.isFocused}
             onLocationSelected={location => {
-              let origin = { ...location, ready: true };
+              let newOrigin = { ...location, ready: true };
               let { destination } = this.props;
               if (location.type === 'CurrentLocation') {
-                origin = { ...location, gps: true, ready: !!location.lat };
+                newOrigin = { ...location, gps: true, ready: !!location.lat };
                 if (destination.gps === true) {
                   // destination has gps, clear destination
                   destination = { set: false };
@@ -238,7 +225,7 @@ class DTAutosuggestPanel extends React.Component {
               }
               navigateTo({
                 base: this.context.location,
-                origin,
+                origin: newOrigin,
                 destination,
                 context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
                 router: this.context.router,
@@ -248,102 +235,102 @@ class DTAutosuggestPanel extends React.Component {
           />
           <ItinerarySearchControl
             className="switch"
-            onClick={() => this.props.swapOrder()}
+            onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && this.props.swapOrder()
+              isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
             }
           >
             <Icon img="icon-icon_direction-b" />
           </ItinerarySearchControl>
         </div>
-        {this.props.isViaPoint &&
-          this.props.viaPointNames.map((o, i) => (
-            <div
-              className="viapoint-container"
-              key={`viapoint-${i}`} // eslint-disable-line
-            >
-              <div className={`viapoint-input-container viapoint-${i + 1}`}>
-                <div className="viapoint-before">
-                  <Icon img="icon-icon_ellipsis" />
-                </div>
-                <DTEndpointAutosuggest
-                  id="viapoint"
-                  autoFocus={
-                    // Disable autofocus if using IE11
-                    isIe ? false : this.context.breakpoint === 'large'
-                  }
-                  refPoint={this.props.origin}
-                  searchType="endpoint"
-                  placeholder="via-point"
-                  className="viapoint"
-                  isFocused={this.isFocused}
-                  value={o.split('::')[0]}
-                  onLocationSelected={item =>
-                    this.checkInputForViapoint(item, i)
-                  }
-                />
-                <ItinerarySearchControl
-                  className="addViaPointSlack"
-                  onClick={() => this.toggleSlackInput(i)}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) && this.toggleSlackInput(i)
-                  }
-                >
-                  <Icon img="icon-icon_time" />
-                </ItinerarySearchControl>
-                <ItinerarySearchControl
-                  className="removeViaPoint"
-                  onClick={() => this.handleRemoveViaPointClick(i)}
-                  onKeyPress={e =>
-                    isKeyboardSelectionEvent(e) &&
-                    this.handleRemoveViaPointClick(i)
-                  }
-                >
-                  <Icon img="icon-icon_close" />
-                </ItinerarySearchControl>
+        {viaPoints.map((o, i) => (
+          <div
+            className="viapoint-container"
+            key={`viapoint-${i}`} // eslint-disable-line
+          >
+            <div className={`viapoint-input-container viapoint-${i + 1}`}>
+              <div className="viapoint-before">
+                <Icon img="icon-icon_ellipsis" />
               </div>
-              <div
-                className={cx('input-viapoint-slack-container', {
-                  collapsed: !this.state.activeSlackInputs.includes(i),
-                })}
+              <DTEndpointAutosuggest
+                id="viapoint"
+                autoFocus={
+                  // Disable autofocus if using IE11
+                  isIe ? false : breakpoint === 'large'
+                }
+                refPoint={this.props.origin}
+                searchType="endpoint"
+                placeholder="via-point"
+                className="viapoint"
+                isFocused={this.isFocused}
+                value={o ? o.address : undefined}
+                onLocationSelected={item =>
+                  this.handleViaPointLocationSelected(item, i)
+                }
+              />
+              <ItinerarySearchControl
+                className="addViaPointSlack"
+                onClick={() => this.handleToggleViaPointSlackClick(i)}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  this.handleToggleViaPointSlackClick(i)
+                }
               >
-                <FormattedMessage
-                  defaultMessage="viapoint-slack-amount"
-                  id="viapoint-slack-amount"
+                <Icon img="icon-icon_time" />
+              </ItinerarySearchControl>
+              <ItinerarySearchControl
+                className="removeViaPoint"
+                onClick={() => this.handleRemoveViaPointClick(i)}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) &&
+                  this.handleRemoveViaPointClick(i)
+                }
+              >
+                <Icon img="icon-icon_close" />
+              </ItinerarySearchControl>
+            </div>
+            <div
+              className={cx('input-viapoint-slack-container', {
+                collapsed: !this.state.activeSlackInputs.includes(i),
+              })}
+            >
+              <FormattedMessage
+                defaultMessage="viapoint-slack-amount"
+                id="viapoint-slack-amount"
+              />
+              <div className="select-wrapper">
+                <Select
+                  name="viapoint-slack-amount"
+                  selected="0"
+                  options={slackTime}
+                  onSelectChange={e => console.log(e.target.value)}
                 />
-                <div className="select-wrapper">
-                  <Select
-                    name="viapoint-slack-amount"
-                    selected="0"
-                    options={slackTime}
-                    onSelectChange={e => console.log(e.target.value)}
-                  />
-                  <Icon
-                    className="fake-select-arrow"
-                    img="icon-icon_arrow-dropdown"
-                  />
-                </div>
+                <Icon
+                  className="fake-select-arrow"
+                  img="icon-icon_arrow-dropdown"
+                />
               </div>
             </div>
-          ))}
-        {(this.props.destination && this.props.destination.set) ||
-        this.props.origin.ready ||
-        this.props.isItinerary ? (
+          </div>
+        ))}
+        {((this.props.destination && this.props.destination.set) ||
+          origin.ready ||
+          isItinerary) && (
           <div className="destination-input-container">
             <DTEndpointAutosuggest
               id="destination"
               autoFocus={
                 // Disable autofocus if using IE11
-                isIe ? false : this.props.breakpoint === 'large'
+                isIe ? false : breakpoint === 'large'
               }
-              refPoint={this.props.origin}
+              refPoint={origin}
               searchType={this.props.searchType}
               placeholder="give-destination"
               className={this.class(this.props.destination)}
               isFocused={this.isFocused}
               value={this.value(this.props.destination)}
               onLocationSelected={location => {
-                let { origin } = this.props;
+                let updatedOrigin = origin;
                 let destination = { ...location, ready: true };
                 if (location.type === 'CurrentLocation') {
                   destination = {
@@ -352,16 +339,14 @@ class DTAutosuggestPanel extends React.Component {
                     ready: !!location.lat,
                   };
                   if (origin.gps === true) {
-                    origin = { set: false };
+                    updatedOrigin = { set: false };
                   }
                 }
                 navigateTo({
                   base: this.context.location,
-                  origin,
+                  origin: updatedOrigin,
                   destination,
-                  context: this.props.isItinerary
-                    ? PREFIX_ITINERARY_SUMMARY
-                    : '',
+                  context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
                   router: this.context.router,
                   tab: this.props.tab,
                 });
@@ -369,7 +354,7 @@ class DTAutosuggestPanel extends React.Component {
             />
             <ItinerarySearchControl
               className={cx('addViaPoint', 'more', {
-                collapsed: this.props.viaPointNames.length > 4,
+                collapsed: viaPoints.length > 4,
               })}
               onClick={() => this.handleAddViaPointClick()}
               onKeyPress={e =>
@@ -379,7 +364,7 @@ class DTAutosuggestPanel extends React.Component {
               <Icon img="icon-icon_plus" />
             </ItinerarySearchControl>
           </div>
-        ) : null}
+        )}
       </div>
     );
   };

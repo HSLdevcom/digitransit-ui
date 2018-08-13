@@ -8,6 +8,7 @@ import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import OriginDestinationBar from '../../app/component/OriginDestinationBar';
 import { replaceQueryParams } from '../../app/util/queryUtils';
+import DTAutosuggestPanel from '../../app/component/DTAutosuggestPanel';
 
 describe('<OriginDestinationBar />', () => {
   const exampleViapoints = [
@@ -138,10 +139,6 @@ describe('<OriginDestinationBar />', () => {
     it('should also swap via points', () => {
       const props = {
         destination: {},
-        initialViaPoints: [
-          'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
-          'Kamppi 1241, Helsinki::60.169119,24.932058',
-        ],
         origin: {},
       };
 
@@ -166,10 +163,6 @@ describe('<OriginDestinationBar />', () => {
       expect(
         router.getCurrentLocation().query.intermediatePlaces,
       ).to.deep.equal([
-        'Kamppi 1241, Helsinki::60.169119,24.932058',
-        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
-      ]);
-      expect(comp.state('viaPointNames')).to.deep.equal([
         'Kamppi 1241, Helsinki::60.169119,24.932058',
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
       ]);

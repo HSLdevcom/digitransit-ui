@@ -4,7 +4,11 @@ import { beforeEach, describe, it } from 'mocha';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
-import { component as DTAutosuggestPanel } from '../../app/component/DTAutosuggestPanel';
+import {
+  component as DTAutosuggestPanel,
+  EMPTY_VIA_POINT_PLACE_HOLDER,
+} from '../../app/component/DTAutosuggestPanel';
+import { otpToLocation } from '../../app/util/otpStrings';
 
 describe('<DTAutosuggestPanel />', () => {
   const selectors = {
@@ -37,8 +41,7 @@ describe('<DTAutosuggestPanel />', () => {
         ready: true,
       },
       isItinerary: true,
-      isViaPoint: true,
-      viaPointNames: [' '],
+      initialViaPoints: [EMPTY_VIA_POINT_PLACE_HOLDER],
       originPlaceHolder: 'give-origin',
       searchType: 'endpoint',
     };
@@ -74,7 +77,10 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show only the related slack time panel after click (with empty via points)', () => {
     const props = {
       ...mockData,
-      viaPointNames: [' ', ' '],
+      initialViaPoints: [
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+      ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -95,11 +101,11 @@ describe('<DTAutosuggestPanel />', () => {
   it('should show only the related slack time panel after click (with filled via points)', () => {
     const props = {
       ...mockData,
-      viaPointNames: [
+      initialViaPoints: [
         'Kalasatama, Helsinki::60.187571,24.976301',
         'Kamppi, Helsinki::60.168438,24.929283',
         'Kalasatama, Helsinki::60.187571,24.976301',
-      ],
+      ].map(otpToLocation),
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -120,20 +126,19 @@ describe('<DTAutosuggestPanel />', () => {
 
   it('should also remove the related slack time display after removing a via point (with multiple via points)', () => {
     let callCount = 0;
-    const viaPointNames = [
+    let viaPoints = [
       'Kalasatama, Helsinki::60.187571,24.976301',
       'Kamppi, Helsinki::60.168438,24.929283',
       'Kalasatama, Helsinki::60.187571,24.976301',
-    ];
-    const removeViapoints = viaPointIndex => {
-      viaPointNames.splice(viaPointIndex, 1);
-      callCount += 1;
-    };
+    ].map(otpToLocation);
 
     const props = {
       ...mockData,
-      removeViapoints,
-      viaPointNames,
+      initialViaPoints: viaPoints,
+      updateViaPoints: newViaPoints => {
+        viaPoints = newViaPoints;
+        callCount += 1;
+      },
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -150,10 +155,8 @@ describe('<DTAutosuggestPanel />', () => {
       .simulate('click');
 
     expect(callCount).to.equal(1);
-    expect(viaPointNames).to.have.lengthOf(2);
+    expect(viaPoints).to.have.lengthOf(2);
     expect(wrapper.state('activeSlackInputs')).to.deep.equal([]);
-
-    wrapper.setProps({ viaPointNames });
 
     const containers = wrapper.find(selectors.viaPointSlackContainer);
     expect(containers).to.have.lengthOf(2);
@@ -162,19 +165,18 @@ describe('<DTAutosuggestPanel />', () => {
   });
 
   it('should also decrement the slack time indices when removing a preceding via point', () => {
-    const viaPointNames = [
+    let viaPoints = [
       'Kalasatama, Helsinki::60.187571,24.976301',
       'Kamppi, Helsinki::60.168438,24.929283',
       'Kalasatama, Helsinki::60.187571,24.976301',
-    ];
-    const removeViapoints = viaPointIndex => {
-      viaPointNames.splice(viaPointIndex, 1);
-    };
+    ].map(otpToLocation);
 
     const props = {
       ...mockData,
-      removeViapoints,
-      viaPointNames,
+      initialViaPoints: viaPoints,
+      updateViaPoints: newViaPoints => {
+        viaPoints = newViaPoints;
+      },
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
@@ -191,10 +193,10 @@ describe('<DTAutosuggestPanel />', () => {
       .find(selectors.removeViaPoint)
       .first()
       .simulate('click');
-    expect(viaPointNames).to.have.lengthOf(2);
+    expect(viaPoints).to.have.lengthOf(2);
     expect(wrapper.state('activeSlackInputs')).to.deep.equal([1]);
 
-    wrapper.setProps({ viaPointNames });
+    wrapper.setProps({ viaPoints });
 
     const containers = wrapper.find(selectors.viaPointSlackContainer);
     expect(containers).to.have.lengthOf(2);
@@ -205,7 +207,10 @@ describe('<DTAutosuggestPanel />', () => {
   it('should only collapse the related slack time panel (with multiple slack time panels open)', () => {
     const props = {
       ...mockData,
-      viaPointNames: [' ', ' '],
+      initialViaPoints: [
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+        EMPTY_VIA_POINT_PLACE_HOLDER,
+      ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
       context,
