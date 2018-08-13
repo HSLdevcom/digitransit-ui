@@ -13,8 +13,10 @@ import {
 } from '../../util/modeUtils';
 
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
-  const isBikeRejected =
-    currentModes.filter(o2 => o2 === 'BICYCLE' || o2 === 'BUS').length > 1;
+  const modesWithNoBike = ['BUS', 'TRAM'];
+  const bikeRejectedModes =
+    currentModes.includes('BICYCLE') &&
+    currentModes.filter(o => modesWithNoBike.includes(o) && o);
   const transportModes = getAvailableTransportModes(config);
 
   return (
@@ -58,7 +60,7 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               onClick={() => toggleTransportMode(mode, config, router)}
             >
               <div className="mode-icon">
-                {isBikeRejected && mode === 'BUS' ? (
+                {bikeRejectedModes.includes(mode) ? (
                   <IconWithBigCaution
                     color="currentColor"
                     className={mode.toLowerCase()}
@@ -76,15 +78,14 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
                   id={mode.toLowerCase()}
                   defaultMessage={mode.toLowerCase()}
                 />
-                {isBikeRejected &&
-                  mode === 'BUS' && (
-                    <span className="span-bike-not-allowed">
-                      {intl.formatMessage({
-                        id: 'bike-not-allowed',
-                        defaultMessage: 'Bikes are not allowed on the bus',
-                      })}
-                    </span>
-                  )}
+                {bikeRejectedModes.includes(mode) && (
+                  <span className="span-bike-not-allowed">
+                    {intl.formatMessage({
+                      id: `bike-not-allowed-${mode.toLowerCase()}`,
+                      defaultMessage: 'Bikes are not allowed on the vehicle',
+                    })}
+                  </span>
+                )}
               </div>
             </div>
           </div>
