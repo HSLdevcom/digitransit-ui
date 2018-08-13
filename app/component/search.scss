@@ -41,10 +41,10 @@ $item-border-color: #eee;
   .autosuggest-input-container {
     box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
   }
-  #origin {
-    margin: 0;
-    font-size: 1rem;
-  }
+
+  .origin-input-container,
+  .destination-input-container,
+  #origin,
   #destination {
     margin: 0;
     font-size: 1rem;
