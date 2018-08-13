@@ -12,6 +12,8 @@ import { otpToLocation } from '../../app/util/otpStrings';
 
 describe('<DTAutosuggestPanel />', () => {
   const selectors = {
+    addViaPoint: '.itinerary-search-control > .addViaPoint',
+    itinerarySearchControl: '.itinerary-search-control',
     removeViaPoint: '.itinerary-search-control > .removeViaPoint',
     toggleViaPointSlack: '.itinerary-search-control > .addViaPointSlack',
     viaPointSlackContainer: '.input-viapoint-slack-container',
@@ -242,5 +244,40 @@ describe('<DTAutosuggestPanel />', () => {
     expect(containers).to.have.lengthOf(2);
     expect(containers.get(0).props.className).to.contain('collapsed');
     expect(containers.get(1).props.className).to.not.contain('collapsed');
+  });
+
+  it('should add a via point after adding and then removing a viapoint with a keypress', () => {
+    const props = {
+      ...mockData,
+      initialViaPoints: [],
+      updateViaPoints: () => {},
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.addViaPoint).simulate('click');
+    wrapper
+      .find(selectors.removeViaPoint)
+      .simulate('keypress', { key: 'Enter' });
+    wrapper.find(selectors.addViaPoint).simulate('click');
+
+    expect(wrapper.find('.viapoint-container')).to.have.lengthOf(1);
+    expect(wrapper.find(selectors.removeViaPoint)).to.have.lengthOf(1);
+  });
+
+  it('should not render any itinerary search control buttons when isItinerary is false', () => {
+    const props = {
+      ...mockData,
+      initialViaPoints: [],
+      isItinerary: false,
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    expect(wrapper.find(selectors.itinerarySearchControl)).to.have.lengthOf(0);
   });
 });

@@ -78,7 +78,7 @@ describe('<OriginDestinationBar />', () => {
 
   it('should show the add via point button after removing an empty via point with a keypress', () => {
     const props = {
-      initialViaPoints: [' '],
+      initialViaPoints: [],
       origin: {},
     };
     const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
@@ -100,39 +100,6 @@ describe('<OriginDestinationBar />', () => {
     ).to.deep.equal({
       display: 'block',
     });
-  });
-
-  it('should add a via point after adding and then removing a viapoint with a keypress', () => {
-    const props = {
-      initialViaPoints: [' '],
-      origin: {},
-    };
-    const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
-      context: {
-        ...mockContext,
-        router: createMemoryHistory(),
-      },
-      childContextTypes: mockChildContextTypes,
-    });
-
-    comp.find('.itinerary-search-control > .addViaPoint').simulate('click');
-    comp
-      .find('.itinerary-search-control > .removeViaPoint')
-      .simulate('keypress', { key: 'Enter' });
-    comp.find('.itinerary-search-control > .addViaPoint').simulate('click');
-
-    expect(
-      comp.find('.itinerary-search-control > .addViaPoint').prop('style'),
-    ).to.deep.equal({
-      display: 'none',
-    });
-    expect(comp.find('.viapoints-list').length).to.equal(1);
-    expect(comp.find('.viapoints-list').prop('style')).to.deep.equal({
-      display: 'block',
-    });
-    expect(
-      comp.find('.itinerary-search-control > .removeViaPoint').length,
-    ).to.equal(1);
   });
 
   describe('swapEndpoints', () => {

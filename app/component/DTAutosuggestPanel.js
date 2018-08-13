@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import isString from 'lodash/isString';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -18,10 +17,12 @@ export const EMPTY_VIA_POINT_PLACE_HOLDER = undefined;
 const ItinerarySearchControl = ({
   children,
   className,
+  enabled,
   onClick,
   onKeyPress,
   ...rest
 }) =>
+  enabled &&
   onClick && (
     <div className="itinerary-search-control">
       <div
@@ -235,6 +236,7 @@ class DTAutosuggestPanel extends React.Component {
           />
           <ItinerarySearchControl
             className="switch"
+            enabled={isItinerary}
             onClick={() => this.handleSwapOrderClick()}
             onKeyPress={e =>
               isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
@@ -270,6 +272,7 @@ class DTAutosuggestPanel extends React.Component {
               />
               <ItinerarySearchControl
                 className="addViaPointSlack"
+                enabled={isItinerary}
                 onClick={() => this.handleToggleViaPointSlackClick(i)}
                 onKeyPress={e =>
                   isKeyboardSelectionEvent(e) &&
@@ -280,6 +283,7 @@ class DTAutosuggestPanel extends React.Component {
               </ItinerarySearchControl>
               <ItinerarySearchControl
                 className="removeViaPoint"
+                enabled={isItinerary}
                 onClick={() => this.handleRemoveViaPointClick(i)}
                 onKeyPress={e =>
                   isKeyboardSelectionEvent(e) &&
@@ -356,6 +360,7 @@ class DTAutosuggestPanel extends React.Component {
               className={cx('addViaPoint', 'more', {
                 collapsed: viaPoints.length > 4,
               })}
+              enabled={isItinerary}
               onClick={() => this.handleAddViaPointClick()}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
