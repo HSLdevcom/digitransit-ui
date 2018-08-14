@@ -37,7 +37,7 @@ const ItinerarySearchControl = ({
     <div className="itinerary-search-control">
       <div
         {...rest}
-        className={className}
+        className={cx(className, 'cursor-pointer')}
         onClick={onClick}
         onKeyPress={onKeyPress}
         role="button"
