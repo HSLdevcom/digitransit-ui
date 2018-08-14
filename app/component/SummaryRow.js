@@ -175,7 +175,7 @@ const SummaryRow = (
       return;
     }
     const isThresholdMet = checkRelativeDurationThreshold(duration, leg);
-    if (!leg.intermediatePlace && !isThresholdMet) {
+    if (!leg.intermediatePlace && !isThresholdMet && !leg.rentedBike) {
       return;
     }
 

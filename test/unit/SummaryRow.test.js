@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 import {
   component as SummaryRow,
   ModeLeg,
@@ -11,6 +11,7 @@ import {
 
 import dcw12 from './test-data/dcw12';
 import dcw31 from './test-data/dcw31';
+import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 
 describe('<SummaryRow />', () => {
   it('should not show walking distance in desktop view for biking-only itineraries', () => {
@@ -92,6 +93,7 @@ describe('<SummaryRow />', () => {
     const props = {
       breakpoint: 'large',
       data: dcw12.walkingRouteWithIntermediatePlace.data,
+      hash: 1,
       intermediatePlaces:
         dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       onSelect: () => {},
@@ -106,5 +108,56 @@ describe('<SummaryRow />', () => {
     expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
     expect(wrapper.find(ModeLeg)).to.have.lengthOf(2);
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
+  });
+
+  it('should display all city bike leg start stations in the summary view', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.cityBikeRouteWithIntermediatePlaces.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(5);
+    expect(legs.childAt(0).text()).to.contain('Velodrominrinne');
+    expect(legs.childAt(2).text()).to.contain('Näkinsilta');
+    expect(legs.childAt(4).text()).to.contain('Albertinkatu');
+  });
+
+  it('should hide short legs from the summary view for a non-transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.bikingRouteWithIntermediatePlaces.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.bikingRouteWithIntermediatePlaces.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(6);
+    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(4).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(5).is(ModeLeg)).to.equal(true);
   });
 });
