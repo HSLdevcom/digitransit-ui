@@ -574,8 +574,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 10000,
-      endTime: t1 + 20000,
+      startTime: t1 + 100000,
+      endTime: t1 + 200000,
       mode: 'WALK',
       distance: 483.84600000000006,
       duration: 438,
@@ -586,8 +586,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 20000,
-      endTime: t1 + 30000,
+      startTime: t1 + 200000,
+      endTime: t1 + 300000,
       mode: 'BICYCLE',
       distance: 586.4621425755712,
       duration: 120,
@@ -598,8 +598,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 30000,
-      endTime: t1 + 40000,
+      startTime: t1 + 300000,
+      endTime: t1 + 400000,
       mode: 'WALK',
       distance: 291.098,
       duration: 259,
