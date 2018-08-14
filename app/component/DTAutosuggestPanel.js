@@ -12,7 +12,17 @@ import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 
-export const EMPTY_VIA_POINT_PLACE_HOLDER = undefined;
+export const EMPTY_VIA_POINT_PLACE_HOLDER = {};
+
+const isViaPointEmpty = viaPoint => {
+  if (viaPoint === undefined) {
+    return true;
+  }
+  const keys = Object.keys(viaPoint);
+  return (
+    keys.length === 0 || (keys.length === 1 && keys[0] === 'locationSlack')
+  );
+};
 
 const ItinerarySearchControl = ({
   children,
@@ -108,6 +118,13 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ showDarkOverlay: val });
   };
 
+  updateViaPoints = viaPoints => {
+    const filteredViaPoints = viaPoints.filter(vp => !isViaPointEmpty(vp));
+    if (filteredViaPoints.length > 0) {
+      this.props.updateViaPoints(filteredViaPoints);
+    }
+  };
+
   updateViaPointSlack = (
     activeViaPointSlacks,
     updatedViaPointIndex,
@@ -136,11 +153,7 @@ class DTAutosuggestPanel extends React.Component {
   handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
     const { viaPoints } = this.state;
     viaPoints[i].locationSlack = slackTimeInSeconds;
-    this.setState({ viaPoints }, () =>
-      this.props.updateViaPoints(
-        viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
-      ),
-    );
+    this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
   };
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
@@ -148,11 +161,7 @@ class DTAutosuggestPanel extends React.Component {
     viaPoints[i] = {
       ...viaPointLocation,
     };
-    this.setState({ viaPoints }, () =>
-      this.props.updateViaPoints(
-        viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
-      ),
-    );
+    this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
   };
 
   handleRemoveViaPointClick = viaPointIndex => {
@@ -167,11 +176,7 @@ class DTAutosuggestPanel extends React.Component {
         ),
         viaPoints,
       },
-      () => {
-        this.props.updateViaPoints(
-          viaPoints.filter(vp => vp !== EMPTY_VIA_POINT_PLACE_HOLDER),
-        );
-      },
+      () => this.updateViaPoints(viaPoints),
     );
   };
 
@@ -189,8 +194,16 @@ class DTAutosuggestPanel extends React.Component {
 
   render = () => {
     const { breakpoint, isItinerary, origin } = this.props;
-    const { viaPoints } = this.state;
+    const { activeSlackInputs, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
+
+    const defaultSlackTimeValue = 0;
+    const getViaPointSlackTimeOrDefault = (
+      viaPoint,
+      defaultValue = defaultSlackTimeValue,
+    ) => (viaPoint && viaPoint.locationSlack) || defaultValue;
+    const isViaPointSlackTimeInputActive = index =>
+      activeSlackInputs.includes(index);
 
     return (
       <div
@@ -290,6 +303,15 @@ class DTAutosuggestPanel extends React.Component {
                 }
               >
                 <Icon img="icon-icon_time" />
+                <Icon
+                  img="icon-icon_attention"
+                  className={cx('super-icon', {
+                    collapsed:
+                      isViaPointSlackTimeInputActive(i) ||
+                      getViaPointSlackTimeOrDefault(viaPoints[i]) ===
+                        defaultSlackTimeValue,
+                  })}
+                />
               </ItinerarySearchControl>
               <ItinerarySearchControl
                 className="removeViaPoint"
@@ -305,7 +327,7 @@ class DTAutosuggestPanel extends React.Component {
             </div>
             <div
               className={cx('input-viapoint-slack-container', {
-                collapsed: !this.state.activeSlackInputs.includes(i),
+                collapsed: !isViaPointSlackTimeInputActive(i),
               })}
             >
               <FormattedMessage
@@ -315,8 +337,7 @@ class DTAutosuggestPanel extends React.Component {
               <div className="select-wrapper">
                 <Select
                   name="viapoint-slack-amount"
-                  selected={`${(viaPoints[i] && viaPoints[i].locationSlack) ||
-                    0}`}
+                  selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
                   options={slackTime}
                   onSelectChange={e =>
                     this.handleViaPointSlackTimeSelected(e.target.value, i)

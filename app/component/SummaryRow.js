@@ -96,7 +96,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const ModeLeg = ({ leg, mode, large }) => {
+export const ModeLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -124,7 +124,7 @@ CityBikeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const ViaLeg = ({ leg }) => (
+export const ViaLeg = ({ leg }) => (
   <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
     <Icon img="icon-icon_place" className="itinerary-icon place" />
   </div>
@@ -133,6 +133,23 @@ const ViaLeg = ({ leg }) => (
 ViaLeg.propTypes = {
   leg: PropTypes.object.isRequired,
 };
+
+/**
+ * The relative duration of a leg that, if not met, may result in the leg being
+ * discarded from the top level summary view.
+ */
+const LEG_DURATION_THRESHOLD = 0.025;
+
+/**
+ * Checks that the given leg's duration is big enough to be considered for
+ * showing in the top level summary view.
+ *
+ * @param {number} totalDuration The total duration of the itinerary
+ * @param {*} leg The leg to check the threshold for
+ */
+const checkRelativeDurationThreshold = (totalDuration, leg) =>
+  moment(leg.endTime).diff(moment(leg.startTime)) / totalDuration >
+  LEG_DURATION_THRESHOLD;
 
 const SummaryRow = (
   { data, breakpoint, ...props },
@@ -161,6 +178,10 @@ const SummaryRow = (
     if (leg.rentedBike && lastLegRented) {
       return;
     }
+    const isThresholdMet = checkRelativeDurationThreshold(duration, leg);
+    if (!leg.intermediatePlace && !isThresholdMet) {
+      return;
+    }
 
     lastLegRented = leg.rentedBike;
 
@@ -181,6 +202,16 @@ const SummaryRow = (
         );
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
+        if (isThresholdMet) {
+          legs.push(
+            <ModeLeg
+              key={`${leg.mode}_${leg.startTime}`}
+              leg={leg}
+              mode={leg.mode}
+              large={breakpoint === 'large'}
+            />,
+          );
+        }
       } else if (leg.route) {
         if (
           props.intermediatePlaces &&

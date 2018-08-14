@@ -369,4 +369,47 @@ describe('<DTAutosuggestPanel />', () => {
 
     expect(wrapper.find(selectors.viaPointContainer)).to.have.lengthOf(0);
   });
+
+  it('should be able select a slack time value for an empty via point', () => {
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      updateViaPoints: () => {
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.toggleViaPointSlack).simulate('click');
+    wrapper.find('select').prop('onChange')({ target: { value: 1200 } });
+
+    expect(callCount).to.equal(0);
+    expect(wrapper.state('viaPoints')).to.deep.equal([{ locationSlack: 1200 }]);
+  });
+
+  it('should show an attention icon if the user has selected a via point slack time and the selector is hidden', () => {
+    const props = {
+      ...mockData,
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.toggleViaPointSlack).simulate('click');
+    wrapper.find('select').prop('onChange')({ target: { value: 1200 } });
+
+    expect(wrapper.find('svg.super-icon').prop('className')).to.contain(
+      'collapsed',
+    );
+
+    wrapper.find(selectors.toggleViaPointSlack).simulate('click');
+
+    expect(wrapper.find('svg.super-icon').prop('className')).to.not.contain(
+      'collapsed',
+    );
+  });
 });
