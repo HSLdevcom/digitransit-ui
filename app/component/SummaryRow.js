@@ -124,15 +124,11 @@ CityBikeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const ViaLeg = ({ leg }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
+export const ViaLeg = () => (
+  <div className="leg via">
     <Icon img="icon-icon_place" className="itinerary-icon place" />
   </div>
 );
-
-ViaLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
-};
 
 /**
  * The relative duration of a leg that, if not met, may result in the leg being
@@ -201,8 +197,8 @@ const SummaryRow = (
           />,
         );
       } else if (leg.intermediatePlace) {
-        legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
-        if (isThresholdMet) {
+        legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+        if (noTransitLegs && isThresholdMet) {
           legs.push(
             <ModeLeg
               key={`${leg.mode}_${leg.startTime}`}
@@ -221,7 +217,7 @@ const SummaryRow = (
             [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon],
           )
         ) {
-          legs.push(<ViaLeg leg={leg} />);
+          legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
         }
         legs.push(
           <RouteLeg

@@ -432,6 +432,21 @@ div.map {
       transform: rotate(90deg);
     }
   }
+
+  .addViaPointSlack {
+    & > span:nth-child(2) {
+      display: inline;
+      position: relative;
+
+      .super-icon {
+        fill: $hilight-color;
+        font-size: $font-size-xxsmall;
+        position: absolute;
+        right: -0.5em;
+        top: -0.5em;
+      }
+    }
+  }
 }
 
 .small.autosuggest-panel {
