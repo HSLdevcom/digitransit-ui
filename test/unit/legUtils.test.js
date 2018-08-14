@@ -92,7 +92,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
-      expect(distance).to.equal(3);
+      expect(distance).to.equal(4);
     });
   });
 });
