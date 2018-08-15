@@ -169,7 +169,7 @@ const checkRelativeDurationThreshold = (
   totalSlackDuration,
   leg,
 ) =>
-  totalDuration === totalSlackDuration ||
+  totalDuration <= totalSlackDuration ||
   moment(leg.endTime).diff(moment(leg.startTime)) /
     (totalDuration - totalSlackDuration) >
     LEG_DURATION_THRESHOLD;

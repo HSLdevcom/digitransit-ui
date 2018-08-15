@@ -156,7 +156,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
     const { viaPoints } = this.state;
-    viaPoints[i].locationSlack = slackTimeInSeconds;
+    viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
     this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
   };
 
