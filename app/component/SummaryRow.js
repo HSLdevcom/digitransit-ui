@@ -286,7 +286,11 @@ const SummaryRow = (
       getViaPointIndex(leg, intermediatePlaces) > -1;
 
     if (leg.route) {
-      if (previousLeg && previousLeg.route && connectsFromViaPoint()) {
+      if (
+        previousLeg &&
+        !previousLeg.intermediatePlace &&
+        connectsFromViaPoint()
+      ) {
         legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
       }
       legs.push(
