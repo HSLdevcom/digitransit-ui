@@ -61,7 +61,7 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               onClick={() => toggleTransportMode(mode, config, router)}
             >
               <div className="mode-icon">
-                {bikeRejectedModes.includes(mode) ? (
+                {bikeRejectedModes && bikeRejectedModes.includes(mode) ? (
                   <IconWithBigCaution
                     color="currentColor"
                     className={mode.toLowerCase()}
@@ -79,14 +79,15 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
                   id={mode.toLowerCase()}
                   defaultMessage={mode.toLowerCase()}
                 />
-                {bikeRejectedModes.includes(mode) && (
-                  <span className="span-bike-not-allowed">
-                    {intl.formatMessage({
-                      id: `bike-not-allowed-${mode.toLowerCase()}`,
-                      defaultMessage: 'Bikes are not allowed on the vehicle',
-                    })}
-                  </span>
-                )}
+                {bikeRejectedModes &&
+                  bikeRejectedModes.includes(mode) && (
+                    <span className="span-bike-not-allowed">
+                      {intl.formatMessage({
+                        id: `bike-not-allowed-${mode.toLowerCase()}`,
+                        defaultMessage: 'Bikes are not allowed on the vehicle',
+                      })}
+                    </span>
+                  )}
               </div>
             </div>
           </div>
