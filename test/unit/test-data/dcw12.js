@@ -682,4 +682,347 @@ export default {
     ],
     children: false,
   },
+  shortRailRouteWithLongSlacktime: {
+    breakpoint: 'large',
+    refTime: 1534331570000,
+    hash: 0,
+    data: {
+      walkDistance: 1142.60041664559,
+      startTime: 1534331943000,
+      endTime: 1534338844000,
+      legs: [
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534331943000,
+          endTime: 1534332240000,
+          mode: 'WALK',
+          distance: 316.915,
+          duration: 297,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Leppävaaran asema, Espoo',
+            lat: 60.219424,
+            lon: 24.814576,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:2111502',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: true,
+          startTime: 1534332240000,
+          endTime: 1534332420000,
+          mode: 'RAIL',
+          distance: 1662.8413419056242,
+          duration: 180,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'RAIL',
+            shortName: 'U',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: {
+            stoptimes: [
+              {
+                stop: {
+                  gtfsId: 'HSL:1020502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1174502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1291501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2111502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2131501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2132502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:3010501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2161501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2612501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2611502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2511501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:6010503',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:6010504',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:6010505',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:6010501',
+                },
+                pickupType: 'NONE',
+              },
+            ],
+          },
+          from: {
+            name: 'Leppävaara',
+            lat: 60.219486,
+            lon: 24.813242,
+            stop: {
+              gtfsId: 'HSL:2111502',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:2131501',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534332420000,
+          endTime: 1534332788000,
+          mode: 'WALK',
+          distance: 410.706,
+          duration: 368,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Kilo',
+            lat: 60.217952,
+            lon: 24.783293,
+            stop: {
+              gtfsId: 'HSL:2131501',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534338352000,
+          endTime: 1534338720000,
+          mode: 'WALK',
+          distance: 410.70599999999996,
+          duration: 368,
+          rentedBike: false,
+          intermediatePlace: true,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Kilon asema, Espoo',
+            lat: 60.217879,
+            lon: 24.781975,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:2131501',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: true,
+          startTime: 1534338720000,
+          endTime: 1534338840000,
+          mode: 'RAIL',
+          distance: 1654.2735990823508,
+          duration: 120,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'RAIL',
+            shortName: 'E',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: {
+            stoptimes: [
+              {
+                stop: {
+                  gtfsId: 'HSL:1020502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1174502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1291501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2111502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2131501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2132502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:3010501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2161501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2612501',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2611502',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2511501',
+                },
+                pickupType: 'NONE',
+              },
+            ],
+          },
+          from: {
+            name: 'Kilo',
+            lat: 60.217952,
+            lon: 24.783293,
+            stop: {
+              gtfsId: 'HSL:2131501',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:2132502',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534338840000,
+          endTime: 1534338844000,
+          mode: 'WALK',
+          distance: 3.743,
+          duration: 4,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Kera',
+            lat: 60.216041,
+            lon: 24.75359,
+            stop: {
+              gtfsId: 'HSL:2132502',
+            },
+          },
+        },
+      ],
+    },
+    passive: false,
+    currentTime: 1534331553377,
+    intermediatePlaces: [
+      {
+        address: 'Kilon asema, Espoo',
+        locationSlack: 5400,
+        lat: 60.217879,
+        lon: 24.781975,
+      },
+    ],
+    children: false,
+  },
 };

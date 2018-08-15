@@ -52,7 +52,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -131,6 +131,26 @@ export const ViaLeg = () => (
 );
 
 /**
+ * Calculates the total slack time spent (in ms) in all of the intermediate places that
+ * the itinerary may contain.
+ *
+ * @param {*} intermediatePlaces Any intermediate places that the itinerary contains
+ */
+const getTotalSlackDuration = intermediatePlaces => {
+  if (!Array.isArray(intermediatePlaces)) {
+    return 0;
+  }
+  const getLocationSlackTimeInMsOrDefault = (location, defaultValue = 0) =>
+    (location && location.locationSlack) * 1000 || defaultValue;
+  return intermediatePlaces.reduce(
+    (a, b) =>
+      getLocationSlackTimeInMsOrDefault(a) +
+      getLocationSlackTimeInMsOrDefault(b),
+    0,
+  );
+};
+
+/**
  * The relative duration of a leg that, if not met, may result in the leg being
  * discarded from the top level summary view.
  */
@@ -140,12 +160,19 @@ const LEG_DURATION_THRESHOLD = 0.025;
  * Checks that the given leg's duration is big enough to be considered for
  * showing in the top level summary view.
  *
- * @param {number} totalDuration The total duration of the itinerary
+ * @param {number} totalDuration The total duration of the itinerary (in ms)
+ * @param {number} totalSlackDuration The total slack duration of the itinerary (in ms)
  * @param {*} leg The leg to check the threshold for
  */
-const checkRelativeDurationThreshold = (totalDuration, leg) =>
-  moment(leg.endTime).diff(moment(leg.startTime)) / totalDuration >
-  LEG_DURATION_THRESHOLD;
+const checkRelativeDurationThreshold = (
+  totalDuration,
+  totalSlackDuration,
+  leg,
+) =>
+  totalDuration === totalSlackDuration ||
+  moment(leg.endTime).diff(moment(leg.startTime)) /
+    (totalDuration - totalSlackDuration) >
+    LEG_DURATION_THRESHOLD;
 
 const SummaryRow = (
   { data, breakpoint, ...props },
@@ -155,6 +182,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+  const slackDuration = getTotalSlackDuration(props.intermediatePlaces);
   const legs = [];
   let realTimeAvailable = false;
   let noTransitLegs = true;
@@ -174,7 +202,11 @@ const SummaryRow = (
     if (leg.rentedBike && lastLegRented) {
       return;
     }
-    const isThresholdMet = checkRelativeDurationThreshold(duration, leg);
+    const isThresholdMet = checkRelativeDurationThreshold(
+      duration,
+      slackDuration,
+      leg,
+    );
     if (!leg.intermediatePlace && !isThresholdMet && !leg.rentedBike) {
       return;
     }

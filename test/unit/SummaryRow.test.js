@@ -7,6 +7,7 @@ import {
   component as SummaryRow,
   ModeLeg,
   ViaLeg,
+  RouteLeg,
 } from '../../app/component/SummaryRow';
 
 import dcw12 from './test-data/dcw12';
@@ -159,5 +160,29 @@ describe('<SummaryRow />', () => {
     expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(4).is(ModeLeg)).to.equal(true);
     expect(legs.childAt(5).is(ModeLeg)).to.equal(true);
+  });
+
+  it('should ignore locationSlack when hiding short legs', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.shortRailRouteWithLongSlacktime.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.shortRailRouteWithLongSlacktime.intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.shortRailRouteWithLongSlacktime.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(3);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
   });
 });
