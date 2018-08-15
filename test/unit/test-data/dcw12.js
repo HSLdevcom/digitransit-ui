@@ -906,76 +906,7 @@ export default {
               name: 'Helsingin seudun liikenne',
             },
           },
-          trip: {
-            stoptimes: [
-              {
-                stop: {
-                  gtfsId: 'HSL:1020502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1174502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1291501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2111502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2131501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2132502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:3010501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2161501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2612501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2611502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2511501',
-                },
-                pickupType: 'NONE',
-              },
-            ],
-          },
+          trip: null,
           from: {
             name: 'Kilo',
             lat: 60.217952,
@@ -1021,6 +952,613 @@ export default {
         locationSlack: 5400,
         lat: 60.217879,
         lon: 24.781975,
+      },
+    ],
+    children: false,
+  },
+  transitRouteWithWalkConnectingIntermediatePlaces: {
+    breakpoint: 'large',
+    refTime: 1534336789000,
+    hash: 0,
+    data: {
+      walkDistance: 266.06699998986716,
+      startTime: 1534337446000,
+      endTime: 1534338284000,
+      legs: [
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534337446000,
+          endTime: 1534337484000,
+          mode: 'WALK',
+          distance: 41.708,
+          duration: 38,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Postintaival 7, Helsinki',
+            lat: 60.213151618283554,
+            lon: 24.917185306549076,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172144',
+            },
+          },
+        },
+        {
+          realTime: true,
+          transitLeg: true,
+          startTime: 1534337484000,
+          endTime: 1534337564000,
+          mode: 'BUS',
+          distance: 311.88651678082755,
+          duration: 80,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'BUS',
+            shortName: '50',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: null,
+          from: {
+            name: 'Posti 1',
+            lat: 60.21287,
+            lon: 24.91677,
+            stop: {
+              gtfsId: 'HSL:1172144',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534337564000,
+          endTime: 1534337659000,
+          mode: 'WALK',
+          distance: 101.31899999999999,
+          duration: 95,
+          rentedBike: false,
+          intermediatePlace: true,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Ilmalan bussivarikko',
+            lat: 60.21009,
+            lon: 24.91752,
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+          to: { stop: null },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534338019000,
+          endTime: 1534338114000,
+          mode: 'WALK',
+          distance: 101.319,
+          duration: 95,
+          rentedBike: false,
+          intermediatePlace: true,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Postintaival 3, Helsinki',
+            lat: 60.209802,
+            lon: 24.919357,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+        },
+        {
+          realTime: true,
+          transitLeg: true,
+          startTime: 1534338114000,
+          endTime: 1534338257000,
+          mode: 'BUS',
+          distance: 892.8197985751335,
+          duration: 143,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'BUS',
+            shortName: '50',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: null,
+          from: {
+            name: 'Ilmalan bussivarikko',
+            lat: 60.21009,
+            lon: 24.91752,
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1171121',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534338257000,
+          endTime: 1534338284000,
+          mode: 'WALK',
+          distance: 21.465999999999998,
+          duration: 27,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Ilmalantori',
+            lat: 60.205915,
+            lon: 24.91852,
+            stop: {
+              gtfsId: 'HSL:1171121',
+            },
+          },
+          to: { stop: null },
+        },
+      ],
+    },
+    passive: false,
+    currentTime: 1534339633441,
+    intermediatePlaces: [
+      {
+        address: 'Ilmalan bussivarikko 2198, Helsinki',
+        lat: 60.21009,
+        lon: 24.91752,
+      },
+      { address: 'Postintaival 3, Helsinki', lat: 60.209802, lon: 24.919357 },
+    ],
+    children: false,
+  },
+  transitRouteWithShortWalkAtEndAfterIntermediatePlace: {
+    breakpoint: 'large',
+    refTime: 1534331570000,
+    hash: 0,
+    data: {
+      walkDistance: 632.8012499858438,
+      startTime: 1534331801000,
+      endTime: 1534332522000,
+      legs: [
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534331801000,
+          endTime: 1534331820000,
+          mode: 'WALK',
+          distance: 16.376,
+          duration: 19,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Ilmalan asema, Helsinki',
+            lat: 60.207595,
+            lon: 24.921465,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172553',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: true,
+          startTime: 1534331820000,
+          endTime: 1534331940000,
+          mode: 'RAIL',
+          distance: 1147.0076604154772,
+          duration: 120,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'RAIL',
+            shortName: 'A',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: {
+            stoptimes: [
+              {
+                stop: {
+                  gtfsId: 'HSL:2111504',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:2118551',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1465552',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1465551',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1291551',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1172553',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1174552',
+                },
+                pickupType: 'SCHEDULED',
+              },
+              {
+                stop: {
+                  gtfsId: 'HSL:1020552',
+                },
+                pickupType: 'NONE',
+              },
+            ],
+          },
+          from: {
+            name: 'Ilmala',
+            lat: 60.207587,
+            lon: 24.921303,
+            stop: {
+              gtfsId: 'HSL:1172553',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1174552',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534331940000,
+          endTime: 1534332404000,
+          mode: 'WALK',
+          distance: 491.90199999999993,
+          duration: 464,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Pasila',
+            lat: 60.199041,
+            lon: 24.932928,
+            stop: {
+              gtfsId: 'HSL:1174552',
+            },
+          },
+          to: { stop: null },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534332404000,
+          endTime: 1534332522000,
+          mode: 'WALK',
+          distance: 124.16699999999999,
+          duration: 118,
+          rentedBike: false,
+          intermediatePlace: true,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Opastinsilta 7, Helsinki',
+            lat: 60.19948,
+            lon: 24.939067,
+            stop: null,
+          },
+          to: { stop: null },
+        },
+      ],
+    },
+    passive: false,
+    currentTime: 1534342037101,
+    intermediatePlaces: [
+      { address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 },
+    ],
+    children: false,
+  },
+  transitRouteWithShortWalkAtStartBeforeIntermediatePlace: {
+    breakpoint: 'large',
+    refTime: 1534331570000,
+    hash: 0,
+    data: {
+      walkDistance: 629.7502499830623,
+      startTime: 1534331894000,
+      endTime: 1534332619000,
+      legs: [
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534331894000,
+          endTime: 1534332016000,
+          mode: 'WALK',
+          distance: 121.04600000000002,
+          duration: 122,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Opastinsilta 6, Helsinki',
+            lat: 60.199118,
+            lon: 24.940652,
+            stop: null,
+          },
+          to: { stop: null },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534332016000,
+          endTime: 1534332480000,
+          mode: 'WALK',
+          distance: 491.9020000000001,
+          duration: 464,
+          rentedBike: false,
+          intermediatePlace: true,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Opastinsilta 7, Helsinki',
+            lat: 60.19948,
+            lon: 24.939067,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1174502',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: true,
+          startTime: 1534332480000,
+          endTime: 1534332600000,
+          mode: 'RAIL',
+          distance: 1148.1104293779351,
+          duration: 120,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'RAIL',
+            shortName: 'A',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: null,
+          from: {
+            name: 'Pasila',
+            lat: 60.199041,
+            lon: 24.932928,
+            stop: {
+              gtfsId: 'HSL:1174502',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172503',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534332600000,
+          endTime: 1534332619000,
+          mode: 'WALK',
+          distance: 16.376,
+          duration: 19,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Ilmala',
+            lat: 60.207605,
+            lon: 24.921321,
+            stop: {
+              gtfsId: 'HSL:1172503',
+            },
+          },
+          to: { stop: null },
+        },
+      ],
+    },
+    passive: false,
+    currentTime: 1534342392930,
+    intermediatePlaces: [
+      { address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 },
+    ],
+    children: false,
+  },
+  transitRouteWithIntermediatePlaceAtStop: {
+    breakpoint: 'large',
+    refTime: 1534336789000,
+    hash: 0,
+    data: {
+      walkDistance: 116.66474999607604,
+      startTime: 1534337446000,
+      endTime: 1534339835000,
+      legs: [
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534337446000,
+          endTime: 1534337484000,
+          mode: 'WALK',
+          distance: 41.708,
+          duration: 38,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Postintaival 7, Helsinki',
+            lat: 60.213151618283554,
+            lon: 24.917185306549076,
+            stop: null,
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172144',
+            },
+          },
+        },
+        {
+          realTime: true,
+          transitLeg: true,
+          startTime: 1534337484000,
+          endTime: 1534337564000,
+          mode: 'BUS',
+          distance: 311.88651678082755,
+          duration: 80,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'BUS',
+            shortName: '50',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: null,
+          from: {
+            name: 'Posti 1',
+            lat: 60.21287,
+            lon: 24.91677,
+            stop: {
+              gtfsId: 'HSL:1172144',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+        },
+        {
+          realTime: true,
+          transitLeg: true,
+          startTime: 1534339694000,
+          endTime: 1534339760000,
+          mode: 'BUS',
+          distance: 297.5439220097265,
+          duration: 66,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: {
+            mode: 'BUS',
+            shortName: '50',
+            color: null,
+            alerts: [],
+            agency: {
+              name: 'Helsingin seudun liikenne',
+            },
+          },
+          trip: null,
+          from: {
+            name: 'Ilmalan bussivarikko',
+            lat: 60.21009,
+            lon: 24.91752,
+            stop: {
+              gtfsId: 'HSL:1172142',
+            },
+          },
+          to: {
+            stop: {
+              gtfsId: 'HSL:1174102',
+            },
+          },
+        },
+        {
+          realTime: false,
+          transitLeg: false,
+          startTime: 1534339760000,
+          endTime: 1534339835000,
+          mode: 'WALK',
+          distance: 74.858,
+          duration: 75,
+          rentedBike: false,
+          intermediatePlace: false,
+          route: null,
+          trip: null,
+          from: {
+            name: 'Ilmalan seisake',
+            lat: 60.20796,
+            lon: 24.92078,
+            stop: {
+              gtfsId: 'HSL:1174102',
+            },
+          },
+          to: { stop: null },
+        },
+      ],
+    },
+    passive: false,
+    currentTime: 1534342632626,
+    intermediatePlaces: [
+      {
+        address: 'Ilmalan bussivarikko 2198, Helsinki',
+        locationSlack: 1800,
+        lat: 60.21009,
+        lon: 24.91752,
       },
     ],
     children: false,

@@ -185,4 +185,134 @@ describe('<SummaryRow />', () => {
     expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
   });
+
+  it('should show a connecting walk leg between via points for transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.transitRouteWithWalkConnectingIntermediatePlaces
+          .intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(5);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(4).is(RouteLeg)).to.equal(true);
+  });
+
+  it('should show a connecting walk leg between via points for transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.transitRouteWithWalkConnectingIntermediatePlaces
+          .intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(5);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(4).is(RouteLeg)).to.equal(true);
+  });
+
+  it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace
+          .intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime:
+        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(3);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+  });
+
+  it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace
+          .intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime:
+        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(3);
+    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+  });
+
+  it('should show a via point for transit itinerary when the via point is at a stop', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.transitRouteWithIntermediatePlaceAtStop.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(3);
+    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+  });
 });

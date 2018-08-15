@@ -174,8 +174,39 @@ const checkRelativeDurationThreshold = (
     (totalDuration - totalSlackDuration) >
     LEG_DURATION_THRESHOLD;
 
+const getViaPointIndex = (leg, intermediatePlaces) => {
+  if (!leg || !Array.isArray(intermediatePlaces)) {
+    return -1;
+  }
+  return intermediatePlaces.findIndex(
+    place => place.lat === leg.from.lat && place.lon === leg.from.lon,
+  );
+};
+
+/**
+ * Checks if the leg connects two consecutive via points.
+ *
+ * @param {*} leg The leg to check the connection for
+ * @param {*} nextLeg The next leg in the itinerary
+ * @param {[*]} intermediatePlaces The intermediate places in the itinerary
+ */
+const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
+  if (!nextLeg || !Array.isArray(intermediatePlaces)) {
+    return false;
+  }
+  const startIndex = getViaPointIndex(leg, intermediatePlaces);
+  if (startIndex === -1) {
+    return false;
+  }
+  const endIndex = getViaPointIndex(nextLeg, intermediatePlaces);
+  if (endIndex === -1) {
+    return false;
+  }
+  return endIndex - startIndex === 1; // via points have to be right after the other
+};
+
 const SummaryRow = (
-  { data, breakpoint, ...props },
+  { data, breakpoint, intermediatePlaces, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -183,7 +214,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const slackDuration = getTotalSlackDuration(props.intermediatePlaces);
+  const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let realTimeAvailable = false;
   let noTransitLegs = true;
@@ -199,68 +230,46 @@ const SummaryRow = (
 
   let lastLegRented = false;
 
-  data.legs.forEach(leg => {
+  data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
       return;
     }
+
+    const isFirstLeg = i === 0;
+    const isLastLeg = i === data.legs.length - 1;
+    const previousLeg = data.legs[i - 1];
+    const nextLeg = data.legs[i + 1];
     const isThresholdMet = checkRelativeDurationThreshold(
       duration,
       slackDuration,
       leg,
     );
+
     if (!leg.intermediatePlace && !isThresholdMet && !isTransitLeg(leg)) {
       return;
     }
 
     lastLegRented = leg.rentedBike;
 
-    if (
-      leg.transitLeg ||
-      leg.rentedBike ||
-      noTransitLegs ||
-      leg.intermediatePlace
-    ) {
-      if (leg.rentedBike) {
-        legs.push(
-          <ModeLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            mode="CITYBIKE"
-            large={breakpoint === 'large'}
-          />,
-        );
-      } else if (leg.intermediatePlace) {
-        legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
-        if (noTransitLegs && isThresholdMet) {
-          legs.push(
-            <ModeLeg
-              key={`${leg.mode}_${leg.startTime}`}
-              leg={leg}
-              mode={leg.mode}
-              large={breakpoint === 'large'}
-            />,
-          );
-        }
-      } else if (leg.route) {
-        if (
-          props.intermediatePlaces &&
-          props.intermediatePlaces.length > 0 &&
-          isEqual(
-            [leg.from.lat, leg.from.lon],
-            [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon],
-          )
-        ) {
-          legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
-        }
-        legs.push(
-          <RouteLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            intl={intl}
-            large={breakpoint === 'large'}
-          />,
-        );
-      } else {
+    if (leg.rentedBike) {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode="CITYBIKE"
+          large={breakpoint === 'large'}
+        />,
+      );
+      return;
+    }
+
+    if (leg.intermediatePlace) {
+      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+      if (
+        (noTransitLegs && isThresholdMet) ||
+        isViaPointConnectingLeg(leg, nextLeg, intermediatePlaces) ||
+        isLastLeg
+      ) {
         legs.push(
           <ModeLeg
             key={`${leg.mode}_${leg.startTime}`}
@@ -270,6 +279,46 @@ const SummaryRow = (
           />,
         );
       }
+      return;
+    }
+
+    const connectsFromViaPoint = () =>
+      getViaPointIndex(leg, intermediatePlaces) > -1;
+
+    if (leg.route) {
+      if (previousLeg && previousLeg.route && connectsFromViaPoint()) {
+        legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+      }
+      legs.push(
+        <RouteLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          intl={intl}
+          large={breakpoint === 'large'}
+        />,
+      );
+      return;
+    }
+
+    const connectsToFirstViaPoint = () =>
+      getViaPointIndex(nextLeg, intermediatePlaces) === 0;
+    const connectsFromLastViaPoint = () =>
+      getViaPointIndex(leg, intermediatePlaces) === intermediatePlaces &&
+      intermediatePlaces.length - 1;
+
+    if (
+      noTransitLegs ||
+      (isFirstLeg && connectsToFirstViaPoint()) ||
+      (isLastLeg && connectsFromLastViaPoint())
+    ) {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode={leg.mode}
+          large={breakpoint === 'large'}
+        />,
+      );
     }
   });
 
