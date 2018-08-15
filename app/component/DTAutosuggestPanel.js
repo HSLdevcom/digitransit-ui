@@ -268,89 +268,91 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="icon-icon_direction-b" />
           </ItinerarySearchControl>
         </div>
-        {viaPoints.map((o, i) => (
-          <div
-            className="viapoint-container"
-            key={`viapoint-${i}`} // eslint-disable-line
-          >
-            <div className={`viapoint-input-container viapoint-${i + 1}`}>
-              <div className="viapoint-before">
-                <Icon img="icon-icon_ellipsis" />
-              </div>
-              <DTEndpointAutosuggest
-                id="viapoint"
-                autoFocus={
-                  // Disable autofocus if using IE11
-                  isIe ? false : breakpoint === 'large'
-                }
-                refPoint={this.props.origin}
-                searchType="endpoint"
-                placeholder="via-point"
-                className="viapoint"
-                isFocused={this.isFocused}
-                value={o ? o.address : ''}
-                onLocationSelected={item =>
-                  this.handleViaPointLocationSelected(item, i)
-                }
-              />
-              <ItinerarySearchControl
-                className="addViaPointSlack"
-                enabled={isItinerary}
-                onClick={() => this.handleToggleViaPointSlackClick(i)}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  this.handleToggleViaPointSlackClick(i)
-                }
-              >
-                <Icon img="icon-icon_time" />
-                <Icon
-                  img="icon-icon_attention"
-                  className={cx('super-icon', {
-                    collapsed:
-                      isViaPointSlackTimeInputActive(i) ||
-                      getViaPointSlackTimeOrDefault(viaPoints[i]) ===
-                        defaultSlackTimeValue,
-                  })}
-                />
-              </ItinerarySearchControl>
-              <ItinerarySearchControl
-                className="removeViaPoint"
-                enabled={isItinerary}
-                onClick={() => this.handleRemoveViaPointClick(i)}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  this.handleRemoveViaPointClick(i)
-                }
-              >
-                <Icon img="icon-icon_close" />
-              </ItinerarySearchControl>
-            </div>
+        <div className="viapoints-container">
+          {viaPoints.map((o, i) => (
             <div
-              className={cx('input-viapoint-slack-container', {
-                collapsed: !isViaPointSlackTimeInputActive(i),
-              })}
+              className="viapoint-container"
+              key={`viapoint-${i}`} // eslint-disable-line
             >
-              <FormattedMessage
-                defaultMessage="viapoint-slack-amount"
-                id="viapoint-slack-amount"
-              />
-              <div className="select-wrapper">
-                <Select
-                  name="viapoint-slack-amount"
-                  selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
-                  options={slackTime}
-                  onSelectChange={e =>
-                    this.handleViaPointSlackTimeSelected(e.target.value, i)
+              <div className={`viapoint-input-container viapoint-${i + 1}`}>
+                <div className="viapoint-before">
+                  <Icon img="icon-icon_ellipsis" />
+                </div>
+                <DTEndpointAutosuggest
+                  id="viapoint"
+                  autoFocus={
+                    // Disable autofocus if using IE11
+                    isIe ? false : breakpoint === 'large'
+                  }
+                  refPoint={this.props.origin}
+                  searchType="endpoint"
+                  placeholder="via-point"
+                  className="viapoint"
+                  isFocused={this.isFocused}
+                  value={(o && o.address) || ''}
+                  onLocationSelected={item =>
+                    this.handleViaPointLocationSelected(item, i)
                   }
                 />
-                <Icon
-                  className="fake-select-arrow"
-                  img="icon-icon_arrow-dropdown"
+                <ItinerarySearchControl
+                  className="addViaPointSlack"
+                  enabled={isItinerary}
+                  onClick={() => this.handleToggleViaPointSlackClick(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.handleToggleViaPointSlackClick(i)
+                  }
+                >
+                  <Icon img="icon-icon_time" />
+                  <Icon
+                    img="icon-icon_attention"
+                    className={cx('super-icon', {
+                      collapsed:
+                        isViaPointSlackTimeInputActive(i) ||
+                        getViaPointSlackTimeOrDefault(viaPoints[i]) ===
+                          defaultSlackTimeValue,
+                    })}
+                  />
+                </ItinerarySearchControl>
+                <ItinerarySearchControl
+                  className="removeViaPoint"
+                  enabled={isItinerary}
+                  onClick={() => this.handleRemoveViaPointClick(i)}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) &&
+                    this.handleRemoveViaPointClick(i)
+                  }
+                >
+                  <Icon img="icon-icon_close" />
+                </ItinerarySearchControl>
+              </div>
+              <div
+                className={cx('input-viapoint-slack-container', {
+                  collapsed: !isViaPointSlackTimeInputActive(i),
+                })}
+              >
+                <FormattedMessage
+                  defaultMessage="viapoint-slack-amount"
+                  id="viapoint-slack-amount"
                 />
+                <div className="select-wrapper">
+                  <Select
+                    name="viapoint-slack-amount"
+                    selected={`${getViaPointSlackTimeOrDefault(viaPoints[i])}`}
+                    options={slackTime}
+                    onSelectChange={e =>
+                      this.handleViaPointSlackTimeSelected(e.target.value, i)
+                    }
+                  />
+                  <Icon
+                    className="fake-select-arrow"
+                    img="icon-icon_arrow-dropdown"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         {((this.props.destination && this.props.destination.set) ||
           origin.ready ||
           isItinerary) && (

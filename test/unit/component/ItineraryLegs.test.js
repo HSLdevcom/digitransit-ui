@@ -12,6 +12,7 @@ describe('<ItineraryLegs />', () => {
   it('should not fail to render even if the first leg is an intermediate place', () => {
     const props = {
       itinerary: {
+        endTime: data.firstLegIsAnIntermediatePlace[3].endTime,
         legs: data.firstLegIsAnIntermediatePlace,
       },
     };

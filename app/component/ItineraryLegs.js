@@ -64,6 +64,7 @@ class ItineraryLegs extends React.Component {
         legs.push(
           <ViaLeg
             key={`${j}via`}
+            index={j}
             leg={leg}
             arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
