@@ -412,4 +412,28 @@ describe('<DTAutosuggestPanel />', () => {
       'collapsed',
     );
   });
+
+  it('should clear the via points when removing the last via point', () => {
+    let callArgument;
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        otpToLocation('Kamppi, Helsinki::60.168438,24.929283'),
+      ],
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.removeViaPoint).simulate('click');
+
+    expect(callArgument).to.deep.equal([]);
+    expect(callCount).to.equal(1);
+  });
 });

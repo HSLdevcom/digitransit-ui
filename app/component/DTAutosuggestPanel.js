@@ -119,6 +119,10 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   updateViaPoints = viaPoints => {
+    if (viaPoints.length === 0) {
+      this.props.updateViaPoints([]);
+      return;
+    }
     const filteredViaPoints = viaPoints.filter(vp => !isViaPointEmpty(vp));
     if (filteredViaPoints.length > 0) {
       this.props.updateViaPoints(filteredViaPoints);
