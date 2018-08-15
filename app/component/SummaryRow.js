@@ -178,6 +178,7 @@ const SummaryRow = (
   { data, breakpoint, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
+  const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
@@ -188,7 +189,7 @@ const SummaryRow = (
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
-    if (leg.transitLeg || leg.rentedBike) {
+    if (isTransitLeg(leg)) {
       if (noTransitLegs && leg.realTime) {
         realTimeAvailable = true;
       }
@@ -207,7 +208,7 @@ const SummaryRow = (
       slackDuration,
       leg,
     );
-    if (!leg.intermediatePlace && !isThresholdMet && !leg.rentedBike) {
+    if (!leg.intermediatePlace && !isThresholdMet && !isTransitLeg(leg)) {
       return;
     }
 
