@@ -151,6 +151,7 @@ class SummaryPage extends React.Component {
   initCustomizableParameters = config => {
     this.customizableParameters = {
       ...SummaryPage.hcParameters,
+      ...this.context.config.defaultSettings,
       modes: Object.keys(config.transportModes)
         .filter(mode => config.transportModes[mode].defaultValue === true)
         .map(mode => config.modeToOTP[mode])
@@ -163,7 +164,8 @@ class SummaryPage extends React.Component {
         .join(','),
       maxWalkDistance: config.maxWalkDistance,
       itineraryFiltering: config.itineraryFiltering,
-      preferred: { agencies: config.preferredAgency || '' },
+      preferred: { routes: '' },
+      unpreferred: { routes: '' },
     };
   };
 
@@ -448,8 +450,9 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
-          modeWeight: $modeWeight,
-          preferred: $preferred)
+          modeWeight: $modeWeight
+          preferred: $preferred,
+          unpreferred: $unpreferred),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -497,6 +500,7 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
+      unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
     },

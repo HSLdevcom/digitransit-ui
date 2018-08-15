@@ -45,8 +45,6 @@ export default {
   // Navbar logo
   logo: 'default/digitransit-logo.png',
 
-  spinner: 'default/default-spinner.png',
-
   contactName: {
     sv: 'Digitransit',
     fi: 'Digitransit',
@@ -82,6 +80,8 @@ export default {
     radius: 10000,
     bucketSize: 1000,
   },
+
+  defaultSettings: {},
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,

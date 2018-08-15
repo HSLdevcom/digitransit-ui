@@ -19,6 +19,8 @@ export const defaultSettings = {
   walkReluctance: 2,
   walkSpeed: 1.2,
   ticketTypes: 'none',
+  preferred: undefined,
+  unpreferred: undefined,
   bikeSpeed: 5,
 };
 
@@ -235,6 +237,12 @@ export const getSettings = () => {
       routingSettings.airplaneWeight !== undefined
         ? Number(routingSettings.airplaneWeight)
         : undefined,
+    preferred:
+      custSettings.preferred !== undefined ? custSettings.preferred : undefined,
+    unpreferred:
+      custSettings.unpreferred !== undefined
+        ? custSettings.unpreferred
+        : undefined,
   };
 };
 
@@ -255,6 +263,8 @@ export const preparePlanParams = config => (
         accessibilityOption,
         ticketTypes,
         transferPenalty,
+        preferred,
+        unpreferred,
       },
     },
   },
@@ -267,6 +277,7 @@ export const preparePlanParams = config => (
 
   return {
     ...defaultSettings,
+    ...config.defaultSettings,
     ...omitBy(
       {
         fromPlace: from,
@@ -346,7 +357,12 @@ export const preparePlanParams = config => (
                 nullOrUndefined,
               )
             : null,
-        preferred: { agencies: config.preferredAgency || '' },
+        preferred: {
+          routes: preferred || settings.preferred,
+        },
+        unpreferred: {
+          routes: unpreferred || settings.unpreferred,
+        },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,

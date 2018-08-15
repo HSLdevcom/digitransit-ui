@@ -47,16 +47,15 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
         border: #007ac9 1px solid;
 
         &:before {
-          content: '✔';
-          font-size: 1em;
+          content: "#{'\2714 \fe0e'}";
+          font-size: 1.25em;
           line-height: 1;
           color: $primary-color;
           font-weight: 700;
           font-family: $font-family;
-          margin-left: 0.2em;
+          margin-left: 0.1em;
           margin-top: 0.2em;
           transform: rotateY(15deg);
-          position: absolute;
         }
 
         &.disabled:before {
@@ -73,8 +72,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
 
     input[type='checkbox'] {
-      visibility: hidden;
       height: 20px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      visibility: hidden;
       width: 20px;
     }
   }
@@ -209,6 +211,8 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   color: rgb(51, 51, 51);
 
   .route-name {
+    display: flex;
+    margin-top: 0.8em;
     button {
       border-radius: 50%;
       background: white;
@@ -225,6 +229,13 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       }
       &:hover {
         border: 1px solid #007ac9;
+      }
+    }
+    .route-prefer-details {
+      line-height: 1em;
+      display: flex;
+      :first-child {
+        margin-right: 0.3em;
       }
     }
   }
