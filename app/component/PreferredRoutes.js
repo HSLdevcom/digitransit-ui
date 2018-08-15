@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Relay from 'react-relay/classic';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 import DTEndpointAutosuggest from './DTEndpointAutosuggest';
 import Icon from './Icon';
+import RouteDetails from './RouteDetails';
 
 class PreferredRoutes extends React.Component {
   static contextTypes = {
@@ -15,6 +17,9 @@ class PreferredRoutes extends React.Component {
 
   static propTypes = {
     onRouteSelected: PropTypes.func.isRequired,
+    preferredRoutes: PropTypes.array,
+    unPreferredRoutes: PropTypes.array,
+    removeRoute: PropTypes.func.isRequired,
   };
 
   getPreferredRouteNumbers = routeOptions => (
@@ -27,10 +32,12 @@ class PreferredRoutes extends React.Component {
       </h1>
       <DTEndpointAutosuggest
         placeholder="give-route"
-        searchType="all"
+        searchType="search"
         className={routeOptions.optionName}
         onLocationSelected={e => e.stopPropagation()}
-        onRouteSelected={val => this.props.onRouteSelected(val)}
+        onRouteSelected={val =>
+          this.props.onRouteSelected(val, routeOptions.optionName)
+        }
         id={`searchfield-${routeOptions.optionName}`}
         refPoint={{ lat: 0, lon: 0 }}
         layers={['Geocoding']}
@@ -40,11 +47,33 @@ class PreferredRoutes extends React.Component {
       <div className="preferred-routes-list">
         {routeOptions.preferredRoutes &&
           routeOptions.preferredRoutes.map(o => (
-            <div className="route-name" key={o.name}>
-              <button onClick={e => console.log(e)}>
+            <div className="route-name" key={o}>
+              <button
+                onClick={() =>
+                  this.props.removeRoute(o, routeOptions.optionName)
+                }
+              >
                 <Icon className="close-icon" img="icon-icon_close" />
               </button>
-              {o.name}
+              <Relay.Renderer
+                Container={RouteDetails}
+                queryConfig={{
+                  name: 'RouteQuery',
+                  queries: {
+                    route: Component => Relay.QL`
+                    query ($gtfsId: String!){
+                      route (id:$gtfsId) {
+                        ${Component.getFragment('route', {
+                          gtfsId: o.replace('__', ':'),
+                        })}
+                          }
+                        }
+                    `,
+                  },
+                  params: { gtfsId: o.replace('__', ':') },
+                }}
+                environment={Relay.Store}
+              />
             </div>
           ))}
       </div>
@@ -54,8 +83,8 @@ class PreferredRoutes extends React.Component {
   renderAvoidingRoutes = () => (
     <div className="avoid-routes-container">
       {this.getPreferredRouteNumbers({
-        optionName: 'avoid-routes',
-        preferredRoutes: [],
+        optionName: 'unpreferred',
+        preferredRoutes: this.props.unPreferredRoutes,
       })}
     </div>
   );
@@ -63,8 +92,8 @@ class PreferredRoutes extends React.Component {
   renderPreferredRouteNumbers = () => (
     <div className="preferred-routes-container">
       {this.getPreferredRouteNumbers({
-        optionName: 'prefer-routes',
-        preferredRoutes: [],
+        optionName: 'preferred',
+        preferredRoutes: this.props.preferredRoutes,
       })}
     </div>
   );
@@ -78,4 +107,5 @@ class PreferredRoutes extends React.Component {
     );
   }
 }
+
 export default PreferredRoutes;

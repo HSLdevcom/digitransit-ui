@@ -48,6 +48,10 @@ export default configMerger(walttiConfig, {
     lon: 25.4702,
   },
 
+  defaultSettings: {
+    walkBoardCost: 900,
+  },
+
   defaultOrigins: [
     {
       icon: 'icon-icon_bus',
