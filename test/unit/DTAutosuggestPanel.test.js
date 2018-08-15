@@ -413,6 +413,25 @@ describe('<DTAutosuggestPanel />', () => {
     );
   });
 
+  it('should remove the attention icon if the slack time is set back to default', () => {
+    const props = {
+      ...mockData,
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper.find(selectors.toggleViaPointSlack).simulate('click');
+    wrapper.find('select').prop('onChange')({ target: { value: '1200' } });
+    wrapper.find('select').prop('onChange')({ target: { value: '0' } });
+    wrapper.find(selectors.toggleViaPointSlack).simulate('click');
+
+    expect(wrapper.find('svg.super-icon').prop('className')).to.contain(
+      'collapsed',
+    );
+  });
+
   it('should clear the via points when removing the last via point', () => {
     let callArgument;
     let callCount = 0;
