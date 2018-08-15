@@ -249,12 +249,14 @@ class SummaryPage extends React.Component {
         readyState: { done, error },
       },
     } = this.context;
+    const hasItineraries =
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries;
 
     if (
       this.props.routes[this.props.routes.length - 1].printPage &&
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
+      hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
         itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
@@ -279,11 +281,7 @@ class SummaryPage extends React.Component {
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
-    ) {
+    if (hasItineraries) {
       earliestStartTime = Math.min(
         ...this.props.plan.plan.itineraries.map(i => i.startTime),
       );
@@ -311,9 +309,9 @@ class SummaryPage extends React.Component {
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
-                itinerary: this.props.plan.plan.itineraries[
-                  this.props.params.hash
-                ],
+                itinerary:
+                  hasItineraries &&
+                  this.props.plan.plan.itineraries[this.props.params.hash],
                 focus: this.updateCenter,
               })}
           </SummaryPlanContainer>
