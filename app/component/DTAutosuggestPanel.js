@@ -82,6 +82,7 @@ class DTAutosuggestPanel extends React.Component {
 
   constructor(props) {
     super(props);
+    this.draggableViaPoints = [];
     this.state = {
       activeSlackInputs: [],
       showDarkOverlay: false,
@@ -104,6 +105,10 @@ class DTAutosuggestPanel extends React.Component {
       });
     }
     return timeOptions;
+  };
+
+  setDraggableViaPointRef = (element, index) => {
+    this.draggableViaPoints[index] = element;
   };
 
   value = location =>
@@ -196,9 +201,59 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ viaPoints }, () => this.props.swapOrder());
   };
 
+  handleOnViaPointDragOver = (event, index) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
+    this.setState({ isDraggingOverIndex: index });
+  };
+
+  handleOnViaPointDragEnd = () => {
+    this.setState({
+      isDraggingOverIndex: undefined,
+    });
+  };
+
+  handleOnViaPointDrop = (event, targetIndex) => {
+    event.preventDefault();
+    const draggedIndex = Number.parseInt(
+      event.dataTransfer.getData('text/plain'),
+      10,
+    );
+    if (
+      draggedIndex === undefined ||
+      draggedIndex === targetIndex ||
+      targetIndex - draggedIndex === 1
+    ) {
+      return;
+    }
+
+    const { viaPoints } = this.state;
+    const draggedViaPoint = viaPoints.splice(draggedIndex, 1)[0];
+    viaPoints.splice(
+      targetIndex > draggedIndex ? targetIndex - 1 : targetIndex,
+      0,
+      draggedViaPoint,
+    );
+    this.setState({ viaPoints, isDraggingOverIndex: undefined }, () =>
+      this.updateViaPoints(viaPoints),
+    );
+  };
+
+  handleStartViaPointDragging = (event, isDraggingIndex) => {
+    if (this.draggableViaPoints[isDraggingIndex]) {
+      event.dataTransfer.setDragImage(
+        this.draggableViaPoints[isDraggingIndex],
+        0,
+        0,
+      );
+    }
+    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
+    event.dataTransfer.setData('text/plain', isDraggingIndex);
+  };
+
   render = () => {
     const { breakpoint, isItinerary, origin } = this.props;
-    const { activeSlackInputs, viaPoints } = this.state;
+    const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
 
     const defaultSlackTimeValue = 0;
@@ -275,11 +330,22 @@ class DTAutosuggestPanel extends React.Component {
         <div className="viapoints-container">
           {viaPoints.map((o, i) => (
             <div
-              className="viapoint-container"
+              className={cx('viapoint-container', {
+                'drop-target-before': i === isDraggingOverIndex,
+              })}
               key={`viapoint-${i}`} // eslint-disable-line
+              onDragOver={e => this.handleOnViaPointDragOver(e, i)}
+              onDrop={e => this.handleOnViaPointDrop(e, i)}
+              ref={el => this.setDraggableViaPointRef(el, i)}
             >
               <div className={`viapoint-input-container viapoint-${i + 1}`}>
-                <div className="viapoint-before">
+                <div
+                  className="viapoint-before"
+                  draggable
+                  onDragEnd={this.handleOnViaPointDragEnd}
+                  onDragStart={e => this.handleStartViaPointDragging(e, i)}
+                  style={{ cursor: 'move' }}
+                >
                   <Icon img="icon-icon_ellipsis" />
                 </div>
                 <DTEndpointAutosuggest

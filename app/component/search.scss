@@ -567,6 +567,13 @@ input.react-autosuggest__input {
 .viapoint-container {
   display: flex;
   flex-wrap: wrap;
+
+  &.drop-target-before::before {
+    border-top: 1px solid $link-color;
+    content: '';
+    margin-top: -0.25em;
+    width: 100%;
+  }
 }
 
 .origin-input-container,
