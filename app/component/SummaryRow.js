@@ -3,7 +3,6 @@ import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
-import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
