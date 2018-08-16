@@ -172,6 +172,10 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
         font-size: $font-size-xxsmall;
       }
     }
+
+    &.subway svg.SUBWAY-icon {
+      fill: $metro-color;
+    }
   }
 }
 

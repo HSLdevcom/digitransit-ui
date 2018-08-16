@@ -657,8 +657,15 @@ const translations = {
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
+    'number-of-minutes':
+      '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'option-default': 'Default',
+    'option-least': 'Least',
+    'option-less': 'Less',
+    'option-more': 'More',
+    'option-most': 'Most',
     or: 'or',
     origin: 'Origin',
     'origin-outside-service':
@@ -704,6 +711,10 @@ const translations = {
     'route-page.description': 'Route {route_short_name} - {route_long_name}',
     'route-page.title': 'Route {route_short_name}',
     'route-page.title-short': 'Route',
+    'route-prefer-greenways': 'Prefer cycleways',
+    'route-prefer-illuminated': 'Prefer illuminated routes',
+    'route-prefer-paved': 'Prefer paved routes',
+    'route-prefer-winter-maintenance': 'Prefer routes with winter maintenance',
     'route-preferences': 'Route preferences',
     'route-stop-or-keyword': 'About the route or stop',
     routes: 'Routes',
@@ -1234,7 +1245,6 @@ const translations = {
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
     'journeyplanner.title': 'HSL Reittiopas',
-    'kilometers-per-hour': '{number} km/h',
     later: 'Myöhemmin',
     leaves: 'Lähtee',
     'leaving-at': 'Lähtöaika',
@@ -1341,6 +1351,10 @@ const translations = {
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-prefer-greenways': 'Suosi kevyen liikenteen reittejä',
+    'route-prefer-illuminated': 'Suosi valaistuja reittejä',
+    'route-prefer-paved': 'Suosi päällystettyjä reittejä',
+    'route-prefer-winter-maintenance': 'Suosi talvikunnossapidettyjä reittejä',
     'route-preferences': 'Reittimieltymykset',
     'route-stop-or-keyword': 'Tietoja linjasta tai pysäkistä',
     routes: 'Linjat',
@@ -2136,8 +2150,15 @@ const translations = {
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
+    'number-of-minutes':
+      '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
+    'option-default': 'Standard',
+    'option-least': 'Minst',
+    'option-less': 'Mindre',
+    'option-more': 'Mera',
+    'option-most': 'Mest',
     or: 'eller',
     origin: 'Avfärdsplats',
     'origin-label-change': 'Byt avfärdsplats',

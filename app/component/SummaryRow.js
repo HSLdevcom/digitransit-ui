@@ -3,7 +3,6 @@ import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
-import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
@@ -52,7 +51,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -96,7 +95,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const ModeLeg = ({ leg, mode, large }) => {
+export const ModeLeg = ({ leg, mode, large }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -124,30 +123,103 @@ CityBikeLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-const ViaLeg = ({ leg }) => (
-  <div key={`${leg.mode}_${leg.startTime}`} className="leg via">
+export const ViaLeg = () => (
+  <div className="leg via">
     <Icon img="icon-icon_place" className="itinerary-icon place" />
   </div>
 );
 
-ViaLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+/**
+ * Calculates the total slack time spent (in ms) in all of the intermediate places that
+ * the itinerary may contain.
+ *
+ * @param {*} intermediatePlaces Any intermediate places that the itinerary contains
+ */
+const getTotalSlackDuration = intermediatePlaces => {
+  if (!Array.isArray(intermediatePlaces)) {
+    return 0;
+  }
+  const getLocationSlackTimeInMsOrDefault = (location, defaultValue = 0) =>
+    (location && location.locationSlack) * 1000 || defaultValue;
+  return intermediatePlaces.reduce(
+    (a, b) =>
+      getLocationSlackTimeInMsOrDefault(a) +
+      getLocationSlackTimeInMsOrDefault(b),
+    0,
+  );
+};
+
+/**
+ * The relative duration of a leg that, if not met, may result in the leg being
+ * discarded from the top level summary view.
+ */
+const LEG_DURATION_THRESHOLD = 0.025;
+
+/**
+ * Checks that the given leg's duration is big enough to be considered for
+ * showing in the top level summary view.
+ *
+ * @param {number} totalDuration The total duration of the itinerary (in ms)
+ * @param {number} totalSlackDuration The total slack duration of the itinerary (in ms)
+ * @param {*} leg The leg to check the threshold for
+ */
+const checkRelativeDurationThreshold = (
+  totalDuration,
+  totalSlackDuration,
+  leg,
+) =>
+  totalDuration <= totalSlackDuration ||
+  moment(leg.endTime).diff(moment(leg.startTime)) /
+    (totalDuration - totalSlackDuration) >
+    LEG_DURATION_THRESHOLD;
+
+const getViaPointIndex = (leg, intermediatePlaces) => {
+  if (!leg || !Array.isArray(intermediatePlaces)) {
+    return -1;
+  }
+  return intermediatePlaces.findIndex(
+    place => place.lat === leg.from.lat && place.lon === leg.from.lon,
+  );
+};
+
+/**
+ * Checks if the leg connects two consecutive via points.
+ *
+ * @param {*} leg The leg to check the connection for
+ * @param {*} nextLeg The next leg in the itinerary
+ * @param {[*]} intermediatePlaces The intermediate places in the itinerary
+ */
+const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
+  if (!nextLeg || !Array.isArray(intermediatePlaces)) {
+    return false;
+  }
+  const startIndex = getViaPointIndex(leg, intermediatePlaces);
+  if (startIndex === -1) {
+    return false;
+  }
+  const endIndex = getViaPointIndex(nextLeg, intermediatePlaces);
+  if (endIndex === -1) {
+    return false;
+  }
+  return endIndex - startIndex === 1; // via points have to be right after the other
 };
 
 const SummaryRow = (
-  { data, breakpoint, ...props },
+  { data, breakpoint, intermediatePlaces, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
+  const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+  const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
   let realTimeAvailable = false;
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
-    if (leg.transitLeg || leg.rentedBike) {
+    if (isTransitLeg(leg)) {
       if (noTransitLegs && leg.realTime) {
         realTimeAvailable = true;
       }
@@ -157,50 +229,46 @@ const SummaryRow = (
 
   let lastLegRented = false;
 
-  data.legs.forEach(leg => {
+  data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
+      return;
+    }
+
+    const isFirstLeg = i === 0;
+    const isLastLeg = i === data.legs.length - 1;
+    const previousLeg = data.legs[i - 1];
+    const nextLeg = data.legs[i + 1];
+    const isThresholdMet = checkRelativeDurationThreshold(
+      duration,
+      slackDuration,
+      leg,
+    );
+
+    if (!leg.intermediatePlace && !isThresholdMet && !isTransitLeg(leg)) {
       return;
     }
 
     lastLegRented = leg.rentedBike;
 
-    if (
-      leg.transitLeg ||
-      leg.rentedBike ||
-      noTransitLegs ||
-      leg.intermediatePlace
-    ) {
-      if (leg.rentedBike) {
-        legs.push(
-          <ModeLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            mode="CITYBIKE"
-            large={breakpoint === 'large'}
-          />,
-        );
-      } else if (leg.intermediatePlace) {
-        legs.push(<ViaLeg key={`${leg.mode}_${leg.startTime}`} leg={leg} />);
-      } else if (leg.route) {
-        if (
-          props.intermediatePlaces &&
-          props.intermediatePlaces.length > 0 &&
-          isEqual(
-            [leg.from.lat, leg.from.lon],
-            [props.intermediatePlaces[0].lat, props.intermediatePlaces[0].lon],
-          )
-        ) {
-          legs.push(<ViaLeg leg={leg} />);
-        }
-        legs.push(
-          <RouteLeg
-            key={`${leg.mode}_${leg.startTime}`}
-            leg={leg}
-            intl={intl}
-            large={breakpoint === 'large'}
-          />,
-        );
-      } else {
+    if (leg.rentedBike) {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode="CITYBIKE"
+          large={breakpoint === 'large'}
+        />,
+      );
+      return;
+    }
+
+    if (leg.intermediatePlace) {
+      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+      if (
+        (noTransitLegs && isThresholdMet) ||
+        isViaPointConnectingLeg(leg, nextLeg, intermediatePlaces) ||
+        isLastLeg
+      ) {
         legs.push(
           <ModeLeg
             key={`${leg.mode}_${leg.startTime}`}
@@ -210,6 +278,50 @@ const SummaryRow = (
           />,
         );
       }
+      return;
+    }
+
+    const connectsFromViaPoint = () =>
+      getViaPointIndex(leg, intermediatePlaces) > -1;
+
+    if (leg.route) {
+      if (
+        previousLeg &&
+        !previousLeg.intermediatePlace &&
+        connectsFromViaPoint()
+      ) {
+        legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+      }
+      legs.push(
+        <RouteLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          intl={intl}
+          large={breakpoint === 'large'}
+        />,
+      );
+      return;
+    }
+
+    const connectsToFirstViaPoint = () =>
+      getViaPointIndex(nextLeg, intermediatePlaces) === 0;
+    const connectsFromLastViaPoint = () =>
+      getViaPointIndex(leg, intermediatePlaces) === intermediatePlaces &&
+      intermediatePlaces.length - 1;
+
+    if (
+      noTransitLegs ||
+      (isFirstLeg && connectsToFirstViaPoint()) ||
+      (isLastLeg && connectsFromLastViaPoint())
+    ) {
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.startTime}`}
+          leg={leg}
+          mode={leg.mode}
+          large={breakpoint === 'large'}
+        />,
+      );
     }
   });
 
@@ -547,8 +659,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 10000,
-      endTime: t1 + 20000,
+      startTime: t1 + 100000,
+      endTime: t1 + 200000,
       mode: 'WALK',
       distance: 483.84600000000006,
       duration: 438,
@@ -559,8 +671,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 20000,
-      endTime: t1 + 30000,
+      startTime: t1 + 200000,
+      endTime: t1 + 300000,
       mode: 'BICYCLE',
       distance: 586.4621425755712,
       duration: 120,
@@ -571,8 +683,8 @@ const exampleDataBiking = t1 => ({
     {
       realTime: false,
       transitLeg: false,
-      startTime: t1 + 30000,
-      endTime: t1 + 40000,
+      startTime: t1 + 300000,
+      endTime: t1 + 400000,
       mode: 'WALK',
       distance: 291.098,
       duration: 259,

@@ -1,13 +1,14 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
 import { routerShape } from 'react-router';
-import OriginDestinationBar from './OriginDestinationBar';
+
 import LazilyLoad, { importLazy } from './LazilyLoad';
-import { parseLocation } from '../util/path';
+import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import * as ModeUtils from '../util/modeUtils';
+import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryNavigation extends React.Component {
@@ -68,16 +69,6 @@ class SummaryNavigation extends React.Component {
 
   onRequestChange = newState => {
     this.internalSetOffcanvas(newState);
-  };
-
-  getInitialViaPoints = val => {
-    if (val) {
-      if (typeof val === 'string') {
-        return [val];
-      }
-      return val;
-    }
-    return [' '];
   };
 
   getOffcanvasState = () =>
@@ -174,9 +165,6 @@ class SummaryNavigation extends React.Component {
           className={className}
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
-          initialViaPoints={this.getInitialViaPoints(
-            this.context.location.query.intermediatePlaces,
-          )}
         />
         {this.renderStreetModeSelector(config, router)}
         <div className={cx('quicksettings-separator-line')} />
