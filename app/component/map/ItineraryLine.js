@@ -87,8 +87,9 @@ class ItineraryLine extends React.Component {
           objs.push(
             <CityBikeMarker
               key={leg.from.bikeRentalStation.stationId}
-              transit
+              showBikeAvailability={leg.rentedBike}
               station={leg.from.bikeRentalStation}
+              transit
             />,
           );
         } else if (leg.transitLeg) {

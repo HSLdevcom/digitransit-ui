@@ -37,7 +37,27 @@ Icon.defaultProps = {
   viewBox: '0 0 40 40',
 };
 
-Icon.asString = (img, className, id) => `
+const iconBadge = (badgeFill, badgeText) => {
+  if (!badgeFill || !badgeText) {
+    return '';
+  }
+  return `
+  <svg 
+    viewBox="0 0 40 40"
+    class="icon-badge"
+  >
+    <circle cx="20" cy="20" fill="${badgeFill}" r="20"/>
+    <text dy="0.1em" x="20" y="20">${badgeText}</text>
+  </svg>`;
+};
+
+Icon.asString = (
+  img,
+  className,
+  id,
+  badgeFill = undefined,
+  badgeText = undefined,
+) => `
   <span>
     <svg
       ${id ? ` id=${id}` : ''}
@@ -46,6 +66,7 @@ Icon.asString = (img, className, id) => `
     >
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
     </svg>
+    ${iconBadge(badgeFill, badgeText)}
   </span>
 `;
 

@@ -46,8 +46,13 @@ class CityBikeMarker extends React.Component {
   static displayName = 'CityBikeMarker';
 
   static propTypes = {
+    showBikeAvailability: PropTypes.bool,
     station: PropTypes.object.isRequired,
     transit: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showBikeAvailability: false,
   };
 
   static contextTypes = {
@@ -62,7 +67,15 @@ class CityBikeMarker extends React.Component {
           className: 'citybike cursor-pointer',
         })
       : L.divIcon({
-          html: Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
+          html: this.props.showBikeAvailability
+            ? Icon.asString(
+                'icon-icon_citybike',
+                'city-bike-medium-size',
+                undefined,
+                this.props.station.bikesAvailable > 3 ? '#64BE14' : '#FF9000',
+                this.props.station.bikesAvailable,
+              )
+            : Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });
@@ -102,6 +115,7 @@ export default Relay.createContainer(CityBikeMarker, {
         lat
         lon
         stationId
+        bikesAvailable
       }
     `,
   },
