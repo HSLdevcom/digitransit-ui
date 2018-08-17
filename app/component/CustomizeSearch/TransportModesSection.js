@@ -14,10 +14,7 @@ import {
 
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
   const modesWithNoBike = ['BUS', 'TRAM'];
-  const bikeRejectedModes =
-    currentModes &&
-    (currentModes.includes('BICYCLE') &&
-      currentModes.filter(o => modesWithNoBike.includes(o) && o));
+  const isUsingBike = currentModes && currentModes.includes('BICYCLE');
   const transportModes = getAvailableTransportModes(config);
 
   return (
@@ -46,7 +43,9 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               checked={currentModes.filter(o2 => o2 === mode).length > 0}
               defaultMessage={mode}
               labelId={mode.toLowerCase()}
-              onChange={() => toggleTransportMode(mode, config, router)}
+              onChange={() =>
+                toggleTransportMode(mode, config, router, isUsingBike)
+              }
               showLabel={false}
             />
             <div
@@ -56,12 +55,14 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               className={`mode-option-block ${mode.toLowerCase()}`}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) &&
-                toggleTransportMode(mode, config, router)
+                toggleTransportMode(mode, config, router, isUsingBike)
               }
-              onClick={() => toggleTransportMode(mode, config, router)}
+              onClick={() =>
+                toggleTransportMode(mode, config, router, isUsingBike)
+              }
             >
               <div className="mode-icon">
-                {bikeRejectedModes && bikeRejectedModes.includes(mode) ? (
+                {isUsingBike && modesWithNoBike.includes(mode) ? (
                   <IconWithBigCaution
                     color="currentColor"
                     className={mode.toLowerCase()}
@@ -79,8 +80,8 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
                   id={mode.toLowerCase()}
                   defaultMessage={mode.toLowerCase()}
                 />
-                {bikeRejectedModes &&
-                  bikeRejectedModes.includes(mode) && (
+                {isUsingBike &&
+                  modesWithNoBike.includes(mode) && (
                     <span className="span-bike-not-allowed">
                       {intl.formatMessage({
                         id: `bike-not-allowed-${mode.toLowerCase()}`,

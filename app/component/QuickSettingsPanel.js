@@ -12,6 +12,7 @@ import { defaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 import { getModes } from '../util/modeUtils';
 import TimeSelectorContainer from './TimeSelectorContainer';
+import AlertPopUp from './AlertPopUp';
 
 /* define what belongs to predefined 'quick' parameter selections */
 const quickOptionParams = [
@@ -35,6 +36,10 @@ class QuickSettingsPanel extends React.Component {
     location: locationShape.isRequired,
     piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
+  };
+
+  state = {
+    isPopUpOpen: false,
   };
 
   onRequestChange = newState => {
@@ -153,6 +158,12 @@ class QuickSettingsPanel extends React.Component {
   };
 
   toggleTransportMode(mode, otpMode) {
+    const modesWithNoBike = ['bus', 'tram'];
+
+    if (this.getModes().includes('BICYCLE') && modesWithNoBike.includes(mode)) {
+      this.togglePopUp();
+      return;
+    }
     const modes = xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
       ',',
     );
@@ -188,6 +199,10 @@ class QuickSettingsPanel extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
+  togglePopUp = () => {
+    this.setState({ isPopUpOpen: !this.state.isPopUpOpen });
+  };
+
   internalSetOffcanvas = newState => {
     /*
     if (this.context.piwik != null) {
@@ -218,6 +233,12 @@ class QuickSettingsPanel extends React.Component {
 
     return (
       <div className={cx(['quicksettings-container'])}>
+        <AlertPopUp
+          isPopUpOpen={this.state.isPopUpOpen}
+          textId="no-bike-allowed-popup"
+          icon="caution"
+          togglePopUp={this.togglePopUp}
+        />
         <div className={cx('time-selector-settings-row')}>
           <TimeSelectorContainer
             startTime={this.props.timeSelectorStartTime}

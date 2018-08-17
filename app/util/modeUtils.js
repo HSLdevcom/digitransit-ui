@@ -243,9 +243,18 @@ export const setStreetMode = (
  * @param {*} transportMode The transport mode to select
  * @param {*} config The configuration for the software installation
  * @param {*} router The router
+ * @param {*} isUsingBike If the user is using the bicycle mode
  */
-export const toggleTransportMode = (transportMode, config, router) => {
+export const toggleTransportMode = (
+  transportMode,
+  config,
+  router,
+  isUsingBike,
+) => {
   const currentLocation = router.getCurrentLocation();
+  if (isUsingBike && (transportMode === 'BUS' || transportMode === 'TRAM')) {
+    return;
+  }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
   ]).join(',');

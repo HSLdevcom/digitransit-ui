@@ -639,6 +639,8 @@ const translations = {
     nearest: 'Nearest',
     'network-error': 'Network error',
     next: 'Next',
+    'no-bike-allowed-popup':
+      'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
@@ -1270,6 +1272,8 @@ const translations = {
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
+    'no-bike-allowed-popup':
+      'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
@@ -2120,6 +2124,8 @@ const translations = {
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
+    'no-bike-allowed-popup':
+      'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
