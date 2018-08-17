@@ -571,6 +571,7 @@ input.react-autosuggest__input {
   &.drop-target-before::before {
     border-top: 1px solid $link-color;
     content: '';
+    display: block;
     margin-top: -0.25em;
     width: 100%;
   }

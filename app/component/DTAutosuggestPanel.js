@@ -203,7 +203,6 @@ class DTAutosuggestPanel extends React.Component {
 
   handleOnViaPointDragOver = (event, index) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
     this.setState({ isDraggingOverIndex: index });
   };
 
@@ -216,11 +215,11 @@ class DTAutosuggestPanel extends React.Component {
   handleOnViaPointDrop = (event, targetIndex) => {
     event.preventDefault();
     const draggedIndex = Number.parseInt(
-      event.dataTransfer.getData('text/plain'),
+      event.dataTransfer.getData('text'),
       10,
     );
     if (
-      draggedIndex === undefined ||
+      Number.isNaN(draggedIndex) ||
       draggedIndex === targetIndex ||
       targetIndex - draggedIndex === 1
     ) {
@@ -240,15 +239,26 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   handleStartViaPointDragging = (event, isDraggingIndex) => {
-    if (this.draggableViaPoints[isDraggingIndex]) {
+    // IE and Edge < 18 do not support setDragImage
+    if (
+      event.dataTransfer.setDragImage &&
+      this.draggableViaPoints[isDraggingIndex]
+    ) {
       event.dataTransfer.setDragImage(
         this.draggableViaPoints[isDraggingIndex],
         0,
         0,
       );
     }
+
+    // IE throws an error if trying to set the dropEffect
+    if (!isIe) {
+      event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
+    }
     event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
-    event.dataTransfer.setData('text/plain', isDraggingIndex);
+
+    // IE and Edge only support the type 'text'
+    event.dataTransfer.setData('text', `${isDraggingIndex}`);
   };
 
   render = () => {
