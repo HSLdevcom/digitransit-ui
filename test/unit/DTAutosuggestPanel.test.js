@@ -371,10 +371,12 @@ describe('<DTAutosuggestPanel />', () => {
   });
 
   it('should be able select a slack time value for an empty via point', () => {
+    let callArgument;
     let callCount = 0;
     const props = {
       ...mockData,
-      updateViaPoints: () => {
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
         callCount += 1;
       },
     };
@@ -386,7 +388,8 @@ describe('<DTAutosuggestPanel />', () => {
     wrapper.find(selectors.toggleViaPointSlack).simulate('click');
     wrapper.find('select').prop('onChange')({ target: { value: 1200 } });
 
-    expect(callCount).to.equal(0);
+    expect(callArgument).to.deep.equal([]);
+    expect(callCount).to.equal(1);
     expect(wrapper.state('viaPoints')).to.deep.equal([{ locationSlack: 1200 }]);
   });
 
@@ -451,6 +454,34 @@ describe('<DTAutosuggestPanel />', () => {
     });
 
     wrapper.find(selectors.removeViaPoint).simulate('click');
+
+    expect(callArgument).to.deep.equal([]);
+    expect(callCount).to.equal(1);
+  });
+
+  it('should clear the via points when removing the last non-empty via point', () => {
+    let callArgument;
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        otpToLocation('Kamppi, Helsinki::60.168438,24.929283'),
+        getEmptyViaPointPlaceHolder(),
+      ],
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper
+      .find(selectors.removeViaPoint)
+      .first()
+      .simulate('click');
 
     expect(callArgument).to.deep.equal([]);
     expect(callCount).to.equal(1);

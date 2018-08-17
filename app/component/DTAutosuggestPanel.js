@@ -78,6 +78,7 @@ class DTAutosuggestPanel extends React.Component {
     originPlaceHolder: 'give-origin',
     searchType: 'endpoint',
     swapOrder: undefined,
+    updateViaPoints: () => {},
   };
 
   constructor(props) {
@@ -128,10 +129,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.updateViaPoints([]);
       return;
     }
-    const filteredViaPoints = viaPoints.filter(vp => !isViaPointEmpty(vp));
-    if (filteredViaPoints.length > 0) {
-      this.props.updateViaPoints(filteredViaPoints);
-    }
+    this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
   };
 
   updateViaPointSlack = (
