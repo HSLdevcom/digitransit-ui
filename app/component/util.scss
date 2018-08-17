@@ -382,6 +382,7 @@ $btn-heigth: 17px;
     .popup-text {
       margin-bottom: 1.5em;
       font-size: $font-size-large;
+      user-select: none;
     }
 
     .close-popup {
