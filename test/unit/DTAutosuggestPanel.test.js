@@ -455,4 +455,81 @@ describe('<DTAutosuggestPanel />', () => {
     expect(callArgument).to.deep.equal([]);
     expect(callCount).to.equal(1);
   });
+
+  it('should update the via points when dropping a dragged via point', () => {
+    let callArgument;
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    const getEventMock = sourceIndex => ({
+      preventDefault: () => {},
+      dataTransfer: {
+        getData: mimeType =>
+          mimeType === 'text' ? `${sourceIndex}` : undefined,
+      },
+    });
+
+    // dropping 1 on 1 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 1);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 0 on 1 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(0), 1);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 1 on 2 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 2);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 1 on 0 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 0);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(1);
+
+    // dropping 0 on 2 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(0), 2);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(2);
+
+    // dropping 2 on 1 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(2), 1);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+        'Kamppi, Helsinki::60.168438,24.929283',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(3);
+  });
 });
