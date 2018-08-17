@@ -350,6 +350,7 @@ $btn-heigth: 17px;
   left: 50%;
   top: 50%;
   max-width: 437px;
+  min-width: 320px;
   background-color: #fff;
   padding: 1em;
   border-radius: 4pt;
@@ -392,6 +393,12 @@ $btn-heigth: 17px;
         color: #fff;
       }
     }
+  }
+}
+
+.mobile {
+  .popup-container {
+    min-width: 80%;
   }
 }
 
