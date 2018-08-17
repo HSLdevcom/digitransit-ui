@@ -6,7 +6,7 @@ import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import {
   component as DTAutosuggestPanel,
-  EMPTY_VIA_POINT_PLACE_HOLDER,
+  getEmptyViaPointPlaceHolder,
 } from '../../app/component/DTAutosuggestPanel';
 import { otpToLocation } from '../../app/util/otpStrings';
 
@@ -45,7 +45,7 @@ describe('<DTAutosuggestPanel />', () => {
         ready: true,
       },
       isItinerary: true,
-      initialViaPoints: [EMPTY_VIA_POINT_PLACE_HOLDER],
+      initialViaPoints: [getEmptyViaPointPlaceHolder()],
       originPlaceHolder: 'give-origin',
       searchType: 'endpoint',
     };
@@ -82,8 +82,8 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -212,8 +212,8 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -272,11 +272,11 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -331,8 +331,8 @@ describe('<DTAutosuggestPanel />', () => {
       'Kalasatama, Helsinki::60.187571,24.976301',
       'Kamppi, Helsinki::60.168438,24.929283',
     ].map(otpToLocation);
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    viaPoints.push(getEmptyViaPointPlaceHolder());
+    viaPoints.push(getEmptyViaPointPlaceHolder());
 
     const props = {
       ...mockData,
@@ -350,10 +350,10 @@ describe('<DTAutosuggestPanel />', () => {
 
     expect(callCount).to.equal(1);
     expect(wrapper.state('viaPoints')[0]).to.deep.equal(
-      EMPTY_VIA_POINT_PLACE_HOLDER,
+      getEmptyViaPointPlaceHolder(),
     );
     expect(wrapper.state('viaPoints')[1]).to.deep.equal(
-      EMPTY_VIA_POINT_PLACE_HOLDER,
+      getEmptyViaPointPlaceHolder(),
     );
   });
 
@@ -454,6 +454,32 @@ describe('<DTAutosuggestPanel />', () => {
 
     expect(callArgument).to.deep.equal([]);
     expect(callCount).to.equal(1);
+  });
+
+  it('should only set the slack time for a single empty via point at a time', () => {
+    const emptyViaPoint = getEmptyViaPointPlaceHolder();
+    const props = {
+      ...mockData,
+      initialViaPoints: [emptyViaPoint, emptyViaPoint],
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper
+      .find(selectors.toggleViaPointSlack)
+      .first()
+      .simulate('click');
+    wrapper
+      .find('select')
+      .first()
+      .prop('onChange')({ target: { value: '1200' } });
+
+    expect(wrapper.state('viaPoints')).to.deep.equal([
+      { locationSlack: 1200 },
+      {},
+    ]);
   });
 
   it('should update the via points when dropping a dragged via point', () => {

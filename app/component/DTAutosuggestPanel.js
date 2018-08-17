@@ -12,7 +12,7 @@ import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 
-export const EMPTY_VIA_POINT_PLACE_HOLDER = {};
+export const getEmptyViaPointPlaceHolder = () => ({});
 
 const isViaPointEmpty = viaPoint => {
   if (viaPoint === undefined) {
@@ -86,7 +86,7 @@ class DTAutosuggestPanel extends React.Component {
     this.state = {
       activeSlackInputs: [],
       showDarkOverlay: false,
-      viaPoints: this.props.initialViaPoints.slice(),
+      viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
     };
   }
 
@@ -191,7 +191,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleAddViaPointClick = () => {
     const { viaPoints } = this.state;
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    viaPoints.push(getEmptyViaPointPlaceHolder());
     this.setState({ viaPoints });
   };
 
