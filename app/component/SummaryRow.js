@@ -18,6 +18,7 @@ import {
   getTotalBikingDistance,
   containsBiking,
   onlyBiking,
+  getLegBadgeProps,
 } from '../util/legUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -95,7 +96,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const ModeLeg = ({ leg, mode, large }) => {
+export const ModeLeg = ({ leg, mode, large }, { config }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -103,6 +104,7 @@ export const ModeLeg = ({ leg, mode, large }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
+      {...getLegBadgeProps(leg, config)}
     />
   );
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
@@ -112,6 +114,10 @@ ModeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
+};
+
+ModeLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 const CityBikeLeg = ({ leg, large }) => (

@@ -19,7 +19,7 @@ function RouteNumber(props, context) {
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
 
-  const icon = (isCallAgency, hasDisruption) => {
+  const icon = (isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
@@ -43,6 +43,8 @@ function RouteNumber(props, context) {
 
     return (
       <IconWithIcon
+        badgeFill={badgeFill}
+        badgeText={badgeText}
         color={color}
         className={mode}
         img={`icon-icon_${mode}`}
@@ -69,7 +71,12 @@ function RouteNumber(props, context) {
       >
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
-            {icon(props.isCallAgency, props.hasDisruption)}
+            {icon(
+              props.isCallAgency,
+              props.hasDisruption,
+              props.badgeFill,
+              props.badgeText,
+            )}
           </div>
         ) : (
           icon(props.isCallAgency, props.hasDisruption)
@@ -181,9 +188,13 @@ RouteNumber.propTypes = {
   fadeLong: PropTypes.bool,
   withBar: PropTypes.bool,
   isCallAgency: PropTypes.bool,
+  badgeFill: PropTypes.string,
+  badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 RouteNumber.defaultProps = {
+  badgeFill: undefined,
+  badgeText: undefined,
   className: '',
   vertical: false,
   hasDisruption: false,
