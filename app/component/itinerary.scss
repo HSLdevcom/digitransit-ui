@@ -429,6 +429,11 @@ $itinerary-tab-switch-height: 48px;
       position: absolute;
       margin-top: -1em;
     }
+
+    .icon-badge {
+      left: -0.5em;
+      top: -0.75em;
+    }
   }
 
   .itinerary-instruction-column.start::before {
@@ -563,6 +568,11 @@ $itinerary-tab-switch-height: 48px;
 
     .icon {
       font-size: 24px;
+    }
+
+    .icon-badge {
+      font-size: 16px;
+      top: -1.25em;
     }
 
     .vehicle-number {

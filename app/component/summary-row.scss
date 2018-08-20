@@ -222,6 +222,11 @@
       }
     }
 
+    .special-icon .icon-badge {
+      left: 0;
+      top: -0.75em;
+    }
+
     .vehicle-number {
       font-weight: $font-weight-medium;
       font-size: $font-size-small;
@@ -354,11 +359,6 @@
         font-size: $font-size-normal;
         margin-left: 8px;
         text-align: center;
-      }
-
-      .special-icon.citybike .icon-badge {
-        left: 0;
-        top: -0.75em;
       }
     }
 
