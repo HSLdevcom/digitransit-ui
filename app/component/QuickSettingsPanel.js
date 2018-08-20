@@ -10,7 +10,7 @@ import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { defaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
-import { getModes } from '../util/modeUtils';
+import { getModes, isBikeRestricted } from '../util/modeUtils';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import AlertPopUp from './AlertPopUp';
 
@@ -158,9 +158,13 @@ class QuickSettingsPanel extends React.Component {
   };
 
   toggleTransportMode(mode, otpMode) {
-    const modesWithNoBike = ['bus', 'tram'];
-
-    if (this.getModes().includes('BICYCLE') && modesWithNoBike.includes(mode)) {
+    if (
+      isBikeRestricted(
+        this.context.location,
+        this.context.config,
+        mode.toUpperCase(),
+      )
+    ) {
       this.togglePopUp();
       return;
     }

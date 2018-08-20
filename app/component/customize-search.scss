@@ -151,6 +151,9 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       font-size: 2.5em;
       margin-top: 0.2em;
     }
+    &.disabled {
+      background-color: rgb(187, 187, 187);
+    }
     .mode-icon {
       margin-left: 1em;
       margin-right: 1em;
