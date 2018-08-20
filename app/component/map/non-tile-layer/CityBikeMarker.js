@@ -10,6 +10,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
+import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
 
 let L;
 
@@ -59,26 +60,33 @@ class CityBikeMarker extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
-  getIcon = zoom =>
-    !this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom
+  getIcon = zoom => {
+    const { showBikeAvailability, station, transit } = this.props;
+    const { config } = this.context;
+
+    return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
           html: smallIconSvg,
           iconSize: [8, 8],
           className: 'citybike cursor-pointer',
         })
       : L.divIcon({
-          html: this.props.showBikeAvailability
+          html: showBikeAvailability
             ? Icon.asString(
                 'icon-icon_citybike',
                 'city-bike-medium-size',
                 undefined,
-                this.props.station.bikesAvailable > 3 ? '#64BE14' : '#FF9000',
-                this.props.station.bikesAvailable,
+                getCityBikeAvailabilityIndicatorColor(
+                  station.bikesAvailable,
+                  config,
+                ),
+                station.bikesAvailable,
               )
             : Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });
+  };
 
   render() {
     if (!isBrowser) {
