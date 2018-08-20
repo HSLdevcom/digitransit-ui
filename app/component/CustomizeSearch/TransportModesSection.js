@@ -15,10 +15,6 @@ import {
 } from '../../util/modeUtils';
 
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
-  // const modesWithNoBike = ['BUS', 'TRAM'];
-  // const isUsingBike = currentModes && currentModes.includes('BICYCLE');
-  const isUsingBike = isBikeRestricted(router.location, config, currentModes);
-  console.log(isUsingBike);
   const transportModes = getAvailableTransportModes(config);
 
   return (

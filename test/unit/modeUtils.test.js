@@ -699,4 +699,52 @@ describe('modeUtils', () => {
       expect(result).to.equal('BUS,WALK');
     });
   });
+
+  describe('isBikeRestricted', () => {
+    it('should return true if using a bike and attempting to choose a mode and config with restricted bike usage', () => {
+      const location = {
+        query: {
+          modes: 'BICYCLE,SUBWAY,RAIL',
+        },
+      };
+      const modeConfig = {
+        CONFIG: 'hsl',
+        streetModes: {
+          bicycle: {
+            availableForSelection: true,
+          },
+        },
+        transportModes: {
+          bus: {
+            availableForSelection: true,
+          },
+        },
+      };
+      const mode = 'BUS';
+      const result = utils.isBikeRestricted(location, modeConfig, mode);
+      expect(result).to.equal(true);
+    });
+  });
+  describe('isBikeRestricted', () => {
+    it('should return true if an array of transport modes causes restrictions to bicycling', () => {
+      const location = {
+        query: {
+          modes: 'BICYCLE',
+        },
+      };
+      const modeConfig = {
+        ...config,
+        CONFIG: 'hsl',
+        transportModes: {
+          subway: {
+            availableForSelection: true,
+            defaultValue: true,
+          },
+        },
+      };
+      const modes = ['BUS', 'SUBWAY', 'RAIL'];
+      const result = utils.isBikeRestricted(location, modeConfig, modes);
+      expect(result).to.equal(true);
+    });
+  });
 });
