@@ -2,14 +2,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
+const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;
+
 const IconBadge = ({ badgeFill, badgeText }) => {
   if (!badgeFill || !badgeText) {
     return null;
   }
   return (
     <svg className="icon-badge" viewBox="0 0 40 40">
-      <circle cx="20" cy="20" fill={badgeFill} r="20" />
-      <text dy="0.1em" x="20" y="20">
+      <circle
+        className="badge-circle"
+        cx="20"
+        cy="20"
+        fill={badgeFill}
+        r="20"
+      />
+      <text
+        className={cx('badge-text', {
+          long: isBadgeTextLong(badgeText),
+        })}
+        dy="0.1em"
+        x="20"
+        y="20"
+      >
         {badgeText}
       </text>
     </svg>
@@ -32,14 +47,16 @@ IconBadge.asString = (badgeFill, badgeText) => {
   }
   return `
   <svg class="icon-badge" viewBox="0 0 40 40">
-    <circle cx="20" cy="20" fill="${badgeFill}" r="20"/>
-    <text dy="0.1em" x="20" y="20">${badgeText}</text>
+    <circle class="badge-circle" cx="20" cy="20" fill="${badgeFill}" r="20"/>
+    <text class="${cx('badge-text', {
+      long: isBadgeTextLong(badgeText),
+    })}" dy="0.1em" x="20" y="20">${badgeText}</text>
   </svg>`;
 };
 
 function Icon(props) {
   return (
-    <span aria-hidden>
+    <span aria-hidden className="icon-container">
       <svg
         id={props.id}
         style={{
@@ -84,7 +101,7 @@ Icon.asString = (
   badgeFill = undefined,
   badgeText = undefined,
 ) => `
-  <span>
+  <span class="icon-container">
     <svg
       ${id ? ` id=${id}` : ''}
       viewBox="0 0 40 40"

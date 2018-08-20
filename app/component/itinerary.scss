@@ -419,6 +419,7 @@ $itinerary-tab-switch-height: 48px;
       width: inherit;
     }
   }
+
   .special-icon {
     &.call,
     &.disruption {
@@ -563,6 +564,7 @@ $itinerary-tab-switch-height: 48px;
     .icon {
       font-size: 24px;
     }
+
     .vehicle-number {
       font-size: $font-size-normal;
     }
@@ -870,7 +872,6 @@ div.itinerary-container-content {
 }
 
 .vehicle-number-container-v {
-  margin-top: 4px;
   .vehicle-number {
     mask-image: none;
     max-width: none;
@@ -1197,9 +1198,6 @@ $font-print-decrease: 0.7;
     &.disruption {
       max-width: auto;
     }
-  }
-  .vehicle-number-container-v {
-    margin-top: 0;
   }
   .print-itinerary {
     right: 1em;

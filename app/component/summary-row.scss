@@ -163,6 +163,7 @@
       @include font-narrow-book;
       font-size: 13px;
       color: $gray;
+      margin-bottom: 4px;
       width: 100%;
     }
 
@@ -216,18 +217,14 @@
       text-align: center;
 
       .icon {
-        //margin-top: $padding-small;
         margin-left: 3px;
         font-size: 1.35em;
-        float: left;
       }
     }
 
     .vehicle-number {
       font-weight: $font-weight-medium;
       font-size: $font-size-small;
-      clear: left;
-      float: left;
       padding: 0;
       min-width: 1.3em;
       margin-left: $padding-small;
@@ -343,11 +340,11 @@
 
     .itinerary-legs {
       padding-top: 0;
-      margin-top: 13px;
+      margin-top: 9px;
 
       .line .icon {
         margin-top: 0;
-        margin-left: 6px;
+        margin-left: 8px;
         font-size: $font-size-large;
         width: $font-size-large;
         height: $font-size-large;
@@ -355,8 +352,13 @@
 
       .vehicle-number {
         font-size: $font-size-normal;
-        margin-left: 6px;
-        margin-top: 1px;
+        margin-left: 8px;
+        text-align: center;
+      }
+
+      .special-icon.citybike .icon-badge {
+        left: 0;
+        top: -0.75em;
       }
     }
 

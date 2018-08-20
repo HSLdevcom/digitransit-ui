@@ -507,6 +507,10 @@ div.origin-popup {
 /* Fix to default leaflet behavior */
 .leaflet-map-pane svg {
   position: relative;
+
+  &.icon-badge {
+    transform: translate(-0.5em, -2.5em);
+  }
 }
 
 .leaflet-marker-icon > svg {
