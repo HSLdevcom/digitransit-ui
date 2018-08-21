@@ -205,7 +205,7 @@ export const getTotalBikingDistance = itinerary =>
  * @param {*} config the configuration for the software installation
  */
 export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
-  bikesAvailable > config.cityBike.fewAvailableCount ? '#64BE14' : '#FF9000';
+  bikesAvailable > config.cityBike.fewAvailableCount ? '#64be14' : '#ff9000';
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown
