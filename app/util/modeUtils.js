@@ -245,14 +245,13 @@ export const setStreetMode = (
  * @param {*} modes The inputted mode or modes to be tested
  */
 export const isBikeRestricted = (location, config, modes) => {
-  const modesWithNoBike = ['BUS', 'TRAM'];
-  if (
-    getStreetMode(location, config) === 'BICYCLE' &&
-    config.CONFIG === 'hsl'
-  ) {
-    if (Array.isArray(modes) && modes.some(o => modesWithNoBike.includes(o))) {
+  if (config.modesWithNoBike && getStreetMode(location, config) === 'BICYCLE') {
+    if (
+      Array.isArray(modes) &&
+      modes.some(o => config.modesWithNoBike.includes(o))
+    ) {
       return true;
-    } else if (modesWithNoBike.includes(modes)) {
+    } else if (config.modesWithNoBike.includes(modes)) {
       return true;
     }
   }
