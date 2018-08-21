@@ -94,18 +94,8 @@ function RouteNumber(props, context) {
           </div>
         )}
       </span>
-      {props.vertical === false ? (
-        <span
-          style={{ color: props.color ? props.color : null }}
-          className={cx('vehicle-number', mode, {
-            'overflow-fade': longText && props.fadeLong,
-            long: longText,
-          })}
-        >
-          {props.text}
-        </span>
-      ) : (
-        <div className="vehicle-number-container-v">
+      {props.text &&
+        (props.vertical === false ? (
           <span
             style={{ color: props.color ? props.color : null }}
             className={cx('vehicle-number', mode, {
@@ -115,8 +105,19 @@ function RouteNumber(props, context) {
           >
             {props.text}
           </span>
-        </div>
-      )}
+        ) : (
+          <div className="vehicle-number-container-v">
+            <span
+              style={{ color: props.color ? props.color : null }}
+              className={cx('vehicle-number', mode, {
+                'overflow-fade': longText && props.fadeLong,
+                long: longText,
+              })}
+            >
+              {props.text}
+            </span>
+          </div>
+        ))}
     </span>
   );
 }
