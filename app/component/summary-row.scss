@@ -179,6 +179,7 @@
       display: flex;
       align-items: center;
       justify-content: left;
+      line-height: 0;
     }
 
     div.bar-container {
@@ -222,9 +223,14 @@
       }
     }
 
-    .special-icon .icon-badge {
-      left: 0;
-      top: -0.75em;
+    .special-icon {
+      .icon {
+        padding-bottom: 1px; // fixes icon clipping in Safari on iOS
+      }
+      .icon-badge {
+        left: 0;
+        top: -0.75em;
+      }
     }
 
     .vehicle-number {
@@ -233,6 +239,8 @@
       padding: 0;
       min-width: 1.3em;
       margin-left: $padding-small;
+      text-align: center;
+
       &.long {
         @extend .overflow-fade;
         display: inline-block;
@@ -358,7 +366,6 @@
       .vehicle-number {
         font-size: $font-size-normal;
         margin-left: 8px;
-        text-align: center;
       }
     }
 

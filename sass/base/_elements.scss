@@ -316,14 +316,14 @@ svg.realtime-icon {
 
   > .badge-circle {
     stroke: #fff;
-    stroke-width: 2;
+    stroke-width: 0;
   }
 
   > .badge-text {
     alignment-baseline: middle;
     fill: #fff;
     font-family: $font-family;
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: 500;
     text-anchor: middle;
 
