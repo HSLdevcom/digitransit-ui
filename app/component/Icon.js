@@ -21,7 +21,7 @@ const IconBadge = ({ badgeFill, badgeText }) => {
         className={cx('badge-text', {
           long: isBadgeTextLong(badgeText),
         })}
-        dy="0.1em"
+        dy="0.3em"
         x="20"
         y="20"
       >
@@ -50,7 +50,7 @@ IconBadge.asString = (badgeFill, badgeText) => {
     <circle class="badge-circle" cx="20" cy="20" fill="${badgeFill}" r="20"/>
     <text class="${cx('badge-text', {
       long: isBadgeTextLong(badgeText),
-    })}" dy="0.1em" x="20" y="20">${badgeText}</text>
+    })}" dy="0.3em" x="20" y="20">${badgeText}</text>
   </svg>`;
 };
 
