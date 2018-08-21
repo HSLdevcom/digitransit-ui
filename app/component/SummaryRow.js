@@ -250,10 +250,6 @@ const SummaryRow = (
       leg,
     );
 
-    if (!leg.intermediatePlace && !isThresholdMet && !isTransitLeg(leg)) {
-      return;
-    }
-
     lastLegRented = leg.rentedBike;
 
     if (leg.rentedBike) {
@@ -316,7 +312,7 @@ const SummaryRow = (
       intermediatePlaces.length - 1;
 
     if (
-      noTransitLegs ||
+      (noTransitLegs && isThresholdMet) ||
       (isFirstLeg && connectsToFirstViaPoint()) ||
       (isLastLeg && connectsFromLastViaPoint())
     ) {

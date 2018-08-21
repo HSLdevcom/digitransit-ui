@@ -288,4 +288,32 @@ describe('<SummaryRow />', () => {
     expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
   });
+
+  it('should show the really short first walking leg for a transit itinerary', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
+      hash: 1,
+      intermediatePlaces:
+        dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: dcw12.shortWalkingFirstLegWithMultipleViaPoints.refTime,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const legs = wrapper.find('.itinerary-legs');
+    expect(legs.children()).to.have.lengthOf(7);
+    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(4).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(5).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(6).is(ModeLeg)).to.equal(true);
+  });
 });

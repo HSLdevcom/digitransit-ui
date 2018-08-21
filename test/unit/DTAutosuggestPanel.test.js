@@ -6,7 +6,7 @@ import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import {
   component as DTAutosuggestPanel,
-  EMPTY_VIA_POINT_PLACE_HOLDER,
+  getEmptyViaPointPlaceHolder,
 } from '../../app/component/DTAutosuggestPanel';
 import { otpToLocation } from '../../app/util/otpStrings';
 
@@ -45,7 +45,7 @@ describe('<DTAutosuggestPanel />', () => {
         ready: true,
       },
       isItinerary: true,
-      initialViaPoints: [EMPTY_VIA_POINT_PLACE_HOLDER],
+      initialViaPoints: [getEmptyViaPointPlaceHolder()],
       originPlaceHolder: 'give-origin',
       searchType: 'endpoint',
     };
@@ -82,8 +82,8 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -212,8 +212,8 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -272,11 +272,11 @@ describe('<DTAutosuggestPanel />', () => {
     const props = {
       ...mockData,
       initialViaPoints: [
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
-        EMPTY_VIA_POINT_PLACE_HOLDER,
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
+        getEmptyViaPointPlaceHolder(),
       ],
     };
     const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
@@ -331,8 +331,8 @@ describe('<DTAutosuggestPanel />', () => {
       'Kalasatama, Helsinki::60.187571,24.976301',
       'Kamppi, Helsinki::60.168438,24.929283',
     ].map(otpToLocation);
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    viaPoints.push(getEmptyViaPointPlaceHolder());
+    viaPoints.push(getEmptyViaPointPlaceHolder());
 
     const props = {
       ...mockData,
@@ -350,10 +350,10 @@ describe('<DTAutosuggestPanel />', () => {
 
     expect(callCount).to.equal(1);
     expect(wrapper.state('viaPoints')[0]).to.deep.equal(
-      EMPTY_VIA_POINT_PLACE_HOLDER,
+      getEmptyViaPointPlaceHolder(),
     );
     expect(wrapper.state('viaPoints')[1]).to.deep.equal(
-      EMPTY_VIA_POINT_PLACE_HOLDER,
+      getEmptyViaPointPlaceHolder(),
     );
   });
 
@@ -371,10 +371,12 @@ describe('<DTAutosuggestPanel />', () => {
   });
 
   it('should be able select a slack time value for an empty via point', () => {
+    let callArgument;
     let callCount = 0;
     const props = {
       ...mockData,
-      updateViaPoints: () => {
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
         callCount += 1;
       },
     };
@@ -386,7 +388,8 @@ describe('<DTAutosuggestPanel />', () => {
     wrapper.find(selectors.toggleViaPointSlack).simulate('click');
     wrapper.find('select').prop('onChange')({ target: { value: 1200 } });
 
-    expect(callCount).to.equal(0);
+    expect(callArgument).to.deep.equal([]);
+    expect(callCount).to.equal(1);
     expect(wrapper.state('viaPoints')).to.deep.equal([{ locationSlack: 1200 }]);
   });
 
@@ -454,5 +457,136 @@ describe('<DTAutosuggestPanel />', () => {
 
     expect(callArgument).to.deep.equal([]);
     expect(callCount).to.equal(1);
+  });
+
+  it('should clear the via points when removing the last non-empty via point', () => {
+    let callArgument;
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        otpToLocation('Kamppi, Helsinki::60.168438,24.929283'),
+        getEmptyViaPointPlaceHolder(),
+      ],
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper
+      .find(selectors.removeViaPoint)
+      .first()
+      .simulate('click');
+
+    expect(callArgument).to.deep.equal([]);
+    expect(callCount).to.equal(1);
+  });
+
+  it('should only set the slack time for a single empty via point at a time', () => {
+    const emptyViaPoint = getEmptyViaPointPlaceHolder();
+    const props = {
+      ...mockData,
+      initialViaPoints: [emptyViaPoint, emptyViaPoint],
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    wrapper
+      .find(selectors.toggleViaPointSlack)
+      .first()
+      .simulate('click');
+    wrapper
+      .find('select')
+      .first()
+      .prop('onChange')({ target: { value: '1200' } });
+
+    expect(wrapper.state('viaPoints')).to.deep.equal([
+      { locationSlack: 1200 },
+      {},
+    ]);
+  });
+
+  it('should update the via points when dropping a dragged via point', () => {
+    let callArgument;
+    let callCount = 0;
+    const props = {
+      ...mockData,
+      initialViaPoints: [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+      updateViaPoints: newViaPoints => {
+        callArgument = newViaPoints;
+        callCount += 1;
+      },
+    };
+    const wrapper = mountWithIntl(<DTAutosuggestPanel {...props} />, {
+      context,
+      childContextTypes,
+    });
+
+    const getEventMock = sourceIndex => ({
+      preventDefault: () => {},
+      dataTransfer: {
+        getData: mimeType =>
+          mimeType === 'text' ? `${sourceIndex}` : undefined,
+      },
+    });
+
+    // dropping 1 on 1 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 1);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 0 on 1 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(0), 1);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 1 on 2 -> nothing should happen
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 2);
+    expect(callArgument).to.equal(undefined);
+    expect(callCount).to.equal(0);
+
+    // dropping 1 on 0 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(1), 0);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(1);
+
+    // dropping 0 on 2 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(0), 2);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kamppi, Helsinki::60.168438,24.929283',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(2);
+
+    // dropping 2 on 1 -> order should change
+    wrapper.instance().handleOnViaPointDrop(getEventMock(2), 1);
+    expect(callArgument).to.deep.equal(
+      [
+        'Kalasatama, Helsinki::60.187571,24.976301',
+        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365',
+        'Kamppi, Helsinki::60.168438,24.929283',
+      ].map(otpToLocation),
+    );
+    expect(callCount).to.equal(3);
   });
 });

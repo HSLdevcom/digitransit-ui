@@ -12,7 +12,7 @@ import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 
-export const EMPTY_VIA_POINT_PLACE_HOLDER = {};
+export const getEmptyViaPointPlaceHolder = () => ({});
 
 const isViaPointEmpty = viaPoint => {
   if (viaPoint === undefined) {
@@ -78,14 +78,16 @@ class DTAutosuggestPanel extends React.Component {
     originPlaceHolder: 'give-origin',
     searchType: 'endpoint',
     swapOrder: undefined,
+    updateViaPoints: () => {},
   };
 
   constructor(props) {
     super(props);
+    this.draggableViaPoints = [];
     this.state = {
       activeSlackInputs: [],
       showDarkOverlay: false,
-      viaPoints: this.props.initialViaPoints.slice(),
+      viaPoints: this.props.initialViaPoints.map(vp => ({ ...vp })),
     };
   }
 
@@ -106,6 +108,10 @@ class DTAutosuggestPanel extends React.Component {
     return timeOptions;
   };
 
+  setDraggableViaPointRef = (element, index) => {
+    this.draggableViaPoints[index] = element;
+  };
+
   value = location =>
     (location && location.address) ||
     (location && location.gps && location.ready && 'Nykyinen sijainti') ||
@@ -123,10 +129,7 @@ class DTAutosuggestPanel extends React.Component {
       this.props.updateViaPoints([]);
       return;
     }
-    const filteredViaPoints = viaPoints.filter(vp => !isViaPointEmpty(vp));
-    if (filteredViaPoints.length > 0) {
-      this.props.updateViaPoints(filteredViaPoints);
-    }
+    this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
   };
 
   updateViaPointSlack = (
@@ -186,7 +189,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleAddViaPointClick = () => {
     const { viaPoints } = this.state;
-    viaPoints.push(EMPTY_VIA_POINT_PLACE_HOLDER);
+    viaPoints.push(getEmptyViaPointPlaceHolder());
     this.setState({ viaPoints });
   };
 
@@ -196,9 +199,69 @@ class DTAutosuggestPanel extends React.Component {
     this.setState({ viaPoints }, () => this.props.swapOrder());
   };
 
+  handleOnViaPointDragOver = (event, index) => {
+    event.preventDefault();
+    this.setState({ isDraggingOverIndex: index });
+  };
+
+  handleOnViaPointDragEnd = () => {
+    this.setState({
+      isDraggingOverIndex: undefined,
+    });
+  };
+
+  handleOnViaPointDrop = (event, targetIndex) => {
+    event.preventDefault();
+    const draggedIndex = Number.parseInt(
+      event.dataTransfer.getData('text'),
+      10,
+    );
+    if (
+      Number.isNaN(draggedIndex) ||
+      draggedIndex === targetIndex ||
+      targetIndex - draggedIndex === 1
+    ) {
+      return;
+    }
+
+    const { viaPoints } = this.state;
+    const draggedViaPoint = viaPoints.splice(draggedIndex, 1)[0];
+    viaPoints.splice(
+      targetIndex > draggedIndex ? targetIndex - 1 : targetIndex,
+      0,
+      draggedViaPoint,
+    );
+    this.setState({ viaPoints, isDraggingOverIndex: undefined }, () =>
+      this.updateViaPoints(viaPoints),
+    );
+  };
+
+  handleStartViaPointDragging = (event, isDraggingIndex) => {
+    // IE and Edge < 18 do not support setDragImage
+    if (
+      event.dataTransfer.setDragImage &&
+      this.draggableViaPoints[isDraggingIndex]
+    ) {
+      event.dataTransfer.setDragImage(
+        this.draggableViaPoints[isDraggingIndex],
+        0,
+        0,
+      );
+    }
+
+    // IE throws an error if trying to set the dropEffect
+    if (!isIe) {
+      event.dataTransfer.dropEffect = 'move'; // eslint-disable-line no-param-reassign
+    }
+    event.dataTransfer.effectAllowed = 'move'; // eslint-disable-line no-param-reassign
+
+    // IE and Edge only support the type 'text'
+    event.dataTransfer.setData('text', `${isDraggingIndex}`);
+  };
+
   render = () => {
     const { breakpoint, isItinerary, origin } = this.props;
-    const { activeSlackInputs, viaPoints } = this.state;
+    const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
 
     const defaultSlackTimeValue = 0;
@@ -275,11 +338,22 @@ class DTAutosuggestPanel extends React.Component {
         <div className="viapoints-container">
           {viaPoints.map((o, i) => (
             <div
-              className="viapoint-container"
+              className={cx('viapoint-container', {
+                'drop-target-before': i === isDraggingOverIndex,
+              })}
               key={`viapoint-${i}`} // eslint-disable-line
+              onDragOver={e => this.handleOnViaPointDragOver(e, i)}
+              onDrop={e => this.handleOnViaPointDrop(e, i)}
+              ref={el => this.setDraggableViaPointRef(el, i)}
             >
               <div className={`viapoint-input-container viapoint-${i + 1}`}>
-                <div className="viapoint-before">
+                <div
+                  className="viapoint-before"
+                  draggable
+                  onDragEnd={this.handleOnViaPointDragEnd}
+                  onDragStart={e => this.handleStartViaPointDragging(e, i)}
+                  style={{ cursor: 'move' }}
+                >
                   <Icon img="icon-icon_ellipsis" />
                 </div>
                 <DTEndpointAutosuggest
