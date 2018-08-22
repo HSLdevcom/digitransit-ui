@@ -708,7 +708,7 @@ describe('modeUtils', () => {
         },
       };
       const modeConfig = {
-        CONFIG: 'hsl',
+        modesWithNoBike: ['BUS', 'TRAM'],
         streetModes: {
           bicycle: {
             availableForSelection: true,
@@ -734,7 +734,7 @@ describe('modeUtils', () => {
       };
       const modeConfig = {
         ...config,
-        CONFIG: 'hsl',
+        modesWithNoBike: ['BUS', 'TRAM'],
         transportModes: {
           subway: {
             availableForSelection: true,
