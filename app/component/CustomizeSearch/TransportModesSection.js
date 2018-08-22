@@ -3,6 +3,7 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
 
+import cx from 'classnames';
 import Checkbox from '../Checkbox';
 import Icon from '../Icon';
 import IconWithBigCaution from '../IconWithBigCaution';
@@ -10,11 +11,10 @@ import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
   getAvailableTransportModes,
   toggleTransportMode,
+  isBikeRestricted,
 } from '../../util/modeUtils';
 
 const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
-  const isBikeRejected =
-    currentModes.filter(o2 => o2 === 'BICYCLE' || o2 === 'BUS').length > 1;
   const transportModes = getAvailableTransportModes(config);
 
   return (
@@ -43,22 +43,31 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
               checked={currentModes.filter(o2 => o2 === mode).length > 0}
               defaultMessage={mode}
               labelId={mode.toLowerCase()}
-              onChange={() => toggleTransportMode(mode, config, router)}
+              onChange={() =>
+                !isBikeRestricted(router.location, config, mode) &&
+                toggleTransportMode(mode, config, router)
+              }
               showLabel={false}
             />
             <div
               role="button"
               tabIndex={0}
               aria-label={`${mode.toLowerCase()}`}
-              className={`mode-option-block ${mode.toLowerCase()}`}
+              className={cx([`mode-option-block`], mode.toLowerCase(), {
+                disabled: !currentModes.includes(mode),
+              })}
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) &&
+                !isBikeRestricted(router.location, config, mode) &&
                 toggleTransportMode(mode, config, router)
               }
-              onClick={() => toggleTransportMode(mode, config, router)}
+              onClick={() =>
+                !isBikeRestricted(router.location, config, mode) &&
+                toggleTransportMode(mode, config, router)
+              }
             >
               <div className="mode-icon">
-                {isBikeRejected && mode === 'BUS' ? (
+                {isBikeRestricted(router.location, config, mode) ? (
                   <IconWithBigCaution
                     color="currentColor"
                     className={mode.toLowerCase()}
@@ -76,15 +85,14 @@ const TransportModesSection = ({ config, currentModes }, { intl, router }) => {
                   id={mode.toLowerCase()}
                   defaultMessage={mode.toLowerCase()}
                 />
-                {isBikeRejected &&
-                  mode === 'BUS' && (
-                    <span className="span-bike-not-allowed">
-                      {intl.formatMessage({
-                        id: 'bike-not-allowed',
-                        defaultMessage: 'Bikes are not allowed on the bus',
-                      })}
-                    </span>
-                  )}
+                {isBikeRestricted(router.location, config, mode) && (
+                  <span className="span-bike-not-allowed">
+                    {intl.formatMessage({
+                      id: `bike-not-allowed-${mode.toLowerCase()}`,
+                      defaultMessage: 'Bikes are not allowed on the vehicle',
+                    })}
+                  </span>
+                )}
               </div>
             </div>
           </div>

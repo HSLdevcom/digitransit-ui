@@ -238,6 +238,27 @@ export const setStreetMode = (
 };
 
 /**
+ * Checks if the user is trying to bring a bicycle
+ * to a vehicle with restrictions. Currently exclusive to HSL
+ * @param {*} location The router
+ * @param {*} config The configuration for the software installation
+ * @param {*} modes The inputted mode or modes to be tested
+ */
+export const isBikeRestricted = (location, config, modes) => {
+  if (config.modesWithNoBike && getStreetMode(location, config) === 'BICYCLE') {
+    if (
+      Array.isArray(modes) &&
+      modes.some(o => config.modesWithNoBike.includes(o))
+    ) {
+      return true;
+    } else if (config.modesWithNoBike.includes(modes)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
  * Updates the browser's url to reflect the selected transport mode.
  *
  * @param {*} transportMode The transport mode to select
@@ -246,6 +267,9 @@ export const setStreetMode = (
  */
 export const toggleTransportMode = (transportMode, config, router) => {
   const currentLocation = router.getCurrentLocation();
+  if (isBikeRestricted(router.location, config, transportMode)) {
+    return;
+  }
   const modes = xor(getModes(currentLocation, config), [
     transportMode.toUpperCase(),
   ]).join(',');

@@ -517,7 +517,8 @@ const translations = {
     'bicycle-distance-duration': 'Bike {distance} ({duration})',
     'bike-availability': 'Bikes available at the station right now',
     'bike-availability-short': 'Bikes',
-    'bike-not-allowed': 'Bikes are not allowed on the bus',
+    'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
+    'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
     'biketransport-citybike': "I'm using a citybike",
     'biketransport-keep-bike-with': 'I want to keep my bike with me',
     'biketransport-only-bike': "I'm travelling only by bike",
@@ -638,6 +639,8 @@ const translations = {
     nearest: 'Nearest',
     'network-error': 'Network error',
     next: 'Next',
+    'no-bike-allowed-popup':
+      'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
@@ -1153,7 +1156,8 @@ const translations = {
     'bicycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'bike-availability': 'Pyöriä asemalla juuri nyt',
     'bike-availability-short': 'Pyöriä',
-    'bike-not-allowed': 'Pyörää ei voi kuljettaa bussissa',
+    'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
+    'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
     'biketransport-keep-bike-with': 'Haluan pitää pyörän mukanani',
     'biketransport-only-bike': 'Liikun vain pyörällä',
@@ -1278,6 +1282,8 @@ const translations = {
     nearest: 'Lähimmät',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
+    'no-bike-allowed-popup':
+      'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
@@ -2004,7 +2010,8 @@ const translations = {
     'bicycle-distance-duration': 'Cykla {distance} ({duration})',
     'bike-availability': 'Antal cyklar just nu',
     'bike-availability-short': 'Cyklar',
-    'bike-not-allowed': 'Cyklar är inte tillåtna på bussen',
+    'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
+    'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
     'biketransport-citybike': 'Jag använder en stadscykel',
     'biketransport-keep-bike-with': 'Jag vill hålla min cykel med mig',
     'biketransport-only-bike': 'Jag reser bara med cykel',
@@ -2131,6 +2138,8 @@ const translations = {
     nearest: 'Närmaste',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
+    'no-bike-allowed-popup':
+      'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
