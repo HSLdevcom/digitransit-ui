@@ -81,7 +81,18 @@ export default {
     bucketSize: 1000,
   },
 
-  defaultSettings: {},
+  defaultSettings: {
+    accessibilityOption: 0,
+    bikeSpeed: 5,
+    minTransferTime: 120,
+    preferred: undefined,
+    ticketTypes: null,
+    transferPenalty: 0,
+    unpreferred: undefined,
+    walkBoardCost: 600,
+    walkReluctance: 2,
+    walkSpeed: 1.2,
+  },
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,

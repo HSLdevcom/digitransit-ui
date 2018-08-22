@@ -1,4 +1,5 @@
 import ceil from 'lodash/ceil';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
 
@@ -7,12 +8,13 @@ import SelectOptionContainer, {
   getSpeedOptions,
   valueShape,
 } from './SelectOptionContainer';
-import { defaultSettings } from '../../util/planParamUtil';
 import { replaceQueryParams } from '../../util/queryUtils';
 
-const BikingOptionsSection = ({ walkReluctance, bikeSpeed }, { router }) => (
+const WalkingOptionsSection = (
+  { walkReluctance, walkSpeed, defaultSettings },
+  { router },
+) => (
   <React.Fragment>
-    {/* OTP uses the same walkReluctance setting for bike routing */}
     <SelectOptionContainer
       currentSelection={walkReluctance}
       defaultValue={defaultSettings.walkReluctance}
@@ -21,29 +23,33 @@ const BikingOptionsSection = ({ walkReluctance, bikeSpeed }, { router }) => (
         replaceQueryParams(router, { walkReluctance: value })
       }
       options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
-      title="biking-amount"
+      title="walking"
     />
     <SelectOptionContainer
-      currentSelection={bikeSpeed}
-      defaultValue={defaultSettings.bikeSpeed}
+      currentSelection={walkSpeed}
+      defaultValue={defaultSettings.walkSpeed}
       displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value =>
-        replaceQueryParams(router, { bikeSpeed: value })
+        replaceQueryParams(router, { walkSpeed: value })
       }
-      options={getSpeedOptions(defaultSettings.bikeSpeed, 10, 21)}
+      options={getSpeedOptions(defaultSettings.walkSpeed, 1, 12)}
       sortByValue
-      title="biking-speed"
+      title="walking-speed"
     />
   </React.Fragment>
 );
 
-BikingOptionsSection.propTypes = {
+WalkingOptionsSection.propTypes = {
   walkReluctance: valueShape.isRequired,
-  bikeSpeed: valueShape.isRequired,
+  walkSpeed: valueShape.isRequired,
+  defaultSettings: PropTypes.shape({
+    walkReluctance: PropTypes.number.isRequired,
+    walkSpeed: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
-BikingOptionsSection.contextTypes = {
+WalkingOptionsSection.contextTypes = {
   router: routerShape.isRequired,
 };
 
-export default BikingOptionsSection;
+export default WalkingOptionsSection;

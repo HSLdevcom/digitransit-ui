@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import { defaultSettings } from './../util/planParamUtil';
+import { getDefaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
 import { getModes, isBikeRestricted } from '../util/modeUtils';
 import TimeSelectorContainer from './TimeSelectorContainer';
@@ -71,16 +71,13 @@ class QuickSettingsPanel extends React.Component {
   };
 
   getQuickOptions = () => {
-    const mergedDefaultSettings = {
-      ...defaultSettings,
-      ...this.context.config.defaultSettings,
-    };
+    const defaultSettings = getDefaultSettings(this.context.config);
     return {
       'default-route': {
-        ...mergedDefaultSettings,
+        ...defaultSettings,
       },
       'fastest-route': {
-        ...mergedDefaultSettings,
+        ...defaultSettings,
         minTransferTime: 60,
         walkSpeed: 1.5,
         walkBoardCost: 540,
@@ -88,13 +85,13 @@ class QuickSettingsPanel extends React.Component {
         transferPenalty: 0,
       },
       'least-transfers': {
-        ...mergedDefaultSettings,
+        ...defaultSettings,
         walkBoardCost: 600,
         walkReluctance: 3,
         transferPenalty: 5460,
       },
       'least-walking': {
-        ...mergedDefaultSettings,
+        ...defaultSettings,
         walkBoardCost: 360,
         walkReluctance: 5,
         transferPenalty: 0,

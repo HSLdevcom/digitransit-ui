@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
 
@@ -6,11 +7,10 @@ import SelectOptionContainer, {
   getLinearStepOptions,
   valueShape,
 } from './SelectOptionContainer';
-import { defaultSettings } from '../../util/planParamUtil';
 import { replaceQueryParams } from '../../util/queryUtils';
 
 const TransferOptionsSection = (
-  { walkBoardCost, minTransferTime },
+  { walkBoardCost, minTransferTime, defaultSettings },
   { router },
 ) => (
   <React.Fragment>
@@ -47,6 +47,10 @@ const TransferOptionsSection = (
 TransferOptionsSection.propTypes = {
   walkBoardCost: valueShape.isRequired,
   minTransferTime: valueShape.isRequired,
+  defaultSettings: PropTypes.shape({
+    walkBoardCost: PropTypes.number.isRequired,
+    minTransferTime: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 TransferOptionsSection.contextTypes = {

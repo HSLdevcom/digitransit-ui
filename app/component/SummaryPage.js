@@ -26,11 +26,15 @@ import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
+import { getDefaultOTPModes } from '../util/modeUtils';
 import { getHomeUrl } from '../util/path';
+import {
+  defaultRoutingSettings,
+  getDefaultSettings,
+} from '../util/planParamUtil';
 import { getIntermediatePlaces } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
 import { validateServiceTimeRange } from '../util/timeUtils';
-import { defaultRoutingSettings } from '../util/planParamUtil';
+import withBreakpoint from '../util/withBreakpoint';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -89,17 +93,6 @@ class SummaryPage extends React.Component {
     map: undefined,
   };
 
-  static hcParameters = {
-    walkReluctance: 2,
-    walkBoardCost: 600,
-    minTransferTime: 120,
-    transferPenalty: 0,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    accessibilityOption: 0,
-    ticketTypes: null,
-  };
-
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
@@ -150,22 +143,10 @@ class SummaryPage extends React.Component {
 
   initCustomizableParameters = config => {
     this.customizableParameters = {
-      ...SummaryPage.hcParameters,
-      ...this.context.config.defaultSettings,
-      modes: Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue === true)
-        .map(mode => config.modeToOTP[mode])
-        .concat(
-          Object.keys(config.streetModes)
-            .filter(mode => config.streetModes[mode].defaultValue === true)
-            .map(mode => config.modeToOTP[mode]),
-        )
-        .sort()
-        .join(','),
+      ...getDefaultSettings(config),
+      modes: getDefaultOTPModes(config),
       maxWalkDistance: config.maxWalkDistance,
       itineraryFiltering: config.itineraryFiltering,
-      preferred: { routes: '' },
-      unpreferred: { routes: '' },
     };
   };
 
@@ -501,8 +482,12 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
+      minTransferTime: null,
+      walkBoardCost: null,
+      walkReluctance: null,
+      walkSpeed: null,
+      wheelchair: null,
     },
     ...defaultRoutingSettings,
-    ...SummaryPage.hcParameters,
   },
 });
