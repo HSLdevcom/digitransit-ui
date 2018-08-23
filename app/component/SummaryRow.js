@@ -1,25 +1,34 @@
+import cx from 'classnames';
+import filter from 'lodash/filter';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
-import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
-import filter from 'lodash/filter';
 
-import { sameDay, dateOrEmpty } from '../util/timeUtils';
-import { displayDistance } from '../util/geo-utils';
-import RouteNumber from './RouteNumber';
-import RouteNumberContainer from './RouteNumberContainer';
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
-import ComponentUsageExample from './ComponentUsageExample';
+import RouteNumber from './RouteNumber';
+import RouteNumberContainer from './RouteNumberContainer';
+import { displayDistance } from '../util/geo-utils';
 import {
+  containsBiking,
+  getLegBadgeProps,
+  getTotalBikingDistance,
   getTotalWalkingDistance,
   isCallAgencyPickupType,
-  getTotalBikingDistance,
-  containsBiking,
   onlyBiking,
 } from '../util/legUtils';
+import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+
+import ComponentUsageExample from './ComponentUsageExample';
+import {
+  exampleData,
+  exampleDataBiking,
+  exampleDataCallAgency,
+  examplePropsCityBike,
+  exampleDataVia,
+} from './data/SummaryRow.ExampleData';
 
 /*
 const dummyalerts = [{
@@ -95,7 +104,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const ModeLeg = ({ leg, mode, large }) => {
+export const ModeLeg = ({ leg, mode, large }, { config }) => {
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -103,6 +112,7 @@ export const ModeLeg = ({ leg, mode, large }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
+      {...getLegBadgeProps(leg, config)}
     />
   );
   return <Leg leg={leg} routeNumber={routeNumber} large={large} />;
@@ -112,6 +122,10 @@ ModeLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
+};
+
+ModeLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 const CityBikeLeg = ({ leg, large }) => (
@@ -481,216 +495,6 @@ SummaryRow.contextTypes = {
 
 SummaryRow.displayName = 'SummaryRow';
 
-const exampleData = t1 => ({
-  startTime: t1,
-  endTime: t1 + 10000,
-  walkDistance: 770,
-  legs: [
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 10000,
-      endTime: t1 + 20000,
-      mode: 'WALK',
-      distance: 483.84600000000006,
-      duration: 438,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-    {
-      realTime: false,
-      transitLeg: true,
-      startTime: t1 + 20000,
-      endTime: t1 + 30000,
-      mode: 'BUS',
-      distance: 586.4621425755712,
-      duration: 120,
-      rentedBike: false,
-      route: { shortName: '57', mode: 'BUS' },
-      from: { name: 'Ilmattarentie' },
-    },
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 30000,
-      endTime: t1 + 40000,
-      mode: 'WALK',
-      distance: 291.098,
-      duration: 259,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Veturitie' },
-    },
-  ],
-});
-
-const exampleDataVia = t1 => ({
-  startTime: t1,
-  endTime: t1 + 10000,
-  walkDistance: 770,
-  legs: [
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 10000,
-      endTime: t1 + 20000,
-      mode: 'WALK',
-      distance: 200,
-      duration: 438,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-    {
-      realTime: false,
-      transitLeg: true,
-      startTime: t1 + 20000,
-      endTime: t1 + 30000,
-      mode: 'BUS',
-      distance: 586.4621425755712,
-      duration: 120,
-      rentedBike: false,
-      route: { shortName: '57', mode: 'BUS' },
-      from: { name: 'Ilmattarentie' },
-    },
-    {
-      realTime: false,
-      transitLeg: true,
-      startTime: t1 + 30000,
-      endTime: t1 + 40000,
-      mode: 'WALK',
-      intermediatePlace: true,
-      distance: 400,
-      duration: 600,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Ilmattarentie' },
-    },
-    {
-      realTime: false,
-      transitLeg: true,
-      startTime: t1 + 40000,
-      endTime: t1 + 50000,
-      mode: 'BUS',
-      distance: 586.4621425755712,
-      duration: 120,
-      rentedBike: false,
-      route: { shortName: '57', mode: 'BUS' },
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 50000,
-      endTime: t1 + 60000,
-      mode: 'WALK',
-      distance: 170,
-      duration: 259,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-  ],
-});
-
-const exampleDataCallAgency = t1 => ({
-  startTime: t1,
-  endTime: t1 + 10000,
-  walkDistance: 770,
-  legs: [
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 10000,
-      endTime: t1 + 20000,
-      mode: 'WALK',
-      distance: 483.84600000000006,
-      duration: 438,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-    {
-      realTime: false,
-      transitLeg: true,
-      startTime: t1 + 20000,
-      endTime: t1 + 30000,
-      mode: 'BUS',
-      distance: 586.4621425755712,
-      duration: 120,
-      rentedBike: false,
-      route: { shortName: '57', mode: 'BUS' },
-      from: { name: 'Ilmattarentie', stop: { gtfsId: 'start' } },
-      to: { name: 'Joku Pysäkki', stop: { gtfsId: 'end' } },
-      trip: {
-        stoptimes: [
-          {
-            pickupType: 'CALL_AGENCY',
-            stop: { gtfsId: 'start' },
-          },
-        ],
-      },
-    },
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 30000,
-      endTime: t1 + 40000,
-      mode: 'WALK',
-      distance: 291.098,
-      duration: 259,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Veturitie' },
-    },
-  ],
-});
-
-const exampleDataBiking = t1 => ({
-  startTime: t1,
-  endTime: t1 + 1080000,
-  walkDistance: 770,
-  legs: [
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 100000,
-      endTime: t1 + 200000,
-      mode: 'WALK',
-      distance: 483.84600000000006,
-      duration: 438,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Messuaukio 1, Helsinki' },
-    },
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 200000,
-      endTime: t1 + 300000,
-      mode: 'BICYCLE',
-      distance: 586.4621425755712,
-      duration: 120,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Ilmattarentie' },
-    },
-    {
-      realTime: false,
-      transitLeg: false,
-      startTime: t1 + 300000,
-      endTime: t1 + 400000,
-      mode: 'WALK',
-      distance: 291.098,
-      duration: 259,
-      rentedBike: false,
-      route: null,
-      from: { name: 'Veturitie' },
-    },
-  ],
-});
-
 const nop = () => {};
 
 SummaryRow.description = () => {
@@ -872,6 +676,12 @@ SummaryRow.description = () => {
           onSelectImmediately={nop}
           hash={1}
         />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="citybike-large-passive">
+        <SummaryRow {...examplePropsCityBike('large')} />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="citybike-small-passive">
+        <SummaryRow {...examplePropsCityBike('small')} />
       </ComponentUsageExample>
     </div>
   );

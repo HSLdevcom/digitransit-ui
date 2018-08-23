@@ -167,6 +167,9 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             stop {
               gtfsId
             }
+            bikeRentalStation {
+              bikesAvailable
+            }
           }
           to {
             stop {
