@@ -308,6 +308,30 @@ svg.realtime-icon {
   }
 }
 
+.icon-badge {
+  display: inline-block;
+  height: 1em;
+  position: absolute;
+  width: 1em;
+
+  > .badge-circle {
+    stroke: #fff;
+    stroke-width: 0;
+  }
+
+  > .badge-text {
+    fill: #fff;
+    font-family: $font-family;
+    font-size: 2rem;
+    font-weight: 500;
+    text-anchor: middle;
+
+    &.long {
+      font-size: 1.5rem;
+    }
+  }
+}
+
 // TODO: These are styles for the disabled position marker.
 
 // .paused {
