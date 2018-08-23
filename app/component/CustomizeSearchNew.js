@@ -24,7 +24,14 @@ import {
 } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings } from '../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
+import {
+  getQuerySettings,
+  replaceQueryParams,
+  addPreferredRoute,
+  addUnpreferredRoute,
+  removePreferredRoute,
+  removeUnpreferredRoute,
+} from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -45,94 +52,34 @@ class CustomizeSearch extends React.Component {
 
   onRouteSelected = (val, preferType) => {
     const routeToAdd = val.properties.gtfsId.replace(':', '__');
-    const currentRoutes = this.getCurrentRoutes(preferType);
-
-    let updatedValue;
-    if (currentRoutes) {
-      updatedValue =
-        currentRoutes.filter(o => o === routeToAdd).length === 0 &&
-        currentRoutes.concat([routeToAdd]).toString();
+    if (preferType === 'preferred') {
+      addPreferredRoute(this.context.router, routeToAdd);
     } else {
-      updatedValue = routeToAdd;
-    }
-
-    if (updatedValue) {
-      replaceQueryParams(this.context.router, { [preferType]: updatedValue });
+      addUnpreferredRoute(this.context.router, routeToAdd);
     }
   };
 
-  getCurrentOptions = () => {
-    const { location, config } = this.context;
-    const customizedSettings = getCustomizedSettings();
-    const urlParameters = location.query;
-    const defaultSettings = getDefaultSettings(config);
-    defaultSettings.modes = ModeUtils.getDefaultModes(config);
+  getCurrentSettings = () => ({
+    ...getDefaultSettings(this.context.config),
+    ...getCustomizedSettings(),
+    ...getQuerySettings(this.context.location.query),
+  });
 
-    const obj = {};
-
-    if (urlParameters) {
-      Object.keys(defaultSettings).forEach(key => {
-        obj[key] = urlParameters[key]
-          ? urlParameters[key]
-          : defaultSettings[key];
-      });
-    } else if (customizedSettings) {
-      Object.keys(defaultSettings).forEach(key => {
-        obj[key] = urlParameters[key]
-          ? urlParameters[key]
-          : defaultSettings[key];
-      });
+  removeRoute = (routeToRemove, preferType) => {
+    if (preferType === 'preferred') {
+      removePreferredRoute(this.context.router, routeToRemove);
+    } else {
+      removeUnpreferredRoute(this.context.router, routeToRemove);
     }
-    return obj;
-  };
-
-  getCurrentRoutes = preferType => {
-    const currentOptions = this.getCurrentOptions();
-    return (
-      currentOptions[preferType] &&
-      (currentOptions[preferType].match(/[,]/)
-        ? currentOptions[preferType].split(',')
-        : [currentOptions[preferType]])
-    );
-  };
-
-  checkAndConvertModes = modes => {
-    if (!Array.isArray(modes)) {
-      return modes.match(/,/) ? modes.split(',') : [modes];
-    } else if (Array.isArray(modes)) {
-      return modes;
-    }
-    return [];
-  };
-
-  removeRoute = (val, preferType) => {
-    const currentRoutes = this.getCurrentRoutes(preferType);
-    replaceQueryParams(this.context.router, {
-      [preferType]: currentRoutes.filter(o => o !== val).toString(),
-    });
   };
 
   resetParameters = () => {
-    const { config } = this.context;
-    const defaultSettings = getDefaultSettings(config);
-    defaultSettings.modes = ModeUtils.getDefaultModes(config).toString();
     resetCustomizedSettings();
-    replaceQueryParams(this.context.router, defaultSettings);
+    replaceQueryParams(
+      this.context.router,
+      getDefaultSettings(this.context.config),
+    );
   };
-
-  renderStreetModeSelector = (config, router) => (
-    <div className="settings-option-container street-mode-selector-panel-container">
-      <StreetModeSelectorPanel
-        className="customized-settings"
-        selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
-        selectStreetMode={(streetMode, isExclusive) =>
-          ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
-        }
-        showButtonTitles
-        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
-      />
-    </div>
-  );
 
   render() {
     const { config, intl, router } = this.context;
@@ -141,15 +88,8 @@ class CustomizeSearch extends React.Component {
     } = this.context;
     const { isOpen, onToggleClick } = this.props;
     const defaultSettings = getDefaultSettings(config);
-    const merged = {
-      ...defaultSettings,
-      ...getCustomizedSettings(),
-      ...this.context.location.query,
-    };
-    const currentOptions = this.getCurrentOptions();
-    const checkedModes = this.checkAndConvertModes(currentOptions.modes);
-    const isUsingBicycle =
-      checkedModes.filter(o => o === StreetMode.Bicycle).length > 0;
+    const currentOptions = this.getCurrentSettings();
+    const isUsingBicycle = currentOptions.modes.includes(StreetMode.Bicycle);
 
     return (
       <div
@@ -177,16 +117,38 @@ class CustomizeSearch extends React.Component {
             >
               <Icon className="close-icon" img="icon-icon_close" />
             </button>
-            {this.renderStreetModeSelector(config, router)}
+            <div className="settings-option-container street-mode-selector-panel-container">
+              <StreetModeSelectorPanel
+                className="customized-settings"
+                selectedStreetMode={ModeUtils.getStreetMode(
+                  router.location,
+                  config,
+                )}
+                selectStreetMode={(streetMode, isExclusive) =>
+                  ModeUtils.setStreetMode(
+                    streetMode,
+                    config,
+                    router,
+                    isExclusive,
+                  )
+                }
+                showButtonTitles
+                streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
+                  config,
+                )}
+              />
+            </div>
             {isUsingBicycle && (
               <div className="settings-option-container">
-                <BikeTransportOptionsSection currentModes={checkedModes} />
+                <BikeTransportOptionsSection
+                  currentModes={currentOptions.modes}
+                />
               </div>
             )}
             <div className="settings-option-container">
               <TransportModesSection
                 config={config}
-                currentModes={checkedModes}
+                currentModes={currentOptions.modes}
               />
             </div>
             <div className="settings-option-container">
@@ -217,20 +179,15 @@ class CustomizeSearch extends React.Component {
                 defaultMessage: 'Fare zones',
               })}
               options={get(config, 'fareMapping', {})}
-              currentOption={merged.ticketTypes || 'none'}
+              currentOption={currentOptions.ticketTypes || 'none'}
               updateValue={value =>
                 replaceQueryParams(router, { ticketTypes: value })
               }
             />
             <PreferredRoutes
               onRouteSelected={this.onRouteSelected}
-              preferredRoutes={
-                currentOptions.preferred && currentOptions.preferred.split(',')
-              }
-              unPreferredRoutes={
-                currentOptions.unpreferred &&
-                currentOptions.unpreferred.split(',')
-              }
+              preferredRoutes={currentOptions.preferred}
+              unPreferredRoutes={currentOptions.unpreferred}
               removeRoute={this.removeRoute}
             />
             <div className="settings-option-container">

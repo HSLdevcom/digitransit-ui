@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
+
+import defaultConfig from '../../app/configurations/config.default';
+import { getDefaultModes } from '../../app/util/modeUtils';
 import * as utils from '../../app/util/queryUtils';
 
 describe('queryUtils', () => {
@@ -121,6 +124,147 @@ describe('queryUtils', () => {
       expect(
         router.getCurrentLocation().query.intermediatePlaces,
       ).to.deep.equal(intermediatePlaces);
+    });
+  });
+
+  describe('getQuerySettings', () => {
+    it('should return an empty set if there is no query', () => {
+      const query = undefined;
+      const result = utils.getQuerySettings(query);
+      expect(result).to.deep.equal({});
+    });
+
+    it('should return all elements from the default settings', () => {
+      const defaultSettings = { ...defaultConfig.defaultSettings };
+      const defaultModes = getDefaultModes(defaultConfig);
+      const query = { ...defaultSettings, modes: defaultModes };
+      const result = utils.getQuerySettings(query);
+      expect(result).to.deep.equal(query);
+    });
+
+    it('should return numeric values when appropriate', () => {
+      const query = {
+        bikeSpeed: '5',
+      };
+      const result = utils.getQuerySettings(query);
+      expect(result.bikeSpeed).to.equal(5);
+    });
+
+    it('should completely omit missing values', () => {
+      const query = {
+        optimize: 'QUICK',
+        minTransferTime: '120',
+      };
+      const result = utils.getQuerySettings(query);
+      expect(Object.keys(result)).to.have.lengthOf(2);
+    });
+
+    it('should return comma-separated lists as arrays', () => {
+      const query = {
+        modes: 'BUS,WALK',
+        preferred: 'a,b,c',
+        unpreferred: 'd,e,f',
+      };
+      const result = utils.getQuerySettings(query);
+      expect(result.modes).to.deep.equal(['BUS', 'WALK']);
+      expect(result.preferred).to.deep.equal(['a', 'b', 'c']);
+      expect(result.unpreferred).to.deep.equal(['d', 'e', 'f']);
+    });
+  });
+
+  describe('addPreferredRoute', () => {
+    it('should add a route as a preferred option', () => {
+      const routeToAdd = 'HSL__1052';
+      const router = createMemoryHistory();
+      utils.addPreferredRoute(router, routeToAdd);
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        preferred: routeToAdd,
+      });
+    });
+
+    it('should not add the same route as a preferred option twice', () => {
+      const routeToAdd = 'HSL__1052';
+      const router = createMemoryHistory();
+      utils.addPreferredRoute(router, routeToAdd);
+      utils.addPreferredRoute(router, routeToAdd);
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        preferred: routeToAdd,
+      });
+    });
+
+    it('should add multiple routes as preferred options', () => {
+      const router = createMemoryHistory();
+      utils.addPreferredRoute(router, 'HSL__1052');
+      utils.addPreferredRoute(router, 'HSL__7480');
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        preferred: 'HSL__1052,HSL__7480',
+      });
+    });
+  });
+
+  describe('addUnpreferredRoute', () => {
+    it('should add a route as an unpreferred option', () => {
+      const routeToAdd = 'HSL__1052';
+      const router = createMemoryHistory();
+      utils.addUnpreferredRoute(router, routeToAdd);
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        unpreferred: routeToAdd,
+      });
+    });
+
+    it('should not add the same route as an unpreferred option twice', () => {
+      const routeToAdd = 'HSL__1052';
+      const router = createMemoryHistory();
+      utils.addUnpreferredRoute(router, routeToAdd);
+      utils.addUnpreferredRoute(router, routeToAdd);
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        unpreferred: routeToAdd,
+      });
+    });
+
+    it('should add multiple routes as unpreferred options', () => {
+      const router = createMemoryHistory();
+      utils.addUnpreferredRoute(router, 'HSL__1052');
+      utils.addUnpreferredRoute(router, 'HSL__7480');
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        unpreferred: 'HSL__1052,HSL__7480',
+      });
+    });
+  });
+
+  describe('removePreferredRoute', () => {
+    it('should remove a preferred route option', () => {
+      const router = createMemoryHistory();
+      utils.addPreferredRoute(router, 'HSL__1052');
+      utils.removePreferredRoute(router, 'HSL__1052');
+      expect(router.getCurrentLocation().query).to.deep.equal({});
+    });
+
+    it('should ignore a missing preferred route', () => {
+      const router = createMemoryHistory();
+      utils.addPreferredRoute(router, 'HSL__1052');
+      utils.removePreferredRoute(router, 'foobar');
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        preferred: 'HSL__1052',
+      });
+    });
+  });
+
+  describe('removeUnpreferredRoute', () => {
+    it('should remove a Unpreferred route option', () => {
+      const router = createMemoryHistory();
+      utils.addUnpreferredRoute(router, 'HSL__1052');
+      utils.removeUnpreferredRoute(router, 'HSL__1052');
+      expect(router.getCurrentLocation().query).to.deep.equal({});
+    });
+
+    it('should ignore a missing Unpreferred route', () => {
+      const router = createMemoryHistory();
+      utils.addUnpreferredRoute(router, 'HSL__1052');
+      utils.removeUnpreferredRoute(router, 'foobar');
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        unpreferred: 'HSL__1052',
+      });
     });
   });
 });

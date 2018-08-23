@@ -10,7 +10,7 @@ import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import { getDefaultSettings } from './../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
-import { getModes, isBikeRestricted } from '../util/modeUtils';
+import { getModes, isBikeRestricted, getStreetMode } from '../util/modeUtils';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import AlertPopUp from './AlertPopUp';
 
@@ -73,28 +73,35 @@ class QuickSettingsPanel extends React.Component {
   getQuickOptions = () => {
     const defaultSettings = getDefaultSettings(this.context.config);
     return {
-      'default-route': {
-        ...defaultSettings,
-      },
       'fastest-route': {
         ...defaultSettings,
         minTransferTime: 60,
-        walkSpeed: 1.5,
         walkBoardCost: 540,
         walkReluctance: 1.5,
-        transferPenalty: 0,
+        walkSpeed: 1.5,
       },
       'least-transfers': {
         ...defaultSettings,
+        transferPenalty: 5460,
         walkBoardCost: 600,
         walkReluctance: 3,
-        transferPenalty: 5460,
       },
       'least-walking': {
         ...defaultSettings,
         walkBoardCost: 360,
         walkReluctance: 5,
-        transferPenalty: 0,
+      },
+      'public-transport-with-bicycle': {
+        ...defaultSettings,
+        modes: 'BICYCLE', // TODO
+      },
+      'prefer-walking-routes': {
+        ...defaultSettings,
+        optimize: 'SAFE',
+      },
+      'prefer-cycling-routes': {
+        ...defaultSettings,
+        optimize: 'GREENWAYS',
       },
     };
   };
@@ -129,7 +136,7 @@ class QuickSettingsPanel extends React.Component {
 
   matchQuickOption = () => {
     const merged = {
-      ...this.getQuickOptions()['default-route'],
+      ...this.getQuickOptions()['fastest-route'],
       ...getCustomizedSettings(),
       ...this.context.location.query,
     };
@@ -228,9 +235,20 @@ class QuickSettingsPanel extends React.Component {
     }
   };
 
+  getQuickOptionSetsForStreetMode = (config, streetMode) => {
+    if (config.quickOptions[streetMode]) {
+      return config.quickOptions[streetMode].availableOptionSets;
+    }
+    return ['fastest-route'];
+  };
+
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
     const quickOption = this.matchQuickOption();
+    const availableQuickOptionSets = this.getQuickOptionSetsForStreetMode(
+      this.context.config,
+      getStreetMode(this.context.location, this.context.config).toLowerCase(),
+    );
 
     return (
       <div className={cx(['quicksettings-container'])}>
@@ -299,30 +317,54 @@ class QuickSettingsPanel extends React.Component {
               value={quickOption}
               onChange={e => this.setQuickOption(e.target.value)}
             >
-              <option value="default-route">
-                {this.context.intl.formatMessage({
-                  id: 'route-default',
-                  defaultMessage: 'Default route',
-                })}
-              </option>
               <option value="fastest-route">
                 {this.context.intl.formatMessage({
                   id: 'route-fastest',
                   defaultMessage: 'Fastest route',
                 })}
               </option>
-              <option value="least-transfers">
-                {this.context.intl.formatMessage({
-                  id: 'route-least-transfers',
-                  defaultMessage: 'Least transfers',
-                })}
-              </option>
-              <option value="least-walking">
-                {this.context.intl.formatMessage({
-                  id: 'route-least-walking',
-                  defaultMessage: 'Least walking',
-                })}
-              </option>
+              {availableQuickOptionSets.includes('least-transfers') && (
+                <option value="least-transfers">
+                  {this.context.intl.formatMessage({
+                    id: 'route-least-transfers',
+                    defaultMessage: 'Least transfers',
+                  })}
+                </option>
+              )}
+              {availableQuickOptionSets.includes('least-walking') && (
+                <option value="least-walking">
+                  {this.context.intl.formatMessage({
+                    id: 'route-least-walking',
+                    defaultMessage: 'Least walking',
+                  })}
+                </option>
+              )}
+              {availableQuickOptionSets.includes('prefer-walking-routes') && (
+                <option value="prefer-walking-routes">
+                  {this.context.intl.formatMessage({
+                    id: 'route-prefer-walking-routes',
+                    defaultMessage: 'Prefer walking routes',
+                  })}
+                </option>
+              )}
+              {availableQuickOptionSets.includes('prefer-cycling-routes') && (
+                <option value="prefer-cycling-routes">
+                  {this.context.intl.formatMessage({
+                    id: 'route-prefer-cycling-routes',
+                    defaultMessage: 'Prefer cycling routes',
+                  })}
+                </option>
+              )}
+              {availableQuickOptionSets.includes(
+                'public-transport-with-bicycle',
+              ) && (
+                <option value="public-transport-with-bicycle">
+                  {this.context.intl.formatMessage({
+                    id: 'route-with-bicycle',
+                    defaultMessage: 'Public transport with bicycle',
+                  })}
+                </option>
+              )}
               {quickOption === 'customized-mode' && (
                 <option value="customized-mode">
                   {this.context.intl.formatMessage({

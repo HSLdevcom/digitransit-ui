@@ -85,13 +85,36 @@ export default {
     accessibilityOption: 0,
     bikeSpeed: 5,
     minTransferTime: 120,
-    preferred: undefined,
+    optimize: 'QUICK',
+    preferred: [],
     ticketTypes: null,
     transferPenalty: 0,
-    unpreferred: undefined,
+    unpreferred: [],
     walkBoardCost: 600,
     walkReluctance: 2,
     walkSpeed: 1.2,
+  },
+
+  quickOptions: {
+    public_transport: {
+      availableOptionSets: [
+        'least-transfers',
+        'least-walking',
+        'public-transport-with-bicycle',
+      ],
+    },
+    walk: {
+      availableOptionSets: ['prefer-walking-routes'],
+    },
+    bicycle: {
+      availableOptionSets: [
+        'prefer-cycling-routes',
+        'public-transport-with-bicycle',
+      ],
+    },
+    car_park: {
+      availableOptionSets: ['least-transfers', 'least-walking'],
+    },
   },
 
   maxWalkDistance: 10000,

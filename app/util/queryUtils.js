@@ -65,3 +65,140 @@ export const setIntermediatePlaces = (router, newIntermediatePlaces) => {
     replaceQueryParams(router, { intermediatePlaces: newIntermediatePlaces });
   }
 };
+
+const getArrayValueOrDefault = (value, defaultValue = []) => {
+  if (!value) {
+    return defaultValue;
+  }
+  const decoded = decodeURI(value);
+  return decoded ? decoded.split(',') : defaultValue;
+};
+
+const getRoutes = (query, preferred) => {
+  if (!query) {
+    return [];
+  }
+  return getArrayValueOrDefault(
+    preferred ? query.preferred : query.unpreferred,
+  );
+};
+
+const addRoute = (router, routeToAdd, preferred) => {
+  const { query } = router.getCurrentLocation();
+  const routes = getRoutes(query, preferred);
+  if (routes.includes(routeToAdd)) {
+    return;
+  }
+
+  routes.push(routeToAdd);
+  replaceQueryParams(router, {
+    [preferred ? 'preferred' : 'unpreferred']: routes.join(','),
+  });
+};
+
+const removeRoute = (router, routeToRemove, preferred) => {
+  const { query } = router.getCurrentLocation();
+  const routes = getRoutes(query, preferred);
+  if (!routes.includes(routeToRemove)) {
+    return;
+  }
+
+  replaceQueryParams(router, {
+    [preferred ? 'preferred' : 'unpreferred']: routes.filter(
+      r => r !== routeToRemove,
+    ),
+  });
+};
+
+/**
+ * Adds the given route as a preferred option in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToAdd The route identifier to add
+ */
+export const addPreferredRoute = (router, routeToAdd) =>
+  addRoute(router, routeToAdd, true);
+
+/**
+ * Removes the given route from the preferred options in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToRemove The route identifier to remove
+ */
+export const removePreferredRoute = (router, routeToRemove) =>
+  removeRoute(router, routeToRemove, true);
+
+/**
+ * Adds the given route as an unpreferred option in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToAdd The route identifier to add
+ */
+export const addUnpreferredRoute = (router, routeToAdd) =>
+  addRoute(router, routeToAdd, false);
+
+/**
+ * Removes the given route from the unpreferred options in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToRemove The route identifier to remove
+ */
+export const removeUnpreferredRoute = (router, routeToRemove) =>
+  removeRoute(router, routeToRemove, false);
+
+/**
+ * Retrieves all the user-customizable settings from the url.
+ *
+ * @param {*} query The query part of the current url
+ */
+export const getQuerySettings = query => {
+  if (!query) {
+    return {};
+  }
+
+  const keys = Object.keys(query);
+  const hasKey = key => keys.includes(key);
+  const getNumberValueOrDefault = (value, defaultValue = undefined) =>
+    value !== undefined && value !== null && value !== ''
+      ? Number(value)
+      : defaultValue;
+
+  return {
+    ...(hasKey('accessibilityOption') && {
+      accessibilityOption: getNumberValueOrDefault(query.accessibilityOption),
+    }),
+    ...(hasKey('bikeSpeed') && {
+      bikeSpeed: getNumberValueOrDefault(query.bikeSpeed),
+    }),
+    ...(hasKey('minTransferTime') && {
+      minTransferTime: getNumberValueOrDefault(query.minTransferTime),
+    }),
+    ...(hasKey('modes') && {
+      modes: getArrayValueOrDefault(query.modes),
+    }),
+    ...(hasKey('optimize') && {
+      optimize: query.optimize,
+    }),
+    ...(hasKey('preferred') && {
+      preferred: getArrayValueOrDefault(query.preferred),
+    }),
+    ...(hasKey('ticketTypes') && {
+      ticketTypes: query.ticketTypes,
+    }),
+    ...(hasKey('transferPenalty') && {
+      transferPenalty: getNumberValueOrDefault(query.transferPenalty),
+    }),
+    ...(hasKey('unpreferred') && {
+      unpreferred: getArrayValueOrDefault(query.unpreferred),
+    }),
+    ...(hasKey('walkBoardCost') && {
+      walkBoardCost: getNumberValueOrDefault(query.walkBoardCost),
+    }),
+    ...(hasKey('walkReluctance') && {
+      walkReluctance: getNumberValueOrDefault(query.walkReluctance),
+    }),
+    ...(hasKey('walkSpeed') && {
+      walkSpeed: getNumberValueOrDefault(query.walkSpeed),
+    }),
+  };
+};

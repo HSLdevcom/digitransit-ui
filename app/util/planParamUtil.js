@@ -1,7 +1,7 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
 
-import { filterModes, getModes } from './modeUtils';
+import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces } from './queryUtils';
 import {
@@ -18,7 +18,7 @@ export const getDefaultSettings = config => {
   if (!config) {
     return {};
   }
-  return { ...config.defaultSettings };
+  return { ...config.defaultSettings, modes: getDefaultModes(config) };
 };
 
 // These values need to be null so if no values for the variables are defined somewhere else,

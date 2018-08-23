@@ -17,9 +17,14 @@ class PreferredRoutes extends React.Component {
 
   static propTypes = {
     onRouteSelected: PropTypes.func.isRequired,
-    preferredRoutes: PropTypes.array,
-    unPreferredRoutes: PropTypes.array,
+    preferredRoutes: PropTypes.arrayOf(PropTypes.string),
+    unPreferredRoutes: PropTypes.arrayOf(PropTypes.string),
     removeRoute: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    preferredRoutes: [],
+    unPreferredRoutes: [],
   };
 
   getPreferredRouteNumbers = routeOptions => (

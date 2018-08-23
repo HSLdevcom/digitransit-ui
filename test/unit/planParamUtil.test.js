@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { preparePlanParams } from '../../app/util/planParamUtil';
+
+import defaultConfig from '../../app/configurations/config.default';
+import * as utils from '../../app/util/planParamUtil';
 
 describe('planParamUtil', () => {
   describe('preparePlanParams', () => {
@@ -24,7 +26,7 @@ describe('planParamUtil', () => {
           },
         },
       };
-      const params = preparePlanParams(config)(
+      const params = utils.preparePlanParams(config)(
         {
           from: 'Kera, Espoo::60.217992,24.75494',
           to: 'Leppävaara, Espoo::60.219235,24.81329',
@@ -38,6 +40,13 @@ describe('planParamUtil', () => {
 
       const { modes } = params;
       expect(modes).to.equal('BUS,WALK');
+    });
+  });
+
+  describe('getDefaultSettings', () => {
+    it('should include a modes array', () => {
+      const defaultSettings = utils.getDefaultSettings(defaultConfig);
+      expect(Array.isArray(defaultSettings.modes)).to.equal(true);
     });
   });
 });
