@@ -100,6 +100,13 @@ class CallAgencyLeg extends React.Component {
                   'Only on demand: {routeName}, which needs to be booked in advance.'
                 }
               />
+              {this.props.leg.route.desc ? (
+                <div className="itinerary-warning-route-description">
+                  {this.props.leg.route.desc}
+                </div>
+              ) : (
+                ''
+              )}
               <div className="itinerary-warning-agency-container">
                 <LegAgencyInfo leg={this.props.leg} />
               </div>

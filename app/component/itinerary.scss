@@ -801,12 +801,9 @@ div.itinerary-container-content {
 }
 
 .itinerary-call-agency-warning {
-  width: calc(100% - 50px);
-  height: calc(100% - 3em);
+  width: calc(100% - 23px);
   background-color: rgba(254, 209, 0, 0.3);
   position: absolute;
-  top: 0;
-  left: 4%;
   margin-top: 2em;
   margin-left: 10px;
   margin-right: 10px;
@@ -853,6 +850,10 @@ div.itinerary-container-content {
     text-decoration: none;
     color: white;
   }
+}
+
+.itinerary-warning-route-description {
+  padding-top: 5px;
 }
 
 .itinerary-warning-agency-container {
