@@ -29,5 +29,5 @@ module.exports = {
       .waitForItineraryRowOfTypeNotPresent('citybike');
 
     browser.end();
-  }
+  },
 };
