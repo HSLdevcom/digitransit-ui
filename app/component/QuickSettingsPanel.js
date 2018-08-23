@@ -2,26 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 import xor from 'lodash/xor';
 import { routerShape, locationShape } from 'react-router';
-import get from 'lodash/get';
+
+import AlertPopUp from './AlertPopUp';
 import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
-import { getDefaultSettings } from './../util/planParamUtil';
-import { getCustomizedSettings } from '../store/localStorage';
-import { getModes, isBikeRestricted, getStreetMode } from '../util/modeUtils';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import AlertPopUp from './AlertPopUp';
-
-/* define what belongs to predefined 'quick' parameter selections */
-const quickOptionParams = [
-  'minTransferTime',
-  'walkSpeed',
-  'walkBoardCost',
-  'walkReluctance',
-  'transferPenalty',
-];
+import { StreetMode } from '../constants';
+import { getCustomizedSettings } from '../store/localStorage';
+import {
+  getModes,
+  isBikeRestricted,
+  getStreetMode,
+  getDefaultTransportModes,
+} from '../util/modeUtils';
+import { getDefaultSettings } from '../util/planParamUtil';
+import { getQuerySettings, replaceQueryParams } from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -30,6 +31,7 @@ class QuickSettingsPanel extends React.Component {
     timeSelectorEndTime: PropTypes.number,
     timeSelectorServiceTimeRange: PropTypes.object.isRequired,
   };
+
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
@@ -60,25 +62,29 @@ class QuickSettingsPanel extends React.Component {
         arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
       );
     }
-
-    this.context.router.replace({
-      pathname: this.context.location.pathname,
-      query: {
-        ...this.context.location.query,
-        arriveBy,
-      },
-    });
+    replaceQueryParams(this.context.router, { arriveBy });
   };
 
-  getQuickOptions = () => {
-    const defaultSettings = getDefaultSettings(this.context.config);
-    return {
+  getApplicableQuickOptionSets = () => {
+    const { config, location } = this.context;
+    const streetMode = getStreetMode(location, config).toLowerCase();
+    if (config.quickOptions[streetMode]) {
+      return [
+        'fastest-route',
+        ...config.quickOptions[streetMode].availableOptionSets,
+      ];
+    }
+    return ['fastest-route'];
+  };
+
+  getQuickOptionSet = () => {
+    const { config } = this.context;
+    const defaultSettings = getDefaultSettings(config);
+    delete defaultSettings.modes;
+
+    const quickOptionSets = {
       'fastest-route': {
         ...defaultSettings,
-        minTransferTime: 60,
-        walkBoardCost: 540,
-        walkReluctance: 1.5,
-        walkSpeed: 1.5,
       },
       'least-transfers': {
         ...defaultSettings,
@@ -92,8 +98,9 @@ class QuickSettingsPanel extends React.Component {
         walkReluctance: 5,
       },
       'public-transport-with-bicycle': {
+        // TODO
         ...defaultSettings,
-        modes: 'BICYCLE', // TODO
+        modes: [StreetMode.Bicycle, ...getDefaultTransportModes(config)],
       },
       'prefer-walking-routes': {
         ...defaultSettings,
@@ -104,6 +111,7 @@ class QuickSettingsPanel extends React.Component {
         optimize: 'GREENWAYS',
       },
     };
+    return pick(quickOptionSets, this.getApplicableQuickOptionSets());
   };
 
   setQuickOption = name => {
@@ -114,83 +122,14 @@ class QuickSettingsPanel extends React.Component {
         name,
       );
     }
-    const chosenMode = this.getQuickOptions()[name];
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        minTransferTime: chosenMode.minTransferTime,
-        walkSpeed: chosenMode.walkSpeed,
-        walkBoardCost: chosenMode.walkBoardCost,
-        walkReluctance: chosenMode.walkReluctance,
-        transferPenalty: chosenMode.transferPenalty,
-      },
-    });
+    const chosenMode = this.getQuickOptionSet()[name];
+    replaceQueryParams(this.context.router, { ...chosenMode });
   };
 
   getModes = () => getModes(this.context.location, this.context.config);
 
-  getMode(mode) {
+  isModeSelected(mode) {
     return this.getModes().includes(mode.toUpperCase());
-  }
-
-  matchQuickOption = () => {
-    const merged = {
-      ...this.getQuickOptions()['fastest-route'],
-      ...getCustomizedSettings(),
-      ...this.context.location.query,
-    };
-
-    const match = (a, b) => {
-      let equal = true;
-      quickOptionParams.forEach(prm => {
-        if (Number(a[prm]) !== Number(b[prm])) {
-          equal = false;
-        }
-      });
-      return equal;
-    };
-
-    // Find out which quick option the user has selected
-    let currentOption = 'customized-mode';
-    Object.keys(this.getQuickOptions()).forEach(key => {
-      if (match(merged, this.getQuickOptions()[key])) {
-        currentOption = key;
-      }
-    });
-    return currentOption;
-  };
-
-  toggleTransportMode(mode, otpMode) {
-    if (
-      isBikeRestricted(
-        this.context.location,
-        this.context.config,
-        mode.toUpperCase(),
-      )
-    ) {
-      this.togglePopUp();
-      return;
-    }
-    const modes = xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
-      ',',
-    );
-
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'QuickSettingsTransportModeSelection',
-        modes,
-      );
-    }
-
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        modes,
-      },
-    });
   }
 
   actions = {
@@ -235,20 +174,64 @@ class QuickSettingsPanel extends React.Component {
     }
   };
 
-  getQuickOptionSetsForStreetMode = (config, streetMode) => {
-    if (config.quickOptions[streetMode]) {
-      return config.quickOptions[streetMode].availableOptionSets;
-    }
-    return ['fastest-route'];
+  matchQuickOption = () => {
+    const merged = {
+      ...getDefaultSettings(this.context.config),
+      ...getCustomizedSettings(),
+      ...getQuerySettings(this.context.location.query),
+    };
+    delete merged.modes;
+
+    // Find out which quick option the user has selected
+    let currentOption = 'customized-mode';
+    const quickOptions = this.getQuickOptionSet();
+
+    Object.keys(quickOptions).forEach(key => {
+      const quickSettings = { ...quickOptions[key] };
+      const appliedSettings = pick(merged, Object.keys(quickSettings));
+      if (isEqual(quickSettings, appliedSettings)) {
+        currentOption = key;
+      }
+    });
+    return currentOption;
   };
+
+  toggleTransportMode(mode, otpMode) {
+    if (
+      isBikeRestricted(
+        this.context.location,
+        this.context.config,
+        mode.toUpperCase(),
+      )
+    ) {
+      this.togglePopUp();
+      return;
+    }
+    const modes = xor(this.getModes(), [(otpMode || mode).toUpperCase()]).join(
+      ',',
+    );
+
+    if (this.context.piwik != null) {
+      this.context.piwik.trackEvent(
+        'ItinerarySettings',
+        'QuickSettingsTransportModeSelection',
+        modes,
+      );
+    }
+
+    this.context.router.replace({
+      ...this.context.location,
+      query: {
+        ...this.context.location.query,
+        modes,
+      },
+    });
+  }
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
     const quickOption = this.matchQuickOption();
-    const availableQuickOptionSets = this.getQuickOptionSetsForStreetMode(
-      this.context.config,
-      getStreetMode(this.context.location, this.context.config).toLowerCase(),
-    );
+    const applicableQuickOptionSets = this.getApplicableQuickOptionSets();
 
     return (
       <div className={cx(['quicksettings-container'])}>
@@ -307,7 +290,7 @@ class QuickSettingsPanel extends React.Component {
                     this.context.config.transportModes[mode]
                       .availableForSelection,
                 )
-                .filter(mode => this.getMode(mode))
+                .filter(mode => this.isModeSelected(mode))
                 .map(mode => mode.toUpperCase())}
             />
           </div>
@@ -323,7 +306,7 @@ class QuickSettingsPanel extends React.Component {
                   defaultMessage: 'Fastest route',
                 })}
               </option>
-              {availableQuickOptionSets.includes('least-transfers') && (
+              {applicableQuickOptionSets.includes('least-transfers') && (
                 <option value="least-transfers">
                   {this.context.intl.formatMessage({
                     id: 'route-least-transfers',
@@ -331,7 +314,7 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {availableQuickOptionSets.includes('least-walking') && (
+              {applicableQuickOptionSets.includes('least-walking') && (
                 <option value="least-walking">
                   {this.context.intl.formatMessage({
                     id: 'route-least-walking',
@@ -339,7 +322,7 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {availableQuickOptionSets.includes('prefer-walking-routes') && (
+              {applicableQuickOptionSets.includes('prefer-walking-routes') && (
                 <option value="prefer-walking-routes">
                   {this.context.intl.formatMessage({
                     id: 'route-prefer-walking-routes',
@@ -347,7 +330,7 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {availableQuickOptionSets.includes('prefer-cycling-routes') && (
+              {applicableQuickOptionSets.includes('prefer-cycling-routes') && (
                 <option value="prefer-cycling-routes">
                   {this.context.intl.formatMessage({
                     id: 'route-prefer-cycling-routes',
@@ -355,7 +338,7 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {availableQuickOptionSets.includes(
+              {/* {applicableQuickOptionSets.includes(
                 'public-transport-with-bicycle',
               ) && (
                 <option value="public-transport-with-bicycle">
@@ -364,7 +347,7 @@ class QuickSettingsPanel extends React.Component {
                     defaultMessage: 'Public transport with bicycle',
                   })}
                 </option>
-              )}
+              )} */}
               {quickOption === 'customized-mode' && (
                 <option value="customized-mode">
                   {this.context.intl.formatMessage({

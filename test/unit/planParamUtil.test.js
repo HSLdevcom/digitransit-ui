@@ -41,6 +41,25 @@ describe('planParamUtil', () => {
       const { modes } = params;
       expect(modes).to.equal('BUS,WALK');
     });
+
+    it('should use the optimize mode from query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from: 'Kera, Espoo::60.217992,24.75494',
+          to: 'Leppävaara, Espoo::60.219235,24.81329',
+        },
+        {
+          location: {
+            query: {
+              optimize: 'GREENWAYS',
+            },
+          },
+        },
+      );
+      const { optimize } = params;
+
+      expect(optimize).to.equal('GREENWAYS');
+    });
   });
 
   describe('getDefaultSettings', () => {

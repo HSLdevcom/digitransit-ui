@@ -175,20 +175,21 @@ export const preparePlanParams = config => (
   {
     location: {
       query: {
-        intermediatePlaces,
-        numItineraries,
-        time,
+        accessibilityOption,
         arriveBy,
-        walkReluctance,
-        walkSpeed,
-        walkBoardCost,
+        intermediatePlaces,
         minTransferTime,
         modes,
-        accessibilityOption,
-        ticketTypes,
-        transferPenalty,
+        numItineraries,
+        optimize,
         preferred,
+        ticketTypes,
+        time,
+        transferPenalty,
         unpreferred,
+        walkBoardCost,
+        walkReluctance,
+        walkSpeed,
       },
     },
   },
@@ -243,7 +244,7 @@ export const preparePlanParams = config => (
         bikeSwitchTime: settings.bikeSwitchTime,
         bikeSwitchCost: settings.bikeSwitchCost,
         bikeBoardCost: settings.bikeBoardCost,
-        optimize: settings.optimize,
+        optimize: optimize || settings.optimize,
         triangle:
           settings.optimize === 'TRIANGLE'
             ? {
