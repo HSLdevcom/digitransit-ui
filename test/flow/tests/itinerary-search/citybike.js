@@ -29,22 +29,5 @@ module.exports = {
       .waitForItineraryRowOfTypeNotPresent('citybike');
 
     browser.end();
-  },
-
-  'Mode toggling works': browser => {
-    browser.url(browser.launch_url);
-    browser.page
-      .searchFields()
-      .itinerarySearch('Katajanokka', 'Svenska Teatern');
-    browser.page.itinerarySummary().waitForFirstItineraryRow();
-
-    const customizeSearch = browser.page.customizeSearch();
-    customizeSearch.openQuickSettings();
-    customizeSearch.disableAllModalitiesExcept('citybike');
-    customizeSearch.enableModality('citybike');
-
-    browser.page.itinerarySummary().waitForItineraryRowOfType('citybike');
-
-    browser.end();
-  },
+  }
 };
