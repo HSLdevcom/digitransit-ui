@@ -5,8 +5,6 @@ import Relay from 'react-relay/classic';
 import moment from 'moment';
 import get from 'lodash/get';
 import isMatch from 'lodash/isMatch';
-import keys from 'lodash/keys';
-import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -26,13 +24,12 @@ import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
-import { getDefaultOTPModes } from '../util/modeUtils';
 import { getHomeUrl } from '../util/path';
 import {
   defaultRoutingSettings,
   getDefaultSettings,
 } from '../util/planParamUtil';
-import { getIntermediatePlaces } from '../util/queryUtils';
+import { getIntermediatePlaces, getQuerySettings } from '../util/queryUtils';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -100,10 +97,6 @@ class SummaryPage extends React.Component {
 
   state = { center: null, loading: false };
 
-  componentWillMount() {
-    this.initCustomizableParameters(this.context.config);
-  }
-
   componentDidMount() {
     const host =
       this.context.headers &&
@@ -141,19 +134,10 @@ class SummaryPage extends React.Component {
     this.setState({ center: { lat, lon } });
   };
 
-  initCustomizableParameters = config => {
-    this.customizableParameters = {
-      ...getDefaultSettings(config),
-      modes: getDefaultOTPModes(config),
-      maxWalkDistance: config.maxWalkDistance,
-      itineraryFiltering: config.itineraryFiltering,
-    };
-  };
-
   hasDefaultPreferences = () => {
-    const a = pick(this.customizableParameters, keys(this.props));
-    const b = pick(this.props, keys(this.customizableParameters));
-    return isMatch(a, b);
+    const defaultSettings = getDefaultSettings(this.context.config);
+    const querySettings = getQuerySettings(this.context.location.query);
+    return isMatch(defaultSettings, querySettings);
   };
 
   renderMap() {
