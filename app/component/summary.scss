@@ -323,6 +323,54 @@
   width: 100%;
 }
 
+.biking-walk-promotion-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 100%;
+  font-size: $font-size-large;
+  font-family: $font-family-narrow;
+  letter-spacing: 0;
+  max-height: 4.3em;
+  .promotion-block {
+    &.biking {
+    background-color: #f2ffe6;
+      .icon-container {
+        .icon {
+          color: #65be15;
+        }
+      }
+    }
+    &.walking {
+      background-color: #eefcff;
+      .icon-container {
+        .icon {
+          color: #86b4be;
+        }
+      }
+    }
+    display: flex;
+    flex: 0 1 50%;
+    justify-content: center;
+    padding: 1em;
+    .duration {
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+    }
+    .icon-container {
+      .icon {
+        font-size: 1.8em;
+      }
+      margin-right: 0.8em;
+    }
+    .icon-container-arrow {
+      margin-top: 0.2em;
+      .icon {
+        color: $link-color;
+      }
+    }
+  }
+}
+
 .desktop .summary-list-container {
   flex: 1 1 auto;
 }

@@ -12,6 +12,7 @@ import { getDefaultOTPModes } from '../util/modeUtils';
 import {
   preparePlanParams,
   defaultRoutingSettings,
+  getQuery,
 } from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -169,7 +170,7 @@ class SummaryPlanContainer extends React.Component {
         time: latestDepartureTime.format('HH:mm'),
       };
 
-      const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = Relay.createQuery(getQuery(), tunedParams);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
@@ -251,7 +252,7 @@ class SummaryPlanContainer extends React.Component {
         time: earliestArrivalTime.format('HH:mm'),
       };
 
-      const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = Relay.createQuery(getQuery(), tunedParams);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
@@ -308,7 +309,7 @@ class SummaryPlanContainer extends React.Component {
       },
     });
   };
-
+  /*
   getQuery = () => Relay.QL`
     query Plan(
       $intermediatePlaces:[InputCoordinates]!,
@@ -383,10 +384,24 @@ class SummaryPlanContainer extends React.Component {
           compactLegsByReversedSearch:$compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
           modeWeight: $modeWeight,
-        ) {itineraries {startTime,endTime}}
+        ) {
+          itineraries {
+            startTime
+            endTime
+            duration
+            walkTime
+            legs {
+              startTime
+              endTime
+              distance
+              from
+              to
+              mode
+            }
+          }}
       }
     }`;
-
+*/
   getActiveIndex() {
     if (this.context.location.state) {
       return this.context.location.state.summaryPageSelected || 0;
@@ -421,6 +436,7 @@ class SummaryPlanContainer extends React.Component {
           activeIndex={activeIndex}
           open={Number(this.props.params.hash)}
           error={this.props.error}
+          config={this.props.config}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
