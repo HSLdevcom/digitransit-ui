@@ -1099,7 +1099,7 @@ const translations = {
     'add-itinerary-via-point': 'Lisää reitille välipiste',
     'add-location': 'Lisää paikka',
     'add-location-to-favourites':
-      'Lisää sinulle tärkeä paikka Suosikkisi- välilehdelle',
+      'Lisää sinulle tärkeä paikka Suosikkisi-välilehdelle',
     address: 'Osoite',
     'address-or-stop': 'Osoite tai pysäkki',
     agency: 'Liikennöitsijä',
@@ -1165,7 +1165,7 @@ const translations = {
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'distance-under': 'Etäisyys alle {distance} m',
     earlier: 'Aiemmin',
-    'edit-favourites': 'Muokkaa paikkaa Suosikkisi -välilehdellä',
+    'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-target': 'Suosikkikohde',
