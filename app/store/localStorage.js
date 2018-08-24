@@ -92,13 +92,19 @@ export function setCustomizedSettings(data) {
     ),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     optimize: getValueOrDefault(data.optimize, oldSettings.optimize),
-    preferred: getValueOrDefault(data.preferred, oldSettings.preferred),
+    preferredRoutes: getValueOrDefault(
+      data.preferredRoutes,
+      oldSettings.preferredRoutes,
+    ),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
     transferPenalty: getNumberValueOrDefault(
       data.transferPenalty,
       oldSettings.transferPenalty,
     ),
-    unpreferred: getValueOrDefault(data.unpreferred, oldSettings.unpreferred),
+    unpreferredRoutes: getValueOrDefault(
+      data.unpreferredRoutes,
+      oldSettings.unpreferredRoutes,
+    ),
     walkBoardCost: getNumberValueOrDefault(
       data.walkBoardCost,
       oldSettings.walkBoardCost,

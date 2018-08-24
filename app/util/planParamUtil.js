@@ -161,12 +161,8 @@ export const getSettings = () => {
     tramWeight: getNumberValueOrDefault(routingSettings.tramWeight),
     ferryWeight: getNumberValueOrDefault(routingSettings.ferryWeight),
     airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
-    preferred:
-      custSettings.preferred !== undefined ? custSettings.preferred : undefined,
-    unpreferred:
-      custSettings.unpreferred !== undefined
-        ? custSettings.unpreferred
-        : undefined,
+    preferredRoutes: custSettings.preferredRoutes,
+    unpreferredRoutes: custSettings.unpreferredRoutes,
   };
 };
 
@@ -182,11 +178,11 @@ export const preparePlanParams = config => (
         modes,
         numItineraries,
         optimize,
-        preferred,
+        preferredRoutes,
         ticketTypes,
         time,
         transferPenalty,
-        unpreferred,
+        unpreferredRoutes,
         walkBoardCost,
         walkReluctance,
         walkSpeed,
@@ -282,10 +278,10 @@ export const preparePlanParams = config => (
               )
             : null,
         preferred: {
-          routes: preferred || settings.preferred,
+          routes: preferredRoutes || settings.preferredRoutes,
         },
         unpreferred: {
-          routes: unpreferred || settings.unpreferred,
+          routes: unpreferredRoutes || settings.unpreferredRoutes,
         },
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,

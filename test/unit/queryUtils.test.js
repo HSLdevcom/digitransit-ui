@@ -162,13 +162,13 @@ describe('queryUtils', () => {
     it('should return comma-separated lists as arrays', () => {
       const query = {
         modes: 'BUS,WALK',
-        preferred: 'a,b,c',
-        unpreferred: 'd,e,f',
+        preferredRoutes: 'a,b,c',
+        unpreferredRoutes: 'd,e,f',
       };
       const result = utils.getQuerySettings(query);
       expect(result.modes).to.deep.equal(['BUS', 'WALK']);
-      expect(result.preferred).to.deep.equal(['a', 'b', 'c']);
-      expect(result.unpreferred).to.deep.equal(['d', 'e', 'f']);
+      expect(result.preferredRoutes).to.deep.equal(['a', 'b', 'c']);
+      expect(result.unpreferredRoutes).to.deep.equal(['d', 'e', 'f']);
     });
   });
 
@@ -178,7 +178,7 @@ describe('queryUtils', () => {
       const router = createMemoryHistory();
       utils.addPreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
-        preferred: routeToAdd,
+        preferredRoutes: routeToAdd,
       });
     });
 
@@ -188,7 +188,7 @@ describe('queryUtils', () => {
       utils.addPreferredRoute(router, routeToAdd);
       utils.addPreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
-        preferred: routeToAdd,
+        preferredRoutes: routeToAdd,
       });
     });
 
@@ -197,7 +197,7 @@ describe('queryUtils', () => {
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.addPreferredRoute(router, 'HSL__7480');
       expect(router.getCurrentLocation().query).to.deep.equal({
-        preferred: 'HSL__1052,HSL__7480',
+        preferredRoutes: 'HSL__1052,HSL__7480',
       });
     });
   });
@@ -208,7 +208,7 @@ describe('queryUtils', () => {
       const router = createMemoryHistory();
       utils.addUnpreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferred: routeToAdd,
+        unpreferredRoutes: routeToAdd,
       });
     });
 
@@ -218,7 +218,7 @@ describe('queryUtils', () => {
       utils.addUnpreferredRoute(router, routeToAdd);
       utils.addUnpreferredRoute(router, routeToAdd);
       expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferred: routeToAdd,
+        unpreferredRoutes: routeToAdd,
       });
     });
 
@@ -227,7 +227,7 @@ describe('queryUtils', () => {
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.addUnpreferredRoute(router, 'HSL__7480');
       expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferred: 'HSL__1052,HSL__7480',
+        unpreferredRoutes: 'HSL__1052,HSL__7480',
       });
     });
   });
@@ -245,7 +245,7 @@ describe('queryUtils', () => {
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.removePreferredRoute(router, 'foobar');
       expect(router.getCurrentLocation().query).to.deep.equal({
-        preferred: 'HSL__1052',
+        preferredRoutes: 'HSL__1052',
       });
     });
   });
@@ -263,7 +263,7 @@ describe('queryUtils', () => {
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.removeUnpreferredRoute(router, 'foobar');
       expect(router.getCurrentLocation().query).to.deep.equal({
-        unpreferred: 'HSL__1052',
+        unpreferredRoutes: 'HSL__1052',
       });
     });
   });

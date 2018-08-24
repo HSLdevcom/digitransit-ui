@@ -79,7 +79,7 @@ const getRoutes = (query, preferred) => {
     return [];
   }
   return getArrayValueOrDefault(
-    preferred ? query.preferred : query.unpreferred,
+    preferred ? query.preferredRoutes : query.unpreferredRoutes,
   );
 };
 
@@ -92,7 +92,7 @@ const addRoute = (router, routeToAdd, preferred) => {
 
   routes.push(routeToAdd);
   replaceQueryParams(router, {
-    [preferred ? 'preferred' : 'unpreferred']: routes.join(','),
+    [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.join(','),
   });
 };
 
@@ -104,7 +104,7 @@ const removeRoute = (router, routeToRemove, preferred) => {
   }
 
   replaceQueryParams(router, {
-    [preferred ? 'preferred' : 'unpreferred']: routes.filter(
+    [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.filter(
       r => r !== routeToRemove,
     ),
   });
@@ -179,8 +179,8 @@ export const getQuerySettings = query => {
     ...(hasKey('optimize') && {
       optimize: query.optimize,
     }),
-    ...(hasKey('preferred') && {
-      preferred: getArrayValueOrDefault(query.preferred),
+    ...(hasKey('preferredRoutes') && {
+      preferredRoutes: getArrayValueOrDefault(query.preferredRoutes),
     }),
     ...(hasKey('ticketTypes') && {
       ticketTypes: query.ticketTypes,
@@ -188,8 +188,8 @@ export const getQuerySettings = query => {
     ...(hasKey('transferPenalty') && {
       transferPenalty: getNumberValueOrDefault(query.transferPenalty),
     }),
-    ...(hasKey('unpreferred') && {
-      unpreferred: getArrayValueOrDefault(query.unpreferred),
+    ...(hasKey('unpreferredRoutes') && {
+      unpreferredRoutes: getArrayValueOrDefault(query.unpreferredRoutes),
     }),
     ...(hasKey('walkBoardCost') && {
       walkBoardCost: getNumberValueOrDefault(query.walkBoardCost),
