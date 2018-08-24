@@ -332,22 +332,25 @@
   letter-spacing: 0;
   max-height: 4.3em;
   .promotion-block {
-    &.biking {
+    &.bicycle {
     background-color: #f2ffe6;
+    color: #222;
       .icon-container {
         .icon {
           color: #65be15;
         }
       }
     }
-    &.walking {
+    &.walk {
       background-color: #eefcff;
+      color: #222;
       .icon-container {
         .icon {
           color: #86b4be;
         }
       }
     }
+    cursor: pointer;
     display: flex;
     flex: 0 1 50%;
     justify-content: center;

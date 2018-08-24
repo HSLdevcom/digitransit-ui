@@ -6,23 +6,23 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
 const BikeWalkPromotion = (props, context) => (
-  <div className="biking-walk-promotion-container">
+  <React.Fragment>
     {console.log(props)}
-    {props.bikingPromotion && (
-      <div className="promotion-block biking">
+    {props.promotionSuggestion && (
+      <div className={`promotion-block ${props.textId}`}>
         <div className="icon-container">
-          <Icon img="icon-icon_biking" />
+          <Icon img={`icon-icon_${props.iconName}`} />
         </div>
-        <div className="biking-details">
-          <span className="by-bike">
+        <div className="suggestion-details">
+          <span className={`by-${props.textId}`}>
             {context.intl.formatMessage({
-              id: 'bicycle',
-              defaultMessage: 'By Bike',
+              id: props.textId,
+              defaultMessage: props.textId,
             })}
           </span>
           <span className="duration">
             {`${Math.round(
-              props.bikingPromotion.duration / 60,
+              props.promotionSuggestion.duration / 60,
             )} ${context.intl.formatMessage({
               id: 'number-of-minutes',
               defaultMessage: 'min',
@@ -34,38 +34,13 @@ const BikeWalkPromotion = (props, context) => (
         </div>
       </div>
     )}
-    {props.walkingPromotion && (
-      <div className="promotion-block walking">
-        <div className="icon-container">
-          <Icon img="icon-icon_walk" />
-        </div>
-        <div className="walking-details">
-          <span className="by-walking">
-            {context.intl.formatMessage({
-              id: 'by-walking',
-              defaultMessage: 'min',
-            })}
-          </span>
-          <span className="duration">
-            {`${Math.round(
-              props.walkingPromotion.duration / 60,
-            )} ${context.intl.formatMessage({
-              id: 'number-of-minutes',
-              defaultMessage: 'min',
-            })}`}
-          </span>
-        </div>
-        <div className="icon-container-arrow">
-          <Icon img="icon-icon_arrow-collapse--right" />
-        </div>
-      </div>
-    )}
-  </div>
+  </React.Fragment>
 );
 
 BikeWalkPromotion.propTypes = {
-  bikingPromotion: PropTypes.array,
-  walkingPromotion: PropTypes.array,
+  promotionSuggestion: PropTypes.array,
+  textId: PropTypes.string,
+  iconName: PropTypes.string,
 };
 
 BikeWalkPromotion.contextTypes = {

@@ -14,6 +14,7 @@ import {
   defaultRoutingSettings,
   getQuery,
 } from '../util/planParamUtil';
+import { getStreetMode } from '../util/modeUtils';
 
 class ItinerarySummaryListContainer extends React.Component {
   static propTypes = {
@@ -67,7 +68,11 @@ class ItinerarySummaryListContainer extends React.Component {
       .reduce((a, b) => a + b, 0);
     // console.log(totalTransitDistance);
     // console.log(Math.round(totalTransitDistance / 500) * 500);
-    if (Math.round(totalTransitDistance / 500) * 500 <= 5000) {
+    if (
+      Math.round(totalTransitDistance / 500) * 500 <= 5000 &&
+      getStreetMode(this.context.location, this.context.config) ===
+        'PUBLIC_TRANSPORT'
+    ) {
       const params = preparePlanParams(this.props.config)(
         this.context.router.params,
         this.context,
@@ -162,13 +167,22 @@ class ItinerarySummaryListContainer extends React.Component {
 
       return (
         <React.Fragment>
-          {this.state.bikingPromotion &&
-            this.state.walkingPromotion && (
+          <div className="biking-walk-promotion-container">
+            {this.state.bikingPromotion && (
               <BikeWalkPromotion
-                bikingPromotion={this.state.bikingPromotion}
-                walkingPromotion={this.state.walkingPromotion}
+                promotionSuggestion={this.state.bikingPromotion}
+                textId="bicycle"
+                iconName="biking"
               />
             )}
+            {this.state.walkingPromotion && (
+              <BikeWalkPromotion
+                promotionSuggestion={this.state.walkingPromotion}
+                textId="by-walking"
+                iconName="walk"
+              />
+            )}
+          </div>
           <div className="summary-list-container momentum-scroll">
             {summaries}
           </div>
