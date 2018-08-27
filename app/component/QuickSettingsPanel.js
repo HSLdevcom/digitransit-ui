@@ -14,15 +14,14 @@ import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
 import { StreetMode } from '../constants';
-import { getCustomizedSettings } from '../store/localStorage';
 import {
   getModes,
   isBikeRestricted,
   getStreetMode,
   getDefaultTransportModes,
 } from '../util/modeUtils';
-import { getDefaultSettings } from '../util/planParamUtil';
-import { getQuerySettings, replaceQueryParams } from '../util/queryUtils';
+import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -174,11 +173,10 @@ class QuickSettingsPanel extends React.Component {
   };
 
   matchQuickOption = () => {
-    const merged = {
-      ...getDefaultSettings(this.context.config),
-      ...getCustomizedSettings(),
-      ...getQuerySettings(this.context.location.query),
-    };
+    const merged = getCurrentSettings(
+      this.context.config,
+      this.context.location.query,
+    );
 
     // Find out which quick option the user has selected
     let currentOption = 'customized-mode';

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
-import { getIntermediatePlaces } from './queryUtils';
+import { getIntermediatePlaces, getQuerySettings } from './queryUtils';
 import {
   getCustomizedSettings,
   getRoutingSettings,
@@ -20,6 +20,18 @@ export const getDefaultSettings = config => {
   }
   return { ...config.defaultSettings, modes: getDefaultModes(config) };
 };
+
+/**
+ * Retrieves the current (customized) settings that are in use.
+ *
+ * @param {*} config the configuration for the software installation
+ * @param {*} query the query part of the current url
+ */
+export const getCurrentSettings = (config, query) => ({
+  ...getDefaultSettings(config),
+  ...getCustomizedSettings(),
+  ...getQuerySettings(query),
+});
 
 // These values need to be null so if no values for the variables are defined somewhere else,
 // these variables will be left out from queries

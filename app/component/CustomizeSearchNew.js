@@ -18,14 +18,10 @@ import SelectOptionContainer from './customizesearch/SelectOptionContainer';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
-import {
-  getCustomizedSettings,
-  resetCustomizedSettings,
-} from '../store/localStorage';
+import { resetCustomizedSettings } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
-import { getDefaultSettings } from '../util/planParamUtil';
+import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import {
-  getQuerySettings,
   replaceQueryParams,
   addPreferredRoute,
   addUnpreferredRoute,
@@ -59,12 +55,6 @@ class CustomizeSearch extends React.Component {
     }
   };
 
-  getCurrentSettings = () => ({
-    ...getDefaultSettings(this.context.config),
-    ...getCustomizedSettings(),
-    ...getQuerySettings(this.context.location.query),
-  });
-
   removeRoute = (routeToRemove, preferType) => {
     if (preferType === 'preferred') {
       removePreferredRoute(this.context.router, routeToRemove);
@@ -82,14 +72,19 @@ class CustomizeSearch extends React.Component {
   };
 
   render() {
-    const { config, intl, router } = this.context;
+    const {
+      config,
+      location: { query },
+      intl,
+      router,
+    } = this.context;
     const {
       config: { accessibilityOptions },
     } = this.context;
     const { isOpen, onToggleClick } = this.props;
     const defaultSettings = getDefaultSettings(config);
-    const currentOptions = this.getCurrentSettings();
-    const isUsingBicycle = currentOptions.modes.includes(StreetMode.Bicycle);
+    const currentSettings = getCurrentSettings(config, query);
+    const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
 
     return (
       <div
@@ -141,35 +136,35 @@ class CustomizeSearch extends React.Component {
             {isUsingBicycle && (
               <div className="settings-option-container">
                 <BikeTransportOptionsSection
-                  currentModes={currentOptions.modes}
+                  currentModes={currentSettings.modes}
                 />
               </div>
             )}
             <div className="settings-option-container">
               <TransportModesSection
                 config={config}
-                currentModes={currentOptions.modes}
+                currentModes={currentSettings.modes}
               />
             </div>
             <div className="settings-option-container">
               {isUsingBicycle ? (
                 <BikingOptionsSection
-                  walkReluctance={currentOptions.walkReluctance}
-                  bikeSpeed={currentOptions.bikeSpeed}
+                  walkReluctance={currentSettings.walkReluctance}
+                  bikeSpeed={currentSettings.bikeSpeed}
                   defaultSettings={defaultSettings}
                 />
               ) : (
                 <WalkingOptionsSection
-                  walkReluctance={currentOptions.walkReluctance}
-                  walkSpeed={currentOptions.walkSpeed}
+                  walkReluctance={currentSettings.walkReluctance}
+                  walkSpeed={currentSettings.walkSpeed}
                   defaultSettings={defaultSettings}
                 />
               )}
             </div>
             <div className="settings-option-container">
               <TransferOptionsSection
-                walkBoardCost={currentOptions.walkBoardCost}
-                minTransferTime={currentOptions.minTransferTime}
+                walkBoardCost={currentSettings.walkBoardCost}
+                minTransferTime={currentSettings.minTransferTime}
                 defaultSettings={defaultSettings}
               />
             </div>
@@ -179,23 +174,26 @@ class CustomizeSearch extends React.Component {
                 defaultMessage: 'Fare zones',
               })}
               options={get(config, 'fareMapping', {})}
-              currentOption={currentOptions.ticketTypes || 'none'}
+              currentOption={currentSettings.ticketTypes || 'none'}
               updateValue={value =>
                 replaceQueryParams(router, { ticketTypes: value })
               }
             />
             <PreferredRoutes
               onRouteSelected={this.onRouteSelected}
-              preferredRoutes={currentOptions.preferred}
-              unPreferredRoutes={currentOptions.unpreferred}
+              preferredRoutes={currentSettings.preferred}
+              unPreferredRoutes={currentSettings.unpreferred}
               removeRoute={this.removeRoute}
             />
             <div className="settings-option-container">
-              <RoutePreferencesSection />
+              <RoutePreferencesSection
+                optimize={currentSettings.optimize}
+                defaultSettings={defaultSettings}
+              />
             </div>
             <div className="settings-option-container">
               <SelectOptionContainer
-                currentSelection={currentOptions.accessibilityOption}
+                currentSelection={currentSettings.accessibilityOption}
                 defaultValue={defaultSettings.accessibilityOption}
                 options={accessibilityOptions.map((o, i) => ({
                   title: accessibilityOptions[i].messageId,
