@@ -108,7 +108,7 @@ export default {
     },
     bicycle: {
       availableOptionSets: [
-        'prefer-cycling-routes',
+        'prefer-greenways',
         'public-transport-with-bicycle',
       ],
     },

@@ -4,7 +4,6 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
 import get from 'lodash/get';
-import isMatch from 'lodash/isMatch';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -25,11 +24,8 @@ import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
-import {
-  defaultRoutingSettings,
-  getDefaultSettings,
-} from '../util/planParamUtil';
-import { getIntermediatePlaces, getQuerySettings } from '../util/queryUtils';
+import { defaultRoutingSettings } from '../util/planParamUtil';
+import { getIntermediatePlaces } from '../util/queryUtils';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -132,12 +128,6 @@ class SummaryPage extends React.Component {
 
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
-  };
-
-  hasDefaultPreferences = () => {
-    const defaultSettings = getDefaultSettings(this.context.config);
-    const querySettings = getQuerySettings(this.context.location.query);
-    return isMatch(defaultSettings, querySettings);
   };
 
   renderMap() {
@@ -258,7 +248,6 @@ class SummaryPage extends React.Component {
     const serviceTimeRange = validateServiceTimeRange(
       this.props.serviceTimeRange,
     );
-    const hasDefaultPreferences = this.hasDefaultPreferences();
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -302,7 +291,6 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
-              hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
             />
@@ -357,7 +345,6 @@ class SummaryPage extends React.Component {
         header={
           !this.props.params.hash ? (
             <SummaryNavigation
-              hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}

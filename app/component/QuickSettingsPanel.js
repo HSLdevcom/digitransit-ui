@@ -26,7 +26,6 @@ import { getQuerySettings, replaceQueryParams } from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
-    hasDefaultPreferences: PropTypes.bool.isRequired,
     timeSelectorStartTime: PropTypes.number,
     timeSelectorEndTime: PropTypes.number,
     timeSelectorServiceTimeRange: PropTypes.object.isRequired,
@@ -106,7 +105,7 @@ class QuickSettingsPanel extends React.Component {
         ...defaultSettings,
         optimize: 'SAFE',
       },
-      'prefer-cycling-routes': {
+      'prefer-greenways': {
         ...defaultSettings,
         optimize: 'GREENWAYS',
       },
@@ -180,7 +179,6 @@ class QuickSettingsPanel extends React.Component {
       ...getCustomizedSettings(),
       ...getQuerySettings(this.context.location.query),
     };
-    delete merged.modes;
 
     // Find out which quick option the user has selected
     let currentOption = 'customized-mode';
@@ -275,7 +273,7 @@ class QuickSettingsPanel extends React.Component {
           <div className="open-advanced-settings">
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={!this.props.hasDefaultPreferences}
+              hasChanges={quickOption === 'customized-mode'}
             />
           </div>
         </div>
@@ -330,10 +328,10 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {applicableQuickOptionSets.includes('prefer-cycling-routes') && (
-                <option value="prefer-cycling-routes">
+              {applicableQuickOptionSets.includes('prefer-greenways') && (
+                <option value="prefer-greenways">
                   {this.context.intl.formatMessage({
-                    id: 'route-prefer-cycling-routes',
+                    id: 'route-prefer-greenways',
                     defaultMessage: 'Prefer cycling routes',
                   })}
                 </option>
