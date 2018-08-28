@@ -1365,7 +1365,7 @@ const translations = {
     'route-prefer-walking-routes': 'Suosi kävelyreittejä',
     'route-prefer-winter-maintenance': 'Suosi talvikunnossapidettyjä reittejä',
     'route-preferences': 'Reittimieltymykset',
-    'route-public-transport-with-bicycle': 'Liikun polkupyörällä ja julkisilla',
+    'route-public-transport-with-bicycle': 'Pyöräillen ja julkisilla',
     'route-stop-or-keyword': 'Tietoja linjasta tai pysäkistä',
     routes: 'Linjat',
     run: 'Juoksu',
