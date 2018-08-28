@@ -95,6 +95,26 @@ export default {
     walkSpeed: 1.2,
   },
 
+  /**
+   * These are used for dropdown selection of values to override the default
+   * settings. This means that values ought to be relative to the current default.
+   * If not, the selection may not make any sense.
+   */
+  defaultOptions: {
+    walkBoardCost: {
+      least: 3600,
+      less: 1200,
+      more: 360,
+      most: 120,
+    },
+    walkReluctance: {
+      least: 5,
+      less: 3,
+      more: 1,
+      most: 0.2,
+    },
+  },
+
   quickOptions: {
     public_transport: {
       availableOptionSets: [

@@ -150,12 +150,14 @@ class CustomizeSearch extends React.Component {
               {isUsingBicycle ? (
                 <BikingOptionsSection
                   walkReluctance={currentSettings.walkReluctance}
+                  walkReluctanceOptions={config.defaultOptions.walkReluctance}
                   bikeSpeed={currentSettings.bikeSpeed}
                   defaultSettings={defaultSettings}
                 />
               ) : (
                 <WalkingOptionsSection
                   walkReluctance={currentSettings.walkReluctance}
+                  walkReluctanceOptions={config.defaultOptions.walkReluctance}
                   walkSpeed={currentSettings.walkSpeed}
                   defaultSettings={defaultSettings}
                 />
@@ -164,6 +166,7 @@ class CustomizeSearch extends React.Component {
             <div className="settings-option-container">
               <TransferOptionsSection
                 walkBoardCost={currentSettings.walkBoardCost}
+                walkBoardCostOptions={config.defaultOptions.walkBoardCost}
                 minTransferTime={currentSettings.minTransferTime}
                 defaultSettings={defaultSettings}
               />

@@ -13,7 +13,7 @@ import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import { StreetMode } from '../constants';
+import { StreetMode, OptimizeType } from '../constants';
 import {
   getModes,
   isBikeRestricted,
@@ -87,26 +87,24 @@ class QuickSettingsPanel extends React.Component {
       'least-transfers': {
         ...defaultSettings,
         transferPenalty: 5460,
-        walkBoardCost: 600,
-        walkReluctance: 3,
+        walkReluctance: config.defaultOptions.walkReluctance.less,
       },
       'least-walking': {
         ...defaultSettings,
-        walkBoardCost: 360,
-        walkReluctance: 5,
+        walkBoardCost: config.defaultOptions.walkBoardCost.more,
+        walkReluctance: config.defaultOptions.walkReluctance.least,
       },
       'public-transport-with-bicycle': {
-        // TODO
         ...defaultSettings,
         modes: [StreetMode.Bicycle, ...getDefaultTransportModes(config)],
       },
       'prefer-walking-routes': {
         ...defaultSettings,
-        optimize: 'SAFE',
+        optimize: OptimizeType.Safe,
       },
       'prefer-greenways': {
         ...defaultSettings,
-        optimize: 'GREENWAYS',
+        optimize: OptimizeType.Greenways,
       },
     };
     return pick(quickOptionSets, this.getApplicableQuickOptionSets());

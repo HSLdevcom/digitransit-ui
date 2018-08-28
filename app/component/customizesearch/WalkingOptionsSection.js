@@ -6,12 +6,13 @@ import { routerShape } from 'react-router';
 import SelectOptionContainer, {
   getFiveStepOptions,
   getSpeedOptions,
+  optionsShape,
   valueShape,
 } from './SelectOptionContainer';
 import { replaceQueryParams } from '../../util/queryUtils';
 
 const WalkingOptionsSection = (
-  { walkReluctance, walkSpeed, defaultSettings },
+  { walkReluctance, walkReluctanceOptions, walkSpeed, defaultSettings },
   { router },
 ) => (
   <React.Fragment>
@@ -22,7 +23,10 @@ const WalkingOptionsSection = (
       onOptionSelected={value =>
         replaceQueryParams(router, { walkReluctance: value })
       }
-      options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+      options={getFiveStepOptions(
+        defaultSettings.walkReluctance,
+        walkReluctanceOptions,
+      )}
       title="walking"
     />
     <SelectOptionContainer
@@ -40,12 +44,13 @@ const WalkingOptionsSection = (
 );
 
 WalkingOptionsSection.propTypes = {
-  walkReluctance: valueShape.isRequired,
-  walkSpeed: valueShape.isRequired,
   defaultSettings: PropTypes.shape({
     walkReluctance: PropTypes.number.isRequired,
     walkSpeed: PropTypes.number.isRequired,
   }).isRequired,
+  walkReluctance: valueShape.isRequired,
+  walkReluctanceOptions: optionsShape.isRequired,
+  walkSpeed: valueShape.isRequired,
 };
 
 WalkingOptionsSection.contextTypes = {

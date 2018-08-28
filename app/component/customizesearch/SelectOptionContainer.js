@@ -1,4 +1,3 @@
-import ceil from 'lodash/ceil';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,38 +7,42 @@ import Icon from '../Icon';
 import Select from '../Select';
 
 /**
+ * Represents the type of options configuration.
+ */
+export const optionsShape = PropTypes.shape({
+  least: PropTypes.number.isRequired,
+  less: PropTypes.number.isRequired,
+  more: PropTypes.number.isRequired,
+  most: PropTypes.number.isRequired,
+});
+
+/**
  * Builds an array of options: least, less, default, more, most with preset
- * multipliers for each option.
+ * multipliers or given values for each option. Note: a higher value (relative to
+ * the given value) means less/worse.
  *
  * @param {number} defaultValue The default value.
- * @param {boolean} reverse Whether a higher multiplier means less.
+ * @param {*} options The options to select from.
  */
-export const getFiveStepOptions = (defaultValue, reverse = false) => {
-  const multipliers = [0.2, 0.5, 2, 5];
-  if (reverse) {
-    multipliers.reverse();
-  }
-
-  return [
-    {
-      title: 'option-least',
-      value: ceil(multipliers[0] * defaultValue, 3),
-    },
-    {
-      title: 'option-less',
-      value: ceil(multipliers[1] * defaultValue, 3),
-    },
-    { title: 'option-default', value: defaultValue },
-    {
-      title: 'option-more',
-      value: ceil(multipliers[2] * defaultValue, 3),
-    },
-    {
-      title: 'option-most',
-      value: ceil(multipliers[3] * defaultValue, 3),
-    },
-  ];
-};
+export const getFiveStepOptions = (defaultValue, options) => [
+  {
+    title: 'option-least',
+    value: options.least || options[0],
+  },
+  {
+    title: 'option-less',
+    value: options.less || options[1],
+  },
+  { title: 'option-default', value: defaultValue },
+  {
+    title: 'option-more',
+    value: options.more || options[2],
+  },
+  {
+    title: 'option-most',
+    value: options.most || options[3],
+  },
+];
 
 /**
  * Builds an array of options starting from the minimum value, including default value
