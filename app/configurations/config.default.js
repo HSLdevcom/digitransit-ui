@@ -127,10 +127,7 @@ export default {
       availableOptionSets: ['prefer-walking-routes'],
     },
     bicycle: {
-      availableOptionSets: [
-        'prefer-greenways',
-        'public-transport-with-bicycle',
-      ],
+      availableOptionSets: ['prefer-greenways'],
     },
     car_park: {
       availableOptionSets: ['least-transfers', 'least-walking'],

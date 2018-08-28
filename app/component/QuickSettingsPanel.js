@@ -19,6 +19,7 @@ import {
   isBikeRestricted,
   getStreetMode,
   getDefaultTransportModes,
+  hasBikeRestriction,
 } from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import { replaceQueryParams } from '../util/queryUtils';
@@ -96,11 +97,17 @@ class QuickSettingsPanel extends React.Component {
       },
       'public-transport-with-bicycle': {
         ...defaultSettings,
-        modes: [StreetMode.Bicycle, ...getDefaultTransportModes(config)],
+        modes: [
+          StreetMode.Bicycle,
+          ...getDefaultTransportModes(config).filter(
+            mode => !hasBikeRestriction(config, mode),
+          ),
+        ].join(','),
       },
       'prefer-walking-routes': {
         ...defaultSettings,
         optimize: OptimizeType.Safe,
+        walkReluctance: config.defaultOptions.walkReluctance.most,
       },
       'prefer-greenways': {
         ...defaultSettings,
@@ -332,16 +339,16 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {/* {applicableQuickOptionSets.includes(
+              {applicableQuickOptionSets.includes(
                 'public-transport-with-bicycle',
               ) && (
                 <option value="public-transport-with-bicycle">
                   {this.context.intl.formatMessage({
-                    id: 'route-with-bicycle',
+                    id: 'route-public-transport-with-bicycle',
                     defaultMessage: 'Public transport with bicycle',
                   })}
                 </option>
-              )} */}
+              )}
               {quickOption === 'customized-mode' && (
                 <option value="customized-mode">
                   {this.context.intl.formatMessage({
