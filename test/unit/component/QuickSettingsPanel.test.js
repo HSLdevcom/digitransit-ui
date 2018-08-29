@@ -64,7 +64,7 @@ describe('<QuickSettingsPanel />', () => {
     ).to.have.lengthOf(1);
   });
 
-  it('should have the fastest route option always available', () => {
+  it('should have the default route option always available', () => {
     const props = getDefaultProps();
     const context = getDefaultContext(defaultConfig);
     const wrapper = mountWithIntl(<QuickSettingsPanel {...props} />, {
@@ -73,11 +73,12 @@ describe('<QuickSettingsPanel />', () => {
     });
 
     const modes = getAvailableStreetModes(defaultConfig);
+    expect(modes.length).to.be.greaterThan(0);
     modes.forEach(mode => {
       context.location.query.modes = mode;
       wrapper.setContext(context);
       expect(
-        wrapper.find('.select-route-modes > option[value="fastest-route"]'),
+        wrapper.find('.select-route-modes > option[value="default-route"]'),
       ).to.have.lengthOf(1);
     });
   });

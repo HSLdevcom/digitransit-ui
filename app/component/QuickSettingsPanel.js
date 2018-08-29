@@ -67,13 +67,12 @@ class QuickSettingsPanel extends React.Component {
   getApplicableQuickOptionSets = () => {
     const { config, location } = this.context;
     const streetMode = getStreetMode(location, config).toLowerCase();
-    if (config.quickOptions[streetMode]) {
-      return [
-        'fastest-route',
-        ...config.quickOptions[streetMode].availableOptionSets,
-      ];
-    }
-    return ['fastest-route'];
+    return [
+      'default-route',
+      ...(config.quickOptions[streetMode]
+        ? config.quickOptions[streetMode].availableOptionSets
+        : []),
+    ];
   };
 
   getQuickOptionSet = () => {
@@ -82,7 +81,7 @@ class QuickSettingsPanel extends React.Component {
     delete defaultSettings.modes;
 
     const quickOptionSets = {
-      'fastest-route': {
+      'default-route': {
         ...defaultSettings,
       },
       'least-transfers': {
@@ -301,10 +300,10 @@ class QuickSettingsPanel extends React.Component {
               value={quickOption}
               onChange={e => this.setQuickOption(e.target.value)}
             >
-              <option value="fastest-route">
+              <option value="default-route">
                 {this.context.intl.formatMessage({
-                  id: 'route-fastest',
-                  defaultMessage: 'Fastest route',
+                  id: 'route-default',
+                  defaultMessage: 'Default settings',
                 })}
               </option>
               {applicableQuickOptionSets.includes('least-transfers') && (
