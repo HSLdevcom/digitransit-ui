@@ -114,6 +114,25 @@ describe('planParamUtil', () => {
       const { unpreferred } = params;
       expect(unpreferred).to.deep.equal({ routes: 'HSL__7480' });
     });
+
+    it('should use bikeSpeed from query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        { location: { query: { bikeSpeed: 20 } } },
+      );
+      const { bikeSpeed } = params;
+      expect(bikeSpeed).to.equal(20);
+    });
+
+    it('should use bikeSpeed from localStorage', () => {
+      setCustomizedSettings({ bikeSpeed: 20 });
+      const params = utils.preparePlanParams(defaultConfig)(...defaultProps);
+      const { bikeSpeed } = params;
+      expect(bikeSpeed).to.equal(20);
+    });
   });
 
   describe('getDefaultSettings', () => {

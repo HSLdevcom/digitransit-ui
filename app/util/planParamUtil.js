@@ -137,7 +137,10 @@ export const getSettings = () => {
       routingSettings.walkOnStreetReluctance,
     ),
     waitReluctance: getNumberValueOrDefault(routingSettings.waitReluctance),
-    bikeSpeed: getNumberValueOrDefault(routingSettings.bikeSpeed),
+    bikeSpeed: getNumberValueOrDefault(
+      custSettings.bikeSpeed,
+      routingSettings.bikeSpeed,
+    ),
     bikeSwitchTime: getNumberValueOrDefault(routingSettings.bikeSwitchTime),
     bikeSwitchCost: getNumberValueOrDefault(routingSettings.bikeSwitchCost),
     bikeBoardCost: getNumberValueOrDefault(routingSettings.bikeBoardCost),
@@ -185,6 +188,7 @@ export const preparePlanParams = config => (
       query: {
         accessibilityOption,
         arriveBy,
+        bikeSpeed,
         intermediatePlaces,
         minTransferTime,
         modes,
@@ -248,7 +252,7 @@ export const preparePlanParams = config => (
         maxPreTransitTime: settings.maxPreTransitTime,
         walkOnStreetReluctance: settings.walkOnStreetReluctance,
         waitReluctance: settings.waitReluctance,
-        bikeSpeed: settings.bikeSpeed,
+        bikeSpeed: getNumberValueOrDefault(bikeSpeed, settings.bikeSpeed),
         bikeSwitchTime: settings.bikeSwitchTime,
         bikeSwitchCost: settings.bikeSwitchCost,
         bikeBoardCost: settings.bikeBoardCost,
