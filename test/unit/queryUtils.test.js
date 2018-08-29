@@ -267,4 +267,20 @@ describe('queryUtils', () => {
       });
     });
   });
+
+  describe('clearQueryParams', () => {
+    it('should remove only given parameters', () => {
+      const router = createMemoryHistory();
+      router.replace({
+        query: {
+          foo: 'bar',
+          bar: 'baz',
+        },
+      });
+      utils.clearQueryParams(router, 'foo');
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        bar: 'baz',
+      });
+    });
+  });
 });

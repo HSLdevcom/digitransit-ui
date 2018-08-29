@@ -1,19 +1,25 @@
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
+import omit from 'lodash/omit';
 import trim from 'lodash/trim';
 
 import { otpToLocation } from './otpStrings';
 
 /**
- * Clears the browser's url parameters.
+ * Clears the given parameters from the browser's url.
  *
  * @param {*} router The router
+ * @param {string[]} paramsToClear The parameters to clear from the url
  */
-export const clearQueryParams = router => {
+export const clearQueryParams = (router, paramsToClear = []) => {
+  if (paramsToClear.length === 0) {
+    return;
+  }
   const location = router.getCurrentLocation();
+  const query = omit(location.query, paramsToClear);
   router.replace({
     ...location,
-    query: {},
+    query,
   });
 };
 

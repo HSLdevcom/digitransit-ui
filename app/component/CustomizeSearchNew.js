@@ -22,12 +22,12 @@ import { resetCustomizedSettings } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import {
-  replaceQueryParams,
   addPreferredRoute,
   addUnpreferredRoute,
+  clearQueryParams,
   removePreferredRoute,
   removeUnpreferredRoute,
-  clearQueryParams,
+  replaceQueryParams,
 } from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
@@ -56,6 +56,8 @@ class CustomizeSearch extends React.Component {
     }
   };
 
+  defaultSettings = getDefaultSettings(this.context.config);
+
   removeRoute = (routeToRemove, preferType) => {
     if (preferType === 'preferred') {
       removePreferredRoute(this.context.router, routeToRemove);
@@ -66,7 +68,7 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    clearQueryParams(this.context.router);
+    clearQueryParams(this.context.router, Object.keys(this.defaultSettings));
   };
 
   render() {
@@ -80,7 +82,6 @@ class CustomizeSearch extends React.Component {
       config: { accessibilityOptions },
     } = this.context;
     const { isOpen, onToggleClick } = this.props;
-    const defaultSettings = getDefaultSettings(config);
     const currentSettings = getCurrentSettings(config, query);
     const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
 
@@ -150,14 +151,14 @@ class CustomizeSearch extends React.Component {
                   walkReluctance={currentSettings.walkReluctance}
                   walkReluctanceOptions={config.defaultOptions.walkReluctance}
                   bikeSpeed={currentSettings.bikeSpeed}
-                  defaultSettings={defaultSettings}
+                  defaultSettings={this.defaultSettings}
                 />
               ) : (
                 <WalkingOptionsSection
                   walkReluctance={currentSettings.walkReluctance}
                   walkReluctanceOptions={config.defaultOptions.walkReluctance}
                   walkSpeed={currentSettings.walkSpeed}
-                  defaultSettings={defaultSettings}
+                  defaultSettings={this.defaultSettings}
                 />
               )}
             </div>
@@ -166,7 +167,7 @@ class CustomizeSearch extends React.Component {
                 walkBoardCost={currentSettings.walkBoardCost}
                 walkBoardCostOptions={config.defaultOptions.walkBoardCost}
                 minTransferTime={currentSettings.minTransferTime}
-                defaultSettings={defaultSettings}
+                defaultSettings={this.defaultSettings}
               />
             </div>
             <FareZoneSelector
@@ -189,13 +190,13 @@ class CustomizeSearch extends React.Component {
             <div className="settings-option-container">
               <RoutePreferencesSection
                 optimize={currentSettings.optimize}
-                defaultSettings={defaultSettings}
+                defaultSettings={this.defaultSettings}
               />
             </div>
             <div className="settings-option-container">
               <SelectOptionContainer
                 currentSelection={currentSettings.accessibilityOption}
-                defaultValue={defaultSettings.accessibilityOption}
+                defaultValue={this.defaultSettings.accessibilityOption}
                 options={accessibilityOptions.map((o, i) => ({
                   title: accessibilityOptions[i].messageId,
                   value: accessibilityOptions[i].value,
