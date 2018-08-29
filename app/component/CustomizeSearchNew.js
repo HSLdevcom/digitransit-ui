@@ -27,6 +27,7 @@ import {
   addUnpreferredRoute,
   removePreferredRoute,
   removeUnpreferredRoute,
+  clearQueryParams,
 } from '../util/queryUtils';
 
 class CustomizeSearch extends React.Component {
@@ -65,10 +66,7 @@ class CustomizeSearch extends React.Component {
 
   resetParameters = () => {
     resetCustomizedSettings();
-    replaceQueryParams(
-      this.context.router,
-      getDefaultSettings(this.context.config),
-    );
+    clearQueryParams(this.context.router);
   };
 
   render() {
@@ -211,7 +209,9 @@ class CustomizeSearch extends React.Component {
               />
             </div>
             <div className="settings-option-container save-controls-container">
-              <SaveCustomizedSettingsButton />
+              <SaveCustomizedSettingsButton
+                noSettingsFound={this.resetParameters}
+              />
               <ResetCustomizedSettingsButton onReset={this.resetParameters} />
             </div>
           </section>

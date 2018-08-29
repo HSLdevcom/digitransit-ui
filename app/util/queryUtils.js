@@ -5,6 +5,19 @@ import trim from 'lodash/trim';
 import { otpToLocation } from './otpStrings';
 
 /**
+ * Clears the browser's url parameters.
+ *
+ * @param {*} router The router
+ */
+export const clearQueryParams = router => {
+  const location = router.getCurrentLocation();
+  router.replace({
+    ...location,
+    query: {},
+  });
+};
+
+/**
  * Updates the browser's url with the given parameters.
  *
  * @param {*} router The router

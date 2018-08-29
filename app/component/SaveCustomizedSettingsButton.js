@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
@@ -5,14 +6,15 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { locationShape } from 'react-router';
 
-import {
-  setCustomizedSettings,
-  resetCustomizedSettings,
-} from '../store/localStorage';
+import { setCustomizedSettings } from '../store/localStorage';
 import { getDefaultSettings } from '../util/planParamUtil';
 import { getQuerySettings } from '../util/queryUtils';
 
 class SaveCustomizedSettingsButton extends React.Component {
+  static propTypes = {
+    noSettingsFound: PropTypes.func.isRequired,
+  };
+
   static contextTypes = {
     config: PropTypes.object.isRequired,
     location: locationShape.isRequired,
@@ -38,8 +40,8 @@ class SaveCustomizedSettingsButton extends React.Component {
 
     const querySettings = getQuerySettings(this.context.location.query);
     const defaultSettings = getDefaultSettings(this.context.config);
-    if (isEqual(querySettings, defaultSettings)) {
-      resetCustomizedSettings();
+    if (isEmpty(querySettings) || isEqual(querySettings, defaultSettings)) {
+      this.props.noSettingsFound();
     } else {
       setCustomizedSettings(querySettings);
       this.setState({
