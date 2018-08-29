@@ -1,13 +1,22 @@
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Snackbar from 'material-ui/Snackbar';
-
 import { FormattedMessage } from 'react-intl';
 import { locationShape } from 'react-router';
+
 import { setCustomizedSettings } from '../store/localStorage';
+import { getDefaultSettings } from '../util/planParamUtil';
+import { getQuerySettings } from '../util/queryUtils';
 
 class SaveCustomizedSettingsButton extends React.Component {
+  static propTypes = {
+    noSettingsFound: PropTypes.func.isRequired,
+  };
+
   static contextTypes = {
+    config: PropTypes.object.isRequired,
     location: locationShape.isRequired,
     piwik: PropTypes.object,
   };
@@ -28,43 +37,17 @@ class SaveCustomizedSettingsButton extends React.Component {
         'SaveSettings',
       );
     }
-    // Test if has new set values
-    const settings = {
-      accessibilityOption: !(
-        typeof this.context.location.query.accessibilityOption === 'undefined'
-      )
-        ? this.context.location.query.accessibilityOption
-        : undefined,
-      minTransferTime: this.context.location.query.minTransferTime
-        ? this.context.location.query.minTransferTime
-        : undefined,
-      modes:
-        decodeURI(this.context.location.query.modes) !== 'undefined' &&
-        decodeURI(this.context.location.query.modes) !==
-          'TRAM,RAIL,SUBWAY,FERRY,WALK,BUS'
-          ? decodeURI(this.context.location.query.modes).split(',')
-          : undefined,
-      walkBoardCost: this.context.location.query.walkBoardCost
-        ? this.context.location.query.walkBoardCost
-        : undefined,
-      walkReluctance: this.context.location.query.walkReluctance
-        ? this.context.location.query.walkReluctance
-        : undefined,
-      walkSpeed: this.context.location.query.walkSpeed
-        ? this.context.location.query.walkSpeed
-        : undefined,
-      ticketTypes: this.context.location.query.ticketTypes
-        ? this.context.location.query.ticketTypes
-        : undefined,
-      transferPenalty: this.context.location.query.transferPenalty
-        ? this.context.location.query.transferPenalty
-        : undefined,
-    };
 
-    setCustomizedSettings(settings);
-    this.setState({
-      open: true,
-    });
+    const querySettings = getQuerySettings(this.context.location.query);
+    const defaultSettings = getDefaultSettings(this.context.config);
+    if (isEmpty(querySettings) || isEqual(querySettings, defaultSettings)) {
+      this.props.noSettingsFound();
+    } else {
+      setCustomizedSettings(querySettings);
+      this.setState({
+        open: true,
+      });
+    }
   };
 
   getSnackbarDimensions = () => {

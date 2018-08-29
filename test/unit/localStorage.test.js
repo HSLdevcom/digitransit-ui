@@ -6,7 +6,9 @@ import {
   getRoutingSettings,
   setRoutingSettings,
   getCustomizedSettings,
+  setCustomizedSettings,
 } from '../../app/store/localStorage';
+import defaultConfig from '../../app/configurations/config.default';
 
 const ROUTING_SETTINGS = {
   ignoreRealtimeUpdates: 'false',
@@ -69,6 +71,14 @@ describe('localStorage', () => {
   describe('getCustomizedSettings', () => {
     it('should return an empty object by default', () => {
       expect(getCustomizedSettings()).to.deep.equal({});
+    });
+  });
+
+  describe('setCustomizedSettings', () => {
+    it('should save all default settings', () => {
+      const defaultSettings = { ...defaultConfig.defaultSettings };
+      setCustomizedSettings(defaultSettings);
+      expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
     });
   });
 });

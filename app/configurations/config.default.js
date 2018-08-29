@@ -81,7 +81,58 @@ export default {
     bucketSize: 1000,
   },
 
-  defaultSettings: {},
+  defaultSettings: {
+    accessibilityOption: 0,
+    bikeSpeed: 5,
+    minTransferTime: 120,
+    optimize: 'QUICK',
+    preferredRoutes: [],
+    ticketTypes: null,
+    transferPenalty: 0,
+    unpreferredRoutes: [],
+    walkBoardCost: 600,
+    walkReluctance: 2,
+    walkSpeed: 1.2,
+  },
+
+  /**
+   * These are used for dropdown selection of values to override the default
+   * settings. This means that values ought to be relative to the current default.
+   * If not, the selection may not make any sense.
+   */
+  defaultOptions: {
+    walkBoardCost: {
+      least: 3600,
+      less: 1200,
+      more: 360,
+      most: 120,
+    },
+    walkReluctance: {
+      least: 5,
+      less: 3,
+      more: 1,
+      most: 0.2,
+    },
+  },
+
+  quickOptions: {
+    public_transport: {
+      availableOptionSets: [
+        'least-transfers',
+        'least-walking',
+        'public-transport-with-bicycle',
+      ],
+    },
+    walk: {
+      availableOptionSets: ['prefer-walking-routes'],
+    },
+    bicycle: {
+      availableOptionSets: ['prefer-greenways'],
+    },
+    car_park: {
+      availableOptionSets: ['least-transfers', 'least-walking'],
+    },
+  },
 
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,

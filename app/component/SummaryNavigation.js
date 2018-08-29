@@ -17,7 +17,6 @@ class SummaryNavigation extends React.Component {
       from: PropTypes.string,
       to: PropTypes.string,
     }).isRequired,
-    hasDefaultPreferences: PropTypes.bool.isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
@@ -169,7 +168,6 @@ class SummaryNavigation extends React.Component {
         {this.renderStreetModeSelector(config, router)}
         <div className={cx('quicksettings-separator-line')} />
         <QuickSettingsPanel
-          hasDefaultPreferences={this.props.hasDefaultPreferences}
           timeSelectorStartTime={this.props.startTime}
           timeSelectorEndTime={this.props.endTime}
           timeSelectorServiceTimeRange={this.props.serviceTimeRange}

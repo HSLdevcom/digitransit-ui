@@ -4,9 +4,6 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
 import get from 'lodash/get';
-import isMatch from 'lodash/isMatch';
-import keys from 'lodash/keys';
-import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -27,10 +24,10 @@ import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
-import { getIntermediatePlaces } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import { defaultRoutingSettings } from '../util/planParamUtil';
+import { getIntermediatePlaces } from '../util/queryUtils';
+import { validateServiceTimeRange } from '../util/timeUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -89,27 +86,12 @@ class SummaryPage extends React.Component {
     map: undefined,
   };
 
-  static hcParameters = {
-    walkReluctance: 2,
-    walkBoardCost: 600,
-    minTransferTime: 120,
-    transferPenalty: 0,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    accessibilityOption: 0,
-    ticketTypes: null,
-  };
-
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
   }
 
   state = { center: null, loading: false };
-
-  componentWillMount() {
-    this.initCustomizableParameters(this.context.config);
-  }
 
   componentDidMount() {
     const host =
@@ -146,33 +128,6 @@ class SummaryPage extends React.Component {
 
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
-  };
-
-  initCustomizableParameters = config => {
-    this.customizableParameters = {
-      ...SummaryPage.hcParameters,
-      ...this.context.config.defaultSettings,
-      modes: Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue === true)
-        .map(mode => config.modeToOTP[mode])
-        .concat(
-          Object.keys(config.streetModes)
-            .filter(mode => config.streetModes[mode].defaultValue === true)
-            .map(mode => config.modeToOTP[mode]),
-        )
-        .sort()
-        .join(','),
-      maxWalkDistance: config.maxWalkDistance,
-      itineraryFiltering: config.itineraryFiltering,
-      preferred: { routes: '' },
-      unpreferred: { routes: '' },
-    };
-  };
-
-  hasDefaultPreferences = () => {
-    const a = pick(this.customizableParameters, keys(this.props));
-    const b = pick(this.props, keys(this.customizableParameters));
-    return isMatch(a, b);
   };
 
   renderMap() {
@@ -293,7 +248,6 @@ class SummaryPage extends React.Component {
     const serviceTimeRange = validateServiceTimeRange(
       this.props.serviceTimeRange,
     );
-    const hasDefaultPreferences = this.hasDefaultPreferences();
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -337,7 +291,6 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
-              hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
             />
@@ -392,7 +345,6 @@ class SummaryPage extends React.Component {
         header={
           !this.props.params.hash ? (
             <SummaryNavigation
-              hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
@@ -501,8 +453,12 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
+      minTransferTime: null,
+      walkBoardCost: null,
+      walkReluctance: null,
+      walkSpeed: null,
+      wheelchair: null,
     },
     ...defaultRoutingSettings,
-    ...SummaryPage.hcParameters,
   },
 });

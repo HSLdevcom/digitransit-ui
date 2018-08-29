@@ -238,6 +238,15 @@ export const setStreetMode = (
 };
 
 /**
+ * Checks if the mode has been configured not to allow bikes on board.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {string} mode The mode to check
+ */
+export const hasBikeRestriction = (config, mode) =>
+  config.modesWithNoBike && config.modesWithNoBike.includes(mode);
+
+/**
  * Checks if the user is trying to bring a bicycle
  * to a vehicle with restrictions. Currently exclusive to HSL
  * @param {*} location The router

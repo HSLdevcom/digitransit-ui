@@ -1,16 +1,20 @@
 import ceil from 'lodash/ceil';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
 
 import SelectOptionContainer, {
   getFiveStepOptions,
   getSpeedOptions,
+  optionsShape,
   valueShape,
 } from './SelectOptionContainer';
-import { defaultSettings } from '../../util/planParamUtil';
 import { replaceQueryParams } from '../../util/queryUtils';
 
-const BikingOptionsSection = ({ walkReluctance, bikeSpeed }, { router }) => (
+const BikingOptionsSection = (
+  { walkReluctance, walkReluctanceOptions, bikeSpeed, defaultSettings },
+  { router },
+) => (
   <React.Fragment>
     {/* OTP uses the same walkReluctance setting for bike routing */}
     <SelectOptionContainer
@@ -20,7 +24,10 @@ const BikingOptionsSection = ({ walkReluctance, bikeSpeed }, { router }) => (
       onOptionSelected={value =>
         replaceQueryParams(router, { walkReluctance: value })
       }
-      options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+      options={getFiveStepOptions(
+        defaultSettings.walkReluctance,
+        walkReluctanceOptions,
+      )}
       title="biking-amount"
     />
     <SelectOptionContainer
@@ -38,8 +45,13 @@ const BikingOptionsSection = ({ walkReluctance, bikeSpeed }, { router }) => (
 );
 
 BikingOptionsSection.propTypes = {
-  walkReluctance: valueShape.isRequired,
   bikeSpeed: valueShape.isRequired,
+  defaultSettings: PropTypes.shape({
+    walkReluctance: PropTypes.number.isRequired,
+    bikeSpeed: PropTypes.number.isRequired,
+  }).isRequired,
+  walkReluctance: valueShape.isRequired,
+  walkReluctanceOptions: optionsShape.isRequired,
 };
 
 BikingOptionsSection.contextTypes = {
