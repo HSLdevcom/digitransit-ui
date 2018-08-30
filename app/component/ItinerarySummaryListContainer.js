@@ -1,19 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'react-router';
 import inside from 'point-in-polygon';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
-import BikeWalkPromotion from './BikeWalkPromotion';
-import {
-  preparePlanParams,
-  defaultRoutingSettings,
-  getQuery,
-} from '../util/planParamUtil';
+import PromotionSuggestions from './PromotionSuggestions';
+import { getBikeWalkPromotions } from '../util/promotionUtils';
 import { getStreetMode } from '../util/modeUtils';
 
 class ItinerarySummaryListContainer extends React.Component {
@@ -24,7 +19,8 @@ class ItinerarySummaryListContainer extends React.Component {
     currentTime: PropTypes.number.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSelectImmediately: PropTypes.func.isRequired,
-    onPromotionSelect: PropTypes.func.isRequired,
+    promotionSuggestions: PropTypes.array,
+    setPromotionSuggestions: PropTypes.func.isRequired,
     open: PropTypes.number,
     error: PropTypes.string,
     config: PropTypes.object,
@@ -55,8 +51,7 @@ class ItinerarySummaryListContainer extends React.Component {
   };
 
   state = {
-    bikingPromotion: false,
-    walkingPromotion: false,
+    promotionSuggestions: false,
   };
 
   componentDidMount = () => {
@@ -72,73 +67,21 @@ class ItinerarySummaryListContainer extends React.Component {
       getStreetMode(this.context.location, this.context.config) ===
         'PUBLIC_TRANSPORT'
     ) {
-      const params = preparePlanParams(this.props.config)(
-        this.context.router.params,
+      getBikeWalkPromotions(
+        this.props.currentTime,
+        this.props.config,
         this.context,
+        this.setPromotionSuggestions,
       );
-
-      const startingParams = {
-        wheelchair: null,
-        ...defaultRoutingSettings,
-        ...params,
-        numItineraries: 1,
-        arriveBy: this.context.router.params.arriveBy || false,
-        date: moment(this.props.currentTime).format('YYYY-MM-DD'),
-        time: moment(this.props.currentTime).format('HH:mm'),
-      };
-
-      const bikingParams = {
-        ...startingParams,
-        modes: 'BICYCLE',
-      };
-
-      const walkingParams = {
-        ...startingParams,
-        modes: 'WALK',
-      };
-
-      const bikingQuery = Relay.createQuery(getQuery(), bikingParams);
-      const walkingQuery = Relay.createQuery(getQuery(), walkingParams);
-
-      Relay.Store.primeCache({ bikingQuery }, bikeQueryStatus => {
-        if (bikeQueryStatus.ready === true) {
-          const bikingPlan = Relay.Store.readQuery(bikingQuery)[0].plan
-            .itineraries[0];
-
-          Relay.Store.primeCache({ walkingQuery }, walkingQueryStatus => {
-            if (walkingQueryStatus.ready === true) {
-              const walkingPlan = Relay.Store.readQuery(walkingQuery)[0].plan
-                .itineraries[0];
-              /**
-               * SAVE THE ROUTE IF
-               * Public transportation:
-               * Walking: When duration less than 30min, distance less than 2km
-               * Cycling: When duration less than 30min, when distance less than 5km
-               * Car&Connective parking:
-               * Walking&Public: When walking part is less than 15min or 1km
-               * Cycling&Public: When cycling part is less than 15min or 2,5km
-               */
-              this.setState({
-                bikingPromotion:
-                  bikingPlan.duration <= 1800 &&
-                  bikingPlan.legs[0].distance <= 5000
-                    ? bikingPlan
-                    : false,
-                walkingPromotion:
-                  walkingPlan.duration <= 1800 &&
-                  walkingPlan.legs[0].distance <= 2000
-                    ? walkingPlan
-                    : false,
-              });
-            }
-          });
-        }
-      });
     }
-    console.log('did not call');
   }
 
+  setPromotionSuggestions = promotionSuggestions => {
+    this.setState({ promotionSuggestions });
+  };
+
   render() {
+    console.log(this.state.promotionSuggestions);
     if (
       !this.props.error &&
       this.props.itineraries &&
@@ -166,32 +109,21 @@ class ItinerarySummaryListContainer extends React.Component {
           <div
             className="biking-walk-promotion-container"
             style={{
-              display:
-                this.state.bikingPromotion || this.state.walkingPromotion
-                  ? 'flex'
-                  : 'none',
+              display: this.state.promotionSuggestions ? 'flex' : 'none',
             }}
           >
-            {this.state.bikingPromotion && (
-              <BikeWalkPromotion
-                promotionSuggestion={this.state.bikingPromotion}
-                textId="bicycle"
-                iconName="biking"
-                onSelect={this.props.onSelectImmediately}
-                mode="BICYCLE"
-                hash={0}
-              />
-            )}
-            {this.state.walkingPromotion && (
-              <BikeWalkPromotion
-                promotionSuggestion={this.state.walkingPromotion}
-                textId="by-walking"
-                iconName="walk"
-                onSelect={this.props.onSelectImmediately}
-                mode="WALK"
-                hash={0}
-              />
-            )}
+            {this.state.promotionSuggestions &&
+              this.state.promotionSuggestions.map(suggestion => (
+                <PromotionSuggestions
+                  key={suggestion.plan.endTime}
+                  promotionSuggestion={suggestion.plan}
+                  textId={suggestion.textId}
+                  iconName={suggestion.iconName}
+                  onSelect={this.props.onSelectImmediately}
+                  mode={suggestion.mode}
+                  hash={0}
+                />
+              ))}
           </div>
           <div className="summary-list-container momentum-scroll">
             {summaries}

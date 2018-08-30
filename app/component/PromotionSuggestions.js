@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 // import Relay from 'react-relay/classic';
 import Icon from './Icon';
 
-const BikeWalkPromotion = (props, context) => (
+const PromotionSuggestions = (props, context) => (
   <React.Fragment>
     {console.log(props)}
     {props.promotionSuggestion && (
@@ -43,7 +43,7 @@ const BikeWalkPromotion = (props, context) => (
   </React.Fragment>
 );
 
-BikeWalkPromotion.propTypes = {
+PromotionSuggestions.propTypes = {
   promotionSuggestion: PropTypes.array,
   textId: PropTypes.string,
   iconName: PropTypes.string,
@@ -52,8 +52,8 @@ BikeWalkPromotion.propTypes = {
   hash: PropTypes.number,
 };
 
-BikeWalkPromotion.contextTypes = {
+PromotionSuggestions.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default BikeWalkPromotion;
+export default PromotionSuggestions;
