@@ -57,7 +57,7 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  onSelectImmediately = index => {
+  onSelectImmediately = (index, mode) => {
     if (Number(this.props.params.hash) === index) {
       if (this.props.breakpoint === 'large') {
         if (this.context.piwik != null) {
@@ -71,6 +71,9 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.replace({
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
+          query: {
+            modes: mode || this.context.location.query.modes,
+          },
         });
       } else {
         this.context.router.goBack();
@@ -86,6 +89,9 @@ class SummaryPlanContainer extends React.Component {
       }
       const newState = {
         ...this.context.location,
+        query: {
+          modes: mode || this.context.location.query.modes,
+        },
         state: { summaryPageSelected: index },
       };
       const basePath = getRoutePath(
@@ -309,99 +315,6 @@ class SummaryPlanContainer extends React.Component {
       },
     });
   };
-  /*
-  getQuery = () => Relay.QL`
-    query Plan(
-      $intermediatePlaces:[InputCoordinates]!,
-      $numItineraries:Int!,
-      $walkBoardCost:Int!,
-      $minTransferTime:Int!,
-      $walkReluctance:Float!,
-      $walkSpeed:Float!,
-      $maxWalkDistance:Float!,
-      $wheelchair:Boolean!,
-      $disableRemainingWeightHeuristic:Boolean!,
-      $preferred:InputPreferred!,
-      $unpreferred: InputUnpreferred!,
-      $fromPlace:String!,
-      $toPlace:String!
-      $date: String!,
-      $time: String!,
-      $arriveBy: Boolean!,
-      $modes: String!,
-      $transferPenalty: Int!,
-      $ignoreRealtimeUpdates: Boolean!,
-      $maxPreTransitTime: Int!,
-      $walkOnStreetReluctance: Float!,
-      $waitReluctance: Float!,
-      $bikeSpeed: Float!,
-      $bikeSwitchTime: Int!,
-      $bikeSwitchCost: Int!,
-      $bikeBoardCost: Int!,
-      $optimize: OptimizeType!,
-      $triangle: InputTriangle!,
-      $carParkCarLegWeight: Float!,
-      $maxTransfers: Int!,
-      $waitAtBeginningFactor: Float!,
-      $heuristicStepsPerMainStep: Int!,
-      $compactLegsByReversedSearch: Boolean!,
-      $itineraryFiltering: Float!,
-      $modeWeight: InputModeWeight!,
-    ) { viewer {
-        plan(
-          fromPlace:$fromPlace,
-          toPlace:$toPlace,
-          intermediatePlaces:$intermediatePlaces,
-          numItineraries:$numItineraries,
-          date:$date,
-          time:$time,
-          walkReluctance:$walkReluctance,
-          walkBoardCost:$walkBoardCost,
-          minTransferTime:$minTransferTime,
-          walkSpeed:$walkSpeed,
-          maxWalkDistance:$maxWalkDistance,
-          wheelchair:$wheelchair,
-          disableRemainingWeightHeuristic:$disableRemainingWeightHeuristic,
-          arriveBy:$arriveBy,
-          preferred:$preferred,
-          unpreferred: $unpreferred,
-          modes:$modes
-          transferPenalty:$transferPenalty,
-          ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
-          maxPreTransitTime:$maxPreTransitTime,
-          walkOnStreetReluctance:$walkOnStreetReluctance,
-          waitReluctance:$waitReluctance,
-          bikeSpeed:$bikeSpeed,
-          bikeSwitchTime:$bikeSwitchTime,
-          bikeSwitchCost:$bikeSwitchCost,
-          bikeBoardCost:$bikeBoardCost,
-          optimize:$optimize,
-          triangle:$triangle,
-          carParkCarLegWeight:$carParkCarLegWeight,
-          maxTransfers:$maxTransfers,
-          waitAtBeginningFactor:$waitAtBeginningFactor,
-          heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
-          compactLegsByReversedSearch:$compactLegsByReversedSearch,
-          itineraryFiltering: $itineraryFiltering,
-          modeWeight: $modeWeight,
-        ) {
-          itineraries {
-            startTime
-            endTime
-            duration
-            walkTime
-            legs {
-              startTime
-              endTime
-              distance
-              from
-              to
-              mode
-            }
-          }}
-      }
-    }`;
-*/
   getActiveIndex() {
     if (this.context.location.state) {
       return this.context.location.state.summaryPageSelected || 0;
@@ -437,6 +350,7 @@ class SummaryPlanContainer extends React.Component {
           open={Number(this.props.params.hash)}
           error={this.props.error}
           config={this.props.config}
+          onPromotionSelect={this.onPromotionSelect}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

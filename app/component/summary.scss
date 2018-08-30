@@ -330,7 +330,7 @@
   font-size: $font-size-large;
   font-family: $font-family-narrow;
   letter-spacing: 0;
-  max-height: 4.3em;
+  max-height: 3.4em;
   .promotion-block {
     &.bicycle {
     background-color: #f2ffe6;
@@ -352,9 +352,10 @@
     }
     cursor: pointer;
     display: flex;
-    flex: 0 1 50%;
+    flex: 0 1 100%;
+    min-width: 50%;
     justify-content: center;
-    padding: 1em;
+    padding: 0.8em;
     .duration {
       margin-left: 0.5em;
       margin-right: 0.5em;

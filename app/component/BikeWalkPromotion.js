@@ -9,7 +9,13 @@ const BikeWalkPromotion = (props, context) => (
   <React.Fragment>
     {console.log(props)}
     {props.promotionSuggestion && (
-      <div className={`promotion-block ${props.textId}`}>
+      <div
+        className={`promotion-block ${props.textId}`}
+        onClick={() => props.onSelect(props.hash, props.mode)}
+        role="button"
+        tabIndex={0}
+        onKeyPress={() => props.onSelect(props.hash, props.mode)}
+      >
         <div className="icon-container">
           <Icon img={`icon-icon_${props.iconName}`} />
         </div>
@@ -41,6 +47,9 @@ BikeWalkPromotion.propTypes = {
   promotionSuggestion: PropTypes.array,
   textId: PropTypes.string,
   iconName: PropTypes.string,
+  onSelect: PropTypes.func,
+  mode: PropTypes.string,
+  hash: PropTypes.number,
 };
 
 BikeWalkPromotion.contextTypes = {

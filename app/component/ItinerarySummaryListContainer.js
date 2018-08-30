@@ -24,6 +24,7 @@ class ItinerarySummaryListContainer extends React.Component {
     currentTime: PropTypes.number.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSelectImmediately: PropTypes.func.isRequired,
+    onPromotionSelect: PropTypes.func.isRequired,
     open: PropTypes.number,
     error: PropTypes.string,
     config: PropTypes.object,
@@ -66,8 +67,6 @@ class ItinerarySummaryListContainer extends React.Component {
     const totalTransitDistance = this.props.itineraries[0].legs
       .map(leg => leg.distance)
       .reduce((a, b) => a + b, 0);
-    // console.log(totalTransitDistance);
-    // console.log(Math.round(totalTransitDistance / 500) * 500);
     if (
       Math.round(totalTransitDistance / 500) * 500 <= 5000 &&
       getStreetMode(this.context.location, this.context.config) ===
@@ -77,8 +76,6 @@ class ItinerarySummaryListContainer extends React.Component {
         this.context.router.params,
         this.context,
       );
-
-      // const transitDurations = this.props.itineraries.map(o => o.duration);
 
       const startingParams = {
         wheelchair: null,
@@ -121,8 +118,6 @@ class ItinerarySummaryListContainer extends React.Component {
                * Walking&Public: When walking part is less than 15min or 1km
                * Cycling&Public: When cycling part is less than 15min or 2,5km
                */
-              console.log(bikingPlan);
-              console.log(walkingPlan);
               this.setState({
                 bikingPromotion:
                   bikingPlan.duration <= 1800 &&
@@ -140,6 +135,7 @@ class ItinerarySummaryListContainer extends React.Component {
         }
       });
     }
+    console.log('did not call');
   }
 
   render() {
@@ -167,12 +163,23 @@ class ItinerarySummaryListContainer extends React.Component {
 
       return (
         <React.Fragment>
-          <div className="biking-walk-promotion-container">
+          <div
+            className="biking-walk-promotion-container"
+            style={{
+              display:
+                this.state.bikingPromotion || this.state.walkingPromotion
+                  ? 'flex'
+                  : 'none',
+            }}
+          >
             {this.state.bikingPromotion && (
               <BikeWalkPromotion
                 promotionSuggestion={this.state.bikingPromotion}
                 textId="bicycle"
                 iconName="biking"
+                onSelect={this.props.onSelectImmediately}
+                mode="BICYCLE"
+                hash={0}
               />
             )}
             {this.state.walkingPromotion && (
@@ -180,6 +187,9 @@ class ItinerarySummaryListContainer extends React.Component {
                 promotionSuggestion={this.state.walkingPromotion}
                 textId="by-walking"
                 iconName="walk"
+                onSelect={this.props.onSelectImmediately}
+                mode="WALK"
+                hash={0}
               />
             )}
           </div>
