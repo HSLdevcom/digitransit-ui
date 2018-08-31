@@ -136,11 +136,7 @@ class ItineraryTimePicker extends React.Component {
   render() {
     const { hour, minute } = this.state;
     return (
-      <div
-        className={`time-input-container time-selector ${
-          !isMobile ? 'time-selector' : ''
-        }`}
-      >
+      <div className="time-input-container time-selector">
         <form id="time" onBlur={this.handleBlur}>
           <input
             type="tel"
