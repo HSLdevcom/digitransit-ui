@@ -189,6 +189,9 @@ class SummaryPage extends React.Component {
       from,
       to,
     } = this.props;
+    const {
+      config: { defaultEndpoint },
+    } = this.context;
     const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
 
@@ -252,12 +255,19 @@ class SummaryPage extends React.Component {
       ),
     );
 
+    const delta = 0.0269; // this is roughly equal to 3 km
+    const defaultBounds = [
+      [defaultEndpoint.lat - delta, defaultEndpoint.lon - delta],
+      [defaultEndpoint.lat + delta, defaultEndpoint.lon + delta],
+    ];
     return (
       <MapContainer
         className="summary-map"
         leafletObjs={leafletObjs}
         fitBounds
-        bounds={bounds}
+        bounds={
+          bounds.filter(a => a[0] && a[1]).length > 0 ? bounds : defaultBounds
+        }
         showScaleBar
       />
     );
