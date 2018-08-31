@@ -372,6 +372,17 @@
         color: $link-color;
       }
     }
+    .suggestion-details > span:first-child {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.mobile .biking-walk-promotion-container {
+  font-size: $font-size-small;
+  .promotion-block {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
   }
 }
 

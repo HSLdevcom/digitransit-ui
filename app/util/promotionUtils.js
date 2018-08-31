@@ -51,7 +51,7 @@ export const checkResults = (plan, maxDuration, maxDistance) =>
     : undefined;
 
 /**
- * Call the query for the Biking&Walking suggestions
+ * Call the query for the Biking&Walking suggestions for public transport
  * @param currentTime The current plan time
  * @param config The current config
  * @param context The current context
@@ -63,6 +63,10 @@ export const getBikeWalkPromotions = (
   config,
   context,
   setPromotionSuggestions,
+  maxDurationBike,
+  maxDistanceBike,
+  maxDurationWalk,
+  maxDistanceWalk,
 ) => {
   const bikingQuery = getPromotionQuery(
     currentTime,
@@ -83,13 +87,13 @@ export const getBikeWalkPromotions = (
             .itineraries[0];
 
           setPromotionSuggestions([
-            checkResults(bikingPlan, 1800, 5000) && {
+            checkResults(bikingPlan, maxDurationBike, maxDistanceBike) && {
               plan: bikingPlan,
               textId: 'bicycle',
               iconName: 'biking',
               mode: 'BICYCLE',
             },
-            checkResults(walkingPlan, 1800, 2000) && {
+            checkResults(walkingPlan, maxDurationWalk, maxDistanceWalk) && {
               plan: walkingPlan,
               textId: 'by-walking',
               iconName: 'walk',
