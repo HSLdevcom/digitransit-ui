@@ -180,14 +180,21 @@ class SummaryPlanContainer extends React.Component {
             Number.MIN_VALUE,
           );
 
+          // OTP can't always find later routes. This leads to a situation where
+          // new search is done without increasing time, and nothing seems to happen
+          let newTime;
+          if (this.props.plan.date >= max) {
+            newTime = moment(this.props.plan.date).add(5, 'minutes');
+          } else {
+            newTime = moment(max).add(1, 'minutes');
+          }
+
           this.props.setLoading(false);
           this.context.router.replace({
             ...this.context.location,
             query: {
               ...this.context.location.query,
-              time: moment(max)
-                .add(1, 'minutes')
-                .unix(),
+              time: newTime.unix(),
             },
           });
         }
@@ -262,14 +269,22 @@ class SummaryPlanContainer extends React.Component {
             this.props.setError('no-route-start-date-too-early');
             this.props.setLoading(false);
           } else {
-            let min = data[0].plan.itineraries.reduce(
+            const earliestStartTime = data[0].plan.itineraries.reduce(
               (previous, { startTime }) =>
                 startTime < previous ? startTime : previous,
               Number.MAX_VALUE,
             );
-            min = moment(min).subtract(1, 'minutes');
 
-            if (min <= start) {
+            // OTP can't always find earlier routes. This leads to a situation where
+            // new search is done without reducing time, and nothing seems to happen
+            let newTime;
+            if (this.props.plan.date <= earliestStartTime) {
+              newTime = moment(this.props.plan.date).subtract(5, 'minutes');
+            } else {
+              newTime = moment(earliestStartTime).subtract(1, 'minutes');
+            }
+
+            if (earliestStartTime <= start) {
               // Start time out of range
               this.props.setError('no-route-start-date-too-early');
               this.props.setLoading(false);
@@ -281,7 +296,7 @@ class SummaryPlanContainer extends React.Component {
               ...this.context.location,
               query: {
                 ...this.context.location.query,
-                time: moment(min).unix(),
+                time: newTime.unix(),
               },
             });
           }

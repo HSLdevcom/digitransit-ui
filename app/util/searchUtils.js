@@ -1,5 +1,4 @@
 import Relay from 'react-relay/classic';
-
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import take from 'lodash/take';
@@ -8,6 +7,8 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import merge from 'lodash/merge';
+import unorm from 'unorm';
+
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
 import { distance } from './geo-utils';
@@ -389,13 +390,16 @@ export const sortSearchResults = (results, term = '') => {
     }
   };
 
-  const normalize = str =>
-    isString(str)
-      ? `${str
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')}`
-      : '';
+  const normalize = str => {
+    if (!isString(str)) {
+      return '';
+    }
+    const lowerCaseStr = str.toLowerCase();
+    return `${(lowerCaseStr.normalize
+      ? lowerCaseStr.normalize('NFD')
+      : unorm.nfd(lowerCaseStr)
+    ).replace(/[\u0300-\u036f]/g, '')}`;
+  };
 
   const isMatch = (value, comparison) =>
     value.length > 0 && comparison.length > 0 && value === comparison;
