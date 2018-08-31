@@ -189,6 +189,9 @@ class SummaryPage extends React.Component {
       from,
       to,
     } = this.props;
+    const {
+      config: { defaultEndpoint },
+    } = this.context;
     const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
 
@@ -243,21 +246,34 @@ class SummaryPage extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds = [].concat(
-      [[from.lat, from.lon], [to.lat, to.lon]],
-      ...itineraries.map(itinerary =>
-        [].concat(
-          ...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)),
+    const bounds = []
+      .concat(
+        [[from.lat, from.lon], [to.lat, to.lon]],
+        ...itineraries.map(itinerary =>
+          [].concat(
+            ...itinerary.legs.map(leg =>
+              polyline.decode(leg.legGeometry.points),
+            ),
+          ),
         ),
-      ),
-    );
+      )
+      .filter(a => a[0] && a[1]);
 
+    const centerPoint = {
+      lat: from.lat || to.lat || defaultEndpoint.lat,
+      lon: from.lon || to.lon || defaultEndpoint.lon,
+    };
+    const delta = 0.0269; // this is roughly equal to 3 km
+    const defaultBounds = [
+      [centerPoint.lat - delta, centerPoint.lon - delta],
+      [centerPoint.lat + delta, centerPoint.lon + delta],
+    ];
     return (
       <MapContainer
         className="summary-map"
         leafletObjs={leafletObjs}
         fitBounds
-        bounds={bounds}
+        bounds={bounds.length > 1 ? bounds : defaultBounds}
         showScaleBar
       />
     );
