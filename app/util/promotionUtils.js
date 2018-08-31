@@ -48,33 +48,39 @@ export const getPromotionQuery = (currentTime, config, context, mode) => {
 export const checkResults = (plan, maxDuration, maxDistance) =>
   plan.duration <= maxDuration && plan.legs[0].distance <= maxDistance
     ? plan
-    : undefined;
+    : null;
 
 /**
  * Call the query for the Biking&Walking suggestions for public transport
  * @param currentTime The current plan time
  * @param config The current config
  * @param context The current context
+ * @param modes The promoted modes to search for, takes an array of 2 items
  * @param setPromotionSuggestions the function to set the state
+ * @param maxDurationBike The maximum duration allowed for a bike itinerary
+ * @param maxDistanceBike The maximum distance allowed for a bike itinerary
+ * @param maxDurationWalk The maximum duration allowed for a walking itinerary
+ * @param maxDistanceWalk The maximum distance allowed for a walking itinerary
  */
 
 export const getBikeWalkPromotions = (
   currentTime,
   config,
   context,
+  modes,
   setPromotionSuggestions,
   maxDurationBike,
   maxDistanceBike,
   maxDurationWalk,
   maxDistanceWalk,
 ) => {
-  const bikingQuery = getPromotionQuery(
+  const bikingQuery = getPromotionQuery(currentTime, config, context, modes[0]);
+  const walkingQuery = getPromotionQuery(
     currentTime,
     config,
     context,
-    'BICYCLE',
+    modes[1],
   );
-  const walkingQuery = getPromotionQuery(currentTime, config, context, 'WALK');
 
   Relay.Store.primeCache({ bikingQuery }, bikeQueryStatus => {
     if (bikeQueryStatus.ready === true) {
@@ -86,20 +92,22 @@ export const getBikeWalkPromotions = (
           const walkingPlan = Relay.Store.readQuery(walkingQuery)[0].plan
             .itineraries[0];
 
-          setPromotionSuggestions([
-            checkResults(bikingPlan, maxDurationBike, maxDistanceBike) && {
-              plan: bikingPlan,
-              textId: 'bicycle',
-              iconName: 'biking',
-              mode: 'BICYCLE',
-            },
-            checkResults(walkingPlan, maxDurationWalk, maxDistanceWalk) && {
-              plan: walkingPlan,
-              textId: 'by-walking',
-              iconName: 'walk',
-              mode: 'WALK',
-            },
-          ]);
+          setPromotionSuggestions(
+            [
+              checkResults(bikingPlan, maxDurationBike, maxDistanceBike) && {
+                plan: bikingPlan,
+                textId: 'bicycle',
+                iconName: 'biking',
+                mode: 'BICYCLE',
+              },
+              checkResults(walkingPlan, maxDurationWalk, maxDistanceWalk) && {
+                plan: walkingPlan,
+                textId: 'by-walking',
+                iconName: 'walk',
+                mode: 'WALK',
+              },
+            ].filter(o => o),
+          );
         }
       });
     }

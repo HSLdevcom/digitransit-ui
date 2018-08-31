@@ -9,11 +9,11 @@ import SummaryRow from './SummaryRow';
 import Icon from './Icon';
 import PromotionSuggestions from './PromotionSuggestions';
 import { getBikeWalkPromotions } from '../util/promotionUtils';
-import { getStreetMode } from '../util/modeUtils';
-import {
-  getTotalWalkingDuration,
-  getTotalWalkingDistance,
-} from '../util/legUtils';
+import { getStreetMode, getDefaultOTPModes } from '../util/modeUtils';
+
+window.onhashchange = () => {
+  console.log('onhashchange');
+};
 
 class ItinerarySummaryListContainer extends React.Component {
   static propTypes = {
@@ -62,42 +62,51 @@ class ItinerarySummaryListContainer extends React.Component {
     this.checkPromotionQueries();
   };
 
+  componentDidUpdate = () => {
+    if (
+      !this.state.promotionSuggestions ||
+      this.state.promotionSuggestions.length === 0
+    ) {
+      this.checkPromotionQueries();
+    }
+  };
+
   setPromotionSuggestions = promotionSuggestions => {
     this.setState({ promotionSuggestions });
   };
 
   checkPromotionQueries() {
+    const totalTransitDistance = this.props.itineraries[0].legs
+      .map(leg => leg.distance)
+      .reduce((a, b) => a + b, 0);
     if (
       getStreetMode(this.context.location, this.context.config) ===
-      'PUBLIC_TRANSPORT'
+        'PUBLIC_TRANSPORT' &&
+      Math.round(totalTransitDistance / 500) * 500 <= 5000
     ) {
-      const totalTransitDistance = this.props.itineraries[0].legs
-        .map(leg => leg.distance)
-        .reduce((a, b) => a + b, 0);
-      if (Math.round(totalTransitDistance / 500) * 500 <= 5000) {
-        getBikeWalkPromotions(
-          this.props.currentTime,
-          this.props.config,
-          this.context,
-          this.setPromotionSuggestions,
-          1800,
-          5000,
-          1800,
-          2000,
-        );
-      }
-    }
-    if (
-      getStreetMode(this.context.location, this.context.config) === 'CAR_PARK'
-    ) {
-      /** Walking + public
-        When walking part is less than 15 min or 1 km
-        Cycling + public
-        When cycling part is less than 15 min or 2.5 km */
       getBikeWalkPromotions(
         this.props.currentTime,
         this.props.config,
         this.context,
+        ['BICYCLE', 'WALK'],
+        this.setPromotionSuggestions,
+        1800,
+        5000,
+        1800,
+        2000,
+      );
+    }
+    if (
+      getStreetMode(this.context.location, this.context.config) === 'CAR_PARK'
+    ) {
+      getBikeWalkPromotions(
+        this.props.currentTime,
+        this.props.config,
+        this.context,
+        [
+          'BICYCLE,RAIL,SUBWAY,FERRY',
+          getDefaultOTPModes(this.props.config).toString(),
+        ],
         this.setPromotionSuggestions,
         900,
         2500,
@@ -109,7 +118,6 @@ class ItinerarySummaryListContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state.promotionSuggestions);
     if (
       !this.props.error &&
       this.props.itineraries &&
