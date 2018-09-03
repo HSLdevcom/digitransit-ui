@@ -42,9 +42,7 @@ function ItinerarySummaryListContainer(
       </SummaryRow>
     ));
 
-    return (
-      <div className="summary-list-container momentum-scroll">{summaries}</div>
-    );
+    return <div className="summary-list-container">{summaries}</div>;
   }
   if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
     return (

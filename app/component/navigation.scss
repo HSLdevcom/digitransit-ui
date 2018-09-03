@@ -76,7 +76,6 @@ $content-background-color: $background-color;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
-
   }
   .navi-logo {
     margin-left: 32px;
@@ -247,6 +246,18 @@ section.content {
         height: auto;
         width: 100%;
         display: inline;
+      }
+
+      .scrollable-content-wrapper {
+        display: flex;
+        flex: 1 0 0;
+        flex-direction: column;
+
+        @media print {
+          display: inline;
+          height: auto;
+          width: 100%;
+        }
       }
     }
 
