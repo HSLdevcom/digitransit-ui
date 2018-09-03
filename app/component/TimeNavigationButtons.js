@@ -12,19 +12,22 @@ import { BreakpointConsumer } from '../util/withBreakpoint';
 
 class TimeNavigationButtons extends React.Component {
   static propTypes = {
-    itineraries: PropTypes.arrayOf(
-      PropTypes.shape({
-        endTime: PropTypes.number.isRequired,
-        startTime: PropTypes.number.isRequired,
-      }).isRequired,
-    ).isRequired,
+    isEarlierDisabled: PropTypes.bool.isRequired,
+    isLaterDisabled: PropTypes.bool.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onLater: PropTypes.func.isRequired,
     onNow: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: PropTypes.shape({
+      itinerary: PropTypes.shape({
+        enableFeedback: PropTypes.bool,
+        timeNavigation: PropTypes.shape({
+          enableButtonArrows: PropTypes.bool,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
   };
 
   static displayName = 'TimeNavigationButtons';
@@ -44,9 +47,6 @@ class TimeNavigationButtons extends React.Component {
   render() {
     const { config } = this.context;
 
-    if (!this.props.itineraries || !this.props.itineraries[0]) {
-      return null;
-    }
     const itineraryFeedback = config.itinerary.enableFeedback ? (
       <ItineraryFeedback />
     ) : null;
@@ -69,6 +69,7 @@ class TimeNavigationButtons extends React.Component {
             {itineraryFeedback}
             <button
               className="standalone-btn time-navigation-earlier-btn"
+              disabled={this.props.isEarlierDisabled}
               onClick={this.props.onEarlier}
             >
               {leftArrow}
@@ -82,6 +83,7 @@ class TimeNavigationButtons extends React.Component {
             </button>
             <button
               className="standalone-btn time-navigation-later-btn"
+              disabled={this.props.isLaterDisabled}
               onClick={this.props.onLater}
             >
               <FormattedMessage id="later" defaultMessage="Later" />

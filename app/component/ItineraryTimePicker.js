@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-import { isMobile } from '../util/browser';
 
 class ItineraryTimePicker extends React.Component {
   static propTypes = {
