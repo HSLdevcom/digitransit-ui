@@ -7,6 +7,8 @@ import {
   getQuery,
 } from '../util/planParamUtil';
 
+import { getStreetMode, getDefaultOTPModes } from '../util/modeUtils';
+
 export const defaultParams = (currentTime, config, context) => {
   const params = preparePlanParams(config)(context.router.params, context);
   const startingParams = {
@@ -112,4 +114,53 @@ export const getBikeWalkPromotions = (
       });
     }
   });
+};
+
+/**
+ * @param itineraries The current itineraries
+ * @param context The current context
+ * @param config The current config
+ * @param currentTime The current time
+ * @param setPromotionSuggestions The function to set promotion state
+ */
+
+export const checkPromotionQueries = (
+  itineraries,
+  context,
+  config,
+  currentTime,
+  setPromotionSuggestions,
+) => {
+  const totalTransitDistance = itineraries[0].legs
+    .map(leg => leg.distance)
+    .reduce((a, b) => a + b, 0);
+  if (
+    getStreetMode(context.location, context.config) === 'PUBLIC_TRANSPORT' &&
+    Math.round(totalTransitDistance / 500) * 500 <= 5000
+  ) {
+    getBikeWalkPromotions(
+      currentTime,
+      config,
+      context,
+      ['BICYCLE', 'WALK'],
+      setPromotionSuggestions,
+      1800,
+      5000,
+      1800,
+      2000,
+    );
+  }
+  if (getStreetMode(context.location, context.config) === 'CAR_PARK') {
+    getBikeWalkPromotions(
+      currentTime,
+      config,
+      context,
+      ['BICYCLE,RAIL,SUBWAY,FERRY', getDefaultOTPModes(config).toString()],
+      setPromotionSuggestions,
+      900,
+      2500,
+      900,
+      1000,
+    );
+  }
 };

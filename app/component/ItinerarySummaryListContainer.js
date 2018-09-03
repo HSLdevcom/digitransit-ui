@@ -8,12 +8,7 @@ import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
 import PromotionSuggestions from './PromotionSuggestions';
-import { getBikeWalkPromotions } from '../util/promotionUtils';
-import { getStreetMode, getDefaultOTPModes } from '../util/modeUtils';
-
-window.onhashchange = () => {
-  console.log('onhashchange');
-};
+import { checkPromotionQueries } from '../util/promotionUtils';
 
 class ItinerarySummaryListContainer extends React.Component {
   static propTypes = {
@@ -59,7 +54,13 @@ class ItinerarySummaryListContainer extends React.Component {
   };
 
   componentDidMount = () => {
-    this.checkPromotionQueries();
+    checkPromotionQueries(
+      this.props.itineraries,
+      this.context,
+      this.props.config,
+      this.props.currentTime,
+      this.setPromotionSuggestions,
+    );
   };
 
   componentDidUpdate = () => {
@@ -67,55 +68,19 @@ class ItinerarySummaryListContainer extends React.Component {
       !this.state.promotionSuggestions ||
       this.state.promotionSuggestions.length === 0
     ) {
-      this.checkPromotionQueries();
+      checkPromotionQueries(
+        this.props.itineraries,
+        this.context,
+        this.props.config,
+        this.props.currentTime,
+        this.setPromotionSuggestions,
+      );
     }
   };
 
   setPromotionSuggestions = promotionSuggestions => {
     this.setState({ promotionSuggestions });
   };
-
-  checkPromotionQueries() {
-    const totalTransitDistance = this.props.itineraries[0].legs
-      .map(leg => leg.distance)
-      .reduce((a, b) => a + b, 0);
-    if (
-      getStreetMode(this.context.location, this.context.config) ===
-        'PUBLIC_TRANSPORT' &&
-      Math.round(totalTransitDistance / 500) * 500 <= 5000
-    ) {
-      getBikeWalkPromotions(
-        this.props.currentTime,
-        this.props.config,
-        this.context,
-        ['BICYCLE', 'WALK'],
-        this.setPromotionSuggestions,
-        1800,
-        5000,
-        1800,
-        2000,
-      );
-    }
-    if (
-      getStreetMode(this.context.location, this.context.config) === 'CAR_PARK'
-    ) {
-      getBikeWalkPromotions(
-        this.props.currentTime,
-        this.props.config,
-        this.context,
-        [
-          'BICYCLE,RAIL,SUBWAY,FERRY',
-          getDefaultOTPModes(this.props.config).toString(),
-        ],
-        this.setPromotionSuggestions,
-        900,
-        2500,
-        900,
-        1000,
-      );
-    }
-    console.log('did not call');
-  }
 
   render() {
     if (
