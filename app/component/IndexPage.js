@@ -190,8 +190,6 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
-    const openingDirection =
-      breakpoint === 'large' || mapExpanded ? 'up' : 'down';
 
     return breakpoint === 'large' ? (
       <div
@@ -225,7 +223,7 @@ class IndexPage extends React.Component {
           showScaleBar
           origin={origin}
           renderCustomButtons={() =>
-            this.renderStreetModeSelector(config, router, openingDirection)
+            this.renderStreetModeSelector(config, router)
           }
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -255,7 +253,7 @@ class IndexPage extends React.Component {
             showStops
             origin={origin}
             renderCustomButtons={() =>
-              this.renderStreetModeSelector(config, router, openingDirection)
+              this.renderStreetModeSelector(config, router)
             }
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}

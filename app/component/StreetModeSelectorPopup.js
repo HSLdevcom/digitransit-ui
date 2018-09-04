@@ -170,7 +170,7 @@ StreetModeSelectorPopup.propTypes = {
 };
 
 StreetModeSelectorPopup.defaultProps = {
-  breakpoint: 'large',
+  breakpoint: 'small',
   isOpen: false,
   selectedStreetMode: undefined,
   streetModeConfigs: [],
@@ -182,32 +182,42 @@ StreetModeSelectorPopup.contextTypes = {
 
 StreetModeSelectorPopup.description = (
   <ComponentUsageExample>
-    <StreetModeSelectorPopup
-      isOpen
-      selectStreetMode={() => {}}
-      streetModeConfigs={[
-        {
-          defaultValue: true,
-          icon: 'public_transport',
-          name: 'PUBLIC_TRANSPORT',
-        },
-        {
-          defaultValue: false,
-          icon: 'walk',
-          name: 'WALK',
-        },
-        {
-          defaultValue: false,
-          icon: 'biking',
-          name: 'BICYCLE',
-        },
-        {
-          defaultValue: false,
-          icon: 'car-withoutBox',
-          name: 'CAR_PARK',
-        },
-      ]}
-    />
+    <div
+      style={{
+        height: '200px',
+        margin: '0 calc(-25px + 1em)',
+        position: 'relative',
+      }}
+    >
+      <div style={{ bottom: 0, position: 'absolute' }}>
+        <StreetModeSelectorPopup
+          isOpen
+          selectStreetMode={() => {}}
+          streetModeConfigs={[
+            {
+              defaultValue: true,
+              icon: 'public_transport',
+              name: 'PUBLIC_TRANSPORT',
+            },
+            {
+              defaultValue: false,
+              icon: 'walk',
+              name: 'WALK',
+            },
+            {
+              defaultValue: false,
+              icon: 'biking',
+              name: 'BICYCLE',
+            },
+            {
+              defaultValue: false,
+              icon: 'car-withoutBox',
+              name: 'CAR_PARK',
+            },
+          ]}
+        />
+      </div>
+    </div>
   </ComponentUsageExample>
 );
 
