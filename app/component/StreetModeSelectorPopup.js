@@ -22,7 +22,7 @@ class StreetModeSelectorPopup extends React.Component {
   }
 
   getStreetModeSelectButtons() {
-    const { streetModeConfigs } = this.props;
+    const { breakpoint, streetModeConfigs } = this.props;
     const { selectedStreetMode } = this.state;
 
     if (!streetModeConfigs.length) {
@@ -35,20 +35,21 @@ class StreetModeSelectorPopup extends React.Component {
       const labelId = `street-mode-${name.toLowerCase()}`;
       return (
         <ToggleButton
+          buttonRef={ref => {
+            if (ref && isSelected) {
+              this.selectedStreetModeButton = ref;
+            }
+          }}
           checkedClass="selected"
-          key={name}
+          className={cx({ large: breakpoint === 'large' })}
           icon={icon}
+          key={name}
           label={labelId}
           onBtnClick={() => this.selectStreetMode(name, exclusive)}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
             this.selectStreetMode(name, exclusive, true)
           }
-          buttonRef={ref => {
-            if (ref && isSelected) {
-              this.selectedStreetModeButton = ref;
-            }
-          }}
           showButtonTitle
           state={isSelected}
         />
@@ -95,7 +96,7 @@ class StreetModeSelectorPopup extends React.Component {
   }
 
   render() {
-    const { openingDirection, streetModeConfigs } = this.props;
+    const { streetModeConfigs } = this.props;
     const { intl } = this.context;
     const { isOpen, selectedStreetMode } = this.state;
 
@@ -103,11 +104,7 @@ class StreetModeSelectorPopup extends React.Component {
       <div className="street-mode-selector-popup-container">
         {isOpen && (
           <div className="street-mode-selector-popup">
-            <div
-              className={cx('street-mode-selector-popup-options', {
-                'direction-up': openingDirection === 'up',
-              })}
-            >
+            <div className="street-mode-selector-popup-options">
               <div className="street-mode-selector-popup-header">
                 <span className="h4">
                   {intl.formatMessage({
@@ -159,8 +156,8 @@ class StreetModeSelectorPopup extends React.Component {
 }
 
 StreetModeSelectorPopup.propTypes = {
+  breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
   isOpen: PropTypes.bool,
-  openingDirection: PropTypes.oneOf(['up', 'down']),
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
   streetModeConfigs: PropTypes.arrayOf(
@@ -173,8 +170,8 @@ StreetModeSelectorPopup.propTypes = {
 };
 
 StreetModeSelectorPopup.defaultProps = {
+  breakpoint: 'large',
   isOpen: false,
-  openingDirection: 'down',
   selectedStreetMode: undefined,
   streetModeConfigs: [],
 };
