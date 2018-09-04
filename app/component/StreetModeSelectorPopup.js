@@ -1,8 +1,8 @@
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { find } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
@@ -93,6 +93,7 @@ class StreetModeSelectorPopup extends React.Component {
 
   render() {
     const { openingDirection, streetModeConfigs } = this.props;
+    const { intl } = this.context;
     const { isOpen, selectedStreetMode } = this.state;
 
     return (
@@ -104,10 +105,12 @@ class StreetModeSelectorPopup extends React.Component {
             })}
           >
             <div className="street-mode-selector-popup-header">
-              <FormattedMessage
-                id="main-mode"
-                defaultMessage="I'm travelling by"
-              />
+              <span className="h4">
+                {intl.formatMessage({
+                  id: 'main-mode',
+                  defaultMessage: "I'm travelling by",
+                })}
+              </span>
               <button
                 className="clear-input"
                 onClick={() => this.closeDialog()}
@@ -165,6 +168,10 @@ StreetModeSelectorPopup.defaultProps = {
   openingDirection: 'down',
   selectedStreetMode: undefined,
   streetModeConfigs: [],
+};
+
+StreetModeSelectorPopup.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default StreetModeSelectorPopup;

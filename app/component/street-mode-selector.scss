@@ -5,7 +5,7 @@
 
   & button {
     background-color: transparent;
-    color: $gray;
+    color: $primary-color;
     margin-bottom: 0.25em;
     padding: 0 0 0.25em 0;
     width: 3em;
@@ -13,7 +13,7 @@
     &.selected,
     &:focus,
     &:hover {
-      color: $primary-color;
+      color: $black;
 
       &::after {
         background: $primary-color;
@@ -46,8 +46,7 @@
   display: flex;
 
   & > span {
-    color: $gray;
-    font-weight: 500;
-    letter-spacing: -0.025em;
+    color: $black;
+    font-size: 1rem;
   }
 }
