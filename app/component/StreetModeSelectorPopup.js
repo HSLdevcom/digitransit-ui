@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
+import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -13,8 +14,10 @@ class StreetModeSelectorPopup extends React.Component {
     super(props);
 
     this.state = {
-      isOpen: false,
-      selectedStreetMode: this.props.selectedStreetMode,
+      isOpen: this.props.isOpen,
+      selectedStreetMode:
+        this.props.selectedStreetMode ||
+        this.props.streetModeConfigs.find(c => c.defaultValue).name,
     };
   }
 
@@ -152,6 +155,7 @@ class StreetModeSelectorPopup extends React.Component {
 }
 
 StreetModeSelectorPopup.propTypes = {
+  isOpen: PropTypes.bool,
   openingDirection: PropTypes.oneOf(['up', 'down']),
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
@@ -165,6 +169,7 @@ StreetModeSelectorPopup.propTypes = {
 };
 
 StreetModeSelectorPopup.defaultProps = {
+  isOpen: false,
   openingDirection: 'down',
   selectedStreetMode: undefined,
   streetModeConfigs: [],
@@ -173,5 +178,36 @@ StreetModeSelectorPopup.defaultProps = {
 StreetModeSelectorPopup.contextTypes = {
   intl: intlShape.isRequired,
 };
+
+StreetModeSelectorPopup.description = (
+  <ComponentUsageExample>
+    <StreetModeSelectorPopup
+      isOpen
+      selectStreetMode={() => {}}
+      streetModeConfigs={[
+        {
+          defaultValue: true,
+          icon: 'public_transport',
+          name: 'PUBLIC_TRANSPORT',
+        },
+        {
+          defaultValue: false,
+          icon: 'walk',
+          name: 'WALK',
+        },
+        {
+          defaultValue: false,
+          icon: 'biking',
+          name: 'BICYCLE',
+        },
+        {
+          defaultValue: false,
+          icon: 'car-withoutBox',
+          name: 'CAR_PARK',
+        },
+      ]}
+    />
+  </ComponentUsageExample>
+);
 
 export default StreetModeSelectorPopup;
