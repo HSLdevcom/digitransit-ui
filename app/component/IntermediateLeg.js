@@ -1,8 +1,18 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
+import Icon from './Icon';
 
-function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
+function IntermediateLeg({
+  color,
+  mode,
+  arrivalTime,
+  realTime,
+  name,
+  stopCode,
+  focusFunction,
+}) {
   const modeClassName = mode.toLowerCase();
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -30,6 +40,15 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
+            <span className={realTime ? 'realtime' : ''}>
+              {realTime && (
+                <Icon
+                  img="icon-icon_realtime"
+                  className="realtime-icon realtime"
+                />
+              )}
+              {moment(arrivalTime).format('HH:mm')+' '}
+            </span>
             {name} <StopCode code={stopCode} />
           </div>
         </div>
@@ -41,6 +60,8 @@ function IntermediateLeg({ color, mode, name, stopCode, focusFunction }) {
 
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
+  arrivalTime: PropTypes.number.isRequired,
+  realTime: PropTypes.bool,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
