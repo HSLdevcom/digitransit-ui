@@ -101,54 +101,58 @@ class StreetModeSelectorPopup extends React.Component {
 
     return (
       <div className="street-mode-selector-popup-container">
-        {isOpen ? (
-          <div
-            className={cx('street-mode-selector-popup-options', {
-              'direction-up': openingDirection === 'up',
-            })}
-          >
-            <div className="street-mode-selector-popup-header">
-              <span className="h4">
-                {intl.formatMessage({
-                  id: 'main-mode',
-                  defaultMessage: "I'm travelling by",
-                })}
-              </span>
-              <button
-                className="clear-input"
-                onClick={() => this.closeDialog()}
-                onKeyDown={e =>
-                  isKeyboardSelectionEvent(e) && this.closeDialog(true)
-                }
-              >
-                <Icon img="icon-icon_close" />
-              </button>
+        {isOpen && (
+          <div className="street-mode-selector-popup">
+            <div
+              className={cx('street-mode-selector-popup-options', {
+                'direction-up': openingDirection === 'up',
+              })}
+            >
+              <div className="street-mode-selector-popup-header">
+                <span className="h4">
+                  {intl.formatMessage({
+                    id: 'main-mode',
+                    defaultMessage: "I'm travelling by",
+                  })}
+                </span>
+                <button
+                  className="clear-input"
+                  onClick={() => this.closeDialog()}
+                  onKeyDown={e =>
+                    isKeyboardSelectionEvent(e) && this.closeDialog(true)
+                  }
+                >
+                  <Icon img="icon-icon_close" />
+                </button>
+              </div>
+              <div className="street-mode-selector-popup-buttons">
+                {this.getStreetModeSelectButtons()}
+              </div>
             </div>
-            <div className="street-mode-selector-popup-buttons">
-              {this.getStreetModeSelectButtons()}
+            <div className="street-mode-selector-popup-tip-container">
+              <div className="street-mode-selector-popup-tip" />
             </div>
-          </div>
-        ) : (
-          <div
-            className="street-mode-selector-popup-toggle"
-            onClick={() => this.openDialog()}
-            onKeyDown={e =>
-              isKeyboardSelectionEvent(e) && this.openDialog(true)
-            }
-            ref={ref => {
-              this.toggleStreetModeSelectorButton = ref;
-            }}
-            role="button"
-            tabIndex="0"
-          >
-            <Icon
-              img={`icon-icon_${
-                find(streetModeConfigs, sm => sm.name === selectedStreetMode)
-                  .icon
-              }`}
-            />
           </div>
         )}
+        <div
+          className="street-mode-selector-popup-toggle"
+          onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
+          onKeyDown={e =>
+            isKeyboardSelectionEvent(e) &&
+            (isOpen ? this.closeDialog(true) : this.openDialog(true))
+          }
+          ref={ref => {
+            this.toggleStreetModeSelectorButton = ref;
+          }}
+          role="button"
+          tabIndex="0"
+        >
+          <Icon
+            img={`icon-icon_${
+              find(streetModeConfigs, sm => sm.name === selectedStreetMode).icon
+            }`}
+          />
+        </div>
       </div>
     );
   }
