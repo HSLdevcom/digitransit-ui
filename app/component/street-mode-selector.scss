@@ -3,7 +3,7 @@
   justify-content: space-evenly;
   margin: 0 1em;
 
-  & button {
+  button {
     background-color: transparent;
     color: $primary-color;
     margin-bottom: 0.25em;
@@ -26,17 +26,21 @@
       }
     }
 
-    & .icon-holder {
+    .icon-holder {
       height: 2em;
       margin: 0 auto;
       padding: 0.125em;
       width: 2em;
 
-      & .icon {
+      .icon {
         color: inherit;
         height: auto;
         width: auto;
       }
+    }
+
+    .toggle-button-title {
+      font-size: 0.8rem;
     }
   }
 }
@@ -45,7 +49,7 @@
   align-items: center;
   display: flex;
 
-  & > span {
+  > span {
     color: $black;
     font-size: 1rem;
   }
