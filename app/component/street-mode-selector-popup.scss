@@ -35,6 +35,17 @@ $street-mode-selector-popup-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
       padding: 0 0 0.5em 0;
       width: 6em;
 
+      &.medium {
+        margin-bottom: 0.25em;
+        padding-bottom: 0.25em;
+
+        .icon-holder {
+          height: 1.75em;
+          padding: 0;
+          width: 1.75em;
+        }
+      }
+
       &.large .icon-holder {
         height: 3em;
         padding: 0.25em;

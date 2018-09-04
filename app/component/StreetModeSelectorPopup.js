@@ -41,7 +41,10 @@ class StreetModeSelectorPopup extends React.Component {
             }
           }}
           checkedClass="selected"
-          className={cx({ large: breakpoint === 'large' })}
+          className={cx({
+            medium: breakpoint === 'medium',
+            large: breakpoint === 'large',
+          })}
           icon={icon}
           key={name}
           label={labelId}
