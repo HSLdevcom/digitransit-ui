@@ -47,6 +47,10 @@ class MapWithTrackingStateHandler extends React.Component {
     renderCustomButtons: PropTypes.func,
   };
 
+  static defaultProps = {
+    renderCustomButtons: undefined,
+  };
+
   constructor(props) {
     super(props);
     const hasOriginorPosition =
@@ -170,6 +174,7 @@ class MapWithTrackingStateHandler extends React.Component {
       >
         {children}
         <div className="map-with-tracking-buttons">
+          {renderCustomButtons && renderCustomButtons()}
           {this.props.position.hasLocation && (
             <ToggleMapTracking
               key="toggleMapTracking"
@@ -183,7 +188,6 @@ class MapWithTrackingStateHandler extends React.Component {
               }`}
             />
           )}
-          {renderCustomButtons && renderCustomButtons()}
         </div>
       </Component>
     );
