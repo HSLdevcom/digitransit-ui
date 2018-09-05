@@ -15,6 +15,7 @@ import {
   getQuery,
 } from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
+import PromotionSuggestions from './PromotionSuggestions';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -43,6 +44,38 @@ class SummaryPlanContainer extends React.Component {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     piwik: PropTypes.object,
+  };
+
+  state = {
+    promotionSuggestions: false,
+    firstQuery: false,
+    setNewQuery: false,
+  };
+
+  componentDidMount = () => {
+    this.setState({ firstQuery: this.context.location.search });
+  };
+
+  componentWillReceiveProps = () => {
+    /* If the parameters have been changed, call for new promotion
+    * suggestions. Made to support lifecycle rendering caused by options
+    * picked outside of the summary screen i.e. setting components
+    */
+    this.setState({
+      setNewQuery: true,
+    });
+  };
+
+  componentDidUpdate = () => {
+    /* If the parameters have been changed, call for new promotion
+    * suggestions. Made to support lifecycle rendering caused by options
+    * picked outside of the summary screen i.e. setting components
+    */
+    if (this.context.location.search !== this.state.firstQuery) {
+      this.setState({
+        firstQuery: this.context.location.search,
+      });
+    }
   };
 
   onSelectActive = index => {
@@ -315,6 +348,7 @@ class SummaryPlanContainer extends React.Component {
       },
     });
   };
+
   getActiveIndex() {
     if (this.context.location.state) {
       return this.context.location.state.summaryPageSelected || 0;
@@ -328,6 +362,14 @@ class SummaryPlanContainer extends React.Component {
     return Number.isNaN(Number(lastURLSegment)) ? 0 : Number(lastURLSegment);
   }
 
+  setPromotionSuggestions = promotionSuggestions => {
+    this.setState({ promotionSuggestions });
+  };
+
+  disableNewQuery = () => {
+    this.setState({ setNewQuery: false });
+  };
+
   render() {
     const currentTime = this.context
       .getStore('TimeStore')
@@ -340,6 +382,29 @@ class SummaryPlanContainer extends React.Component {
 
     return (
       <div className="summary">
+        <div
+          className="biking-walk-promotion-container"
+          style={{
+            display:
+              this.state.promotionSuggestions &&
+              this.state.promotionSuggestions.length > 0
+                ? 'flex'
+                : 'none',
+          }}
+        >
+          {this.state.promotionSuggestions &&
+            this.state.promotionSuggestions.map(suggestion => (
+              <PromotionSuggestions
+                key={suggestion.plan.endTime}
+                promotionSuggestion={suggestion.plan}
+                textId={suggestion.textId}
+                iconName={suggestion.iconName}
+                onSelect={this.onSelectImmediately}
+                mode={suggestion.mode}
+                hash={0}
+              />
+            ))}
+        </div>
         <ItinerarySummaryListContainer
           searchTime={this.props.plan.date}
           itineraries={this.props.itineraries}
@@ -350,7 +415,9 @@ class SummaryPlanContainer extends React.Component {
           open={Number(this.props.params.hash)}
           error={this.props.error}
           config={this.props.config}
-          onPromotionSelect={this.onPromotionSelect}
+          setPromotionSuggestions={this.setPromotionSuggestions}
+          setNewQuery={this.state.setNewQuery}
+          disableNewQuery={this.disableNewQuery}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>

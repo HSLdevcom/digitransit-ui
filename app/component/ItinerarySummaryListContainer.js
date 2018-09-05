@@ -7,7 +7,6 @@ import inside from 'point-in-polygon';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
-import PromotionSuggestions from './PromotionSuggestions';
 import { checkPromotionQueries } from '../util/promotionUtils';
 
 class ItinerarySummaryListContainer extends React.Component {
@@ -18,11 +17,12 @@ class ItinerarySummaryListContainer extends React.Component {
     currentTime: PropTypes.number.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSelectImmediately: PropTypes.func.isRequired,
-    promotionSuggestions: PropTypes.array,
     setPromotionSuggestions: PropTypes.func.isRequired,
     open: PropTypes.number,
     error: PropTypes.string,
     config: PropTypes.object,
+    setNewQuery: PropTypes.bool,
+    disableNewQuery: PropTypes.func,
     children: PropTypes.node,
     relay: PropTypes.shape({
       route: PropTypes.shape({
@@ -49,11 +49,17 @@ class ItinerarySummaryListContainer extends React.Component {
     location: PropTypes.object.isRequired,
   };
 
-  state = {
-    promotionSuggestions: false,
+  componentDidMount = () => {
+    this.getPromotionSuggestions();
   };
 
-  componentDidMount = () => {
+  componentWillReceiveProps = () => {
+    if (this.props.setNewQuery) {
+      this.getPromotionSuggestions();
+    }
+  };
+
+  getPromotionSuggestions = () => {
     checkPromotionQueries(
       this.props.itineraries,
       this.context,
@@ -63,23 +69,9 @@ class ItinerarySummaryListContainer extends React.Component {
     );
   };
 
-  componentDidUpdate = () => {
-    if (
-      !this.state.promotionSuggestions ||
-      this.state.promotionSuggestions.length === 0
-    ) {
-      checkPromotionQueries(
-        this.props.itineraries,
-        this.context,
-        this.props.config,
-        this.props.currentTime,
-        this.setPromotionSuggestions,
-      );
-    }
-  };
-
   setPromotionSuggestions = promotionSuggestions => {
-    this.setState({ promotionSuggestions });
+    this.props.setPromotionSuggestions(promotionSuggestions);
+    this.props.disableNewQuery();
   };
 
   render() {
@@ -107,25 +99,6 @@ class ItinerarySummaryListContainer extends React.Component {
 
       return (
         <React.Fragment>
-          <div
-            className="biking-walk-promotion-container"
-            style={{
-              display: this.state.promotionSuggestions ? 'flex' : 'none',
-            }}
-          >
-            {this.state.promotionSuggestions &&
-              this.state.promotionSuggestions.map(suggestion => (
-                <PromotionSuggestions
-                  key={suggestion.plan.endTime}
-                  promotionSuggestion={suggestion.plan}
-                  textId={suggestion.textId}
-                  iconName={suggestion.iconName}
-                  onSelect={this.props.onSelectImmediately}
-                  mode={suggestion.mode}
-                  hash={0}
-                />
-              ))}
-          </div>
           <div className="summary-list-container momentum-scroll">
             {summaries}
           </div>
