@@ -1,5 +1,3 @@
-$customizedSettings-padding: 1.5em 1em 1.5em 1em;
-
 .customize-search-wrapper {
   height: 100%;
 }
@@ -79,7 +77,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
 .settings-option-container {
   border-top: 1px solid #e3e3e4;
-  padding: $customizedSettings-padding;
+  padding: 1.5em 1em 0 1em;
+
+  & + .settings-option-container {
+    padding-bottom: 1.5em;
+  }
 
   h1 {
     text-transform: initial;
@@ -307,7 +309,9 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   flex-direction: column;
 
   .street-mode-selector-panel-header {
+    margin-bottom: 0.5em;
     padding-left: 0;
+
     span {
       color: rgb(51, 51, 51);
       text-transform: uppercase;
@@ -318,25 +322,12 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
   }
 
-  .street-mode-selector-panel-buttons {
-    button {
-      width: 7em;
-      margin-bottom: 0;
-    }
+  .street-mode-selector-panel-buttons button {
+    width: 7em;
+    margin-bottom: 0;
   }
 
   .toggle-button-title {
     margin-bottom: 1.5em;
-  }
-}
-.desktop .settings-option-container.street-mode-selector-panel-container {
-  border-top: none;
-  padding: $customizedSettings-padding;
-  padding-bottom: 0;
-}
-.mobile {
-  .street-mode-selector-panel.customized-settings {
-    padding: $customizedSettings-padding;
-    padding-bottom: 0;
   }
 }
