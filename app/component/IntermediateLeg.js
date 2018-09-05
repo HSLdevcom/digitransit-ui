@@ -47,7 +47,7 @@ function IntermediateLeg({
                   className="realtime-icon realtime"
                 />
               )}
-              {moment(arrivalTime).format('HH:mm')+' '}
+              {`${moment(arrivalTime).format('HH:mm')} `}
             </span>
             {name} <StopCode code={stopCode} />
           </div>
