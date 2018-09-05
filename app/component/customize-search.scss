@@ -17,62 +17,6 @@
     top: 1em;
     padding: 0;
   }
-
-  .option-checkbox {
-    position: relative;
-    margin-right: 2em;
-
-    label {
-      height: 20px;
-      width: 20px;
-      border: 1px solid #78909c;
-      border-radius: 4px;
-      background-color: $white;
-      cursor: pointer;
-      position: absolute;
-      left: 0;
-
-      &:hover {
-        border: 1px solid $primary-color;
-      }
-
-      &.checked {
-        border: #007ac9 1px solid;
-
-        &:before {
-          content: "#{'\2714 \fe0e'}";
-          font-size: 1.25em;
-          line-height: 1;
-          color: $primary-color;
-          font-weight: 700;
-          font-family: $font-family;
-          margin-left: 0.1em;
-          margin-top: 0.2em;
-          transform: rotateY(15deg);
-        }
-
-        &.disabled:before {
-          color: $gray;
-        }
-      }
-
-      &.disabled {
-        background: $light-gray;
-        border-color: currentColor;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-    }
-
-    input[type='checkbox'] {
-      height: 20px;
-      left: 0;
-      position: absolute;
-      top: 0;
-      visibility: hidden;
-      width: 20px;
-    }
-  }
 }
 
 .settings-option-container {
@@ -91,13 +35,8 @@
     font-family: $font-family;
   }
 
-  .option-checkbox-container {
-    display: flex;
-
-    span {
-      font-weight: 400;
-      margin-top: -0.4em;
-    }
+  .option-checkbox-container > span {
+    margin-top: -0.4em;
   }
 
   span {

@@ -7,6 +7,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
+
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -34,6 +35,8 @@ import StreetModeSelectorPopup from './StreetModeSelectorPopup';
 import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import BubbleDialog from './BubbleDialog';
+import Checkbox from './Checkbox';
 
 const debug = d('IndexPage.js');
 
@@ -178,6 +181,35 @@ class IndexPage extends React.Component {
       />
     );
 
+  renderMapLayerSelector = () => (
+    <BubbleDialog header="header.select-map-layers" icon="map-layers">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <Checkbox labelId="asdf" defaultMessage="Bussipysäkki" />
+        <Checkbox labelId="asdf" defaultMessage="Bussiterminaali" />
+        <Checkbox labelId="asdf" defaultMessage="Raitiovaunupysäkki" />
+        <Checkbox labelId="asdf" defaultMessage="Metroasema" />
+        <Checkbox labelId="asdf" defaultMessage="Kaupunkipyöräasema" />
+        <Checkbox labelId="asdf" defaultMessage="Liityntäpysäköinti" />
+        <hr />
+        <Checkbox labelId="asdf" defaultMessage="Lippuautomaatti" />
+        <Checkbox labelId="asdf" defaultMessage="Matkakortin latauspiste" />
+        <hr />
+        <Checkbox labelId="asdf" defaultMessage="Liikkuvat kulkuvälineet" />
+        <Checkbox
+          labelId="asdf"
+          defaultMessage="Kevyen liikenteen (pää)väylät"
+        />
+        <Checkbox labelId="asdf" defaultMessage="Raitiovaunulinjat" />
+      </div>
+    </BubbleDialog>
+  );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
     const { config, router } = this.context;
@@ -221,9 +253,12 @@ class IndexPage extends React.Component {
           showStops
           showScaleBar
           origin={origin}
-          renderCustomButtons={() =>
-            this.renderStreetModeSelector(config, router)
-          }
+          renderCustomButtons={() => (
+            <React.Fragment>
+              {this.renderStreetModeSelector(config, router)}
+              {this.renderMapLayerSelector()}
+            </React.Fragment>
+          )}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         {!footerOptions.hidden && (
@@ -251,9 +286,12 @@ class IndexPage extends React.Component {
             breakpoint={breakpoint}
             showStops
             origin={origin}
-            renderCustomButtons={() =>
-              this.renderStreetModeSelector(config, router)
-            }
+            renderCustomButtons={() => (
+              <React.Fragment>
+                {this.renderStreetModeSelector(config, router)}
+                {this.renderMapLayerSelector()}
+              </React.Fragment>
+            )}
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel

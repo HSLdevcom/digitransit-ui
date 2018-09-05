@@ -1234,6 +1234,7 @@ const translations = {
     'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
     'give-route': 'Hae linjaa',
+    'header.select-map-layers': 'Mitä haluat näyttää kartalla?',
     hour: 'Tunti',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
