@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import { find } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,7 +21,7 @@ class StreetModeSelectorPopup extends React.Component {
   }
 
   getStreetModeSelectButtons() {
-    const { breakpoint, streetModeConfigs } = this.props;
+    const { streetModeConfigs } = this.props;
     const { selectedStreetMode } = this.state;
 
     if (!streetModeConfigs.length) {
@@ -41,9 +40,6 @@ class StreetModeSelectorPopup extends React.Component {
             }
           }}
           checkedClass="selected"
-          className={cx({
-            large: breakpoint === 'large',
-          })}
           icon={icon}
           key={name}
           label={labelId}
@@ -158,7 +154,6 @@ class StreetModeSelectorPopup extends React.Component {
 }
 
 StreetModeSelectorPopup.propTypes = {
-  breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
   isOpen: PropTypes.bool,
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
@@ -172,7 +167,6 @@ StreetModeSelectorPopup.propTypes = {
 };
 
 StreetModeSelectorPopup.defaultProps = {
-  breakpoint: 'small',
   isOpen: false,
   selectedStreetMode: undefined,
   streetModeConfigs: [],
