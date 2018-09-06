@@ -28,6 +28,28 @@ class TileContainer {
 
     this.ctx = this.el.getContext('2d');
 
+    const mapLayerSettings = {
+      stops: {
+        bus: false,
+        ferry: false,
+        rail: false,
+        subway: false,
+        tram: false,
+      },
+      terminals: {
+        bus: false,
+        rail: false,
+        subway: false,
+      },
+      cityBikes: false,
+      parkAndRide: false,
+      ticketSales: {
+        salesPoint: false,
+        servicePoint: false,
+        ticketMachine: false,
+      },
+    };
+
     this.layers = this.props.layers
       .filter(Layer => {
         if (
@@ -40,12 +62,12 @@ class TileContainer {
           Layer.getName() === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          return true;
+          return mapLayerSettings.cityBikes;
         } else if (
           Layer.getName() === 'parkAndRide' &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
-          return true;
+          return mapLayerSettings.parkAndRide;
         } else if (
           Layer.getName() === 'ticketSales' &&
           this.coords.z >= config.ticketSales.ticketSalesMinZoom
@@ -54,7 +76,7 @@ class TileContainer {
         }
         return false;
       })
-      .map(Layer => new Layer(this, config));
+      .map(Layer => new Layer(this, config, mapLayerSettings));
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
 

@@ -5,15 +5,23 @@ import pick from 'lodash/pick';
 import { drawRoundIcon, drawTerminalIcon } from '../../../util/mapIconUtils';
 
 class Stops {
-  constructor(tile, config) {
+  constructor(tile, config, settings) {
     this.tile = tile;
     this.config = config;
+    this.settings = settings;
     this.promise = this.getPromise();
   }
 
   static getName = () => 'stop';
 
+  isStopEnabled = type => this.settings.stops[type.toLowerCase()];
+
+  isTerminalEnabled = type => this.settings.terminals[type.toLowerCase()];
+
   drawStop(feature) {
+    if (!this.isStopEnabled(feature.properties.type)) {
+      return;
+    }
     if (feature.properties.type === 'FERRY') {
       drawTerminalIcon(
         this.tile,
@@ -83,7 +91,10 @@ class Stops {
               i++
             ) {
               const feature = vt.layers.stations.feature(i);
-              if (feature.properties.type) {
+              if (
+                feature.properties.type &&
+                this.isTerminalEnabled(feature.properties.type)
+              ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 drawTerminalIcon(

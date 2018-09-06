@@ -4,29 +4,51 @@ import Protobuf from 'pbf';
 
 import { drawIcon, getStopRadius } from '../../../util/mapIconUtils';
 
+const TicketSalesFeatureType = {
+  ServicePoint: 'Palvelupiste',
+  TicketMachine1: 'HSL Automaatti MNL',
+  TicketMachine2: 'HSL Automaatti KL',
+  SalesPointGeneric: 'Myyntipiste',
+  SalesPointRKioski: 'R-kioski',
+};
+
 export default class TicketSales {
-  constructor(tile, config) {
+  constructor(tile, config, settings) {
     this.tile = tile;
     this.config = config;
+    this.settings = settings;
 
     this.scaleratio =
       (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
     this.promise = this.getPromise();
   }
 
+  isEnabled = type => {
+    switch (type) {
+      case TicketSalesFeatureType.ServicePoint:
+        return Boolean(this.settings.ticketSales.servicePoint);
+      case TicketSalesFeatureType.TicketMachine1:
+      case TicketSalesFeatureType.TicketMachine2:
+        return Boolean(this.settings.ticketSales.ticketMachine);
+      case TicketSalesFeatureType.SalesPointGeneric:
+      case TicketSalesFeatureType.SalesPointRKioski:
+        return Boolean(this.settings.ticketSales.salesPoint);
+      default:
+        return false;
+    }
+  };
+
   static getName = () => 'ticketSales';
 
   static getIcon = type => {
     switch (type) {
-      case 'Palvelupiste':
+      case TicketSalesFeatureType.ServicePoint:
         return 'icon-icon_service-point';
-      case 'HSL Automaatti MNL':
+      case TicketSalesFeatureType.TicketMachine1:
+      case TicketSalesFeatureType.TicketMachine2:
         return 'icon-icon_ticket-machine';
-      case 'HSL Automaatti KL':
-        return 'icon-icon_ticket-machine';
-      case 'Myyntipiste':
-        return 'icon-icon_ticket-sales-point';
-      case 'R-kioski':
+      case TicketSalesFeatureType.SalesPointGeneric:
+      case TicketSalesFeatureType.SalesPointRKioski:
         return 'icon-icon_ticket-sales-point';
       default:
         return undefined;
@@ -59,6 +81,9 @@ export default class TicketSales {
               i++
             ) {
               const feature = vt.layers['ticket-sales'].feature(i);
+              if (!this.isEnabled(feature.properties.TYYPPI)) {
+                continue; // eslint-disable-line
+              }
               [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
               const icon = TicketSales.getIcon(feature.properties.TYYPPI);
