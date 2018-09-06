@@ -6,6 +6,9 @@ import { FormattedMessage } from 'react-intl';
 import { locationShape } from 'react-router';
 import { setRoutingSettings } from '../store/localStorage';
 
+const getValueOrDefault = (value, defaultValue = undefined) =>
+  value || defaultValue;
+
 class RoutingSettingsButtons extends React.Component {
   static contextTypes = {
     location: locationShape.isRequired,
@@ -25,91 +28,41 @@ class RoutingSettingsButtons extends React.Component {
   }
 
   setSettingsData = () => {
+    const { query } = this.context.location;
     const settings = {
-      maxWalkDistance: this.context.location.query.maxWalkDistance
-        ? this.context.location.query.maxWalkDistance
-        : undefined,
-      maxBikingDistance: this.context.location.query.maxBikingDistance
-        ? this.context.location.query.maxBikingDistance
-        : undefined,
-      ignoreRealtimeUpdates: this.context.location.query.ignoreRealtimeUpdates
-        ? this.context.location.query.ignoreRealtimeUpdates
-        : undefined,
-      maxPreTransitTime: this.context.location.query.maxPreTransitTime
-        ? this.context.location.query.maxPreTransitTime
-        : undefined,
-      walkOnStreetReluctance: this.context.location.query.walkOnStreetReluctance
-        ? this.context.location.query.walkOnStreetReluctance
-        : undefined,
-      waitReluctance: this.context.location.query.waitReluctance
-        ? this.context.location.query.waitReluctance
-        : undefined,
-      bikeSpeed: this.context.location.query.bikeSpeed
-        ? this.context.location.query.bikeSpeed
-        : undefined,
-      bikeSwitchTime: this.context.location.query.bikeSwitchTime
-        ? this.context.location.query.bikeSwitchTime
-        : undefined,
-      bikeSwitchCost: this.context.location.query.bikeSwitchCost
-        ? this.context.location.query.bikeSwitchCost
-        : undefined,
-      bikeBoardCost: this.context.location.query.bikeBoardCost
-        ? this.context.location.query.bikeBoardCost
-        : undefined,
-      optimize: this.context.location.query.optimize
-        ? this.context.location.query.optimize
-        : undefined,
-      safetyFactor: this.context.location.query.safetyFactor
-        ? this.context.location.query.safetyFactor
-        : undefined,
-      slopeFactor: this.context.location.query.slopeFactor
-        ? this.context.location.query.slopeFactor
-        : undefined,
-      timeFactor: this.context.location.query.timeFactor
-        ? this.context.location.query.timeFactor
-        : undefined,
-      carParkCarLegWeight: this.context.location.query.carParkCarLegWeight
-        ? this.context.location.query.carParkCarLegWeight
-        : undefined,
-      maxTransfers: this.context.location.query.maxTransfers
-        ? this.context.location.query.maxTransfers
-        : undefined,
-      waitAtBeginningFactor: this.context.location.query.waitAtBeginningFactor
-        ? this.context.location.query.waitAtBeginningFactor
-        : undefined,
-      heuristicStepsPerMainStep: this.context.location.query
-        .heuristicStepsPerMainStep
-        ? this.context.location.query.heuristicStepsPerMainStep
-        : undefined,
-      compactLegsByReversedSearch: this.context.location.query
-        .compactLegsByReversedSearch
-        ? this.context.location.query.compactLegsByReversedSearch
-        : undefined,
-      disableRemainingWeightHeuristic: this.context.location.query
-        .disableRemainingWeightHeuristic
-        ? this.context.location.query.disableRemainingWeightHeuristic
-        : undefined,
-      itineraryFiltering: this.context.location.query.itineraryFiltering
-        ? this.context.location.query.itineraryFiltering
-        : undefined,
-      busWeight: this.context.location.query.busWeight
-        ? this.context.location.query.busWeight
-        : undefined,
-      railWeight: this.context.location.query.railWeight
-        ? this.context.location.query.railWeight
-        : undefined,
-      subwayWeight: this.context.location.query.subwayWeight
-        ? this.context.location.query.subwayWeight
-        : undefined,
-      tramWeight: this.context.location.query.tramWeight
-        ? this.context.location.query.tramWeight
-        : undefined,
-      ferryWeight: this.context.location.query.ferryWeight
-        ? this.context.location.query.ferryWeight
-        : undefined,
-      airplaneWeight: this.context.location.query.airplaneWeight
-        ? this.context.location.query.airplaneWeight
-        : undefined,
+      maxWalkDistance: getValueOrDefault(query.maxWalkDistance),
+      maxBikingDistance: getValueOrDefault(query.maxBikingDistance),
+      ignoreRealtimeUpdates: getValueOrDefault(query.ignoreRealtimeUpdates),
+      maxPreTransitTime: getValueOrDefault(query.maxPreTransitTime),
+      walkOnStreetReluctance: getValueOrDefault(query.walkOnStreetReluctance),
+      waitReluctance: getValueOrDefault(query.waitReluctance),
+      bikeSpeed: getValueOrDefault(query.bikeSpeed),
+      bikeSwitchTime: getValueOrDefault(query.bikeSwitchTime),
+      bikeSwitchCost: getValueOrDefault(query.bikeSwitchCost),
+      bikeBoardCost: getValueOrDefault(query.bikeBoardCost),
+      optimize: getValueOrDefault(query.optimize),
+      safetyFactor: getValueOrDefault(query.safetyFactor),
+      slopeFactor: getValueOrDefault(query.slopeFactor),
+      timeFactor: getValueOrDefault(query.timeFactor),
+      carParkCarLegWeight: getValueOrDefault(query.carParkCarLegWeight),
+      maxTransfers: getValueOrDefault(query.maxTransfers),
+      waitAtBeginningFactor: getValueOrDefault(query.waitAtBeginningFactor),
+      heuristicStepsPerMainStep: getValueOrDefault(
+        query.heuristicStepsPerMainStep,
+      ),
+      compactLegsByReversedSearch: getValueOrDefault(
+        query.compactLegsByReversedSearch,
+      ),
+      disableRemainingWeightHeuristic: getValueOrDefault(
+        query.disableRemainingWeightHeuristic,
+      ),
+      itineraryFiltering: getValueOrDefault(query.itineraryFiltering),
+      busWeight: getValueOrDefault(query.busWeight),
+      railWeight: getValueOrDefault(query.railWeight),
+      subwayWeight: getValueOrDefault(query.subwayWeight),
+      tramWeight: getValueOrDefault(query.tramWeight),
+      ferryWeight: getValueOrDefault(query.ferryWeight),
+      airplaneWeight: getValueOrDefault(query.airplaneWeight),
     };
 
     if (

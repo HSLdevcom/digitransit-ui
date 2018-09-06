@@ -1,16 +1,20 @@
 import ceil from 'lodash/ceil';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'react-router';
 
 import SelectOptionContainer, {
   getFiveStepOptions,
   getSpeedOptions,
+  optionsShape,
   valueShape,
 } from './SelectOptionContainer';
-import { defaultSettings } from '../../util/planParamUtil';
 import { replaceQueryParams } from '../../util/queryUtils';
 
-const WalkingOptionsSection = ({ walkReluctance, walkSpeed }, { router }) => (
+const WalkingOptionsSection = (
+  { walkReluctance, walkReluctanceOptions, walkSpeed, defaultSettings },
+  { router },
+) => (
   <React.Fragment>
     <SelectOptionContainer
       currentSelection={walkReluctance}
@@ -19,14 +23,16 @@ const WalkingOptionsSection = ({ walkReluctance, walkSpeed }, { router }) => (
       onOptionSelected={value =>
         replaceQueryParams(router, { walkReluctance: value })
       }
-      options={getFiveStepOptions(defaultSettings.walkReluctance, true)}
+      options={getFiveStepOptions(
+        defaultSettings.walkReluctance,
+        walkReluctanceOptions,
+      )}
       title="walking"
     />
     <SelectOptionContainer
       currentSelection={walkSpeed}
       defaultValue={defaultSettings.walkSpeed}
-      displayPattern="kilometers-per-hour"
-      displayValueFormatter={value => ceil(value * 3.6, 1)}
+      displayValueFormatter={value => `${ceil(value * 3.6, 1)} km/h`}
       onOptionSelected={value =>
         replaceQueryParams(router, { walkSpeed: value })
       }
@@ -38,7 +44,12 @@ const WalkingOptionsSection = ({ walkReluctance, walkSpeed }, { router }) => (
 );
 
 WalkingOptionsSection.propTypes = {
+  defaultSettings: PropTypes.shape({
+    walkReluctance: PropTypes.number.isRequired,
+    walkSpeed: PropTypes.number.isRequired,
+  }).isRequired,
   walkReluctance: valueShape.isRequired,
+  walkReluctanceOptions: optionsShape.isRequired,
   walkSpeed: valueShape.isRequired,
 };
 

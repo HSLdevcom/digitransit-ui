@@ -167,10 +167,9 @@ class IndexPage extends React.Component {
     );
   };
 
-  renderStreetModeSelector = (config, router, openingDirection = 'down') =>
+  renderStreetModeSelector = (config, router) =>
     config.features.showStreetModeQuickSelect && (
       <StreetModeSelectorPopup
-        openingDirection={openingDirection}
         selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
         selectStreetMode={(streetMode, isExclusive) =>
           ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
@@ -190,8 +189,6 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
-    const openingDirection =
-      breakpoint === 'large' || mapExpanded ? 'up' : 'down';
 
     return breakpoint === 'large' ? (
       <div
@@ -225,7 +222,7 @@ class IndexPage extends React.Component {
           showScaleBar
           origin={origin}
           renderCustomButtons={() =>
-            this.renderStreetModeSelector(config, router, openingDirection)
+            this.renderStreetModeSelector(config, router)
           }
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
@@ -255,7 +252,7 @@ class IndexPage extends React.Component {
             showStops
             origin={origin}
             renderCustomButtons={() =>
-              this.renderStreetModeSelector(config, router, openingDirection)
+              this.renderStreetModeSelector(config, router)
             }
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}

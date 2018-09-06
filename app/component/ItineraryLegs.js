@@ -46,10 +46,10 @@ class ItineraryLegs extends React.Component {
       if (j + 1 < compressedLegs.length) {
         nextLeg = compressedLegs[j + 1];
       }
-
       if (j > 0) {
         previousLeg = compressedLegs[j - 1];
       }
+      const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
 
       if (isCallAgencyPickupType(leg)) {
         legs.push(
@@ -64,8 +64,9 @@ class ItineraryLegs extends React.Component {
         legs.push(
           <ViaLeg
             key={`${j}via`}
+            index={j}
             leg={leg}
-            arrivalTime={compressedLegs[j - 1].endTime}
+            arrivalTime={startTime}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -115,8 +116,6 @@ class ItineraryLegs extends React.Component {
           />,
         );
       } else if (leg.mode === 'AIRPLANE') {
-        const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
-
         legs.push(
           <AirportCheckInLeg
             key={`${j}ci`}

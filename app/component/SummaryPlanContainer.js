@@ -16,6 +16,8 @@ import {
 } from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
 import PromotionSuggestions from './PromotionSuggestions';
+import { otpToLocation } from '../util/otpStrings';
+import { getIntermediatePlaces } from '../util/queryUtils';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -220,14 +222,21 @@ class SummaryPlanContainer extends React.Component {
             Number.MIN_VALUE,
           );
 
+          // OTP can't always find later routes. This leads to a situation where
+          // new search is done without increasing time, and nothing seems to happen
+          let newTime;
+          if (this.props.plan.date >= max) {
+            newTime = moment(this.props.plan.date).add(5, 'minutes');
+          } else {
+            newTime = moment(max).add(1, 'minutes');
+          }
+
           this.props.setLoading(false);
           this.context.router.replace({
             ...this.context.location,
             query: {
               ...this.context.location.query,
-              time: moment(max)
-                .add(1, 'minutes')
-                .unix(),
+              time: newTime.unix(),
             },
           });
         }
@@ -245,11 +254,9 @@ class SummaryPlanContainer extends React.Component {
     }
 
     const start = moment.unix(this.props.serviceTimeRange.start);
-
     const earliestArrivalTime = this.props.itineraries.reduce(
       (previous, current) => {
         const endTime = moment(current.endTime);
-
         if (previous == null) {
           return endTime;
         } else if (endTime.isBefore(previous)) {
@@ -261,6 +268,11 @@ class SummaryPlanContainer extends React.Component {
     );
 
     earliestArrivalTime.subtract(1, 'minutes');
+    if (earliestArrivalTime <= start) {
+      this.props.setError('no-route-start-date-too-early');
+      this.props.setLoading(false);
+      return;
+    }
 
     if (this.context.location.query.arriveBy === 'true') {
       // user has arriveBy already
@@ -302,14 +314,22 @@ class SummaryPlanContainer extends React.Component {
             this.props.setError('no-route-start-date-too-early');
             this.props.setLoading(false);
           } else {
-            let min = data[0].plan.itineraries.reduce(
+            const earliestStartTime = data[0].plan.itineraries.reduce(
               (previous, { startTime }) =>
                 startTime < previous ? startTime : previous,
               Number.MAX_VALUE,
             );
-            min = moment(min).subtract(1, 'minutes');
 
-            if (min <= start) {
+            // OTP can't always find earlier routes. This leads to a situation where
+            // new search is done without reducing time, and nothing seems to happen
+            let newTime;
+            if (this.props.plan.date <= earliestStartTime) {
+              newTime = moment(this.props.plan.date).subtract(5, 'minutes');
+            } else {
+              newTime = moment(earliestStartTime).subtract(1, 'minutes');
+            }
+
+            if (earliestStartTime <= start) {
               // Start time out of range
               this.props.setError('no-route-start-date-too-early');
               this.props.setLoading(false);
@@ -321,7 +341,7 @@ class SummaryPlanContainer extends React.Component {
               ...this.context.location,
               query: {
                 ...this.context.location.query,
-                time: moment(min).unix(),
+                time: newTime.unix(),
               },
             });
           }
@@ -380,6 +400,8 @@ class SummaryPlanContainer extends React.Component {
       return <Loading />;
     }
 
+    const { from, to } = this.props.params;
+
     return (
       <div className="summary">
         <div
@@ -406,26 +428,32 @@ class SummaryPlanContainer extends React.Component {
             ))}
         </div>
         <ItinerarySummaryListContainer
-          searchTime={this.props.plan.date}
-          itineraries={this.props.itineraries}
+          activeIndex={activeIndex}
           currentTime={currentTime}
+          error={this.props.error}
+          from={otpToLocation(from)}
+          intermediatePlaces={getIntermediatePlaces(
+            this.context.location.query,
+          )}
+          itineraries={this.props.itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
-          activeIndex={activeIndex}
           open={Number(this.props.params.hash)}
-          error={this.props.error}
           config={this.props.config}
           setPromotionSuggestions={this.setPromotionSuggestions}
           setNewQuery={this.state.setNewQuery}
           disableNewQuery={this.disableNewQuery}
+          searchTime={this.props.plan.date}
+          to={otpToLocation(to)}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
         <TimeNavigationButtons
+          isEarlierDisabled={this.props.itineraries.length === 0}
+          isLaterDisabled={this.props.itineraries.length === 0}
           onEarlier={this.onEarlier}
           onLater={this.onLater}
           onNow={this.onNow}
-          itineraries={this.props.itineraries}
         />
       </div>
     );
@@ -436,7 +464,7 @@ const withConfig = getContext({
   config: PropTypes.object.isRequired,
 })(withBreakpoint(SummaryPlanContainer));
 
-export default Relay.createContainer(withConfig, {
+const withRelayContainer = Relay.createContainer(withConfig, {
   fragments: {
     plan: () => Relay.QL`
       fragment on Plan {
@@ -452,3 +480,5 @@ export default Relay.createContainer(withConfig, {
     `,
   },
 });
+
+export { withRelayContainer as default, SummaryPlanContainer as Component };

@@ -207,3 +207,30 @@ export const getTotalWalkingDuration = itinerary =>
  */
 export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
+
+/**
+ * Gets the indicator color for the current amount of citybikes available.
+ *
+ * @param {number} bikesAvailable the number of bikes currently available
+ * @param {*} config the configuration for the software installation
+ */
+export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
+  bikesAvailable > config.cityBike.fewAvailableCount ? '#64be14' : '#ff9000';
+
+/**
+ * Attempts to retrieve any relevant information from the leg that could be shown
+ * as the related icon's badge.
+ *
+ * @param {*} leg the leg to extract the props from
+ * @param {*} config the configuration for the software installation
+ */
+export const getLegBadgeProps = (leg, config) => {
+  if (!leg.rentedBike || !leg.from || !leg.from.bikeRentalStation) {
+    return undefined;
+  }
+  const { bikesAvailable } = leg.from.bikeRentalStation || 0;
+  return {
+    badgeFill: getCityBikeAvailabilityIndicatorColor(bikesAvailable, config),
+    badgeText: `${bikesAvailable}`,
+  };
+};

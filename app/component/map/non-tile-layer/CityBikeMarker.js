@@ -10,6 +10,7 @@ import ComponentUsageExample from '../../ComponentUsageExample';
 import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
+import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
 
 let L;
 
@@ -46,26 +47,46 @@ class CityBikeMarker extends React.Component {
   static displayName = 'CityBikeMarker';
 
   static propTypes = {
+    showBikeAvailability: PropTypes.bool,
     station: PropTypes.object.isRequired,
     transit: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showBikeAvailability: false,
   };
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };
 
-  getIcon = zoom =>
-    !this.props.transit && zoom <= this.context.config.stopsSmallMaxZoom
+  getIcon = zoom => {
+    const { showBikeAvailability, station, transit } = this.props;
+    const { config } = this.context;
+
+    return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
           html: smallIconSvg,
           iconSize: [8, 8],
           className: 'citybike cursor-pointer',
         })
       : L.divIcon({
-          html: Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
+          html: showBikeAvailability
+            ? Icon.asString(
+                'icon-icon_citybike',
+                'city-bike-medium-size',
+                undefined,
+                getCityBikeAvailabilityIndicatorColor(
+                  station.bikesAvailable,
+                  config,
+                ),
+                station.bikesAvailable,
+              )
+            : Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });
+  };
 
   render() {
     if (!isBrowser) {
@@ -102,6 +123,7 @@ export default Relay.createContainer(CityBikeMarker, {
         lat
         lon
         stationId
+        bikesAvailable
       }
     `,
   },

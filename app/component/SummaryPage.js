@@ -4,9 +4,6 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
 import get from 'lodash/get';
-import isMatch from 'lodash/isMatch';
-import keys from 'lodash/keys';
-import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -27,10 +24,10 @@ import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
-import { getIntermediatePlaces } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import { defaultRoutingSettings } from '../util/planParamUtil';
+import { getIntermediatePlaces } from '../util/queryUtils';
+import { validateServiceTimeRange } from '../util/timeUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -89,27 +86,12 @@ class SummaryPage extends React.Component {
     map: undefined,
   };
 
-  static hcParameters = {
-    walkReluctance: 2,
-    walkBoardCost: 600,
-    minTransferTime: 120,
-    transferPenalty: 0,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    accessibilityOption: 0,
-    ticketTypes: null,
-  };
-
   constructor(props, context) {
     super(props, context);
     context.executeAction(storeOrigin, props.from);
   }
 
   state = { center: null, loading: false };
-
-  componentWillMount() {
-    this.initCustomizableParameters(this.context.config);
-  }
 
   componentDidMount() {
     const host =
@@ -148,33 +130,6 @@ class SummaryPage extends React.Component {
     this.setState({ center: { lat, lon } });
   };
 
-  initCustomizableParameters = config => {
-    this.customizableParameters = {
-      ...SummaryPage.hcParameters,
-      ...this.context.config.defaultSettings,
-      modes: Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue === true)
-        .map(mode => config.modeToOTP[mode])
-        .concat(
-          Object.keys(config.streetModes)
-            .filter(mode => config.streetModes[mode].defaultValue === true)
-            .map(mode => config.modeToOTP[mode]),
-        )
-        .sort()
-        .join(','),
-      maxWalkDistance: config.maxWalkDistance,
-      itineraryFiltering: config.itineraryFiltering,
-      preferred: { routes: '' },
-      unpreferred: { routes: '' },
-    };
-  };
-
-  hasDefaultPreferences = () => {
-    const a = pick(this.customizableParameters, keys(this.props));
-    const b = pick(this.props, keys(this.customizableParameters));
-    return isMatch(a, b);
-  };
-
   renderMap() {
     const {
       plan: { plan },
@@ -182,6 +137,9 @@ class SummaryPage extends React.Component {
       from,
       to,
     } = this.props;
+    const {
+      config: { defaultEndpoint },
+    } = this.context;
     const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
 
@@ -223,21 +181,34 @@ class SummaryPage extends React.Component {
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
-    const bounds = [].concat(
-      [[from.lat, from.lon], [to.lat, to.lon]],
-      ...itineraries.map(itinerary =>
-        [].concat(
-          ...itinerary.legs.map(leg => polyline.decode(leg.legGeometry.points)),
+    const bounds = []
+      .concat(
+        [[from.lat, from.lon], [to.lat, to.lon]],
+        ...itineraries.map(itinerary =>
+          [].concat(
+            ...itinerary.legs.map(leg =>
+              polyline.decode(leg.legGeometry.points),
+            ),
+          ),
         ),
-      ),
-    );
+      )
+      .filter(a => a[0] && a[1]);
 
+    const centerPoint = {
+      lat: from.lat || to.lat || defaultEndpoint.lat,
+      lon: from.lon || to.lon || defaultEndpoint.lon,
+    };
+    const delta = 0.0269; // this is roughly equal to 3 km
+    const defaultBounds = [
+      [centerPoint.lat - delta, centerPoint.lon - delta],
+      [centerPoint.lat + delta, centerPoint.lon + delta],
+    ];
     return (
       <MapContainer
         className="summary-map"
         leafletObjs={leafletObjs}
         fitBounds
-        bounds={bounds}
+        bounds={bounds.length > 1 ? bounds : defaultBounds}
         showScaleBar
       />
     );
@@ -249,12 +220,14 @@ class SummaryPage extends React.Component {
         readyState: { done, error },
       },
     } = this.context;
+    const hasItineraries =
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries;
 
     if (
       this.props.routes[this.props.routes.length - 1].printPage &&
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
+      hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
         itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
@@ -279,11 +252,7 @@ class SummaryPage extends React.Component {
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
-    ) {
+    if (hasItineraries) {
       earliestStartTime = Math.min(
         ...this.props.plan.plan.itineraries.map(i => i.startTime),
       );
@@ -295,7 +264,6 @@ class SummaryPage extends React.Component {
     const serviceTimeRange = validateServiceTimeRange(
       this.props.serviceTimeRange,
     );
-    const hasDefaultPreferences = this.hasDefaultPreferences();
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -311,9 +279,9 @@ class SummaryPage extends React.Component {
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
-                itinerary: this.props.plan.plan.itineraries[
-                  this.props.params.hash
-                ],
+                itinerary:
+                  hasItineraries &&
+                  this.props.plan.plan.itineraries[this.props.params.hash],
                 focus: this.updateCenter,
               })}
           </SummaryPlanContainer>
@@ -339,7 +307,6 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
-              hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
             />
@@ -347,6 +314,7 @@ class SummaryPage extends React.Component {
           // TODO: Chceck preferences
           content={content}
           map={map}
+          scrollable
         />
       );
     }
@@ -394,7 +362,6 @@ class SummaryPage extends React.Component {
         header={
           !this.props.params.hash ? (
             <SummaryNavigation
-              hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
@@ -503,8 +470,12 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
+      minTransferTime: null,
+      walkBoardCost: null,
+      walkReluctance: null,
+      walkSpeed: null,
+      wheelchair: null,
     },
     ...defaultRoutingSettings,
-    ...SummaryPage.hcParameters,
   },
 });

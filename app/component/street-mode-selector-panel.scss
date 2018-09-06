@@ -3,15 +3,11 @@
 .street-mode-selector-panel {
   display: flex;
 
-  & .street-mode-selector-panel-header {
+  .street-mode-selector-panel-header {
     @extend %header;
   }
 
-  & .street-mode-selector-panel-buttons {
+  .street-mode-selector-panel-buttons {
     @extend %buttons;
-
-    & > .btn:not(:first-child) {
-      border-left: 1px solid $light-gray;
-    }
   }
 }

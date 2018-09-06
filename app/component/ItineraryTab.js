@@ -157,6 +157,7 @@ export default Relay.createContainer(ItineraryTab, {
             name
             vertexType
             bikeRentalStation {
+              bikesAvailable
               ${CityBikeMarker.getFragment('station')}
             }
             stop {
@@ -205,6 +206,7 @@ export default Relay.createContainer(ItineraryTab, {
             color
             gtfsId
             longName
+            desc
             agency {
               phone
             }

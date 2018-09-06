@@ -1,13 +1,14 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
 import { routerShape } from 'react-router';
-import OriginDestinationBar from './OriginDestinationBar';
+
 import LazilyLoad, { importLazy } from './LazilyLoad';
-import { parseLocation } from '../util/path';
+import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import * as ModeUtils from '../util/modeUtils';
+import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryNavigation extends React.Component {
@@ -16,7 +17,6 @@ class SummaryNavigation extends React.Component {
       from: PropTypes.string,
       to: PropTypes.string,
     }).isRequired,
-    hasDefaultPreferences: PropTypes.bool.isRequired,
     startTime: PropTypes.number,
     endTime: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
@@ -70,16 +70,6 @@ class SummaryNavigation extends React.Component {
     this.internalSetOffcanvas(newState);
   };
 
-  getInitialViaPoints = val => {
-    if (val) {
-      if (typeof val === 'string') {
-        return [val];
-      }
-      return val;
-    }
-    return [' '];
-  };
-
   getOffcanvasState = () =>
     (this.context.location.state &&
       this.context.location.state.customizeSearchOffcanvas) ||
@@ -131,7 +121,6 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const { config, router } = this.context;
-    // const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
@@ -157,7 +146,6 @@ class SummaryNavigation extends React.Component {
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
-                // width: this.props.breakpoint !== 'large' ? '100%' : '600px',
                 ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}
@@ -174,14 +162,10 @@ class SummaryNavigation extends React.Component {
           className={className}
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
-          initialViaPoints={this.getInitialViaPoints(
-            this.context.location.query.intermediatePlaces,
-          )}
         />
         {this.renderStreetModeSelector(config, router)}
         <div className={cx('quicksettings-separator-line')} />
         <QuickSettingsPanel
-          hasDefaultPreferences={this.props.hasDefaultPreferences}
           timeSelectorStartTime={this.props.startTime}
           timeSelectorEndTime={this.props.endTime}
           timeSelectorServiceTimeRange={this.props.serviceTimeRange}

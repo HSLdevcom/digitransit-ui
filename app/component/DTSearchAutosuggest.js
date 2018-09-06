@@ -26,7 +26,7 @@ class DTAutosuggest extends React.Component {
     layers: PropTypes.arrayOf(PropTypes.string).isRequired,
     placeholder: PropTypes.string.isRequired,
     refPoint: dtLocationShape.isRequired,
-    searchType: PropTypes.oneOf(['all', 'endpoint']).isRequired,
+    searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
   };

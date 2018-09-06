@@ -398,6 +398,9 @@ $itinerary-tab-switch-height: 48px;
       }
       font-size: 14pt;
     }
+    .icon-badge {
+      font-size: 12pt;
+    }
     .leg-call {
       .icon {
         font-size: 1.8em;
@@ -419,6 +422,7 @@ $itinerary-tab-switch-height: 48px;
       width: inherit;
     }
   }
+
   .special-icon {
     &.call,
     &.disruption {
@@ -427,6 +431,11 @@ $itinerary-tab-switch-height: 48px;
       margin-left: 1em;
       position: absolute;
       margin-top: -1em;
+    }
+
+    .icon-badge {
+      left: -0.5em;
+      top: -0.75em;
     }
   }
 
@@ -563,6 +572,12 @@ $itinerary-tab-switch-height: 48px;
     .icon {
       font-size: 24px;
     }
+
+    .icon-badge {
+      font-size: 16px;
+      top: -1.25em;
+    }
+
     .vehicle-number {
       font-size: $font-size-normal;
     }
@@ -803,12 +818,9 @@ div.itinerary-container-content {
 }
 
 .itinerary-call-agency-warning {
-  width: calc(100% - 50px);
-  height: calc(100% - 3em);
+  width: calc(100% - 23px);
   background-color: rgba(254, 209, 0, 0.3);
   position: absolute;
-  top: 0;
-  left: 4%;
   margin-top: 2em;
   margin-left: 10px;
   margin-right: 10px;
@@ -857,6 +869,10 @@ div.itinerary-container-content {
   }
 }
 
+.itinerary-warning-route-description {
+  padding-top: 5px;
+}
+
 .itinerary-warning-agency-container {
   display: flex;
   justify-content: center;
@@ -870,7 +886,6 @@ div.itinerary-container-content {
 }
 
 .vehicle-number-container-v {
-  margin-top: 4px;
   .vehicle-number {
     mask-image: none;
     max-width: none;
@@ -1197,9 +1212,6 @@ $font-print-decrease: 0.7;
     &.disruption {
       max-width: auto;
     }
-  }
-  .vehicle-number-container-v {
-    margin-top: 0;
   }
   .print-itinerary {
     right: 1em;

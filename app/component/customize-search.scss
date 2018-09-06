@@ -1,20 +1,13 @@
-$customizedSettings-padding: 1.5em 1em 1.5em 1em;
-
 .customize-search-wrapper {
   height: 100%;
 }
 
 .customize-search {
   background: #f4f4f5;
+  color: $black;
   height: 100%;
   overflow-y: auto;
   position: relative;
-
-  div {
-    span {
-      color: #333;
-    }
-  }
 
   .close-offcanvas {
     position: absolute;
@@ -84,7 +77,11 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
 
 .settings-option-container {
   border-top: 1px solid #e3e3e4;
-  padding: $customizedSettings-padding;
+  padding: 1.5em 1em 0 1em;
+
+  & + .settings-option-container {
+    padding-bottom: 1.5em;
+  }
 
   h1 {
     text-transform: initial;
@@ -102,6 +99,7 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       margin-top: -0.4em;
     }
   }
+
   span {
     font-weight: 400;
   }
@@ -151,6 +149,9 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       font-size: 2.5em;
       margin-top: 0.2em;
     }
+    &.disabled {
+      background-color: rgb(187, 187, 187);
+    }
     .mode-icon {
       margin-left: 1em;
       margin-right: 1em;
@@ -171,6 +172,10 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
       .span-bike-not-allowed {
         font-size: $font-size-xxsmall;
       }
+    }
+
+    &.subway svg.SUBWAY-icon {
+      fill: $metro-color;
     }
   }
 }
@@ -304,7 +309,9 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
   flex-direction: column;
 
   .street-mode-selector-panel-header {
+    margin-bottom: 0.5em;
     padding-left: 0;
+
     span {
       color: rgb(51, 51, 51);
       text-transform: uppercase;
@@ -315,60 +322,12 @@ $customizedSettings-padding: 1.5em 1em 1.5em 1em;
     }
   }
 
-  .street-mode-selector-panel-buttons {
-    button {
-      width: 7em;
-      margin-bottom: 0;
-    }
-    .icon-holder {
-      .icon {
-        color: #007ac9;
-      }
-    }
-    & .selected {
-      .icon-holder .icon {
-        color: #333;
-      }
-      .toggle-button-title {
-        span {
-          color: rgb(51, 51, 51);
-        }
-      }
-    }
-    & > .btn:not(:first-child) {
-      border: none;
-      &::before {
-        width: 1px;
-        background-color: #ddd;
-        height: 46%;
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    }
+  .street-mode-selector-panel-buttons button {
+    width: 7em;
+    margin-bottom: 0;
   }
 
   .toggle-button-title {
-    max-height: 1em;
-    margin-top: 0.5em;
     margin-bottom: 1.5em;
-    line-height: 0.8em;
-    span {
-      font-size: $font-size-xxsmall;
-      font-weight: $font-weight-bold;
-      color: #007ac9;
-    }
-  }
-}
-.desktop .settings-option-container.street-mode-selector-panel-container {
-  border-top: none;
-  padding: $customizedSettings-padding;
-  padding-bottom: 0;
-}
-.mobile {
-  .street-mode-selector-panel.customized-settings {
-    padding: $customizedSettings-padding;
-    padding-bottom: 0;
   }
 }

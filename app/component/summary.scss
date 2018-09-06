@@ -1,16 +1,7 @@
 .desktop .summary {
-  flex: 1 0 0px;
-  flex-basis: 0px;
   display: flex;
+  flex: 1 0 0;
   flex-direction: column;
-  overflow-x: auto;
-}
-
-@media print {
-  .desktop .summary {
-    display: block;
-    height: auto;
-  }
 }
 
 .summary-no-route-found {
@@ -408,14 +399,10 @@
   }
 }
 
-.desktop {
-  & .street-mode-selector-panel-container {
-    padding: 0 $padding-medium;
-  }
+.desktop .street-mode-selector-panel-container {
+  padding: 0 $padding-medium;
 }
 
-.mobile {
-  & .street-mode-selector-panel-container {
-    padding: 0 $padding-small;
-  }
+.mobile .street-mode-selector-panel-container {
+  padding: 0 $padding-small;
 }

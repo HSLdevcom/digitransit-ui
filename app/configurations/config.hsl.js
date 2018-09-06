@@ -140,6 +140,8 @@ export default {
     },
   },
 
+  modesWithNoBike: ['BUS', 'TRAM'],
+
   useSearchPolygon: true,
 
   areaPolygon: [

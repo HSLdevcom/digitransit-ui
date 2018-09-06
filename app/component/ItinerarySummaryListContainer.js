@@ -13,16 +13,23 @@ class ItinerarySummaryListContainer extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
     itineraries: PropTypes.array,
+    intermediatePlaces: PropTypes.arrayOf(
+      PropTypes.shape({
+        lat: PropTypes.number,
+        lon: PropTypes.number,
+        address: PropTypes.string,
+      }),
+    ),
     activeIndex: PropTypes.number.isRequired,
     currentTime: PropTypes.number.isRequired,
     onSelect: PropTypes.func.isRequired,
     onSelectImmediately: PropTypes.func.isRequired,
     setPromotionSuggestions: PropTypes.func.isRequired,
+    setNewQuery: PropTypes.bool,
+    disableNewQuery: PropTypes.func,
     open: PropTypes.number,
     error: PropTypes.string,
     config: PropTypes.object,
-    setNewQuery: PropTypes.bool,
-    disableNewQuery: PropTypes.func,
     children: PropTypes.node,
     relay: PropTypes.shape({
       route: PropTypes.shape({
@@ -41,6 +48,11 @@ class ItinerarySummaryListContainer extends React.Component {
         }).isRequired,
       }).isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    intermediatePlaces: [],
+    itineraries: [],
   };
 
   static contextTypes = {
@@ -91,7 +103,7 @@ class ItinerarySummaryListContainer extends React.Component {
           currentTime={this.props.currentTime}
           onSelect={this.props.onSelect}
           onSelectImmediately={this.props.onSelectImmediately}
-          intermediatePlaces={this.props.relay.route.params.intermediatePlaces}
+          intermediatePlaces={this.props.intermediatePlaces}
         >
           {i === open && this.props.children}
         </SummaryRow>
@@ -210,6 +222,9 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             lon
             stop {
               gtfsId
+            }
+            bikeRentalStation {
+              bikesAvailable
             }
           }
           to {

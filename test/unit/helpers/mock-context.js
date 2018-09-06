@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { locationShape, routerShape } from 'react-router';
 
@@ -16,6 +17,7 @@ export const mockContext = {
   executeAction: noop,
   getStore: () => ({
     on: noop,
+    getCurrentTime: () => moment(),
     getLanguage: () => 'en',
     getLocationState: () => ({
       lat: '',
