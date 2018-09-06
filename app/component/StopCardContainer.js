@@ -9,7 +9,7 @@ import StopCard from './StopCard';
 
 const StopCardContainer = connectToStores(
   StopCard,
-  ['FavouriteStopsStore'],
+  ['FavouriteStopsStore', 'TimeStore'],
   (context, props) => ({
     isTerminal: props.isTerminal,
     children: (
@@ -18,7 +18,7 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={props.relay.variables.startTime}
+        currentTime={context.getStore('TimeStore').getCurrentTime()}
         showPlatformCodes
       />
     ),

@@ -18,6 +18,9 @@ class TripStopListContainer extends React.PureComponent {
     vehicles: PropTypes.object,
     locationState: PropTypes.object.isRequired,
     currentTime: PropTypes.object.isRequired,
+    relay: PropTypes.shape({
+      forceFetch: PropTypes.func.isRequired,
+    }).isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string,
   };
@@ -37,6 +40,13 @@ class TripStopListContainer extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime.unix();
+    const nextUnix = currentTime.unix();
+    if (currUnix !== nextUnix) {
+      relay.forceFetch();
+    }
+  }
   componentDidUpdate() {
     if (this.props.breakpoint === 'large' && !this.state.hasScrolled) {
       this.scrollToSelectedTailIcon();

@@ -5,6 +5,7 @@ import filter from 'lodash/filter';
 import moment from 'moment';
 import { Link } from 'react-router';
 import cx from 'classnames';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Departure from './Departure';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES } from '../util/path';
@@ -51,7 +52,7 @@ class DepartureListContainer extends Component {
   static propTypes = {
     rowClasses: PropTypes.string.isRequired,
     stoptimes: PropTypes.array.isRequired,
-    currentTime: PropTypes.number.isRequired,
+    currentTime: PropTypes.object.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
     showStops: PropTypes.bool,
@@ -59,11 +60,23 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     showPlatformCodes: PropTypes.bool,
+    relay: PropTypes.shape({
+      setVariables: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
     showPlatformCodes: false,
   };
+
+  componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime.unix();
+    const nextUnix = currentTime.unix();
+
+    if (currUnix !== nextUnix) {
+      relay.setVariables({ startTime: nextUnix });
+    }
+  }
 
   onScroll = () => {
     if (this.props.infiniteScroll && isBrowser) {
@@ -74,7 +87,7 @@ class DepartureListContainer extends Component {
 
   render() {
     const departureObjs = [];
-    const { currentTime } = this.props;
+    const currentTime = this.props.currentTime.unix();
     let currentDate = moment
       .unix(currentTime)
       .startOf('day')
@@ -160,9 +173,13 @@ class DepartureListContainer extends Component {
   }
 }
 
-export default Relay.createContainer(DepartureListContainer, {
-  fragments: {
-    stoptimes: () => Relay.QL`
+export default Relay.createContainer(
+  connectToStores(DepartureListContainer, ['TimeStore'], ({ getStore }) => ({
+    currentTime: getStore('TimeStore').getCurrentTime(),
+  })),
+  {
+    fragments: {
+      stoptimes: () => Relay.QL`
       fragment on Stoptime @relay(plural:true) {
           realtimeState
           realtimeDeparture
@@ -200,5 +217,6 @@ export default Relay.createContainer(DepartureListContainer, {
           }
         }
     `,
+    },
   },
-});
+);
