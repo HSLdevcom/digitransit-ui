@@ -111,7 +111,7 @@ class CustomizeSearch extends React.Component {
             >
               <Icon className="close-icon" img="icon-icon_close" />
             </button>
-            <div className="settings-option-container street-mode-selector-panel-container">
+            <div className="settings-option-container">
               <StreetModeSelectorPanel
                 className="customized-settings"
                 selectedStreetMode={ModeUtils.getStreetMode(

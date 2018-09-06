@@ -277,7 +277,7 @@ $heading-color: #858585;
 .map-container {
   display: flex;
   flex-basis: 50%;
-  min-height: 280px; // Stop near you/favorites tabs from taking up all the space
+  min-height: 320px; // Stop near you/favorites tabs from taking up all the space
 }
 
 // <Tab> component
