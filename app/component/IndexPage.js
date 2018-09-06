@@ -31,7 +31,7 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
-import StreetModeSelectorPopup from './StreetModeSelectorPopup';
+import StreetModeSelectorDialog from './StreetModeSelectorDialog';
 import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -172,7 +172,7 @@ class IndexPage extends React.Component {
 
   renderStreetModeSelector = (config, router) =>
     config.features.showStreetModeQuickSelect && (
-      <StreetModeSelectorPopup
+      <StreetModeSelectorDialog
         selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
         selectStreetMode={(streetMode, isExclusive) =>
           ModeUtils.setStreetMode(streetMode, config, router, isExclusive)

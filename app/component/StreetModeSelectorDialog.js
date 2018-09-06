@@ -8,7 +8,7 @@ import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import BubbleDialog from './BubbleDialog';
 
-class StreetModeSelectorPopup extends React.Component {
+class StreetModeSelectorDialog extends React.Component {
   constructor(props) {
     super(props);
 
@@ -100,7 +100,7 @@ class StreetModeSelectorPopup extends React.Component {
   }
 }
 
-StreetModeSelectorPopup.propTypes = {
+StreetModeSelectorDialog.propTypes = {
   isOpen: PropTypes.bool,
   selectStreetMode: PropTypes.func.isRequired,
   selectedStreetMode: PropTypes.string,
@@ -113,17 +113,17 @@ StreetModeSelectorPopup.propTypes = {
   ),
 };
 
-StreetModeSelectorPopup.defaultProps = {
+StreetModeSelectorDialog.defaultProps = {
   isOpen: false,
   selectedStreetMode: undefined,
   streetModeConfigs: [],
 };
 
-StreetModeSelectorPopup.contextTypes = {
+StreetModeSelectorDialog.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-StreetModeSelectorPopup.description = (
+StreetModeSelectorDialog.description = (
   <ComponentUsageExample>
     <div
       style={{
@@ -133,7 +133,7 @@ StreetModeSelectorPopup.description = (
       }}
     >
       <div style={{ bottom: 0, position: 'absolute' }}>
-        <StreetModeSelectorPopup
+        <StreetModeSelectorDialog
           isOpen
           selectStreetMode={() => {}}
           streetModeConfigs={[
@@ -164,4 +164,4 @@ StreetModeSelectorPopup.description = (
   </ComponentUsageExample>
 );
 
-export default StreetModeSelectorPopup;
+export default StreetModeSelectorDialog;

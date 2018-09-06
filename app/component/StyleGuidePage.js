@@ -87,7 +87,7 @@ import CallAgencyWarning from './CallAgencyWarning';
 import Timetable from './Timetable';
 import Error404 from './404';
 import StopMarkerPopup from './map/popups/StopMarkerPopup';
-import StreetModeSelectorPopup from './StreetModeSelectorPopup';
+import StreetModeSelectorDialog from './StreetModeSelectorDialog';
 
 const components = {
   Icon,
@@ -175,7 +175,7 @@ const components = {
   Timetable,
   Error404,
   StopMarkerPopup,
-  StreetModeSelectorPopup,
+  StreetModeSelectorDialog,
 };
 
 function getColors() {
