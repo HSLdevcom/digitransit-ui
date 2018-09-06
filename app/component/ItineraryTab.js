@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
