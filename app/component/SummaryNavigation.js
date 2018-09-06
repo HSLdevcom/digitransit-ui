@@ -121,7 +121,6 @@ class SummaryNavigation extends React.Component {
 
   render() {
     const { config, router } = this.context;
-    // const quickSettingsIcon = this.checkQuickSettingsIcon();
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     let drawerWidth = 291;
     if (typeof window !== 'undefined') {
@@ -147,7 +146,6 @@ class SummaryNavigation extends React.Component {
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
-                // width: this.props.breakpoint !== 'large' ? '100%' : '600px',
                 ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
               width={drawerWidth}
