@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -106,6 +106,12 @@ class ItineraryTab extends React.Component {
                   itinerary={this.props.itinerary}
                   focusMap={this.handleFocus}
                 />
+                <div className="itinerary-disclaimer">
+                  <FormattedMessage
+                    id="disclaimer"
+                    defaultMessage="Results are based on estimated travel times"
+                  />
+                </div>
                 {config.showTicketInformation && (
                   <TicketInformation fares={this.props.itinerary.fares} />
                 )}

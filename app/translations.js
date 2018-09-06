@@ -548,6 +548,8 @@ const translations = {
       'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
     'digitransit-platform': 'Digitransit service platform',
+    disclaimer:
+      'Please note that the results are based on estimated travel times. HSL cannot guarantee that the suggested transport connection will be successful.',
     disruption: 'Disruption',
     'disruption-info': 'Disruption info',
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
@@ -1155,6 +1157,8 @@ const translations = {
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'digitransit-platform': 'Digitransit palvelualusta',
+    disclaimer:
+      'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
     disruption: 'Häiriö',
     'disruption-info': 'Poikkeusinfo',
     'disruption-info-no-alerts':
@@ -1975,6 +1979,8 @@ const translations = {
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra destination, som ligger utanför serviceområde.',
     'destination-placeholder': 'Destination, linje eller hållplats',
     'digitransit-platform': 'Digitransit-serviceplattformen',
+    disclaimer:
+      'Resultaten baserar sig på beräknade körtider. Vi kan inte garantera att den förslagna förbindelsen kan förverkligas.',
     disruption: 'Störning',
     'disruption-info': 'Undantagsinfo',
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
