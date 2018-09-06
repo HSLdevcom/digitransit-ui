@@ -314,6 +314,7 @@ class SummaryPage extends React.Component {
           // TODO: Chceck preferences
           content={content}
           map={map}
+          scrollable
         />
       );
     }
