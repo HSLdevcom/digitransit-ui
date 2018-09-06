@@ -1,3 +1,5 @@
+$bubble-dialog-box-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
+
 .bubble-dialog-component-container {
   position: relative;
 
@@ -9,8 +11,12 @@
     .bubble-dialog {
       background-color: $white;
       border-radius: $border-radius-bigger;
-      box-shadow: $street-mode-selector-popup-shadow;
-      padding: 1em;
+      box-shadow: $bubble-dialog-box-shadow;
+      padding: 0.5em;
+
+      &.bp-large {
+        padding: 1em;
+      }
 
       .bubble-dialog-header-container {
         align-items: center;
@@ -21,6 +27,7 @@
         .bubble-dialog-header {
           color: $black;
           font-size: 1rem;
+          user-select: none;
         }
 
         .bubble-dialog-close {
@@ -28,14 +35,16 @@
           background-color: transparent;
           color: $gray;
           height: 1em;
-          margin: 0;
+          margin: 0.25em 0.25em 0 0;
           padding: 0;
           width: 1em;
         }
       }
 
       .bubble-dialog-content {
-        margin-top: 1em;
+        &.bp-large {
+          margin-top: 0.5em;
+        }
       }
     }
 
@@ -47,7 +56,7 @@
 
       .bubble-dialog-tip {
         background-color: white;
-        box-shadow: $street-mode-selector-popup-shadow;
+        box-shadow: $bubble-dialog-box-shadow;
         height: 1rem;
         margin: -0.5rem auto 0 auto;
         transform: rotate(45deg);

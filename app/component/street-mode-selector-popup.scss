@@ -1,71 +1,10 @@
 @import './street-mode-selector.scss';
-$street-mode-selector-popup-shadow: 1.5px 2.6px 10px 0 rgba(0, 0, 0, 0.2);
 
-.street-mode-selector-popup-container {
-  position: relative;
+.street-mode-selector-popup-buttons {
+  @extend %buttons;
 
-  .street-mode-selector-popup {
-    bottom: 2.5em;
-    max-width: calc(100vw - 2em);
-    position: absolute;
-  }
-
-  .street-mode-selector-popup-header {
-    @extend %header;
-
-    height: 2.5em;
-    justify-content: space-between;
-    padding-left: 10px;
-
-    .clear-input {
-      height: unset;
-    }
-  }
-
-  .street-mode-selector-popup-options {
-    background-color: $white;
-    border-radius: $border-radius;
-    box-shadow: $street-mode-selector-popup-shadow;
-  }
-
-  .street-mode-selector-popup-buttons {
-    @extend %buttons;
-    padding: 0 0.5em 0.5em 0.5em;
-
-    button {
-      padding: 0 0 0.5em 0;
-      width: 6em;
-    }
-  }
-
-  .street-mode-selector-popup-tip-container {
-    height: 1rem;
-    margin-left: 0.25rem;
-    overflow: hidden;
-    width: 2rem;
-
-    .street-mode-selector-popup-tip {
-      background-color: white;
-      box-shadow: $street-mode-selector-popup-shadow;
-      height: 1rem;
-      margin: -0.5rem auto 0 auto;
-      transform: rotate(45deg);
-      width: 1rem;
-    }
-  }
-
-  .street-mode-selector-popup-toggle {
-    background-color: $white;
-    border-radius: $border-radius;
-    cursor: pointer;
-    height: 3em;
-    padding: 6px;
-    width: 3em;
-
-    .icon {
-      color: $primary-color;
-      height: auto;
-      width: auto;
-    }
+  button {
+    padding: 0 0 0.5em 0;
+    width: 6em;
   }
 }

@@ -4,20 +4,26 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
 import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import BubbleDialog from './BubbleDialog';
 
 class StreetModeSelectorPopup extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onDialogOpen = this.onDialogOpen.bind(this);
     this.state = {
-      isOpen: this.props.isOpen,
       selectedStreetMode:
         this.props.selectedStreetMode ||
         this.props.streetModeConfigs.find(c => c.defaultValue).name,
     };
+  }
+
+  onDialogOpen(applyFocus = false) {
+    if (applyFocus && this.selectedStreetModeButton) {
+      this.selectedStreetModeButton.focus();
+    }
   }
 
   getStreetModeSelectButtons() {
@@ -55,32 +61,6 @@ class StreetModeSelectorPopup extends React.Component {
     });
   }
 
-  openDialog(applyFocus = false) {
-    this.setState(
-      {
-        isOpen: true,
-      },
-      () => {
-        if (this.selectedStreetModeButton && applyFocus) {
-          this.selectedStreetModeButton.focus();
-        }
-      },
-    );
-  }
-
-  closeDialog(applyFocus = false) {
-    this.setState(
-      {
-        isOpen: false,
-      },
-      () => {
-        if (this.toggleStreetModeSelectorButton && applyFocus) {
-          this.toggleStreetModeSelectorButton.focus();
-        }
-      },
-    );
-  }
-
   selectStreetMode(streetMode, isExclusive, applyFocus = false) {
     this.setState(
       {
@@ -88,67 +68,34 @@ class StreetModeSelectorPopup extends React.Component {
       },
       () => {
         this.props.selectStreetMode(streetMode.toUpperCase(), isExclusive);
-        this.closeDialog(applyFocus);
+        if (applyFocus && this.dialogRef) {
+          this.dialogRef.closeDialog(applyFocus);
+        }
       },
     );
   }
 
   render() {
-    const { streetModeConfigs } = this.props;
-    const { intl } = this.context;
-    const { isOpen, selectedStreetMode } = this.state;
+    const { isOpen, streetModeConfigs } = this.props;
+    const { selectedStreetMode } = this.state;
 
     return (
-      <div className="street-mode-selector-popup-container">
-        {isOpen && (
-          <div className="street-mode-selector-popup">
-            <div className="street-mode-selector-popup-options">
-              <div className="street-mode-selector-popup-header">
-                <span className="h4">
-                  {intl.formatMessage({
-                    id: 'main-mode',
-                    defaultMessage: "I'm travelling by",
-                  })}
-                </span>
-                <button
-                  className="clear-input"
-                  onClick={() => this.closeDialog()}
-                  onKeyDown={e =>
-                    isKeyboardSelectionEvent(e) && this.closeDialog(true)
-                  }
-                >
-                  <Icon img="icon-icon_close" />
-                </button>
-              </div>
-              <div className="street-mode-selector-popup-buttons">
-                {this.getStreetModeSelectButtons()}
-              </div>
-            </div>
-            <div className="street-mode-selector-popup-tip-container">
-              <div className="street-mode-selector-popup-tip" />
-            </div>
-          </div>
-        )}
-        <div
-          className="street-mode-selector-popup-toggle"
-          onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
-          onKeyDown={e =>
-            isKeyboardSelectionEvent(e) &&
-            (isOpen ? this.closeDialog(true) : this.openDialog(true))
-          }
-          ref={ref => {
-            this.toggleStreetModeSelectorButton = ref;
-          }}
-          role="button"
-          tabIndex="0"
-        >
-          <Icon
-            img={`icon-icon_${
-              find(streetModeConfigs, sm => sm.name === selectedStreetMode).icon
-            }`}
-          />
+      <BubbleDialog
+        header="main-mode"
+        id="streetModeSelector"
+        icon={
+          find(streetModeConfigs, sm => sm.name === selectedStreetMode).icon
+        }
+        isOpen={isOpen}
+        onDialogOpen={this.onDialogOpen}
+        wrappedRef={instance => {
+          this.dialogRef = instance;
+        }}
+      >
+        <div className="street-mode-selector-popup-buttons">
+          {this.getStreetModeSelectButtons()}
         </div>
-      </div>
+      </BubbleDialog>
     );
   }
 }

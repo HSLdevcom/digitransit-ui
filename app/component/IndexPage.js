@@ -182,7 +182,11 @@ class IndexPage extends React.Component {
     );
 
   renderMapLayerSelector = () => (
-    <BubbleDialog header="header.select-map-layers" icon="map-layers">
+    <BubbleDialog
+      header="header.select-map-layers"
+      id="mapLayerSelector"
+      icon="map-layers"
+    >
       <div
         style={{
           display: 'flex',
