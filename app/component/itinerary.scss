@@ -192,9 +192,10 @@ $itinerary-tab-switch-height: 48px;
 
 .itinerary-disclaimer {
   color: $gray;
-  margin: 0em 1em 1em;
+  margin: 1em;
   font-size: $font-size-small;
-  text-align:center;
+  text-align: center;
+  white-space: normal;
 }
 
 .itinerary-ticket-information {
