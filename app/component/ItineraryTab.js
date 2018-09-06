@@ -190,13 +190,16 @@ export default Relay.createContainer(ItineraryTab, {
             length
             points
           }
-          intermediateStops {
-            gtfsId
-            lat
-            lon
-            name
-            code
-            platformCode
+          intermediatePlaces {
+            arrivalTime
+            stop {
+              gtfsId
+              lat
+              lon
+              name
+              code
+              platformCode
+            }
           }
           realTime
           transitLeg
