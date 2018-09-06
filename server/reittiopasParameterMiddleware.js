@@ -1,26 +1,64 @@
 import moment from 'moment-timezone';
+import isFinite from 'lodash/isFinite';
 import oldParamParser from '../app/util/oldParamParser';
 import { getConfiguration } from '../app/config';
 
-function validateTime(req, config) {
+function removeUrlParam(req, param) {
+  if (req.query[param]) {
+    delete req.query[param];
+  }
+  const params = Object.keys(req.query)
+    .map(k => `${k}=${req.query[k]}`)
+    .join('&');
+  const url = `${req.path}?${params}`;
+
+  return url;
+}
+
+function validateParams(req, config) {
+  let url;
+
   if (config.queryMaxAgeDays && req.query.time) {
     const now = moment.tz(config.timezoneData.split('|')[0]).unix();
     if (now - req.query.time > config.queryMaxAgeDays * 24 * 3600) {
-      delete req.query.time;
-      const params = Object.keys(req.query)
-        .map(k => `${k}=${req.query[k]}`)
-        .join('&');
-      const url = `${req.path}?${params}`;
-
-      return url;
+      url = removeUrlParam(req, 'time');
     }
   }
-  return null;
+
+  const numericParams = [
+    'time',
+    'minTransferTime',
+    'transferPenalty',
+    'walkBoardCost',
+    'walkReluctance',
+    'walkSpeed',
+  ];
+  Object.keys(req.query).forEach(key => {
+    if (numericParams.indexOf(key) > -1 && !isFinite(Number(req.query[key]))) {
+      url = removeUrlParam(req, key);
+    }
+  });
+
+  const availableModes = Object.keys(config.modeToOTP).map(k =>
+    k.toUpperCase(),
+  );
+
+  if (req.query.modes) {
+    const modeArray = req.query.modes.split(',');
+    modeArray.forEach(key => {
+      if (availableModes.indexOf(key) === -1) {
+        url = removeUrlParam(req, 'modes');
+      }
+    });
+  }
+
+  return url;
 }
 
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-  const newUrl = validateTime(req, config);
+  const newUrl = validateParams(req, config);
+
   if (newUrl) {
     res.redirect(newUrl);
   } else if (config.redirectReittiopasParams) {
