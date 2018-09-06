@@ -16,7 +16,11 @@ class BubbleDialog extends React.Component {
   }
 
   closeDialog = () => this.setState({ isOpen: false });
-  openDialog = () => this.setState({ isOpen: true });
+  openDialog = () =>
+    this.setState(
+      { isOpen: true },
+      () => this.props.onDialogOpened && this.props.onDialogOpened(),
+    );
 
   render = () => {
     const { children, header } = this.props;
@@ -24,19 +28,19 @@ class BubbleDialog extends React.Component {
     const { isOpen } = this.state;
 
     return (
-      <div className="street-mode-selector-popup-container">
+      <div className="bubble-dialog-component-container">
         {isOpen && (
-          <div className="street-mode-selector-popup">
-            <div className="street-mode-selector-popup-options">
-              <div className="street-mode-selector-popup-header">
-                <span className="h4">
+          <div className="bubble-dialog-container">
+            <div className="bubble-dialog">
+              <div className="bubble-dialog-header-container">
+                <span className="bubble-dialog-header h4">
                   {intl.formatMessage({
                     id: header,
                     defaultMessage: 'Bubble Dialog Header',
                   })}
                 </span>
                 <button
-                  className="clear-input"
+                  className="bubble-dialog-close"
                   onClick={() => this.closeDialog()}
                   onKeyDown={e =>
                     isKeyboardSelectionEvent(e) && this.closeDialog(true)
@@ -45,17 +49,15 @@ class BubbleDialog extends React.Component {
                   <Icon img="icon-icon_close" />
                 </button>
               </div>
-              <div className="street-mode-selector-popup-buttons">
-                {children}
-              </div>
+              <div className="bubble-dialog-content">{children}</div>
             </div>
-            <div className="street-mode-selector-popup-tip-container">
-              <div className="street-mode-selector-popup-tip" />
+            <div className="bubble-dialog-tip-container">
+              <div className="bubble-dialog-tip" />
             </div>
           </div>
         )}
         <div
-          className="street-mode-selector-popup-toggle"
+          className="bubble-dialog-toggle"
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
@@ -77,11 +79,13 @@ BubbleDialog.propTypes = {
   header: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   isOpen: PropTypes.bool,
+  onDialogOpened: PropTypes.func,
 };
 
 BubbleDialog.defaultProps = {
   children: null,
   isOpen: false,
+  onDialogOpened: undefined,
 };
 
 BubbleDialog.contextTypes = {
