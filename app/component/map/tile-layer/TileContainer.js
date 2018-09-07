@@ -28,28 +28,6 @@ class TileContainer {
 
     this.ctx = this.el.getContext('2d');
 
-    // const mapLayerSettings = {
-    //   stops: {
-    //     bus: false,
-    //     ferry: false,
-    //     rail: false,
-    //     subway: false,
-    //     tram: false,
-    //   },
-    //   terminals: {
-    //     bus: false,
-    //     rail: false,
-    //     subway: false,
-    //   },
-    //   cityBikes: false,
-    //   parkAndRide: false,
-    //   ticketSales: {
-    //     salesPoint: false,
-    //     servicePoint: false,
-    //     ticketMachine: false,
-    //   },
-    // };
-
     this.layers = this.props.layers
       .filter(Layer => {
         if (

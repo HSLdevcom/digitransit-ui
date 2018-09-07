@@ -7,12 +7,12 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const Checkbox = (
-  { checked, disabled, onChange, labelId, defaultMessage, showLabel },
+  { checked, disabled, onChange, labelId, defaultMessage, showLabel, title },
   { intl },
 ) => {
   const id = uniqueId('input-');
   return (
-    <div className="option-checkbox-container">
+    <div className="option-checkbox-container" title={title}>
       <div
         aria-checked={checked}
         className="option-checkbox"
@@ -60,6 +60,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func.isRequired,
   labelId: PropTypes.string,
   showLabel: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
@@ -68,6 +69,7 @@ Checkbox.defaultProps = {
   disabled: false,
   labelId: undefined,
   showLabel: true,
+  title: undefined,
 };
 
 Checkbox.contextTypes = {
