@@ -31,12 +31,12 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
+import SelectMapLayersDialog from './SelectMapLayersDialog';
 import SelectStreetModeDialog from './SelectStreetModeDialog';
 import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import BubbleDialog from './BubbleDialog';
-import Checkbox from './Checkbox';
+import { getMapLayerSettings } from '../store/localStorage';
 
 const debug = d('IndexPage.js');
 
@@ -182,36 +182,7 @@ class IndexPage extends React.Component {
     );
 
   renderMapLayerSelector = () => (
-    <BubbleDialog
-      header="header.select-map-layers"
-      id="mapLayerSelector"
-      icon="map-layers"
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        <Checkbox labelId="asdf" defaultMessage="Bussipysäkki" />
-        <Checkbox labelId="asdf" defaultMessage="Bussiterminaali" />
-        <Checkbox labelId="asdf" defaultMessage="Raitiovaunupysäkki" />
-        <Checkbox labelId="asdf" defaultMessage="Metroasema" />
-        <Checkbox labelId="asdf" defaultMessage="Kaupunkipyöräasema" />
-        <Checkbox labelId="asdf" defaultMessage="Liityntäpysäköinti" />
-        <hr />
-        <Checkbox labelId="asdf" defaultMessage="Lippuautomaatti" />
-        <Checkbox labelId="asdf" defaultMessage="Matkakortin latauspiste" />
-        <hr />
-        <Checkbox labelId="asdf" defaultMessage="Liikkuvat kulkuvälineet" />
-        <Checkbox
-          labelId="asdf"
-          defaultMessage="Kevyen liikenteen (pää)väylät"
-        />
-        <Checkbox labelId="asdf" defaultMessage="Raitiovaunulinjat" />
-      </div>
-    </BubbleDialog>
+    <SelectMapLayersDialog mapLayers={getMapLayerSettings()} />
   );
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

@@ -5,7 +5,7 @@ import L from 'leaflet';
 import { isBrowser } from '../../../util/browser';
 
 class TileContainer {
-  constructor(coords, done, props, config) {
+  constructor(coords, done, props, config, mapLayerSettings) {
     const markersMinZoom = Math.min(
       config.cityBike.cityBikeMinZoom,
       config.stopsMinZoom,
@@ -28,27 +28,27 @@ class TileContainer {
 
     this.ctx = this.el.getContext('2d');
 
-    const mapLayerSettings = {
-      stops: {
-        bus: false,
-        ferry: false,
-        rail: false,
-        subway: false,
-        tram: false,
-      },
-      terminals: {
-        bus: false,
-        rail: false,
-        subway: false,
-      },
-      cityBikes: false,
-      parkAndRide: false,
-      ticketSales: {
-        salesPoint: false,
-        servicePoint: false,
-        ticketMachine: false,
-      },
-    };
+    // const mapLayerSettings = {
+    //   stops: {
+    //     bus: false,
+    //     ferry: false,
+    //     rail: false,
+    //     subway: false,
+    //     tram: false,
+    //   },
+    //   terminals: {
+    //     bus: false,
+    //     rail: false,
+    //     subway: false,
+    //   },
+    //   cityBikes: false,
+    //   parkAndRide: false,
+    //   ticketSales: {
+    //     salesPoint: false,
+    //     servicePoint: false,
+    //     ticketMachine: false,
+    //   },
+    // };
 
     this.layers = this.props.layers
       .filter(Layer => {

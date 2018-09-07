@@ -22,6 +22,7 @@ import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import Loading from '../../Loading';
+import { getMapLayerSettings } from '../../../store/localStorage';
 
 const initialState = {
   selectableTargets: undefined,
@@ -144,6 +145,7 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
+      getMapLayerSettings(),
     );
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {

@@ -38,6 +38,9 @@ const Checkbox = (
             disabled={disabled}
             id={id}
             onChange={e => !disabled && onChange(e)}
+            onClick={() =>
+              !disabled && onChange({ target: { checked: !checked } })
+            }
             type="checkbox"
           />
         </label>
