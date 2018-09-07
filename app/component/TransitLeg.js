@@ -39,23 +39,25 @@ class TransitLeg extends React.Component {
 
   renderIntermediate() {
     if (
-      this.props.leg.intermediateStops.length > 0 &&
+      this.props.leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
-      const stopList = this.props.leg.intermediateStops.map(stop => (
+      const stopList = this.props.leg.intermediatePlaces.map(place => (
         <IntermediateLeg
           color={
             this.props.leg.route
               ? `#${this.props.leg.route.color}`
               : 'currentColor'
           }
-          key={stop.gtfsId}
+          key={place.stop.gtfsId}
           mode={this.props.mode}
-          name={stop.name}
-          stopCode={stop.code}
+          name={place.stop.name}
+          arrivalTime={place.arrivalTime}
+          realTime={this.props.leg.realTime}
+          stopCode={place.stop.code}
           focusFunction={this.context.focusFunction({
-            lat: stop.lat,
-            lon: stop.lon,
+            lat: place.stop.lat,
+            lon: place.stop.lon,
           })}
         />
       ));
@@ -201,7 +203,7 @@ class TransitLeg extends React.Component {
             <StopInfo
               toggleFunction={this.toggleShowIntermediateStops}
               leg={this.props.leg}
-              stops={this.props.leg.intermediateStops}
+              stops={this.props.leg.intermediatePlaces}
             />
           </div>
         </div>
@@ -241,11 +243,14 @@ TransitLeg.propTypes = {
     }).isRequired,
     startTime: PropTypes.number.isRequired,
     departureDelay: PropTypes.number,
-    intermediateStops: PropTypes.arrayOf(
+    intermediatePlaces: PropTypes.arrayOf(
       PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-        code: PropTypes.string,
-        platformCode: PropTypes.string,
+        arrivalTime: PropTypes.number.isRequired,
+        stop: PropTypes.shape({
+          gtfsId: PropTypes.string.isRequired,
+          code: PropTypes.string,
+          platformCode: PropTypes.string,
+        }).isRequired,
       }),
     ),
   }).isRequired,

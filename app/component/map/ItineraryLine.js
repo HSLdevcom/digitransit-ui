@@ -69,13 +69,16 @@ class ItineraryLine extends React.Component {
       );
 
       if (!this.props.passive) {
-        if (this.props.showIntermediateStops && leg.intermediateStops != null) {
-          leg.intermediateStops.forEach(stop =>
+        if (
+          this.props.showIntermediateStops &&
+          leg.intermediatePlaces != null
+        ) {
+          leg.intermediatePlaces.forEach(place =>
             objs.push(
               <StopMarker
                 disableModeIcons
-                stop={stop}
-                key={`intermediate-${stop.gtfsId}`}
+                stop={place.stop}
+                key={`intermediate-${place.stop.gtfsId}`}
                 mode={modePlusClass}
                 thin
               />,
@@ -237,13 +240,16 @@ export default Relay.createContainer(ItineraryLine, {
             pickupType
           }
         }
-        intermediateStops {
-          gtfsId
-          lat
-          lon
-          name
-          code
-          platformCode
+        intermediatePlaces {
+          arrivalTime
+          stop {
+            gtfsId
+            lat
+            lon
+            name
+            code
+            platformCode
+          }
         }
       }
     `,
