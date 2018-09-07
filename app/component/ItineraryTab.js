@@ -119,12 +119,14 @@ class ItineraryTab extends React.Component {
                   buttonIcon="icon-icon_print"
                 />
               </div>
-              <div className="itinerary-disclaimer">
-                <FormattedMessage
-                  id="disclaimer"
-                  defaultMessage="Results are based on estimated travel times"
-                />
-              </div>
+              {config.showDisclaimer && (
+                <div className="itinerary-disclaimer">
+                  <FormattedMessage
+                    id="disclaimer"
+                    defaultMessage="Results are based on estimated travel times"
+                  />
+                </div>
+              )}
             </div>,
           ]}
         </BreakpointConsumer>
