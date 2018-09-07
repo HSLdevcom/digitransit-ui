@@ -106,12 +106,6 @@ class ItineraryTab extends React.Component {
                   itinerary={this.props.itinerary}
                   focusMap={this.handleFocus}
                 />
-                <div className="itinerary-disclaimer">
-                  <FormattedMessage
-                    id="disclaimer"
-                    defaultMessage="Results are based on estimated travel times"
-                  />
-                </div>
                 {config.showTicketInformation && (
                   <TicketInformation fares={this.props.itinerary.fares} />
                 )}
@@ -125,6 +119,14 @@ class ItineraryTab extends React.Component {
                   buttonIcon="icon-icon_print"
                 />
               </div>
+              {config.showDisclaimer && (
+                <div className="itinerary-disclaimer">
+                  <FormattedMessage
+                    id="disclaimer"
+                    defaultMessage="Results are based on estimated travel times"
+                  />
+                </div>
+              )}
             </div>,
           ]}
         </BreakpointConsumer>
