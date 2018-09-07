@@ -549,7 +549,7 @@ const translations = {
     'destination-placeholder': 'Enter destination, route or stop',
     'digitransit-platform': 'Digitransit service platform',
     disclaimer:
-      'Please note that the results are based on estimated travel times. HSL cannot guarantee that the suggested transport connection will be successful.',
+      'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
     disruption: 'Disruption',
     'disruption-info': 'Disruption info',
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
