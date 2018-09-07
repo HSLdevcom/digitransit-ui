@@ -1,0 +1,18 @@
+.select-map-layers-dialog-content {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+
+  .checkbox-grouping + .checkbox-grouping {
+    margin-top: 1em;
+
+    &::before {
+      border-top: 1px solid $light-gray;
+      content: '';
+      left: 0;
+      margin-top: -0.6em;
+      right: 0;
+      position: absolute;
+    }
+  }
+}

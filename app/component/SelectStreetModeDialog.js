@@ -92,7 +92,7 @@ class SelectStreetModeDialog extends React.Component {
           this.dialogRef = instance;
         }}
       >
-        <div className="street-mode-selector-popup-buttons">
+        <div className="select-street-mode-dialog-buttons">
           {this.getStreetModeSelectButtons()}
         </div>
       </BubbleDialog>

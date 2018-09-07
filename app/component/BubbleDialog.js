@@ -69,7 +69,7 @@ class BubbleDialog extends React.Component {
       return null;
     }
 
-    const { breakpoint, children, header } = this.props;
+    const { breakpoint, children, contentClassName, header } = this.props;
     const { intl } = this.context;
     const isOpen = this.state.isOpen || this.props.isOpen;
     const isLarge = breakpoint === 'large';
@@ -101,7 +101,7 @@ class BubbleDialog extends React.Component {
                 </button>
               </div>
               <div
-                className={cx('bubble-dialog-content', {
+                className={cx('bubble-dialog-content', contentClassName, {
                   'bp-large': isLarge,
                 })}
                 ref={this.dialogContentRef}
@@ -136,6 +136,7 @@ class BubbleDialog extends React.Component {
 BubbleDialog.propTypes = {
   breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
   children: PropTypes.node,
+  contentClassName: PropTypes.string,
   header: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
@@ -146,6 +147,7 @@ BubbleDialog.propTypes = {
 BubbleDialog.defaultProps = {
   breakpoint: 'small',
   children: null,
+  contentClassName: undefined,
   isOpen: false,
   onDialogOpen: undefined,
 };

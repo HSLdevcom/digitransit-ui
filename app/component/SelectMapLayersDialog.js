@@ -51,7 +51,7 @@ class SelectMapLayersDialog extends React.Component {
     this.setState(newSettings, () => setMapLayerSettings(newSettings));
   };
 
-  updateTicketSalesSettings = newTicketSalesSetting => {
+  updateTicketSalesSetting = newTicketSalesSetting => {
     const currentSettings = { ...this.state };
     const newSettings = {
       ...currentSettings,
@@ -67,17 +67,12 @@ class SelectMapLayersDialog extends React.Component {
     const { stops, terminals, ticketSales } = this.state;
     return (
       <BubbleDialog
-        header="header.select-map-layers"
+        contentClassName="select-map-layers-dialog-content"
+        header="select-map-layers-header"
         id="mapLayerSelector"
         icon="map-layers"
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            whiteSpace: 'nowrap',
-          }}
-        >
+        <div className="checkbox-grouping">
           <Checkbox
             checked={stops.bus}
             defaultMessage="Bussipysäkki"
@@ -120,7 +115,7 @@ class SelectMapLayersDialog extends React.Component {
             checked={stops.ferry}
             defaultMessage="Lautta"
             labelId="none"
-            onChange={e => this.updateStopSettings({ ferry: e.target.checked })}
+            onChange={e => this.updateStopSetting({ ferry: e.target.checked })}
           />
           <Checkbox
             checked={this.state.parkAndRide}
@@ -136,19 +131,31 @@ class SelectMapLayersDialog extends React.Component {
             labelId="none"
             onChange={e => this.updateSetting({ cityBikes: e.target.checked })}
           />
-          <hr />
+        </div>
+        <div className="checkbox-grouping">
           <Checkbox
             checked={ticketSales.ticketMachine}
             defaultMessage="Lippuautomaatti"
             labelId="none"
             onChange={e =>
-              this.updateTicketSalesSettings({
+              this.updateTicketSalesSetting({
                 ticketMachine: e.target.checked,
               })
             }
           />
-          <Checkbox defaultMessage="Matkakortin latauspiste" labelId="none" />
-          <hr />
+          <Checkbox
+            checked={ticketSales.salesPoint}
+            defaultMessage="Matkakortin latauspiste"
+            labelId="none"
+            onChange={e =>
+              this.updateTicketSalesSetting({
+                salesPoint: e.target.checked,
+                servicePoint: e.target.checked,
+              })
+            }
+          />
+        </div>
+        <div className="checkbox-grouping">
           <Checkbox defaultMessage="Liikkuvat kulkuvälineet" labelId="none" />
           <Checkbox
             defaultMessage="Kevyen liikenteen (pää)väylät"

@@ -1238,7 +1238,6 @@ const translations = {
     'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
     'give-route': 'Hae linjaa',
-    'header.select-map-layers': 'Mitä haluat näyttää kartalla?',
     hour: 'Tunti',
     'hour-short': 'h',
     'how-to-rate-service': 'Kuinka arvioisit palvelua?',
@@ -1384,6 +1383,7 @@ const translations = {
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
+    'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
     settings: 'Asetukset',
