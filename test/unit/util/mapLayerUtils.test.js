@@ -67,4 +67,144 @@ describe('mapLayerUtils', () => {
       expect(result).to.equal(false);
     });
   });
+
+  describe('isFeatureLayerEnabled', () => {
+    it('should return false if feature is falsey', () => {
+      const feature = undefined;
+      const layerName = 'citybike';
+      const mapLayers = {
+        citybike: true,
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(false);
+    });
+
+    it('should return false if layerName is falsey', () => {
+      const feature = {
+        properties: {
+          type: 'BUS',
+        },
+      };
+      const layerName = undefined;
+      const mapLayers = {
+        citybike: true,
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(false);
+    });
+
+    it('should return false if mapLayers is falsey', () => {
+      const feature = {
+        properties: {
+          type: 'BUS',
+        },
+      };
+      const layerName = 'stop';
+      const mapLayers = undefined;
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(false);
+    });
+
+    it('should return false if the layer is missing', () => {
+      const feature = {
+        properties: {
+          type: 'BUS',
+        },
+      };
+      const layerName = 'foobar';
+      const mapLayers = {
+        stop: {
+          bus: true,
+        },
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(false);
+    });
+
+    it('should check feature by type', () => {
+      const feature = {
+        properties: {
+          type: 'BUS',
+        },
+      };
+      const layerName = 'stop';
+      const mapLayers = {
+        stop: {
+          bus: true,
+        },
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(true);
+    });
+
+    it('should check terminal instead of stop if feature has stops', () => {
+      const feature = {
+        properties: {
+          stops: 'foobar',
+          type: 'BUS',
+        },
+      };
+      const layerName = 'stop';
+      const mapLayers = {
+        stop: {
+          bus: false,
+        },
+        terminal: {
+          bus: true,
+        },
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(true);
+    });
+
+    it('should use the config to match ticketSales features', () => {
+      const feature = {
+        properties: {
+          TYYPPI: 'foobar',
+        },
+      };
+      const layerName = 'ticketSales';
+      const mapLayers = {
+        ticketSales: {
+          servicePoint: true,
+        },
+      };
+      const config = {
+        mapLayers: {
+          featureMapping: {
+            ticketSales: {
+              foobar: 'servicePoint',
+            },
+          },
+        },
+      };
+
+      const result = utils.isFeatureLayerEnabled(
+        feature,
+        layerName,
+        mapLayers,
+        config,
+      );
+      expect(result).to.equal(true);
+    });
+
+    it('should fall back to isLayerEnabled if nothing matches', () => {
+      const feature = {
+        properties: {},
+      };
+      const layerName = 'parkAndRide';
+      const mapLayers = {
+        parkAndRide: true,
+      };
+
+      const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
+      expect(result).to.equal(true);
+    });
+  });
 });

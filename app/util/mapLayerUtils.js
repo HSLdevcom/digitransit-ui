@@ -34,7 +34,7 @@ export const isFeatureLayerEnabled = (
   feature,
   layerName,
   mapLayers,
-  config,
+  config = undefined,
 ) => {
   if (!feature || !layerName || !mapLayers) {
     return false;
@@ -49,7 +49,7 @@ export const isFeatureLayerEnabled = (
     }
     return Boolean(mapLayers[layerName][featureType]);
   }
-  if (layerName === 'ticketSales' && feature.properties.TYYPPI) {
+  if (layerName === 'ticketSales' && feature.properties.TYYPPI && config) {
     const customLayerName =
       config.mapLayers.featureMapping.ticketSales[feature.properties.TYYPPI];
     return Boolean(mapLayers.ticketSales[customLayerName]);
