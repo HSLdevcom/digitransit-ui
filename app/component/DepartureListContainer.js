@@ -52,7 +52,7 @@ class DepartureListContainer extends Component {
   static propTypes = {
     rowClasses: PropTypes.string.isRequired,
     stoptimes: PropTypes.array.isRequired,
-    currentTime: PropTypes.object.isRequired,
+    currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
     showStops: PropTypes.bool,
@@ -70,8 +70,8 @@ class DepartureListContainer extends Component {
   };
 
   componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
+    const currUnix = this.props.currentTime;
+    const nextUnix = currentTime;
 
     if (currUnix !== nextUnix) {
       relay.setVariables({ startTime: nextUnix });
@@ -87,7 +87,7 @@ class DepartureListContainer extends Component {
 
   render() {
     const departureObjs = [];
-    const currentTime = this.props.currentTime.unix();
+    const currentTime = this.props.currentTime;
     let currentDate = moment
       .unix(currentTime)
       .startOf('day')
@@ -175,7 +175,9 @@ class DepartureListContainer extends Component {
 
 export default Relay.createContainer(
   connectToStores(DepartureListContainer, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime(),
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   })),
   {
     fragments: {
