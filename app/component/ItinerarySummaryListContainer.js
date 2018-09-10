@@ -9,6 +9,12 @@ import SummaryRow from './SummaryRow';
 import Icon from './Icon';
 import { checkPromotionQueries } from '../util/promotionUtils';
 
+const locationShape = PropTypes.shape({
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  address: PropTypes.string,
+});
+
 class ItinerarySummaryListContainer extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
@@ -31,6 +37,8 @@ class ItinerarySummaryListContainer extends React.Component {
     error: PropTypes.string,
     config: PropTypes.object,
     children: PropTypes.node,
+    from: locationShape.isRequired,
+    to: locationShape.isRequired,
     relay: PropTypes.shape({
       route: PropTypes.shape({
         params: PropTypes.shape({
@@ -117,8 +125,13 @@ class ItinerarySummaryListContainer extends React.Component {
         </React.Fragment>
       );
     }
-    const { from, to } = this.props.relay.route.params;
-    if (!this.props.error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
+    if (
+      !this.props.error &&
+      (!this.props.from.lat ||
+        !this.props.from.lon ||
+        !this.props.to.lat ||
+        !this.props.to.lon)
+    ) {
       return (
         <div className="summary-list-container summary-no-route-found">
           <FormattedMessage
@@ -133,10 +146,20 @@ class ItinerarySummaryListContainer extends React.Component {
     let outside;
     if (this.props.error) {
       msg = this.props.error;
-    } else if (!inside([from.lon, from.lat], this.context.config.areaPolygon)) {
+    } else if (
+      !inside(
+        [this.props.from.lon, this.props.from.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
       msg = 'origin-outside-service';
       outside = true;
-    } else if (!inside([to.lon, to.lat], this.context.config.areaPolygon)) {
+    } else if (
+      !inside(
+        [this.props.to.lon, this.props.to.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
       msg = 'destination-outside-service';
       outside = true;
     } else {

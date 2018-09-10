@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-// import { routerShape } from 'react-router';
-// import Relay from 'react-relay/classic';
 import Icon from './Icon';
 
 const PromotionSuggestions = (props, context) => (
   <React.Fragment>
-    {console.log(props)}
     {props.promotionSuggestion && (
       <div
         className={`promotion-block ${props.textId}`}
