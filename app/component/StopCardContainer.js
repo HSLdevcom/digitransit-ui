@@ -18,7 +18,10 @@ const StopCardContainer = connectToStores(
         stoptimes={props.stop.stoptimes}
         limit={props.limit}
         isTerminal={props.isTerminal}
-        currentTime={context.getStore('TimeStore').getCurrentTime().unix()}
+        currentTime={context
+          .getStore('TimeStore')
+          .getCurrentTime()
+          .unix()}
         showPlatformCodes
       />
     ),

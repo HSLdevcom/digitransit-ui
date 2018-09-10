@@ -87,7 +87,7 @@ class DepartureListContainer extends Component {
 
   render() {
     const departureObjs = [];
-    const currentTime = this.props.currentTime;
+    const { currentTime } = this.props;
     let currentDate = moment
       .unix(currentTime)
       .startOf('day')
