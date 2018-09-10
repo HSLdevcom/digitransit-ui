@@ -1,71 +1,52 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
-import { setMapLayerSettings } from '../store/localStorage';
+import { updateMapLayers } from '../action/MapLayerActions';
+import MapLayerStore, { mapLayerConfigShape } from '../store/MapLayerStore';
 
 class SelectMapLayersDialog extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const { mapLayers } = props;
-    this.state = {
-      cityBikes: mapLayers.cityBikes,
-      parkAndRide: mapLayers.parkAndRide,
-      stops: { ...mapLayers.stops },
-      terminals: { ...mapLayers.terminals },
-      ticketSales: { ...mapLayers.ticketSales },
-    };
-  }
-
   updateSetting = newSetting => {
-    const currentSettings = { ...this.state };
-    const newSettings = {
-      ...currentSettings,
+    this.context.executeAction(updateMapLayers, {
+      ...this.props.mapLayers,
       ...newSetting,
-    };
-    this.setState(newSettings, () => setMapLayerSettings(newSettings));
+    });
   };
 
   updateStopSetting = newStopSetting => {
-    const currentSettings = { ...this.state };
-    const newSettings = {
-      ...currentSettings,
-      stops: {
-        ...currentSettings.stops,
-        ...newStopSetting,
-      },
+    const stop = {
+      ...this.props.mapLayers.stop,
+      ...newStopSetting,
     };
-    this.setState(newSettings, () => setMapLayerSettings(newSettings));
+    this.updateSetting({ stop });
   };
 
   updateTerminalSetting = newTerminalSetting => {
-    const currentSettings = { ...this.state };
-    const newSettings = {
-      ...currentSettings,
-      terminals: {
-        ...currentSettings.terminals,
-        ...newTerminalSetting,
-      },
+    const terminal = {
+      ...this.props.mapLayers.terminal,
+      ...newTerminalSetting,
     };
-    this.setState(newSettings, () => setMapLayerSettings(newSettings));
+    this.updateSetting({ terminal });
   };
 
   updateTicketSalesSetting = newTicketSalesSetting => {
-    const currentSettings = { ...this.state };
-    const newSettings = {
-      ...currentSettings,
-      ticketSales: {
-        ...currentSettings.ticketSales,
-        ...newTicketSalesSetting,
-      },
+    const ticketSales = {
+      ...this.props.mapLayers.ticketSales,
+      ...newTicketSalesSetting,
     };
-    this.setState(newSettings, () => setMapLayerSettings(newSettings));
+    this.updateSetting({ ticketSales });
   };
 
   render() {
-    const { stops, terminals, ticketSales } = this.state;
+    const {
+      citybike,
+      parkAndRide,
+      stop,
+      terminal,
+      ticketSales,
+    } = this.props.mapLayers;
     return (
       <BubbleDialog
         contentClassName="select-map-layers-dialog-content"
@@ -75,13 +56,13 @@ class SelectMapLayersDialog extends React.Component {
       >
         <div className="checkbox-grouping">
           <Checkbox
-            checked={stops.bus}
+            checked={stop.bus}
             defaultMessage="Bussipysäkki"
             labelId="none"
             onChange={e => this.updateStopSetting({ bus: e.target.checked })}
           />
           <Checkbox
-            checked={terminals.bus}
+            checked={terminal.bus}
             defaultMessage="Bussiterminaali"
             labelId="none"
             onChange={e =>
@@ -89,13 +70,13 @@ class SelectMapLayersDialog extends React.Component {
             }
           />
           <Checkbox
-            checked={stops.tram}
+            checked={stop.tram}
             defaultMessage="Raitiovaunupysäkki"
             labelId="none"
             onChange={e => this.updateStopSetting({ tram: e.target.checked })}
           />
           <Checkbox
-            checked={terminals.rail}
+            checked={terminal.rail}
             defaultMessage="Juna-asema"
             labelId="none"
             onChange={e => {
@@ -104,7 +85,7 @@ class SelectMapLayersDialog extends React.Component {
             }}
           />
           <Checkbox
-            checked={terminals.subway}
+            checked={terminal.subway}
             defaultMessage="Metroasema"
             labelId="none"
             onChange={e => {
@@ -113,13 +94,13 @@ class SelectMapLayersDialog extends React.Component {
             }}
           />
           <Checkbox
-            checked={stops.ferry}
+            checked={stop.ferry}
             defaultMessage="Lautta"
             labelId="none"
             onChange={e => this.updateStopSetting({ ferry: e.target.checked })}
           />
           <Checkbox
-            checked={this.state.parkAndRide}
+            checked={parkAndRide}
             defaultMessage="Liityntäpysäköinti"
             labelId="none"
             onChange={e =>
@@ -127,10 +108,10 @@ class SelectMapLayersDialog extends React.Component {
             }
           />
           <Checkbox
-            checked={this.state.cityBikes}
+            checked={citybike}
             defaultMessage="Kaupunkipyöräasema"
             labelId="none"
-            onChange={e => this.updateSetting({ cityBikes: e.target.checked })}
+            onChange={e => this.updateSetting({ citybike: e.target.checked })}
           />
         </div>
         <div className="checkbox-grouping">
@@ -182,51 +163,17 @@ class SelectMapLayersDialog extends React.Component {
 }
 
 SelectMapLayersDialog.propTypes = {
-  mapLayers: PropTypes.shape({
-    cityBikes: PropTypes.bool,
-    parkAndRide: PropTypes.bool,
-    stops: PropTypes.shape({
-      bus: PropTypes.bool,
-      ferry: PropTypes.bool,
-      rail: PropTypes.bool,
-      subway: PropTypes.bool,
-      tram: PropTypes.bool,
-    }),
-    terminals: PropTypes.shape({
-      bus: PropTypes.bool,
-      rail: PropTypes.bool,
-      subway: PropTypes.bool,
-    }),
-    ticketSales: PropTypes.shape({
-      salesPoint: PropTypes.bool,
-      servicePoint: PropTypes.bool,
-      ticketMachine: PropTypes.bool,
-    }),
+  mapLayers: mapLayerConfigShape.isRequired,
+};
+
+SelectMapLayersDialog.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+};
+
+export default connectToStores(
+  SelectMapLayersDialog,
+  [MapLayerStore.storeName],
+  context => ({
+    mapLayers: context.getStore(MapLayerStore.storeName).getMapLayers(),
   }),
-};
-
-SelectMapLayersDialog.defaultProps = {
-  mapLayers: {
-    stops: {
-      bus: true,
-      ferry: true,
-      rail: true,
-      subway: true,
-      tram: true,
-    },
-    terminals: {
-      bus: true,
-      rail: true,
-      subway: true,
-    },
-    cityBikes: true,
-    parkAndRide: true,
-    ticketSales: {
-      salesPoint: true,
-      servicePoint: true,
-      ticketMachine: true,
-    },
-  },
-};
-
-export default SelectMapLayersDialog;
+);

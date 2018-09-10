@@ -1,3 +1,4 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -22,7 +23,10 @@ import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import Loading from '../../Loading';
-import { getMapLayerSettings } from '../../../store/localStorage';
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import MapLayerStore, {
+  mapLayerConfigShape,
+} from '../../../store/MapLayerStore';
 
 const initialState = {
   selectableTargets: undefined,
@@ -38,6 +42,7 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
+    mapLayers: mapLayerConfigShape.isRequired,
   };
 
   static contextTypes = {
@@ -145,7 +150,6 @@ class TileLayerContainer extends GridLayer {
       done,
       this.props,
       this.context.config,
-      getMapLayerSettings(),
     );
 
     tile.onSelectableTargetClicked = (selectableTargets, coords) => {
@@ -154,7 +158,13 @@ class TileLayerContainer extends GridLayer {
       }
 
       this.setState({
-        selectableTargets,
+        selectableTargets: selectableTargets.filter(target =>
+          isFeatureLayerEnabled(
+            target.feature,
+            target.layer,
+            this.props.mapLayers,
+          ),
+        ),
         coords,
         showSpinner: true,
       });
@@ -310,4 +320,10 @@ class TileLayerContainer extends GridLayer {
   }
 }
 
-export default TileLayerContainer;
+export default connectToStores(
+  TileLayerContainer,
+  [MapLayerStore.storeName],
+  context => ({
+    mapLayers: context.getStore(MapLayerStore.storeName).getMapLayers(),
+  }),
+);

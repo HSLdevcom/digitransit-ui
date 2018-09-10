@@ -12,11 +12,26 @@ const TicketSalesFeatureType = {
   SalesPointRKioski: 'R-kioski',
 };
 
+export const mapTicketSalesFeatureTypeToSettings = type => {
+  switch (type) {
+    case TicketSalesFeatureType.ServicePoint:
+      return 'servicePoint';
+    case TicketSalesFeatureType.TicketMachine1:
+    case TicketSalesFeatureType.TicketMachine2:
+      return 'ticketMachine';
+    case TicketSalesFeatureType.SalesPointGeneric:
+    case TicketSalesFeatureType.SalesPointRKioski:
+      return 'salesPoint';
+    default:
+      return undefined;
+  }
+};
+
 export default class TicketSales {
-  constructor(tile, config, settings) {
+  constructor(tile, config, mapLayers) {
     this.tile = tile;
     this.config = config;
-    this.settings = settings;
+    this.mapLayers = mapLayers;
 
     this.scaleratio =
       (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
@@ -26,13 +41,19 @@ export default class TicketSales {
   isEnabled = type => {
     switch (type) {
       case TicketSalesFeatureType.ServicePoint:
-        return Boolean(this.settings.ticketSales.servicePoint);
+        return Boolean(
+          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
+        );
       case TicketSalesFeatureType.TicketMachine1:
       case TicketSalesFeatureType.TicketMachine2:
-        return Boolean(this.settings.ticketSales.ticketMachine);
+        return Boolean(
+          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
+        );
       case TicketSalesFeatureType.SalesPointGeneric:
       case TicketSalesFeatureType.SalesPointRKioski:
-        return Boolean(this.settings.ticketSales.salesPoint);
+        return Boolean(
+          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
+        );
       default:
         return false;
     }
