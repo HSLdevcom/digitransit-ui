@@ -358,17 +358,20 @@ export const getAllEndpointLayers = () => [
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
-export const sortSearchResults = (results, term = '') => {
+export const sortSearchResults = (config, results, term = '') => {
   if (!Array.isArray(results)) {
     return results;
   }
 
   const isLineIdentifier = value =>
-    !!(isString(value) && value.match(/^[0-9]+/));
+    isString(value) &&
+    config.search &&
+    config.search.lineRegexp &&
+    config.search.lineRegexp.test(value);
 
   const getLayerSortOrder = layer => {
     switch (layer) {
-    case LayerType.CurrentPosition:
+      case LayerType.CurrentPosition:
         return 3;
       case LayerType.Station:
         return 2;
@@ -412,7 +415,9 @@ export const sortSearchResults = (results, term = '') => {
     results,
     [
       result =>
-        isLineIdentifier(term) && isLineIdentifier(result.properties.shortName)
+        isLineIdentifier(term) &&
+        isLineIdentifier(result.properties.shortName) &&
+        normalize(result.properties.shortName).indexOf(term) === 0
           ? 1
           : 0,
       result =>
@@ -561,7 +566,7 @@ export function executeSearchImmediate(
       endpointSearchesPromise.then(() =>
         callback({
           ...endpointSearches,
-          results: sortSearchResults(endpointSearches.results, input),
+          results: sortSearchResults(config, endpointSearches.results, input),
         }),
       );
       return;
@@ -590,7 +595,7 @@ export function executeSearchImmediate(
       searchSearchesPromise.then(() => {
         callback({
           ...searchSearches,
-          results: sortSearchResults(searchSearches.results, input),
+          results: sortSearchResults(config, searchSearches.results, input),
         });
       });
       return;
@@ -606,7 +611,7 @@ export function executeSearchImmediate(
       results.push(...searchSearches.results);
     }
     callback({
-      results: sortSearchResults(results, input),
+      results: sortSearchResults(config, results, input),
     });
   });
 }
