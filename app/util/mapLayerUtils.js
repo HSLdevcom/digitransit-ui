@@ -1,8 +1,17 @@
+/**
+ * Checks if the given map layer is enabled in the configuration.
+ *
+ * @param {string} layerName The name of the layer.
+ * @param {*} mapLayers The map layer configuration.
+ */
 export const isLayerEnabled = (layerName, mapLayers) => {
   if (!layerName || !mapLayers) {
     return false;
   }
   const mapLayer = mapLayers[layerName];
+  if (!mapLayer) {
+    return false;
+  }
   const keys = Object.keys(mapLayer);
   if (keys.length === 0) {
     return Boolean(mapLayer);
@@ -13,6 +22,14 @@ export const isLayerEnabled = (layerName, mapLayers) => {
   return false;
 };
 
+/**
+ * Check if the given feature and map layer are enabled in the configuration.
+ *
+ * @param {*} feature The feature received from OTP / another source.
+ * @param {*} layerName The name of the layer.
+ * @param {*} mapLayers The map layer configuration.
+ * @param {*} config The configuration for this software installation.
+ */
 export const isFeatureLayerEnabled = (
   feature,
   layerName,

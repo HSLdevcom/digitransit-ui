@@ -111,18 +111,18 @@ class SelectMapLayersDialog extends React.Component {
             onChange={e => this.updateStopSetting({ ferry: e.target.checked })}
           />
           <Checkbox
+            checked={citybike}
+            defaultMessage="Kaupunkipyöräasema"
+            labelId="none"
+            onChange={e => this.updateSetting({ citybike: e.target.checked })}
+          />
+          <Checkbox
             checked={parkAndRide}
             defaultMessage="Liityntäpysäköinti"
             labelId="none"
             onChange={e =>
               this.updateSetting({ parkAndRide: e.target.checked })
             }
-          />
-          <Checkbox
-            checked={citybike}
-            defaultMessage="Kaupunkipyöräasema"
-            labelId="none"
-            onChange={e => this.updateSetting({ citybike: e.target.checked })}
           />
         </div>
         <div className="checkbox-grouping">
