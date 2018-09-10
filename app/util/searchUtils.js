@@ -38,15 +38,6 @@ const SearchType = {
   Search: 'search',
 };
 
-/**
- * SourceType depicts the source of the point-of-interest's information.
- */
-const SourceType = {
-  GtfsHsl: 'gtfshsl',
-  OpenAddresses: 'openaddresses',
-  OpenStreetMap: 'openstreetmap',
-};
-
 function getRelayQuery(query) {
   return new Promise((resolve, reject) => {
     const callback = readyState => {
@@ -83,9 +74,11 @@ function filterMatchingToInput(list, Input, fields) {
         let value = get(item, pName);
 
         if ((pName === 'properties.label' || pName === 'address') && value) {
-          // special case: drop last part i.e. city, because it is too coarse match target
+          // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
-          if (value.length > 1) {
+          if (value.length > 2) {
+            value.splice(value.length - 2, 2);
+          } else if (value.length > 1) {
             value.splice(value.length - 1, 1);
           }
           value = value.join();
@@ -151,11 +144,15 @@ function getOldSearches(oldSearches, input, dropLayers) {
   }
 
   return Promise.resolve(
-    take(matchingOldSearches, 10).map(item => ({
-      ...item,
-      type: 'OldSearch',
-      timetableClicked: false, // reset latest selection action
-    })),
+    take(matchingOldSearches, 10).map(item => {
+      const newItem = {
+        ...item,
+        type: 'OldSearch',
+        timetableClicked: false, // reset latest selection action
+      };
+      delete newItem.properties.confidence;
+      return newItem;
+    }),
   );
 }
 
@@ -272,6 +269,7 @@ function getFavouriteStops(favourites, input, origin) {
         type: 'FavouriteStop',
         properties: {
           ...stop,
+          label: stop.locationName,
           layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
         },
         geometry: {
@@ -349,12 +347,15 @@ export const getAllEndpointLayers = () => [
 ];
 
 /**
- * Helper function to sort the results with. Order:
- *  - routes and lines (if search done with numbers only)
- *  - stations
- *  - OSM points of interest
- *  - stops
- *
+ * Helper function to sort the results with. Orders as follows:
+ *  - current position first for an empty search
+ *  - matching routes first
+ *  - otherwise by confidence, except that:
+ *    - boost well matching stations (especially from GTFS)
+ *    - rank stops lower as they tend to occupy most of the search results
+ *  - items with no confidence (old searches and favorites:
+ *    - If perfect match at start, assign full confidence
+ *    - In not as above, put to the end of list in original order (frequency of use)
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -369,33 +370,6 @@ export const sortSearchResults = (config, results, term = '') => {
     config.search.lineRegexp &&
     config.search.lineRegexp.test(value);
 
-  const getLayerSortOrder = layer => {
-    switch (layer) {
-      case LayerType.CurrentPosition:
-        return 3;
-      case LayerType.Station:
-        return 2;
-      case LayerType.Address:
-      case LayerType.Street:
-      case LayerType.Venue:
-      default:
-        return 1;
-      case LayerType.Stop:
-        return 0;
-    }
-  };
-
-  const getSourceSortOrder = source => {
-    switch (source) {
-      case SourceType.GtfsHsl:
-        return 1;
-      case SourceType.OpenAddresses:
-      case SourceType.OpenStreetMap:
-      default:
-        return 0;
-    }
-  };
-
   const normalize = str => {
     if (!isString(str)) {
       return '';
@@ -408,29 +382,54 @@ export const sortSearchResults = (config, results, term = '') => {
   };
 
   const isMatch = (value, comparison) =>
-    value.length > 0 && comparison.length > 0 && value === comparison;
+    value.length > 0 &&
+    comparison.length > 0 &&
+    comparison.indexOf(value) === 0;
 
   const normalizedSearchTerm = normalize(term);
   const orderedResults = orderBy(
     results,
     [
       result =>
+        term.length === 0 &&
+        result.properties.layer === LayerType.CurrentPosition
+          ? 1
+          : 0,
+      result =>
         isLineIdentifier(term) &&
         isLineIdentifier(result.properties.shortName) &&
         normalize(result.properties.shortName).indexOf(term) === 0
           ? 1
           : 0,
-      result =>
-        result.properties.layer === LayerType.Address &&
-        (isMatch(normalizedSearchTerm, normalize(result.properties.label)) ||
-          isMatch(normalizedSearchTerm, normalize(result.properties.name)))
-          ? 1
-          : 0,
-      result => getLayerSortOrder(result.properties.layer),
-      result => getSourceSortOrder(result.properties.source),
-      result => result.properties.confidence,
+      result => {
+        switch (result.properties.layer) {
+          case LayerType.Station: {
+            const boost =
+              isString(result.properties.source) &&
+              result.properties.source.indexOf('gtfs') === 0
+                ? 0.05
+                : 0.01;
+            return result.properties.confidence + boost;
+          }
+          case LayerType.Stop:
+            return result.properties.confidence - 0.1;
+          default:
+            if (!result.properties.confidence) {
+              const conf =
+                isMatch(
+                  normalizedSearchTerm,
+                  normalize(result.properties.label),
+                ) ||
+                isMatch(normalizedSearchTerm, normalize(result.properties.name))
+                  ? 1
+                  : 0;
+              return conf;
+            }
+            return result.properties.confidence;
+        }
+      },
     ],
-    ['desc', 'desc', 'desc', 'desc', 'desc'],
+    ['desc', 'desc', 'desc'],
   );
   return orderedResults;
 };

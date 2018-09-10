@@ -2,6 +2,8 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { sortSearchResults } from '../../app/util/searchUtils';
 
+const config = require('../../app/configurations/config.hsl').default;
+
 describe('searchUtils', () => {
   describe('sortSearchResults', () => {
     let data;
@@ -18,14 +20,6 @@ describe('searchUtils', () => {
         },
         {
           properties: {
-            confidence: 0.5,
-            label: 'testaddress1',
-            layer: 'address',
-            name: 'testaddress1',
-          },
-        },
-        {
-          properties: {
             confidence: 0.25,
             label: 'testaddress2',
             layer: 'address',
@@ -34,10 +28,26 @@ describe('searchUtils', () => {
         },
         {
           properties: {
+            label: 'steissi',
+            layer: 'favouriteStation',
+            address: 'Rautatieasema, Helsinki',
+          },
+        },
+        {
+          properties: {
+            label: 'karvis',
+            layer: 'favouriteStop',
+            address: 'Karvaamokuja 2B, Helsinki',
+          },
+        },
+
+        {
+          properties: {
             label: 'teststation2',
             layer: 'station',
             name: 'teststation2',
             source: 'openstreetmap',
+            confidence: 0.95,
           },
         },
         {
@@ -46,33 +56,41 @@ describe('searchUtils', () => {
             layer: 'station',
             name: 'teststation1',
             source: 'gtfshsl',
+            confidence: 0.95,
           },
         },
         {
           properties: {
             confidence: 0.75,
-            label: 'testaddress3',
+            label: 'testaddress 311',
             layer: 'address',
             name: 'testaddress3',
           },
         },
         {
           properties: {
-            confidence: 0.01,
+            label: 'Current Position',
+            layer: 'currentPosition',
+            name: 'currentPosition',
+          },
+        },
+        {
+          properties: {
             label: 'Hämeenkyläntie 75, Vantaa',
-            layer: 'address',
-            name: 'Hämeenkyläntie 75',
+            layer: 'favouritePlace',
+            name: 'suosikki',
           },
         },
         {
           properties: {
             layer: 'route-BUS',
             shortName: '311',
+            name: 'route',
           },
         },
         {
           properties: {
-            confidence: 0.85,
+            confidence: 0.95,
             label: 'testvenue1',
             layer: 'venue',
             name: 'testvenue1',
@@ -81,17 +99,32 @@ describe('searchUtils', () => {
         {
           properties: {
             confidence: 0.4,
-            label: 'teststreet1',
-            layer: 'street',
-            name: 'teststreet1',
+            label: 'teststop1',
+            layer: 'stop',
+            name: 'teststop1',
           },
         },
         {
           properties: {
-            confidence: 0.8,
-            label: 'teststop1',
-            layer: 'stop',
-            name: 'teststop1',
+            label: 'test-old-search-no-confidence',
+            layer: 'venue',
+            name: 'oldsearch',
+          },
+        },
+        {
+          properties: {
+            confidence: 0.4,
+            label: 'testaddress1',
+            layer: 'address',
+            name: 'testaddress1',
+          },
+        },
+        {
+          properties: {
+            confidence: 0.4,
+            label: 'teststreet1',
+            layer: 'street',
+            name: 'teststreet1',
           },
         },
       ];
@@ -108,14 +141,19 @@ describe('searchUtils', () => {
       );
     });
 
+    it('should show current position first when search term is empty', () => {
+      const results = sortSearchResults(config, data);
+      expect(results[0].properties.layer).to.equal('currentPosition');
+    });
+
     it('should show lines first if the search term is a line identifier', () => {
       const term = '311';
-      const results = sortSearchResults(data, term);
+      const results = sortSearchResults(config, data, term);
       expect(results[0].properties.layer).to.equal('route-BUS');
     });
 
-    it('should show stations before addresses', () => {
-      const results = sortSearchResults(data);
+    it('should show stations before addresses when confidence is equal', () => {
+      const results = sortSearchResults(config, data);
       const stationIndex = results.findIndex(
         r => r.properties.layer === 'station',
       );
@@ -128,7 +166,7 @@ describe('searchUtils', () => {
     });
 
     it('should show stations with source=gtfshsl before stations with source=openstreetmap ', () => {
-      const results = sortSearchResults(data);
+      const results = sortSearchResults(config, data);
       const hslIndex = results.findIndex(
         r =>
           r.properties.layer === 'station' && r.properties.source === 'gtfshsl',
@@ -145,14 +183,16 @@ describe('searchUtils', () => {
 
     it('should order addresses, streets and venues by confidence', () => {
       const results = sortSearchResults(
+        config,
         data.filter(
           d =>
-            d.properties.layer === 'address' ||
-            d.properties.layer === 'street' ||
-            d.properties.layer === 'venue',
+            (d.properties.layer === 'address' ||
+              d.properties.layer === 'street' ||
+              d.properties.layer === 'venue') &&
+            d.properties.confidence,
         ),
       );
-      expect(results.length).to.equal(7);
+      expect(results.length).to.equal(6);
       expect(results[0].properties.name).to.equal('testaddress4');
       expect(results[1].properties.name).to.equal('testvenue1');
       expect(results[2].properties.name).to.equal('testaddress3');
@@ -160,69 +200,54 @@ describe('searchUtils', () => {
       expect(results[4].properties.name).to.equal('teststreet1');
     });
 
-    it('should set direct address label match first, regardless of accents and case', () => {
+    it('should set direct label match with a favourite first regardless of accents and case', () => {
       const term = 'hameenkylantie 75, vantaa';
       const results = sortSearchResults(
+        config,
         data.filter(
           d =>
             d.properties.layer === 'address' ||
             d.properties.layer === 'street' ||
-            d.properties.layer === 'venue',
+            d.properties.layer === 'venue' ||
+            d.properties.layer === 'favouritePlace',
         ),
         term,
       );
-      expect(results[0].properties.name).to.equal('Hämeenkyläntie 75');
+      expect(results[0].properties.name).to.equal('suosikki');
     });
 
-    it('should set direct address name match first, regardless of accents and case', () => {
-      const term = 'hameenkylantie 75';
-      const results = sortSearchResults(
-        data.filter(
-          d =>
-            d.properties.layer === 'address' ||
-            d.properties.layer === 'street' ||
-            d.properties.layer === 'venue',
-        ),
-        term,
+    it('should put badly matching favourites after items with confidence', () => {
+      const results = sortSearchResults(config, data, 'doesnotmatch');
+
+      const fIndex = results.findIndex(r => r.properties.label === 'steissi');
+      const aIndex = results.findIndex(
+        r => r.properties.name === 'testaddress1',
       );
-      expect(results[0].properties.name).to.equal('Hämeenkyläntie 75');
+      expect(fIndex).to.be.greaterThan(-1);
+      expect(aIndex).to.be.greaterThan(-1);
+      expect(fIndex).to.be.greaterThan(aIndex);
     });
 
-    it('should not set direct venue label matches first', () => {
-      const results = sortSearchResults(
-        data.filter(
-          d =>
-            d.properties.layer === 'address' ||
-            d.properties.layer === 'street' ||
-            d.properties.layer === 'venue',
-        ),
-        'testvenue1',
-      );
+    it('should rank matching old searches high', () => {
+      const results = sortSearchResults(config, data, 'test-old-search');
       expect(
-        results.findIndex(r => r.properties.label === 'testvenue1'),
-      ).to.be.greaterThan(0);
-      expect(results[0].properties.name).to.equal('testaddress4');
-    });
-
-    it('should not set direct street label matches first', () => {
-      const results = sortSearchResults(
-        data.filter(
-          d =>
-            d.properties.layer === 'address' ||
-            d.properties.layer === 'street' ||
-            d.properties.layer === 'venue',
-        ),
-        'teststreet1',
+        results.findIndex(r => r.properties.label === 'testaddress4'),
+      ).to.be.greaterThan(
+        results.findIndex(r => r.properties.name === 'oldsearch'),
       );
-      expect(
-        results.findIndex(r => r.properties.label === 'teststreet1'),
-      ).to.be.greaterThan(0);
-      expect(results[0].properties.name).to.equal('testaddress4');
     });
 
-    it('should show stops last', () => {
-      const results = sortSearchResults(data);
-      expect(results[results.length - 1].properties.layer).to.equal('stop');
+    it('should show stops after other items with similar confidence', () => {
+      const results = sortSearchResults(config, data);
+      const stopIndex = results.findIndex(
+        r => r.properties.name === 'teststop1',
+      );
+      const addrIndex = results.findIndex(
+        r => r.properties.name === 'testaddress1',
+      );
+      expect(stopIndex).to.be.greaterThan(-1);
+      expect(addrIndex).to.be.greaterThan(-1);
+      expect(stopIndex).to.be.greaterThan(addrIndex);
     });
   });
 });
