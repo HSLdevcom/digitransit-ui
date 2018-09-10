@@ -21,6 +21,7 @@ import { PREFIX_ROUTES } from '../util/path';
  */
 const LayerType = {
   Address: 'address',
+  CurrentPosition: 'currentPosition',
   FavouriteStop: 'favouriteStop',
   Station: 'station',
   Stop: 'stop',
@@ -367,6 +368,8 @@ export const sortSearchResults = (results, term = '') => {
 
   const getLayerSortOrder = layer => {
     switch (layer) {
+    case LayerType.CurrentPosition:
+        return 3;
       case LayerType.Station:
         return 2;
       case LayerType.Address:
