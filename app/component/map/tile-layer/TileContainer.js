@@ -32,27 +32,28 @@ class TileContainer {
     this.layers = this.props.layers
       .filter(Layer => {
         const layerName = Layer.getName();
+        const isEnabled = isLayerEnabled(layerName, this.props.mapLayers);
         if (
           layerName === 'stop' &&
           (this.coords.z >= config.stopsMinZoom ||
             this.coords.z >= config.terminalStopsMinZoom)
         ) {
-          return true;
+          return isEnabled;
         } else if (
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
-          return isLayerEnabled(layerName, this.props.mapLayers);
+          return isEnabled;
         } else if (
           layerName === 'parkAndRide' &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
-          return isLayerEnabled(layerName, this.props.mapLayers);
+          return isEnabled;
         } else if (
           layerName === 'ticketSales' &&
           this.coords.z >= config.ticketSales.ticketSalesMinZoom
         ) {
-          return true;
+          return isEnabled;
         }
         return false;
       })

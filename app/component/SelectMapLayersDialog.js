@@ -15,26 +15,39 @@ class SelectMapLayersDialog extends React.Component {
     });
   };
 
-  updateStopSetting = newStopSetting => {
+  updateStopAndTerminalSetting = newSetting => {
+    const { mapLayers } = this.props;
+    const stop = {
+      ...mapLayers.stop,
+      ...newSetting,
+    };
+    const terminal = {
+      ...mapLayers.terminal,
+      ...newSetting,
+    };
+    this.updateSetting({ stop, terminal });
+  };
+
+  updateStopSetting = newSetting => {
     const stop = {
       ...this.props.mapLayers.stop,
-      ...newStopSetting,
+      ...newSetting,
     };
     this.updateSetting({ stop });
   };
 
-  updateTerminalSetting = newTerminalSetting => {
+  updateTerminalSetting = newSetting => {
     const terminal = {
       ...this.props.mapLayers.terminal,
-      ...newTerminalSetting,
+      ...newSetting,
     };
     this.updateSetting({ terminal });
   };
 
-  updateTicketSalesSetting = newTicketSalesSetting => {
+  updateTicketSalesSetting = newSetting => {
     const ticketSales = {
       ...this.props.mapLayers.ticketSales,
-      ...newTicketSalesSetting,
+      ...newSetting,
     };
     this.updateSetting({ ticketSales });
   };
@@ -79,19 +92,17 @@ class SelectMapLayersDialog extends React.Component {
             checked={terminal.rail}
             defaultMessage="Juna-asema"
             labelId="none"
-            onChange={e => {
-              this.updateStopSetting({ rail: e.target.checked });
-              this.updateTerminalSetting({ rail: e.target.checked });
-            }}
+            onChange={e =>
+              this.updateStopAndTerminalSetting({ rail: e.target.checked })
+            }
           />
           <Checkbox
             checked={terminal.subway}
             defaultMessage="Metroasema"
             labelId="none"
-            onChange={e => {
-              this.updateStopSetting({ subway: e.target.checked });
-              this.updateTerminalSetting({ subway: e.target.checked });
-            }}
+            onChange={e =>
+              this.updateStopAndTerminalSetting({ subway: e.target.checked })
+            }
           />
           <Checkbox
             checked={stop.ferry}
@@ -135,26 +146,6 @@ class SelectMapLayersDialog extends React.Component {
                 servicePoint: e.target.checked,
               })
             }
-          />
-        </div>
-        <div className="checkbox-grouping">
-          <Checkbox
-            defaultMessage="Liikkuvat kulkuvälineet"
-            disabled
-            labelId="none"
-            title="Ei vielä toteutettu"
-          />
-          <Checkbox
-            defaultMessage="Kevyen liikenteen (pää)väylät"
-            disabled
-            labelId="none"
-            title="Ei vielä toteutettu"
-          />
-          <Checkbox
-            defaultMessage="Raitiovaunulinjat"
-            disabled
-            labelId="none"
-            title="Ei vielä toteutettu"
           />
         </div>
       </BubbleDialog>

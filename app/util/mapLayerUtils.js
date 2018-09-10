@@ -7,10 +7,10 @@ export const isLayerEnabled = (layerName, mapLayers) => {
   if (keys.length === 0) {
     return Boolean(mapLayer);
   }
-  if (keys.map(key => mapLayer[key]).every(value => value === false)) {
-    return false;
+  if (keys.map(key => mapLayer[key]).some(value => value === true)) {
+    return true;
   }
-  return true;
+  return false;
 };
 
 export const isFeatureLayerEnabled = (
