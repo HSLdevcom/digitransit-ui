@@ -1,26 +1,3 @@
-const TicketSalesFeatureType = {
-  ServicePoint: 'Palvelupiste',
-  TicketMachine1: 'HSL Automaatti MNL',
-  TicketMachine2: 'HSL Automaatti KL',
-  SalesPointGeneric: 'Myyntipiste',
-  SalesPointRKioski: 'R-kioski',
-};
-
-export const mapTicketSalesFeatureTypeToSettings = type => {
-  switch (type) {
-    case TicketSalesFeatureType.ServicePoint:
-      return 'servicePoint';
-    case TicketSalesFeatureType.TicketMachine1:
-    case TicketSalesFeatureType.TicketMachine2:
-      return 'ticketMachine';
-    case TicketSalesFeatureType.SalesPointGeneric:
-    case TicketSalesFeatureType.SalesPointRKioski:
-      return 'salesPoint';
-    default:
-      return undefined;
-  }
-};
-
 export const isLayerEnabled = (layerName, mapLayers) => {
   if (!layerName || !mapLayers) {
     return false;
@@ -36,26 +13,29 @@ export const isLayerEnabled = (layerName, mapLayers) => {
   return true;
 };
 
-export const isFeatureLayerEnabled = (feature, layerName, mapLayers) => {
+export const isFeatureLayerEnabled = (
+  feature,
+  layerName,
+  mapLayers,
+  config,
+) => {
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
   if (!Object.keys(mapLayers).includes(layerName)) {
     return false;
   }
-  const featureType = `${feature.properties.type}`.toLocaleLowerCase();
+  const featureType = (feature.properties.type || '').toLocaleLowerCase();
   if (featureType) {
     if (layerName === 'stop' && feature.properties.stops) {
-      return isFeatureLayerEnabled(feature, 'terminal', mapLayers);
+      return isFeatureLayerEnabled(feature, 'terminal', mapLayers, config);
     }
     return Boolean(mapLayers[layerName][featureType]);
   }
-  if (feature.properties.TYYPPI) {
-    return Boolean(
-      mapLayers[layerName][
-        mapTicketSalesFeatureTypeToSettings(feature.properties.TYYPPI)
-      ],
-    );
+  if (layerName === 'ticketSales' && feature.properties.TYYPPI) {
+    const customLayerName =
+      config.mapLayers.featureMapping.ticketSales[feature.properties.TYYPPI];
+    return Boolean(mapLayers.ticketSales[customLayerName]);
   }
   return isLayerEnabled(layerName, mapLayers);
 };

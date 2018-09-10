@@ -16,7 +16,14 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature) {
-    if (!isFeatureLayerEnabled(feature, Stops.getName(), this.mapLayers)) {
+    if (
+      !isFeatureLayerEnabled(
+        feature,
+        Stops.getName(),
+        this.mapLayers,
+        this.config,
+      )
+    ) {
       return;
     }
     if (feature.properties.type === 'FERRY') {
@@ -90,7 +97,12 @@ class Stops {
               const feature = vt.layers.stations.feature(i);
               if (
                 feature.properties.type &&
-                isFeatureLayerEnabled(feature, 'terminal', this.mapLayers)
+                isFeatureLayerEnabled(
+                  feature,
+                  'terminal',
+                  this.mapLayers,
+                  this.config,
+                )
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));

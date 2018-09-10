@@ -3,29 +3,7 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawIcon, getStopRadius } from '../../../util/mapIconUtils';
-
-const TicketSalesFeatureType = {
-  ServicePoint: 'Palvelupiste',
-  TicketMachine1: 'HSL Automaatti MNL',
-  TicketMachine2: 'HSL Automaatti KL',
-  SalesPointGeneric: 'Myyntipiste',
-  SalesPointRKioski: 'R-kioski',
-};
-
-export const mapTicketSalesFeatureTypeToSettings = type => {
-  switch (type) {
-    case TicketSalesFeatureType.ServicePoint:
-      return 'servicePoint';
-    case TicketSalesFeatureType.TicketMachine1:
-    case TicketSalesFeatureType.TicketMachine2:
-      return 'ticketMachine';
-    case TicketSalesFeatureType.SalesPointGeneric:
-    case TicketSalesFeatureType.SalesPointRKioski:
-      return 'salesPoint';
-    default:
-      return undefined;
-  }
-};
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
 export default class TicketSales {
   constructor(tile, config, mapLayers) {
@@ -38,38 +16,17 @@ export default class TicketSales {
     this.promise = this.getPromise();
   }
 
-  isEnabled = type => {
-    switch (type) {
-      case TicketSalesFeatureType.ServicePoint:
-        return Boolean(
-          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
-        );
-      case TicketSalesFeatureType.TicketMachine1:
-      case TicketSalesFeatureType.TicketMachine2:
-        return Boolean(
-          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
-        );
-      case TicketSalesFeatureType.SalesPointGeneric:
-      case TicketSalesFeatureType.SalesPointRKioski:
-        return Boolean(
-          this.mapLayers.ticketSales[mapTicketSalesFeatureTypeToSettings(type)],
-        );
-      default:
-        return false;
-    }
-  };
-
   static getName = () => 'ticketSales';
 
   static getIcon = type => {
     switch (type) {
-      case TicketSalesFeatureType.ServicePoint:
+      case 'Palvelupiste':
         return 'icon-icon_service-point';
-      case TicketSalesFeatureType.TicketMachine1:
-      case TicketSalesFeatureType.TicketMachine2:
+      case 'HSL Automaatti MNL':
+      case 'HSL Automaatti KL':
         return 'icon-icon_ticket-machine';
-      case TicketSalesFeatureType.SalesPointGeneric:
-      case TicketSalesFeatureType.SalesPointRKioski:
+      case 'Myyntipiste':
+      case 'R-kioski':
         return 'icon-icon_ticket-sales-point';
       default:
         return undefined;
@@ -102,7 +59,14 @@ export default class TicketSales {
               i++
             ) {
               const feature = vt.layers['ticket-sales'].feature(i);
-              if (!this.isEnabled(feature.properties.TYYPPI)) {
+              if (
+                !isFeatureLayerEnabled(
+                  feature,
+                  TicketSales.getName(),
+                  this.mapLayers,
+                  this.config,
+                )
+              ) {
                 continue; // eslint-disable-line
               }
               [[feature.geom]] = feature.loadGeometry();

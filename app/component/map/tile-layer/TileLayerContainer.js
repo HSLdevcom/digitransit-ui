@@ -163,6 +163,7 @@ class TileLayerContainer extends GridLayer {
             target.feature,
             target.layer,
             this.props.mapLayers,
+            this.context.config,
           ),
         ),
         coords,
