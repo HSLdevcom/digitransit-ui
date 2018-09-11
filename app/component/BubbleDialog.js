@@ -69,29 +69,52 @@ class BubbleDialog extends React.Component {
       return null;
     }
 
-    const { breakpoint, children, contentClassName, header } = this.props;
+    const {
+      breakpoint,
+      children,
+      contentClassName,
+      isFullscreenOnMobile,
+      header,
+    } = this.props;
     const { intl } = this.context;
     const isOpen = this.state.isOpen || this.props.isOpen;
     const isLarge = breakpoint === 'large';
+    const isFullscreen =
+      isOpen && isFullscreenOnMobile && breakpoint === 'small';
 
     return (
-      <div className="bubble-dialog-component-container">
+      <div
+        className={cx('bubble-dialog-component-container', {
+          'bubble-dialog-component-container--fullscreen': isFullscreen,
+        })}
+      >
         {isOpen && (
           <div className="bubble-dialog-container">
             <div
               className={cx('bubble-dialog', {
                 'bp-large': isLarge,
+                'bubble-dialog--fullscreen': isFullscreen,
               })}
             >
-              <div className="bubble-dialog-header-container">
-                <span className="bubble-dialog-header h4">
+              <div
+                className={cx('bubble-dialog-header-container', {
+                  'bubble-dialog-header-container--fullscreen': isFullscreen,
+                })}
+              >
+                <span
+                  className={cx('bubble-dialog-header', {
+                    'bubble-dialog-header--fullscreen': isFullscreen,
+                  })}
+                >
                   {intl.formatMessage({
                     id: header,
                     defaultMessage: 'Bubble Dialog Header',
                   })}
                 </span>
                 <button
-                  className="bubble-dialog-close"
+                  className={cx('bubble-dialog-close', {
+                    'bubble-dialog-close--fullscreen': isFullscreen,
+                  })}
                   onClick={() => this.closeDialog()}
                   onKeyDown={e =>
                     isKeyboardSelectionEvent(e) && this.closeDialog(true)
@@ -103,20 +126,42 @@ class BubbleDialog extends React.Component {
               <div
                 className={cx('bubble-dialog-content', contentClassName, {
                   'bp-large': isLarge,
+                  'bubble-dialog-content--fullscreen': isFullscreen,
                 })}
                 ref={this.dialogContentRef}
                 tabIndex="-1"
               >
                 {children}
               </div>
+              <div
+                className={cx('bubble-dialog-buttons', {
+                  collapsed: !isFullscreen,
+                })}
+              >
+                <button
+                  className="standalone-btn"
+                  onClick={() => this.closeDialog()}
+                  onKeyDown={e =>
+                    isKeyboardSelectionEvent(e) && this.closeDialog(true)
+                  }
+                >
+                  Takaisin karttaan
+                </button>
+              </div>
             </div>
-            <div className="bubble-dialog-tip-container">
+            <div
+              className={cx('bubble-dialog-tip-container', {
+                collapsed: isFullscreen,
+              })}
+            >
               <div className="bubble-dialog-tip" />
             </div>
           </div>
         )}
         <div
-          className="bubble-dialog-toggle"
+          className={cx('bubble-dialog-toggle', {
+            collapsed: isFullscreen,
+          })}
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
@@ -140,6 +185,7 @@ BubbleDialog.propTypes = {
   header: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
+  isFullscreenOnMobile: PropTypes.bool,
   isOpen: PropTypes.bool,
   onDialogOpen: PropTypes.func,
 };
@@ -148,6 +194,7 @@ BubbleDialog.defaultProps = {
   breakpoint: 'small',
   children: null,
   contentClassName: undefined,
+  isFullscreenOnMobile: false,
   isOpen: false,
   onDialogOpen: undefined,
 };

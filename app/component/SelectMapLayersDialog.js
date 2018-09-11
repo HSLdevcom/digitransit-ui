@@ -52,102 +52,98 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ ticketSales });
   };
 
+  renderContents = ({ citybike, parkAndRide, stop, terminal, ticketSales }) => (
+    <React.Fragment>
+      <div className="checkbox-grouping">
+        <Checkbox
+          checked={stop.bus}
+          defaultMessage="Bussipysäkki"
+          labelId="none"
+          onChange={e => this.updateStopSetting({ bus: e.target.checked })}
+        />
+        <Checkbox
+          checked={terminal.bus}
+          defaultMessage="Bussiterminaali"
+          labelId="none"
+          onChange={e => this.updateTerminalSetting({ bus: e.target.checked })}
+        />
+        <Checkbox
+          checked={stop.tram}
+          defaultMessage="Raitiovaunupysäkki"
+          labelId="none"
+          onChange={e => this.updateStopSetting({ tram: e.target.checked })}
+        />
+        <Checkbox
+          checked={terminal.rail}
+          defaultMessage="Juna-asema"
+          labelId="none"
+          onChange={e =>
+            this.updateStopAndTerminalSetting({ rail: e.target.checked })
+          }
+        />
+        <Checkbox
+          checked={terminal.subway}
+          defaultMessage="Metroasema"
+          labelId="none"
+          onChange={e =>
+            this.updateStopAndTerminalSetting({ subway: e.target.checked })
+          }
+        />
+        <Checkbox
+          checked={stop.ferry}
+          defaultMessage="Lautta"
+          labelId="none"
+          onChange={e => this.updateStopSetting({ ferry: e.target.checked })}
+        />
+        <Checkbox
+          checked={citybike}
+          defaultMessage="Kaupunkipyöräasema"
+          labelId="none"
+          onChange={e => this.updateSetting({ citybike: e.target.checked })}
+        />
+        <Checkbox
+          checked={parkAndRide}
+          defaultMessage="Liityntäpysäköinti"
+          labelId="none"
+          onChange={e => this.updateSetting({ parkAndRide: e.target.checked })}
+        />
+      </div>
+      <div className="checkbox-grouping">
+        <Checkbox
+          checked={ticketSales.ticketMachine}
+          defaultMessage="Lippuautomaatti"
+          labelId="none"
+          onChange={e =>
+            this.updateTicketSalesSetting({
+              ticketMachine: e.target.checked,
+            })
+          }
+        />
+        <Checkbox
+          checked={ticketSales.salesPoint}
+          defaultMessage="Matkakortin latauspiste"
+          labelId="none"
+          onChange={e =>
+            this.updateTicketSalesSetting({
+              salesPoint: e.target.checked,
+              servicePoint: e.target.checked,
+            })
+          }
+        />
+      </div>
+    </React.Fragment>
+  );
+
   render() {
-    const {
-      citybike,
-      parkAndRide,
-      stop,
-      terminal,
-      ticketSales,
-    } = this.props.mapLayers;
     return (
       <BubbleDialog
         contentClassName="select-map-layers-dialog-content"
         header="select-map-layers-header"
         id="mapLayerSelector"
         icon="map-layers"
+        isFullscreenOnMobile
       >
-        <div className="checkbox-grouping">
-          <Checkbox
-            checked={stop.bus}
-            defaultMessage="Bussipysäkki"
-            labelId="none"
-            onChange={e => this.updateStopSetting({ bus: e.target.checked })}
-          />
-          <Checkbox
-            checked={terminal.bus}
-            defaultMessage="Bussiterminaali"
-            labelId="none"
-            onChange={e =>
-              this.updateTerminalSetting({ bus: e.target.checked })
-            }
-          />
-          <Checkbox
-            checked={stop.tram}
-            defaultMessage="Raitiovaunupysäkki"
-            labelId="none"
-            onChange={e => this.updateStopSetting({ tram: e.target.checked })}
-          />
-          <Checkbox
-            checked={terminal.rail}
-            defaultMessage="Juna-asema"
-            labelId="none"
-            onChange={e =>
-              this.updateStopAndTerminalSetting({ rail: e.target.checked })
-            }
-          />
-          <Checkbox
-            checked={terminal.subway}
-            defaultMessage="Metroasema"
-            labelId="none"
-            onChange={e =>
-              this.updateStopAndTerminalSetting({ subway: e.target.checked })
-            }
-          />
-          <Checkbox
-            checked={stop.ferry}
-            defaultMessage="Lautta"
-            labelId="none"
-            onChange={e => this.updateStopSetting({ ferry: e.target.checked })}
-          />
-          <Checkbox
-            checked={citybike}
-            defaultMessage="Kaupunkipyöräasema"
-            labelId="none"
-            onChange={e => this.updateSetting({ citybike: e.target.checked })}
-          />
-          <Checkbox
-            checked={parkAndRide}
-            defaultMessage="Liityntäpysäköinti"
-            labelId="none"
-            onChange={e =>
-              this.updateSetting({ parkAndRide: e.target.checked })
-            }
-          />
-        </div>
-        <div className="checkbox-grouping">
-          <Checkbox
-            checked={ticketSales.ticketMachine}
-            defaultMessage="Lippuautomaatti"
-            labelId="none"
-            onChange={e =>
-              this.updateTicketSalesSetting({
-                ticketMachine: e.target.checked,
-              })
-            }
-          />
-          <Checkbox
-            checked={ticketSales.salesPoint}
-            defaultMessage="Matkakortin latauspiste"
-            labelId="none"
-            onChange={e =>
-              this.updateTicketSalesSetting({
-                salesPoint: e.target.checked,
-                servicePoint: e.target.checked,
-              })
-            }
-          />
-        </div>
+        {this.renderContents(this.props.mapLayers)}
       </BubbleDialog>
     );
   }
