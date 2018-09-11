@@ -15,7 +15,7 @@ function removeUrlParam(req, param) {
   return url;
 }
 
-function validateParams(req, config) {
+export function validateParams(req, config) {
   let url;
 
   if (config.queryMaxAgeDays && req.query.time) {
