@@ -2,6 +2,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+
 import PopupMock from './PopupMock';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import StopCardContainer from '../../StopCardContainer';
@@ -13,45 +15,61 @@ const NUMBER_OF_DEPARTURES = 5;
 const STOP_TIME_RANGE = 12 * 60 * 60;
 const TERMINAL_TIME_RANGE = 60 * 60;
 
-function StopMarkerPopup(props) {
-  const stop = props.stop || props.terminal;
-  const terminal = props.terminal !== null;
+class StopMarkerPopup extends React.PureComponent {
+  componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime;
+    if (currUnix !== currentTime) {
+      relay.setVariables({ currentTime: currUnix });
+    }
+  }
+  render() {
+    const stop = this.props.stop || this.props.terminal;
+    const terminal = this.props.terminal !== null;
 
-  return (
-    <div className="card">
-      <StopCardContainer
-        stop={stop}
-        numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
-        startTime={props.relay.variables.currentTime}
-        isTerminal={terminal}
-        timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
-        limit={NUMBER_OF_DEPARTURES}
-        className="padding-small cursor-pointer"
-      />
-      <MarkerPopupBottom
-        location={{
-          address: stop.name,
-          lat: stop.lat,
-          lon: stop.lon,
-        }}
-      />
-    </div>
-  );
+    return (
+      <div className="card">
+        <StopCardContainer
+          stop={stop}
+          numberOfDepartures={(terminal ? 3 : 1) * NUMBER_OF_DEPARTURES}
+          startTime={this.props.relay.variables.currentTime}
+          isTerminal={terminal}
+          timeRange={terminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
+          limit={NUMBER_OF_DEPARTURES}
+          className="padding-small cursor-pointer"
+        />
+        <MarkerPopupBottom
+          location={{
+            address: stop.name,
+            lat: stop.lat,
+            lon: stop.lon,
+          }}
+        />
+      </div>
+    );
+  }
 }
 
 StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
   terminal: PropTypes.object,
+  currentTime: PropTypes.number.isRequired,
   relay: PropTypes.shape({
     variables: PropTypes.shape({
       currentTime: PropTypes.number.isRequired,
     }).isRequired,
+    setVariables: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const StopMarkerPopupContainer = Relay.createContainer(StopMarkerPopup, {
-  fragments: {
-    stop: ({ currentTime }) => Relay.QL`
+const StopMarkerPopupContainer = Relay.createContainer(
+  connectToStores(StopMarkerPopup, ['TimeStore'], ({ getStore }) => ({
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+  })),
+  {
+    fragments: {
+      stop: ({ currentTime }) => Relay.QL`
       fragment on Stop{
         gtfsId
         lat
@@ -64,7 +82,7 @@ const StopMarkerPopupContainer = Relay.createContainer(StopMarkerPopup, {
         })}
       }
     `,
-    terminal: ({ currentTime }) => Relay.QL`
+      terminal: ({ currentTime }) => Relay.QL`
       fragment on Stop{
         gtfsId
         lat
@@ -78,11 +96,12 @@ const StopMarkerPopupContainer = Relay.createContainer(StopMarkerPopup, {
         })}
       }
     `,
+    },
+    initialVariables: {
+      currentTime: 0,
+    },
   },
-  initialVariables: {
-    currentTime: 0,
-  },
-});
+);
 
 StopMarkerPopupContainer.displayName = 'StopMarkerPopup';
 
