@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import Drawer from 'material-ui/Drawer';
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -64,104 +65,113 @@ class BubbleDialog extends React.Component {
     });
   };
 
-  render = () => {
-    if (!isBrowser) {
-      return null;
-    }
-
-    const {
-      breakpoint,
-      children,
-      contentClassName,
-      isFullscreenOnMobile,
-      header,
-    } = this.props;
+  renderContent(isFullscreen) {
+    const { breakpoint, children, contentClassName, header } = this.props;
     const { intl } = this.context;
-    const isOpen = this.state.isOpen || this.props.isOpen;
     const isLarge = breakpoint === 'large';
-    const isFullscreen =
-      isOpen && isFullscreenOnMobile && breakpoint === 'small';
+    return (
+      <div className="bubble-dialog-container">
+        <div
+          className={cx('bubble-dialog', {
+            'bubble-dialog--large': isLarge,
+            'bubble-dialog--fullscreen': isFullscreen,
+          })}
+        >
+          <div
+            className={cx('bubble-dialog-header-container', {
+              'bubble-dialog-header-container--fullscreen': isFullscreen,
+            })}
+          >
+            <span
+              className={cx('bubble-dialog-header', {
+                'bubble-dialog-header--fullscreen': isFullscreen,
+              })}
+            >
+              {intl.formatMessage({
+                id: header,
+                defaultMessage: 'Bubble Dialog Header',
+              })}
+            </span>
+            <button
+              className={cx('bubble-dialog-close', {
+                'bubble-dialog-close--fullscreen': isFullscreen,
+              })}
+              onClick={() => this.closeDialog()}
+              onKeyDown={e =>
+                isKeyboardSelectionEvent(e) && this.closeDialog(true)
+              }
+            >
+              <Icon img="icon-icon_close" />
+            </button>
+          </div>
+          <div
+            className={cx('bubble-dialog-content', contentClassName, {
+              'bubble-dialog-content--large': isLarge,
+              'bubble-dialog-content--fullscreen': isFullscreen,
+            })}
+            ref={this.dialogContentRef}
+            tabIndex="-1"
+          >
+            {children}
+          </div>
+          <div
+            className={cx('bubble-dialog-buttons', {
+              collapsed: !isFullscreen,
+            })}
+          >
+            <button
+              className="standalone-btn"
+              onClick={() => this.closeDialog()}
+              onKeyDown={e =>
+                isKeyboardSelectionEvent(e) && this.closeDialog(true)
+              }
+            >
+              Takaisin karttaan
+            </button>
+          </div>
+        </div>
+        <div
+          className={cx('bubble-dialog-tip-container', {
+            collapsed: isFullscreen,
+          })}
+        >
+          <div className="bubble-dialog-tip" />
+        </div>
+      </div>
+    );
+  }
 
+  renderContainer(isFullscreen) {
+    let drawerWidth = 291;
+    if (typeof window !== 'undefined') {
+      drawerWidth =
+        0.5 * window.innerWidth > 291
+          ? Math.min(600, 0.5 * window.innerWidth)
+          : '100%';
+    }
+    const isOpen = this.state.isOpen || this.props.isOpen;
     return (
       <div
         className={cx('bubble-dialog-component-container', {
-          'bubble-dialog-component-container--fullscreen': isFullscreen,
+          'bubble-dialog-component-container--fullscreen':
+            isFullscreen && isOpen,
         })}
       >
-        {isOpen && (
-          <div className="bubble-dialog-container">
-            <div
-              className={cx('bubble-dialog', {
-                'bp-large': isLarge,
-                'bubble-dialog--fullscreen': isFullscreen,
-              })}
-            >
-              <div
-                className={cx('bubble-dialog-header-container', {
-                  'bubble-dialog-header-container--fullscreen': isFullscreen,
-                })}
-              >
-                <span
-                  className={cx('bubble-dialog-header', {
-                    'bubble-dialog-header--fullscreen': isFullscreen,
-                  })}
-                >
-                  {intl.formatMessage({
-                    id: header,
-                    defaultMessage: 'Bubble Dialog Header',
-                  })}
-                </span>
-                <button
-                  className={cx('bubble-dialog-close', {
-                    'bubble-dialog-close--fullscreen': isFullscreen,
-                  })}
-                  onClick={() => this.closeDialog()}
-                  onKeyDown={e =>
-                    isKeyboardSelectionEvent(e) && this.closeDialog(true)
-                  }
-                >
-                  <Icon img="icon-icon_close" />
-                </button>
-              </div>
-              <div
-                className={cx('bubble-dialog-content', contentClassName, {
-                  'bp-large': isLarge,
-                  'bubble-dialog-content--fullscreen': isFullscreen,
-                })}
-                ref={this.dialogContentRef}
-                tabIndex="-1"
-              >
-                {children}
-              </div>
-              <div
-                className={cx('bubble-dialog-buttons', {
-                  collapsed: !isFullscreen,
-                })}
-              >
-                <button
-                  className="standalone-btn"
-                  onClick={() => this.closeDialog()}
-                  onKeyDown={e =>
-                    isKeyboardSelectionEvent(e) && this.closeDialog(true)
-                  }
-                >
-                  Takaisin karttaan
-                </button>
-              </div>
-            </div>
-            <div
-              className={cx('bubble-dialog-tip-container', {
-                collapsed: isFullscreen,
-              })}
-            >
-              <div className="bubble-dialog-tip" />
-            </div>
-          </div>
+        {isFullscreen ? (
+          <Drawer
+            disableSwipeToOpen
+            docked={false}
+            open={isOpen}
+            openSecondary
+            width={drawerWidth}
+          >
+            {this.renderContent(true)}
+          </Drawer>
+        ) : (
+          isOpen && this.renderContent(false)
         )}
         <div
-          className={cx('bubble-dialog-toggle', {
-            collapsed: isFullscreen,
-          })}
+          className="bubble-dialog-toggle"
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
@@ -175,6 +185,15 @@ class BubbleDialog extends React.Component {
         </div>
       </div>
     );
+  }
+
+  render = () => {
+    if (!isBrowser) {
+      return null;
+    }
+    const { breakpoint, isFullscreenOnMobile } = this.props;
+    const isFullscreen = breakpoint !== 'large' && isFullscreenOnMobile;
+    return this.renderContainer(isFullscreen);
   };
 }
 

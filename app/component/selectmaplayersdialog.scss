@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 1em;
+  overflow-y: auto;
   white-space: nowrap;
 
   .checkbox-grouping + .checkbox-grouping {

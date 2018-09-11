@@ -26,28 +26,28 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         display: flex;
         flex-direction: column;
         left: 0;
-        margin: $topbar-height 0 0 0;
+        margin: 0;
         padding: 0;
         position: fixed;
         right: 0;
         top: 0;
-        z-index: index($zindex, front);
       }
 
-      &.bp-large {
+      &.bubble-dialog--large {
         padding: 1em;
       }
 
       .bubble-dialog-header-container {
         align-items: center;
         display: flex;
-        height: 2.5em;
+        min-height: 2.5em;
         justify-content: space-between;
 
         &.bubble-dialog-header-container--fullscreen {
           background-color: $background-color-lighter;
-          height: 6em;
-          padding: 0.5em 1em;
+          flex-grow: 0;
+          flex-shrink: 0;
+          padding: 2em 1em 1em 1em;
         }
 
         .bubble-dialog-header {
@@ -80,12 +80,15 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       }
 
       .bubble-dialog-content {
-        &.bp-large {
-          margin-top: 0.5em;
-        }
+        color: $black;
 
         &.bubble-dialog-content--fullscreen {
+          flex: 1 1 0;
           padding: 1em 1em 1em 2em;
+        }
+
+        &.bubble-dialog-content--large {
+          margin-top: 0.5em;
         }
       }
 
