@@ -67,7 +67,7 @@
     "body-parser": "1.18.3",
     "classnames": "2.2.6",
     "cookie-parser": "1.4.3",
-    "debug": "3.1.0",
+    "debug": "3.2.1",
     "element-resize-detector": "1.1.14",
     "express": "4.16.3",
     "express-http-proxy": "1.2.0",
