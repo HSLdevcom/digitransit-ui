@@ -43,12 +43,6 @@ class StopPageContentOptions extends React.Component {
   }
 
   componentWillReceiveProps({ relay, currentTime }) {
-    console.log(
-      'StopPageContentOptions',
-      'componentWillReceiveProps',
-      currentTime,
-      this.props.currentTime,
-    );
     const currUnix = this.props.currentTime;
     if (currUnix !== currentTime) {
       relay.setVariables({ startTime: currUnix });
@@ -67,7 +61,6 @@ class StopPageContentOptions extends React.Component {
 
   render() {
     // Currently shows only next departures, add Timetables
-    console.log('StopPageContentOptions', 'render', this);
     return (
       <div className="stop-page-content-wrapper">
         <div>
