@@ -13,6 +13,14 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     max-width: calc(100vw - 2em);
     position: absolute;
 
+    &.bubble-dialog-container--fullscreen {
+      bottom: unset;
+      display: flex;
+      height: 100%;
+      max-width: unset;
+      position: unset;
+    }
+
     .bubble-dialog {
       background-color: $white;
       border-radius: $border-radius-bigger;
@@ -21,16 +29,11 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
       &.bubble-dialog--fullscreen {
         border-radius: unset;
-        bottom: 0;
         box-shadow: unset;
         display: flex;
         flex-direction: column;
-        left: 0;
         margin: 0;
         padding: 0;
-        position: fixed;
-        right: 0;
-        top: 0;
       }
 
       &.bubble-dialog--large {
@@ -130,6 +133,11 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     height: 3em;
     padding: 6px;
     width: 3em;
+
+    &.bubble-dialog-toggle--fullscreen {
+      position: relative;
+      z-index: index($zindex, map-buttons);
+    }
 
     .icon {
       color: $primary-color;

@@ -70,7 +70,11 @@ class BubbleDialog extends React.Component {
     const { intl } = this.context;
     const isLarge = breakpoint === 'large';
     return (
-      <div className="bubble-dialog-container">
+      <div
+        className={cx('bubble-dialog-container', {
+          'bubble-dialog-container--fullscreen': isFullscreen,
+        })}
+      >
         <div
           className={cx('bubble-dialog', {
             'bubble-dialog--large': isLarge,
@@ -171,7 +175,9 @@ class BubbleDialog extends React.Component {
           isOpen && this.renderContent(false)
         )}
         <div
-          className="bubble-dialog-toggle"
+          className={cx('bubble-dialog-toggle', {
+            'bubble-dialog-toggle--fullscreen': isFullscreen,
+          })}
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
