@@ -61,6 +61,8 @@ export default {
     ticketSalesMinZoom: 16,
   },
 
+  showDisclaimer: true,
+
   stopsMinZoom: 14,
 
   colors: {

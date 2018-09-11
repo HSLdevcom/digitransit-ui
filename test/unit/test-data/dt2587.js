@@ -27,7 +27,7 @@ export default {
         points:
           'yrlnJe|dwCC@?EAEq@Vg@RSF@JTI??Ce@?[GaAzBy@Ew@AGAIEs@?EIuAEu@Eq@KwAGeA?CAk@E{EQcCEk@AYAIE{@G}@C]AY~@}@@H',
       },
-      intermediateStops: [],
+      intermediatePlaces: [],
       realTime: false,
       transitLeg: false,
       rentedBike: false,
@@ -62,7 +62,7 @@ export default {
       points:
         'yrlnJe|dwCC@?EAEq@Vg@RSF@JTI??Ce@?[GaAzBy@Ew@AGAIEs@?EIuAEu@Eq@KwAGeA?CAk@E{EQcCEk@AYAIE{@G}@C]AY~@}@@H',
     },
-    intermediateStops: {},
+    intermediatePlaces: {},
     realTime: false,
     transitLeg: false,
     rentedBike: false,
