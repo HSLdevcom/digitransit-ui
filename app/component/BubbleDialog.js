@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import Drawer from 'material-ui/Drawer';
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,6 +7,7 @@ import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 
 import Icon from './Icon';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 import { isKeyboardSelectionEvent, isBrowser } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -44,6 +44,10 @@ class BubbleDialog extends React.Component {
       });
       callback();
     });
+  };
+
+  modules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
   };
 
   handleClickOutside() {
@@ -133,7 +137,10 @@ class BubbleDialog extends React.Component {
                 isKeyboardSelectionEvent(e) && this.closeDialog(true)
               }
             >
-              Takaisin karttaan
+              {intl.formatMessage({
+                id: 'dialog-return-to-map',
+                defaultMessage: 'Return to map',
+              })}
             </button>
           </div>
         </div>
@@ -165,15 +172,19 @@ class BubbleDialog extends React.Component {
         })}
       >
         {isFullscreen ? (
-          <Drawer
-            disableSwipeToOpen
-            docked={false}
-            open={isOpen}
-            openSecondary
-            width={drawerWidth}
-          >
-            {this.renderContent(true)}
-          </Drawer>
+          <LazilyLoad modules={this.modules}>
+            {({ Drawer }) => (
+              <Drawer
+                disableSwipeToOpen
+                docked={false}
+                open={isOpen}
+                openSecondary
+                width={drawerWidth}
+              >
+                {this.renderContent(true)}
+              </Drawer>
+            )}
+          </LazilyLoad>
         ) : (
           isOpen && this.renderContent(false)
         )}

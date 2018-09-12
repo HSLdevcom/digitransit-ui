@@ -554,6 +554,7 @@ const translations = {
     'destination-outside-service':
       'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
+    'dialog-return-to-map': 'Return to map',
     'digitransit-platform': 'Digitransit service platform',
     disclaimer:
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
@@ -736,6 +737,7 @@ const translations = {
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
+    'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
     send: 'Send',
     settings: 'Settings',
@@ -1199,6 +1201,7 @@ const translations = {
     'destination-outside-service':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
+    'dialog-return-to-map': 'Takaisin karttaan',
     'digitransit-platform': 'Digitransit palvelualusta',
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',

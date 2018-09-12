@@ -126,13 +126,7 @@ SelectStreetModeDialog.contextTypes = {
 
 SelectStreetModeDialog.description = (
   <ComponentUsageExample>
-    <div
-      style={{
-        height: '200px',
-        margin: '0 calc(-25px + 1em)',
-        position: 'relative',
-      }}
-    >
+    <div style={{ height: '200px', position: 'relative' }}>
       <div style={{ bottom: 0, position: 'absolute' }}>
         <SelectStreetModeDialog
           isOpen

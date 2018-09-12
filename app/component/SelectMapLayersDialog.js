@@ -138,7 +138,7 @@ class SelectMapLayersDialog extends React.Component {
             config.parkAndRide.showParkAndRide && (
               <Checkbox
                 checked={parkAndRide}
-                defaultMessage="Park &nbsp; ride"
+                defaultMessage="Park &amp; ride"
                 labelId="map-layer-park-and-ride"
                 onChange={e =>
                   this.updateSetting({ parkAndRide: e.target.checked })
