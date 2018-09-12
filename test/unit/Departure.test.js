@@ -6,6 +6,10 @@ import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import Departure from '../../app/component/Departure';
 
 import data from './test-data/dt2734';
+import {
+  departure as exampleDeparture,
+  realtimeDeparture,
+} from '../../app/component/ExampleData';
 
 describe('<Departure />', () => {
   it('should show trip headsign if no stop headsign present', () => {
@@ -20,10 +24,34 @@ describe('<Departure />', () => {
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Pirttiniemi');
-    expect(wrapper.find('span.destination').text()).to.not.equal('Keskusta');
-    expect(wrapper.find('span.destination').text()).to.not.equal(
-      'Päiväranta-Keskusta',
-    );
+  });
+
+  it('should show trip headsign if no stop headsign present vol2', () => {
+    const props = {
+      currentTime: Date.now(),
+      useUTC: true,
+      departure: realtimeDeparture,
+    };
+    const wrapper = mountWithIntl(<Departure {...props} />, {
+      context: {
+        config: { minutesToDepartureLimit: 9 },
+      },
+    });
+    expect(wrapper.find('span.destination').text()).to.equal('Rautatientori');
+  });
+
+  it('should show trip headsign if no stop headsign present vol3', () => {
+    const props = {
+      currentTime: Date.now(),
+      useUTC: true,
+      departure: exampleDeparture,
+    };
+    const wrapper = mountWithIntl(<Departure {...props} />, {
+      context: {
+        config: { minutesToDepartureLimit: 9 },
+      },
+    });
+    expect(wrapper.find('span.destination').text()).to.equal('Pasila');
   });
 
   it('should show stop headsign if present', () => {
@@ -38,10 +66,6 @@ describe('<Departure />', () => {
       },
     });
     expect(wrapper.find('span.destination').text()).to.equal('Keskusta');
-    expect(wrapper.find('span.destination').text()).to.not.equal('Pirttiniemi');
-    expect(wrapper.find('span.destination').text()).to.not.equal(
-      'Päiväranta-Keskusta',
-    );
   });
 
   it('should show long route name if nothing else present', () => {
@@ -58,7 +82,5 @@ describe('<Departure />', () => {
     expect(wrapper.find('span.destination').text()).to.equal(
       'Päiväranta-Keskusta-Pirtti',
     );
-    expect(wrapper.find('span.destination').text()).to.not.equal('Keskusta');
-    expect(wrapper.find('span.destination').text()).to.not.equal('Pirttiniemi');
   });
 });
