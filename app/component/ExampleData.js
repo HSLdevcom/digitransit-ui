@@ -28,6 +28,10 @@ export const realtimeDeparture = {
     code: 'HSL:4611:1:01',
     headsign: 'Rautatientori',
   },
+
+  trip: {
+    gtfsId: 'HSL:1006T_20160613_La_1_2136',
+  },
 };
 
 export const departure = {
