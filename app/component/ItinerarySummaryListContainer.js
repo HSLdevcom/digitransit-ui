@@ -90,7 +90,7 @@ class ItinerarySummaryListContainer extends React.Component {
   };
 
   setPromotionSuggestions = promotionSuggestions => {
-    this.props.setPromotionSuggestions(promotionSuggestions);
+    this.props.setPromotionSuggestions(promotionSuggestions, true);
     this.props.disableNewQuery();
   };
 

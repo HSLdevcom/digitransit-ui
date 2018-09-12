@@ -150,8 +150,7 @@ export const checkPromotionQueries = (
         1800,
         2000,
       );
-    }
-    if (getStreetMode(context.location, context.config) === 'CAR_PARK') {
+    } else if (getStreetMode(context.location, context.config) === 'CAR_PARK') {
       getBikeWalkPromotions(
         currentTime,
         config,
@@ -163,6 +162,9 @@ export const checkPromotionQueries = (
         900,
         1000,
       );
+    } else {
+      console.log('doesnt qualify for promotion');
+      setPromotionSuggestions(false);
     }
   }
 };

@@ -50,12 +50,15 @@ class SummaryPlanContainer extends React.Component {
 
   state = {
     promotionSuggestions: false,
+    loadSummary: false,
     firstQuery: false,
     setNewQuery: false,
   };
 
   componentDidMount = () => {
-    this.setState({ firstQuery: this.context.location.search });
+    this.setState({
+      firstQuery: this.context.location.search,
+    });
   };
 
   componentWillReceiveProps = () => {
@@ -382,8 +385,8 @@ class SummaryPlanContainer extends React.Component {
     return Number.isNaN(Number(lastURLSegment)) ? 0 : Number(lastURLSegment);
   }
 
-  setPromotionSuggestions = promotionSuggestions => {
-    this.setState({ promotionSuggestions });
+  setPromotionSuggestions = (promotionSuggestions, loadSummary) => {
+    this.setState({ promotionSuggestions, loadSummary });
   };
 
   disableNewQuery = () => {
@@ -402,31 +405,39 @@ class SummaryPlanContainer extends React.Component {
 
     const { from, to } = this.props.params;
 
+    const isPromotion = this.state.promotionSuggestions && (
+      <div
+        className="biking-walk-promotion-container"
+        style={{
+          display:
+            this.state.promotionSuggestions &&
+            this.state.promotionSuggestions.length > 0
+              ? 'flex'
+              : 'none',
+        }}
+      >
+        {this.state.promotionSuggestions.map(suggestion => (
+          <PromotionSuggestions
+            key={suggestion.plan.endTime}
+            promotionSuggestion={suggestion.plan}
+            textId={suggestion.textId}
+            iconName={suggestion.iconName}
+            onSelect={this.onSelectImmediately}
+            mode={suggestion.mode}
+            hash={0}
+          />
+        ))}
+      </div>
+    );
+
     return (
-      <div className="summary">
-        <div
-          className="biking-walk-promotion-container"
-          style={{
-            display:
-              this.state.promotionSuggestions &&
-              this.state.promotionSuggestions.length > 0
-                ? 'flex'
-                : 'none',
-          }}
-        >
-          {this.state.promotionSuggestions &&
-            this.state.promotionSuggestions.map(suggestion => (
-              <PromotionSuggestions
-                key={suggestion.plan.endTime}
-                promotionSuggestion={suggestion.plan}
-                textId={suggestion.textId}
-                iconName={suggestion.iconName}
-                onSelect={this.onSelectImmediately}
-                mode={suggestion.mode}
-                hash={0}
-              />
-            ))}
-        </div>
+      <div
+        className="summary"
+        style={{
+          display: this.state.loadSummary ? 'flex' : 'none',
+        }}
+      >
+        {isPromotion}
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}
