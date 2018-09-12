@@ -6,6 +6,7 @@ import { intlShape } from 'react-intl';
 import GridLayer from 'react-leaflet/es/GridLayer';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
+import isEqual from 'lodash/isEqual';
 import L from 'leaflet';
 
 import Popup from '../Popup';
@@ -65,9 +66,15 @@ class TileLayerContainer extends GridLayer {
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.context.popupContainer != null) {
       this.context.popupContainer.openPopup();
+    }
+    if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
+      this.context.map.removeEventParent(this.leafletElement);
+      this.leafletElement.remove();
+      this.leafletElement = this.createLeafletElement(this.props);
+      this.context.map.addLayer(this.leafletElement);
     }
   }
 
