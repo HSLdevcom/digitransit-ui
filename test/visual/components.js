@@ -264,3 +264,6 @@ testVariation('StopMarkerPopup', 'real-time', 3, [
 ]).then(skip('ie11'));
 testVariation('StopMarkerPopup', 'tomorrow', 4);
 testVariation('StopMarkerPopup', 'missing-platform', 5);
+
+testVariation('SelectStreetModeDialog');
+testVariation('SelectMapLayersDialog');
