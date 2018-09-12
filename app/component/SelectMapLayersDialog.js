@@ -229,44 +229,42 @@ SelectMapLayersDialog.defaultProps = {
 };
 
 SelectMapLayersDialog.description = (
-  <ComponentUsageExample>
-    <div style={{ height: '500px', position: 'relative' }}>
-      <div style={{ bottom: 0, position: 'absolute' }}>
-        <SelectMapLayersDialog
-          config={{
-            parkAndRide: {
-              showParkAndRide: true,
+  <ComponentUsageExample isFullscreen>
+    <div style={{ bottom: 0, left: 0, position: 'absolute' }}>
+      <SelectMapLayersDialog
+        config={{
+          parkAndRide: {
+            showParkAndRide: true,
+          },
+          ticketSales: {
+            showTicketSales: true,
+          },
+          transportModes: {
+            bus: {
+              availableForSelection: true,
             },
-            ticketSales: {
-              showTicketSales: true,
+            ferry: {
+              availableForSelection: true,
             },
-            transportModes: {
-              bus: {
-                availableForSelection: true,
-              },
-              ferry: {
-                availableForSelection: true,
-              },
-              rail: {
-                availableForSelection: true,
-              },
-              subway: {
-                availableForSelection: true,
-              },
-              tram: {
-                availableForSelection: true,
-              },
+            rail: {
+              availableForSelection: true,
             },
-          }}
-          isOpen
-          mapLayers={{
-            stop: { bus: true },
-            terminal: { subway: true },
-            ticketSales: { ticketMachine: true },
-          }}
-          updateMapLayers={() => {}}
-        />
-      </div>
+            subway: {
+              availableForSelection: true,
+            },
+            tram: {
+              availableForSelection: true,
+            },
+          },
+        }}
+        isOpen
+        mapLayers={{
+          stop: { bus: true },
+          terminal: { subway: true },
+          ticketSales: { ticketMachine: true },
+        }}
+        updateMapLayers={() => {}}
+      />
     </div>
   </ComponentUsageExample>
 );

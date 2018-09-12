@@ -175,6 +175,9 @@ class BubbleDialog extends React.Component {
           <LazilyLoad modules={this.modules}>
             {({ Drawer }) => (
               <Drawer
+                containerStyle={{
+                  maxHeight: '100vh',
+                }}
                 disableSwipeToOpen
                 docked={false}
                 open={isOpen}
