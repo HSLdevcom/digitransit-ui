@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
-import ComponentUsageExample from './ComponentUsageExample';
+import BubbleDialog from './BubbleDialog';
 import ToggleButton from './ToggleButton';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import BubbleDialog from './BubbleDialog';
+
+import ComponentUsageExample from './ComponentUsageExample';
 
 class SelectStreetModeDialog extends React.Component {
   constructor(props) {

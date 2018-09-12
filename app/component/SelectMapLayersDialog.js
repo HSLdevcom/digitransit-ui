@@ -7,9 +7,11 @@ import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
 import MapLayerStore, { mapLayerConfigShape } from '../store/MapLayerStore';
 
+import ComponentUsageExample from './ComponentUsageExample';
+
 class SelectMapLayersDialog extends React.Component {
   updateSetting = newSetting => {
-    this.context.executeAction(updateMapLayers, {
+    this.props.updateMapLayers({
       ...this.props.mapLayers,
       ...newSetting,
     });
@@ -141,6 +143,7 @@ class SelectMapLayersDialog extends React.Component {
         header="select-map-layers-header"
         id="mapLayerSelector"
         icon="map-layers"
+        isOpen={this.props.isOpen}
         isFullscreenOnMobile
       >
         {this.renderContents(this.props.mapLayers)}
@@ -150,17 +153,44 @@ class SelectMapLayersDialog extends React.Component {
 }
 
 SelectMapLayersDialog.propTypes = {
+  isOpen: PropTypes.bool,
   mapLayers: mapLayerConfigShape.isRequired,
+  updateMapLayers: PropTypes.func.isRequired,
 };
 
-SelectMapLayersDialog.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
+SelectMapLayersDialog.defaultProps = {
+  isOpen: false,
 };
 
-export default connectToStores(
-  SelectMapLayersDialog,
-  [MapLayerStore.storeName],
-  context => ({
-    mapLayers: context.getStore(MapLayerStore.storeName).getMapLayers(),
-  }),
+SelectMapLayersDialog.description = (
+  <ComponentUsageExample>
+    <div style={{ height: '550px', position: 'relative' }}>
+      <div style={{ bottom: 0, position: 'absolute' }}>
+        <SelectMapLayersDialog
+          isOpen
+          mapLayers={{
+            stop: { bus: true },
+            terminal: { subway: true },
+            ticketSales: { ticketMachine: true },
+          }}
+          updateMapLayers={() => {}}
+        />
+      </div>
+    </div>
+  </ComponentUsageExample>
 );
+
+const connectedComponent = connectToStores(
+  SelectMapLayersDialog,
+  [MapLayerStore],
+  context => ({
+    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
+    updateMapLayers: mapLayers =>
+      context.executeAction(updateMapLayers, { ...mapLayers }),
+  }),
+  {
+    executeAction: PropTypes.func,
+  },
+);
+
+export { connectedComponent as default, SelectMapLayersDialog as Component };

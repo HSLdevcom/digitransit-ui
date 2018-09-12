@@ -29,6 +29,9 @@ class BubbleDialog extends React.Component {
   };
 
   setDialogState = (isOpen, callback) => {
+    if (this.state.isOpen === isOpen) {
+      return;
+    }
     this.setState({ isOpen }, () => {
       const { router } = this.context;
       const location = router.getCurrentLocation();
@@ -229,6 +232,8 @@ BubbleDialog.contextTypes = {
   router: routerShape.isRequired,
 };
 
-export default withOutsideClick(
+const enhancedComponent = withOutsideClick(
   withBreakpoint(BubbleDialog, { forwardRef: true }),
 );
+
+export { enhancedComponent as default, BubbleDialog as Component };

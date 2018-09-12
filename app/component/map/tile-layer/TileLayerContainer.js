@@ -330,8 +330,8 @@ class TileLayerContainer extends GridLayer {
 
 export default connectToStores(
   TileLayerContainer,
-  [MapLayerStore.storeName],
+  [MapLayerStore],
   context => ({
-    mapLayers: context.getStore(MapLayerStore.storeName).getMapLayers(),
+    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
   }),
 );

@@ -36,7 +36,6 @@ import SelectStreetModeDialog from './SelectStreetModeDialog';
 import events from '../util/events';
 import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import { getMapLayerSettings } from '../store/localStorage';
 
 const debug = d('IndexPage.js');
 
@@ -181,9 +180,7 @@ class IndexPage extends React.Component {
       />
     );
 
-  renderMapLayerSelector = () => (
-    <SelectMapLayersDialog mapLayers={getMapLayerSettings()} />
-  );
+  renderMapLayerSelector = () => <SelectMapLayersDialog />;
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {

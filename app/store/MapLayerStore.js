@@ -3,21 +3,7 @@ import PropTypes from 'prop-types';
 import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 
 class MapLayerStore extends Store {
-  static storeName = 'MapLayerStore';
-
-  static handlers = {
-    UpdateMapLayers: 'updateMapLayers',
-  };
-
-  constructor(dispatcher) {
-    super(dispatcher);
-    const storedMapLayers = getMapLayerSettings();
-    if (Object.keys(storedMapLayers).length > 0) {
-      this.mapLayers = { ...storedMapLayers };
-    }
-  }
-
-  mapLayers = {
+  static defaultLayers = {
     citybike: true,
     parkAndRide: true,
     stop: {
@@ -38,6 +24,22 @@ class MapLayerStore extends Store {
       ticketMachine: true,
     },
   };
+
+  static handlers = {
+    UpdateMapLayers: 'updateMapLayers',
+  };
+
+  static storeName = 'MapLayerStore';
+
+  mapLayers = { ...MapLayerStore.defaultLayers };
+
+  constructor(dispatcher) {
+    super(dispatcher);
+    const storedMapLayers = getMapLayerSettings();
+    if (Object.keys(storedMapLayers).length > 0) {
+      this.mapLayers = { ...storedMapLayers };
+    }
+  }
 
   getMapLayers = () => ({ ...this.mapLayers });
 
@@ -60,17 +62,17 @@ export const mapLayerConfigShape = PropTypes.shape({
     rail: PropTypes.bool,
     subway: PropTypes.bool,
     tram: PropTypes.bool,
-  }),
+  }).isRequired,
   terminal: PropTypes.shape({
     bus: PropTypes.bool,
     rail: PropTypes.bool,
     subway: PropTypes.bool,
-  }),
+  }).isRequired,
   ticketSales: PropTypes.shape({
     salesPoint: PropTypes.bool,
     servicePoint: PropTypes.bool,
     ticketMachine: PropTypes.bool,
-  }),
+  }).isRequired,
 });
 
 export default MapLayerStore;
