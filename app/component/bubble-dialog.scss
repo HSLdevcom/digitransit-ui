@@ -35,7 +35,6 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         flex-direction: column;
         margin: 0;
         padding: 0;
-        position: relative;
       }
 
       &.bubble-dialog--large {
@@ -91,6 +90,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
           flex: 1 1 0;
           overflow-y: auto;
           padding: 1em 1em 1em 2em;
+          position: relative;
         }
 
         &.bubble-dialog-content--large {
