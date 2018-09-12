@@ -42,7 +42,7 @@ function Departure(props) {
         mode={mode}
         destination={
           props.departure.headsign ||
-          props.departure.pattern.headsign ||
+          props.departure.trip.tripHeadsign ||
           props.departure.pattern.route.longName
         }
         isArrival={props.isArrival}

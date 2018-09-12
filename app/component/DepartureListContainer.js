@@ -179,6 +179,7 @@ export default Relay.createContainer(DepartureListContainer, {
           }
           trip {
             gtfsId
+            tripHeadsign
             pattern {
               route {
                 gtfsId
