@@ -25,9 +25,7 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import Loading from '../../Loading';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import MapLayerStore, {
-  mapLayerConfigShape,
-} from '../../../store/MapLayerStore';
+import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 
 const initialState = {
   selectableTargets: undefined,
@@ -43,7 +41,7 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
-    mapLayers: mapLayerConfigShape.isRequired,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static contextTypes = {

@@ -53,7 +53,7 @@ class MapLayerStore extends Store {
   };
 }
 
-export const mapLayerConfigShape = PropTypes.shape({
+export const mapLayerShape = PropTypes.shape({
   citybike: PropTypes.bool,
   parkAndRide: PropTypes.bool,
   stop: PropTypes.shape({
