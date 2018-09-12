@@ -68,16 +68,16 @@ class SelectMapLayersDialog extends React.Component {
             <React.Fragment>
               <Checkbox
                 checked={stop.bus}
-                defaultMessage="Bussipysäkki"
-                labelId="none"
+                defaultMessage="Bus stop"
+                labelId="map-layer-stop-bus"
                 onChange={e =>
                   this.updateStopSetting({ bus: e.target.checked })
                 }
               />
               <Checkbox
                 checked={terminal.bus}
-                defaultMessage="Bussiterminaali"
-                labelId="none"
+                defaultMessage="Bus terminal"
+                labelId="map-layer-terminal-bus"
                 onChange={e =>
                   this.updateTerminalSetting({ bus: e.target.checked })
                 }
@@ -87,16 +87,16 @@ class SelectMapLayersDialog extends React.Component {
           {isTransportModeEnabled(transportModes.tram) && (
             <Checkbox
               checked={stop.tram}
-              defaultMessage="Raitiovaunupysäkki"
-              labelId="none"
+              defaultMessage="Tram stop"
+              labelId="map-layer-stop-tram"
               onChange={e => this.updateStopSetting({ tram: e.target.checked })}
             />
           )}
           {isTransportModeEnabled(transportModes.rail) && (
             <Checkbox
               checked={terminal.rail}
-              defaultMessage="Juna-asema"
-              labelId="none"
+              defaultMessage="Railway station"
+              labelId="map-layer-terminal-rail"
               onChange={e =>
                 this.updateStopAndTerminalSetting({ rail: e.target.checked })
               }
@@ -105,8 +105,8 @@ class SelectMapLayersDialog extends React.Component {
           {isTransportModeEnabled(transportModes.subway) && (
             <Checkbox
               checked={terminal.subway}
-              defaultMessage="Metroasema"
-              labelId="none"
+              defaultMessage="Subway station"
+              labelId="map-layer-terminal-subway"
               onChange={e =>
                 this.updateStopAndTerminalSetting({ subway: e.target.checked })
               }
@@ -115,8 +115,8 @@ class SelectMapLayersDialog extends React.Component {
           {isTransportModeEnabled(transportModes.ferry) && (
             <Checkbox
               checked={stop.ferry}
-              defaultMessage="Lautta"
-              labelId="none"
+              defaultMessage="Ferry"
+              labelId="map-layer-stop-ferry"
               onChange={e =>
                 this.updateStopSetting({ ferry: e.target.checked })
               }
@@ -127,8 +127,8 @@ class SelectMapLayersDialog extends React.Component {
             isTransportModeEnabled(transportModes.citybike) && (
               <Checkbox
                 checked={citybike}
-                defaultMessage="Kaupunkipyöräasema"
-                labelId="none"
+                defaultMessage="Citybike station"
+                labelId="map-layer-citybike"
                 onChange={e =>
                   this.updateSetting({ citybike: e.target.checked })
                 }
@@ -138,8 +138,8 @@ class SelectMapLayersDialog extends React.Component {
             config.parkAndRide.showParkAndRide && (
               <Checkbox
                 checked={parkAndRide}
-                defaultMessage="Liityntäpysäköinti"
-                labelId="none"
+                defaultMessage="Park &nbsp; ride"
+                labelId="map-layer-park-and-ride"
                 onChange={e =>
                   this.updateSetting({ parkAndRide: e.target.checked })
                 }
@@ -151,8 +151,8 @@ class SelectMapLayersDialog extends React.Component {
             <div className="checkbox-grouping">
               <Checkbox
                 checked={ticketSales.ticketMachine}
-                defaultMessage="Lippuautomaatti"
-                labelId="none"
+                defaultMessage="Ticket machine"
+                labelId="map-layer-ticket-sales-machine"
                 onChange={e =>
                   this.updateTicketSalesSetting({
                     ticketMachine: e.target.checked,
@@ -161,8 +161,8 @@ class SelectMapLayersDialog extends React.Component {
               />
               <Checkbox
                 checked={ticketSales.salesPoint}
-                defaultMessage="Matkakortin latauspiste"
-                labelId="none"
+                defaultMessage="Travel Card top up"
+                labelId="map-layer-ticket-sales-point"
                 onChange={e =>
                   this.updateTicketSalesSetting({
                     salesPoint: e.target.checked,
@@ -230,13 +230,10 @@ SelectMapLayersDialog.defaultProps = {
 
 SelectMapLayersDialog.description = (
   <ComponentUsageExample>
-    <div style={{ height: '550px', position: 'relative' }}>
+    <div style={{ height: '500px', position: 'relative' }}>
       <div style={{ bottom: 0, position: 'absolute' }}>
         <SelectMapLayersDialog
           config={{
-            cityBike: {
-              showCityBikes: true,
-            },
             parkAndRide: {
               showParkAndRide: true,
             },
@@ -245,9 +242,6 @@ SelectMapLayersDialog.description = (
             },
             transportModes: {
               bus: {
-                availableForSelection: true,
-              },
-              citybike: {
                 availableForSelection: true,
               },
               ferry: {
