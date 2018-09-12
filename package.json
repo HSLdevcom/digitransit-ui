@@ -83,7 +83,7 @@
     "isomorphic-relay-router": "github:michaelstockton/isomorphic-relay-router#feature-relay-1-public",
     "leaflet": "1.3.1",
     "leaflet-active-area": "1.0.2",
-    "lodash": "4.17.10",
+    "lodash": "4.17.11",
     "lodash-es": "4.17.10",
     "lru-cache": "4.1.3",
     "material-ui": "0.20.1",
