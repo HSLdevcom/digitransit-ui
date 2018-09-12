@@ -87,11 +87,12 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
         &.bubble-dialog-content--fullscreen {
           flex: 1 1 0;
+          overflow-y: auto;
           padding: 1em 1em 1em 2em;
         }
 
         &.bubble-dialog-content--large {
-          margin-top: 0.5em;
+          padding-top: 0.5em;
         }
       }
 

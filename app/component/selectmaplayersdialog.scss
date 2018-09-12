@@ -1,8 +1,8 @@
 .select-map-layers-dialog-content {
   display: flex;
   flex-direction: column;
-  margin-top: 1em;
-  overflow-y: auto;
+  margin-top: 0.5em;
+  position: relative;
   white-space: nowrap;
 
   .checkbox-grouping + .checkbox-grouping {
