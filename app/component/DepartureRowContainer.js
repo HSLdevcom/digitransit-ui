@@ -89,7 +89,11 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
       <td className="td-destination">
         <RouteDestination
           mode={departure.pattern.route.mode}
-          destination={headsign || departure.pattern.route.longName}
+          destination={
+            headsign ||
+            departure.pattern.headsign ||
+            departure.pattern.route.longName
+          }
         />
       </td>
       {departureTimesChecked}
@@ -200,6 +204,7 @@ export default Relay.createContainer(DepartureRow, {
             }
           }
           code
+          headsign
         }
         stoptimes (startTime:$currentTime, timeRange:$timeRange, numberOfDepartures:2) {
           realtimeState
