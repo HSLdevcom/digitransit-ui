@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import fetchMock from 'fetch-mock';
+import { after, before, describe, it } from 'mocha';
 import React from 'react';
 
 import CustomizeSearch from '../../../app/component/CustomizeSearchNew';
@@ -10,6 +11,23 @@ import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import defaultConfig from '../../../app/configurations/config.default';
 
 describe('<CustomizeSearch />', () => {
+  before(() => {
+    fetchMock.post('/graphql', {
+      data: {
+        route: {
+          id: 'Um91dGU6SFNMOjI1NTA=',
+          shortName: '550',
+          longName: 'Itäkeskus-Westendinasema',
+          mode: 'BUS',
+        },
+      },
+    });
+  });
+
+  after(() => {
+    fetchMock.restore();
+  });
+
   it('should read preferred routes from the url', () => {
     const wrapper = mountWithIntl(
       <CustomizeSearch onToggleClick={() => {}} />,
