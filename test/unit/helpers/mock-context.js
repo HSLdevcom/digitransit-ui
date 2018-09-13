@@ -1,3 +1,4 @@
+import { getMuiTheme } from 'material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { locationShape, routerShape } from 'react-router';
@@ -6,6 +7,9 @@ import mockRouter from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
 
 const noop = () => {};
+const muiTheme = getMuiTheme({
+  userAgent: 'foo',
+});
 
 /**
  * The mockContext can be used as a starting point for building a useful
@@ -36,6 +40,7 @@ export const mockContext = {
     pathname: '',
     search: '',
   },
+  muiTheme,
   router: mockRouter,
 };
 
@@ -47,5 +52,6 @@ export const mockChildContextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   location: locationShape,
+  muiTheme: PropTypes.object,
   router: routerShape,
 };
