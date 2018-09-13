@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -119,6 +119,14 @@ class ItineraryTab extends React.Component {
                   buttonIcon="icon-icon_print"
                 />
               </div>
+              {config.showDisclaimer && (
+                <div className="itinerary-disclaimer">
+                  <FormattedMessage
+                    id="disclaimer"
+                    defaultMessage="Results are based on estimated travel times"
+                  />
+                </div>
+              )}
             </div>,
           ]}
         </BreakpointConsumer>
@@ -184,13 +192,16 @@ export default Relay.createContainer(ItineraryTab, {
             length
             points
           }
-          intermediateStops {
-            gtfsId
-            lat
-            lon
-            name
-            code
-            platformCode
+          intermediatePlaces {
+            arrivalTime
+            stop {
+              gtfsId
+              lat
+              lon
+              name
+              code
+              platformCode
+            }
           }
           realTime
           transitLeg

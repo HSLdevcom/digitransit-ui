@@ -42,8 +42,9 @@ function parseLocation(location, input, config) {
       .then(parseGeocodingResults)
       .catch(() => ' ');
   } else if (input) {
+    const decoded = input.replace('+', ' ');
     return getGeocodingResult(
-      input,
+      decoded,
       config.searchParams,
       null,
       null,

@@ -118,8 +118,8 @@ const getItineraryStops = sentLegObj => (
         defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
         values={{
           number:
-            (sentLegObj.intermediateStops &&
-              sentLegObj.intermediateStops.length) ||
+            (sentLegObj.intermediatePlaces &&
+              sentLegObj.intermediatePlaces.length) ||
             0,
         }}
       />
@@ -127,11 +127,11 @@ const getItineraryStops = sentLegObj => (
         {` (${durationToString(sentLegObj.duration * 1000)})`}
       </span>
     </div>
-    {sentLegObj.intermediateStops.map(o2 => (
+    {sentLegObj.intermediatePlaces.map(o2 => (
       <div key={o2.gtfsId} className="intermediate-stop-single">
-        <span className="print-itinerary-stop-shortname">{o2.name}</span>
+        <span className="print-itinerary-stop-shortname">{o2.stop.name}</span>
         <span className="print-itinerary-stop-code">
-          {o2.code !== null ? ` [${o2.code}]` : ``}
+          {o2.stop.code !== null ? ` [${o2.stop.code}]` : ``}
         </span>
       </div>
     ))}
@@ -241,7 +241,7 @@ export function PrintableLeg(props) {
   const vehicleItinerary = o => {
     const arr = [];
     arr.push(getHeadSignDetails(o));
-    if (o.intermediateStops.length > 0) {
+    if (o.intermediatePlaces.length > 0) {
       arr.push(getItineraryStops(o));
     }
     return arr;
@@ -521,13 +521,16 @@ export default Relay.createContainer(PrintableItinerary, {
             length
             points
           }
-          intermediateStops {
-            gtfsId
-            lat
-            lon
-            name
-            code
-            platformCode
+          intermediatePlaces {
+            arrivalTime
+            stop {
+              gtfsId
+              lat
+              lon
+              name
+              code
+              platformCode
+            }
           }
           realTime
           transitLeg

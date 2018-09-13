@@ -29,7 +29,7 @@ const exampleLeg = t1 => ({
   distance: 586.4621425755712,
   duration: 900,
   rentedBike: false,
-  intermediateStops: [],
+  intermediatePlaces: [],
   route: { gtfsId: '123', shortName: '19', mode: 'FERRY' },
   trip: { tripHeadsign: 'Suomenlinna, päälait', pattern: { code: '123' } },
   from: { name: 'Kauppatori', stop: { code: '0099' } },
