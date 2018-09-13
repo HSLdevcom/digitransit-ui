@@ -317,7 +317,7 @@
 .biking-walk-promotion-container {
   display: flex;
   flex-direction: row;
-  flex: 1 1 100%;
+  flex: 0 0 auto;
   font-size: $font-size-large;
   font-family: $font-family-narrow;
   letter-spacing: 0;
@@ -345,20 +345,25 @@
     display: flex;
     flex: 0 1 100%;
     min-width: 50%;
-    justify-content: center;
+    justify-content: space-evenly;
     padding: 0.8em;
+    .suggestion-details {
+      font-size: $font-size-normal;
+      align-self: center;
+      text-align: center;
+      line-height: 1.2em;
+    }
     .duration {
-      margin-left: 0.5em;
+      margin-left: 0.3em;
       margin-right: 0.5em;
     }
     .icon-container {
+      margin-right: 0.3em;
       .icon {
         font-size: 1.8em;
       }
-      margin-right: 0.8em;
     }
     .icon-container-arrow {
-      margin-top: 0.2em;
       .icon {
         color: $link-color;
       }

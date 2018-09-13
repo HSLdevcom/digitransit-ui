@@ -150,6 +150,7 @@ class SummaryPage extends React.Component {
           hash={i}
           legs={itinerary.legs}
           passive={i !== activeIndex}
+          showIntermediateStops={i === activeIndex}
         />
       )),
       // Make sure active line isn't rendered over

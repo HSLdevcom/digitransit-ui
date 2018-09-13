@@ -100,7 +100,7 @@ class ItinerarySummaryListContainer extends React.Component {
       this.props.itineraries &&
       this.props.itineraries.length > 0
     ) {
-      const open = this.props.open && Number(this.props.open);
+      const openedIndex = this.props.open && Number(this.props.open);
       const summaries = this.props.itineraries.map((itinerary, i) => (
         <SummaryRow
           refTime={this.props.searchTime}
@@ -113,17 +113,10 @@ class ItinerarySummaryListContainer extends React.Component {
           onSelectImmediately={this.props.onSelectImmediately}
           intermediatePlaces={this.props.intermediatePlaces}
         >
-          {i === open && this.props.children}
+          {i === openedIndex && this.props.children}
         </SummaryRow>
       ));
-
-      return (
-        <React.Fragment>
-          <div className="summary-list-container momentum-scroll">
-            {summaries}
-          </div>
-        </React.Fragment>
-      );
+      return <div className="summary-list-container">{summaries}</div>;
     }
     if (
       !this.props.error &&
