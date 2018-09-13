@@ -24,12 +24,19 @@ const PromotionSuggestions = (props, context) => (
             })}
           </span>
           <span className="duration">
-            {`${Math.round(
+            {/* `${Math.round(
               props.promotionSuggestion.duration / 60,
             )} ${context.intl.formatMessage({
               id: 'number-of-minutes',
               defaultMessage: 'min',
-            })}`}
+            })}`
+          */
+            context.intl.formatMessage(
+              { id: 'number-of-minutes' },
+              {
+                number: Math.round(props.promotionSuggestion.duration / 60),
+              },
+            )}
           </span>
         </div>
         <div className="icon-container-arrow">
