@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import some from 'lodash/some';
 import mapProps from 'recompose/mapProps';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
@@ -23,9 +24,11 @@ class StopPageContentOptions extends React.Component {
       variables: PropTypes.shape({
         date: PropTypes.string.isRequired,
       }).isRequired,
+      setVariables: PropTypes.func.isRequired,
     }).isRequired,
     initialDate: PropTypes.string.isRequired,
     setDate: PropTypes.func.isRequired,
+    currentTime: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -37,6 +40,13 @@ class StopPageContentOptions extends React.Component {
     this.state = {
       showTab: 'right-now', // Show right-now as default
     };
+  }
+
+  componentWillReceiveProps({ relay, currentTime }) {
+    const currUnix = this.props.currentTime;
+    if (currUnix !== currentTime) {
+      relay.setVariables({ startTime: currUnix });
+    }
   }
 
   onDateChange = ({ target }) => {
@@ -102,6 +112,7 @@ const StopPageContent = withBreakpoint(
         relay={props.relay}
         initialDate={props.initialDate}
         setDate={props.setDate}
+        currentTime={props.currentTime}
       />
     ),
 );
@@ -119,9 +130,15 @@ StopPageContentOrEmpty.propTypes = {
   }).isRequired,
 };
 
-export default Relay.createContainer(StopPageContentOrEmpty, {
-  fragments: {
-    stop: ({ date }) => Relay.QL`
+export default Relay.createContainer(
+  connectToStores(StopPageContentOrEmpty, ['TimeStore'], ({ getStore }) => ({
+    currentTime: getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+  })),
+  {
+    fragments: {
+      stop: ({ date }) => Relay.QL`
       fragment on Stop {
         url
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
@@ -130,12 +147,13 @@ export default Relay.createContainer(StopPageContentOrEmpty, {
         ${TimetableContainer.getFragment('stop', { date })}
       }
     `,
-  },
+    },
 
-  initialVariables: {
-    startTime: 0,
-    timeRange: 3600 * 12,
-    numberOfDepartures: 100,
-    date: null,
+    initialVariables: {
+      startTime: 0,
+      timeRange: 3600 * 12,
+      numberOfDepartures: 100,
+      date: null,
+    },
   },
-});
+);
