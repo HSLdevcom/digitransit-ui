@@ -12,10 +12,10 @@ export const isLayerEnabled = (layerName, mapLayers) => {
   if (!mapLayer) {
     return false;
   }
-  const keys = Object.keys(mapLayer);
-  if (keys.length === 0) {
+  if (typeof mapLayer !== 'object') {
     return Boolean(mapLayer);
   }
+  const keys = Object.keys(mapLayer);
   if (keys.map(key => mapLayer[key]).some(value => value === true)) {
     return true;
   }
