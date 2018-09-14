@@ -8,7 +8,11 @@ import { routerShape } from 'react-router';
 
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
-import { isKeyboardSelectionEvent, isBrowser } from '../util/browser';
+import {
+  getIsBrowser,
+  isBrowser,
+  isKeyboardSelectionEvent,
+} from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
 class BubbleDialog extends React.Component {
@@ -211,7 +215,7 @@ class BubbleDialog extends React.Component {
   }
 
   render = () => {
-    if (!isBrowser) {
+    if (!isBrowser && !getIsBrowser()) {
       return null;
     }
     const { breakpoint, isFullscreenOnMobile } = this.props;
