@@ -14,11 +14,11 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     position: absolute;
 
     &.bubble-dialog-container--fullscreen {
-      bottom: unset;
+      bottom: auto;
       display: flex;
       height: 100%;
-      max-width: unset;
-      position: unset;
+      max-width: none;
+      position: static;
     }
 
     .bubble-dialog {
@@ -28,8 +28,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       padding: 0.5em;
 
       &.bubble-dialog--fullscreen {
-        border-radius: unset;
-        box-shadow: unset;
+        border-radius: 0;
+        box-shadow: none;
         display: flex;
         flex: 1 100%;
         flex-direction: column;
@@ -87,7 +87,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         color: $black;
 
         &.bubble-dialog-content--fullscreen {
-          flex: 1 1 0;
+          flex: 1 1 0px;
           overflow-y: auto;
           padding: 1em 1em 1em 2em;
           position: relative;

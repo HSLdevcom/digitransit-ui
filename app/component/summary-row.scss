@@ -131,11 +131,11 @@
     display: flex;
     white-space: nowrap;
     min-width: 0;
-    flex: 1 1 0;
+    flex: 1 1 0px;
 
     .leg {
       padding-top: $padding-small;
-      flex: 1 1 0;
+      flex: 1 1 0px;
       overflow: hidden;
       justify-content: center;
       &.large {
@@ -147,7 +147,7 @@
     }
 
     .leg.via {
-      flex: 1 1 0;
+      flex: 1 1 0px;
       overflow: hidden;
       justify-content: center;
       max-width: 16px;
