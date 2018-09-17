@@ -10,7 +10,7 @@ const RouteDetails = props => (
       defaultMessage={props.route.mode.toLowerCase()}
     />
     <span className="route-prefer-details-name">
-      {props.route.shortName || props.route.patterns.headsign}
+      {props.route.shortName || props.route.longName}
     </span>
   </div>
 );
@@ -20,9 +20,6 @@ RouteDetails.propTypes = {
     shortName: PropTypes.string,
     longName: PropTypes.string,
     mode: PropTypes.string,
-    patterns: PropTypes.shape({
-      headsign: PropTypes.string,
-    }),
   }).isRequired,
 };
 
@@ -30,13 +27,10 @@ export default Relay.createContainer(RouteDetails, {
   fragments: {
     route: () => Relay.QL`
         fragment on Route {
-                shortName
-                longName
-                mode
-                patterns {
-                    headsign
-                }
-            }
+          shortName
+          longName
+          mode
+        }
       `,
   },
 });

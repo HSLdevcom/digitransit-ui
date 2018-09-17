@@ -66,13 +66,13 @@ class PreferredRoutes extends React.Component {
                   name: 'RouteQuery',
                   queries: {
                     route: Component => Relay.QL`
-                    query ($gtfsId: String!){
-                      route (id:$gtfsId) {
+                    query ($gtfsId: String!) {
+                      route (id: $gtfsId) {
                         ${Component.getFragment('route', {
                           gtfsId: o.replace('__', ':'),
                         })}
-                          }
-                        }
+                      }
+                    }
                     `,
                   },
                   params: { gtfsId: o.replace('__', ':') },
