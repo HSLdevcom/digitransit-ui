@@ -253,7 +253,6 @@ function getFavouriteStops(favourites, input, origin) {
         name
         desc
         code
-        routes { mode }
       }
     }`,
     { ids: favourites.map(item => item.gtfsId) },
