@@ -409,7 +409,7 @@ export const sortSearchResults = (config, results, term = '') => {
               result.properties.source.indexOf('gtfs') === 0
                 ? 0.05
                 : 0.01;
-            return result.properties.confidence + boost;
+            return Math.min(result.properties.confidence + boost, 1);
           }
           case LayerType.Stop:
             return result.properties.confidence - 0.1;
