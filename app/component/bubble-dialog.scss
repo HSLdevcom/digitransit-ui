@@ -38,6 +38,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       }
 
       &.bubble-dialog--large {
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
         padding: 1em;
       }
 

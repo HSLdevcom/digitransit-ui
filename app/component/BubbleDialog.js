@@ -88,8 +88,8 @@ class BubbleDialog extends React.Component {
       >
         <div
           className={cx('bubble-dialog', {
-            'bubble-dialog--large': isLarge,
             'bubble-dialog--fullscreen': isFullscreen,
+            'bubble-dialog--large': isLarge,
           })}
         >
           <div
@@ -121,8 +121,8 @@ class BubbleDialog extends React.Component {
           </div>
           <div
             className={cx('bubble-dialog-content', contentClassName, {
-              'bubble-dialog-content--large': isLarge,
               'bubble-dialog-content--fullscreen': isFullscreen,
+              'bubble-dialog-content--large': isLarge,
             })}
             ref={this.dialogContentRef}
             tabIndex="-1"
