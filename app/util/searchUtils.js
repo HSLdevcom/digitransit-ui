@@ -282,6 +282,7 @@ function getFavouriteStops(favourites, input, origin) {
         'properties.locationName',
         'properties.name',
         'properties.desc',
+        'properties.address',
       ]),
     )
     .then(
