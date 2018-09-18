@@ -208,7 +208,7 @@ class BubbleDialog extends React.Component {
           role="button"
           tabIndex="0"
         >
-          <Icon img={`icon-icon_${this.props.icon}`} />
+          <Icon img={`icon-icon_${this.props.icon}`} viewBox="0 0 25 25" />
         </div>
       </div>
     );
