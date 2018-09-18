@@ -32,13 +32,6 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
           toggleTransportMode(TransportMode.Citybike, config, router)
         }
       />
-      <Checkbox
-        checked={false}
-        defaultMessage="I want to keep my bike with me"
-        key="cb-keep-bike-with"
-        labelId="biketransport-keep-bike-with"
-        onChange={e => console.log(e.target.value)}
-      />
     </React.Fragment>
   );
 };
