@@ -10,7 +10,10 @@ import {
 import { getStreetMode, getDefaultOTPModes } from '../util/modeUtils';
 
 export const defaultParams = (currentTime, config, context) => {
-  const params = preparePlanParams(config)(context.router.params, context);
+  const params = preparePlanParams(config)(
+    context.router.params,
+    context.router,
+  );
   const startingParams = {
     wheelchair: null,
     ...defaultRoutingSettings,
@@ -84,13 +87,17 @@ export const getBikeWalkPromotions = (
     modes[1],
   );
 
+  console.log(bikingQuery);
+
   Relay.Store.primeCache({ bikingQuery }, bikeQueryStatus => {
     if (bikeQueryStatus.ready === true) {
       const bikingPlan = Relay.Store.readQuery(bikingQuery)[0].plan
         .itineraries[0];
+      console.log(bikingPlan);
 
       Relay.Store.primeCache({ walkingQuery }, walkingQueryStatus => {
         if (walkingQueryStatus.ready === true) {
+          console.log(Relay.Store.readQuery(walkingQuery));
           const walkingPlan = Relay.Store.readQuery(walkingQuery)[0].plan
             .itineraries[0];
 

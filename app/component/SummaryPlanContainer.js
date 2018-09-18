@@ -107,6 +107,7 @@ class SummaryPlanContainer extends React.Component {
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
           query: {
+            ...this.context.location.query,
             modes: mode || this.context.location.query.modes,
           },
         });
@@ -125,6 +126,7 @@ class SummaryPlanContainer extends React.Component {
       const newState = {
         ...this.context.location,
         query: {
+          ...this.context.location.query,
           modes: mode || this.context.location.query.modes,
         },
         state: { summaryPageSelected: index },
