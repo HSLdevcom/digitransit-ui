@@ -3,15 +3,13 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
 .bubble-dialog-component-container {
   position: relative;
-
-  &.bubble-dialog-component-container--fullscreen {
-    z-index: initial;
-  }
+  z-index: initial;
 
   .bubble-dialog-container {
     bottom: 2.5em;
     max-width: calc(100vw - 2em);
     position: absolute;
+    z-index: index($zindex, front);
 
     &.bubble-dialog-container--fullscreen {
       bottom: auto;
@@ -138,11 +136,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     height: 3em;
     padding: 6px;
     width: 3em;
-
-    &.bubble-dialog-toggle--fullscreen {
-      position: relative;
-      z-index: index($zindex, map-buttons);
-    }
+    z-index: index($zindex, map-buttons);
+    position: relative;
 
     .icon {
       color: $primary-color;

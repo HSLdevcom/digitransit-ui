@@ -169,12 +169,7 @@ class BubbleDialog extends React.Component {
     }
     const isOpen = this.state.isOpen || this.props.isOpen;
     return (
-      <div
-        className={cx('bubble-dialog-component-container', {
-          'bubble-dialog-component-container--fullscreen':
-            isFullscreen && isOpen,
-        })}
-      >
+      <div className="bubble-dialog-component-container">
         {isFullscreen ? (
           <LazilyLoad modules={this.modules}>
             {({ Drawer }) => (
@@ -196,9 +191,7 @@ class BubbleDialog extends React.Component {
           isOpen && this.renderContent(false)
         )}
         <div
-          className={cx('bubble-dialog-toggle', {
-            'bubble-dialog-toggle--fullscreen': isFullscreen,
-          })}
+          className="bubble-dialog-toggle"
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) &&
