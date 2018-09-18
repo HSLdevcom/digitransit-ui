@@ -64,7 +64,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
           &.bubble-dialog-header--fullscreen {
             font-size: $bubble-dialog-font-size--fullscreen;
             font-weight: 500;
-            text-transform: initial;
+            text-transform: none;
           }
         }
 

@@ -28,7 +28,7 @@
   }
 
   h1 {
-    text-transform: initial;
+    text-transform: none;
     font-size: $font-size-normal;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-bold;
@@ -208,7 +208,7 @@
 
 .option-container {
   h1 {
-    text-transform: initial;
+    text-transform: none;
     font-size: $font-size-normal;
     letter-spacing: -0.6pt;
     font-weight: $font-weight-bold;
