@@ -420,6 +420,10 @@ export const sortSearchResults = (config, results, term = '') => {
                   normalizedSearchTerm,
                   normalize(result.properties.label),
                 ) ||
+                isMatch(
+                  normalizedSearchTerm,
+                  normalize(result.properties.address),
+                ) ||
                 isMatch(normalizedSearchTerm, normalize(result.properties.name))
                   ? 1
                   : 0;
