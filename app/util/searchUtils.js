@@ -258,23 +258,39 @@ function getFavouriteStops(favourites, input, origin) {
     { ids: favourites.map(item => item.gtfsId) },
   );
 
+  const stationQuery = Relay.createQuery(
+    Relay.QL`
+    query favouriteStations($ids: [String!]!) {
+      stations(ids: $ids ) {
+        gtfsId
+        lat
+        lon
+        name
+      }
+    }`,
+    { ids: favourites.map(item => item.gtfsId) },
+  );
+
   const refLatLng = origin &&
     origin.lat &&
     origin.lon && { lat: origin.lat, lng: origin.lon };
 
   return getRelayQuery(stopQuery)
     .then(stops =>
-      merge(stops, favourites).map(stop => ({
-        type: 'FavouriteStop',
-        properties: {
-          ...stop,
-          label: stop.locationName,
-          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-        },
-        geometry: {
-          coordinates: [stop.lon, stop.lat],
-        },
-      })),
+      getRelayQuery(stationQuery)
+        .then(stations =>
+          merge(stops, stations, favourites).map(stop => ({
+            type: 'FavouriteStop',
+            properties: {
+              ...stop,
+              label: stop.locationName,
+              layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+            },
+            geometry: {
+              coordinates: [stop.lon, stop.lat],
+            },
+          })),
+        )
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
