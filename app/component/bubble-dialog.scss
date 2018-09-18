@@ -3,7 +3,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
 
 .bubble-dialog-component-container {
   position: relative;
-  z-index: initial;
+  z-index: auto;
 
   .bubble-dialog-container {
     bottom: 2.5em;
