@@ -23,6 +23,8 @@ const LayerType = {
   Address: 'address',
   CurrentPosition: 'currentPosition',
   FavouriteStop: 'favouriteStop',
+  FavouriteStation: 'favouriteStation',
+  FavouritePlace: 'favouritePlace',
   Station: 'station',
   Stop: 'stop',
   Street: 'street',
@@ -366,9 +368,10 @@ export const getAllEndpointLayers = () => [
  *  - otherwise by confidence, except that:
  *    - boost well matching stations (especially from GTFS)
  *    - rank stops lower as they tend to occupy most of the search results
- *  - items with no confidence (old searches and favorites:
- *    - If perfect match at start, assign full confidence
- *    - In not as above, put to the end of list in original order (frequency of use)
+ *  - items with no confidence (old searches and favorites):
+ *    - rank favourites better than ordinary old searches
+ *    - if perfect match at start, assign high confidence
+ *    - if not as above, put to the end of list in layer-ranked order
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -400,49 +403,78 @@ export const sortSearchResults = (config, results, term = '') => {
     comparison.indexOf(value) === 0;
 
   const normalizedSearchTerm = normalize(term);
+  const emptySearch = normalizedSearchTerm.length === 0;
+
   const orderedResults = orderBy(
     results,
     [
-      result =>
-        term.length === 0 &&
-        result.properties.layer === LayerType.CurrentPosition
-          ? 1
-          : 0,
-      result =>
+      result => // rank route search matches best
         isLineIdentifier(term) &&
         isLineIdentifier(result.properties.shortName) &&
         normalize(result.properties.shortName).indexOf(term) === 0
-          ? 1
+          ? 2
           : 0,
+
       result => {
+        let layerRank;
+        switch (result.properties.layer) {
+          case LayerType.CurrentPosition:
+            layerRank = 1;
+          case LayerType.FavouriteStation:
+            layerRank = 0.9;
+          case LayerType.Station: {
+            if (isString(result.properties.source) &&
+                result.properties.source.indexOf('gtfs') === 0) {
+              layerRank = 0.8;
+            } else {
+              layerRank = 0.7;
+            }
+          }
+          case LayerType.FavouritePlace:
+            layerRank = 0.6;
+          case LayerType.FavouriteStop:
+            layerRank = 0.5;
+          case LayerType.Stop:
+            layerRank = 0.3;
+          default: // venue, address, street, route-xxx
+            layerRank = 0.4;
+        }
+        if (emptySearch) { // just old searches and favourites
+          return layerRank;
+        }
+
+        // must handle a mixup of geocoder searches and items above
+        let confidence = result.properties.confidence;
+        if (!confidence) { // not from geocoder, estimate confidence ourselves
+          if (
+            isMatch(
+              normalizedSearchTerm,
+              normalize(result.properties.label),
+            ) ||
+            isMatch(
+              normalizedSearchTerm,
+              normalize(result.properties.address),
+            ) ||
+            isMatch(normalizedSearchTerm, normalize(result.properties.name))
+          ) {
+            return 1 + layerRank; // put previously used stuff above new geocoding
+          }
+          return 0.3*layerRank; // not so good match, put to the end
+        }
+
+        // geocoded items with confidence, just adjust a little
         switch (result.properties.layer) {
           case LayerType.Station: {
             const boost =
-              isString(result.properties.source) &&
               result.properties.source.indexOf('gtfs') === 0
                 ? 0.05
                 : 0.01;
-            return Math.min(result.properties.confidence + boost, 1);
+            return Math.min(confidence + boost, 1);
           }
           case LayerType.Stop:
-            return result.properties.confidence - 0.1;
+              return confidence - 0.1;
           default:
-            if (!result.properties.confidence) {
-              const conf =
-                isMatch(
-                  normalizedSearchTerm,
-                  normalize(result.properties.label),
-                ) ||
-                isMatch(
-                  normalizedSearchTerm,
-                  normalize(result.properties.address),
-                ) ||
-                isMatch(normalizedSearchTerm, normalize(result.properties.name))
-                  ? 1
-                  : 0;
-              return conf;
-            }
-            return result.properties.confidence;
+            return confidence;
         }
       },
     ],

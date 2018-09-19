@@ -146,6 +146,11 @@ describe('searchUtils', () => {
       expect(results[0].properties.layer).to.equal('currentPosition');
     });
 
+    it('should show old non-station searches last if search term is empty', () => {
+      const results = sortSearchResults(config, data);
+      expect(results[results.length-1].properties.confidence).to.equal(undefined);
+    });
+
     it('should show lines first if the search term is a line identifier', () => {
       const term = '311';
       const results = sortSearchResults(config, data, term);
