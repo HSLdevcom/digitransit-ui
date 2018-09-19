@@ -250,7 +250,6 @@ function getFavouriteStops(favourites, input, origin) {
         lat
         lon
         name
-        desc
         code
       }
     }`,
