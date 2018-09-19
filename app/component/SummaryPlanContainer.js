@@ -12,8 +12,10 @@ import { getDefaultOTPModes } from '../util/modeUtils';
 import {
   preparePlanParams,
   defaultRoutingSettings,
+  getQuery,
 } from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
+import PromotionSuggestions from './PromotionSuggestions';
 import { otpToLocation } from '../util/otpStrings';
 import { getIntermediatePlaces } from '../util/queryUtils';
 
@@ -46,6 +48,38 @@ class SummaryPlanContainer extends React.Component {
     piwik: PropTypes.object,
   };
 
+  state = {
+    promotionSuggestions: false,
+    firstQuery: false,
+    setNewQuery: false,
+  };
+
+  componentDidMount = () => {
+    this.setState({ firstQuery: this.context.location.search });
+  };
+
+  componentWillReceiveProps = () => {
+    /* If the parameters have been changed, call for new promotion
+    * suggestions. Made to support lifecycle rendering caused by options
+    * picked outside of the summary screen i.e. setting components
+    */
+    this.setState({
+      setNewQuery: true,
+    });
+  };
+
+  componentDidUpdate = () => {
+    /* If the parameters have been changed, call for new promotion
+    * suggestions. Made to support lifecycle rendering caused by options
+    * picked outside of the summary screen i.e. setting components
+    */
+    if (this.context.location.search !== this.state.firstQuery) {
+      this.setState({
+        firstQuery: this.context.location.search,
+      });
+    }
+  };
+
   onSelectActive = index => {
     if (this.getActiveIndex() === index) {
       this.onSelectImmediately(index);
@@ -58,7 +92,7 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  onSelectImmediately = index => {
+  onSelectImmediately = (index, mode) => {
     if (Number(this.props.params.hash) === index) {
       if (this.props.breakpoint === 'large') {
         if (this.context.piwik != null) {
@@ -72,6 +106,10 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.replace({
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
+          query: {
+            ...this.context.location.query,
+            modes: mode || this.context.location.query.modes,
+          },
         });
       } else {
         this.context.router.goBack();
@@ -87,6 +125,10 @@ class SummaryPlanContainer extends React.Component {
       }
       const newState = {
         ...this.context.location,
+        query: {
+          ...this.context.location.query,
+          modes: mode || this.context.location.query.modes,
+        },
         state: { summaryPageSelected: index },
       };
       const basePath = getRoutePath(
@@ -171,7 +213,7 @@ class SummaryPlanContainer extends React.Component {
         time: latestDepartureTime.format('HH:mm'),
       };
 
-      const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = Relay.createQuery(getQuery(), tunedParams);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
@@ -263,7 +305,7 @@ class SummaryPlanContainer extends React.Component {
         time: earliestArrivalTime.format('HH:mm'),
       };
 
-      const query = Relay.createQuery(this.getQuery(), tunedParams);
+      const query = Relay.createQuery(getQuery(), tunedParams);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
@@ -329,84 +371,6 @@ class SummaryPlanContainer extends React.Component {
     });
   };
 
-  getQuery = () => Relay.QL`
-    query Plan(
-      $intermediatePlaces:[InputCoordinates]!,
-      $numItineraries:Int!,
-      $walkBoardCost:Int!,
-      $minTransferTime:Int!,
-      $walkReluctance:Float!,
-      $walkSpeed:Float!,
-      $maxWalkDistance:Float!,
-      $wheelchair:Boolean!,
-      $disableRemainingWeightHeuristic:Boolean!,
-      $preferred:InputPreferred!,
-      $unpreferred: InputUnpreferred!,
-      $fromPlace:String!,
-      $toPlace:String!
-      $date: String!,
-      $time: String!,
-      $arriveBy: Boolean!,
-      $modes: String!,
-      $transferPenalty: Int!,
-      $ignoreRealtimeUpdates: Boolean!,
-      $maxPreTransitTime: Int!,
-      $walkOnStreetReluctance: Float!,
-      $waitReluctance: Float!,
-      $bikeSpeed: Float!,
-      $bikeSwitchTime: Int!,
-      $bikeSwitchCost: Int!,
-      $bikeBoardCost: Int!,
-      $optimize: OptimizeType!,
-      $triangle: InputTriangle!,
-      $carParkCarLegWeight: Float!,
-      $maxTransfers: Int!,
-      $waitAtBeginningFactor: Float!,
-      $heuristicStepsPerMainStep: Int!,
-      $compactLegsByReversedSearch: Boolean!,
-      $itineraryFiltering: Float!,
-      $modeWeight: InputModeWeight!,
-    ) { viewer {
-        plan(
-          fromPlace:$fromPlace,
-          toPlace:$toPlace,
-          intermediatePlaces:$intermediatePlaces,
-          numItineraries:$numItineraries,
-          date:$date,
-          time:$time,
-          walkReluctance:$walkReluctance,
-          walkBoardCost:$walkBoardCost,
-          minTransferTime:$minTransferTime,
-          walkSpeed:$walkSpeed,
-          maxWalkDistance:$maxWalkDistance,
-          wheelchair:$wheelchair,
-          disableRemainingWeightHeuristic:$disableRemainingWeightHeuristic,
-          arriveBy:$arriveBy,
-          preferred:$preferred,
-          unpreferred: $unpreferred,
-          modes:$modes
-          transferPenalty:$transferPenalty,
-          ignoreRealtimeUpdates:$ignoreRealtimeUpdates,
-          maxPreTransitTime:$maxPreTransitTime,
-          walkOnStreetReluctance:$walkOnStreetReluctance,
-          waitReluctance:$waitReluctance,
-          bikeSpeed:$bikeSpeed,
-          bikeSwitchTime:$bikeSwitchTime,
-          bikeSwitchCost:$bikeSwitchCost,
-          bikeBoardCost:$bikeBoardCost,
-          optimize:$optimize,
-          triangle:$triangle,
-          carParkCarLegWeight:$carParkCarLegWeight,
-          maxTransfers:$maxTransfers,
-          waitAtBeginningFactor:$waitAtBeginningFactor,
-          heuristicStepsPerMainStep:$heuristicStepsPerMainStep,
-          compactLegsByReversedSearch:$compactLegsByReversedSearch,
-          itineraryFiltering: $itineraryFiltering,
-          modeWeight: $modeWeight,
-        ) {itineraries {startTime,endTime}}
-      }
-    }`;
-
   getActiveIndex() {
     if (this.context.location.state) {
       return this.context.location.state.summaryPageSelected || 0;
@@ -419,6 +383,14 @@ class SummaryPlanContainer extends React.Component {
     const lastURLSegment = this.context.location.pathname.split('/').pop();
     return Number.isNaN(Number(lastURLSegment)) ? 0 : Number(lastURLSegment);
   }
+
+  setPromotionSuggestions = promotionSuggestions => {
+    this.setState({ promotionSuggestions });
+  };
+
+  disableNewQuery = () => {
+    this.setState({ setNewQuery: false });
+  };
 
   render() {
     const currentTime = this.context
@@ -434,6 +406,29 @@ class SummaryPlanContainer extends React.Component {
 
     return (
       <div className="summary">
+        <div
+          className="biking-walk-promotion-container"
+          style={{
+            display:
+              this.state.promotionSuggestions &&
+              this.state.promotionSuggestions.length > 0
+                ? 'flex'
+                : 'none',
+          }}
+        >
+          {this.state.promotionSuggestions &&
+            this.state.promotionSuggestions.map(suggestion => (
+              <PromotionSuggestions
+                key={suggestion.plan.endTime}
+                promotionSuggestion={suggestion.plan}
+                textId={suggestion.textId}
+                iconName={suggestion.iconName}
+                onSelect={this.onSelectImmediately}
+                mode={suggestion.mode}
+                hash={0}
+              />
+            ))}
+        </div>
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -446,6 +441,10 @@ class SummaryPlanContainer extends React.Component {
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           open={Number(this.props.params.hash)}
+          config={this.props.config}
+          setPromotionSuggestions={this.setPromotionSuggestions}
+          setNewQuery={this.state.setNewQuery}
+          disableNewQuery={this.disableNewQuery}
           searchTime={this.props.plan.date}
           to={otpToLocation(to)}
         >

@@ -2,106 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
+import { routerShape } from 'react-router';
 import inside from 'point-in-polygon';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
-
-function ItinerarySummaryListContainer(
-  {
-    activeIndex,
-    children,
-    currentTime,
-    error,
-    from,
-    intermediatePlaces,
-    itineraries,
-    onSelect,
-    onSelectImmediately,
-    open,
-    searchTime,
-    to,
-  },
-  { config },
-) {
-  if (!error && itineraries && itineraries.length > 0) {
-    const openedIndex = open && Number(open);
-    const summaries = itineraries.map((itinerary, i) => (
-      <SummaryRow
-        refTime={searchTime}
-        key={i} // eslint-disable-line react/no-array-index-key
-        hash={i}
-        data={itinerary}
-        passive={i !== activeIndex}
-        currentTime={currentTime}
-        onSelect={onSelect}
-        onSelectImmediately={onSelectImmediately}
-        intermediatePlaces={intermediatePlaces}
-      >
-        {i === openedIndex && children}
-      </SummaryRow>
-    ));
-
-    return <div className="summary-list-container">{summaries}</div>;
-  }
-  if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
-    return (
-      <div className="summary-list-container summary-no-route-found">
-        <FormattedMessage
-          id="no-route-start-end"
-          defaultMessage="Please select origin and destination."
-        />
-      </div>
-    );
-  }
-
-  let msg;
-  let outside;
-  if (error) {
-    msg = error;
-  } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
-    msg = 'origin-outside-service';
-    outside = true;
-  } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
-    msg = 'destination-outside-service';
-    outside = true;
-  } else {
-    msg = 'no-route-msg';
-  }
-  let linkPart = null;
-  if (outside && config.nationalServiceLink) {
-    linkPart = (
-      <div>
-        <FormattedMessage
-          id="use-national-service"
-          defaultMessage="You can also try the national service available at"
-        />
-        <ExternalLink
-          className="external-no-route"
-          {...config.nationalServiceLink}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="summary-list-container summary-no-route-found">
-      <div className="flex-horizontal">
-        <Icon className="no-route-icon" img="icon-icon_caution" />
-        <div>
-          <FormattedMessage
-            id={msg}
-            defaultMessage={
-              'Unfortunately no routes were found for your journey. ' +
-              'Please change your origin or destination address.'
-            }
-          />
-          {linkPart}
-        </div>
-      </div>
-    </div>
-  );
-}
+import { checkPromotionQueries } from '../util/promotionUtils';
 
 const locationShape = PropTypes.shape({
   lat: PropTypes.number,
@@ -109,29 +15,184 @@ const locationShape = PropTypes.shape({
   address: PropTypes.string,
 });
 
-ItinerarySummaryListContainer.propTypes = {
-  activeIndex: PropTypes.number.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  children: PropTypes.node,
-  error: PropTypes.string,
-  from: locationShape.isRequired,
-  intermediatePlaces: PropTypes.arrayOf(locationShape),
-  itineraries: PropTypes.array,
-  onSelect: PropTypes.func.isRequired,
-  onSelectImmediately: PropTypes.func.isRequired,
-  open: PropTypes.number,
-  searchTime: PropTypes.number.isRequired,
-  to: locationShape.isRequired,
-};
+class ItinerarySummaryListContainer extends React.Component {
+  static propTypes = {
+    searchTime: PropTypes.number.isRequired,
+    itineraries: PropTypes.array,
+    intermediatePlaces: PropTypes.arrayOf(
+      PropTypes.shape({
+        lat: PropTypes.number,
+        lon: PropTypes.number,
+        address: PropTypes.string,
+      }),
+    ),
+    activeIndex: PropTypes.number.isRequired,
+    currentTime: PropTypes.number.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onSelectImmediately: PropTypes.func.isRequired,
+    setPromotionSuggestions: PropTypes.func.isRequired,
+    setNewQuery: PropTypes.bool,
+    disableNewQuery: PropTypes.func,
+    open: PropTypes.number,
+    error: PropTypes.string,
+    config: PropTypes.object,
+    children: PropTypes.node,
+    from: locationShape.isRequired,
+    to: locationShape.isRequired,
+    relay: PropTypes.shape({
+      route: PropTypes.shape({
+        params: PropTypes.shape({
+          to: PropTypes.shape({
+            lat: PropTypes.number,
+            lon: PropTypes.number,
+            address: PropTypes.string.isRequired,
+          }).isRequired,
+          from: PropTypes.shape({
+            lat: PropTypes.number,
+            lon: PropTypes.number,
+            address: PropTypes.string.isRequired,
+          }).isRequired,
+          intermediatePlaces: PropTypes.array,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
+  };
 
-ItinerarySummaryListContainer.defaultProps = {
-  intermediatePlaces: [],
-  itineraries: [],
-};
+  static defaultProps = {
+    intermediatePlaces: [],
+    itineraries: [],
+  };
 
-ItinerarySummaryListContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
-};
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    location: PropTypes.object.isRequired,
+  };
+
+  componentDidMount = () => {
+    this.getPromotionSuggestions();
+  };
+
+  componentWillReceiveProps = () => {
+    if (this.props.setNewQuery) {
+      this.getPromotionSuggestions();
+    }
+  };
+
+  getPromotionSuggestions = () => {
+    checkPromotionQueries(
+      this.props.itineraries,
+      this.context,
+      this.props.config,
+      this.props.currentTime,
+      this.setPromotionSuggestions,
+    );
+  };
+
+  setPromotionSuggestions = promotionSuggestions => {
+    this.props.setPromotionSuggestions(promotionSuggestions);
+    this.props.disableNewQuery();
+  };
+
+  render() {
+    if (
+      !this.props.error &&
+      this.props.itineraries &&
+      this.props.itineraries.length > 0
+    ) {
+      const openedIndex = this.props.open && Number(this.props.open);
+      const summaries = this.props.itineraries.map((itinerary, i) => (
+        <SummaryRow
+          refTime={this.props.searchTime}
+          key={i} // eslint-disable-line react/no-array-index-key
+          hash={i}
+          data={itinerary}
+          passive={i !== this.props.activeIndex}
+          currentTime={this.props.currentTime}
+          onSelect={this.props.onSelect}
+          onSelectImmediately={this.props.onSelectImmediately}
+          intermediatePlaces={this.props.intermediatePlaces}
+        >
+          {i === openedIndex && this.props.children}
+        </SummaryRow>
+      ));
+      return <div className="summary-list-container">{summaries}</div>;
+    }
+    if (
+      !this.props.error &&
+      (!this.props.from.lat ||
+        !this.props.from.lon ||
+        !this.props.to.lat ||
+        !this.props.to.lon)
+    ) {
+      return (
+        <div className="summary-list-container summary-no-route-found">
+          <FormattedMessage
+            id="no-route-start-end"
+            defaultMessage="Please select origin and destination."
+          />
+        </div>
+      );
+    }
+
+    let msg;
+    let outside;
+    if (this.props.error) {
+      msg = this.props.error;
+    } else if (
+      !inside(
+        [this.props.from.lon, this.props.from.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
+      msg = 'origin-outside-service';
+      outside = true;
+    } else if (
+      !inside(
+        [this.props.to.lon, this.props.to.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
+      msg = 'destination-outside-service';
+      outside = true;
+    } else {
+      msg = 'no-route-msg';
+    }
+    let linkPart = null;
+    if (outside && this.context.config.nationalServiceLink) {
+      linkPart = (
+        <div>
+          <FormattedMessage
+            id="use-national-service"
+            defaultMessage="You can also try the national service available at"
+          />
+          <ExternalLink
+            className="external-no-route"
+            {...this.context.config.nationalServiceLink}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="summary-list-container summary-no-route-found">
+        <div className="flex-horizontal">
+          <Icon className="no-route-icon" img="icon-icon_caution" />
+          <div>
+            <FormattedMessage
+              id={msg}
+              defaultMessage={
+                'Unfortunately no routes were found for your journey. ' +
+                'Please change your origin or destination address.'
+              }
+            />
+            {linkPart}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Relay.createContainer(ItinerarySummaryListContainer, {
   fragments: {
@@ -140,6 +201,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
         walkDistance
         startTime
         endTime
+        duration
         legs {
           realTime
           transitLeg
