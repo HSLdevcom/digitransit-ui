@@ -183,8 +183,8 @@ class CustomizeSearch extends React.Component {
             />
             <PreferredRoutes
               onRouteSelected={this.onRouteSelected}
-              preferredRoutes={currentSettings.preferred}
-              unPreferredRoutes={currentSettings.unpreferred}
+              preferredRoutes={currentSettings.preferredRoutes}
+              unPreferredRoutes={currentSettings.unpreferredRoutes}
               removeRoute={this.removeRoute}
             />
             <div className="settings-option-container">

@@ -6,6 +6,7 @@ const mockRouter = {
   goForward: () => {},
   setRouteLeaveHook: () => {},
   isActive: () => {},
+  getCurrentLocation: () => ({}),
 };
 
 export default mockRouter;

@@ -520,7 +520,6 @@ const translations = {
     'bike-not-allowed-bus': 'Bikes are not allowed on the bus',
     'bike-not-allowed-tram': 'Bikes are not allowed on the tram',
     'biketransport-citybike': "I'm using a citybike",
-    'biketransport-keep-bike-with': 'I want to keep my bike with me',
     'biketransport-only-bike': "I'm travelling only by bike",
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
@@ -555,6 +554,7 @@ const translations = {
     'destination-outside-service':
       'Unfortunately no routes were found for your journey. Your destination address is located outside the service area. Please change it.',
     'destination-placeholder': 'Enter destination, route or stop',
+    'dialog-return-to-map': 'Return to map',
     'digitransit-platform': 'Digitransit service platform',
     disclaimer:
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
@@ -737,6 +737,7 @@ const translations = {
     'search-search-results-but-no-destination':
       'View results in the adjacent “About the route or stop” tab',
     'searching-position': 'Detecting location...',
+    'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
     send: 'Send',
     settings: 'Settings',
@@ -1164,7 +1165,6 @@ const translations = {
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
-    'biketransport-keep-bike-with': 'Haluan pitää pyörän mukanani',
     'biketransport-only-bike': 'Liikun vain pyörällä',
     'biking-amount': 'Pyöräilyn määrä',
     'biking-speed': 'Pyöräilyn nopeus',
@@ -1201,6 +1201,7 @@ const translations = {
     'destination-outside-service':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
+    'dialog-return-to-map': 'Takaisin karttaan',
     'digitransit-platform': 'Digitransit palvelualusta',
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
@@ -1279,6 +1280,16 @@ const translations = {
     'main-menu-label-open': 'Avaa päävalikko',
     'main-mode': 'Kulkumuoto',
     map: 'Kartta',
+    'map-layer-citybike': 'Kaupunkipyöräasema',
+    'map-layer-park-and-ride': 'Liityntäpysäköinti',
+    'map-layer-stop-bus': 'Bussipysäkki',
+    'map-layer-stop-ferry': 'Lautta',
+    'map-layer-stop-tram': 'Raitiovaunupysäkki',
+    'map-layer-terminal-bus': 'Bussiterminaali',
+    'map-layer-terminal-rail': 'Juna-asema',
+    'map-layer-terminal-subway': 'Metroasema',
+    'map-layer-ticket-sales-machine': 'Lippuautomaatti',
+    'map-layer-ticket-sales-point': 'Matkakortin latauspiste',
     'messagebar-label-close-message-bar': 'Sulje banneri',
     'messagebar-label-page': 'Sivu',
     'minute-short': 'min',
@@ -1385,6 +1396,7 @@ const translations = {
     'search-search-results-but-no-destination':
       'Katso tulokset viereiseltä "Tietoja linjasta tai pysäkistä" –välilehdeltä',
     'searching-position': 'Paikannetaan...',
+    'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
     settings: 'Asetukset',
@@ -2023,7 +2035,6 @@ const translations = {
     'bike-not-allowed-bus': 'Cyklar är inte tillåtna på bussen',
     'bike-not-allowed-tram': 'Cyklar är inte tillåtna på spårvagnen',
     'biketransport-citybike': 'Jag använder en stadscykel',
-    'biketransport-keep-bike-with': 'Jag vill hålla min cykel med mig',
     'biketransport-only-bike': 'Jag reser bara med cykel',
     'biking-amount': 'Antal cyklar',
     'biking-speed': 'Cykling hastighet',

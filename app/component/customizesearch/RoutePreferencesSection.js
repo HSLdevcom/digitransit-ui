@@ -18,11 +18,12 @@ const RoutePreferencesSection = (
         id: 'route-preferences',
       })}
     </h1>
+    {/* TODO: to be implemented when OTP/OSM support is available 
     <Checkbox
       defaultMessage="Prefer paved routes"
       labelId="route-prefer-paved"
       onChange={e => console.log(e.target)}
-    />
+    /> */}
     <Checkbox
       checked={optimize === OptimizeType.Greenways}
       defaultMessage="Prefer cycleways"
@@ -35,16 +36,18 @@ const RoutePreferencesSection = (
         })
       }
     />
+    {/* TODO: to be implemented when OTP/OSM support is available
     <Checkbox
       defaultMessage="Prefer routes with winter maintenance"
       labelId="route-prefer-winter-maintenance"
       onChange={e => console.log(e.target)}
-    />
+    /> */}
+    {/* TODO: to be implemented when OTP/OSM support is available 
     <Checkbox
       defaultMessage="Prefer illuminated routes"
       labelId="route-prefer-illuminated"
       onChange={e => console.log(e.target)}
-    />
+    /> */}
   </div>
 );
 

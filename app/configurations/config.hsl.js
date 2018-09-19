@@ -399,4 +399,16 @@ export default {
     },
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
+
+  mapLayers: {
+    featureMapping: {
+      ticketSales: {
+        Palvelupiste: 'servicePoint',
+        'HSL Automaatti MNL': 'ticketMachine',
+        'HSL Automaatti KL': 'ticketMachine',
+        Myyntipiste: 'salesPoint',
+        'R-kioski': 'salesPoint',
+      },
+    },
+  },
 };

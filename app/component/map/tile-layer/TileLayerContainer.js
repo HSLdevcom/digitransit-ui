@@ -1,3 +1,4 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -5,6 +6,7 @@ import { intlShape } from 'react-intl';
 import GridLayer from 'react-leaflet/es/GridLayer';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
+import isEqual from 'lodash/isEqual';
 import L from 'leaflet';
 
 import Popup from '../Popup';
@@ -22,6 +24,8 @@ import TicketSalesPopup from '../popups/TicketSalesPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import Loading from '../../Loading';
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 
 const initialState = {
   selectableTargets: undefined,
@@ -37,6 +41,7 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static contextTypes = {
@@ -59,9 +64,15 @@ class TileLayerContainer extends GridLayer {
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.context.popupContainer != null) {
       this.context.popupContainer.openPopup();
+    }
+    if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
+      this.context.map.removeEventParent(this.leafletElement);
+      this.leafletElement.remove();
+      this.leafletElement = this.createLeafletElement(this.props);
+      this.context.map.addLayer(this.leafletElement);
     }
   }
 
@@ -152,7 +163,14 @@ class TileLayerContainer extends GridLayer {
       }
 
       this.setState({
-        selectableTargets,
+        selectableTargets: selectableTargets.filter(target =>
+          isFeatureLayerEnabled(
+            target.feature,
+            target.layer,
+            this.props.mapLayers,
+            this.context.config,
+          ),
+        ),
         coords,
         showSpinner: true,
       });
@@ -308,4 +326,10 @@ class TileLayerContainer extends GridLayer {
   }
 }
 
-export default TileLayerContainer;
+export default connectToStores(
+  TileLayerContainer,
+  [MapLayerStore],
+  context => ({
+    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
+  }),
+);
