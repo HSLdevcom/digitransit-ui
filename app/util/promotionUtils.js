@@ -1,6 +1,6 @@
 import Relay from 'react-relay/classic';
 import moment from 'moment';
-
+import uniq from 'lodash/uniq';
 import {
   preparePlanParams,
   defaultRoutingSettings,
@@ -43,6 +43,13 @@ export const getPromotionQuery = (currentTime, config, context, mode) => {
 
   return Relay.createQuery(getQuery(), promotionParams);
 };
+/**
+ * Make a list of used modes in the plan
+ * @param plan The plan to check
+ */
+
+export const getPlanModes = plan =>
+  uniq(plan.legs.map(leg => leg.mode)).toString();
 
 /**
  * Check the terms for the suggestions
@@ -87,17 +94,13 @@ export const getBikeWalkPromotions = (
     modes[1],
   );
 
-  console.log(bikingQuery);
-
   Relay.Store.primeCache({ bikingQuery }, bikeQueryStatus => {
     if (bikeQueryStatus.ready === true) {
       const bikingPlan = Relay.Store.readQuery(bikingQuery)[0].plan
         .itineraries[0];
-      console.log(bikingPlan);
 
       Relay.Store.primeCache({ walkingQuery }, walkingQueryStatus => {
         if (walkingQueryStatus.ready === true) {
-          console.log(Relay.Store.readQuery(walkingQuery));
           const walkingPlan = Relay.Store.readQuery(walkingQuery)[0].plan
             .itineraries[0];
 
@@ -107,13 +110,13 @@ export const getBikeWalkPromotions = (
                 plan: bikingPlan,
                 textId: 'bicycle',
                 iconName: 'biking',
-                mode: 'BICYCLE',
+                mode: getPlanModes(bikingPlan),
               },
               checkResults(walkingPlan, maxDurationWalk, maxDistanceWalk) && {
                 plan: walkingPlan,
                 textId: 'by-walking',
                 iconName: 'walk',
-                mode: 'WALK',
+                mode: getPlanModes(walkingPlan),
               },
             ].filter(o => o),
           );
@@ -170,7 +173,6 @@ export const checkPromotionQueries = (
         1000,
       );
     } else {
-      console.log('doesnt qualify for promotion');
       setPromotionSuggestions(false);
     }
   }
