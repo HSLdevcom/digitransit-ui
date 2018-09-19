@@ -186,6 +186,7 @@ class IndexPage extends React.Component {
           tab={this.props.tab}
           searchType="all"
           originPlaceHolder="search-origin"
+          destinationPlaceHolder="search-destination"
         />
         <div key="foo" className="fpccontainer">
           <FrontPagePanelLarge
