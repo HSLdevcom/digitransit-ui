@@ -195,12 +195,15 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   max-height: 36px;
   max-width: calc(100% - 2em);
   position: absolute;
-  z-index: index($zindex, map-buttons);
 
-  & [role='button'] {
+  [role='button'] {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
     max-height: 36px;
     max-width: 36px;
+  }
+
+  & > * {
+    z-index: index($zindex, map-buttons);
   }
 
   & > *:not(:first-child) {

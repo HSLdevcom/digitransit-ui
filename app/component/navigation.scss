@@ -40,7 +40,8 @@ $content-background-color: $background-color;
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
-  height: 40px;
+  height: $topbar-height;
+  min-height: $topbar-height;
 
   &.bp-large {
     height: 60px;

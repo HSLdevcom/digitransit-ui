@@ -295,3 +295,9 @@ export function setHistory(history) {
 export function getHistory() {
   return getItemAsJson('history', '{"entries":["/"], "index":0, "time":0}');
 }
+
+export const setMapLayerSettings = settings => {
+  setItem('map-layers', settings);
+};
+
+export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');

@@ -53,13 +53,23 @@ function getChild(child) {
 }
 
 export default function ComponentUsageExample(
-  { description, children },
+  { description, children, isFullscreen },
   { componentOnly },
 ) {
   if (componentOnly) {
+    const style = isFullscreen
+      ? {
+          height: '100vh',
+          margin: '-75px -25px',
+          position: 'relative',
+          width: '100vw',
+        }
+      : {};
     return (
       <div className="component-example component-example-large-vertical-padding">
-        <div className="component">{children}</div>
+        <div className="component" style={style}>
+          {children}
+        </div>
       </div>
     );
   }
@@ -81,6 +91,11 @@ export default function ComponentUsageExample(
 ComponentUsageExample.propTypes = {
   description: PropTypes.node,
   children: PropTypes.node,
+  isFullscreen: PropTypes.bool,
+};
+
+ComponentUsageExample.defaultProps = {
+  isFullscreen: false,
 };
 
 ComponentUsageExample.contextTypes = {

@@ -1,4 +1,10 @@
-export const isBrowser = typeof window !== 'undefined' && window !== null;
+/**
+ * Runs a check to see if the code is currently running in a browser.
+ */
+export const getIsBrowser = () =>
+  typeof window !== 'undefined' && window !== null;
+
+export const isBrowser = getIsBrowser();
 export const isIOSApp = isBrowser && navigator.standalone;
 
 export const isWindowsPhone =

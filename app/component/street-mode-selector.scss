@@ -17,6 +17,7 @@ $street-mode-selector-icon-size: 2em;
     &.selected,
     &:focus,
     &:hover {
+      background-color: transparent;
       color: $black;
 
       &::after {
@@ -59,15 +60,5 @@ $street-mode-selector-icon-size: 2em;
       line-height: 1;
       margin-top: 0.5em;
     }
-  }
-}
-
-%header {
-  align-items: center;
-  display: flex;
-
-  > span {
-    color: $black;
-    font-size: 1rem;
   }
 }

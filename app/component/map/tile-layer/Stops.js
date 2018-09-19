@@ -3,17 +3,29 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
 import { drawRoundIcon, drawTerminalIcon } from '../../../util/mapIconUtils';
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
 class Stops {
-  constructor(tile, config) {
+  constructor(tile, config, mapLayers) {
     this.tile = tile;
     this.config = config;
+    this.mapLayers = mapLayers;
     this.promise = this.getPromise();
   }
 
   static getName = () => 'stop';
 
   drawStop(feature) {
+    if (
+      !isFeatureLayerEnabled(
+        feature,
+        Stops.getName(),
+        this.mapLayers,
+        this.config,
+      )
+    ) {
+      return;
+    }
     if (feature.properties.type === 'FERRY') {
       drawTerminalIcon(
         this.tile,
@@ -83,7 +95,15 @@ class Stops {
               i++
             ) {
               const feature = vt.layers.stations.feature(i);
-              if (feature.properties.type) {
+              if (
+                feature.properties.type &&
+                isFeatureLayerEnabled(
+                  feature,
+                  'terminal',
+                  this.mapLayers,
+                  this.config,
+                )
+              ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 drawTerminalIcon(
