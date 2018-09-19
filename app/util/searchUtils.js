@@ -133,7 +133,6 @@ function getOldSearches(oldSearches, input, dropLayers) {
     'properties.label',
     'properties.shortName',
     'properties.longName',
-    'properties.desc',
   ]);
 
   if (dropLayers) {
@@ -296,7 +295,6 @@ function getFavouriteStops(favourites, input, origin) {
       filterMatchingToInput(stops, input, [
         'properties.locationName',
         'properties.name',
-        'properties.desc',
         'properties.address',
       ]),
     )
