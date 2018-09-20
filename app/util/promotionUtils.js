@@ -73,6 +73,7 @@ export const checkResults = (plan, maxDuration, maxDistance) =>
  * @param maxDistanceBike The maximum distance allowed for a bike itinerary
  * @param maxDurationWalk The maximum duration allowed for a walking itinerary
  * @param maxDistanceWalk The maximum distance allowed for a walking itinerary
+ * @param streetMode the current streetMode the promotion is being set
  */
 
 export const getBikeWalkPromotions = (
@@ -85,6 +86,7 @@ export const getBikeWalkPromotions = (
   maxDistanceBike,
   maxDurationWalk,
   maxDistanceWalk,
+  streetMode,
 ) => {
   const bikingQuery = getPromotionQuery(currentTime, config, context, modes[0]);
   const walkingQuery = getPromotionQuery(
@@ -104,8 +106,9 @@ export const getBikeWalkPromotions = (
           const walkingPlan = Relay.Store.readQuery(walkingQuery)[0].plan
             .itineraries[0];
 
-          setPromotionSuggestions(
-            [
+          setPromotionSuggestions({
+            streetMode,
+            suggestions: [
               checkResults(bikingPlan, maxDurationBike, maxDistanceBike) && {
                 plan: bikingPlan,
                 textId: 'bicycle',
@@ -119,7 +122,7 @@ export const getBikeWalkPromotions = (
                 mode: getPlanModes(walkingPlan),
               },
             ].filter(o => o),
-          );
+          });
         }
       });
     }
@@ -145,8 +148,9 @@ export const checkPromotionQueries = (
     const totalTransitDistance = itineraries[0].legs
       .map(leg => leg.distance)
       .reduce((a, b) => a + b, 0);
+    const streetMode = getStreetMode(context.location, context.config);
     if (
-      getStreetMode(context.location, context.config) === 'PUBLIC_TRANSPORT' &&
+      streetMode === 'PUBLIC_TRANSPORT' &&
       Math.round(totalTransitDistance / 500) * 500 <= 5000
     ) {
       getBikeWalkPromotions(
@@ -159,8 +163,9 @@ export const checkPromotionQueries = (
         5000,
         1800,
         2000,
+        streetMode,
       );
-    } else if (getStreetMode(context.location, context.config) === 'CAR_PARK') {
+    } else if (streetMode === 'CAR_PARK') {
       getBikeWalkPromotions(
         currentTime,
         config,
@@ -171,6 +176,7 @@ export const checkPromotionQueries = (
         2500,
         900,
         1000,
+        streetMode,
       );
     } else {
       setPromotionSuggestions(false);

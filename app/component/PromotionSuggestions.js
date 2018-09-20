@@ -41,7 +41,7 @@ const PromotionSuggestions = (props, context) => (
 );
 
 PromotionSuggestions.propTypes = {
-  promotionSuggestion: PropTypes.array,
+  promotionSuggestion: PropTypes.object,
   textId: PropTypes.string,
   iconName: PropTypes.string,
   onSelect: PropTypes.func,

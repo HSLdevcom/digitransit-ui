@@ -8,7 +8,7 @@ import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import { getRoutePath } from '../util/path';
 import Loading from './Loading';
-import { getDefaultOTPModes } from '../util/modeUtils';
+import { getDefaultOTPModes, getStreetMode } from '../util/modeUtils';
 import {
   preparePlanParams,
   defaultRoutingSettings,
@@ -66,6 +66,7 @@ class SummaryPlanContainer extends React.Component {
     * suggestions. Made to support lifecycle rendering caused by options
     * picked outside of the summary screen i.e. setting components
     */
+   console.log('received props');
     this.setState({
       setNewQuery: true,
     });
@@ -388,7 +389,12 @@ class SummaryPlanContainer extends React.Component {
   }
 
   setPromotionSuggestions = (promotionSuggestions, loadSummary) => {
-    this.setState({ promotionSuggestions, loadSummary });
+    // Stop setting suggestions if user has toggled streetMode between
+    // suggestion fetching
+    this.setState({
+      promotionSuggestions,
+      loadSummary,
+    });
   };
 
   disableNewQuery = () => {
@@ -401,36 +407,40 @@ class SummaryPlanContainer extends React.Component {
       .getCurrentTime()
       .valueOf();
     const activeIndex = this.getActiveIndex();
-    if (!this.props.itineraries && this.props.error === null) {
+    if (
+      !this.props.itineraries &&
+      this.props.error === null &&
+      !this.state.loadSummary
+    ) {
       return <Loading />;
     }
 
     const { from, to } = this.props.params;
 
-    const isPromotion = this.state.promotionSuggestions && (
-      <div
-        className="biking-walk-promotion-container"
-        style={{
-          display:
-            this.state.promotionSuggestions &&
-            this.state.promotionSuggestions.length > 0
-              ? 'flex'
-              : 'none',
-        }}
-      >
-        {this.state.promotionSuggestions.map(suggestion => (
-          <PromotionSuggestions
-            key={suggestion.plan.endTime}
-            promotionSuggestion={suggestion.plan}
-            textId={suggestion.textId}
-            iconName={suggestion.iconName}
-            onSelect={this.onSelectImmediately}
-            mode={suggestion.mode}
-            hash={0}
-          />
-        ))}
-      </div>
-    );
+    const isPromotion = getStreetMode(
+      this.context.location,
+      this.props.config,
+    ) === this.state.promotionSuggestions.streetMode &&
+      this.state.promotionSuggestions.suggestions && (
+        <div
+          className="biking-walk-promotion-container"
+          style={{
+            display: 'flex',
+          }}
+        >
+          {this.state.promotionSuggestions.suggestions.map(suggestion => (
+            <PromotionSuggestions
+              key={suggestion.plan.endTime}
+              promotionSuggestion={suggestion.plan}
+              textId={suggestion.textId}
+              iconName={suggestion.iconName}
+              onSelect={this.onSelectImmediately}
+              mode={suggestion.mode}
+              hash={0}
+            />
+          ))}
+        </div>
+      );
 
     return (
       <div
