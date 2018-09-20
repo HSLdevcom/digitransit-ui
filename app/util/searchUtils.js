@@ -277,20 +277,19 @@ function getFavouriteStops(favourites, input, origin) {
 
   return getRelayQuery(stopQuery)
     .then(stops =>
-      getRelayQuery(stationQuery)
-        .then(stations =>
-          merge(stops, stations, favourites).map(stop => ({
-            type: 'FavouriteStop',
-            properties: {
-              ...stop,
-              label: stop.locationName,
-              layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-            },
-            geometry: {
-              coordinates: [stop.lon, stop.lat],
-            },
-          })),
-        )
+      getRelayQuery(stationQuery).then(stations =>
+        merge(stops, stations, favourites).map(stop => ({
+          type: 'FavouriteStop',
+          properties: {
+            ...stop,
+            label: stop.locationName,
+            layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+          },
+          geometry: {
+            coordinates: [stop.lon, stop.lat],
+          },
+        })),
+      ),
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
