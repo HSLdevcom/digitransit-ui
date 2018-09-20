@@ -406,20 +406,17 @@ export const sortSearchResults = (config, results, term = '') => {
       .filter(v => v && v.length > 0 && normalize(v).indexOf(t) === 0).length >
       0;
 
-  const normalizedSearchTerm = normalize(term);
-  const isLineSearch = isLineIdentifier(term);
+  const normalizedTerm = normalize(term);
+  const isLineSearch = isLineIdentifier(normalizedTerm);
 
-  if (term === '10') {
-    console.log('10');
-  }
   const orderedResults = orderBy(
     results,
     [
       // rank matching routes best
       result =>
         isLineSearch &&
-        isLineIdentifier(result.properties.shortName) &&
-        result.properties.shortName.indexOf(term) === 0
+        isLineIdentifier(normalize(result.properties.shortName)) &&
+        normalize(result.properties.shortName).indexOf(normalizedTerm) === 0
           ? 2
           : 0,
 
@@ -456,7 +453,7 @@ export const sortSearchResults = (config, results, term = '') => {
             // venue, address, street, route-xxx
             layerRank = 0.4;
         }
-        if (normalizedSearchTerm.length === 0) {
+        if (normalizedTerm.length === 0) {
           // Doing search with empty string.
           // No confidence to macth, so use ranked old searches and favourites
           return layerRank;
@@ -467,7 +464,7 @@ export const sortSearchResults = (config, results, term = '') => {
         const { confidence } = result.properties;
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          if (isMatch(normalizedSearchTerm, result.properties)) {
+          if (isMatch(normalizedTerm, result.properties)) {
             return 1 + layerRank; // put previously used stuff above new geocoding
           }
           return 0.3 * layerRank; // not so good match, put to the end
