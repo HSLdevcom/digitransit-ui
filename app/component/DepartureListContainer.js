@@ -21,8 +21,8 @@ const asDepartures = stoptimes =>
     : stoptimes.map(stoptime => {
         const isArrival = stoptime.pickupType === 'NONE';
         /* OTP returns either scheduled time or realtime prediction in
-       * 'realtimeDeparture' and 'realtimeArrival' fields.
-       * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
+           * 'realtimeDeparture' and 'realtimeArrival' fields.
+           * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
         const canceled = stoptime.realtimeState === 'CANCELED';
         const arrivalTime =
           stoptime.serviceDay +
@@ -179,6 +179,7 @@ export default Relay.createContainer(DepartureListContainer, {
           }
           trip {
             gtfsId
+            tripHeadsign
             pattern {
               route {
                 gtfsId

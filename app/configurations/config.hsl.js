@@ -14,7 +14,7 @@ export default {
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
-    FONT: 'https://cloud.typography.com/6364294/6653152/css/fonts.css',
+    FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
   },
 
   contactName: {
