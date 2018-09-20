@@ -361,7 +361,7 @@ export const getAllEndpointLayers = () => [
 ];
 
 /**
- * Helper function to sort the results with. Orders as follows:
+ * Helper function to sort the results. Orders as follows:
  *  - current position first for an empty search
  *  - matching routes first
  *  - otherwise by confidence, except that:
@@ -454,6 +454,7 @@ export const sortSearchResults = (config, results, term = '') => {
         }
 
         // must handle a mixup of geocoder searches and items above
+        // Normal confidence range from geocoder is about 0.3 .. 1
         const { confidence } = result.properties;
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
