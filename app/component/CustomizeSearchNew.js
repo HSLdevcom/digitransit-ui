@@ -103,119 +103,112 @@ class CustomizeSearch extends React.Component {
           onKeyPress={e => e.stopPropagation()}
           tabIndex={0}
         >
-          <section className="offcanvas-section">
-            <button
-              className="close-offcanvas"
-              onClick={onToggleClick}
-              onKeyPress={onToggleClick}
-            >
-              <Icon className="close-icon" img="icon-icon_close" />
-            </button>
+          <button
+            className="close-offcanvas"
+            onClick={onToggleClick}
+            onKeyPress={onToggleClick}
+          >
+            <Icon className="close-icon" img="icon-icon_close" />
+          </button>
+          <div className="settings-option-container">
+            <StreetModeSelectorPanel
+              className="customized-settings"
+              selectedStreetMode={ModeUtils.getStreetMode(
+                router.location,
+                config,
+              )}
+              selectStreetMode={(streetMode, isExclusive) =>
+                ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+              }
+              showButtonTitles
+              streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
+                config,
+              )}
+            />
+          </div>
+          {isUsingBicycle && (
             <div className="settings-option-container">
-              <StreetModeSelectorPanel
-                className="customized-settings"
-                selectedStreetMode={ModeUtils.getStreetMode(
-                  router.location,
-                  config,
-                )}
-                selectStreetMode={(streetMode, isExclusive) =>
-                  ModeUtils.setStreetMode(
-                    streetMode,
-                    config,
-                    router,
-                    isExclusive,
-                  )
-                }
-                showButtonTitles
-                streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(
-                  config,
-                )}
-              />
-            </div>
-            {isUsingBicycle && (
-              <div className="settings-option-container">
-                <BikeTransportOptionsSection
-                  currentModes={currentSettings.modes}
-                />
-              </div>
-            )}
-            <div className="settings-option-container">
-              <TransportModesSection
-                config={config}
+              <BikeTransportOptionsSection
                 currentModes={currentSettings.modes}
               />
             </div>
-            <div className="settings-option-container">
-              {isUsingBicycle ? (
-                <BikingOptionsSection
-                  walkReluctance={currentSettings.walkReluctance}
-                  walkReluctanceOptions={config.defaultOptions.walkReluctance}
-                  bikeSpeed={currentSettings.bikeSpeed}
-                  defaultSettings={this.defaultSettings}
-                />
-              ) : (
-                <WalkingOptionsSection
-                  walkReluctance={currentSettings.walkReluctance}
-                  walkReluctanceOptions={config.defaultOptions.walkReluctance}
-                  walkSpeed={currentSettings.walkSpeed}
-                  defaultSettings={this.defaultSettings}
-                />
-              )}
-            </div>
-            <div className="settings-option-container">
-              <TransferOptionsSection
-                walkBoardCost={currentSettings.walkBoardCost}
-                walkBoardCostOptions={config.defaultOptions.walkBoardCost}
-                minTransferTime={currentSettings.minTransferTime}
+          )}
+          <div className="settings-option-container">
+            <TransportModesSection
+              config={config}
+              currentModes={currentSettings.modes}
+            />
+          </div>
+          <div className="settings-option-container">
+            {isUsingBicycle ? (
+              <BikingOptionsSection
+                walkReluctance={currentSettings.walkReluctance}
+                walkReluctanceOptions={config.defaultOptions.walkReluctance}
+                bikeSpeed={currentSettings.bikeSpeed}
                 defaultSettings={this.defaultSettings}
               />
-            </div>
-            <FareZoneSelector
-              headerText={intl.formatMessage({
-                id: 'zones',
-                defaultMessage: 'Fare zones',
-              })}
-              options={get(config, 'fareMapping', {})}
-              currentOption={currentSettings.ticketTypes || 'none'}
-              updateValue={value =>
-                replaceQueryParams(router, { ticketTypes: value })
+            ) : (
+              <WalkingOptionsSection
+                walkReluctance={currentSettings.walkReluctance}
+                walkReluctanceOptions={config.defaultOptions.walkReluctance}
+                walkSpeed={currentSettings.walkSpeed}
+                defaultSettings={this.defaultSettings}
+              />
+            )}
+          </div>
+          <div className="settings-option-container">
+            <TransferOptionsSection
+              walkBoardCost={currentSettings.walkBoardCost}
+              walkBoardCostOptions={config.defaultOptions.walkBoardCost}
+              minTransferTime={currentSettings.minTransferTime}
+              defaultSettings={this.defaultSettings}
+            />
+          </div>
+          <FareZoneSelector
+            headerText={intl.formatMessage({
+              id: 'zones',
+              defaultMessage: 'Fare zones',
+            })}
+            options={get(config, 'fareMapping', {})}
+            currentOption={currentSettings.ticketTypes || 'none'}
+            updateValue={value =>
+              replaceQueryParams(router, { ticketTypes: value })
+            }
+          />
+          <PreferredRoutes
+            onRouteSelected={this.onRouteSelected}
+            preferredRoutes={currentSettings.preferredRoutes}
+            unPreferredRoutes={currentSettings.unpreferredRoutes}
+            removeRoute={this.removeRoute}
+          />
+          <div className="settings-option-container">
+            <RoutePreferencesSection
+              optimize={currentSettings.optimize}
+              defaultSettings={this.defaultSettings}
+            />
+          </div>
+          <div className="settings-option-container">
+            <SelectOptionContainer
+              currentSelection={currentSettings.accessibilityOption}
+              defaultValue={this.defaultSettings.accessibilityOption}
+              options={accessibilityOptions.map((o, i) => ({
+                title: accessibilityOptions[i].messageId,
+                value: accessibilityOptions[i].value,
+              }))}
+              onOptionSelected={value =>
+                replaceQueryParams(router, {
+                  accessibilityOption: value,
+                })
               }
+              title="accessibility"
             />
-            <PreferredRoutes
-              onRouteSelected={this.onRouteSelected}
-              preferredRoutes={currentSettings.preferredRoutes}
-              unPreferredRoutes={currentSettings.unpreferredRoutes}
-              removeRoute={this.removeRoute}
+          </div>
+          <div className="settings-option-container save-controls-container">
+            <SaveCustomizedSettingsButton
+              noSettingsFound={this.resetParameters}
             />
-            <div className="settings-option-container">
-              <RoutePreferencesSection
-                optimize={currentSettings.optimize}
-                defaultSettings={this.defaultSettings}
-              />
-            </div>
-            <div className="settings-option-container">
-              <SelectOptionContainer
-                currentSelection={currentSettings.accessibilityOption}
-                defaultValue={this.defaultSettings.accessibilityOption}
-                options={accessibilityOptions.map((o, i) => ({
-                  title: accessibilityOptions[i].messageId,
-                  value: accessibilityOptions[i].value,
-                }))}
-                onOptionSelected={value =>
-                  replaceQueryParams(router, {
-                    accessibilityOption: value,
-                  })
-                }
-                title="accessibility"
-              />
-            </div>
-            <div className="settings-option-container save-controls-container">
-              <SaveCustomizedSettingsButton
-                noSettingsFound={this.resetParameters}
-              />
-              <ResetCustomizedSettingsButton onReset={this.resetParameters} />
-            </div>
-          </section>
+            <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+          </div>
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
+import { getDrawerWidth } from '../util/browser';
 import * as ModeUtils from '../util/modeUtils';
 import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -122,13 +123,6 @@ class SummaryNavigation extends React.Component {
   render() {
     const { config, router } = this.context;
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
-    let drawerWidth = 291;
-    if (typeof window !== 'undefined') {
-      drawerWidth =
-        0.5 * window.innerWidth > 291
-          ? Math.min(600, 0.5 * window.innerWidth)
-          : '100%';
-    }
     const isOpen = this.getOffcanvasState();
 
     return (
@@ -148,7 +142,7 @@ class SummaryNavigation extends React.Component {
                 boxShadow: 'none',
                 ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
               }}
-              width={drawerWidth}
+              width={getDrawerWidth(window)}
             >
               <CustomizeSearch
                 isOpen={isOpen}

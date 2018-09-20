@@ -9,6 +9,7 @@ import { routerShape } from 'react-router';
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import {
+  getDrawerWidth,
   getIsBrowser,
   isBrowser,
   isKeyboardSelectionEvent,
@@ -160,13 +161,6 @@ class BubbleDialog extends React.Component {
   }
 
   renderContainer(isFullscreen) {
-    let drawerWidth = 291;
-    if (typeof window !== 'undefined') {
-      drawerWidth =
-        0.5 * window.innerWidth > 291
-          ? Math.min(600, 0.5 * window.innerWidth)
-          : '100%';
-    }
     const isOpen = this.state.isOpen || this.props.isOpen;
     return (
       <div className="bubble-dialog-component-container">
@@ -181,7 +175,7 @@ class BubbleDialog extends React.Component {
                 docked={false}
                 open={isOpen}
                 openSecondary
-                width={drawerWidth}
+                width={getDrawerWidth(window)}
               >
                 {this.renderContent(true)}
               </Drawer>

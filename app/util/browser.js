@@ -46,3 +46,22 @@ export const isKeyboardSelectionEvent = event => {
   event.preventDefault();
   return true;
 };
+
+/**
+ * Calculates the width for the Drawer component.
+ *
+ * @param {*} window The browser's window object.
+ * @param {number} minWidth The minimum width (in pixels) for the component.
+ * @param {numbner} maxWidth The maximum width (in pixels) for the component.
+ */
+export const getDrawerWidth = (
+  window,
+  { minWidth = 291, maxWidth = 600 } = {},
+) => {
+  if (typeof window !== 'undefined') {
+    return 0.5 * window.innerWidth > minWidth
+      ? Math.min(maxWidth, 0.5 * window.innerWidth)
+      : '100%';
+  }
+  return minWidth;
+};

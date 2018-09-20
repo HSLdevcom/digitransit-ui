@@ -9,6 +9,7 @@ import { locationShape } from 'react-router';
 import { setCustomizedSettings } from '../store/localStorage';
 import { getDefaultSettings } from '../util/planParamUtil';
 import { getQuerySettings } from '../util/queryUtils';
+import { getDrawerWidth } from '../util/browser';
 
 class SaveCustomizedSettingsButton extends React.Component {
   static propTypes = {
@@ -50,37 +51,6 @@ class SaveCustomizedSettingsButton extends React.Component {
     }
   };
 
-  getSnackbarDimensions = () => {
-    // Since the settings container gets its dimensions dynamically the Snackbar modal
-    // has to be calculated by javascript watching the settings container's width
-    let containerStyles;
-    const containerWidth = document.getElementsByClassName(
-      'customize-search',
-    )[0]
-      ? document.getElementsByClassName('customize-search')[0].parentElement
-          .offsetWidth * 0.7428
-      : null;
-    if (window.innerWidth <= 320) {
-      containerStyles = {
-        maxWidth: 'auto',
-        width: `${window.innerWidth}px`,
-      };
-    } else if (window.innerWidth <= 768) {
-      containerStyles = {
-        maxWidth: 'auto',
-        left: '55%',
-        width: `${containerWidth}px`,
-      };
-    } else {
-      containerStyles = {
-        maxWidth: 'auto',
-        left: '52%',
-        width: `${containerWidth}px`,
-      };
-    }
-    return containerStyles;
-  };
-
   handleRequestClose = () => {
     this.setState({
       open: false,
@@ -88,22 +58,20 @@ class SaveCustomizedSettingsButton extends React.Component {
   };
 
   render() {
-    const containerStyles = this.getSnackbarDimensions();
+    const drawerWidth = getDrawerWidth(window);
     return (
-      <div>
-        <section className="offcanvas-section">
-          <div className="save-settings">
-            <button
-              className="save-settings-button"
-              onClick={this.setSettingsData}
-            >
-              <FormattedMessage
-                defaultMessage="Tallenna asetukset"
-                id="settings-savebutton"
-              />
-            </button>
-          </div>
-        </section>
+      <React.Fragment>
+        <div className="save-settings">
+          <button
+            className="save-settings-button"
+            onClick={this.setSettingsData}
+          >
+            <FormattedMessage
+              defaultMessage="Tallenna asetukset"
+              id="settings-savebutton"
+            />
+          </button>
+        </div>
         <Snackbar
           open={this.state.open}
           message={
@@ -115,18 +83,19 @@ class SaveCustomizedSettingsButton extends React.Component {
           }
           autoHideDuration={this.state.autoHideDuration}
           onRequestClose={this.handleRequestClose}
-          style={containerStyles}
+          style={{ width: drawerWidth }}
           bodyStyle={{
             backgroundColor: '#585a5b',
             color: '#fff',
-            textAlign: 'center',
-            width: containerStyles.width,
             fontSize: '0.8rem',
             fontFamily:
               '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif',
+            maxWidth: drawerWidth,
+            textAlign: 'center',
+            width: '100%',
           }}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
