@@ -407,7 +407,8 @@ export const sortSearchResults = (config, results, term = '') => {
   const orderedResults = orderBy(
     results,
     [
-      result => // rank route search matches best
+      // rank matching routes best
+      result =>
         isLineIdentifier(term) &&
         isLineIdentifier(result.properties.shortName) &&
         normalize(result.properties.shortName).indexOf(term) === 0
@@ -419,37 +420,45 @@ export const sortSearchResults = (config, results, term = '') => {
         switch (result.properties.layer) {
           case LayerType.CurrentPosition:
             layerRank = 1;
+            break;
           case LayerType.FavouriteStation:
             layerRank = 0.9;
+            break;
           case LayerType.Station: {
-            if (isString(result.properties.source) &&
-                result.properties.source.indexOf('gtfs') === 0) {
+            if (
+              isString(result.properties.source) &&
+              result.properties.source.indexOf('gtfs') === 0
+            ) {
               layerRank = 0.8;
             } else {
               layerRank = 0.7;
             }
+            break;
           }
           case LayerType.FavouritePlace:
             layerRank = 0.6;
+            break;
           case LayerType.FavouriteStop:
             layerRank = 0.5;
+            break;
           case LayerType.Stop:
             layerRank = 0.3;
-          default: // venue, address, street, route-xxx
+            break;
+          default:
+            // venue, address, street, route-xxx
             layerRank = 0.4;
         }
-        if (emptySearch) { // just old searches and favourites
+        if (emptySearch) {
+          // just old searches and favourites
           return layerRank;
         }
 
         // must handle a mixup of geocoder searches and items above
-        let confidence = result.properties.confidence;
-        if (!confidence) { // not from geocoder, estimate confidence ourselves
+        const { confidence } = result.properties;
+        if (!confidence) {
+          // not from geocoder, estimate confidence ourselves
           if (
-            isMatch(
-              normalizedSearchTerm,
-              normalize(result.properties.label),
-            ) ||
+            isMatch(normalizedSearchTerm, normalize(result.properties.label)) ||
             isMatch(
               normalizedSearchTerm,
               normalize(result.properties.address),
@@ -458,20 +467,18 @@ export const sortSearchResults = (config, results, term = '') => {
           ) {
             return 1 + layerRank; // put previously used stuff above new geocoding
           }
-          return 0.3*layerRank; // not so good match, put to the end
+          return 0.3 * layerRank; // not so good match, put to the end
         }
 
         // geocoded items with confidence, just adjust a little
         switch (result.properties.layer) {
           case LayerType.Station: {
             const boost =
-              result.properties.source.indexOf('gtfs') === 0
-                ? 0.05
-                : 0.01;
+              result.properties.source.indexOf('gtfs') === 0 ? 0.05 : 0.01;
             return Math.min(confidence + boost, 1);
           }
           case LayerType.Stop:
-              return confidence - 0.1;
+            return confidence - 0.1;
           default:
             return confidence;
         }
