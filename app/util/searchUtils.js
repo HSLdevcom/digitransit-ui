@@ -133,6 +133,7 @@ function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
     'properties.label',
+    'properties.address',
     'properties.shortName',
     'properties.longName',
   ]);
@@ -396,22 +397,29 @@ export const sortSearchResults = (config, results, term = '') => {
     ).replace(/[\u0300-\u036f]/g, '')}`;
   };
 
-  const isMatch = (value, comparison) =>
-    value.length > 0 &&
-    comparison.length > 0 &&
-    comparison.indexOf(value) === 0;
+  const matchProps = ['name', 'label', 'address', 'shortName'];
+
+  const isMatch = (t, props) =>
+    t.length > 0 &&
+    matchProps
+      .map(v => props[v])
+      .filter(v => v && v.length > 0 && normalize(v).indexOf(t) === 0).length >
+      0;
 
   const normalizedSearchTerm = normalize(term);
-  const emptySearch = normalizedSearchTerm.length === 0;
+  const isLineSearch = isLineIdentifier(term);
 
+  if (term === '10') {
+    console.log('10');
+  }
   const orderedResults = orderBy(
     results,
     [
       // rank matching routes best
       result =>
-        isLineIdentifier(term) &&
+        isLineSearch &&
         isLineIdentifier(result.properties.shortName) &&
-        normalize(result.properties.shortName).indexOf(term) === 0
+        result.properties.shortName.indexOf(term) === 0
           ? 2
           : 0,
 
@@ -448,8 +456,9 @@ export const sortSearchResults = (config, results, term = '') => {
             // venue, address, street, route-xxx
             layerRank = 0.4;
         }
-        if (emptySearch) {
-          // just old searches and favourites
+        if (normalizedSearchTerm.length === 0) {
+          // Doing search with empty string.
+          // No confidence to macth, so use ranked old searches and favourites
           return layerRank;
         }
 
@@ -458,14 +467,7 @@ export const sortSearchResults = (config, results, term = '') => {
         const { confidence } = result.properties;
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          if (
-            isMatch(normalizedSearchTerm, normalize(result.properties.label)) ||
-            isMatch(
-              normalizedSearchTerm,
-              normalize(result.properties.address),
-            ) ||
-            isMatch(normalizedSearchTerm, normalize(result.properties.name))
-          ) {
+          if (isMatch(normalizedSearchTerm, result.properties)) {
             return 1 + layerRank; // put previously used stuff above new geocoding
           }
           return 0.3 * layerRank; // not so good match, put to the end
