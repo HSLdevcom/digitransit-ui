@@ -4,6 +4,10 @@ import { sortSearchResults } from '../../app/util/searchUtils';
 
 const config = require('../../app/configurations/config.hsl').default;
 
+/* Note: unit test data must be configured or applied carefully. For example,
+   in real searches, items can have confidence only when search term is given.
+ */
+
 describe('searchUtils', () => {
   describe('sortSearchResults', () => {
     let data;
@@ -24,13 +28,6 @@ describe('searchUtils', () => {
             label: 'testaddress2',
             layer: 'address',
             name: 'testaddress2',
-          },
-        },
-        {
-          properties: {
-            label: 'steissi',
-            layer: 'favouriteStation',
-            address: 'Rautatieasema, Helsinki',
           },
         },
         {
@@ -57,6 +54,13 @@ describe('searchUtils', () => {
             name: 'teststation1',
             source: 'gtfshsl',
             confidence: 0.95,
+          },
+        },
+        {
+          properties: {
+            label: 'steissi',
+            layer: 'favouriteStation',
+            address: 'Rautatieasema, Helsinki',
           },
         },
         {
@@ -146,9 +150,15 @@ describe('searchUtils', () => {
       expect(results[0].properties.layer).to.equal('currentPosition');
     });
 
-    it('should show old non-station searches last if search term is empty', () => {
+    it('should show favourite stations before old station searches', () => {
       const results = sortSearchResults(config, data);
-      expect(results[results.length-1].properties.confidence).to.equal(undefined);
+      const favouriteIndex = results.findIndex(
+        r => r.properties.name === 'steissi',
+      );
+      const stationIndex = results.findIndex(
+        r => r.properties.name === 'teststation1',
+      );
+      expect(stationIndex).to.be.greaterThan(favouriteIndex);
     });
 
     it('should show lines first if the search term is a line identifier', () => {
@@ -157,7 +167,8 @@ describe('searchUtils', () => {
       expect(results[0].properties.layer).to.equal('route-BUS');
     });
 
-    it('should show stations before addresses when confidence is equal', () => {
+    it('should show stations before addresses when confidence is not used', () => {
+      // empty search term ignores confidence
       const results = sortSearchResults(config, data);
       const stationIndex = results.findIndex(
         r => r.properties.layer === 'station',
@@ -170,7 +181,7 @@ describe('searchUtils', () => {
       expect(addressIndex).to.be.greaterThan(stationIndex);
     });
 
-    it('should show stations with source=gtfshsl before stations with source=openstreetmap ', () => {
+    it('should show stations with gtfs source before stations with source=openstreetmap ', () => {
       const results = sortSearchResults(config, data);
       const hslIndex = results.findIndex(
         r =>
@@ -196,6 +207,7 @@ describe('searchUtils', () => {
               d.properties.layer === 'venue') &&
             d.properties.confidence,
         ),
+        'foo',
       );
       expect(results.length).to.equal(6);
       expect(results[0].properties.name).to.equal('testaddress4');
@@ -207,30 +219,20 @@ describe('searchUtils', () => {
 
     it('should set direct label match with a favourite first regardless of accents and case', () => {
       const term = 'hameenkylantie 75, vantaa';
-      const results = sortSearchResults(
-        config,
-        data.filter(
-          d =>
-            d.properties.layer === 'address' ||
-            d.properties.layer === 'street' ||
-            d.properties.layer === 'venue' ||
-            d.properties.layer === 'favouritePlace',
-        ),
-        term,
-      );
+      const results = sortSearchResults(config, data, term);
       expect(results[0].properties.name).to.equal('suosikki');
     });
 
     it('should put badly matching favourites after items with confidence', () => {
       const results = sortSearchResults(config, data, 'doesnotmatch');
 
-      const fIndex = results.findIndex(r => r.properties.label === 'steissi');
-      const aIndex = results.findIndex(
+      const favIndex = results.findIndex(r => r.properties.label === 'steissi');
+      const addrIndex = results.findIndex(
         r => r.properties.name === 'testaddress1',
       );
-      expect(fIndex).to.be.greaterThan(-1);
-      expect(aIndex).to.be.greaterThan(-1);
-      expect(fIndex).to.be.greaterThan(aIndex);
+      expect(favIndex).to.be.greaterThan(-1);
+      expect(addrIndex).to.be.greaterThan(-1);
+      expect(favIndex).to.be.greaterThan(addrIndex);
     });
 
     it('should rank matching old searches high', () => {
@@ -243,7 +245,7 @@ describe('searchUtils', () => {
     });
 
     it('should show stops after other items with similar confidence', () => {
-      const results = sortSearchResults(config, data);
+      const results = sortSearchResults(config, data, 'foo');
       const stopIndex = results.findIndex(
         r => r.properties.name === 'teststop1',
       );
