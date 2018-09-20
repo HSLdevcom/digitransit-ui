@@ -70,6 +70,7 @@ class MainMenuContainer extends Component {
 
   render = () => {
     const isOpen = this.getOffcanvasState() || this.props.isOpen;
+    const isForcedOpen = this.props.isOpen;
     return (
       <React.Fragment>
         <LazilyLoad modules={this.mainMenuModules}>
@@ -85,7 +86,7 @@ class MainMenuContainer extends Component {
             >
               <MainMenu
                 toggleVisibility={this.toggleOffcanvas}
-                showDisruptionInfo={isOpen}
+                showDisruptionInfo={isOpen && !isForcedOpen}
                 visible={isOpen}
                 homeUrl={this.props.homeUrl}
               />
@@ -112,7 +113,7 @@ class MainMenuContainer extends Component {
 }
 
 MainMenuContainer.description = (
-  <ComponentUsageExample>
+  <ComponentUsageExample isFullscreen>
     <MainMenuContainer homeUrl="" isOpen />
   </ComponentUsageExample>
 );
