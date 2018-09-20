@@ -89,4 +89,40 @@ describe('browser', () => {
       expect(result).to.equal(true);
     });
   });
+
+  describe('getDrawerWidth', () => {
+    it('should return a numeric minimum width if window is not defined', () => {
+      const result = utils.getDrawerWidth(undefined);
+      expect(result).to.be.greaterThan(0);
+    });
+
+    it('should return the given minimum width if window is not defined', () => {
+      const result = utils.getDrawerWidth(undefined, { minWidth: 100 });
+      expect(result).to.equal(100);
+    });
+
+    it('should return half of the window innerWidth', () => {
+      const window = {
+        innerWidth: 768,
+      };
+      const result = utils.getDrawerWidth(window);
+      expect(result).to.equal(384);
+    });
+
+    it('should return at most maxWidth', () => {
+      const window = {
+        innerWidth: 1440,
+      };
+      const result = utils.getDrawerWidth(window, { maxWidth: 600 });
+      expect(result).to.equal(600);
+    });
+
+    it('should return 100% if half of the window width is not larger than minWidth', () => {
+      const window = {
+        innerWidth: 320,
+      };
+      const result = utils.getDrawerWidth(window, { minWidth: 160 });
+      expect(result).to.equal('100%');
+    });
+  });
 });
