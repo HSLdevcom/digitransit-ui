@@ -8,6 +8,8 @@ import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
+import { getJson } from '../../util/xhrPromise';
+import { isBrowser } from '../../util/browser';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -26,6 +28,10 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
 const placeMarkerModules = {
   PlaceMarker: () =>
     importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
+};
+
+const jsonModules = {
+  GeoJSON: () => importLazy(import(/* webpackChunkName: "map" */ './GeoJSON')),
 };
 
 const Component = onlyUpdateCoordChanges(MapContainer);
@@ -57,6 +63,20 @@ class MapWithTrackingStateHandler extends React.Component {
       origin: props.origin,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
+    const { config } = props;
+    if (isBrowser && config.geoJson) {
+      config.geoJson.forEach(val => {
+        const { name, url } = val;
+        getJson(url).then(res => {
+          let newData = {};
+          if (this.state.geoJson) {
+            newData = { ...this.state.geoJson };
+          }
+          newData[name.fi] = res;
+          this.setState({ geoJson: newData });
+        });
+      });
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -143,6 +163,18 @@ class MapWithTrackingStateHandler extends React.Component {
             <PlaceMarker position={this.props.origin} key="from" />
           )}
         </LazilyLoad>,
+      );
+    }
+
+    if (this.state.geoJson) {
+      Object.keys(this.state.geoJson).forEach(key =>
+        leafletObjs.push(
+          <LazilyLoad modules={jsonModules}>
+            {({ GeoJSON }) => (
+              <GeoJSON key={key} data={this.state.geoJson[key]} />
+            )}
+          </LazilyLoad>,
+        ),
       );
     }
 
