@@ -6,6 +6,7 @@
   background: #f4f4f5;
   color: $black;
   height: 100%;
+  line-height: 35px;
   overflow-y: auto;
   position: relative;
 
@@ -20,10 +21,10 @@
 }
 
 .settings-option-container {
-  border-top: 1px solid #e3e3e4;
   padding: 1.5em 1em 0 1em;
 
   & + .settings-option-container {
+    border-top: 1px solid #e3e3e4;
     padding-bottom: 1.5em;
   }
 
