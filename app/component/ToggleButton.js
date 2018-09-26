@@ -1,51 +1,62 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
-import getContext from 'recompose/getContext';
+import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-const ToggleButton = ({
-  checkedClass,
-  state,
-  icon,
-  className,
-  onBtnClick,
-  style,
-  label,
-  intl,
-  children,
-}) => {
-  let iconTag;
+class ToggleButton extends React.Component {
+  render() {
+    const { intl } = this.context;
+    const {
+      checkedClass,
+      state,
+      icon,
+      className,
+      onBtnClick,
+      style,
+      label,
+      children,
+      buttonRef,
+      showButtonTitle,
+      ...rest
+    } = this.props;
 
-  const classes = {
-    btn: true,
-  };
+    const classes = {
+      btn: true,
+    };
 
-  if (state) {
-    classes[checkedClass] = state;
-  }
+    if (state) {
+      classes[checkedClass] = state;
+    }
 
-  if (icon) {
-    iconTag = (
-      <div className="icon-holder">
-        <Icon img={`icon-icon_${icon}`} className="" />
-      </div>
+    return (
+      <button
+        className={cx('cursor-pointer', classes, className)}
+        onClick={onBtnClick}
+        style={style}
+        title={intl.formatMessage({ id: label })}
+        aria-label={intl.formatMessage({ id: label })}
+        ref={buttonRef ? ref => buttonRef(ref) : null}
+        {...rest}
+      >
+        {icon && (
+          <div className="icon-holder">
+            <Icon img={`icon-icon_${icon}`} className="" />
+          </div>
+        )}
+        {showButtonTitle && (
+          <div className="toggle-button-title">
+            <FormattedMessage id={label} />
+          </div>
+        )}
+        {children && <React.Fragment>{children}</React.Fragment>}
+      </button>
     );
   }
+}
 
-  return (
-    <button
-      className={cx('cursor-pointer', classes, className)}
-      onClick={onBtnClick}
-      style={style}
-      title={intl.formatMessage({ id: label })}
-      aria-label={intl.formatMessage({ id: label })}
-    >
-      {iconTag}
-      <div>{children}</div>
-    </button>
-  );
+ToggleButton.contextTypes = {
+  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 ToggleButton.propTypes = {
@@ -56,10 +67,13 @@ ToggleButton.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   style: PropTypes.object,
-  intl: intlShape.isRequired,
-  children: PropTypes.array,
+  children: PropTypes.node,
+  buttonRef: PropTypes.func,
+  showButtonTitle: PropTypes.bool,
 };
 
-export default getContext({
-  intl: intlShape.isRequired,
-})(ToggleButton);
+ToggleButton.defaultProps = {
+  showButtonTitle: false,
+};
+
+export default ToggleButton;

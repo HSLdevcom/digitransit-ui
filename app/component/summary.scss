@@ -1,16 +1,7 @@
 .desktop .summary {
-  flex: 1 0 0px;
-  flex-basis: 0px;
   display: flex;
+  flex: 1 0 0;
   flex-direction: column;
-  overflow-x: auto;
-}
-
-@media print {
-  .desktop .summary {
-    display: block;
-    height: auto;
-  }
 }
 
 .summary-no-route-found {
@@ -41,7 +32,12 @@
   max-height: 2.2em;
   flex: 0 1 49.6%;
 
-  input[type="date"], input[type="time"].time-selector, input[type="text"], input[type="tel"],select, .time-mui > input {
+  input[type='date'],
+  input[type='time'].time-selector,
+  input[type='text'],
+  input[type='tel'],
+  select,
+  .time-mui > input {
     vertical-align: middle;
     text-align: left;
     margin: 0;
@@ -68,7 +64,8 @@
       //outline: none;
     }
 
-    &.text-time-selector, &.desktop {
+    &.text-time-selector,
+    &.desktop {
       padding: 0 0.5em 0 0.5em;
       margin: 0 -0.5em 0 0;
       text-align: center;
@@ -76,11 +73,6 @@
   }
   .select-wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: $border-radius;
-    background: $background-color-lighter;
-    margin-right: 1px;
     flex: 0 1 14.5em;
 
     > span {
@@ -132,7 +124,9 @@
     text-align: left;
   }
 
-  .arrive, .date, input[type="time"].time-selector {
+  .arrive,
+  .date,
+  input[type='time'].time-selector {
     border: solid 1px $light-gray;
     box-shadow: none;
   }
@@ -145,7 +139,7 @@
 }
 
 .mobile .time-selectors {
-  flex: 0 1 48.5%;
+  flex: 0 1 85%;
   .select-wrapper > span {
     margin-left: -1.4rem;
   }
@@ -172,37 +166,27 @@
       box-shadow: none !important;
       border-color: none !important;
     }
-    &#inputMinutes{
+    &#inputMinutes {
       text-align: left;
       padding-bottom: 0.2em;
+      color: rgb(51, 51, 51);
+      font-weight: $font-weight-medium;
     }
-    &#inputHours{
+    &#inputHours {
       text-align: right;
       padding-bottom: 0.2em;
+      color: rgb(51, 51, 51);
+      font-weight: $font-weight-medium;
     }
   }
   #timeinput-digit-separator {
     margin: 0.25em 1px 0 1px;
-    color: $link-color;
+    color: rgb(51, 51, 51);
   }
 }
 
-.time-button-container {
-  width: 10px;
-  button {
-    width: 12px;
-    background: #fff;
-    border: 1px solid #c3e1ec;
-    text-align: center;
-    height: 18px;
-    padding: 0;
-    cursor: pointer;
-    font-size: 7px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    margin: 0;
-  }
+.mobile .time-input-container {
+  margin-right: 0;
 }
 
 .quicksettings-separator-line {
@@ -214,9 +198,6 @@
   margin-top: 0.3em;
   border-top: 1px solid #ddd;
   background: $background-color-lighter;
-  &.hidden {
-    display: none;
-  }
 }
 
 .mobile .quicksettings-separator-line {
@@ -225,21 +206,11 @@
 }
 
 .time-selector-settings-row {
-  padding: $padding-small 6px;
-  overflow-x: hidden;
   background-color: $background-color-lighter;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   flex-direction: initial;
-
-  &.quickSettingsOpen {
-    padding: 1em 6px $padding-small 6px;
-    padding-top: 0.8em;
-    //background: linear-gradient(rgba(194, 197, 199, 0.8), $background-color-lighter 12%);
-    //background-size: 100%;
-    //background-repeat-y: no-repeat;
-  }
 
   .button-container {
     position: relative;
@@ -280,44 +251,7 @@
   padding-right: 0.5em;
 }
 
-.bp-large.time-selector-settings-row {
-      padding: 0.8em 1em;
-
-  .select-wrapper {
-    margin-right: 2px;
-    flex: 0 1 14.5em;
-    // padding-right: 0.5rem;
-
-    > span {
-      margin-left: -1.5rem;
-      margin-right: 1rem;
-    }
-  }
-
-  .time-mui {
-    padding-left: $padding-medium;
-    max-width: 6.5em;
-  }
-
-  input[type="date"], input[type="time"], input[type="text"], input[type="tel"], select, .time-mui > input {
-    font-size: $font-size-xxsmall !important;
-    padding: 0 calc(#{$padding-medium} + 1.5rem) 0 $padding-medium;
-
-    &.text-time-selector, &.desktop {
-      padding: 0 0.5em 0 0.5em;
-    }
-  }
-
-  .right-offcanvas-toggle {
-      span {
-        color: $link-color;
-        font-size: $font-size-small;
-      }
-      border-radius: $border-radius;
-  }
-}
 .right-offcanvas-toggle {
-
   &:hover {
     background-color: $white;
     border: solid 1px $link-color;
@@ -337,7 +271,7 @@
     font-size: $font-size-xxxsmall;
     margin-left: $padding-xsmall;
     text-align: center;
-    text-transform:uppercase;
+    text-transform: uppercase;
   }
   width: auto;
   margin: 0;
@@ -384,14 +318,13 @@
   flex: 1 1 auto;
 }
 
-
 @media print {
   .summary {
-    display:block;
+    display: block;
     height: auto;
     .summary-list-container {
-      display:block;
-      height:auto;
+      display: block;
+      height: auto;
     }
   }
 }
@@ -403,37 +336,10 @@
   }
 }
 
-.via-point-bar {
-  background: $black;
-  color: $white;
-  font-size: $font-size-small;
+.desktop .street-mode-selector-panel-container {
+  padding: 0 $padding-medium;
+}
 
-  &:not(:empty) {
-    padding: 0.4em 10px;
-  }
-
-  .via-point {
-    color: $white;
-    > span {
-      padding-bottom: calc(#{$padding-xsmall} + 1px);
-      padding-right: $padding-large;
-      line-height: normal;
-    }
-
-    .link-name {
-      padding-top: 0.4em;
-      margin-right: $padding-medium;
-    }
-  }
-
-  &.bp-large {
-    font-size: $font-size-normal;
-
-    &:not(:empty) {
-      padding: 0.4em 20px;
-    }
-    .icon {
-      font-size: 14px;
-    }
-  }
+.mobile .street-mode-selector-panel-container {
+  padding: 0 $padding-small;
 }

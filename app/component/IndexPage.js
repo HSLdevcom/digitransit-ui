@@ -7,6 +7,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import d from 'debug';
+
 import {
   initGeolocation,
   checkPositioningPermission,
@@ -30,7 +31,10 @@ import { dtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
+import SelectMapLayersDialog from './SelectMapLayersDialog';
+import SelectStreetModeDialog from './SelectStreetModeDialog';
 import events from '../util/events';
+import * as ModeUtils from '../util/modeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 const debug = d('IndexPage.js');
@@ -164,29 +168,49 @@ class IndexPage extends React.Component {
       <Tab origin={this.props.origin} destination={this.props.destination} />
     );
   };
+
+  renderStreetModeSelector = (config, router) =>
+    config.features.showStreetModeQuickSelect && (
+      <SelectStreetModeDialog
+        selectedStreetMode={ModeUtils.getStreetMode(router.location, config)}
+        selectStreetMode={(streetMode, isExclusive) =>
+          ModeUtils.setStreetMode(streetMode, config, router, isExclusive)
+        }
+        streetModeConfigs={ModeUtils.getAvailableStreetModeConfigs(config)}
+      />
+    );
+
+  renderMapLayerSelector = () => <SelectMapLayersDialog />;
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
+    const { config, router } = this.context;
+    const { breakpoint, destination, origin, routes, tab } = this.props;
+    const { mapExpanded } = this.state;
+
     const footerOptions = Object.assign(
       {},
-      ...this.props.routes.map(route => route.footerOptions),
+      ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
 
-    return this.props.breakpoint === 'large' ? (
+    return breakpoint === 'large' ? (
       <div
-        className={`front-page flex-vertical ${this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false &&
-          `blurred`} fullscreen bp-${this.props.breakpoint}`}
+        className={`front-page flex-vertical ${origin &&
+          origin.gps === true &&
+          origin.ready === false &&
+          origin.gpsError === false &&
+          `blurred`} fullscreen bp-${breakpoint}`}
       >
-        <DTAutosuggestPanel
-          origin={this.props.origin}
-          destination={this.props.destination}
-          tab={this.props.tab}
-          searchType="all"
-          originPlaceHolder="search-origin"
-        />
+        <div className="search-container">
+          <DTAutosuggestPanel
+            origin={origin}
+            destination={destination}
+            tab={tab}
+            searchType="all"
+            originPlaceHolder="search-origin"
+          />
+        </div>
         <div key="foo" className="fpccontainer">
           <FrontPagePanelLarge
             selectedPanel={selectedMainTab}
@@ -197,45 +221,53 @@ class IndexPage extends React.Component {
           </FrontPagePanelLarge>
         </div>
         <MapWithTracking
-          breakpoint={this.props.breakpoint}
+          breakpoint={breakpoint}
           showStops
           showScaleBar
-          origin={this.props.origin}
+          origin={origin}
+          renderCustomButtons={() => (
+            <React.Fragment>
+              {this.renderStreetModeSelector(config, router)}
+              {this.renderMapLayerSelector()}
+            </React.Fragment>
+          )}
         />
         {(this.props.showSpinner && <OverlayWithSpinner />) || null}
         {!footerOptions.hidden && (
           <div id="page-footer-container">
             <PageFooter
-              content={
-                (this.context.config.footer &&
-                  this.context.config.footer.content) ||
-                []
-              }
+              content={(config.footer && config.footer.content) || []}
             />
           </div>
         )}
       </div>
     ) : (
       <div
-        className={`front-page flex-vertical ${this.props.origin &&
-          this.props.origin.gps === true &&
-          this.props.origin.ready === false &&
-          this.props.origin.gpsError === false &&
-          `blurred`} fullscreen bp-${this.props.breakpoint}`}
+        className={`front-page flex-vertical ${origin &&
+          origin.gps === true &&
+          origin.ready === false &&
+          origin.gpsError === false &&
+          `blurred`} fullscreen bp-${breakpoint}`}
       >
         <div
           className={cx('flex-grow', 'map-container', {
-            expanded: this.state.mapExpanded,
+            expanded: mapExpanded,
           })}
         >
           <MapWithTracking
-            breakpoint={this.props.breakpoint}
+            breakpoint={breakpoint}
             showStops
-            origin={this.props.origin}
+            origin={origin}
+            renderCustomButtons={() => (
+              <React.Fragment>
+                {this.renderStreetModeSelector(config, router)}
+                {this.renderMapLayerSelector()}
+              </React.Fragment>
+            )}
           >
             {(this.props.showSpinner && <OverlayWithSpinner />) || null}
             <DTAutosuggestPanel
-              origin={this.props.origin}
+              origin={origin}
               destination={this.props.destination}
               searchType="all"
               originPlaceHolder="search-origin"
@@ -244,26 +276,24 @@ class IndexPage extends React.Component {
           </MapWithTracking>
         </div>
         <div style={{ position: 'relative' }}>
-          {
-            <div
-              className={cx('fullscreen-toggle', {
-                expanded: this.state.mapExpanded,
-              })}
-              onClick={this.togglePanelExpanded}
-            >
-              {this.state.mapExpanded ? (
-                <Icon img="icon-icon_minimize" className="cursor-pointer" />
-              ) : (
-                <Icon img="icon-icon_maximize" className="cursor-pointer" />
-              )}
-            </div>
-          }
+          <div
+            className={cx('fullscreen-toggle', {
+              expanded: mapExpanded,
+            })}
+            onClick={this.togglePanelExpanded}
+          >
+            {mapExpanded ? (
+              <Icon img="icon-icon_minimize" className="cursor-pointer" />
+            ) : (
+              <Icon img="icon-icon_maximize" className="cursor-pointer" />
+            )}
+          </div>
           <FrontPagePanelSmall
             selectedPanel={selectedMainTab}
             nearbyClicked={this.clickNearby}
             favouritesClicked={this.clickFavourites}
-            mapExpanded={this.state.mapExpanded}
-            location={this.props.origin}
+            mapExpanded={mapExpanded}
+            location={origin}
           >
             {this.renderTab()}
           </FrontPagePanelSmall>

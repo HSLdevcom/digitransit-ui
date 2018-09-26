@@ -12,10 +12,14 @@ function waitForFirstItineraryRow() {
   );
 }
 
-function waitForItineraryRowOfType(modality) {
+function waitForItineraryRowOfType(modality, timeoutInSeconds = 0) {
+  const timeout =
+    timeoutInSeconds > 0
+      ? timeoutInSeconds * 1000
+      : this.api.globals.itinerarySearchTimeout;
   return this.waitForElementVisible(
     `.line .${modality}:nth-of-type(1)`,
-    this.api.globals.itinerarySearchTimeout,
+    timeout,
   );
 }
 

@@ -32,10 +32,7 @@ export default function RightOffcanvasToggle(
             ) : null}
           </div>
           <div>
-            <FormattedMessage
-              id="more-settings"
-              defaultMessage="More Settings"
-            />
+            <FormattedMessage id="settings" defaultMessage="Settings" />
           </div>
         </div>
       </button>
@@ -48,8 +45,12 @@ RightOffcanvasToggle.propTypes = {
   hasChanges: PropTypes.bool,
 };
 
+RightOffcanvasToggle.defaultProps = {
+  hasChanges: false,
+};
+
 RightOffcanvasToggle.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  intl: intlShape.isRequired,
 };
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';

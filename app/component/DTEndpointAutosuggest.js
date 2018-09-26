@@ -16,7 +16,7 @@ import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { startLocationWatch } from '../action/PositionActions';
 import PositionStore from '../store/PositionStore';
 
-class DTEndpointAutosuggest extends React.Component {
+export class DTEndpointAutosuggestComponent extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
@@ -27,6 +27,7 @@ class DTEndpointAutosuggest extends React.Component {
     searchType: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
     onLocationSelected: PropTypes.func.isRequired,
+    onRouteSelected: PropTypes.func,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -34,6 +35,7 @@ class DTEndpointAutosuggest extends React.Component {
     refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array,
     isFocused: PropTypes.func,
+    isPreferredRouteSearch: PropTypes.bool,
     locationState: PropTypes.object.isRequired,
     showSpinner: PropTypes.bool,
   };
@@ -41,6 +43,8 @@ class DTEndpointAutosuggest extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
+    onRouteSelected: undefined,
+    isPreferredRouteSearch: false,
     layers: getAllEndpointLayers(),
     showSpinner: false,
   };
@@ -109,6 +113,11 @@ class DTEndpointAutosuggest extends React.Component {
   };
 
   onSuggestionSelected = item => {
+    // preferred route selection
+    if (this.props.isPreferredRouteSearch && this.props.onRouteSelected) {
+      this.props.onRouteSelected(item);
+      return;
+    }
     // stop
     if (item.timetableClicked === true) {
       const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
@@ -123,14 +132,9 @@ class DTEndpointAutosuggest extends React.Component {
       this.context.router.push(item.properties.link);
       return;
     }
-
     const location = suggestionToLocation(item);
 
-    if (
-      item.properties.layer === 'currentPosition' &&
-      !item.properties.lat &&
-      this.props.id !== 'viapoint'
-    ) {
+    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
       this.setState({ pendingCurrentLocation: true }, () =>
         this.context.executeAction(startLocationWatch),
       );
@@ -161,7 +165,7 @@ class DTEndpointAutosuggest extends React.Component {
 }
 
 export default connectToStores(
-  DTEndpointAutosuggest,
+  DTEndpointAutosuggestComponent,
   ['PositionStore'],
   context => ({
     locationState: context.getStore('PositionStore').getLocationState(),

@@ -8,7 +8,6 @@ $border-radius-rounded: 30px;
   margin-bottom: 5px;
   line-height: $line-height-normal;
   overflow-x: hidden;
-
 }
 .card-header {
   display: flex;
@@ -22,21 +21,21 @@ $border-radius-rounded: 30px;
   }
 
   .h3 {
-   margin-top: -10px;
+    margin-top: -10px;
   }
- .card-sub-header {
-   p {
-     display: inline;
-   }
-   .card-code {
-     border: 1px solid $light-gray;
-     border-radius: $border-radius;
-     font-size: $font-size-xxsmall;
-     color: $gray-blue;
-     margin-right: 3px;
-     padding: 0px 2px 0px 2px;
-   }
- }
+  .card-sub-header {
+    p {
+      display: inline;
+    }
+    .card-code {
+      border: 1px solid $light-gray;
+      border-radius: $border-radius;
+      font-size: $font-size-xxsmall;
+      color: $gray-blue;
+      margin-right: 3px;
+      padding: 0px 2px 0px 2px;
+    }
+  }
 }
 
 /* buttons */
@@ -67,13 +66,13 @@ $border-radius-rounded: 30px;
   max-height: 85%;
   cursor: auto;
 
-  p  {
+  p {
     margin: 10px 0;
   }
-  .modal-wrapper  {
+  .modal-wrapper {
     height: 100%;
   }
-  .modal-content  {
+  .modal-content {
     max-height: 64vh;
     overflow-y: auto;
     section {
@@ -83,22 +82,22 @@ $border-radius-rounded: 30px;
   .modal-top-nav {
     padding-top: 10px;
   }
-  .disruption-header  {
+  .disruption-header {
     .line {
       margin: 0 5px 0 10px;
     }
     .time {
       &:before {
-        content: " – ";
+        content: ' – ';
       }
     }
   }
   .disruption-details {
-    span  {
-      display:block;
+    span {
+      display: block;
     }
     b {
-      float:left;
+      float: left;
       padding-right: 5px;
     }
   }
@@ -107,7 +106,8 @@ $border-radius-rounded: 30px;
     float: left;
     margin-top: 3px;
   }
-  .line, .time {
+  .line,
+  .time {
     padding: 0;
     @include font-narrow-medium;
   }
@@ -155,22 +155,23 @@ $border-radius-rounded: 30px;
   right: 10px;
   font-size: 17px;
   border-radius: $border-radius;
-  z-index: 800;
+  z-index: index($zindex, map-fullscreen-toggle);
   .icon {
-   margin: 0.5em 0.5em 0 0.5em;
-   fill: rgb(255, 255, 255);
- }
- &.expanded {
-   top: -3em;
- }
- &.routePage, &.stopPage {
-  bottom: 0.7em;
-  top: auto;
-  &.expanded {
-    bottom: 0.5em;
-    top: auto;
+    margin: 0.5em 0.5em 0 0.5em;
+    fill: rgb(255, 255, 255);
   }
- }
+  &.expanded {
+    top: -3em;
+  }
+  &.routePage,
+  &.stopPage {
+    bottom: 0.7em;
+    top: auto;
+    &.expanded {
+      bottom: 0.5em;
+      top: auto;
+    }
+  }
 }
 
 .smallscreen-toggle {
@@ -178,54 +179,94 @@ $border-radius-rounded: 30px;
   bottom: -1px;
 }
 
-
 .prefix-icon {
   margin-right: 6px;
 }
 .info.icon {
-    width: 24px;
-    height: 24px;
-    color: $gray-blue;
+  width: 24px;
+  height: 24px;
+  color: $gray-blue;
 }
 
 .dotted-link {
-  border-bottom: 2px dotted rgba(255,255,255,0.5);
+  border-bottom: 2px dotted rgba(255, 255, 255, 0.5);
 }
 
 .overflow-fade {
   overflow: hidden;
-  mask-image: linear-gradient(to left, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
+  mask-image: linear-gradient(
+    to left,
+    transparent,
+    rgba(0, 0, 0, 0.2) 5px,
+    rgba(0, 0, 0, 1) 25px,
+    rgba(0, 0, 0, 1)
+  );
 }
 
 .overflow-fade-left {
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 5px, rgba(0,0,0,1) 25px, rgba(0,0,0,1));
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.2) 5px,
+    rgba(0, 0, 0, 1) 25px,
+    rgba(0, 0, 0, 1)
+  );
 }
 
 .double-overflow-fade {
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.2) 2%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0.2) 98%);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.2) 2%,
+    rgba(0, 0, 0, 1) 5%,
+    rgba(0, 0, 0, 1) 95%,
+    rgba(0, 0, 0, 0.2) 98%
+  );
 }
 
 @keyframes realtimeInnerArch {
-  0%   {opacity: 1;}
-  20%  {opacity: 1;}
-  40%  {opacity: 0;}
-  60%  {opacity: 1;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes realtimeOuterArch {
-  0%   {opacity: 1;}
-  20%  {opacity: 1;}
-  40%  {opacity: 0;}
-  60%  {opacity: 0;}
-  80%  {opacity: 1;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 svg.realtime-icon {
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
 }
 
 #icon-icon_realtime {
@@ -257,13 +298,37 @@ svg.realtime-icon {
     opacity: 0.4;
   }
 
-  75%  {
+  75% {
     opacity: 0.1;
   }
 
   100% {
     opacity: 0;
     transform: scale(3);
+  }
+}
+
+.icon-badge {
+  display: inline-block;
+  height: 1em;
+  position: absolute;
+  width: 1em;
+
+  > .badge-circle {
+    stroke: #fff;
+    stroke-width: 0;
+  }
+
+  > .badge-text {
+    fill: #fff;
+    font-family: $font-family;
+    font-size: 2rem;
+    font-weight: 500;
+    text-anchor: middle;
+
+    &.long {
+      font-size: 1.5rem;
+    }
   }
 }
 

@@ -26,7 +26,7 @@ class DTAutosuggest extends React.Component {
     layers: PropTypes.arrayOf(PropTypes.string).isRequired,
     placeholder: PropTypes.string.isRequired,
     refPoint: dtLocationShape.isRequired,
-    searchType: PropTypes.oneOf(['all', 'endpoint']).isRequired,
+    searchType: PropTypes.oneOf(['all', 'endpoint', 'search']).isRequired,
     selectedFunction: PropTypes.func.isRequired,
     value: PropTypes.string,
   };
@@ -273,10 +273,7 @@ class DTAutosuggest extends React.Component {
           focusInputOnSuggestionClick={false}
           shouldRenderSuggestions={() => this.state.editing}
           renderInputComponent={p => (
-            <div
-              id={`${this.props.id}-container`}
-              className="autosuggest-input-container"
-            >
+            <div id={`${this.props.id}-container`} style={{ display: 'flex' }}>
               <input id={this.props.id} onClick={this.inputClicked} {...p} />
               {this.clearButton()}
             </div>
