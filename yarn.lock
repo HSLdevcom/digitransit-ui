@@ -4857,9 +4857,9 @@ fd-slicer@~1.0.1:
   dependencies:
     pend "~1.2.0"
 
-fetch-mock@7.0.0-alpha.6:
-  version "7.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/fetch-mock/-/fetch-mock-7.0.0-alpha.6.tgz#5c08d0409c6e9cde1bf5bb4a5002af7a3625fe8c"
+fetch-mock@7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/fetch-mock/-/fetch-mock-7.0.5.tgz#ce6f8023ecd7c174aafafe32223d112991e3a425"
   dependencies:
     babel-polyfill "^6.26.0"
     glob-to-regexp "^0.4.0"
