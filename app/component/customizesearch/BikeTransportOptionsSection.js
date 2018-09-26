@@ -9,6 +9,9 @@ import { toggleTransportMode, setStreetMode } from '../../util/modeUtils';
 const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
   const onlyBike =
     currentModes.length === 1 && currentModes[0] === StreetMode.Bicycle;
+  const isTransportModeEnabled = transportMode =>
+    transportMode && transportMode.availableForSelection;
+  const transportModes = config.transportModes || {};
   return (
     <React.Fragment>
       <Checkbox
@@ -23,15 +26,17 @@ const BikeTransportOptionsSection = ({ currentModes }, { config, router }) => {
           }
         }}
       />
-      <Checkbox
-        checked={currentModes.includes(TransportMode.Citybike)}
-        defaultMessage="I'm using a citybike"
-        key="cb-citybike"
-        labelId="biketransport-citybike"
-        onChange={() =>
-          toggleTransportMode(TransportMode.Citybike, config, router)
-        }
-      />
+      {isTransportModeEnabled(transportModes.citybike) && (
+        <Checkbox
+          checked={currentModes.includes(TransportMode.Citybike)}
+          defaultMessage="I'm using a citybike"
+          key="cb-citybike"
+          labelId="biketransport-citybike"
+          onChange={() =>
+            toggleTransportMode(TransportMode.Citybike, config, router)
+          }
+        />
+      )}
     </React.Fragment>
   );
 };
