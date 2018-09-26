@@ -103,7 +103,7 @@ export const getNameLabel = memoize(
                 {getStopCode(suggestion) && (
                   <StopCode code={getStopCode(suggestion)} />
                 )}
-                {suggestion.desc}
+                {getLocality(suggestion)}
               </span>,
             ];
       case 'station':
