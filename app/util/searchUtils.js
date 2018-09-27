@@ -201,9 +201,6 @@ export function getGeocodingResult(
   }
 
   return getJson(config.URL.PELIAS, opts)
-    .then(res =>
-      orderBy(res.features, feature => feature.properties.confidence, 'desc'),
-    )
     .then(features => mapPeliasModality(features, config));
 }
 
