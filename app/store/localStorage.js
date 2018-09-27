@@ -69,31 +69,51 @@ export function removeItem(k) {
 }
 
 export function getCustomizedSettings() {
-  return getItemAsJson('customizedSettings');
+  return getItemAsJson('customizedSettings', '{}');
 }
 
 export function setCustomizedSettings(data) {
+  const getNumberValueOrDefault = (value, defaultValue) =>
+    value !== undefined && value !== null ? Number(value) : defaultValue;
+  const getValueOrDefault = (value, defaultValue) =>
+    value !== undefined ? value : defaultValue;
+
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
   const newSettings = {
-    accessibilityOption: !(typeof data.accessibilityOption === 'undefined')
-      ? data.accessibilityOption
-      : oldSettings.accessibilityOption,
-    minTransferTime: data.minTransferTime
-      ? data.minTransferTime
-      : oldSettings.minTransferTime,
-    modes: data.modes ? data.modes : oldSettings.modes,
-    walkBoardCost: data.walkBoardCost
-      ? data.walkBoardCost
-      : oldSettings.walkBoardCost,
-    walkReluctance: data.walkReluctance
-      ? data.walkReluctance
-      : oldSettings.walkReluctance,
-    walkSpeed: data.walkSpeed ? data.walkSpeed : oldSettings.walkSpeed,
-    ticketTypes: data.ticketTypes ? data.ticketTypes : oldSettings.ticketTypes,
-    transferPenalty: data.transferPenalty
-      ? data.transferPenalty
-      : oldSettings.transferPenalty,
+    accessibilityOption: getNumberValueOrDefault(
+      data.accessibilityOption,
+      oldSettings.accessibilityOption,
+    ),
+    bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
+    minTransferTime: getNumberValueOrDefault(
+      data.minTransferTime,
+      oldSettings.minTransferTime,
+    ),
+    modes: getValueOrDefault(data.modes, oldSettings.modes),
+    optimize: getValueOrDefault(data.optimize, oldSettings.optimize),
+    preferredRoutes: getValueOrDefault(
+      data.preferredRoutes,
+      oldSettings.preferredRoutes,
+    ),
+    ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
+    transferPenalty: getNumberValueOrDefault(
+      data.transferPenalty,
+      oldSettings.transferPenalty,
+    ),
+    unpreferredRoutes: getValueOrDefault(
+      data.unpreferredRoutes,
+      oldSettings.unpreferredRoutes,
+    ),
+    walkBoardCost: getNumberValueOrDefault(
+      data.walkBoardCost,
+      oldSettings.walkBoardCost,
+    ),
+    walkReluctance: getNumberValueOrDefault(
+      data.walkReluctance,
+      oldSettings.walkReluctance,
+    ),
+    walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
   };
   setItem('customizedSettings', newSettings);
 }
@@ -275,3 +295,9 @@ export function setHistory(history) {
 export function getHistory() {
   return getItemAsJson('history', '{"entries":["/"], "index":0, "time":0}');
 }
+
+export const setMapLayerSettings = settings => {
+  setItem('map-layers', settings);
+};
+
+export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');

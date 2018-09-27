@@ -3,11 +3,13 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawIcon, getStopRadius } from '../../../util/mapIconUtils';
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
 export default class TicketSales {
-  constructor(tile, config) {
+  constructor(tile, config, mapLayers) {
     this.tile = tile;
     this.config = config;
+    this.mapLayers = mapLayers;
 
     this.scaleratio =
       (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
@@ -21,11 +23,9 @@ export default class TicketSales {
       case 'Palvelupiste':
         return 'icon-icon_service-point';
       case 'HSL Automaatti MNL':
-        return 'icon-icon_ticket-machine';
       case 'HSL Automaatti KL':
         return 'icon-icon_ticket-machine';
       case 'Myyntipiste':
-        return 'icon-icon_ticket-sales-point';
       case 'R-kioski':
         return 'icon-icon_ticket-sales-point';
       default:
@@ -59,6 +59,16 @@ export default class TicketSales {
               i++
             ) {
               const feature = vt.layers['ticket-sales'].feature(i);
+              if (
+                !isFeatureLayerEnabled(
+                  feature,
+                  TicketSales.getName(),
+                  this.mapLayers,
+                  this.config,
+                )
+              ) {
+                continue; // eslint-disable-line
+              }
               [[feature.geom]] = feature.loadGeometry();
               // Do not show VR ticket machines and ticket offices
               const icon = TicketSales.getIcon(feature.properties.TYYPPI);

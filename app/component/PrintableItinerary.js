@@ -22,7 +22,7 @@ import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
 import LocationMarker from '../component/map/LocationMarker';
 
-const getHeadSignFormat = sentLegObj => {
+const getHeadSignFormat = (sentLegObj, isReturningRentedBike = false) => {
   const stopcode = sentLegObj.from.stop !== null && (
     <span className="stop-code">
       {sentLegObj.from.stop.code ? `[${sentLegObj.from.stop.code}]` : ``}
@@ -49,6 +49,14 @@ const getHeadSignFormat = sentLegObj => {
       <FormattedMessage
         id="airport-collect-luggage"
         defaultMessage="airport-collect-luggage"
+      />
+    );
+  } else if (isReturningRentedBike) {
+    headSignFormat = (
+      <FormattedMessage
+        id="return-cycle-to"
+        values={{ station: sentLegObj.from.name }}
+        defaultMessage="Return the bike to {station} station"
       />
     );
   } else {
@@ -219,7 +227,9 @@ const isWalking = legOrMode =>
   ['WALK', 'BICYCLE_WALK'].find(mode => mode === getLegMode(legOrMode));
 
 export function PrintableLeg(props) {
-  const legMode = getLegMode(props.legObj) || '';
+  const { index, legObj, originalLegs } = props;
+
+  const legMode = getLegMode(legObj) || '';
   const isVehicle =
     legMode !== 'WALK' &&
     legMode !== 'CITYBIKE' &&
@@ -242,46 +252,42 @@ export function PrintableLeg(props) {
 
   // Check if the leg is a vehicle leg or not
   const itineraryDescription = isVehicle ? (
-    vehicleItinerary(props.legObj)
+    vehicleItinerary(legObj)
   ) : (
     <FormattedMessage
       id={`${messagePrefix}-distance-duration`}
       defaultMessage="Travel {distance} ({duration})"
       values={{
         distance: displayDistance(
-          parseInt(props.legObj.distance, 10),
+          parseInt(legObj.distance, 10),
           props.context.config,
         ),
-        duration: durationToString(props.legObj.duration * 1000),
+        duration: durationToString(legObj.duration * 1000),
       }}
     />
   );
+
+  const previousLeg = originalLegs[index - 1];
 
   return (
     <div className="print-itinerary-leg-container">
       <div className="itinerary-left">
         <div className="itinerary-timestamp">
-          {moment(props.legObj.startTime).format('HH:mm')}
+          {moment(legObj.startTime).format('HH:mm')}
         </div>
         <div className="itinerary-icon">
-          <div className={`special-icon ${props.legObj.mode.toLowerCase()}`}>
+          <div className={`special-icon ${legObj.mode.toLowerCase()}`}>
             <RouteNumber
-              mode={props.legObj.mode.toLowerCase()}
+              mode={legObj.mode.toLowerCase()}
               vertical
-              text={
-                props.legObj.route !== null
-                  ? props.legObj.route.shortName
-                  : null
-              }
+              text={legObj.route !== null ? legObj.route.shortName : null}
             />
           </div>
         </div>
       </div>
-      <div
-        className={`itinerary-circleline ${props.legObj.mode.toLowerCase()}`}
-      >
+      <div className={`itinerary-circleline ${legObj.mode.toLowerCase()}`}>
         <div className="line-circle">
-          {props.index === 0 ? (
+          {index === 0 ? (
             <Icon
               img="icon-icon_mapMarker-point"
               className="itinerary-icon from from-it"
@@ -305,22 +311,20 @@ export function PrintableLeg(props) {
             </svg>
           )}
         </div>
-        <div className={`leg-before-line ${props.legObj.mode.toLowerCase()}`} />
+        <div className={`leg-before-line ${legObj.mode.toLowerCase()}`} />
       </div>
-      <div className={`itinerary-center ${props.legObj.mode.toLowerCase()}`}>
+      <div className={`itinerary-center ${legObj.mode.toLowerCase()}`}>
         <div className="itinerary-center-left">
-          {getHeadSignFormat(props.legObj)}
+          {getHeadSignFormat(legObj, previousLeg && previousLeg.rentedBike)}
           <div className="itinerary-instruction">{itineraryDescription}</div>
         </div>
-        <div
-          className={`itinerary-center-right ${props.legObj.mode.toLowerCase()}`}
-        >
+        <div className={`itinerary-center-right ${legObj.mode.toLowerCase()}`}>
           {(isWalking(legMode) || // For vehicle leg maps
-            (props.originalLegs.length === 1 && !isVehicle)) && ( // If there's only one leg during walking/cycling/car mode
+            (originalLegs.length === 1 && !isVehicle)) && ( // If there's only one leg during walking/cycling/car mode
             <TransferMap
-              originalLegs={props.originalLegs}
-              index={props.index}
-              legObj={props.legObj}
+              originalLegs={originalLegs}
+              index={index}
+              legObj={legObj}
               mapsLoaded={() => props.mapsLoaded()}
             />
           )}

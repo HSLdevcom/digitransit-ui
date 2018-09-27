@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import forEach from 'lodash/forEach';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
@@ -105,19 +106,28 @@ export const compressLegs = originalLegs => {
   const compressedLegs = [];
   let compressedLeg;
 
-  originalLegs.forEach(currentLeg => {
+  forEach(originalLegs, currentLeg => {
     if (!compressedLeg) {
       compressedLeg = cloneDeep(currentLeg);
-    } else if (
-      usingOwnBicycle &&
-      continueWithBicycle(compressedLeg, currentLeg)
-    ) {
+      return;
+    }
+
+    if (currentLeg.intermediatePlace) {
+      compressedLegs.push(compressedLeg);
+      compressedLeg = cloneDeep(currentLeg);
+      return;
+    }
+
+    if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = currentLeg.to;
       compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.Bicycle;
-    } else if (
+      return;
+    }
+
+    if (
       currentLeg.rentedBike &&
       continueWithRentedBicycle(compressedLeg, currentLeg)
     ) {
@@ -126,17 +136,18 @@ export const compressLegs = originalLegs => {
       compressedLeg.to = currentLeg.to;
       compressedLeg.endTime += currentLeg.endTime;
       compressedLeg.mode = LegMode.CityBike;
-    } else {
-      if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
-        compressedLeg.mode = LegMode.BicycleWalk;
-      }
+      return;
+    }
 
-      compressedLegs.push(compressedLeg);
-      compressedLeg = cloneDeep(currentLeg);
+    if (usingOwnBicycle && getLegMode(compressedLeg) === LegMode.Walk) {
+      compressedLeg.mode = LegMode.BicycleWalk;
+    }
 
-      if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
-        compressedLeg.mode = LegMode.BicycleWalk;
-      }
+    compressedLegs.push(compressedLeg);
+    compressedLeg = cloneDeep(currentLeg);
+
+    if (usingOwnBicycle && getLegMode(currentLeg) === LegMode.Walk) {
+      compressedLeg.mode = LegMode.BicycleWalk;
     }
   });
 
@@ -147,6 +158,28 @@ export const compressLegs = originalLegs => {
   return compressedLegs;
 };
 
+const sumDistances = legs =>
+  legs.map(l => l.distance).reduce((x, y) => x + y, 0);
+const isWalkingLeg = leg =>
+  [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
+const isBikingLeg = leg =>
+  [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
+
+/**
+ * Checks if the itinerary consist of a single biking leg.
+ *
+ * @param {*} itinerary the itinerary to check the legs for
+ */
+export const onlyBiking = itinerary =>
+  itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
+
+/**
+ * Checks if any of the legs in the given itinerary contains biking.
+ *
+ * @param {*} itinerary the itinerary to check the legs for
+ */
+export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
+
 /**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
@@ -155,7 +188,39 @@ export const compressLegs = originalLegs => {
  */
 export const getTotalWalkingDistance = itinerary =>
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  itinerary.legs
-    .filter(l => getLegMode(l) === LegMode.Walk)
-    .map(l => l.distance)
-    .reduce((x, y) => x + y, 0);
+  sumDistances(itinerary.legs.filter(isWalkingLeg));
+
+/**
+ * Calculates and returns the total biking distance undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total biking distance from
+ */
+export const getTotalBikingDistance = itinerary =>
+  sumDistances(itinerary.legs.filter(isBikingLeg));
+
+/**
+ * Gets the indicator color for the current amount of citybikes available.
+ *
+ * @param {number} bikesAvailable the number of bikes currently available
+ * @param {*} config the configuration for the software installation
+ */
+export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
+  bikesAvailable > config.cityBike.fewAvailableCount ? '#64be14' : '#ff9000';
+
+/**
+ * Attempts to retrieve any relevant information from the leg that could be shown
+ * as the related icon's badge.
+ *
+ * @param {*} leg the leg to extract the props from
+ * @param {*} config the configuration for the software installation
+ */
+export const getLegBadgeProps = (leg, config) => {
+  if (!leg.rentedBike || !leg.from || !leg.from.bikeRentalStation) {
+    return undefined;
+  }
+  const { bikesAvailable } = leg.from.bikeRentalStation || 0;
+  return {
+    badgeFill: getCityBikeAvailabilityIndicatorColor(bikesAvailable, config),
+    badgeText: `${bikesAvailable}`,
+  };
+};

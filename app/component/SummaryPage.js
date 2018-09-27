@@ -4,9 +4,6 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
 import get from 'lodash/get';
-import isMatch from 'lodash/isMatch';
-import keys from 'lodash/keys';
-import pick from 'lodash/pick';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
 import polyline from 'polyline-encoded';
@@ -25,12 +22,12 @@ import SummaryNavigation from './SummaryNavigation';
 import ItineraryLine from '../component/map/ItineraryLine';
 import LocationMarker from '../component/map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
-import { otpToLocation } from '../util/otpStrings';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
-import withBreakpoint from '../util/withBreakpoint';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import { defaultRoutingSettings } from '../util/planParamUtil';
+import { getIntermediatePlaces } from '../util/queryUtils';
+import { validateServiceTimeRange } from '../util/timeUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -51,7 +48,6 @@ class SummaryPage extends React.Component {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
-    piwik: PropTypes.object,
   };
 
   static propTypes = {
@@ -74,7 +70,7 @@ class SummaryPage extends React.Component {
     content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
-    }).isRequired,
+    }),
     from: dtLocationShape.isRequired,
     to: dtLocationShape.isRequired,
     routes: PropTypes.arrayOf(
@@ -86,15 +82,8 @@ class SummaryPage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
-  static hcParameters = {
-    walkReluctance: 2,
-    walkBoardCost: 600,
-    minTransferTime: 120,
-    transferPenalty: 0,
-    walkSpeed: 1.2,
-    wheelchair: false,
-    accessibilityOption: 0,
-    ticketTypes: null,
+  static defaultProps = {
+    map: undefined,
   };
 
   constructor(props, context) {
@@ -102,11 +91,7 @@ class SummaryPage extends React.Component {
     context.executeAction(storeOrigin, props.from);
   }
 
-  state = { center: null, loading: false, isQuickSettingsOpen: false };
-
-  componentWillMount() {
-    this.initCustomizableParameters(this.context.config);
-  }
+  state = { center: null, loading: false };
 
   componentDidMount() {
     const host =
@@ -143,43 +128,6 @@ class SummaryPage extends React.Component {
 
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
-  };
-
-  initCustomizableParameters = config => {
-    this.customizableParameters = {
-      ...SummaryPage.hcParameters,
-      ...this.context.config.defaultSettings,
-      modes: Object.keys(config.transportModes)
-        .filter(mode => config.transportModes[mode].defaultValue === true)
-        .map(mode => config.modeToOTP[mode])
-        .concat(
-          Object.keys(config.streetModes)
-            .filter(mode => config.streetModes[mode].defaultValue === true)
-            .map(mode => config.modeToOTP[mode]),
-        )
-        .sort()
-        .join(','),
-      maxWalkDistance: config.maxWalkDistance,
-      itineraryFiltering: config.itineraryFiltering,
-      preferred: { agencies: config.preferredAgency || '' },
-    };
-  };
-
-  hasDefaultPreferences = () => {
-    const a = pick(this.customizableParameters, keys(this.props));
-    const b = pick(this.props, keys(this.customizableParameters));
-    return isMatch(a, b);
-  };
-
-  toggleQuickSettingsPanel = val => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'SettingsButtonClick',
-        val ? 'SettingsButtonExpand' : 'SettingsButtonCollapse',
-      );
-    }
-    this.setState({ isQuickSettingsOpen: val });
   };
 
   renderMap() {
@@ -221,29 +169,16 @@ class SummaryPage extends React.Component {
       );
     }
 
-    if (query && query.intermediatePlaces) {
-      if (Array.isArray(query.intermediatePlaces)) {
-        query.intermediatePlaces.map(otpToLocation).forEach((location, i) => {
-          leafletObjs.push(
-            <LocationMarker
-              key={`via_${i}`}
-              position={location}
-              className="via"
-              noText
-            />,
-          );
-        });
-      } else {
-        leafletObjs.push(
-          <LocationMarker
-            key="via"
-            position={otpToLocation(query.intermediatePlaces)}
-            className="via"
-            noText
-          />,
-        );
-      }
-    }
+    getIntermediatePlaces(query).forEach((location, i) => {
+      leafletObjs.push(
+        <LocationMarker
+          key={`via_${i}`}
+          position={location}
+          className="via"
+          noText
+        />,
+      );
+    });
 
     // Decode all legs of all itineraries into latlong arrays,
     // and concatenate into one big latlong array
@@ -286,12 +221,14 @@ class SummaryPage extends React.Component {
         readyState: { done, error },
       },
     } = this.context;
+    const hasItineraries =
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries;
 
     if (
       this.props.routes[this.props.routes.length - 1].printPage &&
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
+      hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
         itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
@@ -316,11 +253,7 @@ class SummaryPage extends React.Component {
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries
-    ) {
+    if (hasItineraries) {
       earliestStartTime = Math.min(
         ...this.props.plan.plan.itineraries.map(i => i.startTime),
       );
@@ -332,7 +265,6 @@ class SummaryPage extends React.Component {
     const serviceTimeRange = validateServiceTimeRange(
       this.props.serviceTimeRange,
     );
-    const hasDefaultPreferences = this.hasDefaultPreferences();
     if (this.props.breakpoint === 'large') {
       let content;
       if (this.state.loading === false && (done || error !== null)) {
@@ -348,9 +280,9 @@ class SummaryPage extends React.Component {
           >
             {this.props.content &&
               React.cloneElement(this.props.content, {
-                itinerary: this.props.plan.plan.itineraries[
-                  this.props.params.hash
-                ],
+                itinerary:
+                  hasItineraries &&
+                  this.props.plan.plan.itineraries[this.props.params.hash],
                 focus: this.updateCenter,
               })}
           </SummaryPlanContainer>
@@ -376,16 +308,14 @@ class SummaryPage extends React.Component {
             <SummaryNavigation
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
-              hasDefaultPreferences={hasDefaultPreferences}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
-              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
-              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           }
           // TODO: Chceck preferences
           content={content}
           map={map}
+          scrollable
         />
       );
     }
@@ -433,13 +363,10 @@ class SummaryPage extends React.Component {
         header={
           !this.props.params.hash ? (
             <SummaryNavigation
-              hasDefaultPreferences={hasDefaultPreferences}
               params={this.props.params}
               serviceTimeRange={serviceTimeRange}
               startTime={earliestStartTime}
               endTime={latestArrivalTime}
-              isQuickSettingsOpen={this.state.isQuickSettingsOpen}
-              toggleQuickSettings={this.toggleQuickSettingsPanel}
             />
           ) : (
             false
@@ -491,8 +418,9 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
           heuristicStepsPerMainStep: $heuristicStepsPerMainStep,
           compactLegsByReversedSearch: $compactLegsByReversedSearch,
           itineraryFiltering: $itineraryFiltering,
-          modeWeight: $modeWeight,
-          preferred: $preferred)
+          modeWeight: $modeWeight
+          preferred: $preferred,
+          unpreferred: $unpreferred),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -540,10 +468,15 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
       modes: null,
       maxWalkDistance: 0,
       preferred: null,
+      unpreferred: null,
       ticketTypes: null,
       itineraryFiltering: ITINERARYFILTERING_DEFAULT,
+      minTransferTime: null,
+      walkBoardCost: null,
+      walkReluctance: null,
+      walkSpeed: null,
+      wheelchair: null,
     },
     ...defaultRoutingSettings,
-    ...SummaryPage.hcParameters,
   },
 });

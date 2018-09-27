@@ -165,6 +165,7 @@ export default Relay.createContainer(ItineraryTab, {
             name
             vertexType
             bikeRentalStation {
+              bikesAvailable
               ${CityBikeMarker.getFragment('station')}
             }
             stop {

@@ -1,16 +1,10 @@
 .quicksettings-container {
-    display: none;
+    display: block;
     background-color: $background-color-lighter;
-    padding-bottom: 1em;
-    padding-left: 1em;
-    padding-right: 1em;
-
-    &.visible {
-        display: block;
-    }
+    padding: $padding-small $padding-medium 1em $padding-medium;
 
     .bottom-row {
-      margin-top: 0.7em;
+      margin-top: 0.3em;
       display: flex;
       flex: 0 1 auto;
       flex-direction: row;
@@ -72,7 +66,6 @@
           border-radius: 3px;
           border-right: none;
           margin-bottom: 0;
-          margin-left: 0.3em;
           height: 2em;
           max-width: 2em;
           .icon-holder {
@@ -84,15 +77,13 @@
             }
           }
         }
+        .mode-icon ~ .mode-icon {
+          margin-left: $padding-xsmall;
+        }
       }
     }
 
-    .top-row {
-      display: flex;
-    }
-
     .open-advanced-settings {
-      margin-right: 0.4em;
       flex: 0 1 auto;
       .right-offcanvas-toggle {
         background: none;
@@ -111,7 +102,7 @@
         display: flex;
         flex-direction: row;
         color: $link-color;
-        margin-right: 0.5em;
+        margin-left: 0.5em;
         width: 50%;
         > span {
           margin-left: -1.4rem;
@@ -160,6 +151,11 @@
       }
 }
 .mobile .quicksettings-container {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-bottom: $padding-medium;
+    padding-left: $padding-small;
+    padding-right: $padding-small;
+
+    .bottom-row .select-wrapper {
+      width: 40%;
+    }
 }

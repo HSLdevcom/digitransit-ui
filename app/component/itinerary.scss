@@ -99,10 +99,11 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-main {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   padding-top: 15px;
+  transform: scale(1); // start a new z-index context here
 
   div {
     flex-grow: 1;
@@ -186,7 +187,8 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .duration--itinerary-summary,
-.timeframe--itinerary-summary {
+.timeframe--itinerary-summary,
+.biking-distance--itinerary-summary {
   padding-right: 10px;
 }
 
@@ -407,6 +409,9 @@ $itinerary-tab-switch-height: 48px;
       }
       font-size: 14pt;
     }
+    .icon-badge {
+      font-size: 12pt;
+    }
     .leg-call {
       .icon {
         font-size: 1.8em;
@@ -428,6 +433,7 @@ $itinerary-tab-switch-height: 48px;
       width: inherit;
     }
   }
+
   .special-icon {
     &.call,
     &.disruption {
@@ -436,6 +442,11 @@ $itinerary-tab-switch-height: 48px;
       margin-left: 1em;
       position: absolute;
       margin-top: -1em;
+    }
+
+    .icon-badge {
+      left: -0.5em;
+      top: -0.75em;
     }
   }
 
@@ -572,6 +583,12 @@ $itinerary-tab-switch-height: 48px;
     .icon {
       font-size: 24px;
     }
+
+    .icon-badge {
+      font-size: 16px;
+      top: -1.25em;
+    }
+
     .vehicle-number {
       font-size: $font-size-normal;
     }
@@ -880,7 +897,6 @@ div.itinerary-container-content {
 }
 
 .vehicle-number-container-v {
-  margin-top: 4px;
   .vehicle-number {
     mask-image: none;
     max-width: none;
@@ -1207,9 +1223,6 @@ $font-print-decrease: 0.7;
     &.disruption {
       max-width: auto;
     }
-  }
-  .vehicle-number-container-v {
-    margin-top: 0;
   }
   .print-itinerary {
     right: 1em;

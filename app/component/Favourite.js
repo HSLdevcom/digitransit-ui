@@ -14,6 +14,7 @@ const Favourite = ({ addFavourite, favourite, className }) => (
     <Icon
       className={cx('favourite', { selected: favourite })}
       img="icon-icon_star"
+      pointerEvents
     />
   </span>
 );
@@ -31,10 +32,10 @@ Favourite.description = () => (
         and allows the user to toggle the favourite status on/off.`}
     </p>
     <ComponentUsageExample description="entity is favourite">
-      <Favourite addFavourite={() => {}} favourite />
+      <Favourite addFavourite={() => {}} favourite pointerEvents />
     </ComponentUsageExample>
     <ComponentUsageExample description="entity is not favourite">
-      <Favourite addFavourite={() => {}} />
+      <Favourite addFavourite={() => {}} pointerEvents />
     </ComponentUsageExample>
   </div>
 );

@@ -68,6 +68,7 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const originalTime = this.props.leg.realTime &&
+      this.props.leg.departureDelay &&
       this.props.leg.departureDelay >=
         this.context.config.itinerary.delayThreshold && [
         <br key="br" />,
@@ -212,9 +213,9 @@ class TransitLeg extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {[].concat([this.renderMain()]).concat([this.renderIntermediate()])}
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -241,7 +242,7 @@ TransitLeg.propTypes = {
       }).isRequired,
     }).isRequired,
     startTime: PropTypes.number.isRequired,
-    departureDelay: PropTypes.number.isRequired,
+    departureDelay: PropTypes.number,
     intermediatePlaces: PropTypes.arrayOf(
       PropTypes.shape({
         arrivalTime: PropTypes.number.isRequired,
