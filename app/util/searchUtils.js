@@ -69,6 +69,7 @@ const mapRoute = item => ({
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
     const input = Input.toLowerCase().trim();
+    const multiWord = input.includes(' ') || input.includes(',');
 
     return list.filter(item => {
       let parts = [];
@@ -83,15 +84,19 @@ function filterMatchingToInput(list, Input, fields) {
           } else if (value.length > 1) {
             value.splice(value.length - 1, 1);
           }
-          value = value.join();
+          value = value.join(',');
         }
         if (value) {
-          parts = parts.concat(
-            value
-              .toLowerCase()
-              .replace(/,/g, ' ')
-              .split(' '),
-          );
+          if (multiWord) {
+            parts = parts.concat(value.toLowerCase());
+          } else {
+            parts = parts.concat(
+              value
+                .toLowerCase()
+                .replace(/,/g, ' ')
+                .split(' '),
+            );
+          }
         }
       });
       for (let i = 0; i < parts.length; i++) {
@@ -200,8 +205,9 @@ export function getGeocodingResult(
     opts = { ...opts, sources };
   }
 
-  return getJson(config.URL.PELIAS, opts)
-    .then(features => mapPeliasModality(features, config));
+  return getJson(config.URL.PELIAS, opts).then(response =>
+    mapPeliasModality(response.features, config),
+  );
 }
 
 function getFavouriteRoutes(favourites, input) {
