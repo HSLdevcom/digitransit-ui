@@ -62,7 +62,7 @@ function getRelayQuery(query) {
 
 const mapRoute = item => {
   const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
-    orderBy(item.patterns, 'trips', ['desc'])[0].code
+    orderBy(item.patterns, 'code', ['asc'])[0].code
   }`;
 
   return {
@@ -315,7 +315,7 @@ function getRoutes(input, config) {
 
   const query = Relay.createQuery(
     Relay.QL`
-    query routes($name: String, $serviceDate: String) {
+    query routes($name: String) {
       viewer {
         routes(name: $name ) {
           gtfsId
@@ -325,14 +325,11 @@ function getRoutes(input, config) {
           longName
           patterns { 
             code
-            trips {
-              stoptimesForDate(serviceDate: $serviceDate)
-            }
           }
         }
       }
     }`,
-    { name: input, serviceDate: null },
+    { name: input },
   );
 
   return getRelayQuery(query)
