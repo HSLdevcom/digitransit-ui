@@ -151,7 +151,7 @@ export default class Map extends React.Component {
           maxZoom={config.map.maxZoom}
         />
         <AttributionControl
-          position="bottomleft"
+          position="bottomright"
           prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
         />
         {this.props.showScaleBar && (
