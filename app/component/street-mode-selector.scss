@@ -2,7 +2,7 @@ $street-mode-selector-icon-size: 2em;
 
 %buttons {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   button {
     align-items: center;
@@ -59,6 +59,7 @@ $street-mode-selector-icon-size: 2em;
       font-weight: $font-weight-medium;
       line-height: 1;
       margin-top: 0.5em;
+      width: 100%; // required for IE11 to apply hyphenation properly
     }
   }
 }
