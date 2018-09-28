@@ -56,7 +56,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.stop.bus).to.equal(true);
   });
@@ -90,7 +90,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(1)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.terminal.bus).to.equal(true);
   });
@@ -124,7 +124,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.stop.tram).to.equal(true);
   });
@@ -160,7 +160,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.stop.rail).to.equal(true);
     expect(mapLayers.terminal.rail).to.equal(true);
@@ -197,7 +197,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.stop.subway).to.equal(true);
     expect(mapLayers.terminal.subway).to.equal(true);
@@ -232,7 +232,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.stop.ferry).to.equal(true);
   });
@@ -268,7 +268,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.citybike).to.equal(true);
   });
@@ -299,7 +299,7 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
 
     expect(mapLayers.parkAndRide).to.equal(true);
   });
@@ -333,13 +333,13 @@ describe('<SelectMapLayersDialog />', () => {
     wrapper
       .find('.option-checkbox input')
       .at(0)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
     expect(mapLayers.ticketSales.ticketMachine).to.equal(true);
 
     wrapper
       .find('.option-checkbox input')
       .at(1)
-      .simulate('click');
+      .simulate('change', { target: { checked: true } });
     expect(mapLayers.ticketSales.salesPoint).to.equal(true);
     expect(mapLayers.ticketSales.servicePoint).to.equal(true);
   });

@@ -110,16 +110,27 @@ function parseTime(query, config) {
   return Promise.resolve(timeStr);
 }
 
+function parseUtm(campaign, source, medium) {
+  let utmString = '';
+  if (campaign && source && medium) {
+    utmString = `&utm_campaign=${campaign}&utm_source=${source}&utm_medium=${medium}`;
+  }
+  return Promise.resolve(utmString);
+}
+
 export default function oldParamParser(query, config) {
   return Promise.all([
     parseLocation(query.from, query.from_in, config),
     parseLocation(query.to, query.to_in, config),
     parseTime(query, config),
+    parseUtm(query.utm_campaign, query.utm_source, query.utm_medium),
   ])
-    .then(([from, to, time]) => {
+    .then(([from, to, time, utm]) => {
       if (from && from.length > 1 && to && to.length > 1) {
         // can redirect to itinerary summary page
-        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}`;
+        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}${utm}`;
+      } else if (utm.length > 1) {
+        return `/${from}/${to}/?${utm.substr(1)}`;
       }
       return `/${from}/${to}/`;
     })

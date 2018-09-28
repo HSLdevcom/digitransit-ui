@@ -305,7 +305,6 @@ export default function(req, res, next) {
       const preconnects = [
         config.URL.API_URL,
         config.URL.MAP_URL,
-        'https://dev.hsl.fi/',
         config.staticMessagesUrl,
       ];
 
@@ -321,7 +320,6 @@ export default function(req, res, next) {
     }
 
     res.write(
-      // TODO: Add crossorigin here, when dev.hsl.fi supports it.
       `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
     );
 
