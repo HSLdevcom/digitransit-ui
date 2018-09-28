@@ -98,10 +98,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  features: {
-    showStreetModeQuickSelect: true,
-  },
-
   showTicketInformation: true,
   ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
