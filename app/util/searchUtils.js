@@ -58,6 +58,7 @@ const mapRoute = item => ({
   type: 'Route',
   properties: {
     ...item,
+    gid: item.gtfsId,
     layer: `route-${item.mode}`,
     link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
   },
@@ -65,6 +66,52 @@ const mapRoute = item => ({
     coordinates: null,
   },
 });
+
+function truEq(val1, val2) {
+  // accept equality of non nullish values
+  return val1 && val2 && val1 === val2;
+}
+
+function isDuplicate(item1, item2) {
+  const props1 = item1.properties;
+  const props2 = item2.properties;
+
+  if (truEq(props1.gtfsId, props2.gtfsId)) {
+    return true;
+  }
+  if (props1.lat && props2.lat) {
+    // both have geometry
+    if (
+      Math.abs(props1.lat - props2.lat) < 1e-6 &&
+      Math.abs(props1.lon - props2.lon) < 1e-6
+    ) {
+      // location match is not enough. Require a common property
+      if (
+        truEq(props1.name, props2.name) ||
+        truEq(props1.label, props2.label) ||
+        truEq(props1.address, props2.address)
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function scanDupes(arr, candidate) {
+  /*  array.forEach(item => {
+    if (isDuplicate(item, candidate))
+      found = true;
+    });
+  */
+
+  for (let i = 0; i < arr.length; i++) {
+    if (isDuplicate(arr[i], candidate)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
@@ -287,6 +334,7 @@ function getFavouriteStops(favourites, input, origin) {
           properties: {
             ...stop,
             label: stop.locationName,
+            gid: stop.gtfsId,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
           geometry: {
@@ -412,6 +460,13 @@ export const sortSearchResults = (config, results, term = '') => {
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
 
+  if (isLineSearch) {
+    console.log('LineSearch');
+  }
+
+  if (term.length === 3) {
+    console.log('len=3');
+  }
   const orderedResults = orderBy(
     results,
     [
@@ -489,7 +544,13 @@ export const sortSearchResults = (config, results, term = '') => {
     ],
     ['desc', 'desc', 'desc'],
   );
-  return orderedResults;
+  const deduped = [];
+  orderedResults.forEach(item => {
+    if (!scanDupes(deduped, item)) {
+      deduped.push(item);
+    }
+  });
+  return deduped;
 };
 
 export function executeSearchImmediate(
