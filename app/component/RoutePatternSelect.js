@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
+import sortBy from 'lodash/sortBy';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
@@ -51,7 +52,7 @@ class RoutePatternSelect extends Component {
         o => o.tripsForDate && o.tripsForDate.length > 0,
       ) === undefined &&
         this.props.activeTab === 'aikataulu')
-        ? this.props.route.patterns
+        ? sortBy(this.props.route.patterns, 'code')
             .filter(
               o =>
                 this.props.activeTab !== 'aikataulu'
