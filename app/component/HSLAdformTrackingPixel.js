@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HSLAdformTrackingPixel = () => (
-  <div style={{ width: 0, height: 0 }}>
+  <div style={{ width: 0, height: 0, display: 'none' }}>
     <img
       id=""
       src="https://track.adform.net/Serving/TrackPoint/?pm=785700&ADFPageName=K%C3%A4yneet%20sivustolla&ADFdivider=|"
