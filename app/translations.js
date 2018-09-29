@@ -1505,7 +1505,7 @@ const translations = {
     'airport-check-in': "S'enregistrer au guichet {agency}",
     'airport-collect-luggage': 'Récupérer vos bagages',
     'airport-security-check-go-to-gate':
-    "Franchir les contrôles de sécurité et se rendre à la porte d'embarquement",
+      "Franchir les contrôles de sécurité et se rendre à la porte d'embarquement",
     'all-routes': 'Toutes lignes',
     'all-routes-disabled': 'Aucune ligne',
     'approx-meters': '{approxDistance} m',
@@ -1538,22 +1538,22 @@ const translations = {
     'choose-stop': 'Merci de choisir la ligne',
     citybike: 'Vélo en libre service',
     'citybike-distance-duration': 'VLS {distance} ({duration})',
-    'citybike-register-required': 
-    "L'utilisation du Vélo en libre service nécessite une inscription",
+    'citybike-register-required':
+      "L'utilisation du Vélo en libre service nécessite une inscription",
     citybike_off: 'Fermé',
     close: 'Fermer',
     'contact-information': 'Contacter {contactName}',
     'create-account': 'Créer un identifiant {contactName}',
     'cycle-distance-duration': 'Pédaler {distance} ({duration})',
     'cyclewalk-distance-duration':
-    'Avancer pied à terre sur {distance} ({duration})',
+      'Avancer pied à terre sur {distance} ({duration})',
     datasources: 'Sources des données',
     date: 'Date',
     delete: 'Supprimer',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Départs',
     description:
-    'Trouvez un réseau de transport public pour voyager loin ou à proximité',
+      'Trouvez un réseau de transport public pour voyager loin ou à proximité',
     destination: 'Destination',
     'destination-label-change': 'Changer la destination',
     'destination-outside-service':
@@ -1820,7 +1820,7 @@ const translations = {
     'using-modes': 'Modes de transport',
     'very-likely': 'Très probable',
     'very-unlikely': 'Très improbable',
-    'via-leg-stop-duration': "Attente de {stayDuration} à l'étape", 
+    'via-leg-stop-duration': "Attente de {stayDuration} à l'étape",
     'via-point': 'Étape',
     'viapoint-slack-amount': "Durée de l'étape",
     'view-route': "Voir l'itinéraire",
