@@ -1495,7 +1495,8 @@ const translations = {
     'accessibility-nolimit': 'Aucune limite',
     'add-itinerary-via-point': 'Ajouter une étape au trajet',
     'add-location': 'Ajouter un endroit',
-    'add-location-to-favourites': "Ajouter vos lieux importants à l'onglet favoris",
+    'add-location-to-favourites':
+      "Ajouter vos lieux importants à l'onglet favoris",
     address: 'Adresse',
     'address-or-stop': 'Adresse ou arrêt',
     agency: 'Transporteur',
@@ -1503,7 +1504,8 @@ const translations = {
     'airplane-with-route-number': 'Avion {routeNumber}',
     'airport-check-in': "S'enregistrer au guichet {agency}",
     'airport-collect-luggage': 'Récupérer vos bagages',
-    'airport-security-check-go-to-gate': "Franchir les contrôles de sécurité et se rendre à la porte d'embarquement",
+    'airport-security-check-go-to-gate':
+    "Franchir les contrôles de sécurité et se rendre à la porte d'embarquement",
     'all-routes': 'Toutes lignes',
     'all-routes-disabled': 'Aucune ligne',
     'approx-meters': '{approxDistance} m',
@@ -1536,19 +1538,22 @@ const translations = {
     'choose-stop': 'Merci de choisir la ligne',
     citybike: 'Vélo en libre service',
     'citybike-distance-duration': 'VLS {distance} ({duration})',
-    'citybike-register-required': "L'utilisation du Vélo en libre service nécessite une inscription",
+    'citybike-register-required': 
+    "L'utilisation du Vélo en libre service nécessite une inscription",
     citybike_off: 'Fermé',
     close: 'Fermer',
     'contact-information': 'Contacter {contactName}',
     'create-account': 'Créer un identifiant {contactName}',
     'cycle-distance-duration': 'Pédaler {distance} ({duration})',
-    'cyclewalk-distance-duration': 'Avancer pied à terre sur {distance} ({duration})',
+    'cyclewalk-distance-duration':
+    'Avancer pied à terre sur {distance} ({duration})',
     datasources: 'Sources des données',
     date: 'Date',
     delete: 'Supprimer',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Départs',
-    description: 'Trouvez un réseau de transport public pour voyager loin ou à proximité',
+    description:
+    'Trouvez un réseau de transport public pour voyager loin ou à proximité',
     destination: 'Destination',
     'destination-label-change': 'Changer la destination',
     'destination-outside-service':
@@ -1561,8 +1566,7 @@ const translations = {
     disruption: 'Perturbation',
     'disruption-info': 'Informations sur les perturbations',
     'disruption-info-no-alerts': "Aucune perturbation n'est répertoriée",
-    'disruption-info-route-no-alerts':
-      'La ligne circule normalement',
+    'disruption-info-route-no-alerts': 'La ligne circule normalement',
     disruptions: 'Perturbations',
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-under': 'Distance inférieure à {distance} m',
@@ -1828,7 +1832,7 @@ const translations = {
     'warning-call-agency':
       "La ligne {routeName} est à la demande, et doit être réservée à l'avance",
     'warning-call-agency-no-route':
-      "Uniquement à la demande. Doit être réservé à l'avance.",
+      "Uniquement à la demande. Doit être réservé à l'avance",
     'weather-at-destination': 'Météo à destination',
     yesterday: 'Hier',
     'your-favourites': 'Favoris',
