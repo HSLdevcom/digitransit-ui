@@ -133,6 +133,7 @@ export default function oldParamParser(query, config) {
         } else if (utm) {
           return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${utm.substr(1)}`;
         }
+        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/`;
       } else if (utm.length > 1) {
         return `/${from}/${to}/?${utm.substr(1)}`;
       }

@@ -118,25 +118,6 @@ describe('oldParamParser', () => {
     fetchMock.restore();
   });
 
-  it('query with all the required parameters should return a valid redirect url', done => {
-    oldParamParser(query, largeMaxAgeConf).then(url => {
-      const urlSplit = url.split('/');
-      expect(urlSplit[1]).to.equal('reitti');
-      expect(urlSplit[2]).to.equal(
-        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
-      );
-      expect(urlSplit[3]).to.equal(
-        'Koivikkotie 10, Helsinki::60.225099,24.930026',
-      );
-      const getParams = urlSplit[4].split('&');
-      expect(getParams[0].charAt(0)).to.equal('?');
-      const timeEpochSeconds = parseInt(getParams[0].substring(7), 10);
-      expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
-      expect(getParams[1]).to.equal('arriveBy=true');
-      done();
-    });
-  });
-
   it('query with all the required parameters and utm parameters should return a valid redirect url with utm params', done => {
     oldParamParser(query, largeMaxAgeConf).then(url => {
       const urlSplit = url.split('/');
@@ -149,12 +130,13 @@ describe('oldParamParser', () => {
       );
       const getParams = urlSplit[4].split('&');
       expect(getParams[0].charAt(0)).to.equal('?');
-      const timeEpochSeconds = parseInt(getParams[0].substring(7), 10);
+      const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
       expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
       expect(getParams[1]).to.equal('arriveBy=true');
       expect(getParams[2]).to.equal('utm_campaign=hsl.fi');
       expect(getParams[3]).to.equal('utm_source=etusivu-reittihaku');
       expect(getParams[4]).to.equal('utm_medium=referral');
+      expect(getParams.length).to.equal(5);
       done();
     });
   });
@@ -175,6 +157,7 @@ describe('oldParamParser', () => {
       expect(getParams[1]).to.equal('utm_campaign=hsl.fi');
       expect(getParams[2]).to.equal('utm_source=etusivu-reittihaku');
       expect(getParams[3]).to.equal('utm_medium=referral');
+      expect(getParams.length).to.equal(4);
       done();
     });
   });
@@ -185,6 +168,45 @@ describe('oldParamParser', () => {
       expect(url).to.equal(
         '/ /Koivikkotie 10, Helsinki::60.225099,24.930026/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
       );
+      done();
+    });
+  });
+
+  it('query with no time but with utm should return a valid redirect url ', done => {
+    const noTimeQuery = {
+      from_in: 'lapinlahdenkatu 1',
+      to_in: 'koivikkotie 10',
+      utm_campaign: 'hsl.fi',
+      utm_source: 'etusivu-reittihaku',
+      utm_medium: 'referral',
+    };
+
+    oldParamParser(noTimeQuery, largeMaxAgeConf).then(url => {
+      expect(url).to.equal(
+        '/reitti/Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251/Koivikkotie 10, Helsinki::60.225099,24.930026/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
+      );
+      done();
+    });
+  });
+
+  it('query with no time or utm should return a valid redirect url ', done => {
+    const { utm_campaign, utm_source, utm_medium, ...queryWithoutUtm } = query; // eslint-disable-line camelcase
+
+    oldParamParser(queryWithoutUtm, largeMaxAgeConf).then(url => {
+      const urlSplit = url.split('/');
+      expect(urlSplit[1]).to.equal('reitti');
+      expect(urlSplit[2]).to.equal(
+        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
+      );
+      expect(urlSplit[3]).to.equal(
+        'Koivikkotie 10, Helsinki::60.225099,24.930026',
+      );
+      const getParams = urlSplit[4].split('&');
+      expect(getParams[0].charAt(0)).to.equal('?');
+      const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
+      expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
+      expect(getParams[1]).to.equal('arriveBy=true');
+      expect(getParams.length).to.equal(2);
       done();
     });
   });
