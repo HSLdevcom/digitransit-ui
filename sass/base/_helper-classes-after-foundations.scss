@@ -19,7 +19,7 @@
 }
 
 @media #{$small-only} {
-  #app .modal  {
+  #app .modal {
     width: 90%;
   }
 }
@@ -30,9 +30,8 @@
   }
 }
 
-
 button.noborder {
-  position:relative;
+  position: relative;
   display: inline;
   border: 0px;
   margin: 0px;
@@ -40,7 +39,7 @@ button.noborder {
   font-size: 100%;
   display: flex;
   justify-content: center;
-  text-align: initial;
+  text-align: left;
   background: none;
   border-style: none;
   border-width: 0px;
@@ -49,18 +48,18 @@ button.noborder {
   position: relative;
   background-color: transparent;
   transition: none;
-  color:inherit;
+  color: inherit;
 
   &:focus {
     background-color: transparent;
-    color:inherit;
+    color: inherit;
   }
   &:active {
     background-color: transparent;
-    color:inherit;
+    color: inherit;
   }
   &:hover {
     background-color: transparent;
-    color:inherit;
+    color: inherit;
   }
 }

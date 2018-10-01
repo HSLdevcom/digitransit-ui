@@ -4,7 +4,8 @@
   display: flex;
 
   .street-mode-selector-panel-header {
-    // @extend %header;
+    align-items: center;
+    display: flex;
   }
 
   .street-mode-selector-panel-buttons {

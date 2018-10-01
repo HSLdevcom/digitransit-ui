@@ -293,10 +293,6 @@ export default {
     keywords: 'digitransit',
   },
 
-  features: {
-    showStreetModeQuickSelect: false,
-  },
-
   // Ticket information feature toggle
   showTicketInformation: false,
   showRouteInformation: false,
