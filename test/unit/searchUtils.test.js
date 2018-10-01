@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { sortSearchResults } from '../../app/util/searchUtils';
+import { match, sortSearchResults } from '../../app/util/searchUtils';
 
 const config = require('../../app/configurations/config.hsl').default;
 
@@ -11,6 +11,19 @@ const config = require('../../app/configurations/config.hsl').default;
 describe('searchUtils', () => {
   describe('sortSearchResults', () => {
     let data;
+    const lon = 24.9414841;
+    const lat = 60.1710688;
+
+    const assignConfidence = (item, term) =>
+      item.properties.confidence
+        ? {
+            ...item,
+            properties: {
+              ...item.properties,
+              confidence: match(term, item.properties),
+            },
+          }
+        : item;
 
     beforeEach(() => {
       data = [
@@ -21,6 +34,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress4',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -29,6 +43,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress2',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -36,8 +51,8 @@ describe('searchUtils', () => {
             layer: 'favouriteStop',
             address: 'Karvaamokuja 2B, Helsinki',
           },
+          geometry: { coordinates: [lon, lat] },
         },
-
         {
           properties: {
             label: 'teststation2',
@@ -46,6 +61,7 @@ describe('searchUtils', () => {
             source: 'openstreetmap',
             confidence: 0.95,
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -55,6 +71,7 @@ describe('searchUtils', () => {
             source: 'gtfshsl',
             confidence: 0.95,
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -62,6 +79,7 @@ describe('searchUtils', () => {
             layer: 'favouriteStation',
             address: 'Rautatieasema, Helsinki',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -70,6 +88,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress3',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -77,13 +96,15 @@ describe('searchUtils', () => {
             layer: 'currentPosition',
             name: 'currentPosition',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
-            label: 'Hämeenkyläntie 75, Vantaa',
+            label: 'hämeenkyläntie 75, vantaa',
             layer: 'favouritePlace',
             name: 'suosikki',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -91,6 +112,7 @@ describe('searchUtils', () => {
             shortName: '311',
             name: 'route',
           },
+          geometry: { coordinates: null },
         },
         {
           properties: {
@@ -99,6 +121,7 @@ describe('searchUtils', () => {
             layer: 'venue',
             name: 'testvenue1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -107,6 +130,7 @@ describe('searchUtils', () => {
             layer: 'stop',
             name: 'teststop1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -114,6 +138,7 @@ describe('searchUtils', () => {
             layer: 'venue',
             name: 'oldsearch',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -122,6 +147,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -130,6 +156,7 @@ describe('searchUtils', () => {
             layer: 'street',
             name: 'teststreet1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
       ];
 
@@ -163,7 +190,13 @@ describe('searchUtils', () => {
 
     it('should show lines first if the search term is a line identifier', () => {
       const term = '311';
-      const results = sortSearchResults(config, data, term);
+      const results = sortSearchResults(
+        config,
+        data
+          .filter(d => d.properties.layer !== 'currentPosition')
+          .map(d => assignConfidence(d, term)),
+        term,
+      );
       expect(results[0].properties.layer).to.equal('route-BUS');
     });
 
@@ -217,18 +250,23 @@ describe('searchUtils', () => {
       expect(results[4].properties.name).to.equal('teststreet1');
     });
 
-    it('should set direct label match with a favourite first regardless of accents and case', () => {
-      const term = 'hameenkylantie 75, vantaa';
-      const results = sortSearchResults(config, data, term);
+    it('should set direct label match with a favourite first', () => {
+      const term = 'hämeenkyläntie 75, vantaa';
+      const results = sortSearchResults(
+        config,
+        data
+          .filter(d => d.properties.layer !== 'currentPosition')
+          .map(d => assignConfidence(d, term)),
+        term,
+      );
       expect(results[0].properties.name).to.equal('suosikki');
     });
 
     it('should put badly matching favourites after items with confidence', () => {
       const results = sortSearchResults(config, data, 'doesnotmatch');
-
       const favIndex = results.findIndex(r => r.properties.label === 'steissi');
       const addrIndex = results.findIndex(
-        r => r.properties.name === 'testaddress1',
+        r => r.properties.name === 'testvenue1',
       );
       expect(favIndex).to.be.greaterThan(-1);
       expect(addrIndex).to.be.greaterThan(-1);
