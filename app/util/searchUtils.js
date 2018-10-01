@@ -84,12 +84,12 @@ function isDuplicate(item1, item2) {
   if (truEq(props1.gtfsId, props2.gtfsId)) {
     return true;
   }
-  if (props1.lat && props2.lat) {
+  const p1 = item1.geometry.coordinates;
+  const p2 = item2.geometry.coordinates;
+
+  if (p1 && p2) {
     // both have geometry
-    if (
-      Math.abs(props1.lat - props2.lat) < 1e-6 &&
-      Math.abs(props1.lon - props2.lon) < 1e-6
-    ) {
+    if (Math.abs(p1[0] - p2[0]) < 1e-6 && Math.abs(p1[1] - p2[1]) < 1e-6) {
       // location match is not enough. Require a common property
       if (
         truEq(props1.name, props2.name) ||
@@ -178,6 +178,10 @@ function getCurrentPositionIfEmpty(input, position) {
           address: position.address,
           lat: position.lat,
           lon: position.lon,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [position.lon, position.lat],
         },
       },
     ]);
