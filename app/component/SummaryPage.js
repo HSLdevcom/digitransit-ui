@@ -181,12 +181,7 @@ class SummaryPage extends React.Component {
 
     getIntermediatePlaces(query).forEach((location, i) => {
       leafletObjs.push(
-        <LocationMarker
-          className="via"
-          key={`via_${i}`}
-          noText
-          position={location}
-        />,
+        <LocationMarker className="via" key={`via_${i}`} position={location} />,
       );
     });
 

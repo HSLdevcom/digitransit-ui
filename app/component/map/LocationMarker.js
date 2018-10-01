@@ -3,29 +3,25 @@ import React from 'react';
 import IconMarker from './IconMarker';
 import Icon from '../Icon';
 
-const getIconImg = (noText, type) => {
-  if (noText) {
-    return 'place';
-  }
+const getIconImg = type => {
   switch (type) {
     case 'from':
       return 'mapMarker-from';
     case 'via':
+    default:
       return 'mapMarker-via';
     case 'to':
       return 'mapMarker-to';
-    default:
-      return 'mapMarker-point';
   }
 };
 
-export default function LocationMarker({ position, className, noText, type }) {
+export default function LocationMarker({ position, className, type }) {
   return (
     <IconMarker
       position={position}
       className={className}
       icon={{
-        element: <Icon img={`icon-icon_${getIconImg(noText, type)}`} />,
+        element: <Icon img={`icon-icon_${getIconImg(type)}`} />,
         iconSize: [24, 24],
         iconAnchor: [12, 24],
         className,
@@ -37,10 +33,9 @@ export default function LocationMarker({ position, className, noText, type }) {
 LocationMarker.propTypes = {
   position: IconMarker.propTypes.position, // eslint-disable-line react/no-typos
   className: PropTypes.string,
-  noText: PropTypes.bool,
   type: PropTypes.oneOf(['from', 'via', 'to']),
 };
 
 LocationMarker.defaultProps = {
-  type: undefined,
+  type: 'via',
 };

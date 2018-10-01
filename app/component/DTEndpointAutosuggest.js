@@ -161,7 +161,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
         value={this.props.value}
         id={this.props.id}
         layers={this.props.layers}
-        className={this.props.value !== '' ? this.props.className : ''}
+        className={this.props.className}
       />
     );
   };
