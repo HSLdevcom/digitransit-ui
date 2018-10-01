@@ -504,31 +504,31 @@ div.map {
       height: 100%;
     }
 
-    &.origin:before {
-      content: 'A';
-      position: absolute;
-      color: #fff;
-      font-size: 0.5em;
-      left: 1.1em;
-      top: 0.4em;
-    }
+    // &.origin:before {
+    //   content: 'A';
+    //   position: absolute;
+    //   color: #fff;
+    //   font-size: 0.5em;
+    //   left: 1.1em;
+    //   top: 0.4em;
+    // }
 
-    &.destination:before {
-      content: 'B';
-      position: absolute;
-      color: #fff;
-      font-size: 0.5em;
-      left: 1.1em;
-      top: 0.4em;
-    }
+    // &.destination:before {
+    //   content: 'B';
+    //   position: absolute;
+    //   color: #fff;
+    //   font-size: 0.5em;
+    //   left: 1.1em;
+    //   top: 0.4em;
+    // }
 
-    &.origin .icon {
-      color: #64be14;
-    }
+    // &.origin .icon {
+    //   color: #64be14;
+    // }
 
-    &.destination .icon {
-      color: #f092cd;
-    }
+    // &.destination .icon {
+    //   color: #f092cd;
+    // }
   }
 }
 

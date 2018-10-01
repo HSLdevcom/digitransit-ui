@@ -293,6 +293,7 @@ class DTAutosuggestPanel extends React.Component {
         />
         <div className="origin-input-container">
           <DTEndpointAutosuggest
+            icon="mapMarker-from"
             id="origin"
             autoFocus={
               // Disable autofocus if using IE11
@@ -357,6 +358,7 @@ class DTAutosuggestPanel extends React.Component {
                   <Icon img="icon-icon_ellipsis" />
                 </div>
                 <DTEndpointAutosuggest
+                  icon="mapMarker-via"
                   id="viapoint"
                   autoFocus={
                     // Disable autofocus if using IE11
@@ -436,6 +438,7 @@ class DTAutosuggestPanel extends React.Component {
           isItinerary) && (
           <div className="destination-input-container">
             <DTEndpointAutosuggest
+              icon="mapMarker-to"
               id="destination"
               autoFocus={
                 // Disable autofocus if using IE11

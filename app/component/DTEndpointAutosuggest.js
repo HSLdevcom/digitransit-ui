@@ -30,6 +30,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     onRouteSelected: PropTypes.func,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     className: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
@@ -43,9 +44,10 @@ export class DTEndpointAutosuggestComponent extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
-    onRouteSelected: undefined,
-    isPreferredRouteSearch: false,
     layers: getAllEndpointLayers(),
+    icon: 'mapMarker-point',
+    isPreferredRouteSearch: false,
+    onRouteSelected: undefined,
     showSpinner: false,
   };
 
@@ -150,6 +152,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     return (
       <DTOldSearchSavingAutosuggest
         autoFocus={this.props.autoFocus}
+        icon={this.props.icon}
         isFocused={this.props.isFocused}
         placeholder={this.props.placeholder}
         searchType={this.props.searchType}

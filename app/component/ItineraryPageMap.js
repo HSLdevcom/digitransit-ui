@@ -30,11 +30,13 @@ function ItineraryPageMap(
       key="fromMarker"
       position={from || otpToLocation(params.from)}
       className="from"
+      type="from"
     />,
     <LocationMarker
       key="toMarker"
       position={to || otpToLocation(params.to)}
       className="to"
+      type="to"
     />,
   ];
 

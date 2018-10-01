@@ -14,22 +14,23 @@ class DTOldSearchSavingAutosuggest extends React.Component {
   };
 
   static propTypes = {
-    onSelect: PropTypes.func.isRequired,
-    searchType: PropTypes.string.isRequired,
     autoFocus: PropTypes.bool,
-    placeholder: PropTypes.string,
-    value: PropTypes.string,
     className: PropTypes.string,
+    icon: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
-    refPoint: dtLocationShape.isRequired,
     layers: PropTypes.array.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    refPoint: dtLocationShape.isRequired,
+    searchType: PropTypes.string.isRequired,
+    value: PropTypes.string,
   };
 
   static defaultProps = {
     autoFocus: false,
-    placeholder: '',
     className: '',
+    placeholder: '',
   };
 
   onSelect = item => {
@@ -53,20 +54,35 @@ class DTOldSearchSavingAutosuggest extends React.Component {
     this.props.onSelect(item, type);
   };
 
-  render = () => (
-    <DTSearchAutosuggest
-      autoFocus={this.props.autoFocus}
-      placeholder={this.props.placeholder}
-      isFocused={this.props.isFocused}
-      searchType={this.props.searchType}
-      value={this.props.value}
-      selectedFunction={suggestion => this.onSelect(suggestion)}
-      id={this.props.id}
-      className={this.props.className}
-      refPoint={this.props.refPoint}
-      layers={this.props.layers}
-    />
-  );
+  render = () => {
+    const {
+      autoFocus,
+      className,
+      icon,
+      id,
+      isFocused,
+      layers,
+      placeholder,
+      refPoint,
+      searchType,
+      value,
+    } = this.props;
+    return (
+      <DTSearchAutosuggest
+        autoFocus={autoFocus}
+        className={className}
+        icon={icon}
+        id={id}
+        isFocused={isFocused}
+        layers={layers}
+        placeholder={placeholder}
+        refPoint={refPoint}
+        searchType={searchType}
+        selectedFunction={suggestion => this.onSelect(suggestion)}
+        value={value}
+      />
+    );
+  };
 }
 
 export default DTOldSearchSavingAutosuggest;
