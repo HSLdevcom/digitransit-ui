@@ -480,13 +480,6 @@ export const sortSearchResults = (config, results, term = '') => {
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
 
-  if (isLineSearch) {
-    console.log('LineSearch');
-  }
-
-  if (term.length === 5) {
-    console.log('len=3');
-  }
   const orderedResults = orderBy(
     results,
     [
