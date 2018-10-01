@@ -60,17 +60,23 @@ function getRelayQuery(query) {
   });
 }
 
-const mapRoute = item => ({
-  type: 'Route',
-  properties: {
-    ...item,
-    layer: `route-${item.mode}`,
-    link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
-  },
-  geometry: {
-    coordinates: null,
-  },
-});
+const mapRoute = item => {
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+    orderBy(item.patterns, 'code', ['asc'])[0].code
+  }`;
+
+  return {
+    type: 'Route',
+    properties: {
+      ...item,
+      layer: `route-${item.mode}`,
+      link,
+    },
+    geometry: {
+      coordinates: null,
+    },
+  };
+};
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
@@ -317,7 +323,9 @@ function getRoutes(input, config) {
           shortName
           mode
           longName
-          patterns { code }
+          patterns { 
+            code
+          }
         }
       }
     }`,
