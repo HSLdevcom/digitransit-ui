@@ -94,7 +94,9 @@ function isDuplicate(item1, item2) {
       if (
         truEq(props1.name, props2.name) ||
         truEq(props1.label, props2.label) ||
-        truEq(props1.address, props2.address)
+        truEq(props1.address, props2.address) ||
+        truEq(props1.address, props2.label) ||
+        truEq(props1.label, props2.address)
       ) {
         return true;
       }
@@ -122,7 +124,11 @@ function filterMatchingToInput(list, Input, fields) {
       fields.forEach(pName => {
         let value = get(item, pName);
 
-        if (!multiWord && (pName === 'properties.label' || pName === 'address') && value) {
+        if (
+          !multiWord &&
+          (pName === 'properties.label' || pName === 'address') &&
+          value
+        ) {
           // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
           if (value.length > 2) {
