@@ -7,7 +7,6 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import merge from 'lodash/merge';
-import unorm from 'unorm';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
@@ -422,6 +421,37 @@ export const getAllEndpointLayers = () => [
   'Stops',
 ];
 
+const matchProps = ['name', 'label', 'address', 'shortName'];
+
+const normalize = str => {
+  if (!isString(str)) {
+    return '';
+  }
+  return str.toLowerCase();
+};
+
+export const match = (t, props) => {
+  const matches = matchProps
+    .map(v => props[v])
+    .filter(v => v && v.length > 0)
+    .map(v => {
+      const n = normalize(v);
+      if (n.indexOf(t) === 0) {
+        // full match at start. Return max result when match is full, not only partial
+        return 0.5 + t.length / n.length;
+      }
+      // because of filtermatchingtoinput, we know that match occurred somewhere
+      // don't run filtermatching again but estimate roughly:
+      // the longer the matching string, the better confidence, max being 0.5
+      return 0.5 * t.length / (t.length + 1);
+    })
+    .sort();
+  if (matches.length > 0) {
+    return matches[matches.length - 1];
+  }
+  return 0;
+};
+
 /**
  * Helper function to sort the results. Orders as follows:
  *  - current position first for an empty search
@@ -431,8 +461,8 @@ export const getAllEndpointLayers = () => [
  *    - rank stops lower as they tend to occupy most of the search results
  *  - items with no confidence (old searches and favorites):
  *    - rank favourites better than ordinary old searches
- *    - if perfect match at start, assign high confidence
- *    - if not as above, put to the end of list in layer-ranked order
+ *    - rank full match better than partial match
+ *    - rank match at middle word lower than match at the beginning
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -447,36 +477,6 @@ export const sortSearchResults = (config, results, term = '') => {
     config.search.lineRegexp &&
     config.search.lineRegexp.test(value);
 
-  const normalize = str => {
-    if (!isString(str)) {
-      return '';
-    }
-    const lowerCaseStr = str.toLowerCase();
-    return `${(lowerCaseStr.normalize
-      ? lowerCaseStr.normalize('NFD')
-      : unorm.nfd(lowerCaseStr)
-    ).replace(/[\u0300-\u036f]/g, '')}`;
-  };
-
-  const matchProps = ['name', 'label', 'address', 'shortName'];
-
-  const match = (t, props) =>
-    matchProps
-      .map(v => props[v])
-      .filter(v => v && v.length > 0)
-      .map(v => {
-        const n = normalize(v);
-        if (n.indexOf(t) === 0) {
-          // full match at start. Return max result when match is full, not only partial
-          return 0.5 + t.length / n.length;
-        }
-        // because of filtermatchingtoinput, we know that match occurred somewhere
-        // don't run filtermatching again but estimate roughly:
-        // the longer the matching string, the better confidence, max being 0.5
-        return 0.5 * t.length / (t.length + 1);
-      })
-      .sort()[0];
-
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
 
@@ -488,7 +488,7 @@ export const sortSearchResults = (config, results, term = '') => {
         isLineSearch &&
         isLineIdentifier(normalize(result.properties.shortName)) &&
         normalize(result.properties.shortName).indexOf(normalizedTerm) === 0
-          ? 2
+          ? 1
           : 0,
 
       result => {
@@ -498,27 +498,27 @@ export const sortSearchResults = (config, results, term = '') => {
             layerRank = 1;
             break;
           case LayerType.FavouriteStation:
-            layerRank = 0.9;
+            layerRank = 0.45;
             break;
           case LayerType.Station: {
             if (
               isString(result.properties.source) &&
               result.properties.source.indexOf('gtfs') === 0
             ) {
-              layerRank = 0.8;
+              layerRank = 0.44;
             } else {
-              layerRank = 0.7;
+              layerRank = 0.43;
             }
             break;
           }
           case LayerType.FavouritePlace:
-            layerRank = 0.6;
+            layerRank = 0.42;
             break;
           case LayerType.FavouriteStop:
-            layerRank = 0.5;
+            layerRank = 0.41;
             break;
           case LayerType.Stop:
-            layerRank = 0.3;
+            layerRank = 0.35;
             break;
           default:
             // venue, address, street, route-xxx
@@ -526,7 +526,7 @@ export const sortSearchResults = (config, results, term = '') => {
         }
         if (normalizedTerm.length === 0) {
           // Doing search with empty string.
-          // No confidence to macth, so use ranked old searches and favourites
+          // No confidence to match, so use ranked old searches and favourites
           return layerRank;
         }
 
