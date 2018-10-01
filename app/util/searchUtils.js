@@ -122,7 +122,7 @@ function filterMatchingToInput(list, Input, fields) {
       fields.forEach(pName => {
         let value = get(item, pName);
 
-        if ((pName === 'properties.label' || pName === 'address') && value) {
+        if (!multiWord && (pName === 'properties.label' || pName === 'address') && value) {
           // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
           if (value.length > 2) {
