@@ -460,12 +460,22 @@ export const sortSearchResults = (config, results, term = '') => {
 
   const matchProps = ['name', 'label', 'address', 'shortName'];
 
-  const isMatch = (t, props) =>
-    t.length > 0 &&
+  const match = (t, props) =>
     matchProps
       .map(v => props[v])
-      .filter(v => v && v.length > 0 && normalize(v).indexOf(t) === 0).length >
-      0;
+      .filter(v => v && v.length > 0)
+      .map(v => {
+        const n = normalize(v);
+        if (n.indexOf(t) === 0) {
+          // full match at start. Return max result when match is full, not only partial
+          return 0.5 + t.length / n.length;
+        }
+        // because of filtermatchingtoinput, we know that match occurred somewhere
+        // don't run filtermatching again but estimate roughly:
+        // the longer the matching string, the better confidence, max being 0.5
+        return 0.5 * t.length / (t.length + 1);
+      })
+      .sort()[0];
 
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
@@ -474,7 +484,7 @@ export const sortSearchResults = (config, results, term = '') => {
     console.log('LineSearch');
   }
 
-  if (term.length === 3) {
+  if (term.length === 5) {
     console.log('len=3');
   }
   const orderedResults = orderBy(
@@ -532,10 +542,7 @@ export const sortSearchResults = (config, results, term = '') => {
         const { confidence } = result.properties;
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          if (isMatch(normalizedTerm, result.properties)) {
-            return 1 + layerRank; // put previously used stuff above new geocoding
-          }
-          return 0.3 * layerRank; // not so good match, put to the end
+          return layerRank + match(normalizedTerm, result.properties);
         }
 
         // geocoded items with confidence, just adjust a little
