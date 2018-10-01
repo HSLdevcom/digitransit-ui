@@ -54,18 +54,23 @@ function getRelayQuery(query) {
   });
 }
 
-const mapRoute = item => ({
-  type: 'Route',
-  properties: {
-    ...item,
-    gid: item.gtfsId,
-    layer: `route-${item.mode}`,
-    link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
-  },
-  geometry: {
-    coordinates: null,
-  },
-});
+const mapRoute = item => {
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+    orderBy(item.patterns, 'code', ['asc'])[0].code
+  }`;
+
+  return {
+    type: 'Route',
+    properties: {
+      ...item,
+      layer: `route-${item.mode}`,
+      link,
+    },
+    geometry: {
+      coordinates: null,
+    },
+  };
+};
 
 function truEq(val1, val2) {
   // accept equality of non nullish values
@@ -99,12 +104,6 @@ function isDuplicate(item1, item2) {
 }
 
 function scanDupes(arr, candidate) {
-  /*  array.forEach(item => {
-    if (isDuplicate(item, candidate))
-      found = true;
-    });
-  */
-
   for (let i = 0; i < arr.length; i++) {
     if (isDuplicate(arr[i], candidate)) {
       return true;
@@ -334,7 +333,6 @@ function getFavouriteStops(favourites, input, origin) {
           properties: {
             ...stop,
             label: stop.locationName,
-            gid: stop.gtfsId,
             layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
           },
           geometry: {
@@ -382,7 +380,9 @@ function getRoutes(input, config) {
           shortName
           mode
           longName
-          patterns { code }
+          patterns { 
+            code
+          }
         }
       }
     }`,
