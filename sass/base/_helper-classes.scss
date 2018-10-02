@@ -219,11 +219,17 @@ body .large {
 }
 
 .page-not-found {
-  display: flex;
+  display: block;
+  text-align: center;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   height: 100%;
+
+  .icon-container {
+    margin-top: 1.5em;
+    display: block;
+  }
 
   svg {
     height: 130px;
