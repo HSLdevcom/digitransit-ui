@@ -356,7 +356,7 @@ export default {
       availableForSelection: true,
       defaultValue: true,
       exclusive: false,
-      icon: 'public_transport',
+      icon: 'bus-withoutBox',
     },
 
     walk: {
