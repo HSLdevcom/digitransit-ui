@@ -83,6 +83,13 @@ function isDuplicate(item1, item2) {
   if (truEq(props1.gtfsId, props2.gtfsId)) {
     return true;
   }
+  if (props1.gtfsId && props2.gid && props2.gid.contains(props1.gtfsId)) {
+    return true;
+  }
+  if (props2.gtfsId && props1.gid && props1.gid.contains(props2.gtfsId)) {
+    return true;
+  }
+
   const p1 = item1.geometry.coordinates;
   const p2 = item2.geometry.coordinates;
 
