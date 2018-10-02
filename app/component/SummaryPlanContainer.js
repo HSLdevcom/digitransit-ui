@@ -15,7 +15,7 @@ import {
 } from '../util/planParamUtil';
 import withBreakpoint from '../util/withBreakpoint';
 import { otpToLocation } from '../util/otpStrings';
-import { getIntermediatePlaces } from '../util/queryUtils';
+import { getIntermediatePlaces, replaceQueryParams } from '../util/queryUtils';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
@@ -145,12 +145,8 @@ class SummaryPlanContainer extends React.Component {
 
     if (this.context.location.query.arriveBy !== 'true') {
       // user does not have arrive By
-      this.context.router.replace({
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: latestDepartureTime.unix(),
-        },
+      replaceQueryParams(this.context.router, {
+        time: latestDepartureTime.unix(),
       });
     } else {
       this.props.setLoading(true);
@@ -192,13 +188,7 @@ class SummaryPlanContainer extends React.Component {
           }
 
           this.props.setLoading(false);
-          this.context.router.replace({
-            ...this.context.location,
-            query: {
-              ...this.context.location.query,
-              time: newTime.unix(),
-            },
-          });
+          replaceQueryParams(this.context.router, { time: newTime.unix() });
         }
       });
     }
@@ -236,12 +226,8 @@ class SummaryPlanContainer extends React.Component {
 
     if (this.context.location.query.arriveBy === 'true') {
       // user has arriveBy already
-      this.context.router.replace({
-        ...this.context.location,
-        query: {
-          ...this.context.location.query,
-          time: earliestArrivalTime.unix(),
-        },
+      replaceQueryParams(this.context.router, {
+        time: earliestArrivalTime.unix(),
       });
     } else {
       this.props.setLoading(true);
@@ -297,13 +283,7 @@ class SummaryPlanContainer extends React.Component {
             }
 
             this.props.setLoading(false);
-            this.context.router.replace({
-              ...this.context.location,
-              query: {
-                ...this.context.location.query,
-                time: newTime.unix(),
-              },
-            });
+            replaceQueryParams(this.context.router, { time: newTime.unix() });
           }
         }
       });
@@ -319,13 +299,9 @@ class SummaryPlanContainer extends React.Component {
       );
     }
 
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        time: moment().unix(),
-        arriveBy: false, // XXX
-      },
+    replaceQueryParams(this.context.router, {
+      time: moment().unix(),
+      arriveBy: false, // XXX
     });
   };
 
