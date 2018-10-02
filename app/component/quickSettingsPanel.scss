@@ -1,161 +1,177 @@
 .quicksettings-container {
-    display: block;
-    background-color: $background-color-lighter;
-    padding: $padding-small $padding-medium 1em $padding-medium;
+  display: block;
+  background-color: $background-color-lighter;
+  padding: $padding-small $padding-medium 1em $padding-medium;
 
-    .bottom-row {
-      margin-top: 0.3em;
-      display: flex;
-      flex: 0 1 auto;
-      flex-direction: row;
-      height: 2em;
-      flex-wrap: wrap;
-      justify-content: center;
-      .toggle-modes {
-        flex: 1 1 auto;
-        .btn {
-          background: #bbb;
-          &.bus {
+  .bottom-row {
+    margin-top: 0.3em;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    height: 2em;
+    flex-wrap: wrap;
+    justify-content: center;
+    .toggle-modes {
+      flex: 1 1 auto;
+      .btn {
+        background: #bbb;
+        &.bus {
+          background-color: $btn-bus-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-bus-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-bus-active-background-color
-            }
           }
-          &.tram {
+        }
+        &.tram {
+          background-color: $btn-tram-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-tram-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-tram-active-background-color
-            }
           }
-          &.rail {
+        }
+        &.rail {
+          background-color: $btn-rail-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-rail-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-rail-active-background-color
-            }
           }
-          &.subway {
+        }
+        &.subway {
+          background-color: $btn-subway-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-subway-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-subway-active-background-color
-            }
-            .icon-holder > span > svg.icon {
-              font-size: 1.4em;
-              margin-top: -0.2em;
-            }
           }
-          &.ferry {
+          .icon-holder > span > svg.icon {
+            font-size: 1.4em;
+            margin-top: -0.2em;
+          }
+        }
+        &.ferry {
+          background-color: $btn-ferry-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-ferry-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-ferry-active-background-color
-            }
           }
-          &.airplane {
+        }
+        &.airplane {
+          background-color: $btn-air-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-air-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-air-active-background-color
-            }
           }
-          &.citybike {
+        }
+        &.citybike {
+          background-color: $btn-citybike-active-background-color;
+          &:hover,
+          &:active,
+          &:focus {
             background-color: $btn-citybike-active-background-color;
-            &:hover, &:active, &:focus {
-              background-color: $btn-citybike-active-background-color
-            }
           }
         }
-        .mode-icon {
-          border-radius: 3px;
-          border-right: none;
-          margin-bottom: 0;
-          height: 2em;
-          max-width: 2em;
-          .icon-holder {
-            padding-bottom: 0.3em;
-            padding-top: 0.3em;
-            .icon {
-              width: 1.4em;
-              height: 1.4em;
-            }
+      }
+      .mode-icon {
+        border-radius: 3px;
+        border-right: none;
+        margin-bottom: 0;
+        height: 2em;
+        max-width: 2em;
+        .icon-holder {
+          padding-bottom: 0.3em;
+          padding-top: 0.3em;
+          .icon {
+            width: 1.4em;
+            height: 1.4em;
           }
         }
-        .mode-icon ~ .mode-icon {
-          margin-left: $padding-xsmall;
-        }
+      }
+      .mode-icon ~ .mode-icon {
+        margin-left: $padding-xsmall;
       }
     }
+  }
 
-    .open-advanced-settings {
-      flex: 0 1 auto;
-      .right-offcanvas-toggle {
-        background: none;
-        border: none;
-      }
-      button {
-        outline: none;
-        span {
-          text-transform: none;
-          font-size: 0.8rem;
-        }
+  .open-advanced-settings {
+    flex: 0 1 auto;
+    .right-offcanvas-toggle {
+      background: none;
+      border: none;
+    }
+    button {
+      outline: none;
+      span {
+        text-transform: none;
+        font-size: 0.8rem;
       }
     }
+  }
 
-    .select-wrapper {
-        display: flex;
-        flex-direction: row;
-        color: $link-color;
-        margin-left: 0.5em;
-        width: 50%;
-        > span {
-          margin-left: -1.4rem;
-          pointer-events: none;
-        }
-         .fake-select-arrow {
-            font-size: 0.7rem;
-            color: #007ac9;
-            margin-top: 1em;
-        }
-      }
+  .select-wrapper {
+    display: flex;
+    flex-direction: row;
+    color: $link-color;
+    margin-left: 0.5em;
+    width: 50%;
+    > span {
+      margin-left: -1.4rem;
+      pointer-events: none;
+    }
+    .fake-select-arrow {
+      font-size: 0.7rem;
+      color: #007ac9;
+      margin-top: 1em;
+    }
+  }
 
-    select {
-        vertical-align: middle;
-        text-align: left;
-        margin: 0;
-        padding: 0 1rem 0 0.9em;
-        font-family: $font-family;
-        font-size: $font-size-xxsmall;
-        display: inline-block;
-        background-color: $white;
-        color: $link-color;
-        border-radius: 5px;
-        border: solid 1px #ddd;
-        appearance: none;
-        font-weight: 700;
-        height: 2.6em;
+  select {
+    vertical-align: middle;
+    text-align: left;
+    margin: 0;
+    padding: 0 1rem 0 0.9em;
+    font-family: $font-family;
+    font-size: $font-size-xxsmall;
+    display: inline-block;
+    background-color: $white;
+    color: $link-color;
+    border-radius: 5px;
+    border: solid 1px #ddd;
+    appearance: none;
+    font-weight: 700;
+    height: 2.6em;
 
-        &:hover {
-          background-color: $white;
-          border: solid 1px #007ac9;
-          //outline: none;
-        }
-        &:focus {
-          background-color: $white;
-          //outline: none;
-        }
-        &.text-time-selector, &.desktop {
-          padding: 0 0.5em 0 0.5em;
-          margin: 0 -0.5em 0 0;
-          text-align: center;
-        }
-        &.arrive, &.select-route-modes {
-            width: 100%;
-        }
-      }
+    &:hover {
+      background-color: $white;
+      border: solid 1px #007ac9;
+      //outline: none;
+    }
+    &:focus {
+      background-color: $white;
+      //outline: none;
+    }
+    &.text-time-selector,
+    &.desktop {
+      padding: 0 0.5em 0 0.5em;
+      margin: 0 -0.5em 0 0;
+      text-align: center;
+    }
+    &.arrive,
+    &.select-route-modes {
+      width: 100%;
+    }
+  }
 }
 .mobile .quicksettings-container {
-    padding-bottom: $padding-medium;
-    padding-left: $padding-small;
-    padding-right: $padding-small;
+  padding-bottom: $padding-medium;
+  padding-left: $padding-small;
+  padding-right: $padding-small;
 
-    .bottom-row .select-wrapper {
-      width: 40%;
-    }
+  .bottom-row .select-wrapper {
+    width: 40%;
+  }
 }
