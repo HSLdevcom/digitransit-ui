@@ -11,6 +11,7 @@ import { isIe, isKeyboardSelectionEvent } from '../util/browser';
 import { navigateTo, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+import { resetSelectedItineraryIndex } from '../util/queryUtils';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -314,8 +315,13 @@ class DTAutosuggestPanel extends React.Component {
                   destination = { set: false };
                 }
               }
+
+              const contextLocation = resetSelectedItineraryIndex(
+                this.context.location,
+              );
+
               navigateTo({
-                base: this.context.location,
+                base: contextLocation,
                 origin: newOrigin,
                 destination,
                 context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
@@ -460,8 +466,13 @@ class DTAutosuggestPanel extends React.Component {
                     updatedOrigin = { set: false };
                   }
                 }
+
+                const contextLocation = resetSelectedItineraryIndex(
+                  this.context.location,
+                );
+
                 navigateTo({
-                  base: this.context.location,
+                  base: contextLocation,
                   origin: updatedOrigin,
                   destination,
                   context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
