@@ -78,6 +78,25 @@ describe('searchUtils', () => {
             label: 'steissi',
             layer: 'favouriteStation',
             address: 'Rautatieasema, Helsinki',
+            gtfsId: 'HSL:1000003',
+          },
+          geometry: { coordinates: [lon, lat] },
+        },
+        {
+          properties: {
+            label: 'this_is_gtfs_duplicate',
+            layer: 'station',
+            name: 'Rautatientori',
+            gtfsId: 'HSL:1000003',
+          },
+          geometry: { coordinates: [lon, lat] },
+        },
+        {
+          properties: {
+            label: 'this_is_duplicate_too_same_addr_and_pos',
+            layer: 'favouriteLocation',
+            address: 'Rautatieasema, Helsinki',
+            name: 'Rautatientori',
           },
           geometry: { coordinates: [lon, lat] },
         },
@@ -293,6 +312,22 @@ describe('searchUtils', () => {
       expect(stopIndex).to.be.greaterThan(-1);
       expect(addrIndex).to.be.greaterThan(-1);
       expect(stopIndex).to.be.greaterThan(addrIndex);
+    });
+
+    it('should deduplicate gtfs items', () => {
+      const results = sortSearchResults(config, data);
+      expect(
+        results.findIndex(r => r.properties.label === 'this_is_gtfs_duplicate'),
+      ).to.equal(-1);
+    });
+
+    it('should deduplicate items at same location with an equal name/label/address', () => {
+      const results = sortSearchResults(config, data);
+      expect(
+        results.findIndex(
+          r => r.properties.name === 'this_is_duplicate_too_same_addr_and_pos',
+        ),
+      ).to.equal(-1);
     });
   });
 });
