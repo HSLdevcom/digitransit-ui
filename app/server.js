@@ -211,7 +211,7 @@ function validateParams(params) {
   return idFields.every(f => !params[f] || params[f].indexOf(':') !== -1);
 }
 
-export default function(req, res, next) {
+export default async function(req, res, next) {
   const config = getConfiguration(req);
   const locale = getLocale(req, res, config);
   const application = appCreator(config);
@@ -236,182 +236,106 @@ export default function(req, res, next) {
   const agent = req.headers['user-agent'];
   global.navigator = { userAgent: agent };
 
-  const matchOptions = {
-    routes: context.getComponent(),
-    location: createHistory({ basename: config.APP_PATH }).createLocation(
-      req.url,
-    ),
-  };
+  const spriteName = config.sprites;
 
-  match(matchOptions, async (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      return res.redirect(
-        301,
-        redirectLocation.pathname + redirectLocation.search,
-      );
-    } else if (error) {
-      return next(error);
-    } else if (!renderProps) {
-      return res.status(404).send('Not found');
-    }
+  const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
 
-    if (renderProps.params) {
-      if (!validateParams(renderProps.params)) {
-        return res.redirect(301, '/');
-      }
-    }
+  res.setHeader('content-type', 'text/html; charset=utf-8');
+  res.write('<!doctype html>\n');
+  res.write(`<html lang="${locale}">\n`);
+  res.write('<head>\n');
 
-    if (
-      renderProps.components.filter(
-        component => component && component.displayName === 'Error404',
-      ).length > 0
-    ) {
-      res.status(404);
-    }
+  // Write preload hints before doing anything else
+  if (process.env.NODE_ENV !== 'development') {
+    const preloads = [
+      { as: 'style', href: config.URL.FONT },
+      {
+        as: 'style',
+        href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
+        crossorigin: true,
+      },
+      ...mainAssets.map(asset => ({
+        as: 'script',
+        href: `${ASSET_URL}/${asset}`,
+        crossorigin: true,
+      })),
+    ];
 
-    const spriteName = config.sprites;
-
-    const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
-
-    res.setHeader('content-type', 'text/html; charset=utf-8');
-    res.write('<!doctype html>\n');
-    res.write(`<html lang="${locale}">\n`);
-    res.write('<head>\n');
-
-    // Write preload hints before doing anything else
-    if (process.env.NODE_ENV !== 'development') {
-      const preloads = [
-        { as: 'style', href: config.URL.FONT },
-        {
-          as: 'style',
-          href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
-          crossorigin: true,
-        },
-        ...mainAssets.map(asset => ({
-          as: 'script',
-          href: `${ASSET_URL}/${asset}`,
-          crossorigin: true,
-        })),
-      ];
-
-      preloads.forEach(({ as, href, crossorigin }) =>
-        res.write(
-          `<link rel="preload" as="${as}" ${
-            crossorigin ? 'crossorigin' : ''
-          } href="${href}">\n`,
-        ),
-      );
-
-      const preconnects = [
-        config.URL.API_URL,
-        config.URL.MAP_URL,
-        config.staticMessagesUrl,
-      ];
-
-      preconnects.forEach(href =>
-        res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
-      );
-
+    preloads.forEach(({ as, href, crossorigin }) =>
       res.write(
-        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
-          assets[`${config.CONFIG}_theme.css`]
-        }"/>\n`,
-      );
-    }
+        `<link rel="preload" as="${as}" ${
+          crossorigin ? 'crossorigin' : ''
+        } href="${href}">\n`,
+      ),
+    );
+
+    const preconnects = [
+      config.URL.API_URL,
+      config.URL.MAP_URL,
+      config.staticMessagesUrl,
+    ];
+
+    preconnects.forEach(href =>
+      res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
+    );
 
     res.write(
-      `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
+        assets[`${config.CONFIG}_theme.css`]
+      }"/>\n`,
     );
+  }
 
-    const networkLayer = getNetworkLayer(config, agent);
+  res.write(
+    `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+  );
 
-    // Do not block for either async function, but wait them both after each other
-    const polyfillPromise = getPolyfills(agent, config).then(polyfills =>
-      res.write(`<script>\n${polyfills}\n</script>\n`),
-    );
+  // Do not block for either async function, but wait them both after each other
+  await getPolyfills(agent, config)
+    .then(polyfills => res.write(`<script>\n${polyfills}\n</script>\n`))
 
-    const contentPromise = IsomorphicRouter.prepareData(
-      renderProps,
-      networkLayer,
-    )
-      .then(relayData => {
-        const content =
-          relayData != null
-            ? getContent(
-                context,
-                relayData.props,
-                locale,
-                req.headers['user-agent'],
-                req,
-              )
-            : undefined;
+  res.write('</head>\n');
+  res.write('<body>\n');
 
-        const head = Helmet.rewind();
-
-        if (head) {
-          res.write(head.title.toString());
-          res.write(head.meta.toString());
-          res.write(head.link.toString());
-        }
-        return [content, relayData];
-      })
-      .catch(err => {
-        console.log(err);
-        return ['', undefined];
-      });
-
-    const [[content, relayData]] = await Promise.all([
-      contentPromise,
-      polyfillPromise,
-    ]);
-
-    res.write('</head>\n');
-    res.write('<body>\n');
-
-    if (process.env.NODE_ENV !== 'development') {
-      res.write('<script>\n');
-      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
+  if (process.env.NODE_ENV !== 'development') {
+    res.write('<script>\n');
+    res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
         .then(function(response) {return response.text();}).then(function(blob) {
           var div = document.createElement('div');
           div.innerHTML = blob;
           document.body.insertBefore(div, document.body.childNodes[0]);
         });`);
-      res.write('</script>\n');
-    } else {
-      res.write('<div>\n');
-      res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
-      res.write('</div>\n');
-    }
+    res.write('</script>\n');
+  } else {
+    res.write('<div>\n');
+    res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
+    res.write('</div>\n');
+  }
 
-    res.write(content || '<div id="app" />');
+  res.write('<div id="app" />');
 
+  res.write(
+    `<script>\nwindow.state=${serialize(
+      application.dehydrate(context),
+    )};\n</script>\n`,
+  );
+
+  if (process.env.NODE_ENV === 'development') {
+    res.write('<script async src="/proxy/js/bundle.js"></script>\n');
+  } else {
+    res.write('<script>');
     res.write(
-      `<script>\nwindow.state=${serialize(
-        application.dehydrate(context),
-      )};\n</script>\n`,
+      manifest.replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}/js/`),
     );
-
-    res.write('<script type="application/json" id="relayData">\n');
-    res.write(relayData != null ? JSON.stringify(relayData.data) : '[]');
     res.write('\n</script>\n');
-
-    if (process.env.NODE_ENV === 'development') {
-      res.write('<script async src="/proxy/js/bundle.js"></script>\n');
-    } else {
-      res.write('<script>');
+    res.write(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
+    mainAssets.forEach(asset =>
       res.write(
-        manifest.replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}/js/`),
-      );
-      res.write('\n</script>\n');
-      res.write(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
-      mainAssets.forEach(asset =>
-        res.write(
-          `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
-        ),
-      );
-    }
-    res.write('</body>\n');
-    res.write('</html>\n');
-    return res.end();
-  });
+        `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
+      ),
+    );
+  }
+  res.write('</body>\n');
+  res.write('</html>\n');
+  return res.end();
 }

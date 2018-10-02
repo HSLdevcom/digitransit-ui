@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Relay from 'react-relay/classic';
 import { Router, match } from 'react-router';
-import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import provideContext from 'fluxible-addons-react/provideContext';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -16,7 +15,6 @@ import {
   retryMiddleware,
   batchMiddleware,
 } from 'react-relay-network-layer/lib';
-import OfflinePlugin from 'offline-plugin/runtime';
 import Helmet from 'react-helmet';
 
 import Raven from './util/Raven';
@@ -42,6 +40,7 @@ const plugContext = f => () => ({
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
+console.log('ASD');
 // TODO: this is an ugly hack, but required due to cyclical processing in app
 const { config } = window.state.context.plugins['extra-context-plugin'];
 const app = appCreator(config);
@@ -88,8 +87,11 @@ const getParams = query => {
 };
 
 // Run application
-const callback = () =>
+const callback = () => {
+    console.log('VPS');
+
   app.rehydrate(window.state, (err, context) => {
+    console.log('WTF?!');
     if (err) {
       throw err;
     }
@@ -127,11 +129,6 @@ const callback = () =>
       ]),
     );
 
-    IsomorphicRelay.injectPreparedData(
-      Relay.Store,
-      JSON.parse(document.getElementById('relayData').textContent),
-    );
-
     context
       .getComponentContext()
       .getStore('MessageStore')
@@ -144,7 +141,7 @@ const callback = () =>
 
     configureMoment(language, config);
 
-    let hasSwUpdate = false;
+    const hasSwUpdate = false;
     const history = historyCreator(config);
 
     if (config.redirectReittiopasParams) {
@@ -227,7 +224,8 @@ const callback = () =>
                   </ContextProvider>
                 </ClientBreakpointProvider>
               );
-
+              ReactDOM.render(content, root);
+              /*
               ReactDOM.hydrate(content, root, () => {
                 // Run only in production mode and when built in a docker container
                 if (
@@ -242,6 +240,7 @@ const callback = () =>
                   });
                 }
               });
+              */
             },
           );
         }
@@ -260,9 +259,10 @@ const callback = () =>
       }
     });
   });
-
+}
 // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-library
 if (typeof window.Intl !== 'undefined') {
+    console.log('VPS2');
   callback();
 } else {
   const modules = [
