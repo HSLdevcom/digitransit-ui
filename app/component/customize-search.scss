@@ -13,7 +13,7 @@
   .close-offcanvas {
     position: absolute;
     background-color: transparent;
-    color: #007ac9;
+    color: $primary-color;
     right: 1em;
     top: 1em;
     padding: 0;
@@ -120,18 +120,6 @@
   }
 }
 
-.avoid-routes-container {
-  button.noborder.clear-input {
-    background-color: #007ac9;
-    height: 4em;
-    padding-right: 1.5em;
-    padding-left: 1.5em;
-    .icon {
-      color: #fff;
-    }
-  }
-}
-
 .preferred-routes-input-container {
   .react-autosuggest__container input {
     border-radius: 4px;
@@ -142,7 +130,7 @@
     cursor: pointer;
   }
   button.noborder.clear-input {
-    background-color: #007ac9;
+    background-color: $primary-color;
     height: 4em;
     padding-right: 1.5em;
     padding-left: 1.5em;
@@ -202,7 +190,7 @@
   .reset-settings {
     background-color: transparent;
     span {
-      color: rgb(0, 122, 201);
+      color: $link-color;
     }
   }
 }
@@ -226,7 +214,7 @@
       right: 0.7em;
       top: 0.7em;
       font-size: 1.5em;
-      color: #007ac9;
+      color: $primary-color;
       pointer-events: none;
     }
 
