@@ -343,3 +343,8 @@
 .mobile .street-mode-selector-panel-container {
   padding: 0 $padding-small;
 }
+
+.summary-navigation-container {
+  background-color: $background-color-lighter;
+  flex: 0 0 auto;
+}
