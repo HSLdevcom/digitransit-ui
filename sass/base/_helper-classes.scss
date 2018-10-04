@@ -218,31 +218,38 @@ body .large {
   }
 }
 
-.page-not-found {
-  display: block;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
+.page-not-found-container {
+    display: flex;
+    justify-content: center;
+    flex: 1 0 auto;
 
-  .icon-container {
-    margin-top: 1.5em;
-    display: block;
-  }
+  .page-not-found {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    align-self: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 
-  svg {
-    height: 130px;
-    width: 150px;
-  }
+    .icon-container {
+      margin-top: 1.5em;
+      display: block;
+    }
 
-  p {
-    font-size: $font-size-large;
-    a {
+    svg {
+      height: 130px;
+      width: 150px;
+    }
+
+    p {
       font-size: $font-size-large;
-      color: $primary-color;
-      border-bottom: 1px dotted;
-      text-decoration: none;
+      a {
+        font-size: $font-size-large;
+        color: $primary-color;
+        border-bottom: 1px dotted;
+        text-decoration: none;
+      }
     }
   }
 }
