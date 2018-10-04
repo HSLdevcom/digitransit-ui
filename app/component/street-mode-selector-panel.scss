@@ -1,0 +1,14 @@
+@import './street-mode-selector.scss';
+
+.street-mode-selector-panel {
+  display: flex;
+
+  .street-mode-selector-panel-header {
+    align-items: center;
+    display: flex;
+  }
+
+  .street-mode-selector-panel-buttons {
+    @extend %buttons;
+  }
+}

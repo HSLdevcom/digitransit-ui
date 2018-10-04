@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { sortSearchResults } from '../../app/util/searchUtils';
+import {
+  match,
+  sortSearchResults,
+  getLayerRank,
+  isDuplicate,
+} from '../../app/util/searchUtils';
 
 const config = require('../../app/configurations/config.hsl').default;
 
@@ -11,6 +16,19 @@ const config = require('../../app/configurations/config.hsl').default;
 describe('searchUtils', () => {
   describe('sortSearchResults', () => {
     let data;
+    const lon = 24.9414841;
+    const lat = 60.1710688;
+
+    const assignConfidence = (item, term) =>
+      item.properties.confidence
+        ? {
+            ...item,
+            properties: {
+              ...item.properties,
+              confidence: match(term, item.properties),
+            },
+          }
+        : item;
 
     beforeEach(() => {
       data = [
@@ -21,6 +39,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress4',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -29,6 +48,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress2',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -36,8 +56,8 @@ describe('searchUtils', () => {
             layer: 'favouriteStop',
             address: 'Karvaamokuja 2B, Helsinki',
           },
+          geometry: { coordinates: [lon, lat] },
         },
-
         {
           properties: {
             label: 'teststation2',
@@ -46,6 +66,7 @@ describe('searchUtils', () => {
             source: 'openstreetmap',
             confidence: 0.95,
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -55,13 +76,34 @@ describe('searchUtils', () => {
             source: 'gtfshsl',
             confidence: 0.95,
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
             label: 'steissi',
             layer: 'favouriteStation',
             address: 'Rautatieasema, Helsinki',
+            gtfsId: 'HSL:1000003',
           },
+          geometry: { coordinates: [lon, lat] },
+        },
+        {
+          properties: {
+            label: 'this_is_gtfs_duplicate',
+            layer: 'station',
+            name: 'Rautatientori',
+            gtfsId: 'HSL:1000003',
+          },
+          geometry: { coordinates: [lon, lat] },
+        },
+        {
+          properties: {
+            label: 'this_is_duplicate_too_same_addr_and_pos',
+            layer: 'favouriteLocation',
+            address: 'Rautatieasema, Helsinki',
+            name: 'Rautatientori',
+          },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -70,6 +112,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress3',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -77,13 +120,15 @@ describe('searchUtils', () => {
             layer: 'currentPosition',
             name: 'currentPosition',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
-            label: 'Hämeenkyläntie 75, Vantaa',
+            label: 'hämeenkyläntie 75, vantaa',
             layer: 'favouritePlace',
             name: 'suosikki',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -91,6 +136,7 @@ describe('searchUtils', () => {
             shortName: '311',
             name: 'route',
           },
+          geometry: { coordinates: null },
         },
         {
           properties: {
@@ -99,6 +145,7 @@ describe('searchUtils', () => {
             layer: 'venue',
             name: 'testvenue1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -107,6 +154,7 @@ describe('searchUtils', () => {
             layer: 'stop',
             name: 'teststop1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -114,6 +162,7 @@ describe('searchUtils', () => {
             layer: 'venue',
             name: 'oldsearch',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -122,6 +171,7 @@ describe('searchUtils', () => {
             layer: 'address',
             name: 'testaddress1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
         {
           properties: {
@@ -130,6 +180,7 @@ describe('searchUtils', () => {
             layer: 'street',
             name: 'teststreet1',
           },
+          geometry: { coordinates: [lon, lat] },
         },
       ];
 
@@ -163,7 +214,13 @@ describe('searchUtils', () => {
 
     it('should show lines first if the search term is a line identifier', () => {
       const term = '311';
-      const results = sortSearchResults(config, data, term);
+      const results = sortSearchResults(
+        config,
+        data
+          .filter(d => d.properties.layer !== 'currentPosition')
+          .map(d => assignConfidence(d, term)),
+        term,
+      );
       expect(results[0].properties.layer).to.equal('route-BUS');
     });
 
@@ -217,18 +274,23 @@ describe('searchUtils', () => {
       expect(results[4].properties.name).to.equal('teststreet1');
     });
 
-    it('should set direct label match with a favourite first regardless of accents and case', () => {
-      const term = 'hameenkylantie 75, vantaa';
-      const results = sortSearchResults(config, data, term);
+    it('should set direct label match with a favourite first', () => {
+      const term = 'hämeenkyläntie 75, vantaa';
+      const results = sortSearchResults(
+        config,
+        data
+          .filter(d => d.properties.layer !== 'currentPosition')
+          .map(d => assignConfidence(d, term)),
+        term,
+      );
       expect(results[0].properties.name).to.equal('suosikki');
     });
 
     it('should put badly matching favourites after items with confidence', () => {
       const results = sortSearchResults(config, data, 'doesnotmatch');
-
       const favIndex = results.findIndex(r => r.properties.label === 'steissi');
       const addrIndex = results.findIndex(
-        r => r.properties.name === 'testaddress1',
+        r => r.properties.name === 'testvenue1',
       );
       expect(favIndex).to.be.greaterThan(-1);
       expect(addrIndex).to.be.greaterThan(-1);
@@ -255,6 +317,179 @@ describe('searchUtils', () => {
       expect(stopIndex).to.be.greaterThan(-1);
       expect(addrIndex).to.be.greaterThan(-1);
       expect(stopIndex).to.be.greaterThan(addrIndex);
+    });
+
+    it('should deduplicate gtfs items', () => {
+      const results = sortSearchResults(config, data);
+      expect(
+        results.findIndex(r => r.properties.label === 'this_is_gtfs_duplicate'),
+      ).to.equal(-1);
+    });
+
+    it('should deduplicate items at same location with an equal name/label/address', () => {
+      const results = sortSearchResults(config, data);
+      expect(
+        results.findIndex(
+          r => r.properties.name === 'this_is_duplicate_too_same_addr_and_pos',
+        ),
+      ).to.equal(-1);
+    });
+  });
+
+  describe('getLayerRank', () => {
+    it('should return 0.4 by default', () => {
+      expect(getLayerRank(undefined, undefined)).to.equal(0.4);
+    });
+
+    it('should return a greater result for layer station with gtfs source', () => {
+      const layer = 'station';
+      const nonGtfsSource = getLayerRank(layer, 'foo');
+      const gtfsSource = getLayerRank(layer, 'gtfs');
+      expect(gtfsSource).to.be.greaterThan(nonGtfsSource);
+    });
+  });
+
+  describe('match', () => {
+    it('should return 0 if the searchTerm is not a string or it is empty', () => {
+      const props = {
+        name: 'testName',
+        label: 'testLabel',
+        address: 'testAddress',
+        shortName: 'testShortName',
+      };
+      expect(match(undefined, { ...props })).to.equal(0);
+      expect(match(null, { ...props })).to.equal(0);
+      expect(match(NaN, { ...props })).to.equal(0);
+      expect(match(1234, { ...props })).to.equal(0);
+      expect(match([], { ...props })).to.equal(0);
+      expect(match({}, { ...props })).to.equal(0);
+      expect(match('', { ...props })).to.equal(0);
+    });
+
+    it('should match by name', () => {
+      const normalizedTerm = 'test';
+      const props = {
+        name: 'testName',
+      };
+      const result = match(normalizedTerm, props);
+      expect(result).to.be.greaterThan(0);
+    });
+
+    it('should match by label', () => {
+      const normalizedTerm = 'test';
+      const props = {
+        label: 'testLabel',
+      };
+      const result = match(normalizedTerm, props);
+      expect(result).to.be.greaterThan(0);
+    });
+
+    it('should match by address', () => {
+      const normalizedTerm = 'test';
+      const props = {
+        address: 'testAddress',
+      };
+      const result = match(normalizedTerm, props);
+      expect(result).to.be.greaterThan(0);
+    });
+
+    it('should match by shortName', () => {
+      const normalizedTerm = 'test';
+      const props = {
+        shortName: 'testShortName',
+      };
+      const result = match(normalizedTerm, props);
+      expect(result).to.be.greaterThan(0);
+    });
+
+    it('should not match by some other property', () => {
+      const normalizedTerm = 'test';
+      const props = {
+        foo: 'testFoo',
+      };
+      const result = match(normalizedTerm, props);
+      expect(result).to.equal(0);
+    });
+
+    it('should return a greater result if the match is at start of the string', () => {
+      const normalizedTerm = 'test';
+      const matchAtStartResult = match(normalizedTerm, {
+        name: 'testName',
+      });
+      const matchSomewhereResult = match(normalizedTerm, {
+        name: 'fooBarTestName',
+      });
+      expect(matchSomewhereResult).to.be.greaterThan(0);
+      expect(matchAtStartResult).to.be.greaterThan(matchSomewhereResult);
+    });
+
+    it('should return a greater result if the match is longer at start', () => {
+      const shortNormalizedTerm = 'test';
+      const longNormalizedTerm = 'testfoobar';
+      const props = {
+        name: 'testFooBar',
+      };
+      const shortMatchResult = match(shortNormalizedTerm, props);
+      const longMatchResult = match(longNormalizedTerm, props);
+      expect(shortMatchResult).to.be.greaterThan(0);
+      expect(longMatchResult).to.be.greaterThan(shortMatchResult);
+    });
+
+    it('should return a greater result if the match is longer at somewhere', () => {
+      const shortNormalizedTerm = 'test';
+      const longNormalizedTerm = 'testfoobar';
+      const props = {
+        name: '_testFooBar',
+      };
+      const shortMatchResult = match(shortNormalizedTerm, props);
+      const longMatchResult = match(longNormalizedTerm, props);
+      expect(shortMatchResult).to.be.greaterThan(0);
+      expect(longMatchResult).to.be.greaterThan(shortMatchResult);
+    });
+  });
+
+  describe('isDuplicate', () => {
+    it('should match by exact gtfsIds', () => {
+      const gtfsId = 'foobar';
+      const item1 = {
+        properties: {
+          gtfsId,
+        },
+      };
+      const item2 = {
+        properties: {
+          gtfsId,
+        },
+      };
+      expect(isDuplicate(item1, item2)).to.equal(true);
+    });
+
+    it('should match by item1 gtfsId and item2 gid', () => {
+      const item1 = {
+        properties: {
+          gtfsId: 'foo',
+        },
+      };
+      const item2 = {
+        properties: {
+          gid: '1234_foo',
+        },
+      };
+      expect(isDuplicate(item1, item2)).to.equal(true);
+    });
+
+    it('should match by item2 gtfsId and item1 gid', () => {
+      const item1 = {
+        properties: {
+          gid: '1234_foo',
+        },
+      };
+      const item2 = {
+        properties: {
+          gtfsId: 'foo',
+        },
+      };
+      expect(isDuplicate(item1, item2)).to.equal(true);
     });
   });
 });

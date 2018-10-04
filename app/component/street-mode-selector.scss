@@ -1,0 +1,65 @@
+$street-mode-selector-icon-size: 2em;
+
+%buttons {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    align-items: center;
+    background-color: transparent;
+    color: $primary-color;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0 0 0.25em 0;
+    width: 3em;
+
+    &.selected,
+    &:focus,
+    &:hover {
+      background-color: transparent;
+      color: $black;
+
+      &::after {
+        background: $primary-color;
+        bottom: 0;
+        content: '';
+        height: 2px;
+        left: 15%;
+        position: absolute;
+        width: 70%;
+      }
+    }
+
+    & + button::before {
+      background-color: $light-gray;
+      content: '';
+      height: $street-mode-selector-icon-size;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 1px;
+    }
+
+    .icon-holder {
+      height: $street-mode-selector-icon-size;
+      margin: 0 auto;
+      padding: $street-mode-selector-icon-size / 16;
+      width: $street-mode-selector-icon-size;
+
+      .icon {
+        color: inherit;
+        height: auto;
+        width: auto;
+      }
+    }
+
+    .toggle-button-title {
+      font-size: 0.8rem;
+      font-weight: $font-weight-medium;
+      line-height: 1;
+      margin-top: 0.5em;
+      width: 100%; // required for IE11 to apply hyphenation properly
+    }
+  }
+}

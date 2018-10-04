@@ -40,7 +40,8 @@ $content-background-color: $background-color;
   z-index: 1008;
 
   // Fixed navbar height for now, as dynamic height leads to Safari issues
-  height: 40px;
+  height: $topbar-height;
+  min-height: $topbar-height;
 
   &.bp-large {
     height: 60px;
@@ -76,7 +77,6 @@ $content-background-color: $background-color;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
-
   }
   .navi-logo {
     margin-left: 32px;
@@ -247,6 +247,20 @@ section.content {
         height: auto;
         width: 100%;
         display: inline;
+      }
+
+      .scrollable-content-wrapper {
+        display: flex;
+        flex-basis: 0px;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 0;
+
+        @media print {
+          display: inline;
+          height: auto;
+          width: 100%;
+        }
       }
     }
 

@@ -29,3 +29,7 @@ before('setting up enzyme and jsdom', () => {
 
   configure({ adapter: new Adapter() });
 });
+
+// prevent mocha from interpreting imported .png images
+const noop = () => null;
+require.extensions['.png'] = noop;

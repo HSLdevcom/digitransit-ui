@@ -9,7 +9,6 @@
   border-bottom: 1px solid $light-gray;
   border-left: 0.3em $action-color solid;
   display: flex;
-  //align-items: center;
   user-select: none;
   $distance-gray: #7b7b7b;
   font-size: $font-size-normal;
@@ -37,13 +36,13 @@
   }
 
   .itinerary-timeframe {
-    padding-left:10px;
+    padding-left: 10px;
   }
 
   .itinerary-duration-and-distance {
     max-width: 4em;
     margin-top: $padding-small;
-    margin-left: 1em;
+    margin-left: $padding-medium;
   }
 
   .itinerary-duration {
@@ -51,6 +50,7 @@
     font-weight: $font-weight-bold;
   }
 
+  .itinerary-biking-distance,
   .itinerary-walking-distance {
     margin-top: -2px;
     color: $distance-gray;
@@ -115,6 +115,10 @@
     }
   }
 
+  .itinerary-end-time-and-distance {
+    max-width: 4em;
+  }
+
   .itinerary-end-time {
     padding-left: 10px;
     width: 3em;
@@ -127,24 +131,23 @@
     display: flex;
     white-space: nowrap;
     min-width: 0;
-    flex: 1 1 0;
+    flex: 1 1 0px;
 
     .leg {
       padding-top: $padding-small;
-      flex: 1 1 0;
+      flex: 1 1 0px;
       overflow: hidden;
       justify-content: center;
       &.large {
-          padding-top: 0;
+        padding-top: 0;
       }
       .route-number {
         width: 100%;
       }
     }
 
-
     .leg.via {
-      flex: 1 1 0;
+      flex: 1 1 0px;
       overflow: hidden;
       justify-content: center;
       max-width: 16px;
@@ -152,7 +155,6 @@
 
       .itinerary-icon {
         margin-left: 1px;
-        margin-top: 7px;
         fill: #000;
       }
     }
@@ -161,10 +163,13 @@
       @include font-narrow-book;
       font-size: 13px;
       color: $gray;
+      margin-bottom: 4px;
       width: 100%;
     }
 
-    .line.walk, .line.bicycle, .line.car {
+    .line.walk,
+    .line.bicycle,
+    .line.car {
       .bar-container {
         left: 2em;
       }
@@ -174,6 +179,7 @@
       display: flex;
       align-items: center;
       justify-content: left;
+      line-height: 1;
     }
 
     div.bar-container {
@@ -182,7 +188,7 @@
       right: 0;
       height: 100%;
       display: flex;
-      position:absolute;
+      position: absolute;
       align-items: center;
     }
 
@@ -200,7 +206,7 @@
       .bar-inner {
         width: 100%;
         height: 2px;
-        background-color: rgba(255,255,255,0.25);
+        background-color: rgba(255, 255, 255, 0.25);
       }
     }
 
@@ -212,21 +218,29 @@
       text-align: center;
 
       .icon {
-        //margin-top: $padding-small;
         margin-left: 3px;
         font-size: 1.35em;
-        float: left;
+      }
+    }
+
+    .special-icon {
+      .icon {
+        padding-bottom: 1px; // fixes icon clipping in Safari on iOS
+      }
+      .icon-badge {
+        left: 0;
+        top: -0.75em;
       }
     }
 
     .vehicle-number {
       font-weight: $font-weight-medium;
       font-size: $font-size-small;
-      clear: left;
-      float: left;
       padding: 0;
       min-width: 1.3em;
       margin-left: $padding-small;
+      text-align: center;
+
       &.long {
         @extend .overflow-fade;
         display: inline-block;
@@ -261,25 +275,25 @@
     border-top: solid 1px $light-gray;
   }
   #IconWithBigCaution-default-id {
+    display: block;
+    span {
+      display: block;
+      &.subicon-caution {
+        font-size: 65%;
+        position: absolute;
+        left: -0.2em;
+        top: 1.1em;
+        .icon {
+          fill: #dc0451;
+          color: white;
           display: block;
-          span {
-            display: block;
-            &.subicon-caution {
-              font-size: 65%;
-              position: absolute;
-              left: -0.2em;
-              top: 1.1em;
-              .icon {
-                fill: #dc0451;
-                color: white;
-                display: block;
-                overflow: visible;
-                width: 13px;
-                height: 13px;
-              }
-            }
-          }
+          overflow: visible;
+          width: 13px;
+          height: 13px;
         }
+      }
+    }
+  }
 
   &.bp-large {
     min-height: 100px;
@@ -292,9 +306,13 @@
         margin-top: 19px;
       }
     }
+
     .itinerary-duration-and-distance {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 1em;
       width: 75px;
-      margin-top: 25px;
     }
 
     h2 {
@@ -306,6 +324,7 @@
       @include font-narrow-medium;
     }
 
+    .itinerary-biking-distance,
     .itinerary-walking-distance {
       font-size: 18px;
     }
@@ -334,11 +353,11 @@
 
     .itinerary-legs {
       padding-top: 0;
-      margin-top: 13px;
+      margin-top: 9px;
 
       .line .icon {
         margin-top: 0;
-        margin-left: 6px;
+        margin-left: 8px;
         font-size: $font-size-large;
         width: $font-size-large;
         height: $font-size-large;
@@ -346,10 +365,8 @@
 
       .vehicle-number {
         font-size: $font-size-normal;
-        margin-left: 6px;
-        margin-top: 1px;
+        margin-left: 8px;
       }
-
     }
 
     .itinerary-end-time {

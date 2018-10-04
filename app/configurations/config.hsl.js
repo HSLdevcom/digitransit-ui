@@ -35,7 +35,6 @@ export default {
 
   feedIds: ['HSL'],
 
-  preferredAgency: 'HSL',
   showHSLTracking: true,
 
   defaultMapCenter: {
@@ -110,6 +109,12 @@ export default {
   },
 
   streetModes: {
+    bicycle: {
+      availableForSelection: true,
+      defaultValue: false,
+      icon: 'biking',
+    },
+
     car_park: {
       availableForSelection: true,
       defaultValue: false,
@@ -130,6 +135,8 @@ export default {
       'i',
     ),
   },
+
+  modesWithNoBike: ['BUS', 'TRAM'],
 
   useSearchPolygon: true,
 
@@ -396,4 +403,15 @@ export default {
       url: '/hsl_zones.json',
     },
   ],
+  mapLayers: {
+    featureMapping: {
+      ticketSales: {
+        Palvelupiste: 'servicePoint',
+        'HSL Automaatti MNL': 'ticketMachine',
+        'HSL Automaatti KL': 'ticketMachine',
+        Myyntipiste: 'salesPoint',
+        'R-kioski': 'salesPoint',
+      },
+    },
+  },
 };

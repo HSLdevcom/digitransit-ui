@@ -231,6 +231,10 @@ testVariation('SummaryRow', 'passive-small-via', 11);
 testVariation('SummaryRow', 'active-large-via', 12);
 testVariation('SummaryRow', 'passive-small-call-agency', 13);
 testVariation('SummaryRow', 'active-large-call-agency', 14);
+testVariation('SummaryRow', 'passive-large-biking', 15);
+testVariation('SummaryRow', 'passive-small-biking', 16);
+testVariation('SummaryRow', 'citybike-large-passive', 17);
+testVariation('SummaryRow', 'citybike-small-passive', 18);
 
 testVariation('CallAgencyWarning');
 
@@ -260,3 +264,7 @@ testVariation('StopMarkerPopup', 'real-time', 3, [
 ]).then(skip('ie11'));
 testVariation('StopMarkerPopup', 'tomorrow', 4);
 testVariation('StopMarkerPopup', 'missing-platform', 5);
+
+testVariation('SelectStreetModeDialog');
+testVariation('SelectMapLayersDialog');
+testVariation('MainMenuContainer');

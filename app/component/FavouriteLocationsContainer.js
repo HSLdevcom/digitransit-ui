@@ -25,7 +25,6 @@ class FavouriteLocationContainerRoute extends Relay.Route {
           to: variables.to,
           maxWalkDistance: variables.maxWalkDistance,
           wheelchair: variables.wheelchair,
-          preferred: variables.preferred,
           arriveBy: variables.arriveBy,
           disableRemainingWeightHeuristic:
             variables.disableRemainingWeightHeuristic,
@@ -152,11 +151,6 @@ export default class FavouriteLocationsContainer extends React.Component {
 
               maxWalkDistance: config.maxWalkDistance + 0.1,
               wheelchair: false,
-
-              preferred: {
-                agencies: config.preferredAgency || '',
-              },
-
               arriveBy: false,
               disableRemainingWeightHeuristic: false,
             })

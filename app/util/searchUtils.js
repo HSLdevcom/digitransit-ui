@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import merge from 'lodash/merge';
-import unorm from 'unorm';
+import uniqWith from 'lodash/uniqWith';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
@@ -54,28 +54,79 @@ function getRelayQuery(query) {
   });
 }
 
-const mapRoute = item => ({
-  type: 'Route',
-  properties: {
-    ...item,
-    layer: `route-${item.mode}`,
-    link: `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${item.patterns[0].code}`,
-  },
-  geometry: {
-    coordinates: null,
-  },
-});
+const mapRoute = item => {
+  const link = `/${PREFIX_ROUTES}/${item.gtfsId}/pysakit/${
+    orderBy(item.patterns, 'code', ['asc'])[0].code
+  }`;
+
+  return {
+    type: 'Route',
+    properties: {
+      ...item,
+      layer: `route-${item.mode}`,
+      link,
+    },
+    geometry: {
+      coordinates: null,
+    },
+  };
+};
+
+function truEq(val1, val2) {
+  // accept equality of non nullish values
+  return val1 && val2 && val1 === val2;
+}
+
+export function isDuplicate(item1, item2) {
+  const props1 = item1.properties;
+  const props2 = item2.properties;
+
+  if (truEq(props1.gtfsId, props2.gtfsId)) {
+    return true;
+  }
+  if (props1.gtfsId && props2.gid && props2.gid.includes(props1.gtfsId)) {
+    return true;
+  }
+  if (props2.gtfsId && props1.gid && props1.gid.includes(props2.gtfsId)) {
+    return true;
+  }
+
+  const p1 = item1.geometry.coordinates;
+  const p2 = item2.geometry.coordinates;
+
+  if (p1 && p2) {
+    // both have geometry
+    if (Math.abs(p1[0] - p2[0]) < 1e-6 && Math.abs(p1[1] - p2[1]) < 1e-6) {
+      // location match is not enough. Require a common property
+      if (
+        truEq(props1.name, props2.name) ||
+        truEq(props1.label, props2.label) ||
+        truEq(props1.address, props2.address) ||
+        truEq(props1.address, props2.label) ||
+        truEq(props1.label, props2.address)
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
     const input = Input.toLowerCase().trim();
+    const multiWord = input.includes(' ') || input.includes(',');
 
     return list.filter(item => {
       let parts = [];
       fields.forEach(pName => {
         let value = get(item, pName);
 
-        if ((pName === 'properties.label' || pName === 'address') && value) {
+        if (
+          !multiWord &&
+          (pName === 'properties.label' || pName === 'address') &&
+          value
+        ) {
           // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
           if (value.length > 2) {
@@ -83,15 +134,19 @@ function filterMatchingToInput(list, Input, fields) {
           } else if (value.length > 1) {
             value.splice(value.length - 1, 1);
           }
-          value = value.join();
+          value = value.join(',');
         }
         if (value) {
-          parts = parts.concat(
-            value
-              .toLowerCase()
-              .replace(/,/g, ' ')
-              .split(' '),
-          );
+          if (multiWord) {
+            parts = parts.concat(value.toLowerCase());
+          } else {
+            parts = parts.concat(
+              value
+                .toLowerCase()
+                .replace(/,/g, ' ')
+                .split(' '),
+            );
+          }
         }
       });
       for (let i = 0; i < parts.length; i++) {
@@ -121,6 +176,10 @@ function getCurrentPositionIfEmpty(input, position) {
           address: position.address,
           lat: position.lat,
           lon: position.lon,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [position.lon, position.lat],
         },
       },
     ]);
@@ -200,11 +259,9 @@ export function getGeocodingResult(
     opts = { ...opts, sources };
   }
 
-  return getJson(config.URL.PELIAS, opts)
-    .then(res =>
-      orderBy(res.features, feature => feature.properties.confidence, 'desc'),
-    )
-    .then(features => mapPeliasModality(features, config));
+  return getJson(config.URL.PELIAS, opts).then(response =>
+    mapPeliasModality(response.features, config),
+  );
 }
 
 function getFavouriteRoutes(favourites, input) {
@@ -331,7 +388,9 @@ function getRoutes(input, config) {
           shortName
           mode
           longName
-          patterns { code }
+          patterns { 
+            code
+          }
         }
       }
     }`,
@@ -361,6 +420,76 @@ export const getAllEndpointLayers = () => [
   'Stops',
 ];
 
+const normalize = str => {
+  if (!isString(str)) {
+    return '';
+  }
+  return str.toLowerCase();
+};
+
+/**
+ * Tries to match the given search term agains the collection of properties
+ * for a geocoding result. The best match will be returned (min: 0, max: 1.5).
+ *
+ * @param {string} normalizedTerm the normalized search term.
+ * @param {*} resultProperties the geocoding result's property collection.
+ */
+export const match = (normalizedTerm, resultProperties) => {
+  if (!isString(normalizedTerm) || normalizedTerm.length === 0) {
+    return 0;
+  }
+
+  const matchProps = ['name', 'label', 'address', 'shortName'];
+  return matchProps
+    .map(name => resultProperties[name])
+    .filter(value => isString(value) && value.length > 0)
+    .map(value => {
+      const normalizedValue = normalize(value);
+      if (normalizedValue.indexOf(normalizedTerm) === 0) {
+        // full match at start. Return max result when match is full, not only partial
+        return 0.5 + normalizedTerm.length / normalizedValue.length;
+      }
+      // because of filtermatchingtoinput, we know that match occurred somewhere
+      // don't run filtermatching again but estimate roughly:
+      // the longer the matching string, the better confidence, max being 0.5
+      return 0.5 * normalizedTerm.length / (normalizedTerm.length + 1);
+    })
+    .reduce(
+      (previous, current) => (current > previous ? current : previous),
+      0,
+    );
+};
+
+/**
+ * Ranks the result based on its layer property.
+ *
+ * @param {string} layer the layer property.
+ * @param {string} source the source property.
+ */
+export const getLayerRank = (layer, source) => {
+  switch (layer) {
+    case LayerType.CurrentPosition:
+      return 1;
+    case LayerType.FavouriteStation:
+      return 0.45;
+    case LayerType.Station: {
+      if (isString(source) && source.indexOf('gtfs') === 0) {
+        return 0.44;
+      }
+      return 0.43;
+    }
+    case LayerType.FavouritePlace:
+      return 0.42;
+    case LayerType.FavouriteStop:
+      return 0.41;
+    default:
+      // venue, address, street, route-xxx
+      return 0.4;
+    case LayerType.Stop:
+      return 0.35;
+  }
+};
+
 /**
  * Helper function to sort the results. Orders as follows:
  *  - current position first for an empty search
@@ -370,8 +499,8 @@ export const getAllEndpointLayers = () => [
  *    - rank stops lower as they tend to occupy most of the search results
  *  - items with no confidence (old searches and favorites):
  *    - rank favourites better than ordinary old searches
- *    - if perfect match at start, assign high confidence
- *    - if not as above, put to the end of list in layer-ranked order
+ *    - rank full match better than partial match
+ *    - rank match at middle word lower than match at the beginning
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
@@ -386,26 +515,6 @@ export const sortSearchResults = (config, results, term = '') => {
     config.search.lineRegexp &&
     config.search.lineRegexp.test(value);
 
-  const normalize = str => {
-    if (!isString(str)) {
-      return '';
-    }
-    const lowerCaseStr = str.toLowerCase();
-    return `${(lowerCaseStr.normalize
-      ? lowerCaseStr.normalize('NFD')
-      : unorm.nfd(lowerCaseStr)
-    ).replace(/[\u0300-\u036f]/g, '')}`;
-  };
-
-  const matchProps = ['name', 'label', 'address', 'shortName'];
-
-  const isMatch = (t, props) =>
-    t.length > 0 &&
-    matchProps
-      .map(v => props[v])
-      .filter(v => v && v.length > 0 && normalize(v).indexOf(t) === 0).length >
-      0;
-
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
 
@@ -417,76 +526,44 @@ export const sortSearchResults = (config, results, term = '') => {
         isLineSearch &&
         isLineIdentifier(normalize(result.properties.shortName)) &&
         normalize(result.properties.shortName).indexOf(normalizedTerm) === 0
-          ? 2
+          ? 1
           : 0,
 
       result => {
-        let layerRank;
-        switch (result.properties.layer) {
-          case LayerType.CurrentPosition:
-            layerRank = 1;
-            break;
-          case LayerType.FavouriteStation:
-            layerRank = 0.9;
-            break;
-          case LayerType.Station: {
-            if (
-              isString(result.properties.source) &&
-              result.properties.source.indexOf('gtfs') === 0
-            ) {
-              layerRank = 0.8;
-            } else {
-              layerRank = 0.7;
-            }
-            break;
-          }
-          case LayerType.FavouritePlace:
-            layerRank = 0.6;
-            break;
-          case LayerType.FavouriteStop:
-            layerRank = 0.5;
-            break;
-          case LayerType.Stop:
-            layerRank = 0.3;
-            break;
-          default:
-            // venue, address, street, route-xxx
-            layerRank = 0.4;
-        }
+        const { confidence, layer, source } = result.properties;
         if (normalizedTerm.length === 0) {
           // Doing search with empty string.
-          // No confidence to macth, so use ranked old searches and favourites
-          return layerRank;
+          // No confidence to match, so use ranked old searches and favourites
+          return getLayerRank(layer, source);
         }
 
         // must handle a mixup of geocoder searches and items above
         // Normal confidence range from geocoder is about 0.3 .. 1
-        const { confidence } = result.properties;
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          if (isMatch(normalizedTerm, result.properties)) {
-            return 1 + layerRank; // put previously used stuff above new geocoding
-          }
-          return 0.3 * layerRank; // not so good match, put to the end
+          return (
+            getLayerRank(layer, source) +
+            match(normalizedTerm, result.properties)
+          );
         }
 
         // geocoded items with confidence, just adjust a little
-        switch (result.properties.layer) {
+        switch (layer) {
           case LayerType.Station: {
-            const boost =
-              result.properties.source.indexOf('gtfs') === 0 ? 0.05 : 0.01;
+            const boost = source.indexOf('gtfs') === 0 ? 0.05 : 0.01;
             return Math.min(confidence + boost, 1);
           }
-          case LayerType.Stop:
-            return confidence - 0.1;
           default:
             return confidence;
+          case LayerType.Stop:
+            return confidence - 0.1;
         }
       },
     ],
-    ['desc', 'desc', 'desc'],
+    ['desc', 'desc'],
   );
-  return orderedResults;
+
+  return uniqWith(orderedResults, isDuplicate);
 };
 
 export function executeSearchImmediate(
