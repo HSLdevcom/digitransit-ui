@@ -65,6 +65,7 @@ class DTAutosuggestPanel extends React.Component {
     destination: dtLocationShape.isRequired,
     isItinerary: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
+    destinationPlaceHolder: PropTypes.string,
     searchType: PropTypes.string,
     initialViaPoints: PropTypes.arrayOf(dtLocationShape),
     tab: PropTypes.string,
@@ -77,6 +78,7 @@ class DTAutosuggestPanel extends React.Component {
     initialViaPoints: [],
     isItinerary: false,
     originPlaceHolder: 'give-origin',
+    destinationPlaceHolder: 'give-destination',
     searchType: 'endpoint',
     swapOrder: undefined,
     updateViaPoints: () => {},
@@ -449,7 +451,7 @@ class DTAutosuggestPanel extends React.Component {
               }
               refPoint={origin}
               searchType={this.props.searchType}
-              placeholder="give-destination"
+              placeholder={this.props.destinationPlaceHolder}
               className={this.class(this.props.destination)}
               isFocused={this.isFocused}
               value={this.value(this.props.destination)}
