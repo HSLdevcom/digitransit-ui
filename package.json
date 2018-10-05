@@ -150,7 +150,7 @@
     "eslint-plugin-react": "7.11.1",
     "favicons-webpack-plugin": "0.0.9",
     "fetch-mock": "7.0.0-alpha.6",
-    "file-loader": "1.1.11",
+    "file-loader": "2.0.0",
     "gemini": "5.7.2",
     "gemini-browserstack": "1.1.0",
     "graphql": "0.13.2",
