@@ -12,21 +12,44 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const pointToLayer = (feature, latlng) => L.circleMarker(latlng, null);
+const defaultLineStyle = {
+  color: 'blue',
+  weight: 3,
+  opacity: 0.8,
+};
 
-const lineStyler = config => feature =>
-  feature.style || {
-    color: config.colors.primary,
-    weight: 3,
-    opacity: 0.6,
-    radius: 3,
-  };
+const defaultMarkerStyle = {
+  color: 'blue',
+  fillColor: 'white',
+  radius: 10,
+  fillOpacity: 0.8,
+};
 
-const GeoJSON = ({ data }, { config }) => (
-  <Geojson data={data} style={lineStyler(config)} pointToLayer={pointToLayer} />
+const pointToLayer = (feature, latlng) => {
+  // add some custom rendering control by feature props
+  const props = feature.properties || {};
+  let marker;
+
+  if (props.textOnly) {
+    marker = L.marker(latlng);
+    marker.bindTooltip(props.name, {
+      permanent: true,
+      className: 'geoJsonText',
+      direction: 'center',
+      offset: [0, -25],
+    });
+  } else {
+    marker = L.circleMarker(latlng, props.style || defaultMarkerStyle);
+  }
+  return marker;
+};
+
+const lineStyler = feature => feature.style || defaultLineStyle;
+
+const GeoJSON = ({ data }) => (
+  <Geojson data={data} style={lineStyler} pointToLayer={pointToLayer} />
 );
 
 GeoJSON.propTypes = { data: PropTypes.object.isRequired };
-GeoJSON.contextTypes = { config: PropTypes.object.isRequired };
 
 export default GeoJSON;

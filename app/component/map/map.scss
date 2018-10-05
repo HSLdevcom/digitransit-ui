@@ -612,3 +612,14 @@ div.map-click-prevent-overlay {
     height: $spinner-size * 0.5;
   }
 }
+
+.leaflet-tooltip.geoJsonText {
+  direction: 'center';
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  cursor: none;
+  interactive: false;
+  font-size: 50px;
+  color: $primary-color;
+}
