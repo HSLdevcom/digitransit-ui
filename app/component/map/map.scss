@@ -623,3 +623,10 @@ div.map-click-prevent-overlay {
   font-size: 50px;
   color: $primary-color;
 }
+
+.leaflet-popup.geoJsonPopup {
+  @include font-medium;
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
+  }
+}

@@ -21,8 +21,7 @@ const defaultLineStyle = {
 const defaultMarkerStyle = {
   color: 'blue',
   fillColor: 'white',
-  radius: 10,
-  fillOpacity: 0.8,
+  radius: 6
 };
 
 const pointToLayer = (feature, latlng) => {
@@ -40,6 +39,9 @@ const pointToLayer = (feature, latlng) => {
     });
   } else {
     marker = L.circleMarker(latlng, props.style || defaultMarkerStyle);
+  }
+  if (props.popupContent) {
+    marker.bindPopup(props.popupContent, { className: 'geoJsonPopup' });
   }
   return marker;
 };
