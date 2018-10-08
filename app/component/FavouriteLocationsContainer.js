@@ -60,7 +60,7 @@ export default class FavouriteLocationsContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.array.isRequired,
-    currentTime: PropTypes.object.isRequired,
+    currentTime: PropTypes.number.isRequired,
     origin: dtLocationShape.isRequired,
   };
 
