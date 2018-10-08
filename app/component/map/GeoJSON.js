@@ -12,6 +12,13 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
+const GeoJsonIcon = L.Icon.extend({
+  options: {
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  },
+});
+
 const pointToLayer = (feature, latlng) => {
   // add some custom rendering control by feature props
   const props = feature.properties || {};
@@ -25,6 +32,17 @@ const pointToLayer = (feature, latlng) => {
       direction: 'center',
       offset: [0, -25],
     });
+  } else if (props.icon) {
+    /*
+    For data URI SVG support in Firefox & IE it's necessary to URI encode the string
+    & replace the '#' character with '%23'. `encodeURI()` won't do this.
+    */
+    const url = encodeURI(`data:image/svg+xml, ${props.icon.data}`).replace(
+      '#',
+      '%23',
+    );
+    const icon = new GeoJsonIcon({ iconUrl: url });
+    marker = L.marker(latlng, { icon });
   } else {
     marker = L.circleMarker(latlng);
   }
