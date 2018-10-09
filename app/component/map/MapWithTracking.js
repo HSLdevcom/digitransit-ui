@@ -179,7 +179,7 @@ class MapWithTrackingStateHandler extends React.Component {
     if (this.state.geoJson) {
       Object.keys(this.state.geoJson).forEach(key =>
         leafletObjs.push(
-          <LazilyLoad modules={jsonModules}>
+          <LazilyLoad modules={jsonModules} key={key}>
             {({ GeoJSON }) => (
               <GeoJSON key={key} data={this.state.geoJson[key]} />
             )}
