@@ -431,6 +431,9 @@ class SummaryPlanContainer extends React.Component {
     }
 
     const { from, to } = this.props.params;
+    const disableButtons = !(
+      this.props.itineraries && this.props.itineraries.length > 0
+    );
 
     return (
       <div className="summary">
@@ -452,8 +455,8 @@ class SummaryPlanContainer extends React.Component {
           {this.props.children}
         </ItinerarySummaryListContainer>
         <TimeNavigationButtons
-          isEarlierDisabled={this.props.itineraries.length === 0}
-          isLaterDisabled={this.props.itineraries.length === 0}
+          isEarlierDisabled={disableButtons}
+          isLaterDisabled={disableButtons}
           onEarlier={this.onEarlier}
           onLater={this.onLater}
           onNow={this.onNow}
