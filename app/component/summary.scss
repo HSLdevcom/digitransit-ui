@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.summary {
+  flex-direction: column;
+}
+
 .summary-no-route-found {
   padding: 1em;
   .external-no-route .external-link-container {
@@ -312,6 +316,74 @@
 
 .summary-list-container {
   width: 100%;
+}
+
+.biking-walk-promotion-container {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  font-size: $font-size-large;
+  font-family: $font-family-narrow;
+  letter-spacing: 0;
+  max-height: 3.4em;
+  .promotion-block {
+    &.bicycle {
+    background-color: #f2ffe6;
+    color: #222;
+      .icon-container {
+        .icon {
+          color: #65be15;
+        }
+      }
+    }
+    &.walk {
+      background-color: #eefcff;
+      color: #222;
+      .icon-container {
+        .icon {
+          color: #86b4be;
+        }
+      }
+    }
+    cursor: pointer;
+    display: flex;
+    flex: 0 1 100%;
+    min-width: 50%;
+    justify-content: space-evenly;
+    padding: 0.8em;
+    .suggestion-details {
+      font-size: $font-size-normal;
+      align-self: center;
+      text-align: center;
+      line-height: 1.2em;
+    }
+    .duration {
+      margin-left: 0.3em;
+      margin-right: 0.5em;
+    }
+    .icon-container {
+      margin-right: 0.3em;
+      .icon {
+        font-size: 1.8em;
+      }
+    }
+    .icon-container-arrow {
+      .icon {
+        color: $link-color;
+      }
+    }
+    .suggestion-details > span:first-child {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.mobile .biking-walk-promotion-container {
+  font-size: $font-size-small;
+  .promotion-block {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
 }
 
 .desktop .summary-list-container {
