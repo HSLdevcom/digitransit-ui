@@ -36,6 +36,23 @@ const jsonModules = {
 
 const Component = onlyUpdateCoordChanges(MapContainer);
 
+// these are metadata mappable properties
+const metaTags = ['textOnly', 'name', 'popupContent'];
+const MapJSON = (data, meta) => {
+  const tagMap = metaTags.filter(t => !!meta[t]);
+
+  data.features.forEach(feature => {
+    const { properties } = feature;
+    if (properties) {
+      tagMap.forEach(t => {
+        if (properties[meta[t]]) {
+          properties[t] = properties[meta[t]];
+        }
+      });
+    }
+  });
+};
+
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
     origin: dtLocationShape.isRequired,
@@ -71,13 +88,19 @@ class MapWithTrackingStateHandler extends React.Component {
     const { config } = props;
     if (isBrowser && config.geoJson) {
       config.geoJson.forEach(val => {
-        const { name, url } = val;
+        const { name, url, metadata } = val;
         getJson(url).then(res => {
+          if (metadata) {
+            MapJSON(res, metadata);
+          }
           let newData = {};
           if (this.state.geoJson) {
             newData = { ...this.state.geoJson };
           }
-          newData[name.fi] = res;
+          newData[url] = {
+            name,
+            data: res,
+          };
           this.setState({ geoJson: newData });
         });
       });
@@ -181,7 +204,7 @@ class MapWithTrackingStateHandler extends React.Component {
         leafletObjs.push(
           <LazilyLoad modules={jsonModules} key={key}>
             {({ GeoJSON }) => (
-              <GeoJSON key={key} data={this.state.geoJson[key]} />
+              <GeoJSON key={key} data={this.state.geoJson[key].data} />
             )}
           </LazilyLoad>,
         ),
