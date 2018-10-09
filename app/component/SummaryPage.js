@@ -232,7 +232,7 @@ class SummaryPage extends React.Component {
 
     // Remove old itineraries if new query cannot found a route
     if (error && this.hasItineraries()) {
-      this.props.plan.plan.itineraries = null;
+      this.props.plan.plan.itineraries = [];
     }
 
     if (
