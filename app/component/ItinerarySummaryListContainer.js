@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
+import startsWith from 'lodash/startsWith';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
@@ -55,19 +56,22 @@ function ItinerarySummaryListContainer(
     );
   }
 
-  let msg;
+  let msgId;
   let outside;
-  if (error) {
-    msg = error;
+  // If error starts with "Error" it's not a message id, it's an error message
+  // from OTP
+  if (error && !startsWith(error, 'Error')) {
+    msgId = error;
   } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
-    msg = 'origin-outside-service';
+    msgId = 'origin-outside-service';
     outside = true;
   } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
-    msg = 'destination-outside-service';
+    msgId = 'destination-outside-service';
     outside = true;
   } else {
-    msg = 'no-route-msg';
+    msgId = 'no-route-msg';
   }
+
   let linkPart = null;
   if (outside && config.nationalServiceLink) {
     linkPart = (
@@ -90,7 +94,7 @@ function ItinerarySummaryListContainer(
         <Icon className="no-route-icon" img="icon-icon_caution" />
         <div>
           <FormattedMessage
-            id={msg}
+            id={msgId}
             defaultMessage={
               'Unfortunately no routes were found for your journey. ' +
               'Please change your origin or destination address.'

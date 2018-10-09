@@ -126,6 +126,14 @@ class SummaryPage extends React.Component {
     this.context.queryAggregator.readyState.error = error;
   };
 
+  hasItineraries() {
+    return (
+      this.props.plan &&
+      this.props.plan.plan &&
+      this.props.plan.plan.itineraries
+    );
+  }
+
   updateCenter = (lat, lon) => {
     this.setState({ center: { lat, lon } });
   };
@@ -221,14 +229,15 @@ class SummaryPage extends React.Component {
         readyState: { done, error },
       },
     } = this.context;
-    const hasItineraries =
-      this.props.plan &&
-      this.props.plan.plan &&
-      this.props.plan.plan.itineraries;
+
+    // Remove old itineraries if new query cannot found a route
+    if (error && this.hasItineraries()) {
+      this.props.plan.plan.itineraries = null;
+    }
 
     if (
       this.props.routes[this.props.routes.length - 1].printPage &&
-      hasItineraries
+      this.hasItineraries()
     ) {
       return React.cloneElement(this.props.content, {
         itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
@@ -253,7 +262,7 @@ class SummaryPage extends React.Component {
     let earliestStartTime;
     let latestArrivalTime;
 
-    if (hasItineraries) {
+    if (this.hasItineraries()) {
       earliestStartTime = Math.min(
         ...this.props.plan.plan.itineraries.map(i => i.startTime),
       );
@@ -281,7 +290,7 @@ class SummaryPage extends React.Component {
             {this.props.content &&
               React.cloneElement(this.props.content, {
                 itinerary:
-                  hasItineraries &&
+                  this.hasItineraries() &&
                   this.props.plan.plan.itineraries[this.props.params.hash],
                 focus: this.updateCenter,
               })}
