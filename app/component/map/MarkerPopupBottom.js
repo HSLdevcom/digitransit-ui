@@ -24,7 +24,7 @@ class MarkerPopupBottom extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
-    map: PropTypes.object.isRequired,
+    map: PropTypes.shape({ closePopup: PropTypes.func.isRequired }).isRequired,
   };
 
   routeFrom = () => {
