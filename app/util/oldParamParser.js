@@ -128,7 +128,12 @@ export default function oldParamParser(query, config) {
     .then(([from, to, time, utm]) => {
       if (from && from.length > 1 && to && to.length > 1) {
         // can redirect to itinerary summary page
-        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}${utm}`;
+        if (time) {
+          return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}${utm}`;
+        } else if (utm) {
+          return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${utm.substr(1)}`;
+        }
+        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/`;
       } else if (utm.length > 1) {
         return `/${from}/${to}/?${utm.substr(1)}`;
       }

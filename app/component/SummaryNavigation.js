@@ -125,7 +125,7 @@ class SummaryNavigation extends React.Component {
     const isOpen = this.getOffcanvasState();
 
     return (
-      <div style={{ background: '#f4f4f5' }}>
+      <div className="summary-navigation-container">
         <LazilyLoad modules={this.customizeSearchModules}>
           {({ Drawer, CustomizeSearch }) => (
             <Drawer

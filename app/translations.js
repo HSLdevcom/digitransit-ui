@@ -591,7 +591,7 @@ const translations = {
       'Detecting your location is taking longer than expected.',
     'geolocation-timeout-text':
       'Have you accepted your browser’s request to access your location?',
-    'give-destination': 'Search destination, route or stop',
+    'give-destination': 'Enter your destination',
     'give-name-to-location': 'Give the location a descriptive name',
     'give-origin': 'Enter your origin.',
     'give-position': 'Enter your location or origin in the search field.',
@@ -730,6 +730,7 @@ const translations = {
     run: 'Run',
     save: 'Save',
     search: 'Search',
+    'search-destination': 'Search destination, route or stop',
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-no-results': 'No location',
@@ -926,7 +927,7 @@ const translations = {
       'Detectar su localización está llevando más tiempo del esperado.',
     'geolocation-timeout-text':
       '¿Ha aceptado la petición de su navegador para acceder a su localización?',
-    'give-destination': 'Busque destino, ruta o parada',
+    'give-destination': 'Busque destino',
     'give-name-to-location': 'De un nombre descriptivo a la localización',
     'give-origin': 'Introduzca su origen.',
     'give-position':
@@ -1042,6 +1043,7 @@ const translations = {
     run: 'Correr',
     save: 'Guardar',
     search: 'Buscar',
+    'search-destination': 'Busque destino, ruta o parada',
     'search-destination-results-but-no-search':
       'Ver resultados en la pestaña de “Destino”',
     'search-no-results': 'Sin localización',
@@ -1238,7 +1240,7 @@ const translations = {
     'geolocation-prompt-text': 'Hyväksy selaimen paikannuspyyntö.',
     'geolocation-timeout-heading': 'Paikannus kestää odotettua pidempään.',
     'geolocation-timeout-text': 'Oletko hyväksynyt selaimen paikannuspyynnön?',
-    'give-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
+    'give-destination': 'Määränpää',
     'give-name-to-location': 'Anna paikalle kuvaava nimi',
     'give-origin': 'Lähtöpaikka',
     'give-position': 'Kirjoita sijaintisi tai lähtöpaikkasi hakukenttään.',
@@ -1390,6 +1392,7 @@ const translations = {
     run: 'Juoksu',
     save: 'Tallenna',
     search: 'Etsi',
+    'search-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-no-results': 'Ei tuloksia',
@@ -1739,6 +1742,7 @@ const translations = {
     run: 'Lancer',
     save: 'Enregistrer',
     search: 'Recherche',
+    'search-destination': 'Entrer votre point de destination',
     'search-destination-results-but-no-search':
       "Voir les résultats de l'onglet 'Destination'",
     'search-no-results': 'Aucun résultat',
@@ -2201,7 +2205,7 @@ const translations = {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'give-destination': 'Sök destination, linje eller hållplats',
+    'give-destination': 'Skriv in din destination',
     'give-name-to-location': 'Ge ett namn som beskriver platsen',
     'give-origin': 'Skriv in din avfärdsplats',
     'give-position': 'Skriv in din position eller avfärdsplats i sökfältet.',
@@ -2339,6 +2343,7 @@ const translations = {
     run: 'Springande',
     save: 'Spara',
     search: 'Sök',
+    'search-destination': 'Sök destination, linje eller hållplats',
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-no-results': 'Inga sökresultat',
