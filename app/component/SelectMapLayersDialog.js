@@ -54,9 +54,18 @@ class SelectMapLayersDialog extends React.Component {
     this.updateSetting({ ticketSales });
   };
 
+  updateGeoJsonSetting = newSetting => {
+    const geoJson = {
+      ...this.props.mapLayers.geoJson,
+      ...newSetting,
+    };
+    this.updateSetting({ geoJson });
+  };
+
   renderContents = (
-    { citybike, parkAndRide, stop, terminal, ticketSales },
+    { citybike, parkAndRide, stop, terminal, ticketSales, geoJson },
     config,
+    lang,
   ) => {
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
@@ -172,6 +181,23 @@ class SelectMapLayersDialog extends React.Component {
               />
             </div>
           )}
+        {config.geoJson && (
+          <div className="checkbox-grouping">
+            {config.geoJson.map(gj => (
+              <Checkbox
+                checked={geoJson[gj.url] !== false}
+                labelId="foo"
+                defaultMessage={gj.name[lang]}
+                key={gj.url}
+                onChange={e => {
+                  const newSetting = {};
+                  newSetting[gj.url] = e.target.checked;
+                  this.updateGeoJsonSetting(newSetting);
+                }}
+              />
+            ))}
+          </div>
+        )}
       </React.Fragment>
     );
   };
@@ -186,7 +212,11 @@ class SelectMapLayersDialog extends React.Component {
         isOpen={this.props.isOpen}
         isFullscreenOnMobile
       >
-        {this.renderContents(this.props.mapLayers, this.props.config)}
+        {this.renderContents(
+          this.props.mapLayers,
+          this.props.config,
+          this.props.lang,
+        )}
       </BubbleDialog>
     );
   }
@@ -221,11 +251,13 @@ SelectMapLayersDialog.propTypes = {
   isOpen: PropTypes.bool,
   mapLayers: mapLayerShape.isRequired,
   updateMapLayers: PropTypes.func.isRequired,
+  lang: PropTypes.string,
 };
 
 SelectMapLayersDialog.defaultProps = {
   config: {},
   isOpen: false,
+  lang: 'fi',
 };
 
 SelectMapLayersDialog.description = (
@@ -271,12 +303,13 @@ SelectMapLayersDialog.description = (
 
 const connectedComponent = connectToStores(
   SelectMapLayersDialog,
-  [MapLayerStore],
+  [MapLayerStore, 'PreferencesStore'],
   context => ({
     config: context.config,
     mapLayers: context.getStore(MapLayerStore).getMapLayers(),
     updateMapLayers: mapLayers =>
       context.executeAction(updateMapLayers, { ...mapLayers }),
+    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
   {
     config: mapLayersConfigShape,

@@ -10,6 +10,7 @@ import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 import { getJson } from '../../util/xhrPromise';
 import { isBrowser } from '../../util/browser';
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -68,6 +69,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }).isRequired,
     children: PropTypes.array,
     renderCustomButtons: PropTypes.func,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static defaultProps = {
@@ -172,6 +174,7 @@ class MapWithTrackingStateHandler extends React.Component {
       config,
       children,
       renderCustomButtons,
+      mapLayers,
       ...rest
     } = this.props;
     let location;
@@ -200,15 +203,17 @@ class MapWithTrackingStateHandler extends React.Component {
     }
 
     if (this.state.geoJson) {
-      Object.keys(this.state.geoJson).forEach(key =>
-        leafletObjs.push(
-          <LazilyLoad modules={jsonModules} key={key}>
-            {({ GeoJSON }) => (
-              <GeoJSON key={key} data={this.state.geoJson[key].data} />
-            )}
-          </LazilyLoad>,
-        ),
-      );
+      Object.keys(this.state.geoJson).forEach(key => {
+        if (mapLayers.geoJson[key]) {
+          leafletObjs.push(
+            <LazilyLoad modules={jsonModules} key={key}>
+              {({ GeoJSON }) => (
+                <GeoJSON key={key} data={this.state.geoJson[key].data} />
+              )}
+            </LazilyLoad>,
+          );
+        }
+      });
     }
 
     return (
@@ -256,11 +261,12 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape.isRequired,
     }),
   })(MapWithTrackingStateHandler),
-  ['PositionStore'],
+  ['PositionStore', 'MapLayerStore'],
   ({ getStore }) => {
     const position = getStore('PositionStore').getLocationState();
+    const mapLayers = getStore('MapLayerStore').getMapLayers();
 
-    return { position };
+    return { position, mapLayers };
   },
 );
 
