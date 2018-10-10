@@ -3,8 +3,9 @@ import isEqual from 'lodash/isEqual';
 import Snackbar from 'material-ui/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { routerShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import { locationShape } from 'react-router';
 
 import { getCustomizedSettings } from '../store/localStorage';
 import { getDefaultSettings } from '../util/planParamUtil';
@@ -19,8 +20,8 @@ class LoadCustomizedSettingsButton extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    location: locationShape.isRequired,
     piwik: PropTypes.object,
+    router: routerShape.isRequired,
   };
 
   constructor(props) {
@@ -43,11 +44,16 @@ class LoadCustomizedSettingsButton extends React.Component {
     // const querySettings = getQuerySettings(this.context.location.query);
     const defaultSettings = getDefaultSettings(this.context.config);
     const getSettings = getCustomizedSettings();
-    console.log(getSettings);
     if (isEmpty(getSettings) || isEqual(getSettings, defaultSettings)) {
       this.props.noSettingsFound();
     } else {
       // getCustomizedSettings(querySettings);
+      this.context.router.replace({
+        ...this.context.router.location,
+        query: {
+          ...getSettings,
+        },
+      });
       this.setState({
         open: true,
       });
