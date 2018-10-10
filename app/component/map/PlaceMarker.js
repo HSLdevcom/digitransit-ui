@@ -15,28 +15,16 @@ if (isBrowser) {
 
 export default function PlaceMarker({ position }) {
   return (
-    <div>
-      <IconMarker
-        zIndexOffset={10}
-        position={position}
-        keyboard={false}
-        icon={{
-          element: <Icon img="icon-icon_mapMarker-point" />,
-          className: 'place halo',
-          iconAnchor: [12, 24],
-        }}
-      />
-      <IconMarker
-        keyboard={false}
-        zIndexOffset={10}
-        position={position}
-        icon={{
-          element: <Icon img="icon-icon_place" />,
-          className: 'place',
-          iconAnchor: [12, 24],
-        }}
-      />
-    </div>
+    <IconMarker
+      icon={{
+        className: 'place',
+        element: <Icon img="icon-icon_mapMarker-from" />,
+        iconAnchor: [12, 24],
+      }}
+      keyboard={false}
+      position={position}
+      zIndexOffset={10}
+    />
   );
 }
 

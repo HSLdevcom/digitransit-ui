@@ -341,21 +341,14 @@
   </g>
 </symbol>
 
+<linearGradient id="linearGradient_mapMarker-via" x1="50%" x2="50%" y1="0%" y2="50%">
+  <stop offset="0%" stop-color="#4E4E51"/>
+  <stop offset="100%" stop-color="#262628"/>
+</linearGradient>
 <symbol id="icon-icon_mapMarker-via" viewBox="0 0 70 94">
-  <title>icon_mapMarker-via</title>
-  <defs>
-    <linearGradient x1="50%" y1="0%" x2="50%" y2="50%" id="linearGradient-1">
-      <stop stop-color="#4E4E51" offset="0%"></stop>
-      <stop stop-color="#262628" offset="100%"></stop>
-    </linearGradient>
-  </defs>
-  <g id="A-to-B" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <g id="Artboard" transform="translate(-323.000000, -350.000000)" stroke-width="3">
-      <g id="midpoint" transform="translate(326.000000, 353.000000)">
-        <path d="M32,-1.5 C50.4713052,-1.5 65.4958173,13.7069721 65.5,32.391583 C65.5,37.2533436 64.5112878,41.9155273 62.5641734,46.2430113 C56.1830915,60.3766046 45.2901195,75.6259656 34.4913726,88.3424172 C33.8703486,89.074513 32.9602214,89.5 32,89.5 C31.040308,89.5 30.1196654,89.0714602 29.5095669,88.3435236 C18.7444067,75.6778514 7.81481069,60.3776239 1.43103801,46.2412584 C-0.513498362,41.9195011 -1.5,37.2578012 -1.5,32.391583 C-1.5,13.7057342 13.5219933,-1.5 32,-1.5 Z" id="Shape-Copy-9" stroke="#FFFFFF" fill="url(#linearGradient-1)"></path>
-        <circle id="Oval-Copy" stroke="#131313" fill="#FFFFFF" cx="32.5" cy="32.5" r="14"></circle>
-      </g>
-    </g>
+  <g fill="none" fill-rule="evenodd" stroke-width="3" transform="translate(3 3)">
+    <path fill="url(#linearGradient_mapMarker-via)" stroke="#FFF" d="M32-1.5c18.471 0 33.496 15.207 33.5 33.892 0 4.861-.989 9.524-2.936 13.851-6.38 14.134-17.274 29.383-28.073 42.1A3.27 3.27 0 0 1 32 89.5c-.96 0-1.88-.429-2.49-1.156C18.744 75.678 7.815 60.378 1.43 46.24-.513 41.92-1.5 37.258-1.5 32.391-1.5 13.707 13.522-1.5 32-1.5z"/>
+    <circle cx="32.5" cy="32.5" r="14" fill="#FFF" stroke="#131313"/>
   </g>
 </symbol>
 

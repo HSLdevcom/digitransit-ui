@@ -113,17 +113,17 @@ div.leaflet-marker-icon.place {
   }
 }
 
-div.leaflet-marker-icon.place.halo {
-  > span {
-    > svg.icon {
-      width: 24px;
-      height: 24px;
-      fill: #fff;
-      stroke: #fff;
-      stroke-width: 50px;
-    }
-  }
-}
+// div.leaflet-marker-icon.place.halo {
+//   > span {
+//     > svg.icon {
+//       width: 24px;
+//       height: 24px;
+//       fill: #fff;
+//       stroke: #fff;
+//       stroke-width: 50px;
+//     }
+//   }
+// }
 
 .tripMap div.leaflet-marker-icon.place,
 .summary-map div.leaflet-marker-icon.place {
