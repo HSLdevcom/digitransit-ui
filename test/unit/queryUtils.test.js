@@ -283,4 +283,48 @@ describe('queryUtils', () => {
       });
     });
   });
+
+  describe('resetSelectedItineraryIndex', () => {
+    it('should reset state.summaryPageSelected to 0', () => {
+      let location = {
+        state: {
+          summaryPageSelected: 3,
+        },
+      };
+      location = utils.resetSelectedItineraryIndex(location);
+      expect(location.state.summaryPageSelected).to.equal(0);
+    });
+
+    it('should not modify other state properties', () => {
+      const location1 = {
+        state: {
+          foo: 'bar',
+        },
+      };
+      const location2 = utils.resetSelectedItineraryIndex(location1);
+      expect(location1).to.equal(location2);
+    });
+
+    it('should remove selected itinerary index from url', () => {
+      let location = {
+        pathname:
+          '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729/1',
+      };
+      location = utils.resetSelectedItineraryIndex(location);
+      expect(location.pathname).to.equal(
+        '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+      );
+    });
+
+    it('should not modify url without itinerary index', () => {
+      let location = {
+        pathname:
+          '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+      };
+      location = utils.resetSelectedItineraryIndex(location);
+      expect(location.pathname).to.equal(
+        '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
+      );
+    });
+  });
 });

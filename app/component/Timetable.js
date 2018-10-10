@@ -43,7 +43,7 @@ class Timetable extends React.Component {
       printUrl: PropTypes.string.isRequired,
       startDate: PropTypes.string,
       selectedDate: PropTypes.string,
-      onDateChange: PropTypes.function,
+      onDateChange: PropTypes.func,
     }).isRequired,
   };
 

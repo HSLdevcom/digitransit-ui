@@ -10,6 +10,7 @@ import withProps from 'recompose/withProps';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import TimeSelectors from './TimeSelectors';
+import { replaceQueryParams } from '../util/queryUtils';
 
 class TimeSelectorContainer extends Component {
   static contextTypes = {
@@ -69,13 +70,7 @@ class TimeSelectorContainer extends Component {
   }
 
   setTime = debounce(newTime => {
-    this.context.router.replace({
-      pathname: this.context.location.pathname,
-      query: {
-        ...this.context.location.query,
-        time: newTime.unix(),
-      },
-    });
+    replaceQueryParams(this.context.router, { time: newTime.unix() });
   }, 10);
 
   changeTime = ({ hours, minutes, add }) => {
