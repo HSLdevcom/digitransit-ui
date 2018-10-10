@@ -1,7 +1,7 @@
-# GeoJson map layers
+# GeoJSON map layers
 
 Contents of the front page background map can be expanded by defining GeoJson data sources in
-the configuration file. The format of the geojson configuraton is as follows:
+the configuration file. The format of the geojson configuraton entry is the following:
 
 ```
   geoJson: [ // array of data sources
@@ -87,7 +87,7 @@ Points can be rendered with dynamically defined icons, too:
       "properties": {
         "icon": {
           "id": "somethingunique",
-          "data": "<svg xmlns="http://www.w3.org/2000/svg" > ... </svg>"
+          "data": "<svg xmlns='http://www.w3.org/2000/svg' > ... </svg>"
         }
       },
       // the rest of feature data
@@ -116,8 +116,8 @@ A point feature can be rendered as a text label in primary theme color as follow
     }
 ```
 
-In above, default properties 'textOnly' etc. are used to control rendering. Other properties can be used by adding
-a suitable metadata entry, which maps custom attributes into standard attributes,
+In above, the default properties 'textOnly' and 'name' are used to control rendering. Other properties can be
+used by adding a suitable metadata entry, which maps custom attributes into standard attributes,
 into the configuration file (see the example configuration in the beginning of this document).
 
 ## Popups
