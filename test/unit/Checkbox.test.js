@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import Checkbox from '../../app/component/Checkbox';
+import Message from '../../app/component/Message';
 
 describe('<Checkbox />', () => {
   it('should render a checkbox', () => {
@@ -24,8 +25,21 @@ describe('<Checkbox />', () => {
     const wrapper = mountWithIntl(<Checkbox {...props} />);
     expect(wrapper.length).to.equal(1);
     const label = wrapper.find(FormattedMessage);
-    expect(label.length).to.equal(1);
+    expect(wrapper.length).to.equal(1);
     expect(label.text()).to.equal('City bike');
+  });
+
+  it('Should work also without labelId', () => {
+    const props = {
+      defaultMessage: 'ei tarvitse kääntää',
+      onChange: () => {},
+      showLabel: true,
+    };
+    const wrapper = mountWithIntl(<Checkbox {...props} />);
+    expect(wrapper.length).to.equal(1);
+    const label = wrapper.find(Message);
+    expect(label.length).to.equal(1);
+    expect(label.text()).to.have.string('ei tarvitse kääntää');
   });
 
   it('should invoke onChange', () => {

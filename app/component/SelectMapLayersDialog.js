@@ -186,7 +186,6 @@ class SelectMapLayersDialog extends React.Component {
             {config.geoJson.map(gj => (
               <Checkbox
                 checked={geoJson[gj.url] !== false}
-                labelId="foo"
                 defaultMessage={gj.name[lang]}
                 key={gj.url}
                 onChange={e => {
