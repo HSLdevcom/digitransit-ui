@@ -94,9 +94,9 @@ div.leaflet-container {
   @include font-map-container;
 }
 
-.component-example div.leaflet-container {
-  position: relative;
-}
+// .component-example div.leaflet-container {
+//   position: relative;
+// }
 
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
@@ -108,7 +108,7 @@ div.leaflet-marker-icon.place {
     > svg.icon {
       width: 24px;
       height: 24px;
-      fill: $viewpoint-marker-color;
+      // fill: $viewpoint-marker-color;
     }
   }
 }

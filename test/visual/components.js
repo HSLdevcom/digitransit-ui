@@ -268,3 +268,7 @@ testVariation('StopMarkerPopup', 'missing-platform', 5);
 testVariation('SelectStreetModeDialog');
 testVariation('SelectMapLayersDialog');
 testVariation('MainMenuContainer');
+
+testVariation('OriginDestinationBar', 'with-viapoint', 2);
+
+testVariation('IndexPage');
