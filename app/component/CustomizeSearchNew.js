@@ -169,7 +169,7 @@ class CustomizeSearch extends React.Component {
               id: 'zones',
               defaultMessage: 'Fare zones',
             })}
-            options={get(config, 'fareMapping', {})}
+            options={get(config, 'fares', {})}
             currentOption={currentSettings.ticketTypes || 'none'}
             updateValue={value =>
               replaceQueryParams(router, { ticketTypes: value })

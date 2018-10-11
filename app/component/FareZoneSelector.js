@@ -7,7 +7,7 @@ import Select from './Select';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
-    options: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired,
     currentOption: PropTypes.string.isRequired,
     headerText: PropTypes.string.isRequired,
     updateValue: PropTypes.func.isRequired,
@@ -19,14 +19,10 @@ class FareZoneSelector extends React.Component {
 
   createFareZoneObjects = options => {
     const { intl } = this.context;
-    const optionsArray = Object.values(options);
-    const constructedOptions = optionsArray.map(o => ({
-      displayName: o.replace(':', '_'),
-      displayNameObject: intl.formatMessage({
-        defaultMessage: `ticket-type-${o}`,
-        id: `ticket-type-${o}`,
-      }),
-      value: o.replace(':', '_'),
+    const constructedOptions = options.map(o => ({
+      displayName: o,
+      displayNameObject: o,
+      value: o,
     }));
     constructedOptions.push({
       displayName: 'none',

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import get from 'lodash/get';
 
 import { FormattedMessage } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
@@ -14,9 +13,7 @@ export default class PrintableItineraryHeader extends React.Component {
     const fareId = this.props.itinerary.fares
       ? this.props.itinerary.fares[0].components[0].fareId
       : null;
-    const fareMapping = get(this.context.config, 'fareMapping', {});
-    const mappedFareId = fareId ? fareMapping[fareId] : null;
-    return mappedFareId;
+    return fareId;
   };
 
   createHeaderBlock = obj => (
@@ -115,12 +112,7 @@ export default class PrintableItineraryHeader extends React.Component {
             config.showTicketInformation &&
             this.createHeaderBlock({
               name: 'ticket',
-              contentDetails: (
-                <FormattedMessage
-                  id={`ticket-type-${fare}`}
-                  defaultMessage={fare}
-                />
-              ),
+              contentDetails: <span>{fare}</span>,
             })}
         </div>
       </div>
