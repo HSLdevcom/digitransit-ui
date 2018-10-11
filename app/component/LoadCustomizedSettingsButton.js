@@ -9,7 +9,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { getCustomizedSettings } from '../store/localStorage';
 import { getDefaultSettings } from '../util/planParamUtil';
-import { getQuerySettings } from '../util/queryUtils';
 import { getDrawerWidth } from '../util/browser';
 import SecondaryButton from './SecondaryButton';
 
