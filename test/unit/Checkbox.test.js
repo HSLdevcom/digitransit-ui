@@ -25,7 +25,7 @@ describe('<Checkbox />', () => {
     const wrapper = mountWithIntl(<Checkbox {...props} />);
     expect(wrapper.length).to.equal(1);
     const label = wrapper.find(FormattedMessage);
-    expect(wrapper.length).to.equal(1);
+    expect(label.length).to.equal(1);
     expect(label.text()).to.equal('City bike');
   });
 
