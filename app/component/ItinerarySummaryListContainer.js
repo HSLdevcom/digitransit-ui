@@ -117,7 +117,10 @@ ItinerarySummaryListContainer.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   children: PropTypes.node,
-  error: PropTypes.string,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({ message: PropTypes.string }),
+  ]),
   from: locationShape.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   itineraries: PropTypes.array,
@@ -129,6 +132,7 @@ ItinerarySummaryListContainer.propTypes = {
 };
 
 ItinerarySummaryListContainer.defaultProps = {
+  error: undefined,
   intermediatePlaces: [],
   itineraries: [],
 };

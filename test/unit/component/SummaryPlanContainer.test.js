@@ -23,6 +23,7 @@ describe('<SummaryPlanContainer />', () => {
     const props = {
       breakpoint: 'large',
       config,
+      currentTime: 1535490633000,
       itineraries: [],
       params: {
         from: 'Kamppi, Helsinki::60.169022,24.931691',
@@ -69,6 +70,7 @@ describe('<SummaryPlanContainer />', () => {
     const props = {
       breakpoint: 'large',
       config,
+      currentTime: 1535490633000,
       itineraries: null,
       error: 'Error: Server does not return response for request with id...',
       params: {
