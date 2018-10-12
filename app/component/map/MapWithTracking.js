@@ -288,4 +288,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export default MapWithTracking;
+export { MapWithTracking as default, MapJSON };
