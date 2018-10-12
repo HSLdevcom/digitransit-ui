@@ -14,14 +14,15 @@ class FareZoneSelector extends React.Component {
   };
 
   static contextTypes = {
+    config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
   };
 
   createFareZoneObjects = options => {
-    const { intl } = this.context;
+    const { intl, config } = this.context;
     const constructedOptions = options.map(o => ({
-      displayName: o,
-      displayNameObject: o,
+      displayName: config.fareMapping(o, intl.locale),
+      displayNameObject: config.fareMapping(o, intl.locale),
       value: o,
     }));
     constructedOptions.push({

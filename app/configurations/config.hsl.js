@@ -295,7 +295,18 @@ export default {
     ],
   },
 
-  fares: ['AB', 'BC', 'CD', 'D', 'ABC', 'BCD', 'ABCD'],
+  fares: [
+    'HSL:AB',
+    'HSL:BC',
+    'HSL:CD',
+    'HSL:D',
+    'HSL:ABC',
+    'HSL:BCD',
+    'HSL:ABCD',
+  ],
+  // mapping (string, lang) from OTP fare identifiers to human readable form
+  // in the new HSL zone model, just strip off the prefix 'HSL:'
+  fareMapping: str => str.substring(str.indexOf(':') + 1),
 
   staticMessages: [
     {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalWalkingDistance } from '../util/legUtils';
 import RelativeDuration from './RelativeDuration';
@@ -11,7 +11,10 @@ import Icon from './Icon';
 export default class PrintableItineraryHeader extends React.Component {
   getFareId = () => {
     const fareId = this.props.itinerary.fares
-      ? this.props.itinerary.fares[0].components[0].fareId
+      ? this.context.config.fareMapping(
+          this.props.itinerary.fares[0].components[0].fareId,
+          this.context.intl.locale,
+        )
       : null;
     return fareId;
   };
@@ -127,4 +130,5 @@ PrintableItineraryHeader.propTypes = {
 PrintableItineraryHeader.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
