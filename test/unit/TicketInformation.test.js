@@ -124,7 +124,6 @@ describe('<TicketInformation />', () => {
   });
 
   it('should apply fare mapping defined in configuration', () => {
-
     const props = {
       fares: [
         {
