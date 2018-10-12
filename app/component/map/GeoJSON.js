@@ -23,9 +23,8 @@ class GeoJSON extends React.Component {
   static propTypes = { data: PropTypes.object.isRequired };
   static contextTypes = { config: PropTypes.object.isRequired };
 
-  constructor(args) {
-    super(args);
-
+  // cache dynamic icons to allow references by id without data duplication
+  componentWillMount() {
     // cache dynamic icons in advance to allow references by id without data duplication
     const icons = {};
 
@@ -43,7 +42,7 @@ class GeoJSON extends React.Component {
         icons[p.icon.id] = new GeoJsonIcon({ iconUrl: url });
       }
     });
-    this.state = { icons };
+    this.icons = icons;
   }
 
   pointToLayer = (feature, latlng) => {
@@ -52,15 +51,15 @@ class GeoJSON extends React.Component {
     let marker;
 
     if (props.textOnly) {
-      marker = L.marker(latlng);
+      marker = L.circleMarker(latlng);
       marker.bindTooltip(props.name, {
         permanent: true,
         className: 'geoJsonText',
         direction: 'center',
-        offset: [0, -25],
+        offset: [0, 0],
       });
     } else if (props.icon) {
-      marker = L.marker(latlng, { icon: this.state.icons[props.icon.id] });
+      marker = L.marker(latlng, { icon: this.icons[props.icon.id] });
     } else {
       marker = L.circleMarker(latlng);
     }
@@ -84,8 +83,20 @@ class GeoJSON extends React.Component {
       fillOpacity: 1,
       weight: 2,
     };
+    const textMarkerStyle = {
+      color: this.context.config.colors.primary,
+      radius: 0,
+      opacity: 0,
+      fillOpacity: 0,
+      weight: 0,
+    };
 
     if (feature.geometry && feature.geometry.type === 'Point') {
+      if (feature.properties && feature.properties.textOnly) {
+        return feature.style
+          ? { ...textMarkerStyle, ...feature.style }
+          : textMarkerStyle;
+      }
       return feature.style
         ? { ...defaultMarkerStyle, ...feature.style }
         : defaultMarkerStyle;

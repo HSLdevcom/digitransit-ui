@@ -87,7 +87,10 @@ class MapWithTrackingStateHandler extends React.Component {
       origin: props.origin,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
-    const { config } = props;
+  }
+
+  componentDidMount() {
+    const { config } = this.props;
     if (isBrowser && config.geoJson) {
       config.geoJson.forEach(val => {
         const { name, url, metadata } = val;
@@ -103,7 +106,9 @@ class MapWithTrackingStateHandler extends React.Component {
             name,
             data: res,
           };
-          this.setState({ geoJson: newData });
+          if (!this.isCancelled) {
+            this.setState({ geoJson: newData });
+          }
         });
       });
     }
@@ -129,6 +134,10 @@ class MapWithTrackingStateHandler extends React.Component {
     ) {
       this.useOrigin(newProps.origin);
     }
+  }
+
+  componentWillUnmount() {
+    this.isCancelled = true;
   }
 
   usePosition(origin) {
