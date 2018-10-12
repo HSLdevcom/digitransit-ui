@@ -388,13 +388,6 @@ export default {
     },
   },
 
-  ticketOptions: [
-    {
-      displayName: 'Ei lippuvyöhykerajoitusta',
-      value: '0',
-    },
-  ],
-
   accessibilityOptions: [
     {
       messageId: 'accessibility-nolimit',
