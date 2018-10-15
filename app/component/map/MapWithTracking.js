@@ -10,7 +10,8 @@ import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
 import { getJson } from '../../util/xhrPromise';
 import { isBrowser } from '../../util/browser';
-import { mapLayerShape } from '../../store/MapLayerStore';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import PositionStore from '../../store/PositionStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -186,8 +187,9 @@ class MapWithTrackingStateHandler extends React.Component {
       mapLayers,
       ...rest
     } = this.props;
-    let location;
+    const { geoJson } = this.state;
 
+    let location;
     if (
       this.state.focusOnOrigin &&
       !this.state.origin.gps &&
@@ -211,16 +213,16 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
-    if (this.state.geoJson) {
-      Object.keys(this.state.geoJson).forEach(key => {
-        if (mapLayers.geoJson[key]) {
+    if (geoJson) {
+      Object.keys(geoJson)
+        .filter(key => mapLayers.geoJson[key])
+        .forEach(key => {
           leafletObjs.push(
             <LazilyLoad modules={jsonModules} key={key}>
-              {({ GeoJSON }) => <GeoJSON data={this.state.geoJson[key].data} />}
+              {({ GeoJSON }) => <GeoJSON data={geoJson[key].data} />}
             </LazilyLoad>,
           );
-        }
-      });
+        });
     }
 
     return (
@@ -268,11 +270,10 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape.isRequired,
     }),
   })(MapWithTrackingStateHandler),
-  ['PositionStore', 'MapLayerStore'],
+  [PositionStore, MapLayerStore],
   ({ getStore }) => {
-    const position = getStore('PositionStore').getLocationState();
-    const mapLayers = getStore('MapLayerStore').getMapLayers();
-
+    const position = getStore(PositionStore).getLocationState();
+    const mapLayers = getStore(MapLayerStore).getMapLayers();
     return { position, mapLayers };
   },
 );
