@@ -304,9 +304,14 @@ export default {
     'HSL:BCD',
     'HSL:ABCD',
   ],
+
   // mapping (string, lang) from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
-  fareMapping: str => str.substring(str.indexOf(':') + 1),
+  fareMapping: function mapHslFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
 
   staticMessages: [
     {

@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import TicketInformation from '../../app/component/TicketInformation';
+import hslConfig from '../../app/configurations/config.hsl';
 
 import data from './test-data/dt2639';
 
@@ -141,7 +142,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          fareMapping: str => str.substring(str.indexOf(':') + 1),
+          fareMapping: hslConfig.fareMapping,
         },
       },
     });

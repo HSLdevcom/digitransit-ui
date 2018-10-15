@@ -22,7 +22,6 @@ class FareZoneSelector extends React.Component {
     const { intl, config } = this.context;
     const constructedOptions = options.map(o => ({
       displayName: config.fareMapping(o, intl.locale),
-      displayNameObject: config.fareMapping(o, intl.locale),
       value: o,
     }));
     constructedOptions.push({
