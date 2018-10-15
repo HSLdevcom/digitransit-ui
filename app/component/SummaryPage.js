@@ -221,17 +221,24 @@ class SummaryPage extends React.Component {
         readyState: { done, error },
       },
     } = this.context;
+
     const hasItineraries =
       this.props.plan &&
       this.props.plan.plan &&
-      this.props.plan.plan.itineraries;
+      Array.isArray(this.props.plan.plan.itineraries);
+    let itineraries = hasItineraries ? this.props.plan.plan.itineraries : [];
+
+    // Remove old itineraries if new query cannot find a route
+    if (error && hasItineraries) {
+      itineraries = [];
+    }
 
     if (
       this.props.routes[this.props.routes.length - 1].printPage &&
       hasItineraries
     ) {
       return React.cloneElement(this.props.content, {
-        itinerary: this.props.plan.plan.itineraries[this.props.params.hash],
+        itinerary: itineraries[this.props.params.hash],
         focus: this.updateCenter,
       });
     }
@@ -240,9 +247,7 @@ class SummaryPage extends React.Component {
     const map = this.props.map
       ? this.props.map.type(
           {
-            itinerary:
-              this.props.plan.plan.itineraries &&
-              this.props.plan.plan.itineraries[this.props.params.hash],
+            itinerary: itineraries && itineraries[this.props.params.hash],
             center: this.state.center,
             ...this.props,
           },
@@ -254,12 +259,8 @@ class SummaryPage extends React.Component {
     let latestArrivalTime;
 
     if (hasItineraries) {
-      earliestStartTime = Math.min(
-        ...this.props.plan.plan.itineraries.map(i => i.startTime),
-      );
-      latestArrivalTime = Math.max(
-        ...this.props.plan.plan.itineraries.map(i => i.endTime),
-      );
+      earliestStartTime = Math.min(...itineraries.map(i => i.startTime));
+      latestArrivalTime = Math.max(...itineraries.map(i => i.endTime));
     }
 
     const serviceTimeRange = validateServiceTimeRange(
@@ -272,7 +273,7 @@ class SummaryPage extends React.Component {
           <SummaryPlanContainer
             plan={this.props.plan.plan}
             serviceTimeRange={serviceTimeRange}
-            itineraries={this.props.plan.plan.itineraries}
+            itineraries={itineraries}
             params={this.props.params}
             error={error}
             setLoading={this.setLoading}
@@ -281,8 +282,7 @@ class SummaryPage extends React.Component {
             {this.props.content &&
               React.cloneElement(this.props.content, {
                 itinerary:
-                  hasItineraries &&
-                  this.props.plan.plan.itineraries[this.props.params.hash],
+                  hasItineraries && itineraries[this.props.params.hash],
                 focus: this.updateCenter,
               })}
           </SummaryPlanContainer>
@@ -312,7 +312,6 @@ class SummaryPage extends React.Component {
               endTime={latestArrivalTime}
             />
           }
-          // TODO: Chceck preferences
           content={content}
           map={map}
           scrollable
@@ -331,7 +330,7 @@ class SummaryPage extends React.Component {
     } else if (this.props.params.hash) {
       content = (
         <MobileItineraryWrapper
-          itineraries={this.props.plan.plan.itineraries}
+          itineraries={itineraries}
           params={this.props.params}
           fullscreenMap={some(
             this.props.routes.map(route => route.fullscreenMap),
@@ -339,7 +338,7 @@ class SummaryPage extends React.Component {
           focus={this.updateCenter}
         >
           {this.props.content &&
-            this.props.plan.plan.itineraries.map((itinerary, i) =>
+            itineraries.map((itinerary, i) =>
               React.cloneElement(this.props.content, { key: i, itinerary }),
             )}
         </MobileItineraryWrapper>
@@ -349,7 +348,7 @@ class SummaryPage extends React.Component {
         <SummaryPlanContainer
           plan={this.props.plan.plan}
           serviceTimeRange={serviceTimeRange}
-          itineraries={this.props.plan.plan.itineraries}
+          itineraries={itineraries}
           params={this.props.params}
           error={error}
           setLoading={this.setLoading}
