@@ -229,6 +229,16 @@ const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     showCityBikes: PropTypes.bool,
   }),
+  geoJson: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      name: PropTypes.shape({
+        en: PropTypes.string,
+        fi: PropTypes.string.isRequired,
+        sv: PropTypes.string,
+      }),
+    }),
+  ),
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),
