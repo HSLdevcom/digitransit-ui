@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
 import TicketInformation from '../../app/component/TicketInformation';
+import hslConfig from '../../app/configurations/config.hsl';
 
 import data from './test-data/dt2639';
 
@@ -12,10 +13,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...data} />, {
       context: {
         config: {
-          fareMapping: {
-            'HSL:esp': 'HSL:esp',
-            'HSL:seu': 'HSL:seu',
-          },
+          fareMapping: val => val,
         },
       },
     });
@@ -46,10 +44,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          fareMapping: {
-            'HSL:esp': 'HSL:esp',
-            'HSL:seu': 'HSL:seu',
-          },
+          fareMapping: val => val,
         },
       },
     });
@@ -75,9 +70,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          fareMapping: {
-            'HSL:seu': 'HSL:seu',
-          },
+          fareMapping: val => val,
         },
       },
     });
@@ -129,5 +122,33 @@ describe('<TicketInformation />', () => {
     });
 
     expect(wrapper.find('.ticket-type-fare').text()).to.equal('5.50 €');
+  });
+
+  it('should apply fare mapping defined in configuration', () => {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          currency: 'EUR',
+          cents: 320,
+          components: [
+            {
+              fareId: 'HSL:esp',
+            },
+          ],
+        },
+      ],
+    };
+    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
+      context: {
+        config: {
+          fareMapping: hslConfig.fareMapping,
+        },
+      },
+    });
+
+    const zone = wrapper.find('.ticket-type-zone');
+    expect(zone.text()).to.have.string('esp');
+    expect(zone.text()).not.to.have.string('HSL:');
   });
 });
