@@ -73,7 +73,7 @@ export default {
     peliasMapping: {},
     peliasLayer: null,
     peliasLocalization: null,
-    minimalRegexp: new RegExp('.{3,}'),
+    minimalRegexp: new RegExp('.{2,}'),
   },
 
   nearbyRoutes: {
@@ -356,7 +356,7 @@ export default {
       availableForSelection: true,
       defaultValue: true,
       exclusive: false,
-      icon: 'public_transport',
+      icon: 'bus-withoutBox',
     },
 
     walk: {

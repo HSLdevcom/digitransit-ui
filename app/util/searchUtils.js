@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import merge from 'lodash/merge';
-import unorm from 'unorm';
+import uniqWith from 'lodash/uniqWith';
 
 import { getJson } from './xhrPromise';
 import routeCompare from './route-compare';
@@ -21,7 +21,10 @@ import { PREFIX_ROUTES } from '../util/path';
  */
 const LayerType = {
   Address: 'address',
+  CurrentPosition: 'currentPosition',
   FavouriteStop: 'favouriteStop',
+  FavouriteStation: 'favouriteStation',
+  FavouritePlace: 'favouritePlace',
   Station: 'station',
   Stop: 'stop',
   Street: 'street',
@@ -35,15 +38,6 @@ const SearchType = {
   All: 'all',
   Endpoint: 'endpoint',
   Search: 'search',
-};
-
-/**
- * SourceType depicts the source of the point-of-interest's information.
- */
-const SourceType = {
-  GtfsHsl: 'gtfshsl',
-  OpenAddresses: 'openaddresses',
-  OpenStreetMap: 'openstreetmap',
 };
 
 function getRelayQuery(query) {
@@ -78,30 +72,81 @@ const mapRoute = item => {
   };
 };
 
+function truEq(val1, val2) {
+  // accept equality of non nullish values
+  return val1 && val2 && val1 === val2;
+}
+
+export function isDuplicate(item1, item2) {
+  const props1 = item1.properties;
+  const props2 = item2.properties;
+
+  if (truEq(props1.gtfsId, props2.gtfsId)) {
+    return true;
+  }
+  if (props1.gtfsId && props2.gid && props2.gid.includes(props1.gtfsId)) {
+    return true;
+  }
+  if (props2.gtfsId && props1.gid && props1.gid.includes(props2.gtfsId)) {
+    return true;
+  }
+
+  const p1 = item1.geometry.coordinates;
+  const p2 = item2.geometry.coordinates;
+
+  if (p1 && p2) {
+    // both have geometry
+    if (Math.abs(p1[0] - p2[0]) < 1e-6 && Math.abs(p1[1] - p2[1]) < 1e-6) {
+      // location match is not enough. Require a common property
+      if (
+        truEq(props1.name, props2.name) ||
+        truEq(props1.label, props2.label) ||
+        truEq(props1.address, props2.address) ||
+        truEq(props1.address, props2.label) ||
+        truEq(props1.label, props2.address)
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 function filterMatchingToInput(list, Input, fields) {
   if (typeof Input === 'string' && Input.length > 0) {
     const input = Input.toLowerCase().trim();
+    const multiWord = input.includes(' ') || input.includes(',');
 
     return list.filter(item => {
       let parts = [];
       fields.forEach(pName => {
         let value = get(item, pName);
 
-        if ((pName === 'properties.label' || pName === 'address') && value) {
-          // special case: drop last part i.e. city, because it is too coarse match target
+        if (
+          !multiWord &&
+          (pName === 'properties.label' || pName === 'address') &&
+          value
+        ) {
+          // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
-          if (value.length > 1) {
+          if (value.length > 2) {
+            value.splice(value.length - 2, 2);
+          } else if (value.length > 1) {
             value.splice(value.length - 1, 1);
           }
-          value = value.join();
+          value = value.join(',');
         }
         if (value) {
-          parts = parts.concat(
-            value
-              .toLowerCase()
-              .replace(/,/g, ' ')
-              .split(' '),
-          );
+          if (multiWord) {
+            parts = parts.concat(value.toLowerCase());
+          } else {
+            parts = parts.concat(
+              value
+                .toLowerCase()
+                .replace(/,/g, ' ')
+                .split(' '),
+            );
+          }
         }
       });
       for (let i = 0; i < parts.length; i++) {
@@ -132,6 +177,10 @@ function getCurrentPositionIfEmpty(input, position) {
           lat: position.lat,
           lon: position.lon,
         },
+        geometry: {
+          type: 'Point',
+          coordinates: [position.lon, position.lat],
+        },
       },
     ]);
   }
@@ -143,9 +192,9 @@ function getOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
     'properties.label',
+    'properties.address',
     'properties.shortName',
     'properties.longName',
-    'properties.desc',
   ]);
 
   if (dropLayers) {
@@ -156,11 +205,15 @@ function getOldSearches(oldSearches, input, dropLayers) {
   }
 
   return Promise.resolve(
-    take(matchingOldSearches, 10).map(item => ({
-      ...item,
-      type: 'OldSearch',
-      timetableClicked: false, // reset latest selection action
-    })),
+    take(matchingOldSearches, 10).map(item => {
+      const newItem = {
+        ...item,
+        type: 'OldSearch',
+        timetableClicked: false, // reset latest selection action
+      };
+      delete newItem.properties.confidence;
+      return newItem;
+    }),
   );
 }
 
@@ -206,11 +259,9 @@ export function getGeocodingResult(
     opts = { ...opts, sources };
   }
 
-  return getJson(config.URL.PELIAS, opts)
-    .then(res =>
-      orderBy(res.features, feature => feature.properties.confidence, 'desc'),
-    )
-    .then(features => mapPeliasModality(features, config));
+  return getJson(config.URL.PELIAS, opts).then(response =>
+    mapPeliasModality(response.features, config),
+  );
 }
 
 function getFavouriteRoutes(favourites, input) {
@@ -259,9 +310,20 @@ function getFavouriteStops(favourites, input, origin) {
         lat
         lon
         name
-        desc
         code
-        routes { mode }
+      }
+    }`,
+    { ids: favourites.map(item => item.gtfsId) },
+  );
+
+  const stationQuery = Relay.createQuery(
+    Relay.QL`
+    query favouriteStations($ids: [String!]!) {
+      stations(ids: $ids ) {
+        gtfsId
+        lat
+        lon
+        name
       }
     }`,
     { ids: favourites.map(item => item.gtfsId) },
@@ -273,22 +335,25 @@ function getFavouriteStops(favourites, input, origin) {
 
   return getRelayQuery(stopQuery)
     .then(stops =>
-      merge(stops, favourites).map(stop => ({
-        type: 'FavouriteStop',
-        properties: {
-          ...stop,
-          layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
-        },
-        geometry: {
-          coordinates: [stop.lon, stop.lat],
-        },
-      })),
+      getRelayQuery(stationQuery).then(stations =>
+        merge(stops, stations, favourites).map(stop => ({
+          type: 'FavouriteStop',
+          properties: {
+            ...stop,
+            label: stop.locationName,
+            layer: isStop(stop) ? 'favouriteStop' : 'favouriteStation',
+          },
+          geometry: {
+            coordinates: [stop.lon, stop.lat],
+          },
+        })),
+      ),
     )
     .then(stops =>
       filterMatchingToInput(stops, input, [
         'properties.locationName',
         'properties.name',
-        'properties.desc',
+        'properties.address',
       ]),
     )
     .then(
@@ -355,84 +420,150 @@ export const getAllEndpointLayers = () => [
   'Stops',
 ];
 
+const normalize = str => {
+  if (!isString(str)) {
+    return '';
+  }
+  return str.toLowerCase();
+};
+
 /**
- * Helper function to sort the results with. Order:
- *  - routes and lines (if search done with numbers only)
- *  - stations
- *  - OSM points of interest
- *  - stops
+ * Tries to match the given search term agains the collection of properties
+ * for a geocoding result. The best match will be returned (min: 0, max: 1.5).
  *
+ * @param {string} normalizedTerm the normalized search term.
+ * @param {*} resultProperties the geocoding result's property collection.
+ */
+export const match = (normalizedTerm, resultProperties) => {
+  if (!isString(normalizedTerm) || normalizedTerm.length === 0) {
+    return 0;
+  }
+
+  const matchProps = ['name', 'label', 'address', 'shortName'];
+  return matchProps
+    .map(name => resultProperties[name])
+    .filter(value => isString(value) && value.length > 0)
+    .map(value => {
+      const normalizedValue = normalize(value);
+      if (normalizedValue.indexOf(normalizedTerm) === 0) {
+        // full match at start. Return max result when match is full, not only partial
+        return 0.5 + normalizedTerm.length / normalizedValue.length;
+      }
+      // because of filtermatchingtoinput, we know that match occurred somewhere
+      // don't run filtermatching again but estimate roughly:
+      // the longer the matching string, the better confidence, max being 0.5
+      return 0.5 * normalizedTerm.length / (normalizedTerm.length + 1);
+    })
+    .reduce(
+      (previous, current) => (current > previous ? current : previous),
+      0,
+    );
+};
+
+/**
+ * Ranks the result based on its layer property.
+ *
+ * @param {string} layer the layer property.
+ * @param {string} source the source property.
+ */
+export const getLayerRank = (layer, source) => {
+  switch (layer) {
+    case LayerType.CurrentPosition:
+      return 1;
+    case LayerType.FavouriteStation:
+      return 0.45;
+    case LayerType.Station: {
+      if (isString(source) && source.indexOf('gtfs') === 0) {
+        return 0.44;
+      }
+      return 0.43;
+    }
+    case LayerType.FavouritePlace:
+      return 0.42;
+    case LayerType.FavouriteStop:
+      return 0.41;
+    default:
+      // venue, address, street, route-xxx
+      return 0.4;
+    case LayerType.Stop:
+      return 0.35;
+  }
+};
+
+/**
+ * Helper function to sort the results. Orders as follows:
+ *  - current position first for an empty search
+ *  - matching routes first
+ *  - otherwise by confidence, except that:
+ *    - boost well matching stations (especially from GTFS)
+ *    - rank stops lower as they tend to occupy most of the search results
+ *  - items with no confidence (old searches and favorites):
+ *    - rank favourites better than ordinary old searches
+ *    - rank full match better than partial match
+ *    - rank match at middle word lower than match at the beginning
  * @param {*[]} results The search results that were received
  * @param {String} term The search term that was used
  */
-export const sortSearchResults = (results, term = '') => {
+export const sortSearchResults = (config, results, term = '') => {
   if (!Array.isArray(results)) {
     return results;
   }
 
   const isLineIdentifier = value =>
-    !!(isString(value) && value.match(/^[0-9]+/));
+    isString(value) &&
+    config.search &&
+    config.search.lineRegexp &&
+    config.search.lineRegexp.test(value);
 
-  const getLayerSortOrder = layer => {
-    switch (layer) {
-      case LayerType.Station:
-        return 2;
-      case LayerType.Address:
-      case LayerType.Street:
-      case LayerType.Venue:
-      default:
-        return 1;
-      case LayerType.Stop:
-        return 0;
-    }
-  };
+  const normalizedTerm = normalize(term);
+  const isLineSearch = isLineIdentifier(normalizedTerm);
 
-  const getSourceSortOrder = source => {
-    switch (source) {
-      case SourceType.GtfsHsl:
-        return 1;
-      case SourceType.OpenAddresses:
-      case SourceType.OpenStreetMap:
-      default:
-        return 0;
-    }
-  };
-
-  const normalize = str => {
-    if (!isString(str)) {
-      return '';
-    }
-    const lowerCaseStr = str.toLowerCase();
-    return `${(lowerCaseStr.normalize
-      ? lowerCaseStr.normalize('NFD')
-      : unorm.nfd(lowerCaseStr)
-    ).replace(/[\u0300-\u036f]/g, '')}`;
-  };
-
-  const isMatch = (value, comparison) =>
-    value.length > 0 && comparison.length > 0 && value === comparison;
-
-  const normalizedSearchTerm = normalize(term);
   const orderedResults = orderBy(
     results,
     [
+      // rank matching routes best
       result =>
-        isLineIdentifier(term) && isLineIdentifier(result.properties.shortName)
+        isLineSearch &&
+        isLineIdentifier(normalize(result.properties.shortName)) &&
+        normalize(result.properties.shortName).indexOf(normalizedTerm) === 0
           ? 1
           : 0,
-      result =>
-        result.properties.layer === LayerType.Address &&
-        (isMatch(normalizedSearchTerm, normalize(result.properties.label)) ||
-          isMatch(normalizedSearchTerm, normalize(result.properties.name)))
-          ? 1
-          : 0,
-      result => getLayerSortOrder(result.properties.layer),
-      result => getSourceSortOrder(result.properties.source),
-      result => result.properties.confidence,
+
+      result => {
+        const { confidence, layer, source } = result.properties;
+        if (normalizedTerm.length === 0) {
+          // Doing search with empty string.
+          // No confidence to match, so use ranked old searches and favourites
+          return getLayerRank(layer, source);
+        }
+
+        // must handle a mixup of geocoder searches and items above
+        // Normal confidence range from geocoder is about 0.3 .. 1
+        if (!confidence) {
+          // not from geocoder, estimate confidence ourselves
+          return (
+            getLayerRank(layer, source) +
+            match(normalizedTerm, result.properties)
+          );
+        }
+
+        // geocoded items with confidence, just adjust a little
+        switch (layer) {
+          case LayerType.Station: {
+            const boost = source.indexOf('gtfs') === 0 ? 0.05 : 0.01;
+            return Math.min(confidence + boost, 1);
+          }
+          default:
+            return confidence;
+          case LayerType.Stop:
+            return confidence - 0.1;
+        }
+      },
     ],
-    ['desc', 'desc', 'desc', 'desc', 'desc'],
+    ['desc', 'desc'],
   );
-  return orderedResults;
+
+  return uniqWith(orderedResults, isDuplicate);
 };
 
 export function executeSearchImmediate(
@@ -566,7 +697,7 @@ export function executeSearchImmediate(
       endpointSearchesPromise.then(() =>
         callback({
           ...endpointSearches,
-          results: sortSearchResults(endpointSearches.results, input),
+          results: sortSearchResults(config, endpointSearches.results, input),
         }),
       );
       return;
@@ -595,7 +726,7 @@ export function executeSearchImmediate(
       searchSearchesPromise.then(() => {
         callback({
           ...searchSearches,
-          results: sortSearchResults(searchSearches.results, input),
+          results: sortSearchResults(config, searchSearches.results, input),
         });
       });
       return;
@@ -611,7 +742,7 @@ export function executeSearchImmediate(
       results.push(...searchSearches.results);
     }
     callback({
-      results: sortSearchResults(results, input),
+      results: sortSearchResults(config, results, input),
     });
   });
 }

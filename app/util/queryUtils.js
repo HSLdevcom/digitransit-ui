@@ -6,6 +6,30 @@ import trim from 'lodash/trim';
 import { otpToLocation } from './otpStrings';
 
 /**
+ * Removes selected itinerary index from url (pathname) and
+ * state and then returns cleaned object.
+ *
+ * @param {*} location from the router
+ * @returns cleaned location object
+ */
+export const resetSelectedItineraryIndex = loc => {
+  const location = loc;
+  if (location.state && location.state.summaryPageSelected) {
+    location.state.summaryPageSelected = 0;
+  }
+
+  if (location.pathname) {
+    const pathArray = location.pathname.split('/');
+    if (pathArray.length === 5) {
+      pathArray.pop();
+      location.pathname = pathArray.join('/');
+    }
+  }
+
+  return location;
+};
+
+/**
  * Clears the given parameters from the browser's url.
  *
  * @param {*} router The router
@@ -15,7 +39,10 @@ export const clearQueryParams = (router, paramsToClear = []) => {
   if (paramsToClear.length === 0) {
     return;
   }
-  const location = router.getCurrentLocation();
+  let location = router.getCurrentLocation();
+
+  location = resetSelectedItineraryIndex(location);
+
   const query = omit(location.query, paramsToClear);
   router.replace({
     ...location,
@@ -30,7 +57,10 @@ export const clearQueryParams = (router, paramsToClear = []) => {
  * @param {*} newParams The location query params to apply
  */
 export const replaceQueryParams = (router, newParams) => {
-  const location = router.getCurrentLocation();
+  let location = router.getCurrentLocation();
+
+  location = resetSelectedItineraryIndex(location);
+
   router.replace({
     ...location,
     query: {

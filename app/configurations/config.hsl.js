@@ -128,6 +128,14 @@ export default {
     },
   },
 
+  search: {
+    /* identify searches for route numbers/labels: bus | train | metro */
+    lineRegexp: new RegExp(
+      '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
+      'i',
+    ),
+  },
+
   modesWithNoBike: ['BUS', 'TRAM'],
 
   useSearchPolygon: true,

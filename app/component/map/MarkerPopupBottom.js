@@ -24,7 +24,7 @@ class MarkerPopupBottom extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
-    map: PropTypes.object.isRequired,
+    map: PropTypes.shape({ closePopup: PropTypes.func.isRequired }).isRequired,
   };
 
   routeFrom = () => {
@@ -32,6 +32,11 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
+
+    // Reset selected itinerary index
+    if (locationWithTime.state && locationWithTime.state.summaryPageSelected) {
+      locationWithTime.state.summaryPageSelected = 0;
+    }
 
     let destination;
 
@@ -64,6 +69,11 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
+
+    // Reset selected itinerary index
+    if (locationWithTime.state && locationWithTime.state.summaryPageSelected) {
+      locationWithTime.state.summaryPageSelected = 0;
+    }
 
     let origin;
 

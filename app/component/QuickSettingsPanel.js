@@ -219,13 +219,7 @@ class QuickSettingsPanel extends React.Component {
       );
     }
 
-    this.context.router.replace({
-      ...this.context.location,
-      query: {
-        ...this.context.location.query,
-        modes,
-      },
-    });
+    replaceQueryParams(this.context.router, { modes });
   }
 
   render() {

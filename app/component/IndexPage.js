@@ -208,6 +208,7 @@ class IndexPage extends React.Component {
             tab={tab}
             searchType="all"
             originPlaceHolder="search-origin"
+            destinationPlaceHolder="search-destination"
           />
         </div>
         <div key="foo" className="fpccontainer">
