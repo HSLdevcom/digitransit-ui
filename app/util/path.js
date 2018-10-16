@@ -127,6 +127,8 @@ export const getHomeUrl = origin => {
   - if on front page and 1st endpoint -> replace
   - if on itinerary summary page -> replace
   - on map/route page -> push
+
+  Resets summaryPageSelected index when required
   */
 export const navigateTo = ({
   origin,
@@ -135,6 +137,7 @@ export const navigateTo = ({
   router,
   base,
   tab = TAB_NEARBY,
+  resetIndex = false,
 }) => {
   let push;
   switch (context) {
@@ -154,8 +157,14 @@ export const navigateTo = ({
       break;
   }
 
+  const location = base;
+  // Reset selected itinerary index if required
+  if (resetIndex && location.state && location.state.summaryPageSelected) {
+    location.state.summaryPageSelected = 0;
+  }
+
   const url = {
-    ...base,
+    ...location,
     pathname: getPathWithEndpointObjects(origin, destination, tab),
   };
 
