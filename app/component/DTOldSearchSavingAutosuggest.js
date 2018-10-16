@@ -16,7 +16,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
     layers: PropTypes.array.isRequired,
@@ -29,6 +29,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
 
   static defaultProps = {
     autoFocus: false,
+    icon: undefined,
     className: '',
     placeholder: '',
   };

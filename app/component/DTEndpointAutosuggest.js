@@ -45,17 +45,13 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     autoFocus: false,
     className: '',
     layers: getAllEndpointLayers(),
-    icon: 'mapMarker-point',
+    icon: undefined,
     isPreferredRouteSearch: false,
     onRouteSelected: undefined,
     showSpinner: false,
   };
 
-  constructor() {
-    super();
-
-    this.state = {};
-  }
+  state = {};
 
   componentWillReceiveProps = nextProps => {
     const locState = nextProps.locationState;
@@ -169,8 +165,8 @@ export class DTEndpointAutosuggestComponent extends React.Component {
 
 export default connectToStores(
   DTEndpointAutosuggestComponent,
-  ['PositionStore'],
+  [PositionStore],
   context => ({
-    locationState: context.getStore('PositionStore').getLocationState(),
+    locationState: context.getStore(PositionStore).getLocationState(),
   }),
 );
