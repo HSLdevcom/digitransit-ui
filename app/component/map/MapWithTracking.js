@@ -8,6 +8,10 @@ import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
+import { getJson } from '../../util/xhrPromise';
+import { isBrowser } from '../../util/browser';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import PositionStore from '../../store/PositionStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -28,7 +32,28 @@ const placeMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
 };
 
+const jsonModules = {
+  GeoJSON: () => importLazy(import(/* webpackChunkName: "map" */ './GeoJSON')),
+};
+
 const Component = onlyUpdateCoordChanges(MapContainer);
+
+// these are metadata mappable properties
+const metaTags = ['textOnly', 'name', 'popupContent'];
+const MapJSON = (data, meta) => {
+  const tagMap = metaTags.filter(t => !!meta[t]);
+
+  data.features.forEach(feature => {
+    const { properties } = feature;
+    if (properties) {
+      tagMap.forEach(t => {
+        if (properties[meta[t]]) {
+          properties[t] = properties[meta[t]];
+        }
+      });
+    }
+  });
+};
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
@@ -45,6 +70,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }).isRequired,
     children: PropTypes.array,
     renderCustomButtons: PropTypes.func,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static defaultProps = {
@@ -62,6 +88,31 @@ class MapWithTrackingStateHandler extends React.Component {
       origin: props.origin,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
+  }
+
+  componentDidMount() {
+    const { config } = this.props;
+    if (isBrowser && config.geoJson) {
+      config.geoJson.forEach(val => {
+        const { name, url, metadata } = val;
+        getJson(url).then(res => {
+          if (metadata) {
+            MapJSON(res, metadata);
+          }
+          let newData = {};
+          if (this.state.geoJson) {
+            newData = { ...this.state.geoJson };
+          }
+          newData[url] = {
+            name,
+            data: res,
+          };
+          if (!this.isCancelled) {
+            this.setState({ geoJson: newData });
+          }
+        });
+      });
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -84,6 +135,10 @@ class MapWithTrackingStateHandler extends React.Component {
     ) {
       this.useOrigin(newProps.origin);
     }
+  }
+
+  componentWillUnmount() {
+    this.isCancelled = true;
   }
 
   usePosition(origin) {
@@ -129,10 +184,12 @@ class MapWithTrackingStateHandler extends React.Component {
       config,
       children,
       renderCustomButtons,
+      mapLayers,
       ...rest
     } = this.props;
-    let location;
+    const { geoJson } = this.state;
 
+    let location;
     if (
       this.state.focusOnOrigin &&
       !this.state.origin.gps &&
@@ -154,6 +211,18 @@ class MapWithTrackingStateHandler extends React.Component {
           {({ PlaceMarker }) => <PlaceMarker position={this.props.origin} />}
         </LazilyLoad>,
       );
+    }
+
+    if (geoJson) {
+      Object.keys(geoJson)
+        .filter(key => mapLayers.geoJson[key])
+        .forEach(key => {
+          leafletObjs.push(
+            <LazilyLoad modules={jsonModules} key={key}>
+              {({ GeoJSON }) => <GeoJSON data={geoJson[key].data} />}
+            </LazilyLoad>,
+          );
+        });
     }
 
     return (
@@ -201,11 +270,11 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape.isRequired,
     }),
   })(MapWithTrackingStateHandler),
-  ['PositionStore'],
+  [PositionStore, MapLayerStore],
   ({ getStore }) => {
-    const position = getStore('PositionStore').getLocationState();
-
-    return { position };
+    const position = getStore(PositionStore).getLocationState();
+    const mapLayers = getStore(MapLayerStore).getMapLayers();
+    return { position, mapLayers };
   },
 );
 
@@ -218,4 +287,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export default MapWithTracking;
+export { MapWithTracking as default, MapJSON };

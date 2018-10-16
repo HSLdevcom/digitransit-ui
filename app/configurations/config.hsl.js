@@ -372,7 +372,16 @@ export default {
     },
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
-
+  geoJson: [
+    {
+      name: {
+        fi: 'Maksuvyöhykkeet',
+        sv: 'Resezoner',
+        en: 'Ticket zones',
+      },
+      url: '/hsl_zones.json',
+    },
+  ],
   mapLayers: {
     featureMapping: {
       ticketSales: {
