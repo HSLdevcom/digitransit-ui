@@ -1,3 +1,7 @@
+@function drop_off_svg($color, $alpha:0.9999999) {
+  @return "data:image/svg+xml;/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='13' height='12'><g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'><path fill='#{rgba($color, $alpha)}' d='M6.06,0 C9.38,0 12.08,2.68 12.08,6.02 C12.08,9.34 9.38,12.02 6.06,12.02 C2.74,12.02 0.04,9.34 0.04,6.02 C0.04,2.68 2.74,0 6.06,0 Z M7.2,9.2 L7.2,5.94 C7.2,5.3 6.78,4.8 6.14,4.8 L5.04,4.8 C4.5,4.8 4.18,5.16 4.18,5.62 C4.18,6.02 4.44,6.44 5.28,6.44 L5.28,9.2 C5.28,9.84 5.62,10.34 6.24,10.34 C6.88,10.34 7.2,9.84 7.2,9.2 Z M7.36,2.78 L7.36,2.68 C7.36,2 6.8,1.56 6.06,1.56 C5.32,1.56 4.76,2 4.76,2.68 L4.76,2.78 C4.76,3.46 5.32,3.92 6.06,3.92 C6.8,3.92 7.36,3.46 7.36,2.78 Z'></path></g></svg>"
+}
+
 $route-header-height: 65px;
 $route-schedule-date-height: 36px;
 
@@ -248,6 +252,24 @@ $route-schedule-date-height: 36px;
             height: 1.25rem;
             overflow: hidden;
             width: 100%;
+          }
+          .drop-off-container {
+            color: $gray;
+            font-size: $font-size-xsmall;
+            font-family: $font-family-narrow;
+            font-weight: 400;
+
+            span {
+              vertical-align: middle;
+            }
+          }
+          .drop-off-stop-icon {
+            margin-left: 0.5em;
+            margin-right: 0.3em;
+
+            &::after {
+              content: url(drop_off_svg($gray));
+            }
           }
         }
       }

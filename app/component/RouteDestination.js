@@ -8,13 +8,24 @@ import { realtimeDeparture as ExampleData } from './ExampleData';
 function RouteDestination(props, context) {
   let destination;
   if (props.isArrival) {
-    const message = context.intl.formatMessage({
-      id: 'route-destination-arrives',
-      defaultMessage: 'Arrives / Terminus',
-    });
+    let message;
+    let icon;
+    if (props.isLastStop) {
+      icon = 'last-stop-icon';
+      message = context.intl.formatMessage({
+        id: 'route-destination-endpoint',
+        defaultMessage: 'Arrives / Terminus',
+      });
+    } else {
+      icon = 'drop-off-stop-icon';
+      message = context.intl.formatMessage({
+        id: 'route-destination-arrives',
+        defaultMessage: 'Drop-off only',
+      });
+    }
     destination = (
       <span className="destination arrival">
-        <span className={cx('last-stop-icon', props.mode.toLowerCase())} />
+        <span className={cx(icon, props.mode.toLowerCase())} />
         <span title={message}>{message}</span>
       </span>
     );
@@ -61,6 +72,7 @@ RouteDestination.propTypes = {
   destination: PropTypes.string,
   className: PropTypes.string,
   isArrival: PropTypes.bool,
+  isLastStop: PropTypes.bool,
 };
 
 RouteDestination.contextTypes = {
