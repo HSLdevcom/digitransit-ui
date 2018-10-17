@@ -43,9 +43,7 @@ const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
 export default class FavouriteLocationsContainer extends React.Component {
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    origin: locationShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -60,7 +58,7 @@ export default class FavouriteLocationsContainer extends React.Component {
 
   static propTypes = {
     favourites: PropTypes.array.isRequired,
-    currentTime: PropTypes.object.isRequired,
+    currentTime: PropTypes.number.isRequired,
     origin: dtLocationShape.isRequired,
   };
 
@@ -137,6 +135,7 @@ export default class FavouriteLocationsContainer extends React.Component {
         <Relay.RootContainer
           Component={FavouriteLocationContainer}
           forceFetch
+          key={`relay_${key}`}
           route={
             new FavouriteLocationContainerRoute({
               from: {
