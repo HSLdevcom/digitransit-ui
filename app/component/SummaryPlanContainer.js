@@ -1,46 +1,60 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
-import moment from 'moment';
 import getContext from 'recompose/getContext';
+
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
-import { getRoutePath } from '../util/path';
-import Loading from './Loading';
+import TimeStore from '../store/TimeStore';
 import { getDefaultOTPModes } from '../util/modeUtils';
+import { otpToLocation } from '../util/otpStrings';
+import { getRoutePath } from '../util/path';
 import {
   preparePlanParams,
   defaultRoutingSettings,
 } from '../util/planParamUtil';
-import withBreakpoint from '../util/withBreakpoint';
-import { otpToLocation } from '../util/otpStrings';
 import { getIntermediatePlaces, replaceQueryParams } from '../util/queryUtils';
+import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
-    plan: PropTypes.object.isRequired,
-    itineraries: PropTypes.array.isRequired,
+    breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
-    error: PropTypes.string,
-    setLoading: PropTypes.func.isRequired,
-    setError: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+    currentTime: PropTypes.number.isRequired,
+    error: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({ message: PropTypes.string }),
+    ]),
+    itineraries: PropTypes.arrayOf(
+      PropTypes.shape({
+        endTime: PropTypes.number,
+        startTime: PropTypes.number,
+      }),
+    ),
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
     }).isRequired,
-    config: PropTypes.object.isRequired,
+    plan: PropTypes.shape({ date: PropTypes.number }), // eslint-disable-line
     serviceTimeRange: PropTypes.shape({
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    breakpoint: PropTypes.string.isRequired,
+    setError: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    error: undefined,
+    itineraries: [],
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
     piwik: PropTypes.object,
@@ -397,16 +411,17 @@ class SummaryPlanContainer extends React.Component {
   }
 
   render() {
-    const currentTime = this.context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .valueOf();
     const activeIndex = this.getActiveIndex();
-    if (!this.props.itineraries && this.props.error === null) {
-      return <Loading />;
-    }
-
+    const { location } = this.context;
     const { from, to } = this.props.params;
+    const { currentTime, itineraries } = this.props;
+    const searchTime =
+      this.props.plan.date ||
+      (location.query &&
+        location.query.time &&
+        moment(location.query.time).unix()) ||
+      currentTime;
+    const disableButtons = !itineraries || itineraries.length === 0;
 
     return (
       <div className="summary">
@@ -418,18 +433,18 @@ class SummaryPlanContainer extends React.Component {
           intermediatePlaces={getIntermediatePlaces(
             this.context.location.query,
           )}
-          itineraries={this.props.itineraries}
+          itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           open={Number(this.props.params.hash)}
-          searchTime={this.props.plan.date}
+          searchTime={searchTime}
           to={otpToLocation(to)}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
         <TimeNavigationButtons
-          isEarlierDisabled={this.props.itineraries.length === 0}
-          isLaterDisabled={this.props.itineraries.length === 0}
+          isEarlierDisabled={disableButtons}
+          isLaterDisabled={disableButtons}
           onEarlier={this.onEarlier}
           onLater={this.onLater}
           onNow={this.onNow}
@@ -460,4 +475,15 @@ const withRelayContainer = Relay.createContainer(withConfig, {
   },
 });
 
-export { withRelayContainer as default, SummaryPlanContainer as Component };
+const connectedContainer = connectToStores(
+  withRelayContainer,
+  [TimeStore],
+  context => ({
+    currentTime: context
+      .getStore(TimeStore)
+      .getCurrentTime()
+      .valueOf(),
+  }),
+);
+
+export { connectedContainer as default, SummaryPlanContainer as Component };

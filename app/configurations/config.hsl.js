@@ -295,43 +295,22 @@ export default {
     ],
   },
 
-  fareMapping: {
-    'HSL:hki': 'HSL:hki',
-    'HSL:hki2': 'HSL:hki',
-    'HSL:esp': 'HSL:esp',
-    'HSL:esp2': 'HSL:esp',
-    'HSL:van': 'HSL:van',
-    'HSL:van2': 'HSL:van',
-    'HSL:ker': 'HSL:ker',
-    'HSL:kir': 'HSL:kir',
-    'HSL:seu': 'HSL:seu',
-    'HSL:seu2': 'HSL:seu',
-    'HSL:seu3': 'HSL:seu',
-    'HSL:seu4': 'HSL:seu',
-    'HSL:seu5': 'HSL:seu',
-    'HSL:lse': 'HSL:lse',
-    'HSL:lse2': 'HSL:lse',
-    'HSL:lse3': 'HSL:lse',
-    'HSL:lse4': 'HSL:lse',
-    'HSL:lse5': 'HSL:lse',
-    'HSL:lse6': 'HSL:lse',
-    'HSL:kse': 'HSL:kse',
-    'HSL:kse1': 'HSL:kse',
-    'HSL:kse2': 'HSL:kse',
-    'HSL:kse3': 'HSL:kse',
-    'HSL:kse4': 'HSL:kse',
-    'HSL:kse5': 'HSL:kse',
-    'HSL:kse6': 'HSL:kse',
-    'HSL:kse7': 'HSL:kse',
-    'HSL:kse8': 'HSL:kse',
-    'HSL:kse9': 'HSL:kse',
-    'HSL:kse10': 'HSL:kse',
-    'HSL:kse11': 'HSL:kse',
-    'HSL:kse12': 'HSL:kse',
-    'HSL:kse13': 'HSL:kse',
-    'HSL:kse14': 'HSL:kse',
-    'HSL:kse15': 'HSL:kse',
-    'HSL:kse16': 'HSL:kse',
+  fares: [
+    'HSL:AB',
+    'HSL:BC',
+    'HSL:CD',
+    'HSL:D',
+    'HSL:ABC',
+    'HSL:BCD',
+    'HSL:ABCD',
+  ],
+
+  // mapping (string, lang) from OTP fare identifiers to human readable form
+  // in the new HSL zone model, just strip off the prefix 'HSL:'
+  fareMapping: function mapHslFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   staticMessages: [
@@ -393,7 +372,16 @@ export default {
     },
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
-
+  geoJson: [
+    {
+      name: {
+        fi: 'Maksuvyöhykkeet',
+        sv: 'Resezoner',
+        en: 'Ticket zones',
+      },
+      url: '/hsl_zones.json',
+    },
+  ],
   mapLayers: {
     featureMapping: {
       ticketSales: {

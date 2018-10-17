@@ -3,12 +3,6 @@
 
 Digitransit-ui is a mobile friendly User interface built to work with Digitransit platform
 
-## Demo
-
-[![Join the chat at https://gitter.im/HSLdevcom/digitransit-ui](https://badges.gitter.im/HSLdevcom/digitransit-ui.svg)](https://gitter.im/HSLdevcom/digitransit-ui?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-![Demo](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/demo.gif)
-
 ## Licensing
 The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 licenses.
 
@@ -17,16 +11,13 @@ Our main issue tracking is handled in [https://digitransit.atlassian.net](https:
 However, we also monitor this repository's issues and import them to Jira. You can create issues in GitHub.
 
 ## Demos
-* [beta.reittiopas.fi - Helsinki city area demo](https://beta.reittiopas.fi/)
-* [beta.digitransit.fi - National demo](http://beta.digitransit.fi/)
-
-## Dependencies
-See if npm dependencies are up-to-date: https://gemnasium.com/HSLdevcom/digitransit-ui
+* [https://www.reittiopas.fi - Helsinki city area demo](https://www.reittiopas.fi/)
+* [https://opas.matka.fi/ - National demo](https://opas.matka.fi/)
 
 ## Testing
 
-Digitransit-ui is tested to work on Firefox 29-, Chrome 45-, IE 9-, iOS 6- and Safari. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [BrowserStack](http://browserstack.com/).
-- Continuous Integration: [https://snap-ci.com/HSLdevcom/digitransit-ui/](https://snap-ci.com/HSLdevcom/digitransit-ui/)
+Digitransit-ui is tested to work on the latest and the second latest major versions of Firefox, Chrome, Safari and Edge. Additionally, latest version of IE and couple of latest versions Samsung Internet for Android should work almost optimally. For automated testing we use [Nightwatch](http://nightwatchjs.org/) and [BrowserStack](http://browserstack.com/).
+- Continuous Integration: [https://travis-ci.org/HSLdevcom/digitransit-ui](https://travis-ci.org/HSLdevcom/digitransit-ui)
 - BrowserStack (not public): [BrowserStack](http://www.browserstack.com/)
 
 Visual tests are run with Gemini. The images must be created using same browser on same platform to eliminate font rendering issues. We use BrowserStack for that too.
@@ -46,3 +37,4 @@ More information about [testing](docs/Tests.md).
 * [Benchmark results and UX](docs/JSBenchmark.md)
 * [Navigation](docs/Navigation.md)
 * [Themes](docs/Themes.md)
+* [GeoJSON](docs/GeoJson.md)

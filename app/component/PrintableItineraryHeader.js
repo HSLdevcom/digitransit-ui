@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import get from 'lodash/get';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalWalkingDistance } from '../util/legUtils';
 import RelativeDuration from './RelativeDuration';
@@ -12,11 +11,12 @@ import Icon from './Icon';
 export default class PrintableItineraryHeader extends React.Component {
   getFareId = () => {
     const fareId = this.props.itinerary.fares
-      ? this.props.itinerary.fares[0].components[0].fareId
+      ? this.context.config.fareMapping(
+          this.props.itinerary.fares[0].components[0].fareId,
+          this.context.intl.locale,
+        )
       : null;
-    const fareMapping = get(this.context.config, 'fareMapping', {});
-    const mappedFareId = fareId ? fareMapping[fareId] : null;
-    return mappedFareId;
+    return fareId;
   };
 
   createHeaderBlock = obj => (
@@ -115,12 +115,7 @@ export default class PrintableItineraryHeader extends React.Component {
             config.showTicketInformation &&
             this.createHeaderBlock({
               name: 'ticket',
-              contentDetails: (
-                <FormattedMessage
-                  id={`ticket-type-${fare}`}
-                  defaultMessage={fare}
-                />
-              ),
+              contentDetails: <span>{fare}</span>,
             })}
         </div>
       </div>
@@ -135,4 +130,5 @@ PrintableItineraryHeader.propTypes = {
 PrintableItineraryHeader.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };

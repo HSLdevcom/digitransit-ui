@@ -1,25 +1,14 @@
 import cx from 'classnames';
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 
-// eslint-disable-next-line react/prop-types
-const FareInformation = ({ fareId, config }) => {
-  const fareMapping = get(config, 'fareMapping', {});
-  const mappedFareId = fareId ? fareMapping[fareId] : null;
-  if (!mappedFareId) {
-    return null;
-  }
-  return <FormattedMessage id={`ticket-type-${mappedFareId}`} />;
-};
-
-export default function TicketInformation({ fares }, { config }) {
+export default function TicketInformation({ fares }, { config, intl }) {
   let currency;
   let regularFare;
   if (fares != null) {
@@ -63,7 +52,7 @@ export default function TicketInformation({ fares }, { config }) {
                 })}
                 key={i} // eslint-disable-line react/no-array-index-key
               >
-                <FareInformation fareId={component.fareId} config={config} />
+                <span>{config.fareMapping(component.fareId, intl.locale)}</span>
               </div>
             ))}
           <div>
@@ -100,6 +89,7 @@ TicketInformation.propTypes = {
 
 TicketInformation.contextTypes = {
   config: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
 TicketInformation.displayName = 'TicketInformation';
