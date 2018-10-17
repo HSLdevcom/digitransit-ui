@@ -27,7 +27,10 @@ const PopupMock = props => {
   }
 
   return (
-    <div className="leaflet-container" style={{ height: `${height}rem` }}>
+    <div
+      className="leaflet-container"
+      style={{ height: `${height}rem`, position: 'relative' }}
+    >
       <div
         className="leaflet-popup popup leaflet-zoom-animated"
         style={{ transform: `translate3d(30px, 10px, 0)` }}
