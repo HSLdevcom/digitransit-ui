@@ -8,7 +8,11 @@ import translations from '../../app/translations';
  * do not seem to have any use in any part of the code. Consider removing these
  * from the translations file altogether.
  */
-const ignoredTerms = ['destination-label-change', 'splash-welcome'];
+const ignoredTerms = [
+  'destination-label-change',
+  'origin-label-change',
+  'splash-welcome',
+];
 
 describe('translations', () => {
   it('English translations should have all the Finnish terms', () => {
