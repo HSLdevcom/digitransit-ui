@@ -188,116 +188,111 @@ class AddFavouriteContainer extends React.Component {
               className="add-favourite-close-button"
             />
           </div>
-          <row>
-            <div className="add-favourite-container__content small-12 small-centered columns">
-              <header className="add-favourite-container__header row">
-                <div className="cursor-pointer add-favourite-star small-1 columns">
-                  <Icon
-                    className={cx('add-favourite-star__icon', 'selected')}
-                    img="icon-icon_star"
-                  />
-                </div>
-                <div className="add-favourite-container__header-text small-11 columns">
-                  <h3>
-                    {(!this.isEdit() && (
-                      <FormattedMessage
-                        id="add-location-to-favourites"
-                        defaultMessage="Add an important location to your Favorites"
-                      />
-                    )) || (
-                      <FormattedMessage
-                        id="edit-favourites"
-                        defaultMessage="Edit the location in the Favorites"
-                      />
-                    )}
-                  </h3>
-                </div>
-              </header>
-              <div className="add-favourite-container__search search-form">
-                <h4>
-                  <FormattedMessage
-                    id="specify-location"
-                    defaultMessage="Specify location"
-                  />
-                </h4>
-                <DTEndpointAutosuggest
-                  id="origin"
-                  refPoint={{ lat: 0, lon: 0 }}
-                  searchType="endpoint"
-                  placeholder="address"
-                  value={favourite.address || ''}
-                  layers={favouriteLayers}
-                  onLocationSelected={this.setLocationProperties}
-                  showSpinner
+          <div className="add-favourite-container__content small-12 small-centered columns">
+            <header className="add-favourite-container__header row">
+              <div className="cursor-pointer add-favourite-star small-1 columns">
+                <Icon
+                  className={cx('add-favourite-star__icon', 'selected')}
+                  img="icon-icon_star"
                 />
               </div>
-              <div className="add-favourite-container__give-name">
-                <h4>
-                  <FormattedMessage
-                    id="give-name-to-location"
-                    defaultMessage="Give the location a descriptive name"
-                  />
-                </h4>
-                <div className="add-favourite-container__input-placeholder">
-                  <input
-                    className="add-favourite-container__input"
-                    value={favourite.locationName}
-                    placeholder={this.context.intl.formatMessage({
-                      id: 'location-examples',
-                      defaultMessage: 'e.g. Home, Work, School,...',
-                    })}
-                    onChange={this.specifyName}
-                  />
-                </div>
+              <div className="add-favourite-container__header-text small-11 columns">
+                <h3>
+                  {(!this.isEdit() && (
+                    <FormattedMessage
+                      id="add-location-to-favourites"
+                      defaultMessage="Add an important location to your Favorites"
+                    />
+                  )) || (
+                    <FormattedMessage
+                      id="edit-favourites"
+                      defaultMessage="Edit the location in the Favorites"
+                    />
+                  )}
+                </h3>
               </div>
-              <div className="add-favourite-container__pick-icon">
-                <h4>
-                  <FormattedMessage
-                    id="pick-icon"
-                    defaultMessage="Select icon"
-                  />
-                </h4>
-                <FavouriteIconTable
-                  selectedIconId={(() => {
-                    if (favourite.selectedIconId !== 'undefined' || null) {
-                      return favourite.selectedIconId;
-                    }
-                    return undefined;
-                  })()}
-                  favouriteIconIds={AddFavouriteContainer.FavouriteIconIds}
-                  handleClick={this.selectIcon}
+            </header>
+            <div className="add-favourite-container__search search-form">
+              <h4>
+                <FormattedMessage
+                  id="specify-location"
+                  defaultMessage="Specify location"
                 />
-              </div>
-              <div className="add-favourite-container__save">
-                <button
-                  className={`add-favourite-container-button ${
-                    this.canSave() ? '' : 'disabled'
-                  }`}
-                  onClick={this.save}
-                >
-                  <FormattedMessage id="save" defaultMessage="Save" />
-                </button>
-              </div>
-              {this.isEdit() && [
-                <div key="delete" className="add-favourite-container__save">
-                  <button
-                    className="add-favourite-container-button delete"
-                    onClick={this.delete}
-                  >
-                    <FormattedMessage id="delete" defaultMessage="Delete" />
-                  </button>
-                </div>,
-                <div key="cancel" className="add-favourite-container__save">
-                  <button
-                    className="add-favourite-container-button cancel"
-                    onClick={this.quit}
-                  >
-                    <FormattedMessage id="cancel" defaultMessage="Cancel" />
-                  </button>
-                </div>,
-              ]}
+              </h4>
+              <DTEndpointAutosuggest
+                id="origin"
+                refPoint={{ lat: 0, lon: 0 }}
+                searchType="endpoint"
+                placeholder="address"
+                value={favourite.address || ''}
+                layers={favouriteLayers}
+                onLocationSelected={this.setLocationProperties}
+                showSpinner
+              />
             </div>
-          </row>
+            <div className="add-favourite-container__give-name">
+              <h4>
+                <FormattedMessage
+                  id="give-name-to-location"
+                  defaultMessage="Give the location a descriptive name"
+                />
+              </h4>
+              <div className="add-favourite-container__input-placeholder">
+                <input
+                  className="add-favourite-container__input"
+                  value={favourite.locationName}
+                  placeholder={this.context.intl.formatMessage({
+                    id: 'location-examples',
+                    defaultMessage: 'e.g. Home, Work, School,...',
+                  })}
+                  onChange={this.specifyName}
+                />
+              </div>
+            </div>
+            <div className="add-favourite-container__pick-icon">
+              <h4>
+                <FormattedMessage id="pick-icon" defaultMessage="Select icon" />
+              </h4>
+              <FavouriteIconTable
+                selectedIconId={(() => {
+                  if (favourite.selectedIconId !== 'undefined' || null) {
+                    return favourite.selectedIconId;
+                  }
+                  return undefined;
+                })()}
+                favouriteIconIds={AddFavouriteContainer.FavouriteIconIds}
+                handleClick={this.selectIcon}
+              />
+            </div>
+            <div className="add-favourite-container__save">
+              <button
+                className={`add-favourite-container-button ${
+                  this.canSave() ? '' : 'disabled'
+                }`}
+                onClick={this.save}
+              >
+                <FormattedMessage id="save" defaultMessage="Save" />
+              </button>
+            </div>
+            {this.isEdit() && [
+              <div key="delete" className="add-favourite-container__save">
+                <button
+                  className="add-favourite-container-button delete"
+                  onClick={this.delete}
+                >
+                  <FormattedMessage id="delete" defaultMessage="Delete" />
+                </button>
+              </div>,
+              <div key="cancel" className="add-favourite-container__save">
+                <button
+                  className="add-favourite-container-button cancel"
+                  onClick={this.quit}
+                >
+                  <FormattedMessage id="cancel" defaultMessage="Cancel" />
+                </button>
+              </div>,
+            ]}
+          </div>
         </div>
       </div>
     );
