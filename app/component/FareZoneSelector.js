@@ -26,7 +26,7 @@ class FareZoneSelector extends React.Component {
         defaultMessage: `ticket-type-${o}`,
         id: `ticket-type-${o}`,
       }),
-      value: o.replace(':', '_'),
+      value: o,
     }));
     constructedOptions.push({
       displayName: 'none',
