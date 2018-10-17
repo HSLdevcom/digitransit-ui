@@ -45,26 +45,32 @@ class AddFavouriteContainer extends React.Component {
   };
 
   static propTypes = {
-    favourite: PropTypes.object, // if specified edit mode is activated
+    favourite: PropTypes.shape({
+      address: PropTypes.string,
+      gtfsId: PropTypes.string,
+      id: PropTypes.number,
+      lat: PropTypes.number,
+      locationName: PropTypes.string,
+      lon: PropTypes.number,
+      selectedIconId: PropTypes.string,
+      version: PropTypes.number,
+    }),
   };
 
-  constructor(props, context) {
-    super(props, context);
-    if (this.isEdit()) {
-      this.state = { favourite: this.props.favourite };
-    } else {
-      this.state = {
-        favourite: {
-          selectedIconId: undefined,
-          lat: undefined,
-          lon: undefined,
-          locationName: undefined,
-          address: undefined,
-          version: 1,
-        },
-      };
-    }
-  }
+  static defaultProps = {
+    favourite: {
+      address: undefined,
+      lat: undefined,
+      locationName: '',
+      lon: undefined,
+      selectedIconId: undefined,
+      version: 1,
+    },
+  };
+
+  state = {
+    favourite: { ...this.props.favourite },
+  };
 
   setLocationProperties = location => {
     this.setState({
