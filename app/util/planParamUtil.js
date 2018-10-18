@@ -56,20 +56,23 @@ export const defaultRoutingSettings = {
 };
 
 function setTicketTypes(ticketType, settingsTicketType) {
-  let tType;
   if (ticketType !== undefined && ticketType !== 'none') {
-    tType = ticketType;
+    if (ticketType) {
+      // separator used to be _, map it to : to keep old URLs compatible
+      return ticketType.replace('_', ':');
+    }
+    return ticketType;
   } else if (
     settingsTicketType !== undefined &&
     settingsTicketType !== 'none' &&
     ticketType !== 'none'
   ) {
-    tType = settingsTicketType;
+    if (settingsTicketType) {
+      return ticketType.replace('_', ':');
+    }
+    return settingsTicketType;
   }
-  if (tType) {
-    tType = tType.replace('_', '%3A');
-  }
-  return tType;
+  return null;
 }
 
 function nullOrUndefined(val) {
