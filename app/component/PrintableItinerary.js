@@ -291,7 +291,7 @@ export function PrintableLeg(props) {
         <div className="line-circle">
           {index === 0 ? (
             <Icon
-              img="icon-icon_mapMarker-point"
+              img="icon-icon_mapMarker-from"
               className="itinerary-icon from from-it"
             />
           ) : (
@@ -442,7 +442,7 @@ class PrintableItinerary extends React.Component {
           </div>
           <div className="itinerary-circleline end">
             <Icon
-              img="icon-icon_mapMarker-point"
+              img="icon-icon_mapMarker-to"
               className="itinerary-icon to to-it"
             />
           </div>
