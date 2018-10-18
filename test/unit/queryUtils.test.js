@@ -302,7 +302,7 @@ describe('queryUtils', () => {
         },
       };
       const location2 = utils.resetSelectedItineraryIndex(location1);
-      expect(location1).to.equal(location2);
+      expect(location1).to.deep.equal(location2);
     });
 
     it('should remove selected itinerary index from url', () => {
