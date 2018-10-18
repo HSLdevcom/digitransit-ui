@@ -64,6 +64,9 @@ function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
     return remap(ticketType);
   }
   if (settingsTicketType && isRestriction(settingsTicketType)) {
+    if (ticketType && !isRestriction(ticketType)) {
+      return null;
+    }
     return remap(settingsTicketType);
   }
   if (defaultTicketType && isRestriction(defaultTicketType)) {

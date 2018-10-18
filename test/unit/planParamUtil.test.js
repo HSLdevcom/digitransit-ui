@@ -236,6 +236,21 @@ describe('planParamUtil', () => {
       expect(ticketTypes).to.equal(null);
     });
 
+    it('should use no restrictions if ticketTypes is "none" in query and localStorage has a restriction', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
     it('should return null if ticketTypes is undefined in query', () => {
       const params = utils.preparePlanParams(defaultConfig)(
         {
