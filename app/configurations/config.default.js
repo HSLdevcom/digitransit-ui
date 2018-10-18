@@ -42,6 +42,7 @@ export default {
   APP_PATH: `${APP_PATH}`,
   title: 'Reittihaku',
 
+  textLogo: false,
   // Navbar logo
   logo: 'default/digitransit-logo.png',
 

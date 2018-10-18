@@ -30,24 +30,19 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
   static routeName = 'FavouriteRouteRowRoute';
 }
 
-const FavouriteRoutes = ({ routes, origin }) => {
-  if (routes.length > 0) {
-    return (
-      <Relay.RootContainer
-        Component={FavouriteRouteListContainer}
-        forceFetch
-        route={
-          new FavouriteRouteListContainerRoute({
-            ids: routes,
-            origin,
-          })
-        }
-        renderLoading={Loading}
-      />
-    );
-  }
-  return <NoFavouritesPanel />;
-};
+const FavouriteRoutes = ({ routes, origin }) => (
+  <Relay.RootContainer
+    Component={FavouriteRouteListContainer}
+    forceFetch
+    route={
+      new FavouriteRouteListContainerRoute({
+        ids: routes,
+        origin,
+      })
+    }
+    renderLoading={Loading}
+  />
+);
 
 FavouriteRoutes.propTypes = {
   routes: PropTypes.array.isRequired,
@@ -71,14 +66,18 @@ const FavouritesPanel = ({
     <div
       className={`nearby-table-container ${breakpoint !== 'large' && `mobile`}`}
     >
-      <table className="nearby-departures-table">
-        <thead>
-          <NextDeparturesListHeader />
-        </thead>
-        <tbody>
-          <FavouriteRoutes routes={routes} origin={origin} />
-        </tbody>
-      </table>
+      {routes.length > 0 ? (
+        <table className="nearby-departures-table">
+          <thead>
+            <NextDeparturesListHeader />
+          </thead>
+          <tbody>
+            <FavouriteRoutes routes={routes} origin={origin} />
+          </tbody>
+        </table>
+      ) : (
+        <NoFavouritesPanel />
+      )}
     </div>
   </div>
 );
