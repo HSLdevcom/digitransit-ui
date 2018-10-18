@@ -359,6 +359,18 @@ describe('planParamUtil', () => {
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal('HSL:esp');
     });
+
+    it('should contain all the default settings', () => {
+      const defaultKeys = Object.keys(utils.getDefaultSettings(defaultConfig));
+      const paramsKeys = Object.keys(
+        utils.preparePlanParams(defaultConfig)(
+          { from, to },
+          { location: { query: {} } },
+        ),
+      );
+      const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
+      expect(missing).to.deep.equal([]);
+    });
   });
 
   describe('getDefaultSettings', () => {

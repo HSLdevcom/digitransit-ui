@@ -217,7 +217,7 @@ export const preparePlanParams = config => (
   const defaultSettings = { ...getDefaultSettings(config) };
 
   return {
-    defaultSettings,
+    ...defaultSettings,
     ...omitBy(
       {
         fromPlace: from,
