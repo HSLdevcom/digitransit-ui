@@ -42,6 +42,8 @@ const skip = browsers => suite => {
 };
 
 // tests//
+testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
+
 testVariation(
   'Departure',
   'normal',
@@ -270,5 +272,3 @@ testVariation('SelectMapLayersDialog');
 testVariation('MainMenuContainer');
 
 testVariation('OriginDestinationBar', 'with-viapoint', 2);
-
-testVariation('IndexPage');
