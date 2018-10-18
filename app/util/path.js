@@ -157,16 +157,24 @@ export const navigateTo = ({
       break;
   }
 
-  const location = base;
-  // Reset selected itinerary index if required
-  if (resetIndex && location.state && location.state.summaryPageSelected) {
-    location.state.summaryPageSelected = 0;
-  }
+  let url;
 
-  const url = {
-    ...location,
-    pathname: getPathWithEndpointObjects(origin, destination, tab),
-  };
+  // Reset selected itinerary index if required
+  if (resetIndex && base.state && base.state.summaryPageSelected) {
+    url = {
+      ...base,
+      state: {
+        ...base.state,
+        summaryPageSelected: 0,
+      },
+      pathname: getPathWithEndpointObjects(origin, destination, tab),
+    };
+  } else {
+    url = {
+      ...base,
+      pathname: getPathWithEndpointObjects(origin, destination, tab),
+    };
+  }
 
   debug('url, push', url, push);
 
