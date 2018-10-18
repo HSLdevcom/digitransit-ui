@@ -56,16 +56,20 @@ export const defaultRoutingSettings = {
 };
 
 function setTicketTypes(ticketType, settingsTicketType) {
+  let tType;
   if (ticketType !== undefined && ticketType !== 'none') {
-    return ticketType;
+    tType = ticketType;
   } else if (
     settingsTicketType !== undefined &&
     settingsTicketType !== 'none' &&
     ticketType !== 'none'
   ) {
-    return settingsTicketType;
+    tType = settingsTicketType;
   }
-  return null;
+  if (tType) {
+    tType = tType.replace('_', '%3A');
+  }
+  return tType;
 }
 
 function nullOrUndefined(val) {
