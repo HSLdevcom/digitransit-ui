@@ -44,6 +44,7 @@ export default class PrintableItineraryHeader extends React.Component {
     const { config } = this.context;
     const fares =
       this.props.itinerary.fares &&
+      this.props.itinerary.fares[0].components.length > 0 &&
       this.props.itinerary.fares[0].components.map(o => this.getFareId(o));
     const duration = moment(this.props.itinerary.endTime).diff(
       moment(this.props.itinerary.startTime),
