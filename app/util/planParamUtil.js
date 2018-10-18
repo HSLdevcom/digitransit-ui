@@ -60,25 +60,15 @@ function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   const remap = str => `${str}`.replace('_', ':');
   const isRestriction = type => type !== 'none';
 
-  if (ticketType && isRestriction(ticketType)) {
-    return remap(ticketType);
+  if (ticketType) {
+    return isRestriction(ticketType) ? remap(ticketType) : null;
   }
-  if (settingsTicketType && isRestriction(settingsTicketType)) {
-    if (ticketType && !isRestriction(ticketType)) {
-      return null;
-    }
-    return remap(settingsTicketType);
+  if (settingsTicketType) {
+    return isRestriction(settingsTicketType) ? remap(settingsTicketType) : null;
   }
-  if (defaultTicketType && isRestriction(defaultTicketType)) {
-    if (
-      (ticketType && !isRestriction(ticketType)) ||
-      (settingsTicketType && !isRestriction(settingsTicketType))
-    ) {
-      return null;
-    }
-    return remap(defaultTicketType);
-  }
-  return null;
+  return defaultTicketType && isRestriction(defaultTicketType)
+    ? remap(defaultTicketType)
+    : null;
 }
 
 function nullOrUndefined(val) {
