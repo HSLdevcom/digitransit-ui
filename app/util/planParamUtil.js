@@ -55,22 +55,15 @@ export const defaultRoutingSettings = {
   modeWeight: null,
 };
 
-function setTicketTypes(ticketType, settingsTicketType) {
-  if (ticketType !== undefined && ticketType !== 'none') {
-    if (ticketType) {
-      // separator used to be _, map it to : to keep old URLs compatible
-      return ticketType.replace('_', ':');
-    }
-    return ticketType;
-  } else if (
-    settingsTicketType !== undefined &&
-    settingsTicketType !== 'none' &&
-    ticketType !== 'none'
-  ) {
-    if (settingsTicketType) {
-      return ticketType.replace('_', ':');
-    }
-    return settingsTicketType;
+function getTicketTypes(ticketType, settingsTicketType) {
+  // separator used to be _, map it to : to keep old URLs compatible
+  const remap = str => `${str}`.replace('_', ':');
+
+  if (ticketType && ticketType !== 'none') {
+    return remap(ticketType);
+  }
+  if (settingsTicketType && settingsTicketType !== 'none') {
+    return remap(settingsTicketType);
   }
   return null;
 }
@@ -314,6 +307,6 @@ export const preparePlanParams = config => (
       nullOrUndefined,
     ),
     modes: modesOrDefault,
-    ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
+    ticketTypes: getTicketTypes(ticketTypes, settings.ticketTypes),
   };
 };

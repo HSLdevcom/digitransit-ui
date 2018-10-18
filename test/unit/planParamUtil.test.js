@@ -133,6 +133,152 @@ describe('planParamUtil', () => {
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(20);
     });
+
+    it('should replace the old ticketTypes separator "_" with ":" in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'HSL_esp' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL_esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should return null if no ticketTypes are found from query or localStorage', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should use ticketTypes from localStorage if no ticketTypes are found from query', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should return null if ticketTypes is "none" in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is missing from query and "none" in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is "none" in both query and localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is undefined in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: undefined } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is missing from query and undefined in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: undefined });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is undefined in both query and localStorage', () => {
+      setCustomizedSettings({ ticketTypes: undefined });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: undefined } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
   });
 
   describe('getDefaultSettings', () => {
