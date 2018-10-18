@@ -139,7 +139,7 @@ CityBikeLeg.propTypes = {
 
 export const ViaLeg = () => (
   <div className="leg via">
-    <Icon img="icon-icon_place" className="itinerary-icon place" />
+    <Icon img="icon-icon_mapMarker-via" className="itinerary-icon place" />
   </div>
 );
 

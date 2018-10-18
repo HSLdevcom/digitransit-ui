@@ -42,6 +42,8 @@ const skip = browsers => suite => {
 };
 
 // tests//
+testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
+
 testVariation(
   'Departure',
   'normal',
@@ -268,3 +270,5 @@ testVariation('StopMarkerPopup', 'missing-platform', 5);
 testVariation('SelectStreetModeDialog');
 testVariation('SelectMapLayersDialog');
 testVariation('MainMenuContainer');
+
+testVariation('OriginDestinationBar', 'with-viapoint', 2);

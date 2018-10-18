@@ -94,10 +94,6 @@ div.leaflet-container {
   @include font-map-container;
 }
 
-.component-example div.leaflet-container {
-  position: relative;
-}
-
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
   color: $current-location-color;
@@ -108,19 +104,6 @@ div.leaflet-marker-icon.place {
     > svg.icon {
       width: 24px;
       height: 24px;
-      fill: $viewpoint-marker-color;
-    }
-  }
-}
-
-div.leaflet-marker-icon.place.halo {
-  > span {
-    > svg.icon {
-      width: 24px;
-      height: 24px;
-      fill: #fff;
-      stroke: #fff;
-      stroke-width: 50px;
     }
   }
 }
@@ -152,14 +135,6 @@ div.leaflet-marker-icon.via {
 
 div.leaflet-marker-icon.via {
   color: $black;
-}
-
-div.leaflet-marker-icon.from > span::before {
-  content: 'A';
-}
-
-div.leaflet-marker-icon.to > span::before {
-  content: 'B';
 }
 
 div.leaflet-marker-icon.vehicle-icon {

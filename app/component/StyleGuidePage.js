@@ -90,6 +90,8 @@ import StopMarkerPopup from './map/popups/StopMarkerPopup';
 import SelectStreetModeDialog from './SelectStreetModeDialog';
 import SelectMapLayersDialog from './SelectMapLayersDialog';
 import MainMenuContainer from './MainMenuContainer';
+import OriginDestinationBar from './OriginDestinationBar';
+import { Component as IndexPage } from './IndexPage';
 
 const components = {
   Icon,
@@ -180,6 +182,8 @@ const components = {
   SelectStreetModeDialog,
   SelectMapLayersDialog,
   MainMenuContainer,
+  OriginDestinationBar,
+  IndexPage,
 };
 
 function getColors() {
