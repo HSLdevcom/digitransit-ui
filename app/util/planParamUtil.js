@@ -55,15 +55,25 @@ export const defaultRoutingSettings = {
   modeWeight: null,
 };
 
-function getTicketTypes(ticketType, settingsTicketType) {
+function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
   // separator used to be _, map it to : to keep old URLs compatible
   const remap = str => `${str}`.replace('_', ':');
+  const isRestriction = type => type !== 'none';
 
-  if (ticketType && ticketType !== 'none') {
+  if (ticketType && isRestriction(ticketType)) {
     return remap(ticketType);
   }
-  if (settingsTicketType && settingsTicketType !== 'none') {
+  if (settingsTicketType && isRestriction(settingsTicketType)) {
     return remap(settingsTicketType);
+  }
+  if (defaultTicketType && isRestriction(defaultTicketType)) {
+    if (
+      (ticketType && !isRestriction(ticketType)) ||
+      (settingsTicketType && !isRestriction(settingsTicketType))
+    ) {
+      return null;
+    }
+    return remap(defaultTicketType);
   }
   return null;
 }
@@ -211,9 +221,10 @@ export const preparePlanParams = config => (
     config,
     getModes({ query: { modes } }, config),
   );
+  const defaultSettings = { ...getDefaultSettings(config) };
 
   return {
-    ...getDefaultSettings(config),
+    defaultSettings,
     ...omitBy(
       {
         fromPlace: from,
@@ -307,6 +318,10 @@ export const preparePlanParams = config => (
       nullOrUndefined,
     ),
     modes: modesOrDefault,
-    ticketTypes: getTicketTypes(ticketTypes, settings.ticketTypes),
+    ticketTypes: getTicketTypes(
+      ticketTypes,
+      settings.ticketTypes,
+      defaultSettings.ticketTypes,
+    ),
   };
 };

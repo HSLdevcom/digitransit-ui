@@ -279,6 +279,71 @@ describe('planParamUtil', () => {
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
+
+    it('should return null if query has no ticketType limits but the default config contains a restriction', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if localStorage has no ticketType limits but the default config contains a restriction', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should use the configured default restriction if the user has given no ticketTypes', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should remap the configured default restriction if the user has given no ticketTypes', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL_esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
   });
 
   describe('getDefaultSettings', () => {
