@@ -728,6 +728,7 @@ const translations = {
     'route-from-here': 'Route from here',
     'route-guide': 'Route guide',
     'route-here': 'Route here',
+    'route-least-elevation-changes': 'Avoid changes in elevation',
     'route-least-transfers': 'Avoid transfers',
     'route-least-walking': 'Avoid walking',
     'route-not-possible':
@@ -1396,6 +1397,7 @@ const translations = {
     'route-from-here': 'Reititä täältä',
     'route-guide': 'Linjaohje',
     'route-here': 'Reititä tänne',
+    'route-least-elevation-changes': 'Vältä korkeuseroja',
     'route-least-transfers': 'Vältä vaihtoja',
     'route-least-walking': 'Vältä kävelyä',
     'route-not-possible':
@@ -2367,6 +2369,7 @@ const translations = {
     'route-from-here': 'Sök rutt härifrån',
     'route-guide': 'Linjeguide',
     'route-here': 'Sök rutt hit',
+    'route-least-elevation-changes': 'Undvik höjdskillnader',
     'route-least-transfers': 'Minsta överföringar',
     'route-least-walking': 'Minsta gången',
     'route-not-possible':
