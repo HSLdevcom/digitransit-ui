@@ -86,6 +86,13 @@ class QuickSettingsPanel extends React.Component {
       'default-route': {
         ...defaultSettings,
       },
+      'least-elevation-changes': {
+        ...defaultSettings,
+        optimize: OptimizeType.Triangle,
+        safetyFactor: 0.1,
+        slopeFactor: 0.8,
+        timeFactor: 0.1,
+      },
       'least-transfers': {
         ...defaultSettings,
         transferPenalty: 5460,
@@ -322,6 +329,16 @@ class QuickSettingsPanel extends React.Component {
                   {this.context.intl.formatMessage({
                     id: 'route-least-walking',
                     defaultMessage: 'Least walking',
+                  })}
+                </option>
+              )}
+              {applicableQuickOptionSets.includes(
+                'least-elevation-changes',
+              ) && (
+                <option value="least-elevation-changes">
+                  {this.context.intl.formatMessage({
+                    id: 'route-least-elevation-changes',
+                    defaultMessage: 'Least elevation changes',
                   })}
                 </option>
               )}

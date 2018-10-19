@@ -371,6 +371,76 @@ describe('planParamUtil', () => {
       const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
       expect(missing).to.deep.equal([]);
     });
+
+    it('should read OptimizeType TRIANGLE and its fields from the query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              optimize: 'TRIANGLE',
+              safetyFactor: 0.2,
+              slopeFactor: 0.3,
+              timeFactor: 0.5,
+            },
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
+
+    it('should read optimize from the localStorage', () => {
+      setCustomizedSettings({ optimize: 'FLAT' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize } = params;
+      expect(optimize).to.equal('FLAT');
+    });
+
+    it('should read OptimizeType TRIANGLE and its fields from the localStorage', () => {
+      setCustomizedSettings({
+        optimize: 'TRIANGLE',
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
   });
 
   describe('getDefaultSettings', () => {

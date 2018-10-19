@@ -129,7 +129,11 @@ export default {
       availableOptionSets: ['prefer-walking-routes', 'customized-mode'],
     },
     bicycle: {
-      availableOptionSets: ['prefer-greenways', 'customized-mode'],
+      availableOptionSets: [
+        'least-elevation-changes',
+        'prefer-greenways',
+        'customized-mode',
+      ],
     },
     car_park: {
       availableOptionSets: [

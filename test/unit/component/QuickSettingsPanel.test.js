@@ -82,4 +82,21 @@ describe('<QuickSettingsPanel />', () => {
       ).to.have.lengthOf(1);
     });
   });
+
+  it('should have the "least elevation changes" routing option available for biking', () => {
+    const props = getDefaultProps();
+    const context = getDefaultContext(defaultConfig);
+    context.location.query.modes = 'BICYCLE';
+
+    const wrapper = mountWithIntl(<QuickSettingsPanel {...props} />, {
+      context,
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    expect(
+      wrapper.find(
+        '.select-route-modes > option[value="least-elevation-changes"]',
+      ),
+    ).to.have.lengthOf(1);
+  });
 });

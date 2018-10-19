@@ -170,6 +170,34 @@ describe('queryUtils', () => {
       expect(result.preferredRoutes).to.deep.equal(['a', 'b', 'c']);
       expect(result.unpreferredRoutes).to.deep.equal(['d', 'e', 'f']);
     });
+
+    it('should return TRIANGLE optimization related fields', () => {
+      const query = {
+        optimize: 'TRIANGLE',
+        safetyFactor: '0.2',
+        slopeFactor: '0.3',
+        timeFactor: '0.5',
+      };
+      const result = utils.getQuerySettings(query);
+      expect(result.optimize).to.equal('TRIANGLE');
+      expect(result.safetyFactor).to.equal(0.2);
+      expect(result.slopeFactor).to.equal(0.3);
+      expect(result.timeFactor).to.equal(0.5);
+    });
+
+    it('should ignore TRIANGLE optimization related fields if optimize is not TRIANGLE', () => {
+      const query = {
+        optimize: 'QUICK',
+        safetyFactor: '0.2',
+        slopeFactor: '0.3',
+        timeFactor: '0.5',
+      };
+      const result = utils.getQuerySettings(query);
+      const keys = Object.keys(result);
+      expect(keys).to.not.include('safetyFactor');
+      expect(keys).to.not.include('slopeFactor');
+      expect(keys).to.not.include('timeFactor');
+    });
   });
 
   describe('addPreferredRoute', () => {

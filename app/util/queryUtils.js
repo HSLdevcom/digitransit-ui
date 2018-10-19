@@ -5,6 +5,7 @@ import trim from 'lodash/trim';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { otpToLocation } from './otpStrings';
+import { OptimizeType } from '../constants';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -206,8 +207,7 @@ export const getQuerySettings = query => {
     return {};
   }
 
-  const keys = Object.keys(query);
-  const hasKey = key => keys.includes(key);
+  const hasKey = key => Object.hasOwnProperty.call(query, key);
   const getNumberValueOrDefault = (value, defaultValue = undefined) =>
     value !== undefined && value !== null && value !== ''
       ? Number(value)
@@ -228,6 +228,17 @@ export const getQuerySettings = query => {
     }),
     ...(hasKey('optimize') && {
       optimize: query.optimize,
+    }),
+    ...(query.optimize === OptimizeType.Triangle && {
+      ...(hasKey('safetyFactor') && {
+        safetyFactor: getNumberValueOrDefault(query.safetyFactor),
+      }),
+      ...(hasKey('slopeFactor') && {
+        slopeFactor: getNumberValueOrDefault(query.slopeFactor),
+      }),
+      ...(hasKey('timeFactor') && {
+        timeFactor: getNumberValueOrDefault(query.timeFactor),
+      }),
     }),
     ...(hasKey('preferredRoutes') && {
       preferredRoutes: getArrayValueOrDefault(query.preferredRoutes),
