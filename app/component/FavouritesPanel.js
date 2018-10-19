@@ -68,13 +68,7 @@ const FavouritesPanel = ({
       <FavouriteLocationsContainer
         origin={origin}
         currentTime={currentTime}
-        favourites={[
-          ...favouriteLocations.filter(
-            favourite =>
-              favourite.lat !== origin.lat && favourite.lon !== origin.lon,
-          ),
-          ...favouriteStops,
-        ]}
+        favourites={[...favouriteLocations, ...favouriteStops]}
       />
       <div
         className={`nearby-table-container ${breakpoint !== 'large' &&
