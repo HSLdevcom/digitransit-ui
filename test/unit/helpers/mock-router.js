@@ -1,3 +1,5 @@
+import { createMemoryHistory } from 'react-router';
+
 const mockRouter = {
   push: () => {},
   replace: () => {},
@@ -8,5 +10,10 @@ const mockRouter = {
   isActive: () => {},
   getCurrentLocation: () => ({}),
 };
+
+export const createMemoryMockRouter = () => ({
+  ...mockRouter,
+  ...createMemoryHistory(),
+});
 
 export default mockRouter;

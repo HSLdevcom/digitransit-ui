@@ -3,7 +3,10 @@
   flex-direction: column;
   margin-top: 0.25em;
   position: relative;
-  white-space: nowrap;
+
+  &.bubble-dialog-content--large {
+    white-space: nowrap;
+  }
 
   .checkbox-grouping + .checkbox-grouping {
     margin-top: 2em;

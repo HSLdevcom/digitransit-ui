@@ -22,6 +22,7 @@ import {
   hasBikeRestriction,
 } from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
+import { getCustomizedSettings } from '../store/localStorage';
 import { replaceQueryParams } from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
@@ -78,6 +79,7 @@ class QuickSettingsPanel extends React.Component {
   getQuickOptionSet = () => {
     const { config } = this.context;
     const defaultSettings = getDefaultSettings(config);
+    const customizedSettings = getCustomizedSettings();
     delete defaultSettings.modes;
 
     const quickOptionSets = {
@@ -113,6 +115,12 @@ class QuickSettingsPanel extends React.Component {
         optimize: OptimizeType.Greenways,
       },
     };
+    if (customizedSettings && Object.keys(customizedSettings).length > 0) {
+      quickOptionSets['customized-mode'] = {
+        ...defaultSettings,
+        ...customizedSettings,
+      };
+    }
     return pick(quickOptionSets, this.getApplicableQuickOptionSets());
   };
 
@@ -224,6 +232,7 @@ class QuickSettingsPanel extends React.Component {
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
+    const customizedSettings = getCustomizedSettings();
     const quickOption = this.matchQuickOption();
     const applicableQuickOptionSets = this.getApplicableQuickOptionSets();
 
@@ -342,14 +351,16 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {quickOption === 'customized-mode' && (
-                <option value="customized-mode">
-                  {this.context.intl.formatMessage({
-                    id: 'route-customized-mode',
-                    defaultMessage: 'Customized mode',
-                  })}
-                </option>
-              )}
+              {customizedSettings &&
+                Object.keys(customizedSettings).length > 0 &&
+                applicableQuickOptionSets.includes('customized-mode') && (
+                  <option value="customized-mode">
+                    {this.context.intl.formatMessage({
+                      id: 'route-customized-mode',
+                      defaultMessage: 'Customized mode',
+                    })}
+                  </option>
+                )}
             </select>
             <Icon
               className="fake-select-arrow"

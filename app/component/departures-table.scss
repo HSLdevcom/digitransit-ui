@@ -78,24 +78,34 @@ table.nearby-departures-table {
                         // mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
                         .vehicle-number {
                             max-width: 3em;
+                            font-size: $font-size-medium-large;
+                            height: $font-size-medium-large;
                         }
                     }
                 }
                 &.td-distance {
                     color: $gray;
                     padding-left: 1em;
+                    span {
+                        font-size: $font-size-medium-large;
+                        height: $font-size-medium-large;
+                    }
                 }
                 &.td-departure-times {
                     font-weight: $font-weight-bold;
                     font-family: $font-family;
+                    span {
+                        font-size: $font-size-medium-large;
+                        height: $font-size-medium-large;
+                    }
                 }
                 &.td-destination, &.td-bikestation {
                     flex: 1 0 4em;
                     overflow-x: hidden;
                     span {
-                      font-size: $font-size-normal;
+                      font-size: $font-size-medium-large;
                       white-space: nowrap;
-                      height: $font-size-normal;
+                      height: $font-size-medium-large;
                     }
                     .route-destination {
                         display: block;

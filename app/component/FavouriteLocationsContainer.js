@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { routerShape, locationShape, Link } from 'react-router';
+import { routerShape, Link } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import range from 'lodash/range';
@@ -43,9 +43,7 @@ const SwipeableViewsKB = bindKeyboard(SwipeableViews);
 
 export default class FavouriteLocationsContainer extends React.Component {
   static contextTypes = {
-    executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    origin: locationShape.isRequired,
     config: PropTypes.object.isRequired,
   };
 
@@ -137,6 +135,7 @@ export default class FavouriteLocationsContainer extends React.Component {
         <Relay.RootContainer
           Component={FavouriteLocationContainer}
           forceFetch
+          key={`relay_${key}`}
           route={
             new FavouriteLocationContainerRoute({
               from: {
