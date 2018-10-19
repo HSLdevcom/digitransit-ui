@@ -987,17 +987,22 @@ $font-print-decrease: 0.7;
     }
   }
 
-  .faretype-span {
+  .fare-details {
     background-color: $black;
     color: #fff;
+    display: inline-block;
     border-radius: 10px;
     text-transform: uppercase;
     text-align: center;
-    display: initial;
+    display: inline-block;
     padding: 0.1em;
     padding-right: 0.5em;
     padding-left: 0.5em;
+    margin-left: 0.5em;
     -webkit-print-color-adjust: exact;
+    &:first-child {
+      margin-left: 0;
+    }
     span {
       font-size: $font-size-small;
     }
