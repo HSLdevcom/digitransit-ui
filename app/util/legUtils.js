@@ -199,6 +199,13 @@ export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
 
 /**
+ * Calculates and returns the total distance undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total distance from
+ */
+export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
+
+/**
  * Gets the indicator color for the current amount of citybikes available.
  *
  * @param {number} bikesAvailable the number of bikes currently available
