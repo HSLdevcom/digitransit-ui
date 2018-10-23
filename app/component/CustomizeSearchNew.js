@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 
@@ -165,17 +164,19 @@ class CustomizeSearch extends React.Component {
               defaultSettings={this.defaultSettings}
             />
           </div>
-          <FareZoneSelector
-            headerText={intl.formatMessage({
-              id: 'zones',
-              defaultMessage: 'Fare zones',
-            })}
-            options={get(config, 'fareMapping', {})}
-            currentOption={currentSettings.ticketTypes || 'none'}
-            updateValue={value =>
-              replaceQueryParams(router, { ticketTypes: value })
-            }
-          />
+          {config.fares && (
+            <FareZoneSelector
+              headerText={intl.formatMessage({
+                id: 'zones',
+                defaultMessage: 'Fare zones',
+              })}
+              options={config.fares}
+              currentOption={currentSettings.ticketTypes || 'none'}
+              updateValue={value =>
+                replaceQueryParams(router, { ticketTypes: value })
+              }
+            />
+          )}
           <PreferredRoutes
             onRouteSelected={this.onRouteSelected}
             preferredRoutes={currentSettings.preferredRoutes}

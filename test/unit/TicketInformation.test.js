@@ -8,16 +8,14 @@ import TicketInformation from '../../app/component/TicketInformation';
 import data from './test-data/dt2639';
 
 describe('<TicketInformation />', () => {
+  const config = {
+    showTicketInformation: true,
+    fareMapping: v => v
+  };
+
   it('should show multiple ticket components (DT-2639)', () => {
     const wrapper = mountWithIntl(<TicketInformation {...data} />, {
-      context: {
-        config: {
-          fareMapping: {
-            'HSL:esp': 'HSL:esp',
-            'HSL:seu': 'HSL:seu',
-          },
-        },
-      },
+      context: { config },
     });
 
     expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
@@ -44,14 +42,7 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          fareMapping: {
-            'HSL:esp': 'HSL:esp',
-            'HSL:seu': 'HSL:seu',
-          },
-        },
-      },
+      context: { config },
     });
 
     expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(1);
@@ -73,13 +64,7 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          fareMapping: {
-            'HSL:seu': 'HSL:seu',
-          },
-        },
-      },
+      context: { config },
     });
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(1);
@@ -89,7 +74,7 @@ describe('<TicketInformation />', () => {
     );
   });
 
-  it('should not show any ticket component information if components are missing', () => {
+  it('should not show any ticket information if components are missing', () => {
     const props = {
       fares: [
         {
@@ -101,14 +86,12 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {},
-      },
+      context: { config },
     });
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
     expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(1);
+    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
   });
 
   it('should convert and show the total fare', () => {
@@ -118,14 +101,16 @@ describe('<TicketInformation />', () => {
           type: 'regular',
           currency: 'EUR',
           cents: 550,
-          components: [],
+          components: [
+            {
+              fareId: 'HSL:seu',
+            },
+          ],
         },
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {},
-      },
+      context: { config },
     });
 
     expect(wrapper.find('.ticket-type-fare').text()).to.equal('5.50 €');
