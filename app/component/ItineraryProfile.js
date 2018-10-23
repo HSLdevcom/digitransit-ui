@@ -11,32 +11,34 @@ const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
   const { elevationGained, elevationLost } = itinerary;
   return (
     <div className={cx('itinerary-profile-container', { small })}>
-      {containsBiking(itinerary) && (
-        <React.Fragment>
-          <div className="itinerary-profile-item">
-            <div className="itinerary-profile-item-title">
-              {`${intl.formatMessage({
-                id: 'elevation-gained-total',
-                defaultMessage: 'Elevation gained',
-              })}:`}
+      {containsBiking(itinerary) &&
+        Number.isFinite(elevationGained) &&
+        Number.isFinite(elevationLost) && (
+          <React.Fragment>
+            <div className="itinerary-profile-item">
+              <div className="itinerary-profile-item-title">
+                {`${intl.formatMessage({
+                  id: 'elevation-gained-total',
+                  defaultMessage: 'Elevation gained',
+                })}:`}
+              </div>
+              <div className="itinerary-profile-item-value">
+                {`${ceil(elevationGained, 0)} m`}
+              </div>
             </div>
-            <div className="itinerary-profile-item-value">
-              {`${ceil(elevationGained, 0)} m`}
+            <div className="itinerary-profile-item">
+              <div className="itinerary-profile-item-title">
+                {`${intl.formatMessage({
+                  id: 'elevation-lost-total',
+                  defaultMessage: 'Elevation lost',
+                })}:`}
+              </div>
+              <div className="itinerary-profile-item-value">
+                {`${ceil(elevationLost, 0)} m`}
+              </div>
             </div>
-          </div>
-          <div className="itinerary-profile-item">
-            <div className="itinerary-profile-item-title">
-              {`${intl.formatMessage({
-                id: 'elevation-lost-total',
-                defaultMessage: 'Elevation lost',
-              })}:`}
-            </div>
-            <div className="itinerary-profile-item-value">
-              {`${ceil(elevationLost, 0)} m`}
-            </div>
-          </div>
-        </React.Fragment>
-      )}
+          </React.Fragment>
+        )}
       <div className="itinerary-profile-item">
         <div className="itinerary-profile-item-title">
           {`${intl.formatMessage({

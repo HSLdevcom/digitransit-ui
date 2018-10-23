@@ -74,4 +74,30 @@ describe('<ItineraryProfile />', () => {
         .text(),
     ).to.equal('1.2 km');
   });
+
+  it('should display elevation information if it is in number format', () => {
+    const props = {
+      itinerary: {
+        elevationGained: NaN,
+        elevationLost: undefined,
+        legs: [
+          {
+            distance: 200,
+            mode: 'BICYCLE',
+          },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<ItineraryProfile {...props} />, {
+      context: { config: { imperialEnabled: false } },
+    });
+
+    expect(wrapper.find('.itinerary-profile-item')).to.have.lengthOf(1);
+    expect(
+      wrapper
+        .find('.itinerary-profile-item-value')
+        .at(0)
+        .text(),
+    ).to.equal('200 m');
+  });
 });
