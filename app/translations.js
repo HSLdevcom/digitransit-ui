@@ -721,7 +721,7 @@ const translations = {
     'return-cycle-to': 'Return the bike to {station} station',
     'right-now': 'Right now',
     route: 'Route',
-    'route-custom-settings': 'Own settings',
+    'route-custom-settings': 'Custom settings',
     'route-default': 'Default settings',
     'route-destination-arrives': 'Arrives / Terminus',
     'route-fastest': 'Fast route',
