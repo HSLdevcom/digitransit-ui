@@ -159,14 +159,14 @@ export const compressLegs = originalLegs => {
 };
 
 const sumDistances = legs =>
-  legs.map(l => l.distance).reduce((x, y) => x + y, 0);
+  legs.map(l => l.distance).reduce((x, y) => (x || 0) + (y || 0), 0);
 const isWalkingLeg = leg =>
   [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 
 /**
- * Checks if the itinerary consist of a single biking leg.
+ * Checks if the itinerary consists of a single biking leg.
  *
  * @param {*} itinerary the itinerary to check the legs for
  */
