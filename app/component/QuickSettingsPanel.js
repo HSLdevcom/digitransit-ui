@@ -81,6 +81,7 @@ class QuickSettingsPanel extends React.Component {
     const defaultSettings = getDefaultSettings(config);
     const customizedSettings = getCustomizedSettings();
     delete defaultSettings.modes;
+    delete customizedSettings.modes;
 
     const quickOptionSets = {
       'default-route': {
@@ -115,6 +116,7 @@ class QuickSettingsPanel extends React.Component {
         optimize: OptimizeType.Greenways,
       },
     };
+
     if (customizedSettings && Object.keys(customizedSettings).length > 0) {
       quickOptionSets['customized-mode'] = {
         ...defaultSettings,
@@ -191,7 +193,7 @@ class QuickSettingsPanel extends React.Component {
     );
 
     // Find out which quick option the user has selected
-    let currentOption = 'customized-mode';
+    let currentOption = 'current-settings';
     const quickOptions = this.getQuickOptionSet();
 
     Object.keys(quickOptions).forEach(key => {
@@ -278,7 +280,10 @@ class QuickSettingsPanel extends React.Component {
           <div className="open-advanced-settings">
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={quickOption === 'customized-mode'}
+              hasChanges={
+                quickOption === 'customized-mode' ||
+                quickOption === 'current-settings'
+              }
             />
           </div>
         </div>
@@ -361,6 +366,14 @@ class QuickSettingsPanel extends React.Component {
                     })}
                   </option>
                 )}
+              {quickOption === 'current-settings' && (
+                <option value="current-settings">
+                  {this.context.intl.formatMessage({
+                    id: 'route-current-settings',
+                    defaultMessage: 'Current Settings',
+                  })}
+                </option>
+              )}
             </select>
             <Icon
               className="fake-select-arrow"
