@@ -53,7 +53,15 @@ const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
 };
 
 ItineraryProfile.propTypes = {
-  itinerary: PropTypes.object.isRequired,
+  itinerary: PropTypes.shape({
+    elevationGained: PropTypes.number,
+    elevationLost: PropTypes.number,
+    legs: PropTypes.arrayOf(
+      PropTypes.shape({
+        distance: PropTypes.number,
+      }),
+    ).isRequired,
+  }).isRequired,
   small: PropTypes.bool,
 };
 
