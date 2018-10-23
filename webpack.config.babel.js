@@ -290,8 +290,6 @@ module.exports = {
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
     new webpack.ContextReplacementPlugin(intlExpression, languageExp),
-    new webpack.NamedChunksPlugin(),
-    new webpack.NamedModulesPlugin(),
     ...(isDevelopment
       ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
       : productionPlugins),
@@ -305,6 +303,8 @@ module.exports = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    moduleIds: 'named',
+    chunkIds: 'named',
     splitChunks: {
       chunks: isProduction ? 'all' : 'async',
       cacheGroups: {
