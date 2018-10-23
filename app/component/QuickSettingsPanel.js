@@ -118,7 +118,7 @@ class QuickSettingsPanel extends React.Component {
     };
 
     if (customizedSettings && Object.keys(customizedSettings).length > 0) {
-      quickOptionSets['customized-mode'] = {
+      quickOptionSets['saved-settings'] = {
         ...defaultSettings,
         ...customizedSettings,
       };
@@ -193,7 +193,7 @@ class QuickSettingsPanel extends React.Component {
     );
 
     // Find out which quick option the user has selected
-    let currentOption = 'current-settings';
+    let currentOption = 'custom-settings';
     const quickOptions = this.getQuickOptionSet();
 
     Object.keys(quickOptions).forEach(key => {
@@ -281,8 +281,8 @@ class QuickSettingsPanel extends React.Component {
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
               hasChanges={
-                quickOption === 'customized-mode' ||
-                quickOption === 'current-settings'
+                quickOption === 'saved-settings' ||
+                quickOption === 'custom-settings'
               }
             />
           </div>
@@ -358,18 +358,18 @@ class QuickSettingsPanel extends React.Component {
               )}
               {customizedSettings &&
                 Object.keys(customizedSettings).length > 0 &&
-                applicableQuickOptionSets.includes('customized-mode') && (
-                  <option value="customized-mode">
+                applicableQuickOptionSets.includes('saved-settings') && (
+                  <option value="saved-settings">
                     {this.context.intl.formatMessage({
-                      id: 'route-customized-mode',
+                      id: 'route-saved-settings',
                       defaultMessage: 'Customized mode',
                     })}
                   </option>
                 )}
-              {quickOption === 'current-settings' && (
-                <option value="current-settings">
+              {quickOption === 'custom-settings' && (
+                <option value="custom-settings">
                   {this.context.intl.formatMessage({
-                    id: 'route-current-settings',
+                    id: 'route-custom-settings',
                     defaultMessage: 'Current Settings',
                   })}
                 </option>
