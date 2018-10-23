@@ -5,6 +5,7 @@ import { createMemoryHistory } from 'react-router';
 import defaultConfig from '../../app/configurations/config.default';
 import { getDefaultModes } from '../../app/util/modeUtils';
 import * as utils from '../../app/util/queryUtils';
+import { OptimizeType } from '../../app/constants';
 
 describe('queryUtils', () => {
   describe('getIntermediatePlaces', () => {
@@ -353,6 +354,59 @@ describe('queryUtils', () => {
       expect(location.pathname).to.equal(
         '/reitti/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729',
       );
+    });
+  });
+
+  describe('replaceQueryParams', () => {
+    it('should remove triangle factors if OptimizeType is not TRIANGLE', () => {
+      const router = createMemoryHistory();
+      router.replace({
+        query: {
+          optimize: OptimizeType.Triangle,
+          safetyFactor: 0.2,
+          slopeFactor: 0.3,
+          timeFactor: 0.5,
+        },
+      });
+
+      utils.replaceQueryParams(router, {
+        optimize: OptimizeType.Safe,
+        safetyFactor: 0.1,
+        slopeFactor: 0.2,
+        timeFactor: 0.7,
+      });
+
+      const { query } = router.getCurrentLocation();
+      const keys = Object.keys(query);
+
+      expect(query.optimize).to.equal(OptimizeType.Safe);
+      expect(keys).to.not.include('safetyFactor');
+      expect(keys).to.not.include('slopeFactor');
+      expect(keys).to.not.include('timeFactor');
+    });
+
+    it('should should not remove triangle factors when OptimizeType is missing from new params', () => {
+      const router = createMemoryHistory();
+      router.replace({
+        query: {
+          optimize: OptimizeType.Triangle,
+          safetyFactor: 0.2,
+          slopeFactor: 0.3,
+          timeFactor: 0.5,
+        },
+      });
+
+      utils.replaceQueryParams(router, {
+        walkBoardCost: 400,
+      });
+
+      const { query } = router.getCurrentLocation();
+
+      expect(query.optimize).to.equal(OptimizeType.Triangle);
+      expect(query.walkBoardCost).to.equal('400');
+      expect(query.safetyFactor).to.equal('0.2');
+      expect(query.slopeFactor).to.equal('0.3');
+      expect(query.timeFactor).to.equal('0.5');
     });
   });
 });

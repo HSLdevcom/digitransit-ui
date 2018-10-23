@@ -198,17 +198,13 @@ class QuickSettingsPanel extends React.Component {
     );
 
     // Find out which quick option the user has selected
-    let currentOption = 'customized-mode';
     const quickOptions = this.getQuickOptionSet();
-
-    Object.keys(quickOptions).forEach(key => {
+    const currentOption = Object.keys(quickOptions).find(key => {
       const quickSettings = { ...quickOptions[key] };
       const appliedSettings = pick(merged, Object.keys(quickSettings));
-      if (isEqual(quickSettings, appliedSettings)) {
-        currentOption = key;
-      }
+      return isEqual(quickSettings, appliedSettings);
     });
-    return currentOption;
+    return currentOption || 'customized-mode';
   };
 
   toggleTransportMode(mode, otpMode) {

@@ -60,15 +60,22 @@ export const clearQueryParams = (router, paramsToClear = []) => {
  */
 export const replaceQueryParams = (router, newParams) => {
   let location = router.getCurrentLocation();
-
   location = resetSelectedItineraryIndex(location);
 
+  const removeTriangleFactors =
+    newParams.optimize &&
+    location.query.optimize &&
+    newParams.optimize !== location.query.optimize &&
+    location.query.optimize === OptimizeType.Triangle;
+  const triangleFactors = ['safetyFactor', 'slopeFactor', 'timeFactor'];
+
+  const query = {
+    ...location.query,
+    ...newParams,
+  };
   router.replace({
     ...location,
-    query: {
-      ...location.query,
-      ...newParams,
-    },
+    query: removeTriangleFactors ? omit(query, triangleFactors) : query,
   });
 };
 
@@ -262,4 +269,143 @@ export const getQuerySettings = query => {
       walkSpeed: getNumberValueOrDefault(query.walkSpeed),
     }),
   };
+};
+
+/**
+ * The triangle factor value to use when both the "prefer greenways" and
+ * the "avoid elevation changes" flags are enabled.
+ */
+const BOTH_FACTORS_ENABLED = 0.45;
+
+/**
+ * The triangle factor value to use when only one of the "prefer greenways" and
+ * the "avoid elevation changes" flags is enabled.
+ */
+const SINGLE_FACTOR_ENABLED = 0.8;
+
+/**
+ * Checks if the given settings have "prefer greenways" enabled.
+ *
+ * @param {string} optimize the current OptimizeType
+ * @param {{safetyFactor: number}} safetyFactor the current safetyFactor value
+ */
+export const getPreferGreenways = (optimize, { safetyFactor }) =>
+  optimize === OptimizeType.Greenways ||
+  (optimize === OptimizeType.Triangle && safetyFactor >= BOTH_FACTORS_ENABLED);
+
+/**
+ * Checks if the given settings have "avoid elevations changes" enabled.
+ *
+ * @param {string} optimize the current OptimizeType
+ * @param {{slopeFactor: number}} slopeFactor the current slopeFactor value
+ */
+export const getAvoidElevationChanges = (optimize, { slopeFactor }) =>
+  optimize === OptimizeType.Triangle && slopeFactor >= BOTH_FACTORS_ENABLED;
+
+/**
+ * Fuzzily sets the "prefer greenways" flag on.
+ *
+ * @param {*} router the router
+ * @param {string} optimize the current OptimizeType
+ * @param {*} triangleFactors the current triangleFactors
+ * @param {boolean} forceSingle whether the fuzzy logic should be overridden
+ */
+export const setPreferGreenways = (
+  router,
+  optimize,
+  triangleFactors,
+  forceSingle = false,
+) => {
+  if (!forceSingle && getPreferGreenways(optimize, triangleFactors)) {
+    return;
+  }
+  if (!forceSingle && getAvoidElevationChanges(optimize, triangleFactors)) {
+    replaceQueryParams(router, {
+      optimize: OptimizeType.Triangle,
+      safetyFactor: BOTH_FACTORS_ENABLED,
+      slopeFactor: BOTH_FACTORS_ENABLED,
+      timeFactor: 0.1,
+    });
+  } else {
+    replaceQueryParams(router, { optimize: OptimizeType.Greenways });
+  }
+};
+
+/**
+ * Fuzzily sets the "avoid elevation changes" flag on.
+ *
+ * @param {*} router the router
+ * @param {string} optimize the current OptimizeType
+ * @param {*} triangleFactors the current triangleFactors
+ * @param {boolean} forceSingle whether the fuzzy logic should be overridden
+ */
+export const setAvoidElevationChanges = (
+  router,
+  optimize,
+  triangleFactors,
+  forceSingle = false,
+) => {
+  if (!forceSingle && getAvoidElevationChanges(optimize, triangleFactors)) {
+    return;
+  }
+  const bothEnabled =
+    !forceSingle && getPreferGreenways(optimize, triangleFactors);
+  replaceQueryParams(router, {
+    optimize: OptimizeType.Triangle,
+    safetyFactor: bothEnabled ? BOTH_FACTORS_ENABLED : 0.1,
+    slopeFactor: bothEnabled ? BOTH_FACTORS_ENABLED : SINGLE_FACTOR_ENABLED,
+    timeFactor: 0.1,
+  });
+};
+
+/**
+ * Fuzzily resets the "prefer greenways" flag.
+ *
+ * @param {*} router the router
+ * @param {string} optimize the current OptimizeType
+ * @param {*} triangleFactors the current triangleFactors
+ * @param {*} defaultOptimize the default OptimizeType
+ */
+export const resetPreferGreenways = (
+  router,
+  optimize,
+  triangleFactors,
+  defaultOptimize,
+) => {
+  if (!getPreferGreenways(optimize, triangleFactors)) {
+    return;
+  }
+  if (getAvoidElevationChanges(optimize, triangleFactors)) {
+    setAvoidElevationChanges(router, optimize, triangleFactors, true);
+  } else {
+    replaceQueryParams(router, {
+      optimize: defaultOptimize,
+    });
+  }
+};
+
+/**
+ * Fuzzily resets the "avoid elevation changes" flag.
+ *
+ * @param {*} router the router
+ * @param {string} optimize the current OptimizeType
+ * @param {*} triangleFactors the current triangleFactors
+ * @param {*} defaultOptimize the default OptimizeType
+ */
+export const resetAvoidElevationChanges = (
+  router,
+  optimize,
+  triangleFactors,
+  defaultOptimize,
+) => {
+  if (!getAvoidElevationChanges(optimize, triangleFactors)) {
+    return;
+  }
+  if (getPreferGreenways(optimize, triangleFactors)) {
+    setPreferGreenways(router, optimize, triangleFactors, true);
+  } else {
+    replaceQueryParams(router, {
+      optimize: defaultOptimize,
+    });
+  }
 };
