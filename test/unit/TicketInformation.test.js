@@ -10,7 +10,7 @@ import data from './test-data/dt2639';
 describe('<TicketInformation />', () => {
   const config = {
     showTicketInformation: true,
-    fareMapping: v => v
+    fareMapping: v => v,
   };
 
   it('should show multiple ticket components (DT-2639)', () => {
