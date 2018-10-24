@@ -2,6 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
 
+import { createMemoryMockRouter } from './helpers/mock-router';
+
 import defaultConfig from '../../app/configurations/config.default';
 import { getDefaultModes } from '../../app/util/modeUtils';
 import * as utils from '../../app/util/queryUtils';
@@ -461,6 +463,155 @@ describe('queryUtils', () => {
         false,
       );
       expect(utils.getAvoidElevationChanges(OptimizeType.Safe)).to.equal(false);
+    });
+  });
+
+  describe('setPreferGreenways', () => {
+    it('should not call replace on router if already enabled', () => {
+      let callCount = 0;
+      const router = {
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.setPreferGreenways(router, OptimizeType.Greenways);
+      expect(callCount).to.equal(0);
+    });
+
+    it('should call replace on router even if already enabled when forced', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setPreferGreenways(router, OptimizeType.Greenways, {}, true);
+      expect(callParams.query.optimize).to.equal(OptimizeType.Greenways);
+    });
+
+    it('should call replace on router when disabled', () => {
+      let callCount = 0;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.setPreferGreenways(router, OptimizeType.Quick);
+      expect(callCount).to.equal(1);
+    });
+
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setPreferGreenways(router, OptimizeType.Triangle, {
+        safetyFactor: utils.FACTOR_DISABLED,
+        slopeFactor: utils.ONE_FACTOR_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: utils.TWO_FACTORS_ENABLED,
+        slopeFactor: utils.TWO_FACTORS_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+    });
+  });
+
+  describe('setAvoidElevationChanges', () => {
+    it('should not call replace on router if already enabled', () => {
+      let callCount = 0;
+      const router = {
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+        slopeFactor: utils.ONE_FACTOR_ENABLED,
+      });
+      expect(callCount).to.equal(0);
+    });
+
+    it('should call replace on router even if already enabled when forced', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setAvoidElevationChanges(
+        router,
+        OptimizeType.Triangle,
+        {
+          safetyFactor: utils.TWO_FACTORS_ENABLED,
+          slopeFactor: utils.TWO_FACTORS_ENABLED,
+          timeFactor: utils.FACTOR_DISABLED,
+        },
+        true,
+      );
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: utils.FACTOR_DISABLED,
+        slopeFactor: utils.ONE_FACTOR_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+    });
+
+    it('should call replace on router when disabled', () => {
+      let callCount = 0;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.setAvoidElevationChanges(router, OptimizeType.Quick);
+      expect(callCount).to.equal(1);
+    });
+
+    it('should use OptimizeType TRIANGLE when other triangle factors are in use', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setAvoidElevationChanges(router, OptimizeType.Triangle, {
+        safetyFactor: utils.ONE_FACTOR_ENABLED,
+        slopeFactor: utils.FACTOR_DISABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: utils.TWO_FACTORS_ENABLED,
+        slopeFactor: utils.TWO_FACTORS_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+    });
+
+    it('should convert to OptimizeType TRIANGLE when the current OptimizeType is GREENWAYS', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.setAvoidElevationChanges(router, OptimizeType.Greenways);
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: utils.TWO_FACTORS_ENABLED,
+        slopeFactor: utils.TWO_FACTORS_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
     });
   });
 });

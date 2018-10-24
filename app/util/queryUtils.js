@@ -275,13 +275,18 @@ export const getQuerySettings = query => {
  * The triangle factor value to use when both the "prefer greenways" and
  * the "avoid elevation changes" flags are enabled.
  */
-const BOTH_FACTORS_ENABLED = 0.45;
+export const TWO_FACTORS_ENABLED = 0.45;
 
 /**
  * The triangle factor value to use when only one of the "prefer greenways" and
  * the "avoid elevation changes" flags is enabled.
  */
-const SINGLE_FACTOR_ENABLED = 0.8;
+export const ONE_FACTOR_ENABLED = 0.8;
+
+/**
+ * The triangle factor value to use when a triangle factor has no emphasis.
+ */
+export const FACTOR_DISABLED = 0.1;
 
 /**
  * Checks if the given settings have "prefer greenways" enabled.
@@ -291,7 +296,7 @@ const SINGLE_FACTOR_ENABLED = 0.8;
  */
 export const getPreferGreenways = (optimize, { safetyFactor } = {}) =>
   optimize === OptimizeType.Greenways ||
-  (optimize === OptimizeType.Triangle && safetyFactor >= BOTH_FACTORS_ENABLED);
+  (optimize === OptimizeType.Triangle && safetyFactor >= TWO_FACTORS_ENABLED);
 
 /**
  * Checks if the given settings have "avoid elevations changes" enabled.
@@ -300,7 +305,7 @@ export const getPreferGreenways = (optimize, { safetyFactor } = {}) =>
  * @param {{slopeFactor: number}} slopeFactor the current slopeFactor value
  */
 export const getAvoidElevationChanges = (optimize, { slopeFactor } = {}) =>
-  optimize === OptimizeType.Triangle && slopeFactor >= BOTH_FACTORS_ENABLED;
+  optimize === OptimizeType.Triangle && slopeFactor >= TWO_FACTORS_ENABLED;
 
 /**
  * Fuzzily sets the "prefer greenways" flag on.
@@ -313,7 +318,7 @@ export const getAvoidElevationChanges = (optimize, { slopeFactor } = {}) =>
 export const setPreferGreenways = (
   router,
   optimize,
-  triangleFactors,
+  triangleFactors = {},
   forceSingle = false,
 ) => {
   if (!forceSingle && getPreferGreenways(optimize, triangleFactors)) {
@@ -322,9 +327,9 @@ export const setPreferGreenways = (
   if (!forceSingle && getAvoidElevationChanges(optimize, triangleFactors)) {
     replaceQueryParams(router, {
       optimize: OptimizeType.Triangle,
-      safetyFactor: BOTH_FACTORS_ENABLED,
-      slopeFactor: BOTH_FACTORS_ENABLED,
-      timeFactor: 0.1,
+      safetyFactor: TWO_FACTORS_ENABLED,
+      slopeFactor: TWO_FACTORS_ENABLED,
+      timeFactor: FACTOR_DISABLED,
     });
   } else {
     replaceQueryParams(router, { optimize: OptimizeType.Greenways });
@@ -342,7 +347,7 @@ export const setPreferGreenways = (
 export const setAvoidElevationChanges = (
   router,
   optimize,
-  triangleFactors,
+  triangleFactors = {},
   forceSingle = false,
 ) => {
   if (!forceSingle && getAvoidElevationChanges(optimize, triangleFactors)) {
@@ -352,9 +357,9 @@ export const setAvoidElevationChanges = (
     !forceSingle && getPreferGreenways(optimize, triangleFactors);
   replaceQueryParams(router, {
     optimize: OptimizeType.Triangle,
-    safetyFactor: bothEnabled ? BOTH_FACTORS_ENABLED : 0.1,
-    slopeFactor: bothEnabled ? BOTH_FACTORS_ENABLED : SINGLE_FACTOR_ENABLED,
-    timeFactor: 0.1,
+    safetyFactor: bothEnabled ? TWO_FACTORS_ENABLED : FACTOR_DISABLED,
+    slopeFactor: bothEnabled ? TWO_FACTORS_ENABLED : ONE_FACTOR_ENABLED,
+    timeFactor: FACTOR_DISABLED,
   });
 };
 
