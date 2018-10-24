@@ -13,6 +13,7 @@ import PanelOrSelectLocation from './PanelOrSelectLocation';
 import { dtLocationShape } from '../util/shapes';
 import { TAB_FAVOURITES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { isBrowser } from '../util/browser';
 
 class FavouriteRouteListContainerRoute extends Relay.Route {
   static queries = {
@@ -56,31 +57,33 @@ const FavouritesPanel = ({
   favouriteLocations,
   favouriteStops,
   breakpoint,
-}) => (
-  <div className="frontpage-panel">
-    <FavouriteLocationsContainer
-      origin={origin}
-      currentTime={currentTime}
-      favourites={[...favouriteLocations, ...favouriteStops]}
-    />
-    <div
-      className={`nearby-table-container ${breakpoint !== 'large' && `mobile`}`}
-    >
-      {routes.length > 0 ? (
-        <table className="nearby-departures-table">
-          <thead>
-            <NextDeparturesListHeader />
-          </thead>
-          <tbody>
-            <FavouriteRoutes routes={routes} origin={origin} />
-          </tbody>
-        </table>
-      ) : (
-        <NoFavouritesPanel />
-      )}
+}) =>
+  isBrowser && (
+    <div className="frontpage-panel">
+      <FavouriteLocationsContainer
+        origin={origin}
+        currentTime={currentTime}
+        favourites={[...favouriteLocations, ...favouriteStops]}
+      />
+      <div
+        className={`nearby-table-container ${breakpoint !== 'large' &&
+          `mobile`}`}
+      >
+        {routes.length > 0 ? (
+          <table className="nearby-departures-table">
+            <thead>
+              <NextDeparturesListHeader />
+            </thead>
+            <tbody>
+              <FavouriteRoutes routes={routes} origin={origin} />
+            </tbody>
+          </table>
+        ) : (
+          <NoFavouritesPanel />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 
 FavouritesPanel.propTypes = {
   routes: PropTypes.array.isRequired,

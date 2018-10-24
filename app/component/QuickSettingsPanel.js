@@ -81,6 +81,7 @@ class QuickSettingsPanel extends React.Component {
     const defaultSettings = getDefaultSettings(config);
     const customizedSettings = getCustomizedSettings();
     delete defaultSettings.modes;
+    delete customizedSettings.modes;
 
     const quickOptionSets = {
       'default-route': {
@@ -122,8 +123,9 @@ class QuickSettingsPanel extends React.Component {
         optimize: OptimizeType.Greenways,
       },
     };
+
     if (customizedSettings && Object.keys(customizedSettings).length > 0) {
-      quickOptionSets['customized-mode'] = {
+      quickOptionSets['saved-settings'] = {
         ...defaultSettings,
         ...customizedSettings,
       };
@@ -204,7 +206,7 @@ class QuickSettingsPanel extends React.Component {
       const appliedSettings = pick(merged, Object.keys(quickSettings));
       return isEqual(quickSettings, appliedSettings);
     });
-    return currentOption || 'customized-mode';
+    return currentOption || 'custom-settings';
   };
 
   toggleTransportMode(mode, otpMode) {
@@ -281,7 +283,10 @@ class QuickSettingsPanel extends React.Component {
           <div className="open-advanced-settings">
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={quickOption === 'customized-mode'}
+              hasChanges={
+                quickOption === 'saved-settings' ||
+                quickOption === 'custom-settings'
+              }
             />
           </div>
         </div>
@@ -366,14 +371,22 @@ class QuickSettingsPanel extends React.Component {
               )}
               {customizedSettings &&
                 Object.keys(customizedSettings).length > 0 &&
-                applicableQuickOptionSets.includes('customized-mode') && (
-                  <option value="customized-mode">
+                applicableQuickOptionSets.includes('saved-settings') && (
+                  <option value="saved-settings">
                     {this.context.intl.formatMessage({
-                      id: 'route-customized-mode',
+                      id: 'route-saved-settings',
                       defaultMessage: 'Customized mode',
                     })}
                   </option>
                 )}
+              {quickOption === 'custom-settings' && (
+                <option value="custom-settings">
+                  {this.context.intl.formatMessage({
+                    id: 'route-custom-settings',
+                    defaultMessage: 'Current Settings',
+                  })}
+                </option>
+              )}
             </select>
             <Icon
               className="fake-select-arrow"

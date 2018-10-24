@@ -122,24 +122,24 @@ export default {
         'least-transfers',
         'least-walking',
         'public-transport-with-bicycle',
-        'customized-mode',
+        'saved-settings',
       ],
     },
     walk: {
-      availableOptionSets: ['prefer-walking-routes', 'customized-mode'],
+      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
     },
     bicycle: {
       availableOptionSets: [
         'least-elevation-changes',
         'prefer-greenways',
-        'customized-mode',
+        'saved-settings',
       ],
     },
     car_park: {
       availableOptionSets: [
         'least-transfers',
         'least-walking',
-        'customized-mode',
+        'saved-settings',
       ],
     },
   },
@@ -397,13 +397,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-
-  ticketOptions: [
-    {
-      displayName: 'Ei lippuvyöhykerajoitusta',
-      value: '0',
-    },
-  ],
 
   accessibilityOptions: [
     {
