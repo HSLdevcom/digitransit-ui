@@ -5,9 +5,11 @@ import { after, before } from 'mocha';
 import { stub } from 'sinon';
 
 before('setting up enzyme and jsdom', () => {
-  stub(console, 'error').callsFake(warning => {
+  const callback = warning => {
     throw new Error(warning);
-  });
+  };
+  stub(console, 'error').callsFake(callback);
+  stub(console, 'warn').callsFake(callback);
 
   const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
   const { window } = jsdom;
@@ -37,6 +39,7 @@ before('setting up enzyme and jsdom', () => {
 
 after('reset the error handler function', () => {
   console.error.restore();
+  console.warn.restore();
 });
 
 // prevent mocha from interpreting imported .png images
