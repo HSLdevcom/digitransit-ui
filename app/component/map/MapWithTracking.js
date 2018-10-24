@@ -267,7 +267,7 @@ class MapWithTrackingStateHandler extends React.Component {
 const MapWithTracking = connectToStores(
   getContext({
     config: PropTypes.shape({
-      defaultMapCenter: dtLocationShape.isRequired,
+      defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
   [PositionStore, MapLayerStore],

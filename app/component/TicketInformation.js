@@ -7,27 +7,16 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
+import mapFares from '../util/fareUtils';
 
 export default function TicketInformation({ fares }, { config, intl }) {
-  let currency;
-  let regularFare;
-  if (fares != null) {
-    [regularFare] = fares.filter(fare => fare.type === 'regular');
-  }
-
-  if (!regularFare || regularFare.cents === -1) {
+  const currency = '€';
+  const mappedFares = mapFares(fares, config, intl.locale);
+  if (!mappedFares) {
     return null;
   }
-
-  switch (regularFare.currency) {
-    case 'EUR':
-    default:
-      currency = '€';
-  }
-
-  const { components } = regularFare;
-  const hasComponent = Array.isArray(components) && components.length > 0;
-  const isMultiComponent = hasComponent && components.length > 1;
+  const [regularFare] = fares.filter(fare => fare.type === 'regular');
+  const isMultiComponent = mappedFares.length > 1;
 
   return (
     <div className="row itinerary-ticket-information">
@@ -44,17 +33,16 @@ export default function TicketInformation({ fares }, { config, intl }) {
               />
             </div>
           )}
-          {hasComponent &&
-            components.map((component, i) => (
-              <div
-                className={cx('ticket-type-zone', {
-                  'multi-component': isMultiComponent,
-                })}
-                key={i} // eslint-disable-line react/no-array-index-key
-              >
-                <span>{config.fareMapping(component.fareId, intl.locale)}</span>
-              </div>
-            ))}
+          {mappedFares.map((component, i) => (
+            <div
+              className={cx('ticket-type-zone', {
+                'multi-component': isMultiComponent,
+              })}
+              key={i} // eslint-disable-line react/no-array-index-key
+            >
+              <span>{component}</span>
+            </div>
+          ))}
           <div>
             <span className="ticket-type-group">
               <FormattedMessage

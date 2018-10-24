@@ -33,11 +33,6 @@ class MarkerPopupBottom extends React.Component {
       this.context.location,
     );
 
-    // Reset selected itinerary index
-    if (locationWithTime.state && locationWithTime.state.summaryPageSelected) {
-      locationWithTime.state.summaryPageSelected = 0;
-    }
-
     let destination;
 
     const pathName = get(this.context, 'location.pathname');
@@ -61,6 +56,7 @@ class MarkerPopupBottom extends React.Component {
       context,
       router: this.context.router,
       base: locationWithTime,
+      resetIndex: true,
     });
   };
 
@@ -69,11 +65,6 @@ class MarkerPopupBottom extends React.Component {
       this.context.getStore,
       this.context.location,
     );
-
-    // Reset selected itinerary index
-    if (locationWithTime.state && locationWithTime.state.summaryPageSelected) {
-      locationWithTime.state.summaryPageSelected = 0;
-    }
 
     let origin;
 
@@ -98,6 +89,7 @@ class MarkerPopupBottom extends React.Component {
       context,
       router: this.context.router,
       base: locationWithTime,
+      resetIndex: true,
     });
   };
 

@@ -180,11 +180,22 @@
 }
 
 .save-controls-container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-between;
+  .save-settings {
+    margin-right: 1.5em;
+  }
   button {
     border-radius: 100px;
     span {
       color: $white;
+    }
+    &.settings-loadbutton {
+      span {
+        color: $link-color;
+      }
     }
   }
   .reset-settings {

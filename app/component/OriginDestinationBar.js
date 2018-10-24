@@ -10,7 +10,6 @@ import { PREFIX_ITINERARY_SUMMARY, navigateTo } from '../util/path';
 import {
   getIntermediatePlaces,
   setIntermediatePlaces,
-  resetSelectedItineraryIndex,
 } from '../util/queryUtils';
 import { dtLocationShape } from '../util/shapes';
 
@@ -46,10 +45,7 @@ class OriginDestinationBar extends React.Component {
     setIntermediatePlaces(this.context.router, newViaPoints.map(locationToOtp));
 
   swapEndpoints = () => {
-    let { location } = this;
-
-    location = resetSelectedItineraryIndex(location);
-
+    const { location } = this;
     const intermediatePlaces = getIntermediatePlaces(location.query);
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
@@ -60,6 +56,7 @@ class OriginDestinationBar extends React.Component {
       destination: this.props.origin,
       context: PREFIX_ITINERARY_SUMMARY,
       router: this.context.router,
+      resetIndex: true,
     });
   };
 

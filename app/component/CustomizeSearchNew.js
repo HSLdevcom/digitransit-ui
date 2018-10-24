@@ -9,6 +9,7 @@ import FareZoneSelector from './FareZoneSelector';
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
+import LoadCustomizedSettingsButton from './LoadCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import BikeTransportOptionsSection from './customizesearch/BikeTransportOptionsSection';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
@@ -205,10 +206,17 @@ class CustomizeSearch extends React.Component {
             />
           </div>
           <div className="settings-option-container save-controls-container">
-            <SaveCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-            <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            <div style={{ display: 'flex' }}>
+              <SaveCustomizedSettingsButton
+                noSettingsFound={this.resetParameters}
+              />
+              <LoadCustomizedSettingsButton
+                noSettingsFound={this.resetParameters}
+              />
+            </div>
+            <div>
+              <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            </div>
           </div>
         </div>
       </div>

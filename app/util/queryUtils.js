@@ -2,18 +2,19 @@ import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 import omit from 'lodash/omit';
 import trim from 'lodash/trim';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { otpToLocation } from './otpStrings';
 
 /**
  * Removes selected itinerary index from url (pathname) and
- * state and then returns cleaned object.
+ * state and then returns a cleaned object.
  *
  * @param {*} location from the router
  * @returns cleaned location object
  */
 export const resetSelectedItineraryIndex = loc => {
-  const location = loc;
+  const location = cloneDeep(loc);
   if (location.state && location.state.summaryPageSelected) {
     location.state.summaryPageSelected = 0;
   }
