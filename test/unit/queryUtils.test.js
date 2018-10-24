@@ -409,4 +409,58 @@ describe('queryUtils', () => {
       expect(query.timeFactor).to.equal('0.5');
     });
   });
+
+  describe('getPreferGreenways', () => {
+    it('should be enabled if OptimizeType is GREENWAYS', () => {
+      const result = utils.getPreferGreenways(OptimizeType.Greenways);
+      expect(result).to.equal(true);
+    });
+
+    it('should be enabled if OptimizeType is TRIANGLE and safetyFactor is high enough', () => {
+      const result = utils.getPreferGreenways(OptimizeType.Triangle, {
+        safetyFactor: 0.45,
+      });
+      expect(result).to.equal(true);
+    });
+
+    it('should be disabled if OptimizeType is TRIANGLE and safetyFactor is not high enough', () => {
+      const result = utils.getPreferGreenways(OptimizeType.Triangle, {
+        safetyFactor: 0.44,
+      });
+      expect(result).to.equal(false);
+    });
+
+    it('should be disabled for other OptimizeTypes', () => {
+      expect(utils.getPreferGreenways(OptimizeType.Flat)).to.equal(false);
+      expect(utils.getPreferGreenways(OptimizeType.Quick)).to.equal(false);
+      expect(utils.getPreferGreenways(OptimizeType.Safe)).to.equal(false);
+    });
+  });
+
+  describe('getAvoidElevationChanges', () => {
+    it('should be enabled if OptimizeType is TRIANGLE and slopeFactor is high enough', () => {
+      const result = utils.getAvoidElevationChanges(OptimizeType.Triangle, {
+        slopeFactor: 0.45,
+      });
+      expect(result).to.equal(true);
+    });
+
+    it('should be disabled if OptimizeType is TRIANGLE and slopeFactor is not high enough', () => {
+      const result = utils.getAvoidElevationChanges(OptimizeType.Triangle, {
+        slopeFactor: 0.44,
+      });
+      expect(result).to.equal(false);
+    });
+
+    it('should be disabled for other OptimizeTypes', () => {
+      expect(utils.getAvoidElevationChanges(OptimizeType.Flat)).to.equal(false);
+      expect(utils.getAvoidElevationChanges(OptimizeType.Greenways)).to.equal(
+        false,
+      );
+      expect(utils.getAvoidElevationChanges(OptimizeType.Quick)).to.equal(
+        false,
+      );
+      expect(utils.getAvoidElevationChanges(OptimizeType.Safe)).to.equal(false);
+    });
+  });
 });

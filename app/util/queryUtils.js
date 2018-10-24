@@ -289,7 +289,7 @@ const SINGLE_FACTOR_ENABLED = 0.8;
  * @param {string} optimize the current OptimizeType
  * @param {{safetyFactor: number}} safetyFactor the current safetyFactor value
  */
-export const getPreferGreenways = (optimize, { safetyFactor }) =>
+export const getPreferGreenways = (optimize, { safetyFactor } = {}) =>
   optimize === OptimizeType.Greenways ||
   (optimize === OptimizeType.Triangle && safetyFactor >= BOTH_FACTORS_ENABLED);
 
@@ -299,7 +299,7 @@ export const getPreferGreenways = (optimize, { safetyFactor }) =>
  * @param {string} optimize the current OptimizeType
  * @param {{slopeFactor: number}} slopeFactor the current slopeFactor value
  */
-export const getAvoidElevationChanges = (optimize, { slopeFactor }) =>
+export const getAvoidElevationChanges = (optimize, { slopeFactor } = {}) =>
   optimize === OptimizeType.Triangle && slopeFactor >= BOTH_FACTORS_ENABLED;
 
 /**

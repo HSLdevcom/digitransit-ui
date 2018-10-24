@@ -92,6 +92,7 @@ const optimizeShape = PropTypes.oneOf([
   OptimizeType.Greenways,
   OptimizeType.Quick,
   OptimizeType.Safe,
+  OptimizeType.Triangle,
 ]);
 
 RoutePreferencesSection.propTypes = {
