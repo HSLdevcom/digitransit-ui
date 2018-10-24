@@ -614,4 +614,131 @@ describe('queryUtils', () => {
       });
     });
   });
+
+  describe('resetPreferGreenways', () => {
+    it('should not call replace on router if already disabled', () => {
+      let callCount = 0;
+      const router = {
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.resetPreferGreenways(
+        router,
+        OptimizeType.Safe,
+        {},
+        OptimizeType.Quick,
+      );
+      expect(callCount).to.equal(0);
+    });
+
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.resetPreferGreenways(
+        router,
+        OptimizeType.Triangle,
+        {
+          safetyFactor: utils.TWO_FACTORS_ENABLED,
+          slopeFactor: utils.TWO_FACTORS_ENABLED,
+          timeFactor: utils.FACTOR_DISABLED,
+        },
+        OptimizeType.Quick,
+      );
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: utils.FACTOR_DISABLED,
+        slopeFactor: utils.ONE_FACTOR_ENABLED,
+        timeFactor: utils.FACTOR_DISABLED,
+      });
+    });
+
+    it('should switch to default optimize', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.resetPreferGreenways(
+        router,
+        OptimizeType.Greenways,
+        {},
+        OptimizeType.Quick,
+      );
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Quick,
+      });
+    });
+  });
+
+  describe('resetAvoidElevationChanges', () => {
+    it('should not call replace on router if already disabled', () => {
+      let callCount = 0;
+      const router = {
+        replace: () => {
+          callCount += 1;
+        },
+      };
+      utils.resetAvoidElevationChanges(
+        router,
+        OptimizeType.Safe,
+        {},
+        OptimizeType.Quick,
+      );
+      expect(callCount).to.equal(0);
+    });
+
+    it('should switch to just one factor enabled if two factors are currently enabled', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.resetAvoidElevationChanges(
+        router,
+        OptimizeType.Triangle,
+        {
+          safetyFactor: utils.TWO_FACTORS_ENABLED,
+          slopeFactor: utils.TWO_FACTORS_ENABLED,
+          timeFactor: utils.FACTOR_DISABLED,
+        },
+        OptimizeType.Quick,
+      );
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Greenways,
+      });
+    });
+
+    it('should switch to default optimize', () => {
+      let callParams;
+      const router = {
+        ...createMemoryMockRouter(),
+        replace: params => {
+          callParams = params;
+        },
+      };
+      utils.resetAvoidElevationChanges(
+        router,
+        OptimizeType.Triangle,
+        {
+          safetyFactor: utils.FACTOR_DISABLED,
+          slopeFactor: utils.ONE_FACTOR_ENABLED,
+          timeFactor: utils.FACTOR_DISABLED,
+        },
+        OptimizeType.Quick,
+      );
+      expect(callParams.query).to.deep.equal({
+        optimize: OptimizeType.Quick,
+      });
+    });
+  });
 });
