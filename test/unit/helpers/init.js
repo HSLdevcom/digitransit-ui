@@ -1,9 +1,14 @@
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { JSDOM } from 'jsdom';
-import { before } from 'mocha';
+import { after, before } from 'mocha';
+import { stub } from 'sinon';
 
 before('setting up enzyme and jsdom', () => {
+  stub(console, 'error').callsFake(warning => {
+    throw new Error(warning);
+  });
+
   const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
   const { window } = jsdom;
 
@@ -28,6 +33,10 @@ before('setting up enzyme and jsdom', () => {
   copyProps(window, global);
 
   configure({ adapter: new Adapter() });
+});
+
+after('reset the error handler function', () => {
+  console.error.restore();
 });
 
 // prevent mocha from interpreting imported .png images
