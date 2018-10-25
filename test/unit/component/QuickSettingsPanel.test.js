@@ -1,15 +1,22 @@
 import { expect } from 'chai';
 import { createMemoryHistory } from 'history';
-import { describe, it } from 'mocha';
+import { afterEach, describe, it } from 'mocha';
 import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 import QuickSettingsPanel from '../../../app/component/QuickSettingsPanel';
 import defaultConfig from '../../../app/configurations/config.default';
-import { StreetMode } from '../../../app/constants';
+import {
+  StreetMode,
+  OptimizeType,
+  QuickOptionSetType,
+} from '../../../app/constants';
+import { setCustomizedSettings } from '../../../app/store/localStorage';
 import { getAvailableStreetModes } from '../../../app/util/modeUtils';
+import { getDefaultSettings } from '../../../app/util/planParamUtil';
+import { createMemoryMockRouter } from '../helpers/mock-router';
 
 const getDefaultProps = () => ({
   timeSelectorStartTime: 1535447686000,
@@ -98,5 +105,134 @@ describe('<QuickSettingsPanel />', () => {
         '.select-route-modes > option[value="least-elevation-changes"]',
       ),
     ).to.have.lengthOf(1);
+  });
+
+  describe('matchQuickOption', () => {
+    afterEach(() => {
+      global.localStorage.clear();
+    });
+
+    it('should return "default-route" by default', () => {
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context: { ...getDefaultContext(defaultConfig) },
+        },
+      );
+
+      const currentOption = wrapper.instance().matchQuickOption();
+      expect(currentOption).to.equal(QuickOptionSetType.DefaultRoute);
+    });
+
+    it('should return "custom-settings" if no matching quick option set is found', () => {
+      const context = {
+        ...getDefaultContext(defaultConfig),
+      };
+      context.location.query.optimize = 'UNKNOWN';
+
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context,
+        },
+      );
+
+      const currentOption = wrapper.instance().matchQuickOption();
+      expect(currentOption).to.equal('custom-settings');
+    });
+
+    it('should return "saved-settings" if the current settings come from localStorage', () => {
+      setCustomizedSettings({
+        optimize: OptimizeType.Triangle,
+        safetyFactor: 0.4,
+        slopeFactor: 0.4,
+        timeFactor: 0.2,
+      });
+
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context: {
+            ...getDefaultContext(defaultConfig),
+          },
+        },
+      );
+
+      const currentOption = wrapper.instance().matchQuickOption();
+      expect(currentOption).to.equal(QuickOptionSetType.SavedSettings);
+    });
+
+    it('should still return "saved-settings" if the current settings come from localStorage and they match another quick option set', () => {
+      setCustomizedSettings({ ...getDefaultSettings(defaultConfig) });
+
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context: {
+            ...getDefaultContext(defaultConfig),
+          },
+        },
+      );
+
+      const currentOption = wrapper.instance().matchQuickOption();
+      expect(currentOption).to.equal(QuickOptionSetType.SavedSettings);
+    });
+
+    it('should return the matching quick option set if the query and localStorage contain the same matching settings', () => {
+      setCustomizedSettings({
+        modes: StreetMode.Bicycle,
+        optimize: OptimizeType.Greenways,
+      });
+
+      const context = {
+        ...getDefaultContext(defaultConfig),
+        location: {
+          query: {
+            modes: StreetMode.Bicycle,
+            optimize: OptimizeType.Greenways,
+          },
+        },
+      };
+
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context,
+        },
+      );
+
+      const currentOption = wrapper.instance().matchQuickOption();
+      expect(currentOption).to.equal(QuickOptionSetType.PreferGreenways);
+    });
+  });
+
+  describe('setQuickOption', () => {
+    afterEach(() => {
+      global.localStorage.clear();
+    });
+
+    it('should remove all query params if the selected mode is "saved-settings"', () => {
+      setCustomizedSettings({
+        modes: StreetMode.Bicycle,
+        optimize: OptimizeType.Greenways,
+      });
+
+      const router = { ...createMemoryMockRouter() };
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context: {
+            config: defaultConfig,
+            location: {
+              ...router.getCurrentLocation(),
+            },
+            router,
+          },
+        },
+      );
+
+      wrapper.instance().setQuickOption(QuickOptionSetType.SavedSettings);
+      expect(router.getCurrentLocation().query).to.deep.equal({});
+    });
   });
 });

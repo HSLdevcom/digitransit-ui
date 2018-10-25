@@ -13,7 +13,7 @@ import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import { StreetMode, OptimizeType } from '../constants';
+import { StreetMode, OptimizeType, QuickOptionSetType } from '../constants';
 import {
   getModes,
   isBikeRestricted,
@@ -23,7 +23,7 @@ import {
 } from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
-import { replaceQueryParams } from '../util/queryUtils';
+import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -69,7 +69,7 @@ class QuickSettingsPanel extends React.Component {
     const { config, location } = this.context;
     const streetMode = getStreetMode(location, config).toLowerCase();
     return [
-      'default-route',
+      QuickOptionSetType.DefaultRoute,
       ...(config.quickOptions[streetMode]
         ? config.quickOptions[streetMode].availableOptionSets
         : []),
@@ -84,22 +84,22 @@ class QuickSettingsPanel extends React.Component {
     delete customizedSettings.modes;
 
     const quickOptionSets = {
-      'default-route': {
+      [QuickOptionSetType.DefaultRoute]: {
         ...defaultSettings,
       },
-      'least-elevation-changes': {
+      [QuickOptionSetType.LeastElevationChanges]: {
         ...defaultSettings,
         optimize: OptimizeType.Triangle,
         safetyFactor: 0.1,
         slopeFactor: 0.8,
         timeFactor: 0.1,
       },
-      'least-transfers': {
+      [QuickOptionSetType.LeastTransfers]: {
         ...defaultSettings,
         transferPenalty: 5460,
         walkReluctance: config.defaultOptions.walkReluctance.less,
       },
-      'least-walking': {
+      [QuickOptionSetType.LeastWalking]: {
         ...defaultSettings,
         walkBoardCost: config.defaultOptions.walkBoardCost.more,
         walkReluctance: config.defaultOptions.walkReluctance.least,
@@ -113,19 +113,19 @@ class QuickSettingsPanel extends React.Component {
           ),
         ].join(','),
       },
-      'prefer-walking-routes': {
+      [QuickOptionSetType.PreferWalkingRoutes]: {
         ...defaultSettings,
         optimize: OptimizeType.Safe,
         walkReluctance: config.defaultOptions.walkReluctance.most,
       },
-      'prefer-greenways': {
+      [QuickOptionSetType.PreferGreenways]: {
         ...defaultSettings,
         optimize: OptimizeType.Greenways,
       },
     };
 
     if (customizedSettings && Object.keys(customizedSettings).length > 0) {
-      quickOptionSets['saved-settings'] = {
+      quickOptionSets[QuickOptionSetType.SavedSettings] = {
         ...defaultSettings,
         ...customizedSettings,
       };
@@ -134,15 +134,21 @@ class QuickSettingsPanel extends React.Component {
   };
 
   setQuickOption = name => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
+    const { piwik, router } = this.context;
+    if (piwik != null) {
+      piwik.trackEvent(
         'ItinerarySettings',
         'ItineraryQuickSettingsSelection',
         name,
       );
     }
-    const chosenMode = this.getQuickOptionSet()[name];
-    replaceQueryParams(this.context.router, { ...chosenMode });
+
+    const settings = this.getQuickOptionSet()[name];
+    if (name === QuickOptionSetType.SavedSettings) {
+      clearQueryParams(router, Object.keys(settings));
+    } else {
+      replaceQueryParams(router, { ...settings });
+    }
   };
 
   getModes = () => getModes(this.context.location, this.context.config);
@@ -194,19 +200,27 @@ class QuickSettingsPanel extends React.Component {
   };
 
   matchQuickOption = () => {
-    const merged = getCurrentSettings(
-      this.context.config,
-      this.context.location.query,
-    );
+    const {
+      config,
+      location: { query },
+    } = this.context;
+
+    const merged = getCurrentSettings(config, query);
 
     // Find out which quick option the user has selected
     const quickOptions = this.getQuickOptionSet();
-    const currentOption = Object.keys(quickOptions).find(key => {
-      const quickSettings = { ...quickOptions[key] };
+    const matchesOptionSet = optionSetName => {
+      if (!quickOptions[optionSetName]) {
+        return false;
+      }
+      const quickSettings = { ...quickOptions[optionSetName] };
       const appliedSettings = pick(merged, Object.keys(quickSettings));
       return isEqual(quickSettings, appliedSettings);
-    });
-    return currentOption || 'custom-settings';
+    };
+
+    return matchesOptionSet(QuickOptionSetType.SavedSettings)
+      ? QuickOptionSetType.SavedSettings
+      : Object.keys(quickOptions).find(matchesOptionSet) || 'custom-settings';
   };
 
   toggleTransportMode(mode, otpMode) {
