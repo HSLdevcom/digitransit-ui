@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
 import xor from 'lodash/xor';
 import { routerShape, locationShape } from 'react-router';
 
@@ -23,7 +24,11 @@ import {
 } from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
 import { getCustomizedSettings } from '../store/localStorage';
-import { replaceQueryParams, clearQueryParams } from '../util/queryUtils';
+import {
+  replaceQueryParams,
+  clearQueryParams,
+  getQuerySettings,
+} from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -76,7 +81,7 @@ class QuickSettingsPanel extends React.Component {
     ];
   };
 
-  getQuickOptionSet = () => {
+  getQuickOptionSets = () => {
     const { config } = this.context;
     const defaultSettings = getDefaultSettings(config);
     const customizedSettings = getCustomizedSettings();
@@ -143,11 +148,11 @@ class QuickSettingsPanel extends React.Component {
       );
     }
 
-    const settings = this.getQuickOptionSet()[name];
+    const quickOptionSet = this.getQuickOptionSets()[name];
     if (name === QuickOptionSetType.SavedSettings) {
-      clearQueryParams(router, Object.keys(settings));
+      clearQueryParams(router, Object.keys(quickOptionSet));
     } else {
-      replaceQueryParams(router, { ...settings });
+      replaceQueryParams(router, { ...quickOptionSet });
     }
   };
 
@@ -205,22 +210,37 @@ class QuickSettingsPanel extends React.Component {
       location: { query },
     } = this.context;
 
-    const merged = getCurrentSettings(config, query);
-
     // Find out which quick option the user has selected
-    const quickOptions = this.getQuickOptionSet();
-    const matchesOptionSet = optionSetName => {
-      if (!quickOptions[optionSetName]) {
+    const quickOptionSets = this.getQuickOptionSets();
+    const matchesOptionSet = (optionSetName, settings) => {
+      if (!quickOptionSets[optionSetName]) {
         return false;
       }
-      const quickSettings = { ...quickOptions[optionSetName] };
-      const appliedSettings = pick(merged, Object.keys(quickSettings));
+      const quickSettings = pickBy(
+        { ...quickOptionSets[optionSetName] },
+        property => (Array.isArray(property) ? property.length > 0 : true),
+      );
+      const appliedSettings = pick(settings, Object.keys(quickSettings));
       return isEqual(quickSettings, appliedSettings);
     };
 
-    return matchesOptionSet(QuickOptionSetType.SavedSettings)
-      ? QuickOptionSetType.SavedSettings
-      : Object.keys(quickOptions).find(matchesOptionSet) || 'custom-settings';
+    const querySettings = getQuerySettings(query);
+    const currentSettings = getCurrentSettings(config, query);
+
+    if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
+      return (
+        Object.keys(quickOptionSets)
+          .filter(key => key !== QuickOptionSetType.SavedSettings)
+          .find(key => matchesOptionSet(key, querySettings)) ||
+        QuickOptionSetType.SavedSettings
+      );
+    }
+
+    return (
+      Object.keys(quickOptionSets).find(key =>
+        matchesOptionSet(key, currentSettings),
+      ) || 'custom-settings'
+    );
   };
 
   toggleTransportMode(mode, otpMode) {

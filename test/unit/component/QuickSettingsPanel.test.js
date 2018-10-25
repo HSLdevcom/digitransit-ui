@@ -179,25 +179,25 @@ describe('<QuickSettingsPanel />', () => {
     });
 
     it('should return the matching quick option set if the query and localStorage contain the same matching settings', () => {
-      setCustomizedSettings({
+      const settings = {
+        ...getDefaultSettings(defaultConfig),
         modes: StreetMode.Bicycle,
         optimize: OptimizeType.Greenways,
-      });
-
-      const context = {
-        ...getDefaultContext(defaultConfig),
-        location: {
-          query: {
-            modes: StreetMode.Bicycle,
-            optimize: OptimizeType.Greenways,
-          },
-        },
       };
+      setCustomizedSettings({
+        ...settings,
+      });
+      const router = { ...createMemoryMockRouter() };
+      router.replace({ query: { ...settings } });
 
       const wrapper = shallowWithIntl(
         <QuickSettingsPanel {...getDefaultProps()} />,
         {
-          context,
+          context: {
+            config: { ...defaultConfig },
+            location: { ...router.getCurrentLocation() },
+            router,
+          },
         },
       );
 
@@ -218,6 +218,10 @@ describe('<QuickSettingsPanel />', () => {
       });
 
       const router = { ...createMemoryMockRouter() };
+      router.replace({
+        query: { time: 123456789 },
+      });
+
       const wrapper = shallowWithIntl(
         <QuickSettingsPanel {...getDefaultProps()} />,
         {
@@ -232,7 +236,9 @@ describe('<QuickSettingsPanel />', () => {
       );
 
       wrapper.instance().setQuickOption(QuickOptionSetType.SavedSettings);
-      expect(router.getCurrentLocation().query).to.deep.equal({});
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        time: '123456789',
+      });
     });
   });
 });
