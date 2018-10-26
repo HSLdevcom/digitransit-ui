@@ -122,20 +122,20 @@ export default {
         'least-transfers',
         'least-walking',
         'public-transport-with-bicycle',
-        'customized-mode',
+        'saved-settings',
       ],
     },
     walk: {
-      availableOptionSets: ['prefer-walking-routes', 'customized-mode'],
+      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
     },
     bicycle: {
-      availableOptionSets: ['prefer-greenways', 'customized-mode'],
+      availableOptionSets: ['prefer-greenways', 'saved-settings'],
     },
     car_park: {
       availableOptionSets: [
         'least-transfers',
         'least-walking',
-        'customized-mode',
+        'saved-settings',
       ],
     },
   },

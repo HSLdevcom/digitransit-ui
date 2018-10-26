@@ -144,7 +144,6 @@ const callback = () =>
 
     configureMoment(language, config);
 
-    let hasSwUpdate = false;
     const history = historyCreator(config);
 
     if (config.redirectReittiopasParams) {
@@ -164,9 +163,6 @@ const callback = () =>
       this.href = this.props.router.createHref(this.state.location);
       piwik.setCustomUrl(this.href);
       piwik.trackPageView();
-      if (hasSwUpdate && !this.state.location.state) {
-        window.location = this.href;
-      }
     }
 
     const ContextProvider = provideContext(StoreListeningIntlProvider, {
@@ -236,9 +232,6 @@ const callback = () =>
                 ) {
                   OfflinePlugin.install({
                     onUpdateReady: () => OfflinePlugin.applyUpdate(),
-                    onUpdated: () => {
-                      hasSwUpdate = true;
-                    },
                   });
                 }
               });
