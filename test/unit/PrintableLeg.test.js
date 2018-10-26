@@ -1,9 +1,9 @@
-import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import React from 'react';
 
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
-import { shallowWithIntl, mountWithIntl } from './helpers/mock-intl-enzyme';
+import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import {
   PrintableLeg,
   TransferMap,
@@ -17,6 +17,7 @@ describe('<PrintableLeg />', () => {
     const props = {
       ...dt2587,
       context: { config: {} },
+      index: 0,
     };
 
     const wrapper = shallowWithIntl(<PrintableLeg {...props} />, {
@@ -33,13 +34,11 @@ describe('<PrintableLeg />', () => {
       context: { config: {} },
     };
 
-    const wrapper = mountWithIntl(<PrintableLeg {...props} />, {
+    const wrapper = shallowWithIntl(<PrintableLeg {...props} />, {
       context: mockContext,
       childContextTypes: mockChildContextTypes,
     });
 
-    expect(wrapper.find('.itinerary-leg-stopname').text()).to.equal(
-      'Return the bike to Veturitori station',
-    );
+    expect(wrapper.find({ id: 'return-cycle-to' })).to.have.lengthOf(1);
   });
 });
