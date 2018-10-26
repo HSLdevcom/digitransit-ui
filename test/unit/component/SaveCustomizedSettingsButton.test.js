@@ -55,6 +55,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
           ...mockContext,
           config: defaultConfig,
           location: {
+            ...mockContext.location,
             query: {},
           },
         },
@@ -78,6 +79,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
           ...mockContext,
           config: defaultConfig,
           location: {
+            ...mockContext.location,
             query: {
               optimize: OptimizeType.Safe,
             },
@@ -123,6 +125,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
       ...mockContext,
       config: defaultConfig,
       location: {
+        ...mockContext.location,
         query,
       },
     };
@@ -156,6 +159,7 @@ describe('<SaveCustomizedSettingsButton />', () => {
       ...mockContext,
       config: defaultConfig,
       location: {
+        ...mockContext.location,
         query,
       },
     };
