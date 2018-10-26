@@ -441,6 +441,61 @@ describe('planParamUtil', () => {
         timeFactor: 0.5,
       });
     });
+
+    it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(false);
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'CITYBIKE,BUS,TRAM,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(true);
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+              intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(true);
+    });
   });
 
   describe('getDefaultSettings', () => {
