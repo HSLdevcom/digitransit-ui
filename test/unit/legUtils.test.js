@@ -390,4 +390,20 @@ describe('legUtils', () => {
       expect(compressedLegs.length).to.equal(5);
     });
   });
+
+  describe('getTotalDistance', () => {
+    it('should calculate the total distance of all legs', () => {
+      const itinerary = {
+        legs: [{ distance: 1 }, { distance: 3 }, { distance: 5 }],
+      };
+      expect(utils.getTotalDistance(itinerary)).to.equal(9);
+    });
+
+    it('should ignore a missing distance value', () => {
+      const itinerary = {
+        legs: [{ distance: 1 }, { distance: undefined }, { distance: 5 }],
+      };
+      expect(utils.getTotalDistance(itinerary)).to.equal(6);
+    });
+  });
 });

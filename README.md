@@ -11,7 +11,7 @@ Our main issue tracking is handled in [https://digitransit.atlassian.net](https:
 However, we also monitor this repository's issues and import them to Jira. You can create issues in GitHub.
 
 ## Demos
-* [https://www.reittiopas.fi - Helsinki city area demo](https://www.reittiopas.fi/)
+* [https://reittiopas.hsl.fi - Helsinki city area demo](https://reittiopas.hsl.fi/)
 * [https://opas.matka.fi/ - National demo](https://opas.matka.fi/)
 
 ## Testing

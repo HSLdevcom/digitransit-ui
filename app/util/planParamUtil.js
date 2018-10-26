@@ -158,13 +158,19 @@ export const getSettings = () => {
     bikeSwitchTime: getNumberValueOrDefault(routingSettings.bikeSwitchTime),
     bikeSwitchCost: getNumberValueOrDefault(routingSettings.bikeSwitchCost),
     bikeBoardCost: getNumberValueOrDefault(routingSettings.bikeBoardCost),
-    optimize:
-      routingSettings.optimize !== undefined
-        ? routingSettings.optimize
-        : undefined,
-    safetyFactor: getNumberValueOrDefault(routingSettings.safetyFactor),
-    slopeFactor: getNumberValueOrDefault(routingSettings.slopeFactor),
-    timeFactor: getNumberValueOrDefault(routingSettings.timeFactor),
+    optimize: custSettings.optimize || routingSettings.optimize || undefined,
+    safetyFactor: getNumberValueOrDefault(
+      custSettings.safetyFactor,
+      routingSettings.safetyFactor,
+    ),
+    slopeFactor: getNumberValueOrDefault(
+      custSettings.slopeFactor,
+      routingSettings.slopeFactor,
+    ),
+    timeFactor: getNumberValueOrDefault(
+      custSettings.timeFactor,
+      routingSettings.timeFactor,
+    ),
     carParkCarLegWeight: getNumberValueOrDefault(
       routingSettings.carParkCarLegWeight,
     ),
@@ -209,6 +215,9 @@ export const preparePlanParams = config => (
         numItineraries,
         optimize,
         preferredRoutes,
+        safetyFactor,
+        slopeFactor,
+        timeFactor,
         ticketTypes,
         time,
         transferPenalty,
@@ -273,11 +282,20 @@ export const preparePlanParams = config => (
         bikeBoardCost: settings.bikeBoardCost,
         optimize: optimize || settings.optimize,
         triangle:
-          settings.optimize === 'TRIANGLE'
+          (optimize || settings.optimize) === 'TRIANGLE'
             ? {
-                safetyFactor: settings.safetyFactor,
-                slopeFactor: settings.slopeFactor,
-                timeFactor: settings.timeFactor,
+                safetyFactor: getNumberValueOrDefault(
+                  safetyFactor,
+                  settings.safetyFactor,
+                ),
+                slopeFactor: getNumberValueOrDefault(
+                  slopeFactor,
+                  settings.slopeFactor,
+                ),
+                timeFactor: getNumberValueOrDefault(
+                  timeFactor,
+                  settings.timeFactor,
+                ),
               }
             : null,
         carParkCarLegWeight: settings.carParkCarLegWeight,

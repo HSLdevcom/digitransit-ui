@@ -54,11 +54,9 @@ export function parseMessage(topic, message, actionContext) {
     operatingDay:
       parsedMessage.oday && parsedMessage.oday !== 'XXX'
         ? parsedMessage.oday
-        : moment().format('YYYYMMDD'),
+        : moment().format('YYYY-MM-DD'),
     mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
-    delay: parsedMessage.dl,
     next_stop: nextStop,
-    stop_index: parsedMessage.stop_index,
     timestamp: parsedMessage.tsi,
     lat: parsedMessage.lat && ceil(parsedMessage.lat, 5),
     long: parsedMessage.long && ceil(parsedMessage.long, 5),

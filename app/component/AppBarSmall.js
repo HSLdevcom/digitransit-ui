@@ -28,12 +28,12 @@ AppBarSmall.description = () => (
   <div>
     <p>AppBar of application for small display</p>
     <ComponentUsageExample description="">
-      <AppBarSmall title="Reittiopas.fi" className="fullscreen" />
+      <AppBarSmall title="Reittiopas.hsl.fi" className="fullscreen" />
     </ComponentUsageExample>
     <ComponentUsageExample description="no back button">
       <AppBarSmall
         disableBackButton
-        title="Reittiopas.fi"
+        title="Reittiopas.hsl.fi"
         className="fullscreen"
       />
     </ComponentUsageExample>

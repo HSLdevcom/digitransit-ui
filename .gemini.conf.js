@@ -18,7 +18,7 @@ module.exports = {
       windowSize: '600x1024',
       desiredCapabilities: {
         os: 'Windows',
-        os_version: '8.1',
+        os_version: '10',
         browserName: 'internet explorer',
         browser: 'IE',
         browser_version: '11',
