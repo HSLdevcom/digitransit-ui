@@ -1,5 +1,5 @@
 const CONFIG = 'hsl';
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const API_URL = process.env.API_URL || 'https://api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';

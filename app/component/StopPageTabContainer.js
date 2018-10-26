@@ -68,11 +68,30 @@ class StopPageTabContainer extends React.Component {
           </div>
         </button>
         {
-          // <div
-          // className={`stop-tab-singletab add-info ${this.state.active === 'add-info'
-          // ? 'active' : 'inactive'}`}
-          // onClick={() => { this.setState({ active: 'add-info' }); }}
-          // />
+          <button
+            className={`stop-tab-singletab add-info ${
+              this.state.active === 'routes-platforms' ? 'active' : 'inactive'
+            }`}
+            onClick={() => {
+              this.setState({ active: 'routes-platforms' });
+              this.selectedTab('routes-platforms');
+            }}
+          >
+            <div className="stop-tab-singletab-container">
+              <div>
+                <Icon
+                  img="icon-icon_info"
+                  className="routes-platforms-page-tab_icon"
+                />
+              </div>
+              <div>
+                <FormattedMessage
+                  id="routes-platforms"
+                  defaultMessage="routes-platforms"
+                />
+              </div>
+            </div>
+          </button>
         }
       </div>
     );

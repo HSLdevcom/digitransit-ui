@@ -123,7 +123,6 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   text-transform: uppercase;
   font-size: $font-size-xxsmall;
   width: 50%;
-  height: 100%;
   text-align: center;
   background-color: $white;
   cursor: pointer;
@@ -135,6 +134,9 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   padding-bottom: 0.8em;
   padding-top: 0;
   margin-bottom: 0;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  height: 5.8em;
 
   svg {
     stroke: $primary-color;
@@ -167,21 +169,20 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   display: block;
   margin: 0 auto;
   font-weight: bold;
-  line-height: 1.56;
+  line-height: 1.2;
   letter-spacing: -0.4px;
   margin-top: 0.8em;
+  span {
+    font-size: $font-size-xxxsmall;
+  }
+  .icon-container .icon {
+    font-size: 1.7em;
+  }
 }
 
 .stop-page-tab_icon {
   width: 24px;
   height: 24px;
-}
-
-.mobile {
-  .stop-page-tab_icon, .stop-tab-singletab-container svg {
-    width: 1.6em;
-    height: 1.6em;
-  }
 }
 
 .stop-page.departure-list {

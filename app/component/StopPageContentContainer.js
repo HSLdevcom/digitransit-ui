@@ -9,6 +9,7 @@ import StopPageTabContainer from './StopPageTabContainer';
 import DepartureListHeader from './DepartureListHeader';
 import DepartureListContainer from './DepartureListContainer';
 import TimetableContainer from './TimetableContainer';
+import RoutesAndPlatformsForStops from './RoutesAndPlatformsForStops';
 import Error404 from './404';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -85,6 +86,11 @@ class StopPageContentOptions extends React.Component {
             }}
           />
         )}
+        {this.state.showTab === 'routes-platforms' && (
+          <div className="stop-scroll-container momentum-scroll">
+            <RoutesAndPlatformsForStops stop={this.props.departureProps.stop} />
+          </div>
+        )}
       </div>
     );
   }
@@ -141,10 +147,19 @@ export default Relay.createContainer(
       stop: ({ date }) => Relay.QL`
       fragment on Stop {
         url
+        routes {
+          gtfsId
+          shortName
+          longName
+          mode
+          patterns
+          stops 
+        }
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
         ${TimetableContainer.getFragment('stop', { date })}
+        ${RoutesAndPlatformsForStops.getFragment('stop')}
       }
     `,
     },
