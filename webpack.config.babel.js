@@ -168,7 +168,6 @@ module.exports = {
                 modules: false,
               },
             ],
-            ['@babel/preset-stage-3', { loose: true, useBuiltIns: true }],
             [
               '@babel/preset-react',
               { development: isDevelopment, useBuiltIns: true },
@@ -180,12 +179,13 @@ module.exports = {
               '@babel/plugin-transform-runtime',
               {
                 helpers: true,
-                polyfill: false,
                 regenerator: true,
-                useBuiltIns: true,
                 useESModules: true,
               },
             ],
+            '@babel/plugin-syntax-dynamic-import',
+            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            '@babel/plugin-proposal-json-strings',
           ],
         },
       },
