@@ -107,8 +107,6 @@ class TripStopListContainer extends React.PureComponent {
     return this.props.trip.stoptimesForDate.map((stoptime, index) => {
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
-      } else if (vehicle.stop_index === index) {
-        stopPassed = false;
       } else if (
         stoptime.realtimeDeparture + stoptime.serviceDay >
           this.props.currentTime &&
