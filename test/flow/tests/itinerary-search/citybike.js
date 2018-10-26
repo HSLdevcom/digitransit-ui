@@ -1,7 +1,7 @@
 const moment = require('moment');
 
 module.exports = {
-  '@disabled': false, // TODO: remove citybikes on 2018-10-31
+  '@disabled': true, // TODO: remove citybikes on 2018-10-31
   tags: ['citybike'],
   'Citybikes should be removed after 2018-10-31': browser => {
     if (moment().date() > moment('2018-10-31').date()) {
