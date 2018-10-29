@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
+
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
+import Icon from './Icon';
 import InfoIcon from './InfoIcon';
 
 class StopCardHeader extends React.Component {
@@ -26,7 +29,8 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    if (!this.props.stop) {
+    const { stop } = this.props;
+    if (!stop) {
       return false;
     }
 
@@ -34,30 +38,50 @@ class StopCardHeader extends React.Component {
       <CardHeader
         className={this.props.className}
         headingStyle={this.props.headingStyle}
-        name={this.props.stop.name}
+        name={stop.name}
         description={this.getDescription()}
         code={
-          this.context.config.stopCard.header.showStopCode &&
-          this.props.stop.code
-            ? this.props.stop.code
+          this.context.config.stopCard.header.showStopCode && stop.code
+            ? stop.code
             : null
         }
         icons={this.props.icons}
-      />
+      >
+        {stop.zoneId && (
+          <div className="zone-information-wrapper">
+            {this.context.intl.formatMessage({
+              id: 'zone',
+              defaultMessage: 'Zone',
+            })}
+            <Icon img={`icon-icon_zone-${stop.zoneId.toLowerCase()}`} />
+          </div>
+        )}
+      </CardHeader>
     );
   }
 }
 
 StopCardHeader.propTypes = {
-  stop: PropTypes.object,
+  stop: PropTypes.shape({
+    gtfsId: PropTypes.string,
+    name: PropTypes.string,
+    code: PropTypes.string,
+    desc: PropTypes.string,
+    zoneId: PropTypes.string,
+  }),
   distance: PropTypes.number,
   className: PropTypes.string,
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
 };
 
+StopCardHeader.defaultProps = {
+  stop: undefined,
+};
+
 StopCardHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const exampleStop = {

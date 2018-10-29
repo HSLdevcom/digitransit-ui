@@ -15,14 +15,14 @@ const PopupMock = props => {
   let height;
   switch (props.size) {
     case 'small':
-      height = 8;
-      break;
-    case 'large':
-      height = 19;
+      height = 10;
       break;
     case 'medium':
     default:
-      height = 14;
+      height = 16;
+      break;
+    case 'large':
+      height = 21;
       break;
   }
 
