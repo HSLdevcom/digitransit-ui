@@ -235,8 +235,9 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch off in autumn
   cityBike: {
+    // Config for map features. NOTE: availability for routing is controlled by
+    // transportModes.citybike.availableForSelection
     showCityBikes: true,
     showStationId: true,
 
