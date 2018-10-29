@@ -94,9 +94,20 @@ function getMaxWalkDistance(modes, settings, config) {
   return maxWalkDistance;
 }
 
-function getDisableRemainingWeightHeuristic(modes, settings) {
+function getDisableRemainingWeightHeuristic(
+  modes,
+  settings,
+  intermediatePlaces,
+) {
   let disableRemainingWeightHeuristic;
-  if (modes && modes.split(',').includes('CITYBIKE')) {
+  const modesArray = modes ? modes.split(',') : undefined;
+  if (
+    modesArray &&
+    (modesArray.includes('BICYCLE_RENT') ||
+      (modesArray.includes('BICYCLE') &&
+        modesArray.length > 1 &&
+        intermediatePlaces.length > 0))
+  ) {
     disableRemainingWeightHeuristic = true;
   } else if (nullOrUndefined(settings.disableRemainingWeightHeuristic)) {
     disableRemainingWeightHeuristic = false;
@@ -324,6 +335,7 @@ export const preparePlanParams = config => (
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,
+          getIntermediatePlaces({ intermediatePlaces }),
         ),
       },
       nullOrUndefined,
