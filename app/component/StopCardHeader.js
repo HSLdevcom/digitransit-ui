@@ -53,7 +53,10 @@ class StopCardHeader extends React.Component {
               id: 'zone',
               defaultMessage: 'Zone',
             })}
-            <Icon img={`icon-icon_zone-${stop.zoneId.toLowerCase()}`} />
+            <Icon
+              img={`icon-icon_zone-${stop.zoneId.toLowerCase()}`}
+              viewBox="0 0 22 22"
+            />
           </div>
         )}
       </CardHeader>
