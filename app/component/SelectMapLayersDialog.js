@@ -123,15 +123,13 @@ class SelectMapLayersDialog extends React.Component {
             />
           )}
           {config.cityBike && (
-              <Checkbox
-                checked={citybike}
-                defaultMessage="Citybike station"
-                labelId="map-layer-citybike"
-                onChange={e =>
-                  this.updateSetting({ citybike: e.target.checked })
-                }
-              />
-            )}
+            <Checkbox
+              checked={citybike}
+              defaultMessage="Citybike station"
+              labelId="map-layer-citybike"
+              onChange={e => this.updateSetting({ citybike: e.target.checked })}
+            />
+          )}
           {config.parkAndRide &&
             config.parkAndRide.showParkAndRide && (
               <Checkbox
