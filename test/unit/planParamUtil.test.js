@@ -475,7 +475,9 @@ describe('planParamUtil', () => {
         },
       );
       const { disableRemainingWeightHeuristic } = params;
-      expect(disableRemainingWeightHeuristic).to.equal(true);
+      expect(disableRemainingWeightHeuristic).to.equal(
+        defaultConfig.transportModes.citybike.availableForSelection,
+      );
     });
 
     it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {

@@ -1,11 +1,13 @@
 const moment = require('moment');
 
 module.exports = {
-  '@disabled': false, // TODO: remove citybikes on 2018-10-31
+  '@disabled': true, // TODO: change this whenever citybike period starts/ends
   tags: ['citybike'],
-  'Citybikes should be removed after 2018-10-31': browser => {
-    if (moment().date() > moment('2018-10-31').date()) {
-      browser.assert.fail('Citybikes should be removed by now');
+  'Citybike tests should be disabled during winter period': browser => {
+    const month = moment().month() + 1;
+    const winterMonths = [11, 12, 1, 2, 3];
+    if (winterMonths.includes(month)) {
+      browser.assert.fail('Citybike tests should be disabled in winter');
     }
   },
 
