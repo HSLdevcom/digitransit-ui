@@ -9,7 +9,7 @@ const OfflinePlugin = require('offline-plugin');
 
 const CompressionPlugin = require('compression-webpack-plugin');
 const iltorb = require('iltorb');
-const zopfli = require('@gfx/zopfli');
+const zopfli = require('node-zopfli-es');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');

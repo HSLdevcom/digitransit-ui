@@ -94,6 +94,7 @@
     "mqtt": "2.18.1",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "2.1.2",
+    "node-zopfli-es": "0.0.2",
     "offline-plugin": "5.0.5",
     "pbf": "3.1.0",
     "point-in-polygon": "1.0.1",
@@ -128,7 +129,6 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/runtime": "7.1.2",
-    "@gfx/zopfli": "1.0.9",
     "async": "2.6.1",
     "autoprefixer": "8.6.2",
     "babel-eslint": "10.0.1",
