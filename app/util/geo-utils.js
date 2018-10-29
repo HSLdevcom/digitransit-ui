@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
+import inside from 'point-in-polygon';
+
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -324,3 +326,21 @@ export function kkj2ToWgs84(coords) {
 
   return [wgsLon, wgsLat];
 }
+
+export const findFeatures = ({ lat, lon }, features) => {
+  if (!Array.isArray(features) || features.length === 0) {
+    return [];
+  }
+  const matches = features
+    .filter(feature => {
+      const multiCoordinate = feature.geometry.coordinates.length > 1;
+      return (
+        ['Polygon', 'MultiPolygon'].includes(feature.geometry.type) &&
+        feature.geometry.coordinates.some(coordinates =>
+          inside([lon, lat], multiCoordinate ? coordinates[0] : coordinates),
+        )
+      );
+    })
+    .map(feature => feature.properties);
+  return matches;
+};

@@ -379,7 +379,13 @@ export default {
         sv: 'Resezoner',
         en: 'Ticket zones',
       },
+      isVisualMapLayer: true,
       url: '/hsl_zones.json',
+    },
+    {
+      isVisualMapLayer: false,
+      url:
+        'https://data-hslhrt.opendata.arcgis.com/datasets/89b6b5142a9b4bb9a5c5f4404ff28963_0.geojson',
     },
   ],
   mapLayers: {
