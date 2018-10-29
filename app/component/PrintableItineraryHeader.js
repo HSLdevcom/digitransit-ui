@@ -46,7 +46,7 @@ export default class PrintableItineraryHeader extends React.Component {
     );
     const language = this.context.getStore('PreferencesStore').getLanguage();
     const weekDay = moment(this.props.itinerary.startTime)
-      .lang(language)
+      .locale(language)
       .format('dddd');
     const weekDayUpperCase = weekDay.charAt(0).toUpperCase() + weekDay.slice(1);
 
@@ -80,7 +80,7 @@ export default class PrintableItineraryHeader extends React.Component {
               {` `}
               <span>
                 {moment(this.props.itinerary.startTime)
-                  .lang(language)
+                  .locale(language)
                   .format('DD.M.YYYY')}
               </span>
             </div>
