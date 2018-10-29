@@ -175,6 +175,7 @@
     "relay-compiler": "1.6.0",
     "sass-loader": "7.1.0",
     "selenium-webdriver": "4.0.0-alpha.1",
+    "sinon": "7.0.0",
     "stats-webpack-plugin": "0.7.0",
     "style-loader": "0.23.1",
     "stylelint": "9.2.1",

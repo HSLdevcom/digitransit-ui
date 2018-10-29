@@ -167,9 +167,10 @@ class AdminForm extends React.Component {
         </p>
         <label htmlFor="optimize">
           Routing optimization type for cycling. QUICK finds the quickest
-          routes, SAFE prefers routes that are safer and GREENWAYS prefers
-          travel through bicycle routes and trails. TRIANGLE allows to configure
-          the emphasis on safety, avoiding slopes and travel time. (default{' '}
+          routes, SAFE prefers routes that are safer, GREENWAYS prefers travel
+          through bicycle routes and trails, and FLAT prefers the least amount
+          of vertical changes. TRIANGLE allows to configure the emphasis on
+          safety, avoiding slopes and travel time. (default{' '}
           {defaultRoutingSettings.optimize}, parameter name: optimize).
           <select
             value={merged.optimize}
@@ -179,6 +180,7 @@ class AdminForm extends React.Component {
             <option value="SAFE">SAFE</option>
             <option value="GREENWAYS">GREENWAYS</option>
             <option value="TRIANGLE">TRIANGLE</option>
+            <option value="FLAT">FLAT</option>
           </select>
         </label>
         {merged.optimize === 'TRIANGLE' && (
