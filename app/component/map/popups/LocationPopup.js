@@ -42,7 +42,8 @@ class LocationPopup extends React.Component {
   componentDidMount() {
     const { lat, lon } = this.props;
     const { config } = this.context;
-    Promise.all([
+
+    const promises = [
       getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
         'point.lat': lat,
         'point.lon': lon,
@@ -53,8 +54,12 @@ class LocationPopup extends React.Component {
         size: 1,
         layers: 'address',
       }),
-      this.props.getGeoJsonData(config.geoJson.zones.url),
-    ]).then(
+    ];
+    if (config.geoJson && config.geoJson.zones) {
+      promises.push(this.props.getGeoJsonData(config.geoJson.zones.url));
+    }
+
+    Promise.all(promises).then(
       ([data, zoneData]) => {
         const zones = findFeatures(
           {
