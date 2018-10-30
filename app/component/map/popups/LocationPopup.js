@@ -41,8 +41,9 @@ class LocationPopup extends React.Component {
 
   componentDidMount() {
     const { lat, lon } = this.props;
+    const { config } = this.context;
     Promise.all([
-      getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+      getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
         'point.lat': lat,
         'point.lon': lon,
         'boundary.circle.lat': lat,
@@ -52,9 +53,7 @@ class LocationPopup extends React.Component {
         size: 1,
         layers: 'address',
       }),
-      this.props.getGeoJsonData(
-        'https://data-hslhrt.opendata.arcgis.com/datasets/89b6b5142a9b4bb9a5c5f4404ff28963_0.geojson',
-      ),
+      this.props.getGeoJsonData(config.geoJson.zones.url),
     ]).then(
       ([data, zoneData]) => {
         const zones = findFeatures(
@@ -146,7 +145,7 @@ const connectedComponent = connectToStores(
   LocationPopup,
   [GeoJsonStore, PreferencesStore],
   ({ getStore }) => {
-    const language = getStore('PreferencesStore').getLanguage();
+    const language = getStore(PreferencesStore).getLanguage();
     const { getGeoJsonData } = getStore(GeoJsonStore);
     return { getGeoJsonData, language };
   },

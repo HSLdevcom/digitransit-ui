@@ -76,8 +76,8 @@ class MapWithTrackingStateHandler extends React.Component {
 
   componentDidMount() {
     const { config, getGeoJsonData } = this.props;
-    if (isBrowser && config.geoJson) {
-      config.geoJson.forEach(geoJsonLayer => {
+    if (isBrowser && config.geoJson && Array.isArray(config.geoJson.layers)) {
+      config.geoJson.layers.forEach(geoJsonLayer => {
         const { url, name, metadata } = geoJsonLayer;
         getGeoJsonData(url, name, metadata).then(data => {
           const { geoJson } = this.state;

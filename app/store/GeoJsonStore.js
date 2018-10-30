@@ -30,7 +30,7 @@ class GeoJsonStore extends Store {
         MapJSON(response, metadata);
       }
       const data = {
-        name,
+        name: name || url,
         data: response,
       };
       this.geoJsonData[url] = data;
