@@ -327,20 +327,41 @@ export function kkj2ToWgs84(coords) {
   return [wgsLon, wgsLat];
 }
 
-export const findFeatures = ({ lat, lon }, features) => {
-  if (!Array.isArray(features) || features.length === 0) {
+/**
+ * Finds any features inside which the given point is located. This returns
+ * the properties of each feature by default.
+ *
+ * @param {{lat: number, lon: number}} point the location to check.
+ * @param {*} features the area features available in a geojson format.
+ * @param {function} mapFn the feature data mapping function.
+ */
+export const findFeatures = (
+  { lat, lon },
+  features,
+  mapFn = feature => feature.properties,
+) => {
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon) ||
+    !Array.isArray(features) ||
+    features.length === 0
+  ) {
     return [];
   }
   const matches = features
     .filter(feature => {
-      const multiCoordinate = feature.geometry.coordinates.length > 1;
+      const { coordinates, type } = feature.geometry;
+      const multiCoordinate = coordinates.length > 1;
       return (
-        ['Polygon', 'MultiPolygon'].includes(feature.geometry.type) &&
-        feature.geometry.coordinates.some(coordinates =>
-          inside([lon, lat], multiCoordinate ? coordinates[0] : coordinates),
+        ['Polygon', 'MultiPolygon'].includes(type) &&
+        coordinates.some(areaBoundaries =>
+          inside(
+            [lon, lat],
+            multiCoordinate ? areaBoundaries[0] : areaBoundaries,
+          ),
         )
       );
     })
-    .map(feature => feature.properties);
+    .map(mapFn);
   return matches;
 };

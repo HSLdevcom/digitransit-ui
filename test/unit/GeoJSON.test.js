@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { MapJSON } from '../../app/component/map/MapWithTracking';
+import { MapJSON } from '../../app/store/GeoJsonStore';
 
 describe('GeoJSON interface', () => {
   it('can map custom properties to known properties', () => {

@@ -183,18 +183,20 @@ class SelectMapLayersDialog extends React.Component {
           )}
         {config.geoJson && (
           <div className="checkbox-grouping">
-            {config.geoJson.filter(gj => gj.isVisualMapLayer).map(gj => (
-              <Checkbox
-                checked={geoJson[gj.url] !== false}
-                defaultMessage={gj.name[lang]}
-                key={gj.url}
-                onChange={e => {
-                  const newSetting = {};
-                  newSetting[gj.url] = e.target.checked;
-                  this.updateGeoJsonSetting(newSetting);
-                }}
-              />
-            ))}
+            {config.geoJson
+              .filter(gj => gj.isVisualMapLayer !== false)
+              .map(gj => (
+                <Checkbox
+                  checked={geoJson[gj.url] !== false}
+                  defaultMessage={gj.name[lang]}
+                  key={gj.url}
+                  onChange={e => {
+                    const newSetting = {};
+                    newSetting[gj.url] = e.target.checked;
+                    this.updateGeoJsonSetting(newSetting);
+                  }}
+                />
+              ))}
           </div>
         )}
       </React.Fragment>
