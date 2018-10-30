@@ -8,6 +8,7 @@ import PreferredRoutes from '../../../app/component/PreferredRoutes';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
+import { createMemoryMockRouter } from '../helpers/mock-router';
 import defaultConfig from '../../../app/configurations/config.default';
 
 describe('<CustomizeSearch />', () => {
@@ -39,6 +40,7 @@ describe('<CustomizeSearch />', () => {
             ...mockContext.location,
             query: { preferredRoutes: 'HSL__2550' },
           },
+          router: createMemoryMockRouter(),
         },
         childContextTypes: {
           ...mockChildContextTypes,
@@ -63,6 +65,7 @@ describe('<CustomizeSearch />', () => {
             ...mockContext.location,
             query: { unpreferredRoutes: 'HSL__2550' },
           },
+          router: createMemoryMockRouter(),
         },
         childContextTypes: {
           ...mockChildContextTypes,

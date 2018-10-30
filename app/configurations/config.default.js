@@ -129,7 +129,11 @@ export default {
       availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
     },
     bicycle: {
-      availableOptionSets: ['prefer-greenways', 'saved-settings'],
+      availableOptionSets: [
+        'least-elevation-changes',
+        'prefer-greenways',
+        'saved-settings',
+      ],
     },
     car_park: {
       availableOptionSets: [
@@ -231,8 +235,9 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch off in autumn
   cityBike: {
+    // Config for map features. NOTE: availability for routing is controlled by
+    // transportModes.citybike.availableForSelection
     showCityBikes: true,
     showStationId: true,
 
@@ -352,7 +357,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: true, // TODO: Turn off in autumn
+      availableForSelection: false, // TODO: Turn off in autumn
       defaultValue: false, // always false
     },
   },

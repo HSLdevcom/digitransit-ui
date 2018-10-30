@@ -132,8 +132,7 @@ class SelectMapLayersDialog extends React.Component {
             />
           )}
           {config.cityBike &&
-            config.cityBike.showCityBikes &&
-            isTransportModeEnabled(transportModes.citybike) && (
+            config.cityBike.showCityBikes && (
               <Checkbox
                 checked={citybike}
                 defaultMessage="Citybike station"

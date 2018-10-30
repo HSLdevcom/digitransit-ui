@@ -80,5 +80,40 @@ describe('localStorage', () => {
       setCustomizedSettings(defaultSettings);
       expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
     });
+
+    it('should remove triangle factors if optimize is no longer "TRIANGLE"', () => {
+      const initialSettings = {
+        optimize: 'TRIANGLE',
+        safetyFactor: 0.1,
+        slopeFactor: 0.25,
+        timeFactor: 0.65,
+      };
+      setCustomizedSettings(initialSettings);
+
+      let settings = getCustomizedSettings();
+      expect(settings.optimize).to.equal(initialSettings.optimize);
+      expect(settings.safetyFactor).to.equal(initialSettings.safetyFactor);
+      expect(settings.slopeFactor).to.equal(initialSettings.slopeFactor);
+      expect(settings.timeFactor).to.equal(initialSettings.timeFactor);
+
+      const updatedSettings = {
+        optimize: 'GREENWAYS',
+      };
+      setCustomizedSettings(updatedSettings);
+
+      settings = getCustomizedSettings();
+      expect(settings.optimize).to.equal(updatedSettings.optimize);
+      expect(settings.safetyFactor).to.equal(undefined);
+      expect(settings.slopeFactor).to.equal(undefined);
+      expect(settings.timeFactor).to.equal(undefined);
+
+      setCustomizedSettings({ optimize: 'TRIANGLE' });
+
+      settings = getCustomizedSettings();
+      expect(settings.optimize).to.equal('TRIANGLE');
+      expect(settings.safetyFactor).to.equal(undefined);
+      expect(settings.slopeFactor).to.equal(undefined);
+      expect(settings.timeFactor).to.equal(undefined);
+    });
   });
 });

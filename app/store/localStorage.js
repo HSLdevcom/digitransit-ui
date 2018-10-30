@@ -1,4 +1,5 @@
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
+import { OptimizeType } from '../constants';
 
 const getLocalStorage = runningInBrowser =>
   runningInBrowser ? window.localStorage : global.localStorage;
@@ -80,6 +81,8 @@ export function setCustomizedSettings(data) {
 
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
+  const optimize = getValueOrDefault(data.optimize, oldSettings.optimize);
+
   const newSettings = {
     accessibilityOption: getNumberValueOrDefault(
       data.accessibilityOption,
@@ -91,7 +94,7 @@ export function setCustomizedSettings(data) {
       oldSettings.minTransferTime,
     ),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
-    optimize: getValueOrDefault(data.optimize, oldSettings.optimize),
+    optimize,
     preferredRoutes: getValueOrDefault(
       data.preferredRoutes,
       oldSettings.preferredRoutes,
@@ -115,6 +118,25 @@ export function setCustomizedSettings(data) {
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
   };
+  if (optimize === OptimizeType.Triangle) {
+    newSettings.safetyFactor = getNumberValueOrDefault(
+      data.safetyFactor,
+      oldSettings.safetyFactor,
+    );
+    newSettings.slopeFactor = getNumberValueOrDefault(
+      data.slopeFactor,
+      oldSettings.slopeFactor,
+    );
+    newSettings.timeFactor = getNumberValueOrDefault(
+      data.timeFactor,
+      oldSettings.timeFactor,
+    );
+  } else {
+    delete newSettings.safetyFactor;
+    delete newSettings.slopeFactor;
+    delete newSettings.timeFactor;
+  }
+
   setItem('customizedSettings', newSettings);
 }
 

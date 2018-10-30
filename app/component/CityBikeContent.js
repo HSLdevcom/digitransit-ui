@@ -22,7 +22,20 @@ const CityBikeContent = ({ station, lang }, { config }) => (
         fewAvailableCount={config.cityBike.fewAvailableCount}
       />
     )}
-    {config.cityBike.useUrl[lang] && <CityBikeUse lang={lang} />}
+    {config.cityBike.useUrl[lang] &&
+      config.transportModes.citybike.availableForSelection && (
+        <CityBikeUse lang={lang} />
+      )}
+    {!config.transportModes.citybike.availableForSelection && (
+      <div className="city-bike-use-container">
+        <p className="sub-header-h4 text-center">
+          <FormattedMessage
+            id="citybike-off-season"
+            defaultMessage="City bike stations will be opened again next spring"
+          />
+        </p>
+      </div>
+    )}
   </div>
 );
 
