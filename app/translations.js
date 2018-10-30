@@ -2159,7 +2159,7 @@ const translations = {
     'choose-stop': 'Välj hållplats',
     citybike: 'Stadscykel',
     'citybike-distance-duration': 'Cykla {distance} ({duration})',
-    'citybike-off-season': 'Stadscyklarna tas i bruk igen nästä vår',
+    'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
     citybike_off: 'Stängd',
