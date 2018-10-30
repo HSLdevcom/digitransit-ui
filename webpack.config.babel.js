@@ -7,8 +7,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const OfflinePlugin = require('offline-plugin');
 
-const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
-const BrotliCompressionPlugin = require('brotli-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const iltorb = require('iltorb');
+const zopfli = require('node-zopfli-es');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
@@ -124,15 +125,17 @@ const productionPlugins = [
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
   }),
-  new ZopfliCompressionPlugin({
-    asset: '[path].gz[query]',
+  new CompressionPlugin({
+    filename: '[path].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
+    algorithm: zopfli.gzip,
   }),
-  new BrotliCompressionPlugin({
-    asset: '[path].br[query]',
+  new CompressionPlugin({
+    filename: '[path].br[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
+    algorithm: iltorb.compress,
   }),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
@@ -218,8 +221,6 @@ module.exports = {
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
     new webpack.ContextReplacementPlugin(intlExpression, languageExp),
-    new webpack.NamedChunksPlugin(),
-    new webpack.NamedModulesPlugin(),
     ...(isDevelopment
       ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
       : productionPlugins),
@@ -233,6 +234,8 @@ module.exports = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    moduleIds: 'named',
+    chunkIds: 'named',
     splitChunks: {
       chunks: isProduction ? 'all' : 'async',
       cacheGroups: {

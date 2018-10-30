@@ -7,6 +7,7 @@ import startsWith from 'lodash/startsWith';
 import ExternalLink from './ExternalLink';
 import SummaryRow from './SummaryRow';
 import Icon from './Icon';
+import { isBrowser } from '../util/browser';
 
 function ItinerarySummaryListContainer(
   {
@@ -43,7 +44,9 @@ function ItinerarySummaryListContainer(
       </SummaryRow>
     ));
 
-    return <div className="summary-list-container">{summaries}</div>;
+    return (
+      <div className="summary-list-container">{isBrowser && summaries}</div>
+    );
   }
   if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
     return (

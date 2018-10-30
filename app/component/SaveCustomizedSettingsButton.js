@@ -6,8 +6,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { locationShape } from 'react-router';
 
-import { setCustomizedSettings } from '../store/localStorage';
-import { getDefaultSettings } from '../util/planParamUtil';
+import {
+  setCustomizedSettings,
+  getCustomizedSettings,
+} from '../store/localStorage';
+import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
 import { getQuerySettings } from '../util/queryUtils';
 import { getDrawerWidth } from '../util/browser';
 
@@ -40,8 +43,17 @@ class SaveCustomizedSettingsButton extends React.Component {
     }
 
     const querySettings = getQuerySettings(this.context.location.query);
+    const customizedSettings = getCustomizedSettings();
+    const currentSettings = getCurrentSettings(
+      this.context.config,
+      this.context.location.query,
+    );
     const defaultSettings = getDefaultSettings(this.context.config);
-    if (isEmpty(querySettings) || isEqual(querySettings, defaultSettings)) {
+
+    if (
+      (isEmpty(querySettings) && isEmpty(customizedSettings)) ||
+      isEqual(currentSettings, defaultSettings)
+    ) {
       this.props.noSettingsFound();
     } else {
       setCustomizedSettings(querySettings);

@@ -7,6 +7,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
+import ItineraryProfile from './ItineraryProfile';
 import ItinerarySummary from './ItinerarySummary';
 import TimeFrame from './TimeFrame';
 import DateWarning from './DateWarning';
@@ -106,6 +107,10 @@ class ItineraryTab extends React.Component {
                   itinerary={this.props.itinerary}
                   focusMap={this.handleFocus}
                 />
+                <ItineraryProfile
+                  itinerary={this.props.itinerary}
+                  small={breakpoint !== 'large'}
+                />
                 {config.showTicketInformation && (
                   <TicketInformation fares={this.props.itinerary.fares} />
                 )}
@@ -148,6 +153,8 @@ export default Relay.createContainer(ItineraryTab, {
         duration
         startTime
         endTime
+        elevationGained
+        elevationLost
         fares {
           type
           currency

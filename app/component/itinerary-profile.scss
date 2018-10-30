@@ -1,0 +1,19 @@
+.itinerary-profile-container {
+  padding: $padding-medium;
+
+  &.small {
+    font-size: 10pt;
+  }
+
+  .itinerary-profile-item-title {
+    @include font-book;
+    color: $gray;
+    display: inline-block;
+  }
+
+  .itinerary-profile-item-value {
+    color: $black;
+    display: inline-block;
+    margin-left: 0.25rem;
+  }
+}

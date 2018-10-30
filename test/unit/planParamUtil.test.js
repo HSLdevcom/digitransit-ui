@@ -371,6 +371,133 @@ describe('planParamUtil', () => {
       const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
       expect(missing).to.deep.equal([]);
     });
+
+    it('should read OptimizeType TRIANGLE and its fields from the query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              optimize: 'TRIANGLE',
+              safetyFactor: 0.2,
+              slopeFactor: 0.3,
+              timeFactor: 0.5,
+            },
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
+
+    it('should read optimize from the localStorage', () => {
+      setCustomizedSettings({ optimize: 'FLAT' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize } = params;
+      expect(optimize).to.equal('FLAT');
+    });
+
+    it('should read OptimizeType TRIANGLE and its fields from the localStorage', () => {
+      setCustomizedSettings({
+        optimize: 'TRIANGLE',
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
+
+    it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(false);
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'CITYBIKE,BUS,TRAM,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(
+        defaultConfig.transportModes.citybike.availableForSelection,
+      );
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+              intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(true);
+    });
   });
 
   describe('getDefaultSettings', () => {

@@ -4,7 +4,7 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
-    citybike: true,
+    citybike: false, // TODO: set back to true when stations open again
     parkAndRide: true,
     stop: {
       bus: true,

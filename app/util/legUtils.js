@@ -159,14 +159,14 @@ export const compressLegs = originalLegs => {
 };
 
 const sumDistances = legs =>
-  legs.map(l => l.distance).reduce((x, y) => x + y, 0);
+  legs.map(l => l.distance).reduce((x, y) => (x || 0) + (y || 0), 0);
 const isWalkingLeg = leg =>
   [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 
 /**
- * Checks if the itinerary consist of a single biking leg.
+ * Checks if the itinerary consists of a single biking leg.
  *
  * @param {*} itinerary the itinerary to check the legs for
  */
@@ -197,6 +197,13 @@ export const getTotalWalkingDistance = itinerary =>
  */
 export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
+
+/**
+ * Calculates and returns the total distance undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total distance from
+ */
+export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
 
 /**
  * Gets the indicator color for the current amount of citybikes available.

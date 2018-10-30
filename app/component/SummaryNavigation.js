@@ -7,7 +7,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import OriginDestinationBar from './OriginDestinationBar';
 import QuickSettingsPanel from './QuickSettingsPanel';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
-import { getDrawerWidth } from '../util/browser';
+import { getDrawerWidth, isBrowser } from '../util/browser';
 import * as ModeUtils from '../util/modeUtils';
 import { parseLocation } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -156,13 +156,17 @@ class SummaryNavigation extends React.Component {
           origin={parseLocation(this.props.params.from)}
           destination={parseLocation(this.props.params.to)}
         />
-        {this.renderStreetModeSelector(config, router)}
-        <div className={cx('quicksettings-separator-line')} />
-        <QuickSettingsPanel
-          timeSelectorStartTime={this.props.startTime}
-          timeSelectorEndTime={this.props.endTime}
-          timeSelectorServiceTimeRange={this.props.serviceTimeRange}
-        />
+        {isBrowser && (
+          <React.Fragment>
+            {this.renderStreetModeSelector(config, router)}
+            <div className={cx('quicksettings-separator-line')} />
+            <QuickSettingsPanel
+              timeSelectorStartTime={this.props.startTime}
+              timeSelectorEndTime={this.props.endTime}
+              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
+            />
+          </React.Fragment>
+        )}
       </div>
     );
   }

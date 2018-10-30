@@ -186,6 +186,11 @@ class CustomizeSearch extends React.Component {
           <div className="settings-option-container">
             <RoutePreferencesSection
               optimize={currentSettings.optimize}
+              triangleFactors={{
+                safetyFactor: currentSettings.safetyFactor,
+                slopeFactor: currentSettings.slopeFactor,
+                timeFactor: currentSettings.timeFactor,
+              }}
               defaultSettings={this.defaultSettings}
             />
           </div>
