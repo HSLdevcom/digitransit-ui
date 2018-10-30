@@ -114,6 +114,24 @@ $itinerary-tab-switch-height: 48px;
     flex-grow: 0;
     flex-shrink: 0;
   }
+
+  .zone-limit + .zone-limit {
+    .zone-icon-container::before {
+      border-top: 1px solid $light-gray;
+      content: '';
+      display: block;
+      left: -0.5em;
+      position: absolute;
+      top: -0.5em;
+      width: 2em;
+    }
+  }
+
+  .zone-icon-container {
+    left: calc(-100% / 12);
+    padding-top: $padding-xxsmall;
+    position: absolute;
+  }
 }
 
 @media print {

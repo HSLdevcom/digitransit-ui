@@ -42,25 +42,36 @@ class TransitLeg extends React.Component {
       this.props.leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
-      const stopList = this.props.leg.intermediatePlaces.map(place => (
-        <IntermediateLeg
-          color={
-            this.props.leg.route
-              ? `#${this.props.leg.route.color}`
-              : 'currentColor'
-          }
-          key={place.stop.gtfsId}
-          mode={this.props.mode}
-          name={place.stop.name}
-          arrivalTime={place.arrivalTime}
-          realTime={this.props.leg.realTime}
-          stopCode={place.stop.code}
-          focusFunction={this.context.focusFunction({
-            lat: place.stop.lat,
-            lon: place.stop.lon,
-          })}
-        />
-      ));
+      const stopList = this.props.leg.intermediatePlaces.map(
+        (place, i, array) => {
+          const previousZoneId = array[i - 1] && array[i - 1].stop.zoneId;
+          const currentZoneId = place.stop.zoneId;
+          const nextZoneId = array[i + 1] && array[i + 1].stop.zoneId;
+          const showZoneId =
+            (previousZoneId && previousZoneId !== currentZoneId) ||
+            (nextZoneId && nextZoneId !== currentZoneId);
+          return (
+            <IntermediateLeg
+              color={
+                this.props.leg.route
+                  ? `#${this.props.leg.route.color}`
+                  : 'currentColor'
+              }
+              key={place.stop.gtfsId}
+              mode={this.props.mode}
+              name={place.stop.name}
+              arrivalTime={place.arrivalTime}
+              realTime={this.props.leg.realTime}
+              stopCode={place.stop.code}
+              focusFunction={this.context.focusFunction({
+                lat: place.stop.lat,
+                lon: place.stop.lon,
+              })}
+              zoneId={showZoneId ? currentZoneId : undefined}
+            />
+          );
+        },
+      );
       return <div className="itinerary-leg-container">{stopList}</div>;
     }
     return null;
@@ -250,6 +261,7 @@ TransitLeg.propTypes = {
           gtfsId: PropTypes.string.isRequired,
           code: PropTypes.string,
           platformCode: PropTypes.string,
+          zoneId: PropTypes.string,
         }).isRequired,
       }),
     ),

@@ -208,6 +208,7 @@ export default Relay.createContainer(ItineraryTab, {
               name
               code
               platformCode
+              zoneId
             }
           }
           realTime

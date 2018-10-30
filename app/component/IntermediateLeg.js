@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,6 +13,7 @@ function IntermediateLeg({
   name,
   stopCode,
   focusFunction,
+  zoneId,
 }) {
   const modeClassName = mode.toLowerCase();
 
@@ -19,9 +21,14 @@ function IntermediateLeg({
   return (
     <div
       style={{ width: '100%' }}
-      className="row itinerary-row"
+      className={cx('row itinerary-row', { 'zone-limit': !!zoneId })}
       onClick={e => focusFunction(e)}
     >
+      {zoneId && (
+        <div className="zone-icon-container">
+          <Icon img={`icon-icon_zone-${zoneId.toLowerCase()}`} />
+        </div>
+      )}
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
           <svg
@@ -66,6 +73,11 @@ IntermediateLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
+  zoneId: PropTypes.string,
+};
+
+IntermediateLeg.defaultProps = {
+  zoneId: undefined,
 };
 
 export default IntermediateLeg;
