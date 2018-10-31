@@ -62,35 +62,37 @@ class StopPageContentOptions extends React.Component {
 
   render() {
     // Currently shows only next departures, add Timetables
-    let routePlatformQuery;
-    if (this.props.departureProps.params.terminalId) {
-      routePlatformQuery = {
-        stop: RelayComponent => Relay.QL`
-        query {
-          station(id: $terminalId) {
-            ${RelayComponent.getFragment('stop')}
-          }
+    const isTerminal = !!this.props.departureProps.params.terminalId;
+
+    const routePlatformQuery = isTerminal
+      ? {
+          stop: RelayComponent => Relay.QL`
+      query {
+        station(id: $terminalId) {
+          ${RelayComponent.getFragment('stop')}
         }
-      `,
-      };
-    } else if (this.props.departureProps.params.stopId) {
-      routePlatformQuery = {
-        stop: RelayComponent => Relay.QL`
-        query {
-          stop(id: $terminalId) {
-            ${RelayComponent.getFragment('stop')}
-          }
+      }
+    `,
         }
-      `,
-      };
-    }
+      : {
+          stop: RelayComponent => Relay.QL`
+      query {
+        stop(id: $terminalId) {
+          ${RelayComponent.getFragment('stop')}
+        }
+      }
+    `,
+        };
 
     return (
       <div className="stop-page-content-wrapper">
         <div>
           <StopPageTabContainer selectedTab={this.setTab} />
           <div className="stop-tabs-fillerline" />
-          {this.state.showTab === 'right-now' && <DepartureListHeader />}
+          {(this.state.showTab === 'right-now' && <DepartureListHeader />) ||
+            (this.state.showTab === 'routes-platforms' && (
+              <DepartureListHeader staticDeparture />
+            ))}
         </div>
         {this.state.showTab === 'right-now' && (
           <div className="stop-scroll-container momentum-scroll">
@@ -127,11 +129,7 @@ class StopPageContentOptions extends React.Component {
                 done ? (
                   <RoutesAndPlatformsForStops
                     {...props}
-                    stopType={
-                      this.props.departureProps.params.terminalId
-                        ? 'terminal'
-                        : 'stop'
-                    }
+                    stopType={isTerminal ? 'terminal' : 'stop'}
                     infiniteScroll
                   />
                 ) : (

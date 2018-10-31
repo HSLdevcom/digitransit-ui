@@ -20,8 +20,6 @@ const RoutesAndPlatformsForStops = props => {
   const stopRoutes = [];
   const mappedRoutes = [];
 
-  let timeTableRows;
-
   if (props.stopType === 'terminal') {
     props.stop.stops.forEach(stopTime => stopRoutes.push({ ...stopTime }));
     stopRoutes.forEach(route =>
@@ -40,27 +38,6 @@ const RoutesAndPlatformsForStops = props => {
         }),
       ),
     );
-
-    timeTableRows = uniqBy(mappedRoutes, 'pattern.route.id').map(route => (
-      <Link
-        to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
-        key={`${route.pattern.route.gtfsId}-${route.headsign}-${
-          route.pattern.route.id
-        }`}
-      >
-        <Departure
-          key={`${route.pattern.route.gtfsId}-${route.headsign}-${
-            route.pattern.route.id
-          }`}
-          departure={route}
-          showStop
-          currentTime={0}
-          className={cx('departure padding-normal border-bottom')}
-          showPlatformCode
-          staticDeparture
-        />
-      </Link>
-    ));
   } else {
     props.stop.routes.forEach(singleRoute =>
       singleRoute.patterns.forEach(singlePattern =>
@@ -78,27 +55,28 @@ const RoutesAndPlatformsForStops = props => {
         }),
       ),
     );
-    timeTableRows = uniqBy(mappedRoutes, 'headsign').map(route => (
-      <Link
-        to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
+  }
+
+  const timeTableRows = mappedRoutes.map(route => (
+    <Link
+      to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
+      key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+        route.pattern.route.id
+      }`}
+    >
+      <Departure
         key={`${route.pattern.route.gtfsId}-${route.headsign}-${
           route.pattern.route.id
         }`}
-      >
-        <Departure
-          key={`${route.pattern.route.gtfsId}-${route.headsign}-${
-            route.pattern.route.id
-          }`}
-          departure={route}
-          showStop
-          currentTime={0}
-          className={cx('departure padding-normal border-bottom')}
-          showPlatformCode
-          staticDeparture
-        />
-      </Link>
-    ));
-  }
+        departure={route}
+        showStop
+        currentTime={0}
+        className={cx('departure padding-normal border-bottom')}
+        showPlatformCode
+        staticDeparture
+      />
+    </Link>
+  ));
 
   return (
     <div
