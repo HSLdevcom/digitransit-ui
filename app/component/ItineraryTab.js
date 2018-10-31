@@ -193,6 +193,7 @@ export default Relay.createContainer(ItineraryTab, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           legGeometry {

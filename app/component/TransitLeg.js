@@ -68,6 +68,13 @@ class TransitLeg extends React.Component {
                 lon: place.stop.lon,
               })}
               zoneId={showZoneId ? currentZoneId : undefined}
+              secondaryZoneId={
+                i === this.props.leg.intermediatePlaces.length - 1 &&
+                this.props.leg.to.stop.zoneId &&
+                this.props.leg.to.stop.zoneId !== currentZoneId
+                  ? this.props.leg.to.stop.zoneId
+                  : undefined
+              }
             />
           );
         },
@@ -245,6 +252,11 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+    }).isRequired,
+    to: PropTypes.shape({
+      stop: PropTypes.shape({
+        zoneId: PropTypes.string,
+      }),
     }).isRequired,
     trip: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,

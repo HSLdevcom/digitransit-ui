@@ -6,8 +6,9 @@ import { intlShape } from 'react-intl';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import Icon from '../../Icon';
 import Loading from '../../Loading';
+import ZoneIcon from '../../ZoneIcon';
+
 import GeoJsonStore from '../../../store/GeoJsonStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
@@ -126,18 +127,7 @@ class LocationPopup extends React.Component {
             unlinked
             className="padding-small"
           >
-            {zoneId && (
-              <div className="zone-information-wrapper">
-                {this.context.intl.formatMessage({
-                  id: 'zone',
-                  defaultMessage: 'Zone',
-                })}
-                <Icon
-                  img={`icon-icon_zone-${zoneId.toLowerCase()}`}
-                  viewBox="0 0 22 22"
-                />
-              </div>
-            )}
+            <ZoneIcon showTitle zoneId={zoneId} />
           </CardHeader>
         </div>
         <MarkerPopupBottom location={this.state.location} />

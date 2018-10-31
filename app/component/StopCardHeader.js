@@ -4,8 +4,8 @@ import { intlShape } from 'react-intl';
 
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
 import InfoIcon from './InfoIcon';
+import ZoneIcon from './ZoneIcon';
 
 class StopCardHeader extends React.Component {
   getDescription() {
@@ -47,18 +47,7 @@ class StopCardHeader extends React.Component {
         }
         icons={this.props.icons}
       >
-        {stop.zoneId && (
-          <div className="zone-information-wrapper">
-            {this.context.intl.formatMessage({
-              id: 'zone',
-              defaultMessage: 'Zone',
-            })}
-            <Icon
-              img={`icon-icon_zone-${stop.zoneId.toLowerCase()}`}
-              viewBox="0 0 22 22"
-            />
-          </div>
-        )}
+        <ZoneIcon showTitle zoneId={stop.zoneId} />
       </CardHeader>
     );
   }

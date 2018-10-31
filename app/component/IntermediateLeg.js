@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
 import Icon from './Icon';
+import ZoneIcon from './ZoneIcon';
 
 function IntermediateLeg({
   color,
@@ -14,6 +15,7 @@ function IntermediateLeg({
   stopCode,
   focusFunction,
   zoneId,
+  secondaryZoneId,
 }) {
   const modeClassName = mode.toLowerCase();
 
@@ -21,12 +23,16 @@ function IntermediateLeg({
   return (
     <div
       style={{ width: '100%' }}
-      className={cx('row itinerary-row', { 'zone-limit': !!zoneId })}
+      className={cx('row itinerary-row', {
+        'zone-limit': !!zoneId,
+        'zone-multiple': zoneId && secondaryZoneId,
+      })}
       onClick={e => focusFunction(e)}
     >
       {zoneId && (
-        <div className="zone-icon-container">
-          <Icon img={`icon-icon_zone-${zoneId.toLowerCase()}`} />
+        <div className="zone-icons-container">
+          <ZoneIcon zoneId={zoneId} />
+          <ZoneIcon zoneId={secondaryZoneId} className="zone-secondary" />
         </div>
       )}
       <div className={`leg-before ${modeClassName}`}>
@@ -74,10 +80,12 @@ IntermediateLeg.propTypes = {
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
   zoneId: PropTypes.string,
+  secondaryZoneId: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
   zoneId: undefined,
+  secondaryZoneId: undefined,
 };
 
 export default IntermediateLeg;

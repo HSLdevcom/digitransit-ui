@@ -115,22 +115,36 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 0;
   }
 
-  .zone-limit + .zone-limit {
-    .zone-icon-container::before {
-      border-top: 1px solid $light-gray;
-      content: '';
-      display: block;
-      left: -0.5em;
-      position: absolute;
-      top: -0.5em;
-      width: 2em;
+  .itinerary-leg-container {
+    .zone-limit + .zone-limit {
+      &.zone-multiple {
+        min-height: 4em;
+      }
+
+      .zone-icon-container::before {
+        border-top: 1px solid $light-gray;
+        content: '';
+        display: block;
+        left: -0.5em;
+        position: absolute;
+        top: -0.5em;
+        width: 2em;
+      }
     }
   }
 
-  .zone-icon-container {
+  .zone-icons-container {
     left: calc(-100% / 12);
     padding-top: $padding-xxsmall;
     position: absolute;
+
+    .zone-icon-container {
+      position: relative;
+
+      &.zone-secondary {
+        margin-top: 0.85em;
+      }
+    }
   }
 }
 
