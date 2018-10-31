@@ -56,10 +56,10 @@ class TransitLeg extends React.Component {
             (array[i + 1] && array[i + 1].stop.zoneId) ||
             (isLastPlace && leg.to.stop.zoneId);
 
-          const showZoneDelimiter =
+          const previousZoneIdDiffers =
             previousZoneId && previousZoneId !== currentZoneId;
-          const showZoneId =
-            showZoneDelimiter || (nextZoneId && nextZoneId !== currentZoneId);
+          const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
+          const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
 
           return (
             <IntermediateLeg
@@ -78,10 +78,15 @@ class TransitLeg extends React.Component {
                 lat: place.stop.lat,
                 lon: place.stop.lon,
               })}
-              showCurrentZoneDelimiter={showZoneDelimiter}
-              previousZoneId={(isFirstPlace && previousZoneId) || undefined}
-              currentZoneId={(showZoneId && currentZoneId) || undefined}
-              nextZoneId={(isLastPlace && nextZoneId) || undefined}
+              showCurrentZoneDelimiter={previousZoneIdDiffers}
+              previousZoneId={
+                (isFirstPlace && previousZoneIdDiffers && previousZoneId) ||
+                undefined
+              }
+              currentZoneId={(showCurrentZoneId && currentZoneId) || undefined}
+              nextZoneId={
+                (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
+              }
             />
           );
         },
