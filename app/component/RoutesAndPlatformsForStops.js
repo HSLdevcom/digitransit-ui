@@ -3,7 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { Link } from 'react-router';
-import uniqBy from 'lodash/uniqBy';
+import orderBy from 'lodash/orderBy';
 
 import Departure from './Departure';
 import { isBrowser } from '../util/browser';
@@ -57,7 +57,9 @@ const RoutesAndPlatformsForStops = props => {
     );
   }
 
-  const timeTableRows = mappedRoutes.map(route => (
+  const sortedRoutes = orderBy(mappedRoutes, 'pattern.route.shortName', 'asc');
+
+  const timeTableRows = sortedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
       key={`${route.pattern.route.gtfsId}-${route.headsign}-${
