@@ -5813,13 +5813,13 @@ ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
 
-iltorb@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.4.0.tgz#befef47a5aea0cee46767731cb63859b57e58327"
+iltorb@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-2.4.1.tgz#3ae14f0a76ba880503884a2fe630b1f748eb4c17"
   dependencies:
     detect-libc "^1.0.3"
     npmlog "^4.1.2"
-    prebuild-install "^5.0.0"
+    prebuild-install "^5.2.1"
     which-pm-runs "^1.0.0"
 
 image-size@^0.4.0:
@@ -9130,7 +9130,7 @@ postcss@^7.0.1:
     source-map "^0.6.1"
     supports-color "^5.5.0"
 
-prebuild-install@^5.0.0:
+prebuild-install@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.1.tgz#87ba8cf17c65360a75eefeb3519e87973bf9791d"
   dependencies:
