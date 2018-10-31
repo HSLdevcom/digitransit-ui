@@ -14,9 +14,10 @@ function IntermediateLeg({
   name,
   stopCode,
   focusFunction,
-  showZoneDelimiter,
-  zoneId,
-  secondaryZoneId,
+  showCurrentZoneDelimiter,
+  previousZoneId,
+  currentZoneId,
+  nextZoneId,
 }) {
   const modeClassName = mode.toLowerCase();
 
@@ -25,20 +26,22 @@ function IntermediateLeg({
     <div
       style={{ width: '100%' }}
       className={cx('row itinerary-row', {
-        'zone-multiple': zoneId && secondaryZoneId,
+        'zone-multiple': currentZoneId && (previousZoneId || nextZoneId),
+        'zone-previous': currentZoneId && previousZoneId,
       })}
       onClick={e => focusFunction(e)}
     >
-      {zoneId && (
+      {currentZoneId && (
         <div className="zone-icons-container">
+          <ZoneIcon zoneId={previousZoneId} />
           <ZoneIcon
-            zoneId={zoneId}
-            className={cx({ 'zone-delimiter': showZoneDelimiter })}
+            zoneId={currentZoneId}
+            className={cx({
+              'zone-delimiter':
+                showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
+            })}
           />
-          <ZoneIcon
-            zoneId={secondaryZoneId}
-            className="zone-delimiter zone-secondary"
-          />
+          <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
         </div>
       )}
       <div className={`leg-before ${modeClassName}`}>
@@ -85,15 +88,17 @@ IntermediateLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
-  showZoneDelimiter: PropTypes.bool,
-  zoneId: PropTypes.string,
-  secondaryZoneId: PropTypes.string,
+  showCurrentZoneDelimiter: PropTypes.bool,
+  previousZoneId: PropTypes.string,
+  currentZoneId: PropTypes.string,
+  nextZoneId: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
-  showZoneDelimiter: false,
-  zoneId: undefined,
-  secondaryZoneId: undefined,
+  showCurrentZoneDelimiter: false,
+  previousZoneId: undefined,
+  currentZoneId: undefined,
+  nextZoneId: undefined,
 };
 
 export default IntermediateLeg;

@@ -119,6 +119,26 @@ $itinerary-tab-switch-height: 48px;
     .zone-multiple {
       min-height: 4em;
     }
+    .zone-previous {
+      .leg-before-circle {
+        bottom: 0;
+      }
+
+      .leg-before-line {
+        height: 120%;
+        top: 0;
+      }
+
+      .itinerary-instruction-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        > div {
+          flex-grow: 0;
+        }
+      }
+    }
   }
 
   .zone-icons-container {
@@ -139,7 +159,7 @@ $itinerary-tab-switch-height: 48px;
         width: 2em;
       }
 
-      &.zone-secondary {
+      & + .zone-icon-container {
         margin-top: 0.85em;
       }
     }

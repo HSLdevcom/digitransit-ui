@@ -78,9 +78,10 @@ class TransitLeg extends React.Component {
                 lat: place.stop.lat,
                 lon: place.stop.lon,
               })}
-              zoneId={(showZoneId && currentZoneId) || undefined}
-              showZoneDelimiter={showZoneDelimiter}
-              secondaryZoneId={(isLastPlace && nextZoneId) || undefined}
+              showCurrentZoneDelimiter={showZoneDelimiter}
+              previousZoneId={(isFirstPlace && previousZoneId) || undefined}
+              currentZoneId={(showZoneId && currentZoneId) || undefined}
+              nextZoneId={(isLastPlace && nextZoneId) || undefined}
             />
           );
         },
