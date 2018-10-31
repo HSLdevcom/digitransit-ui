@@ -2,62 +2,154 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
-import RouteNumberContainer from './RouteNumberContainer';
-import RouteDestination from './RouteDestination';
+import { Link } from 'react-router';
 import uniqBy from 'lodash/uniqBy';
 
+import Departure from './Departure';
+import { isBrowser } from '../util/browser';
+import { PREFIX_ROUTES } from '../util/path';
+
 const RoutesAndPlatformsForStops = props => {
-  console.log(props.stop);
+  const onScroll = () => {
+    if (props.infiniteScroll && isBrowser) {
+      return window.scrollHandler;
+    }
+    return null;
+  };
+
+  const stopRoutes = [];
   const mappedRoutes = [];
 
-  props.stop.stoptimesForPatterns.forEach(stopTime =>
-    mappedRoutes.push({ ...stopTime.pattern }),
+  let timeTableRows;
+
+  if (props.stopType === 'terminal') {
+    props.stop.stops.forEach(stopTime => stopRoutes.push({ ...stopTime }));
+    stopRoutes.forEach(route =>
+      route.stoptimesForPatterns.forEach(routeProperties =>
+        mappedRoutes.push({
+          stop: { platformCode: route.platformCode },
+          pattern: {
+            ...routeProperties.pattern,
+            route: {
+              ...routeProperties.pattern.route,
+            },
+          },
+          stoptime: 0,
+          realtime: 0,
+          headsign: routeProperties.stoptimes[0].headsign,
+        }),
+      ),
+    );
+
+    timeTableRows = uniqBy(mappedRoutes, 'pattern.route.id').map(route => (
+      <Link
+        to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
+        key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+          route.pattern.route.id
+        }`}
+      >
+        <Departure
+          key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+            route.pattern.route.id
+          }`}
+          departure={route}
+          showStop
+          currentTime={0}
+          className={cx('departure padding-normal border-bottom')}
+          showPlatformCode
+          staticDeparture
+        />
+      </Link>
+    ));
+  } else {
+    props.stop.routes.forEach(singleRoute =>
+      singleRoute.patterns.forEach(singlePattern =>
+        mappedRoutes.push({
+          stop: { platformCode: props.stop.platformCode },
+          pattern: {
+            ...singlePattern,
+            route: {
+              ...singleRoute,
+            },
+          },
+          stoptime: 0,
+          realtime: 0,
+          headsign: singlePattern.headsign,
+        }),
+      ),
+    );
+    timeTableRows = uniqBy(mappedRoutes, 'headsign').map(route => (
+      <Link
+        to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
+        key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+          route.pattern.route.id
+        }`}
+      >
+        <Departure
+          key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+            route.pattern.route.id
+          }`}
+          departure={route}
+          showStop
+          currentTime={0}
+          className={cx('departure padding-normal border-bottom')}
+          showPlatformCode
+          staticDeparture
+        />
+      </Link>
+    ));
+  }
+
+  return (
+    <div
+      className={cx('departure-list stop-page momentum-scroll')}
+      onScroll={onScroll()}
+    >
+      {timeTableRows}
+    </div>
   );
-  const filteredRoutes = uniqBy(mappedRoutes, 'code');
-  console.log(filteredRoutes);
-
-  const timeTableRows = filteredRoutes.map(route => (
-    <p className={cx('departure', 'route-detail-text')} key={route.code}>
-      <RouteNumberContainer route={route.route} fadeLong />
-      <RouteDestination
-        mode={route.mode}
-        destination={route.headsign || route.route.longName}
-      />
-      {/*platformNumber */}
-    </p>
-  ));
-
-  return <div className="routes-and-platforms-container">{timeTableRows}</div>;
 };
 
 RoutesAndPlatformsForStops.propTypes = {
   stop: PropTypes.object.isRequired,
+  infiniteScroll: PropTypes.bool,
+  stopType: PropTypes.string,
 };
 
 export default Relay.createContainer(RoutesAndPlatformsForStops, {
   fragments: {
     stop: () => Relay.QL`
-      fragment on Stop {
-        locationType
-        platformCode
-        stoptimesForPatterns(omitNonPickups: true) {
-            pattern {
-                code
-                headsign
-                route {
-                    shortName
-                    longName
-                    mode
-                }
-                stops {
-                    locationType
-                    gtfsId
-                    code
-                    name
-                    platformCode  
-                }
-            }
+    fragment RoutesAndPlatformsForStops on Stop {
+      gtfsId
+      name
+      platformCode
+      routes {
+        gtfsId
+        shortName
+        mode
+        color
+        patterns {
+          headsign
         }
+      }
+      stops {
+        gtfsId
+        platformCode
+        stoptimesForPatterns(numberOfDepartures: 1, timeRange: 604800) {
+          pattern {
+            route {
+              id
+              gtfsId
+              shortName
+              mode
+              color
+            }
+          }
+          stoptimes {
+            headsign
+          }
+        }
+      }
       }
       `,
   },

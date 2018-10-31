@@ -27,13 +27,15 @@ function Departure(props) {
 
   return (
     <p className={cx('departure', 'route-detail-text', props.className)}>
-      <DepartureTime
-        departureTime={props.departure.stoptime}
-        realtime={props.departure.realtime}
-        currentTime={props.currentTime}
-        canceled={props.canceled}
-        useUTC={props.useUTC}
-      />
+      {!props.staticDeparture && (
+        <DepartureTime
+          departureTime={props.departure.stoptime}
+          realtime={props.departure.realtime}
+          currentTime={props.currentTime}
+          canceled={props.canceled}
+          useUTC={props.useUTC}
+        />
+      )}
       <RouteNumberContainer
         route={props.departure.pattern.route}
         hasDisruption={props.hasDisruption}
@@ -105,6 +107,7 @@ Departure.propTypes = {
   isArrival: PropTypes.bool,
   showPlatformCode: PropTypes.bool,
   useUTC: PropTypes.bool,
+  staticDeparture: PropTypes.bool,
 };
 
 Departure.defaultProps = {

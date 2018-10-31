@@ -62,6 +62,29 @@ class StopPageContentOptions extends React.Component {
 
   render() {
     // Currently shows only next departures, add Timetables
+    let routePlatformQuery;
+    if (this.props.departureProps.params.terminalId) {
+      routePlatformQuery = {
+        stop: RelayComponent => Relay.QL`
+        query {
+          station(id: $terminalId) {
+            ${RelayComponent.getFragment('stop')}
+          }
+        }
+      `,
+      };
+    } else if (this.props.departureProps.params.stopId) {
+      routePlatformQuery = {
+        stop: RelayComponent => Relay.QL`
+        query {
+          stop(id: $terminalId) {
+            ${RelayComponent.getFragment('stop')}
+          }
+        }
+      `,
+      };
+    }
+
     return (
       <div className="stop-page-content-wrapper">
         <div>
@@ -88,7 +111,34 @@ class StopPageContentOptions extends React.Component {
         )}
         {this.state.showTab === 'routes-platforms' && (
           <div className="stop-scroll-container momentum-scroll">
-            <RoutesAndPlatformsForStops stop={this.props.departureProps.stop} />
+            <Relay.Renderer
+              Container={RoutesAndPlatformsForStops}
+              queryConfig={{
+                name: 'getRoutesAndPlatformsQuery',
+                queries: routePlatformQuery,
+                params: {
+                  terminalId:
+                    this.props.departureProps.params.stopId ||
+                    this.props.departureProps.params.terminalId,
+                },
+              }}
+              environment={Relay.Store}
+              render={({ props, done }) =>
+                done ? (
+                  <RoutesAndPlatformsForStops
+                    {...props}
+                    stopType={
+                      this.props.departureProps.params.terminalId
+                        ? 'terminal'
+                        : 'stop'
+                    }
+                    infiniteScroll
+                  />
+                ) : (
+                  undefined
+                )
+              }
+            />
           </div>
         )}
       </div>
@@ -147,19 +197,10 @@ export default Relay.createContainer(
       stop: ({ date }) => Relay.QL`
       fragment on Stop {
         url
-        routes {
-          gtfsId
-          shortName
-          longName
-          mode
-          patterns
-          stops 
-        }
         stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
         ${TimetableContainer.getFragment('stop', { date })}
-        ${RoutesAndPlatformsForStops.getFragment('stop')}
       }
     `,
     },
