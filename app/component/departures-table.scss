@@ -94,9 +94,12 @@ table.nearby-departures-table {
         &.td-departure-times {
           font-weight: $font-weight-bold;
           font-family: $font-family;
+          text-align: right;
+
           span {
             font-size: $font-size-medium-large;
             height: $font-size-medium-large;
+            width: auto;
           }
         }
         &.td-destination,
