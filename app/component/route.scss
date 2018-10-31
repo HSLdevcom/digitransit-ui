@@ -577,9 +577,9 @@ $route-schedule-date-height: 36px;
     font-size: 9pt;
     line-height: 18px;
     height: 19px;
-    background-color: #eef1f3;
-    color: #80939d;
-    border-bottom: 1px dotted #80939d !important;
+    background-color: $white;
+    color: $primary-color;
+    border-bottom: none !important;
     font-weight: 500;
     padding: 0;
     text-transform: uppercase;
@@ -587,6 +587,10 @@ $route-schedule-date-height: 36px;
     width: 7em;
     text-align: left;
     appearance: none;
+
+    &:hover {
+      background: none;
+    }
 
     option {
       padding: 4px;

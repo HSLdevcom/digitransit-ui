@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 
 const DepartureListHeader = props => (
-  <div className="departure-list-header row padding-vertical-small border-top">
+  <div className="departure-list-header row padding-vertical-small">
     {!props.staticDeparture && (
       <span className="time-header">
         <FormattedMessage id="leaves" defaultMessage="Leaves" />

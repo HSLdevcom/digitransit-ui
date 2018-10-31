@@ -111,6 +111,7 @@
 
 .stop-tabs-fillerline {
   height: 10px;
+  background: $white;
 }
 
 .mobilel {
@@ -124,9 +125,9 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   font-size: $font-size-xxsmall;
   width: 50%;
   text-align: center;
-  background-color: $white;
+  background-color: $background-color;
   cursor: pointer;
-  border-top: 4px solid $white;
+  border-top: 4px solid $background-color;
   color: $primary-color;
   transition: 0.10s all ease-in;
   border-right: 1px solid $light-gray;
@@ -144,7 +145,7 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   }
 
   &.active, &.active:hover {
-    background-color: $background-color;
+    background-color: $white;
     border-bottom: 1px solid transparent;
     border-top: 4px solid $primary-color;
     color: $black;
@@ -177,6 +178,9 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   }
   .icon-container .icon {
     font-size: 1.7em;
+    &.routes-platforms-page-tab_icon {
+      font-size: 2.1em;
+    }
   }
 }
 
@@ -231,19 +235,19 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
       & select {
       text-align: left;
       text-transform: uppercase;
-      color: #80939d;
+      color: $primary-color;
       font-weight: 700;
       margin-right: 20px;
       cursor: pointer;
       font-size: 100%;
-      border-bottom: 2px #80939d dotted !important;
+      border-bottom: 2px none !important;
       transition: all .2s ease-out;
       width: 37%;
       height: 1.27em;
       line-height: 1.3em;
       &:hover {
-        color: #b0b0b0;
-        border-bottom: 2px #b0b0b0 dotted !important;
+        color: $secondary-color;
+        border-bottom: 2px none !important;
       }
     }
     & svg {
@@ -458,6 +462,7 @@ hr.action-bar {
 }
 
 .timetable-topbar {
+  background: $white;
   .secondary-button.print {
     @media print {
       display: none;
@@ -549,17 +554,15 @@ hr.action-bar {
 
 .showroutes-header {
   text-transform: uppercase;
-  color: #80939d;
+  color: $primary-color;
   font-weight: 700;
   cursor: pointer;
   width: 25%;
   font-size: 0.9em;
   & span {
-    border-bottom: 2px #80939d dotted;
     transition: all .2s ease-out;
     &:hover {
-      color: #b0b0b0;
-      border-bottom: 2px #b0b0b0 dotted;
+      color: $secondary-color;
     }
   }
 }
