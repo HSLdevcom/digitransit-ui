@@ -38,18 +38,29 @@ class TransitLeg extends React.Component {
   };
 
   renderIntermediate() {
+    const { leg } = this.props;
     if (
       this.props.leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
       const stopList = this.props.leg.intermediatePlaces.map(
         (place, i, array) => {
-          const previousZoneId = array[i - 1] && array[i - 1].stop.zoneId;
+          const isFirstPlace = i === 0;
+          const isLastPlace = i === array.length - 1;
+
+          const previousZoneId =
+            (array[i - 1] && array[i - 1].stop.zoneId) ||
+            (isFirstPlace && leg.from.stop.zoneId);
           const currentZoneId = place.stop.zoneId;
-          const nextZoneId = array[i + 1] && array[i + 1].stop.zoneId;
+          const nextZoneId =
+            (array[i + 1] && array[i + 1].stop.zoneId) ||
+            (isLastPlace && leg.to.stop.zoneId);
+
+          const showZoneDelimiter =
+            previousZoneId && previousZoneId !== currentZoneId;
           const showZoneId =
-            (previousZoneId && previousZoneId !== currentZoneId) ||
-            (nextZoneId && nextZoneId !== currentZoneId);
+            showZoneDelimiter || (nextZoneId && nextZoneId !== currentZoneId);
+
           return (
             <IntermediateLeg
               color={
@@ -67,14 +78,9 @@ class TransitLeg extends React.Component {
                 lat: place.stop.lat,
                 lon: place.stop.lon,
               })}
-              zoneId={showZoneId ? currentZoneId : undefined}
-              secondaryZoneId={
-                i === this.props.leg.intermediatePlaces.length - 1 &&
-                this.props.leg.to.stop.zoneId &&
-                this.props.leg.to.stop.zoneId !== currentZoneId
-                  ? this.props.leg.to.stop.zoneId
-                  : undefined
-              }
+              zoneId={(showZoneId && currentZoneId) || undefined}
+              showZoneDelimiter={showZoneDelimiter}
+              secondaryZoneId={(isLastPlace && nextZoneId) || undefined}
             />
           );
         },

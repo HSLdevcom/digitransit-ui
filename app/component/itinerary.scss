@@ -116,20 +116,8 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-leg-container {
-    .zone-limit + .zone-limit {
-      &.zone-multiple {
-        min-height: 4em;
-      }
-
-      .zone-icon-container::before {
-        border-top: 1px solid $light-gray;
-        content: '';
-        display: block;
-        left: -0.5em;
-        position: absolute;
-        top: -0.5em;
-        width: 2em;
-      }
+    .zone-multiple {
+      min-height: 4em;
     }
   }
 
@@ -140,6 +128,16 @@ $itinerary-tab-switch-height: 48px;
 
     .zone-icon-container {
       position: relative;
+
+      &.zone-delimiter::before {
+        border-top: 1px solid $light-gray;
+        content: '';
+        display: block;
+        left: -0.5em;
+        position: absolute;
+        top: -0.5em;
+        width: 2em;
+      }
 
       &.zone-secondary {
         margin-top: 0.85em;

@@ -14,6 +14,7 @@ function IntermediateLeg({
   name,
   stopCode,
   focusFunction,
+  showZoneDelimiter,
   zoneId,
   secondaryZoneId,
 }) {
@@ -24,15 +25,20 @@ function IntermediateLeg({
     <div
       style={{ width: '100%' }}
       className={cx('row itinerary-row', {
-        'zone-limit': !!zoneId,
         'zone-multiple': zoneId && secondaryZoneId,
       })}
       onClick={e => focusFunction(e)}
     >
       {zoneId && (
         <div className="zone-icons-container">
-          <ZoneIcon zoneId={zoneId} />
-          <ZoneIcon zoneId={secondaryZoneId} className="zone-secondary" />
+          <ZoneIcon
+            zoneId={zoneId}
+            className={cx({ 'zone-delimiter': showZoneDelimiter })}
+          />
+          <ZoneIcon
+            zoneId={secondaryZoneId}
+            className="zone-delimiter zone-secondary"
+          />
         </div>
       )}
       <div className={`leg-before ${modeClassName}`}>
@@ -79,11 +85,13 @@ IntermediateLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
+  showZoneDelimiter: PropTypes.bool,
   zoneId: PropTypes.string,
   secondaryZoneId: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
+  showZoneDelimiter: false,
   zoneId: undefined,
   secondaryZoneId: undefined,
 };
