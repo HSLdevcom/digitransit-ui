@@ -37,7 +37,8 @@ class MapLayerStore extends Store {
 
     const { config } = dispatcher.getContext();
     this.mapLayers.citybike =
-      config.transportModes.citybike && config.transportModes.citybike.availableForSelection;
+      config.transportModes.citybike &&
+      config.transportModes.citybike.availableForSelection;
 
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
