@@ -244,7 +244,8 @@ class TransitLeg extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {[].concat([this.renderMain()]).concat([this.renderIntermediate()])}
+        {this.renderMain()}
+        {this.renderIntermediate()}
       </React.Fragment>
     );
   }
@@ -257,6 +258,7 @@ TransitLeg.propTypes = {
       stop: PropTypes.shape({
         code: PropTypes.string,
         platformCode: PropTypes.string,
+        zoneId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -268,7 +270,7 @@ TransitLeg.propTypes = {
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
-      }),
+      }).isRequired,
     }).isRequired,
     trip: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
@@ -288,7 +290,7 @@ TransitLeg.propTypes = {
           zoneId: PropTypes.string,
         }).isRequired,
       }),
-    ),
+    ).isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
