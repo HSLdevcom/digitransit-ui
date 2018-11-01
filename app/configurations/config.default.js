@@ -122,20 +122,24 @@ export default {
         'least-transfers',
         'least-walking',
         'public-transport-with-bicycle',
-        'customized-mode',
+        'saved-settings',
       ],
     },
     walk: {
-      availableOptionSets: ['prefer-walking-routes', 'customized-mode'],
+      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
     },
     bicycle: {
-      availableOptionSets: ['prefer-greenways', 'customized-mode'],
+      availableOptionSets: [
+        'least-elevation-changes',
+        'prefer-greenways',
+        'saved-settings',
+      ],
     },
     car_park: {
       availableOptionSets: [
         'least-transfers',
         'least-walking',
-        'customized-mode',
+        'saved-settings',
       ],
     },
   },
@@ -231,8 +235,9 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch off in autumn
   cityBike: {
+    // Config for map features. NOTE: availability for routing is controlled by
+    // transportModes.citybike.availableForSelection
     showCityBikes: true,
     showStationId: true,
 
@@ -352,7 +357,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: true, // TODO: Turn off in autumn
+      availableForSelection: false, // TODO: Turn off in autumn
       defaultValue: false, // always false
     },
   },
@@ -393,13 +398,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-
-  ticketOptions: [
-    {
-      displayName: 'Ei lippuvyöhykerajoitusta',
-      value: '0',
-    },
-  ],
 
   accessibilityOptions: [
     {

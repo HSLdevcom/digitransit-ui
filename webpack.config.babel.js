@@ -7,8 +7,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const OfflinePlugin = require('offline-plugin');
 
-const ZopfliCompressionPlugin = require('zopfli-webpack-plugin');
-const BrotliCompressionPlugin = require('brotli-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const iltorb = require('iltorb');
+const zopfli = require('node-zopfli-es');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
@@ -49,72 +50,12 @@ const productionPlugins = [
     ],
     caches: {
       main: [':rest:'],
-      additional: [':externals:'],
-      optional: [
-        '*.png',
-        'css/*.css',
-        '*.svg',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/0F8C1F243ED488143.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/1969A9B12BA2541A9.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/205607F96BE737D19.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/30163221AEA2C586E.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/4210FA3976167A3E8.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/43B34F3B410016514.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/445F43CEB6930C6BB.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/456FB7FE570EBDA24.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/547597B7CB30750DE.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/5956DB7162C64A80A.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/5FE95BF0A1016BECE.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/60AB40F307C99A848.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/6343632725D44ED6E.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/63C85404AF69A23FF.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/6C45BB0ABE9415ED2.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/83817D19D44B86613.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/8BFF53A90D26EA4E3.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/8ED758ECB5C3BD87B.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/8F4B180DF978C6803.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/964F0DD10E960EFF6.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/9E19EE5BF5EB99BC6.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/A9DE5A1DE88C173DA.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/AD739424B4A851C01.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/AE38E35C40971EE56.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/AE7F03B766B5D1B98.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/AEFF9E2FDDA25BF5B.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/B528E04E4D7E0857A.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/BBEF9A749366CFDBE.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/BC5EFB349EBC5CCF7.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/BC9DE34EB2AC7213E.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/C96388EBD0EBAEF63.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/CA5B833E0126E5DCF.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/CC78AD0762B151DB6.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/D3B6596865752C0CC.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/D82B5BFEC1AEEB2B4.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/DFDF36DE39DE5BD5A.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/F0E1C597A9B945719.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/F240A1C413BA5E391.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/FCD8D21C112DA60B9.css',
-        'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/FD9358ADC87D92390.css',
-        'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
-        'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwaPGR_p.woff2',
-        'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwiPGQ.woff2',
-        'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjxAwXjeu.woff2',
-        'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXg.woff2',
-        'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh50XSwaPGR_p.woff2',
-        'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh50XSwiPGQ.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngRUXNadjH0qYEzV7ab-oWlsbCLwR26eg.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngRUXNadjH0qYEzV7ab-oWlsbCCwR26eg.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngRUXNadjH0qYEzV7ab-oWlsbCIwR26eg.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiIW_3QRQ.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiBW_3QRQ.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiLW_3QRQ.woff2',
-        'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiFW_0.woff2',
-      ],
+      additional: [],
+      optional: ['*.png', 'css/*.css', '*.svg', ':externals:'],
     },
     // src for google fonts might change so https://fonts.gstatic.com addresses might require
     // some maintenance in this list to still keep them cached by service worker in the future.
     externals: [
-      '/',
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/0F8C1F243ED488143.css',
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/1969A9B12BA2541A9.css',
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/205607F96BE737D19.css',
@@ -171,17 +112,8 @@ const productionPlugins = [
       'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiLW_3QRQ.woff2',
       'https://fonts.gstatic.com/s/ptsansnarrow/v8/BngSUXNadjH0qYEzV7ab-oWlsbg95AiFW_0.woff2',
     ],
-    cacheMaps: [
-      {
-        // eslint-disable-next-line object-shorthand
-        match: function(requestUrl) {
-          return requestUrl.pathname;
-        },
-        requestTypes: ['navigate'],
-      },
-    ],
     updateStrategy: 'changed',
-    autoUpdate: 1000 * 60,
+    autoUpdate: 1000 * 60 * 5,
     safeToUseOptionalCaches: true,
     ServiceWorker: {
       entry: './app/util/font-sw.js',
@@ -193,15 +125,17 @@ const productionPlugins = [
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
   }),
-  new ZopfliCompressionPlugin({
-    asset: '[path].gz[query]',
+  new CompressionPlugin({
+    filename: '[path].gz[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
+    algorithm: zopfli.gzip,
   }),
-  new BrotliCompressionPlugin({
-    asset: '[path].br[query]',
+  new CompressionPlugin({
+    filename: '[path].br[query]',
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
+    algorithm: iltorb.compress,
   }),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
@@ -237,7 +171,6 @@ module.exports = {
                 modules: false,
               },
             ],
-            ['@babel/preset-stage-3', { loose: true, useBuiltIns: true }],
             [
               '@babel/preset-react',
               { development: isDevelopment, useBuiltIns: true },
@@ -249,12 +182,13 @@ module.exports = {
               '@babel/plugin-transform-runtime',
               {
                 helpers: true,
-                polyfill: false,
                 regenerator: true,
-                useBuiltIns: true,
                 useESModules: true,
               },
             ],
+            '@babel/plugin-syntax-dynamic-import',
+            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            '@babel/plugin-proposal-json-strings',
           ],
         },
       },
@@ -287,8 +221,6 @@ module.exports = {
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
     new webpack.ContextReplacementPlugin(intlExpression, languageExp),
-    new webpack.NamedChunksPlugin(),
-    new webpack.NamedModulesPlugin(),
     ...(isDevelopment
       ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
       : productionPlugins),
@@ -302,6 +234,8 @@ module.exports = {
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
+    moduleIds: 'named',
+    chunkIds: 'named',
     splitChunks: {
       chunks: isProduction ? 'all' : 'async',
       cacheGroups: {

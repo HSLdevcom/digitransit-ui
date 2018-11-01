@@ -55,3 +55,16 @@ export const OptimizeType = {
   /** Uses the flat/quick/safe triangle for routing. Used only for biking. */
   Triangle: 'TRIANGLE',
 };
+
+/**
+ * QuickOptionSetType depicts different types of quick routing settings sets.
+ */
+export const QuickOptionSetType = {
+  DefaultRoute: 'default-route',
+  LeastElevationChanges: 'least-elevation-changes',
+  LeastTransfers: 'least-transfers',
+  LeastWalking: 'least-walking',
+  PreferGreenways: 'prefer-greenways',
+  PreferWalkingRoutes: 'prefer-walking-routes',
+  SavedSettings: 'saved-settings',
+};
