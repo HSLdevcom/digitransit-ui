@@ -1,145 +1,149 @@
 .nearby-table-container {
-    position: relative;
-    height: auto;
-    display: flex;
+  position: relative;
+  height: auto;
+  display: flex;
 }
 
 table.nearby-departures-table {
-    position: relative;
+  position: relative;
+  display: block;
+  height: auto;
+  width: 100%;
+  border: 0;
+  border-spacing: 0;
+  table-layout: fixed;
+  thead {
     display: block;
-    height: auto;
-    width: 100%;
-    border: 0;
-    border-spacing: 0;
-    table-layout: fixed;
-    thead {
+    .header-tr {
+      display: flex;
+      width: 100%;
+      padding-left: 0.6em;
+      padding-right: 1em;
+      th {
+        text-align: left;
+        color: $gray;
+        @include font-narrow-book;
+        font-size: $font-size-small;
+        white-space: nowrap;
+        margin: 0;
+        line-height: 1em;
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+        width: 3.7em;
         display: block;
-        .header-tr {
-            display: flex;
+        &.th-destination {
+          flex-grow: 1;
+          flex-basis: 4em;
+        }
+      }
+    }
+  }
+
+  tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    width: 99.7%;
+    max-height: calc(100% - 32px);
+    tr {
+      @include font-narrow-book;
+      font-size: $font-size-small;
+      margin: 0;
+      line-height: 1em;
+      display: flex;
+      td {
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+        border-bottom: 1px solid #cbcbcb;
+        display: block;
+        flex: 0 0 4em;
+        background: $white;
+        &.td-available-bikes {
+          font-size: $font-size-small;
+          text-align: center;
+          flex: 0 0 8em;
+          .city-bike-station-availability {
+            padding-right: 0.3em;
+          }
+          .bikes-total {
+            padding-right: 0.3em;
+          }
+        }
+        &.td-route-number {
+          flex-basis: 4.5em;
+          .route-number {
+            white-space: nowrap;
+            min-width: 50px;
+            max-width: 4.5em;
+            // mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
+            .vehicle-number {
+              max-width: 3em;
+              font-size: $font-size-medium-large;
+              height: $font-size-medium-large;
+            }
+          }
+        }
+        &.td-distance {
+          color: $gray;
+          padding-left: 1em;
+          span {
+            font-size: $font-size-medium-large;
+            height: $font-size-medium-large;
+          }
+        }
+        &.td-departure-times {
+          font-weight: $font-weight-bold;
+          font-family: $font-family;
+          text-align: right;
+
+          span {
+            font-size: $font-size-medium-large;
+            height: $font-size-medium-large;
+            width: auto;
+          }
+        }
+        &.td-destination,
+        &.td-bikestation {
+          flex: 1 0 4em;
+          overflow-x: hidden;
+          span {
+            font-size: $font-size-medium-large;
+            white-space: nowrap;
+            height: $font-size-medium-large;
+          }
+          .route-destination {
+            display: block;
+            width: auto;
+
+            & .destination {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              width: 100%;
+            }
+          }
+          span.city-bike-station-name {
             width: 100%;
-            padding-left: 0.6em;
-            padding-right: 1em;
-            th {
-                text-align: left;
-                color: $gray;
-                @include font-narrow-book;
-                font-size: $font-size-small;
-                white-space: nowrap;
-                margin: 0;
-                line-height: 1em;
-                padding-top: 0.6em;
-                padding-bottom: 0.6em;
-                width: 3.7em;
-                display: block;
-                &.th-destination {
-                    flex-grow: 1;
-                    flex-basis: 4em;
-                }
-            }
+          }
         }
+      }
     }
-
-    tbody {
-        overflow-y: auto;
-        overflow-x: hidden;
-        display: block;
-        width: 99.7%;
-        max-height: calc(100% - 32px);
-        tr {
-            @include font-narrow-book;
-            font-size: $font-size-small;
-            margin: 0;
-            line-height: 1em;
-            display: flex;
-            td {
-                padding-top: 0.6em;
-                padding-bottom: 0.6em;
-                border-bottom: 1px solid #cbcbcb;
-                display: block;
-                flex: 0 0 4em;
-                background: $white;
-                &.td-available-bikes {
-                    font-size: $font-size-small;
-                    text-align: center;
-                    flex: 0 0 8em;
-                    .city-bike-station-availability {
-                        padding-right: 0.3em;
-                    }
-                    .bikes-total {
-                        padding-right: 0.3em;
-                    }
-                }
-                &.td-route-number {
-                    flex-basis: 4.5em;
-                    .route-number {
-                        white-space: nowrap;
-                        min-width: 50px;
-                        max-width: 4.5em;
-                        // mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
-                        .vehicle-number {
-                            max-width: 3em;
-                            font-size: $font-size-medium-large;
-                            height: $font-size-medium-large;
-                        }
-                    }
-                }
-                &.td-distance {
-                    color: $gray;
-                    padding-left: 1em;
-                    span {
-                        font-size: $font-size-medium-large;
-                        height: $font-size-medium-large;
-                    }
-                }
-                &.td-departure-times {
-                    font-weight: $font-weight-bold;
-                    font-family: $font-family;
-                    span {
-                        font-size: $font-size-medium-large;
-                        height: $font-size-medium-large;
-                    }
-                }
-                &.td-destination, &.td-bikestation {
-                    flex: 1 0 4em;
-                    overflow-x: hidden;
-                    span {
-                      font-size: $font-size-medium-large;
-                      white-space: nowrap;
-                      height: $font-size-medium-large;
-                    }
-                    .route-destination {
-                        display: block;
-                        width: auto;
-
-                        & .destination {
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                            width: 100%;
-                        }
-                    }
-                    span.city-bike-station-name {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-    }
+  }
 }
 
 .small {
-    table.nearby-departures-table {
-        background-color: $white;
-        thead {
-            .header-tr {
-                padding-right: 0.6em;
-            }
-        }
-            tbody {
-                position: relative;
-                overflow-y: visible;
-                display: initial;
-                height: 100%;
-            }
-        }
+  table.nearby-departures-table {
+    background-color: $white;
+    thead {
+      .header-tr {
+        padding-right: 0.6em;
+      }
+    }
+    tbody {
+      position: relative;
+      overflow-y: visible;
+      display: initial;
+      height: 100%;
+    }
+  }
 }

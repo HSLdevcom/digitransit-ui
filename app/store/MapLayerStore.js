@@ -4,7 +4,6 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
-    citybike: false, // TODO: set back to true when stations open again
     parkAndRide: true,
     stop: {
       bus: true,
@@ -36,6 +35,12 @@ class MapLayerStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
+
+    const { config } = dispatcher.getContext();
+    this.mapLayers.citybike =
+      config.transportModes.citybike &&
+      config.transportModes.citybike.availableForSelection;
+
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
       this.mapLayers = {
