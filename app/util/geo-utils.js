@@ -101,6 +101,30 @@ export function boundWithMinimumArea(points) {
   ];
 }
 
+// Simpler version of boundWithMinimumArea that uses lonlat array
+// No checks for null values and assumes box is large enough
+export function boundWithMinimumAreaSimple(points) {
+  const lons = [];
+  const lats = [];
+  points.forEach((coordinatePair) => {
+    lons.push(coordinatePair[0]);
+    lats.push(coordinatePair[1])
+  });
+  const minlat = Math.min(...lats);
+  const minlon = Math.min(...lons);
+  const maxlat = Math.max(...lats);
+  const maxlon = Math.max(...lons);
+  return [
+    [minlat, minlon],
+    [maxlat, maxlon],
+  ];
+}
+
+// Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
+export function isInBoundingBox(boundingBox, lat, lon) {
+  return boundingBox[0][0] <= lat && boundingBox[0][1] <= lon && boundingBox[1][0] >= lat && boundingBox[1][1] >= lon;
+}
+
 function getLengthOf(geometry) {
   let d = 0;
 
