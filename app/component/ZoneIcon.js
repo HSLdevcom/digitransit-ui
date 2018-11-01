@@ -5,11 +5,16 @@ import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 
+/**
+ * The default identifier for an unknown zone.
+ */
+export const ZONE_UNKNOWN = 'Ei HSL';
+
 const ZoneIcon = ({ className, showTitle, zoneId }, { intl }) => {
   if (!zoneId) {
     return null;
   }
-  const zoneUnknown = zoneId === 'Ei HSL';
+  const zoneUnknown = zoneId === ZONE_UNKNOWN;
   if (showTitle && zoneUnknown) {
     return null;
   }
