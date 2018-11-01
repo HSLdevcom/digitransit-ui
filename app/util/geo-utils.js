@@ -106,23 +106,25 @@ export function boundWithMinimumArea(points) {
 export function boundWithMinimumAreaSimple(points) {
   const lons = [];
   const lats = [];
-  points.forEach((coordinatePair) => {
+  points.forEach(coordinatePair => {
     lons.push(coordinatePair[0]);
-    lats.push(coordinatePair[1])
+    lats.push(coordinatePair[1]);
   });
   const minlat = Math.min(...lats);
   const minlon = Math.min(...lons);
   const maxlat = Math.max(...lats);
   const maxlon = Math.max(...lons);
-  return [
-    [minlat, minlon],
-    [maxlat, maxlon],
-  ];
+  return [[minlat, minlon], [maxlat, maxlon]];
 }
 
 // Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
 export function isInBoundingBox(boundingBox, lat, lon) {
-  return boundingBox[0][0] <= lat && boundingBox[0][1] <= lon && boundingBox[1][0] >= lat && boundingBox[1][1] >= lon;
+  return (
+    boundingBox[0][0] <= lat &&
+    boundingBox[0][1] <= lon &&
+    boundingBox[1][0] >= lat &&
+    boundingBox[1][1] >= lon
+  );
 }
 
 function getLengthOf(geometry) {

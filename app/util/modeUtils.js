@@ -6,10 +6,11 @@ import {
   without,
   xor,
 } from 'lodash';
+
+import inside from 'point-in-polygon';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
-import { isInBoundingBox } from './geo-utils'
-import inside from 'point-in-polygon';
+import { isInBoundingBox } from './geo-utils';
 
 /**
  * Retrieves an array of street mode configurations that have specified
@@ -134,20 +135,21 @@ const isModeAvailable = (config, mode) =>
 const isModeAvailableInsidePolygons = (config, mode, places) => {
   if (mode in config.modePolygons && places.length > 0) {
     for (let i = 0; i < places.length; i++) {
-      const lat = places[i].lat;
-      const lon = places[i].lon;
+      const { lat, lon } = places[i];
       for (let j = 0; j < config.modeBoundingBoxes[mode].length; j++) {
         const boundingBox = config.modeBoundingBoxes[mode][j];
-        if (isInBoundingBox(boundingBox, lat, lon) && inside([lon, lat], config.modePolygons[mode][j])) {
+        if (
+          isInBoundingBox(boundingBox, lat, lon) &&
+          inside([lon, lat], config.modePolygons[mode][j])
+        ) {
           return true;
         }
       }
     }
     return false;
-  } else {
-    return true;
   }
-}
+  return true;
+};
 
 /**
  * Maps the given modes (either a string array or a comma-separated string of values)
@@ -170,7 +172,13 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
     modesStr
       .split(',')
       .filter(mode => isModeAvailable(config, mode))
-      .filter(mode => isModeAvailableInsidePolygons(config, mode, [from, to, ...intermediatePlaces]))
+      .filter(mode =>
+        isModeAvailableInsidePolygons(config, mode, [
+          from,
+          to,
+          ...intermediatePlaces,
+        ]),
+      )
       .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),

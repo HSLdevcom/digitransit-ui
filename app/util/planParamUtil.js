@@ -232,7 +232,9 @@ export const preparePlanParams = config => (
   const settings = getSettings();
   const fromLocation = otpToLocation(from);
   const toLocation = otpToLocation(to);
-  const intermediatePlaceLocations = getIntermediatePlaces({ intermediatePlaces });
+  const intermediatePlaceLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
   const modesOrDefault = filterModes(
     config,
     getModes({ query: { modes } }, config),

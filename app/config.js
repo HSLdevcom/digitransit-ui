@@ -95,14 +95,14 @@ export function getNamedConfiguration(configName, piwikId) {
       config.searchParams['boundary.polygon'] = pointsParam;
     }
 
-    for (const mode of Object.keys(config.modePolygons)) {
+    Object.keys(config.modePolygons).forEach(mode => {
       const boundingBoxes = [];
-      config.modePolygons[mode].forEach((polygon) => {
+      config.modePolygons[mode].forEach(polygon => {
         boundingBoxes.push(boundWithMinimumAreaSimple(polygon));
       });
-      config.modeBoundingBoxes = config.modeBoundingBoxes || {};
+      config.modeBoundingBoxes = config.modeBoundingBoxes || {};
       config.modeBoundingBoxes[mode] = boundingBoxes;
-    }
+    });
 
     if (piwikId) {
       config.PIWIK_ID = piwikId;
