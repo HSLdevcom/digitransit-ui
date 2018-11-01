@@ -130,7 +130,6 @@ class StopPageContentOptions extends React.Component {
                   <RoutesAndPlatformsForStops
                     {...props}
                     stopType={isTerminal ? 'terminal' : 'stop'}
-                    infiniteScroll
                   />
                 ) : (
                   undefined

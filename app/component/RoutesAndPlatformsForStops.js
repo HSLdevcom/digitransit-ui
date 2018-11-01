@@ -6,17 +6,9 @@ import { Link } from 'react-router';
 import orderBy from 'lodash/orderBy';
 
 import Departure from './Departure';
-import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES } from '../util/path';
 
 const RoutesAndPlatformsForStops = props => {
-  const onScroll = () => {
-    if (props.infiniteScroll && isBrowser) {
-      return window.scrollHandler;
-    }
-    return null;
-  };
-
   const stopRoutes = [];
   const mappedRoutes = [];
 
@@ -34,7 +26,9 @@ const RoutesAndPlatformsForStops = props => {
           },
           stoptime: 0,
           realtime: 0,
-          headsign: routeProperties.stoptimes[0].headsign,
+          headsign:
+            routeProperties.stoptimes[0].headsign ||
+            routeProperties.pattern.headsign,
         }),
       ),
     );
@@ -61,13 +55,11 @@ const RoutesAndPlatformsForStops = props => {
 
   const timeTableRows = sortedRoutes.map(route => (
     <Link
-      to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId}`}
-      key={`${route.pattern.route.gtfsId}-${route.headsign}-${
-        route.pattern.route.id
-      }`}
+      to={`/${PREFIX_ROUTES}/${route.pattern.code}`}
+      key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id}`}
     >
       <Departure
-        key={`${route.pattern.route.gtfsId}-${route.headsign}-${
+        key={`${route.pattern.code}-${route.headsign}-${
           route.pattern.route.id
         }`}
         departure={route}
@@ -81,10 +73,7 @@ const RoutesAndPlatformsForStops = props => {
   ));
 
   return (
-    <div
-      className={cx('departure-list stop-page momentum-scroll')}
-      onScroll={onScroll()}
-    >
+    <div className={cx('departure-list stop-page momentum-scroll')}>
       {timeTableRows}
     </div>
   );
@@ -92,7 +81,6 @@ const RoutesAndPlatformsForStops = props => {
 
 RoutesAndPlatformsForStops.propTypes = {
   stop: PropTypes.object.isRequired,
-  infiniteScroll: PropTypes.bool,
   stopType: PropTypes.string,
 };
 
@@ -110,6 +98,7 @@ export default Relay.createContainer(RoutesAndPlatformsForStops, {
         color
         patterns {
           headsign
+          code
         }
       }
       stops {
@@ -117,10 +106,13 @@ export default Relay.createContainer(RoutesAndPlatformsForStops, {
         platformCode
         stoptimesForPatterns(numberOfDepartures: 1, timeRange: 604800) {
           pattern {
+            headsign
+            code
             route {
               id
               gtfsId
               shortName
+              longName
               mode
               color
             }
