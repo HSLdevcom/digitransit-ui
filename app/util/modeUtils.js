@@ -6,8 +6,11 @@ import {
   without,
   xor,
 } from 'lodash';
+
+import inside from 'point-in-polygon';
 import { replaceQueryParams } from './queryUtils';
 import { getCustomizedSettings } from '../store/localStorage';
+import { isInBoundingBox } from './geo-utils';
 
 /**
  * Retrieves an array of street mode configurations that have specified
@@ -122,6 +125,33 @@ const isModeAvailable = (config, mode) =>
   ].includes(mode.toUpperCase());
 
 /**
+ * Checks if mode does not exist in config's modePolygons or
+ * at least one of the given coordinates is inside any of the polygons defined for a mode
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to check
+ * @param {*} places
+ */
+const isModeAvailableInsidePolygons = (config, mode, places) => {
+  if (mode in config.modePolygons && places.length > 0) {
+    for (let i = 0; i < places.length; i++) {
+      const { lat, lon } = places[i];
+      for (let j = 0; j < config.modeBoundingBoxes[mode].length; j++) {
+        const boundingBox = config.modeBoundingBoxes[mode][j];
+        if (
+          isInBoundingBox(boundingBox, lat, lon) &&
+          inside([lon, lat], config.modePolygons[mode][j])
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  return true;
+};
+
+/**
  * Maps the given modes (either a string array or a comma-separated string of values)
  * to their OTP counterparts. Any modes with no counterpart available will be dropped
  * from the output.
@@ -130,7 +160,7 @@ const isModeAvailable = (config, mode) =>
  * @param {String[]|String} modes The modes to filter
  * @returns The filtered modes, or an empty string
  */
-export const filterModes = (config, modes) => {
+export const filterModes = (config, modes, from, to, intermediatePlaces) => {
   if (!modes) {
     return '';
   }
@@ -142,6 +172,13 @@ export const filterModes = (config, modes) => {
     modesStr
       .split(',')
       .filter(mode => isModeAvailable(config, mode))
+      .filter(mode =>
+        isModeAvailableInsidePolygons(config, mode, [
+          from,
+          to,
+          ...intermediatePlaces,
+        ]),
+      )
       .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),
@@ -159,16 +196,6 @@ export const getDefaultModes = config => [
   ...getDefaultTransportModes(config),
   ...getDefaultStreetModes(config),
 ];
-
-/**
- * Retrieves all modes (as in both transport and street modes) that are
- * both available and marked as default and maps them to their OTP counterparts.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String} a comma-separated list of OTP modes
- */
-export const getDefaultOTPModes = config =>
-  filterModes(config, getDefaultModes(config));
 
 /**
  * Retrieves all modes (as in both transport and street modes)
