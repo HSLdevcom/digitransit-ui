@@ -2938,15 +2938,15 @@ commander@2.15.1:
   version "2.15.1"
   resolved "http://registry.npmjs.org/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
+commander@2.19.0, commander@^2.11.0, commander@^2.12.2, commander@^2.18.0, commander@^2.9.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
+
 commander@2.9.0:
   version "2.9.0"
   resolved "http://registry.npmjs.org/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
     graceful-readlink ">= 1.0.0"
-
-commander@^2.11.0, commander@^2.12.2, commander@^2.18.0, commander@^2.9.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
 
 commander@~2.13.0:
   version "2.13.0"
@@ -7794,9 +7794,9 @@ node-abi@^2.2.0:
   dependencies:
     semver "^5.4.1"
 
-node-addon-api@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.3.0.tgz#9280a6afd4d0bd9401ef3c60b936beeea0a6b3d3"
+node-addon-api@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.5.0.tgz#55be6b3da36e746f4b1f2af16c2adf67647d1ff8"
 
 node-fetch@2.1.2:
   version "2.1.2"
@@ -7813,25 +7813,7 @@ node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
 
-node-gyp@3.6.2:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.6.2.tgz#9bfbe54562286284838e750eac05295853fa1c60"
-  dependencies:
-    fstream "^1.0.0"
-    glob "^7.0.3"
-    graceful-fs "^4.1.2"
-    minimatch "^3.0.2"
-    mkdirp "^0.5.0"
-    nopt "2 || 3"
-    npmlog "0 || 1 || 2 || 3 || 4"
-    osenv "0"
-    request "2"
-    rimraf "2"
-    semver "~5.3.0"
-    tar "^2.0.0"
-    which "1"
-
-node-gyp@^3.3.1:
+node-gyp@3.8.0, node-gyp@^3.3.1:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.8.0.tgz#540304261c330e80d0d5edce253a68cb3964218c"
   dependencies:
@@ -7936,13 +7918,13 @@ node-sass@4.9.0:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-node-zopfli-es@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/node-zopfli-es/-/node-zopfli-es-0.0.2.tgz#a1ad448abc9e5283a3ca8ce6d6a5cc38dade4105"
+node-zopfli-es@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-zopfli-es/-/node-zopfli-es-1.0.0.tgz#3a81da89bdd15b85b6f0de31f20d152e840897f8"
   dependencies:
-    commander "2.15.1"
-    node-addon-api "1.3.0"
-    node-gyp "3.6.2"
+    commander "2.19.0"
+    node-addon-api "1.5.0"
+    node-gyp "3.8.0"
 
 nodemon@1.17.5:
   version "1.17.5"
@@ -10073,31 +10055,6 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@2, request@^2.65.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
-  version "2.88.0"
-  resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
-  dependencies:
-    aws-sign2 "~0.7.0"
-    aws4 "^1.8.0"
-    caseless "~0.12.0"
-    combined-stream "~1.0.6"
-    extend "~3.0.2"
-    forever-agent "~0.6.1"
-    form-data "~2.3.2"
-    har-validator "~5.1.0"
-    http-signature "~1.2.0"
-    is-typedarray "~1.0.0"
-    isstream "~0.1.2"
-    json-stringify-safe "~5.0.1"
-    mime-types "~2.1.19"
-    oauth-sign "~0.9.0"
-    performance-now "^2.1.0"
-    qs "~6.5.2"
-    safe-buffer "^5.1.2"
-    tough-cookie "~2.4.3"
-    tunnel-agent "^0.6.0"
-    uuid "^3.3.2"
-
 request@2.85.0:
   version "2.85.0"
   resolved "http://registry.npmjs.org/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
@@ -10124,6 +10081,31 @@ request@2.85.0:
     tough-cookie "~2.3.3"
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
+
+request@^2.65.0, request@^2.81.0, request@^2.87.0, request@^2.88.0:
+  version "2.88.0"
+  resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
+  dependencies:
+    aws-sign2 "~0.7.0"
+    aws4 "^1.8.0"
+    caseless "~0.12.0"
+    combined-stream "~1.0.6"
+    extend "~3.0.2"
+    forever-agent "~0.6.1"
+    form-data "~2.3.2"
+    har-validator "~5.1.0"
+    http-signature "~1.2.0"
+    is-typedarray "~1.0.0"
+    isstream "~0.1.2"
+    json-stringify-safe "~5.0.1"
+    mime-types "~2.1.19"
+    oauth-sign "~0.9.0"
+    performance-now "^2.1.0"
+    qs "~6.5.2"
+    safe-buffer "^5.1.2"
+    tough-cookie "~2.4.3"
+    tunnel-agent "^0.6.0"
+    uuid "^3.3.2"
 
 request@~2.79.0:
   version "2.79.0"
