@@ -198,16 +198,6 @@ export const getDefaultModes = config => [
 ];
 
 /**
- * Retrieves all modes (as in both transport and street modes) that are
- * both available and marked as default and maps them to their OTP counterparts.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String} a comma-separated list of OTP modes
- */
-export const getDefaultOTPModes = config =>
-  filterModes(config, getDefaultModes(config));
-
-/**
  * Retrieves all modes (as in both transport and street modes)
  * from either 1. the URI, 2. localStorage or 3. the default configuration.
  *
