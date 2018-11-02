@@ -83,7 +83,7 @@ Departure.description = () => (
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="isArrival true">
+    <ComponentUsageExample description="drop-off only">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
@@ -92,7 +92,7 @@ Departure.description = () => (
         isArrival
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="Last stop and only drop-off">
+    <ComponentUsageExample description="last stop">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}

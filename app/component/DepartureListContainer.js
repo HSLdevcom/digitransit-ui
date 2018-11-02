@@ -20,8 +20,11 @@ const asDepartures = stoptimes =>
     ? []
     : stoptimes.map(stoptime => {
         const isArrival = stoptime.pickupType === 'NONE';
-        const lastStop = stoptime.trip.stops.slice(-1).pop();
-        const isLastStop = stoptime.stop.id === lastStop.id;
+        let isLastStop = false;
+        if (stoptime.trip && stoptime.trip.stops) {
+          const lastStop = stoptime.trip.stops.slice(-1).pop();
+          isLastStop = stoptime.stop.id === lastStop.id;
+        }
         /* OTP returns either scheduled time or realtime prediction in
            * 'realtimeDeparture' and 'realtimeArrival' fields.
            * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */

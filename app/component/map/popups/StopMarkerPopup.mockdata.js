@@ -85,6 +85,14 @@ const stoptimesData = [
         code: 'HSL:1009:0:02',
         id: 'UGF0dGVybjpIU0w6MTAwOTowOjAy',
       },
+      stops: [
+        {
+          id: 'U3RvcDpIU0w6MTIwMzQxNA==',
+        },
+        {
+          id: 'U3RvcDpIU0w6MTIyMDQzNA==',
+        },
+      ],
       id: 'VHJpcDpIU0w6MTAwOV8yMDE4MDQxNl9Ub18xXzE0MjQ=',
     },
   },
@@ -159,6 +167,14 @@ const stoptimesData = [
         code: 'HSL:1009:0:02',
         id: 'UGF0dGVybjpIU0w6MTAwOTowOjAy',
       },
+      stops: [
+        {
+          id: 'U3RvcDpIU0w6MTIwMzQxNA==',
+        },
+        {
+          id: 'U3RvcDpIU0w6MTIyMDQzNA==',
+        },
+      ],
       id: 'VHJpcDpIU0w6MTAwOV8yMDE4MDQxNl9Ub18xXzE0MzM=',
     },
   },

@@ -55,13 +55,23 @@ RouteDestination.description = () => (
         }
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="isArrival true">
+    <ComponentUsageExample description="drop-off">
       <RouteDestination
         mode={ExampleData.pattern.route.mode}
         destination={
           ExampleData.pattern.headsign || ExampleData.pattern.route.longName
         }
         isArrival
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="last-stop">
+      <RouteDestination
+        mode={ExampleData.pattern.route.mode}
+        destination={
+          ExampleData.pattern.headsign || ExampleData.pattern.route.longName
+        }
+        isArrival
+        isLastStop
       />
     </ComponentUsageExample>
   </div>
