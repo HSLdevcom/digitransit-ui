@@ -1,24 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import get from 'lodash/get';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
+import mapFares from '../util/fareUtils';
 import { getTotalWalkingDistance } from '../util/legUtils';
 import RelativeDuration from './RelativeDuration';
 import Icon from './Icon';
 
 export default class PrintableItineraryHeader extends React.Component {
-  getFareId = () => {
-    const fareId = this.props.itinerary.fares
-      ? this.props.itinerary.fares[0].components[0].fareId
-      : null;
-    const fareMapping = get(this.context.config, 'fareMapping', {});
-    const mappedFareId = fareId ? fareMapping[fareId] : null;
-    return mappedFareId;
-  };
-
   createHeaderBlock = obj => (
     <div className={`print-itinerary-header-single itinerary-${obj.name}`}>
       <div className="header-icon">
@@ -30,11 +21,13 @@ export default class PrintableItineraryHeader extends React.Component {
       <div className="header-details">
         <div className="header-details-title">
           <FormattedMessage
-            id={`itinerary-${obj.name}.title`}
+            id={`itinerary-${obj.textId}.title`}
             defaultMessage={`${obj.name}`}
           />
         </div>
-        <div className={obj.name === 'ticket' ? `faretype-span` : undefined}>
+        <div
+          className={obj.name === 'ticket' ? `faretype-container` : undefined}
+        >
           <span className="header-details-content">{obj.contentDetails}</span>
         </div>
       </div>
@@ -43,13 +36,17 @@ export default class PrintableItineraryHeader extends React.Component {
 
   render() {
     const { config } = this.context;
-    const fare = this.getFareId();
+    const fares = mapFares(
+      this.props.itinerary.fares,
+      config,
+      this.context.intl.locale,
+    );
     const duration = moment(this.props.itinerary.endTime).diff(
       moment(this.props.itinerary.startTime),
     );
     const language = this.context.getStore('PreferencesStore').getLanguage();
     const weekDay = moment(this.props.itinerary.startTime)
-      .lang(language)
+      .locale(language)
       .format('dddd');
     const weekDayUpperCase = weekDay.charAt(0).toUpperCase() + weekDay.slice(1);
 
@@ -83,7 +80,7 @@ export default class PrintableItineraryHeader extends React.Component {
               {` `}
               <span>
                 {moment(this.props.itinerary.startTime)
-                  .lang(language)
+                  .locale(language)
                   .format('DD.M.YYYY')}
               </span>
             </div>
@@ -92,6 +89,7 @@ export default class PrintableItineraryHeader extends React.Component {
         <div className="print-itinerary-header-bottom">
           {this.createHeaderBlock({
             name: 'time',
+            textId: 'time',
             contentDetails: (
               <span>
                 <RelativeDuration duration={duration} />
@@ -106,21 +104,21 @@ export default class PrintableItineraryHeader extends React.Component {
           })}
           {this.createHeaderBlock({
             name: 'walk',
+            textId: 'walk',
             contentDetails: displayDistance(
               getTotalWalkingDistance(this.props.itinerary),
               this.context.config,
             ),
           })}
-          {fare !== null &&
-            config.showTicketInformation &&
+          {fares &&
             this.createHeaderBlock({
               name: 'ticket',
-              contentDetails: (
-                <FormattedMessage
-                  id={`ticket-type-${fare}`}
-                  defaultMessage={fare}
-                />
-              ),
+              textId: fares.length > 1 ? 'tickets' : 'ticket',
+              contentDetails: fares.map(fare => (
+                <div key={fare} className="fare-details">
+                  <span>{fare}</span>
+                </div>
+              )),
             })}
         </div>
       </div>
@@ -135,4 +133,5 @@ PrintableItineraryHeader.propTypes = {
 PrintableItineraryHeader.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };

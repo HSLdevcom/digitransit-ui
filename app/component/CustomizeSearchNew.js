@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import { routerShape } from 'react-router';
 
@@ -10,6 +9,7 @@ import FareZoneSelector from './FareZoneSelector';
 import PreferredRoutes from './PreferredRoutes';
 import ResetCustomizedSettingsButton from './ResetCustomizedSettingsButton';
 import SaveCustomizedSettingsButton from './SaveCustomizedSettingsButton';
+import LoadCustomizedSettingsButton from './LoadCustomizedSettingsButton';
 import StreetModeSelectorPanel from './StreetModeSelectorPanel';
 import BikeTransportOptionsSection from './customizesearch/BikeTransportOptionsSection';
 import BikingOptionsSection from './customizesearch/BikingOptionsSection';
@@ -164,17 +164,19 @@ class CustomizeSearch extends React.Component {
               defaultSettings={this.defaultSettings}
             />
           </div>
-          <FareZoneSelector
-            headerText={intl.formatMessage({
-              id: 'zones',
-              defaultMessage: 'Fare zones',
-            })}
-            options={get(config, 'fareMapping', {})}
-            currentOption={currentSettings.ticketTypes || 'none'}
-            updateValue={value =>
-              replaceQueryParams(router, { ticketTypes: value })
-            }
-          />
+          {config.fares && (
+            <FareZoneSelector
+              headerText={intl.formatMessage({
+                id: 'zones',
+                defaultMessage: 'Fare zones',
+              })}
+              options={config.fares}
+              currentOption={currentSettings.ticketTypes || 'none'}
+              updateValue={value =>
+                replaceQueryParams(router, { ticketTypes: value })
+              }
+            />
+          )}
           <PreferredRoutes
             onRouteSelected={this.onRouteSelected}
             preferredRoutes={currentSettings.preferredRoutes}
@@ -184,6 +186,11 @@ class CustomizeSearch extends React.Component {
           <div className="settings-option-container">
             <RoutePreferencesSection
               optimize={currentSettings.optimize}
+              triangleFactors={{
+                safetyFactor: currentSettings.safetyFactor,
+                slopeFactor: currentSettings.slopeFactor,
+                timeFactor: currentSettings.timeFactor,
+              }}
               defaultSettings={this.defaultSettings}
             />
           </div>
@@ -204,10 +211,17 @@ class CustomizeSearch extends React.Component {
             />
           </div>
           <div className="settings-option-container save-controls-container">
-            <SaveCustomizedSettingsButton
-              noSettingsFound={this.resetParameters}
-            />
-            <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            <div style={{ display: 'flex' }}>
+              <SaveCustomizedSettingsButton
+                noSettingsFound={this.resetParameters}
+              />
+              <LoadCustomizedSettingsButton
+                noSettingsFound={this.resetParameters}
+              />
+            </div>
+            <div>
+              <ResetCustomizedSettingsButton onReset={this.resetParameters} />
+            </div>
           </div>
         </div>
       </div>

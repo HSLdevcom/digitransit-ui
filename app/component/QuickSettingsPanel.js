@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
 import xor from 'lodash/xor';
 import { routerShape, locationShape } from 'react-router';
 
@@ -13,7 +14,7 @@ import Icon from './Icon';
 import ModeFilter from './ModeFilter';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import TimeSelectorContainer from './TimeSelectorContainer';
-import { StreetMode, OptimizeType } from '../constants';
+import { StreetMode, OptimizeType, QuickOptionSetType } from '../constants';
 import {
   getModes,
   isBikeRestricted,
@@ -22,7 +23,12 @@ import {
   hasBikeRestriction,
 } from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
-import { replaceQueryParams } from '../util/queryUtils';
+import { getCustomizedSettings } from '../store/localStorage';
+import {
+  replaceQueryParams,
+  clearQueryParams,
+  getQuerySettings,
+} from '../util/queryUtils';
 
 class QuickSettingsPanel extends React.Component {
   static propTypes = {
@@ -68,28 +74,37 @@ class QuickSettingsPanel extends React.Component {
     const { config, location } = this.context;
     const streetMode = getStreetMode(location, config).toLowerCase();
     return [
-      'default-route',
+      QuickOptionSetType.DefaultRoute,
       ...(config.quickOptions[streetMode]
         ? config.quickOptions[streetMode].availableOptionSets
         : []),
     ];
   };
 
-  getQuickOptionSet = () => {
+  getQuickOptionSets = () => {
     const { config } = this.context;
     const defaultSettings = getDefaultSettings(config);
+    const customizedSettings = getCustomizedSettings();
     delete defaultSettings.modes;
+    delete customizedSettings.modes;
 
     const quickOptionSets = {
-      'default-route': {
+      [QuickOptionSetType.DefaultRoute]: {
         ...defaultSettings,
       },
-      'least-transfers': {
+      [QuickOptionSetType.LeastElevationChanges]: {
+        ...defaultSettings,
+        optimize: OptimizeType.Triangle,
+        safetyFactor: 0.1,
+        slopeFactor: 0.8,
+        timeFactor: 0.1,
+      },
+      [QuickOptionSetType.LeastTransfers]: {
         ...defaultSettings,
         transferPenalty: 5460,
         walkReluctance: config.defaultOptions.walkReluctance.less,
       },
-      'least-walking': {
+      [QuickOptionSetType.LeastWalking]: {
         ...defaultSettings,
         walkBoardCost: config.defaultOptions.walkBoardCost.more,
         walkReluctance: config.defaultOptions.walkReluctance.least,
@@ -103,29 +118,42 @@ class QuickSettingsPanel extends React.Component {
           ),
         ].join(','),
       },
-      'prefer-walking-routes': {
+      [QuickOptionSetType.PreferWalkingRoutes]: {
         ...defaultSettings,
         optimize: OptimizeType.Safe,
         walkReluctance: config.defaultOptions.walkReluctance.most,
       },
-      'prefer-greenways': {
+      [QuickOptionSetType.PreferGreenways]: {
         ...defaultSettings,
         optimize: OptimizeType.Greenways,
       },
     };
+
+    if (customizedSettings && Object.keys(customizedSettings).length > 0) {
+      quickOptionSets[QuickOptionSetType.SavedSettings] = {
+        ...defaultSettings,
+        ...customizedSettings,
+      };
+    }
     return pick(quickOptionSets, this.getApplicableQuickOptionSets());
   };
 
   setQuickOption = name => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
+    const { piwik, router } = this.context;
+    if (piwik != null) {
+      piwik.trackEvent(
         'ItinerarySettings',
         'ItineraryQuickSettingsSelection',
         name,
       );
     }
-    const chosenMode = this.getQuickOptionSet()[name];
-    replaceQueryParams(this.context.router, { ...chosenMode });
+
+    const quickOptionSet = this.getQuickOptionSets()[name];
+    if (name === QuickOptionSetType.SavedSettings) {
+      clearQueryParams(router, Object.keys(quickOptionSet));
+    } else {
+      replaceQueryParams(router, { ...quickOptionSet });
+    }
   };
 
   getModes = () => getModes(this.context.location, this.context.config);
@@ -177,23 +205,42 @@ class QuickSettingsPanel extends React.Component {
   };
 
   matchQuickOption = () => {
-    const merged = getCurrentSettings(
-      this.context.config,
-      this.context.location.query,
-    );
+    const {
+      config,
+      location: { query },
+    } = this.context;
 
     // Find out which quick option the user has selected
-    let currentOption = 'customized-mode';
-    const quickOptions = this.getQuickOptionSet();
-
-    Object.keys(quickOptions).forEach(key => {
-      const quickSettings = { ...quickOptions[key] };
-      const appliedSettings = pick(merged, Object.keys(quickSettings));
-      if (isEqual(quickSettings, appliedSettings)) {
-        currentOption = key;
+    const quickOptionSets = this.getQuickOptionSets();
+    const matchesOptionSet = (optionSetName, settings) => {
+      if (!quickOptionSets[optionSetName]) {
+        return false;
       }
-    });
-    return currentOption;
+      const quickSettings = pickBy(
+        { ...quickOptionSets[optionSetName] },
+        property => (Array.isArray(property) ? property.length > 0 : true),
+      );
+      const appliedSettings = pick(settings, Object.keys(quickSettings));
+      return isEqual(quickSettings, appliedSettings);
+    };
+
+    const querySettings = getQuerySettings(query);
+    const currentSettings = getCurrentSettings(config, query);
+
+    if (matchesOptionSet(QuickOptionSetType.SavedSettings, currentSettings)) {
+      return (
+        Object.keys(quickOptionSets)
+          .filter(key => key !== QuickOptionSetType.SavedSettings)
+          .find(key => matchesOptionSet(key, querySettings)) ||
+        QuickOptionSetType.SavedSettings
+      );
+    }
+
+    return (
+      Object.keys(quickOptionSets).find(key =>
+        matchesOptionSet(key, currentSettings),
+      ) || 'custom-settings'
+    );
   };
 
   toggleTransportMode(mode, otpMode) {
@@ -224,6 +271,7 @@ class QuickSettingsPanel extends React.Component {
 
   render() {
     const arriveBy = get(this.context.location, 'query.arriveBy', 'false');
+    const customizedSettings = getCustomizedSettings();
     const quickOption = this.matchQuickOption();
     const applicableQuickOptionSets = this.getApplicableQuickOptionSets();
 
@@ -269,7 +317,10 @@ class QuickSettingsPanel extends React.Component {
           <div className="open-advanced-settings">
             <RightOffcanvasToggle
               onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              hasChanges={quickOption === 'customized-mode'}
+              hasChanges={
+                quickOption === 'saved-settings' ||
+                quickOption === 'custom-settings'
+              }
             />
           </div>
         </div>
@@ -316,6 +367,16 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
+              {applicableQuickOptionSets.includes(
+                'least-elevation-changes',
+              ) && (
+                <option value="least-elevation-changes">
+                  {this.context.intl.formatMessage({
+                    id: 'route-least-elevation-changes',
+                    defaultMessage: 'Least elevation changes',
+                  })}
+                </option>
+              )}
               {applicableQuickOptionSets.includes('prefer-walking-routes') && (
                 <option value="prefer-walking-routes">
                   {this.context.intl.formatMessage({
@@ -342,11 +403,21 @@ class QuickSettingsPanel extends React.Component {
                   })}
                 </option>
               )}
-              {quickOption === 'customized-mode' && (
-                <option value="customized-mode">
+              {customizedSettings &&
+                Object.keys(customizedSettings).length > 0 &&
+                applicableQuickOptionSets.includes('saved-settings') && (
+                  <option value="saved-settings">
+                    {this.context.intl.formatMessage({
+                      id: 'route-saved-settings',
+                      defaultMessage: 'Customized mode',
+                    })}
+                  </option>
+                )}
+              {quickOption === 'custom-settings' && (
+                <option value="custom-settings">
                   {this.context.intl.formatMessage({
-                    id: 'route-customized-mode',
-                    defaultMessage: 'Customized mode',
+                    id: 'route-custom-settings',
+                    defaultMessage: 'Current Settings',
                   })}
                 </option>
               )}

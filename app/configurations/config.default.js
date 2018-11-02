@@ -42,6 +42,7 @@ export default {
   APP_PATH: `${APP_PATH}`,
   title: 'Reittihaku',
 
+  textLogo: false,
   // Navbar logo
   logo: 'default/digitransit-logo.png',
 
@@ -121,16 +122,25 @@ export default {
         'least-transfers',
         'least-walking',
         'public-transport-with-bicycle',
+        'saved-settings',
       ],
     },
     walk: {
-      availableOptionSets: ['prefer-walking-routes'],
+      availableOptionSets: ['prefer-walking-routes', 'saved-settings'],
     },
     bicycle: {
-      availableOptionSets: ['prefer-greenways'],
+      availableOptionSets: [
+        'least-elevation-changes',
+        'prefer-greenways',
+        'saved-settings',
+      ],
     },
     car_park: {
-      availableOptionSets: ['least-transfers', 'least-walking'],
+      availableOptionSets: [
+        'least-transfers',
+        'least-walking',
+        'saved-settings',
+      ],
     },
   },
 
@@ -225,8 +235,9 @@ export default {
     locationAware: true,
   },
 
-  // TODO: Switch off in autumn
   cityBike: {
+    // Config for map features. NOTE: availability for routing is controlled by
+    // transportModes.citybike.availableForSelection
     showCityBikes: true,
     showStationId: true,
 
@@ -346,7 +357,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: true, // TODO: Turn off in autumn
+      availableForSelection: false, // TODO: Turn off in autumn
       defaultValue: false, // always false
     },
   },
@@ -387,13 +398,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-
-  ticketOptions: [
-    {
-      displayName: 'Ei lippuvyöhykerajoitusta',
-      value: '0',
-    },
-  ],
 
   accessibilityOptions: [
     {

@@ -55,17 +55,20 @@ export const defaultRoutingSettings = {
   modeWeight: null,
 };
 
-function setTicketTypes(ticketType, settingsTicketType) {
-  if (ticketType !== undefined && ticketType !== 'none') {
-    return ticketType;
-  } else if (
-    settingsTicketType !== undefined &&
-    settingsTicketType !== 'none' &&
-    ticketType !== 'none'
-  ) {
-    return settingsTicketType;
+function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
+  // separator used to be _, map it to : to keep old URLs compatible
+  const remap = str => `${str}`.replace('_', ':');
+  const isRestriction = type => type !== 'none';
+
+  if (ticketType) {
+    return isRestriction(ticketType) ? remap(ticketType) : null;
   }
-  return null;
+  if (settingsTicketType) {
+    return isRestriction(settingsTicketType) ? remap(settingsTicketType) : null;
+  }
+  return defaultTicketType && isRestriction(defaultTicketType)
+    ? remap(defaultTicketType)
+    : null;
 }
 
 function nullOrUndefined(val) {
@@ -91,9 +94,20 @@ function getMaxWalkDistance(modes, settings, config) {
   return maxWalkDistance;
 }
 
-function getDisableRemainingWeightHeuristic(modes, settings) {
+function getDisableRemainingWeightHeuristic(
+  modes,
+  settings,
+  intermediatePlaces,
+) {
   let disableRemainingWeightHeuristic;
-  if (modes && modes.split(',').includes('CITYBIKE')) {
+  const modesArray = modes ? modes.split(',') : undefined;
+  if (
+    modesArray &&
+    (modesArray.includes('BICYCLE_RENT') ||
+      (modesArray.includes('BICYCLE') &&
+        modesArray.length > 1 &&
+        intermediatePlaces.length > 0))
+  ) {
     disableRemainingWeightHeuristic = true;
   } else if (nullOrUndefined(settings.disableRemainingWeightHeuristic)) {
     disableRemainingWeightHeuristic = false;
@@ -144,13 +158,19 @@ export const getSettings = () => {
     bikeSwitchTime: getNumberValueOrDefault(routingSettings.bikeSwitchTime),
     bikeSwitchCost: getNumberValueOrDefault(routingSettings.bikeSwitchCost),
     bikeBoardCost: getNumberValueOrDefault(routingSettings.bikeBoardCost),
-    optimize:
-      routingSettings.optimize !== undefined
-        ? routingSettings.optimize
-        : undefined,
-    safetyFactor: getNumberValueOrDefault(routingSettings.safetyFactor),
-    slopeFactor: getNumberValueOrDefault(routingSettings.slopeFactor),
-    timeFactor: getNumberValueOrDefault(routingSettings.timeFactor),
+    optimize: custSettings.optimize || routingSettings.optimize || undefined,
+    safetyFactor: getNumberValueOrDefault(
+      custSettings.safetyFactor,
+      routingSettings.safetyFactor,
+    ),
+    slopeFactor: getNumberValueOrDefault(
+      custSettings.slopeFactor,
+      routingSettings.slopeFactor,
+    ),
+    timeFactor: getNumberValueOrDefault(
+      custSettings.timeFactor,
+      routingSettings.timeFactor,
+    ),
     carParkCarLegWeight: getNumberValueOrDefault(
       routingSettings.carParkCarLegWeight,
     ),
@@ -195,6 +215,9 @@ export const preparePlanParams = config => (
         numItineraries,
         optimize,
         preferredRoutes,
+        safetyFactor,
+        slopeFactor,
+        timeFactor,
         ticketTypes,
         time,
         transferPenalty,
@@ -211,9 +234,10 @@ export const preparePlanParams = config => (
     config,
     getModes({ query: { modes } }, config),
   );
+  const defaultSettings = { ...getDefaultSettings(config) };
 
   return {
-    ...getDefaultSettings(config),
+    ...defaultSettings,
     ...omitBy(
       {
         fromPlace: from,
@@ -258,11 +282,20 @@ export const preparePlanParams = config => (
         bikeBoardCost: settings.bikeBoardCost,
         optimize: optimize || settings.optimize,
         triangle:
-          settings.optimize === 'TRIANGLE'
+          (optimize || settings.optimize) === 'TRIANGLE'
             ? {
-                safetyFactor: settings.safetyFactor,
-                slopeFactor: settings.slopeFactor,
-                timeFactor: settings.timeFactor,
+                safetyFactor: getNumberValueOrDefault(
+                  safetyFactor,
+                  settings.safetyFactor,
+                ),
+                slopeFactor: getNumberValueOrDefault(
+                  slopeFactor,
+                  settings.slopeFactor,
+                ),
+                timeFactor: getNumberValueOrDefault(
+                  timeFactor,
+                  settings.timeFactor,
+                ),
               }
             : null,
         carParkCarLegWeight: settings.carParkCarLegWeight,
@@ -302,11 +335,16 @@ export const preparePlanParams = config => (
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,
+          getIntermediatePlaces({ intermediatePlaces }),
         ),
       },
       nullOrUndefined,
     ),
     modes: modesOrDefault,
-    ticketTypes: setTicketTypes(ticketTypes, settings.ticketTypes),
+    ticketTypes: getTicketTypes(
+      ticketTypes,
+      settings.ticketTypes,
+      defaultSettings.ticketTypes,
+    ),
   };
 };

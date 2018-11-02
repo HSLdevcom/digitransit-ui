@@ -133,6 +133,371 @@ describe('planParamUtil', () => {
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(20);
     });
+
+    it('should replace the old ticketTypes separator "_" with ":" in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'HSL_esp' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL_esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should return null if no ticketTypes are found from query or localStorage', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should use ticketTypes from localStorage if no ticketTypes are found from query', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should return null if ticketTypes is "none" in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is missing from query and "none" in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is "none" in both query and localStorage', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should use no restrictions if ticketTypes is "none" in query and localStorage has a restriction', () => {
+      setCustomizedSettings({ ticketTypes: 'HSL:esp' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is undefined in query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: undefined } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is missing from query and undefined in localStorage', () => {
+      setCustomizedSettings({ ticketTypes: undefined });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if ticketTypes is undefined in both query and localStorage', () => {
+      setCustomizedSettings({ ticketTypes: undefined });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: undefined } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if query has no ticketType limits but the default config contains a restriction', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: { ticketTypes: 'none' } },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should return null if localStorage has no ticketType limits but the default config contains a restriction', () => {
+      setCustomizedSettings({ ticketTypes: 'none' });
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal(null);
+    });
+
+    it('should use the configured default restriction if the user has given no ticketTypes', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should remap the configured default restriction if the user has given no ticketTypes', () => {
+      const limitationSettings = { ...defaultConfig };
+      limitationSettings.defaultSettings.ticketTypes = 'HSL_esp';
+      const params = utils.preparePlanParams(limitationSettings)(
+        {
+          from,
+          to,
+        },
+        {
+          location: { query: {} },
+        },
+      );
+      const { ticketTypes } = params;
+      expect(ticketTypes).to.equal('HSL:esp');
+    });
+
+    it('should contain all the default settings', () => {
+      const defaultKeys = Object.keys(utils.getDefaultSettings(defaultConfig));
+      const paramsKeys = Object.keys(
+        utils.preparePlanParams(defaultConfig)(
+          { from, to },
+          { location: { query: {} } },
+        ),
+      );
+      const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
+      expect(missing).to.deep.equal([]);
+    });
+
+    it('should read OptimizeType TRIANGLE and its fields from the query', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              optimize: 'TRIANGLE',
+              safetyFactor: 0.2,
+              slopeFactor: 0.3,
+              timeFactor: 0.5,
+            },
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
+
+    it('should read optimize from the localStorage', () => {
+      setCustomizedSettings({ optimize: 'FLAT' });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize } = params;
+      expect(optimize).to.equal('FLAT');
+    });
+
+    it('should read OptimizeType TRIANGLE and its fields from the localStorage', () => {
+      setCustomizedSettings({
+        optimize: 'TRIANGLE',
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {},
+          },
+        },
+      );
+      const { optimize, triangle } = params;
+      expect(optimize).to.equal('TRIANGLE');
+      expect(triangle).to.deep.equal({
+        safetyFactor: 0.2,
+        slopeFactor: 0.3,
+        timeFactor: 0.5,
+      });
+    });
+
+    it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(false);
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'CITYBIKE,BUS,TRAM,FERRY,SUBWAY,RAIL',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(
+        defaultConfig.transportModes.citybike.availableForSelection,
+      );
+    });
+
+    it('should have disableRemainingWeightHeuristic as true when BICYCLE + TRANSIT + viapoints at the same time', () => {
+      const params = utils.preparePlanParams(defaultConfig)(
+        {
+          from,
+          to,
+        },
+        {
+          location: {
+            query: {
+              modes: 'BICYCLE,FERRY,SUBWAY,RAIL',
+              intermediatePlaces: 'Vantaa,+Vantaa::60.298134,25.006641',
+            },
+          },
+        },
+      );
+      const { disableRemainingWeightHeuristic } = params;
+      expect(disableRemainingWeightHeuristic).to.equal(true);
+    });
   });
 
   describe('getDefaultSettings', () => {

@@ -75,7 +75,7 @@ export const vehicle = {
   route: 'HSL:4611',
   direction: 1,
   tripStartTime: '1323',
-  operatingDay: '20160601',
+  operatingDay: '2016-06-01',
   mode: 'bus',
   delay: 44,
   next_stop: '1401152',
@@ -153,6 +153,7 @@ export const plan = {
           type: 'regular',
           cents: 320,
           currency: 'EUR',
+          components: [{ fareId: 'HSL:hki' }],
         },
       ],
       legs: [
