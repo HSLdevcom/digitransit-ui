@@ -2,8 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { mountWithIntl } from './helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 import TicketInformation from '../../app/component/TicketInformation';
+import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
 
 import data from './test-data/dt2639';
 
@@ -114,5 +115,88 @@ describe('<TicketInformation />', () => {
     });
 
     expect(wrapper.find('.ticket-type-fare').text()).to.equal('5.50 €');
+  });
+
+  it('should use a zone ticket icon if configured', () => {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          currency: 'EUR',
+          cents: 280,
+          components: [
+            {
+              fareId: 'HSL:ABCD',
+            },
+          ],
+        },
+      ],
+    };
+
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: {
+        config: {
+          ...config,
+          useTicketIcons: true,
+        },
+      },
+    });
+    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(1);
+  });
+
+  it('should use the mapped name for the ticket', () => {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          currency: 'EUR',
+          cents: 280,
+          components: [
+            {
+              fareId: 'HSL:ABCD',
+            },
+          ],
+        },
+      ],
+    };
+
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: {
+        config: {
+          ...config,
+          fareMapping: fareId => `foo_${fareId}_bar`,
+        },
+      },
+    });
+    expect(wrapper.find('.ticket-type-zone').text()).to.equal(
+      'foo_HSL:ABCD_bar',
+    );
+  });
+
+  it('should use a zone ticket icon if configured', () => {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          currency: 'EUR',
+          cents: 280,
+          components: [
+            {
+              fareId: 'HSL:ABCD',
+            },
+          ],
+        },
+      ],
+    };
+
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: {
+        config: {
+          ...config,
+          useTicketIcons: true,
+        },
+      },
+    });
+    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(1);
   });
 });

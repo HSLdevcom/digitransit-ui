@@ -7,18 +7,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
+import ZoneTicketIcon from './ZoneTicketIcon';
 import mapFares from '../util/fareUtils';
-
-const ZoneTicketIcon = (
-  { ticketType }, // eslint-disable-line
-) =>
-  ticketType ? (
-    <Icon
-      className="zone-ticket-icon"
-      img={`icon-icon_zone-ticket-${ticketType.toLowerCase()}`}
-      viewBox={`0 0 ${ticketType.length * 44} 44`}
-    />
-  ) : null;
 
 export default function TicketInformation({ fares }, { config, intl }) {
   const currency = '€';
@@ -54,7 +44,7 @@ export default function TicketInformation({ fares }, { config, intl }) {
               {config.useTicketIcons ? (
                 <ZoneTicketIcon ticketType={component} />
               ) : (
-                component
+                <span>{component}</span>
               )}
             </div>
           ))}
