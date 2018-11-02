@@ -56,12 +56,14 @@ const RoutesAndPlatformsForStops = props => {
   const timeTableRows = sortedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.code}`}
-      key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id}`}
+      key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id}-${
+        route.stop.platformCode
+      }`}
     >
       <Departure
         key={`${route.pattern.code}-${route.headsign}-${
           route.pattern.route.id
-        }`}
+        }-${route.stop.platformCode}`}
         departure={route}
         showStop
         currentTime={0}
