@@ -161,11 +161,6 @@ export default Relay.createContainer(ItineraryTab, {
           cents
           components {
             fareId
-            routes {
-              stops {
-                zoneId
-              }
-            }
           }
         }
         legs {

@@ -265,6 +265,16 @@ $itinerary-tab-switch-height: 48px;
       &.multi-component {
         display: list-item;
         margin-left: 1.5em;
+
+        & + .multi-component {
+          margin-top: $padding-xsmall;
+        }
+      }
+
+      .zone-ticket-icon {
+        display: block;
+        height: 1.25em;
+        width: auto;
       }
     }
 

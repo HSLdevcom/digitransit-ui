@@ -306,6 +306,7 @@ export default {
 
   // Ticket information feature toggle
   showTicketInformation: false,
+  useTicketIcons: false,
   showRouteInformation: false,
 
   modeToOTP: {

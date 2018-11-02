@@ -9,6 +9,17 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import mapFares from '../util/fareUtils';
 
+const ZoneTicketIcon = (
+  { ticketType }, // eslint-disable-line
+) =>
+  ticketType ? (
+    <Icon
+      className="zone-ticket-icon"
+      img={`icon-icon_zone-ticket-${ticketType.toLowerCase()}`}
+      viewBox={`0 0 ${ticketType.length * 44} 44`}
+    />
+  ) : null;
+
 export default function TicketInformation({ fares }, { config, intl }) {
   const currency = '€';
   const mappedFares = mapFares(fares, config, intl.locale);
@@ -40,7 +51,11 @@ export default function TicketInformation({ fares }, { config, intl }) {
               })}
               key={i} // eslint-disable-line react/no-array-index-key
             >
-              <span>{component}</span>
+              {config.useTicketIcons ? (
+                <ZoneTicketIcon ticketType={component} />
+              ) : (
+                component
+              )}
             </div>
           ))}
           <div>

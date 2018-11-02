@@ -99,6 +99,7 @@ export default {
   },
 
   showTicketInformation: true,
+  useTicketIcons: true,
   ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
 
   transportModes: {
