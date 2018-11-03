@@ -143,7 +143,9 @@ export function getLabel(properties) {
 }
 
 export function suggestionToLocation(item) {
-  if (!item) return { cleared: true };
+  if (!item) {
+    return { cleared: true };
+  }
   const name = getLabel(item.properties);
 
   return {

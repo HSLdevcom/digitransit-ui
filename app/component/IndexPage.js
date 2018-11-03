@@ -192,7 +192,8 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
-    const mapLocation = destination && destination.ready && !origin.ready ? destination : origin;
+    const mapLocation =
+      destination && destination.ready && !origin.ready ? destination : origin;
 
     return breakpoint === 'large' ? (
       <div

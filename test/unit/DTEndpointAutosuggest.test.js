@@ -82,7 +82,7 @@ describe('<DTEndpointAutosuggest />', () => {
 
     it('should invoke onLocationSelected for cleared input', () => {
       let wasCalled = false;
-      let selectedLocation = undefined;
+      let selectedLocation;
       const props = {
         id: 'viapoint',
         locationState: {
@@ -93,7 +93,7 @@ describe('<DTEndpointAutosuggest />', () => {
           isLocationingInProgress: false,
           locationingFailed: false,
         },
-        onLocationSelected: (loc) => {
+        onLocationSelected: loc => {
           wasCalled = true;
           selectedLocation = loc;
         },
