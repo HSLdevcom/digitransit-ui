@@ -80,6 +80,50 @@ describe('<DTEndpointAutosuggest />', () => {
       expect(wasCalled).to.equal(true);
     });
 
+    it('should invoke onLocationSelected for cleared input', () => {
+      let wasCalled = false;
+      let selectedLocation = undefined;
+      const props = {
+        id: 'viapoint',
+        locationState: {
+          lat: 0,
+          lon: 0,
+          status: 'no-location',
+          hasLocation: false,
+          isLocationingInProgress: false,
+          locationingFailed: false,
+        },
+        onLocationSelected: (loc) => {
+          wasCalled = true;
+          selectedLocation = loc;
+        },
+        placeholder: 'via-point',
+        refPoint: {
+          lat: 60.199118,
+          lon: 24.940652,
+          address: 'Opastinsilta 6, Helsinki',
+          set: true,
+          ready: true,
+        },
+        searchType: 'endpoint',
+        value: ' ',
+      };
+      const wrapper = shallowWithIntl(
+        <DTEndpointAutosuggestComponent {...props} />,
+        {
+          context: {
+            executeAction: () => {},
+            router: mockRouter,
+          },
+        },
+      );
+
+      wrapper.instance().onSuggestionSelected(null);
+
+      expect(wasCalled).to.equal(true);
+      expect(selectedLocation).to.eql({ cleared: true });
+    });
+
     it('should invoke executeAction for a non-mapped via point (i.e. currentLocation)', () => {
       const props = {
         id: 'viapoint',
