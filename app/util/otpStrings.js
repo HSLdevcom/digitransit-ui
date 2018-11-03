@@ -49,7 +49,7 @@ export const locationToOTP = location => {
   if (location.gps) {
     return 'POS';
   }
-  if (location.set === false) {
+  if (location.set === false || location.cleared === true) {
     return '-';
   }
   return `${location.address}::${location.lat},${location.lon}`;

@@ -119,7 +119,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
       return;
     }
     // stop
-    if (item.timetableClicked === true) {
+    if (item && item.timetableClicked === true) {
       const prefix = isStop(item.properties) ? PREFIX_STOPS : PREFIX_TERMINALS;
 
       const url = `/${prefix}/${getGTFSId(item.properties)}`;
@@ -128,13 +128,13 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     }
 
     // route
-    if (item.properties.link) {
+    if (item && item.properties.link) {
       this.context.router.push(item.properties.link);
       return;
     }
     const location = suggestionToLocation(item);
 
-    if (item.properties.layer === 'currentPosition' && !item.properties.lat) {
+    if (item && item.properties.layer === 'currentPosition' && !item.properties.lat) {
       this.setState({ pendingCurrentLocation: true }, () =>
         this.context.executeAction(startLocationWatch),
       );

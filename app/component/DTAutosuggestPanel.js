@@ -167,9 +167,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleViaPointLocationSelected = (viaPointLocation, i) => {
     const { viaPoints } = this.state;
-    viaPoints[i] = {
-      ...viaPointLocation,
-    };
+    viaPoints[i] = viaPointLocation.cleared ? {} : { ...viaPointLocation };
     this.setState({ viaPoints }, () => this.updateViaPoints(viaPoints));
   };
 
@@ -307,7 +305,7 @@ class DTAutosuggestPanel extends React.Component {
             value={this.value(origin)}
             isFocused={this.isFocused}
             onLocationSelected={location => {
-              let newOrigin = { ...location, ready: true };
+              let newOrigin = { ...location, ready: !location.cleared };
               let { destination } = this.props;
               if (location.type === 'CurrentLocation') {
                 newOrigin = { ...location, gps: true, ready: !!location.lat };
@@ -364,7 +362,7 @@ class DTAutosuggestPanel extends React.Component {
                   id="viapoint"
                   autoFocus={
                     // Disable autofocus if using IE11
-                    isIe ? false : breakpoint === 'large'
+                    isIe ? false : breakpoint === 'large' && origin.ready
                   }
                   refPoint={this.props.origin}
                   searchType="endpoint"
@@ -443,7 +441,7 @@ class DTAutosuggestPanel extends React.Component {
               id="destination"
               autoFocus={
                 // Disable autofocus if using IE11
-                isIe ? false : breakpoint === 'large'
+                isIe ? false : breakpoint === 'large' && origin.ready
               }
               refPoint={origin}
               searchType={this.props.searchType}
@@ -453,7 +451,7 @@ class DTAutosuggestPanel extends React.Component {
               value={this.value(this.props.destination)}
               onLocationSelected={location => {
                 let updatedOrigin = origin;
-                let destination = { ...location, ready: true };
+                let destination = { ...location, ready: !location.cleared };
                 if (location.type === 'CurrentLocation') {
                   destination = {
                     ...location,

@@ -35,7 +35,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
   onSelect = item => {
     // type is destination unless timetable or route was clicked
     let type = 'endpoint';
-    switch (item.type) {
+    switch (item && item.type) {
       case 'Stop': // stop can be timetable or
         if (item.timetableClicked === true) {
           type = 'search';
@@ -47,7 +47,7 @@ class DTOldSearchSavingAutosuggest extends React.Component {
       default:
     }
 
-    if (item.type.indexOf('Favourite') === -1) {
+    if (item && item.type.indexOf('Favourite') === -1) {
       this.context.executeAction(saveSearch, { item, type });
     }
     this.props.onSelect(item, type);

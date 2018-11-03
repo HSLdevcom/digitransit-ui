@@ -192,6 +192,7 @@ class IndexPage extends React.Component {
       ...routes.map(route => route.footerOptions),
     );
     const selectedMainTab = this.getSelectedTab();
+    const mapLocation = destination && destination.ready && !origin.ready ? destination : origin;
 
     return breakpoint === 'large' ? (
       <div
@@ -224,7 +225,7 @@ class IndexPage extends React.Component {
           breakpoint={breakpoint}
           showStops
           showScaleBar
-          origin={origin}
+          origin={mapLocation}
           renderCustomButtons={() => (
             <React.Fragment>
               {this.renderStreetModeSelector(config, router)}
@@ -257,7 +258,7 @@ class IndexPage extends React.Component {
           <MapWithTracking
             breakpoint={breakpoint}
             showStops
-            origin={origin}
+            origin={mapLocation}
             renderCustomButtons={() => (
               <React.Fragment>
                 {this.renderStreetModeSelector(config, router)}
