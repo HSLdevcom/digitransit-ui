@@ -9,6 +9,7 @@ const emptyStopData = {
     lon: 24.93424,
     name: 'Pasilan asema',
     stoptimes: [],
+    zoneId: 'A',
   },
   terminal: null,
 };

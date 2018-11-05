@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
+import inside from 'point-in-polygon';
+
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -99,6 +101,32 @@ export function boundWithMinimumArea(points) {
     [minlat - missingHeight / 2, minlon - missingWidth / 2],
     [maxlat + missingHeight / 2, maxlon + missingWidth / 2],
   ];
+}
+
+// Simpler version of boundWithMinimumArea that uses lonlat array
+// No checks for null values and assumes box is large enough
+export function boundWithMinimumAreaSimple(points) {
+  const lons = [];
+  const lats = [];
+  points.forEach(coordinatePair => {
+    lons.push(coordinatePair[0]);
+    lats.push(coordinatePair[1]);
+  });
+  const minlat = Math.min(...lats);
+  const minlon = Math.min(...lons);
+  const maxlat = Math.max(...lats);
+  const maxlon = Math.max(...lons);
+  return [[minlat, minlon], [maxlat, maxlon]];
+}
+
+// Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
+export function isInBoundingBox(boundingBox, lat, lon) {
+  return (
+    boundingBox[0][0] <= lat &&
+    boundingBox[0][1] <= lon &&
+    boundingBox[1][0] >= lat &&
+    boundingBox[1][1] >= lon
+  );
 }
 
 function getLengthOf(geometry) {
@@ -324,3 +352,42 @@ export function kkj2ToWgs84(coords) {
 
   return [wgsLon, wgsLat];
 }
+
+/**
+ * Finds any features inside which the given point is located. This returns
+ * the properties of each feature by default.
+ *
+ * @param {{lat: number, lon: number}} point the location to check.
+ * @param {*} features the area features available in a geojson format.
+ * @param {function} mapFn the feature data mapping function.
+ */
+export const findFeatures = (
+  { lat, lon },
+  features,
+  mapFn = feature => feature.properties,
+) => {
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon) ||
+    !Array.isArray(features) ||
+    features.length === 0
+  ) {
+    return [];
+  }
+  const matches = features
+    .filter(feature => {
+      const { coordinates, type } = feature.geometry;
+      const multiCoordinate = coordinates.length > 1;
+      return (
+        ['Polygon', 'MultiPolygon'].includes(type) &&
+        coordinates.some(areaBoundaries =>
+          inside(
+            [lon, lat],
+            multiCoordinate ? areaBoundaries[0] : areaBoundaries,
+          ),
+        )
+      );
+    })
+    .map(mapFn);
+  return matches;
+};

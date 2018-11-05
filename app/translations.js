@@ -811,7 +811,6 @@ const translations = {
     tickets: 'Tickets',
     time: 'Time',
     timetable: 'Timetable',
-
     'to-stop': 'To stop',
     today: 'Today',
     tomorrow: 'Tomorrow',
@@ -850,6 +849,7 @@ const translations = {
     'weather-at-destination': 'Weather at the destination',
     yesterday: 'Yesterday',
     'your-favourites': 'Favorites',
+    zone: 'Zone',
     zones: 'Fare zones',
   },
 
@@ -1507,6 +1507,7 @@ const translations = {
     'weather-at-destination': 'Sää määränpäässä',
     yesterday: 'Eilen',
     'your-favourites': 'Suosikkisi',
+    zone: 'Vyöhyke',
     zones: 'Lippuvyöhykkeet',
   },
 
@@ -2431,7 +2432,6 @@ const translations = {
     tickets: 'Biljetter',
     time: 'Tid',
     timetable: 'Tidtabell',
-
     'to-stop': 'Avstånd',
     today: 'I dag',
     tomorrow: 'I morgon',
@@ -2469,6 +2469,7 @@ const translations = {
     'weather-at-destination': 'Vädret på destinationen',
     yesterday: 'I går',
     'your-favourites': 'Favoriter',
+    zone: 'Zon',
     zones: 'Biljettzoner',
   },
 };

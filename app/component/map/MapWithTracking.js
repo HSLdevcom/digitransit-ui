@@ -8,10 +8,10 @@ import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
-import { getJson } from '../../util/xhrPromise';
 import { isBrowser } from '../../util/browser';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import PositionStore from '../../store/PositionStore';
+import GeoJsonStore from '../../store/GeoJsonStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -37,23 +37,6 @@ const jsonModules = {
 };
 
 const Component = onlyUpdateCoordChanges(MapContainer);
-
-// these are metadata mappable properties
-const metaTags = ['textOnly', 'name', 'popupContent'];
-const MapJSON = (data, meta) => {
-  const tagMap = metaTags.filter(t => !!meta[t]);
-
-  data.features.forEach(feature => {
-    const { properties } = feature;
-    if (properties) {
-      tagMap.forEach(t => {
-        if (properties[meta[t]]) {
-          properties[t] = properties[meta[t]];
-        }
-      });
-    }
-  });
-};
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
@@ -82,6 +65,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const hasOriginorPosition =
       props.origin.ready || props.position.hasLocation;
     this.state = {
+      geoJson: {},
       initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
@@ -91,24 +75,15 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentDidMount() {
-    const { config } = this.props;
-    if (isBrowser && config.geoJson) {
-      config.geoJson.forEach(val => {
-        const { name, url, metadata } = val;
-        getJson(url).then(res => {
-          if (metadata) {
-            MapJSON(res, metadata);
-          }
-          let newData = {};
-          if (this.state.geoJson) {
-            newData = { ...this.state.geoJson };
-          }
-          newData[url] = {
-            name,
-            data: res,
-          };
+    const { config, getGeoJsonData } = this.props;
+    if (isBrowser && config.geoJson && Array.isArray(config.geoJson.layers)) {
+      config.geoJson.layers.forEach(geoJsonLayer => {
+        const { url, name, metadata } = geoJsonLayer;
+        getGeoJsonData(url, name, metadata).then(data => {
+          const { geoJson } = this.state;
+          geoJson[url] = data;
           if (!this.isCancelled) {
-            this.setState({ geoJson: newData });
+            this.setState({ geoJson });
           }
         });
       });
@@ -270,11 +245,12 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
-  [PositionStore, MapLayerStore],
+  [PositionStore, MapLayerStore, GeoJsonStore],
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
     const mapLayers = getStore(MapLayerStore).getMapLayers();
-    return { position, mapLayers };
+    const { getGeoJsonData } = getStore(GeoJsonStore);
+    return { position, mapLayers, getGeoJsonData };
   },
 );
 
@@ -287,4 +263,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export { MapWithTracking as default, MapJSON };
+export { MapWithTracking as default };
