@@ -677,4 +677,10 @@ export default {
       ticketSales: {},
     },
   },
+
+  itinerarySummary: {
+    showBikingDistance: true,
+    showWalkingDistance: true,
+    showZones: false,
+  },
 };

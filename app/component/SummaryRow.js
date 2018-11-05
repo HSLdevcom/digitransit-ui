@@ -223,6 +223,7 @@ const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
+  const summaryConfig = config.itinerarySummary;
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
@@ -442,7 +443,9 @@ const SummaryRow = (
               <div className="itinerary-end-time">
                 {endTime.format('HH:mm')}
               </div>
-              {isDefaultPosition && renderBikingDistance(data)}
+              {summaryConfig.showBikingDistance &&
+                isDefaultPosition &&
+                renderBikingDistance(data)}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -451,20 +454,24 @@ const SummaryRow = (
               <span className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </span>
-              {!isDefaultPosition && renderBikingDistance(data)}
-              {!onlyBiking(data) && (
-                <div className="itinerary-walking-distance">
-                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                  {displayDistance(getTotalWalkingDistance(data), config)}
-                </div>
-              )}
-              {hasZones && (
-                <div className="itinerary-zones-container">
-                  {zones.map(zoneId => (
-                    <ZoneIcon key={zoneId} zoneId={zoneId} />
-                  ))}
-                </div>
-              )}
+              {summaryConfig.showBikingDistance &&
+                !isDefaultPosition &&
+                renderBikingDistance(data)}
+              {summaryConfig.showWalkingDistance &&
+                !onlyBiking(data) && (
+                  <div className="itinerary-walking-distance">
+                    <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                    {displayDistance(getTotalWalkingDistance(data), config)}
+                  </div>
+                )}
+              {summaryConfig.showZones &&
+                hasZones && (
+                  <div className="itinerary-zones-container">
+                    {zones.map(zoneId => (
+                      <ZoneIcon key={zoneId} zoneId={zoneId} />
+                    ))}
+                  </div>
+                )}
             </div>,
             <button
               title={itineraryLabel}
