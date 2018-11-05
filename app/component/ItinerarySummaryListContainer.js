@@ -161,6 +161,11 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           duration
           rentedBike
           intermediatePlace
+          intermediatePlaces {
+            stop {
+              zoneId
+            }
+          }
           route {
             mode
             shortName
@@ -187,6 +192,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             lon
             stop {
               gtfsId
+              zoneId
             }
             bikeRentalStation {
               bikesAvailable
@@ -195,6 +201,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           to {
             stop {
               gtfsId
+              zoneId
             }
           }
         }
