@@ -71,7 +71,7 @@ function ItinerarySummaryListContainer(
         onSelect={onSelect}
         onSelectImmediately={onSelectImmediately}
         intermediatePlaces={intermediatePlaces}
-        zones={getZones(itinerary.legs)}
+        zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       >
         {i === openedIndex && children}
       </SummaryRow>
