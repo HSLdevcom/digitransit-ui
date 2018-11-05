@@ -421,9 +421,4 @@ export default {
       showZone: true,
     },
   },
-  itinerarySummary: {
-    showBikingDistance: false,
-    showWalkingDistance: false,
-    showZones: true,
-  },
 };
