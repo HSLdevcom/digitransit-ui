@@ -1,8 +1,10 @@
+import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
 import Icon from './Icon';
+import ZoneIcon from './ZoneIcon';
 
 function IntermediateLeg({
   color,
@@ -12,6 +14,10 @@ function IntermediateLeg({
   name,
   stopCode,
   focusFunction,
+  showCurrentZoneDelimiter,
+  previousZoneId,
+  currentZoneId,
+  nextZoneId,
 }) {
   const modeClassName = mode.toLowerCase();
 
@@ -19,9 +25,25 @@ function IntermediateLeg({
   return (
     <div
       style={{ width: '100%' }}
-      className="row itinerary-row"
+      className={cx('row itinerary-row', {
+        'zone-multiple': currentZoneId && (previousZoneId || nextZoneId),
+        'zone-previous': currentZoneId && previousZoneId,
+      })}
       onClick={e => focusFunction(e)}
     >
+      {currentZoneId && (
+        <div className="zone-icons-container">
+          <ZoneIcon zoneId={previousZoneId} />
+          <ZoneIcon
+            zoneId={currentZoneId}
+            className={cx({
+              'zone-delimiter':
+                showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
+            })}
+          />
+          <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+        </div>
+      )}
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
           <svg
@@ -66,6 +88,17 @@ IntermediateLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
+  showCurrentZoneDelimiter: PropTypes.bool,
+  previousZoneId: PropTypes.string,
+  currentZoneId: PropTypes.string,
+  nextZoneId: PropTypes.string,
+};
+
+IntermediateLeg.defaultProps = {
+  showCurrentZoneDelimiter: false,
+  previousZoneId: undefined,
+  currentZoneId: undefined,
+  nextZoneId: undefined,
 };
 
 export default IntermediateLeg;

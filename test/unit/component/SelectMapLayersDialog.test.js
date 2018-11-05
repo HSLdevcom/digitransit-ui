@@ -356,24 +356,26 @@ describe('<SelectMapLayersDialog />', () => {
     };
     const props = {
       config: {
-        geoJson: [
-          {
-            name: {
-              fi: 'testi',
-              sv: 'test',
-              en: 'test',
+        geoJson: {
+          layers: [
+            {
+              name: {
+                fi: 'testi',
+                sv: 'test',
+                en: 'test',
+              },
+              url: 'somejson',
             },
-            url: 'somejson',
-          },
-          {
-            name: {
-              fi: 'nimi',
-              sv: 'namn',
-              en: 'name',
+            {
+              name: {
+                fi: 'nimi',
+                sv: 'namn',
+                en: 'name',
+              },
+              url: 'morejson',
             },
-            url: 'morejson',
-          },
-        ],
+          ],
+        },
       },
       mapLayers,
       updateMapLayers: layers => {

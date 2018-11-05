@@ -389,16 +389,21 @@ export default {
     },
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
-  geoJson: [
-    {
-      name: {
-        fi: 'Maksuvyöhykkeet',
-        sv: 'Resezoner',
-        en: 'Ticket zones',
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Maksuvyöhykkeet',
+          sv: 'Resezoner',
+          en: 'Ticket zones',
+        },
+        url: '/hsl_zone_lines.json',
       },
-      url: '/hsl_zones.json',
+    ],
+    zones: {
+      url: '/hsl_zone_areas.json',
     },
-  ],
+  },
   mapLayers: {
     featureMapping: {
       ticketSales: {
@@ -408,6 +413,11 @@ export default {
         Myyntipiste: 'salesPoint',
         'R-kioski': 'salesPoint',
       },
+    },
+  },
+  stopCard: {
+    header: {
+      showZone: true,
     },
   },
 };

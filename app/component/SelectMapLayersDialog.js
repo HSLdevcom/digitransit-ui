@@ -180,22 +180,23 @@ class SelectMapLayersDialog extends React.Component {
               />
             </div>
           )}
-        {config.geoJson && (
-          <div className="checkbox-grouping">
-            {config.geoJson.map(gj => (
-              <Checkbox
-                checked={geoJson[gj.url] !== false}
-                defaultMessage={gj.name[lang]}
-                key={gj.url}
-                onChange={e => {
-                  const newSetting = {};
-                  newSetting[gj.url] = e.target.checked;
-                  this.updateGeoJsonSetting(newSetting);
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {config.geoJson &&
+          Array.isArray(config.geoJson.layers) && (
+            <div className="checkbox-grouping">
+              {config.geoJson.layers.map(gj => (
+                <Checkbox
+                  checked={geoJson[gj.url] !== false}
+                  defaultMessage={gj.name[lang]}
+                  key={gj.url}
+                  onChange={e => {
+                    const newSetting = {};
+                    newSetting[gj.url] = e.target.checked;
+                    this.updateGeoJsonSetting(newSetting);
+                  }}
+                />
+              ))}
+            </div>
+          )}
       </React.Fragment>
     );
   };
@@ -228,16 +229,18 @@ const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     showCityBikes: PropTypes.bool,
   }),
-  geoJson: PropTypes.arrayOf(
-    PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      name: PropTypes.shape({
-        en: PropTypes.string,
-        fi: PropTypes.string.isRequired,
-        sv: PropTypes.string,
+  geoJson: PropTypes.shape({
+    layers: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        name: PropTypes.shape({
+          en: PropTypes.string,
+          fi: PropTypes.string.isRequired,
+          sv: PropTypes.string,
+        }),
       }),
-    }),
-  ),
+    ),
+  }),
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),

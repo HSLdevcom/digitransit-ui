@@ -227,6 +227,7 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
+      showZone: false,
     },
   },
 

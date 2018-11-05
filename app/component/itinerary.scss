@@ -114,6 +114,56 @@ $itinerary-tab-switch-height: 48px;
     flex-grow: 0;
     flex-shrink: 0;
   }
+
+  .itinerary-leg-container {
+    .zone-multiple {
+      min-height: 4em;
+    }
+    .zone-previous {
+      .leg-before-circle {
+        bottom: 0;
+      }
+
+      .leg-before-line {
+        height: 120%;
+        top: 0;
+      }
+
+      .itinerary-instruction-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        > div {
+          flex-grow: 0;
+        }
+      }
+    }
+  }
+
+  .zone-icons-container {
+    left: calc(-100% / 12);
+    padding-top: $padding-xxsmall;
+    position: absolute;
+
+    .zone-icon-container {
+      position: relative;
+
+      &.zone-delimiter::before {
+        border-top: 1px solid $light-gray;
+        content: '';
+        display: block;
+        left: -0.5em;
+        position: absolute;
+        top: -0.5em;
+        width: 2em;
+      }
+
+      & + .zone-icon-container {
+        margin-top: 0.85em;
+      }
+    }
+  }
 }
 
 @media print {
