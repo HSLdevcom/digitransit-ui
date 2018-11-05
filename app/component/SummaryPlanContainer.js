@@ -9,7 +9,6 @@ import getContext from 'recompose/getContext';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import TimeStore from '../store/TimeStore';
-import { getDefaultOTPModes } from '../util/modeUtils';
 import { otpToLocation } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
 import {
@@ -171,7 +170,6 @@ class SummaryPlanContainer extends React.Component {
 
       const tunedParams = {
         wheelchair: null,
-        ...{ modes: getDefaultOTPModes(this.props.config) },
         ...defaultRoutingSettings,
         ...params,
         numItineraries:
@@ -253,7 +251,6 @@ class SummaryPlanContainer extends React.Component {
 
       const tunedParams = {
         wheelchair: null,
-        ...{ modes: getDefaultOTPModes(this.props.config) },
         ...defaultRoutingSettings,
         ...params,
         numItineraries:

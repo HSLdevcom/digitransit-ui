@@ -1,6 +1,7 @@
 import htmlParser from 'htm-to-json';
 import defaultConfig from './configurations/config.default';
 import configMerger from './util/configMerger';
+import { boundWithMinimumAreaSimple } from './util/geo-utils';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
@@ -93,6 +94,15 @@ export function getNamedConfiguration(configName, piwikId) {
       config.searchParams = config.searchParams || {};
       config.searchParams['boundary.polygon'] = pointsParam;
     }
+
+    Object.keys(config.modePolygons).forEach(mode => {
+      const boundingBoxes = [];
+      config.modePolygons[mode].forEach(polygon => {
+        boundingBoxes.push(boundWithMinimumAreaSimple(polygon));
+      });
+      config.modeBoundingBoxes = config.modeBoundingBoxes || {};
+      config.modeBoundingBoxes[mode] = boundingBoxes;
+    });
 
     if (piwikId) {
       config.PIWIK_ID = piwikId;

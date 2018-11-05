@@ -49,7 +49,36 @@ const config = {
       icon: 'car_park-withoutBox',
     },
   },
+
+  modePolygons: {},
+
+  modeBoundingBoxes: {},
 };
+
+const from = {
+  address: 'Mannerheimintie 22-24, Helsinki',
+  lat: 60.17063480162678,
+  lon: 24.93707656860352,
+};
+
+const to = {
+  address: 'Tehtaankatu 19, Helsinki',
+  lat: 60.15825127085749,
+  lon: 24.942741394042972,
+};
+
+const intermediatePlaces = [
+  {
+    address: 'Takaniementie 3A',
+    lat: 60.15688,
+    lon: 24.86445,
+  },
+  {
+    address: 'Suomenlinna C 53, Helsinki',
+    lat: 60.1465466812523,
+    lon: 24.988660812377933,
+  },
+];
 
 describe('modeUtils', () => {
   describe('getModes', () => {
@@ -404,11 +433,15 @@ describe('modeUtils', () => {
 
   describe('filterModes', () => {
     it('should return an empty string if modes is not available', () => {
-      expect(utils.filterModes(config, null)).to.equal('');
+      expect(
+        utils.filterModes(config, null, from, to, intermediatePlaces),
+      ).to.equal('');
     });
 
     it('should return an empty string if modes is not an array or a string', () => {
-      expect(utils.filterModes(config, {})).to.equal('');
+      expect(
+        utils.filterModes(config, {}, from, to, intermediatePlaces),
+      ).to.equal('');
     });
 
     it('should support a modes array', () => {
@@ -431,13 +464,20 @@ describe('modeUtils', () => {
             availableForSelection: true,
           },
         },
+        modePolygons: {},
       };
       const modes = [
         StreetMode.ParkAndRide,
         StreetMode.Walk,
         TransportMode.Bus,
       ];
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('BUS,CAR_PARK,WALK');
     });
@@ -462,9 +502,16 @@ describe('modeUtils', () => {
             availableForSelection: true,
           },
         },
+        modePolygons: {},
       };
       const modes = 'CAR_PARK';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('CAR_PARK');
     });
@@ -489,9 +536,16 @@ describe('modeUtils', () => {
             availableForSelection: true,
           },
         },
+        modePolygons: {},
       };
       const modes = 'WALK,BUS,CAR_PARK';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('BUS,CAR_PARK,WALK');
     });
@@ -515,9 +569,16 @@ describe('modeUtils', () => {
             availableForSelection: true,
           },
         },
+        modePolygons: {},
       };
       const modes = 'BUS,CAR_PARK,WALK,UNKNOWN';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('BUS,WALK');
     });
@@ -542,9 +603,16 @@ describe('modeUtils', () => {
             availableForSelection: true,
           },
         },
+        modePolygons: {},
       };
       const modes = 'PUBLIC_TRANSPORT,BUS,WALK';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('BUS,WALK');
     });
@@ -573,9 +641,119 @@ describe('modeUtils', () => {
             availableForSelection: false,
           },
         },
+        modePolygons: {},
       };
       const modes = 'BUS,CAR,RAIL,WALK';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
+
+      expect(result).to.equal('BUS,WALK');
+    });
+
+    it('should keep FERRY when there is a place inside FERRY modePolygons', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          ferry: 'FERRY',
+          walk: 'WALK',
+        },
+        streetModes: {
+          walk: {
+            availableForSelection: true,
+          },
+        },
+        transportModes: {
+          bus: {
+            availableForSelection: true,
+          },
+          ferry: {
+            availableForSelection: true,
+          },
+        },
+        modePolygons: {
+          FERRY: [
+            // Random polygon that contains no chosen places
+            [
+              [24.65606689453125, 60.29770119508587],
+              [24.620361328125, 60.2786428507011],
+              [24.660873413085934, 60.26604463476335],
+              [24.684906005859375, 60.27762155444544],
+              [24.68353271484375, 60.28783308214864],
+              [24.65606689453125, 60.29770119508587],
+            ],
+            // A rough outline of Suomenlinna
+            [
+              [24.98737335205078, 60.15936170889179],
+              [24.946002960205078, 60.14552126323469],
+              [24.97690200805664, 60.1242366231181],
+              [25.028228759765625, 60.12740027206243],
+              [25.021705627441406, 60.149622743464434],
+              [24.98737335205078, 60.15936170889179],
+            ],
+          ],
+        },
+      };
+      const modes = 'BUS,CAR,RAIL,WALK';
+      // last intermediate place should be inside Suomenlinna polygon
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
+
+      expect(result).to.equal('BUS,WALK');
+    });
+
+    it('should filter out FERRY when no places are inside FERRY modePolygons', () => {
+      const modeConfig = {
+        modeToOTP: {
+          bus: 'BUS',
+          ferry: 'FERRY',
+          walk: 'WALK',
+        },
+        streetModes: {
+          walk: {
+            availableForSelection: true,
+          },
+        },
+        transportModes: {
+          bus: {
+            availableForSelection: true,
+          },
+          ferry: {
+            availableForSelection: true,
+          },
+        },
+        modePolygons: {
+          FERRY: [
+            // A rough outline of Suomenlinna
+            [
+              [24.98737335205078, 60.15936170889179],
+              [24.946002960205078, 60.14552126323469],
+              [24.97690200805664, 60.1242366231181],
+              [25.028228759765625, 60.12740027206243],
+              [25.021705627441406, 60.149622743464434],
+              [24.98737335205078, 60.15936170889179],
+            ],
+          ],
+        },
+      };
+      const modes = 'BUS,CAR,RAIL,WALK';
+      // Remove last Suomenlinna location from intermediate places
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces.slice(0, -1),
+      );
 
       expect(result).to.equal('BUS,WALK');
     });
@@ -692,9 +870,16 @@ describe('modeUtils', () => {
           walk: 'WALK',
           public_transport: 'WALK',
         },
+        modePolygons: {},
       };
       const modes = 'BUS,CAR_PARK,WALK,UNKNOWN,PUBLIC_TRANSPORT';
-      const result = utils.filterModes(modeConfig, modes);
+      const result = utils.filterModes(
+        modeConfig,
+        modes,
+        from,
+        to,
+        intermediatePlaces,
+      );
 
       expect(result).to.equal('BUS,WALK');
     });

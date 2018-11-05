@@ -40,6 +40,7 @@ describe('planParamUtil', () => {
             defaultValue: true,
           },
         },
+        modePolygons: {},
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;
