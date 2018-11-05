@@ -8,20 +8,18 @@ import InfoIcon from './InfoIcon';
 import ZoneIcon from './ZoneIcon';
 
 class StopCardHeader extends React.Component {
+  get headerConfig() {
+    return this.context.config.stopCard.header;
+  }
+
   getDescription() {
     let description = '';
 
-    if (
-      this.context.config.stopCard.header.showDescription &&
-      this.props.stop.desc
-    ) {
+    if (this.headerConfig.showDescription && this.props.stop.desc) {
       description += this.props.stop.desc;
     }
 
-    if (
-      this.context.config.stopCard.header.showDistance &&
-      this.props.distance
-    ) {
+    if (this.headerConfig.showDistance && this.props.distance) {
       description += ` // ${Math.round(this.props.distance)} m`;
     }
 
@@ -40,14 +38,11 @@ class StopCardHeader extends React.Component {
         headingStyle={this.props.headingStyle}
         name={stop.name}
         description={this.getDescription()}
-        code={
-          this.context.config.stopCard.header.showStopCode && stop.code
-            ? stop.code
-            : null
-        }
+        code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
         icons={this.props.icons}
       >
-        <ZoneIcon showTitle zoneId={stop.zoneId} />
+        {this.headerConfig.showZone &&
+          stop.zoneId && <ZoneIcon showTitle zoneId={stop.zoneId} />}
       </CardHeader>
     );
   }
@@ -72,7 +67,16 @@ StopCardHeader.defaultProps = {
 };
 
 StopCardHeader.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    stopCard: PropTypes.shape({
+      header: PropTypes.shape({
+        showDescription: PropTypes.bool,
+        showDistance: PropTypes.bool,
+        showStopCode: PropTypes.bool,
+        showZone: PropTypes.bool,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
   intl: intlShape.isRequired,
 };
 

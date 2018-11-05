@@ -398,4 +398,9 @@ export default {
       },
     },
   },
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
 };
