@@ -29,7 +29,7 @@ import {
   examplePropsCityBike,
   exampleDataVia,
 } from './data/SummaryRow.ExampleData';
-import ZoneIcon, { ZONE_UNKNOWN } from './ZoneIcon';
+import ZoneIcon from './ZoneIcon';
 
 /*
 const dummyalerts = [{
@@ -219,36 +219,8 @@ const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
   return endIndex - startIndex === 1; // via points have to be right after the other
 };
 
-/**
- * Retrieves all zones from the legs (from & to points) and the legs' stops.
- *
- * @param {*} legs The legs to retrieve the zones from.
- */
-export const getZones = legs => {
-  const zones = {};
-  legs.forEach(leg => {
-    if (leg.from.stop && leg.from.stop.zoneId) {
-      zones[leg.from.stop.zoneId] = true;
-    }
-    if (leg.to.stop && leg.to.stop.zoneId) {
-      zones[leg.to.stop.zoneId] = true;
-    }
-    if (Array.isArray(leg.intermediatePlaces)) {
-      leg.intermediatePlaces.filter(ip => ip.stop).forEach(st => {
-        zones[st.stop.zoneId] = true;
-      });
-    }
-  });
-  if (zones.A && zones.C) {
-    zones.B = true;
-  }
-  return Object.keys(zones)
-    .filter(key => key !== ZONE_UNKNOWN)
-    .sort();
-};
-
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, ...props },
+  { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -408,6 +380,7 @@ const SummaryRow = (
     defaultMessage: 'Itinerary',
   });
 
+  const hasZones = Array.isArray(zones) && zones.length > 0;
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
     containsBiking(itinerary) && (
@@ -416,8 +389,6 @@ const SummaryRow = (
         {displayDistance(getTotalBikingDistance(itinerary), config)}
       </div>
     );
-
-  const zones = getZones(data.legs);
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -487,7 +458,7 @@ const SummaryRow = (
                   {displayDistance(getTotalWalkingDistance(data), config)}
                 </div>
               )}
-              {zones.length > 0 && (
+              {hasZones && (
                 <div className="itinerary-zones-container">
                   {zones.map(zoneId => (
                     <ZoneIcon key={zoneId} zoneId={zoneId} />
@@ -524,6 +495,11 @@ SummaryRow.propTypes = {
   open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
+  zones: PropTypes.arrayOf(PropTypes.string),
+};
+
+SummaryRow.defaultProps = {
+  zones: [],
 };
 
 SummaryRow.contextTypes = {
