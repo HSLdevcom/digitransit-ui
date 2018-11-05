@@ -384,7 +384,7 @@ $itinerary-tab-switch-height: 48px;
       &.citybike {
         @include setModeCircles($citybike-color);
       }
-      & {
+      &.walk {
         @include setModeCircles($walk-color);
       }
       &.wait {
@@ -633,9 +633,7 @@ $itinerary-tab-switch-height: 48px;
   .itinerary-time-column {
     @include font-narrow-medium;
     font-size: 10pt;
-  }
-
-  .itinerary-time-column {
+    
     .itinerary-time-column-time {
       font-size: 21px;
     }
@@ -1054,7 +1052,6 @@ $font-print-decrease: 0.7;
     border-radius: 10px;
     text-transform: uppercase;
     text-align: center;
-    display: inline-block;
     padding: 0.1em;
     padding-right: 0.5em;
     padding-left: 0.5em;
