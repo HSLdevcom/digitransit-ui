@@ -24,11 +24,6 @@
     }
   }
 
-  &.passive {
-    border-left-color: $background-color;
-    background-color: $background-color;
-  }
-
   h2 {
     @include font-medium;
     flex-grow: 1;
@@ -59,6 +54,20 @@
 
     .icon {
       margin-bottom: -2px;
+    }
+  }
+
+  .itinerary-zones-container {
+    display: flex;
+    flex-direction: row;
+    font-size: $font-size-small;
+
+    .icon {
+      display: block;
+    }
+
+    .zone-icon-container + .zone-icon-container {
+      margin-left: $padding-xxsmall;
     }
   }
 
@@ -325,7 +334,8 @@
     }
 
     .itinerary-biking-distance,
-    .itinerary-walking-distance {
+    .itinerary-walking-distance,
+    .itinerary-zones-container {
       font-size: 18px;
     }
 

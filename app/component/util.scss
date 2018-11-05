@@ -22,11 +22,6 @@ $slider-gray: #575757;
   cursor: pointer;
 }
 
-input[type='range'].slider {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
-  margin: 3px 0 1em;
-}
 input[type='range'].slider:focus {
   outline: none;
 }
@@ -46,6 +41,10 @@ $track-border: 2px solid $slider-gray;
 }
 
 input[type='range'].slider {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  margin: 3px 0 1em;
+
   &::-webkit-slider-runnable-track {
     @include track;
   }
@@ -94,7 +93,7 @@ input[type='range'].slider {
   cursor: ew-resize;
 }
 
-input[type='range'].slider {
+input[type='range'].slider { /* stylelint-disable-line */
   &::-webkit-slider-thumb {
     @include thumb;
     -webkit-appearance: none;
@@ -155,7 +154,6 @@ $btn-heigth: 17px;
 .btn {
   background-color: $btn-inactive-background-color;
   text-align: center;
-  background-color: #575757;
   display: inline-block;
   cursor: pointer;
 
@@ -324,6 +322,10 @@ $btn-heigth: 17px;
     font-size: $font-size-small;
     padding: 0.85em 1em;
   }
+
+  .popup-container {
+    min-width: 80%;
+  }
 }
 
 .first-btn {
@@ -398,12 +400,6 @@ $btn-heigth: 17px;
         color: #fff;
       }
     }
-  }
-}
-
-.mobile {
-  .popup-container {
-    min-width: 80%;
   }
 }
 
