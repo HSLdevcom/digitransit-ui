@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import Icon from './Icon';
 
 const ZoneTicketIcon = ({ ticketType }) =>
@@ -9,8 +8,8 @@ const ZoneTicketIcon = ({ ticketType }) =>
       className="zone-ticket-icon"
       height={1}
       img={`icon-icon_zone-ticket-${ticketType.toLowerCase()}`}
-      viewBox={`0 0 ${ticketType.length * 44} 44`}
-      width={ticketType.length}
+      omitViewBox
+      width={ticketType.length + 0.35}
     />
   ) : null;
 

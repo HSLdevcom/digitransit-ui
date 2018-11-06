@@ -65,7 +65,7 @@ function Icon(props) {
           pointerEvents: props.pointerEvents ? 'auto' : 'none',
           width: props.width ? `${props.width}em` : null,
         }}
-        viewBox={props.viewBox}
+        viewBox={!props.omitViewBox ? props.viewBox : null}
         className={cx('icon', props.className)}
       >
         <use xlinkHref={`#${props.img}`} />
@@ -83,6 +83,7 @@ Icon.propTypes = {
   height: PropTypes.number,
   id: PropTypes.string,
   img: PropTypes.string.isRequired,
+  omitViewBox: PropTypes.bool,
   pointerEvents: PropTypes.bool,
   viewBox: PropTypes.string,
   width: PropTypes.number,
@@ -95,6 +96,7 @@ Icon.defaultProps = {
   color: undefined,
   height: undefined,
   id: undefined,
+  omitViewBox: false,
   pointerEvents: false,
   viewBox: '0 0 40 40',
   width: undefined,
