@@ -1,45 +1,15 @@
+import startsWith from 'lodash/startsWith';
+import inside from 'point-in-polygon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
-import inside from 'point-in-polygon';
-import startsWith from 'lodash/startsWith';
+
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
 import Icon from './Icon';
+import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
-
-/**
- * Retrieves all zones from the legs (from & to points) and the legs' stops.
- *
- * @param {*} legs The legs to retrieve the zones from.
- */
-export const getZones = legs => {
-  if (!Array.isArray(legs)) {
-    return [];
-  }
-
-  const zones = {};
-  legs.forEach(leg => {
-    if (leg.from && leg.from.stop && leg.from.stop.zoneId) {
-      zones[leg.from.stop.zoneId] = true;
-    }
-    if (leg.to && leg.to.stop && leg.to.stop.zoneId) {
-      zones[leg.to.stop.zoneId] = true;
-    }
-    if (Array.isArray(leg.intermediatePlaces)) {
-      leg.intermediatePlaces
-        .filter(place => place.stop && place.stop.zoneId)
-        .forEach(place => {
-          zones[place.stop.zoneId] = true;
-        });
-    }
-  });
-  if (zones.A && zones.C) {
-    zones.B = true;
-  }
-  return Object.keys(zones).sort();
-};
+import { getZones } from '../util/legUtils';
 
 function ItinerarySummaryListContainer(
   {

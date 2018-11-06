@@ -321,6 +321,14 @@ $itinerary-tab-switch-height: 48px;
         }
       }
 
+      .zone-ticket-multiple-options {
+        display: flex;
+
+        span + span {
+          margin-left: $padding-xsmall;
+        }
+      }
+
       .zone-ticket-icon {
         display: block;
         font-size: 1.25em;

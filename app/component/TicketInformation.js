@@ -10,7 +10,20 @@ import Icon from './Icon';
 import ZoneTicketIcon from './ZoneTicketIcon';
 import mapFares from '../util/fareUtils';
 
-export default function TicketInformation({ fares }, { config, intl }) {
+const renderTicketZoneIcon = (zoneId, isOnlyZoneB) => {
+  if (!isOnlyZoneB) {
+    return <ZoneTicketIcon ticketType={zoneId} />;
+  }
+  return (
+    <div className="zone-ticket-multiple-options">
+      <ZoneTicketIcon ticketType="AB" />
+      <FormattedMessage id="or" />
+      <ZoneTicketIcon ticketType="BC" />
+    </div>
+  );
+};
+
+export default function TicketInformation({ fares, zones }, { config, intl }) {
   const currency = '€';
   const mappedFares = mapFares(fares, config, intl.locale);
   if (!mappedFares) {
@@ -18,6 +31,11 @@ export default function TicketInformation({ fares }, { config, intl }) {
   }
   const [regularFare] = fares.filter(fare => fare.type === 'regular');
   const isMultiComponent = mappedFares.length > 1;
+  const isOnlyZoneB =
+    zones.length === 1 &&
+    zones[0] === 'B' &&
+    mappedFares.length === 1 &&
+    (mappedFares[0] === 'AB' || mappedFares[0] === 'BC');
 
   return (
     <div className="row itinerary-ticket-information">
@@ -42,7 +60,7 @@ export default function TicketInformation({ fares }, { config, intl }) {
               key={i} // eslint-disable-line react/no-array-index-key
             >
               {config.useTicketIcons ? (
-                <ZoneTicketIcon ticketType={component} />
+                renderTicketZoneIcon(component, isOnlyZoneB)
               ) : (
                 <span>{component}</span>
               )}
@@ -78,6 +96,11 @@ export default function TicketInformation({ fares }, { config, intl }) {
 
 TicketInformation.propTypes = {
   fares: PropTypes.array,
+  zones: PropTypes.arrayOf(PropTypes.string),
+};
+
+TicketInformation.defaultProps = {
+  zones: [],
 };
 
 TicketInformation.contextTypes = {

@@ -199,4 +199,45 @@ describe('<TicketInformation />', () => {
     });
     expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(1);
   });
+
+  it('should show AB and BC tickets for a trip within B zone', () => {
+    const props = {
+      fares: [
+        {
+          cents: 280,
+          currency: 'EUR',
+          components: [
+            {
+              fareId: 'HSL:AB',
+            },
+          ],
+          type: 'regular',
+        },
+      ],
+      zones: ['B'],
+    };
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: {
+        config: {
+          ...config,
+          fareMapping: fareId => fareId.replace('HSL:', ''),
+          useTicketIcons: true,
+        },
+      },
+    });
+
+    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(2);
+    expect(
+      wrapper
+        .find(ZoneTicketIcon)
+        .at(0)
+        .props().ticketType,
+    ).to.equal('AB');
+    expect(
+      wrapper
+        .find(ZoneTicketIcon)
+        .at(1)
+        .props().ticketType,
+    ).to.equal('BC');
+  });
 });
