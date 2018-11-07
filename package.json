@@ -128,7 +128,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/runtime": "7.1.2",
+    "@babel/runtime": "7.1.5",
     "async": "2.6.1",
     "autoprefixer": "8.6.2",
     "babel-eslint": "10.0.1",
