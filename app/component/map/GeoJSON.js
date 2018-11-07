@@ -14,8 +14,8 @@ if (isBrowser) {
 
 const GeoJsonIcon = L.Icon.extend({
   options: {
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
   },
 });
 
@@ -51,17 +51,22 @@ class GeoJSON extends React.Component {
     let marker;
 
     if (props.textOnly) {
-      marker = L.circleMarker(latlng);
+      marker = L.circleMarker(latlng, {
+        interactive: false,
+      });
       marker.bindTooltip(props.name, {
-        permanent: true,
         className: 'geoJsonText',
         direction: 'center',
         offset: [0, 0],
+        permanent: true,
       });
     } else if (props.icon) {
-      marker = L.marker(latlng, { icon: this.icons[props.icon.id] });
+      marker = L.marker(latlng, {
+        icon: this.icons[props.icon.id],
+        interactive: false,
+      });
     } else {
-      marker = L.circleMarker(latlng);
+      marker = L.circleMarker(latlng, { interactive: false });
     }
     if (props.popupContent) {
       marker.bindPopup(props.popupContent, { className: 'geoJsonPopup' });
