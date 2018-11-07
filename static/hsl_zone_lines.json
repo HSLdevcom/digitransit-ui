@@ -43,8 +43,21 @@
           ]
         ]
       },
-      "properties": {"Zone": "D"},
-      "style": {"color": "#007ac9", "weight": 6, "opacity": 0.6}
+      "properties": {
+        "Zone": "D"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ]
     },
     {
       "type": "Feature",
@@ -321,8 +334,21 @@
           [25.225893,60.244451],[25.224819,60.24383],[25.223101,60.242837],[25.226630,60.239365],[25.204388,60.229895],
           [25.203986,60.227835],[25.203688,60.226555],[25.203126,60.22456]]
       },
-      "properties": { "Zone": "C"},
-      "style": { "color": "#007ac9","weight": 6,"opacity": 0.6}
+      "properties": {
+        "Zone": "C"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ]
     },
     {
       "type": "Feature",
@@ -346,8 +372,21 @@
           [25.028610,60.133183]
         ]
       },
-      "properties": { "Zone": "A"},
-      "style": { "color": "#007ac9", "weight": 6, "opacity": 0.6}
+      "properties": {
+        "Zone": "A"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ]
     },
     {
       "type": "Feature",
@@ -426,8 +465,21 @@
           [25.220404,60.199737],[25.219538,60.197975]
         ]
       },
-      "properties": { "Zone": "B" },
-      "style": { "color": "#007ac9", "weight": 6, "opacity": 0.6 }
+      "properties": {
+        "Zone": "B"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ]
     },
     {
       "type": "Feature",
