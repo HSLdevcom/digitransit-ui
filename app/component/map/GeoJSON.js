@@ -35,10 +35,9 @@ class GeoJSON extends React.Component {
           For data URI SVG support in Firefox & IE it's necessary to URI encode the string
           & replace the '#' character with '%23'. `encodeURI()` won't do this.
         */
-        const url = encodeURI(`data:image/svg+xml, ${p.icon.data}`).replace(
-          '#',
-          '%23',
-        );
+        const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
+          p.icon.data,
+        ).replace(/#/g, '%23')}`;
         icons[p.icon.id] = new GeoJsonIcon({ iconUrl: url });
       }
     });
