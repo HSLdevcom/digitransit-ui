@@ -4,25 +4,27 @@ Contents of the front page background map can be expanded by defining GeoJson da
 the configuration file. The format of the geojson configuraton entry is the following:
 
 ```
-  geoJson: [ // array of data sources
-    {
-      name: {
-        // Displayed in UI. Should include supported languages
-        fi: 'Lippuvyöhykkeet',
-        sv: 'Resezoner',
-        en: 'Ticket zones',
+  geoJson: {
+    layers: [ // array of data sources
+      {
+        name: {
+          // Displayed in UI. Should include supported languages
+          fi: 'LippuvyÃ¶hykkeet',
+          sv: 'Resezoner',
+          en: 'Ticket zones',
+        },
+        // web address of the data source
+        url: '/hsl_zones.json',
+        // metadata which describes how to render point features
+        metadata: {
+          name: 'nimi',
+          popupContent: 'tiedot',
+          textOnly: 'tekstielementti',
+        },
       },
-      // web address of the data source
-      url: '/hsl_zones.json',
-      // metadata which describes how to render point features
-      metadata: {
-        name: 'nimi',
-        popupContent: 'tiedot',
-        textOnly: 'tekstielementti',
-      },
-    },
-    // more geojson sources can follow. Each source gets a separate drawing/on off switch
-  ]
+      // more geojson sources can follow. Each source gets a separate drawing/on off switch
+    ]
+  }
 ```
 
 ## Line styling
@@ -48,7 +50,6 @@ The style can be customized by including a style block of svg attributes:
         }
      }
 ```
-
 
 ## Point styling
 
@@ -77,6 +78,57 @@ The default marker style can be changed by including a svg style block in a feat
   }
 ```
 
+## Feature styling without data replication at source
+
+Any of the feature types (at least Point, MultiPoint, LineString and MultiLineString) may be styled using a `styles` array instead of a single `style`. This is useful for displaying for example a two-tone area boundary line on the map.
+
+This will duplicate the source feature's properties and geometries on the fly per each item in the `styles` array.
+
+The following feature:
+
+```
+  {
+    // properties and geometries
+    "styles": [
+      {
+        // style 1
+        "color": "black",
+        "opacity": 1,
+        "weight": 2
+      },
+      {
+        // style 2
+        "color": "black",
+        "opacity": 0.2,
+        "weight": 10
+      }
+    ]
+  }
+```
+
+will end up being two similar features with different styles:
+
+```
+  {
+    // cloned properties and geometries
+    "style": {
+      // style 1
+      "color": "black",
+      "opacity": 1,
+      "weight": 2
+    }
+  },
+  {
+    // cloned properties and geometries
+    "style": {
+      // style 2
+      "color": "black",
+      "opacity": 0.2,
+      "weight": 10
+    }
+  }
+```
+
 ## Icon rendering
 
 Points can be rendered with dynamically defined icons, too:
@@ -96,7 +148,6 @@ Points can be rendered with dynamically defined icons, too:
 
 All features do not need to repeat identical svg data; it is enough to define icon.data once and the rest
 of features can then set only the icon.id reference.
-
 
 ## Text rendering
 
