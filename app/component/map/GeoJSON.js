@@ -96,7 +96,10 @@ class GeoJSON extends React.Component {
       weight: 0,
     };
 
-    if (feature.geometry && feature.geometry.type === 'Point') {
+    if (
+      feature.geometry &&
+      ['Point', 'MultiPoint'].includes(feature.geometry.type)
+    ) {
       if (feature.properties && feature.properties.textOnly) {
         return feature.style
           ? { ...textMarkerStyle, ...feature.style }
