@@ -178,6 +178,9 @@ const components = {
   Error404,
   StopMarkerPopup,
   SelectStreetModeDialog,
+};
+
+const fullscreenComponents = {
   SelectMapLayersDialog,
   MainMenuContainer,
 };
@@ -525,7 +528,10 @@ function StyleGuidePage(props) {
     return (
       <ComponentDocumentation
         mode="examples-only"
-        component={components[props.params.componentName]}
+        component={
+          components[props.params.componentName] ||
+          fullscreenComponents[props.params.componentName]
+        }
       />
     );
   }
