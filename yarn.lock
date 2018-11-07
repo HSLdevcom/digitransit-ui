@@ -7354,10 +7354,6 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
-mgrs@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mgrs/-/mgrs-1.0.0.tgz#fb91588e78c90025672395cb40b25f7cd6ad1829"
-
 micromatch@^2.3.11:
   version "2.3.11"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-2.3.11.tgz#86677c97d1720b363431d04d0d15293bd38c1565"
@@ -9194,13 +9190,6 @@ progress@^1.1.8:
 progress@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.1.tgz#c9242169342b1c29d275889c95734621b1952e31"
-
-proj4@2.4.4:
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.4.4.tgz#c03d825e380f6850a4a7af5d20d365f6b72c4042"
-  dependencies:
-    mgrs "1.0.0"
-    wkt-parser "^1.2.0"
 
 promise-inflight@^1.0.1:
   version "1.0.1"
@@ -11749,10 +11738,6 @@ universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
 
-unorm@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/unorm/-/unorm-1.4.1.tgz#364200d5f13646ca8bcd44490271335614792300"
-
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -12241,10 +12226,6 @@ window-size@0.1.0:
 window-size@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.4.tgz#f8e1aa1ee5a53ec5bf151ffa09742a6ad7697876"
-
-wkt-parser@^1.2.0:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/wkt-parser/-/wkt-parser-1.2.3.tgz#240fe1dacc816bfe5674b66180041059eaa9a9ba"
 
 wordwrap@0.0.2:
   version "0.0.2"
