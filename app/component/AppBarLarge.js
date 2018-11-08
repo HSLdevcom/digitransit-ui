@@ -8,7 +8,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
-import { isBrowser } from '../util/browser';
+import LogoSmall from './LogoSmall';
 
 const AppBarLarge = (
   { titleClicked, logo },
@@ -25,24 +25,21 @@ const AppBarLarge = (
   };
 
   let logoElement;
-  const logoTitle = 'Reittiopas';
-  const logoSubTitle = 'Uudet vyöhykkeet';
-
   if (config.textLogo) {
     logoElement = (
       <section className="title">
-        <span className="title">{config.title}</span>
+        <LogoSmall className="navi-logo" title={config.title} />
       </section>
     );
   } else {
     logoElement = (
-      <div
+      <LogoSmall
         className="navi-logo"
-        style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
-      >
-        {logoTitle && <span className="logo-title">{logoTitle}</span>}
-        {logoSubTitle && <span className="logo-sub-title">{logoSubTitle}</span>}
-      </div>
+        logo={logo}
+        title={config.title}
+        subTitle="Uudet vyöhykkeet"
+        showLogo
+      />
     );
   }
 

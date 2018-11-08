@@ -1,6 +1,10 @@
 .top-bar {
   background-color: white;
 
+  .icon {
+    color: white;
+  }
+
   .navi-languages {
     button {
       color: $primary-color;
@@ -13,7 +17,6 @@
 
   .navi-icons {
     .icon {
-      color: white;
       fill: $primary-color;
     }
   }
@@ -32,6 +35,7 @@
     }
   }
 
+  .logo,
   .navi-logo {
     display: flex;
     flex-direction: column;
@@ -53,5 +57,27 @@
     .logo-sub-title {
       font-size: $font-size-xlarge;
     }
+  }
+
+  section.title {
+    color: $primary-color;
+    padding: $padding-xsmall 0 $padding-xsmall 0.7em;
+
+    .logo {
+      min-height: auto;
+
+      .logo-title {
+        font-size: $font-size-xxxsmall;
+        text-align: left;
+      }
+
+      .logo-sub-title {
+        font-size: $font-size-xsmall;
+      }
+    }
+  }
+
+  .icon.back {
+    fill: $primary-color !important;
   }
 }
