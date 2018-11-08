@@ -25,6 +25,8 @@ const AppBarLarge = (
   };
 
   let logoElement;
+  const logoTitle = 'Reittiopas';
+  const logoSubTitle = 'Uudet vyöhykkeet';
 
   if (config.textLogo) {
     logoElement = (
@@ -34,7 +36,10 @@ const AppBarLarge = (
     );
   } else if (isBrowser && logo) {
     logoElement = (
-      <div className="navi-logo" style={{ backgroundImage: `url(${logo})` }} />
+      <div className="navi-logo" style={{ backgroundImage: `url(${logo})` }}>
+        <span className="logo-title">{logoTitle}</span>
+        <span className="logo-sub-title">{logoSubTitle}</span>
+      </div>
     );
   } else {
     logoElement = (

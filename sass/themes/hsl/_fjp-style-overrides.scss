@@ -1,0 +1,34 @@
+.top-bar {
+  background-color: white;
+
+  .navi-languages {
+    button {
+      color: $primary-color;
+
+      &.selected {
+        background-color: #bfdef2;
+      }
+    }
+  }
+
+  .navi-icons {
+    .icon {
+      color: white;
+      fill: $primary-color;
+    }
+  }
+
+  .external-link-container {
+    .external-link,
+    .external-link-icon,
+    .external-link-icon-outer {
+      color: $primary-color;
+    }
+  }
+
+  .main-menu-toggle {
+    .icon {
+      fill: $primary-color;
+    }
+  }
+}

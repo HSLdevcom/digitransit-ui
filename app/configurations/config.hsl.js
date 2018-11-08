@@ -70,7 +70,10 @@ export default {
 
   sprites: 'svg-sprite.hsl.svg',
 
-  appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
+  appBarLink: {
+    name: 'HSL.fi',
+    href: 'https://www.hsl.fi/uudetvy%C3%B6hykkeet',
+  },
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
