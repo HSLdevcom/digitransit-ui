@@ -1,4 +1,6 @@
+import cloneDeep from 'lodash/cloneDeep';
 import Store from 'fluxible/addons/BaseStore';
+
 import { getJson } from '../util/xhrPromise';
 
 // these are metadata mappable properties
@@ -18,6 +20,29 @@ const MapJSON = (data, meta) => {
   });
 };
 
+const styleFeatures = data => {
+  if (!data.features.some(feature => Array.isArray(feature.styles))) {
+    return data;
+  }
+  const output = {
+    type: 'FeatureCollection',
+    features: [],
+  };
+  data.features.forEach(feature => {
+    if (!Array.isArray(feature.styles)) {
+      output.features.push(cloneDeep(feature));
+      return;
+    }
+    feature.styles.forEach(style => {
+      const clone = cloneDeep(feature);
+      delete clone.styles;
+      clone.style = cloneDeep(style);
+      output.features.push(clone);
+    });
+  });
+  return output;
+};
+
 class GeoJsonStore extends Store {
   geoJsonData = {};
 
@@ -35,7 +60,7 @@ class GeoJsonStore extends Store {
       }
       const data = {
         name: name || url,
-        data: response,
+        data: styleFeatures(response),
       };
       this.geoJsonData[url] = data;
     }
@@ -43,4 +68,4 @@ class GeoJsonStore extends Store {
   };
 }
 
-export { GeoJsonStore as default, MapJSON };
+export { GeoJsonStore as default, MapJSON, styleFeatures };
