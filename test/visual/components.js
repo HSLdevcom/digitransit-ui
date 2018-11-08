@@ -88,10 +88,6 @@ testVariation('RouteNumber', 'vertical-with-disruption', 5);
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'isArrival', 2);
 
-testVariation('Distance', 'zero');
-testVariation('Distance', 'meters', 2);
-testVariation('Distance', 'km', 3);
-
 testVariation('PlatformNumber');
 
 testVariation('CardHeader');
