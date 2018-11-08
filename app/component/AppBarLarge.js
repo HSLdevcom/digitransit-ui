@@ -36,9 +36,9 @@ const AppBarLarge = (
       <LogoSmall
         className="navi-logo"
         logo={logo}
-        title={config.title}
-        subTitle="Uudet vyöhykkeet"
         showLogo
+        subTitle={intl.formatMessage({ id: 'fjp.subtitle' })}
+        title={config.title}
       />
     );
   }

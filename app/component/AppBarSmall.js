@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 
 import BackButton from './BackButton';
 import DisruptionInfo from './DisruptionInfo';
@@ -8,7 +9,10 @@ import ComponentUsageExample from './ComponentUsageExample';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 
-const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
+const AppBarSmall = (
+  { disableBackButton, showLogo, title, homeUrl, logo },
+  { intl },
+) => (
   <React.Fragment>
     <DisruptionInfo />
     <nav className="top-bar">
@@ -18,7 +22,7 @@ const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
           showLogo={showLogo}
           logo={logo}
           title={title}
-          subTitle="Uudet vyöhykkeet"
+          subTitle={intl.formatMessage({ id: 'fjp.subtitle' })}
         />
       </section>
       <MainMenuContainer homeUrl={homeUrl} />
@@ -51,6 +55,10 @@ AppBarSmall.propTypes = {
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
+};
+
+AppBarSmall.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default AppBarSmall;
