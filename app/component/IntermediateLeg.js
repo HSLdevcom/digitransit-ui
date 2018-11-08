@@ -20,13 +20,16 @@ function IntermediateLeg({
   nextZoneId,
 }) {
   const modeClassName = mode.toLowerCase();
+  const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
+  const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
       style={{ width: '100%' }}
       className={cx('row itinerary-row', {
-        'zone-multiple': currentZoneId && (previousZoneId || nextZoneId),
+        'zone-dual': isDualZone && !isTripleZone,
+        'zone-triple': isTripleZone,
         'zone-previous': currentZoneId && previousZoneId,
       })}
       onClick={e => focusFunction(e)}

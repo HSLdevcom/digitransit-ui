@@ -29,6 +29,7 @@ import {
   examplePropsCityBike,
   exampleDataVia,
 } from './data/SummaryRow.ExampleData';
+import ZoneIcon from './ZoneIcon';
 
 /*
 const dummyalerts = [{
@@ -219,7 +220,7 @@ const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
 };
 
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, ...props },
+  { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -379,6 +380,7 @@ const SummaryRow = (
     defaultMessage: 'Itinerary',
   });
 
+  const hasZones = Array.isArray(zones) && zones.length > 0;
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
     containsBiking(itinerary) && (
@@ -440,7 +442,7 @@ const SummaryRow = (
               <div className="itinerary-end-time">
                 {endTime.format('HH:mm')}
               </div>
-              {isDefaultPosition && renderBikingDistance(data)}
+              {!hasZones && isDefaultPosition && renderBikingDistance(data)}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -449,11 +451,19 @@ const SummaryRow = (
               <span className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </span>
-              {!isDefaultPosition && renderBikingDistance(data)}
-              {!onlyBiking(data) && (
-                <div className="itinerary-walking-distance">
-                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                  {displayDistance(getTotalWalkingDistance(data), config)}
+              {!hasZones && !isDefaultPosition && renderBikingDistance(data)}
+              {!hasZones &&
+                !onlyBiking(data) && (
+                  <div className="itinerary-walking-distance">
+                    <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                    {displayDistance(getTotalWalkingDistance(data), config)}
+                  </div>
+                )}
+              {hasZones && (
+                <div className="itinerary-zones-container">
+                  {zones.map(zoneId => (
+                    <ZoneIcon key={zoneId} zoneId={zoneId} />
+                  ))}
                 </div>
               )}
             </div>,
@@ -486,6 +496,11 @@ SummaryRow.propTypes = {
   open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
+  zones: PropTypes.arrayOf(PropTypes.string),
+};
+
+SummaryRow.defaultProps = {
+  zones: [],
 };
 
 SummaryRow.contextTypes = {

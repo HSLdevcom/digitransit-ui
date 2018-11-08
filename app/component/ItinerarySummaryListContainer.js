@@ -1,13 +1,15 @@
+import startsWith from 'lodash/startsWith';
+import inside from 'point-in-polygon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
-import inside from 'point-in-polygon';
-import startsWith from 'lodash/startsWith';
+
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
 import Icon from './Icon';
+import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
+import { getZones } from '../util/legUtils';
 
 function ItinerarySummaryListContainer(
   {
@@ -39,6 +41,7 @@ function ItinerarySummaryListContainer(
         onSelect={onSelect}
         onSelectImmediately={onSelectImmediately}
         intermediatePlaces={intermediatePlaces}
+        zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
       >
         {i === openedIndex && children}
       </SummaryRow>
@@ -161,6 +164,11 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           duration
           rentedBike
           intermediatePlace
+          intermediatePlaces {
+            stop {
+              zoneId
+            }
+          }
           route {
             mode
             shortName
@@ -187,6 +195,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             lon
             stop {
               gtfsId
+              zoneId
             }
             bikeRentalStation {
               bikesAvailable
@@ -195,6 +204,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           to {
             stop {
               gtfsId
+              zoneId
             }
           }
         }

@@ -503,6 +503,7 @@ export default Relay.createContainer(PrintableItinerary, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           to {
@@ -517,6 +518,7 @@ export default Relay.createContainer(PrintableItinerary, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           legGeometry {
@@ -532,6 +534,7 @@ export default Relay.createContainer(PrintableItinerary, {
               name
               code
               platformCode
+              zoneId
             }
           }
           realTime
