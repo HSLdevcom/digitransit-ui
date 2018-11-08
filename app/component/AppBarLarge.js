@@ -34,16 +34,15 @@ const AppBarLarge = (
         <span className="title">{config.title}</span>
       </section>
     );
-  } else if (isBrowser && logo) {
-    logoElement = (
-      <div className="navi-logo" style={{ backgroundImage: `url(${logo})` }}>
-        <span className="logo-title">{logoTitle}</span>
-        <span className="logo-sub-title">{logoSubTitle}</span>
-      </div>
-    );
   } else {
     logoElement = (
-      <div className="navi-logo" style={{ backgroundImage: 'none' }} />
+      <div
+        className="navi-logo"
+        style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
+      >
+        {logoTitle && <span className="logo-title">{logoTitle}</span>}
+        {logoSubTitle && <span className="logo-sub-title">{logoSubTitle}</span>}
+      </div>
     );
   }
 

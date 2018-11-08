@@ -6,7 +6,7 @@
       color: $primary-color;
 
       &.selected {
-        background-color: #bfdef2;
+        background-color: #bfdef2 !important;
       }
     }
   }
@@ -29,6 +29,29 @@
   .main-menu-toggle {
     .icon {
       fill: $primary-color;
+    }
+  }
+
+  .navi-logo {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: auto;
+
+    .logo-title,
+    .logo-sub-title {
+      @include font-medium;
+      color: $primary-color;
+      margin-left: 3.5rem;
+    }
+
+    .logo-title {
+      font-size: $font-size-xxsmall;
+      text-transform: uppercase;
+    }
+
+    .logo-sub-title {
+      font-size: $font-size-xlarge;
     }
   }
 }
