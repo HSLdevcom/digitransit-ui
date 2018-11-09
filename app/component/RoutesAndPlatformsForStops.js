@@ -65,10 +65,10 @@ export const mapRoutes = (stopFromProps, stopType) => {
 
 const RoutesAndPlatformsForStops = props => {
   const mappedRoutes = mapRoutes(props.stop, props.stopType);
-
+  console.log(mappedRoutes);
   const timeTableRows = mappedRoutes.map(route => (
     <Link
-      to={`/${PREFIX_ROUTES}/${route.pattern.route.id ||
+      to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
         route.pattern.route.gtfsId}/pysakit/${route.pattern.code}`}
       key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id ||
         route.pattern.route.gtfsId}-${route.stop.platformCode}`}
