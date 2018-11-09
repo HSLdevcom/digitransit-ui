@@ -4,19 +4,20 @@ import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { Link } from 'react-router';
 import orderBy from 'lodash/orderBy';
+import uniqBy from 'lodash/uniqBy';
 
 import Departure from './Departure';
 import { PREFIX_ROUTES } from '../util/path';
 
-const RoutesAndPlatformsForStops = props => {
+export const mapRoutes = (stopFromProps, stopType) => {
   const stopRoutes = [];
-  const mappedRoutes = [];
+  const returnableRoutes = [];
 
-  if (props.stopType === 'terminal') {
-    props.stop.stops.forEach(stopTime => stopRoutes.push({ ...stopTime }));
+  if (stopType === 'terminal') {
+    stopFromProps.stops.forEach(stopTime => stopRoutes.push({ ...stopTime }));
     stopRoutes.forEach(route =>
       route.stoptimesForPatterns.forEach(routeProperties =>
-        mappedRoutes.push({
+        returnableRoutes.push({
           stop: { platformCode: route.platformCode },
           pattern: {
             ...routeProperties.pattern,
@@ -33,10 +34,10 @@ const RoutesAndPlatformsForStops = props => {
       ),
     );
   } else {
-    props.stop.routes.forEach(singleRoute =>
+    stopFromProps.routes.forEach(singleRoute =>
       singleRoute.patterns.forEach(singlePattern =>
-        mappedRoutes.push({
-          stop: { platformCode: props.stop.platformCode },
+        returnableRoutes.push({
+          stop: { platformCode: stopFromProps.platformCode },
           pattern: {
             ...singlePattern,
             route: {
@@ -51,19 +52,30 @@ const RoutesAndPlatformsForStops = props => {
     );
   }
 
-  const sortedRoutes = orderBy(mappedRoutes, 'pattern.route.shortName', 'asc');
+  const orderedRoutes = orderBy(
+    returnableRoutes,
+    'pattern.route.shortName',
+    'asc',
+  );
 
-  const timeTableRows = sortedRoutes.map(route => (
+  return uniqBy(orderedRoutes, v =>
+    [v.pattern.headsign, v.pattern.route.shortName, v.stop.platformCode].join(),
+  );
+};
+
+const RoutesAndPlatformsForStops = props => {
+  const mappedRoutes = mapRoutes(props.stop, props.stopType);
+
+  const timeTableRows = mappedRoutes.map(route => (
     <Link
-      to={`/${PREFIX_ROUTES}/${route.pattern.code}`}
-      key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id}-${
-        route.stop.platformCode
-      }`}
+      to={`/${PREFIX_ROUTES}/${route.pattern.route.id ||
+        route.pattern.route.gtfsId}/pysakit/${route.pattern.code}`}
+      key={`${route.pattern.code}-${route.headsign}-${route.pattern.route.id ||
+        route.pattern.route.gtfsId}-${route.stop.platformCode}`}
     >
       <Departure
-        key={`${route.pattern.code}-${route.headsign}-${
-          route.pattern.route.id
-        }-${route.stop.platformCode}`}
+        key={`${route.pattern.code}-${route.headsign}-${route.pattern.route
+          .id || route.pattern.route.gtfsId}-${route.stop.platformCode}`}
         departure={route}
         showStop
         currentTime={0}
@@ -86,7 +98,7 @@ RoutesAndPlatformsForStops.propTypes = {
   stopType: PropTypes.string,
 };
 
-export default Relay.createContainer(RoutesAndPlatformsForStops, {
+const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
   fragments: {
     stop: () => Relay.QL`
     fragment RoutesAndPlatformsForStops on Stop {
@@ -101,6 +113,7 @@ export default Relay.createContainer(RoutesAndPlatformsForStops, {
         patterns {
           headsign
           code
+          name 
         }
       }
       stops {
@@ -128,3 +141,8 @@ export default Relay.createContainer(RoutesAndPlatformsForStops, {
       `,
   },
 });
+
+export {
+  withRelayContainer as default,
+  RoutesAndPlatformsForStops as Component,
+};
