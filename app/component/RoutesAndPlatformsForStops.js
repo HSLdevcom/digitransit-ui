@@ -65,7 +65,6 @@ export const mapRoutes = (stopFromProps, stopType) => {
 
 const RoutesAndPlatformsForStops = props => {
   const mappedRoutes = mapRoutes(props.stop, props.stopType);
-  console.log(mappedRoutes);
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
