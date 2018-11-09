@@ -95,12 +95,19 @@ $route-schedule-date-height: 36px;
     }
     .route-stop-name {
       flex: 1 0 4em;
-      margin-left: 1em;
+      margin-left: 1.5em;
     }
     .route-stop-time {
       text-align: right;
       padding-right: 0.6em;
       flex: 0 1 2em;
+    }
+  }
+}
+.mobile {
+  .route-list-header {
+    .route-stop-name {
+      margin-left: 8%;
     }
   }
 }
@@ -213,6 +220,7 @@ $route-schedule-date-height: 36px;
     display: block;
     border-bottom: 1px solid #eef1f3;
     margin-top: 0.3em;
+    padding-right: 1em;
     a {
       display: flex;
       text-decoration: none;
