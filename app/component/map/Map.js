@@ -18,6 +18,7 @@ import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
+import events from '../../util/events';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -71,6 +72,8 @@ export default class Map extends React.Component {
   componentWillUnmount() {
     this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
   }
+
+  onPopupopen = () => events.emit('popupOpened');
 
   setLoaded = () => {
     this.props.loaded();
@@ -135,6 +138,7 @@ export default class Map extends React.Component {
         {...this.props.leafletOptions}
         boundsOptions={boundsOptions}
         {...this.props.leafletEvents}
+        onPopupopen={this.onPopupopen}
       >
         <TileLayer
           onLoad={this.setLoaded}
