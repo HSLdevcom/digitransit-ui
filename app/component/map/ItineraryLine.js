@@ -31,7 +31,15 @@ const getLegText = (leg, config) => {
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+  };
+
+  static propTypes = {
+    legs: PropTypes.array,
+    passive: PropTypes.bool,
+    hash: PropTypes.number,
+    showTransferLabels: PropTypes.bool,
+    showIntermediateStops: PropTypes.bool,
   };
 
   render() {
@@ -174,18 +182,6 @@ class ItineraryLine extends React.Component {
     return <div style={{ display: 'none' }}>{objs}</div>;
   }
 }
-
-ItineraryLine.propTypes = {
-  legs: PropTypes.array,
-  passive: PropTypes.bool,
-  hash: PropTypes.number,
-  showTransferLabels: PropTypes.bool,
-  showIntermediateStops: PropTypes.bool,
-};
-
-ItineraryLine.contextTypes = {
-  config: PropTypes.object.isRequired,
-};
 
 export default Relay.createContainer(ItineraryLine, {
   fragments: {
