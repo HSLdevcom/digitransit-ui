@@ -4,7 +4,13 @@ import Relay from 'react-relay/classic';
 
 import Error404 from './component/404';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from './util/path';
-import { getDefault, ComponentLoading404Renderer } from './util/routerUtils';
+import {
+  getDefault,
+  loadRoute,
+  errorLoading,
+  ComponentLoading404Renderer,
+  RelayRenderer,
+} from './util/routerUtils';
 
 const stopQueries = {
   stop: () => Relay.QL`
@@ -21,6 +27,18 @@ const terminalQueries = {
     }
   `,
 };
+
+function getStopPageContentPage(location, cb) {
+  return import(/* webpackChunkName: "stop" */ './component/StopPageContentContainer')
+    .then(loadRoute(cb))
+    .catch(errorLoading);
+}
+
+function getTimetablePage(location, cb) {
+  return import(/* webpackChunkName: "stop" */ './component/TimetablePage')
+    .then(loadRoute(cb))
+    .catch(errorLoading);
+}
 
 export default function getStopRoutes(isTerminal = false) {
   return (
@@ -40,13 +58,9 @@ export default function getStopRoutes(isTerminal = false) {
             import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
               getDefault,
             ),
-            isTerminal
-              ? import(/* webpackChunkName: "stop" */ './component/TerminalPage').then(
-                  getDefault,
-                )
-              : import(/* webpackChunkName: "stop" */ './component/StopPage').then(
-                  getDefault,
-                ),
+            import(/* webpackChunkName: "stop" */ './component/StopPageTabContainer').then(
+              getDefault,
+            ),
             import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
               getDefault,
             ),
@@ -64,7 +78,26 @@ export default function getStopRoutes(isTerminal = false) {
         }}
         render={ComponentLoading404Renderer}
       >
-        <Route path="kartta" fullscreenMap />
+        <IndexRoute
+          getComponent={getStopPageContentPage}
+          queries={isTerminal ? terminalQueries : stopQueries}
+          render={RelayRenderer}
+        />
+        <Route
+          path="kartta"
+          fullscreenMap
+          getComponent={getStopPageContentPage}
+          queries={isTerminal ? terminalQueries : stopQueries}
+          render={RelayRenderer}
+        />
+        <Route
+          path="aikataulu"
+          getComponent={getTimetablePage}
+          queries={isTerminal ? terminalQueries : stopQueries}
+          render={RelayRenderer}
+        >
+          <Route path="kartta" fullscreenMap />
+        </Route>
       </Route>
     </Route>
   );

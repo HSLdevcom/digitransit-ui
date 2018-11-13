@@ -17,8 +17,23 @@ export function getDefault(module) {
   return module.default;
 }
 
+/* eslint-disable react/prop-types */
+export function RelayRenderer({ error, props, element, retry }) {
+  if (error) {
+    if (
+      error.message === 'Failed to fetch' || // Chrome
+      error.message === 'Network request failed' // Safari && FF && IE
+    ) {
+      return <NetworkError retry={retry} />;
+    }
+    return <Error404 />;
+  } else if (props) {
+    return React.cloneElement(element, props);
+  }
+  return <Loading />;
+}
+
 export const ComponentLoading404Renderer = {
-  /* eslint-disable react/prop-types */
   header: ({ error, props, element, retry }) => {
     if (error) {
       if (
@@ -45,5 +60,5 @@ export const ComponentLoading404Renderer = {
     React.cloneElement(element, { route: null, ...props }),
   content: ({ props, element }) =>
     props ? React.cloneElement(element, props) : <div className="flex-grow" />,
-  /* eslint-enable react/prop-types */
 };
+/* eslint-enable react/prop-types */
