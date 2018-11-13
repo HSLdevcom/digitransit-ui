@@ -4,10 +4,9 @@ import Relay from 'react-relay/classic';
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
-import NetworkError from './component/NetworkError';
-import Loading from './component/LoadingPage';
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
+
 import scrollTop from './util/scroll';
 import {
   PREFIX_ROUTES,
@@ -16,37 +15,13 @@ import {
 } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import { validateServiceTimeRange } from './util/timeUtils';
+import {
+  errorLoading,
+  getDefault,
+  loadRoute,
+  ComponentLoading404Renderer,
+} from './util/routerUtils';
 
-const ComponentLoading404Renderer = {
-  /* eslint-disable react/prop-types */
-  header: ({ error, props, element, retry }) => {
-    if (error) {
-      if (
-        error.message === 'Failed to fetch' || // Chrome
-        error.message === 'Network request failed' // Safari && FF && IE
-      ) {
-        return <NetworkError retry={retry} />;
-      }
-      return <Error404 />;
-    } else if (props) {
-      return React.cloneElement(element, props);
-    }
-    return <Loading />;
-  },
-  map: ({ error, props, element }) => {
-    if (error) {
-      return null;
-    } else if (props) {
-      return React.cloneElement(element, props);
-    }
-    return undefined;
-  },
-  title: ({ props, element }) =>
-    React.cloneElement(element, { route: null, ...props }),
-  content: ({ props, element }) =>
-    props ? React.cloneElement(element, props) : <div className="flex-grow" />,
-  /* eslint-enable react/prop-types */
-};
 
 const StopQueries = {
   stop: () => Relay.QL`
@@ -102,18 +77,6 @@ const planQueries = {
     }`,
   serviceTimeRange: () => Relay.QL`query { serviceTimeRange }`,
 };
-
-function errorLoading(err) {
-  console.error('Dynamic page loading failed', err);
-}
-
-function loadRoute(cb) {
-  return module => cb(null, module.default);
-}
-
-function getDefault(module) {
-  return module.default;
-}
 
 export default config => {
   const SummaryPageWrapper = ({ props, routerProps, element }) =>
