@@ -1,42 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Route } from 'react-router';
+
 import IndexPage from './component/IndexPage';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
 
 import scrollTop from './util/scroll';
-import {
-  PREFIX_STOPS,
-  PREFIX_ITINERARY_SUMMARY,
-} from './util/path';
+import { PREFIX_ITINERARY_SUMMARY } from './util/path';
 import { preparePlanParams } from './util/planParamUtil';
 import { validateServiceTimeRange } from './util/timeUtils';
-import {
-  errorLoading,
-  getDefault,
-  loadRoute,
-  ComponentLoading404Renderer,
-} from './util/routerUtils';
+import { errorLoading, getDefault, loadRoute } from './util/routerUtils';
 
-
-const StopQueries = {
-  stop: () => Relay.QL`
-    query  {
-      stop(id: $stopId)
-    }
-  `,
-};
-
-const terminalQueries = {
-  stop: () => Relay.QL`
-    query  {
-      station(id: $terminalId)
-    }
-  `,
-};
+import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
 const planQueries = {
@@ -92,78 +70,8 @@ export default config => {
             .catch(errorLoading);
         }}
       />
-      <Route path={`/${PREFIX_STOPS}`}>
-        <IndexRoute component={Error404} />{' '}
-        {/* TODO: Should return list of all routes */}
-        <Route
-          path=":stopId"
-          getComponents={(location, cb) => {
-            Promise.all([
-              import(/* webpackChunkName: "stop" */ './component/StopTitle').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPage').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
-                getDefault,
-              ),
-            ]).then(([title, header, content, map, meta]) =>
-              cb(null, { title, header, content, map, meta }),
-            );
-          }}
-          queries={{
-            header: StopQueries,
-            map: StopQueries,
-            meta: StopQueries,
-          }}
-          render={ComponentLoading404Renderer}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-      </Route>
-      <Route path="/terminaalit">
-        <IndexRoute component={Error404} />{' '}
-        {/* TODO: Should return list of all terminals */}
-        <Route
-          path=":terminalId"
-          getComponents={(location, cb) => {
-            Promise.all([
-              import(/* webpackChunkName: "stop" */ './component/TerminalTitle').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageHeaderContainer').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/TerminalPage').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageMap').then(
-                getDefault,
-              ),
-              import(/* webpackChunkName: "stop" */ './component/StopPageMeta').then(
-                getDefault,
-              ),
-            ]).then(([title, header, content, map, meta]) =>
-              cb(null, { title, header, content, map, meta }),
-            );
-          }}
-          queries={{
-            header: terminalQueries,
-            map: terminalQueries,
-            meta: terminalQueries,
-          }}
-          render={ComponentLoading404Renderer}
-        >
-          <Route path="kartta" fullscreenMap />
-        </Route>
-      </Route>
+      {getStopRoutes()}
+      {getStopRoutes(true) /* terminals */}
       {routeRoutes}
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
