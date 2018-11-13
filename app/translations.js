@@ -1350,7 +1350,7 @@ const translations = {
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
     'no-route-origin-near-destination':
-      'Lähtöpaikka ja määränpää ovat todella lähekkäin.',
+      'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
     'no-route-start-date-too-early':
       'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
