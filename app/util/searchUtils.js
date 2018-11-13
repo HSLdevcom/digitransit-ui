@@ -362,7 +362,7 @@ function getFavouriteStops(favourites, input, origin) {
           ? sortBy(stops, stop =>
               distance(refLatLng, {
                 lat: stop.lat,
-                lng: stop.lon,
+                lon: stop.lon,
               }),
             )
           : stops,
