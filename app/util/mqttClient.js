@@ -19,7 +19,7 @@ function getTopic(options) {
   return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
 }
 
-function parseMessage(topic, message, agency, actionContext) {
+function parseMessage(topic, message, agency) {
   let parsedMessage;
   const [
     ,
@@ -46,7 +46,7 @@ function parseMessage(topic, message, agency, actionContext) {
     parsedMessage = message.VP;
   }
 
-  const messageContents = {
+  return {
     id: vehid,
     route: `${agency}:${line}`,
     direction: parseInt(dir, 10) - 1,
@@ -62,11 +62,6 @@ function parseMessage(topic, message, agency, actionContext) {
     long: parsedMessage.long && ceil(parsedMessage.long, 5),
     heading: parsedMessage.hdg,
   };
-
-  actionContext.dispatch('RealTimeClientMessage', {
-    id,
-    message: messageContents,
-  });
 }
 
 export default function startMqttClient(settings, actionContext) {
@@ -76,7 +71,10 @@ export default function startMqttClient(settings, actionContext) {
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>
-      parseMessage(topic, message, settings.agency, actionContext),
+      actionContext.dispatch(
+        'RealTimeClientMessage',
+        parseMessage(topic, message, settings.agency),
+      ),
     );
     return { client, topics };
   });

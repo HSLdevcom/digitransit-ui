@@ -24,10 +24,10 @@ class RealTimeInformationStore extends Store {
   handleMessage(message) {
     if (Array.isArray(message)) {
       message.forEach(msg => {
-        this.vehicles[msg.id] = msg.message;
+        this.vehicles[msg.id] = msg;
       });
     } else {
-      this.vehicles[message.id] = message.message;
+      this.vehicles[message.id] = message;
     }
     this.emitChange();
   }
