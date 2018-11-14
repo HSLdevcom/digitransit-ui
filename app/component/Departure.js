@@ -49,6 +49,7 @@ function Departure(props) {
           props.departure.pattern.route.longName
         }
         isArrival={props.isArrival}
+        isLastStop={props.isLastStop}
       />
       {platformNumber}
     </p>
@@ -82,13 +83,23 @@ Departure.description = () => (
         useUTC
       />
     </ComponentUsageExample>
-    <ComponentUsageExample description="isArrival true">
+    <ComponentUsageExample description="drop-off only">
       <Departure
         departure={exampleDeparture}
         currentTime={exampleCurrentTime}
         className="padding-normal padding-bottom"
         useUTC
         isArrival
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="last stop">
+      <Departure
+        departure={exampleDeparture}
+        currentTime={exampleCurrentTime}
+        className="padding-normal padding-bottom"
+        useUTC
+        isArrival
+        isLastStop
       />
     </ComponentUsageExample>
   </div>
@@ -103,6 +114,7 @@ Departure.propTypes = {
   currentTime: PropTypes.number.isRequired,
   departure: PropTypes.object.isRequired,
   isArrival: PropTypes.bool,
+  isLastStop: PropTypes.bool,
   showPlatformCode: PropTypes.bool,
   useUTC: PropTypes.bool,
 };
