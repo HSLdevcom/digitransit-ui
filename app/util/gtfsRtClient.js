@@ -1,9 +1,10 @@
 import Pbf from 'pbf';
 
 class GtfsRtClient {
-  constructor(url, options, actionContext, parser) {
-    this.url = url;
-    this.options = options;
+  constructor(settings, actionContext, parser) {
+    this.url = settings.gtfsRt;
+    this.options = settings.options;
+    this.agency = settings.agency;
     this.actionContext = actionContext;
     this.timer = setInterval(this.getMessage, 1000);
     this.parser = parser;
@@ -53,9 +54,9 @@ class GtfsRtClient {
   }
 }
 
-export default function startGtfsRtClient(url, options, actionContext) {
+export default function startGtfsRtClient(settings, actionContext) {
   return import('./gtfsrt').then(parser => {
-    const client = new GtfsRtClient(url, options, actionContext, parser);
+    const client = new GtfsRtClient(settings, actionContext, parser);
     return { client };
   });
 }

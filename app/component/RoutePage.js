@@ -44,11 +44,13 @@ class RoutePage extends React.Component {
       return;
     }
     const route = this.props.route.gtfsId.split(':');
-    const source = realTime[route[0]];
+    const agency = route[0];
+    const source = realTime[agency];
     if (source) {
       this.context.executeAction(startRealTimeClient, {
         ...source,
-        options: [{ route: this.props.route.gtfsId }],
+        agency,
+        options: [{ route: route[1] }],
       });
     }
   }

@@ -19,7 +19,7 @@ function getTopic(options) {
   return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
 }
 
-function parseMessage(topic, message, actionContext) {
+function parseMessage(topic, message, agency, actionContext) {
   let parsedMessage;
   const [
     ,
@@ -28,7 +28,7 @@ function parseMessage(topic, message, actionContext) {
     ,
     ,
     mode,
-    agency,
+    ,
     id,
     line,
     dir,
@@ -48,7 +48,7 @@ function parseMessage(topic, message, actionContext) {
 
   const messageContents = {
     id: vehid,
-    route: `HSL:${line}`,
+    route: `${agency}:${line}`,
     direction: parseInt(dir, 10) - 1,
     tripStartTime: startTime.replace(/:/g, ''),
     operatingDay:
@@ -69,14 +69,14 @@ function parseMessage(topic, message, actionContext) {
   });
 }
 
-export default function startMqttClient(url, options, actionContext) {
-  const topics = options.map(option => getTopic(option));
+export default function startMqttClient(settings, actionContext) {
+  const topics = settings.options.map(option => getTopic(option));
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
-    const client = mqtt.default.connect(actionContext.config.URL.MQTT);
+    const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>
-      parseMessage(topic, message, actionContext),
+      parseMessage(topic, message, settings.agency, actionContext),
     );
     return { client, topics };
   });
