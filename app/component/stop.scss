@@ -119,7 +119,7 @@
   }
 }
 
-button.stop-tab-singletab, button.stop-tab-singletab:hover {
+.stop-tab-singletab, .stop-tab-singletab:hover {
   text-transform: uppercase;
   font-size: $font-size-xxsmall;
   width: 50%;
@@ -135,6 +135,7 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
   padding-bottom: 0.8em;
   padding-top: 0;
   margin-bottom: 0;
+  text-decoration: none;
 
   svg {
     stroke: $primary-color;
@@ -150,12 +151,6 @@ button.stop-tab-singletab, button.stop-tab-singletab:hover {
     stroke: $black;
     fill: $black;
   }
-  }
-  //Dummy setting as a placeholder, remove when
-  //Additional info is done
-  &.add-info.inactive {
-    background-color: $background-color;
-    border-top: 4px solid $background-color;
   }
 
   @media print {
