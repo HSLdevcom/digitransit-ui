@@ -137,7 +137,6 @@ const locationShape = PropTypes.shape({
 ItinerarySummaryListContainer.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  locationState: PropTypes.object.isRequired,
   children: PropTypes.node,
   error: PropTypes.oneOfType([
     PropTypes.string,
@@ -146,6 +145,7 @@ ItinerarySummaryListContainer.propTypes = {
   from: locationShape.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   itineraries: PropTypes.array,
+  locationState: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   open: PropTypes.number,

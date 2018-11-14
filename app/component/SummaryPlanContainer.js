@@ -25,7 +25,6 @@ class SummaryPlanContainer extends React.Component {
     children: PropTypes.node,
     config: PropTypes.object.isRequired,
     currentTime: PropTypes.number.isRequired,
-    locationState: PropTypes.object.isRequired,
     error: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.shape({ message: PropTypes.string }),
@@ -36,6 +35,7 @@ class SummaryPlanContainer extends React.Component {
         startTime: PropTypes.number,
       }),
     ),
+    locationState: PropTypes.object,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
