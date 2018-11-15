@@ -189,6 +189,23 @@ export default {
     [25.5345, 60.2592],
   ],
 
+  // If certain mode(s) only exist in limited number of areas, that are unwanted or unlikely places for transfers,
+  // listing the areas as a list of polygons for selected mode key will remove the mode(s) from queries if no coordinates
+  // in the query are within the polygon(s). This reduces complexity in finding routes for the query.
+  modePolygons: {
+    FERRY: [
+      [
+        [24.9793, 60.1513],
+        [24.9695, 60.1485],
+        [24.9871, 60.1365],
+        [24.9913, 60.1379],
+        [24.9952, 60.1457],
+        [24.9916, 60.1488],
+        [24.9793, 60.1513],
+      ],
+    ],
+  },
+
   footer: {
     content: [
       { label: `© HSL ${YEAR}` },

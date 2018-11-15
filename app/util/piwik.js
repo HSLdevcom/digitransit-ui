@@ -20,7 +20,6 @@ export default function createPiwik(config, raven) {
   window._paq.push(['setSiteId', config.PIWIK_ID]);
   window._paq.push(['setCustomVariable', 4, 'commit_id', COMMIT_ID, 'visit']);
   window._paq.push(['setCustomVariable', 5, 'build_time', BUILD_TIME, 'visit']);
-  window._paq.push(['trackPageView']);
   window._paq.push([
     function configureVisitorId() {
       visitorId = this.getVisitorId();
@@ -31,11 +30,14 @@ export default function createPiwik(config, raven) {
   ]);
 
   const piwik = {};
-  ['setCustomUrl', 'setCustomVariable', 'trackEvent', 'trackPageView'].forEach(
-    i => {
-      piwik[i] = (...args) => window._paq.push([i, ...args]);
-    },
-  );
+  // ['setCustomUrl', 'setCustomVariable', 'trackEvent', 'trackPageView'].forEach(
+  ['setCustomUrl', 'setCustomVariable', 'trackPageView'].forEach(i => {
+    piwik[i] = (...args) => window._paq.push([i, ...args]);
+  });
+
+  // Disabled event tracking temporarely
+  piwik.trackEvent = () => null;
+
   /* eslint-enable no-underscore-dangle */
 
   piwik.getVisitorId = () => visitorId;

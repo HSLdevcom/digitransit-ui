@@ -230,9 +230,17 @@ export const preparePlanParams = config => (
   },
 ) => {
   const settings = getSettings();
+  const fromLocation = otpToLocation(from);
+  const toLocation = otpToLocation(to);
+  const intermediatePlaceLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
   const modesOrDefault = filterModes(
     config,
     getModes({ query: { modes } }, config),
+    fromLocation,
+    toLocation,
+    intermediatePlaceLocations,
   );
   const defaultSettings = { ...getDefaultSettings(config) };
 
@@ -242,9 +250,9 @@ export const preparePlanParams = config => (
       {
         fromPlace: from,
         toPlace: to,
-        from: otpToLocation(from),
-        to: otpToLocation(to),
-        intermediatePlaces: getIntermediatePlaces({ intermediatePlaces }),
+        from: fromLocation,
+        to: toLocation,
+        intermediatePlaces: intermediatePlaceLocations,
         numItineraries: getNumberValueOrDefault(numItineraries),
         date: time ? moment(time * 1000).format('YYYY-MM-DD') : undefined,
         time: time ? moment(time * 1000).format('HH:mm:ss') : undefined,
@@ -335,7 +343,7 @@ export const preparePlanParams = config => (
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,
-          getIntermediatePlaces({ intermediatePlaces }),
+          intermediatePlaceLocations,
         ),
       },
       nullOrUndefined,

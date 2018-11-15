@@ -89,18 +89,20 @@ $route-schedule-date-height: 36px;
   }
   .route-list-header {
     display: flex;
+    flex-direction: row;
     flex: 0 0 2em;
     .route-stop-now {
       padding-left: 0.5em;
+      flex: 0 0 7em;
+      max-width: 5.7em;
     }
     .route-stop-name {
-      flex: 1 0 4em;
-      margin-left: 1em;
+      flex: 1 0 12em;
     }
     .route-stop-time {
-      text-align: right;
+      text-align: left;
       padding-right: 0.6em;
-      flex: 0 1 2em;
+      flex: 0 1 3.5em;
     }
   }
 }
@@ -213,6 +215,7 @@ $route-schedule-date-height: 36px;
     display: block;
     border-bottom: 1px solid #eef1f3;
     margin-top: 0.3em;
+    padding-right: 1em;
     a {
       display: flex;
       text-decoration: none;

@@ -100,7 +100,6 @@
     "point-in-polygon": "1.0.1",
     "polyfill-library": "3.26.0-0",
     "polyline-encoded": "0.0.8",
-    "proj4": "2.4.4",
     "prop-types": "15.6.1",
     "raven": "2.6.2",
     "raven-js": "3.26.1",
@@ -123,7 +122,6 @@
     "react-transition-group": "1.2.1",
     "recompose": "0.27.1",
     "serialize-javascript": "1.5.0",
-    "unorm": "1.4.1",
     "zurb-foundation-5": "5.4.7"
   },
   "devDependencies": {
@@ -180,7 +178,7 @@
     "style-loader": "0.23.1",
     "stylelint": "9.2.1",
     "stylelint-scss": "3.1.0",
-    "uglifyjs-webpack-plugin": "1.2.5",
+    "terser-webpack-plugin": "1.1.0",
     "url-loader": "1.1.2",
     "webpack": "4.22.0",
     "webpack-assets-manifest": "3.1.0",
