@@ -37,6 +37,15 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  realTime: {
+    /*
+    tampere: {
+      gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
+      routeSelector: 'shortName',
+    },
+    */
+  },
+
   searchParams: {
     'boundary.rect.min_lat': minLat,
     'boundary.rect.max_lat': maxLat,
