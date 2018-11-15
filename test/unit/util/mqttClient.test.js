@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { parseMessage } from '../../../app/util/mqttClient';
 
 describe('mqttClient', () => {
-  const emptyMessage = {VP: {} };
+  const emptyMessage = { VP: {} };
   const testTopic =
     '/hfp/v1/journey/ongoing/bus/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
 
