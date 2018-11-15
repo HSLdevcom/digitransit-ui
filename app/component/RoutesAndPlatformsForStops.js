@@ -64,7 +64,10 @@ export const mapRoutes = (stopFromProps, stopType) => {
 };
 
 const RoutesAndPlatformsForStops = props => {
-  const mappedRoutes = mapRoutes(props.stop, props.stopType);
+  const mappedRoutes = mapRoutes(
+    props.stop,
+    props.params.terminalId ? 'terminal' : 'stop',
+  );
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
@@ -94,7 +97,10 @@ const RoutesAndPlatformsForStops = props => {
 
 RoutesAndPlatformsForStops.propTypes = {
   stop: PropTypes.object.isRequired,
-  stopType: PropTypes.string,
+  params: PropTypes.oneOfType([
+    PropTypes.shape({ stopId: PropTypes.string.isRequired }).isRequired,
+    PropTypes.shape({ terminalId: PropTypes.string.isRequired }).isRequired,
+  ]).isRequired,
 };
 
 const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
@@ -112,7 +118,7 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
         patterns {
           headsign
           code
-          name 
+          name
         }
       }
       stops {
