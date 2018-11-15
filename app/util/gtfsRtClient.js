@@ -1,4 +1,14 @@
+import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
+
+function findTracked(trip, options) {
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].route === trip.route_id) {
+      return options[i];
+    }
+  }
+  return null;
+}
 
 class GtfsRtClient {
   constructor(settings, actionContext, parser) {
@@ -14,9 +24,29 @@ class GtfsRtClient {
     const messages = [];
 
     feed.entity.forEach(entity => {
-      console.log('entity');
-      if (entity.trip_update) {
-        console.log(entity.trip_update);
+      const vehiclePos = entity.vehicle;
+      if (vehiclePos) {
+        const { trip, position, vehicle } = vehiclePos;
+        if (trip && position && vehicle) {
+          const trackedRoute = findTracked(trip, this.options);
+          if (trackedRoute) {
+            found = true;
+            const message = {
+              id: `${this.agency}:${vehicle.id}`,
+              route: `${this.agency}:${trackedRoute.gtfsId}`,
+              direction: trip.direction_id || 0,
+              tripStartTime: trip.start_time.replace(/:/g, ''),
+              operatingDay: trip.start_date,
+              mode: trackedRoute.mode || 'bus',
+              next_stop: vehiclePos.stop_id,
+              timestamp: vehiclePos.timestamp || feed.header.timestamp,
+              lat: ceil(position.latitude, 5),
+              long: ceil(position.longitude, 5),
+              heading: position.bearing ? Math.floor(position.bearing) : 0,
+            };
+            messages.push(message);
+          }
+        }
       }
     });
     if (found) {
@@ -37,7 +67,7 @@ class GtfsRtClient {
           this.msgPending = false;
           return;
         }
-        response.blob().then(data => {
+        response.arrayBuffer().then(data => {
           const pbf = new Pbf(data);
           const feed = this.parser.FeedMessage.read(pbf);
           this.parseMessage(feed);
