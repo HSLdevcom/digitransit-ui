@@ -40,6 +40,13 @@ function getTimetablePage(location, cb) {
     .catch(errorLoading);
 }
 
+function getRoutesAndPlatformsForStops(location, cb) {
+  console.log('getting routes and platforms');
+  return import(/* webpackChunkName: "stop" */ './component/RoutesAndPlatformsForStops')
+    .then(loadRoute(cb))
+    .catch(errorLoading);
+}
+
 export default function getStopRoutes(isTerminal = false) {
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -93,6 +100,14 @@ export default function getStopRoutes(isTerminal = false) {
         <Route
           path="aikataulu"
           getComponent={getTimetablePage}
+          queries={isTerminal ? terminalQueries : stopQueries}
+          render={RelayRenderer}
+        >
+          <Route path="kartta" fullscreenMap />
+        </Route>
+        <Route
+          path="linjat"
+          getComponent={getRoutesAndPlatformsForStops}
           queries={isTerminal ? terminalQueries : stopQueries}
           render={RelayRenderer}
         >
