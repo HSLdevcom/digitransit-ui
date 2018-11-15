@@ -19,7 +19,7 @@ function getTopic(options) {
   return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
 }
 
-function parseMessage(topic, message, agency) {
+export function parseMessage(topic, message, agency) {
   let parsedMessage;
   const [
     ,
