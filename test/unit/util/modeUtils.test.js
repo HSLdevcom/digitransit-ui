@@ -2,9 +2,9 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
-import { StreetMode, TransportMode } from '../../app/constants';
-import * as utils from '../../app/util/modeUtils';
-import { setCustomizedSettings } from '../../app/store/localStorage';
+import { StreetMode, TransportMode } from '../../../app/constants';
+import * as utils from '../../../app/util/modeUtils';
+import { setCustomizedSettings } from '../../../app/store/localStorage';
 
 const config = {
   transportModes: {

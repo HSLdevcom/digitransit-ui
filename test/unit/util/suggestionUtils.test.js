@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import { getNameLabel } from '../../app/util/suggestionUtils';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { getNameLabel } from '../../../app/util/suggestionUtils';
 
 const testdata = {
   stop: {

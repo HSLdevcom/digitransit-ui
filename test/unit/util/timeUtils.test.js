@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import moment from 'moment';
-import { validateServiceTimeRange } from '../../app/util/timeUtils';
+import { validateServiceTimeRange } from '../../../app/util/timeUtils';
 
 const now = moment().unix();
 
