@@ -41,7 +41,6 @@ function getTimetablePage(location, cb) {
 }
 
 function getRoutesAndPlatformsForStops(location, cb) {
-  console.log('getting routes and platforms');
   return import(/* webpackChunkName: "stop" */ './component/RoutesAndPlatformsForStops')
     .then(loadRoute(cb))
     .catch(errorLoading);
