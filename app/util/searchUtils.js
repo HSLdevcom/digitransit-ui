@@ -81,6 +81,18 @@ export function routeNameCompare(a, b) {
     b.longName ||
     (b.agency && b.agency.name ? b.agency.name : '');
 
+  const aNum = parseInt(a1, 10);
+  const bNum = parseInt(b1, 10);
+
+  if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
+    if (aNum < bNum) {
+      return -1;
+    }
+    if (aNum > bNum) {
+      return 1;
+    }
+  }
+
   const primary = a1.localeCompare(b1);
   if (primary !== 0) {
     return primary;
