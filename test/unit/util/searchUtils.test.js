@@ -6,9 +6,9 @@ import {
   getLayerRank,
   isDuplicate,
   routeNameCompare,
-} from '../../app/util/searchUtils';
+} from '../../../app/util/searchUtils';
 
-const config = require('../../app/configurations/config.hsl').default;
+const config = require('../../../app/configurations/config.hsl').default;
 
 /* Note: unit test data must be configured or applied carefully. For example,
    in real searches, items can have confidence only when search term is given.
