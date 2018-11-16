@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
 import FuzzyTripRoute from './FuzzyTripRoute';
@@ -62,14 +63,17 @@ class RouteStop extends React.PureComponent {
 
   render() {
     const {
-      vehicle,
-      stop,
-      mode,
-      distance,
-      currentTime,
       className,
       color,
+      currentTime,
+      distance,
+      last,
+      mode,
+      stop,
+      vehicle,
     } = this.props;
+    const patternExists =
+      stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
 
     const vehicleTripLink = vehicle && (
       <Relay.RootContainer
@@ -118,7 +122,20 @@ class RouteStop extends React.PureComponent {
         <div className="route-stop-row_content-container">
           <Link to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}>
             <div className={` route-details_container ${mode}`}>
-              <span>{stop.name}</span>
+              <div>
+                <span>{stop.name}</span>
+                {patternExists &&
+                  stop.stopTimesForPattern[0].pickupType === 'NONE' &&
+                  !last && (
+                    <span className="drop-off-container">
+                      <span className="drop-off-stop-icon bus" />
+                      <FormattedMessage
+                        id="route-destination-arrives"
+                        defaultMessage="Drop-off only"
+                      />
+                    </span>
+                  )}
+              </div>
               <div>
                 {stop.code && <StopCode code={stop.code} />}
                 <span className="route-stop-address">{stop.desc}</span>
@@ -132,19 +149,18 @@ class RouteStop extends React.PureComponent {
                 )}
               </div>
             </div>
-            {stop.stopTimesForPattern &&
-              stop.stopTimesForPattern.length > 0 && (
-                <div className="departure-times-container">
-                  {stop.stopTimesForPattern.map(stopTime => (
-                    <div
-                      key={stopTime.scheduledDeparture}
-                      className="route-stop-time"
-                    >
-                      {fromStopTime(stopTime, currentTime)}
-                    </div>
-                  ))}
-                </div>
-              )}
+            {patternExists && (
+              <div className="departure-times-container">
+                {stop.stopTimesForPattern.map(stopTime => (
+                  <div
+                    key={stopTime.scheduledDeparture}
+                    className="route-stop-time"
+                  >
+                    {fromStopTime(stopTime, currentTime)}
+                  </div>
+                ))}
+              </div>
+            )}
           </Link>
         </div>
       </div>
