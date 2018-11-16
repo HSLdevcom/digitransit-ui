@@ -8,6 +8,7 @@ import uniqBy from 'lodash/uniqBy';
 
 import Departure from './Departure';
 import { PREFIX_ROUTES } from '../util/path';
+import DepartureListHeader from './DepartureListHeader';
 
 export const mapRoutes = (stopFromProps, stopType) => {
   const stopRoutes = [];
@@ -89,9 +90,12 @@ const RoutesAndPlatformsForStops = props => {
   ));
 
   return (
-    <div className={cx('departure-list stop-page momentum-scroll')}>
-      {timeTableRows}
-    </div>
+    <React.Fragment>
+      <DepartureListHeader />
+      <div className={cx('departure-list stop-page momentum-scroll')}>
+        {timeTableRows}
+      </div>
+    </React.Fragment>
   );
 };
 
@@ -110,6 +114,24 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
       gtfsId
       name
       platformCode
+      stoptimesForPatterns(numberOfDepartures: 1, timeRange: 604800) {
+        pattern {
+          headsign
+          code
+          route {
+            id
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+          }
+        }
+        stoptimes {
+          headsign
+          pickupType
+        }
+      }
       routes {
         gtfsId
         shortName
@@ -139,6 +161,7 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
           }
           stoptimes {
             headsign
+            pickupType
           }
         }
       }
