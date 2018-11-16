@@ -72,16 +72,32 @@ const mapRoute = item => {
 };
 
 export function routeNameCompare(a, b) {
-  const aName =
+  const a1 =
     a.shortName ||
     a.longName ||
     (a.agency && a.agency.name ? a.agency.name : '');
-  const bName =
+  const b1 =
     b.shortName ||
     b.longName ||
     (b.agency && b.agency.name ? b.agency.name : '');
 
-  return aName.localeCompare(bName);
+  const primary = a1.localeCompare(b1);
+  if (primary !== 0) {
+    return primary;
+  }
+
+  const a2 = a.longName || (a.agency && a.agency.name ? a.agency.name : '');
+  const b2 = b.longName || (b.agency && b.agency.name ? b.agency.name : '');
+
+  const secondary = a2.localeCompare(b2);
+  if (secondary !== 0) {
+    return secondary;
+  }
+
+  const a3 = a.agency && a.agency.name ? a.agency.name : '';
+  const b3 = b.agency && b.agency.name ? b.agency.name : '';
+
+  return a3.localeCompare(b3);
 }
 
 function truEq(val1, val2) {
