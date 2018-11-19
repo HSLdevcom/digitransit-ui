@@ -39,7 +39,8 @@
   .navi-logo {
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 100%;
+    justify-content: center;
     width: auto;
 
     .logo-title,
@@ -64,6 +65,7 @@
     padding: $padding-xsmall 0 $padding-xsmall 0.7em;
 
     .logo {
+      line-height: 1;
       min-height: auto;
 
       .logo-title {
