@@ -28,6 +28,7 @@ import {
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
+import FullscreenDialog from './FullscreenDialog';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
@@ -480,7 +481,52 @@ IndexPageWithPosition.contextTypes = {
   intl: intlShape,
 };
 
+const IndexPageWithSplashScreen = props => (
+  <React.Fragment>
+    <FullscreenDialog
+      initialIsOpen
+      renderContent={dialog => (
+        <div className="fjp-splash-container">
+          <div className="fjp-splash-title">
+            Tutustu uusiin vyöhykkeisiin Reittioppaassa
+          </div>
+          <div className="fjp-splash-content-container">
+            <div className="fjp-splash-subtitle">
+              Uudet vyöhykkeet otetaan käyttöön Helsingin seudun
+              joukkoliikenteessä alkuvuodesta 2019.
+            </div>
+            <div className="fjp-splash-highlight">
+              <Icon img="icon-icon_point-to-point" />
+              <span>Millä vyöhykkeillä omat reittisi kulkevat?</span>
+            </div>
+            <div className="fjp-splash-highlight">
+              <Icon img="icon-icon_ticket" />
+              <span>Minkä lipun tarvitset matkoillesi tulevaisuudessa?</span>
+            </div>
+            <div className="fjp-splash-link">
+              <a href="https://www.hsl.fi/uudetvy%C3%B6hykkeet">
+                Lue lisää vyöhykeuudistuksesta
+              </a>
+            </div>
+            <div className="fjp-splash-button-container">
+              <button
+                className="standalone-btn"
+                onClick={dialog.toggle}
+                onKeyPress={dialog.toggleWithKeyboard}
+              >
+                Jatka
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      showCloseButton={false}
+    />
+    <IndexPageWithPosition {...props} />
+  </React.Fragment>
+);
+
 export {
-  IndexPageWithPosition as default,
+  IndexPageWithSplashScreen as default,
   IndexPageWithBreakpoint as Component,
 };

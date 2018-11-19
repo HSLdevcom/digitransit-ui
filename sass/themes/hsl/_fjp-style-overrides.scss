@@ -83,3 +83,58 @@
     fill: $primary-color !important;
   }
 }
+
+.fjp-splash-container {
+  padding: 1em 0;
+
+  .fjp-splash-title {
+    color: $primary-color;
+    font-size: $font-size-large;
+    text-align: center;
+  }
+
+  .fjp-splash-content-container {
+    hyphens: auto;
+    padding: 1em 2em 0 1em;
+  }
+
+  .fjp-splash-subtitle,
+  .fjp-splash-highlight {
+    @include font-book;
+    color: $gray;
+  }
+
+  .fjp-splash-highlight {
+    display: flex;
+    margin: 1em 0;
+
+    .icon {
+      flex: 0 0 auto;
+      font-size: 2.25rem;
+      margin-right: 0.5em;
+    }
+  }
+
+  .fjp-splash-link {
+    @include font-book;
+    color: $link-color;
+    margin: 1em 0;
+    text-align: center;
+
+    a {
+      border-bottom: 1px dashed;
+      text-decoration: none;
+    }
+  }
+
+  .fjp-splash-button-container {
+    color: $primary-color;
+    padding-top: 0.5em;
+
+    button {
+      height: 40px;
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
