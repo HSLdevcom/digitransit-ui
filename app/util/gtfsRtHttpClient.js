@@ -1,10 +1,11 @@
+import GtfsRtParser from './gtfsRtParser';
+
 class GtfsRtHttpClient {
-  constructor(settings, actionContext, parser) {
+  constructor(settings, actionContext, bindings) {
+    this.parser = new GtfsRtParser(settings.agency, bindings);
     this.url = settings.gtfsRt;
     this.options = settings.options;
-    this.agency = settings.agency;
     this.actionContext = actionContext;
-    this.parser = parser;
   }
 
   getMessage() {
@@ -20,7 +21,7 @@ class GtfsRtHttpClient {
           return;
         }
         response.arrayBuffer().then(data => {
-          const messages = this.parser(data, this.options);
+          const messages = this.parser.parse(data, this.options);
           if (messages) {
             this.actionContext.dispatch('RealTimeClientMessage', messages);
           }
@@ -38,8 +39,8 @@ class GtfsRtHttpClient {
 }
 
 export default function startGtfsRtHttpClient(settings, actionContext) {
-  return import('./gtfsRtParser').then(parser => {
-    const client = new GtfsRtHttpClient(settings, actionContext, parser);
+  return import('./gtfsrt').then(bindings => {
+    const client = new GtfsRtHttpClient(settings, actionContext, bindings);
     client.timer = setInterval(() => client.getMessage(), 1000);
 
     return { client };
