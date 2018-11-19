@@ -103,7 +103,7 @@ export default {
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
+  ticketLink: 'https://www.hsl.fi/uudetvyöhykkeet',
 
   transportModes: {
     airplane: {
