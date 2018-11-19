@@ -1,5 +1,5 @@
 import startMqttClient from '../util/mqttClient';
-import startGtfsRtClient from '../util/gtfsRtClient';
+import startGtfsRtHttpClient from '../util/gtfsRtHttpClient';
 
 export function startRealTimeClient(actionContext, settings, done) {
   let startClient;
@@ -7,7 +7,7 @@ export function startRealTimeClient(actionContext, settings, done) {
   if (settings.mqtt) {
     startClient = startMqttClient;
   } else {
-    startClient = startGtfsRtClient;
+    startClient = startGtfsRtHttpClient;
   }
 
   startClient(settings, actionContext).then(data => {
