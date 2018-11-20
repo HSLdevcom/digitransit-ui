@@ -484,7 +484,7 @@ IndexPageWithPosition.contextTypes = {
 const IndexPageWithSplashScreen = props => (
   <React.Fragment>
     <FullscreenDialog
-      initialIsOpen
+      initialIsOpen={!Object.keys(props.location.query).includes('mock')}
       renderContent={dialog => (
         <div className="fjp-splash-container">
           <div className="fjp-splash-title">
