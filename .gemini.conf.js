@@ -5,7 +5,9 @@ module.exports = {
   sessionRequestTimeout: 120000,
   sessionsPerBrowser: 1,
   suitesPerSession: 50,
-  retry: 10,
+  tolerance: 10,
+  antialiasingTolerance: 10,
+  retry: 0,
   system: {
     plugins: {
       browserstack: { localIdentifier: process.env.IDENTIFIER },
@@ -30,10 +32,10 @@ module.exports = {
     chrome: {
       windowSize: '600x1024',
       desiredCapabilities: {
-        os: 'OS X',
-        os_version: 'El Capitan',
+        os: 'Windows',
+        os_version: '10',
         browserName: 'chrome',
-        version: '64',
+        version: '70',
         locationContextEnabled: false,
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,
