@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -488,24 +488,23 @@ const IndexPageWithSplashScreen = props => (
       renderContent={dialog => (
         <div className="fjp-splash-container">
           <div className="fjp-splash-title">
-            Tutustu uusiin vyöhykkeisiin Reittioppaassa
+            <FormattedMessage id="fjp.splash.title" />
           </div>
           <div className="fjp-splash-content-container">
             <div className="fjp-splash-subtitle">
-              Uudet vyöhykkeet otetaan käyttöön Helsingin seudun
-              joukkoliikenteessä alkuvuodesta 2019.
+              <FormattedMessage id="fjp.splash.subtitle" />
             </div>
             <div className="fjp-splash-highlight">
               <Icon img="icon-icon_point-to-point" />
-              <span>Millä vyöhykkeillä omat reittisi kulkevat?</span>
+              <FormattedMessage id="fjp.splash.highlight-1" />
             </div>
             <div className="fjp-splash-highlight">
               <Icon img="icon-icon_ticket" />
-              <span>Minkä lipun tarvitset matkoillesi tulevaisuudessa?</span>
+              <FormattedMessage id="fjp.splash.highlight-2" />
             </div>
             <div className="fjp-splash-link">
               <a href="https://www.hsl.fi/uudetvy%C3%B6hykkeet">
-                Lue lisää vyöhykeuudistuksesta
+                <FormattedMessage id="fjp.splash.link" />
               </a>
             </div>
             <div className="fjp-splash-button-container">
@@ -514,7 +513,7 @@ const IndexPageWithSplashScreen = props => (
                 onClick={dialog.toggle}
                 onKeyPress={dialog.toggleWithKeyboard}
               >
-                Jatka
+                <FormattedMessage id="continue" />
               </button>
             </div>
           </div>
