@@ -7,7 +7,7 @@ module.exports = {
   suitesPerSession: 50,
   tolerance: 10,
   antialiasingTolerance: 10,
-  retry: 0,
+  retry: 5,
   system: {
     plugins: {
       browserstack: { localIdentifier: process.env.IDENTIFIER },
