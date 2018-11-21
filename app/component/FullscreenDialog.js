@@ -4,28 +4,35 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Icon from './Icon';
+import { getDialogState, setDialogState } from '../store/localStorage';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 class FullscreenDialog extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    id: PropTypes.string,
     initialIsOpen: PropTypes.bool,
     isOpen: PropTypes.bool,
     renderContent: PropTypes.func.isRequired,
     showCloseButton: PropTypes.bool,
+    showOnce: PropTypes.bool,
     toggle: PropTypes.func,
   };
 
   static defaultProps = {
     className: undefined,
+    id: undefined,
     initialIsOpen: false,
     isOpen: false,
     showCloseButton: true,
+    showOnce: false,
     toggle: undefined,
   };
 
   state = {
-    isOpen: this.props.initialIsOpen,
+    isOpen:
+      this.props.initialIsOpen &&
+      (!this.props.showOnce || !getDialogState(this.props.id)),
   };
 
   toggle = () => {
@@ -43,8 +50,11 @@ class FullscreenDialog extends React.Component {
   };
 
   render() {
-    const { className, renderContent, showCloseButton } = this.props;
+    const { className, id, renderContent, showCloseButton } = this.props;
     const isOpen = this.state.isOpen || this.props.isOpen;
+    if (isOpen) {
+      setDialogState(id);
+    }
 
     return (
       <div

@@ -483,44 +483,50 @@ IndexPageWithPosition.contextTypes = {
 
 const IndexPageWithSplashScreen = props => (
   <React.Fragment>
-    <FullscreenDialog
-      initialIsOpen={!Object.keys(props.location.query).includes('mock')}
-      renderContent={dialog => (
-        <div className="fjp-splash-container">
-          <div className="fjp-splash-title">
-            <FormattedMessage id="fjp.splash.title" />
-          </div>
-          <div className="fjp-splash-content-container">
-            <div className="fjp-splash-subtitle">
-              <FormattedMessage id="fjp.splash.subtitle" />
+    <div>
+      {isBrowser && (
+        <FullscreenDialog
+          id="fjp-splash-dialog"
+          initialIsOpen={!Object.keys(props.location.query).includes('mock')}
+          renderContent={dialog => (
+            <div className="fjp-splash-container">
+              <div className="fjp-splash-title">
+                <FormattedMessage id="fjp.splash.title" />
+              </div>
+              <div className="fjp-splash-content-container">
+                <div className="fjp-splash-subtitle">
+                  <FormattedMessage id="fjp.splash.subtitle" />
+                </div>
+                <div className="fjp-splash-highlight">
+                  <Icon img="icon-icon_point-to-point" />
+                  <FormattedMessage id="fjp.splash.highlight-1" />
+                </div>
+                <div className="fjp-splash-highlight">
+                  <Icon img="icon-icon_ticket" />
+                  <FormattedMessage id="fjp.splash.highlight-2" />
+                </div>
+                <div className="fjp-splash-link">
+                  <a href="https://www.hsl.fi/uudetvy%C3%B6hykkeet">
+                    <FormattedMessage id="fjp.splash.link" />
+                  </a>
+                </div>
+                <div className="fjp-splash-button-container">
+                  <button
+                    className="standalone-btn"
+                    onClick={dialog.toggle}
+                    onKeyPress={dialog.toggleWithKeyboard}
+                  >
+                    <FormattedMessage id="continue" />
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="fjp-splash-highlight">
-              <Icon img="icon-icon_point-to-point" />
-              <FormattedMessage id="fjp.splash.highlight-1" />
-            </div>
-            <div className="fjp-splash-highlight">
-              <Icon img="icon-icon_ticket" />
-              <FormattedMessage id="fjp.splash.highlight-2" />
-            </div>
-            <div className="fjp-splash-link">
-              <a href="https://www.hsl.fi/uudetvy%C3%B6hykkeet">
-                <FormattedMessage id="fjp.splash.link" />
-              </a>
-            </div>
-            <div className="fjp-splash-button-container">
-              <button
-                className="standalone-btn"
-                onClick={dialog.toggle}
-                onKeyPress={dialog.toggleWithKeyboard}
-              >
-                <FormattedMessage id="continue" />
-              </button>
-            </div>
-          </div>
-        </div>
+          )}
+          showCloseButton={false}
+          showOnce
+        />
       )}
-      showCloseButton={false}
-    />
+    </div>
     <IndexPageWithPosition {...props} />
   </React.Fragment>
 );

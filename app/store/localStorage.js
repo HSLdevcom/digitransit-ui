@@ -323,3 +323,26 @@ export const setMapLayerSettings = settings => {
 };
 
 export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');
+
+/**
+ * Sets the seen state of the given dialog.
+ *
+ * @param {string} dialogId The identifier of the dialog. Will be ignored if falsey.
+ * @param {boolean} seen Whether the dialog has been seen. Defaults to true.
+ */
+export const setDialogState = (dialogId, seen = true) => {
+  if (!dialogId) {
+    return;
+  }
+  const dialogStates = getItemAsJson('dialogState', '{}');
+  dialogStates[`${dialogId}`] = seen;
+  setItem('dialogState', dialogStates);
+};
+
+/**
+ * Checks if the given dialog has been seen by the user.
+ *
+ * @param {string} dialogId The identifier of the dialog.
+ */
+export const getDialogState = dialogId =>
+  getItemAsJson('dialogState', '{}')[`${dialogId}`] === true;
