@@ -158,7 +158,7 @@
     "html-reporter": "1.2.0",
     "iltorb": "2.4.0",
     "jsdom": "12.2.0",
-    "mini-css-extract-plugin": "0.4.4",
+    "mini-css-extract-plugin": "0.4.5",
     "mocha": "5.2.0",
     "mock-local-storage": "1.1.7",
     "mockdate": "2.0.2",
