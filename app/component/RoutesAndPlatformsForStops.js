@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { Link } from 'react-router';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
+import { routeNameCompare } from '../util/searchUtils';
 
 import Departure from './Departure';
 import { PREFIX_ROUTES } from '../util/path';
@@ -65,11 +66,11 @@ export const mapRoutes = (stopFromProps, stopType) => {
 };
 
 const RoutesAndPlatformsForStops = props => {
-  console.log(props);
   const mappedRoutes = mapRoutes(
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
-  );
+  ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
+
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
