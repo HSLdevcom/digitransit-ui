@@ -21,7 +21,7 @@ import provideContext from 'fluxible-addons-react/provideContext';
 // Libraries
 import serialize from 'serialize-javascript';
 import { IntlProvider } from 'react-intl';
-import polyfillLibrary from 'polyfill-library';
+import PolyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -44,6 +44,7 @@ const appRoot = `${process.cwd()}/`;
 
 // cached assets
 const polyfillls = LRU(200);
+const polyfillLibrary = new PolyfillLibrary();
 
 // Disable relay query cache in order tonot leak memory, see facebook/relay#754
 RelayQueryCaching.disable();
