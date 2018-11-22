@@ -10,7 +10,6 @@ import merge from 'lodash/merge';
 import uniqWith from 'lodash/uniqWith';
 
 import { getJson } from './xhrPromise';
-import routeCompare from './route-compare';
 import { distance } from './geo-utils';
 import { uniqByLabel, isStop } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
@@ -71,6 +70,47 @@ const mapRoute = item => {
     },
   };
 };
+
+export function routeNameCompare(a, b) {
+  const a1 =
+    a.shortName ||
+    a.longName ||
+    (a.agency && a.agency.name ? a.agency.name : '');
+  const b1 =
+    b.shortName ||
+    b.longName ||
+    (b.agency && b.agency.name ? b.agency.name : '');
+
+  const aNum = parseInt(a1, 10);
+  const bNum = parseInt(b1, 10);
+
+  if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) {
+    if (aNum < bNum) {
+      return -1;
+    }
+    if (aNum > bNum) {
+      return 1;
+    }
+  }
+
+  const primary = a1.localeCompare(b1);
+  if (primary !== 0) {
+    return primary;
+  }
+
+  const a2 = a.longName || (a.agency && a.agency.name ? a.agency.name : '');
+  const b2 = b.longName || (b.agency && b.agency.name ? b.agency.name : '');
+
+  const secondary = a2.localeCompare(b2);
+  if (secondary !== 0) {
+    return secondary;
+  }
+
+  const a3 = a.agency && a.agency.name ? a.agency.name : '';
+  const b3 = b.agency && b.agency.name ? b.agency.name : '';
+
+  return a3.localeCompare(b3);
+}
 
 function truEq(val1, val2) {
   // accept equality of non nullish values
@@ -296,7 +336,7 @@ function getFavouriteRoutes(favourites, input) {
       ]),
     )
     .then(routes =>
-      routes.sort((x, y) => routeCompare(x.properties, y.properties)),
+      routes.sort((x, y) => routeNameCompare(x.properties, y.properties)),
     );
 }
 
@@ -406,7 +446,7 @@ function getRoutes(input, config) {
             config.feedIds.indexOf(item.gtfsId.split(':')[0]) > -1,
         )
         .map(mapRoute)
-        .sort((x, y) => routeCompare(x.properties, y.properties)),
+        .sort((x, y) => routeNameCompare(x.properties, y.properties)),
     )
     .then(suggestions => take(suggestions, 10));
 }

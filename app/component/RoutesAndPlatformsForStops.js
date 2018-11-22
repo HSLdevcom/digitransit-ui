@@ -65,6 +65,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
 };
 
 const RoutesAndPlatformsForStops = props => {
+  console.log(props);
   const mappedRoutes = mapRoutes(
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
