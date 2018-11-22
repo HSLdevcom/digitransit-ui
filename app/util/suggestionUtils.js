@@ -76,7 +76,11 @@ export const getNameLabel = memoize(
               </span>,
               suggestion.longName,
             ]
-          : [suggestion.shortName, suggestion.longName];
+          : [
+              suggestion.shortName,
+              suggestion.longName,
+              suggestion.agency ? suggestion.agency.name : undefined,
+            ];
       case 'venue':
       case 'address':
         return [
