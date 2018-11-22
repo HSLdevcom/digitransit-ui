@@ -93,7 +93,7 @@ const RoutesAndPlatformsForStops = props => {
 
   return (
     <React.Fragment>
-      <DepartureListHeader />
+      <DepartureListHeader staticDeparture />
       <div className={cx('departure-list stop-page momentum-scroll')}>
         {timeTableRows}
       </div>
