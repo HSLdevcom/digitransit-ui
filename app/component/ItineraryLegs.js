@@ -41,6 +41,10 @@ class ItineraryLegs extends React.Component {
     let nextLeg;
     const legs = [];
     const compressedLegs = compressLegs(this.props.itinerary.legs);
+    const numberOfLegs = compressedLegs.length;
+    if (numberOfLegs === 0) {
+      return null;
+    }
 
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
@@ -206,7 +210,6 @@ class ItineraryLegs extends React.Component {
       }
     });
 
-    const numberOfLegs = compressedLegs.length;
     legs.push(
       <EndLeg
         key={numberOfLegs}
