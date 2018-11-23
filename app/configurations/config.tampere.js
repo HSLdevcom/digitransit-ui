@@ -37,6 +37,69 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  showTicketInformation: true,
+  ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+
+  fares: [
+    'tampere:F1',
+    'tampere:F2',
+    'tampere:F3',
+    'tampere:F4',
+    'tampere:F5',
+    'tampere:F6',
+    'tampere:F7',
+    'tampere:F8',
+    'tampere:F9',
+    'tampere:F10',
+    'tampere:F11',
+    'tampere:F12',
+    'tampere:F13',
+    'tampere:F14',
+    'tampere:F15',
+    'tampere:F16',
+    'tampere:F17',
+    'tampere:F18',
+    'tampere:F19',
+    'tampere:F20',
+    'tampere:F21',
+  ],
+
+  // mapping (string, lang) from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId, lang) {
+    const count = {
+      fi: [ 'Kaksi', 'Kolme', 'Neljä', 'Viisi', 'Kuusi' ],
+      en: [ 'Two', 'Three', 'Four', 'Five', 'Six' ],
+      sv: [ 'Tvo', 'Tre', 'Fyra', 'Fem', 'Sex'],
+    };
+
+    const zone = {
+      fi: 'vyöhykettä',
+      en: 'zones',
+      sv: 'zoner',
+    };
+
+    if(fareId && fareId.substring) {
+      const index = Number.parseInt(fareId.substring(fareId.indexOf(':F') + 2), 10);
+      if (Number.isNaN(index)) {
+        return '';
+      }
+      let zoneCount;
+      if (index < 12) {
+        zoneCount = 0;
+      } else if (index < 16) {
+        zoneCount = 1;
+      } else if (index < 19) {
+        zoneCount = 2;
+      } else if (index < 21) {
+        zoneCount = 3;
+      } else {
+        zoneCount = 4;
+      }
+      return `${count[lang][zoneCount]} ${zone[lang]}`;
+    }
+    return '';
+  },
+
   searchParams: {
     'boundary.rect.min_lat': minLat,
     'boundary.rect.max_lat': maxLat,
