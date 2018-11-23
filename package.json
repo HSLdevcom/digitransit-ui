@@ -166,7 +166,7 @@
     "node-sass": "4.9.0",
     "nodemon": "1.17.5",
     "nyc": "12.0.2",
-    "optimize-css-assets-webpack-plugin": "4.0.2",
+    "optimize-css-assets-webpack-plugin": "5.0.1",
     "postcss-flexbugs-fixes": "3.3.1",
     "postcss-loader": "2.1.5",
     "prettier": "1.12.1",
