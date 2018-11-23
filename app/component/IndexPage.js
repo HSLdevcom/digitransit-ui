@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { intlShape, FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -28,6 +28,7 @@ import {
 } from '../util/path';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import { dtLocationShape } from '../util/shapes';
+import FullscreenDialog from './FullscreenDialog';
 import Icon from './Icon';
 import NearbyRoutesPanel from './NearbyRoutesPanel';
 import FavouritesPanel from './FavouritesPanel';
@@ -480,7 +481,76 @@ IndexPageWithPosition.contextTypes = {
   intl: intlShape,
 };
 
+const getLinkUrl = language => {
+  switch (language) {
+    case 'fi':
+    default:
+      return 'https://www.hsl.fi/uudetvy%C3%B6hykkeet';
+    case 'sv':
+      return 'https://www.hsl.fi/sv/nyazoner';
+    case 'en':
+      return 'https://www.hsl.fi/en/newzones';
+  }
+};
+
+const IndexPageWithSplashScreen = connectToStores(
+  ({ language, ...rest }) => (
+    <React.Fragment>
+      <div>
+        {isBrowser && (
+          <FullscreenDialog
+            id="fjp-splash-dialog"
+            initialIsOpen={!Object.keys(rest.location.query).includes('mock')}
+            renderContent={dialog => (
+              <div className="fjp-splash-container">
+                <div className="fjp-splash-title">
+                  <FormattedMessage id="fjp.splash.title" />
+                </div>
+                <div className="fjp-splash-content-container">
+                  <div className="fjp-splash-subtitle">
+                    <FormattedMessage id="fjp.splash.subtitle" />
+                  </div>
+                  <div className="fjp-splash-highlight">
+                    <Icon img="icon-icon_point-to-point" />
+                    <FormattedMessage id="fjp.splash.highlight-1" />
+                  </div>
+                  <div className="fjp-splash-highlight">
+                    <Icon img="icon-icon_ticket" />
+                    <FormattedMessage id="fjp.splash.highlight-2" />
+                  </div>
+                  <div className="fjp-splash-link">
+                    <a href={getLinkUrl(language)}>
+                      <FormattedMessage id="fjp.splash.link" />
+                    </a>
+                  </div>
+                  <div className="fjp-splash-button-container">
+                    <button
+                      className="standalone-btn"
+                      onClick={dialog.toggle}
+                      onKeyPress={dialog.toggleWithKeyboard}
+                    >
+                      <FormattedMessage id="continue" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            showCloseButton={false}
+            showOnce
+          />
+        )}
+      </div>
+      <IndexPageWithPosition {...rest} />
+    </React.Fragment>
+  ),
+  ['PreferencesStore'],
+  ({ getStore }, props) => ({
+    ...props,
+    language: getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
 export {
-  IndexPageWithPosition as default,
+  IndexPageWithSplashScreen as default,
   IndexPageWithBreakpoint as Component,
 };

@@ -1,0 +1,140 @@
+.top-bar {
+  background-color: white;
+
+  .icon {
+    color: white;
+  }
+
+  .navi-languages {
+    button {
+      color: $primary-color;
+
+      &.selected {
+        background-color: #bfdef2 !important;
+      }
+    }
+  }
+
+  .navi-icons {
+    .icon {
+      fill: $primary-color;
+    }
+  }
+
+  .external-link-container {
+    .external-link,
+    .external-link-icon,
+    .external-link-icon-outer {
+      color: $primary-color;
+    }
+  }
+
+  .main-menu-toggle {
+    .icon {
+      fill: $primary-color;
+    }
+  }
+
+  .logo,
+  .navi-logo {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    width: auto;
+
+    .logo-title,
+    .logo-sub-title {
+      @include font-medium;
+      color: $primary-color;
+      margin-left: 3.5rem;
+    }
+
+    .logo-title {
+      font-size: $font-size-xxsmall;
+      text-transform: uppercase;
+    }
+
+    .logo-sub-title {
+      font-size: $font-size-xlarge;
+    }
+  }
+
+  section.title {
+    color: $primary-color;
+    padding: $padding-xsmall 0 $padding-xsmall 0.7em;
+
+    .logo {
+      line-height: 1;
+      min-height: auto;
+
+      .logo-title {
+        font-size: $font-size-xxxsmall;
+        text-align: left;
+      }
+
+      .logo-sub-title {
+        font-size: $font-size-xsmall;
+      }
+    }
+  }
+
+  .icon.back {
+    fill: $primary-color !important;
+  }
+}
+
+.fjp-splash-container {
+  padding: 1em 0;
+
+  .fjp-splash-title {
+    color: $primary-color;
+    font-size: $font-size-large;
+    text-align: center;
+  }
+
+  .fjp-splash-content-container {
+    hyphens: auto;
+    padding: 1em 2em 0 1em;
+  }
+
+  .fjp-splash-subtitle,
+  .fjp-splash-highlight {
+    @include font-book;
+    color: $gray;
+  }
+
+  .fjp-splash-highlight {
+    display: flex;
+    margin: 1em 0;
+
+    .icon {
+      flex: 0 0 auto;
+      font-size: 2.25rem;
+      margin-right: 0.5em;
+    }
+  }
+
+  .fjp-splash-link {
+    @include font-book;
+    color: $link-color;
+    margin: 1em 0;
+    text-align: center;
+
+    a {
+      border-bottom: 1px dashed;
+      text-decoration: none;
+    }
+  }
+
+  .fjp-splash-button-container {
+    color: $primary-color;
+    padding-top: 0.5em;
+
+    button {
+      height: 40px;
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
