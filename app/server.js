@@ -289,7 +289,7 @@ export default function(req, res, next) {
           crossorigin: true,
         },
         ...mainAssets.map(asset => ({
-          as: 'script',
+          as: asset.endsWith('.css') ? 'style' : 'script',
           href: `${ASSET_URL}/${asset}`,
           crossorigin: true,
         })),
@@ -318,6 +318,13 @@ export default function(req, res, next) {
           assets[`${config.CONFIG}_theme.css`]
         }"/>\n`,
       );
+      mainAssets
+        .filter(asset => asset.endsWith('.css'))
+        .forEach(asset =>
+          res.write(
+            `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
+          ),
+        );
     }
 
     res.write(
@@ -405,11 +412,13 @@ export default function(req, res, next) {
       );
       res.write('\n</script>\n');
       res.write(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
-      mainAssets.forEach(asset =>
-        res.write(
-          `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
-        ),
-      );
+      mainAssets
+        .filter(asset => !asset.endsWith('.css'))
+        .forEach(asset =>
+          res.write(
+            `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
+          ),
+        );
     }
     res.write('</body>\n');
     res.write('</html>\n');
