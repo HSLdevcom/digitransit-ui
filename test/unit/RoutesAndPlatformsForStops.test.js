@@ -14,8 +14,7 @@ describe('<RoutesAndPlatformsForStops />', () => {
   it('should render a container successfully', () => {
     const props = {
       stop: dt2715a,
-      stopType: 'terminal',
-      terminalId: 'HSL:1000202',
+      params: { terminalId: 'HSL:1000202' },
     };
     const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
 
@@ -24,35 +23,32 @@ describe('<RoutesAndPlatformsForStops />', () => {
   it('should calculate the correct amount of unique departures', () => {
     const props = {
       stop: dt2715a,
-      stopType: 'terminal',
-      terminalId: 'HSL:1000202',
+      params: { terminalId: 'HSL:1000202' },
     };
-    const sortedProps = mapRoutes(props.stop, props.stopType);
+    const sortedProps = mapRoutes(props.stop, 'terminal');
 
     expect(sortedProps.length).to.equal(27);
   });
   it('should render as many departures as it receives for a terminal', () => {
     const props = {
       stop: dt2715a,
-      stopType: 'terminal',
-      terminalId: 'HSL:1000202',
+      params: { terminalId: 'HSL:1000202' },
     };
     const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
-      mapRoutes(props.stop, props.stopType).length,
+      mapRoutes(props.stop, 'terminal').length,
     );
   });
   it('should render as many departures as it receives for a stop', () => {
     const props = {
       stop: dt2715b,
-      stopType: 'stop',
-      terminalId: 'HSL:1173105',
+      params: { stopId: 'HSL:1173105' },
     };
     const wrapper = shallowWithIntl(<RoutesAndPlatformsForStops {...props} />);
 
     expect(wrapper.find('.departure')).to.have.lengthOf(
-      mapRoutes(props.stop, props.stopType).length,
+      mapRoutes(props.stop, 'stop').length,
     );
   });
 });
