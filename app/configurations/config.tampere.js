@@ -69,13 +69,19 @@ export default configMerger(walttiConfig, {
     const count = {
       fi: [ 'Kaksi', 'Kolme', 'Neljä', 'Viisi', 'Kuusi' ],
       en: [ 'Two', 'Three', 'Four', 'Five', 'Six' ],
-      sv: [ 'Tvo', 'Tre', 'Fyra', 'Fem', 'Sex'],
+      sv: [ 'Två', 'Tre', 'Fyra', 'Fem', 'Sex'],
     };
 
     const zone = {
       fi: 'vyöhykettä',
       en: 'zones',
       sv: 'zoner',
+    };
+
+    const ticketType = {
+      fi: 'Kertalippu',
+      en: 'Single ticket',
+      sv: 'Enkelbiljett',
     };
 
     if(fareId && fareId.substring) {
@@ -95,7 +101,7 @@ export default configMerger(walttiConfig, {
       } else {
         zoneCount = 4;
       }
-      return `${count[lang][zoneCount]} ${zone[lang]}`;
+      return `${ticketType[lang]}, ${count[lang][zoneCount]} ${zone[lang]}`;
     }
     return '';
   },
