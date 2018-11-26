@@ -67,9 +67,9 @@ export default configMerger(walttiConfig, {
   // mapping (string, lang) from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId, lang) {
     const count = {
-      fi: [ 'Kaksi', 'Kolme', 'Neljä', 'Viisi', 'Kuusi' ],
-      en: [ 'Two', 'Three', 'Four', 'Five', 'Six' ],
-      sv: [ 'Två', 'Tre', 'Fyra', 'Fem', 'Sex'],
+      fi: [ 'kaksi', 'kolme', 'neljä', 'viisi', 'kuusi' ],
+      en: [ 'two', 'three', 'four', 'five', 'six' ],
+      sv: [ 'två', 'tre', 'fyra', 'fem', 'sex'],
     };
 
     const zone = {
