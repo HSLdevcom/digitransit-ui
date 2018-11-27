@@ -63,9 +63,6 @@ const RoutesAndPlatformsForStops = props => {
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
-  console.log(props.stop);
-  console.log(mappedRoutes);
-
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
