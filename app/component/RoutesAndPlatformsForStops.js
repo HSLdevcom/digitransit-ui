@@ -36,21 +36,14 @@ export const mapRoutes = (stopFromProps, stopType) => {
       ),
     );
   } else {
-    stopFromProps.routes.forEach(singleRoute =>
-      singleRoute.patterns.forEach(singlePattern =>
-        returnableRoutes.push({
-          stop: { platformCode: stopFromProps.platformCode },
-          pattern: {
-            ...singlePattern,
-            route: {
-              ...singleRoute,
-            },
-          },
-          stoptime: 0,
-          realtime: 0,
-          headsign: singlePattern.headsign,
-        }),
-      ),
+    stopFromProps.stoptimesForPatterns.forEach(singlePattern =>
+      returnableRoutes.push({
+        stop: { platformCode: stopFromProps.platformCode },
+        ...singlePattern,
+        stoptime: 0,
+        realtime: 0,
+        headsign: singlePattern.pattern.headsign,
+      }),
     );
   }
 
@@ -70,6 +63,8 @@ const RoutesAndPlatformsForStops = props => {
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
+  console.log(props.stop);
+  console.log(mappedRoutes);
 
   const timeTableRows = mappedRoutes.map(route => (
     <Link
