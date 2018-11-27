@@ -396,7 +396,7 @@ export default function(req, res, next) {
     res.write('\n</script>\n');
 
     if (process.env.NODE_ENV === 'development') {
-      res.write('<script async src="/proxy/js/main.js"></script>\n');
+      res.write('<script async src="/proxy/js/bundle.js"></script>\n');
     } else {
       res.write('<script>');
       res.write(
