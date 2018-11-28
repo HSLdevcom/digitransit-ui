@@ -145,17 +145,6 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
           pickupType
         }
       }
-      routes {
-        gtfsId
-        shortName
-        mode
-        color
-        patterns {
-          headsign
-          code
-          name
-        }
-      }
       stops {
         gtfsId
         platformCode
