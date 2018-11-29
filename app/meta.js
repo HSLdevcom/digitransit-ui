@@ -1,6 +1,3 @@
-import { isBrowser } from './util/browser';
-import { generateManifestUrl } from './util/manifestUtils';
-
 export default function getMetadata(lang, host, url, config) {
   const root = config.URL.ASSET_URL || config.APP_PATH;
   const path = config.iconPath || 'icons';
@@ -108,15 +105,6 @@ export default function getMetadata(lang, host, url, config) {
       },
     ],
   };
-
-  if (isBrowser) {
-    baseData.link.push({
-      rel: 'manifest',
-      href: generateManifestUrl(config, window.location, {
-        ignorePathname: true,
-      }),
-    });
-  }
 
   if (config.metaData) {
     return {

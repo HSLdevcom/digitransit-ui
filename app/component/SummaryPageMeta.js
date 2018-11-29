@@ -35,7 +35,11 @@ export default compose(
         title,
       },
       config,
-      window && window.location,
+      window && {
+        host: window.location.host,
+        pathname: `/${encodeURIComponent(from)}/${encodeURIComponent(to)}`,
+        protocol: window.location.protocol,
+      },
     );
   }),
 )(Helmet);
