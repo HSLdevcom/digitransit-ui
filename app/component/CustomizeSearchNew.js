@@ -164,7 +164,7 @@ class CustomizeSearch extends React.Component {
               defaultSettings={this.defaultSettings}
             />
           </div>
-          {config.fares && (
+          {config.showTicketSelector && (
             <FareZoneSelector
               headerText={intl.formatMessage({
                 id: 'zones',

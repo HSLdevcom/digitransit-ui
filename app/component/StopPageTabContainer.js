@@ -19,10 +19,13 @@ function StopPageTabContainer({
   }
 
   let activeTab;
-  if (location.pathname.indexOf('/aikataulu') > -1) {
-    activeTab = 'timetable';
-  } else {
+  const currentLocation = location.pathname.substr(
+    location.pathname.lastIndexOf('/') + 1,
+  );
+  if (currentLocation !== 'aikataulu' && currentLocation !== 'linjat') {
     activeTab = 'right-now';
+  } else {
+    activeTab = currentLocation;
   }
 
   const isTerminal = params.terminalId != null;
@@ -62,7 +65,7 @@ function StopPageTabContainer({
           <Link
             to={`${urlBase}/aikataulu`}
             className={`stop-tab-singletab ${
-              activeTab === 'timetable' ? 'active' : 'inactive'
+              activeTab === 'aikataulu' ? 'active' : 'inactive'
             }`}
           >
             <div className="stop-tab-singletab-container">
@@ -71,6 +74,27 @@ function StopPageTabContainer({
               </div>
               <div>
                 <FormattedMessage id="timetable" defaultMessage="timetable" />
+              </div>
+            </div>
+          </Link>
+          <Link
+            to={`${urlBase}/linjat`}
+            className={`stop-tab-singletab ${
+              activeTab === 'linjat' ? 'active' : 'inactive'
+            }`}
+          >
+            <div className="stop-tab-singletab-container">
+              <div>
+                <Icon
+                  img="icon-icon_info"
+                  className="routes-platforms-page-tab_icon"
+                />
+              </div>
+              <div>
+                <FormattedMessage
+                  id="routes-platforms"
+                  defaultMessage="routes-platforms"
+                />
               </div>
             </div>
           </Link>
