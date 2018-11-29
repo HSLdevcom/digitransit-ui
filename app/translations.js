@@ -2314,13 +2314,13 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
-    'no-route-already-at-destination': 'You are already at your destination.',
+    'no-route-already-at-destination': 'Du är redan vid din destination.',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
     'no-route-origin-near-destination':
-      'The origin and the destination are really close to each other.',
+      'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
