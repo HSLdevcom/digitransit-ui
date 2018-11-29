@@ -251,65 +251,6 @@
   padding-right: 0.5em;
 }
 
-.right-offcanvas-toggle {
-  &:hover {
-    background-color: $white;
-    border: solid 1px $link-color;
-    //outline: none;
-    box-shadow: none;
-  }
-
-  &:focus {
-    background-color: $white;
-    //outline: none;
-    box-shadow: none;
-  }
-
-  span {
-    color: $link-color;
-    @include font-bold;
-    font-size: $font-size-xxxsmall;
-    margin-left: $padding-xsmall;
-    text-align: center;
-    text-transform: uppercase;
-  }
-  width: auto;
-  margin: 0;
-  background-color: $white;
-  border: solid 1px $light-gray;
-  border-radius: $border-radius-small;
-  color: $link-color;
-  display: flex;
-  align-items: center;
-  min-height: 30px;
-
-  > button {
-    padding: $padding-small;
-    height: 100%;
-    > div {
-      display: flex;
-    }
-  }
-
-  .icon-holder {
-    display: inline;
-    position: relative;
-    line-height: 0;
-
-    .icon {
-      font-size: $font-size-large;
-    }
-
-    .super-icon {
-      fill: $hilight-color;
-      position: absolute;
-      right: 0;
-      top: -2px;
-      font-size: $font-size-xxsmall;
-    }
-  }
-}
-
 .summary-list-container {
   width: 100%;
 }
