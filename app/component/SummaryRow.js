@@ -350,14 +350,7 @@ const SummaryRow = (
     }
     if (firstDeparture) {
       firstLegStartTime = (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            realtime: realTimeAvailable,
-          })}
-        >
-          {realTimeAvailable && (
-            <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-          )}
+        <div className={cx('itinerary-first-leg-start-time')}>
           {moment(firstDeparture).format('HH:mm')}
         </div>
       );

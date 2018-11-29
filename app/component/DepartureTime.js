@@ -37,33 +37,17 @@ function DepartureTime(props, context) {
       />
     );
   }
-
-  let realtime;
-  if (props.realtime && !props.canceled) {
-    realtime = (
-      <span
-        aria-label={context.intl.formatMessage({
-          id: 'realtime',
-          defaultMessage: 'Real time',
-        })}
-      >
-        <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-      </span>
-    );
-  }
   return (
     <span
       style={props.style}
       className={cx(
         'time',
         {
-          realtime: props.realtime,
           canceled: props.canceled,
         },
         props.className,
       )}
     >
-      {realtime}
       {shownTime}
     </span>
   );
@@ -80,14 +64,6 @@ DepartureTime.description = () => (
       in HH:mm format. Also, it takes into account if the time is realtime. The
       prop useUTC forces rendering in UTC, not local TZ, for testing.
     </p>
-    <ComponentUsageExample description="real time">
-      <DepartureTime
-        departureTime={exampleRealtimeDeparture.stoptime}
-        realtime={exampleRealtimeDeparture.realtime}
-        currentTime={exampleCurrentTime}
-        useUTC
-      />
-    </ComponentUsageExample>
     <ComponentUsageExample description="not real time">
       <DepartureTime
         departureTime={exampleDeparture.stoptime}

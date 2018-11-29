@@ -40,15 +40,7 @@ function IntermediateLeg({
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
-            <span className={realTime ? 'realtime' : ''}>
-              {realTime && (
-                <Icon
-                  img="icon-icon_realtime"
-                  className="realtime-icon realtime"
-                />
-              )}
-              {`${moment(arrivalTime).format('HH:mm')} `}
-            </span>
+            <span>{`${moment(arrivalTime).format('HH:mm')} `}</span>
             {name} <StopCode code={stopCode} />
           </div>
         </div>
