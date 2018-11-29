@@ -81,7 +81,6 @@ DepartureTime.propTypes = {
   canceled: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   departureTime: PropTypes.number.isRequired,
-  realtime: PropTypes.bool,
   style: PropTypes.object,
   useUTC: PropTypes.bool,
 };
