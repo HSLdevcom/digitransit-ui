@@ -2,13 +2,11 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
-import Icon from './Icon';
 
 function IntermediateLeg({
   color,
   mode,
   arrivalTime,
-  realTime,
   name,
   stopCode,
   focusFunction,
@@ -53,7 +51,6 @@ function IntermediateLeg({
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
   arrivalTime: PropTypes.number.isRequired,
-  realTime: PropTypes.bool,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,

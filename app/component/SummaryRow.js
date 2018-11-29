@@ -229,14 +229,10 @@ const SummaryRow = (
   const duration = endTime.diff(startTime);
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
-  let realTimeAvailable = false;
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
     if (isTransitLeg(leg)) {
-      if (noTransitLegs && leg.realTime) {
-        realTimeAvailable = true;
-      }
       noTransitLegs = false;
     }
   });
