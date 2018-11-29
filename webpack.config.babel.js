@@ -149,7 +149,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '_static'),
-    filename: isDevelopment ? 'js/bundle.js' : 'js/[name].[chunkhash].js',
+    filename: isDevelopment ? 'js/[name].js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
     publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
     crossOriginLoading: 'anonymous',
