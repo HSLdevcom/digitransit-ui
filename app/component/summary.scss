@@ -16,9 +16,14 @@
     margin-right: 1em;
     margin-top: 0.5em;
     color: white;
-    fill: $disruption-color;
     width: 2em;
     height: 2em;
+  }
+  .caution {
+    fill: $disruption-color;
+  }
+  .info {
+    fill: $gray-blue;
   }
 }
 

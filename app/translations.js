@@ -125,10 +125,13 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
@@ -371,10 +374,13 @@ const translations = {
     'no-position': 'Kein Standort',
     'no-position-no-stops':
       'Die nächsten Haltestellen können nicht gezeigt werden, da Ihr Standort unbekannt ist.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-not-in-range':
       'Current timetable does not include routes departing earlier.',
     'no-transfers-margin': 'Keine',
@@ -674,10 +680,13 @@ const translations = {
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Please select origin and destination.',
@@ -1009,10 +1018,13 @@ const translations = {
     'no-position': 'Sin localización',
     'no-position-no-stops':
       'Su localización no está disponible. No podemos enseñarle las paradas cercanas.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
       'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Los horarios actuales no incluyen rutas saliendo antes.',
     'no-route-start-end': 'Por favor seleccione origen y destino.',
@@ -1334,10 +1346,13 @@ const translations = {
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
+    'no-route-already-at-destination': 'Olet jo perillä.',
     'no-route-end-date-not-in-range':
       'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+    'no-route-origin-near-destination':
+      'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
     'no-route-start-date-too-early':
       'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
@@ -1680,10 +1695,13 @@ const translations = {
     'no-position': 'Aucune position',
     'no-position-no-stops':
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
@@ -1982,10 +2000,13 @@ const translations = {
     'no-position': 'Ingen posisjon',
     'no-position-no-stops':
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
@@ -2297,10 +2318,13 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
+    'no-route-already-at-destination': 'Du är redan vid din destination.',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
+    'no-route-origin-near-destination':
+      'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
