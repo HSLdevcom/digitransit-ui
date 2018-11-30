@@ -1,21 +1,27 @@
 import trimEnd from 'lodash/trimEnd';
 
-export const generateManifestIcons = (config, protocol, host) => {
+/**
+ * The default icon sizes to generate manifest urls for.
+ */
+export const ICON_SIZES = [36, 48, 72, 96, 144, 192, 256, 384, 512];
+
+export const getIconUrl = (config, protocol, host, size) => {
   const iconHost = config.URL.ASSET_URL || config.APP_PATH || host;
   const iconPath = trimEnd(config.iconPath || 'icons', '/');
-  const iconSizes = [36, 48, 72, 96, 144, 192, 256, 384, 512];
+  return `${protocol}//${iconHost}/${iconPath}/android-chrome-${size}x${size}.png`;
+};
 
-  return iconSizes.map(size => ({
+export const generateManifestIcons = (config, protocol, host) =>
+  ICON_SIZES.map(size => ({
     sizes: `${size}x${size}`,
-    src: `${protocol}//${iconHost}/${iconPath}/android-chrome-${size}x${size}.png`,
+    src: getIconUrl(config, protocol, host, size),
     type: 'image/png',
   }));
-};
 
 export const generateManifest = (
   config,
   { host, pathname, protocol },
-  { title, description },
+  { title, description } = {},
 ) => ({
   background_color: config.colors.primary,
   description: description || config.meta.description,
