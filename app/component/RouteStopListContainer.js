@@ -146,6 +146,7 @@ export default Relay.createContainer(
               realtimeDeparture
               serviceDay
               scheduledDeparture
+              pickupType
             }
             gtfsId
             lat

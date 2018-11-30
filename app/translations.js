@@ -125,10 +125,13 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
@@ -371,10 +374,13 @@ const translations = {
     'no-position': 'Kein Standort',
     'no-position-no-stops':
       'Die nächsten Haltestellen können nicht gezeigt werden, da Ihr Standort unbekannt ist.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-not-in-range':
       'Current timetable does not include routes departing earlier.',
     'no-transfers-margin': 'Keine',
@@ -528,7 +534,7 @@ const translations = {
     'biking-speed': 'Biking speed',
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
-    'buy-ticket': 'How to buy a ticket (HSL.fi)',
+    'buy-ticket': 'How to buy a ticket',
     call: 'Call',
     cancel: 'Cancel',
     car: 'Car',
@@ -674,10 +680,13 @@ const translations = {
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Unfortunately no routes were found for your journey. Please change your origin or destination address.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Please select origin and destination.',
@@ -728,7 +737,8 @@ const translations = {
     route: 'Route',
     'route-custom-settings': 'Custom settings',
     'route-default': 'Default settings',
-    'route-destination-arrives': 'Arrives / Terminus',
+    'route-destination-arrives': 'Drop-off only',
+    'route-destination-endpoint': 'Arrives / Terminus',
     'route-fastest': 'Fast route',
     'route-from-here': 'Route from here',
     'route-guide': 'Route guide',
@@ -751,6 +761,7 @@ const translations = {
     'route-saved-settings': 'Saved settings',
     'route-stop-or-keyword': 'About the route or stop',
     routes: 'Routes',
+    'routes-platforms': 'Routes, platforms',
     run: 'Run',
     save: 'Save',
     search: 'Search',
@@ -776,7 +787,7 @@ const translations = {
     share: 'Share itinerary',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
-    'show-routes': 'Show routes',
+    'show-routes': 'Choose routes',
     'skip-positioning': 'Skip',
     slow: 'Slow',
     'specify-location': 'Specify location',
@@ -885,7 +896,7 @@ const translations = {
     'bike-availability-short': 'Bicicletas',
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
-    'buy-ticket': 'Cómo comprar un ticket (HSL.fi)',
+    'buy-ticket': 'Cómo comprar un ticket',
     call: 'Llamar',
     cancel: 'Cancelar',
     car: 'Coche',
@@ -1007,10 +1018,13 @@ const translations = {
     'no-position': 'Sin localización',
     'no-position-no-stops':
       'Su localización no está disponible. No podemos enseñarle las paradas cercanas.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
       'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino.',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Los horarios actuales no incluyen rutas saliendo antes.',
     'no-route-start-end': 'Por favor seleccione origen y destino.',
@@ -1189,7 +1203,7 @@ const translations = {
     'biking-speed': 'Pyöräilyn nopeus',
     bus: 'Bussi',
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
-    'buy-ticket': 'Näin ostat lipun (HSL.fi)',
+    'buy-ticket': 'Näin ostat lipun',
     call: 'Soita',
     cancel: 'Peruuta',
     car: 'Auto',
@@ -1332,10 +1346,13 @@ const translations = {
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
+    'no-route-already-at-destination': 'Olet jo perillä.',
     'no-route-end-date-not-in-range':
       'Käytössä oleva aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-msg':
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta lähdön tai määränpään osoitetta.',
+    'no-route-origin-near-destination':
+      'Lähtöpaikka ja määränpää ovat liian lähekkäin. Muuta lähdön tai määränpään osoitetta.',
     'no-route-start-date-too-early':
       'Käytössä oleva aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Valitse lähtöpaikka ja määränpää.',
@@ -1386,7 +1403,8 @@ const translations = {
     route: 'Linja',
     'route-custom-settings': 'Omat asetukset',
     'route-default': 'Perusasetukset',
-    'route-destination-arrives': 'Saapuu / Päätepysäkki',
+    'route-destination-arrives': 'Vain poistuminen',
+    'route-destination-endpoint': 'Saapuu / Päätepysäkki',
     'route-fastest': 'Nopea reitti',
     'route-from-here': 'Reititä täältä',
     'route-guide': 'Linjaohje',
@@ -1409,6 +1427,7 @@ const translations = {
     'route-saved-settings': 'Tallennetut asetukset',
     'route-stop-or-keyword': 'Tietoja linjasta tai pysäkistä',
     routes: 'Linjat',
+    'routes-platforms': 'Linjat, laiturit',
     run: 'Juoksu',
     save: 'Tallenna',
     search: 'Etsi',
@@ -1434,7 +1453,7 @@ const translations = {
     share: 'Jaa ohje',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
-    'show-routes': 'Näytä linjat',
+    'show-routes': 'Valitse linjat',
     'skip-positioning': 'Ohita',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
@@ -1676,10 +1695,13 @@ const translations = {
     'no-position': 'Aucune position',
     'no-position-no-stops':
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée.",
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
@@ -1978,10 +2000,13 @@ const translations = {
     'no-position': 'Ingen posisjon',
     'no-position-no-stops':
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
+    'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end-date-not-in-range':
       'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
+    'no-route-origin-near-destination':
+      'The origin and the destination are close to each other. Please change either location.',
     'no-route-start-date-too-early':
       'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
@@ -2148,7 +2173,7 @@ const translations = {
     'biking-speed': 'Cykling hastighet',
     bus: 'Buss',
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
-    'buy-ticket': 'Så här köper du biljetten (HSL.fi)',
+    'buy-ticket': 'Så här köper du biljetten',
     call: 'Ring',
     cancel: 'Avbryt',
     car: 'Bil',
@@ -2293,10 +2318,13 @@ const translations = {
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
+    'no-route-already-at-destination': 'Du är redan vid din destination.',
     'no-route-end-date-not-in-range':
       'Tidtabellen har inga resor som avgår senare.',
     'no-route-msg':
       'Vi kunde tyvärr inte hitta några reseförslag för denna sträcka. Ändra adress.',
+    'no-route-origin-near-destination':
+      'Din avfärdsplats och destination är väldigt nära varandra, vill du ändra avfärdsplats eller destination?',
     'no-route-start-date-too-early':
       'Tidtabellen har inga resor som avgår tidigare.',
     'no-route-start-end': 'Välj avfärdsplats och destination.',
@@ -2347,7 +2375,8 @@ const translations = {
     route: 'Linje',
     'route-custom-settings': 'Mina inställningar',
     'route-default': 'Standardrutt',
-    'route-destination-arrives': 'Ankomst / Ändhållplats',
+    'route-destination-arrives': 'Endast för avstigning',
+    'route-destination-endpoint': 'Ankomst / Ändhållplats',
     'route-fastest': 'Snabb rutt',
     'route-from-here': 'Sök rutt härifrån',
     'route-guide': 'Linjeguide',
@@ -2370,6 +2399,7 @@ const translations = {
     'route-saved-settings': 'Sparade inställningar',
     'route-stop-or-keyword': 'Linje eller hållplats',
     routes: 'Linjer',
+    'routes-platforms': 'Linjer, plattformer',
     run: 'Springande',
     save: 'Spara',
     search: 'Sök',
@@ -2395,7 +2425,7 @@ const translations = {
     share: 'Dela resan',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa flera',
-    'show-routes': 'Visa linjer',
+    'show-routes': 'Välja linjer',
     'skip-positioning': 'Hoppa över',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',

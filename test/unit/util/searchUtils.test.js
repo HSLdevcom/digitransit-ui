@@ -5,9 +5,10 @@ import {
   sortSearchResults,
   getLayerRank,
   isDuplicate,
-} from '../../app/util/searchUtils';
+  routeNameCompare,
+} from '../../../app/util/searchUtils';
 
-const config = require('../../app/configurations/config.hsl').default;
+const config = require('../../../app/configurations/config.hsl').default;
 
 /* Note: unit test data must be configured or applied carefully. For example,
    in real searches, items can have confidence only when search term is given.
@@ -490,6 +491,35 @@ describe('searchUtils', () => {
         },
       };
       expect(isDuplicate(item1, item2)).to.equal(true);
+    });
+
+    it('should sort route names correctly', () => {
+      const M1 = { shortName: 'M1' };
+      const M2 = { shortName: 'M2' };
+
+      expect(routeNameCompare(M1, M1)).to.equal(0);
+      expect(routeNameCompare(M1, M2)).to.equal(-1);
+      expect(routeNameCompare(M2, M1)).to.equal(1);
+
+      const R1 = { shortName: '7' };
+      const R2 = { shortName: '7H' };
+
+      expect(routeNameCompare(R1, R2)).to.equal(-1);
+
+      const L1 = { longName: 'foo' };
+      const L2 = { longName: 'bar' };
+
+      expect(routeNameCompare(L1, L2)).to.equal(1);
+
+      const T1 = { shortName: '15' };
+      const T2 = { longName: '11' };
+
+      expect(routeNameCompare(T1, T2)).to.equal(1);
+
+      const A1 = { agency: { name: 'länkkäri' } };
+      const A2 = { agency: { name: 'paunu' } };
+
+      expect(routeNameCompare(A1, A2)).to.equal(-1);
     });
   });
 });

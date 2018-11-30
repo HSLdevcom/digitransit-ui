@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { createMemoryHistory } from 'react-router';
 
-import { createMemoryMockRouter } from './helpers/mock-router';
+import { createMemoryMockRouter } from '../helpers/mock-router';
 
-import defaultConfig from '../../app/configurations/config.default';
-import { getDefaultModes } from '../../app/util/modeUtils';
-import * as utils from '../../app/util/queryUtils';
-import { OptimizeType } from '../../app/constants';
+import defaultConfig from '../../../app/configurations/config.default';
+import { getDefaultModes } from '../../../app/util/modeUtils';
+import * as utils from '../../../app/util/queryUtils';
+import { OptimizeType } from '../../../app/constants';
 
 describe('queryUtils', () => {
   describe('getIntermediatePlaces', () => {
