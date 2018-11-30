@@ -44,6 +44,7 @@ export default configMerger(walttiConfig, {
       routeSelector: 'shortName',
     },
     */
+  },
 
   showTicketInformation: true,
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
