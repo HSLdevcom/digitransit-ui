@@ -36,9 +36,17 @@ export const dateOrEmpty = (momentTime, momentRefTime) => {
 
 export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 
+/**
+ * The default number of days to include to the service time range from the past.
+ */
+export const RANGE_PAST = 7;
+
+/**
+ * The deafult number of days to include to the service time range from the future.
+ */
+export const RANGE_FUTURE = 30;
+
 export const validateServiceTimeRange = (serviceTimeRange, now) => {
-  const RANGE_PAST = 7; // sensible range as days
-  const RANGE_FUTURE = 30;
   const NOW = now ? moment.unix(now) : moment();
   const START = NOW.clone()
     .subtract(RANGE_PAST, 'd')
