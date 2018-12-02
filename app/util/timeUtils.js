@@ -42,7 +42,7 @@ export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 export const RANGE_PAST = 7;
 
 /**
- * The deafult number of days to include to the service time range from the future.
+ * The default number of days to include to the service time range from the future.
  */
 export const RANGE_FUTURE = 30;
 
