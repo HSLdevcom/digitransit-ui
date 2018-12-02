@@ -5,20 +5,24 @@ import { isIOSApp, isBrowser } from './util/browser';
 
 const ROOT_PATH = '/';
 
-const getCreateHistoryFunction = path => {
-  if (isIOSApp) {
+export const getCreateHistoryFunction = (
+  path = ROOT_PATH,
+  browser = isBrowser,
+  iosApp = isIOSApp,
+) => {
+  if (iosApp) {
     if (path !== ROOT_PATH) {
       return createHistory;
     }
     return createLocalStorageHistory;
   }
-  if (isBrowser) {
+  if (browser) {
     return createHistory;
   }
   return createMemoryHistory;
 };
 
-const history = (config, path = undefined) =>
+const history = (config, path = ROOT_PATH) =>
   useRouterHistory(useQueries(getCreateHistoryFunction(path)))({
     basename: config.APP_PATH,
   });
