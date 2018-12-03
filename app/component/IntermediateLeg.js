@@ -2,11 +2,13 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import StopCode from './StopCode';
+import Icon from './Icon';
 
 function IntermediateLeg({
   color,
   mode,
   arrivalTime,
+  realTime,
   name,
   stopCode,
   focusFunction,
@@ -38,7 +40,15 @@ function IntermediateLeg({
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
-            <span>{`${moment(arrivalTime).format('HH:mm')} `}</span>
+            <span className={realTime ? 'realtime' : ''}>
+              {realTime && (
+                <Icon
+                  img="icon-icon_realtime"
+                  className="realtime-icon realtime"
+                />
+              )}
+              {`${moment(arrivalTime).format('HH:mm')} `}
+            </span>
             {name} <StopCode code={stopCode} />
           </div>
         </div>
@@ -51,6 +61,7 @@ function IntermediateLeg({
 IntermediateLeg.propTypes = {
   focusFunction: PropTypes.func.isRequired,
   arrivalTime: PropTypes.number.isRequired,
+  realTime: PropTypes.bool,
   name: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,

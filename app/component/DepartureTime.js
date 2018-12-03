@@ -3,10 +3,12 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
   departure as exampleDeparture,
+  realtimeDeparture as exampleRealtimeDeparture,
 } from './ExampleData';
 
 function DepartureTime(props, context) {
@@ -35,17 +37,33 @@ function DepartureTime(props, context) {
       />
     );
   }
+
+  let realtime;
+  if (props.realtime && !props.canceled) {
+    realtime = (
+      <span
+        aria-label={context.intl.formatMessage({
+          id: 'realtime',
+          defaultMessage: 'Real time',
+        })}
+      >
+        <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
+      </span>
+    );
+  }
   return (
     <span
       style={props.style}
       className={cx(
         'time',
         {
+          realtime: props.realtime,
           canceled: props.canceled,
         },
         props.className,
       )}
     >
+      {realtime}
       {shownTime}
     </span>
   );
@@ -59,9 +77,25 @@ DepartureTime.description = () => (
   <div>
     <p>
       Display time in correct format. Displays minutes for 20 minutes, otherwise
-      in HH:mm format.The prop useUTC forces rendering in UTC, not local TZ, for
-      testing.
+      in HH:mm format. Also, it takes into account if the time is realtime. The
+      prop useUTC forces rendering in UTC, not local TZ, for testing.
     </p>
+    <ComponentUsageExample description="real time">
+      <DepartureTime
+        departureTime={exampleRealtimeDeparture.stoptime}
+        realtime={exampleRealtimeDeparture.realtime}
+        currentTime={exampleCurrentTime}
+        useUTC
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="not real time">
+      <DepartureTime
+        departureTime={exampleDeparture.stoptime}
+        realtime={exampleDeparture.realtime}
+        currentTime={exampleCurrentTime}
+        useUTC
+      />
+    </ComponentUsageExample>
     <ComponentUsageExample description="canceled">
       <DepartureTime
         departureTime={exampleDeparture.stoptime}
@@ -81,6 +115,7 @@ DepartureTime.propTypes = {
   canceled: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   departureTime: PropTypes.number.isRequired,
+  realtime: PropTypes.bool,
   style: PropTypes.object,
   useUTC: PropTypes.bool,
 };
