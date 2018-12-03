@@ -9,73 +9,78 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteAlertsRow from './RouteAlertsRow';
 
-const getAlerts = (route, currentTime, intl) => {
+const getAlerts = (route, patternId, currentTime, intl) => {
   const routeMode = route.mode.toLowerCase();
   const routeLine = route.shortName;
   const { color } = route;
 
-  return route.alerts.map(alert => {
-    // Try to find the alert in user's language, or failing in English, or failing in any language
-    // TODO: This should be a util function that we use everywhere
-    // TODO: We should match to all languages user's browser lists as acceptable
-    let header = find(alert.alertHeaderTextTranslations, [
-      'language',
-      intl.locale,
-    ]);
-    if (!header) {
-      header = find(alert.alertHeaderTextTranslations, ['language', 'en']);
-    }
-    if (!header) {
-      [header] = alert.alertHeaderTextTranslations;
-    }
-    if (header) {
-      header = header.text;
-    }
-
-    // Unfortunately nothing in GTFS-RT specifies that if there's one string in a language then
-    // all other strings would also be available in the same language...
-    let description = find(alert.alertDescriptionTextTranslations, [
-      'language',
-      intl.locale,
-    ]);
-    if (!description) {
-      description = find(alert.alertDescriptionTextTranslations, [
+  return route.alerts
+    .filter(
+      alert =>
+        patternId && alert.trip ? alert.trip.pattern.code === patternId : true,
+    )
+    .map(alert => {
+      // Try to find the alert in user's language, or failing in English, or failing in any language
+      // TODO: This should be a util function that we use everywhere
+      // TODO: We should match to all languages user's browser lists as acceptable
+      let header = find(alert.alertHeaderTextTranslations, [
         'language',
-        'en',
+        intl.locale,
       ]);
-    }
-    if (!description) {
-      [description] = alert.alertDescriptionTextTranslations;
-    }
-    if (description) {
-      description = description.text;
-    }
+      if (!header) {
+        header = find(alert.alertHeaderTextTranslations, ['language', 'en']);
+      }
+      if (!header) {
+        [header] = alert.alertHeaderTextTranslations;
+      }
+      if (header) {
+        header = header.text;
+      }
 
-    const startTime = moment(alert.effectiveStartDate * 1000);
-    const endTime = moment(alert.effectiveEndDate * 1000);
-    const sameDay = startTime.isSame(endTime, 'day');
+      // Unfortunately nothing in GTFS-RT specifies that if there's one string in a language then
+      // all other strings would also be available in the same language...
+      let description = find(alert.alertDescriptionTextTranslations, [
+        'language',
+        intl.locale,
+      ]);
+      if (!description) {
+        description = find(alert.alertDescriptionTextTranslations, [
+          'language',
+          'en',
+        ]);
+      }
+      if (!description) {
+        [description] = alert.alertDescriptionTextTranslations;
+      }
+      if (description) {
+        description = description.text;
+      }
 
-    return (
-      <RouteAlertsRow
-        key={alert.id}
-        routeMode={routeMode}
-        color={color ? `#${color}` : null}
-        routeLine={routeLine}
-        header={header}
-        description={description}
-        endTime={
-          sameDay
-            ? intl.formatTime(endTime)
-            : upperFirst(endTime.calendar(currentTime))
-        }
-        startTime={upperFirst(startTime.calendar(currentTime))}
-        expired={startTime > currentTime || currentTime > endTime}
-      />
-    );
-  });
+      const startTime = moment(alert.effectiveStartDate * 1000);
+      const endTime = moment(alert.effectiveEndDate * 1000);
+      const sameDay = startTime.isSame(endTime, 'day');
+
+      return (
+        <RouteAlertsRow
+          key={alert.id}
+          routeMode={routeMode}
+          color={color ? `#${color}` : null}
+          routeLine={routeLine}
+          header={header}
+          description={description}
+          endTime={
+            sameDay
+              ? intl.formatTime(endTime)
+              : upperFirst(endTime.calendar(currentTime))
+          }
+          startTime={upperFirst(startTime.calendar(currentTime))}
+          expired={startTime > currentTime || currentTime > endTime}
+        />
+      );
+    });
 };
 
-function RouteAlertsContainer({ route, currentTime }, { intl }) {
+function RouteAlertsContainer({ route, patternId, currentTime }, { intl }) {
   if (route.alerts.length === 0) {
     return (
       <div className="no-alerts-message">
@@ -89,14 +94,19 @@ function RouteAlertsContainer({ route, currentTime }, { intl }) {
 
   return (
     <div className="route-alerts-list momentum-scroll">
-      {getAlerts(route, currentTime, intl)}
+      {getAlerts(route, patternId, currentTime, intl)}
     </div>
   );
 }
 
 RouteAlertsContainer.propTypes = {
-  route: PropTypes.object.isRequired,
   currentTime: PropTypes.object,
+  patternId: PropTypes.string,
+  route: PropTypes.object.isRequired,
+};
+
+RouteAlertsContainer.defaultProps = {
+  patternId: undefined,
 };
 
 RouteAlertsContainer.contextTypes = {
@@ -130,6 +140,11 @@ export default Relay.createContainer(RouteAlertsContainerWithTime, {
             }
             effectiveStartDate
             effectiveEndDate
+            trip {
+              pattern {
+                code
+              }
+            }
           }
         }
       `,

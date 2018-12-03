@@ -173,20 +173,18 @@ class RoutePage extends React.Component {
               gtfsId={this.props.route.gtfsId}
             />
           </nav>
-          {this.props.params.patternId &&
-            (activeTab !== Tab.Disruptions ||
-              this.props.breakpoint === 'large') && (
-              <RoutePatternSelect
-                params={this.props.params}
-                route={this.props.route}
-                onSelectChange={this.onPatternChange}
-                gtfsId={this.props.route.gtfsId}
-                activeTab={activeTab}
-                className={cx({
-                  'bp-large': this.props.breakpoint === 'large',
-                })}
-              />
-            )}
+          {this.props.params.patternId && (
+            <RoutePatternSelect
+              params={this.props.params}
+              route={this.props.route}
+              onSelectChange={this.onPatternChange}
+              gtfsId={this.props.route.gtfsId}
+              activeTab={activeTab}
+              className={cx({
+                'bp-large': this.props.breakpoint === 'large',
+              })}
+            />
+          )}
           <RouteAgencyInfo route={this.props.route} />
         </div>
       </div>
