@@ -18,6 +18,12 @@ import {
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
+const Tab = {
+  Stops: 'pysakit',
+  Timetable: 'aikataulu',
+  Disruptions: 'hairiot',
+};
+
 class RoutePage extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
@@ -68,7 +74,9 @@ class RoutePage extends React.Component {
     );
   };
 
-  changeTab = path => {
+  changeTab = tab => {
+    const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${this
+      .props.params.patternId || ''}`;
     this.context.router.replace(path);
   };
 
@@ -83,11 +91,11 @@ class RoutePage extends React.Component {
     }
     let activeTab;
     if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
-      activeTab = 'pysakit';
+      activeTab = Tab.Stops;
     } else if (this.props.location.pathname.indexOf('/aikataulu/') > -1) {
-      activeTab = 'aikataulu';
+      activeTab = Tab.Timetable;
     } else if (this.props.location.pathname.indexOf('/hairiot') > -1) {
-      activeTab = 'hairiot';
+      activeTab = Tab.Disruptions;
     }
 
     return (
@@ -121,12 +129,9 @@ class RoutePage extends React.Component {
               />
             )}
             <a
-              className={cx({ 'is-active': activeTab === 'pysakit' })}
+              className={cx({ 'is-active': activeTab === Tab.Stops })}
               onClick={() => {
-                this.changeTab(
-                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/pysakit/${this
-                    .props.params.patternId || ''}`,
-                );
+                this.changeTab(Tab.Stops);
               }}
             >
               <div>
@@ -135,12 +140,9 @@ class RoutePage extends React.Component {
               </div>
             </a>
             <a
-              className={cx({ 'is-active': activeTab === 'aikataulu' })}
+              className={cx({ 'is-active': activeTab === Tab.Timetable })}
               onClick={() => {
-                this.changeTab(
-                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/aikataulu/${this
-                    .props.params.patternId || ''}`,
-                );
+                this.changeTab(Tab.Timetable);
               }}
             >
               <div>
@@ -152,12 +154,10 @@ class RoutePage extends React.Component {
               className={cx({
                 activeAlert:
                   this.props.route.alerts && this.props.route.alerts.length > 0,
-                'is-active': activeTab === 'hairiot',
+                'is-active': activeTab === Tab.Disruptions,
               })}
               onClick={() => {
-                this.changeTab(
-                  `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/hairiot`,
-                );
+                this.changeTab(Tab.Disruptions);
               }}
             >
               <div>
@@ -173,18 +173,20 @@ class RoutePage extends React.Component {
               gtfsId={this.props.route.gtfsId}
             />
           </nav>
-          {this.props.params.patternId && (
-            <RoutePatternSelect
-              params={this.props.params}
-              route={this.props.route}
-              onSelectChange={this.onPatternChange}
-              gtfsId={this.props.route.gtfsId}
-              activeTab={activeTab}
-              className={cx({
-                'bp-large': this.props.breakpoint === 'large',
-              })}
-            />
-          )}
+          {this.props.params.patternId &&
+            (activeTab !== Tab.Disruptions ||
+              this.props.breakpoint === 'large') && (
+              <RoutePatternSelect
+                params={this.props.params}
+                route={this.props.route}
+                onSelectChange={this.onPatternChange}
+                gtfsId={this.props.route.gtfsId}
+                activeTab={activeTab}
+                className={cx({
+                  'bp-large': this.props.breakpoint === 'large',
+                })}
+              />
+            )}
           <RouteAgencyInfo route={this.props.route} />
         </div>
       </div>
