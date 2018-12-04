@@ -8,9 +8,13 @@ import { generateManifestUrl } from '../util/manifestUtils';
  *
  * @param {{ title: string, description: string}} props The title and description to apply to the meta data.
  * @param {*} config The configuration for the software installation.
- * @param {*} location The current location.
+ * @param {{ pathname: string }} location The current location.
  */
-export const generateMetaData = ({ title, description }, config, location) => ({
+export const generateMetaData = (
+  { title, description },
+  config,
+  { pathname } = {},
+) => ({
   title,
   meta: [
     {
@@ -38,10 +42,18 @@ export const generateMetaData = ({ title, description }, config, location) => ({
     link: [
       {
         rel: 'manifest',
-        href: generateManifestUrl(config, location, {
-          title,
-          description,
-        }),
+        href: generateManifestUrl(
+          config,
+          {
+            host: window.location.host,
+            pathname: pathname || window.location.pathname,
+            protocol: window.location.protocol,
+          },
+          {
+            title,
+            description,
+          },
+        ),
       },
     ],
   }),
