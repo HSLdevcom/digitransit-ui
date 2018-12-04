@@ -174,17 +174,12 @@
   span {
     font-size: $font-size-xxxsmall;
   }
-  .icon-container .icon {
-    font-size: 1.7em;
-    &.routes-platforms-page-tab_icon {
-      font-size: 2.1em;
-    }
-  }
 }
 
 .stop-page-tab_icon {
-  width: 24px;
+  color: white;
   height: 24px;
+  width: 24px;
 }
 
 .stop-page.departure-list {

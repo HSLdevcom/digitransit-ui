@@ -19,9 +19,22 @@ import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
 const Tab = {
+  Disruptions: 'hairiot',
   Stops: 'pysakit',
   Timetable: 'aikataulu',
-  Disruptions: 'hairiot',
+};
+
+const getActiveTab = pathname => {
+  if (pathname.indexOf(`/${Tab.Disruptions}`) > -1) {
+    return Tab.Disruptions;
+  }
+  if (pathname.indexOf(`/${Tab.Stops}`) > -1) {
+    return Tab.Stops;
+  }
+  if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
+    return Tab.Timetable;
+  }
+  return undefined;
 };
 
 class RoutePage extends React.Component {
@@ -42,17 +55,6 @@ class RoutePage extends React.Component {
       patternId: PropTypes.string.isRequired,
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
-  };
-
-  static getActiveTab = pathname => {
-    if (pathname.indexOf('/pysakit/') > -1) {
-      return Tab.Stops;
-    } else if (pathname.indexOf('/aikataulu/') > -1) {
-      return Tab.Timetable;
-    } else if (pathname.indexOf('/hairiot') > -1) {
-      return Tab.Disruptions;
-    }
-    return undefined;
   };
 
   componentDidMount() {
@@ -102,7 +104,7 @@ class RoutePage extends React.Component {
       return null;
     }
 
-    const activeTab = RoutePage.getActiveTab(this.props.location.pathname);
+    const activeTab = getActiveTab(this.props.location.pathname);
     const { patternId } = this.props.params;
     const hasActiveAlert =
       Array.isArray(route.alerts) &&
