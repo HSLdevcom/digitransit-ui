@@ -44,6 +44,17 @@ class RoutePage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
+  static getActiveTab = pathname => {
+    if (pathname.indexOf('/pysakit/') > -1) {
+      return Tab.Stops;
+    } else if (pathname.indexOf('/aikataulu/') > -1) {
+      return Tab.Timetable;
+    } else if (pathname.indexOf('/hairiot') > -1) {
+      return Tab.Disruptions;
+    }
+    return undefined;
+  };
+
   componentDidMount() {
     if (this.props.route == null) {
       return;
@@ -82,21 +93,28 @@ class RoutePage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    if (this.props.route == null) {
+    const { route } = this.props;
+    if (route == null) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
       this.context.router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
-    let activeTab;
-    if (this.props.location.pathname.indexOf('/pysakit/') > -1) {
-      activeTab = Tab.Stops;
-    } else if (this.props.location.pathname.indexOf('/aikataulu/') > -1) {
-      activeTab = Tab.Timetable;
-    } else if (this.props.location.pathname.indexOf('/hairiot') > -1) {
-      activeTab = Tab.Disruptions;
-    }
+
+    const activeTab = RoutePage.getActiveTab(this.props.location.pathname);
+    const { patternId } = this.props.params;
+    const hasActiveAlert =
+      Array.isArray(route.alerts) &&
+      route.alerts.length > 0 &&
+      (route.alerts.some(alert => alert.trip)
+        ? route.alerts.some(
+            alert =>
+              alert.trip &&
+              alert.trip.pattern &&
+              alert.trip.pattern.code === patternId,
+          )
+        : true);
 
     return (
       <div>
@@ -110,9 +128,7 @@ class RoutePage extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {this.props.route.type === 715 && (
-          <CallAgencyWarning route={this.props.route} />
-        )}
+        {route.type === 715 && <CallAgencyWarning route={route} />}
         <div className="tabs route-tabs">
           <nav
             className={cx('tabs-navigation', {
@@ -121,11 +137,9 @@ class RoutePage extends React.Component {
           >
             {this.props.breakpoint === 'large' && (
               <RouteNumber
-                color={
-                  this.props.route.color ? `#${this.props.route.color}` : null
-                }
-                mode={this.props.route.mode}
-                text={this.props.route.shortName}
+                color={route.color ? `#${route.color}` : null}
+                mode={route.mode}
+                text={route.shortName}
               />
             )}
             <a
@@ -152,8 +166,7 @@ class RoutePage extends React.Component {
             </a>
             <a
               className={cx({
-                activeAlert:
-                  this.props.route.alerts && this.props.route.alerts.length > 0,
+                activeAlert: hasActiveAlert,
                 'is-active': activeTab === Tab.Disruptions,
               })}
               onClick={() => {
@@ -170,29 +183,29 @@ class RoutePage extends React.Component {
             </a>
             <FavouriteRouteContainer
               className="route-page-header"
-              gtfsId={this.props.route.gtfsId}
+              gtfsId={route.gtfsId}
             />
           </nav>
-          {this.props.params.patternId && (
+          {patternId && (
             <RoutePatternSelect
               params={this.props.params}
-              route={this.props.route}
+              route={route}
               onSelectChange={this.onPatternChange}
-              gtfsId={this.props.route.gtfsId}
+              gtfsId={route.gtfsId}
               activeTab={activeTab}
               className={cx({
                 'bp-large': this.props.breakpoint === 'large',
               })}
             />
           )}
-          <RouteAgencyInfo route={this.props.route} />
+          <RouteAgencyInfo route={route} />
         </div>
       </div>
     );
   }
 }
 
-export default Relay.createContainer(withBreakpoint(RoutePage), {
+const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
   fragments: {
     route: () =>
       Relay.QL`
@@ -205,7 +218,13 @@ export default Relay.createContainer(withBreakpoint(RoutePage), {
         type
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
-        alerts
+        alerts {
+          trip {
+            pattern {
+              code
+            }
+          }
+        }
         agency {
           phone
         }
@@ -213,3 +232,5 @@ export default Relay.createContainer(withBreakpoint(RoutePage), {
     `,
   },
 });
+
+export { containerComponent as default, RoutePage as Component };
