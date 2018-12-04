@@ -1,13 +1,16 @@
-import Relay from 'react-relay/classic';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
-import compose from 'recompose/compose';
 import { intlShape } from 'react-intl';
+import Relay from 'react-relay/classic';
+import compose from 'recompose/compose';
+import getContext from 'recompose/getContext';
+import mapProps from 'recompose/mapProps';
+
+import { generateMetaData } from '../util/metaUtils';
 
 const StopPageMeta = compose(
-  getContext({ intl: intlShape }),
-  mapProps(({ intl, params, stop }) => {
+  getContext({ config: PropTypes.object, intl: intlShape }),
+  mapProps(({ config, intl, params, stop }) => {
     if (!stop) {
       return false;
     }
@@ -32,31 +35,14 @@ const StopPageMeta = compose(
       },
       stop,
     );
-    return {
-      title,
-      meta: [
-        {
-          name: 'description',
-          content: description,
-        },
-        {
-          property: 'og:title',
-          content: title,
-        },
-        {
-          property: 'og:description',
-          content: description,
-        },
-        {
-          property: 'twitter:title',
-          content: title,
-        },
-        {
-          property: 'twitter:description',
-          content: description,
-        },
-      ],
-    };
+    return generateMetaData(
+      {
+        description,
+        title,
+      },
+      config,
+      window && window.location,
+    );
   }),
 )(Helmet);
 
