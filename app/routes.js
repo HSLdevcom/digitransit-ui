@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import { Route } from 'react-router';
 
 import IndexPage from './component/IndexPage';
+import IndexPageMeta from './component/IndexPageMeta';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import Title from './component/Title';
@@ -166,6 +167,7 @@ export default config => {
         components={{
           title: Title,
           content: IndexPage,
+          meta: IndexPageMeta,
         }}
         onEnter={scrollTop}
       />
