@@ -45,15 +45,7 @@ class CallAgencyLeg extends React.Component {
             }
           >
             <div className="itinerary-time-column-time">
-              <span className={this.props.leg.realTime ? 'realtime' : ''}>
-                {this.props.leg.realTime && (
-                  <Icon
-                    img="icon-icon_realtime"
-                    className="realtime-icon realtime"
-                  />
-                )}
-                {moment(this.props.leg.startTime).format('HH:mm')}
-              </span>
+              <span>{moment(this.props.leg.startTime).format('HH:mm')}</span>
               {originalTime}
             </div>
             <RouteNumber
