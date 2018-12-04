@@ -38,7 +38,7 @@ RouteAlertsRow.propTypes = {
   routeMode: PropTypes.string.isRequired,
   routeLine: PropTypes.string.isRequired,
   expired: PropTypes.bool.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
 RouteAlertsRow.description = () => (
