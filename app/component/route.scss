@@ -803,15 +803,9 @@ div.route-tabs {
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
 
-    .icon.caution {
-      fill: $cancelation-red;
-      position: absolute;
-      margin-left: -3.6em;
-      margin-top: 1.1em;
-      height: 0.8em;
+    .subicon-caution {
       stroke: $white;
       stroke-width: 12;
-      color: $white;
     }
 
     .route-alert-contents {
