@@ -35,10 +35,8 @@ export default compose(
         title,
       },
       config,
-      window && {
-        host: window.location.host,
+      {
         pathname: `/${encodeURIComponent(from)}/${encodeURIComponent(to)}`,
-        protocol: window.location.protocol,
       },
     );
   }),
