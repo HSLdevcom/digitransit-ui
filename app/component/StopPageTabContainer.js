@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -7,27 +8,38 @@ import some from 'lodash/some';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 
+const Tab = {
+  RightNow: 'right-now',
+  Timetable: 'aikataulu',
+  RoutesAndPlatforms: 'linjat',
+  Disruptions: 'hairiot',
+};
+
+const getActiveTab = pathname => {
+  if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
+    return Tab.Timetable;
+  }
+  if (pathname.indexOf(`/${Tab.RoutesAndPlatforms}`) > -1) {
+    return Tab.RoutesAndPlatforms;
+  }
+  if (pathname.indexOf(`/${Tab.Disruptions}`) > -1) {
+    return Tab.Disruptions;
+  }
+  return Tab.RightNow;
+};
+
 function StopPageTabContainer({
   children,
   params,
   routes,
   breakpoint,
-  location,
+  location: { pathname },
 }) {
   if (some(routes, 'fullscreenMap') && breakpoint !== 'large') {
     return null;
   }
 
-  let activeTab;
-  const currentLocation = location.pathname.substr(
-    location.pathname.lastIndexOf('/') + 1,
-  );
-  if (currentLocation !== 'aikataulu' && currentLocation !== 'linjat') {
-    activeTab = 'right-now';
-  } else {
-    activeTab = currentLocation;
-  }
-
+  const activeTab = getActiveTab(pathname);
   const isTerminal = params.terminalId != null;
   const urlBase = `/${
     isTerminal ? 'terminaalit' : 'pysakit'
@@ -41,9 +53,9 @@ function StopPageTabContainer({
         <div className="stop-tab-container">
           <Link
             to={urlBase}
-            className={`stop-tab-singletab ${
-              activeTab === 'right-now' ? 'active' : 'inactive'
-            }`}
+            className={cx('stop-tab-singletab', {
+              active: activeTab === Tab.RightNow,
+            })}
           >
             <div className="stop-tab-singletab-container">
               <div>
@@ -63,10 +75,10 @@ function StopPageTabContainer({
             </div>
           </Link>
           <Link
-            to={`${urlBase}/aikataulu`}
-            className={`stop-tab-singletab ${
-              activeTab === 'aikataulu' ? 'active' : 'inactive'
-            }`}
+            to={`${urlBase}/${Tab.Timetable}`}
+            className={cx('stop-tab-singletab', {
+              active: activeTab === Tab.Timetable,
+            })}
           >
             <div className="stop-tab-singletab-container">
               <div>
@@ -78,16 +90,16 @@ function StopPageTabContainer({
             </div>
           </Link>
           <Link
-            to={`${urlBase}/linjat`}
-            className={`stop-tab-singletab ${
-              activeTab === 'linjat' ? 'active' : 'inactive'
-            }`}
+            to={`${urlBase}/${Tab.RoutesAndPlatforms}`}
+            className={cx('stop-tab-singletab', {
+              active: activeTab === Tab.RoutesAndPlatforms,
+            })}
           >
             <div className="stop-tab-singletab-container">
               <div>
                 <Icon
-                  img="icon-icon_info"
                   className="routes-platforms-page-tab_icon"
+                  img="icon-icon_info"
                 />
               </div>
               <div>
@@ -98,6 +110,26 @@ function StopPageTabContainer({
               </div>
             </div>
           </Link>
+          {!isTerminal && (
+            <Link
+              to={`${urlBase}/${Tab.Disruptions}`}
+              className={cx('stop-tab-singletab', {
+                active: activeTab === Tab.Disruptions,
+              })}
+            >
+              <div className="stop-tab-singletab-container">
+                <div>
+                  <Icon
+                    className="stop-page-tab_icon"
+                    img="icon-icon_caution"
+                  />
+                </div>
+                <div>
+                  <FormattedMessage id="disruptions" />
+                </div>
+              </div>
+            </Link>
+          )}
         </div>
         <div className="stop-tabs-fillerline" />
       </div>

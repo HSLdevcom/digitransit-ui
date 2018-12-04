@@ -112,6 +112,16 @@ export default function getStopRoutes(isTerminal = false) {
         >
           <Route path="kartta" fullscreenMap />
         </Route>
+        {!isTerminal && (
+          <Route
+            path="hairiot"
+            getComponent={getRoutesAndPlatformsForStops}
+            queries={stopQueries}
+            render={RelayRenderer}
+          >
+            <Route path="kartta" fullscreenMap />
+          </Route>
+        )}
       </Route>
     </Route>
   );
