@@ -35,7 +35,6 @@ const RoutePageMeta = compose(
         title,
       },
       config,
-      window && window.location,
     );
   }),
 )(Helmet);
