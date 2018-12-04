@@ -81,7 +81,19 @@ const getAlerts = (route, patternId, currentTime, intl) => {
 };
 
 function RouteAlertsContainer({ route, patternId, currentTime }, { intl }) {
-  if (route.alerts.length === 0) {
+  const hasAlert =
+    Array.isArray(route.alerts) &&
+    route.alerts.length > 0 &&
+    (route.alerts.some(alert => alert.trip)
+      ? route.alerts.some(
+          alert =>
+            alert.trip &&
+            alert.trip.pattern &&
+            alert.trip.pattern.code === patternId,
+        )
+      : true);
+
+  if (!hasAlert) {
     return (
       <div className="no-alerts-message">
         <FormattedMessage
@@ -121,7 +133,7 @@ const RouteAlertsContainerWithTime = connectToStores(
   }),
 );
 
-export default Relay.createContainer(RouteAlertsContainerWithTime, {
+const containerComponent = Relay.createContainer(RouteAlertsContainerWithTime, {
   fragments: {
     route: () => Relay.QL`
         fragment on Route {
@@ -150,3 +162,5 @@ export default Relay.createContainer(RouteAlertsContainerWithTime, {
       `,
   },
 });
+
+export { containerComponent as default, RouteAlertsContainer as Component };
