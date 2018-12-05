@@ -72,18 +72,13 @@
     .itinerary-first-leg-start-time {
       color: $distance-gray;
       font-size: $font-size-xsmall;
-      margin-top: -6px;
-      margin-right: -7px;
       font-weight: 700;
+      margin-top: -3px;
+      margin-right: -17px;
 
       &.realtime {
         color: $realtime-color;
       }
-    }
-
-    // When we don't have a start date box, we can add some spacing
-    .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
-      margin-top: -2px;
     }
 
     .itinerary-start-date {
@@ -335,7 +330,6 @@
       padding-top: 17px;
 
       .itinerary-first-leg-start-time {
-        margin-top: -1px;
         font-size: $font-size-normal;
       }
       .itinerary-start-date {
