@@ -230,14 +230,10 @@ const SummaryRow = (
   const duration = endTime.diff(startTime);
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
-  let realTimeAvailable = false;
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
     if (isTransitLeg(leg)) {
-      if (noTransitLegs && leg.realTime) {
-        realTimeAvailable = true;
-      }
       noTransitLegs = false;
     }
   });
@@ -351,14 +347,7 @@ const SummaryRow = (
     }
     if (firstDeparture) {
       firstLegStartTime = (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            realtime: realTimeAvailable,
-          })}
-        >
-          {realTimeAvailable && (
-            <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-          )}
+        <div className={cx('itinerary-first-leg-start-time')}>
           {moment(firstDeparture).format('HH:mm')}
         </div>
       );
