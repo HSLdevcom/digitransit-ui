@@ -79,6 +79,16 @@ export default Relay.createContainer(DisruptionListContainer, {
             shortName
             mode
           }
+          trip {
+            gtfsId
+            stoptimes {
+              stop {
+                gtfsId
+              }
+              scheduledArrival
+              scheduledDeparture
+            }
+          }
         }
       }
     `,

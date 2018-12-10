@@ -46,6 +46,12 @@ function getRoutesAndPlatformsForStops(location, cb) {
     .catch(errorLoading);
 }
 
+function getDisruptions(location, cb) {
+  return import(/* webpackChunkName: "stop" */ './component/StopAlertsContainer')
+    .then(loadRoute(cb))
+    .catch(errorLoading);
+}
+
 export default function getStopRoutes(isTerminal = false) {
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -115,7 +121,7 @@ export default function getStopRoutes(isTerminal = false) {
         {!isTerminal && (
           <Route
             path="hairiot"
-            getComponent={getRoutesAndPlatformsForStops}
+            getComponent={getDisruptions}
             queries={stopQueries}
             render={RelayRenderer}
           >

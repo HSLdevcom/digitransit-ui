@@ -184,15 +184,15 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             mode
             shortName
             color
-            alerts {
-              effectiveStartDate
-              effectiveEndDate
-            }
             agency {
               name
             }
           }
           trip {
+            alerts {
+              effectiveStartDate
+              effectiveEndDate
+            }
             stoptimes {
               stop {
                 gtfsId

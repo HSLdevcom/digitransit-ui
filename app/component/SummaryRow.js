@@ -89,7 +89,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         hasDisruption={hasActiveDisruption(
           leg.startTime / 1000,
           leg.endTime / 1000,
-          leg.route.alerts,
+          leg.trip.alerts,
           // dummyalerts,
         )}
       />
