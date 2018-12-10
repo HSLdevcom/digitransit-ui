@@ -63,9 +63,10 @@
   }
 
   .itinerary-start-time {
-    text-align: right;
+    text-align: left;
     padding-left: 5px;
-    min-width: 2em;
+    min-width: 2.5em;
+    max-width: 2.5em;
     @include font-narrow-medium;
     font-weight: $font-weight-bold;
 
@@ -73,8 +74,8 @@
       color: $distance-gray;
       font-size: $font-size-xsmall;
       font-weight: 700;
-      margin-top: -3px;
-      margin-right: -17px;
+      margin-right: -1.1em;
+      margin-top: -0.25em;
 
       &.realtime {
         color: $realtime-color;
@@ -131,13 +132,27 @@
     .leg {
       padding-top: $padding-small;
       flex: 1 1 0px;
-      overflow: hidden;
+      // overflow: hidden;
       justify-content: center;
       &.large {
         padding-top: 0;
       }
       .route-number {
         width: 100%;
+        &.vertical {
+          position: relative;
+          .vehicle-number-container-v {
+            overflow: visible;
+
+            .itinerary-first-leg-start-time {
+              position: absolute;
+              left: -1.7em;
+              text-align: right;
+              width: 2em;
+              color: #7b7b7b;
+            }
+          }
+        }
       }
     }
 
@@ -394,6 +409,10 @@
     //text color
     color: $black;
   }
+}
+.mobile .itinerary-first-leg-start-time {
+  font-size: $font-size-small;
+  left: -1.7em;
 }
 
 @media print {

@@ -107,6 +107,7 @@ function RouteNumber(props, context) {
           </span>
         ) : (
           <div className="vehicle-number-container-v">
+            {props.firstLegStartTime}
             <span
               style={{ color: props.color ? props.color : null }}
               className={cx('vehicle-number', mode, {
@@ -191,6 +192,7 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  firstLegStartTime: PropTypes.object,
 };
 
 RouteNumber.defaultProps = {
@@ -203,6 +205,7 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
+  firstLegStartTime: undefined,
 };
 
 RouteNumber.contextTypes = {
