@@ -126,6 +126,22 @@ class SummaryNavigation extends React.Component {
 
     return (
       <div className="summary-navigation-container">
+        <OriginDestinationBar
+          className={className}
+          origin={parseLocation(this.props.params.from)}
+          destination={parseLocation(this.props.params.to)}
+        />
+        {isBrowser && (
+          <React.Fragment>
+            {this.renderStreetModeSelector(config, router)}
+            <div className={cx('quicksettings-separator-line')} />
+            <QuickSettingsPanel
+              timeSelectorStartTime={this.props.startTime}
+              timeSelectorEndTime={this.props.endTime}
+              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
+            />
+          </React.Fragment>
+        )}
         <LazilyLoad modules={this.customizeSearchModules}>
           {({ Drawer, CustomizeSearch }) => (
             <Drawer
@@ -151,22 +167,6 @@ class SummaryNavigation extends React.Component {
             </Drawer>
           )}
         </LazilyLoad>
-        <OriginDestinationBar
-          className={className}
-          origin={parseLocation(this.props.params.from)}
-          destination={parseLocation(this.props.params.to)}
-        />
-        {isBrowser && (
-          <React.Fragment>
-            {this.renderStreetModeSelector(config, router)}
-            <div className={cx('quicksettings-separator-line')} />
-            <QuickSettingsPanel
-              timeSelectorStartTime={this.props.startTime}
-              timeSelectorEndTime={this.props.endTime}
-              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
-            />
-          </React.Fragment>
-        )}
       </div>
     );
   }
