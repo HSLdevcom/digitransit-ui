@@ -585,7 +585,7 @@ const translations = {
     'fjp.splash.highlight-2': 'Which ticket do you need for your future trips?',
     'fjp.splash.link': 'Read more about the zone reform',
     'fjp.splash.subtitle':
-      'Helsinki region public transport will introduce new zones in early 2019.',
+      'Helsinki region public transport will introduce new zones in spring 2019.',
     'fjp.splash.title': 'Get to know the new zones with Journey Planner',
     'fjp.subtitle': 'New zones',
     'footer-faq': 'FAQ',
@@ -1257,7 +1257,7 @@ const translations = {
       'Minkä lipun tarvitset matkoillesi tulevaisuudessa?',
     'fjp.splash.link': 'Lue lisää vyöhykeuudistuksesta',
     'fjp.splash.subtitle':
-      'Uudet vyöhykkeet otetaan käyttöön Helsingin seudun joukkoliikenteessä alkuvuodesta 2019.',
+      'Uudet vyöhykkeet otetaan käyttöön Helsingin seudun joukkoliikenteessä keväällä 2019.',
     'fjp.splash.title': 'Tutustu uusiin vyöhykkeisiin Reittioppaassa',
     'fjp.subtitle': 'Uudet vyöhykkeet',
     'footer-faq': 'UKK',
@@ -2225,7 +2225,7 @@ const translations = {
       'Vilken biljett behöver du för dina resor i framtiden?',
     'fjp.splash.link': 'Läs mera om biljettzonsförnyelsen.',
     'fjp.splash.subtitle':
-      'De nya biljettzonerna tas i bruk av Helsingforsregionens kollektivtrafik i början av år 2019.',
+      'De nya biljettzonerna tas i bruk av Helsingforsregionens kollektivtrafik på våren 2019.',
     'fjp.splash.title':
       'Bekanta dig med de nya biljettzonerna i Reseplaneraren.',
     'fjp.subtitle': 'Nya zoner',

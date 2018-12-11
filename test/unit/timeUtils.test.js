@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import moment from 'moment';
-import { validateServiceTimeRange } from '../../app/util/timeUtils';
+import {
+  validateServiceTimeRange,
+  RANGE_FUTURE,
+  RANGE_PAST,
+} from '../../../app/util/timeUtils';
 
 const now = moment().unix();
 
@@ -43,19 +47,20 @@ describe('timeUtils', () => {
       );
     });
 
-    it('should not return too long range', () => {
+    it('should not return too long a range', () => {
       const range = {
         start: now - 3600 * 24 * 365 * 2, // 2 years in the past
         end: now + 3600 * 24 * 365 * 2,
       };
       const validated = validateServiceTimeRange(range, now);
-      test(validateServiceTimeRange(range, now));
-      expect(moment.unix(validated.start).dayOfYear()).to.be.below(
-        moment.unix(range.start).dayOfYear(),
-      );
-      expect(moment.unix(validated.end).dayOfYear()).to.be.above(
-        moment.unix(range.end).dayOfYear(),
-      );
+      test(validated);
+      expect(
+        moment
+          .duration(
+            moment.unix(validated.end).diff(moment.unix(validated.start)),
+          )
+          .asDays(),
+      ).to.be.at.most(RANGE_FUTURE + RANGE_PAST + 1); // +1 for today
     });
   });
 });
