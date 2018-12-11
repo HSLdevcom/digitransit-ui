@@ -585,7 +585,7 @@ const translations = {
     'fjp.splash.highlight-2': 'Which ticket do you need for your future trips?',
     'fjp.splash.link': 'Read more about the zone reform',
     'fjp.splash.subtitle':
-      'Helsinki region public transport will introduce new zones in Spring 2019.',
+      'Helsinki region public transport will introduce new zones in spring 2019.',
     'fjp.splash.title': 'Get to know the new zones with Journey Planner',
     'fjp.subtitle': 'New zones',
     'footer-faq': 'FAQ',
