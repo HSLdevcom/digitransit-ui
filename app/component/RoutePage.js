@@ -47,11 +47,8 @@ class RoutePage extends React.Component {
     const agency = route[0];
     const source = realTime[agency];
     if (source) {
-      // hack: a mapping to fix incorrect feeds
-      // e.g. tampere feed defines route shortName instead of gtfsId
-      const id = source.routeSelector
-        ? this.props.route[source.routeSelector]
-        : route[1];
+      const id = source.routeSelector(this.props);
+
       this.context.executeAction(startRealTimeClient, {
         ...source,
         agency,

@@ -38,12 +38,10 @@ export default configMerger(walttiConfig, {
   feedIds: ['tampere'],
 
   realTime: {
-    /*
     tampere: {
       gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
-      routeSelector: 'shortName',
+      routeSelector: (routePageProps) => routePageProps.route['shortName'],
     },
-    */
   },
 
   showTicketInformation: true,
