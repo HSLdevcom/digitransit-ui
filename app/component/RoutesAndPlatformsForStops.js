@@ -14,7 +14,6 @@ import DepartureListHeader from './DepartureListHeader';
 export const mapRoutes = (stopFromProps, stopType) => {
   const stopRoutes = [];
   const returnableRoutes = [];
-
   if (stopType === 'terminal') {
     stopFromProps.stops.forEach(stopTime => stopRoutes.push({ ...stopTime }));
     stopRoutes.forEach(route =>
@@ -27,8 +26,17 @@ export const mapRoutes = (stopFromProps, stopType) => {
               ...routeProperties.pattern.route,
             },
           },
+          pickupType: routeProperties.stoptimes[0].pickupType,
           stoptime: 0,
           realtime: 0,
+          lastStop:
+            stopFromProps.stops.filter(
+              singleStop =>
+                singleStop.gtfsId ===
+                routeProperties.pattern.stops[
+                  routeProperties.pattern.stops.length - 1
+                ].gtfsId,
+            ).length > 0,
           headsign:
             routeProperties.stoptimes[0].headsign ||
             routeProperties.pattern.headsign,
@@ -40,8 +48,13 @@ export const mapRoutes = (stopFromProps, stopType) => {
       returnableRoutes.push({
         stop: { platformCode: stopFromProps.platformCode },
         ...singlePattern,
+        pickupType: singlePattern.stoptimes[0].pickupType,
         stoptime: 0,
         realtime: 0,
+        lastStop:
+          stopFromProps.gtfsId ===
+          singlePattern.pattern.stops[singlePattern.pattern.stops.length - 1]
+            .gtfsId,
         headsign: singlePattern.pattern.headsign,
       }),
     );
@@ -63,6 +76,7 @@ const RoutesAndPlatformsForStops = props => {
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
+
   const timeTableRows = mappedRoutes.map(route => (
     <Link
       to={`/${PREFIX_ROUTES}/${route.pattern.route.gtfsId ||
@@ -79,6 +93,8 @@ const RoutesAndPlatformsForStops = props => {
         className={cx('departure padding-normal border-bottom')}
         showPlatformCode
         staticDeparture
+        isArrival={route.pickupType === 'NONE'}
+        isLastStop={route.lastStop}
       />
     </Link>
   ));
@@ -120,21 +136,13 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
             mode
             color
           }
+          stops {
+            gtfsId
+          }
         }
         stoptimes {
           headsign
           pickupType
-        }
-      }
-      routes {
-        gtfsId
-        shortName
-        mode
-        color
-        patterns {
-          headsign
-          code
-          name
         }
       }
       stops {
@@ -151,6 +159,9 @@ const withRelayContainer = Relay.createContainer(RoutesAndPlatformsForStops, {
               longName
               mode
               color
+            }
+            stops {
+              gtfsId
             }
           }
           stoptimes {

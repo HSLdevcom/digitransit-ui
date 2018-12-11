@@ -20,6 +20,7 @@ import {
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -229,14 +230,10 @@ const SummaryRow = (
   const duration = endTime.diff(startTime);
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
-  let realTimeAvailable = false;
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
     if (isTransitLeg(leg)) {
-      if (noTransitLegs && leg.realTime) {
-        realTimeAvailable = true;
-      }
       noTransitLegs = false;
     }
   });
@@ -350,14 +347,7 @@ const SummaryRow = (
     }
     if (firstDeparture) {
       firstLegStartTime = (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            realtime: realTimeAvailable,
-          })}
-        >
-          {realTimeAvailable && (
-            <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-          )}
+        <div className={cx('itinerary-first-leg-start-time')}>
           {moment(firstDeparture).format('HH:mm')}
         </div>
       );
@@ -400,7 +390,9 @@ const SummaryRow = (
                 tagName="h2"
               />
             </div>,
-            <button
+            <div
+              tabIndex="0"
+              role="button"
               title={itineraryLabel}
               key="arrow"
               className="action-arrow-click-area noborder flex-vertical"
@@ -408,11 +400,15 @@ const SummaryRow = (
                 e.stopPropagation();
                 props.onSelectImmediately(props.hash);
               }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) &&
+                props.onSelectImmediately(props.hash)
+              }
             >
               <div className="action-arrow flex-grow">
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
-            </button>,
+            </div>,
             props.children &&
               React.cloneElement(React.Children.only(props.children), {
                 searchTime: props.refTime,
@@ -457,7 +453,9 @@ const SummaryRow = (
                 </div>
               )}
             </div>,
-            <button
+            <div
+              tabIndex="0"
+              role="button"
               title={itineraryLabel}
               key="arrow"
               className="action-arrow-click-area flex-vertical noborder"
@@ -465,11 +463,15 @@ const SummaryRow = (
                 e.stopPropagation();
                 props.onSelectImmediately(props.hash);
               }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) &&
+                props.onSelectImmediately(props.hash)
+              }
             >
               <div className="action-arrow flex-grow">
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
-            </button>,
+            </div>,
           ]}
     </div>
   );
