@@ -13,7 +13,7 @@ describe('manifestUtils', () => {
       const config = {
         iconPath: 'bar',
         URL: {
-          ASSET_URL: 'foo',
+          ASSET_URL: 'https://foo',
         },
       };
       const protocol = 'https:';
@@ -22,12 +22,13 @@ describe('manifestUtils', () => {
       expect(result).to.equal('https://foo/bar/android-chrome-32x32.png');
     });
 
-    it('should use config.APP_PATH and default iconPath', () => {
+    it('should use config.URL.ASSET_URL and default iconPath', () => {
       const config = {
-        APP_PATH: 'foobar',
-        URL: {},
+        URL: {
+          ASSET_URL: 'https://foobar',
+        },
       };
-      const protocol = 'https:';
+      const protocol = 'http:';
       const host = 'localhost:8080';
       const result = getIconUrl(config, protocol, host, 32);
       expect(result).to.equal('https://foobar/icons/android-chrome-32x32.png');
