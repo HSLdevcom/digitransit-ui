@@ -91,11 +91,7 @@ class CustomizeSearch extends React.Component {
         className="customize-search-wrapper"
       >
         <div className="customize-search">
-          <button
-            className="close-offcanvas"
-            onClick={onToggleClick}
-            onKeyPress={onToggleClick}
-          >
+          <button className="close-offcanvas" onClick={onToggleClick}>
             <Icon className="close-icon" img="icon-icon_close" />
           </button>
           <div className="settings-option-container">
