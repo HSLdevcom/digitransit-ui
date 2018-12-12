@@ -17,14 +17,30 @@ export const getCreateHistoryFunction = (
     return createLocalStorageHistory;
   }
   if (browser) {
-    return createHistory;
+    try {
+      if (window.sessionStorage) {
+        return createHistory;
+      }
+    } catch (error) {
+      return createMemoryHistory;
+    }
   }
   return createMemoryHistory;
 };
 
-const history = (config, path = ROOT_PATH) =>
-  useRouterHistory(useQueries(getCreateHistoryFunction(path)))({
+const history = (config, path = ROOT_PATH) => {
+  const historyCreator = getCreateHistoryFunction(path);
+  const router = useRouterHistory(useQueries(historyCreator))({
     basename: config.APP_PATH,
   });
+  if (
+    path !== ROOT_PATH &&
+    (historyCreator === createMemoryHistory ||
+      historyCreator === createLocalStorageHistory)
+  ) {
+    router.replace(path);
+  }
+  return router;
+};
 
 export default history;
