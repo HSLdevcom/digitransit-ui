@@ -60,7 +60,7 @@ export default {
     /* sources per feed Id */
     HSL: {
       mqtt: 'wss://mqtt.hsl.fi',
-      routeSelector: routePageProps => {
+      routeSelector: function selectRoute(routePageProps) {
         const route = routePageProps.route.gtfsId.split(':');
         return route[1];
       },

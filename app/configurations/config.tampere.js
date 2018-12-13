@@ -40,7 +40,9 @@ export default configMerger(walttiConfig, {
   realTime: {
     tampere: {
       gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
-      routeSelector: (routePageProps) => routePageProps.route['shortName'],
+      routeSelector: function selectRoute(routePageProps) {
+        routePageProps.route['shortName']
+      }
     },
   },
 
