@@ -206,7 +206,7 @@ class RoutePage extends React.Component {
   }
 }
 
-export default Relay.createContainer(withBreakpoint(RoutePage), {
+const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
   fragments: {
     route: () =>
       Relay.QL`
@@ -227,3 +227,5 @@ export default Relay.createContainer(withBreakpoint(RoutePage), {
     `,
   },
 });
+
+export { containerComponent as default, RoutePage as Component };
