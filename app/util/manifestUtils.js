@@ -6,9 +6,9 @@ import trimEnd from 'lodash/trimEnd';
 export const ICON_SIZES = [36, 48, 72, 96, 144, 192, 256, 384, 512];
 
 export const getIconUrl = (config, protocol, host, size) => {
-  const iconHost = config.URL.ASSET_URL || config.APP_PATH || host;
+  const iconHost = config.URL.ASSET_URL || `${protocol}//${host}`;
   const iconPath = trimEnd(config.iconPath || 'icons', '/');
-  return `${protocol}//${iconHost}/${iconPath}/android-chrome-${size}x${size}.png`;
+  return `${iconHost}/${iconPath}/android-chrome-${size}x${size}.png`;
 };
 
 export const generateManifestIcons = (config, protocol, host) =>
