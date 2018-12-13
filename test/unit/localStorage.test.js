@@ -1,6 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import {
+  getLocalStorage,
   resetCustomizedSettings,
   resetRoutingSettings,
   getRoutingSettings,
@@ -114,6 +117,37 @@ describe('localStorage', () => {
       expect(settings.safetyFactor).to.equal(undefined);
       expect(settings.slopeFactor).to.equal(undefined);
       expect(settings.timeFactor).to.equal(undefined);
+    });
+  });
+
+  describe('getLocalStorage', () => {
+    it('should invoke the given errorHandler if in browser and localStorage throws', () => {
+      const handler = sinon.stub();
+      const stub = sinon.stub(window, 'localStorage').get(() => {
+        throw new DOMException();
+      });
+      getLocalStorage(true, handler);
+      expect(handler.called).to.equal(true);
+      stub.restore();
+    });
+
+    it('should return null if thrown exception was a SecurityError and it was handled by default', () => {
+      const stub = sinon.stub(window, 'localStorage').get(() => {
+        throw new DOMException('Foo', 'SecurityError');
+      });
+      const result = getLocalStorage(true);
+      expect(result).to.equal(null);
+      stub.restore();
+    });
+
+    it('should return window.localStorage if in browser', () => {
+      const result = getLocalStorage(true);
+      expect(result).to.equal(window.localStorage);
+    });
+
+    it('should return global.localStorage if not in browser', () => {
+      const result = getLocalStorage(false);
+      expect(result).to.equal(global.localStorage);
     });
   });
 });

@@ -144,10 +144,10 @@ const callback = () =>
 
     configureMoment(language, config);
 
-    const history = historyCreator(config);
+    const path = window.location.pathname;
+    const history = historyCreator(config, path);
 
     if (config.redirectReittiopasParams) {
-      const path = window.location.pathname;
       const query = getParams(window.location.search);
 
       if (query.from || query.to || query.from_in || query.to_in) {

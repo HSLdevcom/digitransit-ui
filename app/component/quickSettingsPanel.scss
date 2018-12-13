@@ -75,6 +75,9 @@
             background-color: $btn-citybike-active-background-color;
           }
         }
+        &:focus {
+          opacity: 0.9;
+        }
       }
       .mode-icon {
         border-radius: 3px;
@@ -93,21 +96,6 @@
       }
       .mode-icon ~ .mode-icon {
         margin-left: $padding-xsmall;
-      }
-    }
-  }
-
-  .open-advanced-settings {
-    flex: 0 1 auto;
-    .right-offcanvas-toggle {
-      background: none;
-      border: none;
-    }
-    button {
-      outline: none;
-      span {
-        text-transform: none;
-        font-size: 0.8rem;
       }
     }
   }
@@ -148,11 +136,9 @@
     &:hover {
       background-color: $white;
       border: solid 1px #007ac9;
-      //outline: none;
     }
     &:focus {
       background-color: $white;
-      //outline: none;
     }
     &.text-time-selector,
     &.desktop {
@@ -173,5 +159,47 @@
 
   .bottom-row .select-wrapper {
     width: 40%;
+  }
+}
+
+.right-offcanvas-toggle {
+  span {
+    color: $link-color;
+    @include font-bold;
+    font-size: 0.8rem;
+    margin-left: $padding-xsmall;
+    text-align: center;
+  }
+  width: auto;
+  margin: 0;
+  color: $link-color;
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+
+  > div {
+    padding: $padding-small;
+    height: 100%;
+    > div {
+      display: flex;
+    }
+  }
+
+  .icon-holder {
+    display: inline;
+    position: relative;
+    line-height: 0;
+
+    .icon {
+      font-size: $font-size-large;
+    }
+
+    .super-icon {
+      fill: $hilight-color;
+      position: absolute;
+      right: 0;
+      top: -2px;
+      font-size: $font-size-xxsmall;
+    }
   }
 }
