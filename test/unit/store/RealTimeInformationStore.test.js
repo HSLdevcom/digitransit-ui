@@ -7,10 +7,12 @@ import RealTimeInformationStore from '../../../app/store/RealTimeInformationStor
 describe('RealtimeInformationStore', () => {
   let store;
   let dispatcher;
+  let emitChange;
 
   beforeEach(() => {
     dispatcher = sinon.stub();
     store = new RealTimeInformationStore(dispatcher);
+    emitChange = sinon.stub(store, 'emitChange');
   });
 
   describe('storeClient', () => {
@@ -60,6 +62,7 @@ describe('RealtimeInformationStore', () => {
       };
       store.handleMessage(message);
       expect(store.vehicles.foo).to.equal(message);
+      expect(emitChange.called).to.equal(true);
     });
 
     it('should handle an array of messages', () => {
@@ -76,6 +79,7 @@ describe('RealtimeInformationStore', () => {
       store.handleMessage(messages);
       expect(store.vehicles.foo1).to.equal(messages[0]);
       expect(store.vehicles.foo2).to.equal(messages[1]);
+      expect(emitChange.called).to.equal(true);
     });
   });
 
