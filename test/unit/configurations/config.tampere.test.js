@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import tampereConfig from '../../../app/configurations/config.tampere';
 
 describe('tampere configuration', () => {
-  describe('realTime', () => {
+  describe.skip('realTime', () => {
     it('routeSelector should map the given props to something', () => {
       const props = {
         route: {
