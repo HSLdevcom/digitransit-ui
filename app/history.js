@@ -3,19 +3,44 @@ import { useRouterHistory } from 'react-router';
 import createLocalStorageHistory from './localStorageHistory';
 import { isIOSApp, isBrowser } from './util/browser';
 
-let createHistoryFunction;
+const ROOT_PATH = '/';
 
-if (isIOSApp) {
-  createHistoryFunction = createLocalStorageHistory;
-} else if (isBrowser) {
-  createHistoryFunction = createHistory;
-} else {
-  createHistoryFunction = createMemoryHistory;
-}
+export const getCreateHistoryFunction = (
+  path = ROOT_PATH,
+  browser = isBrowser,
+  iosApp = isIOSApp,
+) => {
+  if (iosApp) {
+    if (path !== ROOT_PATH) {
+      return createHistory;
+    }
+    return createLocalStorageHistory;
+  }
+  if (browser) {
+    try {
+      if (window.sessionStorage) {
+        return createHistory;
+      }
+    } catch (error) {
+      return createMemoryHistory;
+    }
+  }
+  return createMemoryHistory;
+};
 
-const history = config =>
-  useRouterHistory(useQueries(createHistoryFunction))({
+const history = (config, path = ROOT_PATH) => {
+  const historyCreator = getCreateHistoryFunction(path);
+  const router = useRouterHistory(useQueries(historyCreator))({
     basename: config.APP_PATH,
   });
+  if (
+    path !== ROOT_PATH &&
+    (historyCreator === createMemoryHistory ||
+      historyCreator === createLocalStorageHistory)
+  ) {
+    router.replace(path);
+  }
+  return router;
+};
 
 export default history;

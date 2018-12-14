@@ -27,7 +27,7 @@ describe('<RoutesAndPlatformsForStops />', () => {
     };
     const sortedProps = mapRoutes(props.stop, 'terminal');
 
-    expect(sortedProps.length).to.equal(27);
+    expect(sortedProps.length).to.equal(28);
   });
   it('should render as many departures as it receives for a terminal', () => {
     const props = {
