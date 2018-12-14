@@ -87,27 +87,11 @@ class CustomizeSearch extends React.Component {
 
     return (
       <div
-        aria-hidden={!isOpen}
-        role="button"
-        tabIndex={0}
+        style={{ visibility: isOpen ? 'visible' : 'hidden' }}
         className="customize-search-wrapper"
-        // Clicks to the transparent area and close arrow should close the offcanvas
-        onClick={onToggleClick}
-        onKeyPress={onToggleClick}
       >
-        <div
-          className="customize-search"
-          // Clicks mustn't bubble to prevent wrapper from closing the offcanvas
-          role="button"
-          onClick={e => e.stopPropagation()}
-          onKeyPress={e => e.stopPropagation()}
-          tabIndex={0}
-        >
-          <button
-            className="close-offcanvas"
-            onClick={onToggleClick}
-            onKeyPress={onToggleClick}
-          >
+        <div className="customize-search">
+          <button className="close-offcanvas" onClick={onToggleClick}>
             <Icon className="close-icon" img="icon-icon_close" />
           </button>
           <div className="settings-option-container">
