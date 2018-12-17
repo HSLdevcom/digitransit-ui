@@ -77,6 +77,7 @@ class LoadCustomizedSettingsButton extends React.Component {
           />
         </div>
         <Snackbar
+          aria-hidden
           open={this.state.open}
           message={
             <FormattedMessage
