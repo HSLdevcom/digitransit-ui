@@ -20,6 +20,7 @@ import {
 } from '../util/legUtils';
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -61,7 +62,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl }) => {
+export const RouteLeg = ({ leg, large, intl, firstLegStartTime }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -92,6 +93,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
           leg.route.alerts,
           // dummyalerts,
         )}
+        firstLegStartTime={firstLegStartTime}
       />
     );
   }
@@ -103,6 +105,7 @@ RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
+  firstLegStartTime: PropTypes.object,
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
@@ -230,14 +233,10 @@ const SummaryRow = (
   const duration = endTime.diff(startTime);
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
-  let realTimeAvailable = false;
   let noTransitLegs = true;
 
   data.legs.forEach(leg => {
     if (isTransitLeg(leg)) {
-      if (noTransitLegs && leg.realTime) {
-        realTimeAvailable = true;
-      }
       noTransitLegs = false;
     }
   });
@@ -258,6 +257,31 @@ const SummaryRow = (
       slackDuration,
       leg,
     );
+
+    let firstLegStartTime = null;
+    let isFirstDeparture = null;
+
+    if (!noTransitLegs) {
+      let firstDeparture = false;
+      if (
+        data.legs[1] != null &&
+        !(data.legs[1].rentedBike || data.legs[0].transitLeg)
+      ) {
+        firstDeparture = data.legs[1].startTime;
+      }
+      if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
+        firstDeparture = data.legs[0].startTime;
+      }
+      if (firstDeparture) {
+        isFirstDeparture =
+          leg.startTime === data.legs.filter(o => o.transitLeg)[0].startTime;
+        firstLegStartTime = (
+          <div className={cx('itinerary-first-leg-start-time')}>
+            <span>{moment(firstDeparture).format('HH:mm')}</span>
+          </div>
+        );
+      }
+    }
 
     lastLegRented = leg.rentedBike;
 
@@ -309,6 +333,7 @@ const SummaryRow = (
           leg={leg}
           intl={intl}
           large={breakpoint === 'large'}
+          firstLegStartTime={isFirstDeparture ? firstLegStartTime : undefined}
         />,
       );
       return;
@@ -335,35 +360,6 @@ const SummaryRow = (
       );
     }
   });
-
-  let firstLegStartTime = null;
-
-  if (!noTransitLegs) {
-    let firstDeparture = false;
-    if (
-      data.legs[1] != null &&
-      !(data.legs[1].rentedBike || data.legs[0].transitLeg)
-    ) {
-      firstDeparture = data.legs[1].startTime;
-    }
-    if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
-      firstDeparture = data.legs[0].startTime;
-    }
-    if (firstDeparture) {
-      firstLegStartTime = (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            realtime: realTimeAvailable,
-          })}
-        >
-          {realTimeAvailable && (
-            <Icon img="icon-icon_realtime" className="realtime-icon realtime" />
-          )}
-          {moment(firstDeparture).format('HH:mm')}
-        </div>
-      );
-    }
-  }
 
   const classes = cx([
     'itinerary-summary-row',
@@ -402,7 +398,9 @@ const SummaryRow = (
                 tagName="h2"
               />
             </div>,
-            <button
+            <div
+              tabIndex="0"
+              role="button"
               title={itineraryLabel}
               key="arrow"
               className="action-arrow-click-area noborder flex-vertical"
@@ -410,11 +408,15 @@ const SummaryRow = (
                 e.stopPropagation();
                 props.onSelectImmediately(props.hash);
               }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) &&
+                props.onSelectImmediately(props.hash)
+              }
             >
               <div className="action-arrow flex-grow">
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
-            </button>,
+            </div>,
             props.children &&
               React.cloneElement(React.Children.only(props.children), {
                 searchTime: props.refTime,
@@ -430,7 +432,6 @@ const SummaryRow = (
                 <span>{dateOrEmpty(startTime, refTime)}</span>
               </span>
               {startTime.format('HH:mm')}
-              {firstLegStartTime}
             </div>,
             <div className="itinerary-legs" key="legs">
               {legs}
@@ -467,7 +468,9 @@ const SummaryRow = (
                 </div>
               )}
             </div>,
-            <button
+            <div
+              tabIndex="0"
+              role="button"
               title={itineraryLabel}
               key="arrow"
               className="action-arrow-click-area flex-vertical noborder"
@@ -475,11 +478,15 @@ const SummaryRow = (
                 e.stopPropagation();
                 props.onSelectImmediately(props.hash);
               }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) &&
+                props.onSelectImmediately(props.hash)
+              }
             >
               <div className="action-arrow flex-grow">
                 <Icon img="icon-icon_arrow-collapse--right" />
               </div>
-            </button>,
+            </div>,
           ]}
     </div>
   );

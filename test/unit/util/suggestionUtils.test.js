@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import { getNameLabel } from '../../app/util/suggestionUtils';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { getNameLabel } from '../../../app/util/suggestionUtils';
 
 const testdata = {
   stop: {
@@ -37,9 +37,44 @@ describe('suggestionUtils', () => {
       const wrapper = shallowWithIntl(label[1], {});
       expect(wrapper.find('span').text()).to.have.string('Helsinki');
     });
+
     it('should include locality in plaintext gtfs stop label', () => {
       const label = getNameLabel(testdata.stop, true);
       expect(label[1]).to.equal('Helsinki');
+    });
+
+    it('should include agency in the plaintext for routes', () => {
+      const properties = {
+        agency: {
+          name: 'Tampereen joukkoliikenne',
+        },
+        layer: 'route-BUS',
+        longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+        shortName: '32',
+      };
+
+      const label = getNameLabel(properties, true);
+      expect(label).to.deep.equal([
+        '32',
+        'TAYS - Hervanta - Hatanpää-Tampella',
+        'Tampereen joukkoliikenne',
+      ]);
+    });
+
+    it('should ignore a missing agency in the plaintext for routes', () => {
+      const properties = {
+        agency: null,
+        layer: 'route-BUS',
+        longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+        shortName: '32',
+      };
+
+      const label = getNameLabel(properties, true);
+      expect(label).to.deep.equal([
+        '32',
+        'TAYS - Hervanta - Hatanpää-Tampella',
+        undefined,
+      ]);
     });
   });
 });

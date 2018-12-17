@@ -245,5 +245,70 @@ describe('OldSearchesStore', () => {
       const storedDestination = getOldSearchesStorage().items[0];
       expect(storedDestination.lastUpdated).to.equal(timestamp.unix());
     });
+
+    it("should update a route item's properties if found from store", () => {
+      const oldData = {
+        item: {
+          type: 'Route',
+          properties: {
+            gtfsId: 'foobar',
+            agency: {
+              name: 'Tampereen joukkoliikenne',
+            },
+            shortName: '32',
+            mode: 'BUS',
+            longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+            patterns: [
+              {
+                code: 'foobar:0:01',
+              },
+              {
+                code: 'foobar:1:01',
+              },
+            ],
+            layer: 'route-BUS',
+            link: '/linjat/foobar/pysakit/foobar:0:01',
+          },
+          geometry: {
+            coordinates: null,
+          },
+        },
+        type: 'search',
+      };
+      const newData = {
+        item: {
+          type: 'Route',
+          properties: {
+            gtfsId: 'tampere:32',
+            agency: {
+              name: 'Tampereen joukkoliikenne',
+            },
+            shortName: '32',
+            mode: 'BUS',
+            longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+            patterns: [
+              {
+                code: 'tampere:32:0:01',
+              },
+              {
+                code: 'tampere:32:1:01',
+              },
+            ],
+            layer: 'route-BUS',
+            link: '/linjat/tampere:32/pysakit/tampere:32:0:01',
+          },
+          geometry: {
+            coordinates: null,
+          },
+        },
+        type: 'search',
+      };
+      const store = new OldSearchesStore();
+      store.saveSearch(oldData);
+      store.saveSearch(newData);
+
+      const result = store.getOldSearches()[0];
+      expect(result).to.deep.equal(newData.item);
+    });
   });
 });

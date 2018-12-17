@@ -101,9 +101,7 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: 'https://www.hsl.fi/uudetvyöhykkeet',
 
   transportModes: {
     airplane: {
@@ -315,6 +313,10 @@ export default {
       },
     ],
   },
+
+  showTicketInformation: true,
+  ticketLink: 'https://www.hsl.fi/uudetvyöhykkeet',
+  showTicketSelector: true,
 
   fares: [
     'HSL:AB',

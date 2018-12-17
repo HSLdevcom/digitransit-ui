@@ -86,7 +86,8 @@ testVariation('RouteNumber', 'vertical', 4);
 testVariation('RouteNumber', 'vertical-with-disruption', 5);
 
 testVariation('RouteDestination', 'normal');
-testVariation('RouteDestination', 'isArrival', 2);
+testVariation('RouteDestination', 'drop-off', 2);
+testVariation('RouteDestination', 'last-stop', 3);
 
 testVariation('PlatformNumber');
 

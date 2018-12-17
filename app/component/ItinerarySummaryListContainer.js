@@ -1,14 +1,16 @@
-import startsWith from 'lodash/startsWith';
-import inside from 'point-in-polygon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
+import inside from 'point-in-polygon';
+import cx from 'classnames';
+import startsWith from 'lodash/startsWith';
 
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
+import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 
 function ItinerarySummaryListContainer(
@@ -16,6 +18,7 @@ function ItinerarySummaryListContainer(
     activeIndex,
     children,
     currentTime,
+    locationState,
     error,
     from,
     intermediatePlaces,
@@ -64,6 +67,8 @@ function ItinerarySummaryListContainer(
 
   let msgId;
   let outside;
+  let iconType = 'caution';
+  let iconImg = 'icon-icon_caution';
   // If error starts with "Error" it's not a message id, it's an error message
   // from OTP
   if (error && !startsWith(error, 'Error')) {
@@ -74,6 +79,19 @@ function ItinerarySummaryListContainer(
   } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
     msgId = 'destination-outside-service';
     outside = true;
+  } else if (distance(from, to) < config.minDistanceBetweenFromAndTo) {
+    iconType = 'info';
+    iconImg = 'icon-icon_info';
+    if (
+      locationState &&
+      locationState.hasLocation &&
+      ((from.lat === locationState.lat && from.lon === locationState.lon) ||
+        (to.lat === locationState.lat && to.lon === locationState.lon))
+    ) {
+      msgId = 'no-route-already-at-destination';
+    } else {
+      msgId = 'no-route-origin-near-destination';
+    }
   } else {
     msgId = 'no-route-msg';
   }
@@ -97,7 +115,7 @@ function ItinerarySummaryListContainer(
   return (
     <div className="summary-list-container summary-no-route-found">
       <div className="flex-horizontal">
-        <Icon className="no-route-icon" img="icon-icon_caution" />
+        <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
         <div>
           <FormattedMessage
             id={msgId}
@@ -130,6 +148,7 @@ ItinerarySummaryListContainer.propTypes = {
   from: locationShape.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   itineraries: PropTypes.array,
+  locationState: PropTypes.object,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   open: PropTypes.number,
