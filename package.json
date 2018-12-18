@@ -150,7 +150,7 @@
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.11.1",
     "favicons-webpack-plugin": "0.0.9",
-    "fetch-mock": "7.2.5",
+    "fetch-mock": "7.2.7",
     "file-loader": "2.0.0",
     "gemini": "5.7.2",
     "gemini-browserstack": "1.1.0",
