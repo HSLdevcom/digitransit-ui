@@ -1239,7 +1239,7 @@ const translations = {
       'Emme valitettavasti löytäneet yhtään reittiehdotusta kyseiselle välille. Muuta määränpään osoitetta, joka sijaitsee palvelualueen ulkopuolella.',
     'destination-placeholder': 'Kirjoita määränpää, linja tai pysäkki',
     'dialog-return-to-map': 'Takaisin karttaan',
-    'digitransit-platform': 'Digitransit palvelualusta',
+    'digitransit-platform': 'Digitransit-palvelualusta',
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
     disruption: 'Häiriö',
