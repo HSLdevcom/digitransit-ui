@@ -78,13 +78,13 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Kouvolan kaupungin joukkoliikenne reittisuunnittelua varten Kouvolan alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit palvelualustaan.'
+          'Tämän palvelun tarjoaa Kouvolan kaupungin joukkoliikenne reittisuunnittelua varten Kouvolan alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.'
         ],
       },
       {
         header: 'Digitransit-palvelualusta',
         paragraphs: [
-          'Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote.',
+          'Digitransit-palvelualusta on HSL:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
         ],
       },
       {
@@ -105,7 +105,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Digitransit-plattformen',
         paragraphs: [
-          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket.',
+          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Traficom.',
         ],
       },
       {
@@ -126,7 +126,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Digitransit platform',
         paragraphs: [
-          'The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency.',
+          'The Digitransit service platform is an open source routing platform developed by HSL and Traficom.',
         ],
       },
       {
