@@ -14,6 +14,7 @@
   font-size: $font-size-normal;
   @include font-narrow-medium;
   white-space: nowrap;
+  position: relative;
 
   &.passive {
     border-left-color: $background-color;
@@ -122,6 +123,15 @@
     font-weight: $font-weight-bold;
   }
 
+  .itinerary-first-leg-start-time {
+    position: absolute;
+    top: 3.77em;
+    left: 2.3em;
+    text-align: right;
+    width: 3em;
+    color: #7b7b7b;
+  }
+
   .itinerary-legs {
     padding-left: $padding-medium;
     display: flex;
@@ -132,7 +142,7 @@
     .leg {
       padding-top: $padding-small;
       flex: 1 1 0px;
-      // overflow: hidden;
+      overflow: hidden;
       justify-content: center;
       &.large {
         padding-top: 0;
@@ -143,14 +153,6 @@
           position: relative;
           .vehicle-number-container-v {
             overflow: visible;
-
-            .itinerary-first-leg-start-time {
-              position: absolute;
-              left: -2.8em;
-              text-align: right;
-              width: 3em;
-              color: #7b7b7b;
-            }
           }
         }
       }
@@ -412,7 +414,12 @@
 }
 .mobile .itinerary-first-leg-start-time {
   font-size: $font-size-small;
-  left: -1.7em;
+  left: 1.4em;
+  top: 2.6em;
+}
+
+.mobile .itinerary-legs .leg {
+  height: 3.4em;
 }
 
 @media print {

@@ -61,7 +61,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl, firstLegStartTime }) => {
+export const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -92,7 +92,6 @@ export const RouteLeg = ({ leg, large, intl, firstLegStartTime }) => {
           leg.route.alerts,
           // dummyalerts,
         )}
-        firstLegStartTime={firstLegStartTime}
       />
     );
   }
@@ -104,7 +103,6 @@ RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
-  firstLegStartTime: PropTypes.object,
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
@@ -241,6 +239,7 @@ const SummaryRow = (
   });
 
   let lastLegRented = false;
+  let firstLegStartTime = null;
 
   data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
@@ -257,9 +256,6 @@ const SummaryRow = (
       leg,
     );
 
-    let firstLegStartTime = null;
-    let isFirstDeparture = null;
-
     if (!noTransitLegs) {
       let firstDeparture = false;
       if (
@@ -272,8 +268,6 @@ const SummaryRow = (
         firstDeparture = data.legs[0].startTime;
       }
       if (firstDeparture) {
-        isFirstDeparture =
-          leg.startTime === data.legs.filter(o => o.transitLeg)[0].startTime;
         firstLegStartTime = (
           <div className={cx('itinerary-first-leg-start-time')}>
             <span>{moment(firstDeparture).format('HH:mm')}</span>
@@ -332,7 +326,6 @@ const SummaryRow = (
           leg={leg}
           intl={intl}
           large={breakpoint === 'large'}
-          firstLegStartTime={isFirstDeparture ? firstLegStartTime : undefined}
         />,
       );
       return;
@@ -432,6 +425,7 @@ const SummaryRow = (
               {startTime.format('HH:mm')}
             </div>,
             <div className="itinerary-legs" key="legs">
+              {firstLegStartTime}
               {legs}
             </div>,
             <div
