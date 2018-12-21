@@ -3,7 +3,10 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
+
 import Icon from './Icon';
+import LocalTime from './LocalTime';
+
 import ComponentUsageExample from './ComponentUsageExample';
 import {
   currentTime as exampleCurrentTime,
@@ -21,11 +24,9 @@ function DepartureTime(props, context) {
     timeDiffInMinutes < 0 ||
     timeDiffInMinutes > context.config.minutesToDepartureLimit
   ) {
-    const departureTime = moment(props.departureTime * 1000);
-    if (props.useUTC) {
-      departureTime.utc();
-    }
-    shownTime = departureTime.format('HH:mm');
+    shownTime = (
+      <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
+    );
   } else if (timeDiffInMinutes === 0) {
     shownTime = <FormattedMessage id="arriving-soon" defaultMessage="Now" />;
   } else {
