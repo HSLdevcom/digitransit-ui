@@ -62,7 +62,7 @@ Leg.propTypes = {
   large: PropTypes.bool.isRequired,
 };
 
-export const RouteLeg = ({ leg, large, intl, firstLegStartTime }) => {
+export const RouteLeg = ({ leg, large, intl }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -93,7 +93,6 @@ export const RouteLeg = ({ leg, large, intl, firstLegStartTime }) => {
           leg.route.alerts,
           // dummyalerts,
         )}
-        firstLegStartTime={firstLegStartTime}
       />
     );
   }
@@ -105,7 +104,6 @@ RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
-  firstLegStartTime: PropTypes.object,
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
@@ -258,31 +256,6 @@ const SummaryRow = (
       leg,
     );
 
-    let firstLegStartTime = null;
-    let isFirstDeparture = null;
-
-    if (!noTransitLegs) {
-      let firstDeparture = false;
-      if (
-        data.legs[1] != null &&
-        !(data.legs[1].rentedBike || data.legs[0].transitLeg)
-      ) {
-        firstDeparture = data.legs[1].startTime;
-      }
-      if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
-        firstDeparture = data.legs[0].startTime;
-      }
-      if (firstDeparture) {
-        isFirstDeparture =
-          leg.startTime === data.legs.filter(o => o.transitLeg)[0].startTime;
-        firstLegStartTime = (
-          <div className={cx('itinerary-first-leg-start-time')}>
-            <span>{moment(firstDeparture).format('HH:mm')}</span>
-          </div>
-        );
-      }
-    }
-
     lastLegRented = leg.rentedBike;
 
     if (leg.rentedBike) {
@@ -333,7 +306,6 @@ const SummaryRow = (
           leg={leg}
           intl={intl}
           large={breakpoint === 'large'}
-          firstLegStartTime={isFirstDeparture ? firstLegStartTime : undefined}
         />,
       );
       return;
@@ -360,6 +332,28 @@ const SummaryRow = (
       );
     }
   });
+
+  let firstLegStartTime = null;
+
+  if (!noTransitLegs) {
+    let firstDeparture = false;
+    if (
+      data.legs[1] != null &&
+      !(data.legs[1].rentedBike || data.legs[0].transitLeg)
+    ) {
+      firstDeparture = data.legs[1].startTime;
+    }
+    if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
+      firstDeparture = data.legs[0].startTime;
+    }
+    if (firstDeparture) {
+      firstLegStartTime = (
+        <div className={cx('itinerary-first-leg-start-time')}>
+          {moment(firstDeparture).format('HH:mm')}
+        </div>
+      );
+    }
+  }
 
   const classes = cx([
     'itinerary-summary-row',
@@ -432,6 +426,7 @@ const SummaryRow = (
                 <span>{dateOrEmpty(startTime, refTime)}</span>
               </span>
               {startTime.format('HH:mm')}
+              {firstLegStartTime}
             </div>,
             <div className="itinerary-legs" key="legs">
               {legs}
