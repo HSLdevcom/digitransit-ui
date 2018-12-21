@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { LeafletProvider } from 'react-leaflet/es/context';
 
 import { mockContext, mockChildContextTypes } from '../../helpers/mock-context';
 import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
@@ -22,17 +23,27 @@ describe('<MarkerPopupBottom />', () => {
         },
       });
 
-      const wrapper = mountWithIntl(<MarkerPopupBottom {...props} />, {
-        context: {
-          ...mockContext,
-          location: router.getCurrentLocation(),
-          map: { closePopup: () => {} },
-          router,
+      let instance;
+      mountWithIntl(
+        <LeafletProvider value={{ map: { closePopup: () => {} } }}>
+          <MarkerPopupBottom
+            {...props}
+            ref={el => {
+              instance = el;
+            }}
+          />
+        </LeafletProvider>,
+        {
+          context: {
+            ...mockContext,
+            location: router.getCurrentLocation(),
+            router,
+          },
+          childContextTypes: mockChildContextTypes,
         },
-        childContextTypes: mockChildContextTypes,
-      });
+      );
 
-      wrapper.instance().routeFrom();
+      instance.routeFrom();
 
       const { state } = router.getCurrentLocation();
       expect(state.summaryPageSelected).to.equal(0);
@@ -52,17 +63,27 @@ describe('<MarkerPopupBottom />', () => {
         },
       });
 
-      const wrapper = mountWithIntl(<MarkerPopupBottom {...props} />, {
-        context: {
-          ...mockContext,
-          location: router.getCurrentLocation(),
-          map: { closePopup: () => {} },
-          router,
+      let instance;
+      mountWithIntl(
+        <LeafletProvider value={{ map: { closePopup: () => {} } }}>
+          <MarkerPopupBottom
+            {...props}
+            ref={el => {
+              instance = el;
+            }}
+          />
+        </LeafletProvider>,
+        {
+          context: {
+            ...mockContext,
+            location: router.getCurrentLocation(),
+            router,
+          },
+          childContextTypes: mockChildContextTypes,
         },
-        childContextTypes: mockChildContextTypes,
-      });
+      );
 
-      wrapper.instance().routeTo();
+      instance.routeTo();
 
       const { state } = router.getCurrentLocation();
       expect(state.summaryPageSelected).to.equal(0);

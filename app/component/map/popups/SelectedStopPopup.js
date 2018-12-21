@@ -3,7 +3,7 @@ import React from 'react';
 
 import { isBrowser } from '../../../util/browser';
 
-const Popup = isBrowser ? require('../Popup').default : null; // eslint-disable-line global-require
+const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
 
 export default function SelectedStopPopup({ lat, lon, children }, { config }) {
   return (
