@@ -10,7 +10,7 @@ const walttiConfig = require('./waltti').default;
 const minLat = 61.16;
 const maxLat = 62.31;
 const minLon = 22.68;
-const maxLon = 24.90;
+const maxLon = 24.9;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -37,6 +37,89 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  realTime: {
+    /*
+    tampere: {
+      gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
+      routeSelector: function selectRoute(routePageProps) {
+        return routePageProps.route['shortName']
+      }
+    },
+    */
+  },
+
+  showTicketInformation: true,
+  ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
+
+  fares: [
+    'tampere:F1',
+    'tampere:F2',
+    'tampere:F3',
+    'tampere:F4',
+    'tampere:F5',
+    'tampere:F6',
+    'tampere:F7',
+    'tampere:F8',
+    'tampere:F9',
+    'tampere:F10',
+    'tampere:F11',
+    'tampere:F12',
+    'tampere:F13',
+    'tampere:F14',
+    'tampere:F15',
+    'tampere:F16',
+    'tampere:F17',
+    'tampere:F18',
+    'tampere:F19',
+    'tampere:F20',
+    'tampere:F21',
+  ],
+
+  // mapping (string, lang) from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId, lang) {
+    const count = {
+      fi: ['kaksi', 'kolme', 'neljä', 'viisi', 'kuusi'],
+      en: ['two', 'three', 'four', 'five', 'six'],
+      sv: ['två', 'tre', 'fyra', 'fem', 'sex'],
+    };
+
+    const zone = {
+      fi: 'vyöhykettä',
+      en: 'zones',
+      sv: 'zoner',
+    };
+
+    const ticketType = {
+      fi: 'Kertalippu',
+      en: 'Single ticket',
+      sv: 'Enkelbiljett',
+    };
+
+    if (fareId && fareId.substring) {
+      const index = Number.parseInt(
+        fareId.substring(fareId.indexOf(':F') + 2),
+        10,
+      );
+      if (Number.isNaN(index)) {
+        return '';
+      }
+      let zoneCount;
+      if (index < 12) {
+        zoneCount = 0;
+      } else if (index < 16) {
+        zoneCount = 1;
+      } else if (index < 19) {
+        zoneCount = 2;
+      } else if (index < 21) {
+        zoneCount = 3;
+      } else {
+        zoneCount = 4;
+      }
+      return `${ticketType[lang]}, ${count[lang][zoneCount]} ${zone[lang]}`;
+    }
+    return '';
+  },
+
   searchParams: {
     'boundary.rect.min_lat': minLat,
     'boundary.rect.max_lat': maxLat,
@@ -44,7 +127,12 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': maxLon,
   },
 
-  areaPolygon: [[minLon, minLat], [minLon, maxLat], [maxLon, maxLat], [maxLon, minLat]],
+  areaPolygon: [
+    [minLon, minLat],
+    [minLon, maxLat],
+    [maxLon, maxLat],
+    [maxLon, minLat],
+  ],
 
   defaultEndpoint: {
     address: 'Keskustori, Tampere',
@@ -53,9 +141,24 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_city', label: 'Keskustori, Tampere', lat: 61.4980944, lon: 23.7606972 },
-    { icon: 'icon-icon_rail', label: 'Rautatieasema, Tampere', lat: 61.4984374, lon: 23.7730139 },
-    { icon: 'icon-icon_bus', label: 'Linja-autoasema, Tampere', lat: 61.4937936, lon: 23.7696505 },
+    {
+      icon: 'icon-icon_city',
+      label: 'Keskustori, Tampere',
+      lat: 61.4980944,
+      lon: 23.7606972,
+    },
+    {
+      icon: 'icon-icon_rail',
+      label: 'Rautatieasema, Tampere',
+      lat: 61.4984374,
+      lon: 23.7730139,
+    },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Linja-autoasema, Tampere',
+      lat: 61.4937936,
+      lon: 23.7696505,
+    },
   ],
 
   footer: {
@@ -65,10 +168,16 @@ export default configMerger(walttiConfig, {
       {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
-        href: 'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
+        href:
+          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/asiakaspalvelu/palaute.html',
         icon: 'icon-icon_speech-bubble',
       },
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -77,13 +186,13 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit palvelualustaan.',
+          'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
       },
       {
         header: 'Digitransit-palvelualusta',
         paragraphs: [
-          'Digitransit-palvelualusta on HSL:n ja Liikenneviraston kehittämä avoimen lähdekoodin reititystuote.',
+          'Digitransit-palvelualusta on HSL:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
         ],
       },
       {
@@ -104,7 +213,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Digitransit-plattformen',
         paragraphs: [
-          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Trafikverket.',
+          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Traficom.',
         ],
       },
       {
@@ -125,7 +234,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Digitransit platform',
         paragraphs: [
-          'The Digitransit service platform is an open source routing platform developed by HSL and The Finnish Transport Agency.',
+          'The Digitransit service platform is an open source routing platform developed by HSL and Traficom.',
         ],
       },
       {
@@ -136,5 +245,4 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
 });

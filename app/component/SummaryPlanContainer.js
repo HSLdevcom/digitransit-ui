@@ -9,6 +9,7 @@ import getContext from 'recompose/getContext';
 import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
 import TimeNavigationButtons from './TimeNavigationButtons';
 import TimeStore from '../store/TimeStore';
+import PositionStore from '../store/PositionStore';
 import { otpToLocation } from '../util/otpStrings';
 import { getRoutePath } from '../util/path';
 import {
@@ -34,6 +35,7 @@ class SummaryPlanContainer extends React.Component {
         startTime: PropTypes.number,
       }),
     ),
+    locationState: PropTypes.object,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
@@ -411,7 +413,7 @@ class SummaryPlanContainer extends React.Component {
     const activeIndex = this.getActiveIndex();
     const { location } = this.context;
     const { from, to } = this.props.params;
-    const { currentTime, itineraries } = this.props;
+    const { currentTime, locationState, itineraries } = this.props;
     const searchTime =
       this.props.plan.date ||
       (location.query &&
@@ -425,6 +427,7 @@ class SummaryPlanContainer extends React.Component {
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}
+          locationState={locationState}
           error={this.props.error}
           from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(
@@ -474,12 +477,13 @@ const withRelayContainer = Relay.createContainer(withConfig, {
 
 const connectedContainer = connectToStores(
   withRelayContainer,
-  [TimeStore],
+  [TimeStore, PositionStore],
   context => ({
     currentTime: context
       .getStore(TimeStore)
       .getCurrentTime()
       .valueOf(),
+    locationState: context.getStore(PositionStore).getLocationState(),
   }),
 );
 

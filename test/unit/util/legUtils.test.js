@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import * as utils from '../../app/util/legUtils';
+import * as utils from '../../../app/util/legUtils';
 
 describe('legUtils', () => {
   describe('getLegMode', () => {
