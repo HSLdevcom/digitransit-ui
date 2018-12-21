@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import moment from 'moment';
 import { intlShape, FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
