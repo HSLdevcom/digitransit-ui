@@ -63,23 +63,27 @@
   }
 
   .itinerary-start-time {
-    text-align: left;
+    text-align: right;
     padding-left: 5px;
-    min-width: 2.5em;
-    max-width: 2.5em;
+    min-width: 2em;
     @include font-narrow-medium;
     font-weight: $font-weight-bold;
 
     .itinerary-first-leg-start-time {
       color: $distance-gray;
       font-size: $font-size-xsmall;
+      margin-top: -6px;
+      margin-right: -7px;
       font-weight: 700;
-      margin-right: -1.1em;
-      margin-top: -0.25em;
 
       &.realtime {
         color: $realtime-color;
       }
+    }
+
+    // When we don't have a start date box, we can add some spacing
+    .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
+      margin-top: -2px;
     }
 
     .itinerary-start-date {
@@ -132,27 +136,13 @@
     .leg {
       padding-top: $padding-small;
       flex: 1 1 0px;
-      // overflow: hidden;
+      overflow: hidden;
       justify-content: center;
       &.large {
         padding-top: 0;
       }
       .route-number {
         width: 100%;
-        &.vertical {
-          position: relative;
-          .vehicle-number-container-v {
-            overflow: visible;
-
-            .itinerary-first-leg-start-time {
-              position: absolute;
-              left: -2.8em;
-              text-align: right;
-              width: 3em;
-              color: #7b7b7b;
-            }
-          }
-        }
       }
     }
 
@@ -345,6 +335,7 @@
       padding-top: 17px;
 
       .itinerary-first-leg-start-time {
+        margin-top: -1px;
         font-size: $font-size-normal;
       }
       .itinerary-start-date {
@@ -409,10 +400,6 @@
     //text color
     color: $black;
   }
-}
-.mobile .itinerary-first-leg-start-time {
-  font-size: $font-size-small;
-  left: -1.7em;
 }
 
 @media print {

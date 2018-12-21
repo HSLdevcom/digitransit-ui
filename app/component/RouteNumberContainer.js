@@ -27,7 +27,6 @@ const RouteNumberContainer = (
       mode={route.mode}
       text={getText(route, config)}
       {...props}
-      firstLegStartTime={props.firstLegStartTime}
     />
   );
 
@@ -37,12 +36,10 @@ RouteNumberContainer.propTypes = {
   className: PropTypes.string,
   hasDisruption: PropTypes.bool,
   fadeLong: PropTypes.bool,
-  firstLegStartTime: PropTypes.object,
 };
 
 RouteNumberContainer.defaultProps = {
   className: '',
-  firstLegStartTime: undefined,
 };
 
 RouteNumberContainer.contextTypes = {
