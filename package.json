@@ -111,7 +111,7 @@
     "react-dom": "16.6.3",
     "react-helmet": "5.2.0",
     "react-intl": "2.4.0",
-    "react-leaflet": "2.1.2",
+    "react-leaflet": "2.1.4",
     "react-motion": "0.5.2",
     "react-relay": "1.6.0",
     "react-relay-network-layer": "2.1.3",
