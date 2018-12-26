@@ -501,11 +501,7 @@ SummaryRow.displayName = 'SummaryRow';
 const nop = () => {};
 
 SummaryRow.description = () => {
-  const today = moment()
-    .hour(12)
-    .minute(34)
-    .second(0)
-    .valueOf();
+  const today = 1478522040000;
   const date = 1478611781000;
   return (
     <div>
