@@ -7,9 +7,9 @@ import GridLayer from 'react-leaflet/es/GridLayer';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import isEqual from 'lodash/isEqual';
-import L from 'leaflet';
+import Popup from 'react-leaflet/es/Popup';
+import { withLeaflet } from 'react-leaflet/es/context';
 
-import Popup from '../Popup';
 import StopRoute from '../../../route/StopRoute';
 import TerminalRoute from '../../../route/TerminalRoute';
 import CityBikeRoute from '../../../route/CityBikeRoute';
@@ -42,26 +42,41 @@ class TileLayerContainer extends GridLayer {
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
+    leaflet: PropTypes.shape({
+      map: PropTypes.shape({
+        addLayer: PropTypes.func.isRequired,
+        addEventParent: PropTypes.func.isRequired,
+        removeEventParent: PropTypes.func.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    map: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
   };
 
-  state = {
-    ...initialState,
-    currentTime: this.context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  };
+  constructor(props, context) {
+    super(props, context);
 
-  componentWillMount() {
-    super.componentWillMount();
+    // Required as it is not passed upwards through the whole inherittance chain
+    this.context = context;
+    this.state = {
+      ...initialState,
+      currentTime: context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+    };
+    this.leafletElement.createTile = this.createTile;
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
     this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
+    this.props.leaflet.map.addEventParent(this.leafletElement);
+    this.leafletElement.on('click contextmenu', this.onClick);
   }
 
   componentDidUpdate(prevProps) {
@@ -69,10 +84,10 @@ class TileLayerContainer extends GridLayer {
       this.context.popupContainer.openPopup();
     }
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
-      this.context.map.removeEventParent(this.leafletElement);
+      this.props.leaflet.map.removeEventParent(this.leafletElement);
       this.leafletElement.remove();
       this.leafletElement = this.createLeafletElement(this.props);
-      this.context.map.addLayer(this.leafletElement);
+      this.props.leaflet.map.addLayer(this.leafletElement);
     }
   }
 
@@ -134,16 +149,6 @@ class TileLayerContainer extends GridLayer {
     onClose: this.onPopupclose,
     autoPan: false,
   };
-
-  createLeafletElement(props) {
-    const Layer = L.GridLayer.extend({ createTile: this.createTile });
-    const leafletElement = new Layer(this.getOptions(props));
-
-    this.context.map.addEventParent(leafletElement);
-    leafletElement.on('click contextmenu', this.onClick);
-
-    return leafletElement;
-  }
 
   merc = new SphericalMercator({
     size: this.props.tileSize || 256,
@@ -326,10 +331,8 @@ class TileLayerContainer extends GridLayer {
   }
 }
 
-export default connectToStores(
-  TileLayerContainer,
-  [MapLayerStore],
-  context => ({
+export default withLeaflet(
+  connectToStores(TileLayerContainer, [MapLayerStore], context => ({
     mapLayers: context.getStore(MapLayerStore).getMapLayers(),
-  }),
+  })),
 );
