@@ -2,16 +2,16 @@ sudo: required
 
 branches:
   only:
-  - master
-  - index-page
-  - /201[7-9][0-1][0-9][0-3][0-9]/
+    - master
+    - index-page
+    - /201[7-9][0-1][0-9][0-3][0-9]/
 
 cache: yarn
 
 language: node_js
 
 before_install:
-- export TZ=Europe/Helsinki
+  - export TZ=Europe/Helsinki
 
 install: true
 
@@ -20,46 +20,45 @@ services:
 
 jobs:
   include:
-
     - stage: test
       env: LINT=1
-      node_js: "8"
+      node_js: '8'
       script:
-      - yarn install
-      - yarn lint
+        - yarn install
+        - yarn lint
     - stage: test
       env: FLOW=1
-      node_js: "8"
+      node_js: '8'
       script: test/flow.sh
     - stage: test
       env: UNIT=1
-      node_js: "8"
+      node_js: '8'
       script:
-      - yarn install
-      - yarn run test-coverage
-      - yarn run test-report
+        - yarn install
+        - yarn run test-coverage
+        - yarn run test-report
 
     - stage: visual
       env: VISUAL=chrome
-      node_js: "8"
+      node_js: '8'
       script: test/visual.sh
     - stage: visual
       env: VISUAL=ie11
-      node_js: "8"
+      node_js: '8'
       script: test/visual.sh
     - stage: visual
       env: VISUAL=edge15
-      node_js: "8"
+      node_js: '8'
       script: test/visual.sh
     - stage: visual
       env: VISUAL=safari11
-      node_js: "8"
+      node_js: '8'
       script: test/visual.sh
     - stage: visual
       env: VISUAL=firefox
-      node_js: "8"
+      node_js: '8'
       script: test/visual.sh
 
     - stage: build and deploy container
-      node_js: "8"
+      node_js: '8'
       script: test/deploy.sh
