@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -15,10 +16,12 @@ const getAlerts = (route, patternId, currentTime, intl) => {
   const routeLine = route.shortName;
   const { color } = route;
 
-  return route.alerts
+  return orderBy(route.alerts, alert => alert.effectiveStartDate)
     .filter(
       alert =>
-        patternId && alert.trip ? alert.trip.pattern.code === patternId : true,
+        patternId && alert.trip && alert.trip.pattern
+          ? alert.trip.pattern.code === patternId
+          : true,
     )
     .map(alert => {
       // Try to find the alert in user's language, or failing in English, or failing in any language
