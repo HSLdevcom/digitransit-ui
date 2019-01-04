@@ -218,24 +218,8 @@ testVariation('PageFooter');
 testVariation('FooterItem', 'basic');
 testVariation('FooterItem', 'with-icon', 2);
 
-testVariation('SummaryRow', 'passive-small-today');
-testVariation('SummaryRow', 'active-small-today', 2);
-testVariation('SummaryRow', 'passive-large-today', 3);
-testVariation('SummaryRow', 'active-large-today', 4);
-testVariation('SummaryRow', 'passive-small-tomorrow', 5);
-testVariation('SummaryRow', 'active-small-tomorrow', 6);
-testVariation('SummaryRow', 'passive-large-tomorrow', 7);
-testVariation('SummaryRow', 'active-large-tomorrow', 8);
-testVariation('SummaryRow', 'open-large-today', 9);
-testVariation('SummaryRow', 'open-large-tomorrow', 10);
-testVariation('SummaryRow', 'passive-small-via', 11);
-testVariation('SummaryRow', 'active-large-via', 12);
-testVariation('SummaryRow', 'passive-small-call-agency', 13);
-testVariation('SummaryRow', 'active-large-call-agency', 14);
-testVariation('SummaryRow', 'passive-large-biking', 15);
-testVariation('SummaryRow', 'passive-small-biking', 16);
-testVariation('SummaryRow', 'citybike-large-passive', 17);
-testVariation('SummaryRow', 'citybike-small-passive', 18);
+testVariation('SummaryRow', 'large', 1);
+testVariation('SummaryRow', 'small', 2);
 
 testVariation('CallAgencyWarning');
 

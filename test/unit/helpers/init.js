@@ -11,7 +11,9 @@ before('setting up enzyme and jsdom', () => {
   stub(console, 'error').callsFake(callback);
   stub(console, 'warn').callsFake(callback);
 
-  const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
+  const jsdom = new JSDOM('<!doctype html><html><body></body></html>', {
+    url: 'https://localhost:8080',
+  });
   const { window } = jsdom;
 
   const copyProps = (src, target) => {

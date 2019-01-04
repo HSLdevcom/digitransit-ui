@@ -18,6 +18,7 @@ import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
+import events from '../../util/events';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 
@@ -72,6 +73,8 @@ export default class Map extends React.Component {
     this.erd.removeListener(this.map.leafletElement._container, this.resizeMap);
   }
 
+  onPopupopen = () => events.emit('popupOpened');
+
   setLoaded = () => {
     this.props.loaded();
   };
@@ -110,76 +113,79 @@ export default class Map extends React.Component {
     }
 
     return (
-      <LeafletMap
-        keyboard={false}
-        ref={el => {
-          this.map = el;
-          if (this.props.mapRef) {
-            this.props.mapRef(el);
-          }
-          if (el && this.props.activeArea) {
-            el.leafletElement.setActiveArea(this.props.activeArea);
-          }
-        }}
-        center={center}
-        zoom={zoom}
-        minZoom={config.map.minZoom}
-        maxZoom={config.map.maxZoom}
-        zoomControl={false}
-        attributionControl={false}
-        bounds={
-          (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
-          undefined
-        }
-        animate={this.props.animate}
-        {...this.props.leafletOptions}
-        boundsOptions={boundsOptions}
-        {...this.props.leafletEvents}
-      >
-        <TileLayer
-          onLoad={this.setLoaded}
-          url={`${mapUrl}{z}/{x}/{y}{size}.png`}
-          tileSize={config.map.tileSize || 256}
-          zoomOffset={config.map.zoomOffset || 0}
-          updateWhenIdle={false}
-          size={
-            config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-              ? '@2x'
-              : ''
-          }
+      <div aria-hidden="true">
+        <LeafletMap
+          keyboard={false}
+          ref={el => {
+            this.map = el;
+            if (this.props.mapRef) {
+              this.props.mapRef(el);
+            }
+            if (el && this.props.activeArea) {
+              el.leafletElement.setActiveArea(this.props.activeArea);
+            }
+          }}
+          center={center}
+          zoom={zoom}
           minZoom={config.map.minZoom}
           maxZoom={config.map.maxZoom}
-        />
-        <AttributionControl
-          position="bottomright"
-          prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
-        />
-        {this.props.showScaleBar && (
-          <ScaleControl
-            imperial={false}
-            position={config.map.controls.scale.position}
-          />
-        )}
-        <BreakpointConsumer>
-          {breakpoint =>
-            breakpoint === 'large' &&
-            !this.props.disableZoom && (
-              <ZoomControl
-                position={config.map.controls.zoom.position}
-                zoomInText={zoomInText}
-                zoomOutText={zoomOutText}
-              />
-            )
+          zoomControl={false}
+          attributionControl={false}
+          bounds={
+            (this.props.fitBounds && boundWithMinimumArea(this.props.bounds)) ||
+            undefined
           }
-        </BreakpointConsumer>
-        {this.props.leafletObjs}
-        <VectorTileLayerContainer
-          hilightedStops={this.props.hilightedStops}
-          showStops={this.props.showStops}
-          disableMapTracking={this.props.disableMapTracking}
-        />
-        <PositionMarker key="position" />
-      </LeafletMap>
+          animate={this.props.animate}
+          {...this.props.leafletOptions}
+          boundsOptions={boundsOptions}
+          {...this.props.leafletEvents}
+          onPopupopen={this.onPopupopen}
+        >
+          <TileLayer
+            onLoad={this.setLoaded}
+            url={`${mapUrl}{z}/{x}/{y}{size}.png`}
+            tileSize={config.map.tileSize || 256}
+            zoomOffset={config.map.zoomOffset || 0}
+            updateWhenIdle={false}
+            size={
+              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
+                ? '@2x'
+                : ''
+            }
+            minZoom={config.map.minZoom}
+            maxZoom={config.map.maxZoom}
+          />
+          <AttributionControl
+            position="bottomright"
+            prefix="&copy; <a tabindex=&quot;-1&quot; href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>"
+          />
+          {this.props.showScaleBar && (
+            <ScaleControl
+              imperial={false}
+              position={config.map.controls.scale.position}
+            />
+          )}
+          <BreakpointConsumer>
+            {breakpoint =>
+              breakpoint === 'large' &&
+              !this.props.disableZoom && (
+                <ZoomControl
+                  position={config.map.controls.zoom.position}
+                  zoomInText={zoomInText}
+                  zoomOutText={zoomOutText}
+                />
+              )
+            }
+          </BreakpointConsumer>
+          {this.props.leafletObjs}
+          <VectorTileLayerContainer
+            hilightedStops={this.props.hilightedStops}
+            showStops={this.props.showStops}
+            disableMapTracking={this.props.disableMapTracking}
+          />
+          <PositionMarker key="position" />
+        </LeafletMap>
+      </div>
     );
   }
 }

@@ -58,14 +58,28 @@ class RoutePage extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.route == null) {
+    const { realTime } = this.context.config;
+    if (!realTime || this.props.route == null) {
       return;
     }
     const route = this.props.route.gtfsId.split(':');
+    const agency = route[0];
+    const source = realTime[agency];
+    if (source) {
+      const id = source.routeSelector(this.props);
 
-    if (route[0].toLowerCase() === 'hsl') {
       this.context.executeAction(startRealTimeClient, {
-        route: route[1],
+        ...source,
+        agency,
+        options: [
+          {
+            route: id,
+            // add some information from the context
+            // to compensate potentially missing feed data
+            mode: this.props.route.mode.toLowerCase(),
+            gtfsId: route[1],
+          },
+        ],
       });
     }
   }

@@ -39,7 +39,7 @@ function getVehicleIcon(mode, heading, useSmallIcon = false) {
 
 if (isBrowser) {
   /* eslint-disable global-require */
-  Popup = require('./Popup').default;
+  Popup = require('react-leaflet/es/Popup').default;
   /* eslint-enable global-require */
 }
 

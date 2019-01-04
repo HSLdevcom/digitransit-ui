@@ -1,9 +1,6 @@
 import { isBrowser, isWindowsPhone, isIOSApp } from '../util/browser';
 import { OptimizeType } from '../constants';
 
-const getLocalStorage = runningInBrowser =>
-  runningInBrowser ? window.localStorage : global.localStorage;
-
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
     if (logMessage) {
@@ -13,6 +10,22 @@ function handleSecurityError(error, logMessage) {
     throw error;
   }
 }
+
+export const getLocalStorage = (
+  runningInBrowser,
+  errorHandler = handleSecurityError,
+) => {
+  if (runningInBrowser) {
+    try {
+      return window.localStorage;
+    } catch (error) {
+      errorHandler(error);
+      return null;
+    }
+  } else {
+    return global.localStorage;
+  }
+};
 
 function setItem(key, value) {
   const localStorage = getLocalStorage(isBrowser);
