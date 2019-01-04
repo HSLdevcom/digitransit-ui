@@ -63,6 +63,7 @@ Leg.propTypes = {
 };
 
 export const RouteLeg = ({ leg, large, intl }) => {
+  const getTripAlerts = trip => (trip && trip.alerts) || [];
   const isCallAgency = isCallAgencyPickupType(leg);
 
   let routeNumber;
@@ -90,7 +91,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         hasDisruption={hasActiveDisruption(
           leg.startTime / 1000,
           leg.endTime / 1000,
-          leg.trip.alerts,
+          getTripAlerts(leg.trip),
           // dummyalerts,
         )}
       />
