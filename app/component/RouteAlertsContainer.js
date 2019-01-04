@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -80,11 +81,14 @@ const getAlerts = (route, patternId, currentTime, intl) => {
     });
 };
 
-function RouteAlertsContainer({ route, patternId, currentTime }, { intl }) {
+function RouteAlertsContainer(
+  { route, patternId, currentTime, isScrolling },
+  { intl },
+) {
   const hasAlert =
     Array.isArray(route.alerts) &&
     route.alerts.length > 0 &&
-    (route.alerts.some(alert => alert.trip)
+    (patternId && route.alerts.some(alert => alert.trip)
       ? route.alerts.some(
           alert =>
             alert.trip &&
@@ -92,32 +96,33 @@ function RouteAlertsContainer({ route, patternId, currentTime }, { intl }) {
             alert.trip.pattern.code === patternId,
         )
       : true);
-
-  if (!hasAlert) {
-    return (
-      <div className="no-alerts-message">
-        <FormattedMessage
-          id="disruption-info-route-no-alerts"
-          defaultMessage="No known disruptions or diversions for route."
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="route-alerts-list momentum-scroll">
+  return hasAlert ? (
+    <div
+      className={cx('route-alerts-list', {
+        'momentum-scroll': isScrolling,
+      })}
+    >
       {getAlerts(route, patternId, currentTime, intl)}
+    </div>
+  ) : (
+    <div className="no-alerts-message">
+      <FormattedMessage
+        id="disruption-info-route-no-alerts"
+        defaultMessage="No known disruptions or diversions for route."
+      />
     </div>
   );
 }
 
 RouteAlertsContainer.propTypes = {
   currentTime: PropTypes.object,
+  isScrolling: PropTypes.bool,
   patternId: PropTypes.string,
   route: PropTypes.object.isRequired,
 };
 
 RouteAlertsContainer.defaultProps = {
+  isScrolling: true,
   patternId: undefined,
 };
 

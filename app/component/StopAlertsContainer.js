@@ -21,6 +21,7 @@ const StopAlerts = ({ stop }) => {
   return patternsWithAlerts.map(pattern => (
     <RouteAlertsContainer
       key={pattern.route.id}
+      isScrolling={false}
       patternId={pattern.code}
       route={pattern.route}
     />
