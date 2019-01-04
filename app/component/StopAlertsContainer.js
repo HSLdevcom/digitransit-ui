@@ -1,3 +1,4 @@
+import orderBy from 'lodash/orderBy';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
@@ -18,7 +19,10 @@ const StopAlerts = ({ stop }) => {
       </div>
     );
   }
-  return patternsWithAlerts.map(pattern => (
+  return orderBy(
+    patternsWithAlerts,
+    pattern => pattern.route.alerts[0].effectiveStartDate,
+  ).map(pattern => (
     <RouteAlertsContainer
       key={pattern.route.id}
       isScrolling={false}
@@ -50,14 +54,6 @@ const containerComponent = Relay.createContainer(StopAlerts, {
               trip {
                 pattern {
                   code
-                }
-                stoptimes {
-                  realtimeState
-                  scheduledArrival
-                  scheduledDeparture
-                  stop {
-                    gtfsId
-                  }
                 }
               }
             }
