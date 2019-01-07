@@ -84,10 +84,7 @@ class TileLayerContainer extends GridLayer {
       this.context.popupContainer.openPopup();
     }
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
-      this.props.leaflet.map.removeEventParent(this.leafletElement);
-      this.leafletElement.remove();
-      this.leafletElement = this.createLeafletElement(this.props);
-      this.props.leaflet.map.addLayer(this.leafletElement);
+      this.leafletElement.redraw();
     }
   }
 
