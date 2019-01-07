@@ -6,6 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { intlShape, FormattedMessage } from 'react-intl';
 import keyBy from 'lodash/keyBy';
 import sortBy from 'lodash/sortBy';
+
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import DateSelect from './DateSelect';
@@ -193,7 +194,7 @@ class RouteScheduleContainer extends Component {
 export default connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
     initialVariables: {
-      serviceDay: '19700101',
+      serviceDay: moment().format(DATE_FORMAT),
     },
     fragments: {
       pattern: () => Relay.QL`

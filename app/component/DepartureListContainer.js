@@ -118,10 +118,7 @@ class DepartureListContainer extends Component {
       const id = `${departure.pattern.code}:${departure.stoptime}`;
 
       const classes = {
-        disruption: hasActiveDisruption(
-          departure.stoptime,
-          departure.pattern.route.alerts,
-        ),
+        disruption: hasActiveDisruption(departure.stoptime, departure.alerts),
         canceled: departure.canceled,
       };
 
@@ -186,6 +183,10 @@ export default Relay.createContainer(DepartureListContainer, {
             platformCode
           }
           trip {
+            alerts {
+              effectiveStartDate
+              effectiveEndDate
+            }
             gtfsId
             tripHeadsign
             stops {
@@ -198,11 +199,6 @@ export default Relay.createContainer(DepartureListContainer, {
                 longName
                 mode
                 color
-                alerts {
-                  id
-                  effectiveStartDate
-                  effectiveEndDate
-                }
                 agency {
                   name
                 }
