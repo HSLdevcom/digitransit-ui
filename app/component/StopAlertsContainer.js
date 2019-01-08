@@ -1,15 +1,10 @@
-import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
 
 import RouteAlertsContainer from './RouteAlertsContainer';
-
-const getSortKey = ({ shortName }) => {
-  const matchGroups = shortName && shortName.match(/[0-9]+/g);
-  return matchGroups ? Number.parseInt(matchGroups[0], 10) : shortName;
-};
+import { routeNameCompare } from '../util/searchUtils';
 
 const StopAlertsContainer = ({ stop }) => {
   const patternsWithAlerts = stop.stoptimesForPatterns
@@ -27,16 +22,16 @@ const StopAlertsContainer = ({ stop }) => {
   }
   return (
     <div className="momentum-scroll">
-      {orderBy(patternsWithAlerts, pattern => getSortKey(pattern.route)).map(
-        pattern => (
+      {patternsWithAlerts
+        .sort((a, b) => routeNameCompare(a.route, b.route))
+        .map(pattern => (
           <RouteAlertsContainer
             key={pattern.code}
             isScrollable={false}
             patternId={pattern.code}
             route={pattern.route}
           />
-        ),
-      )}
+        ))}
     </div>
   );
 };
@@ -45,7 +40,13 @@ StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
     stoptimesForPatterns: PropTypes.arrayOf(
       PropTypes.shape({
-        pattern: PropTypes.object.isRequired,
+        pattern: PropTypes.shape({
+          code: PropTypes.string.isRequired,
+          route: PropTypes.shape({
+            alerts: PropTypes.array.isRequired,
+            shortName: PropTypes.string,
+          }).isRequired,
+        }),
       }),
     ).isRequired,
   }).isRequired,
