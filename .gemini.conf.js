@@ -6,6 +6,7 @@ module.exports = {
   sessionsPerBrowser: 1,
   suitesPerSession: 50,
   retry: 10,
+  compositeImage: true,
   system: {
     plugins: {
       browserstack: { localIdentifier: process.env.IDENTIFIER },

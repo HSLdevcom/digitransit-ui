@@ -37,32 +37,19 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  realTime: {
+    /*
+    tampere: {
+      gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
+      routeSelector: function selectRoute(routePageProps) {
+        return routePageProps.route['shortName']
+      }
+    },
+    */
+  },
+
   showTicketInformation: true,
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
-
-  fares: [
-    'tampere:F1',
-    'tampere:F2',
-    'tampere:F3',
-    'tampere:F4',
-    'tampere:F5',
-    'tampere:F6',
-    'tampere:F7',
-    'tampere:F8',
-    'tampere:F9',
-    'tampere:F10',
-    'tampere:F11',
-    'tampere:F12',
-    'tampere:F13',
-    'tampere:F14',
-    'tampere:F15',
-    'tampere:F16',
-    'tampere:F17',
-    'tampere:F18',
-    'tampere:F19',
-    'tampere:F20',
-    'tampere:F21',
-  ],
 
   // mapping (string, lang) from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId, lang) {
@@ -93,13 +80,13 @@ export default configMerger(walttiConfig, {
         return '';
       }
       let zoneCount;
-      if (index < 12) {
+      if (index < 6) {
         zoneCount = 0;
-      } else if (index < 16) {
+      } else if (index < 10) {
         zoneCount = 1;
-      } else if (index < 19) {
+      } else if (index < 13) {
         zoneCount = 2;
-      } else if (index < 21) {
+      } else if (index < 15) {
         zoneCount = 3;
       } else {
         zoneCount = 4;

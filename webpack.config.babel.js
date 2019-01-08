@@ -161,7 +161,7 @@ module.exports = {
         include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {
-          babelrc: false,
+          configFile: false,
           presets: [
             [
               '@babel/preset-env',
