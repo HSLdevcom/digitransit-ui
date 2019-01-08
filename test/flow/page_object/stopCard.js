@@ -54,7 +54,7 @@ module.exports = {
       selector: '.route-detail-text',
     },
     inactiveTab: {
-      selector: '.stop-tab-singletab.inactive',
+      selector: '.stop-tab-singletab:not(.active)',
     },
     timetable: {
       selector: '.timetable',

@@ -3,7 +3,6 @@ import React from 'react';
 import cx from 'classnames';
 import RouteNumber from './RouteNumber';
 import ComponentUsageExample from './ComponentUsageExample';
-import Icon from './Icon';
 
 export default function RouteAlertsRow({
   header,
@@ -17,8 +16,13 @@ export default function RouteAlertsRow({
 }) {
   return (
     <div className={cx('route-alert-row', { expired })}>
-      <RouteNumber color={color} mode={routeMode} text={routeLine} vertical />
-      <Icon img="icon-icon_caution" className="caution" />
+      <RouteNumber
+        color={color}
+        hasDisruption
+        mode={routeMode}
+        text={routeLine}
+        vertical
+      />
       <div className="route-alert-contents">
         <div className="route-alert-duration">
           {startTime} – {endTime}
@@ -38,7 +42,7 @@ RouteAlertsRow.propTypes = {
   routeMode: PropTypes.string.isRequired,
   routeLine: PropTypes.string.isRequired,
   expired: PropTypes.bool.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
 };
 
 RouteAlertsRow.description = () => (

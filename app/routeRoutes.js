@@ -54,6 +54,7 @@ const componentTripQueries = {
 const componentRouteQueries = {
   title: RouteQueries,
   header: RouteQueries,
+  map: PatternQueries,
   content: RouteQueries,
   meta: RouteQueries,
 };
@@ -138,16 +139,20 @@ export default (
           render={ComponentLoading404Renderer}
         />
       </Route>
-      <Route
-        path="hairiot"
-        getComponents={getComponents(() =>
-          import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
-            getDefault,
-          ),
-        )}
-        queries={componentRouteQueries}
-        render={ComponentLoading404Renderer}
-      />
+      <Route path="hairiot">
+        <IndexRedirect to=":routeId%3A0%3A01" />
+        <Route
+          path=":patternId"
+          disableMapOnMobile
+          getComponents={getComponents(() =>
+            import(/* webpackChunkName: "route" */ './component/RouteAlertsContainer').then(
+              getDefault,
+            ),
+          )}
+          queries={componentRouteQueries}
+          render={ComponentLoading404Renderer}
+        />
+      </Route>
     </Route>
   </Route>
 );

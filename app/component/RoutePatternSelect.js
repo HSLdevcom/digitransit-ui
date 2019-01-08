@@ -5,6 +5,8 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { routerShape } from 'react-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import moment from 'moment';
+
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { routePatterns as exampleRoutePatterns } from './ExampleData';
@@ -117,7 +119,7 @@ RoutePatternSelect.description = () => (
 export default connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
-      serviceDay: '19700101',
+      serviceDay: moment().format(DATE_FORMAT),
     },
     fragments: {
       route: () => Relay.QL`

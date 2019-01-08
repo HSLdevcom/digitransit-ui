@@ -78,7 +78,8 @@
   flex-grow: 20;
   transition: flex-grow 300ms;
 
-  &.stop-page-content-enter, &.stop-page-content-leave {
+  &.stop-page-content-enter,
+  &.stop-page-content-leave {
     will-change: flex-grow;
   }
 
@@ -86,7 +87,8 @@
     flex-grow: 20;
   }
 
-  &.stop-page-content-enter, &.stop-page-content-leave.stop-page-content-leave-active {
+  &.stop-page-content-enter,
+  &.stop-page-content-leave.stop-page-content-leave-active {
     flex-grow: 0;
   }
 }
@@ -107,7 +109,8 @@
     border-bottom: none;
   }
 
-  .stop-page-tab_icon, .stop-tab-singletab-container svg {
+  .stop-page-tab_icon,
+  .stop-tab-singletab-container svg {
     width: 1.6em;
     height: 1.6em;
   }
@@ -148,7 +151,8 @@
   }
 }
 
-.stop-tab-singletab, .stop-tab-singletab:hover {
+.stop-tab-singletab,
+.stop-tab-singletab:hover {
   text-transform: uppercase;
   font-size: $font-size-xxsmall;
   width: 50%;
@@ -157,7 +161,7 @@
   cursor: pointer;
   border-top: 4px solid $background-color;
   color: $primary-color;
-  transition: 0.10s all ease-in;
+  transition: 0.1s all ease-in;
   border-right: 1px solid $light-gray;
   border-bottom: 1px solid $light-gray;
   padding-bottom: 0.8em;
@@ -173,15 +177,16 @@
     fill: $primary-color;
   }
 
-  &.active, &.active:hover {
+  &.active,
+  &.active:hover {
     background-color: $white;
     border-bottom: 1px solid transparent;
     border-top: 4px solid $primary-color;
     color: $black;
     svg {
-    stroke: $black;
-    fill: $black;
-  }
+      stroke: $black;
+      fill: $black;
+    }
   }
 
   @media print {
@@ -199,17 +204,12 @@
   span {
     font-size: $font-size-xxxsmall;
   }
-  .icon-container .icon {
-    font-size: 1.7em;
-    &.routes-platforms-page-tab_icon {
-      font-size: 2.1em;
-    }
-  }
 }
 
 .stop-page-tab_icon {
-  width: 24px;
+  color: white;
   height: 24px;
+  width: 24px;
 }
 
 .stop-page.departure-list {
@@ -249,13 +249,13 @@
   z-index: 400; //get shadow over map
   padding: 5px 10px;
   padding-bottom: 0.6em;
-  text-align:right;
+  text-align: right;
 
   .route-schedule-date {
     text-align: left;
     width: 52%;
     font-size: 0.9em;
-      & select {
+    & select {
       text-align: left;
       text-transform: uppercase;
       color: $primary-color;
@@ -264,7 +264,7 @@
       cursor: pointer;
       font-size: 100%;
       border-bottom: 2px none !important;
-      transition: all .2s ease-out;
+      transition: all 0.2s ease-out;
       width: 37%;
       height: 1.27em;
       line-height: 1.3em;
@@ -274,10 +274,10 @@
       }
     }
     & svg {
-        width: 1.2em;
-        height: 1.2em;
-        margin-left: 0.5em;
-        margin-right: 1.4em;
+      width: 1.2em;
+      height: 1.2em;
+      margin-left: 0.5em;
+      margin-right: 1.4em;
     }
   }
   @media print {
@@ -290,12 +290,12 @@
     font-size: $font-size-xxsmall;
     color: $gray-blue;
     svg.icon {
-      top:3px;
-      font-size:14px;
+      top: 3px;
+      font-size: 14px;
       position: relative;
     }
   }
-  .external-link-icon-outer{
+  .external-link-icon-outer {
     color: #eef1f3;
   }
   .external-link-icon {
@@ -307,7 +307,7 @@ hr.action-bar {
   margin: 0;
   border: 0;
   border-top: 1px solid #ddd;
-  width:100%;
+  width: 100%;
   padding-bottom: 8px;
 }
 
@@ -318,164 +318,164 @@ hr.action-bar {
   .action-bar {
     a.external-link {
       font-size: 14px;
-      line-height:22px;
+      line-height: 22px;
       svg.icon {
-        font-size:18px;
+        font-size: 18px;
       }
     }
   }
 }
 .filter-stop-modal-overlay {
-    background: rgba(0,0,0,.541176);
-    width: 100vw;
-    height: 100%;
-    position: fixed;
-    z-index: 9996;
-    top: 0;
-    left: 0;
+  background: rgba(0, 0, 0, 0.541176);
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  z-index: 9996;
+  top: 0;
+  left: 0;
 }
 
 //The two classes below are to center the modal
 .filter-stop-modal-fixed-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 99995;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99995;
 }
 
 .filter-stop-modal-relative-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 99995;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 99995;
 }
 
 .filter-stop-modal {
-    position: absolute;
-    z-index: 99999;
-    background-color: #ffffff;
-    border-radius: 8px;
+  position: absolute;
+  z-index: 99999;
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 720px;
+
+  .filter-stop-modal-return {
+    background-color: $background-color;
+    display: flex;
+    cursor: pointer;
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .filter-stop-modal-return-icon {
+    margin-top: 1em;
+    margin-left: 1.3em;
+
+    & svg {
+      width: 0.85em;
+      height: 0.85em;
+      fill: #78909c;
+    }
+  }
+
+  .filter-stop-modal-return-header {
+    margin-top: 1.1em;
+    margin-left: 17px;
+    margin-bottom: 16px;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+  }
+
+  .all-routes-header {
+    display: flex;
+    padding-left: 1em;
+    padding-bottom: 0.6em;
+    margin-top: 1.1em;
     width: 100%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 720px;
+    border-bottom: 1px solid $background-color;
+  }
 
-    .filter-stop-modal-return {
-      background-color: $background-color;
-      display: flex;
-      cursor: pointer;
-      border-radius: 8px 8px 0px 0px;
-    }
+  .all-routes-header-title {
+    margin-top: 0.3em;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+  }
 
-    .filter-stop-modal-return-icon {
-      margin-top: 1em;
-      margin-left: 1.3em;
+  .routes-container {
+    overflow-y: scroll;
+    height: 500px;
+    border-radius: 0px 0px 8px 8px;
+  }
 
-      & svg {
-        width: 0.85em;
-        height: 0.85em;
-        fill: #78909c;
-      }
-    }
+  .route-row {
+    display: flex;
+    border-top: 1px solid $background-color;
+    padding-top: 0.75em;
+    padding-bottom: 0.3em;
+    padding-left: 1em;
+    width: 100%;
+  }
+  .checkbox-container {
+    margin-right: 2em;
+    margin-top: 0.2em;
+    position: relative;
 
-    .filter-stop-modal-return-header {
-      margin-top: 1.1em;
-      margin-left: 17px;
-      margin-bottom: 16px;
-      font-size: $font-size-small;
-      font-weight: $font-weight-bold;
-    }
-
-    .all-routes-header {
-      display: flex;
-      padding-left: 1em;
-      padding-bottom: 0.6em;
-      margin-top: 1.1em;
-      width: 100%;
-      border-bottom: 1px solid $background-color;
-    }
-
-    .all-routes-header-title {
-      margin-top: 0.3em;
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-    }
-
-    .routes-container {
-      overflow-y: scroll;
-      height: 500px;
-      border-radius: 0px 0px 8px 8px;
-    }
-
-    .route-row {
-       display: flex;
-       border-top: 1px solid $background-color;
-       padding-top: 0.75em;
-       padding-bottom: 0.3em;
-       padding-left: 1em;
-       width: 100%;
-    }
-    .checkbox-container {
-     margin-right: 2em;
-     margin-top: 0.2em;
-     position: relative;
-
-     & input[type=checkbox] {
-        visibility: hidden;
-        width: 2em;
-        height: 2em;
-        &:checked + label {
-          &:before {
-            content: '✔';
-            font-size: 1.8em;
-            line-height: 1;
-            color: #64be14;
-            font-weight: 700;
-            font-family: $font-family;
-            transform: rotateY(15deg);
-            margin-left: 0.2em;
-            margin-top: 0.2em;
-          }
+    & input[type='checkbox'] {
+      visibility: hidden;
+      width: 2em;
+      height: 2em;
+      &:checked + label {
+        &:before {
+          content: '✔';
+          font-size: 1.8em;
+          line-height: 1;
+          color: #64be14;
+          font-weight: 700;
+          font-family: $font-family;
+          transform: rotateY(15deg);
+          margin-left: 0.2em;
+          margin-top: 0.2em;
         }
       }
-      & label {
-         width: 2.3em;
-         height: 2.3em;
-         border: 1px solid #78909c;
-         border-radius: 4px;
-         background-color: $white;
-         cursor: pointer;
-	       position: absolute;
-         top: -0.3em;
-         left: 0;
-      }
     }
-
-    .route-mode {
-      margin-right: 3px;
-
-      svg {
-        width: 1.6em;
-        height: 1.2em;
-        margin-top: 4px;
-      }
+    & label {
+      width: 2.3em;
+      height: 2.3em;
+      border: 1px solid #78909c;
+      border-radius: 4px;
+      background-color: $white;
+      cursor: pointer;
+      position: absolute;
+      top: -0.3em;
+      left: 0;
     }
+  }
 
-    .route-number {
-      margin-top: 0.1em;
-      margin-right: 2em;
-      width: 1.5em;
-      max-height: 1.7em;
-    }
+  .route-mode {
+    margin-right: 3px;
 
-    .route-headsign {
-      font-family: $font-family-narrow;
-      font-weight: 400;
-      margin-top: 0.1em;
+    svg {
+      width: 1.6em;
+      height: 1.2em;
+      margin-top: 4px;
     }
+  }
+
+  .route-number {
+    margin-top: 0.1em;
+    margin-right: 2em;
+    width: 1.5em;
+    max-height: 1.7em;
+  }
+
+  .route-headsign {
+    font-family: $font-family-narrow;
+    font-weight: 400;
+    margin-top: 0.1em;
+  }
 }
 
 .timetablerow-linetime {
@@ -511,11 +511,11 @@ hr.action-bar {
 
 .print-button-container {
   display: flex;
-    button {
+  button {
     margin-right: 1em;
     margin-left: auto;
     margin-bottom: $padding-medium;
-    }
+  }
 }
 
 .timetable-for-printing {
@@ -536,15 +536,15 @@ hr.action-bar {
         svg {
           width: 28.3px;
           height: 28px;
-      }
+        }
       }
       .printable-date-header {
         font-size: 11px;
         font-weight: 400;
       }
       .printable-date-content {
-         font-size: 12px;
-         font-weight: 700;
+        font-size: 12px;
+        font-weight: 700;
       }
     }
   }
@@ -560,13 +560,14 @@ hr.action-bar {
   margin-left: 1em;
   margin-right: 1em;
 
-  & svg, .showroutes-icon-svg {
-  width: 24px;
-  height: 24px;
+  & svg,
+  .showroutes-icon-svg {
+    width: 24px;
+    height: 24px;
   }
-@media print {
-  margin-left: 0;
-}
+  @media print {
+    margin-left: 0;
+  }
 }
 
 .showroutes-header {
@@ -577,7 +578,7 @@ hr.action-bar {
   width: 25%;
   font-size: 0.9em;
   & span {
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
     &:hover {
       color: $secondary-color;
     }
@@ -594,4 +595,10 @@ hr.action-bar {
     margin-right: 15px;
     float: left;
   }
+}
+
+.no-stop-alerts-message {
+  background-color: white;
+  padding: 2em 1em;
+  text-align: center;
 }
