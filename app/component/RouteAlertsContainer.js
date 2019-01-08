@@ -85,7 +85,7 @@ const getAlerts = (route, patternId, currentTime, intl) => {
 };
 
 function RouteAlertsContainer(
-  { route, patternId, currentTime, isScrolling },
+  { route, patternId, currentTime, isScrollable },
   { intl },
 ) {
   const hasAlert =
@@ -102,7 +102,7 @@ function RouteAlertsContainer(
   return hasAlert ? (
     <div
       className={cx('route-alerts-list', {
-        'momentum-scroll': isScrolling,
+        'momentum-scroll': isScrollable,
       })}
     >
       {getAlerts(route, patternId, currentTime, intl)}
@@ -119,13 +119,13 @@ function RouteAlertsContainer(
 
 RouteAlertsContainer.propTypes = {
   currentTime: PropTypes.object,
-  isScrolling: PropTypes.bool,
+  isScrollable: PropTypes.bool,
   patternId: PropTypes.string,
   route: PropTypes.object.isRequired,
 };
 
 RouteAlertsContainer.defaultProps = {
-  isScrolling: true,
+  isScrollable: true,
   patternId: undefined,
 };
 
