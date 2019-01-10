@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import TimetableRow from '../../app/component/TimetableRow';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import TimetableRow from '../../../app/component/TimetableRow';
 
-import data from './test-data/dt2720';
+import data from '../test-data/dt2720';
 
 describe('<TimetableRow />', () => {
   it('should not show stoptimes whose routes have been filtered out', () => {
