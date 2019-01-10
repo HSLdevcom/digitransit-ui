@@ -17,6 +17,7 @@ sudo dpkg -i google-chrome*.deb
 yarn install
 
 CONFIG=hsl yarn dev &
+sleep 30
 
 wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
