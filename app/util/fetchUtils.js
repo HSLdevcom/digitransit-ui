@@ -5,16 +5,18 @@ const delay = ms =>
     }, ms);
   });
 
-export const retryFetch = (url, options = {}, retryCount, retryDelay) =>
+// Tries to fetch 1 + retryCount times until 200 is returned.
+// Uses retryDelay (ms) between requests. url and options are normal fetch parameters
+export const retryFetch = (URL, options = {}, retryCount, retryDelay) =>
   new Promise((resolve, reject) => {
     const retry = retriesLeft => {
-      fetch(url, options)
+      fetch(URL, options)
         .then(res => {
           if (res.ok) {
             resolve(res);
           } else {
             // eslint-disable-next-line no-throw-literal
-            throw `${url}: ${res.statusText}`;
+            throw `${URL}: ${res.statusText}`;
           }
         })
         .catch(async err => {

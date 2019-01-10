@@ -132,18 +132,40 @@ function setUpRoutes() {
 }
 
 function setUpAvailableRouteTimetables() {
-  if (config.routeTimetableUrlResolver.HSL) {
-    retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 30, 1000)
-      .then(res => res.json())
-      .then(
-        result => {
-          config.availableRouteTimetables.HSL = result;
-        },
-        err => {
-          console.log(err);
-        },
-      );
-  }
+  return new Promise((resolve, reject) => {
+    // Stores available route pdf names to config.availableRouteTimetables.HSL
+    // All routes don't have available pdf and some have their timetable inside other route
+    // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
+    // route that contains timetables
+    if (config.routeTimetableUrlResolver.HSL) {
+      // try to fetch available route timetables every two seconds with 15 retries
+      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 15, 2000)
+        .then(res => res.json())
+        .then(
+          result => {
+            config.availableRouteTimetables.HSL = result;
+            resolve();
+          },
+          err => {
+            console.log(err);
+            // If after 16 tries no timetable data is found, start server anyway
+            resolve();
+            // Continue attempts to fetch available routes in the background for one day once every minute
+            retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 1440, 60000)
+              .then(res => res.json())
+              .then(
+                result => {
+                  config.availableRouteTimetables.HSL = result;
+                  resolve();
+                },
+                err => {
+                  console.log(err);
+                },
+              );
+          },
+        );
+    }
+  });
 }
 
 function startServer() {
@@ -158,6 +180,6 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-setUpAvailableRouteTimetables();
-startServer();
+setUpAvailableRouteTimetables()
+  .then(() => startServer());
 module.exports.app = app;

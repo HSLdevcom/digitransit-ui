@@ -49,10 +49,12 @@ export default {
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
   },
 
+  // Gets updated when server starts with {routeName: timetableName}
+  // where routeName and timetableNames are route gtfsId values without "<feedname>:"
   availableRouteTimetables: { HSL: {} },
 
   routeTimetableUrlResolver: {
-    HSL(URL, route) {
+    HSL: function(URL, route) {
       return `${URL}${route}.pdf`;
     },
   },

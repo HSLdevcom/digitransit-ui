@@ -72,6 +72,10 @@ class RouteScheduleContainer extends Component {
     this.setState({ ...this.state, to });
   };
 
+  // gets the name of the route (in gtfsId format without the "<feedname>:" part) which
+  // contains the timetable pdf for the current route (it can be stored under different route)
+  // if there is no available timetable for the route, return empty string so that the weekly
+  // timetable button will not be rendered in UI
   getRouteTimetableName = () => {
     const splitRoutePattern = this.props.relay.route.params.patternId.split(
       ':',
@@ -166,6 +170,7 @@ class RouteScheduleContainer extends Component {
   openWeeklyRouteTimetable = e => {
     const feed = this.props.relay.route.params.patternId.split(':')[0];
     const baseURL = this.context.config.URL.ROUTE_TIMETABLES[feed];
+    // name of the route which contains timetables for the current route
     const timetableName = this.getRouteTimetableName();
     e.stopPropagation();
     window.open(
