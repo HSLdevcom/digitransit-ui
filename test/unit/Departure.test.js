@@ -83,4 +83,8 @@ describe('<Departure />', () => {
       'Päiväranta-Keskusta-Pirtti',
     );
   });
+
+  it('should show cancellation information', () => {
+    // TODO
+  });
 });

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import DepartureTime from './DepartureTime';
 import Icon from './Icon';
@@ -132,6 +132,11 @@ Departure.propTypes = {
 
 Departure.defaultProps = {
   showPlatformCode: false,
+};
+
+Departure.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default Departure;
