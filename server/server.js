@@ -106,13 +106,13 @@ function onError(err, req, res) {
   res.end(err.message + err.stack);
 }
 
-function setupRaven() {
+function setUpRaven() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.requestHandler());
   }
 }
 
-function setupErrorHandling() {
+function setUpErrorHandling() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.errorHandler());
   }
@@ -153,11 +153,11 @@ function startServer() {
 }
 
 /* ********* Init ********* */
-setupRaven();
+setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
-setupErrorHandling();
+setUpErrorHandling();
 setUpAvailableRouteTimetables();
 startServer();
 module.exports.app = app;
