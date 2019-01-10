@@ -132,7 +132,7 @@ function setUpRoutes() {
 }
 
 function setUpAvailableRouteTimetables() {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     // Stores available route pdf names to config.availableRouteTimetables.HSL
     // All routes don't have available pdf and some have their timetable inside other route
     // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
@@ -151,19 +151,26 @@ function setUpAvailableRouteTimetables() {
             // If after 16 tries no timetable data is found, start server anyway
             resolve();
             // Continue attempts to fetch available routes in the background for one day once every minute
-            retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 1440, 60000)
+            retryFetch(
+              `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
+              {},
+              1440,
+              60000,
+            )
               .then(res => res.json())
               .then(
                 result => {
                   config.availableRouteTimetables.HSL = result;
                   resolve();
                 },
-                err => {
-                  console.log(err);
+                error => {
+                  console.log(error);
                 },
               );
           },
         );
+    } else {
+      resolve();
     }
   });
 }
@@ -180,6 +187,5 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-setUpAvailableRouteTimetables()
-  .then(() => startServer());
+setUpAvailableRouteTimetables().then(() => startServer());
 module.exports.app = app;

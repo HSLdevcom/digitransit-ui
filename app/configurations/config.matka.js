@@ -54,6 +54,7 @@ export default {
   availableRouteTimetables: { HSL: {} },
 
   routeTimetableUrlResolver: {
+    // eslint-disable-next-line object-shorthand
     HSL: function(URL, route) {
       return `${URL}${route}.pdf`;
     },
