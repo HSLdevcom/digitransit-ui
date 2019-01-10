@@ -1,11 +1,10 @@
-@function drop_off_svg($color, $alpha:0.9999999) {
-  @return "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2713%27%20height%3D%2712%27%3E%3Cg%20stroke%3D%27none%27%20stroke-width%3D%271%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cpath%20fill%3D%27#{rgba($color, $alpha)}%27%20d%3D%27M6.06%2C0%20C9.38%2C0%2012.08%2C2.68%2012.08%2C6.02%20C12.08%2C9.34%209.38%2C12.02%206.06%2C12.02%20C2.74%2C12.02%200.04%2C9.34%200.04%2C6.02%20C0.04%2C2.68%202.74%2C0%206.06%2C0%20Z%20M7.2%2C9.2%20L7.2%2C5.94%20C7.2%2C5.3%206.78%2C4.8%206.14%2C4.8%20L5.04%2C4.8%20C4.5%2C4.8%204.18%2C5.16%204.18%2C5.62%20C4.18%2C6.02%204.44%2C6.44%205.28%2C6.44%20L5.28%2C9.2%20C5.28%2C9.84%205.62%2C10.34%206.24%2C10.34%20C6.88%2C10.34%207.2%2C9.84%207.2%2C9.2%20Z%20M7.36%2C2.78%20L7.36%2C2.68%20C7.36%2C2%206.8%2C1.56%206.06%2C1.56%20C5.32%2C1.56%204.76%2C2%204.76%2C2.68%20L4.76%2C2.78%20C4.76%2C3.46%205.32%2C3.92%206.06%2C3.92%20C6.8%2C3.92%207.36%2C3.46%207.36%2C2.78%20Z%27%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+@function drop_off_svg($color, $alpha: 0.9999999) {
+  @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2713%27%20height%3D%2712%27%3E%3Cg%20stroke%3D%27none%27%20stroke-width%3D%271%27%20fill%3D%27none%27%20fill-rule%3D%27evenodd%27%3E%3Cpath%20fill%3D%27#{rgba($color, $alpha)}%27%20d%3D%27M6.06%2C0%20C9.38%2C0%2012.08%2C2.68%2012.08%2C6.02%20C12.08%2C9.34%209.38%2C12.02%206.06%2C12.02%20C2.74%2C12.02%200.04%2C9.34%200.04%2C6.02%20C0.04%2C2.68%202.74%2C0%206.06%2C0%20Z%20M7.2%2C9.2%20L7.2%2C5.94%20C7.2%2C5.3%206.78%2C4.8%206.14%2C4.8%20L5.04%2C4.8%20C4.5%2C4.8%204.18%2C5.16%204.18%2C5.62%20C4.18%2C6.02%204.44%2C6.44%205.28%2C6.44%20L5.28%2C9.2%20C5.28%2C9.84%205.62%2C10.34%206.24%2C10.34%20C6.88%2C10.34%207.2%2C9.84%207.2%2C9.2%20Z%20M7.36%2C2.78%20L7.36%2C2.68%20C7.36%2C2%206.8%2C1.56%206.06%2C1.56%20C5.32%2C1.56%204.76%2C2%204.76%2C2.68%20L4.76%2C2.78%20C4.76%2C3.46%205.32%2C3.92%206.06%2C3.92%20C6.8%2C3.92%207.36%2C3.46%207.36%2C2.78%20Z%27%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E';
 }
 
-@function last_stop_svg($color, $alpha:0.9999999) {
-  @return "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2719%27%20height%3D%2719%27%3E%3Cline%20x1%3D%272%27%20y1%3D%2710%27%20x2%3D%2710%27%20y2%3D%2710%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20stroke-width%3D%273.5%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20stroke-width%3D%272.5%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20fill%3D%27white%27%20cx%3D%2711%27%20cy%3D%2710%27%20r%3D%274%27%2F%3E%3C%2Fsvg%3E"
+@function last_stop_svg($color, $alpha: 0.9999999) {
+  @return 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2719%27%20height%3D%2719%27%3E%3Cline%20x1%3D%272%27%20y1%3D%2710%27%20x2%3D%2710%27%20y2%3D%2710%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20stroke-width%3D%273.5%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20stroke-width%3D%272.5%27%20stroke%3D%27#{rgba($color, $alpha)}%27%20fill%3D%27white%27%20cx%3D%2711%27%20cy%3D%2710%27%20r%3D%274%27%2F%3E%3C%2Fsvg%3E';
 }
-
 
 .departure {
   // parent class for time, vehicle-number, destination
@@ -40,6 +39,17 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
+    }
+  }
+
+  .departure-canceled {
+    color: $cancelation-red;
+    .icon-container {
+      padding-right: $padding-xsmall;
+      .icon {
+        color: white;
+        fill: $cancelation-red;
+      }
     }
   }
 }
@@ -189,36 +199,15 @@
   width: 0.5em;
 }
 
-.canceled .time,
-.time.canceled {
-  position: relative;
-  display: inline-block;
-  color: $cancelation-black;
-  background-color: $cancelation-background;
-  border-radius: $border-radius;
-  &::before,
-  &::after {
-    content: '';
-    width: 1.5em;
-    position: absolute;
-    left: 0.825em;
-    top: 50%;
-    opacity: 0.5;
-    border-bottom: 1px solid $cancelation-red;
-  }
-  &::before {
-    transform: skewY(-30deg);
-  }
-  &::after {
-    transform: skewY(30deg);
-  }
-}
-
 .card .canceled .time {
   margin-top: inherit;
   margin-bottom: inherit;
   padding-top: inherit;
   padding-bottom: inherit;
+}
+
+.departure-time-shown.canceled {
+  padding: 0 $padding-xxsmall;
 }
 
 .next-departure-row {

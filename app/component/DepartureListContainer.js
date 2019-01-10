@@ -119,7 +119,6 @@ class DepartureListContainer extends Component {
 
       const classes = {
         disruption: hasActiveDisruption(departure.stoptime, departure.alerts),
-        canceled: departure.canceled,
       };
 
       const departureObj = (

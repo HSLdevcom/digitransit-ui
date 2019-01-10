@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
+import DepartureTime from './DepartureTime';
+import Icon from './Icon';
 import RouteNumberContainer from './RouteNumberContainer';
 import RouteDestination from './RouteDestination';
-import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
@@ -53,7 +54,14 @@ function Departure(props) {
         isArrival={props.isArrival}
         isLastStop={props.isLastStop}
       />
-      {platformNumber}
+      {props.canceled ? (
+        <div className="departure-canceled">
+          <Icon img="icon-icon_caution" />
+          <FormattedMessage id="canceled" defaultMessage="Canceled" />
+        </div>
+      ) : (
+        platformNumber
+      )}
     </p>
   );
 }
@@ -124,11 +132,6 @@ Departure.propTypes = {
 
 Departure.defaultProps = {
   showPlatformCode: false,
-};
-
-Departure.contextTypes = {
-  config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 
 export default Departure;
