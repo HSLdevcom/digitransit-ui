@@ -25,6 +25,7 @@ class RouteScheduleContainer extends Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static transformTrips(trips, stops) {
@@ -69,6 +70,18 @@ class RouteScheduleContainer extends Component {
   onToSelectChange = event => {
     const to = Number(event.target.value);
     this.setState({ ...this.state, to });
+  };
+
+  getRouteTimetableName = () => {
+    const splitRoutePattern = this.props.relay.route.params.patternId.split(
+      ':',
+    );
+    const feed = splitRoutePattern[0];
+    const routeId = splitRoutePattern[1];
+    if (this.context.config.availableRouteTimetables[feed]) {
+      return this.context.config.availableRouteTimetables[feed][routeId];
+    }
+    return '';
   };
 
   getTrips = (from, to) => {
@@ -150,6 +163,19 @@ class RouteScheduleContainer extends Component {
     );
   };
 
+  openWeeklyRouteTimetable = e => {
+    const feed = this.props.relay.route.params.patternId.split(':')[0];
+    const baseURL = this.context.config.URL.ROUTE_TIMETABLES[feed];
+    const timetableName = this.getRouteTimetableName();
+    e.stopPropagation();
+    window.open(
+      this.context.config.routeTimetableUrlResolver[feed](
+        baseURL,
+        timetableName,
+      ),
+    );
+  };
+
   printRouteTimetable = e => {
     e.stopPropagation();
     window.print();
@@ -166,13 +192,24 @@ class RouteScheduleContainer extends Component {
             onDateChange={this.changeDate}
           />
           {this.dateForPrinting()}
-          <SecondaryButton
-            ariaLabel="print"
-            buttonName="print"
-            buttonClickAction={e => this.printRouteTimetable(e)}
-            buttonIcon="icon-icon_print"
-            smallSize
-          />
+          <div className="print-button-container">
+            {this.getRouteTimetableName() && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => this.openWeeklyRouteTimetable(e)}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            <SecondaryButton
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => this.printRouteTimetable(e)}
+              buttonIcon="icon-icon_print"
+              smallSize
+            />
+          </div>
         </div>
         <div className="route-schedule-list-wrapper">
           <RouteScheduleHeader

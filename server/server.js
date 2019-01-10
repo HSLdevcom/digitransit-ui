@@ -37,6 +37,7 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const { retryFetch } = require('../app/util/fetchUtils');
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;
@@ -130,6 +131,21 @@ function setUpRoutes() {
   app.enable('trust proxy');
 }
 
+function setUpAvailableRouteTimetables() {
+  if (config.routeTimetableUrlResolver.HSL) {
+    retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 30, 1000)
+      .then(res => res.json())
+      .then(
+        result => {
+          config.availableRouteTimetables.HSL = result;
+        },
+        err => {
+          console.log(err);
+        },
+      );
+  }
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -142,5 +158,6 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setupErrorHandling();
+setUpAvailableRouteTimetables();
 startServer();
 module.exports.app = app;

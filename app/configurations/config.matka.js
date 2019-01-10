@@ -1,4 +1,6 @@
 const CONFIG = 'matka';
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const HSL_ROUTE_TIMETABLES_URL = `${API_URL}/timetables/v1/hsl/routes/`;
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
@@ -6,6 +8,12 @@ const YEAR = 1900 + new Date().getYear();
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
+
+  URL: {
+    ROUTE_TIMETABLES: {
+      HSL: HSL_ROUTE_TIMETABLES_URL,
+    },
+  },
 
   contactName: {
     sv: 'Livin',
@@ -39,6 +47,14 @@ export default {
   meta: {
     description: APP_DESCRIPTION,
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
+  },
+
+  availableRouteTimetables: { HSL: {} },
+
+  routeTimetableUrlResolver: {
+    HSL(URL, route) {
+      return `${URL}${route}.pdf`;
+    },
   },
 
   footer: {

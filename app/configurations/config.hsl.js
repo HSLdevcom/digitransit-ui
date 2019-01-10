@@ -2,6 +2,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const HSL_ROUTE_TIMETABLES_URL = `${API_URL}/timetables/v1/hsl/routes/`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
@@ -15,6 +16,10 @@ export default {
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
+    STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
+    ROUTE_TIMETABLES: {
+      HSL: HSL_ROUTE_TIMETABLES_URL,
+    },
   },
 
   contactName: {
@@ -261,6 +266,14 @@ export default {
 
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
+
+  availableRouteTimetables: { HSL: {} },
+
+  routeTimetableUrlResolver: {
+    HSL(URL, route) {
+      return `${URL}${route}.pdf`;
+    },
+  },
 
   aboutThisService: {
     fi: [

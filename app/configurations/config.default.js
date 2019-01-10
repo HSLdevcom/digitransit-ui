@@ -562,6 +562,10 @@ export default {
     },
   ],
 
+  availableRouteTimetables: {},
+
+  routeTimetableUrlResolver: {},
+
   aboutThisService: {
     fi: [
       {
