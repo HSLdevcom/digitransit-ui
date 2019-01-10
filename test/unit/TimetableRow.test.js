@@ -26,4 +26,37 @@ describe('<TimetableRow />', () => {
       'none',
     );
   });
+
+  it('should apply className canceled if a stoptime has been canceled', () => {
+    const props = {
+      title: '09',
+      stoptimes: [
+        {
+          id: 'HSL:1070:1:01',
+          name: '70',
+          scheduledDeparture: 32460,
+          serviceDay: 1547071200,
+          headsign: 'Kamppi',
+          longName: 'Kamppi-Töölö-Pihlajamäki-Pukinmäki-Malmi',
+          isCanceled: true,
+          duplicate: false,
+        },
+        {
+          id: 'HSL:1070:1:01',
+          name: '70',
+          scheduledDeparture: 33000,
+          serviceDay: 1547071200,
+          headsign: 'Kamppi',
+          longName: 'Kamppi-Töölö-Pihlajamäki-Pukinmäki-Malmi',
+          isCanceled: false,
+          duplicate: false,
+        },
+      ],
+      showRoutes: [],
+      timerows: [],
+    };
+    const wrapper = shallowWithIntl(<TimetableRow {...props} />);
+    expect(wrapper.find('.timetablerow-linetime')).to.have.lengthOf(2);
+    expect(wrapper.find('.timetablerow-linetime.canceled')).to.have.lengthOf(1);
+  });
 });
