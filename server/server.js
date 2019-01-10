@@ -138,8 +138,8 @@ function setUpAvailableRouteTimetables() {
     // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
     // route that contains timetables
     if (config.routeTimetableUrlResolver.HSL) {
-      // try to fetch available route timetables every two seconds with 15 retries
-      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 15, 2000)
+      // try to fetch available route timetables every four seconds with 4 retries
+      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 4, 4000)
         .then(res => res.json())
         .then(
           result => {
@@ -148,7 +148,7 @@ function setUpAvailableRouteTimetables() {
           },
           err => {
             console.log(err);
-            // If after 16 tries no timetable data is found, start server anyway
+            // If after 5 tries no timetable data is found, start server anyway
             resolve();
             // Continue attempts to fetch available routes in the background for one day once every minute
             retryFetch(
