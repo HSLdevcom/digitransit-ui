@@ -258,26 +258,6 @@ const SummaryRow = (
       leg,
     );
 
-    if (!noTransitLegs) {
-      let firstDeparture = false;
-      if (
-        data.legs[1] != null &&
-        !(data.legs[1].rentedBike || data.legs[0].transitLeg)
-      ) {
-        firstDeparture = data.legs[1].startTime;
-      }
-      if (data.legs[0].transitLeg && !data.legs[0].rentedBike) {
-        firstDeparture = data.legs[0].startTime;
-      }
-      if (firstDeparture) {
-        firstLegStartTime = (
-          <div className={cx('itinerary-first-leg-start-time')}>
-            <span>{moment(firstDeparture).format('HH:mm')}</span>
-          </div>
-        );
-      }
-    }
-
     lastLegRented = leg.rentedBike;
 
     if (leg.rentedBike) {
@@ -354,6 +334,7 @@ const SummaryRow = (
       );
     }
   });
+
   if (!noTransitLegs) {
     let firstDeparture = false;
     if (
@@ -367,7 +348,11 @@ const SummaryRow = (
     }
     if (firstDeparture) {
       firstLegStartTime = (
-        <div className={cx('itinerary-first-leg-start-time')}>
+        <div
+          className={cx('itinerary-first-leg-start-time', {
+            small: breakpoint !== 'large',
+          })}
+        >
           <LocalTime time={firstDeparture} />
         </div>
       );

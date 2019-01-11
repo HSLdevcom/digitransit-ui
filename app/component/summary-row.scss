@@ -70,23 +70,6 @@
     @include font-narrow-medium;
     font-weight: $font-weight-bold;
 
-    .itinerary-first-leg-start-time {
-      color: $distance-gray;
-      font-size: $font-size-xsmall;
-      margin-top: -6px;
-      margin-right: -7px;
-      font-weight: 700;
-
-      &.realtime {
-        color: $realtime-color;
-      }
-    }
-
-    // When we don't have a start date box, we can add some spacing
-    .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
-      margin-top: -2px;
-    }
-
     .itinerary-start-date {
       display: block;
       text-align: right;
@@ -133,7 +116,13 @@
     left: 2.3em;
     text-align: right;
     width: 3em;
-    color: #7b7b7b;
+    color: $distance-gray;
+
+    &.small {
+      font-size: $font-size-small;
+      left: 1.2em;
+      top: 2.6em;
+    }
   }
 
   .itinerary-legs {
@@ -350,10 +339,6 @@
       font-size: 21px;
       padding-top: 17px;
 
-      .itinerary-first-leg-start-time {
-        margin-top: -1px;
-        font-size: $font-size-normal;
-      }
       .itinerary-start-date {
         @include font-narrow-book;
         font-size: $font-size-xxsmall;
@@ -416,11 +401,6 @@
     //text color
     color: $black;
   }
-}
-.mobile .itinerary-first-leg-start-time {
-  font-size: $font-size-small;
-  left: 1.2em;
-  top: 2.6em;
 }
 
 .mobile .itinerary-legs .leg {
