@@ -5,15 +5,11 @@ const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 
+const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
-
-  URL: {
-    ROUTE_TIMETABLES: {
-      HSL: HSL_ROUTE_TIMETABLES_URL,
-    },
-  },
 
   contactName: {
     sv: 'Livin',
@@ -49,16 +45,8 @@ export default {
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
   },
 
-  // Gets updated when server starts with {routeName: timetableName}
-  // where routeName and timetableNames are route gtfsId values without "<feedname>:"
-  availableRouteTimetables: { HSL: {} },
-
-  routeTimetableUrlResolver: {
-    // eslint-disable-next-line object-shorthand
-    HSL: function(URL, route) {
-      // eslint-disable-next-line prefer-template
-      return URL + route + '.pdf';
-    },
+  routeTimetables: {
+    HSL: HSLRouteTimetable,
   },
 
   footer: {

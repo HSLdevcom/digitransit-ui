@@ -34,6 +34,9 @@ export default {
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL ||
       GEOCODING_BASE_URL}/reverse`,
+    ROUTE_TIMETABLES: {
+      HSL: `${API_URL}/timetables/v1/hsl/routes/`,
+    },
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -691,4 +694,6 @@ export default {
       ticketSales: {},
     },
   },
+
+  routeTimetables: {},
 };
