@@ -102,26 +102,21 @@ function StopPageTabContainer({
               </div>
             </div>
           </Link>
-          {!isTerminal && (
-            <Link
-              to={`${urlBase}/${Tab.Disruptions}`}
-              className={cx('stop-tab-singletab', {
-                active: activeTab === Tab.Disruptions,
-              })}
-            >
-              <div className="stop-tab-singletab-container">
-                <div>
-                  <Icon
-                    className="stop-page-tab_icon"
-                    img="icon-icon_caution"
-                  />
-                </div>
-                <div>
-                  <FormattedMessage id="disruptions" />
-                </div>
+          <Link
+            to={`${urlBase}/${Tab.Disruptions}`}
+            className={cx('stop-tab-singletab', {
+              active: activeTab === Tab.Disruptions,
+            })}
+          >
+            <div className="stop-tab-singletab-container">
+              <div>
+                <Icon className="stop-page-tab_icon" img="icon-icon_caution" />
               </div>
-            </Link>
-          )}
+              <div>
+                <FormattedMessage id="disruptions" />
+              </div>
+            </div>
+          </Link>
         </div>
         <div className="stop-tabs-fillerline" />
       </div>

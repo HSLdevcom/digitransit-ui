@@ -241,6 +241,7 @@ const SummaryRow = (
   });
 
   let lastLegRented = false;
+  let firstLegStartTime = null;
 
   data.legs.forEach((leg, i) => {
     if (leg.rentedBike && lastLegRented) {
@@ -334,8 +335,6 @@ const SummaryRow = (
     }
   });
 
-  let firstLegStartTime = null;
-
   if (!noTransitLegs) {
     let firstDeparture = false;
     if (
@@ -349,7 +348,11 @@ const SummaryRow = (
     }
     if (firstDeparture) {
       firstLegStartTime = (
-        <div className={cx('itinerary-first-leg-start-time')}>
+        <div
+          className={cx('itinerary-first-leg-start-time', {
+            small: breakpoint !== 'large',
+          })}
+        >
           <LocalTime time={firstDeparture} />
         </div>
       );
@@ -426,9 +429,9 @@ const SummaryRow = (
                 <span>{dateOrEmpty(startTime, refTime)}</span>
               </span>
               <LocalTime time={startTime} />
-              {firstLegStartTime}
             </div>,
             <div className="itinerary-legs" key="legs">
+              {firstLegStartTime}
               {legs}
             </div>,
             <div
