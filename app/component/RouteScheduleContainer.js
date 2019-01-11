@@ -72,22 +72,6 @@ class RouteScheduleContainer extends Component {
     this.setState({ ...this.state, to });
   };
 
-  // gets the name of the route (in gtfsId format without the "<feedname>:" part) which
-  // contains the timetable pdf for the current route (it can be stored under different route)
-  // if there is no available timetable for the route, return empty string so that the weekly
-  // timetable button will not be rendered in UI
-  getRouteTimetableName = () => {
-    const splitRoutePattern = this.props.relay.route.params.patternId.split(
-      ':',
-    );
-    const feed = splitRoutePattern[0];
-    const routeId = splitRoutePattern[1];
-    if (this.context.config.availableRouteTimetables[feed]) {
-      return this.context.config.availableRouteTimetables[feed][routeId];
-    }
-    return '';
-  };
-
   getTrips = (from, to) => {
     const { stops } = this.props.pattern;
     const trips = RouteScheduleContainer.transformTrips(
@@ -167,18 +151,9 @@ class RouteScheduleContainer extends Component {
     );
   };
 
-  openWeeklyRouteTimetable = e => {
-    const feed = this.props.relay.route.params.patternId.split(':')[0];
-    const baseURL = this.context.config.URL.ROUTE_TIMETABLES[feed];
-    // name of the route which contains timetables for the current route
-    const timetableName = this.getRouteTimetableName();
+  openRoutePDF = (e, routePDFUrl) => {
     e.stopPropagation();
-    window.open(
-      this.context.config.routeTimetableUrlResolver[feed](
-        baseURL,
-        timetableName,
-      ),
-    );
+    window.open(routePDFUrl);
   };
 
   printRouteTimetable = e => {
@@ -187,6 +162,20 @@ class RouteScheduleContainer extends Component {
   };
 
   render() {
+    const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
+
+    const routeTimetableHandler =
+      this.context.config.routeTimetables &&
+      this.context.config.routeTimetables[routeIdSplitted[0]];
+
+    const routeTimetableUrl =
+      routeTimetableHandler &&
+      this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
+      routeTimetableHandler.timetableUrlResolver(
+        this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
+        this.props.pattern.route,
+      );
+
     return (
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
@@ -198,11 +187,11 @@ class RouteScheduleContainer extends Component {
           />
           {this.dateForPrinting()}
           <div className="print-button-container">
-            {this.getRouteTimetableName() && (
+            {routeTimetableUrl && (
               <SecondaryButton
                 ariaLabel="print-timetable"
                 buttonName="print-timetable"
-                buttonClickAction={e => this.openWeeklyRouteTimetable(e)}
+                buttonClickAction={e => this.openRoutePDF(e, routeTimetableUrl)}
                 buttonIcon="icon-icon_print"
                 smallSize
               />
@@ -247,6 +236,8 @@ export default connectToStores(
           }
           route {
             url
+            gtfsId
+            shortName
           }
           tripsForDate(serviceDay: $serviceDay) {
             id

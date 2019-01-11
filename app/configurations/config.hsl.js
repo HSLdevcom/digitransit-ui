@@ -2,15 +2,16 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const HSL_ROUTE_TIMETABLES_URL = `${API_URL}/timetables/v1/hsl/routes/`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
+
+const HSLRouteTimetable = require('./timetableConfigUtils').HSLRoutes;
 
 export default {
   CONFIG,
 
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
+    OTP: 'http://localhost:8085/otp/routers/default/', // process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/v1/hsl-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
@@ -18,7 +19,7 @@ export default {
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
     STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
     ROUTE_TIMETABLES: {
-      HSL: HSL_ROUTE_TIMETABLES_URL,
+      HSL: `${API_URL}/timetables/v1/hsl/routes/`,
     },
   },
 
@@ -267,16 +268,8 @@ export default {
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
-  // Gets updated when server starts with {routeName: timetableName}
-  // where routeName and timetableNames are route gtfsId values without "<feedname>:"
-  availableRouteTimetables: { HSL: {} },
-
-  routeTimetableUrlResolver: {
-    // eslint-disable-next-line object-shorthand
-    HSL: function(URL, route) {
-      // eslint-disable-next-line prefer-template
-      return URL + route + '.pdf';
-    },
+  routeTimetables: {
+    HSL: HSLRouteTimetable,
   },
 
   aboutThisService: {
