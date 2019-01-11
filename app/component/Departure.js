@@ -122,7 +122,22 @@ Departure.propTypes = {
   className: PropTypes.string,
   hasDisruption: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
-  departure: PropTypes.object.isRequired,
+  departure: PropTypes.shape({
+    headsign: PropTypes.string,
+    pattern: PropTypes.shape({
+      headsign: PropTypes.string,
+      route: PropTypes.shape({
+        longName: PropTypes.string,
+        mode: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    realtime: PropTypes.bool,
+    stop: PropTypes.shape({
+      platformCode: PropTypes.string,
+    }),
+    stoptime: PropTypes.number.isRequired,
+    trip: PropTypes.object,
+  }).isRequired,
   isArrival: PropTypes.bool,
   isLastStop: PropTypes.bool,
   showPlatformCode: PropTypes.bool,

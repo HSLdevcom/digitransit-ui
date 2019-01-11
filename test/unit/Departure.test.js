@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { mountWithIntl } from './helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 import Departure from '../../app/component/Departure';
 
 import data from './test-data/dt2734';
@@ -85,6 +85,20 @@ describe('<Departure />', () => {
   });
 
   it('should show cancellation information', () => {
-    // TODO
+    const props = {
+      canceled: true,
+      currentTime: Date.now(),
+      departure: {
+        headsign: 'Kamppi via Töölö',
+        pattern: {
+          route: {
+            mode: 'BUS',
+          },
+        },
+        stoptime: 1547191795,
+      },
+    };
+    const wrapper = shallowWithIntl(<Departure {...props} />);
+    expect(wrapper.find('.departure-canceled')).to.have.lengthOf(1);
   });
 });
