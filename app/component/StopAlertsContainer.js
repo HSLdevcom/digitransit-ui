@@ -1,11 +1,12 @@
-import orderBy from 'lodash/orderBy';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
 
 import RouteAlertsContainer from './RouteAlertsContainer';
+import { routeNameCompare } from '../util/searchUtils';
 
-const StopAlerts = ({ stop }) => {
+const StopAlertsContainer = ({ stop }) => {
   const patternsWithAlerts = stop.stoptimesForPatterns
     .map(stoptime => stoptime.pattern)
     .filter(pattern => pattern.route.alerts.length > 0);
@@ -19,20 +20,39 @@ const StopAlerts = ({ stop }) => {
       </div>
     );
   }
-  return orderBy(
-    patternsWithAlerts,
-    pattern => pattern.route.alerts[0].effectiveStartDate,
-  ).map(pattern => (
-    <RouteAlertsContainer
-      key={pattern.route.id}
-      isScrolling={false}
-      patternId={pattern.code}
-      route={pattern.route}
-    />
-  ));
+  return (
+    <div className="momentum-scroll">
+      {patternsWithAlerts
+        .sort((a, b) => routeNameCompare(a.route, b.route))
+        .map(pattern => (
+          <RouteAlertsContainer
+            key={pattern.code}
+            isScrollable={false}
+            patternId={pattern.code}
+            route={pattern.route}
+          />
+        ))}
+    </div>
+  );
 };
 
-const containerComponent = Relay.createContainer(StopAlerts, {
+StopAlertsContainer.propTypes = {
+  stop: PropTypes.shape({
+    stoptimesForPatterns: PropTypes.arrayOf(
+      PropTypes.shape({
+        pattern: PropTypes.shape({
+          code: PropTypes.string.isRequired,
+          route: PropTypes.shape({
+            alerts: PropTypes.array.isRequired,
+            shortName: PropTypes.string,
+          }).isRequired,
+        }),
+      }),
+    ).isRequired,
+  }).isRequired,
+};
+
+const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
     fragment on Stop {
@@ -65,4 +85,4 @@ const containerComponent = Relay.createContainer(StopAlerts, {
   },
 });
 
-export { containerComponent as default, StopAlerts as Component };
+export { containerComponent as default, StopAlertsContainer as Component };
