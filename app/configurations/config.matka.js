@@ -1,6 +1,4 @@
 const CONFIG = 'matka';
-const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const HSL_ROUTE_TIMETABLES_URL = `${API_URL}/timetables/v1/hsl/routes/`;
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
