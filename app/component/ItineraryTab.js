@@ -76,6 +76,18 @@ class ItineraryTab extends React.Component {
       <RouteInformation />
     );
 
+    const canceledLegs = [];
+
+    this.props.itinerary.legs.forEach(
+      (leg, legIndex) =>
+        leg.trip &&
+        leg.trip.stoptimes.forEach(stoptime => {
+          if (stoptime.realtimeState !== 'CANCELED') {
+            canceledLegs.push(this.props.itinerary.legs[legIndex]);
+          }
+        }),
+    );
+
     return (
       <div className="itinerary-tab">
         <BreakpointConsumer>
@@ -237,6 +249,7 @@ export default Relay.createContainer(ItineraryTab, {
             }
             stoptimes {
               pickupType
+              realtimeState
               stop {
                 gtfsId
               }
