@@ -53,6 +53,7 @@ function getDisruptions(location, cb) {
 }
 
 export default function getStopRoutes(isTerminal = false) {
+  const queries = isTerminal ? terminalQueries : stopQueries;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
       <IndexRoute component={Error404} />
@@ -84,28 +85,28 @@ export default function getStopRoutes(isTerminal = false) {
           );
         }}
         queries={{
-          header: isTerminal ? terminalQueries : stopQueries,
-          map: isTerminal ? terminalQueries : stopQueries,
-          meta: isTerminal ? terminalQueries : stopQueries,
+          header: queries,
+          map: queries,
+          meta: queries,
         }}
         render={ComponentLoading404Renderer}
       >
         <IndexRoute
           getComponent={getStopPageContentPage}
-          queries={isTerminal ? terminalQueries : stopQueries}
+          queries={queries}
           render={RelayRenderer}
         />
         <Route
           path="kartta"
           fullscreenMap
           getComponent={getStopPageContentPage}
-          queries={isTerminal ? terminalQueries : stopQueries}
+          queries={queries}
           render={RelayRenderer}
         />
         <Route
           path="aikataulu"
           getComponent={getTimetablePage}
-          queries={isTerminal ? terminalQueries : stopQueries}
+          queries={queries}
           render={RelayRenderer}
         >
           <Route path="kartta" fullscreenMap />
@@ -113,21 +114,19 @@ export default function getStopRoutes(isTerminal = false) {
         <Route
           path="linjat"
           getComponent={getRoutesAndPlatformsForStops}
-          queries={isTerminal ? terminalQueries : stopQueries}
+          queries={queries}
           render={RelayRenderer}
         >
           <Route path="kartta" fullscreenMap />
         </Route>
-        {!isTerminal && (
-          <Route
-            path="hairiot"
-            getComponent={getDisruptions}
-            queries={stopQueries}
-            render={RelayRenderer}
-          >
-            <Route path="kartta" fullscreenMap />
-          </Route>
-        )}
+        <Route
+          path="hairiot"
+          getComponent={getDisruptions}
+          queries={queries}
+          render={RelayRenderer}
+        >
+          <Route path="kartta" fullscreenMap />
+        </Route>
       </Route>
     </Route>
   );

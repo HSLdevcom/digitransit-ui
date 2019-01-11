@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage, intlShape } from 'react-intl';
-import moment from 'moment';
 import find from 'lodash/find';
-import upperFirst from 'lodash/upperFirst';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteAlertsRow from './RouteAlertsRow';
@@ -60,9 +58,8 @@ const getAlerts = (route, patternId, currentTime, intl) => {
         description = description.text;
       }
 
-      const startTime = moment(alert.effectiveStartDate * 1000);
-      const endTime = moment(alert.effectiveEndDate * 1000);
-      const sameDay = startTime.isSame(endTime, 'day');
+      const startTime = alert.effectiveStartDate * 1000;
+      const endTime = alert.effectiveEndDate * 1000;
 
       return (
         <RouteAlertsRow
@@ -72,12 +69,6 @@ const getAlerts = (route, patternId, currentTime, intl) => {
           routeLine={routeLine}
           header={header}
           description={description}
-          endTime={
-            sameDay
-              ? intl.formatTime(endTime)
-              : upperFirst(endTime.calendar(currentTime))
-          }
-          startTime={upperFirst(startTime.calendar(currentTime))}
           expired={startTime > currentTime || currentTime > endTime}
         />
       );
@@ -85,7 +76,7 @@ const getAlerts = (route, patternId, currentTime, intl) => {
 };
 
 function RouteAlertsContainer(
-  { route, patternId, currentTime, isScrolling },
+  { route, patternId, currentTime, isScrollable },
   { intl },
 ) {
   const hasAlert =
@@ -102,7 +93,7 @@ function RouteAlertsContainer(
   return hasAlert ? (
     <div
       className={cx('route-alerts-list', {
-        'momentum-scroll': isScrolling,
+        'momentum-scroll': isScrollable,
       })}
     >
       {getAlerts(route, patternId, currentTime, intl)}
@@ -119,13 +110,13 @@ function RouteAlertsContainer(
 
 RouteAlertsContainer.propTypes = {
   currentTime: PropTypes.object,
-  isScrolling: PropTypes.bool,
+  isScrollable: PropTypes.bool,
   patternId: PropTypes.string,
   route: PropTypes.object.isRequired,
 };
 
 RouteAlertsContainer.defaultProps = {
-  isScrolling: true,
+  isScrollable: true,
   patternId: undefined,
 };
 
