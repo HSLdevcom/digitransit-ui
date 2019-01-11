@@ -5,7 +5,7 @@ const MAP_URL =
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
-const HSLRouteTimetable = require('./timetableConfigUtils').HSLRoutes;
+const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
 export default {
   CONFIG,
@@ -18,9 +18,6 @@ export default {
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
     STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
-    ROUTE_TIMETABLES: {
-      HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-    },
   },
 
   contactName: {
