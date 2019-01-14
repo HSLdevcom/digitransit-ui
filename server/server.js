@@ -165,7 +165,6 @@ function setUpAvailableRouteTimetables() {
                   config.routeTimetables.HSL.setAvailableRouteTimetables(
                     result,
                   );
-                  resolve();
                   console.log(
                     'availableRouteTimetables.HSL loaded after retry',
                   );
