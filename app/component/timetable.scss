@@ -90,10 +90,6 @@
         padding-left: 1em;
         overflow: visible;
       }
-
-      .timetablerow-linetime.canceled {
-        @include canceled;
-      }
     }
     @media print {
       border-bottom: 1px dotted $black;
