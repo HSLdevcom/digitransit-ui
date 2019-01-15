@@ -180,10 +180,10 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(3);
-    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(4);
+    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
@@ -205,12 +205,12 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(5);
-    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(4).is(RouteLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(6);
+    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(4).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(5).is(RouteLeg)).to.equal(true);
   });
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
@@ -233,10 +233,10 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(3);
-    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(4);
+    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(ModeLeg)).to.equal(true);
   });
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
@@ -259,10 +259,10 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(3);
-    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(4);
+    expect(legs.childAt(1).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
   });
 
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
@@ -283,10 +283,10 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(3);
-    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(4);
+    expect(legs.childAt(1).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
@@ -307,13 +307,13 @@ describe('<SummaryRow />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(7);
-    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(4).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(5).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(6).is(ModeLeg)).to.equal(true);
+    expect(legs.children()).to.have.lengthOf(8);
+    expect(legs.childAt(1).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(2).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(3).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(4).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(5).is(RouteLeg)).to.equal(true);
+    expect(legs.childAt(6).is(ViaLeg)).to.equal(true);
+    expect(legs.childAt(7).is(ModeLeg)).to.equal(true);
   });
 });

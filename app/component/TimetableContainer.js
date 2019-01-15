@@ -10,7 +10,7 @@ export default Relay.createContainer(Timetable, {
         name
         url
         locationType
-        stoptimesForServiceDate(date:$date) {
+        stoptimesForServiceDate(date:$date omitCanceled:false) {
           pattern {
             headsign
             code
@@ -26,6 +26,7 @@ export default Relay.createContainer(Timetable, {
             }
           }
           stoptimes {
+            realtimeState
             scheduledDeparture
             serviceDay
             headsign

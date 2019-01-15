@@ -28,7 +28,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
           },
           pickupType: routeProperties.stoptimes[0].pickupType,
           stoptime: 0,
-          realtime: 0,
+          realtime: false,
           lastStop:
             stopFromProps.stops.filter(
               singleStop =>
@@ -50,7 +50,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
         ...singlePattern,
         pickupType: singlePattern.stoptimes[0].pickupType,
         stoptime: 0,
-        realtime: 0,
+        realtime: false,
         lastStop:
           stopFromProps.gtfsId ===
           singlePattern.pattern.stops[singlePattern.pattern.stops.length - 1]

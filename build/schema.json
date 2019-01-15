@@ -1581,6 +1581,16 @@
                                 "defaultValue": null
                             },
                             {
+                                "name": "omitCanceled",
+                                "description": "When false, return itineraries using canceled trips. Default value: true.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
+                            },
+                            {
                                 "name": "ignoreRealtimeUpdates",
                                 "description": "When true, realtime updates are ignored during this search. Default value: false",
                                 "type": {
@@ -3081,6 +3091,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": "false"
+                            },
+                            {
+                                "name": "omitCanceled",
+                                "description": "If false, returns also canceled trips",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
                             }
                         ],
                         "type": {
@@ -3409,6 +3429,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": "false"
+                            },
+                            {
+                                "name": "omitCanceled",
+                                "description": "If false, returns also canceled trips",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
                             }
                         ],
                         "type": {
@@ -3466,6 +3496,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": "false"
+                            },
+                            {
+                                "name": "omitCanceled",
+                                "description": "If false, returns also canceled trips",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
                             }
                         ],
                         "type": {
@@ -3523,6 +3563,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": "false"
+                            },
+                            {
+                                "name": "omitCanceled",
+                                "description": "If false, returns also canceled trips",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
                             }
                         ],
                         "type": {
@@ -5101,6 +5151,16 @@
                                     "ofType": null
                                 },
                                 "defaultValue": "false"
+                            },
+                            {
+                                "name": "omitCanceled",
+                                "description": "If false, returns also canceled trips",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Boolean",
+                                    "ofType": null
+                                },
+                                "defaultValue": "true"
                             }
                         ],
                         "type": {
@@ -6143,6 +6203,18 @@
                         "type": {
                             "kind": "SCALAR",
                             "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "realtimeState",
+                        "description": "State of real-time data",
+                        "args": [],
+                        "type": {
+                            "kind": "ENUM",
+                            "name": "RealtimeState",
                             "ofType": null
                         },
                         "isDeprecated": false,
