@@ -12,10 +12,10 @@ const StopAlertsContainer = ({ stop }) => {
     .filter(pattern => pattern.route.alerts.length > 0);
   if (patternsWithAlerts.length === 0) {
     return (
-      <div className="no-stop-alerts-message">
+      <div className="stop-no-alerts-container">
         <FormattedMessage
-          id="disruption-info-route-no-alerts"
-          defaultMessage="No known disruptions or diversions for route."
+          id="disruption-info-no-alerts"
+          defaultMessage="No known disruptions or diversions."
         />
       </div>
     );

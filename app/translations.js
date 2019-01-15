@@ -676,6 +676,7 @@ const translations = {
     next: 'Next',
     'no-bike-allowed-popup':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
+    'no-departures': 'No departures',
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
@@ -1345,6 +1346,7 @@ const translations = {
     next: 'Seuraava',
     'no-bike-allowed-popup':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
+    'no-departures': 'Ei lähteviä vuoroja',
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
