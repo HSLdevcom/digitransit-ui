@@ -70,7 +70,7 @@ class StopPageContent extends React.Component {
   }
 }
 
-export default Relay.createContainer(
+const connectedComponent = Relay.createContainer(
   connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
     currentTime: getStore('TimeStore')
       .getCurrentTime()
@@ -100,3 +100,5 @@ export default Relay.createContainer(
     },
   },
 );
+
+export { connectedComponent as default, StopPageContent as Component };

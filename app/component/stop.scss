@@ -41,6 +41,10 @@
   justify-content: center;
   text-align: center;
 
+  @media print {
+    display: none;
+  }
+
   .icon {
     font-size: 2.5em;
   }
