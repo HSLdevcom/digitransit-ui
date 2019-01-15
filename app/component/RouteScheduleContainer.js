@@ -13,8 +13,15 @@ import DateSelect from './DateSelect';
 import SecondaryButton from './SecondaryButton';
 import Loading from './Loading';
 import Icon from './Icon';
+import { RealtimeStateType } from '../constants';
 
 const DATE_FORMAT = 'YYYYMMDD';
+
+const isTripCanceled = trip =>
+  trip.stoptimes &&
+  Object.keys(trip.stoptimes)
+    .map(key => trip.stoptimes[key])
+    .every(st => st.realtimeState === RealtimeStateType.Canceled);
 
 class RouteScheduleContainer extends Component {
   static propTypes = {
@@ -104,6 +111,7 @@ class RouteScheduleContainer extends Component {
           key={trip.id}
           departureTime={departureTime}
           arrivalTime={arrivalTime}
+          isCanceled={isTripCanceled(trip)}
         />
       );
     });
@@ -191,7 +199,7 @@ class RouteScheduleContainer extends Component {
   }
 }
 
-export default connectToStores(
+const connectedComponent = connectToStores(
   Relay.createContainer(RouteScheduleContainer, {
     initialVariables: {
       serviceDay: moment().format(DATE_FORMAT),
@@ -209,6 +217,7 @@ export default connectToStores(
           tripsForDate(serviceDay: $serviceDay) {
             id
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+              realtimeState
               scheduledArrival
               scheduledDeparture
               serviceDay
@@ -229,3 +238,5 @@ export default connectToStores(
       .format(DATE_FORMAT),
   }),
 );
+
+export { connectedComponent as default, RouteScheduleContainer as Component };
