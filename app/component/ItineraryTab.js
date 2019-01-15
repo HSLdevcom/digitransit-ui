@@ -76,14 +76,18 @@ class ItineraryTab extends React.Component {
       <RouteInformation />
     );
 
-    const canceledLegs = [];
+    const cancelledLegs = [];
 
     this.props.itinerary.legs.forEach(
       (leg, legIndex) =>
         leg.trip &&
         leg.trip.stoptimes.forEach(stoptime => {
-          if (stoptime.realtimeState !== 'CANCELED') {
-            canceledLegs.push(this.props.itinerary.legs[legIndex]);
+          if (
+            stoptime.realtimeState === 'CANCELED' &&
+            stoptime.stop.gtfsId ===
+              this.props.itinerary.legs[legIndex].from.stop.gtfsId
+          ) {
+            cancelledLegs.push(this.props.itinerary.legs[legIndex]);
           }
         }),
     );
@@ -118,6 +122,7 @@ class ItineraryTab extends React.Component {
                 <ItineraryLegs
                   itinerary={this.props.itinerary}
                   focusMap={this.handleFocus}
+                  cancelledLegs={cancelledLegs}
                 />
                 <ItineraryProfile
                   itinerary={this.props.itinerary}

@@ -41,10 +41,18 @@ class ItineraryLegs extends React.Component {
     let nextLeg;
     const legs = [];
     const compressedLegs = compressLegs(this.props.itinerary.legs);
+    const compressedCancelledLegs = compressLegs(this.props.cancelledLegs);
     const numberOfLegs = compressedLegs.length;
     if (numberOfLegs === 0) {
       return null;
     }
+    console.log(this.props.cancelledLegs);
+    console.log(compressedLegs);
+    const foundCancelledLegs = [];
+    this.props.itinerary.legs.forEach(
+      o => this.props.cancelledLegs.includes(o) && foundCancelledLegs.push(o),
+    );
+    console.log(foundCancelledLegs);
 
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
@@ -227,6 +235,11 @@ class ItineraryLegs extends React.Component {
 ItineraryLegs.propTypes = {
   itinerary: PropTypes.object,
   focusMap: PropTypes.func,
+  cancelledLegs: PropTypes.array,
+};
+
+ItineraryLegs.defaultProps = {
+  cancelledLegs: [],
 };
 
 ItineraryLegs.contextTypes = {
