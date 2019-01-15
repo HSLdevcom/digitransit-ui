@@ -11,6 +11,7 @@ import data from '../test-data/StopAlertsContainer.data';
 describe('<StopAlertsContainer />', () => {
   it('should show a "no alerts" message', () => {
     const props = {
+      currentTime: 1547464412,
       ...data.withoutAlerts,
     };
     const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
@@ -19,6 +20,7 @@ describe('<StopAlertsContainer />', () => {
 
   it('should show all the alerts', () => {
     const props = {
+      currentTime: 1547464412,
       ...data.withAlerts,
     };
     const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
@@ -27,13 +29,15 @@ describe('<StopAlertsContainer />', () => {
 
   it('should order the alerts by route shortName', () => {
     const props = {
+      currentTime: 1547464412,
       stop: {
-        stoptimesForPatterns: [
+        stoptimesForServiceDate: [
           {
             pattern: {
               code: 'second',
               route: {
                 alerts: [{}],
+                mode: 'BUS',
                 shortName: '37N',
               },
             },
@@ -43,6 +47,7 @@ describe('<StopAlertsContainer />', () => {
               code: 'fourth',
               route: {
                 alerts: [{}],
+                mode: 'RAIL',
                 shortName: 'A',
               },
             },
@@ -52,6 +57,7 @@ describe('<StopAlertsContainer />', () => {
               code: 'third',
               route: {
                 alerts: [{}],
+                mode: 'BUS',
                 shortName: '138',
               },
             },
@@ -61,6 +67,7 @@ describe('<StopAlertsContainer />', () => {
               code: 'first',
               route: {
                 alerts: [{}],
+                mode: 'TRAM',
                 shortName: '8A',
               },
             },

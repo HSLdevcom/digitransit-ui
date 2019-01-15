@@ -1,7 +1,7 @@
 export default {
   withAlerts: {
     stop: {
-      stoptimesForPatterns: [
+      stoptimesForServiceDate: [
         {
           pattern: {
             code: 'HSL:2206:0:01',
@@ -973,7 +973,7 @@ export default {
   },
   withoutAlerts: {
     stop: {
-      stoptimesForPatterns: [
+      stoptimesForServiceDate: [
         {
           pattern: {
             code: 'HSL:2125N:0:01',
