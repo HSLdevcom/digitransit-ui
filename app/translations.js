@@ -2323,6 +2323,7 @@ const translations = {
     next: 'Nästa',
     'no-bike-allowed-popup':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
+    'no-departures': 'Inga avgående resor',
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
