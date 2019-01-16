@@ -1128,4 +1128,49 @@ export default {
       ],
     },
   },
+  withCancelations: {
+    stop: {
+      id: 'U3RvcDpIU0w6MTI5MTU1MQ==',
+      stoptimesForServiceDate: [
+        {
+          pattern: {
+            headsign: 'Helsinki',
+            code: 'HSL:3002U:1:01',
+            route: {
+              id: 'Um91dGU6SFNMOjMwMDJV',
+              gtfsId: 'HSL:3002U',
+              shortName: 'U',
+              longName: 'Helsinki-Kirkkonummi',
+              mode: 'RAIL',
+              color: null,
+              alerts: [],
+            },
+            id: 'UGF0dGVybjpIU0w6MzAwMlU6MTowMQ==',
+          },
+          stoptimes: [
+            {
+              realtimeState: 'UPDATED',
+              scheduledDeparture: 40140,
+              serviceDay: 1547589600,
+            },
+            {
+              realtimeState: 'CANCELED',
+              scheduledDeparture: 38340,
+              serviceDay: 1547589600,
+            },
+            {
+              realtimeState: 'SCHEDULED',
+              scheduledDeparture: 77940,
+              serviceDay: 1547589600,
+            },
+            {
+              realtimeState: 'CANCELED',
+              scheduledDeparture: 83940,
+              serviceDay: 1547589600,
+            },
+          ],
+        },
+      ],
+    },
+  },
 };

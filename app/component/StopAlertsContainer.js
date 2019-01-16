@@ -5,7 +5,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
 
-import LocalTime from './LocalTime';
+import DepartureCancelationInfo from './DepartureCancelationInfo';
 import RouteAlertsContainer from './RouteAlertsContainer';
 import RouteAlertsRow from './RouteAlertsRow';
 import { RealtimeStateType } from '../constants';
@@ -13,26 +13,6 @@ import { routeNameCompare } from '../util/searchUtils';
 
 const getScheduledDepartureTime = stoptime =>
   stoptime.scheduledDeparture + stoptime.serviceDay;
-
-const DepartureCancelationInfo = ({ pattern, scheduledDepartureTime }) => {
-  return (
-    <FormattedMessage
-      id="departure-is-canceled"
-      values={{
-        departure: (
-          <FormattedMessage
-            id={`${pattern.route.mode.toLowerCase()}-with-route-number`}
-            values={{
-              routeNumber: pattern.route.shortName,
-              headSign: pattern.headsign,
-            }}
-          />
-        ),
-        time: <LocalTime time={scheduledDepartureTime} />,
-      }}
-    />
-  );
-};
 
 const StopAlertsContainer = ({ currentTime, stop }) => {
   const patternsWithCancellations = stop.stoptimesForServiceDate
@@ -43,7 +23,6 @@ const StopAlertsContainer = ({ currentTime, stop }) => {
       ),
     }))
     .filter(st => st.stoptimes.length > 0);
-
   const patternsWithServiceAlerts = stop.stoptimesForServiceDate
     .map(st => st.pattern)
     .filter(pattern => pattern.route.alerts.length > 0);
@@ -75,8 +54,10 @@ const StopAlertsContainer = ({ currentTime, stop }) => {
                   expired={currentTime > scheduledDepartureTime}
                   header={
                     <DepartureCancelationInfo
-                      pattern={pattern}
+                      headsign={pattern.headsign}
+                      routeMode={pattern.route.mode}
                       scheduledDepartureTime={scheduledDepartureTime}
+                      shortName={pattern.route.shortName}
                     />
                   }
                   key={scheduledDepartureTime}
@@ -164,7 +145,6 @@ const containerComponent = Relay.createContainer(
     },
     initialVariables: {
       date: moment().format('YYYYMMDD'),
-      timeRange: 30 * 60 * 60, // 30 hours
     },
   },
 );
