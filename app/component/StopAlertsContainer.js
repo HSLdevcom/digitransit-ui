@@ -43,17 +43,19 @@ const StopAlertsContainer = ({ currentTime, stop }) => {
   return (
     <div className="momentum-scroll">
       {patternsWithCancellations
-        .sort((a, b) => routeNameCompare(a.pattern.route, b.pattern.rout))
+        .sort((a, b) => routeNameCompare(a.pattern.route, b.pattern.route))
         .map(({ pattern, stoptimes }) => (
           <div className="route-alerts-list" key={pattern.code}>
             {stoptimes
               .map(stoptime => getScheduledDepartureTime(stoptime))
+              .sort((a, b) => b - a)
               .map(scheduledDepartureTime => (
                 <RouteAlertsRow
                   color={pattern.route.color}
                   expired={currentTime > scheduledDepartureTime}
                   header={
                     <DepartureCancelationInfo
+                      firstStopName={pattern.stops[0].name}
                       headsign={pattern.headsign}
                       routeMode={pattern.route.mode}
                       scheduledDepartureTime={scheduledDepartureTime}
@@ -93,6 +95,11 @@ StopAlertsContainer.propTypes = {
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,
           }).isRequired,
+          stops: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string.isRequired,
+            }),
+          ),
         }),
       }),
     ).isRequired,
@@ -132,6 +139,9 @@ const containerComponent = Relay.createContainer(
                 }
               }
             }
+          }
+          stops {
+            name
           }
         }
         stoptimes {

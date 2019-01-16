@@ -7,6 +7,7 @@ import LocalTime from './LocalTime';
 const DepartureCancelationInfo = ({
   routeMode,
   shortName,
+  firstStopName,
   headsign,
   scheduledDepartureTime,
 }) => {
@@ -17,15 +18,16 @@ const DepartureCancelationInfo = ({
     <FormattedMessage
       id="departure-is-canceled"
       values={{
-        departure: (
+        modeInfo: (
           <FormattedMessage
-            id={`${routeMode.toLowerCase()}-with-route-number`}
+            id={`departure-is-canceled-${routeMode.toLowerCase()}`}
             values={{
-              routeNumber: shortName,
-              headSign: headsign,
+              shortName,
             }}
           />
         ),
+        from: firstStopName,
+        to: headsign,
         time: <LocalTime time={scheduledDepartureTime} />,
       }}
     />
@@ -35,6 +37,7 @@ const DepartureCancelationInfo = ({
 DepartureCancelationInfo.propTypes = {
   routeMode: PropTypes.string.isRequired,
   shortName: PropTypes.string.isRequired,
+  firstStopName: PropTypes.string.isRequired,
   headsign: PropTypes.string.isRequired,
   scheduledDepartureTime: PropTypes.number.isRequired,
 };

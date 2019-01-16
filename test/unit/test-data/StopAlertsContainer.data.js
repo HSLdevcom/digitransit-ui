@@ -1145,6 +1145,11 @@ export default {
               color: null,
               alerts: [],
             },
+            stops: [
+              {
+                name: 'Kirkkonummi',
+              },
+            ],
             id: 'UGF0dGVybjpIU0w6MzAwMlU6MTowMQ==',
           },
           stoptimes: [
