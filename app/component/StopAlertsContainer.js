@@ -8,28 +8,11 @@ import Relay from 'react-relay/classic';
 import LocalTime from './LocalTime';
 import RouteAlertsContainer from './RouteAlertsContainer';
 import RouteAlertsRow from './RouteAlertsRow';
-import { TransportMode, RealtimeStateType } from '../constants';
+import { RealtimeStateType } from '../constants';
 import { routeNameCompare } from '../util/searchUtils';
 
 const getScheduledDepartureTime = stoptime =>
   stoptime.scheduledDeparture + stoptime.serviceDay;
-
-const getTranslationKey = mode => {
-  switch (mode) {
-    case TransportMode.Bus:
-      return 'bus';
-    case TransportMode.Ferry:
-      return 'ferry';
-    case TransportMode.Rail:
-      return 'train';
-    case TransportMode.Subway:
-      return 'metro';
-    case TransportMode.Tram:
-      return 'tram';
-    default:
-      return undefined;
-  }
-};
 
 const DepartureCancelationInfo = ({ pattern, scheduledDepartureTime }) => {
   return (
@@ -38,7 +21,7 @@ const DepartureCancelationInfo = ({ pattern, scheduledDepartureTime }) => {
       values={{
         departure: (
           <FormattedMessage
-            id={`${getTranslationKey(pattern.route.mode)}-with-route-number`}
+            id={`${pattern.route.mode.toLowerCase()}-with-route-number`}
             values={{
               routeNumber: pattern.route.shortName,
               headSign: pattern.headsign,
@@ -65,7 +48,10 @@ const StopAlertsContainer = ({ currentTime, stop }) => {
     .map(st => st.pattern)
     .filter(pattern => pattern.route.alerts.length > 0);
 
-  if (patternsWithServiceAlerts.length === 0) {
+  if (
+    patternsWithCancellations.length === 0 &&
+    patternsWithServiceAlerts.length === 0
+  ) {
     return (
       <div className="no-stop-alerts-message">
         <FormattedMessage
