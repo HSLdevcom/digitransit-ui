@@ -77,9 +77,6 @@ testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
 testVariation('Departure', 'isArrival', 4);
 
-testVariation('DepartureTime', 'normal', 2);
-testVariation('DepartureTime', 'canceled', 3);
-
 testVariation('RouteNumber', 'normal');
 testVariation('RouteNumber', 'with-disruption', 2);
 testVariation('RouteNumber', 'vertical', 4);

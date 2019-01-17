@@ -28,7 +28,7 @@ describe('<StopPageTabContainer />', () => {
     ).to.contain('/hairiot');
   });
 
-  it('should not render the disruptions tab for terminals', () => {
+  it('should render the disruptions tab for terminals', () => {
     const props = {
       breakpoint: 'large',
       children: <div />,
@@ -41,6 +41,6 @@ describe('<StopPageTabContainer />', () => {
       routes: [],
     };
     const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
-    expect(wrapper.find('.stop-tab-singletab')).to.have.lengthOf(3);
+    expect(wrapper.find('.stop-tab-singletab')).to.have.lengthOf(4);
   });
 });
