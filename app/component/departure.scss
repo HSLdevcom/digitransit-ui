@@ -41,6 +41,17 @@
       width: 100%;
     }
   }
+
+  .departure-canceled {
+    color: $cancelation-red;
+    .icon-container {
+      padding-right: $padding-xsmall;
+      .icon {
+        color: white;
+        fill: $cancelation-red;
+      }
+    }
+  }
 }
 
 .route-detail-text {
@@ -186,31 +197,6 @@
   left: 0.1em;
   height: 0.5em;
   width: 0.5em;
-}
-
-.canceled .time,
-.time.canceled {
-  position: relative;
-  display: inline-block;
-  color: $cancelation-black;
-  background-color: $cancelation-background;
-  border-radius: $border-radius;
-  &::before,
-  &::after {
-    content: '';
-    width: 1.5em;
-    position: absolute;
-    left: 0.825em;
-    top: 50%;
-    opacity: 0.5;
-    border-bottom: 1px solid $cancelation-red;
-  }
-  &::before {
-    transform: skewY(-30deg);
-  }
-  &::after {
-    transform: skewY(30deg);
-  }
 }
 
 .card .canceled .time {

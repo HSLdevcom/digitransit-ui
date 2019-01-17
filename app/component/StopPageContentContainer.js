@@ -69,7 +69,12 @@ export default Relay.createContainer(
       stop: () => Relay.QL`
       fragment on Stop {
         url
-        stoptimes: stoptimesWithoutPatterns(startTime: $startTime, timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
+        stoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime, 
+          timeRange: $timeRange, 
+          numberOfDepartures: $numberOfDepartures, 
+          omitCanceled: false
+        ) {
           ${DepartureListContainer.getFragment('stoptimes')}
         }
       }

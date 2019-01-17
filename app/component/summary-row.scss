@@ -14,6 +14,7 @@
   font-size: $font-size-normal;
   @include font-narrow-medium;
   white-space: nowrap;
+  position: relative;
 
   &.passive {
     border-left-color: $background-color;
@@ -78,23 +79,6 @@
     @include font-narrow-medium;
     font-weight: $font-weight-bold;
 
-    .itinerary-first-leg-start-time {
-      color: $distance-gray;
-      font-size: $font-size-xsmall;
-      margin-top: -6px;
-      margin-right: -7px;
-      font-weight: 700;
-
-      &.realtime {
-        color: $realtime-color;
-      }
-    }
-
-    // When we don't have a start date box, we can add some spacing
-    .itinerary-start-date.nobg + .itinerary-first-leg-start-time {
-      margin-top: -2px;
-    }
-
     .itinerary-start-date {
       display: block;
       text-align: right;
@@ -135,6 +119,21 @@
     font-weight: $font-weight-bold;
   }
 
+  .itinerary-first-leg-start-time {
+    position: absolute;
+    top: 3.77em;
+    left: 2.3em;
+    text-align: right;
+    width: 3em;
+    color: $distance-gray;
+
+    &.small {
+      font-size: $font-size-small;
+      left: 1.2em;
+      top: 2.6em;
+    }
+  }
+
   .itinerary-legs {
     padding-left: $padding-medium;
     display: flex;
@@ -152,6 +151,12 @@
       }
       .route-number {
         width: 100%;
+        &.vertical {
+          position: relative;
+          .vehicle-number-container-v {
+            overflow: visible;
+          }
+        }
       }
     }
 
@@ -248,7 +253,7 @@
       padding: 0;
       min-width: 1.3em;
       margin-left: $padding-small;
-      text-align: center;
+      text-align: left;
 
       &.long {
         @extend .overflow-fade;
@@ -344,10 +349,6 @@
       font-size: 21px;
       padding-top: 17px;
 
-      .itinerary-first-leg-start-time {
-        margin-top: -1px;
-        font-size: $font-size-normal;
-      }
       .itinerary-start-date {
         @include font-narrow-book;
         font-size: $font-size-xxsmall;
@@ -410,6 +411,10 @@
     //text color
     color: $black;
   }
+}
+
+.mobile .itinerary-legs .leg {
+  height: 3.4em;
 }
 
 @media print {
