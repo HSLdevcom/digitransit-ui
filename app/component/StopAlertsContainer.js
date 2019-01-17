@@ -8,7 +8,10 @@ import Relay from 'react-relay/classic';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import RouteAlertsContainer from './RouteAlertsContainer';
 import RouteAlertsRow from './RouteAlertsRow';
-import { RealtimeStateType } from '../constants';
+import {
+  patternHasServiceAlert,
+  stoptimeHasCancelation,
+} from '../util/alertUtils';
 import { routeNameCompare } from '../util/searchUtils';
 
 const getScheduledDepartureTime = stoptime =>
@@ -16,16 +19,15 @@ const getScheduledDepartureTime = stoptime =>
 
 const StopAlertsContainer = ({ currentTime, stop }) => {
   const patternsWithCancellations = stop.stoptimesForServiceDate
+    .filter(st => Array.isArray(st.stoptimes))
     .map(st => ({
-      pattern: { ...st.pattern },
-      stoptimes: (st.stoptimes || []).filter(
-        stoptime => stoptime.realtimeState === RealtimeStateType.Canceled,
-      ),
+      pattern: st.pattern,
+      stoptimes: st.stoptimes.filter(stoptimeHasCancelation),
     }))
     .filter(st => st.stoptimes.length > 0);
   const patternsWithServiceAlerts = stop.stoptimesForServiceDate
     .map(st => st.pattern)
-    .filter(pattern => pattern.route.alerts.length > 0);
+    .filter(patternHasServiceAlert);
 
   if (
     patternsWithCancellations.length === 0 &&
@@ -116,42 +118,42 @@ const containerComponent = Relay.createContainer(
   {
     fragments: {
       stop: () => Relay.QL`
-    fragment Timetable on Stop {
-      stoptimesForServiceDate(date:$date, omitCanceled:false) {
-        pattern {
-          headsign
-          code
-          route {
-            ${RouteAlertsContainer.getFragment('route')}
-            id
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            alerts {
-              effectiveEndDate
-              effectiveStartDate
-              id
-              trip {
-                pattern {
-                  code
+        fragment Timetable on Stop {
+          stoptimesForServiceDate(date:$date, omitCanceled:false) {
+            pattern {
+              headsign
+              code
+              route {
+                ${RouteAlertsContainer.getFragment('route')}
+                id
+                gtfsId
+                shortName
+                longName
+                mode
+                color
+                alerts {
+                  effectiveEndDate
+                  effectiveStartDate
+                  id
+                  trip {
+                    pattern {
+                      code
+                    }
+                  }
                 }
               }
+              stops {
+                name
+              }
+            }
+            stoptimes {
+              realtimeState
+              scheduledDeparture
+              serviceDay
             }
           }
-          stops {
-            name
-          }
         }
-        stoptimes {
-          realtimeState
-          scheduledDeparture
-          serviceDay
-        }
-      }
-    }
-    `,
+      `,
     },
     initialVariables: {
       date: moment().format('YYYYMMDD'),
