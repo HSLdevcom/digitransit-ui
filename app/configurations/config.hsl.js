@@ -33,7 +33,7 @@ export default {
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
 
-  feedIds: ['HSL'],
+  feedIds: ['HSL', 'HSLlautta'],
 
   showHSLTracking: true,
 
