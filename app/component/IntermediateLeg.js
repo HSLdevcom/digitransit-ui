@@ -41,7 +41,7 @@ function IntermediateLeg({
       {showZoneLimits &&
         currentZoneId && (
           <div className="zone-icons-container">
-            <ZoneIcon zoneId={previousZoneId} />
+            {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
             <ZoneIcon
               zoneId={currentZoneId}
               className={cx({
@@ -49,7 +49,9 @@ function IntermediateLeg({
                   showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
               })}
             />
-            <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+            {nextZoneId && (
+              <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+            )}
           </div>
         )}
       <div className={`leg-before ${modeClassName}`}>
