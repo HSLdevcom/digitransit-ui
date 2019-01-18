@@ -4,7 +4,7 @@ import React from 'react';
 import { isBrowser } from '../util/browser';
 
 const LogoSmall = (
-  { showLogo, logo, title, subTitle, className },
+  { showLogo, showTitles, logo, title, subTitle, className },
   { config },
 ) => {
   if (config.textLogo || !showLogo) {
@@ -15,14 +15,16 @@ const LogoSmall = (
       className={className}
       style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
     >
-      {title && <span className="logo-title">{title}</span>}
-      {subTitle && <span className="logo-sub-title">{subTitle}</span>}
+      {showTitles && title && <span className="logo-title">{title}</span>}
+      {showTitles &&
+        subTitle && <span className="logo-sub-title">{subTitle}</span>}
     </div>
   );
 };
 
 LogoSmall.propTypes = {
   showLogo: PropTypes.bool,
+  showTitles: PropTypes.bool,
   logo: PropTypes.string,
   title: PropTypes.node,
   subTitle: PropTypes.string,
@@ -31,6 +33,7 @@ LogoSmall.propTypes = {
 
 LogoSmall.defaultProps = {
   showLogo: false,
+  showTitles: false,
   logo: undefined,
   title: undefined,
   subTitle: undefined,
