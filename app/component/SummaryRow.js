@@ -31,7 +31,6 @@ import {
   examplePropsCityBike,
   exampleDataVia,
 } from './data/SummaryRow.ExampleData';
-import ZoneIcon from './ZoneIcon';
 
 /*
 const dummyalerts = [{
@@ -375,7 +374,6 @@ const SummaryRow = (
     defaultMessage: 'Itinerary',
   });
 
-  const hasZones = Array.isArray(zones) && zones.length > 0;
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
     containsBiking(itinerary) && (
@@ -443,7 +441,7 @@ const SummaryRow = (
               <div className="itinerary-end-time">
                 <LocalTime time={endTime} />
               </div>
-              {!hasZones && isDefaultPosition && renderBikingDistance(data)}
+              {isDefaultPosition && renderBikingDistance(data)}
             </div>,
             <div
               className="itinerary-duration-and-distance"
@@ -452,19 +450,11 @@ const SummaryRow = (
               <span className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </span>
-              {!hasZones && !isDefaultPosition && renderBikingDistance(data)}
-              {!hasZones &&
-                !onlyBiking(data) && (
-                  <div className="itinerary-walking-distance">
-                    <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
-                    {displayDistance(getTotalWalkingDistance(data), config)}
-                  </div>
-                )}
-              {hasZones && (
-                <div className="itinerary-zones-container">
-                  {zones.map(zoneId => (
-                    <ZoneIcon key={zoneId} zoneId={zoneId} />
-                  ))}
+              {!isDefaultPosition && renderBikingDistance(data)}
+              {!onlyBiking(data) && (
+                <div className="itinerary-walking-distance">
+                  <Icon img="icon-icon_walk" viewBox="6 0 40 40" />
+                  {displayDistance(getTotalWalkingDistance(data), config)}
                 </div>
               )}
             </div>,

@@ -58,20 +58,6 @@
     }
   }
 
-  .itinerary-zones-container {
-    display: flex;
-    flex-direction: row;
-    font-size: $font-size-small;
-
-    .icon {
-      display: block;
-    }
-
-    .zone-icon-container + .zone-icon-container {
-      margin-left: $padding-xxsmall;
-    }
-  }
-
   .itinerary-start-time {
     text-align: right;
     padding-left: 5px;
@@ -339,8 +325,7 @@
     }
 
     .itinerary-biking-distance,
-    .itinerary-walking-distance,
-    .itinerary-zones-container {
+    .itinerary-walking-distance {
       font-size: 18px;
     }
 
