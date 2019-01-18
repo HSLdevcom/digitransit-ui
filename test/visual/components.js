@@ -236,23 +236,9 @@ testVariation('Error404');
 
 testVariation('StopMarkerPopup', 'empty', 1);
 testVariation('StopMarkerPopup', 'basic', 2, [
+  'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
   'p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
   'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-]);
-testVariation('StopMarkerPopup', 'real-time', 3, [
-  'div.departure-list > p:nth-child(1) > span.realtime svg.realtime',
-  'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
-  'div.departure-list > p:nth-child(4) > span.realtime svg.realtime',
-  '#mainContent > div > div > div:nth-child(3) p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
-  '#mainContent > div > div > div:nth-child(3) p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-]).then(skip('ie11'));
-testVariation('StopMarkerPopup', 'tomorrow', 4, [
-  '#mainContent > div > div > div:nth-child(4) p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-  '#mainContent > div > div > div:nth-child(4) p:nth-child(8) > span.route-destination > span > span.last-stop-icon',
-]).then(skip('ie11'));
-testVariation('StopMarkerPopup', 'missing-platform', 5, [
-  '#mainContent > div > div > div:nth-child(5) p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
-  '#mainContent > div > div > div:nth-child(5) p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
 ]).then(skip('ie11'));
 
 testVariation('SelectStreetModeDialog');
