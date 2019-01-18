@@ -590,13 +590,6 @@ const translations = {
     'favourite-target': 'Favorite location',
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
-    'fjp.splash.highlight-1': 'Which zones do your routes span?',
-    'fjp.splash.highlight-2': 'Which ticket do you need for your future trips?',
-    'fjp.splash.link': 'Read more about the zone reform',
-    'fjp.splash.subtitle':
-      'Helsinki region public transport will introduce new zones in spring 2019.',
-    'fjp.splash.title': 'Get to know the new zones with Journey Planner',
-    'fjp.subtitle': 'New zones',
     'footer-faq': 'FAQ',
     'footer-feedback': 'Submit feedback',
     'footer-link-to-privacy-policy': 'Privacy policy',
@@ -1272,14 +1265,6 @@ const translations = {
     'favourite-target': 'Suosikkikohde',
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
-    'fjp.splash.highlight-1': 'Millä vyöhykkeillä omat reittisi kulkevat?',
-    'fjp.splash.highlight-2':
-      'Minkä lipun tarvitset matkoillesi tulevaisuudessa?',
-    'fjp.splash.link': 'Lue lisää vyöhykeuudistuksesta',
-    'fjp.splash.subtitle':
-      'Uudet vyöhykkeet otetaan käyttöön Helsingin seudun joukkoliikenteessä keväällä 2019.',
-    'fjp.splash.title': 'Tutustu uusiin vyöhykkeisiin Reittioppaassa',
-    'fjp.subtitle': 'Uudet vyöhykkeet',
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
@@ -2255,15 +2240,6 @@ const translations = {
     'favourite-target': 'Favoritdestination',
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
-    'fjp.splash.highlight-1': 'Genom vilka zoner går dina rutter?',
-    'fjp.splash.highlight-2':
-      'Vilken biljett behöver du för dina resor i framtiden?',
-    'fjp.splash.link': 'Läs mera om biljettzonsförnyelsen.',
-    'fjp.splash.subtitle':
-      'De nya biljettzonerna tas i bruk av Helsingforsregionens kollektivtrafik på våren 2019.',
-    'fjp.splash.title':
-      'Bekanta dig med de nya biljettzonerna i Reseplaneraren.',
-    'fjp.subtitle': 'Nya zoner',
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',
