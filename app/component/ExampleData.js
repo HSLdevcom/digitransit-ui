@@ -153,7 +153,7 @@ export const plan = {
           type: 'regular',
           cents: 320,
           currency: 'EUR',
-          components: [{ fareId: 'HSL:AB' }],
+          components: [{ fareId: 'HSL:hki' }],
         },
       ],
       legs: [
