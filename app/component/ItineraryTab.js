@@ -38,6 +38,20 @@ class ItineraryTab extends React.Component {
     lon: undefined,
   };
 
+  componentDidMount = () => {
+    const showCanceledLegBarEvent = new CustomEvent('showCanceledLegsBanner', {
+      detail: { canceledLegs: true },
+    });
+    window.dispatchEvent(showCanceledLegBarEvent);
+  };
+
+  componentWillUnmount = () => {
+    const showCanceledLegBarEvent = new CustomEvent('showCanceledLegsBanner', {
+      detail: { canceledLegs: false },
+    });
+    window.dispatchEvent(showCanceledLegBarEvent);
+  };
+
   getState = () => ({
     lat: this.state.lat || this.props.itinerary.legs[0].from.lat,
     lon: this.state.lon || this.props.itinerary.legs[0].from.lon,
@@ -50,6 +64,25 @@ class ItineraryTab extends React.Component {
       lat,
       lon,
     });
+  };
+
+  checkForCanceledLegs = () => {
+    const canceledLegs = [];
+
+    this.props.itinerary.legs.forEach(
+      (leg, legIndex) =>
+        leg.trip &&
+        leg.from.stop &&
+        leg.from.stop.stoptimes.forEach(
+          stoptime =>
+            stoptime.realtimeState !== 'CANCELED' &&
+            stoptime.stop.gtfsId ===
+              this.props.itinerary.legs[legIndex].from.stop.gtfsId &&
+            !canceledLegs.includes(this.props.itinerary.legs[legIndex]) &&
+            canceledLegs.push(this.props.itinerary.legs[legIndex]),
+        ),
+    );
+    return canceledLegs;
   };
 
   printItinerary = e => {
@@ -76,21 +109,7 @@ class ItineraryTab extends React.Component {
       <RouteInformation />
     );
 
-    const cancelledLegs = [];
-
-    this.props.itinerary.legs.forEach(
-      (leg, legIndex) =>
-        leg.trip &&
-        leg.trip.stoptimes.forEach(stoptime => {
-          if (
-            stoptime.realtimeState === 'CANCELED' &&
-            stoptime.stop.gtfsId ===
-              this.props.itinerary.legs[legIndex].from.stop.gtfsId
-          ) {
-            cancelledLegs.push(this.props.itinerary.legs[legIndex]);
-          }
-        }),
-    );
+    const canceledLegs = this.checkForCanceledLegs();
 
     return (
       <div className="itinerary-tab">
@@ -122,7 +141,7 @@ class ItineraryTab extends React.Component {
                 <ItineraryLegs
                   itinerary={this.props.itinerary}
                   focusMap={this.handleFocus}
-                  cancelledLegs={cancelledLegs}
+                  canceledLegs={canceledLegs}
                 />
                 <ItineraryProfile
                   itinerary={this.props.itinerary}
@@ -196,6 +215,18 @@ export default Relay.createContainer(ItineraryTab, {
               gtfsId
               code
               platformCode
+              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
+                pickupType
+                realtimeState
+                stop {
+                  gtfsId
+                }
+                trip {
+                  gtfsId
+                  routeShortName
+                  tripHeadsign
+                }
+              }
             }
           }
           to {
@@ -225,6 +256,13 @@ export default Relay.createContainer(ItineraryTab, {
               name
               code
               platformCode
+              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
+                pickupType
+                realtimeState
+                stop {
+                  gtfsId
+                }
+              }
             }
           }
           realTime

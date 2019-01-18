@@ -8,9 +8,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 const subIconTemplate = {
   fontSize: '65%',
   position: 'absolute',
-  bottom: '-1px',
-  left: '-6px',
 };
+
 const IconWithIcon = (
   {
     id,

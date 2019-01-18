@@ -125,7 +125,10 @@ class TransitLeg extends React.Component {
 
     return (
       <div key={this.props.index} className="row itinerary-row">
-        <div className="small-2 columns itinerary-time-column">
+        <div
+          className={`small-2 columns itinerary-time-column ${this.props.leg
+            .canceled && 'itinerary-leg-canceled'}`}
+        >
           <Link
             onClick={e => e.stopPropagation()}
             to={
@@ -146,6 +149,7 @@ class TransitLeg extends React.Component {
                   ? `#${this.props.leg.route.color}`
                   : 'currentColor'
               }
+              hasDisruption={this.props.leg.canceled}
               text={this.props.leg.route && this.props.leg.route.shortName}
               realtime={this.props.leg.realTime}
               vertical
@@ -214,6 +218,7 @@ class TransitLeg extends React.Component {
 
 TransitLeg.propTypes = {
   leg: PropTypes.shape({
+    canceled: PropTypes.bool,
     realTime: PropTypes.bool,
     from: PropTypes.shape({
       stop: PropTypes.shape({

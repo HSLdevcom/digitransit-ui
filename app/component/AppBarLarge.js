@@ -9,6 +9,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
 import { isBrowser } from '../util/browser';
+import CanceledLegBar from './CanceledLegBar';
 
 const AppBarLarge = (
   { titleClicked, logo },
@@ -71,6 +72,7 @@ const AppBarLarge = (
       </div>
       <MessageBar />
       <DisruptionInfo />
+      <CanceledLegBar />
     </div>
   );
 };
