@@ -181,6 +181,8 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
+
+    showZoneLimits: false,
   },
 
   nearestStopDistance: {

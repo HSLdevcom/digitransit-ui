@@ -15,6 +15,7 @@ function IntermediateLeg({
   stopCode,
   focusFunction,
   showCurrentZoneDelimiter,
+  showZoneLimits,
   previousZoneId,
   currentZoneId,
   nextZoneId,
@@ -27,26 +28,30 @@ function IntermediateLeg({
   return (
     <div
       style={{ width: '100%' }}
-      className={cx('row itinerary-row', {
-        'zone-dual': isDualZone && !isTripleZone,
-        'zone-triple': isTripleZone,
-        'zone-previous': currentZoneId && previousZoneId,
-      })}
+      className={cx(
+        'row itinerary-row',
+        showZoneLimits && {
+          'zone-dual': isDualZone && !isTripleZone,
+          'zone-triple': isTripleZone,
+          'zone-previous': currentZoneId && previousZoneId,
+        },
+      )}
       onClick={e => focusFunction(e)}
     >
-      {currentZoneId && (
-        <div className="zone-icons-container">
-          <ZoneIcon zoneId={previousZoneId} />
-          <ZoneIcon
-            zoneId={currentZoneId}
-            className={cx({
-              'zone-delimiter':
-                showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
-            })}
-          />
-          <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
-        </div>
-      )}
+      {showZoneLimits &&
+        currentZoneId && (
+          <div className="zone-icons-container">
+            <ZoneIcon zoneId={previousZoneId} />
+            <ZoneIcon
+              zoneId={currentZoneId}
+              className={cx({
+                'zone-delimiter':
+                  showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
+              })}
+            />
+            <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" />
+          </div>
+        )}
       <div className={`leg-before ${modeClassName}`}>
         <div className={`leg-before-circle circle-fill ${modeClassName}`}>
           <svg
@@ -92,6 +97,7 @@ IntermediateLeg.propTypes = {
   color: PropTypes.string,
   stopCode: PropTypes.string.isRequired,
   showCurrentZoneDelimiter: PropTypes.bool,
+  showZoneLimits: PropTypes.bool,
   previousZoneId: PropTypes.string,
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
@@ -99,6 +105,7 @@ IntermediateLeg.propTypes = {
 
 IntermediateLeg.defaultProps = {
   showCurrentZoneDelimiter: false,
+  showZoneLimits: false,
   previousZoneId: undefined,
   currentZoneId: undefined,
   nextZoneId: undefined,

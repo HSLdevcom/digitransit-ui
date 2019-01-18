@@ -2,7 +2,7 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const APP_DESCRIPTION = 'Helsingin seudun liikenteen uusi Reittiopas.';
+const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
 export default {
@@ -70,10 +70,7 @@ export default {
 
   sprites: 'svg-sprite.hsl.svg',
 
-  appBarLink: {
-    name: 'HSL.fi',
-    href: 'https://www.hsl.fi/uudetvy%C3%B6hykkeet',
-  },
+  appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
   nationalServiceLink: { name: 'matka.fi', href: 'https://opas.matka.fi/' },
 
@@ -82,7 +79,7 @@ export default {
   },
 
   socialMedia: {
-    title: 'Uusi Reittiopas',
+    title: 'Reittiopas',
     description: APP_DESCRIPTION,
 
     image: {
@@ -101,7 +98,7 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  useTicketIcons: true,
+  useTicketIcons: false,
 
   transportModes: {
     airplane: {
@@ -371,25 +368,63 @@ export default {
   },
 
   showTicketInformation: true,
-  ticketLink: 'https://www.hsl.fi/uudetvyöhykkeet',
+  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
   showTicketSelector: true,
 
   fares: [
-    'HSL:AB',
-    'HSL:BC',
-    'HSL:CD',
-    'HSL:D',
-    'HSL:ABC',
-    'HSL:BCD',
-    'HSL:ABCD',
+    'HSL:hki',
+    'HSL:esp',
+    'HSL:van',
+    'HSL:ker',
+    'HSL:kir',
+    'HSL:seu',
+    'HSL:lse',
+    'HSL:kse',
   ],
 
   // mapping (string, lang) from OTP fare identifiers to human readable form
-  // in the new HSL zone model, just strip off the prefix 'HSL:'
-  fareMapping: function mapHslFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
+  fareMapping: function mapHslFareId(fareId, lang) {
+    const names = {
+      fi: {
+        esp: 'Espoo ja Kauniainen',
+        hki: 'Helsinki',
+        ker: 'Kerava-Sipoo-Tuusula',
+        kir: 'Kirkkonummi-Siuntio',
+        kse: 'Lähiseutu 3',
+        lse: 'Lähiseutu 2',
+        seu: 'Seutulippu',
+        van: 'Vantaa',
+      },
+      en: {
+        esp: 'Espoo and Kauniainen',
+        hki: 'Helsinki',
+        ker: 'Kerava-Sipoo-Tuusula',
+        kir: 'Kirkkonummi-Siuntio',
+        kse: 'Region three zone',
+        lse: 'Region two zone',
+        seu: 'Regional ticket',
+        van: 'Vantaa',
+      },
+      sv: {
+        esp: 'Esbo och Grankulla',
+        hki: 'Helsingfors',
+        ker: 'Kervo-Sibbo-Tusby',
+        kir: 'Kyrkslätt-Sjundeå',
+        kse: 'Närregion 3',
+        lse: 'Närregion 2',
+        seu: 'Regionbiljett',
+        van: 'Vanda',
+      },
+    };
+    const mappedLang = names[lang] ? lang : 'fi';
+    if (fareId && fareId.substring) {
+      const zone = fareId.substring(
+        fareId.indexOf(':') + 1,
+        fareId.indexOf(':') + 4,
+      );
+      return names[mappedLang][zone] || '';
+    }
+    return '';
   },
 
   staticMessages: [
@@ -453,14 +488,14 @@ export default {
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
   geoJson: {
     layers: [
-      {
-        name: {
-          fi: 'Maksuvyöhykkeet',
-          sv: 'Resezoner',
-          en: 'Ticket zones',
-        },
-        url: '/hsl_zone_lines.json',
-      },
+      // {
+      //   name: {
+      //     fi: 'Maksuvyöhykkeet',
+      //     sv: 'Resezoner',
+      //     en: 'Ticket zones',
+      //   },
+      //   url: '/hsl_zone_lines.json',
+      // },
     ],
     zones: {
       url: '/hsl_zone_areas.json',
@@ -475,11 +510,6 @@ export default {
         Myyntipiste: 'salesPoint',
         'R-kioski': 'salesPoint',
       },
-    },
-  },
-  stopCard: {
-    header: {
-      showZone: true,
     },
   },
 };

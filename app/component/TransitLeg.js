@@ -78,6 +78,7 @@ class TransitLeg extends React.Component {
                 lat: place.stop.lat,
                 lon: place.stop.lon,
               })}
+              showZoneLimits={this.context.config.itinerary.showZoneLimits}
               showCurrentZoneDelimiter={previousZoneIdDiffers}
               previousZoneId={
                 (isFirstPlace && previousZoneIdDiffers && previousZoneId) ||
@@ -292,7 +293,12 @@ TransitLeg.propTypes = {
 
 TransitLeg.contextTypes = {
   focusFunction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    itinerary: PropTypes.shape({
+      delayThreshold: PropTypes.number,
+      showZoneLimits: PropTypes.bool,
+    }).isRequired,
+  }).isRequired,
   piwik: PropTypes.object,
 };
 
