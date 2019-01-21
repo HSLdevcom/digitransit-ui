@@ -55,10 +55,10 @@ function Departure(props) {
         isLastStop={props.isLastStop}
       />
       {props.canceled ? (
-        <div className="departure-canceled">
+        <span className="departure-canceled">
           <Icon img="icon-icon_caution" />
           <FormattedMessage id="canceled" defaultMessage="Canceled" />
-        </div>
+        </span>
       ) : (
         platformNumber
       )}

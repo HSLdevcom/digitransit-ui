@@ -86,6 +86,7 @@ export default function getStopRoutes(isTerminal = false) {
         }}
         queries={{
           header: queries,
+          content: queries,
           map: queries,
           meta: queries,
         }}

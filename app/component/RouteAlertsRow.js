@@ -30,8 +30,8 @@ export default function RouteAlertsRow({
 }
 
 RouteAlertsRow.propTypes = {
-  header: PropTypes.string,
-  description: PropTypes.string.isRequired,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  description: PropTypes.string,
   routeMode: PropTypes.string.isRequired,
   routeLine: PropTypes.string.isRequired,
   expired: PropTypes.bool.isRequired,

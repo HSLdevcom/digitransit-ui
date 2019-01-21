@@ -30,6 +30,26 @@
   }
 }
 
+.stop-no-alerts-container,
+.stop-no-departures-container {
+  align-items: center;
+  background-color: white;
+  color: $gray;
+  display: flex;
+  flex: 1 0 6em;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+
+  .icon {
+    font-size: 2.5em;
+  }
+}
+
 .stop-scroll-container {
   flex-basis: 0px;
   flex-grow: 1;
@@ -108,36 +128,6 @@
   .stop-tab-container {
     border-bottom: none;
   }
-
-  .stop-page-tab_icon,
-  .stop-tab-singletab-container svg {
-    width: 1.6em;
-    height: 1.6em;
-  }
-
-  .print-button-container {
-    display: none;
-  }
-
-  .filter-stop-modal {
-    min-height: 100%;
-    max-width: 100%;
-    height: 100%;
-    padding-bottom: 8em;
-    left: 0;
-    top: 0;
-    position: fixed;
-    border-radius: 0;
-    transform: translate(0%, 0%);
-  }
-
-  .routes-container {
-    height: 100%;
-  }
-
-  .showroutes-header {
-    width: 41%;
-  }
 }
 
 .stop-tabs-fillerline {
@@ -186,6 +176,12 @@
     svg {
       stroke: $black;
       fill: $black;
+    }
+  }
+
+  &.alert-active {
+    .icon {
+      fill: $cancelation-red;
     }
   }
 
@@ -518,6 +514,12 @@ hr.action-bar {
   }
 }
 
+.mobile {
+  .print-button-container {
+    display: none;
+  }
+}
+
 .timetable-for-printing {
   display: none;
   @media print {
@@ -597,8 +599,24 @@ hr.action-bar {
   }
 }
 
-.no-stop-alerts-message {
-  background-color: white;
-  padding: 2em 1em;
-  text-align: center;
+.mobile {
+  .filter-stop-modal {
+    min-height: 100%;
+    max-width: 100%;
+    height: 100%;
+    padding-bottom: 8em;
+    left: 0;
+    top: 0;
+    position: fixed;
+    border-radius: 0;
+    transform: translate(0%, 0%);
+  }
+
+  .routes-container {
+    height: 100%;
+  }
+
+  .showroutes-header {
+    width: 41%;
+  }
 }

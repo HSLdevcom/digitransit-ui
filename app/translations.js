@@ -561,6 +561,13 @@ const translations = {
     datasources: 'Data sources',
     date: 'Date',
     delete: 'Delete',
+    'departure-is-canceled': '{modeInfo} {from}–{to} at {time} is cancelled',
+    'departure-is-canceled-airplane': 'Flight {shortName}',
+    'departure-is-canceled-bus': 'Bus {shortName}',
+    'departure-is-canceled-ferry': 'Ferry {shortName}',
+    'departure-is-canceled-rail': '{shortName} train',
+    'departure-is-canceled-subway': 'Metro service {shortName}',
+    'departure-is-canceled-tram': 'Tram {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Departures',
     description: 'Find public transport services to locations near and far.',
@@ -677,6 +684,7 @@ const translations = {
     next: 'Next',
     'no-bike-allowed-popup':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
+    'no-departures': 'No departures',
     'no-favourite-locations':
       'Add your most used locations here. The buttons will plan your route straight away.',
     'no-favourites':
@@ -1234,6 +1242,14 @@ const translations = {
     datasources: 'Tietolähteet',
     date: 'Päivämäärä',
     delete: 'Poista',
+    'departure-is-canceled':
+      '{modeInfo} lähtö {from}–{to} kello {time} on peruttu',
+    'departure-is-canceled-airplane': 'Lennon {shortName}',
+    'departure-is-canceled-bus': 'Bussin {shortName}',
+    'departure-is-canceled-ferry': 'Lautan {shortName}',
+    'departure-is-canceled-rail': '{shortName}-junan',
+    'departure-is-canceled-subway': 'Metron {shortName}',
+    'departure-is-canceled-tram': 'Raitiolinjan {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Lähdöt',
     description: 'Löydä joukkoliikennetarjonta lähelle ja kauas.',
@@ -1347,6 +1363,7 @@ const translations = {
     next: 'Seuraava',
     'no-bike-allowed-popup':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
+    'no-departures': 'Ei lähteviä vuoroja',
     'no-favourite-locations':
       'Lisää tähän usein käyttämäsi paikat. Painikkeet toimivat suorina linkkeinä reititykseen.',
     'no-favourites':
@@ -2210,6 +2227,14 @@ const translations = {
     datasources: 'Datakällor',
     date: 'Datum',
     delete: 'Ta bort',
+    'departure-is-canceled':
+      'Avgång på {modeInfo} {from}–{to} kl. {time} är inställd',
+    'departure-is-canceled-airplane': 'flyg {shortName}',
+    'departure-is-canceled-bus': 'linje {shortName}',
+    'departure-is-canceled-ferry': 'färja {shortName}',
+    'departure-is-canceled-rail': '{shortName}-tåget',
+    'departure-is-canceled-subway': 'metro {shortName}',
+    'departure-is-canceled-tram': 'spårvagnslinje {shortName}',
     'departure-time-in-minutes': '{minutes} min',
     departures: 'Avgångar',
     description: 'Res kollektivt när och fjärran.',
@@ -2325,6 +2350,7 @@ const translations = {
     next: 'Nästa',
     'no-bike-allowed-popup':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
+    'no-departures': 'Inga avgående resor',
     'no-favourite-locations':
       'Lägg till dina oftast använda platser här. Knapparna för dig rakt till reseplanen.',
     'no-favourites':
