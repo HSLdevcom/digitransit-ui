@@ -30,6 +30,26 @@
   }
 }
 
+.stop-no-alerts-container,
+.stop-no-departures-container {
+  align-items: center;
+  background-color: white;
+  color: $gray;
+  display: flex;
+  flex: 1 0 6em;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+
+  .icon {
+    font-size: 2.5em;
+  }
+}
+
 .stop-scroll-container {
   flex-basis: 0px;
   flex-grow: 1;
@@ -593,10 +613,4 @@ hr.action-bar {
   .showroutes-header {
     width: 41%;
   }
-}
-
-.no-stop-alerts-message {
-  background-color: white;
-  padding: 2em 1em;
-  text-align: center;
 }

@@ -14,7 +14,7 @@ describe('<StopAlertsContainer />', () => {
       ...data.withoutAlerts,
     };
     const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
-    expect(wrapper.find('.no-stop-alerts-message')).to.have.lengthOf(1);
+    expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
   });
 
   it('should show all the alerts', () => {
