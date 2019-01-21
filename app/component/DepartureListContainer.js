@@ -96,7 +96,7 @@ class DepartureListContainer extends Component {
       .filter(departure => currentTime < departure.stoptime)
       .slice(0, this.props.limit);
 
-    departures.forEach((departure, i) => {
+    departures.forEach(departure => {
       if (departure.stoptime >= tomorrow) {
         departureObjs.push(
           <div
