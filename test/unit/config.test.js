@@ -2,6 +2,46 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
 import { getConfiguration } from '../../app/config';
+import { isModeAvailableInsidePolygons } from '../../app/util/modeUtils';
+
+const intermediatePlacesFerry = [
+  {
+    address: 'Korkeasaari',
+    lat: 60.1753307822646,
+    lon: 24.983596801757812,
+  },
+  {
+    address: 'Suomenlinna',
+    lat: 60.14688848015283,
+    lon: 24.987201690673828,
+  },
+];
+
+const intermediatePlacesHalfFerry = [
+  {
+    address: 'Santahamina',
+    lat: 60.15124610473283,
+    lon: 25.050716400146484,
+  },
+  {
+    address: 'Suomenlinna',
+    lat: 60.14688848015283,
+    lon: 24.987201690673828,
+  },
+];
+
+const intermediatePlacesNoFerry = [
+  {
+    address: 'Santahamina',
+    lat: 60.15124610473283,
+    lon: 25.050716400146484,
+  },
+  {
+    address: 'Rautatientori',
+    lat: 60.171232509172945,
+    lon: 24.941539764404293,
+  },
+];
 
 describe('config', () => {
   describe('getConfiguration', () => {
@@ -40,7 +80,7 @@ describe('config', () => {
         parseFloat(boundaryPolygon[boundaryPolygon.length - 1]),
       ).to.be.within(59, 62);
     });
-
+    /* eslint-disable no-unused-expressions */
     it('should return default configuration with empty modePolygons object and no modeBoundingBoxes when using no headers', () => {
       const request = {
         headers: {},
@@ -58,31 +98,25 @@ describe('config', () => {
       };
       const config = getConfiguration(request);
 
-      const ferryPolygons = config.modePolygons.FERRY;
+      expect(
+        isModeAvailableInsidePolygons(config, 'FERRY', intermediatePlacesFerry),
+      ).to.be.true; // eslint-disable-line no-unused-expressions
 
-      expect(ferryPolygons.length).to.equal(1);
+      expect(
+        isModeAvailableInsidePolygons(
+          config,
+          'FERRY',
+          intermediatePlacesNoFerry,
+        ),
+      ).to.be.false; // eslint-disable-line no-unused-expressions
 
-      const ferryPolygon = ferryPolygons[0];
-
-      // expect coordinates to be around Suomenlinna
-      ferryPolygon.forEach(lonlat => {
-        expect(parseFloat(lonlat[0])).to.be.within(24.95759, 25.003767);
-        expect(parseFloat(lonlat[1])).to.be.within(60.132316, 60.155);
-      });
-
-      const ferryBoundingBoxes = config.modeBoundingBoxes.FERRY;
-      expect(ferryBoundingBoxes.length).to.equal(1);
-
-      const ferryBoundingBox = ferryBoundingBoxes[0];
-
-      // Bounding box should have 2 latlon pairs
-      expect(ferryBoundingBox.length).to.equal(2);
-
-      // expect coordinates to be around Suomenlinna
-      ferryBoundingBox.forEach(latlon => {
-        expect(parseFloat(latlon[0])).to.be.within(60.132316, 60.155);
-        expect(parseFloat(latlon[1])).to.be.within(24.95759, 25.003767);
-      });
+      expect(
+        isModeAvailableInsidePolygons(
+          config,
+          'FERRY',
+          intermediatePlacesHalfFerry,
+        ),
+      ).to.be.true; // eslint-disable-line no-unused-expressions
     });
   });
 });

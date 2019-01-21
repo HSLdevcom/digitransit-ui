@@ -124,12 +124,6 @@
   }
 }
 
-.mobile {
-  .stop-tab-container {
-    border-bottom: none;
-  }
-}
-
 .stop-tabs-fillerline {
   height: 10px;
   background: $white;
@@ -514,12 +508,6 @@ hr.action-bar {
   }
 }
 
-.mobile {
-  .print-button-container {
-    display: none;
-  }
-}
-
 .timetable-for-printing {
   display: none;
   @media print {
@@ -600,6 +588,14 @@ hr.action-bar {
 }
 
 .mobile {
+  .print-button-container {
+    display: none;
+  }
+
+  .stop-tab-container {
+    border-bottom: none;
+  }
+
   .filter-stop-modal {
     min-height: 100%;
     max-width: 100%;

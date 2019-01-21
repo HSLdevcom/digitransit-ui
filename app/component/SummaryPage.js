@@ -159,24 +159,29 @@ class SummaryPage extends React.Component {
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker key="fromMarker" position={from} className="from" />,
+        <LocationMarker
+          className="from"
+          key="fromMarker"
+          position={from}
+          type="from"
+        />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker key="toMarker" position={to} className="to" />,
+        <LocationMarker
+          className="to"
+          key="toMarker"
+          position={to}
+          type="to"
+        />,
       );
     }
 
     getIntermediatePlaces(query).forEach((location, i) => {
       leafletObjs.push(
-        <LocationMarker
-          key={`via_${i}`}
-          position={location}
-          className="via"
-          noText
-        />,
+        <LocationMarker className="via" key={`via_${i}`} position={location} />,
       );
     });
 

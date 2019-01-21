@@ -38,29 +38,60 @@ class TransitLeg extends React.Component {
   };
 
   renderIntermediate() {
+    const { leg } = this.props;
     if (
       this.props.leg.intermediatePlaces.length > 0 &&
       this.state.showIntermediateStops === true
     ) {
-      const stopList = this.props.leg.intermediatePlaces.map(place => (
-        <IntermediateLeg
-          color={
-            this.props.leg.route
-              ? `#${this.props.leg.route.color}`
-              : 'currentColor'
-          }
-          key={place.stop.gtfsId}
-          mode={this.props.mode}
-          name={place.stop.name}
-          arrivalTime={place.arrivalTime}
-          realTime={this.props.leg.realTime}
-          stopCode={place.stop.code}
-          focusFunction={this.context.focusFunction({
-            lat: place.stop.lat,
-            lon: place.stop.lon,
-          })}
-        />
-      ));
+      const stopList = this.props.leg.intermediatePlaces.map(
+        (place, i, array) => {
+          const isFirstPlace = i === 0;
+          const isLastPlace = i === array.length - 1;
+
+          const previousZoneId =
+            (array[i - 1] && array[i - 1].stop.zoneId) ||
+            (isFirstPlace && leg.from.stop.zoneId);
+          const currentZoneId = place.stop.zoneId;
+          const nextZoneId =
+            (array[i + 1] && array[i + 1].stop.zoneId) ||
+            (isLastPlace && leg.to.stop.zoneId);
+
+          const previousZoneIdDiffers =
+            previousZoneId && previousZoneId !== currentZoneId;
+          const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
+          const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
+
+          return (
+            <IntermediateLeg
+              color={
+                this.props.leg.route
+                  ? `#${this.props.leg.route.color}`
+                  : 'currentColor'
+              }
+              key={place.stop.gtfsId}
+              mode={this.props.mode}
+              name={place.stop.name}
+              arrivalTime={place.arrivalTime}
+              realTime={this.props.leg.realTime}
+              stopCode={place.stop.code}
+              focusFunction={this.context.focusFunction({
+                lat: place.stop.lat,
+                lon: place.stop.lon,
+              })}
+              showZoneLimits={this.context.config.itinerary.showZoneLimits}
+              showCurrentZoneDelimiter={previousZoneIdDiffers}
+              previousZoneId={
+                (isFirstPlace && previousZoneIdDiffers && previousZoneId) ||
+                undefined
+              }
+              currentZoneId={(showCurrentZoneId && currentZoneId) || undefined}
+              nextZoneId={
+                (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
+              }
+            />
+          );
+        },
+      );
       return <div className="itinerary-leg-container">{stopList}</div>;
     }
     return null;
@@ -206,7 +237,8 @@ class TransitLeg extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {[].concat([this.renderMain()]).concat([this.renderIntermediate()])}
+        {this.renderMain()}
+        {this.renderIntermediate()}
       </React.Fragment>
     );
   }
@@ -219,6 +251,7 @@ TransitLeg.propTypes = {
       stop: PropTypes.shape({
         code: PropTypes.string,
         platformCode: PropTypes.string,
+        zoneId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -226,6 +259,11 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
+    }).isRequired,
+    to: PropTypes.shape({
+      stop: PropTypes.shape({
+        zoneId: PropTypes.string,
+      }).isRequired,
     }).isRequired,
     trip: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
@@ -242,9 +280,10 @@ TransitLeg.propTypes = {
           gtfsId: PropTypes.string.isRequired,
           code: PropTypes.string,
           platformCode: PropTypes.string,
+          zoneId: PropTypes.string,
         }).isRequired,
       }),
-    ),
+    ).isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
@@ -254,7 +293,12 @@ TransitLeg.propTypes = {
 
 TransitLeg.contextTypes = {
   focusFunction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    itinerary: PropTypes.shape({
+      delayThreshold: PropTypes.number,
+      showZoneLimits: PropTypes.bool,
+    }).isRequired,
+  }).isRequired,
   piwik: PropTypes.object,
 };
 

@@ -142,7 +142,7 @@ CityBikeLeg.propTypes = {
 
 export const ViaLeg = () => (
   <div className="leg via">
-    <Icon img="icon-icon_place" className="itinerary-icon place" />
+    <Icon img="icon-icon_mapMarker-via" className="itinerary-icon place" />
   </div>
 );
 
@@ -222,7 +222,7 @@ const isViaPointConnectingLeg = (leg, nextLeg, intermediatePlaces) => {
 };
 
 const SummaryRow = (
-  { data, breakpoint, intermediatePlaces, ...props },
+  { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -493,6 +493,11 @@ SummaryRow.propTypes = {
   open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
+  zones: PropTypes.arrayOf(PropTypes.string),
+};
+
+SummaryRow.defaultProps = {
+  zones: [],
 };
 
 SummaryRow.contextTypes = {

@@ -19,32 +19,34 @@ const CardHeader = ({
 }) => (
   <div className={cx('card-header', className)}>
     {children}
-    {icon ? (
-      <div
-        className="left"
-        style={{ fontSize: 32, paddingRight: 10, height: 32 }}
-      >
-        <Icon img={icon} />
+    <div className="card-header-content">
+      {icon ? (
+        <div
+          className="left"
+          style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+        >
+          <Icon img={icon} />
+        </div>
+      ) : null}
+      {className === 'stop-page header' && (
+        <div className="stop-page-header_icon-container">
+          <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
+        </div>
+      )}
+      <div className="card-header-wrapper">
+        <span className={headingStyle || 'h4'}>
+          {name}
+          {unlinked ? null : <span className="link-arrow"> ›</span>}
+        </span>
+        <div className="card-sub-header">
+          {code != null ? <p className="card-code">{code}</p> : null}
+          {description != null && description !== 'null' ? (
+            <p className="sub-header-h4">{description}</p>
+          ) : null}
+        </div>
       </div>
-    ) : null}
-    {className === 'stop-page header' && (
-      <div className="stop-page-header_icon-container">
-        <Icon img="icon-icon_bus-stop" className="stop-page-header_icon" />
-      </div>
-    )}
-    <div className="card-header-wrapper">
-      <span className={headingStyle || 'h4'}>
-        {name}
-        {unlinked ? null : <span className="link-arrow"> ›</span>}
-      </span>
-      <div className="card-sub-header">
-        {code != null ? <p className="card-code">{code}</p> : null}
-        {description != null && description !== 'null' ? (
-          <p className="sub-header-h4">{description}</p>
-        ) : null}
-      </div>
+      {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
     </div>
-    {icons ? <SplitBars>{icons}</SplitBars> : null}
   </div>
 );
 

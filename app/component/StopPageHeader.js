@@ -47,6 +47,7 @@ const exampleStop = {
   gtfsId: 'HSL:1541157',
   name: 'Kaivonkatsojanpuisto',
   desc: 'Kaivonkatsojantie',
+  zoneId: 'C',
 };
 
 StopPageHeader.displayName = 'StopPageHeader';

@@ -343,4 +343,55 @@ describe('<SelectMapLayersDialog />', () => {
     expect(mapLayers.ticketSales.salesPoint).to.equal(true);
     expect(mapLayers.ticketSales.servicePoint).to.equal(true);
   });
+
+  it('should include geoJson layers', () => {
+    let mapLayers = {
+      terminal: {},
+      ticketSales: {},
+      stop: {},
+      geoJson: {
+        somejson: true,
+        morejson: false,
+      },
+    };
+    const props = {
+      config: {
+        geoJson: {
+          layers: [
+            {
+              name: {
+                fi: 'testi',
+                sv: 'test',
+                en: 'test',
+              },
+              url: 'somejson',
+            },
+            {
+              name: {
+                fi: 'nimi',
+                sv: 'namn',
+                en: 'name',
+              },
+              url: 'morejson',
+            },
+          ],
+        },
+      },
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const wrapper = mountWithIntl(<SelectMapLayersDialog isOpen {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    const checkboxes = wrapper.find('.option-checkbox input');
+    expect(checkboxes.length).to.equal(2);
+
+    checkboxes.at(1).simulate('change', { target: { checked: true } });
+
+    expect(mapLayers.geoJson.morejson).to.equal(true);
+  });
 });

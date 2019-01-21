@@ -554,6 +554,7 @@ const translations = {
     citybike_off: 'Closed',
     close: 'Close',
     'contact-information': '{contactName} contact details',
+    continue: 'Continue',
     'create-account': 'Create {contactName} account',
     'cycle-distance-duration': 'Cycle {distance} ({duration})',
     'cyclewalk-distance-duration': 'Walk your bike {distance} ({duration})',
@@ -834,7 +835,6 @@ const translations = {
     tickets: 'Tickets',
     time: 'Time',
     timetable: 'Timetable',
-
     'to-stop': 'To stop',
     today: 'Today',
     tomorrow: 'Tomorrow',
@@ -873,6 +873,7 @@ const translations = {
     'weather-at-destination': 'Weather at the destination',
     yesterday: 'Yesterday',
     'your-favourites': 'Favorites',
+    zone: 'Zone',
     zones: 'Fare zones',
   },
 
@@ -1234,6 +1235,7 @@ const translations = {
     citybike_off: 'Suljettu',
     close: 'Sulje',
     'contact-information': '{contactName}:n yhteystiedot',
+    continue: 'Jatka',
     'create-account': 'Luo {contactName} tunnus',
     'cycle-distance-duration': 'Pyöräile {distance} ({duration})',
     'cyclewalk-distance-duration': 'Taluta pyörää {distance} ({duration})',
@@ -1550,6 +1552,7 @@ const translations = {
     'weather-at-destination': 'Sää määränpäässä',
     yesterday: 'Eilen',
     'your-favourites': 'Suosikkisi',
+    zone: 'Vyöhyke',
     zones: 'Lippuvyöhykkeet',
   },
 
@@ -2217,6 +2220,7 @@ const translations = {
     citybike_off: 'Stängd',
     close: 'Stäng',
     'contact-information': '{contactName} Kontaktuppgifter',
+    continue: 'Fortsätt',
     'create-account': 'Skapa {contactName} konto',
     'cycle-distance-duration': 'Cykla {distance} ({duration})',
     'cyclewalk-distance-duration': 'Led cykeln {distance} ({duration})',
@@ -2498,7 +2502,6 @@ const translations = {
     tickets: 'Biljetter',
     time: 'Tid',
     timetable: 'Tidtabell',
-
     'to-stop': 'Avstånd',
     today: 'I dag',
     tomorrow: 'I morgon',
@@ -2536,6 +2539,7 @@ const translations = {
     'weather-at-destination': 'Vädret på destinationen',
     yesterday: 'I går',
     'your-favourites': 'Favoriter',
+    zone: 'Zon',
     zones: 'Biljettzoner',
   },
 };

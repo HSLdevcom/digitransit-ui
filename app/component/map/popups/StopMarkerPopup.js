@@ -123,32 +123,6 @@ StopMarkerPopupContainer.description = () => (
         />
       </PopupMock>
     </ComponentUsageExample>
-    <ComponentUsageExample description="realTime">
-      <PopupMock>
-        <StopMarkerPopupContainer
-          {...mockData.realTime}
-          currentTime={mockData.currentTime}
-        />
-      </PopupMock>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="tomorrow">
-      <PopupMock size="large">
-        <StopMarkerPopupContainer
-          {...mockData.tomorrow}
-          currentTime={moment(mockData.currentTime)
-            .subtract(1, 'days')
-            .unix()}
-        />
-      </PopupMock>
-    </ComponentUsageExample>
-    <ComponentUsageExample description="missingPlatform">
-      <PopupMock size="large">
-        <StopMarkerPopupContainer
-          {...mockData.missingPlatform}
-          currentTime={mockData.currentTime}
-        />
-      </PopupMock>
-    </ComponentUsageExample>
   </div>
 );
 
