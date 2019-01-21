@@ -75,7 +75,7 @@ class ItineraryTab extends React.Component {
         leg.from.stop &&
         leg.from.stop.stoptimes.forEach(
           stoptime =>
-            stoptime.realtimeState !== 'CANCELED' &&
+            stoptime.realtimeState === 'CANCELED' &&
             stoptime.stop.gtfsId ===
               this.props.itinerary.legs[legIndex].from.stop.gtfsId &&
             !canceledLegs.includes(this.props.itinerary.legs[legIndex]) &&
