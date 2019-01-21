@@ -179,6 +179,12 @@
     }
   }
 
+  &.alert-active {
+    .icon {
+      fill: $cancelation-red;
+    }
+  }
+
   @media print {
     display: none;
   }
