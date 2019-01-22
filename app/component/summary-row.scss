@@ -410,6 +410,13 @@
   .canceled-itineraries-container {
     display: flex;
   }
+  .canceled-itineraries-button {
+    button {
+      background: none;
+      padding: 0;
+      color: $primary-color;
+    }
+  }
 }
 
 .mobile .itinerary-legs .leg {

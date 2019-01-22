@@ -24,6 +24,7 @@ class ItinerarySummaryListContainer extends React.Component {
   }
 
   render() {
+    console.log(this.props.itineraries);
     if (
       !this.props.error &&
       this.props.itineraries &&
@@ -35,6 +36,8 @@ class ItinerarySummaryListContainer extends React.Component {
           checkForCanceledLegs(itinerary) &&
           canceledItineraries.push(itinerary),
       );
+
+      console.log(canceledItineraries);
 
       const canceledItinerarySummaries = (
         <div className="additional-canceled-itineraries">
@@ -263,6 +266,13 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
               stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
                 pickupType
                 realtimeState
+                trip {
+                  gtfsId
+                  route {
+                    shortName
+                    gtfsId
+                  }
+                }
                 stop {
                   gtfsId
                 }
