@@ -10,122 +10,176 @@ import SummaryRow from './SummaryRow';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
+import { checkForCanceledLegs } from '../util/legUtils';
 
-function ItinerarySummaryListContainer(
-  {
-    activeIndex,
-    children,
-    currentTime,
-    locationState,
-    error,
-    from,
-    intermediatePlaces,
-    itineraries,
-    onSelect,
-    onSelectImmediately,
-    open,
-    searchTime,
-    to,
-  },
-  { config },
-) {
-  if (!error && itineraries && itineraries.length > 0) {
-    const openedIndex = open && Number(open);
-    const summaries = itineraries.map((itinerary, i) => (
-      <SummaryRow
-        refTime={searchTime}
-        key={i} // eslint-disable-line react/no-array-index-key
-        hash={i}
-        data={itinerary}
-        passive={i !== activeIndex}
-        currentTime={currentTime}
-        onSelect={onSelect}
-        onSelectImmediately={onSelectImmediately}
-        intermediatePlaces={intermediatePlaces}
-      >
-        {i === openedIndex && children}
-      </SummaryRow>
-    ));
+class ItinerarySummaryListContainer extends React.Component {
+  state = {
+    showCancelled: false,
+  };
 
-    return (
-      <div className="summary-list-container">{isBrowser && summaries}</div>
-    );
-  }
-  if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
-    return (
-      <div className="summary-list-container summary-no-route-found">
-        <FormattedMessage
-          id="no-route-start-end"
-          defaultMessage="Please select origin and destination."
-        />
-      </div>
-    );
+  showCanceledItineraries(val) {
+    this.setState({
+      showCancelled: val,
+    });
   }
 
-  let msgId;
-  let outside;
-  let iconType = 'caution';
-  let iconImg = 'icon-icon_caution';
-  // If error starts with "Error" it's not a message id, it's an error message
-  // from OTP
-  if (error && !startsWith(error, 'Error')) {
-    msgId = error;
-  } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
-    msgId = 'origin-outside-service';
-    outside = true;
-  } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
-    msgId = 'destination-outside-service';
-    outside = true;
-  } else if (distance(from, to) < config.minDistanceBetweenFromAndTo) {
-    iconType = 'info';
-    iconImg = 'icon-icon_info';
+  render() {
     if (
-      locationState &&
-      locationState.hasLocation &&
-      ((from.lat === locationState.lat && from.lon === locationState.lon) ||
-        (to.lat === locationState.lat && to.lon === locationState.lon))
+      !this.props.error &&
+      this.props.itineraries &&
+      this.props.itineraries.length > 0
     ) {
-      msgId = 'no-route-already-at-destination';
-    } else {
-      msgId = 'no-route-origin-near-destination';
+      const canceledItineraries = [];
+      this.props.itineraries.forEach(
+        itinerary =>
+          checkForCanceledLegs(itinerary) &&
+          canceledItineraries.push(itinerary),
+      );
+
+      const canceledItinerarySummaries = (
+        <div className="additional-canceled-itineraries">
+          <div className="canceled-itineraries-container">
+            <div className="canceled-itineraries-icon">
+              <Icon img="icon-icon_caution" />
+            </div>
+            <div className="canceled-itineraries-text">
+              Lisäksi {canceledItineraries.length} peruttua reittiehdotusta
+            </div>
+            <div className="canceled-itineraries-button">
+              <button
+                className="canceled-itineraries-show"
+                onClick={() => this.showCanceledItineraries(true)}
+              >
+                Näytä
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+
+      const openedIndex = this.props.open && Number(this.props.open);
+      const summaries = this.props.itineraries.map((itinerary, i) => (
+        <SummaryRow
+          refTime={this.props.searchTime}
+          key={i} // eslint-disable-line react/no-array-index-key
+          hash={i}
+          data={itinerary}
+          passive={i !== this.props.activeIndex}
+          currentTime={this.props.currentTime}
+          onSelect={this.props.onSelect}
+          onSelectImmediately={this.props.onSelectImmediately}
+          intermediatePlaces={this.props.intermediatePlaces}
+          isCancelled={canceledItineraries.includes(itinerary)}
+          showCancelled={this.state.showCancelled}
+        >
+          {i === openedIndex && this.props.children}
+        </SummaryRow>
+      ));
+
+      return (
+        <div className="summary-list-container">
+          {isBrowser && summaries}
+          {isBrowser && canceledItinerarySummaries}
+        </div>
+      );
     }
-  } else {
-    msgId = 'no-route-msg';
-  }
+    if (
+      !this.props.error &&
+      (!this.props.from.lat ||
+        !this.props.from.lon ||
+        !this.props.to.lat ||
+        !this.props.to.lon)
+    ) {
+      return (
+        <div className="summary-list-container summary-no-route-found">
+          <FormattedMessage
+            id="no-route-start-end"
+            defaultMessage="Please select origin and destination."
+          />
+        </div>
+      );
+    }
 
-  let linkPart = null;
-  if (outside && config.nationalServiceLink) {
-    linkPart = (
-      <div>
-        <FormattedMessage
-          id="use-national-service"
-          defaultMessage="You can also try the national service available at"
-        />
-        <ExternalLink
-          className="external-no-route"
-          {...config.nationalServiceLink}
-        />
-      </div>
-    );
-  }
+    let msgId;
+    let outside;
+    let iconType = 'caution';
+    let iconImg = 'icon-icon_caution';
+    // If error starts with "Error" it's not a message id, it's an error message
+    // from OTP
+    if (this.props.error && !startsWith(this.props.error, 'Error')) {
+      msgId = this.props.error;
+    } else if (
+      !inside(
+        [this.props.from.lon, this.props.from.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
+      msgId = 'origin-outside-service';
+      outside = true;
+    } else if (
+      !inside(
+        [this.props.to.lon, this.props.to.lat],
+        this.context.config.areaPolygon,
+      )
+    ) {
+      msgId = 'destination-outside-service';
+      outside = true;
+    } else if (
+      distance(this.props.from, this.props.to) <
+      this.context.config.minDistanceBetweenFromAndTo
+    ) {
+      iconType = 'info';
+      iconImg = 'icon-icon_info';
+      if (
+        this.props.locationState &&
+        this.props.locationState.hasLocation &&
+        ((this.props.from.lat === this.props.locationState.lat &&
+          this.props.from.lon === this.props.locationState.lon) ||
+          (this.props.to.lat === this.props.locationState.lat &&
+            this.props.to.lon === this.props.locationState.lon))
+      ) {
+        msgId = 'no-route-already-at-destination';
+      } else {
+        msgId = 'no-route-origin-near-destination';
+      }
+    } else {
+      msgId = 'no-route-msg';
+    }
 
-  return (
-    <div className="summary-list-container summary-no-route-found">
-      <div className="flex-horizontal">
-        <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
+    let linkPart = null;
+    if (outside && this.context.config.nationalServiceLink) {
+      linkPart = (
         <div>
           <FormattedMessage
-            id={msgId}
-            defaultMessage={
-              'Unfortunately no routes were found for your journey. ' +
-              'Please change your origin or destination address.'
-            }
+            id="use-national-service"
+            defaultMessage="You can also try the national service available at"
           />
-          {linkPart}
+          <ExternalLink
+            className="external-no-route"
+            {...this.context.config.nationalServiceLink}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="summary-list-container summary-no-route-found">
+        <div className="flex-horizontal">
+          <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
+          <div>
+            <FormattedMessage
+              id={msgId}
+              defaultMessage={
+                'Unfortunately no routes were found for your journey. ' +
+                'Please change your origin or destination address.'
+              }
+            />
+            {linkPart}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 const locationShape = PropTypes.shape({
@@ -206,6 +260,13 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             lon
             stop {
               gtfsId
+              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
+                pickupType
+                realtimeState
+                stop {
+                  gtfsId
+                }
+              }
             }
             bikeRentalStation {
               bikesAvailable

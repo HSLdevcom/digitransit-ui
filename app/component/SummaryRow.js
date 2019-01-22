@@ -385,7 +385,13 @@ const SummaryRow = (
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div className={classes} onClick={() => props.onSelect(props.hash)}>
+    <div
+      className={classes}
+      onClick={() => props.onSelect(props.hash)}
+      style={{
+        display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
+      }}
+    >
       {props.open || props.children
         ? [
             <div className="flex-grow itinerary-heading" key="title">
@@ -493,6 +499,8 @@ SummaryRow.propTypes = {
   open: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.array,
+  isCancelled: PropTypes.bool,
+  showCancelled: PropTypes.bool,
 };
 
 SummaryRow.contextTypes = {

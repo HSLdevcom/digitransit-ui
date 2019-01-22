@@ -1,6 +1,29 @@
 import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
 
+/**
+ * Check for legs with CANCELED trip status
+ * @param itinerary The itinerary to be checked.
+ */
+
+export function checkForCanceledLegs(itinerary) {
+  const canceledLegs = [];
+
+  itinerary.legs.forEach(
+    (leg, legIndex) =>
+      leg.trip &&
+      leg.from.stop &&
+      leg.from.stop.stoptimes.forEach(
+        stoptime =>
+          stoptime.realtimeState === 'CANCELED' &&
+          stoptime.stop.gtfsId === itinerary.legs[legIndex].from.stop.gtfsId &&
+          !canceledLegs.includes(itinerary.legs[legIndex]) &&
+          canceledLegs.push(itinerary.legs[legIndex]),
+      ),
+  );
+  return canceledLegs;
+}
+
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];

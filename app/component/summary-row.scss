@@ -403,6 +403,15 @@
   }
 }
 
+.additional-canceled-itineraries {
+  padding: 1em;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  .canceled-itineraries-container {
+    display: flex;
+  }
+}
+
 .mobile .itinerary-legs .leg {
   height: 3.4em;
 }
