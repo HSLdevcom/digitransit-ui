@@ -8,8 +8,8 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
-import { isBrowser } from '../util/browser';
 import CanceledLegBar from './CanceledLegBar';
+import LogoSmall from './LogoSmall';
 
 const AppBarLarge = (
   { titleClicked, logo },
@@ -26,21 +26,14 @@ const AppBarLarge = (
   };
 
   let logoElement;
-
   if (config.textLogo) {
     logoElement = (
       <section className="title">
-        <span className="title">{config.title}</span>
+        <LogoSmall className="navi-logo" title={config.title} />
       </section>
     );
-  } else if (isBrowser && logo) {
-    logoElement = (
-      <div className="navi-logo" style={{ backgroundImage: `url(${logo})` }} />
-    );
   } else {
-    logoElement = (
-      <div className="navi-logo" style={{ backgroundImage: 'none' }} />
-    );
+    logoElement = <LogoSmall className="navi-logo" logo={logo} showLogo />;
   }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */

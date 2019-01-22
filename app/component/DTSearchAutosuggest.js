@@ -21,6 +21,7 @@ class DTAutosuggest extends React.Component {
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     executeSearch: PropTypes.func,
+    icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     isFocused: PropTypes.func,
     layers: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -35,6 +36,7 @@ class DTAutosuggest extends React.Component {
     autoFocus: false,
     className: '',
     executeSearch,
+    icon: undefined,
     isFocused: () => {},
     value: '',
   };
@@ -259,9 +261,11 @@ class DTAutosuggest extends React.Component {
 
     return (
       <div className={cx(['autosuggest-input-container', this.props.id])}>
-        <div className={cx(['autosuggest-input-icon', this.props.id])}>
-          <Icon img="icon-icon_mapMarker-point" />
-        </div>
+        {this.props.icon && (
+          <div className={cx(['autosuggest-input-icon', this.props.id])}>
+            <Icon img={`icon-icon_${this.props.icon}`} />
+          </div>
+        )}
         <Autosuggest
           id={this.props.id}
           suggestions={suggestions}

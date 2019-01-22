@@ -1,4 +1,5 @@
 module.exports = {
+  '@disabled': true,
   '@tags': ['history'],
 
   'Back button works on add favourite page': browser => {

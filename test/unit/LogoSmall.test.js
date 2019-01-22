@@ -62,4 +62,52 @@ describe('<LogoSmall />', () => {
     expect(titleElement.text()).to.equal('Reittiopas');
     expect(wrapper.find('div.logo')).to.have.lengthOf(0);
   });
+
+  it('should show the title with the logo', () => {
+    const wrapper = shallowWithIntl(
+      <LogoSmall showLogo showTitles title="foo" />,
+      {
+        context: {
+          config: {
+            textLogo: false,
+          },
+        },
+      },
+    );
+
+    expect(wrapper.find('.logo-title').text()).to.equal('foo');
+    expect(wrapper.find('.logo-sub-title')).to.have.lengthOf(0);
+  });
+
+  it('should show the sub title with the logo', () => {
+    const wrapper = shallowWithIntl(
+      <LogoSmall showLogo showTitles subTitle="bar" />,
+      {
+        context: {
+          config: {
+            textLogo: false,
+          },
+        },
+      },
+    );
+
+    expect(wrapper.find('.logo-title')).to.have.lengthOf(0);
+    expect(wrapper.find('.logo-sub-title').text()).to.equal('bar');
+  });
+
+  it('should not show the title or sub title with the logo', () => {
+    const wrapper = shallowWithIntl(
+      <LogoSmall showLogo title="foo" subTitle="bar" />,
+      {
+        context: {
+          config: {
+            textLogo: false,
+          },
+        },
+      },
+    );
+
+    expect(wrapper.find('.logo-title')).to.have.lengthOf(0);
+    expect(wrapper.find('.logo-sub-title')).to.have.lengthOf(0);
+  });
 });

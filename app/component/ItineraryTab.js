@@ -16,6 +16,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { BreakpointConsumer } from '../util/withBreakpoint';
+import { getZones } from '../util/legUtils';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -148,7 +149,10 @@ class ItineraryTab extends React.Component {
                   small={breakpoint !== 'large'}
                 />
                 {config.showTicketInformation && (
-                  <TicketInformation fares={this.props.itinerary.fares} />
+                  <TicketInformation
+                    fares={this.props.itinerary.fares}
+                    zones={getZones(this.props.itinerary.legs)}
+                  />
                 )}
                 {routeInformation}
               </div>
@@ -227,6 +231,7 @@ export default Relay.createContainer(ItineraryTab, {
                   tripHeadsign
                 }
               }
+              zoneId
             }
           }
           to {
@@ -241,6 +246,7 @@ export default Relay.createContainer(ItineraryTab, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           legGeometry {
@@ -263,6 +269,7 @@ export default Relay.createContainer(ItineraryTab, {
                   gtfsId
                 }
               }
+              zoneId
             }
           }
           realTime

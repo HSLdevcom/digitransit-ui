@@ -7,9 +7,10 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { plan as examplePlan } from './ExampleData';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
+import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 import mapFares from '../util/fareUtils';
 
-export default function TicketInformation({ fares }, { config, intl }) {
+export default function TicketInformation({ fares, zones }, { config, intl }) {
   const currency = '€';
   const mappedFares = mapFares(fares, config, intl.locale);
   if (!mappedFares) {
@@ -17,6 +18,7 @@ export default function TicketInformation({ fares }, { config, intl }) {
   }
   const [regularFare] = fares.filter(fare => fare.type === 'regular');
   const isMultiComponent = mappedFares.length > 1;
+  const isOnlyZoneB = isWithinZoneB(zones, mappedFares);
 
   return (
     <div className="row itinerary-ticket-information">
@@ -40,7 +42,11 @@ export default function TicketInformation({ fares }, { config, intl }) {
               })}
               key={i} // eslint-disable-line react/no-array-index-key
             >
-              <span>{component}</span>
+              {config.useTicketIcons ? (
+                renderZoneTicketIcon(component, isOnlyZoneB)
+              ) : (
+                <span>{component}</span>
+              )}
             </div>
           ))}
           <div>
@@ -73,6 +79,11 @@ export default function TicketInformation({ fares }, { config, intl }) {
 
 TicketInformation.propTypes = {
   fares: PropTypes.array,
+  zones: PropTypes.arrayOf(PropTypes.string),
+};
+
+TicketInformation.defaultProps = {
+  zones: [],
 };
 
 TicketInformation.contextTypes = {
