@@ -16,6 +16,13 @@
   white-space: nowrap;
   position: relative;
 
+  &.cancelled-itinerary {
+    .itinerary-start-time {
+      text-decoration: line-through;
+      color: $cancelation-red;
+    }
+  }
+
   &.passive {
     border-left-color: $background-color;
     background-color: $background-color;

@@ -39,7 +39,7 @@ class ItinerarySummaryListContainer extends React.Component {
 
       console.log(canceledItineraries);
 
-      const canceledItinerarySummaries = (
+      const canceledItinerarySummaries = !this.state.showCancelled ? (
         <div className="additional-canceled-itineraries">
           <div className="canceled-itineraries-container">
             <div className="canceled-itineraries-icon">
@@ -55,6 +55,22 @@ class ItinerarySummaryListContainer extends React.Component {
               >
                 Näytä
               </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="additional-canceled-itineraries">
+          <div className="canceled-itineraries-container">
+            <div className="canceled-itineraries-button">
+              <button
+                className="canceled-itineraries-show"
+                onClick={() => this.showCanceledItineraries(false)}
+              >
+                Piilota (-)
+              </button>
+            </div>
+            <div className="canceled-itineraries-text">
+              Piilota perutut reittiehdotukset ({canceledItineraries.length})
             </div>
           </div>
         </div>

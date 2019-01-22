@@ -366,6 +366,7 @@ const SummaryRow = (
       passive: props.passive,
       'bp-large': breakpoint === 'large',
       open: props.open || props.children,
+      'cancelled-itinerary': props.isCancelled,
     },
   ]);
 
