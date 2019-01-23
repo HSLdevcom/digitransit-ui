@@ -4779,10 +4779,10 @@ eslint-import-resolver-node@^0.3.1:
     debug "^2.6.9"
     resolve "^1.5.0"
 
-eslint-import-resolver-webpack@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.10.0.tgz#b6f2468dc3e8b4ea076e5d75bece8da932789b07"
-  integrity sha1-tvJGjcPotOoHbl11vs6NqTJ4mwc=
+eslint-import-resolver-webpack@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.11.0.tgz#75d08ee06fc55eb24bd75147b7b4b6756886b12f"
+  integrity sha512-vX8rYSPdKtTLkK2FoU1ZRyEsl6wP1FB40ytjrEgMhzUkEkBLuZAkv1KNR+2Ml7lzMOObXI3yaEDiaQ/Yvoczhw==
   dependencies:
     array-find "^1.0.0"
     debug "^2.6.8"
