@@ -11,20 +11,20 @@ import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
 import { checkForCanceledLegs } from '../util/legUtils';
+import CanceledItineraryToggler from './CanceledItineraryToggler';
 
 class ItinerarySummaryListContainer extends React.Component {
   state = {
     showCancelled: false,
   };
 
-  showCanceledItineraries(val) {
+  showCanceledItineraries = val => {
     this.setState({
       showCancelled: val,
     });
-  }
+  };
 
   render() {
-    console.log(this.props.itineraries);
     if (
       !this.props.error &&
       this.props.itineraries &&
@@ -36,45 +36,7 @@ class ItinerarySummaryListContainer extends React.Component {
           checkForCanceledLegs(itinerary) &&
           canceledItineraries.push(itinerary),
       );
-
       console.log(canceledItineraries);
-
-      const canceledItinerarySummaries = !this.state.showCancelled ? (
-        <div className="additional-canceled-itineraries">
-          <div className="canceled-itineraries-container">
-            <div className="canceled-itineraries-icon">
-              <Icon img="icon-icon_caution" />
-            </div>
-            <div className="canceled-itineraries-text">
-              Lisäksi {canceledItineraries.length} peruttua reittiehdotusta
-            </div>
-            <div className="canceled-itineraries-button">
-              <button
-                className="canceled-itineraries-show"
-                onClick={() => this.showCanceledItineraries(true)}
-              >
-                Näytä
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="additional-canceled-itineraries">
-          <div className="canceled-itineraries-container">
-            <div className="canceled-itineraries-button">
-              <button
-                className="canceled-itineraries-show"
-                onClick={() => this.showCanceledItineraries(false)}
-              >
-                Piilota (-)
-              </button>
-            </div>
-            <div className="canceled-itineraries-text">
-              Piilota perutut reittiehdotukset ({canceledItineraries.length})
-            </div>
-          </div>
-        </div>
-      );
 
       const openedIndex = this.props.open && Number(this.props.open);
       const summaries = this.props.itineraries.map((itinerary, i) => (
@@ -98,7 +60,13 @@ class ItinerarySummaryListContainer extends React.Component {
       return (
         <div className="summary-list-container">
           {isBrowser && summaries}
-          {isBrowser && canceledItinerarySummaries}
+          {isBrowser && (
+            <CanceledItineraryToggler
+              showItineraries={this.state.showCancelled}
+              canceledItineraries={canceledItineraries}
+              toggleShowCanceled={this.showCanceledItineraries}
+            />
+          )}
         </div>
       );
     }

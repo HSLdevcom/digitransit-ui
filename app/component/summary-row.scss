@@ -416,12 +416,30 @@
   border-bottom: 1px solid #dddddd;
   .canceled-itineraries-container {
     display: flex;
+    justify-content: space-between;
   }
   .canceled-itineraries-button {
     button {
       background: none;
       padding: 0;
       color: $primary-color;
+      font-weight: 500;
+    }
+  }
+  
+  .canceled-itineraries-icon svg {
+    fill: $cancelation-red;
+    color: $white;
+    font-size: 1.4em;
+  }
+  &.hide-cancelled-itineraries {
+    .canceled-itineraries-container {
+      justify-content: center;
+    }
+    .canceled-itineraries-button {
+      button {
+        margin-right: 1em;
+      }
     }
   }
 }
