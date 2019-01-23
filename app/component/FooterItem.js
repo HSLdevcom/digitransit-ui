@@ -57,10 +57,6 @@ FooterItem.contextTypes = {
   router: routerShape.isRequired,
 };
 
-FooterItem.defaultProps = {
-  links: [],
-};
-
 FooterItem.displayName = 'FooterItem';
 
 FooterItem.description = () => (

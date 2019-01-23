@@ -40,6 +40,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
+    getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
