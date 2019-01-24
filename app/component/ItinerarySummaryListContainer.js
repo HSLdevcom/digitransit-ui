@@ -36,7 +36,6 @@ class ItinerarySummaryListContainer extends React.Component {
           checkForCanceledLegs(itinerary) &&
           canceledItineraries.push(itinerary),
       );
-      console.log(canceledItineraries);
 
       const openedIndex = this.props.open && Number(this.props.open);
       const summaries = this.props.itineraries.map((itinerary, i) => (
@@ -60,13 +59,14 @@ class ItinerarySummaryListContainer extends React.Component {
       return (
         <div className="summary-list-container">
           {isBrowser && summaries}
-          {isBrowser && (
-            <CanceledItineraryToggler
-              showItineraries={this.state.showCancelled}
-              canceledItineraries={canceledItineraries}
-              toggleShowCanceled={this.showCanceledItineraries}
-            />
-          )}
+          {isBrowser &&
+            canceledItineraries.length > 0 && (
+              <CanceledItineraryToggler
+                showItineraries={this.state.showCancelled}
+                toggleShowCanceled={this.showCanceledItineraries}
+                canceledItinerariesAmount={canceledItineraries.length}
+              />
+            )}
         </div>
       );
     }

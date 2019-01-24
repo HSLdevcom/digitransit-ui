@@ -15,10 +15,10 @@ const CanceledItineraryToggler = props => (
             <FormattedMessage
               id="canceled-itineraries-amount"
               defaultMessage={`Additional ${
-                props.canceledItineraries.length
+                props.canceledItinerariesAmount
               } canceled itineraries`}
               values={{
-                itineraryAmount: props.canceledItineraries.length,
+                itineraryAmount: props.canceledItinerariesAmount,
               }}
             />
           </div>
@@ -47,10 +47,10 @@ const CanceledItineraryToggler = props => (
             <FormattedMessage
               id="canceled-itineraries-amount-hide"
               defaultMessage={`Hide canceled itineraries (${
-                props.canceledItineraries.length
+                props.canceledItinerariesAmount
               })`}
               values={{
-                itineraryAmount: props.canceledItineraries.length,
+                itineraryAmount: props.canceledItinerariesAmount,
               }}
             />
           </div>
@@ -63,7 +63,7 @@ const CanceledItineraryToggler = props => (
 CanceledItineraryToggler.propTypes = {
   showItineraries: PropTypes.bool,
   toggleShowCanceled: PropTypes.func,
-  canceledItineraries: PropTypes.array,
+  canceledItinerariesAmount: PropTypes.number,
 };
 
 export default CanceledItineraryToggler;
