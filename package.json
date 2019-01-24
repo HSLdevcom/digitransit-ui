@@ -160,7 +160,7 @@
     "html-reporter": "1.2.0",
     "iltorb": "2.4.0",
     "jsdom": "13.0.0",
-    "mini-css-extract-plugin": "0.4.4",
+    "mini-css-extract-plugin": "0.5.0",
     "mocha": "5.2.0",
     "mock-local-storage": "1.1.7",
     "mockdate": "2.0.2",
@@ -180,12 +180,12 @@
     "style-loader": "0.23.1",
     "stylelint": "9.2.1",
     "stylelint-scss": "3.1.0",
-    "terser-webpack-plugin": "1.1.0",
+    "terser-webpack-plugin": "1.2.1",
     "url-loader": "1.1.2",
-    "webpack": "4.22.0",
-    "webpack-assets-manifest": "3.1.0",
+    "webpack": "4.29.0",
+    "webpack-assets-manifest": "3.1.1",
     "webpack-bundle-analyzer": "3.0.3",
-    "webpack-cli": "3.1.2",
-    "webpack-dev-server": "3.1.10"
+    "webpack-cli": "3.2.1",
+    "webpack-dev-server": "3.1.14"
   }
 }
