@@ -73,10 +73,10 @@ class AddFavouriteContainer extends React.Component {
   };
 
   setLocationProperties = location => {
-    this.setState({
+    this.setState(prevState => ({
       favourite: {
-        ...this.state.favourite,
-        id: this.state.favourite.id,
+        ...prevState.favourite,
+        id: prevState.favourite.id,
         gtfsId: location.id,
         code: location.code,
         layer: location.layer,
@@ -84,7 +84,7 @@ class AddFavouriteContainer extends React.Component {
         lon: location.lon,
         address: location.address,
       },
-    });
+    }));
   };
 
   isEdit = () =>
@@ -148,30 +148,30 @@ class AddFavouriteContainer extends React.Component {
   };
 
   specifyName = event => {
-    this.setState({
-      favourite: { ...this.state.favourite, locationName: event.target.value },
-    });
+    this.setState(prevState => ({
+      favourite: { ...prevState.favourite, locationName: event.target.value },
+    }));
   };
 
   selectIcon = id => {
-    const favourite = { ...this.state.favourite, selectedIconId: id };
-    // If the user hasn't set a location name yet,
-    // let's attempt to autodetermine it based on the icon they chose.
-    if (isEmpty(this.state.favourite.locationName)) {
-      let suggestedName = AddFavouriteContainer.FavouriteIconIdToNameMap[id];
-      if (suggestedName) {
-        // If there is a suggested name in the map,
-        // attempt to translate it, then assign it to
-        // the update favourite object.
-        suggestedName = this.context.intl.formatMessage({
-          id: `location-${suggestedName}`,
-          defaultMessage: suggestedName,
-        });
-        favourite.locationName = suggestedName;
+    this.setState(prevState => {
+      const favourite = { ...prevState.favourite, selectedIconId: id };
+      // If the user hasn't set a location name yet,
+      // let's attempt to autodetermine it based on the icon they chose.
+      if (isEmpty(favourite.locationName)) {
+        let suggestedName = AddFavouriteContainer.FavouriteIconIdToNameMap[id];
+        if (suggestedName) {
+          // If there is a suggested name in the map,
+          // attempt to translate it, then assign it to
+          // the update favourite object.
+          suggestedName = this.context.intl.formatMessage({
+            id: `location-${suggestedName}`,
+            defaultMessage: suggestedName,
+          });
+          favourite.locationName = suggestedName;
+        }
       }
-    }
-    this.setState({
-      favourite,
+      return { favourite };
     });
   };
 
@@ -319,4 +319,7 @@ const AddFavouriteContainerWithFavourite = connectToStores(
   }),
 );
 
-export default AddFavouriteContainerWithFavourite;
+export {
+  AddFavouriteContainerWithFavourite as default,
+  AddFavouriteContainer as Component,
+};
