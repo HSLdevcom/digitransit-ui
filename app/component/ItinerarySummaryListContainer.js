@@ -5,12 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
 import cx from 'classnames';
 import startsWith from 'lodash/startsWith';
+
 import ExternalLink from './ExternalLink';
-import SummaryRow from './SummaryRow';
 import Icon from './Icon';
+import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
-import { checkForCanceledLegs } from '../util/legUtils';
+import { checkForCanceledLegs, getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
 
 class ItinerarySummaryListContainer extends React.Component {
@@ -51,6 +52,11 @@ class ItinerarySummaryListContainer extends React.Component {
           intermediatePlaces={this.props.intermediatePlaces}
           isCancelled={canceledItineraries.includes(itinerary)}
           showCancelled={this.state.showCancelled}
+          zones={
+            this.context.config.stopCard.header.showZone
+              ? getZones(itinerary.legs)
+              : []
+          }
         >
           {i === openedIndex && this.props.children}
         </SummaryRow>
@@ -221,6 +227,11 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           duration
           rentedBike
           intermediatePlace
+          intermediatePlaces {
+            stop {
+              zoneId
+            }
+          }
           route {
             mode
             shortName
@@ -261,6 +272,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
                   gtfsId
                 }
               }
+              zoneId
             }
             bikeRentalStation {
               bikesAvailable
@@ -269,6 +281,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
           to {
             stop {
               gtfsId
+              zoneId
             }
           }
         }

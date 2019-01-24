@@ -1,11 +1,17 @@
 import cx from 'classnames';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Icon from './Icon';
+import {
+  stoptimeHasCancelation,
+  patternHasServiceAlert,
+} from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 const Tab = {
@@ -34,6 +40,7 @@ function StopPageTabContainer({
   routes,
   breakpoint,
   location: { pathname },
+  stop,
 }) {
   if (some(routes, 'fullscreenMap') && breakpoint !== 'large') {
     return null;
@@ -46,6 +53,14 @@ function StopPageTabContainer({
   }/${encodeURIComponent(
     params.terminalId ? params.terminalId : params.stopId,
   )}`;
+  const hasActiveAlert =
+    Array.isArray(stop.stoptimesForServiceDate) &&
+    stop.stoptimesForServiceDate.some(
+      st =>
+        patternHasServiceAlert(st.pattern) ||
+        (Array.isArray(st.stoptimes) &&
+          st.stoptimes.some(stoptimeHasCancelation)),
+    );
 
   return (
     <div className="stop-page-content-wrapper">
@@ -106,6 +121,7 @@ function StopPageTabContainer({
             to={`${urlBase}/${Tab.Disruptions}`}
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
+              'alert-active': hasActiveAlert,
             })}
           >
             <div className="stop-tab-singletab-container">
@@ -140,8 +156,47 @@ StopPageTabContainer.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  stop: PropTypes.shape({
+    stoptimesForServiceDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        pattern: PropTypes.shape({
+          route: PropTypes.shape({
+            alerts: PropTypes.array.isRequired,
+          }).isRequired,
+        }).isRequired,
+        stoptimes: PropTypes.arrayOf(
+          PropTypes.shape({
+            realtimeState: PropTypes.string.isRequired,
+          }),
+        ).isRequired,
+      }),
+    ),
+  }).isRequired,
 };
 
-const defaultComponent = withBreakpoint(StopPageTabContainer);
+const containerComponent = Relay.createContainer(
+  withBreakpoint(StopPageTabContainer),
+  {
+    fragments: {
+      stop: () => Relay.QL`
+        fragment on Stop {
+          stoptimesForServiceDate(date:$date, omitCanceled:false) {
+            pattern {
+              route {
+                alerts
+              }
+            }
+            stoptimes {
+              realtimeState
+            }
+          }
+        }
+      `,
+    },
+    initialVariables: {
+      date: moment().format('YYYYMMDD'),
+    },
+  },
+);
 
-export { defaultComponent as default, StopPageTabContainer as Component };
+export { containerComponent as default, StopPageTabContainer as Component };

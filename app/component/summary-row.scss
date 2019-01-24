@@ -32,11 +32,6 @@
     }
   }
 
-  &.passive {
-    border-left-color: $background-color;
-    background-color: $background-color;
-  }
-
   h2 {
     @include font-medium;
     flex-grow: 1;

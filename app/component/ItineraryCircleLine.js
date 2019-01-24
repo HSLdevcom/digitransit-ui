@@ -33,7 +33,7 @@ class ItineraryCircleLine extends React.Component {
       return (
         <div className="itinerary-icon-container">
           <Icon
-            img="icon-icon_mapMarker-point"
+            img="icon-icon_mapMarker-from"
             className="itinerary-icon from from-it"
           />
         </div>
@@ -41,7 +41,10 @@ class ItineraryCircleLine extends React.Component {
     } else if (this.props.isVia === true) {
       return (
         <div className="itinerary-icon-container">
-          <Icon img="icon-icon_place" className="itinerary-icon via via-it" />
+          <Icon
+            img="icon-icon_mapMarker-via"
+            className="itinerary-icon via via-it"
+          />
         </div>
       );
     }

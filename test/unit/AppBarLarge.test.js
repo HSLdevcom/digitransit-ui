@@ -5,6 +5,7 @@ import { describe, it } from 'mocha';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 
 import AppBarLarge from '../../app/component/AppBarLarge';
+import LogoSmall from '../../app/component/LogoSmall';
 import Icon from '../../app/component/Icon';
 
 describe('<AppBarLarge />', () => {
@@ -20,8 +21,8 @@ describe('<AppBarLarge />', () => {
       },
     );
 
-    expect(wrapper.find('.title span')).to.have.lengthOf(0);
-    expect(wrapper.find('div.navi-logo')).to.have.lengthOf(1);
+    expect(wrapper.find('section.title')).to.have.lengthOf(0);
+    expect(wrapper.find(LogoSmall).props().showLogo).to.equal(true);
   });
 
   it('should show text logo when textLogo is true', () => {
@@ -36,8 +37,8 @@ describe('<AppBarLarge />', () => {
       },
     );
 
-    expect(wrapper.find('.title span')).to.have.lengthOf(1);
-    expect(wrapper.find('div.navi-logo')).to.have.lengthOf(0);
+    expect(wrapper.find('section.title')).to.have.lengthOf(1);
+    expect(wrapper.find(LogoSmall).props().showLogo).to.equal(false);
   });
 
   it('should enable pointer events for the disruptions info icon', () => {

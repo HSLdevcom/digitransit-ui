@@ -181,6 +181,8 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
+
+    showZoneLimits: false,
   },
 
   nearestStopDistance: {
@@ -235,6 +237,7 @@ export default {
       showDescription: true,
       showStopCode: true,
       showDistance: true,
+      showZone: false,
     },
   },
 
@@ -314,6 +317,7 @@ export default {
 
   // Ticket information feature toggle
   showTicketInformation: false,
+  useTicketIcons: false,
   showRouteInformation: false,
 
   modeToOTP: {

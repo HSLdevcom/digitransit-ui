@@ -1,24 +1,32 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+
+import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import CardHeader from '../../CardHeader';
-import MarkerPopupBottom from '../MarkerPopupBottom';
+import Loading from '../../Loading';
+import ZoneIcon from '../../ZoneIcon';
+
+import GeoJsonStore from '../../../store/GeoJsonStore';
+import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
-import Loading from '../../Loading';
+import { findFeatures } from '../../../util/geo-utils';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
-    name: PropTypes.string.isRequired,
+    getGeoJsonData: PropTypes.func.isRequired,
+    language: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -33,18 +41,36 @@ class LocationPopup extends React.Component {
   }
 
   componentDidMount() {
-    const language = this.context.getStore('PreferencesStore').getLanguage();
-    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
-      'point.lat': this.props.lat,
-      'point.lon': this.props.lon,
-      'boundary.circle.lat': this.props.lat,
-      'boundary.circle.lon': this.props.lon,
-      'boundary.circle.radius': 0.1, // 100m
-      lang: language,
-      size: 1,
-      layers: 'address',
-    }).then(
-      data => {
+    const { lat, lon } = this.props;
+    const { config } = this.context;
+
+    const promises = [
+      getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+        'point.lat': lat,
+        'point.lon': lon,
+        'boundary.circle.lat': lat,
+        'boundary.circle.lon': lon,
+        'boundary.circle.radius': 0.1, // 100m
+        lang: this.props.language,
+        size: 1,
+        layers: 'address',
+      }),
+    ];
+    if (config.geoJson && config.geoJson.zones) {
+      promises.push(this.props.getGeoJsonData(config.geoJson.zones.url));
+    }
+
+    Promise.all(promises).then(
+      ([data, zoneData]) => {
+        const zones = findFeatures(
+          {
+            lat,
+            lon,
+          },
+          (zoneData && zoneData.data && zoneData.data.features) || [],
+        );
+        const zoneId = zones.length > 0 ? zones[0].Zone : undefined;
+
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
           this.setState({
@@ -52,6 +78,7 @@ class LocationPopup extends React.Component {
             location: {
               ...this.state.location,
               address: getLabel(match),
+              zoneId,
             },
           });
         } else {
@@ -63,6 +90,7 @@ class LocationPopup extends React.Component {
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
+              zoneId,
             },
           });
         }
@@ -89,6 +117,7 @@ class LocationPopup extends React.Component {
         </div>
       );
     }
+    const { zoneId } = this.state.location;
     return (
       <Card>
         <div className="padding-small">
@@ -97,7 +126,9 @@ class LocationPopup extends React.Component {
             description={this.props.name}
             unlinked
             className="padding-small"
-          />
+          >
+            <ZoneIcon showTitle zoneId={zoneId} />
+          </CardHeader>
         </div>
         <MarkerPopupBottom location={this.state.location} />
       </Card>
@@ -105,4 +136,14 @@ class LocationPopup extends React.Component {
   }
 }
 
-export default LocationPopup;
+const connectedComponent = connectToStores(
+  LocationPopup,
+  [GeoJsonStore, PreferencesStore],
+  ({ getStore }) => {
+    const language = getStore(PreferencesStore).getLanguage();
+    const { getGeoJsonData } = getStore(GeoJsonStore);
+    return { getGeoJsonData, language };
+  },
+);
+
+export { connectedComponent as default, LocationPopup as Component };
