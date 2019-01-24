@@ -91,10 +91,9 @@ class FilterTimeTableModal extends React.Component {
               id={`input-${o.code}`}
               onChange={() => this.handleCheckbox(o.code)}
             />
-            {/* TODO: Add label for this */}
-            {/* eslint-disable jsx-a11y/label-has-for */}
+            {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label htmlFor={`input-${o.code}`} />
-            {/* eslint-enable jsx-a11y/label-has-for */}
+            {/* eslint-enable jsx-a11y/label-has-associated-control */}
           </div>
           <div className="route-mode">
             <Icon
@@ -167,10 +166,9 @@ class FilterTimeTableModal extends React.Component {
                       this.toggleAllRoutes(e);
                     }}
                   />
-                  {/* TODO: Add label for this */}
-                  {/* eslint-disable jsx-a11y/label-has-for */}
+                  {/* eslint-disable jsx-a11y/label-has-associated-control */}
                   <label htmlFor="input-all-routes" />
-                  {/* eslint-enable jsx-a11y/label-has-for */}
+                  {/* eslint-enable jsx-a11y/label-has-associated-control */}
                 </div>
                 <div className="all-routes-header-title">
                   <FormattedMessage

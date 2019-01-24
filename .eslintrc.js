@@ -2,6 +2,7 @@ module.exports = {
   'parser': 'babel-eslint',
   'extends': [
     'plugin:compat/recommended',
+    'plugin:jsx-a11y/recommended',
     'airbnb',
     'prettier',
     'prettier/react',
@@ -18,6 +19,8 @@ module.exports = {
         'specialLink': [ 'to' ],
         'aspects': [ 'noHref', 'invalidHref', 'preferButton' ]
       }],
+    'jsx-a11y/label-has-associated-control': 'error',
+    'jsx-a11y/label-has-for': 'off', // deprecated in 6.1.0, does not support select tags
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'compat/compat': 'error',
     // Enable GraphQL linting
@@ -37,7 +40,8 @@ module.exports = {
     'react',
     'graphql',
     'compat',
-    'prettier'
+    'prettier',
+    'jsx-a11y'
   ],
   'settings': {
     'polyfills': ['fetch', 'promises']
