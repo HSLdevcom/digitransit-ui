@@ -55,12 +55,6 @@ class FilterTimeTableModal extends React.Component {
     }
   };
 
-  updateParent(newOptions) {
-    this.props.setRoutes({
-      showRoutes: newOptions.showRoutes,
-    });
-  }
-
   constructRouteDivs = () => {
     const routeDivs = [];
     const LONG_LINE_NAME = 5;
@@ -122,6 +116,12 @@ class FilterTimeTableModal extends React.Component {
       this.props.showFilterModal(false);
     }
   };
+
+  updateParent(newOptions) {
+    this.props.setRoutes({
+      showRoutes: newOptions.showRoutes,
+    });
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {

@@ -39,7 +39,7 @@ class FullscreenDialog extends React.Component {
     if (isFunction(this.props.toggle)) {
       this.props.toggle();
     } else {
-      this.setState({ isOpen: !this.state.isOpen });
+      this.setState(prevState => ({ isOpen: !prevState.isOpen }));
     }
   };
 

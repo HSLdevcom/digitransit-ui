@@ -105,9 +105,9 @@ class DTAutosuggest extends React.Component {
       );
     } else {
       this.setState(
-        {
-          pendingSelection: this.state.value,
-        },
+        prevState => ({
+          pendingSelection: prevState.value,
+        }),
         () => this.checkPendingSelection(), // search may finish during state change
       );
     }

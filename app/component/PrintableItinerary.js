@@ -11,7 +11,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
-import PrintableItineraryHeader from './/PrintableItineraryHeader';
+import PrintableItineraryHeader from './PrintableItineraryHeader';
 import {
   compressLegs,
   getLegMode,
@@ -20,7 +20,7 @@ import {
 import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
-import LocationMarker from '../component/map/LocationMarker';
+import LocationMarker from './map/LocationMarker';
 
 const getHeadSignFormat = (sentLegObj, isReturningRentedBike = false) => {
   const stopcode = sentLegObj.from.stop !== null && (
@@ -381,14 +381,17 @@ class PrintableItinerary extends React.Component {
               originalLegs={originalLegs}
               context={this.context}
               mapsLoaded={() =>
-                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 }, () => {
-                  if (
-                    this.state.mapsLoaded >=
-                    compressedLegs.filter(o2 => isWalking(o2)).length
-                  ) {
-                    setTimeout(() => window.print(), 1000);
-                  }
-                })
+                this.setState(
+                  prevState => ({ mapsLoaded: prevState.mapsLoaded + 1 }),
+                  () => {
+                    if (
+                      this.state.mapsLoaded >=
+                      compressedLegs.filter(o2 => isWalking(o2)).length
+                    ) {
+                      setTimeout(() => window.print(), 1000);
+                    }
+                  },
+                )
               }
             />
           </div>

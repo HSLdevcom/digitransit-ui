@@ -1,5 +1,5 @@
-import { isBrowser } from '../util/browser';
-import { generateManifestUrl } from '../util/manifestUtils';
+import { isBrowser } from './browser';
+import { generateManifestUrl } from './manifestUtils';
 
 /**
  * This helper function generates a manifest and some social media meta tags
