@@ -148,8 +148,9 @@ class AddFavouriteContainer extends React.Component {
   };
 
   specifyName = event => {
+    const locationName = event.target.value;
     this.setState(prevState => ({
-      favourite: { ...prevState.favourite, locationName: event.target.value },
+      favourite: { ...prevState.favourite, locationName },
     }));
   };
 
