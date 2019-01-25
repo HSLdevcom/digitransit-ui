@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -90,7 +91,6 @@ function getDisplayName(Component) {
  * @param {boolean} forwardRef Whether any ref given to the HOC should be forwarded to the extended Component.
  */
 function withBreakpoint(Component, { forwardRef } = { forwardRef: false }) {
-  // eslint-disable-next-line react/no-multi-comp
   class WithBreakpoint extends React.Component {
     render() {
       // eslint-disable-next-line react/prop-types

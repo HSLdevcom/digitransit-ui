@@ -49,6 +49,16 @@ class QuickSettingsPanel extends React.Component {
     isPopUpOpen: false,
   };
 
+  actions = {
+    toggleBusState: () => this.toggleTransportMode('bus'),
+    toggleTramState: () => this.toggleTransportMode('tram'),
+    toggleRailState: () => this.toggleTransportMode('rail'),
+    toggleSubwayState: () => this.toggleTransportMode('subway'),
+    toggleFerryState: () => this.toggleTransportMode('ferry'),
+    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
+    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
+  };
+
   onRequestChange = newState => {
     this.internalSetOffcanvas(newState);
   };
@@ -158,26 +168,12 @@ class QuickSettingsPanel extends React.Component {
 
   getModes = () => getModes(this.context.location, this.context.config);
 
-  isModeSelected(mode) {
-    return this.getModes().includes(mode.toUpperCase());
-  }
-
-  actions = {
-    toggleBusState: () => this.toggleTransportMode('bus'),
-    toggleTramState: () => this.toggleTransportMode('tram'),
-    toggleRailState: () => this.toggleTransportMode('rail'),
-    toggleSubwayState: () => this.toggleTransportMode('subway'),
-    toggleFerryState: () => this.toggleTransportMode('ferry'),
-    toggleCitybikeState: () => this.toggleTransportMode('citybike'),
-    toggleAirplaneState: () => this.toggleTransportMode('airplane'),
-  };
-
   toggleCustomizeSearchOffcanvas = () => {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
   togglePopUp = () => {
-    this.setState({ isPopUpOpen: !this.state.isPopUpOpen });
+    this.setState(({ isPopUpOpen }) => ({ isPopUpOpen: !isPopUpOpen }));
   };
 
   internalSetOffcanvas = newState => {
@@ -242,6 +238,10 @@ class QuickSettingsPanel extends React.Component {
       ) || 'custom-settings'
     );
   };
+
+  isModeSelected(mode) {
+    return this.getModes().includes(mode.toUpperCase());
+  }
 
   toggleTransportMode(mode, otpMode) {
     if (
