@@ -13,7 +13,7 @@ import { getJson } from './xhrPromise';
 import { distance } from './geo-utils';
 import { uniqByLabel, isStop } from './suggestionUtils';
 import mapPeliasModality from './pelias-to-modality-mapper';
-import { PREFIX_ROUTES } from '../util/path';
+import { PREFIX_ROUTES } from './path';
 
 /**
  * LayerType depicts the type of the point-of-interest.

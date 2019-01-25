@@ -57,6 +57,21 @@ class TileLayerContainer extends GridLayer {
     config: PropTypes.object.isRequired,
   };
 
+  PopupOptions = {
+    offset: [110, 16],
+    minWidth: 260,
+    maxWidth: 260,
+    autoPanPaddingTopLeft: [5, 125],
+    className: 'popup',
+    ref: 'popup',
+    onClose: this.onPopupclose,
+    autoPan: false,
+  };
+
+  merc = new SphericalMercator({
+    size: this.props.tileSize || 256,
+  });
+
   constructor(props, context) {
     super(props, context);
 
@@ -135,21 +150,6 @@ class TileLayerContainer extends GridLayer {
   };
 
   onPopupclose = () => this.setState(initialState);
-
-  PopupOptions = {
-    offset: [110, 16],
-    minWidth: 260,
-    maxWidth: 260,
-    autoPanPaddingTopLeft: [5, 125],
-    className: 'popup',
-    ref: 'popup',
-    onClose: this.onPopupclose,
-    autoPan: false,
-  };
-
-  merc = new SphericalMercator({
-    size: this.props.tileSize || 256,
-  });
 
   createTile = (tileCoords, done) => {
     const tile = new TileContainer(
