@@ -40,6 +40,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
+    getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
@@ -116,28 +117,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.isCancelled = true;
   }
 
-  usePosition(origin) {
-    this.setState({
-      origin,
-      mapTracking: true,
-      focusOnOrigin: false,
-      initialZoom:
-        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
-    });
-  }
-
-  useOrigin(origin) {
-    this.setState({
-      origin,
-      mapTracking: false,
-      focusOnOrigin: true,
-      initialZoom:
-        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
-    });
-  }
-
   enableMapTracking = () => {
     this.setState({
       mapTracking: true,
@@ -151,6 +130,28 @@ class MapWithTrackingStateHandler extends React.Component {
       focusOnOrigin: false,
     });
   };
+
+  usePosition(origin) {
+    this.setState(prevState => ({
+      origin,
+      mapTracking: true,
+      focusOnOrigin: false,
+      initialZoom:
+        prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
+      shouldShowDefaultLocation: false,
+    }));
+  }
+
+  useOrigin(origin) {
+    this.setState(prevState => ({
+      origin,
+      mapTracking: false,
+      focusOnOrigin: true,
+      initialZoom:
+        prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
+      shouldShowDefaultLocation: false,
+    }));
+  }
 
   render() {
     const {

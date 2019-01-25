@@ -34,7 +34,9 @@ class TransitLeg extends React.Component {
           : 'IntermediateStopsExpand',
       );
     }
-    this.setState({ showIntermediateStops: !this.state.showIntermediateStops });
+    this.setState(prevState => ({
+      showIntermediateStops: !prevState.showIntermediateStops,
+    }));
   };
 
   renderIntermediate() {

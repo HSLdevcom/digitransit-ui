@@ -73,26 +73,26 @@ class LocationPopup extends React.Component {
 
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
-          this.setState({
+          this.setState(prevState => ({
             loading: false,
             location: {
-              ...this.state.location,
+              ...prevState.location,
               address: getLabel(match),
               zoneId,
             },
-          });
+          }));
         } else {
-          this.setState({
+          this.setState(prevState => ({
             loading: false,
             location: {
-              ...this.state.location,
+              ...prevState.location,
               address: this.context.intl.formatMessage({
                 id: 'location-from-map',
                 defaultMessage: 'Selected location',
               }),
               zoneId,
             },
-          });
+          }));
         }
       },
       () => {

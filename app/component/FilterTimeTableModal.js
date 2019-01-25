@@ -55,12 +55,6 @@ class FilterTimeTableModal extends React.Component {
     }
   };
 
-  updateParent(newOptions) {
-    this.props.setRoutes({
-      showRoutes: newOptions.showRoutes,
-    });
-  }
-
   constructRouteDivs = () => {
     const routeDivs = [];
     const LONG_LINE_NAME = 5;
@@ -91,10 +85,9 @@ class FilterTimeTableModal extends React.Component {
               id={`input-${o.code}`}
               onChange={() => this.handleCheckbox(o.code)}
             />
-            {/* TODO: Add label for this */}
-            {/* eslint-disable jsx-a11y/label-has-for */}
+            {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label htmlFor={`input-${o.code}`} />
-            {/* eslint-enable jsx-a11y/label-has-for */}
+            {/* eslint-enable jsx-a11y/label-has-associated-control */}
           </div>
           <div className="route-mode">
             <Icon
@@ -123,6 +116,12 @@ class FilterTimeTableModal extends React.Component {
       this.props.showFilterModal(false);
     }
   };
+
+  updateParent(newOptions) {
+    this.props.setRoutes({
+      showRoutes: newOptions.showRoutes,
+    });
+  }
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
@@ -167,10 +166,9 @@ class FilterTimeTableModal extends React.Component {
                       this.toggleAllRoutes(e);
                     }}
                   />
-                  {/* TODO: Add label for this */}
-                  {/* eslint-disable jsx-a11y/label-has-for */}
+                  {/* eslint-disable jsx-a11y/label-has-associated-control */}
                   <label htmlFor="input-all-routes" />
-                  {/* eslint-enable jsx-a11y/label-has-for */}
+                  {/* eslint-enable jsx-a11y/label-has-associated-control */}
                 </div>
                 <div className="all-routes-header-title">
                   <FormattedMessage

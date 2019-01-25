@@ -42,7 +42,7 @@ const skip = browsers => suite => {
 };
 
 // tests//
-testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
+// testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
 
 testVariation(
   'Departure',
