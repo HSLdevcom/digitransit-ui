@@ -15,7 +15,7 @@ import {
 import storeOrigin from '../action/originActions';
 import FrontPagePanelLarge from './FrontPagePanelLarge';
 import FrontPagePanelSmall from './FrontPagePanelSmall';
-import MapWithTracking from '../component/map/MapWithTracking';
+import MapWithTracking from './map/MapWithTracking';
 import PageFooter from './PageFooter';
 import DTAutosuggestPanel from './DTAutosuggestPanel';
 import { isBrowser } from '../util/browser';

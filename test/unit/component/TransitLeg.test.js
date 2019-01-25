@@ -246,4 +246,61 @@ describe('<TransitLeg />', () => {
     const leg = wrapper.find(IntermediateLeg);
     expect(leg.props().showZoneLimits).to.equal(false);
   });
+
+  it('should toggle showIntermediateStops', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        from: {
+          name: 'Lokkalantie',
+          stop: {},
+        },
+        intermediatePlaces: [
+          {
+            arrivalTime: 1540990260000,
+            stop: {
+              code: 'E2502',
+              gtfsId: 'HSL:2252202',
+              name: 'Leppäsolmu',
+              zoneId: 'B',
+            },
+          },
+        ],
+        route: {
+          gtfsId: 'HSL:7280',
+        },
+        startTime: 1540989960000,
+        to: {
+          stop: {
+            zoneId: 'C',
+          },
+        },
+        trip: {
+          gtfsId: 'HSL:7280_20181022_Ke_1_1435',
+          pattern: {
+            code: 'HSL:7280:0:01',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: {
+        config: {
+          itinerary: {
+            showZoneLimits: true,
+          },
+        },
+        focusFunction: () => () => {},
+      },
+    });
+
+    wrapper.instance().toggleShowIntermediateStops();
+    expect(wrapper.state('showIntermediateStops')).to.equal(true);
+
+    wrapper.instance().toggleShowIntermediateStops();
+    expect(wrapper.state('showIntermediateStops')).to.equal(false);
+  });
 });

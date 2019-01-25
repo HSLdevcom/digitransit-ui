@@ -69,13 +69,15 @@ class RouteScheduleContainer extends Component {
 
   onFromSelectChange = event => {
     const from = Number(event.target.value);
-    const to = this.state.to > from ? this.state.to : from + 1;
-    this.setState({ ...this.state, from, to });
+    this.setState(prevState => {
+      const to = prevState.to > from ? prevState.to : from + 1;
+      return { ...prevState.state, from, to };
+    });
   };
 
   onToSelectChange = event => {
     const to = Number(event.target.value);
-    this.setState({ ...this.state, to });
+    this.setState(prevState => ({ ...prevState.state, to }));
   };
 
   getTrips = (from, to) => {
@@ -86,7 +88,8 @@ class RouteScheduleContainer extends Component {
     );
     if (trips == null) {
       return <Loading />;
-    } else if (trips.length === 0) {
+    }
+    if (trips.length === 0) {
       return (
         <div className="text-center">
           {this.context.intl.formatMessage({
@@ -116,19 +119,6 @@ class RouteScheduleContainer extends Component {
       );
     });
   };
-
-  initState(props, isInitialState) {
-    const state = {
-      from: 0,
-      to: props.pattern.stops.length - 1,
-    };
-
-    if (isInitialState) {
-      this.state = state;
-    } else {
-      this.setState(state);
-    }
-  }
 
   formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
@@ -162,6 +152,19 @@ class RouteScheduleContainer extends Component {
     e.stopPropagation();
     window.print();
   };
+
+  initState(props, isInitialState) {
+    const state = {
+      from: 0,
+      to: props.pattern.stops.length - 1,
+    };
+
+    if (isInitialState) {
+      this.state = state;
+    } else {
+      this.setState(state);
+    }
+  }
 
   render() {
     return (

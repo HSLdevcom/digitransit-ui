@@ -104,4 +104,13 @@ describe('<FullscreenDialog />', () => {
     shallowWithIntl(<FullscreenDialog {...props} />);
     expect(global.localStorage).to.be.empty; //eslint-disable-line
   });
+
+  it('should set isOpen when toggled', () => {
+    const props = {
+      renderContent: () => null,
+    };
+    const wrapper = shallowWithIntl(<FullscreenDialog {...props} />);
+    wrapper.instance().toggle();
+    expect(wrapper.state().isOpen).to.equal(true);
+  });
 });
