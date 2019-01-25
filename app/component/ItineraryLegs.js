@@ -38,7 +38,7 @@ class ItineraryLegs extends React.Component {
 
   render() {
     const checkedLegs = this.props.itinerary.legs.map(leg => {
-      if (this.props.canceledLegs.includes(leg)) {
+      if (this.props.canceledLegs && this.props.canceledLegs.includes(leg)) {
         return {
           ...leg,
           canceled: true,

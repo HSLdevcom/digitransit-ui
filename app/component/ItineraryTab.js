@@ -40,17 +40,27 @@ class ItineraryTab extends React.Component {
   };
 
   componentDidMount = () => {
-    const showCanceledLegBarEvent = new CustomEvent('showCanceledLegsBanner', {
-      detail: { canceledLegs: true },
-    });
-    window.dispatchEvent(showCanceledLegBarEvent);
+    if (this.checkForCanceledLegs()) {
+      const showCanceledLegBarEvent = new CustomEvent(
+        'showCanceledLegsBanner',
+        {
+          detail: { canceledLegs: true },
+        },
+      );
+      window.dispatchEvent(showCanceledLegBarEvent);
+    }
   };
 
   componentWillUnmount = () => {
-    const showCanceledLegBarEvent = new CustomEvent('showCanceledLegsBanner', {
-      detail: { canceledLegs: false },
-    });
-    window.dispatchEvent(showCanceledLegBarEvent);
+    if (this.checkForCanceledLegs()) {
+      const showCanceledLegBarEvent = new CustomEvent(
+        'showCanceledLegsBanner',
+        {
+          detail: { canceledLegs: false },
+        },
+      );
+      window.dispatchEvent(showCanceledLegBarEvent);
+    }
   };
 
   getState = () => ({
@@ -83,7 +93,7 @@ class ItineraryTab extends React.Component {
             canceledLegs.push(this.props.itinerary.legs[legIndex]),
         ),
     );
-    return canceledLegs;
+    return canceledLegs.length > 0 ? canceledLegs : false;
   };
 
   printItinerary = e => {
