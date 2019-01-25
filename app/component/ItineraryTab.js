@@ -18,6 +18,7 @@ import SecondaryButton from './SecondaryButton';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import { getZones } from '../util/legUtils';
 
+
 class ItineraryTab extends React.Component {
   static propTypes = {
     searchTime: PropTypes.number.isRequired,
@@ -40,7 +41,7 @@ class ItineraryTab extends React.Component {
   };
 
   componentDidMount = () => {
-    if (this.checkForCanceledLegs()) {
+    if (this.checkForCanceledLegs().length > 0) {
       const showCanceledLegBarEvent = new CustomEvent(
         'showCanceledLegsBanner',
         {
@@ -52,7 +53,7 @@ class ItineraryTab extends React.Component {
   };
 
   componentWillUnmount = () => {
-    if (this.checkForCanceledLegs()) {
+    if (this.checkForCanceledLegs().length > 0) {
       const showCanceledLegBarEvent = new CustomEvent(
         'showCanceledLegsBanner',
         {
@@ -93,7 +94,7 @@ class ItineraryTab extends React.Component {
             canceledLegs.push(this.props.itinerary.legs[legIndex]),
         ),
     );
-    return canceledLegs.length > 0 ? canceledLegs : false;
+    return canceledLegs;
   };
 
   printItinerary = e => {
