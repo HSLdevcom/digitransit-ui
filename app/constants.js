@@ -84,3 +84,8 @@ export const RealtimeStateType = {
   /** The trip information has been updated, but the trip pattern stayed the same as the trip pattern of the scheduled trip. */
   Updated: 'UPDATED',
 };
+
+/**
+ * This is the date format string to use for querying dates from OTP.
+ */
+export const DATE_FORMAT = 'YYYYMMDD';
