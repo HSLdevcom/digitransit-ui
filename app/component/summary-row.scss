@@ -32,6 +32,11 @@
     }
   }
 
+  &.passive {
+    border-left-color: $background-color;
+    background-color: $background-color;
+  }
+
   h2 {
     @include font-medium;
     flex-grow: 1;
@@ -405,8 +410,23 @@
   }
 }
 
-.additional-canceled-itineraries {
+.additional-canceled-itineraries,
+.additional-canceled-itineraries:hover,
+.additional-canceled-itineraries:focus,
+.hide-cancelled-itineraries,
+.hide-cancelled-itineraries:hover,
+.hide-cancelled-itineraries:focus {
+  font-family: $font-family;
+  background: $white;
+  color: #222;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-xsmall;
+  line-height: 1.5;
+  display: block;
+  width: 100%;
   padding: 1em;
+  padding-bottom: 0;
+  margin: 0;
   border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
   .canceled-itineraries-container {
@@ -418,7 +438,9 @@
       background: none;
       padding: 0;
       color: $primary-color;
-      font-weight: 500;
+      font-family: $font-family;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-xsmall;
     }
   }
   
@@ -427,6 +449,7 @@
     color: $white;
     font-size: 1.4em;
   }
+
   &.hide-cancelled-itineraries {
     .canceled-itineraries-container {
       justify-content: center;

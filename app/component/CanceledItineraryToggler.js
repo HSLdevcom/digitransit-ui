@@ -6,7 +6,11 @@ import Icon from './Icon';
 const CanceledItineraryToggler = props => (
   <React.Fragment>
     {!props.showItineraries ? (
-      <div className="additional-canceled-itineraries">
+      <button
+        type="button"
+        className="additional-canceled-itineraries"
+        onClick={() => props.toggleShowCanceled(true)}
+      >
         <div className="canceled-itineraries-container">
           <div className="canceled-itineraries-icon">
             <Icon img="icon-icon_caution" />
@@ -24,6 +28,7 @@ const CanceledItineraryToggler = props => (
           </div>
           <div className="canceled-itineraries-button">
             <button
+              type="button"
               className="canceled-itineraries-show"
               onClick={() => props.toggleShowCanceled(true)}
             >
@@ -31,12 +36,17 @@ const CanceledItineraryToggler = props => (
             </button>
           </div>
         </div>
-      </div>
+      </button>
     ) : (
-      <div className="additional-canceled-itineraries hide-cancelled-itineraries">
+      <button
+        type="button"
+        className="additional-canceled-itineraries hide-cancelled-itineraries"
+        onClick={() => props.toggleShowCanceled(false)}
+      >
         <div className="canceled-itineraries-container">
           <div className="canceled-itineraries-button">
             <button
+              type="button"
               className="canceled-itineraries-show"
               onClick={() => props.toggleShowCanceled(false)}
             >
@@ -55,7 +65,7 @@ const CanceledItineraryToggler = props => (
             />
           </div>
         </div>
-      </div>
+      </button>
     )}
   </React.Fragment>
 );
