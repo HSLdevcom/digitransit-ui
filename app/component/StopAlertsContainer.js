@@ -105,6 +105,8 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               mode
               shortName
               alerts {
+                alertDescriptionText
+                alertHeaderText
                 effectiveEndDate
                 effectiveStartDate
                 alertDescriptionTextTranslations {
