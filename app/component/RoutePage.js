@@ -17,11 +17,7 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
-import {
-  routeHasServiceAlert,
-  stoptimeHasCancelation,
-  routeHasCancelation,
-} from '../util/alertUtils';
+import { routeHasServiceAlert, routeHasCancelation } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
