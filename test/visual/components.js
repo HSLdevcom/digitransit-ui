@@ -196,8 +196,6 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 testVariation('StopPageHeader');
 testVariation('Timetable');
 testVariation('SplitBars');
-testVariation('Labeled');
-testVariation('Centered');
 testVariation('InfoIcon');
 testVariation('DepartureListHeader');
 testVariation('NextDeparturesListHeader');

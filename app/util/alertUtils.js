@@ -83,8 +83,9 @@ const getTranslation = (translations, defaultValue, locale) => {
     return defaultValue;
   }
   const translation =
-    find(translations, ['language', locale]) ||
-    find(translations, ['language', 'en']);
+    find(translations, t => t.language === locale) ||
+    find(translations, t => !t.language && t.text) ||
+    find(translations, t => t.language === 'en');
   return translation ? translation.text : defaultValue;
 };
 

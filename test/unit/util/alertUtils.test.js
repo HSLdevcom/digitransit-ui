@@ -206,6 +206,21 @@ describe('alertUtils', () => {
       };
       expect(utils.getServiceAlertHeader(alert, 'sv')).to.equal('Test');
     });
+
+    it('should return the "multi-language translation" if no direct matches are found', () => {
+      const alert = {
+        alertHeaderTextTranslations: [
+          {
+            text: 'Testi/Test',
+          },
+          {
+            text: 'Test',
+            language: 'en',
+          },
+        ],
+      };
+      expect(utils.getServiceAlertHeader(alert, 'fi')).to.equal('Testi/Test');
+    });
   });
 
   describe('getServiceAlertDescription', () => {

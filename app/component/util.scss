@@ -93,7 +93,8 @@ input[type='range'].slider {
   cursor: ew-resize;
 }
 
-input[type='range'].slider { /* stylelint-disable-line */
+/* stylelint-disable-next-line */
+input[type='range'].slider {
   &::-webkit-slider-thumb {
     @include thumb;
     -webkit-appearance: none;
@@ -434,38 +435,6 @@ select {
   border-left: 1px solid #ddd;
   margin-left: 0.7em;
   width: 0.7em;
-}
-
-.labeled {
-  display: inline-block;
-  width: inherit;
-  height: inherit;
-  line-height: 1;
-  &:hover .labeled-label {
-    color: lighten($black, 20%);
-  }
-}
-
-.labeled-item {
-  text-align: center;
-}
-
-.labeled-label {
-  display: inline-block;
-  min-width: 60px;
-  color: $gray-blue;
-  @include font-bold;
-  font-size: $font-size-small;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.centered {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
 }
 
 .canceled {
