@@ -3,7 +3,8 @@ const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 
-const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+// route timetable data needs to be up-to-date before this is enabled
+// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
 export default {
   CONFIG,
@@ -44,7 +45,8 @@ export default {
   },
 
   routeTimetables: {
-    HSL: HSLRouteTimetable,
+    // route timetable data needs to be up-to-date before this is enabled
+    //  HSL: HSLRouteTimetable,
   },
 
   footer: {
