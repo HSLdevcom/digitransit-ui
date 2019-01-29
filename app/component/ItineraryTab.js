@@ -4,6 +4,7 @@ import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -17,7 +18,7 @@ import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import { getZones } from '../util/legUtils';
-
+import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -25,6 +26,7 @@ class ItineraryTab extends React.Component {
     itinerary: PropTypes.object.isRequired,
     location: PropTypes.object,
     focus: PropTypes.func.isRequired,
+    showCanceledLegsBanner: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -33,6 +35,7 @@ class ItineraryTab extends React.Component {
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
     piwik: PropTypes.object,
+    executeAction: PropTypes.func.isRequired,
   };
 
   state = {
@@ -42,25 +45,13 @@ class ItineraryTab extends React.Component {
 
   componentDidMount = () => {
     if (this.checkForCanceledLegs().length > 0) {
-      const showCanceledLegBarEvent = new CustomEvent(
-        'showCanceledLegsBanner',
-        {
-          detail: { canceledLegs: true },
-        },
-      );
-      window.dispatchEvent(showCanceledLegBarEvent);
+      this.context.executeAction(updateShowCanceledLegsBannerState, true);
     }
   };
 
   componentWillUnmount = () => {
-    if (this.checkForCanceledLegs().length > 0) {
-      const showCanceledLegBarEvent = new CustomEvent(
-        'showCanceledLegsBanner',
-        {
-          detail: { canceledLegs: false },
-        },
-      );
-      window.dispatchEvent(showCanceledLegBarEvent);
+    if (this.props.showCanceledLegsBanner) {
+      this.context.executeAction(updateShowCanceledLegsBannerState, false);
     }
   };
 
@@ -191,14 +182,20 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default Relay.createContainer(ItineraryTab, {
-  fragments: {
-    searchTime: () => Relay.QL`
+export default Relay.createContainer(
+  connectToStores(ItineraryTab, ['CanceledLegsBarStore'], ({ getStore }) => ({
+    showCanceledLegsBanner: getStore(
+      'CanceledLegsBarStore',
+    ).getShowCanceledLegsBanner(),
+  })),
+  {
+    fragments: {
+      searchTime: () => Relay.QL`
       fragment on Plan {
         date
       }
     `,
-    itinerary: () => Relay.QL`
+      itinerary: () => Relay.QL`
       fragment on Itinerary {
         walkDistance
         duration
@@ -319,5 +316,6 @@ export default Relay.createContainer(ItineraryTab, {
         }
       }
     `,
+    },
   },
-});
+);

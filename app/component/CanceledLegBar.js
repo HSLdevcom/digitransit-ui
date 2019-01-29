@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
@@ -11,33 +12,8 @@ class CanceledLegBar extends React.Component {
     location: PropTypes.object.isRequired,
   };
 
-  state = {
-    showBanner: false,
-  };
-
-  componentDidMount() {
-    window.addEventListener(
-      'showCanceledLegsBanner',
-      this.handleCanceledLegBar,
-      false,
-    );
-  }
-  componentWillUnmount() {
-    window.removeEventListener(
-      'showCanceledLegsBanner',
-      this.handleCanceledLegBar,
-    );
-  }
-  handleCanceledLegBar = event => {
-    if (event.detail.canceledLegs) {
-      this.setState({
-        showBanner: true,
-      });
-    } else {
-      this.setState({
-        showBanner: false,
-      });
-    }
+  static propTypes = {
+    showCanceledLegsBanner: PropTypes.bool,
   };
 
   fetchNewRoute = () => {
@@ -48,7 +24,9 @@ class CanceledLegBar extends React.Component {
     return (
       <div
         className="canceled-legs-banner"
-        style={{ display: this.state.showBanner ? 'block' : 'none' }}
+        style={{
+          display: this.props.showCanceledLegsBanner ? 'block' : 'none',
+        }}
       >
         <div className="canceled-legs-container">
           <div className="canceled-legs-icon">
@@ -63,6 +41,7 @@ class CanceledLegBar extends React.Component {
             </div>
             <div className="canceled-legs-get-new-route">
               <button
+                type="button"
                 onClick={e => {
                   e.stopPropagation();
                   this.fetchNewRoute();
@@ -81,4 +60,12 @@ class CanceledLegBar extends React.Component {
   }
 }
 
-export default CanceledLegBar;
+export default connectToStores(
+  CanceledLegBar,
+  ['CanceledLegsBarStore'],
+  context => ({
+    showCanceledLegsBanner: context
+      .getStore('CanceledLegsBarStore')
+      .getShowCanceledLegsBanner(),
+  }),
+);
