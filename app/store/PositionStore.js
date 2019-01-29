@@ -14,13 +14,21 @@ export default class PositionStore extends Store {
   static storeName = 'PositionStore';
 
   static STATUS_NO_LOCATION = 'no-location';
+
   static STATUS_SEARCHING_LOCATION = 'searching-location';
+
   static STATUS_GEOLOCATION_PROMPT = 'prompt';
+
   static STATUS_FOUND_LOCATION = 'found-location';
+
   static STATUS_FOUND_ADDRESS = 'found-address';
+
   static STATUS_GEOLOCATION_DENIED = 'geolocation-denied';
+
   static STATUS_GEOLOCATION_TIMEOUT = 'geolocation-timeout';
+
   static STATUS_GEOLOCATION_WATCH_TIMEOUT = 'geolocation-watch-timeout';
+
   static STATUS_GEOLOCATION_NOT_SUPPORTED = 'geolocation-not-supported';
 
   constructor(dispatcher) {

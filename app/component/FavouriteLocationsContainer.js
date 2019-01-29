@@ -32,10 +32,12 @@ class FavouriteLocationContainerRoute extends Relay.Route {
       }
     }`,
   };
+
   static paramDefinitions = {
     from: { required: true },
     to: { required: true },
   };
+
   static routeName = 'FavouriteLocationsContainerRoute';
 }
 

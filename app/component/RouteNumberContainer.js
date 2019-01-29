@@ -8,7 +8,8 @@ const getText = (route, config) => {
   const showAgency = get(config, 'agency.show', false);
   if (route.shortName) {
     return route.shortName;
-  } else if (showAgency && route.agency) {
+  }
+  if (showAgency && route.agency) {
     return route.agency.name;
   }
   return '';

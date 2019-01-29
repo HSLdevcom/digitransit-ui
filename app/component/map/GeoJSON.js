@@ -21,6 +21,7 @@ const GeoJsonIcon = L.Icon.extend({
 
 class GeoJSON extends React.Component {
   static propTypes = { data: PropTypes.object.isRequired };
+
   static contextTypes = { config: PropTypes.object.isRequired };
 
   // cache dynamic icons to allow references by id without data duplication

@@ -250,9 +250,11 @@ export default function(req, res, next) {
         301,
         redirectLocation.pathname + redirectLocation.search,
       );
-    } else if (error) {
+    }
+    if (error) {
       return next(error);
-    } else if (!renderProps) {
+    }
+    if (!renderProps) {
       return res.status(404).send('Not found');
     }
 

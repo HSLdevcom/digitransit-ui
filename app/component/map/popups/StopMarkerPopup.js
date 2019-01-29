@@ -22,6 +22,7 @@ class StopMarkerPopup extends React.PureComponent {
       relay.setVariables({ currentTime: currUnix });
     }
   }
+
   render() {
     const stop = this.props.stop || this.props.terminal;
     const terminal = this.props.terminal !== null;

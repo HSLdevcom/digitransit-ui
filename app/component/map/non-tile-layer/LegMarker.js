@@ -22,7 +22,8 @@ function fixName(name) {
 
   if (name.length === 1) {
     return `\u00A0${name}\u00A0`;
-  } else if (name.length === 2) {
+  }
+  if (name.length === 2) {
     return `\u202F${name}\u202F`;
   }
   return name;

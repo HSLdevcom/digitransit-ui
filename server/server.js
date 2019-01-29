@@ -38,7 +38,6 @@ const bodyParser = require('body-parser');
 const { retryFetch } = require('../app/util/fetchUtils');
 const config = require('../app/config').getConfiguration();
 
-
 /* ********* Global ********* */
 const port = config.PORT || 8080;
 const app = express();
