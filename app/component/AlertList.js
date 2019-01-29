@@ -7,7 +7,10 @@ import { FormattedMessage } from 'react-intl';
 import RouteAlertsRow from './RouteAlertsRow';
 import { routeNameCompare } from '../util/searchUtils';
 
-const FIVE_MINUTES = 5 * 60 * 1000;
+/**
+ * The default validity period (5 minutes) for an alert without a set end time.
+ */
+const DEFAULT_VALIDITY = 5 * 60 * 1000;
 
 const AlertList = props => {
   const { cancelations, currentTime, serviceAlerts } = props;
@@ -28,7 +31,7 @@ const AlertList = props => {
 
   const hasExpired = validityPeriod =>
     validityPeriod.startTime < currentTime ||
-    (validityPeriod.endTime || validityPeriod.startTime + FIVE_MINUTES) >
+    (validityPeriod.endTime || validityPeriod.startTime + DEFAULT_VALIDITY) >
       currentTime;
 
   return (
@@ -75,7 +78,8 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  currentTime: PropTypes.object.isRequired,
+  currentTime: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
   serviceAlerts: PropTypes.arrayOf(alertShape),
 };

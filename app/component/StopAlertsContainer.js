@@ -79,7 +79,7 @@ StopAlertsContainer.propTypes = {
         }),
         stoptimes: PropTypes.arrayOf(
           PropTypes.shape({
-            headsign: PropTypes.string,
+            headsign: PropTypes.string.isRequired,
             realtimeState: PropTypes.string,
             scheduledDeparture: PropTypes.number,
             serviceDay: PropTypes.number,
