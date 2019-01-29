@@ -48,15 +48,15 @@ describe('retryFetch', () => {
           firstEnd = performance.now();
           firstDuration = firstEnd - firstStart;
           expect(firstDuration).to.be.above(40);
-          // because test system can be slow, requests should take between 40-100ms when retry delay is 20ms and 2 retries
-          expect(firstDuration).to.be.below(100);
+          // because test system can be slow, requests should take between 40-200ms (because system can be slow) when retry delay is 20ms and 2 retries
+          expect(firstDuration).to.be.below(200);
           fetchMock.restore();
         },
       )
       .then(() => {
         const secondStart = performance.now();
         fetchMock.mock(testUrl, 404);
-        retryFetch(testUrl, {}, 2, 50)
+        retryFetch(testUrl, {}, 2, 100)
           .then(res => res.json())
           .then(
             result => {
@@ -65,12 +65,12 @@ describe('retryFetch', () => {
             err => {
               const secondEnd = performance.now();
               const secondDuration = secondEnd - secondStart;
-              expect(secondDuration).to.be.above(100);
-              // because test system can be slow, requests should take between 600-800ms when retry delay is 300ms and 2 retries
-              expect(firstDuration).to.be.below(200);
-              // because of longer delay between requests, the difference between 2 retries with 50ms delay
-              // and 2 retries with 300ms delay should be 500 but because performance slightly varies, there is a 50ms threshold for test failure
-              expect(secondDuration - firstDuration).to.be.above(60);
+              expect(secondDuration).to.be.above(200);
+              // because test system can be slow, requests should take between 200-360ms when retry delay is 100ms and 2 retries
+              expect(firstDuration).to.be.below(360);
+              // because of longer delay between requests, the difference between 2 retries with 20ms delay
+              // and 2 retries with 100ms delay should be 160ms but because performance slightly varies, there is a 60ms threshold for test failure
+              expect(secondDuration - firstDuration).to.be.above(100);
               fetchMock.restore();
               done();
             },
