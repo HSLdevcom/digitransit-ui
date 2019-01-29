@@ -12,8 +12,7 @@ import { routeNameCompare } from '../util/searchUtils';
  */
 const DEFAULT_VALIDITY = 5 * 60 * 1000;
 
-const AlertList = props => {
-  const { cancelations, currentTime, serviceAlerts } = props;
+const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
   const alerts = (Array.isArray(cancelations) ? cancelations : []).concat(
     Array.isArray(serviceAlerts) ? serviceAlerts : [],
   );
@@ -44,20 +43,24 @@ const AlertList = props => {
               ? b.validityPeriod.startTime - a.validityPeriod.startTime
               : order;
           })
-          .map(alert => {
-            const { color, mode, shortName } = alert.route;
-            return (
+          .map(
+            ({
+              description,
+              header,
+              route: { color, mode, shortName },
+              validityPeriod,
+            }) => (
               <RouteAlertsRow
                 color={color ? `#${color}` : null}
-                description={alert.description}
-                expired={hasExpired(alert.validityPeriod)}
-                header={alert.header}
+                description={description}
+                expired={hasExpired(validityPeriod)}
+                header={header}
                 key={uniqueId('alert-')}
                 routeLine={shortName}
                 routeMode={mode.toLowerCase()}
               />
-            );
-          })}
+            ),
+          )}
       </div>
     </div>
   );
