@@ -8,8 +8,10 @@ export default class TerminalRoute extends Relay.Route {
       }
     `,
   };
+
   static paramDefinitions = {
     terminalId: { required: true },
   };
+
   static routeName = 'TerminalRoute';
 }

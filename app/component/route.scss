@@ -576,6 +576,15 @@ $route-schedule-date-height: 36px;
   }
 }
 
+.print-button-container {
+  display: flex;
+  button {
+    margin-right: 1em;
+    margin-left: auto;
+    margin-bottom: $padding-medium;
+  }
+}
+
 .mobile .route-page-action-bar .secondary-button {
   display: none;
 }

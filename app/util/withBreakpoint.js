@@ -9,7 +9,8 @@ const { Provider, Consumer } = createContext('large');
 function getClientBreakpoint() {
   if (window.innerWidth < 400) {
     return 'small';
-  } else if (window.innerWidth < 900) {
+  }
+  if (window.innerWidth < 900) {
     return 'medium';
   }
   return 'large';

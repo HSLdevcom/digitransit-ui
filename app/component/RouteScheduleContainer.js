@@ -32,6 +32,7 @@ class RouteScheduleContainer extends Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   static transformTrips(trips, stops) {
@@ -148,6 +149,11 @@ class RouteScheduleContainer extends Component {
     );
   };
 
+  openRoutePDF = (e, routePDFUrl) => {
+    e.stopPropagation();
+    window.open(routePDFUrl);
+  };
+
   printRouteTimetable = e => {
     e.stopPropagation();
     window.print();
@@ -167,6 +173,20 @@ class RouteScheduleContainer extends Component {
   }
 
   render() {
+    const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
+
+    const routeTimetableHandler =
+      this.context.config.routeTimetables &&
+      this.context.config.routeTimetables[routeIdSplitted[0]];
+
+    const routeTimetableUrl =
+      routeTimetableHandler &&
+      this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
+      routeTimetableHandler.timetableUrlResolver(
+        this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
+        this.props.pattern.route,
+      );
+
     return (
       <div className="route-schedule-content-wrapper">
         <div className="route-page-action-bar">
@@ -177,13 +197,24 @@ class RouteScheduleContainer extends Component {
             onDateChange={this.changeDate}
           />
           {this.dateForPrinting()}
-          <SecondaryButton
-            ariaLabel="print"
-            buttonName="print"
-            buttonClickAction={e => this.printRouteTimetable(e)}
-            buttonIcon="icon-icon_print"
-            smallSize
-          />
+          <div className="print-button-container">
+            {routeTimetableUrl && (
+              <SecondaryButton
+                ariaLabel="print-timetable"
+                buttonName="print-timetable"
+                buttonClickAction={e => this.openRoutePDF(e, routeTimetableUrl)}
+                buttonIcon="icon-icon_print"
+                smallSize
+              />
+            )}
+            <SecondaryButton
+              ariaLabel="print"
+              buttonName="print"
+              buttonClickAction={e => this.printRouteTimetable(e)}
+              buttonIcon="icon-icon_print"
+              smallSize
+            />
+          </div>
         </div>
         <div className="route-schedule-list-wrapper">
           <RouteScheduleHeader
@@ -216,6 +247,8 @@ const connectedComponent = connectToStores(
           }
           route {
             url
+            gtfsId
+            shortName
           }
           tripsForDate(serviceDay: $serviceDay) {
             id
