@@ -51,4 +51,150 @@ describe('alertUtils', () => {
       ).to.equal(true);
     });
   });
+
+  describe('tripHasCancelation', () => {
+    it('should return false if trip is undefined', () => {
+      expect(utils.tripHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if trip has no array "stoptimes"', () => {
+      expect(utils.tripHasCancelation({ stoptimes: undefined })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if only some of the stoptimes have been canceled', () => {
+      expect(
+        utils.tripHasCancelation({
+          stoptimes: [
+            { realtimeState: 'CANCELED' },
+            { realtimeState: 'SCHEDULED' },
+          ],
+        }),
+      ).to.equal(false);
+    });
+
+    it('should return true if all of the stoptimes have been canceled', () => {
+      expect(
+        utils.tripHasCancelation({
+          stoptimes: [
+            { realtimeState: 'CANCELED' },
+            { realtimeState: 'CANCELED' },
+          ],
+        }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('patternHasCancelation', () => {
+    it('should return false if pattern is undefined', () => {
+      expect(utils.patternHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if pattern has no array "trips"', () => {
+      expect(utils.patternHasCancelation({ trips: undefined })).to.equal(false);
+    });
+
+    it('should return true if one of the trips has been canceled', () => {
+      const pattern = {
+        trips: [
+          {
+            stoptimes: [
+              {
+                realtimeState: 'CANCELED',
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.patternHasCancelation(pattern)).to.equal(true);
+    });
+  });
+
+  describe('routeHasCancelation', () => {
+    it('should return false if route is undefined', () => {
+      expect(utils.routeHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if route has no array "patterns"', () => {
+      expect(utils.routeHasCancelation({ patterns: undefined })).to.equal(
+        false,
+      );
+    });
+
+    it('should return true if one of the patterns has been canceled', () => {
+      const route = {
+        patterns: [
+          {
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: 'CANCELED',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.routeHasCancelation(route)).to.equal(true);
+    });
+
+    it('should return true if a matching pattern has been canceled', () => {
+      const route = {
+        patterns: [
+          {
+            code: 'foo',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: 'CANCELED',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.routeHasCancelation(route, 'foo')).to.equal(true);
+    });
+  });
+
+  describe('getServiceAlertHeader', () => {
+    it('should return an empty string if there are no translations and no alertHeaderText', () => {
+      const alert = {};
+      expect(utils.getServiceAlertHeader(alert)).to.equal('');
+    });
+
+    it('should return alertHeaderText if there are no translations', () => {
+      const alert = {
+        alertHeaderText: 'foo',
+      };
+      expect(utils.getServiceAlertHeader(alert)).to.equal('foo');
+    });
+  });
+
+  describe('getServiceAlertDescription', () => {
+    it('should return an empty string if there are no translations and no alertDescriptionText', () => {
+      const alert = {};
+      expect(utils.getServiceAlertDescription(alert)).to.equal('');
+    });
+
+    it('should return alertDescriptionText if there are no translations', () => {
+      const alert = {
+        alertDescriptionText: 'foo',
+      };
+      expect(utils.getServiceAlertDescription(alert)).to.equal('foo');
+    });
+  });
+
+  describe('getServiceAlertsForRoute', () => {
+    it('should return an empty array if the route has no array "alerts"', () => {
+      expect(
+        utils.getServiceAlertsForRoute({ alerts: undefined }),
+      ).to.deep.equal([]);
+    });
+  });
 });

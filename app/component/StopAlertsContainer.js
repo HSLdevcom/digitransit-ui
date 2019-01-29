@@ -76,7 +76,7 @@ StopAlertsContainer.propTypes = {
               name: PropTypes.string,
             }),
           ).isRequired,
-        }),
+        }).isRequired,
         stoptimes: PropTypes.arrayOf(
           PropTypes.shape({
             headsign: PropTypes.string.isRequired,

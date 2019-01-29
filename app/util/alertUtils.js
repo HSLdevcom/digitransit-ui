@@ -78,7 +78,17 @@ export const routeHasCancelation = (route, patternId = undefined) => {
     .some(patternHasCancelation);
 };
 
-const getServiceAlertHeader = (alert, locale) => {
+/**
+ * Attempts to find the alert's header in the given language.
+ *
+ * @param {*} alert the alert object to look into.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertHeader = (alert, locale = 'en') => {
+  if (!Array.isArray(alert.alertHeaderTextTranslations)) {
+    return alert.alertHeaderText || '';
+  }
+
   // Try to find the alert in user's language, or failing in English, or failing in any language
   // TODO: This should be a util function that we use everywhere
   // TODO: We should match to all languages user's browser lists as acceptable
@@ -92,10 +102,20 @@ const getServiceAlertHeader = (alert, locale) => {
   if (header) {
     header = header.text;
   }
-  return header || alert.alertHeaderText;
+  return header;
 };
 
-const getServiceAlertDescription = (alert, locale) => {
+/**
+ * Attempts to find the alert's description in the given language.
+ *
+ * @param {*} alert the alert object to look into.
+ * @param {*} locale the locale to use, default to 'en'.
+ */
+export const getServiceAlertDescription = (alert, locale = 'en') => {
+  if (!Array.isArray(alert.alertDescriptionTextTranslations)) {
+    return alert.alertDescriptionText || '';
+  }
+
   // Unfortunately nothing in GTFS-RT specifies that if there's one string in a language then
   // all other strings would also be available in the same language...
   let description = find(alert.alertDescriptionTextTranslations, [
@@ -114,7 +134,7 @@ const getServiceAlertDescription = (alert, locale) => {
   if (description) {
     description = description.text;
   }
-  return description || alert.alertDescriptionText;
+  return description;
 };
 
 /**
