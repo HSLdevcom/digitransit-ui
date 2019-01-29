@@ -14,7 +14,7 @@ describe('retryFetch', () => {
   /* eslint-disable no-unused-vars */
   it('fetching something that does not exist with 5 retries should give Not Found error and 6 requests in total should be made ', done => {
     fetchMock.mock(testUrl, 404);
-    retryFetch(testUrl, {}, 5, 200)
+    retryFetch(testUrl, {}, 5, 10)
       .then(res => res.json())
       .then(
         result => {
@@ -38,7 +38,7 @@ describe('retryFetch', () => {
     let firstDuration;
     const firstStart = performance.now();
     fetchMock.mock(testUrl, 404);
-    retryFetch(testUrl, {}, 2, 50)
+    retryFetch(testUrl, {}, 2, 20)
       .then(res => res.json())
       .then(
         result => {
@@ -47,16 +47,16 @@ describe('retryFetch', () => {
         err => {
           firstEnd = performance.now();
           firstDuration = firstEnd - firstStart;
-          expect(firstDuration).to.be.above(100);
-          // because test system can be slow, requests should take between 100-200ms when retry delay is 50ms and 2 retries
-          expect(firstDuration).to.be.below(200);
+          expect(firstDuration).to.be.above(40);
+          // because test system can be slow, requests should take between 40-100ms when retry delay is 20ms and 2 retries
+          expect(firstDuration).to.be.below(100);
           fetchMock.restore();
         },
       )
       .then(() => {
         const secondStart = performance.now();
         fetchMock.mock(testUrl, 404);
-        retryFetch(testUrl, {}, 2, 300)
+        retryFetch(testUrl, {}, 2, 50)
           .then(res => res.json())
           .then(
             result => {
@@ -65,12 +65,12 @@ describe('retryFetch', () => {
             err => {
               const secondEnd = performance.now();
               const secondDuration = secondEnd - secondStart;
-              expect(secondDuration).to.be.above(600);
+              expect(secondDuration).to.be.above(100);
               // because test system can be slow, requests should take between 600-800ms when retry delay is 300ms and 2 retries
-              expect(firstDuration).to.be.below(800);
+              expect(firstDuration).to.be.below(200);
               // because of longer delay between requests, the difference between 2 retries with 50ms delay
               // and 2 retries with 300ms delay should be 500 but because performance slightly varies, there is a 50ms threshold for test failure
-              expect(secondDuration - firstDuration).to.be.above(450);
+              expect(secondDuration - firstDuration).to.be.above(60);
               fetchMock.restore();
               done();
             },
@@ -80,7 +80,7 @@ describe('retryFetch', () => {
 
   it('fetch that gives 200 should not be retried', done => {
     fetchMock.get(testUrl, testJSONResponse);
-    retryFetch(testUrl, {}, 5, 200)
+    retryFetch(testUrl, {}, 5, 10)
       .then(res => res.json())
       .then(
         result => {
@@ -100,7 +100,7 @@ describe('retryFetch', () => {
 
   it('fetch that gives 200 should have correct result data', done => {
     fetchMock.get(testUrl, testJSONResponse);
-    retryFetch(testUrl, {}, 5, 200)
+    retryFetch(testUrl, {}, 5, 10)
       .then(res => res.json())
       .then(
         result => {

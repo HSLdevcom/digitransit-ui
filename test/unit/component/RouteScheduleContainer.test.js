@@ -5,6 +5,7 @@ import { describe, it } from 'mocha';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as RouteScheduleContainer } from '../../../app/component/RouteScheduleContainer';
 import RouteScheduleTripRow from '../../../app/component/RouteScheduleTripRow';
+import { mockContext } from '../helpers/mock-context'
 
 describe('<RouteScheduleContainer />', () => {
   it('should identify canceled departures from incoming data', () => {
@@ -37,6 +38,7 @@ describe('<RouteScheduleContainer />', () => {
             ],
           },
         ],
+        route: { gtfsId: '2550' },
       },
       relay: {
         setVariables: () => {},
@@ -46,7 +48,7 @@ describe('<RouteScheduleContainer />', () => {
       },
       serviceDay: '20190115',
     };
-    const wrapper = shallowWithIntl(<RouteScheduleContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteScheduleContainer {...props} />, { context: mockContext });
     expect(wrapper.find(RouteScheduleTripRow)).to.have.lengthOf(1);
     expect(
       wrapper
