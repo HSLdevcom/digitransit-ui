@@ -164,8 +164,12 @@ describe('alertUtils', () => {
 
   describe('getServiceAlertHeader', () => {
     it('should return an empty string if there are no translations and no alertHeaderText', () => {
-      const alert = {};
-      expect(utils.getServiceAlertHeader(alert)).to.equal('');
+      expect(utils.getServiceAlertHeader({})).to.equal('');
+      expect(
+        utils.getServiceAlertHeader({
+          alertHeaderTextTranslations: [],
+        }),
+      ).to.equal('');
     });
 
     it('should return alertHeaderText if there are no translations', () => {
@@ -173,6 +177,34 @@ describe('alertUtils', () => {
         alertHeaderText: 'foo',
       };
       expect(utils.getServiceAlertHeader(alert)).to.equal('foo');
+    });
+
+    it('should return a matching translation', () => {
+      const alert = {
+        alertHeaderTextTranslations: [
+          {
+            language: 'fi',
+            text: 'Testi',
+          },
+        ],
+      };
+      expect(utils.getServiceAlertHeader(alert, 'fi')).to.equal('Testi');
+    });
+
+    it('should return the English translation if no other matches are found', () => {
+      const alert = {
+        alertHeaderTextTranslations: [
+          {
+            language: 'en',
+            text: 'Test',
+          },
+          {
+            language: 'fi',
+            text: 'Testi',
+          },
+        ],
+      };
+      expect(utils.getServiceAlertHeader(alert, 'sv')).to.equal('Test');
     });
   });
 
