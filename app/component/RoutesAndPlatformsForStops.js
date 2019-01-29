@@ -1,15 +1,17 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Relay from 'react-relay/classic';
-import cx from 'classnames';
 import { Link } from 'react-router';
 import orderBy from 'lodash/orderBy';
 import uniqBy from 'lodash/uniqBy';
-import { routeNameCompare } from '../util/searchUtils';
 
 import Departure from './Departure';
-import { PREFIX_ROUTES } from '../util/path';
 import DepartureListHeader from './DepartureListHeader';
+import Icon from './Icon';
+import { PREFIX_ROUTES } from '../util/path';
+import { routeNameCompare } from '../util/searchUtils';
 
 export const mapRoutes = (stopFromProps, stopType) => {
   const stopRoutes = [];
@@ -28,7 +30,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
           },
           pickupType: routeProperties.stoptimes[0].pickupType,
           stoptime: 0,
-          realtime: 0,
+          realtime: false,
           lastStop:
             stopFromProps.stops.filter(
               singleStop =>
@@ -50,7 +52,7 @@ export const mapRoutes = (stopFromProps, stopType) => {
         ...singlePattern,
         pickupType: singlePattern.stoptimes[0].pickupType,
         stoptime: 0,
-        realtime: 0,
+        realtime: false,
         lastStop:
           stopFromProps.gtfsId ===
           singlePattern.pattern.stops[singlePattern.pattern.stops.length - 1]
@@ -76,6 +78,15 @@ const RoutesAndPlatformsForStops = props => {
     props.stop,
     props.params.terminalId ? 'terminal' : 'stop',
   ).sort((x, y) => routeNameCompare(x.pattern.route, y.pattern.route));
+
+  if (mappedRoutes.length === 0) {
+    return (
+      <div className="stop-no-departures-container">
+        <Icon img="icon-icon_station" />
+        <FormattedMessage id="no-departures" defaultMessage="No departures" />
+      </div>
+    );
+  }
 
   const timeTableRows = mappedRoutes.map(route => (
     <Link

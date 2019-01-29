@@ -231,3 +231,35 @@ export const getLegBadgeProps = (leg, config) => {
     badgeText: `${bikesAvailable}`,
   };
 };
+
+/**
+ * Retrieves all zones from the legs (from & to points) and the legs' stops.
+ *
+ * @param {*} legs The legs to retrieve the zones from.
+ */
+export const getZones = legs => {
+  if (!Array.isArray(legs)) {
+    return [];
+  }
+
+  const zones = {};
+  legs.forEach(leg => {
+    if (leg.from && leg.from.stop && leg.from.stop.zoneId) {
+      zones[leg.from.stop.zoneId] = true;
+    }
+    if (leg.to && leg.to.stop && leg.to.stop.zoneId) {
+      zones[leg.to.stop.zoneId] = true;
+    }
+    if (Array.isArray(leg.intermediatePlaces)) {
+      leg.intermediatePlaces
+        .filter(place => place.stop && place.stop.zoneId)
+        .forEach(place => {
+          zones[place.stop.zoneId] = true;
+        });
+    }
+  });
+  if (zones.A && zones.C) {
+    zones.B = true;
+  }
+  return Object.keys(zones).sort();
+};

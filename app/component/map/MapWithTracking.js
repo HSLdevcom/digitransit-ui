@@ -8,6 +8,10 @@ import ComponentUsageExample from '../ComponentUsageExample';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
 import { dtLocationShape } from '../../util/shapes';
+import { isBrowser } from '../../util/browser';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import PositionStore from '../../store/PositionStore';
+import GeoJsonStore from '../../store/GeoJsonStore';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -28,10 +32,15 @@ const placeMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
 };
 
+const jsonModules = {
+  GeoJSON: () => importLazy(import(/* webpackChunkName: "map" */ './GeoJSON')),
+};
+
 const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
+    getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
@@ -45,6 +54,7 @@ class MapWithTrackingStateHandler extends React.Component {
     }).isRequired,
     children: PropTypes.array,
     renderCustomButtons: PropTypes.func,
+    mapLayers: mapLayerShape.isRequired,
   };
 
   static defaultProps = {
@@ -56,12 +66,29 @@ class MapWithTrackingStateHandler extends React.Component {
     const hasOriginorPosition =
       props.origin.ready || props.position.hasLocation;
     this.state = {
+      geoJson: {},
       initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
       origin: props.origin,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
+  }
+
+  componentDidMount() {
+    const { config, getGeoJsonData } = this.props;
+    if (isBrowser && config.geoJson && Array.isArray(config.geoJson.layers)) {
+      config.geoJson.layers.forEach(geoJsonLayer => {
+        const { url, name, metadata } = geoJsonLayer;
+        getGeoJsonData(url, name, metadata).then(data => {
+          const { geoJson } = this.state;
+          geoJson[url] = data;
+          if (!this.isCancelled) {
+            this.setState({ geoJson });
+          }
+        });
+      });
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -86,26 +113,8 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   }
 
-  usePosition(origin) {
-    this.setState({
-      origin,
-      mapTracking: true,
-      focusOnOrigin: false,
-      initialZoom:
-        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
-    });
-  }
-
-  useOrigin(origin) {
-    this.setState({
-      origin,
-      mapTracking: false,
-      focusOnOrigin: true,
-      initialZoom:
-        this.state.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
-      shouldShowDefaultLocation: false,
-    });
+  componentWillUnmount() {
+    this.isCancelled = true;
   }
 
   enableMapTracking = () => {
@@ -122,6 +131,28 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
+  usePosition(origin) {
+    this.setState(prevState => ({
+      origin,
+      mapTracking: true,
+      focusOnOrigin: false,
+      initialZoom:
+        prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
+      shouldShowDefaultLocation: false,
+    }));
+  }
+
+  useOrigin(origin) {
+    this.setState(prevState => ({
+      origin,
+      mapTracking: false,
+      focusOnOrigin: true,
+      initialZoom:
+        prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
+      shouldShowDefaultLocation: false,
+    }));
+  }
+
   render() {
     const {
       position,
@@ -129,10 +160,12 @@ class MapWithTrackingStateHandler extends React.Component {
       config,
       children,
       renderCustomButtons,
+      mapLayers,
       ...rest
     } = this.props;
-    let location;
+    const { geoJson } = this.state;
 
+    let location;
     if (
       this.state.focusOnOrigin &&
       !this.state.origin.gps &&
@@ -154,6 +187,18 @@ class MapWithTrackingStateHandler extends React.Component {
           {({ PlaceMarker }) => <PlaceMarker position={this.props.origin} />}
         </LazilyLoad>,
       );
+    }
+
+    if (geoJson) {
+      Object.keys(geoJson)
+        .filter(key => mapLayers.geoJson[key] !== false)
+        .forEach(key => {
+          leafletObjs.push(
+            <LazilyLoad modules={jsonModules} key={key}>
+              {({ GeoJSON }) => <GeoJSON data={geoJson[key].data} />}
+            </LazilyLoad>,
+          );
+        });
     }
 
     return (
@@ -201,11 +246,12 @@ const MapWithTracking = connectToStores(
       defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
-  ['PositionStore'],
+  [PositionStore, MapLayerStore, GeoJsonStore],
   ({ getStore }) => {
-    const position = getStore('PositionStore').getLocationState();
-
-    return { position };
+    const position = getStore(PositionStore).getLocationState();
+    const mapLayers = getStore(MapLayerStore).getMapLayers();
+    const { getGeoJsonData } = getStore(GeoJsonStore);
+    return { position, mapLayers, getGeoJsonData };
   },
 );
 
@@ -218,4 +264,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export default MapWithTracking;
+export { MapWithTracking as default };

@@ -17,8 +17,6 @@ const proxy = require('express-http-proxy');
 
 global.self = { fetch: global.fetch };
 
-const config = require('../app/config').getConfiguration();
-
 let Raven;
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
@@ -38,6 +36,8 @@ const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { retryFetch } = require('../app/util/fetchUtils');
+const config = require('../app/config').getConfiguration();
+
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;

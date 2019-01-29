@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
+import DepartureTime from './DepartureTime';
+import Icon from './Icon';
 import RouteNumberContainer from './RouteNumberContainer';
 import RouteDestination from './RouteDestination';
-import DepartureTime from './DepartureTime';
 import PlatformNumber from './PlatformNumber';
 import ComponentUsageExample from './ComponentUsageExample';
 import { isCallAgencyDeparture } from '../util/legUtils';
@@ -53,7 +54,14 @@ function Departure(props) {
         isArrival={props.isArrival}
         isLastStop={props.isLastStop}
       />
-      {platformNumber}
+      {props.canceled ? (
+        <span className="departure-canceled">
+          <Icon img="icon-icon_caution" />
+          <FormattedMessage id="canceled" defaultMessage="Canceled" />
+        </span>
+      ) : (
+        platformNumber
+      )}
     </p>
   );
 }
@@ -114,7 +122,22 @@ Departure.propTypes = {
   className: PropTypes.string,
   hasDisruption: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
-  departure: PropTypes.object.isRequired,
+  departure: PropTypes.shape({
+    headsign: PropTypes.string,
+    pattern: PropTypes.shape({
+      headsign: PropTypes.string,
+      route: PropTypes.shape({
+        longName: PropTypes.string,
+        mode: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    realtime: PropTypes.bool,
+    stop: PropTypes.shape({
+      platformCode: PropTypes.string,
+    }),
+    stoptime: PropTypes.number.isRequired,
+    trip: PropTypes.object,
+  }).isRequired,
   isArrival: PropTypes.bool,
   isLastStop: PropTypes.bool,
   showPlatformCode: PropTypes.bool,
@@ -128,7 +151,7 @@ Departure.defaultProps = {
 
 Departure.contextTypes = {
   config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  intl: intlShape.isRequired,
 };
 
 export default Departure;

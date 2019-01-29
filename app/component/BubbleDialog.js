@@ -17,6 +17,10 @@ import {
 import withBreakpoint from '../util/withBreakpoint';
 
 class BubbleDialog extends React.Component {
+  modules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+  };
+
   constructor(props, context) {
     super(props);
 
@@ -51,14 +55,6 @@ class BubbleDialog extends React.Component {
     });
   };
 
-  modules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-  };
-
-  handleClickOutside() {
-    this.closeDialog();
-  }
-
   openDialog = (applyFocus = false) => {
     this.setDialogState(true, () => {
       if (isFunction(this.props.onDialogOpen)) {
@@ -76,6 +72,10 @@ class BubbleDialog extends React.Component {
       }
     });
   };
+
+  handleClickOutside() {
+    this.closeDialog();
+  }
 
   renderContent(isFullscreen) {
     const { breakpoint, children, contentClassName, header } = this.props;

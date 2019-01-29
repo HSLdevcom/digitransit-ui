@@ -2,7 +2,8 @@ import cx from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
+import Message from './Message';
 
 import { isKeyboardSelectionEvent } from '../util/browser';
 
@@ -32,7 +33,7 @@ const Checkbox = (
                     id: labelId,
                     defaultMessage,
                   })
-                : undefined
+                : defaultMessage
             }
             checked={checked}
             disabled={disabled}
@@ -42,10 +43,9 @@ const Checkbox = (
           />
         </label>
       </div>
-      {showLabel &&
-        labelId && (
-          <FormattedMessage id={labelId} defaultMessage={defaultMessage} />
-        )}
+      {showLabel && (
+        <Message labelId={labelId} defaultMessage={defaultMessage} />
+      )}
     </div>
   );
 };

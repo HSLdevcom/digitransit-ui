@@ -15,6 +15,7 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
+import { routeHasServiceAlert } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -121,8 +122,7 @@ class RoutePage extends React.Component {
     const activeTab = getActiveTab(this.props.location.pathname);
     const { patternId } = this.props.params;
     const hasActiveAlert =
-      Array.isArray(route.alerts) &&
-      route.alerts.length > 0 &&
+      routeHasServiceAlert(route) &&
       (route.alerts.some(alert => alert.trip)
         ? route.alerts.some(
             alert =>

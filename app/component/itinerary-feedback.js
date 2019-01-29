@@ -7,8 +7,6 @@ import Icon from './Icon';
 
 export default class ItineraryFeedback extends React.Component {
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     piwik: PropTypes.object,
   };
@@ -39,7 +37,9 @@ export default class ItineraryFeedback extends React.Component {
   };
 
   toggleFeedbackForm = () => {
-    this.setState({ feedbackFormOpen: !this.state.feedbackFormOpen });
+    this.setState(prevState => ({
+      feedbackFormOpen: !prevState.feedbackFormOpen,
+    }));
   };
 
   render() {

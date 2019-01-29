@@ -68,3 +68,19 @@ export const QuickOptionSetType = {
   PreferWalkingRoutes: 'prefer-walking-routes',
   SavedSettings: 'saved-settings',
 };
+
+/**
+ * RealtimeStateType depicts different types of a trip's information state.
+ */
+export const RealtimeStateType = {
+  /** The trip has been added using a real-time update, i.e. the trip was not present in the GTFS feed. */
+  Added: 'ADDED',
+  /** The trip has been canceled by a real-time update. */
+  Canceled: 'CANCELED',
+  /** The trip information has been updated and resulted in a different trip pattern compared to the trip pattern of the scheduled trip. */
+  Modified: 'MODIFIED',
+  /** The trip information comes from the GTFS feed, i.e. no real-time update has been applied. This is often the default state. */
+  Scheduled: 'SCHEDULED',
+  /** The trip information has been updated, but the trip pattern stayed the same as the trip pattern of the scheduled trip. */
+  Updated: 'UPDATED',
+};

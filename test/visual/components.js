@@ -42,6 +42,8 @@ const skip = browsers => suite => {
 };
 
 // tests//
+// testVariation('IndexPage', 'normal', 1, [], actions => actions.wait(5000));
+
 testVariation(
   'Departure',
   'normal',
@@ -75,9 +77,6 @@ testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
 testVariation('Departure', 'isArrival', 4);
 
-testVariation('DepartureTime', 'normal', 2);
-testVariation('DepartureTime', 'canceled', 3);
-
 testVariation('RouteNumber', 'normal');
 testVariation('RouteNumber', 'with-disruption', 2);
 testVariation('RouteNumber', 'vertical', 4);
@@ -86,10 +85,6 @@ testVariation('RouteNumber', 'vertical-with-disruption', 5);
 testVariation('RouteDestination', 'normal');
 testVariation('RouteDestination', 'drop-off', 2);
 testVariation('RouteDestination', 'last-stop', 3);
-
-testVariation('Distance', 'zero');
-testVariation('Distance', 'meters', 2);
-testVariation('Distance', 'km', 3);
 
 testVariation('PlatformNumber');
 
@@ -204,7 +199,6 @@ testVariation('BicycleRentalStationRow', 'few-bikes', 2);
 testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
-testVariation('StopCardHeader');
 testVariation('Timetable');
 testVariation('SplitBars');
 testVariation('Labeled');
@@ -241,15 +235,14 @@ testVariation('DateWarning', 'tomorrow-show-warning', 2);
 testVariation('Error404');
 
 testVariation('StopMarkerPopup', 'empty', 1);
-testVariation('StopMarkerPopup', 'basic', 2);
-testVariation('StopMarkerPopup', 'real-time', 3, [
-  'div.departure-list > p:nth-child(1) > span.realtime svg.realtime',
+testVariation('StopMarkerPopup', 'basic', 2, [
   'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
-  'div.departure-list > p:nth-child(4) > span.realtime svg.realtime',
+  'p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
+  'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
 ]).then(skip('ie11'));
-testVariation('StopMarkerPopup', 'tomorrow', 4);
-testVariation('StopMarkerPopup', 'missing-platform', 5);
 
 testVariation('SelectStreetModeDialog');
 testVariation('SelectMapLayersDialog');
 testVariation('MainMenuContainer');
+
+testVariation('OriginDestinationBar', 'with-viapoint', 2);

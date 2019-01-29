@@ -26,6 +26,11 @@ class MainMenuContainer extends Component {
     isOpen: false,
   };
 
+  mainMenuModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    MainMenu: () => importLazy(import('./MainMenu')),
+  };
+
   onRequestChange = newState => this.internalSetOffcanvas(newState);
 
   getOffcanvasState = () => {
@@ -61,11 +66,6 @@ class MainMenuContainer extends Component {
     } else {
       this.context.router.goBack();
     }
-  };
-
-  mainMenuModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
-    MainMenu: () => importLazy(import('./MainMenu')),
   };
 
   render = () => {

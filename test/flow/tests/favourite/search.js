@@ -1,4 +1,5 @@
 module.exports = {
+  '@disabled': true,
   tags: ['favourite', 'search'],
   'Favourite should be part of search': browser => {
     browser.url(browser.launch_url);
