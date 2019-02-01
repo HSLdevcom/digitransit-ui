@@ -11,10 +11,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-} from '../action/realTimeClientAction';
+import { stopRealTimeClient } from '../action/realTimeClientAction';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
