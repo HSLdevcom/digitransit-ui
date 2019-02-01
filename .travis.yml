@@ -4,6 +4,7 @@ branches:
   only:
   - master
   - index-page
+  - hslmqtt
   - /201[7-9][0-1][0-9][0-3][0-9]/
 
 cache: yarn
