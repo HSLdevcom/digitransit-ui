@@ -133,7 +133,7 @@
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "babel-plugin-istanbul": "5.1.0",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.23",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "base64-arraybuffer": "0.1.5",
     "chai": "4.2.0",
     "codecov": "3.1.0",
