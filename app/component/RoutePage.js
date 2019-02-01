@@ -38,19 +38,6 @@ class RoutePage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
-  componentDidMount() {
-    if (this.props.route == null) {
-      return;
-    }
-    const route = this.props.route.gtfsId.split(':');
-
-    if (route[0].toLowerCase() === 'hsl') {
-      this.context.executeAction(startRealTimeClient, {
-        route: route[1],
-      });
-    }
-  }
-
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');
 
