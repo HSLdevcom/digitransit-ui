@@ -341,7 +341,7 @@ const translations = {
     'dialog-return-to-map': 'Zurück zur Karte',
     'digitransit-platform': 'Digitransit-Plattform',
     disclaimer:
-      'Bitte beachten Sie, dass es sich um geschätzte Reisezeiten handelt. Die vorgeschlagenen Verbindugnen können nicht garantiert werden.',
+      'Bitte beachten Sie, dass es sich um geschätzte Reisezeiten handelt. Die vorgeschlagenen Verbindungen können nicht garantiert werden.',
     disruption: 'Störung',
     'disruption-info': 'Störungsmeldungen',
     'disruption-info-no-alerts': 'Keine Störungsmeldungen.',
