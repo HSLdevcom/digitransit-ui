@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import moment from 'moment';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as AlertList } from '../../../app/component/AlertList';
+import {
+  Component as AlertList,
+  hasExpired,
+} from '../../../app/component/AlertList';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 
 describe('<AlertList />', () => {
@@ -90,5 +94,75 @@ describe('<AlertList />', () => {
         .at(3)
         .prop('header'),
     ).to.equal('fourth');
+  });
+
+  it('should indicate that an alert has not expired', () => {
+    const props = {
+      currentTime: moment.unix(1547464412),
+      cancelations: [
+        {
+          header: 'foo',
+          route: {
+            mode: 'BUS',
+            shortName: '63',
+          },
+          validityPeriod: {
+            startTime: 1547464413,
+            endTime: 1547464415,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(false);
+  });
+
+  it('should indicate that an alert has expired', () => {
+    const props = {
+      currentTime: moment.unix(1547465412),
+      cancelations: [
+        {
+          header: 'foo',
+          route: {
+            mode: 'BUS',
+            shortName: '63',
+          },
+          validityPeriod: {
+            startTime: 1547464412,
+            endTime: 1547464415,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(true);
+  });
+
+  describe('hasExpired', () => {
+    it('should mark an alert in the past as expired', () => {
+      expect(hasExpired({ startTime: 1000, endTime: 2000 }, 2500)).to.equal(
+        true,
+      );
+    });
+
+    it('should not mark a current alert as expired', () => {
+      expect(hasExpired({ startTime: 1000, endTime: 2000 }, 1500)).to.equal(
+        false,
+      );
+    });
+
+    it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
+      expect(hasExpired({ startTime: 1000 }, 1100, 200)).to.equal(false);
+    });
+
+    it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
+      expect(hasExpired({ startTime: 1000 }, 1300, 200)).to.equal(true);
+    });
+
+    it('should not mark an alert in the future as expired', () => {
+      expect(hasExpired({ startTime: 1000, endTime: 2000 }, 500)).to.equal(
+        false,
+      );
+    });
   });
 });

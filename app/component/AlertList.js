@@ -10,7 +10,22 @@ import { routeNameCompare } from '../util/searchUtils';
 /**
  * The default validity period (5 minutes) for an alert without a set end time.
  */
-const DEFAULT_VALIDITY = 5 * 60 * 1000;
+export const DEFAULT_VALIDITY = 5 * 60;
+
+/**
+ * Checks if the given validity period has expired or not.
+ *
+ * @param {*} validityPeriod the validity period to check.
+ * @param {number} currentUnixTime the current time in unix timestamp seconds.
+ * @param {number} defaultValidity the default validity period length in seconds.
+ */
+export const hasExpired = (
+  validityPeriod,
+  currentUnixTime,
+  defaultValidity = DEFAULT_VALIDITY,
+) =>
+  (validityPeriod.endTime || validityPeriod.startTime + defaultValidity) <
+  currentUnixTime;
 
 const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
   const alerts = (Array.isArray(cancelations) ? cancelations : []).concat(
@@ -28,10 +43,9 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
     );
   }
 
-  const hasExpired = validityPeriod =>
-    validityPeriod.startTime < currentTime ||
-    (validityPeriod.endTime || validityPeriod.startTime + DEFAULT_VALIDITY) >
-      currentTime;
+  const currentUnixTime = Number.isInteger(currentTime)
+    ? currentTime
+    : currentTime.unix();
 
   return (
     <div className="momentum-scroll">
@@ -53,7 +67,7 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
               <RouteAlertsRow
                 color={color ? `#${color}` : null}
                 description={description}
-                expired={hasExpired(validityPeriod)}
+                expired={hasExpired(validityPeriod, currentUnixTime)}
                 header={header}
                 key={uniqueId('alert-')}
                 routeLine={shortName}
@@ -81,8 +95,10 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  currentTime: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired,
+  currentTime: PropTypes.oneOfType([
+    PropTypes.shape({ unix: PropTypes.func.isRequired }),
+    PropTypes.number,
+  ]).isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
   serviceAlerts: PropTypes.arrayOf(alertShape),
 };
