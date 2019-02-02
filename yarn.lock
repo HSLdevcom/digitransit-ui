@@ -12827,10 +12827,10 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
-stylelint-scss@3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/stylelint-scss/-/stylelint-scss-3.5.1.tgz#3759dbae8da4b03d8a9f60f5b8c098f23961db43"
-  integrity sha512-XNWKTU1a2EUNWdauxHPTJlGNNQzIbg48OTTIdBs5xTXxpbYAGtX/J+jBqMPjxfdySXijc/mexubuZ+ZinUGGgw==
+stylelint-scss@3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/stylelint-scss/-/stylelint-scss-3.5.2.tgz#1fcd86ca4ad9eebc4bc679b7a498cca8e084f0b9"
+  integrity sha512-HL95s8Q6wihbJe7c7z6rL9GHVHOF3H3tXkVmGutitwn14LYR52JYMwCkcifqlf4nRsvXrUDaoH6OHOdilifyjw==
   dependencies:
     lodash "^4.17.11"
     postcss-media-query-parser "^0.2.3"
