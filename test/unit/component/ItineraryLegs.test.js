@@ -7,6 +7,8 @@ import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import ItineraryLegs from '../../../app/component/ItineraryLegs';
 
 import data from '../test-data/dcw12';
+import dt2831 from '../test-data/dt2831';
+import dt2831b from '../test-data/dt2831b';
 
 describe('<ItineraryLegs />', () => {
   it('should not fail to render even if the first leg is an intermediate place', () => {
@@ -49,5 +51,25 @@ describe('<ItineraryLegs />', () => {
     });
 
     expect(wrapper.isEmptyRender()).to.equal(true);
+  });
+
+  it('should identify legs that are cancelled in the current itinerary', () => {
+    const props = {
+      itinerary: dt2831,
+      canceledLegs: dt2831b,
+    };
+    const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
+      context: {
+        ...mockContext,
+        config: {
+          itinerary: {
+            waitThreshold: 180,
+          },
+        },
+      },
+      childContextTypes: mockChildContextTypes,
+    });
+    const result = wrapper.instance().checkCanceledLegs(dt2831b, dt2831).length;
+    expect(result).to.equal(3);
   });
 });

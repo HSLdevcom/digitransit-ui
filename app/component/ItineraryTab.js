@@ -182,7 +182,7 @@ class ItineraryTab extends React.Component {
   }
 }
 
-export default Relay.createContainer(
+const withRelay = Relay.createContainer(
   connectToStores(ItineraryTab, ['CanceledLegsBarStore'], ({ getStore }) => ({
     showCanceledLegsBanner: getStore(
       'CanceledLegsBarStore',
@@ -319,3 +319,5 @@ export default Relay.createContainer(
     },
   },
 );
+
+export { ItineraryTab as component, withRelay as default };

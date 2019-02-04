@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { replaceQueryParams } from '../util/queryUtils';
 
-class CanceledLegBar extends React.Component {
+class CanceledLegsBar extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
@@ -46,6 +46,7 @@ class CanceledLegBar extends React.Component {
                   e.stopPropagation();
                   this.fetchNewRoute();
                 }}
+                className="button-get-new-route"
               >
                 <FormattedMessage
                   id="fetch-new-route"
@@ -60,8 +61,8 @@ class CanceledLegBar extends React.Component {
   }
 }
 
-export default connectToStores(
-  CanceledLegBar,
+const withStore = connectToStores(
+  CanceledLegsBar,
   ['CanceledLegsBarStore'],
   context => ({
     showCanceledLegsBanner: context
@@ -69,3 +70,5 @@ export default connectToStores(
       .getShowCanceledLegsBanner(),
   }),
 );
+
+export { withStore as default, CanceledLegsBar as component };

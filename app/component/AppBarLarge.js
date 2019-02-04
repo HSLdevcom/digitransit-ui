@@ -8,7 +8,7 @@ import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
 import LangSelect from './LangSelect';
 import MessageBar from './MessageBar';
-import CanceledLegBar from './CanceledLegBar';
+import CanceledLegsBar from './CanceledLegsBar';
 import LogoSmall from './LogoSmall';
 
 const AppBarLarge = (
@@ -65,7 +65,7 @@ const AppBarLarge = (
       </div>
       <MessageBar />
       <DisruptionInfo />
-      <CanceledLegBar />
+      <CanceledLegsBar />
     </div>
   );
 };

@@ -36,9 +36,9 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  render() {
-    const checkedLegs = this.props.itinerary.legs.map(leg => {
-      if (this.props.canceledLegs && this.props.canceledLegs.includes(leg)) {
+  checkCanceledLegs = (canceledLegs, allLegs) =>
+    allLegs.legs.map(leg => {
+      if (canceledLegs && canceledLegs.includes(leg)) {
         return {
           ...leg,
           canceled: true,
@@ -46,6 +46,11 @@ class ItineraryLegs extends React.Component {
       }
       return leg;
     });
+
+  render() {
+    const checkedLegs = this.props.canceledLegs
+      ? this.checkCanceledLegs(this.props.canceledLegs, this.props.itinerary)
+      : this.props.itinerary;
 
     let previousLeg;
     let nextLeg;
