@@ -15,6 +15,7 @@ class NearbyDeparturesListRoute extends Route {
       }
     `,
   };
+
   static paramDefinitions = {
     lat: { required: true },
     lon: { required: true },
@@ -25,6 +26,7 @@ class NearbyDeparturesListRoute extends Route {
     maxResults: { required: true },
     timeRange: { required: true },
   };
+
   static routeName = 'NearbyDeparturesListRoute';
 }
 
@@ -81,7 +83,8 @@ export default class NearestRoutesContainer extends Component {
           if (error) {
             this.useSpinner = true;
             return <NetworkError retry={retry} />;
-          } else if (props) {
+          }
+          if (props) {
             this.useSpinner = false;
             return <NearbyDeparturesList {...props} />;
           }

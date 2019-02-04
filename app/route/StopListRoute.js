@@ -14,10 +14,12 @@ export default class StopListRoute extends Relay.Route {
       }
     `,
   };
+
   static paramDefinitions = {
     lat: { required: true },
     lon: { required: true },
     date: { required: true },
   };
+
   static routeName = 'StopListRoute';
 }

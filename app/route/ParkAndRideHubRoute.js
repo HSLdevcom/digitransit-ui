@@ -8,8 +8,10 @@ export default class ParkAndRideHubRoute extends Relay.Route {
       }
     `,
   };
+
   static paramDefinitions = {
     stationIds: { required: true },
   };
+
   static routeName = 'ParkAndRideHubRoute';
 }

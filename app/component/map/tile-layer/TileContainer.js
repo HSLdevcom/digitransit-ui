@@ -39,17 +39,20 @@ class TileContainer {
             this.coords.z >= config.terminalStopsMinZoom)
         ) {
           return isEnabled;
-        } else if (
+        }
+        if (
           layerName === 'citybike' &&
           this.coords.z >= config.cityBike.cityBikeMinZoom
         ) {
           return isEnabled;
-        } else if (
+        }
+        if (
           layerName === 'parkAndRide' &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
           return isEnabled;
-        } else if (
+        }
+        if (
           layerName === 'ticketSales' &&
           this.coords.z >= config.ticketSales.ticketSalesMinZoom
         ) {
@@ -139,10 +142,12 @@ class TileContainer {
           this.timer = null;
         }
         return false;
-      } else if (nearest.length === 0 && e.type === 'contextmenu') {
+      }
+      if (nearest.length === 0 && e.type === 'contextmenu') {
         // no need to check double clicks
         return this.onSelectableTargetClicked([], e.latlng);
-      } else if (nearest.length === 1) {
+      }
+      if (nearest.length === 1) {
         L.DomEvent.stopPropagation(e);
         // open menu for single stop
         const latLon = L.latLng(this.project(nearest[0].feature.geom));

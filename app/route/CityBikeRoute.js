@@ -8,8 +8,10 @@ export default class CityBikeRoute extends Relay.Route {
       }
     `,
   };
+
   static paramDefinitions = {
     stationId: { required: true },
   };
+
   static routeName = 'CityBikeRoute';
 }

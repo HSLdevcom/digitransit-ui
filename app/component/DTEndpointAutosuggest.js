@@ -79,6 +79,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
       });
     }
   };
+
   shouldComponentUpdate = (nextProps, nextState) => {
     if (
       this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
