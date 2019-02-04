@@ -541,7 +541,7 @@ const translations = {
     cancel: 'Cancel',
     canceled: 'Canceled',
     'canceled-itineraries-amount':
-      'Additional {itineraryAmount} canceled itineraries',
+      'Additional {itineraryAmount, plural, =1 {1 canceled itinerary} other {{itineraryAmount} canceled itineraries}}',
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
     car: 'Car',
@@ -1227,7 +1227,7 @@ const translations = {
     cancel: 'Peruuta',
     canceled: 'Peruttu',
     'canceled-itineraries-amount':
-      'Lisäksi {itineraryAmount} peruttua reittiehdotusta',
+      'Lisäksi {itineraryAmount, plural, =1 {1 peruttu reittiehdotus} other {{itineraryAmount} peruttua reittiehdotusta}}',
     'canceled-itineraries-amount-hide':
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     car: 'Auto',
@@ -2217,7 +2217,7 @@ const translations = {
     cancel: 'Avbryt',
     canceled: 'Inställt',
     'canceled-itineraries-amount':
-      'Ytterligare {itineraryAmount} avställda avgångar',
+      'Ytterligare {itineraryAmount, plural, =1 {1 avställt avgång} other {{itineraryAmount} avställda avgångar}}',
     'canceled-itineraries-amount-hide':
       'Dölja inställda reseförslag ({itineraryAmount})',
     car: 'Bil',
