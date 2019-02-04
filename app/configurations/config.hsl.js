@@ -439,6 +439,7 @@ export default {
   staticMessages: [
     {
       id: '2',
+      priority: -1,
       content: {
         fi: [
           {
