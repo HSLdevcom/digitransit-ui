@@ -668,7 +668,7 @@ const translations = {
     'map-layer-stop-tram': 'Tram stops',
     'map-layer-terminal-bus': 'Bus terminals',
     'map-layer-terminal-rail': 'Train stations',
-    'map-layer-terminal-subway': 'Subway stations',
+    'map-layer-terminal-subway': 'Metro stations',
     'map-layer-ticket-sales-machine': 'Ticket machines',
     'map-layer-ticket-sales-point': 'Travel Card top up points',
     'messagebar-label-close-message-bar': 'Close banner',
