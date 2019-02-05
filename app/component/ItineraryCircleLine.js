@@ -38,7 +38,8 @@ class ItineraryCircleLine extends React.Component {
           />
         </div>
       );
-    } else if (this.props.isVia === true) {
+    }
+    if (this.props.isVia === true) {
       return (
         <div className="itinerary-icon-container">
           <Icon

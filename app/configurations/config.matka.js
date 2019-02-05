@@ -3,6 +3,9 @@ const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 
+// route timetable data needs to be up-to-date before this is enabled
+// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
@@ -39,6 +42,11 @@ export default {
   meta: {
     description: APP_DESCRIPTION,
     keywords: 'reitti,reitit,opas,reittiopas,joukkoliikenne',
+  },
+
+  routeTimetables: {
+    // route timetable data needs to be up-to-date before this is enabled
+    //  HSL: HSLRouteTimetable,
   },
 
   footer: {

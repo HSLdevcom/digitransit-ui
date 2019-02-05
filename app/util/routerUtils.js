@@ -27,7 +27,8 @@ export function RelayRenderer({ error, props, element, retry }) {
       return <NetworkError retry={retry} />;
     }
     return <Error404 />;
-  } else if (props) {
+  }
+  if (props) {
     return React.cloneElement(element, props);
   }
   return <Loading />;
@@ -43,7 +44,8 @@ export const ComponentLoading404Renderer = {
         return <NetworkError retry={retry} />;
       }
       return <Error404 />;
-    } else if (props) {
+    }
+    if (props) {
       return React.cloneElement(element, props);
     }
     return <Loading />;
@@ -51,7 +53,8 @@ export const ComponentLoading404Renderer = {
   map: ({ error, props, element }) => {
     if (error) {
       return null;
-    } else if (props) {
+    }
+    if (props) {
       return React.cloneElement(element, props);
     }
     return undefined;

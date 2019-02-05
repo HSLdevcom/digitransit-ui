@@ -25,9 +25,11 @@ class FavouriteRouteListContainerRoute extends Relay.Route {
           })}
     }}`,
   };
+
   static paramDefinitions = {
     ids: { required: true },
   };
+
   static routeName = 'FavouriteRouteRowRoute';
 }
 

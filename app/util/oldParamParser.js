@@ -41,7 +41,8 @@ function parseLocation(location, input, config) {
     )
       .then(parseGeocodingResults)
       .catch(() => ' ');
-  } else if (input) {
+  }
+  if (input) {
     const decoded = input.replace('+', ' ');
     return getGeocodingResult(
       decoded,
@@ -130,11 +131,13 @@ export default function oldParamParser(query, config) {
         // can redirect to itinerary summary page
         if (time) {
           return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}${utm}`;
-        } else if (utm) {
+        }
+        if (utm) {
           return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${utm.substr(1)}`;
         }
         return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/`;
-      } else if (utm.length > 1) {
+      }
+      if (utm.length > 1) {
         return `/${from}/${to}/?${utm.substr(1)}`;
       }
       return `/${from}/${to}/`;

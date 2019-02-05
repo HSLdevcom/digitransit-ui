@@ -23,7 +23,8 @@ const getLegText = (leg, config) => {
   const showAgency = get(config, 'agency.show', false);
   if (leg.transitLeg && leg.route.shortName) {
     return leg.route.shortName;
-  } else if (showAgency && leg.route.agency) {
+  }
+  if (showAgency && leg.route.agency) {
     return leg.route.agency.name;
   }
   return '';

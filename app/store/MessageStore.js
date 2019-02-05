@@ -1,6 +1,22 @@
 import Store from 'fluxible/addons/BaseStore';
-import { isBrowser } from '../util/browser';
+import { getIsBrowser } from '../util/browser';
 import { setReadMessageIds, getReadMessageIds } from './localStorage';
+
+export const processStaticMessages = (root, callback) => {
+  const { staticMessages } = root;
+  if (Array.isArray(staticMessages)) {
+    staticMessages
+      .filter(
+        msg =>
+          msg.content &&
+          Object.keys(msg.content).some(
+            key =>
+              Array.isArray(msg.content[key]) && msg.content[key].length > 0,
+          ),
+      )
+      .forEach(callback);
+  }
+};
 
 class MessageStore extends Store {
   static storeName = 'MessageStore';
@@ -52,24 +68,16 @@ class MessageStore extends Store {
     this.emitChange();
   };
 
-  addConfigMessages = config => {
-    const processStaticMessages = root => {
-      if (root.staticMessages) {
-        root.staticMessages.forEach(this.addMessage);
-      }
-    };
+  addConfigMessages = async config => {
+    processStaticMessages(config, this.addMessage);
 
-    processStaticMessages(config);
-
-    if (isBrowser && config.staticMessagesUrl !== undefined) {
-      fetch(config.staticMessagesUrl, {
+    if (getIsBrowser() && config.staticMessagesUrl !== undefined) {
+      const response = await fetch(config.staticMessagesUrl, {
         mode: 'cors',
         cache: 'reload',
-      }).then(response =>
-        response.json().then(json => {
-          processStaticMessages(json);
-        }),
-      );
+      });
+      const json = await response.json();
+      processStaticMessages(json, this.addMessage);
     }
   };
 
