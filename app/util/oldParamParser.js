@@ -128,8 +128,8 @@ export default function oldParamParser(query, config) {
   ])
     .then(([from, to, time, utm]) => {
       const encoded = {
-        from: (from && encodeURIComponent(from)) || '',
-        to: (to && encodeURIComponent(to)) || '',
+        from: (from && encodeURIComponent(from)) || '-',
+        to: (to && encodeURIComponent(to)) || '-',
       };
 
       if (from && from.length > 1 && to && to.length > 1) {
