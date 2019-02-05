@@ -11,7 +11,10 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
-import { stopRealTimeClient } from '../action/realTimeClientAction';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+} from '../action/realTimeClientAction';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -34,6 +37,19 @@ class RoutePage extends React.Component {
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
+
+  componentDidMount() {
+    if (this.props.route == null) {
+      return;
+    }
+    const route = this.props.route.gtfsId.split(':');
+
+    if (route[0].toLowerCase() === 'hsl') {
+      this.context.executeAction(startRealTimeClient, {
+        route: route[1],
+      });
+    }
+  }
 
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');

@@ -28,6 +28,7 @@ export default {
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
+    MQTT: 'wss://hfp.cinfra.fi',
     ALERTS: process.env.ALERTS_URL || `${API_URL}/realtime/service-alerts/v1`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
