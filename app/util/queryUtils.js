@@ -97,9 +97,11 @@ export const getIntermediatePlaces = query => {
   const { intermediatePlaces } = query;
   if (!intermediatePlaces) {
     return [];
-  } else if (Array.isArray(intermediatePlaces)) {
+  }
+  if (Array.isArray(intermediatePlaces)) {
     return intermediatePlaces.map(otpToLocation);
-  } else if (isString(intermediatePlaces)) {
+  }
+  if (isString(intermediatePlaces)) {
     if (isEmpty(trim(intermediatePlaces))) {
       return [];
     }

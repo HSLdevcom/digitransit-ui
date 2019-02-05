@@ -287,7 +287,8 @@ export const isBikeRestricted = (location, config, modes) => {
       modes.some(o => config.modesWithNoBike.includes(o))
     ) {
       return true;
-    } else if (config.modesWithNoBike.includes(modes)) {
+    }
+    if (config.modesWithNoBike.includes(modes)) {
       return true;
     }
   }

@@ -50,7 +50,8 @@ function sliceIterator(arr, i) {
 export default function(arr, i) {
   if (Array.isArray(arr)) {
     return arr;
-  } else if (Symbol.iterator in Object(arr)) {
+  }
+  if (Symbol.iterator in Object(arr)) {
     return sliceIterator(arr, i);
   }
   throw new TypeError('Invalid attempt to destructure non-iterable instance');
