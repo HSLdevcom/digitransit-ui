@@ -37,7 +37,7 @@ PlatformNumber.propTypes = {
 };
 
 PlatformNumber.defaultProps = {
-  number: false,
+  number: undefined,
   short: true,
 };
 

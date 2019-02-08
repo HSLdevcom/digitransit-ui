@@ -28,6 +28,8 @@ export default class MobileItineraryWrapper extends React.Component {
     intl: intlShape.isRequired,
   };
 
+  itineraryTabs = [];
+
   getTabs(itineraries, selectedIndex) {
     return itineraries.map((itinerary, i) => (
       <Tab
@@ -53,8 +55,6 @@ export default class MobileItineraryWrapper extends React.Component {
       />
     ));
   }
-
-  itineraryTabs = [];
 
   toggleFullscreenMap = () => {
     if (this.props.fullscreenMap) {

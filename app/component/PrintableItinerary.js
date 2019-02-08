@@ -11,7 +11,7 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
-import PrintableItineraryHeader from './/PrintableItineraryHeader';
+import PrintableItineraryHeader from './PrintableItineraryHeader';
 import {
   compressLegs,
   getLegMode,
@@ -20,7 +20,7 @@ import {
 import MapContainer from './map/MapContainer';
 import ItineraryLine from './map/ItineraryLine';
 import RouteLine from './map/route/RouteLine';
-import LocationMarker from '../component/map/LocationMarker';
+import LocationMarker from './map/LocationMarker';
 
 const getHeadSignFormat = (sentLegObj, isReturningRentedBike = false) => {
   const stopcode = sentLegObj.from.stop !== null && (
@@ -168,9 +168,10 @@ export function TransferMap(props) {
   if (props.index === 0) {
     leafletObjs.push(
       <LocationMarker
+        className="from"
         key="fromMarker"
         position={props.legObj.from}
-        className="from"
+        type="from"
       />,
     );
   }
@@ -178,9 +179,10 @@ export function TransferMap(props) {
   if (!nextLeg) {
     leafletObjs.push(
       <LocationMarker
+        className="to"
         key="toMarker"
         position={props.legObj.to}
-        className="to"
+        type="to"
       />,
     );
   }
@@ -188,14 +190,14 @@ export function TransferMap(props) {
   if (nextLeg) {
     if (nextLeg.intermediatePlace === true) {
       leafletObjs.push(
-        <LocationMarker key="via" position={props.legObj.to} className="via" />,
+        <LocationMarker className="via" key="via" position={props.legObj.to} />,
       );
     }
   }
 
   if (props.legObj.intermediatePlace === true) {
     leafletObjs.push(
-      <LocationMarker key="via" position={props.legObj.from} className="via" />,
+      <LocationMarker className="via" key="via" position={props.legObj.from} />,
     );
   }
   return (
@@ -289,7 +291,7 @@ export function PrintableLeg(props) {
         <div className="line-circle">
           {index === 0 ? (
             <Icon
-              img="icon-icon_mapMarker-point"
+              img="icon-icon_mapMarker-from"
               className="itinerary-icon from from-it"
             />
           ) : (
@@ -379,14 +381,17 @@ class PrintableItinerary extends React.Component {
               originalLegs={originalLegs}
               context={this.context}
               mapsLoaded={() =>
-                this.setState({ mapsLoaded: this.state.mapsLoaded + 1 }, () => {
-                  if (
-                    this.state.mapsLoaded >=
-                    compressedLegs.filter(o2 => isWalking(o2)).length
-                  ) {
-                    setTimeout(() => window.print(), 1000);
-                  }
-                })
+                this.setState(
+                  prevState => ({ mapsLoaded: prevState.mapsLoaded + 1 }),
+                  () => {
+                    if (
+                      this.state.mapsLoaded >=
+                      compressedLegs.filter(o2 => isWalking(o2)).length
+                    ) {
+                      setTimeout(() => window.print(), 1000);
+                    }
+                  },
+                )
               }
             />
           </div>
@@ -440,7 +445,7 @@ class PrintableItinerary extends React.Component {
           </div>
           <div className="itinerary-circleline end">
             <Icon
-              img="icon-icon_mapMarker-point"
+              img="icon-icon_mapMarker-to"
               className="itinerary-icon to to-it"
             />
           </div>
@@ -501,6 +506,7 @@ export default Relay.createContainer(PrintableItinerary, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           to {
@@ -515,6 +521,7 @@ export default Relay.createContainer(PrintableItinerary, {
               gtfsId
               code
               platformCode
+              zoneId
             }
           }
           legGeometry {
@@ -530,6 +537,7 @@ export default Relay.createContainer(PrintableItinerary, {
               name
               code
               platformCode
+              zoneId
             }
           }
           realTime

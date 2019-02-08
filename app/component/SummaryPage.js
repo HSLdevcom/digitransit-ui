@@ -12,15 +12,15 @@ import { routerShape } from 'react-router';
 import isEqual from 'lodash/isEqual';
 import { dtLocationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
-import DesktopView from '../component/DesktopView';
-import MobileView from '../component/MobileView';
-import MapContainer from '../component/map/MapContainer';
+import DesktopView from './DesktopView';
+import MobileView from './MobileView';
+import MapContainer from './map/MapContainer';
 import ItineraryTab from './ItineraryTab';
 import PrintableItinerary from './PrintableItinerary';
 import SummaryPlanContainer from './SummaryPlanContainer';
 import SummaryNavigation from './SummaryNavigation';
-import ItineraryLine from '../component/map/ItineraryLine';
-import LocationMarker from '../component/map/LocationMarker';
+import ItineraryLine from './map/ItineraryLine';
+import LocationMarker from './map/LocationMarker';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import Loading from './Loading';
 import { getHomeUrl } from '../util/path';
@@ -159,24 +159,29 @@ class SummaryPage extends React.Component {
 
     if (from.lat && from.lon) {
       leafletObjs.push(
-        <LocationMarker key="fromMarker" position={from} className="from" />,
+        <LocationMarker
+          className="from"
+          key="fromMarker"
+          position={from}
+          type="from"
+        />,
       );
     }
 
     if (to.lat && to.lon) {
       leafletObjs.push(
-        <LocationMarker key="toMarker" position={to} className="to" />,
+        <LocationMarker
+          className="to"
+          key="toMarker"
+          position={to}
+          type="to"
+        />,
       );
     }
 
     getIntermediatePlaces(query).forEach((location, i) => {
       leafletObjs.push(
-        <LocationMarker
-          key={`via_${i}`}
-          position={location}
-          className="via"
-          noText
-        />,
+        <LocationMarker className="via" key={`via_${i}`} position={location} />,
       );
     });
 

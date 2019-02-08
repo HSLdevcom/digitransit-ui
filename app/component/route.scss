@@ -114,7 +114,6 @@ $route-schedule-date-height: 36px;
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
-  padding-bottom: 1.5em;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -574,6 +573,15 @@ $route-schedule-date-height: 36px;
     background-color: $white;
     border-top: 1px solid $light-gray;
     border-bottom: 1px solid $light-gray;
+  }
+}
+
+.print-button-container {
+  display: flex;
+  button {
+    margin-right: 1em;
+    margin-left: auto;
+    margin-bottom: $padding-medium;
   }
 }
 

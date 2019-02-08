@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -7,8 +6,6 @@ import Icon from './Icon';
 
 export default class ItineraryFeedback extends React.Component {
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -28,7 +25,9 @@ export default class ItineraryFeedback extends React.Component {
   };
 
   toggleFeedbackForm = () => {
-    this.setState({ feedbackFormOpen: !this.state.feedbackFormOpen });
+    this.setState(prevState => ({
+      feedbackFormOpen: !prevState.feedbackFormOpen,
+    }));
   };
 
   render() {

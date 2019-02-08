@@ -30,6 +30,26 @@
   }
 }
 
+.stop-no-alerts-container,
+.stop-no-departures-container {
+  align-items: center;
+  background-color: white;
+  color: $gray;
+  display: flex;
+  flex: 1 0 6em;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  @media print {
+    display: none;
+  }
+
+  .icon {
+    font-size: 2.5em;
+  }
+}
+
 .stop-scroll-container {
   flex-basis: 0px;
   flex-grow: 1;
@@ -104,12 +124,6 @@
   }
 }
 
-.mobile {
-  .stop-tab-container {
-    border-bottom: none;
-  }
-}
-
 .stop-tabs-fillerline {
   height: 10px;
   background: $white;
@@ -156,6 +170,12 @@
     svg {
       stroke: $black;
       fill: $black;
+    }
+  }
+
+  &.alert-active {
+    .icon {
+      fill: $cancelation-red;
     }
   }
 
@@ -488,12 +508,6 @@ hr.action-bar {
   }
 }
 
-.mobile {
-  .print-button-container {
-    display: none;
-  }
-}
-
 .timetable-for-printing {
   display: none;
   @media print {
@@ -574,6 +588,14 @@ hr.action-bar {
 }
 
 .mobile {
+  .print-button-container {
+    display: none;
+  }
+
+  .stop-tab-container {
+    border-bottom: none;
+  }
+
   .filter-stop-modal {
     min-height: 100%;
     max-width: 100%;
@@ -593,10 +615,4 @@ hr.action-bar {
   .showroutes-header {
     width: 41%;
   }
-}
-
-.no-stop-alerts-message {
-  background-color: white;
-  padding: 2em 1em;
-  text-align: center;
 }

@@ -36,14 +36,14 @@ function RouteScheduleHeader({
   const stopHeadersForPrinting = (
     <div className="printable-stop-header">
       <div className="printable-stop-header_icon-from">
-        <Icon img="icon-icon_mapMarker-point" />
+        <Icon img="icon-icon_mapMarker-from" />
       </div>
       <div className="printable-stop-header_from">
         <span>{fromDisplayName}</span>
       </div>
       <div className="printable-stop-header_line" style={headerLineStyle} />
       <div className="printable-stop-header_icon-to">
-        <Icon img="icon-icon_mapMarker-point" />
+        <Icon img="icon-icon_mapMarker-to" />
       </div>
       <div className="printable-stop-header_to">
         <span>{toDisplayName}</span>

@@ -61,9 +61,10 @@ function Icon(props) {
         id={props.id}
         style={{
           fill: props.color ? props.color : null,
-          pointerEvents: props.pointerEvents ? 'auto' : 'none',
+          height: props.height ? `${props.height}em` : null,
+          width: props.width ? `${props.width}em` : null,
         }}
-        viewBox={props.viewBox}
+        viewBox={!props.omitViewBox ? props.viewBox : null}
         className={cx('icon', props.className)}
       >
         <use xlinkHref={`#${props.img}`} />
@@ -78,10 +79,12 @@ Icon.propTypes = {
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   className: PropTypes.string,
   color: PropTypes.string,
+  height: PropTypes.number,
   id: PropTypes.string,
   img: PropTypes.string.isRequired,
-  pointerEvents: PropTypes.bool,
+  omitViewBox: PropTypes.bool,
   viewBox: PropTypes.string,
+  width: PropTypes.number,
 };
 
 Icon.defaultProps = {
@@ -89,9 +92,11 @@ Icon.defaultProps = {
   badgeText: undefined,
   className: undefined,
   color: undefined,
+  height: undefined,
   id: undefined,
-  pointerEvents: false,
+  omitViewBox: false,
   viewBox: '0 0 40 40',
+  width: undefined,
 };
 
 Icon.asString = (

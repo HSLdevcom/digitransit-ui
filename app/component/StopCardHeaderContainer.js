@@ -9,6 +9,7 @@ export default Relay.createContainer(StopCardHeader, {
         name
         code
         desc
+        zoneId
       }
     `,
   },

@@ -132,7 +132,7 @@ const isModeAvailable = (config, mode) =>
  * @param {String} mode The mode to check
  * @param {*} places
  */
-const isModeAvailableInsidePolygons = (config, mode, places) => {
+export const isModeAvailableInsidePolygons = (config, mode, places) => {
   if (mode in config.modePolygons && places.length > 0) {
     for (let i = 0; i < places.length; i++) {
       const { lat, lon } = places[i];
@@ -287,7 +287,8 @@ export const isBikeRestricted = (location, config, modes) => {
       modes.some(o => config.modesWithNoBike.includes(o))
     ) {
       return true;
-    } else if (config.modesWithNoBike.includes(modes)) {
+    }
+    if (config.modesWithNoBike.includes(modes)) {
       return true;
     }
   }

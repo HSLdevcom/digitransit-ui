@@ -17,8 +17,6 @@ const proxy = require('express-http-proxy');
 
 global.self = { fetch: global.fetch };
 
-const config = require('../app/config').getConfiguration();
-
 let Raven;
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
@@ -37,6 +35,8 @@ const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const { retryFetch } = require('../app/util/fetchUtils');
+const config = require('../app/config').getConfiguration();
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;
@@ -105,13 +105,13 @@ function onError(err, req, res) {
   res.end(err.message + err.stack);
 }
 
-function setupRaven() {
+function setUpRaven() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.requestHandler());
   }
 }
 
-function setupErrorHandling() {
+function setUpErrorHandling() {
   if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
     app.use(Raven.errorHandler());
   }
@@ -130,6 +130,56 @@ function setUpRoutes() {
   app.enable('trust proxy');
 }
 
+function setUpAvailableRouteTimetables() {
+  return new Promise(resolve => {
+    // Stores available route pdf names to config.availableRouteTimetables.HSL
+    // All routes don't have available pdf and some have their timetable inside other route
+    // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
+    // route that contains timetables
+    if (config.routeTimetables.HSL) {
+      // try to fetch available route timetables every four seconds with 4 retries
+      retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 4, 4000)
+        .then(res => res.json())
+        .then(
+          result => {
+            config.routeTimetables.HSL.setAvailableRouteTimetables(result);
+            console.log('availableRouteTimetables.HSL loaded');
+            resolve();
+          },
+          err => {
+            console.log(err);
+            // If after 5 tries no timetable data is found, start server anyway
+            resolve();
+            console.log('availableRouteTimetables.HSL loader failed');
+            // Continue attempts to fetch available routes in the background for one day once every minute
+            retryFetch(
+              `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
+              {},
+              1440,
+              60000,
+            )
+              .then(res => res.json())
+              .then(
+                result => {
+                  config.routeTimetables.HSL.setAvailableRouteTimetables(
+                    result,
+                  );
+                  console.log(
+                    'availableRouteTimetables.HSL loaded after retry',
+                  );
+                },
+                error => {
+                  console.log(error);
+                },
+              );
+          },
+        );
+    } else {
+      resolve();
+    }
+  });
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -137,10 +187,10 @@ function startServer() {
 }
 
 /* ********* Init ********* */
-setupRaven();
+setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
-setupErrorHandling();
-startServer();
+setUpErrorHandling();
+setUpAvailableRouteTimetables().then(() => startServer());
 module.exports.app = app;

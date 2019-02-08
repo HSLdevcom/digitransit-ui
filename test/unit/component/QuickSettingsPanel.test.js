@@ -241,4 +241,23 @@ describe('<QuickSettingsPanel />', () => {
       });
     });
   });
+
+  describe('togglePopUp', () => {
+    it('should toggle the popup', () => {
+      const wrapper = shallowWithIntl(
+        <QuickSettingsPanel {...getDefaultProps()} />,
+        {
+          context: {
+            ...getDefaultContext(defaultConfig),
+          },
+        },
+      );
+
+      wrapper.instance().togglePopUp();
+      expect(wrapper.state('isPopUpOpen')).to.equal(true);
+
+      wrapper.instance().togglePopUp();
+      expect(wrapper.state('isPopUpOpen')).to.equal(false);
+    });
+  });
 });

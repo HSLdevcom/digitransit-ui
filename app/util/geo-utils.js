@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
+import inside from 'point-in-polygon';
+
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -56,7 +58,8 @@ export function displayImperialDistance(meters) {
 
   if (feet < 100) {
     return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
-  } else if (feet < 1000) {
+  }
+  if (feet < 1000) {
     return `${Math.round(feet / 50) * 50} ft`; // fifty feet
   }
   return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
@@ -68,11 +71,14 @@ export function displayDistance(meters, config) {
   }
   if (meters < 100) {
     return `${Math.round(meters / 10) * 10} m`; // Tens of meters
-  } else if (meters < 1000) {
+  }
+  if (meters < 1000) {
     return `${Math.round(meters / 50) * 50} m`; // fifty meters
-  } else if (meters < 10000) {
+  }
+  if (meters < 10000) {
     return `${Math.round(meters / 100) * 100 / 1000} km`; // hudreds of meters
-  } else if (meters < 100000) {
+  }
+  if (meters < 100000) {
     return `${Math.round(meters / 1000)} km`; // kilometers
   }
   return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
@@ -350,3 +356,42 @@ export function kkj2ToWgs84(coords) {
 
   return [wgsLon, wgsLat];
 }
+
+/**
+ * Finds any features inside which the given point is located. This returns
+ * the properties of each feature by default.
+ *
+ * @param {{lat: number, lon: number}} point the location to check.
+ * @param {*} features the area features available in a geojson format.
+ * @param {function} mapFn the feature data mapping function.
+ */
+export const findFeatures = (
+  { lat, lon },
+  features,
+  mapFn = feature => feature.properties,
+) => {
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon) ||
+    !Array.isArray(features) ||
+    features.length === 0
+  ) {
+    return [];
+  }
+  const matches = features
+    .filter(feature => {
+      const { coordinates, type } = feature.geometry;
+      const multiCoordinate = coordinates.length > 1;
+      return (
+        ['Polygon', 'MultiPolygon'].includes(type) &&
+        coordinates.some(areaBoundaries =>
+          inside(
+            [lon, lat],
+            multiCoordinate ? areaBoundaries[0] : areaBoundaries,
+          ),
+        )
+      );
+    })
+    .map(mapFn);
+  return matches;
+};

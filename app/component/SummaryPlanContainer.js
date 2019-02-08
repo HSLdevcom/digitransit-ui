@@ -135,7 +135,8 @@ class SummaryPlanContainer extends React.Component {
 
         if (previous == null) {
           return startTime;
-        } else if (startTime.isAfter(previous)) {
+        }
+        if (startTime.isAfter(previous)) {
           return startTime;
         }
         return previous;
@@ -216,7 +217,8 @@ class SummaryPlanContainer extends React.Component {
         const endTime = moment(current.endTime);
         if (previous == null) {
           return endTime;
-        } else if (endTime.isBefore(previous)) {
+        }
+        if (endTime.isBefore(previous)) {
           return endTime;
         }
         return previous;

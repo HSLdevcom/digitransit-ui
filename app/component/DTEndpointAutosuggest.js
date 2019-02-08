@@ -30,6 +30,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     onRouteSelected: PropTypes.func,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    icon: PropTypes.string,
     id: PropTypes.string.isRequired,
     className: PropTypes.string,
     refPoint: dtLocationShape.isRequired,
@@ -43,17 +44,14 @@ export class DTEndpointAutosuggestComponent extends React.Component {
   static defaultProps = {
     autoFocus: false,
     className: '',
-    onRouteSelected: undefined,
-    isPreferredRouteSearch: false,
     layers: getAllEndpointLayers(),
+    icon: undefined,
+    isPreferredRouteSearch: false,
+    onRouteSelected: undefined,
     showSpinner: false,
   };
 
-  constructor() {
-    super();
-
-    this.state = {};
-  }
+  state = {};
 
   componentWillReceiveProps = nextProps => {
     const locState = nextProps.locationState;
@@ -81,6 +79,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
       });
     }
   };
+
   shouldComponentUpdate = (nextProps, nextState) => {
     if (
       this.state.pendingCurrentLocation !== nextState.pendingCurrentLocation
@@ -150,6 +149,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
     return (
       <DTOldSearchSavingAutosuggest
         autoFocus={this.props.autoFocus}
+        icon={this.props.icon}
         isFocused={this.props.isFocused}
         placeholder={this.props.placeholder}
         searchType={this.props.searchType}
@@ -158,7 +158,7 @@ export class DTEndpointAutosuggestComponent extends React.Component {
         value={this.props.value}
         id={this.props.id}
         layers={this.props.layers}
-        className={this.props.value !== '' ? this.props.className : ''}
+        className={this.props.className}
       />
     );
   };
@@ -166,8 +166,8 @@ export class DTEndpointAutosuggestComponent extends React.Component {
 
 export default connectToStores(
   DTEndpointAutosuggestComponent,
-  ['PositionStore'],
+  [PositionStore],
   context => ({
-    locationState: context.getStore('PositionStore').getLocationState(),
+    locationState: context.getStore(PositionStore).getLocationState(),
   }),
 );

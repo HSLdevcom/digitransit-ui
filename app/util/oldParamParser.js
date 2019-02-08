@@ -41,7 +41,8 @@ function parseLocation(location, input, config) {
     )
       .then(parseGeocodingResults)
       .catch(() => ' ');
-  } else if (input) {
+  }
+  if (input) {
     const decoded = input.replace('+', ' ');
     return getGeocodingResult(
       decoded,
@@ -126,18 +127,29 @@ export default function oldParamParser(query, config) {
     parseUtm(query.utm_campaign, query.utm_source, query.utm_medium),
   ])
     .then(([from, to, time, utm]) => {
+      const encoded = {
+        from: (from && encodeURIComponent(from)) || '-',
+        to: (to && encodeURIComponent(to)) || '-',
+      };
+
       if (from && from.length > 1 && to && to.length > 1) {
         // can redirect to itinerary summary page
         if (time) {
-          return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${time}${utm}`;
-        } else if (utm) {
-          return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/?${utm.substr(1)}`;
+          return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${
+            encoded.to
+          }/?${time}${utm}`;
         }
-        return `/${PREFIX_ITINERARY_SUMMARY}/${from}/${to}/`;
-      } else if (utm.length > 1) {
-        return `/${from}/${to}/?${utm.substr(1)}`;
+        if (utm) {
+          return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${
+            encoded.to
+          }/?${utm.substr(1)}`;
+        }
+        return `/${PREFIX_ITINERARY_SUMMARY}/${encoded.from}/${encoded.to}/`;
       }
-      return `/${from}/${to}/`;
+      if (utm.length > 1) {
+        return `/${encoded.from}/${encoded.to}/?${utm.substr(1)}`;
+      }
+      return `/${encoded.from}/${encoded.to}/`;
     })
     .catch(() => '/');
 }
