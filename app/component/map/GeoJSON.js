@@ -2,7 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import L from 'leaflet';
 
+import Card from '../Card';
+import CardHeader from '../CardHeader';
+import GenericMarker from './GenericMarker';
+import MarkerPopupBottom from './MarkerPopupBottom';
 import { isBrowser } from '../../util/browser';
+import {
+  getCaseRadius,
+  getStopRadius,
+  getHubRadius,
+} from '../../util/mapIconUtils';
 
 let Geojson;
 
@@ -12,12 +21,53 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-const GeoJsonIcon = L.Icon.extend({
-  options: {
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  },
-});
+/**
+ * Checks if the given geometry exists and has type 'Point'.
+ *
+ * @param {{ type: string }} geometry the geometry object to check.
+ */
+const isPointTypeGeometry = geometry => geometry && geometry.type === 'Point';
+
+/**
+ * Checks if the given geometry exists and has type 'MultiPoint'.
+ *
+ * @param {{ type: string }} geometry the geometry object to check.
+ */
+const isMultiPointTypeGeometry = geometry =>
+  geometry && geometry.type === 'MultiPoint';
+
+/**
+ * Checks if the icon should be visible.
+ *
+ * @param {number} zoom the current zoom level.
+ */
+const isRoundIconVisible = zoom => getCaseRadius(zoom) > 3;
+
+/**
+ *
+ * @param {number} zoom the current zoom level.
+ */
+const getRoundIcon = zoom => {
+  const radius = getCaseRadius(zoom);
+  const stopRadius = getStopRadius(zoom);
+  const hubRadius = getHubRadius(zoom);
+
+  const inner = (stopRadius + hubRadius) / 2;
+  const stroke = stopRadius - hubRadius;
+
+  const iconSvg = `
+    <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+      <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
+      <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+    </svg>
+  `;
+
+  return L.divIcon({
+    html: isRoundIconVisible(zoom) ? iconSvg : '',
+    iconSize: [radius * 2, radius * 2],
+    className: `cursor-pointer`,
+  });
+};
 
 class GeoJSON extends React.Component {
   static propTypes = { data: PropTypes.object.isRequired };
@@ -26,10 +76,15 @@ class GeoJSON extends React.Component {
 
   // cache dynamic icons to allow references by id without data duplication
   componentWillMount() {
-    // cache dynamic icons in advance to allow references by id without data duplication
+    const GeoJsonIcon = L.Icon.extend({
+      options: {
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+      },
+    });
     const icons = {};
-
-    this.props.data.features.forEach(feature => {
+    const { data } = this.props;
+    data.features.forEach(feature => {
       const p = feature.properties;
       if (p && p.icon && p.icon.id && p.icon.data) {
         /*
@@ -48,11 +103,12 @@ class GeoJSON extends React.Component {
   pointToLayer = (feature, latlng) => {
     // add some custom rendering control by feature props
     const props = feature.properties || {};
+    const interactive = !!props.popupContent;
     let marker;
 
     if (props.textOnly) {
       marker = L.circleMarker(latlng, {
-        interactive: false,
+        interactive,
       });
       marker.bindTooltip(props.name, {
         className: 'geoJsonText',
@@ -63,25 +119,28 @@ class GeoJSON extends React.Component {
     } else if (props.icon) {
       marker = L.marker(latlng, {
         icon: this.icons[props.icon.id],
-        interactive: false,
+        interactive,
       });
     } else {
-      marker = L.circleMarker(latlng, { interactive: false });
+      marker = L.circleMarker(latlng, { interactive });
     }
     if (props.popupContent) {
-      marker.bindPopup(props.popupContent, { className: 'geoJsonPopup' });
+      marker.bindPopup(props.popupContent, {
+        className: 'geoJsonPopup',
+      });
     }
     return marker;
   };
 
   styler = feature => {
+    const { config } = this.context;
     const defaultLineStyle = {
-      color: this.context.config.colors.primary,
+      color: config.colors.primary,
       weight: 3,
       opacity: 0.8,
     };
     const defaultMarkerStyle = {
-      color: this.context.config.colors.primary,
+      color: config.colors.primary,
       fillColor: 'white',
       radius: 6,
       opacity: 1,
@@ -89,17 +148,15 @@ class GeoJSON extends React.Component {
       weight: 2,
     };
     const textMarkerStyle = {
-      color: this.context.config.colors.primary,
+      color: config.colors.primary,
       radius: 0,
       opacity: 0,
       fillOpacity: 0,
       weight: 0,
     };
 
-    if (
-      feature.geometry &&
-      ['Point', 'MultiPoint'].includes(feature.geometry.type)
-    ) {
+    const { geometry } = feature;
+    if (isPointTypeGeometry(geometry) || isMultiPointTypeGeometry(geometry)) {
       if (feature.properties && feature.properties.textOnly) {
         return feature.style
           ? { ...textMarkerStyle, ...feature.style }
@@ -115,12 +172,64 @@ class GeoJSON extends React.Component {
   };
 
   render() {
+    const { bounds, data } = this.props;
+    const hasOnlyPointGeometries = data.features.every(feature =>
+      isPointTypeGeometry(feature.geometry),
+    );
+
+    if (!hasOnlyPointGeometries) {
+      return (
+        <Geojson
+          data={data}
+          pointToLayer={this.pointToLayer}
+          style={this.styler}
+        />
+      );
+    }
+
     return (
-      <Geojson
-        data={this.props.data}
-        style={this.styler}
-        pointToLayer={this.pointToLayer}
-      />
+      <React.Fragment>
+        {data.features.map(feature => {
+          const [lon, lat] = feature.geometry.coordinates;
+          const latLng = L.latLng({ lat, lng: lon });
+          if (bounds && !bounds.contains(latLng)) {
+            return null;
+          }
+          const { address, icon, name } = feature.properties;
+          const hasIcon = icon && icon.id;
+          return (
+            <GenericMarker
+              getIcon={zoom =>
+                hasIcon ? this.icons[icon.id] : getRoundIcon(zoom)
+              }
+              key={feature.id}
+              position={{
+                lon,
+                lat,
+              }}
+              shouldRender={zoom => hasIcon || isRoundIconVisible(zoom)}
+            >
+              <Card>
+                <div className="padding-small">
+                  <CardHeader
+                    className="padding-small"
+                    description={address}
+                    name={name}
+                    unlinked
+                  />
+                </div>
+              </Card>
+              <MarkerPopupBottom
+                location={{
+                  address,
+                  lat,
+                  lon,
+                }}
+              />
+            </GenericMarker>
+          );
+        })}
+      </React.Fragment>
     );
   }
 }

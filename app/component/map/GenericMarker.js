@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -44,6 +45,7 @@ class GenericMarker extends React.Component {
   };
 
   static propTypes = {
+    shouldRender: PropTypes.func,
     position: PropTypes.object.isRequired,
     getIcon: PropTypes.func.isRequired,
     renderName: PropTypes.bool,
@@ -56,6 +58,10 @@ class GenericMarker extends React.Component {
         off: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    shouldRender: () => true,
   };
 
   state = { zoom: this.props.leaflet.map.getZoom() };
@@ -118,11 +124,17 @@ class GenericMarker extends React.Component {
       return '';
     }
 
+    const { shouldRender } = this.props;
+    const { zoom } = this.state;
+    if (isFunction(shouldRender) && !shouldRender(zoom)) {
+      return null;
+    }
+
     return (
-      <div>
+      <React.Fragment>
         {this.getMarker()}
         {this.getNameMarker()}
-      </div>
+      </React.Fragment>
     );
   }
 }

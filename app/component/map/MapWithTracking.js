@@ -117,6 +117,16 @@ class MapWithTrackingStateHandler extends React.Component {
     this.isCancelled = true;
   }
 
+  setCurrentBounds = latLngBounds => {
+    const { bounds } = this.state;
+    if (bounds && bounds.equals(latLngBounds)) {
+      return;
+    }
+    this.setState({
+      bounds: latLngBounds,
+    });
+  };
+
   enableMapTracking = () => {
     this.setState({
       mapTracking: true,
@@ -190,12 +200,15 @@ class MapWithTrackingStateHandler extends React.Component {
     }
 
     if (geoJson) {
+      const { bounds } = this.state;
       Object.keys(geoJson)
         .filter(key => mapLayers.geoJson[key] !== false)
         .forEach(key => {
           leafletObjs.push(
             <LazilyLoad modules={jsonModules} key={key}>
-              {({ GeoJSON }) => <GeoJSON data={geoJson[key].data} />}
+              {({ GeoJSON }) => (
+                <GeoJSON bounds={bounds} data={geoJson[key].data} />
+              )}
             </LazilyLoad>,
           );
         });
@@ -216,6 +229,7 @@ class MapWithTrackingStateHandler extends React.Component {
         disableMapTracking={this.disableMapTracking}
         {...rest}
         leafletObjs={leafletObjs}
+        setCurrentBounds={this.setCurrentBounds}
       >
         {children}
         <div className="map-with-tracking-buttons">
