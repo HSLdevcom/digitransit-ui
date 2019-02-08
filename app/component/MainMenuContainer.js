@@ -11,7 +11,6 @@ class MainMenuContainer extends Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    piwik: PropTypes.object,
     router: routerShape.isRequired,
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
@@ -42,13 +41,12 @@ class MainMenuContainer extends Component {
   toggleOffcanvas = () => this.internalSetOffcanvas(!this.getOffcanvasState());
 
   internalSetOffcanvas = newState => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ExtraSettingsPanelClick',
-        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ExtraSettingsPanelClick',
+      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    });
 
     if (newState) {
       this.context.router.push({

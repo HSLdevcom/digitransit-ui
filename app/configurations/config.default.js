@@ -4,7 +4,7 @@ const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const APP_PATH = process.env.APP_CONTEXT || '';
-const { PIWIK_ADDRESS, PIWIK_ID, SENTRY_DSN } = process.env;
+const { SENTRY_DSN } = process.env;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
@@ -21,8 +21,6 @@ function safeJsonParse(jsonString) {
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
 export default {
-  PIWIK_ADDRESS,
-  PIWIK_ID,
   SENTRY_DSN,
   PORT,
   CONFIG,
@@ -77,6 +75,9 @@ export default {
     },
   },
   realTimePatch: REALTIME_PATCH,
+
+  // Google Tag Manager id
+  GTMid: 'GTM-PZV2S2V',
 
   /*
  * by default search endpoints from all but gtfs sources, correct gtfs source
@@ -662,33 +663,6 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
   },
-
-  piwikMap: [
-    // in priority order. 1st match stops
-    { id: '10', expr: 'dev-joensuu' },
-    { id: '11', expr: 'joensuu' },
-    { id: '12', expr: 'dev-turku' },
-    { id: '27', expr: '(turku|foli)' },
-    { id: '14', expr: 'hameenlinna' },
-    { id: '15', expr: 'jyvaskyla' },
-    { id: '16', expr: 'kuopio' },
-    { id: '17', expr: 'lahti' },
-    { id: '18', expr: 'lappeenranta' },
-    { id: '21', expr: 'oulu' },
-    { id: '29', expr: 'kotka' },
-    { id: '31', expr: 'mikkeli' },
-    { id: '35', expr: 'tampere' },
-    { id: '43', expr: 'kouvola' },
-    { id: '49', expr: 'rovaniemi' },
-    // put generic expressions last so that they do not match waltti cities
-    // e.g. reittiopas.hameenlinna.fi or turku.digitransit.fi
-    { id: '5', expr: 'dev.reittiopas' },
-    { id: '4', expr: 'reittiopas' },
-    { id: '7', expr: 'dev.matka' },
-    { id: '6', expr: 'matka' },
-    { id: '7', expr: 'dev.digitransit' },
-    { id: '6', expr: 'digitransit' },
-  ],
 
   minutesToDepartureLimit: 9,
 

@@ -10,7 +10,6 @@ export default class ItineraryFeedback extends React.Component {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    piwik: PropTypes.object,
   };
 
   state = {
@@ -19,18 +18,8 @@ export default class ItineraryFeedback extends React.Component {
   };
 
   sendFeedback = () => {
-    this.context.piwik.setCustomVariable(
-      3,
-      'feedback',
-      this.state.feedbackText,
-      'page',
-    );
-    this.context.piwik.trackEvent(
-      'Feedback',
-      'Itinerary',
-      'Feedback',
-      'submitted',
-    );
+    // Handle saving of feedback. Text is available in
+    // this.state.feedbackText,
     this.setState({ feedbackText: '', feedbackFormOpen: false });
   };
 
