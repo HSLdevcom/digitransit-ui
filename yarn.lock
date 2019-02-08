@@ -702,7 +702,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@7.3.1", "@babel/runtime@^7.0.0":
+"@babel/runtime@7.3.1", "@babel/runtime@^7.0.0", "@babel/runtime@^7.3.1":
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.3.1.tgz#574b03e8e8a9898eaf4a872a92ea20b7846f6f2a"
   integrity sha512-7jGW8ppV0ant637pIqAcFfQDDH1orEPGJb8aXfUozuCU3QqX7rX4DA8iwrbPrR1hcH0FTTHz47yQnk+bl5xHQA==
@@ -2855,10 +2855,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-db@^1.0.30000889:
-  version "1.0.30000930"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000930.tgz#eda443d2f468e8ca74fff437cb764b8637b62f13"
-  integrity sha512-ULqXMweNcW3YOz3NY5hyMPz+HrbhpfdPXMLmsBCDuzzec9Esu6+K+dr5Jkf+MKARDjcrZjIoWprEYtC0PTx//A==
+caniuse-db@^1.0.30000935:
+  version "1.0.30000935"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000935.tgz#0b4210ae207013c76bc1a2e0e903b15bec742a08"
+  integrity sha512-HFqvW9MZZcWD02F3J2GV2ggQyIXiDr7DRPlOWSKVIihu8J1dtsYFqtMjmFqiYamfOmY4NHyn7xFaWAHBtFWgjQ==
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30000851, caniuse-lite@^1.0.30000921:
   version "1.0.30000923"
@@ -4775,15 +4775,15 @@ eslint-module-utils@^2.3.0:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
-eslint-plugin-compat@2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-2.6.3.tgz#2606644110ab1150bec23a45034367ddbea1f1e9"
-  integrity sha512-zog1HSEViOhzXNpP6a5T2SjX02A0EYkbYPWemwKupXyOY2hvV4+QbsWlYVzO7Vi36r+zzPwF19T3kaY1x+MrDg==
+eslint-plugin-compat@2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-2.7.0.tgz#85043d41a84be4daa3aa6efbda90e5997fc7c3ff"
+  integrity sha512-3J4Ic1WS+SgF1smUOc62fdf7Cnrdsg0GNwKmGVPziPtWdrc2vV5Oq2ut4kG6SM5DJcxOoz/sWJIN7rkcsWh60Q==
   dependencies:
-    "@babel/runtime" "^7.1.2"
-    browserslist "^4.3.4"
-    caniuse-db "^1.0.30000889"
-    mdn-browser-compat-data "^0.0.54"
+    "@babel/runtime" "^7.3.1"
+    browserslist "^4.4.1"
+    caniuse-db "^1.0.30000935"
+    mdn-browser-compat-data "^0.0.65"
 
 eslint-plugin-graphql@3.0.1:
   version "3.0.1"
@@ -8500,10 +8500,10 @@ mdast-util-compact@^1.0.0:
   dependencies:
     unist-util-visit "^1.1.0"
 
-mdn-browser-compat-data@^0.0.54:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.54.tgz#e5a5a9b84b2d52a8ae553294055853584fa96be0"
-  integrity sha512-eu0g/tlNB3+kqy1O7bzq84OR67Kg1HxRJ6v16P1rjcDsBL7RhJik7aXnzNvuaijNaR1rDana9IO5Lo1b3E4Qxg==
+mdn-browser-compat-data@^0.0.65:
+  version "0.0.65"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.65.tgz#e8076bac0e72f8b0062a0774043481612f238407"
+  integrity sha512-OC27wWCLD2mw2aW6+8zZTwCv0+9WMTOFxuvTBfWoCx8f9gVFNUXHxGYA16mhKyso7hEa4tw1hY+ruCB/kg3EzQ==
   dependencies:
     extend "3.0.2"
 
