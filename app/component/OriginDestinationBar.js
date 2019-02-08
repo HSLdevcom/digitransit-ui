@@ -27,7 +27,6 @@ export default class OriginDestinationBar extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    piwik: PropTypes.object,
   };
 
   static defaultProps = {

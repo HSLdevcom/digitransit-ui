@@ -25,15 +25,15 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   toggleShowIntermediateStops = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'IntermediateStopsClick',
-        this.state.showIntermediateStops
-          ? 'IntermediateStopsCollapse'
-          : 'IntermediateStopsExpand',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'IntermediateStopsClick',
+      name: this.state.showIntermediateStops
+        ? 'IntermediateStopsCollapse'
+        : 'IntermediateStopsExpand',
+    });
+
     this.setState({ showIntermediateStops: !this.state.showIntermediateStops });
   };
 
@@ -255,7 +255,6 @@ TransitLeg.propTypes = {
 TransitLeg.contextTypes = {
   focusFunction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
-  piwik: PropTypes.object,
 };
 
 export default TransitLeg;

@@ -30,7 +30,6 @@ class ItineraryTab extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
-    piwik: PropTypes.object,
   };
 
   state = {
@@ -55,13 +54,12 @@ class ItineraryTab extends React.Component {
   printItinerary = e => {
     e.stopPropagation();
 
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ItineraryPrintButton',
-        'PrintItinerary',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ItineraryPrintButton',
+      name: 'PrintItinerary',
+    });
 
     const printPath = `${this.props.location.pathname}/tulosta`;
     this.context.router.push({
