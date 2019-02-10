@@ -101,7 +101,7 @@
     "point-in-polygon": "1.0.1",
     "polyfill-library": "3.27.0",
     "polyline-encoded": "0.0.8",
-    "prop-types": "15.6.2",
+    "prop-types": "15.7.0",
     "raven": "2.6.4",
     "raven-js": "3.27.0",
     "react": "16.6.3",
