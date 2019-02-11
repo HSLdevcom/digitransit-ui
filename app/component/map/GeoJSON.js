@@ -22,6 +22,30 @@ if (isBrowser) {
 /* eslint-enable global-require */
 
 /**
+ * The minimum radius at which the default round icon is visible.
+ */
+const ROUND_ICON_MIN_RADIUS = 3;
+
+/**
+ * Checks if the default round icon is visible.
+ *
+ * @param {number} zoom the current zoom level.
+ */
+const isRoundIconVisible = zoom => getCaseRadius(zoom) >= ROUND_ICON_MIN_RADIUS;
+
+/**
+ * The minimum zoom level at which a custom icon is visible.
+ */
+const CUSTOM_ICON_MIN_ZOOM = 10;
+
+/**
+ * Checks if the custom icon is visible.
+ *
+ * @param {number} zoom the current zoom level.
+ */
+const isCustomIconVisible = zoom => zoom >= CUSTOM_ICON_MIN_ZOOM;
+
+/**
  * Checks if the given geometry exists and has type 'Point'.
  *
  * @param {{ type: string }} geometry the geometry object to check.
@@ -37,13 +61,6 @@ const isMultiPointTypeGeometry = geometry =>
   geometry && geometry.type === 'MultiPoint';
 
 /**
- * Checks if the icon should be visible.
- *
- * @param {number} zoom the current zoom level.
- */
-const isRoundIconVisible = zoom => getCaseRadius(zoom) > 3;
-
-/**
  *
  * @param {number} zoom the current zoom level.
  */
@@ -55,22 +72,27 @@ const getRoundIcon = zoom => {
   const inner = (stopRadius + hubRadius) / 2;
   const stroke = stopRadius - hubRadius;
 
-  const iconSvg = `
-    <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-      <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
-      <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
-    </svg>
-  `;
-
   return L.divIcon({
-    html: isRoundIconVisible(zoom) ? iconSvg : '',
+    html: `
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+        <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
+        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
+      </svg>
+    `,
     iconSize: [radius * 2, radius * 2],
     className: `cursor-pointer`,
   });
 };
 
 class GeoJSON extends React.Component {
-  static propTypes = { data: PropTypes.object.isRequired };
+  static propTypes = {
+    bounds: PropTypes.object,
+    data: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    bounds: undefined,
+  };
 
   static contextTypes = { config: PropTypes.object.isRequired };
 
@@ -191,23 +213,30 @@ class GeoJSON extends React.Component {
       <React.Fragment>
         {data.features.map(feature => {
           const [lon, lat] = feature.geometry.coordinates;
-          const latLng = L.latLng({ lat, lng: lon });
-          if (bounds && !bounds.contains(latLng)) {
-            return null;
+          if (bounds) {
+            const latLng = L.latLng({ lat, lng: lon });
+            if (!bounds.contains(latLng)) {
+              return null;
+            }
           }
+
           const { address, icon, name } = feature.properties;
-          const hasIcon = icon && icon.id;
+          const hasCustomIcon = icon && icon.id;
           return (
             <GenericMarker
               getIcon={zoom =>
-                hasIcon ? this.icons[icon.id] : getRoundIcon(zoom)
+                hasCustomIcon ? this.icons[icon.id] : getRoundIcon(zoom)
               }
               key={feature.id}
               position={{
-                lon,
                 lat,
+                lon,
               }}
-              shouldRender={zoom => hasIcon || isRoundIconVisible(zoom)}
+              shouldRender={zoom =>
+                hasCustomIcon
+                  ? isCustomIconVisible(zoom)
+                  : isRoundIconVisible(zoom)
+              }
             >
               <Card>
                 <div className="padding-small">

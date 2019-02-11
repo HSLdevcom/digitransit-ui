@@ -75,20 +75,30 @@ class MapWithTrackingStateHandler extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { config, getGeoJsonData } = this.props;
-    if (isBrowser && config.geoJson && Array.isArray(config.geoJson.layers)) {
-      config.geoJson.layers.forEach(geoJsonLayer => {
-        const { url, name, metadata } = geoJsonLayer;
-        getGeoJsonData(url, name, metadata).then(data => {
-          const { geoJson } = this.state;
-          geoJson[url] = data;
-          if (!this.isCancelled) {
-            this.setState({ geoJson });
-          }
-        });
-      });
+    if (
+      !isBrowser ||
+      !config.geoJson ||
+      !Array.isArray(config.geoJson.layers)
+    ) {
+      return;
     }
+
+    const json = await Promise.all(
+      config.geoJson.layers.map(async ({ url, name, metadata }) => ({
+        url,
+        data: await getGeoJsonData(url, name, metadata),
+      })),
+    );
+    if (this.isCancelled) {
+      return;
+    }
+    const { geoJson } = this.state;
+    json.forEach(({ url, data }) => {
+      geoJson[url] = data;
+    });
+    this.setState(geoJson);
   }
 
   componentWillReceiveProps(newProps) {
@@ -117,14 +127,24 @@ class MapWithTrackingStateHandler extends React.Component {
     this.isCancelled = true;
   }
 
-  setCurrentBounds = latLngBounds => {
+  updateCurrentBounds = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+    const newBounds = this.mapElement.leafletElement.getBounds();
     const { bounds } = this.state;
-    if (bounds && bounds.equals(latLngBounds)) {
+    if (bounds && bounds.equals(newBounds)) {
       return;
     }
     this.setState({
-      bounds: latLngBounds,
+      bounds: newBounds,
     });
+  };
+
+  setMapElementRef = element => {
+    if (element && this.mapElement !== element) {
+      this.mapElement = element;
+    }
   };
 
   enableMapTracking = () => {
@@ -224,12 +244,13 @@ class MapWithTrackingStateHandler extends React.Component {
         origin={this.props.origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onZoomend: null, // this.disableMapTracking,
+          onDragend: this.updateCurrentBounds,
+          onZoomend: this.updateCurrentBounds,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
         leafletObjs={leafletObjs}
-        setCurrentBounds={this.setCurrentBounds}
+        mapRef={this.setMapElementRef}
       >
         {children}
         <div className="map-with-tracking-buttons">

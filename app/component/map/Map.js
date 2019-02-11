@@ -67,11 +67,6 @@ export default class Map extends React.Component {
     this.erd = elementResizeDetectorMaker({ strategy: 'scroll' });
     /* eslint-disable no-underscore-dangle */
     this.erd.listenTo(this.map.leafletElement._container, this.resizeMap);
-    this.updateCurrentBounds();
-  }
-
-  componentDidUpdate() {
-    this.updateCurrentBounds();
   }
 
   componentWillUnmount() {
@@ -92,17 +87,9 @@ export default class Map extends React.Component {
           boundWithMinimumArea(this.props.bounds),
           this.props.boundsOptions,
         );
-        this.updateCurrentBounds();
       }
     }
   };
-
-  updateCurrentBounds() {
-    const { setCurrentBounds } = this.props;
-    if (setCurrentBounds) {
-      setCurrentBounds(this.map.leafletElement.getBounds());
-    }
-  }
 
   render() {
     const { zoom, boundsOptions } = this.props;
