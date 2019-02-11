@@ -96,7 +96,6 @@ const productionPlugins = [
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/F240A1C413BA5E391.css',
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/FCD8D21C112DA60B9.css',
       'https://digitransit-prod-cdn-origin.azureedge.net/fonts/684288/FD9358ADC87D92390.css',
-      'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
       'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwaPGR_p.woff2',
       'https://fonts.gstatic.com/s/lato/v14/S6u9w4BMUTPHh7USSwiPGQ.woff2',
       'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjxAwXjeu.woff2',
