@@ -1,3 +1,4 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import L from 'leaflet';
@@ -12,6 +13,7 @@ import {
   getStopRadius,
   getHubRadius,
 } from '../../util/mapIconUtils';
+import PreferencesStore from '../../store/PreferencesStore';
 
 let Geojson;
 
@@ -84,10 +86,23 @@ const getRoundIcon = zoom => {
   });
 };
 
+const getValueOrDefault = (
+  properties,
+  propertyName,
+  language,
+  defaultValue = undefined,
+) =>
+  (properties &&
+    propertyName &&
+    ((language && properties[`${propertyName}_${language}`]) ||
+      properties[propertyName])) ||
+  defaultValue;
+
 class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.object.isRequired,
+    language: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -194,7 +209,7 @@ class GeoJSON extends React.Component {
   };
 
   render() {
-    const { bounds, data } = this.props;
+    const { bounds, data, language } = this.props;
     const hasOnlyPointGeometries = data.features.every(feature =>
       isPointTypeGeometry(feature.geometry),
     );
@@ -220,7 +235,10 @@ class GeoJSON extends React.Component {
             }
           }
 
-          const { address, icon, name } = feature.properties;
+          const { properties } = feature;
+          const { icon } = properties;
+          const address = getValueOrDefault(properties, 'address', language);
+          const city = getValueOrDefault(properties, 'city', language);
           const hasCustomIcon = icon && icon.id;
           return (
             <GenericMarker
@@ -242,8 +260,8 @@ class GeoJSON extends React.Component {
                 <div className="padding-small">
                   <CardHeader
                     className="padding-small"
-                    description={address}
-                    name={name}
+                    description={city ? `${address}, ${city}` : address}
+                    name={getValueOrDefault(properties, 'name', language)}
                     unlinked
                   />
                 </div>
@@ -263,4 +281,12 @@ class GeoJSON extends React.Component {
   }
 }
 
-export default GeoJSON;
+const connectedComponent = connectToStores(
+  GeoJSON,
+  [PreferencesStore],
+  ({ getStore }) => ({
+    language: getStore(PreferencesStore).getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, GeoJSON as Component };
