@@ -395,3 +395,19 @@ export const findFeatures = (
     .map(mapFn);
   return matches;
 };
+
+/**
+ * Checks if the given geometry exists and has type 'MultiPoint'.
+ *
+ * @param {{ type: string }} geometry the geometry object to check.
+ */
+export const isMultiPointTypeGeometry = geometry =>
+  geometry && geometry.type === 'MultiPoint';
+
+/**
+ * Checks if the given geometry exists and has type 'Point'.
+ *
+ * @param {{ type: string }} geometry the geometry object to check.
+ */
+export const isPointTypeGeometry = geometry =>
+  geometry && geometry.type === 'Point';

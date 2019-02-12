@@ -1,19 +1,13 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-import L from 'leaflet';
 
-import Card from '../Card';
-import CardHeader from '../CardHeader';
-import GenericMarker from './GenericMarker';
-import MarkerPopupBottom from './MarkerPopupBottom';
+import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
 import {
-  getCaseRadius,
-  getStopRadius,
-  getHubRadius,
-} from '../../util/mapIconUtils';
-import PreferencesStore from '../../store/PreferencesStore';
+  isMultiPointTypeGeometry,
+  isPointTypeGeometry,
+} from '../../util/geo-utils';
 
 let Geojson;
 
@@ -23,97 +17,10 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
-/**
- * The minimum radius at which the default round icon is visible.
- */
-const ROUND_ICON_MIN_RADIUS = 3;
-
-/**
- * Checks if the default round icon is visible.
- *
- * @param {number} zoom the current zoom level.
- */
-const isRoundIconVisible = zoom => getCaseRadius(zoom) >= ROUND_ICON_MIN_RADIUS;
-
-/**
- * The minimum zoom level at which a custom icon is visible.
- */
-const CUSTOM_ICON_MIN_ZOOM = 10;
-
-/**
- * Checks if the custom icon is visible.
- *
- * @param {number} zoom the current zoom level.
- */
-const isCustomIconVisible = zoom => zoom >= CUSTOM_ICON_MIN_ZOOM;
-
-/**
- * Checks if the given geometry exists and has type 'Point'.
- *
- * @param {{ type: string }} geometry the geometry object to check.
- */
-const isPointTypeGeometry = geometry => geometry && geometry.type === 'Point';
-
-/**
- * Checks if the given geometry exists and has type 'MultiPoint'.
- *
- * @param {{ type: string }} geometry the geometry object to check.
- */
-const isMultiPointTypeGeometry = geometry =>
-  geometry && geometry.type === 'MultiPoint';
-
-/**
- * Generates a generic round icon at the given zoom level.
- *
- * @param {number} zoom the current zoom level.
- */
-const getRoundIcon = zoom => {
-  const radius = getCaseRadius(zoom);
-  const stopRadius = getStopRadius(zoom);
-  const hubRadius = getHubRadius(zoom);
-
-  const inner = (stopRadius + hubRadius) / 2;
-  const stroke = stopRadius - hubRadius;
-
-  return L.divIcon({
-    html: `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop-halo" cx="${radius}" cy="${radius}" r="${radius}"/>
-        <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"/>
-      </svg>
-    `,
-    iconSize: [radius * 2, radius * 2],
-    className: `cursor-pointer`,
-  });
-};
-
-/**
- * Retrieves the value of the property for the given language. Falls back
- * to the non-specific language property and the given default value,
- * respectively.
- *
- * @param {*} properties the object to look into.
- * @param {*} propertyName the name of the property.
- * @param {*} language the language.
- * @param {*} defaultValue the default fallback value, defaults to undefined.
- */
-const getValueOrDefault = (
-  properties,
-  propertyName,
-  language,
-  defaultValue = undefined,
-) =>
-  (properties &&
-    propertyName &&
-    ((language && properties[`${propertyName}_${language}`]) ||
-      properties[propertyName])) ||
-  defaultValue;
-
 class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.object.isRequired,
-    language: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -220,7 +127,7 @@ class GeoJSON extends React.Component {
   };
 
   render() {
-    const { bounds, data, language } = this.props;
+    const { bounds, data } = this.props;
     const hasOnlyPointGeometries = data.features.every(feature =>
       isPointTypeGeometry(feature.geometry),
     );
@@ -237,67 +144,27 @@ class GeoJSON extends React.Component {
 
     return (
       <React.Fragment>
-        {data.features.map(feature => {
-          const [lon, lat] = feature.geometry.coordinates;
-          if (bounds) {
-            const latLng = L.latLng({ lat, lng: lon });
-            if (!bounds.contains(latLng)) {
-              return null;
+        {data.features
+          .filter(feature => {
+            const [lon, lat] = feature.geometry.coordinates;
+            if (bounds) {
+              const latLng = L.latLng({ lat, lng: lon });
+              if (!bounds.contains(latLng)) {
+                return false;
+              }
             }
-          }
-
-          const { properties } = feature;
-          const { icon } = properties;
-          const address = getValueOrDefault(properties, 'address', language);
-          const city = getValueOrDefault(properties, 'city', language);
-          const hasCustomIcon = icon && icon.id;
-          return (
-            <GenericMarker
-              getIcon={zoom =>
-                hasCustomIcon ? this.icons[icon.id] : getRoundIcon(zoom)
-              }
+            return true;
+          })
+          .map(feature => (
+            <PointFeatureMarker
+              feature={feature}
+              icons={this.icons}
               key={feature.id}
-              position={{
-                lat,
-                lon,
-              }}
-              shouldRender={zoom =>
-                hasCustomIcon
-                  ? isCustomIconVisible(zoom)
-                  : isRoundIconVisible(zoom)
-              }
-            >
-              <Card>
-                <div className="padding-small">
-                  <CardHeader
-                    className="padding-small"
-                    description={city ? `${address}, ${city}` : address}
-                    name={getValueOrDefault(properties, 'name', language)}
-                    unlinked
-                  />
-                </div>
-              </Card>
-              <MarkerPopupBottom
-                location={{
-                  address,
-                  lat,
-                  lon,
-                }}
-              />
-            </GenericMarker>
-          );
-        })}
+            />
+          ))}
       </React.Fragment>
     );
   }
 }
 
-const connectedComponent = connectToStores(
-  GeoJSON,
-  [PreferencesStore],
-  ({ getStore }) => ({
-    language: getStore(PreferencesStore).getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, GeoJSON as Component };
+export { GeoJSON as default };
