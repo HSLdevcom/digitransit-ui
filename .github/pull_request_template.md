@@ -2,7 +2,7 @@
 
   -
 
-## Pull Request Check list
+## Pull Request Check List
 
   - A reasonable set of unit tests is included
   - Console does not show new warnings/errors
