@@ -149,6 +149,28 @@ export default config => {
           ]).then(([title, content]) => cb(null, { title, content }));
         }}
       />
+      <Route
+        path="/terms-and-conditions"
+        getComponents={(location, cb) => {
+          Promise.all([
+            Promise.resolve(Title),
+            import(/* webpackChunkName: "terms-and-conditions" */ './component/TermsAndConditionsPage').then(
+              getDefault,
+            ),
+          ]).then(([title, content]) => cb(null, { title, content }));
+        }}
+      />
+      <Route
+        path="/privacy-policy"
+        getComponents={(location, cb) => {
+          Promise.all([
+            Promise.resolve(Title),
+            import(/* webpackChunkName: "privacy-policy" */ './component/PrivacyPolicyPage').then(
+              getDefault,
+            ),
+          ]).then(([title, content]) => cb(null, { title, content }));
+        }}
+      />
       {!config.URL.API_URL.includes('/api.') && (
         <Route
           path="/admin"
