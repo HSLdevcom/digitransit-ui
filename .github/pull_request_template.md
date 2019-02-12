@@ -15,5 +15,5 @@
 
   - Read and verify the code changes
   - Test the functionality by running the UI locally with all popular browsers available in your platform
-  - Checked that the implementation matches the design, when such one is defined in a Jira issue
+  - Check that the implementation matches the design, when such one is defined in a Jira issue
   - Merge the pull request
