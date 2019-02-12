@@ -63,6 +63,7 @@ const isMultiPointTypeGeometry = geometry =>
   geometry && geometry.type === 'MultiPoint';
 
 /**
+ * Generates a generic round icon at the given zoom level.
  *
  * @param {number} zoom the current zoom level.
  */
@@ -86,6 +87,16 @@ const getRoundIcon = zoom => {
   });
 };
 
+/**
+ * Retrieves the value of the property for the given language. Falls back
+ * to the non-specific language property and the given default value,
+ * respectively.
+ *
+ * @param {*} properties the object to look into.
+ * @param {*} propertyName the name of the property.
+ * @param {*} language the language.
+ * @param {*} defaultValue the default fallback value, defaults to undefined.
+ */
 const getValueOrDefault = (
   properties,
   propertyName,
