@@ -3,7 +3,7 @@
   -
   -
 
-## Check list
+## Check List
 
   - A reasonable set of unit tests is included
   - Console does not show new warnings/errors
