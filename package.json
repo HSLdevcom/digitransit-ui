@@ -136,7 +136,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.23",
     "base64-arraybuffer": "0.1.5",
     "chai": "4.2.0",
-    "codecov": "3.1.0",
+    "codecov": "3.2.0",
     "compression-webpack-plugin": "2.0.0",
     "css-loader": "1.0.0",
     "enzyme": "3.8.0",
