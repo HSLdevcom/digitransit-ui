@@ -16,6 +16,9 @@ before('setting up enzyme and jsdom', () => {
   });
   const { window } = jsdom;
 
+  // For Google Tag Manager
+  window.dataLayer = [];
+
   const copyProps = (src, target) => {
     const props = Object.getOwnPropertyNames(src)
       .filter(prop => typeof target[prop] === 'undefined')

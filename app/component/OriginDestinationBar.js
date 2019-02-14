@@ -28,7 +28,6 @@ class OriginDestinationBar extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    piwik: PropTypes.object,
     router: routerShape.isRequired,
   };
 
