@@ -167,7 +167,7 @@
     "nightwatch": "0.9.20",
     "node-sass": "4.11.0",
     "nodemon": "1.17.5",
-    "nyc": "13.2.0",
+    "nyc": "13.3.0",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
