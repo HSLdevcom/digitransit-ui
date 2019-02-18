@@ -139,4 +139,5 @@ class GenericMarker extends React.Component {
   }
 }
 
-export default withLeaflet(GenericMarker);
+const leafletComponent = withLeaflet(GenericMarker);
+export { leafletComponent as default, GenericMarker as Component };

@@ -123,8 +123,6 @@ describe('modeUtils', () => {
       expect(modes.length).to.equal(2);
       expect(modes).to.contain(StreetMode.ParkAndRide);
       expect(modes).to.contain(TransportMode.Bus);
-
-      global.localStorage.clear();
     });
 
     it('should retrieve all modes with "defaultValue": true from config if the location query is not available and localStorage has an empty modes list', () => {
@@ -142,8 +140,6 @@ describe('modeUtils', () => {
       expect(modes).to.contain(StreetMode.Walk);
       expect(modes).to.contain(TransportMode.Bus);
       expect(modes).to.contain(TransportMode.Rail);
-
-      global.localStorage.clear();
     });
 
     it('should retrieve all modes with "defaultValue": true from config if the location query and localStorage are not available', () => {

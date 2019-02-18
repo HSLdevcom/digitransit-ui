@@ -1,49 +1,70 @@
+import { expect } from 'chai';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { JSDOM } from 'jsdom';
-import { after, before } from 'mocha';
+import { after, before, describe, it } from 'mocha';
 import { stub } from 'sinon';
 
-before('setting up enzyme and jsdom', () => {
+/**
+ * Helper function to copy the properties of the source object to the
+ * target object.
+ *
+ * @param {*} src the source object.
+ * @param {*} target the target object.
+ */
+const copyProps = (src, target) => {
+  const props = Object.getOwnPropertyNames(src)
+    .filter(prop => typeof target[prop] === 'undefined')
+    .reduce(
+      (result, prop) => ({
+        ...result,
+        [prop]: Object.getOwnPropertyDescriptor(src, prop),
+      }),
+      {},
+    );
+  Object.defineProperties(target, props);
+};
+
+// set up jsdom
+const jsdom = new JSDOM('<!doctype html><html><body></body></html>', {
+  url: 'https://localhost:8080',
+});
+const { window } = jsdom;
+
+// set up test environment globals
+global.window = window;
+global.document = window.document;
+global.navigator = {
+  platform: process.platform || '',
+  userAgent: 'node.js',
+};
+copyProps(window, global);
+
+// set up unit test globals
+global.describe = describe;
+global.it = it;
+global.expect = expect;
+
+// prevent mocha from interpreting imported .png images
+const noop = () => null;
+require.extensions['.png'] = noop;
+
+// set up mocha hooks
+before('setting up the environment', () => {
   const callback = warning => {
     throw new Error(warning);
   };
   stub(console, 'error').callsFake(callback);
   stub(console, 'warn').callsFake(callback);
-
-  const jsdom = new JSDOM('<!doctype html><html><body></body></html>', {
-    url: 'https://localhost:8080',
-  });
-  const { window } = jsdom;
-
-  const copyProps = (src, target) => {
-    const props = Object.getOwnPropertyNames(src)
-      .filter(prop => typeof target[prop] === 'undefined')
-      .reduce(
-        (result, prop) => ({
-          ...result,
-          [prop]: Object.getOwnPropertyDescriptor(src, prop),
-        }),
-        {},
-      );
-    Object.defineProperties(target, props);
-  };
-
-  global.window = window;
-  global.document = window.document;
-  global.navigator = {
-    userAgent: 'node.js',
-  };
-  copyProps(window, global);
-
   configure({ adapter: new Adapter() });
 });
 
-after('reset the error handler function', () => {
+after('resetting the environment', () => {
   console.error.restore();
   console.warn.restore();
 });
 
-// prevent mocha from interpreting imported .png images
-const noop = () => null;
-require.extensions['.png'] = noop;
+// make sure the local storage stays clear for each test
+afterEach(() => {
+  window.localStorage.clear();
+});

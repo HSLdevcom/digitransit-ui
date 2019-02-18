@@ -38,25 +38,26 @@ export const generateMetaData = (
       content: description,
     },
   ],
-  ...(isBrowser && {
-    link: [
-      {
-        rel: 'manifest',
-        href: generateManifestUrl(
-          config,
-          {
-            host: window.location.host,
-            pathname: pathname || window.location.pathname,
-            protocol: window.location.protocol,
-          },
-          {
-            title,
-            description,
-          },
-        ),
-      },
-    ],
-  }),
+  ...(isBrowser &&
+    config && {
+      link: [
+        {
+          rel: 'manifest',
+          href: generateManifestUrl(
+            config,
+            {
+              host: window.location.host,
+              pathname: pathname || window.location.pathname,
+              protocol: window.location.protocol,
+            },
+            {
+              title,
+              description,
+            },
+          ),
+        },
+      ],
+    }),
 });
 
 export default generateMetaData;
