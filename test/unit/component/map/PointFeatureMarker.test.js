@@ -50,6 +50,7 @@ describe('<PointFeatureMarker>', () => {
           type: 'Point',
         },
         properties: {
+          address: 'baz',
           name: 'foobar',
         },
       },

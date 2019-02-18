@@ -165,4 +165,8 @@ export default configMerger(walttiConfig, {
   },
 
   staticMessages: [],
+
+  geoJson: {
+    layerConfigUrl: '/turku_geojson_config.json',
+  },
 });
