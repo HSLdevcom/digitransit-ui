@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { JSDOM } from 'jsdom';
-import { after, before, describe, it } from 'mocha';
+import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
 
 /**
@@ -41,8 +41,6 @@ global.navigator = {
 copyProps(window, global);
 
 // set up unit test globals
-global.describe = describe;
-global.it = it;
 global.expect = expect;
 
 // prevent mocha from interpreting imported .png images
