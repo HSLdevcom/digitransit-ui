@@ -74,7 +74,7 @@ const getRoundIcon = zoom => {
  * @param {*} language the language.
  * @param {*} defaultValue the default fallback value, defaults to undefined.
  */
-const getValueOrDefault = (
+export const getPropertyValueOrDefault = (
   properties,
   propertyName,
   language,
@@ -93,9 +93,13 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
   }
 
   const { icon } = properties;
-  const address = getValueOrDefault(properties, 'address', language);
-  const city = getValueOrDefault(properties, 'city', language);
-  const hasCustomIcon = icon && icon.id;
+  const header = getPropertyValueOrDefault(properties, 'name', language);
+  const address = getPropertyValueOrDefault(properties, 'address', language);
+  const city = getPropertyValueOrDefault(properties, 'city', language);
+  const description = city ? `${address}, ${city}` : address;
+  const useDescriptionAsHeader = !header;
+
+  const hasCustomIcon = icon && icon.id && icons[icon.id];
   const [lon, lat] = geometry.coordinates;
 
   return (
@@ -113,8 +117,8 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
         <div className="padding-small">
           <CardHeader
             className="padding-small"
-            description={city ? `${address}, ${city}` : address}
-            name={getValueOrDefault(properties, 'name', language)}
+            description={useDescriptionAsHeader ? '' : description}
+            name={useDescriptionAsHeader ? description : header}
             unlinked
           />
         </div>
