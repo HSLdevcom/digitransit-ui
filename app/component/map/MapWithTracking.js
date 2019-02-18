@@ -40,6 +40,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
+    getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
@@ -76,17 +77,24 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   async componentDidMount() {
-    const { config, getGeoJsonData } = this.props;
+    const { config, getGeoJsonData, getGeoJsonConfig } = this.props;
     if (
       !isBrowser ||
       !config.geoJson ||
-      !Array.isArray(config.geoJson.layers)
+      (!Array.isArray(config.geoJson.layers) && !config.geoJson.layerConfigUrl)
     ) {
       return;
     }
 
+    const layers = config.geoJson.layerConfigUrl
+      ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
+      : config.geoJson.layers;
+    if (!Array.isArray(layers) || layers.length === 0) {
+      return;
+    }
+
     const json = await Promise.all(
-      config.geoJson.layers.map(async ({ url, name, metadata }) => ({
+      layers.map(async ({ url, name, metadata }) => ({
         url,
         data: await getGeoJsonData(url, name, metadata),
       })),
@@ -285,8 +293,8 @@ const MapWithTracking = connectToStores(
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
     const mapLayers = getStore(MapLayerStore).getMapLayers();
-    const { getGeoJsonData } = getStore(GeoJsonStore);
-    return { position, mapLayers, getGeoJsonData };
+    const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
+    return { position, mapLayers, getGeoJsonConfig, getGeoJsonData };
   },
 );
 

@@ -48,6 +48,21 @@ class GeoJsonStore extends Store {
 
   static storeName = 'GeoJsonStore';
 
+  getGeoJsonConfig = async url => {
+    if (!url) {
+      return undefined;
+    }
+
+    if (!this.geoJsonLayers) {
+      const response = await getJson(url);
+      if (response.geoJson && Array.isArray(response.geoJson.layers)) {
+        this.geoJsonLayers = response.geoJson.layers;
+      }
+    }
+
+    return this.geoJsonLayers;
+  };
+
   getGeoJsonData = async (url, name, metadata) => {
     if (!url) {
       return undefined;
