@@ -19,7 +19,6 @@ class LoadCustomizedSettingsButton extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    piwik: PropTypes.object,
     router: routerShape.isRequired,
   };
 
@@ -32,13 +31,12 @@ class LoadCustomizedSettingsButton extends React.Component {
   }
 
   loadSettingsData = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'SettingsPanelloadSettingsButton',
-        'loadSettings',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'SettingsPanelloadSettingsButton',
+      name: 'LoadSettings',
+    });
 
     // const querySettings = getQuerySettings(this.context.location.query);
     const defaultSettings = getDefaultSettings(this.context.config);

@@ -22,7 +22,6 @@ class SaveCustomizedSettingsButton extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     location: locationShape.isRequired,
-    piwik: PropTypes.object,
   };
 
   constructor(props) {
@@ -34,13 +33,12 @@ class SaveCustomizedSettingsButton extends React.Component {
   }
 
   setSettingsData = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'SettingsPanelSaveSettingsButton',
-        'SaveSettings',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'SettingsPanelSaveSettingsButton',
+      name: 'SaveSettings',
+    });
 
     const querySettings = getQuerySettings(this.context.location.query);
     const customizedSettings = getCustomizedSettings();

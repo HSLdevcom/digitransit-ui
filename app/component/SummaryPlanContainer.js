@@ -58,7 +58,6 @@ class SummaryPlanContainer extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     location: PropTypes.object.isRequired,
-    piwik: PropTypes.object,
   };
 
   onSelectActive = index => {
@@ -76,14 +75,12 @@ class SummaryPlanContainer extends React.Component {
   onSelectImmediately = index => {
     if (Number(this.props.params.hash) === index) {
       if (this.props.breakpoint === 'large') {
-        if (this.context.piwik != null) {
-          this.context.piwik.trackEvent(
-            'ItinerarySettings',
-            'ItineraryDetailsClick',
-            'ItineraryDetailsCollapse',
-            index,
-          );
-        }
+        window.dataLayer.push({
+          event: 'sendMatomoEvent',
+          category: 'ItinerarySettings',
+          action: 'ItineraryDetailsClick',
+          name: 'ItineraryDetailsCollapse',
+        });
         this.context.router.replace({
           ...this.context.location,
           pathname: getRoutePath(this.props.params.from, this.props.params.to),
@@ -92,14 +89,12 @@ class SummaryPlanContainer extends React.Component {
         this.context.router.goBack();
       }
     } else {
-      if (this.context.piwik != null) {
-        this.context.piwik.trackEvent(
-          'ItinerarySettings',
-          'ItineraryDetailsClick',
-          'ItineraryDetailsExpand',
-          index,
-        );
-      }
+      window.dataLayer.push({
+        event: 'sendMatomoEvent',
+        category: 'ItinerarySettings',
+        action: 'ItineraryDetailsClick',
+        name: 'ItineraryDetailsExpand',
+      });
       const newState = {
         ...this.context.location,
         state: { summaryPageSelected: index },
@@ -126,13 +121,12 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onLater = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ShowMoreRoutesClick',
-        'ShowMoreRoutesLater',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ShowMoreRoutesClick',
+      name: 'ShowMoreRoutesLater',
+    });
 
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = this.props.itineraries.reduce(
@@ -210,13 +204,12 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onEarlier = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ShowMoreRoutesClick',
-        'ShowMoreRoutesEarlier',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ShowMoreRoutesClick',
+      name: 'ShowMoreRoutesEarlier',
+    });
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = this.props.itineraries.reduce(
@@ -306,13 +299,12 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onNow = () => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ShowMoreRoutesClick',
-        'ShowMoreRoutesNow',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ShowMoreRoutesClick',
+      name: 'ShowMoreRoutesNow',
+    });
 
     replaceQueryParams(this.context.router, {
       time: moment().unix(),

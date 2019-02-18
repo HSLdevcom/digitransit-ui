@@ -7949,10 +7949,10 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-leaflet-active-area@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/leaflet-active-area/-/leaflet-active-area-1.0.2.tgz#4d0b2b452a3d250765b43fd90446c27de875ace4"
-  integrity sha512-q491wTdBiugmTdsVqAw3x+EJ0bLp5gH16tYxbi/H8EYNTeE3sHA3P6YKfv9C9ZGiBjSOoUbEkyFUd+MZ/QMpmQ==
+leaflet-active-area@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/leaflet-active-area/-/leaflet-active-area-1.1.0.tgz#d940e8ea85a3d3c7b5963471b4a268b6d29214ea"
+  integrity sha512-pCqlC0IELUe+eWJXl9HD1lZM6BPNWW4KQ2Vfn9h0dCj1Y13QAL0S3xJz11hdXy9ErcPI0dRx7fZ/HXASnuDfVg==
 
 leaflet@1.4.0:
   version "1.4.0"

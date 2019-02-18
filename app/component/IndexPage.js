@@ -44,7 +44,6 @@ class IndexPage extends React.Component {
   static contextTypes = {
     location: locationShape.isRequired,
     router: routerShape.isRequired,
-    piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
@@ -130,20 +129,24 @@ class IndexPage extends React.Component {
     }
   };
 
-  trackEvent = (...args) => {
-    if (typeof this.context.piwik === 'object') {
-      this.context.piwik.trackEvent(...args);
-    }
-  };
-
   clickNearby = () => {
     this.openTab(TAB_NEARBY);
-    this.trackEvent('Front page tabs', 'Nearby', 'open');
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'Front page tabs',
+      action: 'Nearby',
+      name: 'open',
+    });
   };
 
   clickFavourites = () => {
     this.openTab(TAB_FAVOURITES);
-    this.trackEvent('Front page tabs', 'Favourites', 'open');
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'Front page tabs',
+      action: 'Favourites',
+      name: 'open',
+    });
   };
 
   openTab = tab => {

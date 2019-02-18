@@ -40,6 +40,9 @@ global.navigator = {
 };
 copyProps(window, global);
 
+// For Google Tag Manager
+window.dataLayer = [];
+
 // set up unit test globals
 global.expect = expect;
 
