@@ -167,6 +167,6 @@ export default configMerger(walttiConfig, {
   staticMessages: [],
 
   geoJson: {
-    layerConfigUrl: '/turku_geojson_config.json',
+    layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
 });

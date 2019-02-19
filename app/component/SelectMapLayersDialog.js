@@ -5,6 +5,7 @@ import React from 'react';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
+import GeoJsonStore from '../store/GeoJsonStore';
 import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -314,14 +315,22 @@ SelectMapLayersDialog.description = (
 
 const connectedComponent = connectToStores(
   SelectMapLayersDialog,
-  [MapLayerStore, 'PreferencesStore'],
-  context => ({
-    config: context.config,
-    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
-    updateMapLayers: mapLayers =>
-      context.executeAction(updateMapLayers, { ...mapLayers }),
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
+  [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
+  ({ config, executeAction, getStore }) => {
+    const layers =
+      (config.geoJson &&
+        Array.isArray(config.geoJson.layers) &&
+        config.geoJson.layers) ||
+      getStore(GeoJsonStore).layers ||
+      [];
+    return {
+      config: { ...config, geoJson: { layers } },
+      mapLayers: getStore(MapLayerStore).getMapLayers(),
+      updateMapLayers: mapLayers =>
+        executeAction(updateMapLayers, { ...mapLayers }),
+      lang: getStore('PreferencesStore').getLanguage(),
+    };
+  },
   {
     config: mapLayersConfigShape,
     executeAction: PropTypes.func,
