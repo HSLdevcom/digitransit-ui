@@ -17,10 +17,101 @@ if (isBrowser) {
 }
 /* eslint-enable global-require */
 
+/**
+ * Extracts svg-formatted icon data from the given features' properties.
+ *
+ * @param {*[]} features the geojson features.
+ */
+const getIcons = features => {
+  if (!Array.isArray(features) || features.length === 0) {
+    return {};
+  }
+
+  const CustomIcon = L.Icon.extend({
+    options: {
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    },
+  });
+
+  return features
+    .filter(
+      feature =>
+        feature.properties &&
+        feature.properties.icon &&
+        feature.properties.icon.id &&
+        feature.properties.icon.svg,
+    )
+    .map(feature => feature.properties.icon)
+    .reduce((icons, icon) => {
+      /*
+        For data URI SVG support in Firefox & IE it's necessary to URI encode the string
+        & replace the '#' character with '%23'. `encodeURI()` won't do this.
+      */
+      const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
+        icon.svg,
+      ).replace(/#/g, '%23')}`;
+      icons[icon.id] = new CustomIcon({ iconUrl: url }); // eslint-disable-line no-param-reassign
+      return icons;
+    }, {});
+};
+
+/**
+ * Generates a suitable leaflet marker with a tooltip and a popup attached (if applicable)
+ * for the given feature.
+ *
+ * @param {*} feature the feature currently being manipulated.
+ * @param {*} latlng the coordinates for the current feature.
+ * @param {*} icons the custom icons collection, if available.
+ */
+const getMarker = (feature, latlng, icons = {}) => {
+  const properties = feature.properties || {};
+  const interactive = !!properties.popupContent;
+  let marker;
+
+  if (properties.icon) {
+    marker = L.marker(latlng, {
+      icon: icons[properties.icon.id],
+      interactive,
+    });
+  } else if (properties.textOnly) {
+    marker = L.circleMarker(latlng, {
+      interactive,
+    });
+    marker.bindTooltip(properties.textOnly, {
+      className: 'geoJsonText',
+      direction: 'center',
+      offset: [0, 0],
+      permanent: true,
+    });
+  } else {
+    marker = L.circleMarker(latlng, { interactive });
+  }
+
+  if (properties.popupContent) {
+    marker.bindPopup(properties.popupContent, {
+      className: 'geoJsonPopup',
+    });
+  }
+
+  return marker;
+};
+
 class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.shape({
+      features: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          geometry: PropTypes.shape({
+            coordinates: PropTypes.array.isRequired,
+            type: PropTypes.string.isRequired,
+          }).isRequired,
+          properties: PropTypes.object,
+        }),
+      ),
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -31,61 +122,14 @@ class GeoJSON extends React.Component {
 
   // cache dynamic icons to allow references by id without data duplication
   componentWillMount() {
-    const GeoJsonIcon = L.Icon.extend({
-      options: {
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-      },
-    });
-    const icons = {};
-    const { data } = this.props;
-    data.features.forEach(feature => {
-      const p = feature.properties;
-      if (p && p.icon && p.icon.id && p.icon.svg) {
-        /*
-          For data URI SVG support in Firefox & IE it's necessary to URI encode the string
-          & replace the '#' character with '%23'. `encodeURI()` won't do this.
-        */
-        const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
-          p.icon.svg,
-        ).replace(/#/g, '%23')}`;
-        icons[p.icon.id] = new GeoJsonIcon({ iconUrl: url });
-      }
-    });
-    this.icons = icons;
+    const {
+      data: { features },
+    } = this.props;
+    this.icons = getIcons(features);
   }
 
-  pointToLayer = (feature, latlng) => {
-    // add some custom rendering control by feature props
-    const props = feature.properties || {};
-    const interactive = !!props.popupContent;
-    let marker;
-
-    if (props.textOnly) {
-      marker = L.circleMarker(latlng, {
-        interactive,
-      });
-      marker.bindTooltip(props.name, {
-        className: 'geoJsonText',
-        direction: 'center',
-        offset: [0, 0],
-        permanent: true,
-      });
-    } else if (props.icon) {
-      marker = L.marker(latlng, {
-        icon: this.icons[props.icon.id],
-        interactive,
-      });
-    } else {
-      marker = L.circleMarker(latlng, { interactive });
-    }
-    if (props.popupContent) {
-      marker.bindPopup(props.popupContent, {
-        className: 'geoJsonPopup',
-      });
-    }
-    return marker;
-  };
+  // add some custom rendering control by feature props
+  pointToLayer = (feature, latlng) => getMarker(feature, latlng, this.icons);
 
   styler = feature => {
     const { config } = this.context;
@@ -128,10 +172,13 @@ class GeoJSON extends React.Component {
 
   render() {
     const { bounds, data } = this.props;
+    if (!data || !Array.isArray(data.features)) {
+      return null;
+    }
+
     const hasOnlyPointGeometries = data.features.every(feature =>
       isPointTypeGeometry(feature.geometry),
     );
-
     if (!hasOnlyPointGeometries) {
       return (
         <Geojson
@@ -167,4 +214,4 @@ class GeoJSON extends React.Component {
   }
 }
 
-export { GeoJSON as default };
+export { GeoJSON as default, getIcons, getMarker };
