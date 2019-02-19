@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import isEmpty from 'lodash/isEmpty';
 import Store from 'fluxible/addons/BaseStore';
 
 import { getJson } from '../util/xhrPromise';
@@ -6,6 +7,9 @@ import { getJson } from '../util/xhrPromise';
 // these are metadata mappable properties
 const metaTags = ['textOnly', 'name', 'popupContent'];
 const MapJSON = (data, meta) => {
+  if (isEmpty(meta)) {
+    return;
+  }
   const tagMap = metaTags.filter(t => !!meta[t]);
 
   data.features.forEach(feature => {
@@ -52,20 +56,24 @@ class GeoJsonStore extends Store {
     return this.geoJsonLayers;
   }
 
+  set layers(value) {
+    this.geoJsonLayers = value;
+  }
+
   getGeoJsonConfig = async url => {
     if (!url) {
       return undefined;
     }
 
-    if (!this.geoJsonLayers) {
+    if (!this.layers) {
       const response = await getJson(url);
       const root = response.geoJson || response.geojson;
       if (root && Array.isArray(root.layers)) {
-        this.geoJsonLayers = root.layers;
+        this.layers = root.layers;
       }
     }
 
-    return this.geoJsonLayers;
+    return this.layers;
   };
 
   getGeoJsonData = async (url, name, metadata) => {
@@ -84,6 +92,7 @@ class GeoJsonStore extends Store {
       };
       this.geoJsonData[url] = data;
     }
+
     return { ...this.geoJsonData[url] };
   };
 }
