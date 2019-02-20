@@ -307,4 +307,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export { MapWithTracking as default };
+export { MapWithTracking as default, MapWithTrackingStateHandler as Component };
