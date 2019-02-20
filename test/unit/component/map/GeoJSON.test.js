@@ -10,7 +10,7 @@ import GeoJSON, {
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import PointFeatureMarker from '../../../../app/component/map/PointFeatureMarker';
 
-describe('<GeoJSON>', () => {
+describe('<GeoJSON />', () => {
   it('should render empty if there are no features', () => {
     const props = {
       data: {},

@@ -44,7 +44,7 @@ const isCustomIconVisible = zoom => zoom >= CUSTOM_ICON_MIN_ZOOM;
  *
  * @param {number} zoom the current zoom level.
  */
-const getRoundIcon = zoom => {
+export const getRoundIcon = zoom => {
   const radius = getCaseRadius(zoom);
   const stopRadius = getStopRadius(zoom);
   const hubRadius = getHubRadius(zoom);

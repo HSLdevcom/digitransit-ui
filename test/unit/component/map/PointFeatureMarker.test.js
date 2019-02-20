@@ -5,9 +5,10 @@ import CardHeader from '../../../../app/component/CardHeader';
 import {
   Component as PointFeatureMarker,
   getPropertyValueOrDefault,
+  getRoundIcon,
 } from '../../../../app/component/map/PointFeatureMarker';
 
-describe('<PointFeatureMarker>', () => {
+describe('<PointFeatureMarker />', () => {
   it('should render', () => {
     const props = {
       feature: {
@@ -126,6 +127,14 @@ describe('<PointFeatureMarker>', () => {
       expect(
         getPropertyValueOrDefault({ foo_fi: undefined }, 'foo', 'fi', 'baz'),
       ).to.equal('baz');
+    });
+  });
+
+  describe('getRoundIcon', () => {
+    it('should return an svg icon with a non-zero radius', () => {
+      const icon = getRoundIcon(12);
+      expect(icon.options.html).to.contain('svg');
+      expect(icon.options.iconSize).to.deep.equal([3, 3]);
     });
   });
 });
