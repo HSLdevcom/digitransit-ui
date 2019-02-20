@@ -109,4 +109,42 @@ describe('<MapWithTracking />', () => {
       },
     });
   });
+
+  it('should update the current bounds', () => {
+    const bounds = [1, 2];
+
+    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />);
+    const instance = wrapper.instance();
+    instance.mapElement = {
+      leafletElement: {
+        getBounds: () => bounds,
+      },
+    };
+    instance.updateCurrentBounds();
+
+    expect(wrapper.state().bounds).to.equal(bounds);
+  });
+
+  it('should not update the current bounds if they are equal', () => {
+    const initialBounds = {
+      value: 'foobar',
+      equals: () => true,
+    };
+    const newBounds = {
+      value: 'foobar',
+    };
+
+    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />);
+    wrapper.setState({ bounds: initialBounds });
+
+    const instance = wrapper.instance();
+    instance.mapElement = {
+      leafletElement: {
+        getBounds: () => newBounds,
+      },
+    };
+    instance.updateCurrentBounds();
+
+    expect(wrapper.state().bounds).to.equal(initialBounds);
+  });
 });
