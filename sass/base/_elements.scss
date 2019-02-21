@@ -20,6 +20,12 @@ $border-radius-rounded: 30px;
 
     .card-header-wrapper {
       flex-grow: 1;
+
+      .header-icon {
+        margin-left: $padding-xsmall;
+        position: relative;
+        top: 0.125em;
+      }
     }
   }
 
@@ -138,6 +144,15 @@ $border-radius-rounded: 30px;
   width: 1em;
   height: 1em;
   fill: currentColor;
+
+  &.caution {
+    color: $white;
+    fill: $disruption-color;
+  }
+
+  &.info {
+    color: $gray-blue;
+  }
 }
 
 .favourite-icon {
@@ -200,16 +215,6 @@ $border-radius-rounded: 30px;
 
 .prefix-icon {
   margin-right: 6px;
-}
-
-.icon {
-  &.caution {
-    color: $white;
-    fill: $disruption-color;
-  }
-  &.info {
-    color: $gray-blue;
-  }
 }
 
 .dotted-link {
