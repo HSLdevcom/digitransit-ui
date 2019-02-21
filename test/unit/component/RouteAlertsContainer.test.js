@@ -4,47 +4,174 @@ import React from 'react';
 
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import AlertList from '../../../app/component/AlertList';
 import { Component as RouteAlertsContainer } from '../../../app/component/RouteAlertsContainer';
-import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 
 describe('<RouteAlertsContainer />', () => {
-  it('should indicate that there are no alerts if the alerts array is empty', () => {
-    const props = {
-      route: {
-        alerts: [],
-      },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find('.no-alerts-message')).to.have.lengthOf(1);
-  });
-
-  it('should indicate that there are no alerts if the alerts array does not have an alert for the current patternId', () => {
+  it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
     const props = {
       patternId: 'HSL:1063:0:01',
       route: {
+        alerts: [],
         mode: 'BUS',
-        alerts: [
+        patterns: [
           {
-            trip: {
-              pattern: {
-                code: 'HSL:1063:1:01',
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'SCHEDULED',
+                    stop: {
+                      name: 'Saramäentie',
+                    },
+                  },
+                ],
               },
-            },
+            ],
           },
         ],
+        shortName: '63',
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find('.no-alerts-message')).to.have.lengthOf(1);
+    expect(wrapper.find(AlertList).props()).to.deep.equal({
+      cancelations: [],
+      serviceAlerts: [],
+    });
   });
 
-  it('should render an alert if the patternIds match', () => {
+  it('should indicate that there are no alerts if there are canceled stoptimes but not for the current patternId', () => {
     const props = {
-      patternId: 'HSL:4335:0:01',
+      patternId: 'HSL:1063:0:02',
+      route: {
+        alerts: [],
+        mode: 'BUS',
+        patterns: [
+          {
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'CANCELED',
+                    stop: {
+                      name: 'Saramäentie',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        shortName: '63',
+      },
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find(AlertList).props()).to.deep.equal({
+      cancelations: [],
+      serviceAlerts: [],
+    });
+  });
+
+  it('should indicate that there are cancelations if there are canceled stoptimes with the current patternId', () => {
+    const props = {
+      patternId: 'HSL:1063:0:01',
+      route: {
+        alerts: [],
+        mode: 'BUS',
+        patterns: [
+          {
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'CANCELED',
+                    stop: {
+                      name: 'Saramäentie',
+                    },
+                  },
+                ],
+              },
+              {
+                stoptimes: [
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'SCHEDULED',
+                    stop: {
+                      name: 'Saramäentie',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        shortName: '63',
+      },
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+  });
+
+  it('should use the first and last stoptimes as the startTime and endTime for validityPeriod', () => {
+    const props = {
+      patternId: 'HSL:1063:0:01',
+      route: {
+        alerts: [],
+        mode: 'BUS',
+        patterns: [
+          {
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'CANCELED',
+                    scheduledDeparture: 2,
+                    serviceDay: 1,
+                    stop: {
+                      name: 'Saramäentie 1',
+                    },
+                  },
+                  {
+                    headsign: 'Kamppi',
+                    realtimeState: 'CANCELED',
+                    scheduledArrival: 3,
+                    serviceDay: 2,
+                    stop: {
+                      name: 'Saramäentie 11',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        shortName: '63',
+      },
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      context: { ...mockContext },
+    });
+    const cancelation = wrapper.find(AlertList).prop('cancelations')[0];
+    expect(cancelation.validityPeriod.startTime).to.equal(3);
+    expect(cancelation.validityPeriod.endTime).to.equal(5);
+  });
+
+  it('should indicate that there are service alerts', () => {
+    const props = {
       route: {
         alerts: [
           {
@@ -69,22 +196,17 @@ describe('<RouteAlertsContainer />', () => {
                 language: 'en',
               },
             ],
-            id: 'testAlert',
-            trip: {
-              pattern: {
-                code: 'HSL:4335:0:01',
-              },
-            },
           },
         ],
         color: null,
         mode: 'BUS',
+        patterns: [],
         shortName: '335',
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
+    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 });

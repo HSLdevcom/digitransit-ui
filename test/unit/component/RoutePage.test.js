@@ -125,4 +125,40 @@ describe('<RoutePage />', () => {
     expect(context.executeAction.callCount).to.equal(1);
     expect(context.executeAction.args[0][0]).to.equal(startRealTimeClient);
   });
+
+  it('should set the activeAlert if there is a cancelation for today', () => {
+    const props = {
+      breakpoint: 'large',
+      location: {
+        pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:01',
+      },
+      params: {
+        routeId: 'HSL:1063',
+        patternId: 'HSL:1063:0:01',
+      },
+      route: {
+        gtfsId: 'HSL:1063',
+        mode: 'BUS',
+        alerts: [],
+        patterns: [
+          {
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: 'CANCELED',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
+  });
 });
