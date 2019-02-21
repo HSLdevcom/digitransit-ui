@@ -8,8 +8,9 @@ import createLocalStorageHistory from '../../app/localStorageHistory';
 
 describe('history', () => {
   describe('getCreateHistoryFunction', () => {
-    it('should use createMemoryHistory by default', () => {
-      const result = getCreateHistoryFunction();
+    it('should use createMemoryHistory by default in a non-browser environment', () => {
+      const path = '/';
+      const result = getCreateHistoryFunction(path, false);
       expect(result).to.equal(createMemoryHistory);
     });
 
@@ -41,12 +42,21 @@ describe('history', () => {
   });
 
   describe('default export', () => {
-    it('should apply the given path if not using createHistory', () => {
+    it('should not apply the given path if in browser', () => {
       const config = {
         APP_PATH: 'foobar',
       };
       const path = '/foo/bar';
-      const router = createRouter(config, path);
+      const router = createRouter(config, path, true);
+      expect(router.getCurrentLocation().pathname).to.equal('/');
+    });
+
+    it('should apply the given path if not in browser', () => {
+      const config = {
+        APP_PATH: 'foobar',
+      };
+      const path = '/foo/bar';
+      const router = createRouter(config, path, false);
       expect(router.getCurrentLocation().pathname).to.equal(path);
     });
   });

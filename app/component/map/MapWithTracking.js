@@ -40,6 +40,7 @@ const Component = onlyUpdateCoordChanges(MapContainer);
 
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
+    getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
     position: PropTypes.shape({
@@ -75,20 +76,37 @@ class MapWithTrackingStateHandler extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { config, getGeoJsonData } = this.props;
-    if (isBrowser && config.geoJson && Array.isArray(config.geoJson.layers)) {
-      config.geoJson.layers.forEach(geoJsonLayer => {
-        const { url, name, metadata } = geoJsonLayer;
-        getGeoJsonData(url, name, metadata).then(data => {
-          const { geoJson } = this.state;
-          geoJson[url] = data;
-          if (!this.isCancelled) {
-            this.setState({ geoJson });
-          }
-        });
-      });
+  async componentDidMount() {
+    const { config, getGeoJsonData, getGeoJsonConfig } = this.props;
+    if (
+      !isBrowser ||
+      !config.geoJson ||
+      (!Array.isArray(config.geoJson.layers) && !config.geoJson.layerConfigUrl)
+    ) {
+      return;
     }
+
+    const layers = config.geoJson.layerConfigUrl
+      ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
+      : config.geoJson.layers;
+    if (!Array.isArray(layers) || layers.length === 0) {
+      return;
+    }
+
+    const json = await Promise.all(
+      layers.map(async ({ url, name, metadata }) => ({
+        url,
+        data: await getGeoJsonData(url, name, metadata),
+      })),
+    );
+    if (this.isCancelled) {
+      return;
+    }
+    const { geoJson } = this.state;
+    json.forEach(({ url, data }) => {
+      geoJson[url] = data;
+    });
+    this.setState(geoJson);
   }
 
   componentWillReceiveProps(newProps) {
@@ -116,6 +134,26 @@ class MapWithTrackingStateHandler extends React.Component {
   componentWillUnmount() {
     this.isCancelled = true;
   }
+
+  updateCurrentBounds = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+    const newBounds = this.mapElement.leafletElement.getBounds();
+    const { bounds } = this.state;
+    if (bounds && bounds.equals(newBounds)) {
+      return;
+    }
+    this.setState({
+      bounds: newBounds,
+    });
+  };
+
+  setMapElementRef = element => {
+    if (element && this.mapElement !== element) {
+      this.mapElement = element;
+    }
+  };
 
   enableMapTracking = () => {
     this.setState({
@@ -190,12 +228,15 @@ class MapWithTrackingStateHandler extends React.Component {
     }
 
     if (geoJson) {
+      const { bounds } = this.state;
       Object.keys(geoJson)
         .filter(key => mapLayers.geoJson[key] !== false)
         .forEach(key => {
           leafletObjs.push(
             <LazilyLoad modules={jsonModules} key={key}>
-              {({ GeoJSON }) => <GeoJSON data={geoJson[key].data} />}
+              {({ GeoJSON }) => (
+                <GeoJSON bounds={bounds} data={geoJson[key].data} />
+              )}
             </LazilyLoad>,
           );
         });
@@ -211,11 +252,13 @@ class MapWithTrackingStateHandler extends React.Component {
         origin={this.props.origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
-          onZoomend: null, // this.disableMapTracking,
+          onDragend: this.updateCurrentBounds,
+          onZoomend: this.updateCurrentBounds,
         }}
         disableMapTracking={this.disableMapTracking}
         {...rest}
         leafletObjs={leafletObjs}
+        mapRef={this.setMapElementRef}
       >
         {children}
         <div className="map-with-tracking-buttons">
@@ -250,8 +293,8 @@ const MapWithTracking = connectToStores(
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
     const mapLayers = getStore(MapLayerStore).getMapLayers();
-    const { getGeoJsonData } = getStore(GeoJsonStore);
-    return { position, mapLayers, getGeoJsonData };
+    const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
+    return { position, mapLayers, getGeoJsonConfig, getGeoJsonData };
   },
 );
 
@@ -264,4 +307,4 @@ MapWithTracking.description = (
   </div>
 );
 
-export { MapWithTracking as default };
+export { MapWithTracking as default, MapWithTrackingStateHandler as Component };

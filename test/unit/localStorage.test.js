@@ -59,6 +59,7 @@ describe('localStorage', () => {
 
   describe('Test that routing settings have been changed', () => {
     it('Settings should be equal to what they were set earlier', () => {
+      setRoutingSettings(ROUTING_SETTINGS);
       expect(getRoutingSettings()).to.deep.equal(ROUTING_SETTINGS);
     });
   });

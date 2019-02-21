@@ -84,7 +84,6 @@ const mockData = {
 describe('OldSearchesStore', () => {
   afterEach(() => {
     MockDate.reset();
-    global.localStorage.clear();
   });
 
   describe('getStorageObject()', () => {
