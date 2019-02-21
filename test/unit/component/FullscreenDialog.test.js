@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { afterEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -10,10 +10,6 @@ import {
 } from '../../../app/store/localStorage';
 
 describe('<FullscreenDialog />', () => {
-  afterEach(() => {
-    global.localStorage.clear();
-  });
-
   it('should have display set to none if already shown and showOnce is true', () => {
     setDialogState('foo');
     const props = {
@@ -102,7 +98,7 @@ describe('<FullscreenDialog />', () => {
       renderContent: () => null,
     };
     shallowWithIntl(<FullscreenDialog {...props} />);
-    expect(global.localStorage).to.be.empty; //eslint-disable-line
+    expect(window.localStorage).to.be.empty; //eslint-disable-line
   });
 
   it('should set isOpen when toggled', () => {

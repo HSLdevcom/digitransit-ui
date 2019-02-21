@@ -41,7 +41,6 @@ class QuickSettingsPanel extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
   };
 
@@ -70,13 +69,12 @@ class QuickSettingsPanel extends React.Component {
 
   setArriveBy = ({ target }) => {
     const arriveBy = target.value;
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'LeavingArrivingSelection',
-        arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'LeavingArrivingSelection',
+      name: arriveBy === 'true' ? 'SelectArriving' : 'SelectLeaving',
+    });
     replaceQueryParams(this.context.router, { arriveBy });
   };
 
@@ -149,14 +147,14 @@ class QuickSettingsPanel extends React.Component {
   };
 
   setQuickOption = name => {
-    const { piwik, router } = this.context;
-    if (piwik != null) {
-      piwik.trackEvent(
-        'ItinerarySettings',
-        'ItineraryQuickSettingsSelection',
-        name,
-      );
-    }
+    const { router } = this.context;
+
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ItineraryQuickSettingsSelection',
+      name,
+    });
 
     const quickOptionSet = this.getQuickOptionSets()[name];
     if (name === QuickOptionSetType.SavedSettings) {
@@ -177,15 +175,12 @@ class QuickSettingsPanel extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
-    /*
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ExtraSettingsPanelClick',
-        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
-      );
-    }
-    */
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ExtraSettingsPanelClick',
+      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    });
 
     if (newState) {
       this.context.router.push({
@@ -258,13 +253,12 @@ class QuickSettingsPanel extends React.Component {
       ',',
     );
 
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'QuickSettingsTransportModeSelection',
-        modes,
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'QuickSettingsTransportModeSelection',
+      name: modes,
+    });
 
     replaceQueryParams(this.context.router, { modes });
   }

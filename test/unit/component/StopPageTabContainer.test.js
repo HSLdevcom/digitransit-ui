@@ -109,4 +109,21 @@ describe('<StopPageTabContainer />', () => {
     const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
     expect(wrapper.find('.alert-active')).to.have.lengthOf(1);
   });
+
+  it('should render empty if stop information is missing', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        terminalId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: null,
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(wrapper.isEmptyRender()).to.equal(true);
+  });
 });

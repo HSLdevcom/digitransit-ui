@@ -118,61 +118,57 @@ describe('oldParamParser', () => {
     fetchMock.restore();
   });
 
-  it('query with all the required parameters and utm parameters should return a valid redirect url with utm params', done => {
-    oldParamParser(query, largeMaxAgeConf).then(url => {
-      const urlSplit = url.split('/');
-      expect(urlSplit[1]).to.equal('reitti');
-      expect(urlSplit[2]).to.equal(
-        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
-      );
-      expect(urlSplit[3]).to.equal(
-        'Koivikkotie 10, Helsinki::60.225099,24.930026',
-      );
-      const getParams = urlSplit[4].split('&');
-      expect(getParams[0].charAt(0)).to.equal('?');
-      const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
-      expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
-      expect(getParams[1]).to.equal('arriveBy=true');
-      expect(getParams[2]).to.equal('utm_campaign=hsl.fi');
-      expect(getParams[3]).to.equal('utm_source=etusivu-reittihaku');
-      expect(getParams[4]).to.equal('utm_medium=referral');
-      expect(getParams.length).to.equal(5);
-      done();
-    });
+  it('query with all the required parameters and utm parameters should return a valid redirect url with utm params', async () => {
+    const url = await oldParamParser(query, largeMaxAgeConf);
+    const urlSplit = url.split('/');
+    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[2]).to.equal(
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+    );
+    expect(urlSplit[3]).to.equal(
+      encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
+    );
+    const getParams = urlSplit[4].split('&');
+    expect(getParams[0].charAt(0)).to.equal('?');
+    const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
+    expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
+    expect(getParams[1]).to.equal('arriveBy=true');
+    expect(getParams[2]).to.equal('utm_campaign=hsl.fi');
+    expect(getParams[3]).to.equal('utm_source=etusivu-reittihaku');
+    expect(getParams[4]).to.equal('utm_medium=referral');
+    expect(getParams.length).to.equal(5);
   });
 
-  it('query with all the required parameters, utm parameters and time that is older than queryMaxAgeDays should return a valid redirect url with utm params and no time param', done => {
-    oldParamParser(query, smallMaxAgeConf).then(url => {
-      const urlSplit = url.split('/');
-      expect(urlSplit[1]).to.equal('reitti');
-      expect(urlSplit[2]).to.equal(
-        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
-      );
-      expect(urlSplit[3]).to.equal(
-        'Koivikkotie 10, Helsinki::60.225099,24.930026',
-      );
-      const getParams = urlSplit[4].split('&');
-      expect(getParams[0].charAt(0)).to.equal('?');
-      expect(getParams[0]).to.equal('?arriveBy=true');
-      expect(getParams[1]).to.equal('utm_campaign=hsl.fi');
-      expect(getParams[2]).to.equal('utm_source=etusivu-reittihaku');
-      expect(getParams[3]).to.equal('utm_medium=referral');
-      expect(getParams.length).to.equal(4);
-      done();
-    });
+  it('query with all the required parameters, utm parameters and time that is older than queryMaxAgeDays should return a valid redirect url with utm params and no time param', async () => {
+    const url = await oldParamParser(query, smallMaxAgeConf);
+    const urlSplit = url.split('/');
+    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[2]).to.equal(
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+    );
+    expect(urlSplit[3]).to.equal(
+      encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
+    );
+    const getParams = urlSplit[4].split('&');
+    expect(getParams[0].charAt(0)).to.equal('?');
+    expect(getParams[0]).to.equal('?arriveBy=true');
+    expect(getParams[1]).to.equal('utm_campaign=hsl.fi');
+    expect(getParams[2]).to.equal('utm_source=etusivu-reittihaku');
+    expect(getParams[3]).to.equal('utm_medium=referral');
+    expect(getParams.length).to.equal(4);
   });
 
-  it('query that has no from_in should return a somewhat valid redirect url', done => {
+  it('query that has no from_in should return a somewhat valid redirect url', async () => {
     const { from_in, ...queryWithoutFrom } = query; // eslint-disable-line camelcase
-    oldParamParser(queryWithoutFrom, largeMaxAgeConf).then(url => {
-      expect(url).to.equal(
-        '/ /Koivikkotie 10, Helsinki::60.225099,24.930026/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
-      );
-      done();
-    });
+    const url = await oldParamParser(queryWithoutFrom, largeMaxAgeConf);
+    expect(url).to.equal(
+      `/${encodeURIComponent(' ')}/${encodeURIComponent(
+        'Koivikkotie 10, Helsinki::60.225099,24.930026',
+      )}/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral`,
+    );
   });
 
-  it('query with no time but with utm should return a valid redirect url ', done => {
+  it('query with no time but with utm should return a valid redirect url ', async () => {
     const noTimeQuery = {
       from_in: 'lapinlahdenkatu 1',
       to_in: 'koivikkotie 10',
@@ -181,33 +177,118 @@ describe('oldParamParser', () => {
       utm_medium: 'referral',
     };
 
-    oldParamParser(noTimeQuery, largeMaxAgeConf).then(url => {
-      expect(url).to.equal(
-        '/reitti/Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251/Koivikkotie 10, Helsinki::60.225099,24.930026/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
-      );
-      done();
-    });
+    const url = await oldParamParser(noTimeQuery, largeMaxAgeConf);
+    expect(url).to.equal(
+      `/reitti/${encodeURIComponent(
+        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
+      )}/${encodeURIComponent(
+        'Koivikkotie 10, Helsinki::60.225099,24.930026',
+      )}/?utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral`,
+    );
   });
 
-  it('query with no time or utm should return a valid redirect url ', done => {
+  it('query with no time or utm should return a valid redirect url ', async () => {
     const { utm_campaign, utm_source, utm_medium, ...queryWithoutUtm } = query; // eslint-disable-line camelcase
 
-    oldParamParser(queryWithoutUtm, largeMaxAgeConf).then(url => {
-      const urlSplit = url.split('/');
-      expect(urlSplit[1]).to.equal('reitti');
-      expect(urlSplit[2]).to.equal(
-        'Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251',
-      );
-      expect(urlSplit[3]).to.equal(
-        'Koivikkotie 10, Helsinki::60.225099,24.930026',
-      );
-      const getParams = urlSplit[4].split('&');
-      expect(getParams[0].charAt(0)).to.equal('?');
-      const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
-      expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
-      expect(getParams[1]).to.equal('arriveBy=true');
-      expect(getParams.length).to.equal(2);
-      done();
-    });
+    const url = await oldParamParser(queryWithoutUtm, largeMaxAgeConf);
+    const urlSplit = url.split('/');
+    expect(urlSplit[1]).to.equal('reitti');
+    expect(urlSplit[2]).to.equal(
+      encodeURIComponent('Lapinlahdenkatu 1a, Helsinki::60.166408,24.932251'),
+    );
+    expect(urlSplit[3]).to.equal(
+      encodeURIComponent('Koivikkotie 10, Helsinki::60.225099,24.930026'),
+    );
+    const getParams = urlSplit[4].split('&');
+    expect(getParams[0].charAt(0)).to.equal('?');
+    const timeEpochSeconds = parseInt(getParams[0].substring(6), 10);
+    expect(timeEpochSeconds - 1538045460).to.be.lessThan(60);
+    expect(getParams[1]).to.equal('arriveBy=true');
+    expect(getParams.length).to.equal(2);
+  });
+
+  it('should support a geocoding query that maps to a location containing a forward slash in the name', async () => {
+    fetchMock.get(
+      'begin:https://dev-api.digitransit.fi/geocoding/v1/search?text=helsinki',
+      {
+        features: [
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [24.943537, 60.166641] },
+            properties: {
+              id: 'mml-10342733',
+              gid: 'nlsfi:localadmin:mml-10342733',
+              layer: 'localadmin',
+              source: 'nlsfi',
+              source_id: 'mml-10342733',
+              name: 'Helsinki',
+              confidence: 1,
+              accuracy: 'centroid',
+              country: 'Suomi',
+              country_gid: 'whosonfirst:country:85633143',
+              country_a: 'FIN',
+              region: 'Uusimaa',
+              region_gid: 'whosonfirst:region:mml-01',
+              localadmin: 'Helsinki',
+              localadmin_gid: 'whosonfirst:localadmin:907199715',
+              label: 'Helsinki',
+            },
+          },
+        ],
+      },
+    );
+    fetchMock.get(
+      'begin:https://dev-api.digitransit.fi/geocoding/v1/search?text=hyvink',
+      {
+        features: [
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [25.123135, 60.262989] },
+            properties: {
+              id: 'node:6068964106',
+              gid: 'openstreetmap:venue:node:6068964106',
+              layer: 'venue',
+              source: 'openstreetmap',
+              source_id: 'node:6068964106',
+              name: 'Hyvinkään Tieluiska Oy / Vantaan multa-asema',
+              housenumber: '2',
+              street: 'Pitkäsuontie',
+              postalcode: '01230',
+              postalcode_gid: 'whosonfirst:postalcode:421473171',
+              confidence: 0.9784914678629827,
+              accuracy: 'point',
+              country: 'Suomi',
+              country_gid: 'whosonfirst:country:0',
+              country_a: 'FIN',
+              region: 'Uusimaa',
+              region_gid: 'whosonfirst:region:85683067',
+              localadmin: 'Vantaa',
+              localadmin_gid: 'whosonfirst:localadmin:907199651',
+              locality: 'Vantaa',
+              locality_gid: 'whosonfirst:locality:101748419',
+              neighbourhood: 'Ojanko',
+              neighbourhood_gid: 'whosonfirst:neighbourhood:1108729583',
+              label:
+                'Hyvinkään Tieluiska Oy / Vantaan multa-asema, Pitkäsuontie 2, Vantaa',
+            },
+          },
+        ],
+      },
+    );
+
+    const parsed = {};
+    'from_in=helsinki&to_in=hyvink%C3%A4%C3%A4n+tieluiska+oy&when=now&timetype=departure&hour=17&minute=16&daymonthyear=04.02.2019&form_build_id=form-AFAE3Ci2MXVz7Loycg1cCwHRXwyqK7khptNHOokCVT8&form_id=reittiopas_search_form&day=04&month=02&year=2019'
+      .split('&')
+      .map(s => s.split('='))
+      .forEach(kvp => {
+        const key = kvp[0];
+        const value = kvp[1];
+        parsed[key] = value;
+      });
+
+    const result = await oldParamParser(parsed, config);
+    expect(result).to.equal(
+      '/reitti/Helsinki%3A%3A60.166641%2C24.943537/Hyvink%C3%A4%C3%A4n%20Tieluiska%20Oy%20%2F%20Vantaan%20multa-asema%2C%20Pitk%C3%A4suontie%202%2C%20Vantaa%3A%3A60.262989%2C25.123135/',
+    );
   });
 });
