@@ -5,7 +5,10 @@ import React from 'react';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 
-import { Component as SelectMapLayersDialog } from '../../../app/component/SelectMapLayersDialog';
+import {
+  Component as SelectMapLayersDialog,
+  getGeoJsonLayersOrDefault,
+} from '../../../app/component/SelectMapLayersDialog';
 
 describe('<SelectMapLayersDialog />', () => {
   it('should render', () => {
@@ -393,5 +396,48 @@ describe('<SelectMapLayersDialog />', () => {
     checkboxes.at(1).simulate('change', { target: { checked: true } });
 
     expect(mapLayers.geoJson.morejson).to.equal(true);
+  });
+
+  describe('getGeoJsonLayersOrDefault', () => {
+    it('should return the layers from the configuration', () => {
+      const config = {
+        geoJson: {
+          layers: [
+            {
+              foo: 'bar',
+            },
+          ],
+        },
+      };
+      const store = { layers: undefined };
+      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(
+        config.geoJson.layers,
+      );
+    });
+
+    it('should return the layers from the store', () => {
+      const config = {
+        geoJson: {
+          layerConfigUrl: 'foobar',
+        },
+      };
+      const store = {
+        layers: [
+          {
+            foo: 'bar',
+          },
+        ],
+      };
+      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(store.layers);
+    });
+
+    it('should return the defaultValue', () => {
+      const config = {};
+      const store = {};
+      const defaultValue = [];
+      expect(getGeoJsonLayersOrDefault(config, store, defaultValue)).to.equal(
+        defaultValue,
+      );
+    });
   });
 });

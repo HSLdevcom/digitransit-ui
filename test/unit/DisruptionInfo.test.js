@@ -8,12 +8,16 @@ import DisruptionInfo from '../../app/component/DisruptionInfo';
 import Modal from '../../app/component/Modal';
 
 describe('DisruptionInfo', () => {
-  it('should return null when isBrowser=false', () => {
-    const wrapper = shallowWithIntl(<DisruptionInfo isBrowser={false} />);
-    expect(wrapper.getElement()).to.equal(null);
+  it('should render empty when isBrowser=false', () => {
+    const wrapper = shallowWithIntl(<DisruptionInfo isBrowser={false} />, {
+      context: {
+        location: {},
+      },
+    });
+    expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should return null when no disruptionInfoOpen has been given', () => {
+  it('should render empty when no disruptionInfoOpen has been given', () => {
     const wrapper = shallowWithIntl(<DisruptionInfo isBrowser />, {
       context: {
         location: {
@@ -21,10 +25,10 @@ describe('DisruptionInfo', () => {
         },
       },
     });
-    expect(wrapper.getElement()).to.equal(null);
+    expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should return null when disruptionInfoOpen=false', () => {
+  it('should render empty when disruptionInfoOpen=false', () => {
     const wrapper = shallowWithIntl(<DisruptionInfo isBrowser />, {
       context: {
         location: {
@@ -34,7 +38,7 @@ describe('DisruptionInfo', () => {
         },
       },
     });
-    expect(wrapper.getElement()).to.equal(null);
+    expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
   it('should return a Modal when disruptionInfoOpen=true', () => {

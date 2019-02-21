@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createMemoryHistory } from 'history';
-import { afterEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
@@ -108,10 +108,6 @@ describe('<QuickSettingsPanel />', () => {
   });
 
   describe('matchQuickOption', () => {
-    afterEach(() => {
-      global.localStorage.clear();
-    });
-
     it('should return "default-route" by default', () => {
       const wrapper = shallowWithIntl(
         <QuickSettingsPanel {...getDefaultProps()} />,
@@ -207,10 +203,6 @@ describe('<QuickSettingsPanel />', () => {
   });
 
   describe('setQuickOption', () => {
-    afterEach(() => {
-      global.localStorage.clear();
-    });
-
     it('should remove all query params if the selected mode is "saved-settings"', () => {
       setCustomizedSettings({
         modes: StreetMode.Bicycle,
