@@ -5,7 +5,6 @@ import { intlShape } from 'react-intl';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
-import InfoIcon from './InfoIcon';
 import ZoneIcon from './ZoneIcon';
 import { AlertSeverityLevelType } from '../constants';
 import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
@@ -102,8 +101,6 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-const exampleIcons = [<InfoIcon stop={exampleStop} key="example" />];
-
 StopCardHeader.displayName = 'StopCardHeader';
 
 StopCardHeader.description = () => (
@@ -115,7 +112,10 @@ StopCardHeader.description = () => (
       <StopCardHeader
         stop={exampleStop}
         distance={345.6}
-        icons={exampleIcons}
+        icons={[
+          <Icon className="info" img="icon-icon_info" key="1" />,
+          <Icon className="caution" img="icon-icon_caution" key="2" />,
+        ]}
       />
     </ComponentUsageExample>
   </div>
