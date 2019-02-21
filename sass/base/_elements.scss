@@ -201,10 +201,15 @@ $border-radius-rounded: 30px;
 .prefix-icon {
   margin-right: 6px;
 }
-.info.icon {
-  width: 24px;
-  height: 24px;
-  color: $gray-blue;
+
+.icon {
+  &.caution {
+    color: $white;
+    fill: $disruption-color;
+  }
+  &.info {
+    color: $gray-blue;
+  }
 }
 
 .dotted-link {
