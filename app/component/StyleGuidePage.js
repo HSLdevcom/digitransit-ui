@@ -52,8 +52,6 @@ import { BicycleRentalStationRow } from './BicycleRentalStationRowContainer';
 import StopPageHeader from './StopPageHeader';
 import StopCardHeader from './StopCardHeader';
 import SplitBars from './SplitBars';
-import Labeled from './Labeled';
-import Centered from './Centered';
 import InfoIcon from './InfoIcon';
 import Favourite from './Favourite';
 import NoFavouriteLocations from './NoFavouriteLocations';
@@ -145,8 +143,6 @@ const components = {
   StopPageHeader,
   StopCardHeader,
   SplitBars,
-  Labeled,
-  Centered,
   InfoIcon,
   Favourite,
   DepartureListHeader,

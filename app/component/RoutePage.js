@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -11,11 +12,12 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from './RouteNumber';
+import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
-import { routeHasServiceAlert } from '../util/alertUtils';
+import { routeHasServiceAlert, routeHasCancelation } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -122,15 +124,16 @@ class RoutePage extends React.Component {
     const activeTab = getActiveTab(this.props.location.pathname);
     const { patternId } = this.props.params;
     const hasActiveAlert =
-      routeHasServiceAlert(route) &&
-      (route.alerts.some(alert => alert.trip)
-        ? route.alerts.some(
-            alert =>
-              alert.trip &&
-              alert.trip.pattern &&
-              alert.trip.pattern.code === patternId,
-          )
-        : true);
+      (routeHasServiceAlert(route) &&
+        (route.alerts.some(alert => alert.trip)
+          ? route.alerts.some(
+              alert =>
+                alert.trip &&
+                alert.trip.pattern &&
+                alert.trip.pattern.code === patternId,
+            )
+          : true)) ||
+      routeHasCancelation(route, patternId);
 
     return (
       <div>
@@ -244,8 +247,19 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         agency {
           phone
         }
+        patterns {
+          code
+          trips: tripsForDate(serviceDay: $serviceDay) {
+            stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
+              realtimeState
+            }
+          }
+        }
       }
     `,
+  },
+  initialVariables: {
+    serviceDay: moment().format(DATE_FORMAT),
   },
 });
 
