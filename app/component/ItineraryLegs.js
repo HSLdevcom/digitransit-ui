@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-
 import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -19,15 +19,41 @@ import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
+import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
+import ComponentUsageExample from './ComponentUsageExample';
+import { exampleData } from './data/ItineraryLegs.ExampleData';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
     focusFunction: PropTypes.func,
   };
 
+  static propTypes = {
+    itinerary: PropTypes.object,
+    focusMap: PropTypes.func,
+    showCanceledLegsBanner: PropTypes.bool.isRequired,
+  };
+
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func.isRequired,
+  };
+
   getChildContext() {
     return { focusFunction: this.focus };
   }
+
+  componentDidMount = () => {
+    if (this.checkCanceledLegs().length > 0) {
+      this.context.executeAction(updateShowCanceledLegsBannerState, true);
+    }
+  };
+
+  componentWillUnmount = () => {
+    if (this.props.showCanceledLegsBanner) {
+      this.context.executeAction(updateShowCanceledLegsBannerState, false);
+    }
+  };
 
   focus = position => e => {
     e.stopPropagation();
@@ -36,21 +62,29 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  checkCanceledLegs = (canceledLegs, allLegs) =>
-    allLegs.legs.map(leg => {
-      if (canceledLegs && canceledLegs.includes(leg)) {
+  checkCanceledLegs = () =>
+    this.props.itinerary.legs.map(leg => {
+      if (
+        leg.trip &&
+        leg.trip.stoptimes &&
+        leg.trip.stoptimes.filter(
+          stoptime =>
+            stoptime.realtimeState === 'CANCELED' &&
+            stoptime.stop.gtfsId === leg.from.stop.gtfsId,
+        ).length > 0
+      ) {
         return {
           ...leg,
           canceled: true,
         };
       }
-      return leg;
+      return {
+        ...leg,
+      };
     });
 
   render() {
-    const checkedLegs = this.props.canceledLegs
-      ? this.checkCanceledLegs(this.props.canceledLegs, this.props.itinerary)
-      : this.props.itinerary;
+    const checkedLegs = this.checkCanceledLegs(this.props.itinerary);
 
     let previousLeg;
     let nextLeg;
@@ -239,18 +273,27 @@ class ItineraryLegs extends React.Component {
   }
 }
 
-ItineraryLegs.propTypes = {
-  itinerary: PropTypes.object,
-  focusMap: PropTypes.func,
-  canceledLegs: PropTypes.array,
-};
+const withStore = connectToStores(
+  ItineraryLegs,
+  ['CanceledLegsBarStore'],
+  ({ getStore }) => ({
+    showCanceledLegsBanner: getStore(
+      'CanceledLegsBarStore',
+    ).getShowCanceledLegsBanner(),
+  }),
+);
 
-ItineraryLegs.defaultProps = {
-  canceledLegs: [],
-};
+ItineraryLegs.description = () => (
+  <div>
+    <p>Legs shown for the itinerary</p>
+    <ComponentUsageExample description="Shows the legs of the itinerary">
+      <ItineraryLegs
+        itinerary={exampleData}
+        focusMap={() => {}}
+        showCanceledLegsBanner={false}
+      />
+    </ComponentUsageExample>
+  </div>
+);
 
-ItineraryLegs.contextTypes = {
-  config: PropTypes.object.isRequired,
-};
-
-export default ItineraryLegs;
+export { ItineraryLegs as component, withStore as default };

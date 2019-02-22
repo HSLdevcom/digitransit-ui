@@ -5,6 +5,7 @@ import { routerShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { replaceQueryParams } from '../util/queryUtils';
+import ComponentUsageExample from './ComponentUsageExample';
 
 class CanceledLegsBar extends React.Component {
   static contextTypes = {
@@ -14,6 +15,10 @@ class CanceledLegsBar extends React.Component {
 
   static propTypes = {
     showCanceledLegsBanner: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showCanceledLegsBanner: false,
   };
 
   fetchNewRoute = () => {
@@ -69,6 +74,15 @@ const withStore = connectToStores(
       .getStore('CanceledLegsBarStore')
       .getShowCanceledLegsBanner(),
   }),
+);
+
+CanceledLegsBar.description = () => (
+  <div>
+    <p>Canceled legs banner.</p>
+    <ComponentUsageExample description="Informs the user about canceled legs on the suggested itinerary.">
+      <CanceledLegsBar showCanceledLegsBanner />
+    </ComponentUsageExample>
+  </div>
 );
 
 export { withStore as default, CanceledLegsBar as component };
