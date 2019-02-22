@@ -5,6 +5,9 @@ const MAP_URL =
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
+// route timetable data needs to be up-to-date before this is enabled
+// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+
 export default {
   CONFIG,
 
@@ -15,6 +18,7 @@ export default {
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
+    STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
   },
 
   contactName: {
@@ -320,6 +324,11 @@ export default {
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
+  routeTimetables: {
+    // route timetable data needs to be up-to-date before this is enabled
+    //  HSL: HSLRouteTimetable,
+  },
+
   aboutThisService: {
     fi: [
       {
@@ -430,6 +439,7 @@ export default {
   staticMessages: [
     {
       id: '2',
+      priority: -1,
       content: {
         fi: [
           {
