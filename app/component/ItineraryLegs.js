@@ -44,7 +44,10 @@ class ItineraryLegs extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.checkCanceledLegs().length > 0) {
+    if (
+      this.checkForCanceledLegs(this.arrangeLegs(this.props.itinerary)).length >
+      0
+    ) {
       this.context.executeAction(updateShowCanceledLegsBannerState, true);
     }
   };
@@ -62,8 +65,18 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  checkCanceledLegs = () =>
-    this.props.itinerary.legs.map(leg => {
+  checkForCanceledLegs = legs =>
+    legs.filter(
+      leg =>
+        leg.trip &&
+        leg.trip.stoptimes &&
+        leg.trip.stoptimes.forEach(
+          stoptime => stoptime.realtimeState !== 'CANCELED',
+        ),
+    );
+
+  arrangeLegs = itinerary =>
+    itinerary.legs.map(leg => {
       if (
         leg.trip &&
         leg.trip.stoptimes &&
@@ -84,7 +97,7 @@ class ItineraryLegs extends React.Component {
     });
 
   render() {
-    const checkedLegs = this.checkCanceledLegs(this.props.itinerary);
+    const checkedLegs = this.arrangeLegs(this.props.itinerary);
 
     let previousLeg;
     let nextLeg;
