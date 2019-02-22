@@ -134,7 +134,7 @@ StopMarkerPopupContainer.description = () => (
       </PopupMock>
     </ComponentUsageExample>
     <ComponentUsageExample description="withInfo">
-      <PopupMock>
+      <PopupMock size="small">
         <StopMarkerPopup
           stop={{
             ...mockData.empty.stop,
@@ -149,7 +149,7 @@ StopMarkerPopupContainer.description = () => (
       </PopupMock>
     </ComponentUsageExample>
     <ComponentUsageExample description="withDisruption">
-      <PopupMock>
+      <PopupMock size="small">
         <StopMarkerPopup
           stop={{
             ...mockData.empty.stop,
