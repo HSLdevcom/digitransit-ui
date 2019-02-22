@@ -21,21 +21,4 @@ describe('<ItineraryTab />', () => {
     });
     expect(wrapper.find('.itinerary-tab').length).to.equal(1);
   });
-
-  it('should identify canceled legs and separate them', () => {
-    const props = {
-      itinerary: dt2831,
-      searchTime: dt2831.startTime,
-      location: {},
-      focus: () => {},
-      showCanceledLegsBanner: false,
-    };
-
-    const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {
-      context: { ...mockContext },
-    });
-
-    const result = wrapper.instance().checkForCanceledLegs(dt2831).length;
-    expect(result).to.equal(1);
-  });
 });

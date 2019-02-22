@@ -4,10 +4,10 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ItineraryLegs from '../../../app/component/ItineraryLegs';
+import { component as ItineraryLegs } from '../../../app/component/ItineraryLegs';
 
 import data from '../test-data/dcw12';
-import dt2831 from '../test-data/dt2831';
+import { exampleData } from '../../../app/component/data/ItineraryLegs.ExampleData';
 import dt2831b from '../test-data/dt2831b';
 
 describe('<ItineraryLegs />', () => {
@@ -17,10 +17,12 @@ describe('<ItineraryLegs />', () => {
         endTime: data.firstLegIsAnIntermediatePlace[3].endTime,
         legs: data.firstLegIsAnIntermediatePlace,
       },
+      showCanceledLegsBanner: false,
     };
     const wrapper = mountWithIntl(<ItineraryLegs {...props} />, {
       context: {
         ...mockContext,
+        executeAction: () => {},
         config: {
           itinerary: {
             waitThreshold: 180,
@@ -39,9 +41,11 @@ describe('<ItineraryLegs />', () => {
         endTime: 1542814001000,
         legs: [],
       },
+      showCanceledLegsBanner: false,
     };
     const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
       context: {
+        executeAction: () => {},
         config: {
           itinerary: {
             waitThreshold: 180,
@@ -55,12 +59,13 @@ describe('<ItineraryLegs />', () => {
 
   it('should identify legs that are cancelled in the current itinerary', () => {
     const props = {
-      itinerary: dt2831,
-      canceledLegs: dt2831b,
+      itinerary: dt2831b,
+      showCanceledLegsBanner: false,
     };
     const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
       context: {
         ...mockContext,
+        executeAction: () => {},
         config: {
           itinerary: {
             waitThreshold: 180,
@@ -69,7 +74,11 @@ describe('<ItineraryLegs />', () => {
       },
       childContextTypes: mockChildContextTypes,
     });
-    const result = wrapper.instance().checkCanceledLegs(dt2831b, dt2831).length;
-    expect(result).to.equal(3);
+
+    const result = wrapper
+      .instance()
+      .checkForCanceledLegs(wrapper.instance().arrangeLegs(dt2831b));
+
+    expect(result).to.equal(true);
   });
 });
