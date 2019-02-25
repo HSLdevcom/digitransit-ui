@@ -1,7 +1,11 @@
 import find from 'lodash/find';
 import PropTypes from 'prop-types';
 
-import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
+import {
+  RealtimeStateType,
+  AlertSeverityLevelType,
+  AlertEffectType,
+} from '../constants';
 
 /**
  * Checks if the stop has any alerts.
@@ -175,6 +179,33 @@ export const getMaximumAlertSeverityLevel = alerts => {
     levels[AlertSeverityLevelType.Warning] ||
     levels[AlertSeverityLevelType.Info] ||
     levels[AlertSeverityLevelType.Unknown] ||
+    undefined
+  );
+};
+
+/**
+ * Iterates through the alerts and returns 'NO_SERVICE' if that is found.
+ * Returns 'EFFECT_UNKNOWN' if there are alerts but none of them have an
+ * effect of 'NO_SERVICE'. Returns undefined if the effect cannot be
+ * determined.
+ *
+ * @param {*} alerts the alerts to check.
+ */
+export const getMaximumAlertEffect = alerts => {
+  if (!Array.isArray(alerts) || alerts.length === 0) {
+    return undefined;
+  }
+  const effects = alerts
+    .map(alert => alert.alertEffect)
+    .reduce((obj, effect) => {
+      if (effect) {
+        obj[effect] = effect; // eslint-disable-line no-param-reassign
+      }
+      return obj;
+    }, {});
+  return (
+    effects[AlertEffectType.NoService] ||
+    (Object.keys(effects).length > 0 && AlertEffectType.Unknown) ||
     undefined
   );
 };

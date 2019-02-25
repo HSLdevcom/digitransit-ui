@@ -1,21 +1,39 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
+import Relay from 'react-relay/classic';
 
-import { drawRoundIcon, drawTerminalIcon } from '../../../util/mapIconUtils';
+import { getMaximumAlertEffect } from '../../../util/alertUtils';
+import {
+  drawRoundIcon,
+  drawTerminalIcon,
+  drawRoundIconAlertBadge,
+} from '../../../util/mapIconUtils';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 
+/**
+ * The period of time, in ms, to have the results cached.
+ */
+const CACHE_PERIOD_MS = 1000 * 60 * 5; // 5 minutes
+const cache = {};
+
 class Stops {
-  constructor(tile, config, mapLayers) {
+  constructor(
+    tile,
+    config,
+    mapLayers,
+    getCurrentTime = () => new Date().getTime(),
+  ) {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
     this.promise = this.getPromise();
+    this.getCurrentTime = getCurrentTime;
   }
 
   static getName = () => 'stop';
 
-  drawStop(feature) {
+  drawStop(feature, alertEffect = undefined) {
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -26,6 +44,7 @@ class Stops {
     ) {
       return;
     }
+
     if (feature.properties.type === 'FERRY') {
       drawTerminalIcon(
         this.tile,
@@ -37,7 +56,8 @@ class Stops {
       );
       return;
     }
-    drawRoundIcon(
+
+    const { iconRadius } = drawRoundIcon(
       this.tile,
       feature.geom,
       feature.properties.type,
@@ -47,7 +67,47 @@ class Stops {
         ? feature.properties.platform
         : false,
     );
+
+    if (alertEffect) {
+      drawRoundIconAlertBadge(this.tile, feature.geom, iconRadius, alertEffect);
+    }
   }
+
+  fetchStatusAndDrawStop = stopFeature => {
+    const { gtfsId } = stopFeature.properties;
+    const query = Relay.createQuery(
+      Relay.QL`
+        query StopStatus($id: String!) {
+          stop(id: $id) {
+            alerts {
+              alertSeverityLevel
+            }
+          }
+        }
+      `,
+      { id: gtfsId },
+    );
+
+    const currentTime = this.getCurrentTime();
+    const callback = readyState => {
+      if (!readyState.done) {
+        return;
+      }
+      const result = Relay.Store.readQuery(query)[0];
+      if (!result) {
+        return;
+      }
+      cache[gtfsId] = currentTime;
+      this.drawStop(stopFeature, getMaximumAlertEffect(result.alerts));
+    };
+
+    const latestFetchTime = cache[gtfsId];
+    if (latestFetchTime && latestFetchTime - currentTime < CACHE_PERIOD_MS) {
+      Relay.Store.primeCache({ query }, callback);
+    } else {
+      Relay.Store.forceFetch({ query }, callback);
+    }
+  };
 
   getPromise() {
     return fetch(
@@ -79,7 +139,7 @@ class Stops {
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(pick(feature, ['geom', 'properties']));
-                this.drawStop(feature);
+                this.fetchStatusAndDrawStop(feature);
               }
             }
           }
