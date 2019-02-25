@@ -1,7 +1,19 @@
 import find from 'lodash/find';
 import PropTypes from 'prop-types';
 
-import { RealtimeStateType } from '../constants';
+import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
+
+/**
+ * Checks if the stop has any alerts.
+ *
+ * @param {*} stop the stop object to check.
+ */
+export const stopHasServiceAlert = stop => {
+  if (!stop || !Array.isArray(stop.alerts)) {
+    return false;
+  }
+  return stop.alerts.length > 0;
+};
 
 /**
  * Checks if the route has any alerts.
@@ -138,6 +150,34 @@ export const getServiceAlertsForRoute = (route, locale = 'en') =>
         },
       }))
     : [];
+
+/**
+ * Iterates through the alerts and returns the highest severity level found.
+ * Order of severity (in descending order): Severe, Warning, Info, Unknown.
+ * Returns undefined if the severity level cannot be determined.
+ *
+ * @param {*} alerts the alerts to check.
+ */
+export const getMaximumAlertSeverityLevel = alerts => {
+  if (!Array.isArray(alerts) || alerts.length === 0) {
+    return undefined;
+  }
+  const levels = alerts
+    .map(alert => alert.alertSeverityLevel)
+    .reduce((obj, level) => {
+      if (level) {
+        obj[level] = level; // eslint-disable-line no-param-reassign
+      }
+      return obj;
+    }, {});
+  return (
+    levels[AlertSeverityLevelType.Severe] ||
+    levels[AlertSeverityLevelType.Warning] ||
+    levels[AlertSeverityLevelType.Info] ||
+    levels[AlertSeverityLevelType.Unknown] ||
+    undefined
+  );
+};
 
 /**
  * Describes the type information for an OTP Service Alert object.

@@ -195,15 +195,9 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('SplitBars');
-testVariation('InfoIcon');
 testVariation('DepartureListHeader');
 testVariation('NextDeparturesListHeader');
-testVariation('SelectedStopPopupContent');
 testVariation('PageFooter');
-
-testVariation('FooterItem', 'basic');
-testVariation('FooterItem', 'with-icon', 2);
 
 testVariation('SummaryRow', 'large', 1);
 testVariation('SummaryRow', 'small', 2);

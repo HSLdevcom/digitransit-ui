@@ -1,6 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
+import { AlertSeverityLevelType } from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
@@ -242,6 +240,81 @@ describe('alertUtils', () => {
       expect(
         utils.getServiceAlertsForRoute({ alerts: undefined }),
       ).to.deep.equal([]);
+    });
+  });
+
+  describe('stopHasServiceAlert', () => {
+    it('should return false if stop is undefined', () => {
+      expect(utils.stopHasServiceAlert(undefined)).to.equal(false);
+    });
+
+    it('should return false if stop has no array "alerts"', () => {
+      expect(utils.stopHasServiceAlert({ alerts: undefined })).to.equal(false);
+    });
+
+    it('should return false if stop has an empty alerts array', () => {
+      expect(utils.stopHasServiceAlert({ alerts: [] })).to.equal(false);
+    });
+
+    it('should return true if stop has a non-empty alerts array', () => {
+      expect(utils.stopHasServiceAlert({ alerts: [{}] })).to.equal(true);
+    });
+  });
+
+  describe('getMaximumAlertSeverityLevel', () => {
+    it('should return undefined if the alerts array is not an array', () => {
+      expect(utils.getMaximumAlertSeverityLevel(undefined)).to.equal(undefined);
+    });
+
+    it('should return undefined if the alerts array is empty', () => {
+      expect(utils.getMaximumAlertSeverityLevel([])).to.equal(undefined);
+    });
+
+    it('should return undefined if the severity level cannot be determined', () => {
+      expect(utils.getMaximumAlertSeverityLevel([{ foo: 'bar' }])).to.equal(
+        undefined,
+      );
+    });
+
+    it('should ignore alerts that are missing a severity level', () => {
+      const alerts = [
+        { foo: 'bar' },
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { foo: 'baz' },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
+
+    it('should prioritize severe over warning', () => {
+      const alerts = [
+        { alertSeverityLevel: AlertSeverityLevelType.Severe },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Severe,
+      );
+    });
+
+    it('should prioritize warning over info', () => {
+      const alerts = [
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
+
+    it('should prioritize info over unknown', () => {
+      const alerts = [
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { alertSeverityLevel: AlertSeverityLevelType.Unknown },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
     });
   });
 });

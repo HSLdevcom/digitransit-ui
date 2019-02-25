@@ -52,13 +52,13 @@ module.exports = {
         'browserstack.video': false,
       },
     },
-    edge15: {
+    edge17: {
       windowSize: '600x1024',
       desiredCapabilities: {
         os: 'Windows',
         os_version: '10',
         browserName: 'edge',
-        version: '15',
+        version: '17.0',
         locationContextEnabled: false,
         'browserstack.timezone': 'Europe/Helsinki',
         'browserstack.video': false,

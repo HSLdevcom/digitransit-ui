@@ -47,7 +47,7 @@ jobs:
       node_js: '10'
       script: test/visual.sh
     - stage: visual
-      env: VISUAL=edge15
+      env: VISUAL=edge17
       node_js: '10'
       script: test/visual.sh
     - stage: visual
