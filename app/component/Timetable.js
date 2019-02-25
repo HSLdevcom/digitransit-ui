@@ -238,7 +238,7 @@ class Timetable extends React.Component {
 
     const stopPDFURL =
       stopIdSplitted[0] === 'HSL' && this.props.stop.locationType !== 'STATION'
-        ? `${this.context.config.URL.TIMETABLES}${stopIdSplitted[1]}.pdf`
+        ? `${this.context.config.URL.STOP_TIMETABLES}${stopIdSplitted[1]}.pdf`
         : null;
 
     return (
