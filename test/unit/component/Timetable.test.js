@@ -10,7 +10,6 @@ describe('<Timetable />', () => {
   it('should set isCanceled to true for rows that have RealtimeState CANCELED', () => {
     const props = {
       propsForStopPageActionBar: {
-        printUrl: 'http://aikataulut.hsl.fi/pysakit/fi/1140199.html',
         startDate: '20190110',
         selectedDate: '20190110',
         onDateChange: () => {},
