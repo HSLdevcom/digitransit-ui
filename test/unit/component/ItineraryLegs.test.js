@@ -7,7 +7,6 @@ import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { component as ItineraryLegs } from '../../../app/component/ItineraryLegs';
 
 import data from '../test-data/dcw12';
-import { exampleData } from '../../../app/component/data/ItineraryLegs.ExampleData';
 import dt2831b from '../test-data/dt2831b';
 
 describe('<ItineraryLegs />', () => {
