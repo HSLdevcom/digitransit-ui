@@ -359,7 +359,11 @@ Timetable.description = () => (
     <ComponentUsageExample description="">
       <Timetable
         stop={exampleStop}
-        propsForStopPageActionBar={{ startDate: '20190110', selectedDate: '20190110', onDateChange: () => {},}}
+        propsForStopPageActionBar={{
+          startDate: '20190110',
+          selectedDate: '20190110',
+          onDateChange: () => {},
+        }}
       />
     </ComponentUsageExample>
   </div>
