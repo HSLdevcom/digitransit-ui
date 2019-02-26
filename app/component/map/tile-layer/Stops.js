@@ -80,7 +80,7 @@ class Stops {
         query StopStatus($id: String!) {
           stop(id: $id) {
             alerts {
-              alertSeverityLevel
+              alertEffect
             }
           }
         }
