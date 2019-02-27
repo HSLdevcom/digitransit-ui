@@ -73,7 +73,9 @@ describe('Stops', () => {
       fetchMock.get(`${config.URL.STOP_MAP}3/1/2.pbf`, {
         status: 404,
       });
-      sinon.stub(mapLayerUtils, 'isFeatureLayerEnabled').callsFake(() => true);
+      const featureLayerStub = sinon
+        .stub(mapLayerUtils, 'isFeatureLayerEnabled')
+        .callsFake(() => true);
       const iconStub = sinon
         .stub(mapIconUtils, 'drawRoundIcon')
         .callsFake(() => ({ iconRadius: 10 }));
@@ -91,6 +93,10 @@ describe('Stops', () => {
 
       expect(iconStub.called).to.equal(true);
       expect(badgeStub.called).to.equal(true);
+
+      featureLayerStub.restore();
+      iconStub.restore();
+      badgeStub.restore();
     });
   });
 });
