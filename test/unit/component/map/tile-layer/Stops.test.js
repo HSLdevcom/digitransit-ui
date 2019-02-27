@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 import sinon from 'sinon';
 
-import { AlertEffectType } from '../../../../../app/constants';
+import { AlertSeverityLevelType } from '../../../../../app/constants';
 import Stops from '../../../../../app/component/map/tile-layer/Stops';
 import * as mapIconUtils from '../../../../../app/util/mapIconUtils';
 import * as mapLayerUtils from '../../../../../app/util/mapLayerUtils';
@@ -53,7 +53,7 @@ describe('Stops', () => {
           stop: {
             alerts: [
               {
-                alertEffect: AlertEffectType.NoService,
+                alertSeverityLevel: AlertSeverityLevelType.Info,
               },
             ],
           },
@@ -61,9 +61,9 @@ describe('Stops', () => {
       });
 
       const layer = new Stops(tile, config, []);
-      layer.drawStop = (stopFeature, alertEffect) => {
+      layer.drawStop = (stopFeature, alertSeverityLevel) => {
         expect(stopFeature.properties.gtfsId).to.equal(gtfsId);
-        expect(alertEffect).to.equal(AlertEffectType.NoService);
+        expect(alertSeverityLevel).to.equal(AlertSeverityLevelType.Info);
         done();
       };
       layer.fetchStatusAndDrawStop({ properties: { gtfsId } });
@@ -88,7 +88,7 @@ describe('Stops', () => {
             type: 'BUS',
           },
         },
-        AlertEffectType.NoService,
+        AlertSeverityLevelType.Warning,
       );
 
       expect(iconStub.called).to.equal(true);

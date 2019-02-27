@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
 import * as utils from '../../../app/util/mapIconUtils';
-import { AlertEffectType } from '../../../app/constants';
+import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('mapIconUtils', () => {
   describe('drawRoundIcon', () => {
@@ -48,7 +48,7 @@ describe('mapIconUtils', () => {
       getImageStub = sinon.stub();
     });
 
-    it('should not draw anything if alertEffect is falsy', async () => {
+    it('should not draw anything if alertSeverityLevel is falsy', async () => {
       await utils.drawRoundIconAlertBadge(
         tile,
         {},
@@ -64,7 +64,7 @@ describe('mapIconUtils', () => {
         tile,
         {},
         4,
-        AlertEffectType.NoService,
+        AlertSeverityLevelType.Info,
         getImageStub,
       );
       expect(tile.ctx.drawImage.called).to.equal(false);
@@ -75,7 +75,7 @@ describe('mapIconUtils', () => {
         tile,
         {},
         10,
-        AlertEffectType.NoService,
+        AlertSeverityLevelType.Warning,
         getImageStub,
       );
       expect(getImageStub.calledOnce).to.equal(true);
@@ -91,7 +91,7 @@ describe('mapIconUtils', () => {
         tile,
         {},
         10,
-        AlertEffectType.Unknown,
+        AlertSeverityLevelType.Info,
         getImageStub,
       );
       expect(getImageStub.calledOnce).to.equal(true);

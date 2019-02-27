@@ -1,7 +1,7 @@
 import memoize from 'lodash/memoize';
 import getSelector from './get-selector';
 import glfun from './glfun';
-import { AlertEffectType } from '../constants';
+import { AlertSeverityLevelType } from '../constants';
 
 const FONT_SIZE = 11;
 
@@ -183,10 +183,10 @@ export const drawRoundIconAlertBadge = async (
   tile,
   geometry,
   iconRadius,
-  alertEffect,
+  alertSeverityLevel,
   getImage = getImageFromSpriteCache,
 ) => {
-  if (!alertEffect) {
+  if (!alertSeverityLevel) {
     return;
   }
 
@@ -196,7 +196,7 @@ export const drawRoundIconAlertBadge = async (
     return;
   }
 
-  const isCaution = alertEffect === AlertEffectType.NoService;
+  const isCaution = alertSeverityLevel !== AlertSeverityLevelType.Info;
   const image = await getImage(
     `icon-icon_${isCaution ? 'caution-badge-with-halo' : 'info'}`,
     badgeSize,

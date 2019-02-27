@@ -3,7 +3,7 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 import Relay from 'react-relay/classic';
 
-import { getMaximumAlertEffect } from '../../../util/alertUtils';
+import { getMaximumAlertSeverityLevel } from '../../../util/alertUtils';
 import {
   drawRoundIcon,
   drawTerminalIcon,
@@ -33,7 +33,7 @@ class Stops {
 
   static getName = () => 'stop';
 
-  drawStop(feature, alertEffect = undefined) {
+  drawStop(feature, alertSeverityLevel = undefined) {
     if (
       !isFeatureLayerEnabled(
         feature,
@@ -68,8 +68,13 @@ class Stops {
         : false,
     );
 
-    if (alertEffect) {
-      drawRoundIconAlertBadge(this.tile, feature.geom, iconRadius, alertEffect);
+    if (alertSeverityLevel) {
+      drawRoundIconAlertBadge(
+        this.tile,
+        feature.geom,
+        iconRadius,
+        alertSeverityLevel,
+      );
     }
   }
 
@@ -80,7 +85,7 @@ class Stops {
         query StopStatus($id: String!) {
           stop(id: $id) {
             alerts {
-              alertEffect
+              alertSeverityLevel
             }
           }
         }
@@ -98,7 +103,7 @@ class Stops {
         return;
       }
       cache[gtfsId] = currentTime;
-      this.drawStop(stopFeature, getMaximumAlertEffect(result.alerts));
+      this.drawStop(stopFeature, getMaximumAlertSeverityLevel(result.alerts));
     };
 
     const latestFetchTime = cache[gtfsId];
