@@ -176,11 +176,6 @@ testVariation('ExternalLink');
 testVariation('ExternalLink', 'with-icon-and-text', 2);
 testVariation('LangSelect');
 
-testVariation('ModeFilter', 'grey-buttons');
-testVariation('ModeFilter', 'white-buttons', [
-  '.nearby-routes .component-example:nth-of-type(1) .component',
-]);
-
 testVariation(
   'RouteStop',
   'normal',
@@ -200,17 +195,9 @@ testVariation('BicycleRentalStationRow', 'no-bikes', 3);
 
 testVariation('StopPageHeader');
 testVariation('Timetable');
-testVariation('SplitBars');
-testVariation('Labeled');
-testVariation('Centered');
-testVariation('InfoIcon');
 testVariation('DepartureListHeader');
 testVariation('NextDeparturesListHeader');
-testVariation('SelectedStopPopupContent');
 testVariation('PageFooter');
-
-testVariation('FooterItem', 'basic');
-testVariation('FooterItem', 'with-icon', 2);
 
 testVariation('SummaryRow', 'large', 1);
 testVariation('SummaryRow', 'small', 2);

@@ -34,7 +34,6 @@ class SummaryNavigation extends React.Component {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
-    piwik: PropTypes.object,
     router: routerShape,
     location: PropTypes.object.isRequired,
   };
@@ -86,13 +85,12 @@ class SummaryNavigation extends React.Component {
   };
 
   internalSetOffcanvas = newState => {
-    if (this.context.piwik != null) {
-      this.context.piwik.trackEvent(
-        'ItinerarySettings',
-        'ExtraSettingsPanelClick',
-        newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
-      );
-    }
+    window.dataLayer.push({
+      event: 'sendMatomoEvent',
+      category: 'ItinerarySettings',
+      action: 'ExtraSettingsPanelClick',
+      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+    });
 
     if (newState) {
       this.context.router.push({

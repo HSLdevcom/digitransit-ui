@@ -53,7 +53,7 @@ class Modal extends React.Component {
                 onClick={this.props.toggleVisibility}
                 className="close-button cursor-pointer"
               >
-                <Icon img="icon-icon_close" pointerEvents />
+                <Icon img="icon-icon_close" />
               </a>
             </div>
           </div>

@@ -56,7 +56,7 @@ const AppBarLarge = (
               defaultMessage: 'Disruptions',
             })}
           >
-            <Icon img="icon-icon_caution" pointerEvents />
+            <Icon img="icon-icon_caution" />
           </a>
         </div>
         <div className="padding-horizontal-large navi-margin">

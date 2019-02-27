@@ -5,6 +5,13 @@ import { isIOSApp, isBrowser } from './util/browser';
 
 const ROOT_PATH = '/';
 
+/**
+ * Gives the proper function to create a history object for the application.
+ *
+ * @param {string} path the current url path.
+ * @param {boolean} browser whether the code is currently running in a browser.
+ * @param {boolean} iosApp whether the code is currently running as an iOS PWA.
+ */
 export const getCreateHistoryFunction = (
   path = ROOT_PATH,
   browser = isBrowser,
@@ -28,8 +35,15 @@ export const getCreateHistoryFunction = (
   return createMemoryHistory;
 };
 
-const history = (config, path = ROOT_PATH) => {
-  const historyCreator = getCreateHistoryFunction(path);
+/**
+ * Constructs a router with a suitable history handler for the application.
+ *
+ * @param {{ APP_PATH: string }} config the current configuration.
+ * @param {string} path the current url path.
+ * @param {boolean} browser whether the code is currently running in a browser.
+ */
+const history = (config, path = ROOT_PATH, browser = isBrowser) => {
+  const historyCreator = getCreateHistoryFunction(path, browser);
   const router = useRouterHistory(useQueries(historyCreator))({
     basename: config.APP_PATH,
   });

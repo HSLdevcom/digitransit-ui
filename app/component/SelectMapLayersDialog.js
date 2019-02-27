@@ -5,6 +5,7 @@ import React from 'react';
 import BubbleDialog from './BubbleDialog';
 import Checkbox from './Checkbox';
 import { updateMapLayers } from '../action/MapLayerActions';
+import GeoJsonStore from '../store/GeoJsonStore';
 import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 
 import ComponentUsageExample from './ComponentUsageExample';
@@ -312,15 +313,41 @@ SelectMapLayersDialog.description = (
   </ComponentUsageExample>
 );
 
+/**
+ * Retrieves the list of geojson layers in use from the configuration or
+ * the geojson store. If no layers exist in these sources, the
+ * defaultValue is returned.
+ *
+ * @param {*} config the configuration for the software installation.
+ * @param {*} store the geojson store.
+ * @param {*} defaultValue the default value, defaults to undefined.
+ */
+export const getGeoJsonLayersOrDefault = (
+  config,
+  store,
+  defaultValue = undefined,
+) =>
+  (config &&
+    config.geoJson &&
+    Array.isArray(config.geoJson.layers) &&
+    config.geoJson.layers) ||
+  (store && Array.isArray(store.layers) && store.layers) ||
+  defaultValue;
+
 const connectedComponent = connectToStores(
   SelectMapLayersDialog,
-  [MapLayerStore, 'PreferencesStore'],
-  context => ({
-    config: context.config,
-    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
+  [GeoJsonStore, MapLayerStore, 'PreferencesStore'],
+  ({ config, executeAction, getStore }) => ({
+    config: {
+      ...config,
+      geoJson: {
+        layers: getGeoJsonLayersOrDefault(config, getStore(GeoJsonStore)),
+      },
+    },
+    mapLayers: getStore(MapLayerStore).getMapLayers(),
     updateMapLayers: mapLayers =>
-      context.executeAction(updateMapLayers, { ...mapLayers }),
-    lang: context.getStore('PreferencesStore').getLanguage(),
+      executeAction(updateMapLayers, { ...mapLayers }),
+    lang: getStore('PreferencesStore').getLanguage(),
   }),
   {
     config: mapLayersConfigShape,

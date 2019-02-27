@@ -10,12 +10,16 @@ import TripListHeader from './TripListHeader';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 
-function TripStopsContainer({ breakpoint, ...props }) {
+function TripStopsContainer({ breakpoint, routes, trip }) {
+  if (!trip) {
+    return null;
+  }
+
   const tripStartTime = getStartTime(
-    props.trip.stoptimesForDate[0].scheduledDeparture,
+    trip.stoptimesForDate[0].scheduledDeparture,
   );
 
-  const fullscreen = some(props.routes, route => route.fullscreenMap);
+  const fullscreen = some(routes, route => route.fullscreenMap);
 
   if (fullscreen && breakpoint !== 'large') {
     return <div className="route-page-content" />;
@@ -30,7 +34,7 @@ function TripStopsContainer({ breakpoint, ...props }) {
       <TripListHeader key="header" className={`bp-${breakpoint}`} />
       <TripStopListContainer
         key="list"
-        trip={props.trip}
+        trip={trip}
         tripStart={tripStartTime}
         fullscreenMap={fullscreen}
       />
@@ -45,7 +49,7 @@ TripStopsContainer.propTypes = {
         scheduledDeparture: PropTypes.number.isRequired,
       }).isRequired,
     ).isRequired,
-  }).isRequired,
+  }),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       fullscreenMap: PropTypes.bool,
@@ -54,10 +58,14 @@ TripStopsContainer.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(pure(withBreakpoint(TripStopsContainer)), {
+TripStopsContainer.defaultProps = {
+  trip: undefined,
+};
+
+const pureComponent = pure(withBreakpoint(TripStopsContainer));
+const containerComponent = Relay.createContainer(pureComponent, {
   fragments: {
-    trip: () =>
-      Relay.QL`
+    trip: () => Relay.QL`
       fragment on Trip {
         stoptimesForDate {
           scheduledDeparture
@@ -72,3 +80,5 @@ export default Relay.createContainer(pure(withBreakpoint(TripStopsContainer)), {
     `,
   },
 });
+
+export { containerComponent as default, TripStopsContainer as Component };

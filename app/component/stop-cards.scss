@@ -1,4 +1,3 @@
-
 .departure-list .date-row {
   @include font-bold;
   font-size: 10pt;
@@ -19,13 +18,13 @@
 }
 
 /* STOP PAGE */
-.stop-page  {
+.stop-page {
   overflow-y: auto;
-  &.card-header  {
+  &.card-header {
     padding: 0.75em 1em 0.5em;
     position: relative;
     flex: 0 0 auto;
-    overflow:hidden;
+    overflow: hidden;
     min-height: 3em;
     .link-arrow {
       display: none;
