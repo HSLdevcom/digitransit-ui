@@ -48,8 +48,25 @@ describe('mapIconUtils', () => {
       getImageStub = sinon.stub();
     });
 
-    it('should not draw anything if alertEffect is falsy', () => {
-      utils.drawRoundIconAlertBadge(tile, {}, 1, undefined, getImageStub);
+    it('should not draw anything if alertEffect is falsy', async () => {
+      await utils.drawRoundIconAlertBadge(
+        tile,
+        {},
+        10,
+        undefined,
+        getImageStub,
+      );
+      expect(tile.ctx.drawImage.called).to.equal(false);
+    });
+
+    it('should not draw anything if the badge would be too small', async () => {
+      await utils.drawRoundIconAlertBadge(
+        tile,
+        {},
+        4,
+        AlertEffectType.NoService,
+        getImageStub,
+      );
       expect(tile.ctx.drawImage.called).to.equal(false);
     });
 
@@ -84,7 +101,5 @@ describe('mapIconUtils', () => {
       expect(tile.ctx.drawImage.called).to.equal(true);
       expect(tile.ctx.fill.called).to.equal(true);
     });
-
-    it('should draw a circle for the info icon', () => {});
   });
 });
