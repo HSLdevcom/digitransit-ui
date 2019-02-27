@@ -59,7 +59,6 @@ export default class Map extends React.Component {
 
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
-    piwik: PropTypes.object,
     config: PropTypes.object.isRequired,
   };
 

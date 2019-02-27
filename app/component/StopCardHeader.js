@@ -4,8 +4,10 @@ import { intlShape } from 'react-intl';
 
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
-import InfoIcon from './InfoIcon';
+import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
+import { AlertSeverityLevelType } from '../constants';
+import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -27,19 +29,28 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    const { stop } = this.props;
+    const { className, headingStyle, icons, stop } = this.props;
     if (!stop) {
       return false;
     }
 
+    const level = getMaximumAlertSeverityLevel(stop.alerts);
     return (
       <CardHeader
-        className={this.props.className}
-        headingStyle={this.props.headingStyle}
+        className={className}
+        {...level && {
+          headerIcon:
+            level === AlertSeverityLevelType.Info ? (
+              <Icon className="header-icon info" img="icon-icon_info" />
+            ) : (
+              <Icon className="header-icon caution" img="icon-icon_caution" />
+            ),
+        }}
+        headingStyle={headingStyle}
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        icons={this.props.icons}
+        icons={icons}
       >
         {this.headerConfig.showZone &&
           stop.zoneId && <ZoneIcon showTitle zoneId={stop.zoneId} />}
@@ -55,6 +66,9 @@ StopCardHeader.propTypes = {
     code: PropTypes.string,
     desc: PropTypes.string,
     zoneId: PropTypes.string,
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
+    ),
   }),
   distance: PropTypes.number,
   className: PropTypes.string,
@@ -87,8 +101,6 @@ const exampleStop = {
   desc: 'Kaivonkatsojantie',
 };
 
-const exampleIcons = [<InfoIcon stop={exampleStop} key="example" />];
-
 StopCardHeader.displayName = 'StopCardHeader';
 
 StopCardHeader.description = () => (
@@ -100,7 +112,10 @@ StopCardHeader.description = () => (
       <StopCardHeader
         stop={exampleStop}
         distance={345.6}
-        icons={exampleIcons}
+        icons={[
+          <Icon className="info" img="icon-icon_info" key="1" />,
+          <Icon className="caution" img="icon-icon_caution" key="2" />,
+        ]}
       />
     </ComponentUsageExample>
   </div>

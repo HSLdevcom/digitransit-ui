@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { findFeatures } from '../../../app/util/geo-utils';
+import {
+  findFeatures,
+  isMultiPointTypeGeometry,
+  isPointTypeGeometry,
+} from '../../../app/util/geo-utils';
 
 const defaultPoint = { lat: 60.1699, lon: 24.9384 };
 const polygonFeature = {
@@ -73,6 +77,34 @@ describe('geo-utils', () => {
           baz: feature.properties.name,
         })),
       ).to.deep.equal([{ foo: 'bar', baz: 'polygonFeature' }]);
+    });
+  });
+
+  describe('isMultiPointTypeGeometry', () => {
+    it('should return false if geometry is falsey', () => {
+      expect(isMultiPointTypeGeometry(undefined)).to.equal(false);
+    });
+
+    it('should return false if the geometry type does not match', () => {
+      expect(isMultiPointTypeGeometry({ type: 'foo' })).to.equal(false);
+    });
+
+    it('should return true if the geometry type matches', () => {
+      expect(isMultiPointTypeGeometry({ type: 'MultiPoint' })).to.equal(true);
+    });
+  });
+
+  describe('isPointTypeGeometry', () => {
+    it('should return false if geometry is falsey', () => {
+      expect(isPointTypeGeometry(undefined)).to.equal(false);
+    });
+
+    it('should return false if the geometry type does not match', () => {
+      expect(isPointTypeGeometry({ type: 'foo' })).to.equal(false);
+    });
+
+    it('should return true if the geometry type matches', () => {
+      expect(isPointTypeGeometry({ type: 'Point' })).to.equal(true);
     });
   });
 });

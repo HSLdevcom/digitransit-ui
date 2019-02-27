@@ -62,7 +62,6 @@ function Icon(props) {
         style={{
           fill: props.color ? props.color : null,
           height: props.height ? `${props.height}em` : null,
-          pointerEvents: props.pointerEvents ? 'auto' : 'none',
           width: props.width ? `${props.width}em` : null,
         }}
         viewBox={!props.omitViewBox ? props.viewBox : null}
@@ -84,7 +83,6 @@ Icon.propTypes = {
   id: PropTypes.string,
   img: PropTypes.string.isRequired,
   omitViewBox: PropTypes.bool,
-  pointerEvents: PropTypes.bool,
   viewBox: PropTypes.string,
   width: PropTypes.number,
 };
@@ -97,7 +95,6 @@ Icon.defaultProps = {
   height: undefined,
   id: undefined,
   omitViewBox: false,
-  pointerEvents: false,
   viewBox: '0 0 40 40',
   width: undefined,
 };

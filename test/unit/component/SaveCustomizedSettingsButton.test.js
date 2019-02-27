@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { afterEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
 
 import defaultConfig from '../../../app/configurations/config.default';
@@ -14,10 +14,6 @@ import {
 import { OptimizeType } from '../../../app/constants';
 
 describe('<SaveCustomizedSettingsButton />', () => {
-  afterEach(() => {
-    global.localStorage.clear();
-  });
-
   it('should call noSettingsFound if the query and localStorage do not contain any settings', () => {
     const context = {
       ...mockContext,

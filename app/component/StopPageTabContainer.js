@@ -42,7 +42,7 @@ function StopPageTabContainer({
   location: { pathname },
   stop,
 }) {
-  if (some(routes, 'fullscreenMap') && breakpoint !== 'large') {
+  if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
     return null;
   }
 
@@ -171,7 +171,11 @@ StopPageTabContainer.propTypes = {
         ).isRequired,
       }),
     ),
-  }).isRequired,
+  }),
+};
+
+StopPageTabContainer.defaultProps = {
+  stop: undefined,
 };
 
 const containerComponent = Relay.createContainer(

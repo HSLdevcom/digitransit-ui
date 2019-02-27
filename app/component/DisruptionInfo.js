@@ -11,7 +11,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { isBrowser } from '../util/browser';
 
 function DisruptionInfo(props, context) {
-  if (!((props && props.isBrowser) || isBrowser)) {
+  if (!props.isBrowser) {
     return null;
   }
 
@@ -81,7 +81,7 @@ DisruptionInfo.propTypes = {
 };
 
 DisruptionInfo.defaultProps = {
-  isBrowser: false,
+  isBrowser,
 };
 
 DisruptionInfo.description = () => (

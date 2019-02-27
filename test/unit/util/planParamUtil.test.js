@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { afterEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 
 import defaultConfig from '../../../app/configurations/config.default';
 import * as utils from '../../../app/util/planParamUtil';
@@ -16,10 +16,6 @@ const defaultProps = [
 ];
 
 describe('planParamUtil', () => {
-  afterEach(() => {
-    global.localStorage.clear();
-  });
-
   describe('preparePlanParams', () => {
     it('should return mode defaults from config if modes are missing from both the current URI and localStorage', () => {
       const config = {

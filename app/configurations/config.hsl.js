@@ -377,7 +377,8 @@ export default {
   },
 
   showTicketInformation: true,
-  ticketLink: 'https://www.hsl.fi/liput-ja-hinnat',
+  ticketLink:
+    'https://www.hsl.fi/liput-ja-hinnat?utm_campaign=omat-palvelut&utm_source=reittiopas&utm_medium=referral&utm_content=nain-ostat-lipun',
   showTicketSelector: true,
 
   fares: [

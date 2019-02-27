@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 import Departure from '../../app/component/Departure';
+import RouteDestination from '../../app/component/RouteDestination';
 
 import data from './test-data/dt2734';
 import {
@@ -100,5 +101,42 @@ describe('<Departure />', () => {
     };
     const wrapper = shallowWithIntl(<Departure {...props} />);
     expect(wrapper.find('.departure-canceled')).to.have.lengthOf(1);
+  });
+
+  it('should use longName when the trip is missing', () => {
+    const props = {
+      className: 'departure padding-normal border-bottom',
+      currentTime: 0,
+      departure: {
+        headsign: null,
+        lastStop: false,
+        pattern: {
+          code: 'Lahti:311:1:01',
+          headsign: null,
+          route: {
+            color: null,
+            gtfsId: 'Lahti:311',
+            id: 'Um91dGU6TGFodGk6MzEx',
+            longName: 'PHKS - Matkakeskus - Kauppatori - Mäkelä',
+            mode: 'BUS',
+            shortName: '3S',
+          },
+        },
+        pickupType: 'SCHEDULED',
+        realtime: false,
+        stop: {
+          platformCode: null,
+        },
+        stoptime: 0,
+      },
+      isArrival: false,
+      showPlatformCode: true,
+      showStop: true,
+      staticDeparture: true,
+    };
+    const wrapper = shallowWithIntl(<Departure {...props} />);
+    expect(wrapper.find(RouteDestination).prop('destination')).to.equal(
+      'PHKS - Matkakeskus - Kauppatori - Mäkelä',
+    );
   });
 });

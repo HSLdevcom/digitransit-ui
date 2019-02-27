@@ -9,6 +9,7 @@ import Favourite from './Favourite';
 const CardHeader = ({
   className,
   children,
+  headerIcon,
   headingStyle,
   name,
   description,
@@ -36,6 +37,7 @@ const CardHeader = ({
       <div className="card-header-wrapper">
         <span className={headingStyle || 'h4'}>
           {name}
+          {headerIcon}
           {unlinked ? null : <span className="link-arrow"> ›</span>}
         </span>
         <div className="card-sub-header">
@@ -77,6 +79,7 @@ CardHeader.description = () => (
 
 CardHeader.propTypes = {
   className: PropTypes.string,
+  headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -85,6 +88,10 @@ CardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
+};
+
+CardHeader.defaultProps = {
+  headerIcon: undefined,
 };
 
 export default CardHeader;
