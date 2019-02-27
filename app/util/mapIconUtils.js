@@ -184,6 +184,7 @@ export const drawRoundIconAlertBadge = async (
   geometry,
   iconRadius,
   alertEffect,
+  getImage = getImageFromSpriteCache,
 ) => {
   if (!alertEffect) {
     return;
@@ -196,7 +197,7 @@ export const drawRoundIconAlertBadge = async (
   }
 
   const isCaution = alertEffect === AlertEffectType.NoService;
-  const image = await getImageFromSpriteCache(
+  const image = await getImage(
     `icon-icon_${isCaution ? 'caution-badge-with-halo' : 'info'}`,
     badgeSize,
     badgeSize,
