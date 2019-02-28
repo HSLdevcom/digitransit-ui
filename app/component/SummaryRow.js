@@ -30,6 +30,7 @@ import {
   exampleDataCallAgency,
   examplePropsCityBike,
   exampleDataVia,
+  exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
 /*
@@ -613,6 +614,18 @@ SummaryRow.description = () => {
         />
         {/* citybike-large-passive */}
         <SummaryRow {...examplePropsCityBike('large')} />
+        {/* canceled-large-itinerary */}
+        <SummaryRow
+          refTime={today}
+          breakpoint="large"
+          data={exampleDataCanceled}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+          isCancelled
+          showCancelled
+        />
       </ComponentUsageExample>
       <ComponentUsageExample description="small">
         {/* passive-small-today */}
@@ -685,6 +698,18 @@ SummaryRow.description = () => {
         />
         {/* citybike-small-passive */}
         <SummaryRow {...examplePropsCityBike('small')} />
+        {/* canceled-large-itinerary */}
+        <SummaryRow
+          refTime={today}
+          breakpoint="small"
+          data={exampleDataCanceled}
+          passive
+          onSelect={nop}
+          onSelectImmediately={nop}
+          hash={1}
+          isCancelled
+          showCancelled
+        />
       </ComponentUsageExample>
     </div>
   );
