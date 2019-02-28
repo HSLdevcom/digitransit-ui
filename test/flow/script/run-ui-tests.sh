@@ -75,15 +75,17 @@ function checkDependencies {
 
 # Kills process tree
 killtree() {
-  local _pid=$1
-  kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
-  for _child in $(pgrep -P ${_pid}); do
-    killtree ${_child}
-  done
-  kill -TERM ${_pid}
+  kill -9 $1
 }
 
 checkDependencies
+
+
+if [ "$1" == "smoke" ]; then
+    # extract all configuration values
+    mapfile -t configs < <( ls -1 app/configurations/config.*.js | rev | cut -d '/' -f1 | rev | sed -e "s/^config.//" -e "s/.js$//" )
+fi
+
 
 if [ "$1" == "local" ]; then
   if [ "$2" == "noserver" ]; then
@@ -95,7 +97,7 @@ if [ "$1" == "local" ]; then
     npm run build; CONFIG=hsl PORT=8080 npm start &
     NODE_PID=$!
     echo "Wait for the server to start"
-    sleep 10
+    sleep 2
   fi
 
   echo "Run tests"
@@ -117,25 +119,44 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   if [ "$4" == "noserver" ]; then
     echo "Not starting local server."
     START_SERVER=0
-  else
+  elif [ "$1" == "browserstack" ]; then
     echo "Starting local server."
     START_SERVER=1
     npm run build; CONFIG=hsl PORT=8080 npm run start &
     NODE_PID=$!
+    sleep 2
+  else #smoke
+      echo nop
+#    npm run build
   fi
 
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
 
-  # Wait for the server to start
-  sleep 10
-  # Then run tests
-  if [ "$1" == "browserstack" ] ; then
-    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
-  else
-    env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-ie,bs-edge,bs-iphone,bs-android --tag smoke --suiteRetries 3
+ if [ "$1" == "browserstack" ] ; then
+     env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
+     TESTSTATUS=$?
+ else
+     count=${#configs[@]}
+     count=$((count-1))
+     TOTALSTATUS=0
+
+     for i in $(seq 0 $count)
+     do
+         conf=${configs[$i]}
+         echo "Smoke testing $conf"
+         CONFIG=$conf PORT=8080 NODE_ENV=production node server/server.js &
+         NODE_PID=$!
+         echo "server runs as process $NODE_PID"
+         sleep 2
+         env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-ie,bs-chrome,bs-fx,bs-edge --suiteRetries 3 test/flow/tests/smoke/smoke.js
+         TESTSTATUS=$?
+         killtree $NODE_PID
+         sleep 1
+         if [[ $TESTSTATUS != 0 ]]; then TOTALSTATUS=$TESTSTATUS; fi
+     done
+     TESTSTATUS=$TOTALSTATUS
   fi
-  TESTSTATUS=$?
   # Kill Node and Browserstack tunnel
   if [ "$START_SERVER" == "1" ]; then
     echo "Shutting down local server"
@@ -166,7 +187,7 @@ elif [ "$1" == "saucelabs" ]; then
   fi
 
   # Wait for the server to start
-  sleep 10
+  sleep 2
   # Then run tests
   env SAUCELABS_USER=$2 SAUCELABS_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e sl-iphone --retries 3
   TESTSTATUS=$?
