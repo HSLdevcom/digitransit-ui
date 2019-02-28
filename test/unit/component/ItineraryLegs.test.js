@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import sinon from 'sinon';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { component as ItineraryLegs } from '../../../app/component/ItineraryLegs';
+import { Component as ItineraryLegs } from '../../../app/component/ItineraryLegs';
 
 import data from '../test-data/dcw12';
 import dt2831b from '../test-data/dt2831b';
@@ -56,15 +57,16 @@ describe('<ItineraryLegs />', () => {
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should identify legs that are cancelled in the current itinerary', () => {
+  it('should identify that there are legs that are cancelled in the current itinerary', () => {
     const props = {
       itinerary: dt2831b,
-      showCanceledLegsBanner: false,
     };
-    const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
+    const executeActionStub = sinon.stub();
+
+    shallowWithIntl(<ItineraryLegs {...props} />, {
       context: {
         ...mockContext,
-        executeAction: () => {},
+        executeAction: executeActionStub,
         config: {
           itinerary: {
             waitThreshold: 180,
@@ -73,11 +75,7 @@ describe('<ItineraryLegs />', () => {
       },
       childContextTypes: mockChildContextTypes,
     });
-
-    const result = wrapper
-      .instance()
-      .checkForCanceledLegs(wrapper.instance().arrangeLegs(dt2831b));
-
-    expect(result).to.equal(true);
+    expect(executeActionStub.calledOnce).to.equal(true);
+    expect(executeActionStub.args[0][1]).to.deep.equal(true);
   });
 });

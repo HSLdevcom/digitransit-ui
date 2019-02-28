@@ -241,6 +241,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             }
             stoptimes {
               pickupType
+              realtimeState
               stop {
                 gtfsId
               }
