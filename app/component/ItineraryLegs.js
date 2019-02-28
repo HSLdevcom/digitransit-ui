@@ -1,6 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
+import compose from 'recompose/compose';
+import getContext from 'recompose/getContext';
+import mapProps from 'recompose/mapProps';
 
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
@@ -30,13 +33,10 @@ class ItineraryLegs extends React.Component {
   };
 
   static propTypes = {
-    itinerary: PropTypes.object,
     focusMap: PropTypes.func,
-  };
-
-  static contextTypes = {
-    config: PropTypes.object.isRequired,
-    executeAction: PropTypes.func.isRequired,
+    itinerary: PropTypes.object,
+    toggleCanceledLegsBanner: PropTypes.func.isRequired,
+    waitThreshold: PropTypes.number.isRequired,
   };
 
   getChildContext() {
@@ -44,14 +44,15 @@ class ItineraryLegs extends React.Component {
   }
 
   componentDidMount = () => {
-    const { itinerary } = this.props;
+    const { itinerary, toggleCanceledLegsBanner } = this.props;
     if (itineraryHasCancelation(itinerary)) {
-      this.context.executeAction(updateShowCanceledLegsBannerState, true);
+      toggleCanceledLegsBanner(true);
     }
   };
 
   componentWillUnmount = () => {
-    this.context.executeAction(updateShowCanceledLegsBannerState, false);
+    const { toggleCanceledLegsBanner } = this.props;
+    toggleCanceledLegsBanner(false);
   };
 
   focus = position => e => {
@@ -209,8 +210,7 @@ class ItineraryLegs extends React.Component {
       }
 
       if (nextLeg) {
-        const waitThreshold =
-          this.context.config.itinerary.waitThreshold * 1000;
+        const waitThreshold = this.props.waitThreshold * 1000;
         const waitTime = nextLeg.startTime - leg.endTime;
 
         if (
@@ -249,17 +249,36 @@ class ItineraryLegs extends React.Component {
   }
 }
 
+const enhancedComponent = compose(
+  getContext({
+    config: PropTypes.shape({
+      itinerary: PropTypes.shape({
+        waitThreshold: PropTypes.number,
+      }),
+    }),
+    executeAction: PropTypes.func,
+  }),
+  mapProps(({ config, executeAction, ...rest }) => ({
+    toggleCanceledLegsBanner: state => {
+      executeAction(updateShowCanceledLegsBannerState, state);
+    },
+    waitThreshold: config.itinerary.waitThreshold,
+    ...rest,
+  })),
+)(ItineraryLegs);
+
 ItineraryLegs.description = () => (
   <div>
     <p>Legs shown for the itinerary</p>
     <ComponentUsageExample description="Shows the legs of the itinerary">
       <ItineraryLegs
-        itinerary={exampleData}
         focusMap={() => {}}
-        showCanceledLegsBanner={false}
+        itinerary={exampleData}
+        toggleCanceledLegsBanner={() => {}}
+        waitThreshold={180}
       />
     </ComponentUsageExample>
   </div>
 );
 
-export { ItineraryLegs as default, ItineraryLegs as Component };
+export { enhancedComponent as default, ItineraryLegs as Component };

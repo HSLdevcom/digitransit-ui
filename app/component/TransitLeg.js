@@ -1,8 +1,8 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 
 import RouteNumber from './RouteNumber';
 import Icon from './Icon';

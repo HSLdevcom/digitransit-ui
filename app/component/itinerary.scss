@@ -888,13 +888,6 @@ div.itinerary-container-content {
   margin-bottom: 0;
 }
 
-.itinerary-leg-canceled {
-  .route-number .vehicle-number {
-    color: $cancelation-red !important;
-    text-decoration: line-through;
-  }
-}
-
 .itinerary-time-column.via-time-column {
   margin-top: -12px;
 }

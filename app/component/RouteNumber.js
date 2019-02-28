@@ -101,6 +101,7 @@ function RouteNumber(props, context) {
             className={cx('vehicle-number', mode, {
               'overflow-fade': longText && props.fadeLong,
               long: longText,
+              canceled: props.hasDisruption,
             })}
           >
             {props.text}
@@ -112,6 +113,7 @@ function RouteNumber(props, context) {
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
+                canceled: props.hasDisruption,
               })}
             >
               {props.text}
