@@ -154,10 +154,7 @@ class TransitLeg extends React.Component {
     const isCanceled = legHasCancelation(leg);
     return (
       <div key={index} className="row itinerary-row">
-        <div
-          className={`small-2 columns itinerary-time-column ${isCanceled &&
-            'itinerary-leg-canceled'}`}
-        >
+        <div className="small-2 columns itinerary-time-column">
           <Link
             onClick={e => e.stopPropagation()}
             to={
