@@ -78,4 +78,23 @@ describe('<IntermediateLeg />', () => {
     expect(wrapper.find('.zone-previous')).to.have.lengthOf(0);
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
+
+  it('should apply class "realtime" if the leg has realtime available', () => {
+    const props = {
+      ...emptyProps,
+      realTime: true,
+    };
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    expect(wrapper.find('span.realtime')).to.have.lengthOf(1);
+    expect(wrapper.find('.realtime-icon.realtime')).to.have.lengthOf(1);
+  });
+
+  it('should apply class "canceled" if there is a cancelation for the current leg', () => {
+    const props = {
+      ...emptyProps,
+      isCanceled: true,
+    };
+    const wrapper = shallowWithIntl(<IntermediateLeg {...props} />);
+    expect(wrapper.find('.canceled')).to.have.lengthOf(1);
+  });
 });

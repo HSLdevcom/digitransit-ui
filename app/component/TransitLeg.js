@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -13,7 +14,7 @@ import IntermediateLeg from './IntermediateLeg';
 import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES } from '../util/path';
-import { legHasCancelation } from '../util/alertUtils';
+import { legHasCancelation, stoptimeHasCancelation } from '../util/alertUtils';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -49,6 +50,10 @@ class TransitLeg extends React.Component {
       const stopList = leg.intermediatePlaces.map((place, i, array) => {
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
+        const isCanceled = leg.trip.stoptimes.some(
+          st =>
+            st.stop.gtfsId === place.stop.gtfsId && stoptimeHasCancelation(st),
+        );
 
         const previousZoneId =
           (array[i - 1] && array[i - 1].stop.zoneId) ||
@@ -86,6 +91,7 @@ class TransitLeg extends React.Component {
             nextZoneId={
               (isLastPlace && nextZoneIdDiffers && nextZoneId) || undefined
             }
+            isCanceled={isCanceled}
           />
         );
       });
@@ -165,7 +171,9 @@ class TransitLeg extends React.Component {
             }
           >
             <div className="itinerary-time-column-time">
-              <span>{moment(leg.startTime).format('HH:mm')}</span>
+              <span className={cx({ canceled: isCanceled })}>
+                {moment(leg.startTime).format('HH:mm')}
+              </span>
               {originalTime}
             </div>
             <RouteNumber //  shouldn't this be a route number container instead???

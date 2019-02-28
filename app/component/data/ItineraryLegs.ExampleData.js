@@ -70,68 +70,6 @@ export const exampleData = {
           gtfsId: 'HSL:1174553',
           code: '0089',
           platformCode: '5',
-          stoptimes: [
-            {
-              pickupType: 'SCHEDULED',
-              realtimeState: 'UPDATED',
-              stop: {
-                gtfsId: 'HSL:1174553',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_0926',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'SCHEDULED',
-              realtimeState: 'UPDATED',
-              stop: {
-                gtfsId: 'HSL:1174553',
-              },
-              trip: {
-                gtfsId: 'HSL:3001Z_20190207_Pe_2_0920',
-                routeShortName: 'Z',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'SCHEDULED',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1174553',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_0956',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'SCHEDULED',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1174553',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_1026',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'SCHEDULED',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1174553',
-              },
-              trip: {
-                gtfsId: 'HSL:3001Z_20190207_Pe_2_1020',
-                routeShortName: 'Z',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-          ],
           zoneId: '01',
         },
       },
@@ -152,8 +90,23 @@ export const exampleData = {
         length: 12,
         points: 'cvlnJ{vdwCpMiClG?jH`AbFTpLgBdK}DhHgDdi@}PvOgGzLqDb\\cC',
       },
-      intermediatePlaces: [],
-      realTime: true,
+      intermediatePlaces: [
+        {
+          arrivalTime: 1551342198000,
+          stop: {
+            code: '0079',
+            gtfsId: 'HSL:1291501',
+            id: 'U3RvcDpIU0w6MTI5MTUwMQ==',
+            lat: 60.218387,
+            lon: 24.893444,
+            name: 'Huopalahti',
+            platformCode: '1-4',
+            zoneId: '01',
+          },
+        },
+      ],
+      realTime: false,
+      realtimeState: 'CANCELED',
       transitLeg: true,
       rentedBike: false,
       startTime: 1549614087000,
@@ -210,25 +163,18 @@ export const exampleData = {
             },
           },
           {
-            pickupType: 'SCHEDULED',
-            realtimeState: 'SCHEDULED',
-            stop: {
-              gtfsId: 'HSL:9040502',
-            },
-          },
-          {
-            pickupType: 'SCHEDULED',
-            realtimeState: 'SCHEDULED',
-            stop: {
-              gtfsId: 'HSL:4610553',
-            },
-          },
-          {
             __dataID__: 'client:625860012705',
             pickupType: 'SCHEDULED',
-            realtimeState: 'SCHEDULED',
+            realtimeState: 'CANCELED',
             stop: {
               gtfsId: 'HSL:1174553',
+            },
+          },
+          {
+            pickupType: 'SCHEDULED',
+            realtimeState: 'CANCELED',
+            stop: {
+              gtfsId: 'HSL:1291501',
             },
           },
           {
@@ -253,68 +199,6 @@ export const exampleData = {
           gtfsId: 'HSL:1020551',
           code: '0070',
           platformCode: null,
-          stoptimes: [
-            {
-              pickupType: 'NONE',
-              realtimeState: 'UPDATED',
-              stop: {
-                gtfsId: 'HSL:1020551',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_0926',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'NONE',
-              realtimeState: 'UPDATED',
-              stop: {
-                gtfsId: 'HSL:1020551',
-              },
-              trip: {
-                gtfsId: 'HSL:3001Z_20190207_Pe_2_0920',
-                routeShortName: 'Z',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'NONE',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1020551',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_0956',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'NONE',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1020551',
-              },
-              trip: {
-                gtfsId: 'HSL:3001R_20190207_Pe_2_1026',
-                routeShortName: 'R',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-            {
-              pickupType: 'NONE',
-              realtimeState: 'SCHEDULED',
-              stop: {
-                gtfsId: 'HSL:1020551',
-              },
-              trip: {
-                gtfsId: 'HSL:3001Z_20190207_Pe_2_1020',
-                routeShortName: 'Z',
-                tripHeadsign: 'Helsinki',
-              },
-            },
-          ],
           zoneId: '01',
         },
       },

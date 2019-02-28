@@ -19,6 +19,7 @@ function IntermediateLeg({
   previousZoneId,
   currentZoneId,
   nextZoneId,
+  isCanceled,
 }) {
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
@@ -72,16 +73,18 @@ function IntermediateLeg({
       >
         <div className="itinerary-leg-first-row">
           <div className="itinerary-intermediate-stop-name">
-            <span className={realTime ? 'realtime' : ''}>
+            <span className={cx({ realtime: realTime })}>
               {realTime && (
                 <Icon
                   img="icon-icon_realtime"
                   className="realtime-icon realtime"
                 />
               )}
-              {`${moment(arrivalTime).format('HH:mm')} `}
+              <span className={cx({ canceled: isCanceled })}>
+                {moment(arrivalTime).format('HH:mm')}
+              </span>
             </span>
-            {name} <StopCode code={stopCode} />
+            {` ${name}`} <StopCode code={stopCode} />
           </div>
         </div>
         <div className="itinerary-leg-action" />
@@ -103,6 +106,7 @@ IntermediateLeg.propTypes = {
   previousZoneId: PropTypes.string,
   currentZoneId: PropTypes.string,
   nextZoneId: PropTypes.string,
+  isCanceled: PropTypes.bool,
 };
 
 IntermediateLeg.defaultProps = {
@@ -111,6 +115,7 @@ IntermediateLeg.defaultProps = {
   previousZoneId: undefined,
   currentZoneId: undefined,
   nextZoneId: undefined,
+  isCanceled: false,
 };
 
 export default IntermediateLeg;
