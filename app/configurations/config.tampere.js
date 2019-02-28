@@ -91,7 +91,7 @@ export default configMerger(walttiConfig, {
       } else {
         zoneCount = 4;
       }
-      return `${ticketType[lang]}, ${count[lang][zoneCount]} ${zone[lang]}`;
+      return ticketType[lang] + ', ' + count[lang][zoneCount] + ' ' +  zone[lang];
     }
     return '';
   },
