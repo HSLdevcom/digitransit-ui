@@ -182,18 +182,6 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               gtfsId
               code
               platformCode
-              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
-                pickupType
-                realtimeState
-                stop {
-                  gtfsId
-                }
-                trip {
-                  gtfsId
-                  routeShortName
-                  tripHeadsign
-                }
-              }
               zoneId
             }
           }
@@ -225,17 +213,11 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               name
               code
               platformCode
-              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
-                pickupType
-                realtimeState
-                stop {
-                  gtfsId
-                }
-              }
               zoneId
             }
           }
           realTime
+          realtimeState
           transitLeg
           rentedBike
           startTime
@@ -262,7 +244,6 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             }
             stoptimes {
               pickupType
-              realtimeState
               stop {
                 gtfsId
               }
