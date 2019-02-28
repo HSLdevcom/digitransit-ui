@@ -88,6 +88,70 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('tripHasCancelationForStop', () => {
+    it('should return false if trip is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(undefined, { gtfsId: 'foo' }),
+      ).to.equal(false);
+    });
+
+    it('should return false if trip has no array "stoptimes"', () => {
+      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if stop is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          undefined,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return false if stop has no gtfsId', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {},
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true when there is a cancelation for the given stop', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {
+            gtfsId: 'foo',
+          },
+        ),
+      ).to.equal(true);
+    });
+  });
+
   describe('patternHasCancelation', () => {
     it('should return false if pattern is undefined', () => {
       expect(utils.patternHasCancelation(undefined)).to.equal(false);

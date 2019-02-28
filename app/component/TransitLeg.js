@@ -14,7 +14,10 @@ import IntermediateLeg from './IntermediateLeg';
 import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES } from '../util/path';
-import { legHasCancelation, stoptimeHasCancelation } from '../util/alertUtils';
+import {
+  legHasCancelation,
+  tripHasCancelationForStop,
+} from '../util/alertUtils';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -50,10 +53,7 @@ class TransitLeg extends React.Component {
       const stopList = leg.intermediatePlaces.map((place, i, array) => {
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
-        const isCanceled = leg.trip.stoptimes.some(
-          st =>
-            st.stop.gtfsId === place.stop.gtfsId && stoptimeHasCancelation(st),
-        );
+        const isCanceled = tripHasCancelationForStop(leg.trip, place.stop);
 
         const previousZoneId =
           (array[i - 1] && array[i - 1].stop.zoneId) ||
