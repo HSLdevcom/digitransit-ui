@@ -70,6 +70,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
+    const { itinerary, searchTime } = this.props;
     const { config } = this.context;
     const routeInformation = config.showRouteInformation && (
       <RouteInformation />
@@ -80,20 +81,17 @@ class ItineraryTab extends React.Component {
         <BreakpointConsumer>
           {breakpoint => [
             breakpoint !== 'large' ? (
-              <ItinerarySummary itinerary={this.props.itinerary} key="summary">
+              <ItinerarySummary itinerary={itinerary} key="summary">
                 <TimeFrame
-                  startTime={this.props.itinerary.startTime}
-                  endTime={this.props.itinerary.endTime}
-                  refTime={this.props.searchTime}
+                  startTime={itinerary.startTime}
+                  endTime={itinerary.endTime}
+                  refTime={searchTime}
                   className="timeframe--itinerary-summary"
                 />
               </ItinerarySummary>
             ) : (
               <div className="itinerary-timeframe" key="timeframe">
-                <DateWarning
-                  date={this.props.itinerary.startTime}
-                  refTime={this.props.searchTime}
-                />
+                <DateWarning date={itinerary.startTime} refTime={searchTime} />
               </div>
             ),
             <div className="momentum-scroll itinerary-tabs__scroll" key="legs">
@@ -103,18 +101,17 @@ class ItineraryTab extends React.Component {
                 })}
               >
                 <ItineraryLegs
-                  itinerary={this.props.itinerary}
-                  context={this.context}
+                  itinerary={itinerary}
                   focusMap={this.handleFocus}
                 />
                 <ItineraryProfile
-                  itinerary={this.props.itinerary}
+                  itinerary={itinerary}
                   small={breakpoint !== 'large'}
                 />
                 {config.showTicketInformation && (
                   <TicketInformation
-                    fares={this.props.itinerary.fares}
-                    zones={getZones(this.props.itinerary.legs)}
+                    fares={itinerary.fares}
+                    zones={getZones(itinerary.legs)}
                   />
                 )}
                 {routeInformation}
