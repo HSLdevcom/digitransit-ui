@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
+import PropTypes from 'prop-types';
 import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -18,6 +18,7 @@ import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
+import { itineraryHasCancelation } from '../util/alertUtils';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -31,7 +32,6 @@ class ItineraryLegs extends React.Component {
   static propTypes = {
     itinerary: PropTypes.object,
     focusMap: PropTypes.func,
-    showCanceledLegsBanner: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -44,15 +44,14 @@ class ItineraryLegs extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.checkForCanceledLegs(this.arrangeLegs(this.props.itinerary))) {
+    const { itinerary } = this.props;
+    if (itineraryHasCancelation(itinerary)) {
       this.context.executeAction(updateShowCanceledLegsBannerState, true);
     }
   };
 
   componentWillUnmount = () => {
-    if (this.props.showCanceledLegsBanner) {
-      this.context.executeAction(updateShowCanceledLegsBannerState, false);
-    }
+    this.context.executeAction(updateShowCanceledLegsBannerState, false);
   };
 
   focus = position => e => {
@@ -62,49 +61,11 @@ class ItineraryLegs extends React.Component {
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
-  checkForCanceledLegs = legs => {
-    let hasCancelled = false;
-    legs.forEach(
-      leg =>
-        leg.trip &&
-        leg.trip.stoptimes &&
-        leg.trip.stoptimes.forEach(stoptime => {
-          if (stoptime.realtimeState === 'CANCELED') {
-            hasCancelled = true;
-          }
-        }),
-    );
-    return hasCancelled;
-  };
-
-  arrangeLegs = itinerary =>
-    itinerary.legs.map(leg => {
-      if (
-        leg.trip &&
-        leg.trip.stoptimes &&
-        leg.trip.stoptimes.filter(
-          stoptime =>
-            stoptime.realtimeState === 'CANCELED' &&
-            stoptime.stop.gtfsId === leg.from.stop.gtfsId,
-        ).length > 0
-      ) {
-        return {
-          ...leg,
-          canceled: true,
-        };
-      }
-      return {
-        ...leg,
-      };
-    });
-
   render() {
-    const checkedLegs = this.arrangeLegs(this.props.itinerary);
-
     let previousLeg;
     let nextLeg;
     const legs = [];
-    const compressedLegs = compressLegs(checkedLegs);
+    const compressedLegs = compressLegs(this.props.itinerary.legs);
     const numberOfLegs = compressedLegs.length;
     if (numberOfLegs === 0) {
       return null;
@@ -288,16 +249,6 @@ class ItineraryLegs extends React.Component {
   }
 }
 
-const withStore = connectToStores(
-  ItineraryLegs,
-  ['CanceledLegsBarStore'],
-  ({ getStore }) => ({
-    showCanceledLegsBanner: getStore(
-      'CanceledLegsBarStore',
-    ).getShowCanceledLegsBanner(),
-  }),
-);
-
 ItineraryLegs.description = () => (
   <div>
     <p>Legs shown for the itinerary</p>
@@ -311,4 +262,4 @@ ItineraryLegs.description = () => (
   </div>
 );
 
-export { ItineraryLegs as component, withStore as default };
+export { ItineraryLegs as default, ItineraryLegs as Component };

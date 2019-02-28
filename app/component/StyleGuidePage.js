@@ -72,7 +72,7 @@ import BicycleLeg from './BicycleLeg';
 import EndLeg from './EndLeg';
 import AirportCheckInLeg from './AirportCheckInLeg';
 import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
-import { component as ItineraryLegs } from './ItineraryLegs';
+import { Component as ItineraryLegs } from './ItineraryLegs';
 import { component as CanceledLegsBar } from './CanceledLegsBar';
 import BusLeg from './BusLeg';
 import AirplaneLeg from './AirplaneLeg';
