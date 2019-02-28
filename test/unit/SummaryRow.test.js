@@ -12,6 +12,7 @@ import {
 
 import dcw12 from './test-data/dcw12';
 import dcw31 from './test-data/dcw31';
+import dt2830 from './test-data/dt2830';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 
 describe('<SummaryRow />', () => {
@@ -315,5 +316,27 @@ describe('<SummaryRow />', () => {
     expect(legs.childAt(5).is(RouteLeg)).to.equal(true);
     expect(legs.childAt(6).is(ViaLeg)).to.equal(true);
     expect(legs.childAt(7).is(ModeLeg)).to.equal(true);
+  });
+
+  it('should indicate which itineraries are canceled', () => {
+    const props = {
+      breakpoint: 'large',
+      data: dt2830,
+      hash: 1,
+      onSelect: () => {},
+      onSelectImmediately: () => {},
+      passive: false,
+      refTime: 1551272073000,
+      zones: [],
+      isCancelled: true,
+      showCancelled: true,
+    };
+
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+
+    expect(wrapper.find('.cancelled-itinerary')).to.have.lengthOf(1);
   });
 });
