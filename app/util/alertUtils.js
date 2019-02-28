@@ -90,6 +90,30 @@ export const routeHasCancelation = (route, patternId = undefined) => {
     .some(patternHasCancelation);
 };
 
+/**
+ * Checks if the leg has a cancelation.
+ *
+ * @param {*} leg the leg object to check.
+ */
+export const legHasCancelation = leg => {
+  if (!leg) {
+    return false;
+  }
+  return leg.realtimeState === RealtimeStateType.Canceled;
+};
+
+/**
+ * Checks if the itinerary has a cancelation.
+ *
+ * @param {*} itinerary the itinerary object to check.
+ */
+export const itineraryHasCancelation = itinerary => {
+  if (!itinerary || !Array.isArray(itinerary.legs)) {
+    return false;
+  }
+  return itinerary.legs.some(legHasCancelation);
+};
+
 const getTranslation = (translations, defaultValue, locale) => {
   if (!Array.isArray(translations)) {
     return defaultValue;
