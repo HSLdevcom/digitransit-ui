@@ -1,4 +1,7 @@
-import { AlertSeverityLevelType } from '../../../app/constants';
+import {
+  AlertEffectType,
+  AlertSeverityLevelType,
+} from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
@@ -314,6 +317,66 @@ describe('alertUtils', () => {
       ];
       expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
         AlertSeverityLevelType.Info,
+      );
+    });
+  });
+
+  describe('getMaximumAlertEffect', () => {
+    it('should return undefined if the alerts array is not an array', () => {
+      expect(utils.getMaximumAlertEffect(undefined)).to.equal(undefined);
+    });
+
+    it('should return undefined if the alerts array is empty', () => {
+      expect(utils.getMaximumAlertEffect([])).to.equal(undefined);
+    });
+
+    it('should return undefined if the effect cannot be determined', () => {
+      expect(utils.getMaximumAlertEffect([{ foo: 'bar' }])).to.equal(undefined);
+    });
+
+    it('should ignore alerts that are missing an effect', () => {
+      const alerts = [
+        { foo: 'bar' },
+        { alertEffect: AlertEffectType.NoService },
+        { foo: 'baz' },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.NoService,
+      );
+    });
+
+    it('should prioritize no service over everything else', () => {
+      const alerts = [
+        { alertEffect: AlertEffectType.AdditionalService },
+        { alertEffect: AlertEffectType.Detour },
+        { alertEffect: AlertEffectType.ModifiedService },
+        { alertEffect: AlertEffectType.NoEffect },
+        { alertEffect: AlertEffectType.NoService },
+        { alertEffect: AlertEffectType.OtherEffect },
+        { alertEffect: AlertEffectType.ReducedService },
+        { alertEffect: AlertEffectType.SignificantDelays },
+        { alertEffect: AlertEffectType.StopMoved },
+        { alertEffect: AlertEffectType.Unknown },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.NoService,
+      );
+    });
+
+    it('should return unknown if there are no alerts with the effect of no service', () => {
+      const alerts = [
+        { alertEffect: AlertEffectType.AdditionalService },
+        { alertEffect: AlertEffectType.Detour },
+        { alertEffect: AlertEffectType.ModifiedService },
+        { alertEffect: AlertEffectType.NoEffect },
+        { alertEffect: AlertEffectType.OtherEffect },
+        { alertEffect: AlertEffectType.ReducedService },
+        { alertEffect: AlertEffectType.SignificantDelays },
+        { alertEffect: AlertEffectType.StopMoved },
+        { alertEffect: AlertEffectType.Unknown },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.Unknown,
       );
     });
   });
