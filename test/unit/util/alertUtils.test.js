@@ -1,6 +1,7 @@
 import {
   AlertEffectType,
   AlertSeverityLevelType,
+  RealtimeStateType,
 } from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
@@ -160,6 +161,60 @@ describe('alertUtils', () => {
         ],
       };
       expect(utils.routeHasCancelation(route, 'foo')).to.equal(true);
+    });
+  });
+
+  describe('legHasCancelation', () => {
+    it('should return false if leg is falsy', () => {
+      expect(utils.legHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if the leg has not been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Scheduled }),
+      ).to.equal(false);
+    });
+
+    it('should return true if the leg has been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Canceled }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('itineraryHasCancelation', () => {
+    it('should return false if itinerary is falsy', () => {
+      expect(utils.itineraryHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if itinerary has no array "legs"', () => {
+      expect(utils.itineraryHasCancelation({ legs: undefined })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if none of the legs has a cancelation', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Added },
+            { realtimeState: RealtimeStateType.Modified },
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Updated },
+          ],
+        }),
+      ).to.equal(false);
+    });
+
+    it('should return true if at least one of the legs has been canceled', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Canceled },
+          ],
+        }),
+      ).to.equal(true);
     });
   });
 
