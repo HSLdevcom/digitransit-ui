@@ -126,8 +126,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     NODE_PID=$!
     sleep 2
   else #smoke
-      echo nop
-#    npm run build
+    npm run build
   fi
 
   $BROWSERSTACK_LOCAL_BINARY $3 &
