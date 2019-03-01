@@ -56,6 +56,21 @@ export const stoptimeHasCancelation = stoptime => {
 };
 
 /**
+ * Checks if the trip has a cancelation for the given stop.
+ *
+ * @param {*} trip the trip object to check.
+ * @param {*} stop the stop object to look a cancelation for.
+ */
+export const tripHasCancelationForStop = (trip, stop) => {
+  if (!trip || !Array.isArray(trip.stoptimes) || !stop || !stop.gtfsId) {
+    return false;
+  }
+  return trip.stoptimes
+    .filter(stoptimeHasCancelation)
+    .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
+};
+
+/**
  * Checks if the trip has a cancelation.
  *
  * @param {*} trip the trip object to check.
@@ -92,6 +107,30 @@ export const routeHasCancelation = (route, patternId = undefined) => {
   return route.patterns
     .filter(pattern => (patternId ? patternId === pattern.code : true))
     .some(patternHasCancelation);
+};
+
+/**
+ * Checks if the leg has a cancelation.
+ *
+ * @param {*} leg the leg object to check.
+ */
+export const legHasCancelation = leg => {
+  if (!leg) {
+    return false;
+  }
+  return leg.realtimeState === RealtimeStateType.Canceled;
+};
+
+/**
+ * Checks if the itinerary has a cancelation.
+ *
+ * @param {*} itinerary the itinerary object to check.
+ */
+export const itineraryHasCancelation = itinerary => {
+  if (!itinerary || !Array.isArray(itinerary.legs)) {
+    return false;
+  }
+  return itinerary.legs.some(legHasCancelation);
 };
 
 const getTranslation = (translations, defaultValue, locale) => {

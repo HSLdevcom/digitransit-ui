@@ -11,6 +11,7 @@ const subIconTemplate = {
   bottom: '-1px',
   left: '-6px',
 };
+
 const IconWithIcon = (
   {
     id,

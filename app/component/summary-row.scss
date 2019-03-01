@@ -1,3 +1,33 @@
+.canceled-legs-banner {
+  width: 100%;
+  background: $cancelation-red;
+  color: #fff;
+  padding: 1em;
+  .canceled-legs-container {
+    display: flex;
+    svg {
+      fill: $white;
+      color: $cancelation-red;
+      font-size: 1.5em;
+    }
+    .canceled-legs-right-content {
+      margin-left: 1em;
+      .canceled-legs-text {
+        margin-bottom: 0.5em;
+      }
+      button {
+        background: $cancelation-red;
+        color: $white;
+        border: 1px solid $white;
+        border-radius: 4px;
+        padding: 0.5em;
+        font-size: $font-size-xxsmall;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .itinerary-summary-row {
   min-height: 50px;
   padding-left: $padding-medium;
@@ -274,26 +304,6 @@
     margin-right: 10px;
     border-top: solid 1px $light-gray;
   }
-  #IconWithBigCaution-default-id {
-    display: block;
-    span {
-      display: block;
-      &.subicon-caution {
-        font-size: 65%;
-        position: absolute;
-        left: -0.2em;
-        top: 1.1em;
-        .icon {
-          fill: #dc0451;
-          color: white;
-          display: block;
-          overflow: visible;
-          width: 13px;
-          height: 13px;
-        }
-      }
-    }
-  }
 
   &.bp-large {
     min-height: 100px;
@@ -355,8 +365,6 @@
         margin-top: 0;
         margin-left: 8px;
         font-size: $font-size-large;
-        width: $font-size-large;
-        height: $font-size-large;
       }
 
       .vehicle-number {
@@ -400,6 +408,13 @@
 
 .mobile .itinerary-legs .leg {
   height: 3.4em;
+}
+
+.mobile {
+  .subicon-caution {
+    left: -0.3em;
+    top: 0.5em;
+  }
 }
 
 @media print {

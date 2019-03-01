@@ -5,6 +5,7 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import TransitLeg from '../../../app/component/TransitLeg';
 import IntermediateLeg from '../../../app/component/IntermediateLeg';
+import { RealtimeStateType } from '../../../app/constants';
 
 describe('<TransitLeg />', () => {
   it('should show a zone change between from and the first intermediate place', () => {
@@ -302,5 +303,59 @@ describe('<TransitLeg />', () => {
 
     wrapper.instance().toggleShowIntermediateStops();
     expect(wrapper.state('showIntermediateStops')).to.equal(false);
+  });
+
+  it('should apply isCanceled to an intermediate leg', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        from: {
+          name: 'Huopalahti',
+          stop: {},
+        },
+        intermediatePlaces: [
+          {
+            arrivalTime: 1540989970000,
+            stop: {
+              code: '007',
+              gtfsId: 'stop1',
+              name: 'Ilmala',
+            },
+          },
+        ],
+        route: {
+          gtfsId: 'A',
+        },
+        startTime: 1540989960000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+          stoptimes: [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+              stop: { gtfsId: 'stop1' },
+            },
+          ],
+        },
+      },
+      mode: 'RAIL',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: {
+        config: {
+          itinerary: {},
+        },
+        focusFunction: () => () => {},
+      },
+    });
+    wrapper.setState({ showIntermediateStops: true });
+    expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
   });
 });

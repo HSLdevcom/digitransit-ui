@@ -1,6 +1,7 @@
 import {
   AlertEffectType,
   AlertSeverityLevelType,
+  RealtimeStateType,
 } from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
@@ -87,6 +88,70 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('tripHasCancelationForStop', () => {
+    it('should return false if trip is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(undefined, { gtfsId: 'foo' }),
+      ).to.equal(false);
+    });
+
+    it('should return false if trip has no array "stoptimes"', () => {
+      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if stop is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          undefined,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return false if stop has no gtfsId', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {},
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true when there is a cancelation for the given stop', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {
+            gtfsId: 'foo',
+          },
+        ),
+      ).to.equal(true);
+    });
+  });
+
   describe('patternHasCancelation', () => {
     it('should return false if pattern is undefined', () => {
       expect(utils.patternHasCancelation(undefined)).to.equal(false);
@@ -160,6 +225,60 @@ describe('alertUtils', () => {
         ],
       };
       expect(utils.routeHasCancelation(route, 'foo')).to.equal(true);
+    });
+  });
+
+  describe('legHasCancelation', () => {
+    it('should return false if leg is falsy', () => {
+      expect(utils.legHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if the leg has not been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Scheduled }),
+      ).to.equal(false);
+    });
+
+    it('should return true if the leg has been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Canceled }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('itineraryHasCancelation', () => {
+    it('should return false if itinerary is falsy', () => {
+      expect(utils.itineraryHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if itinerary has no array "legs"', () => {
+      expect(utils.itineraryHasCancelation({ legs: undefined })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if none of the legs has a cancelation', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Added },
+            { realtimeState: RealtimeStateType.Modified },
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Updated },
+          ],
+        }),
+      ).to.equal(false);
+    });
+
+    it('should return true if at least one of the legs has been canceled', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Canceled },
+          ],
+        }),
+      ).to.equal(true);
     });
   });
 
