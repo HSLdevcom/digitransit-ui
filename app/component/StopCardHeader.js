@@ -5,9 +5,8 @@ import { intlShape } from 'react-intl';
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
+import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
-import { AlertSeverityLevelType } from '../constants';
-import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -34,18 +33,12 @@ class StopCardHeader extends React.Component {
       return false;
     }
 
-    const level = getMaximumAlertSeverityLevel(stop.alerts);
     return (
       <CardHeader
         className={className}
-        {...level && {
-          headerIcon:
-            level === AlertSeverityLevelType.Info ? (
-              <Icon className="header-icon info" img="icon-icon_info" />
-            ) : (
-              <Icon className="header-icon caution" img="icon-icon_caution" />
-            ),
-        }}
+        headerIcon={
+          <ServiceAlertIcon alerts={stop.alerts} className="inline-icon" />
+        }
         headingStyle={headingStyle}
         name={stop.name}
         description={this.getDescription()}

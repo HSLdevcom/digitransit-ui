@@ -8,10 +8,37 @@ import cx from 'classnames';
 import FuzzyTripRoute from './FuzzyTripRoute';
 import TripLink from './TripLink';
 import WalkDistance from './WalkDistance';
+import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import { PREFIX_STOPS } from '../util/path';
 import ComponentUsageExample from './ComponentUsageExample';
+import { AlertSeverityLevelType } from '../constants';
+
+const exampleStop = {
+  stopTimesForPattern: [
+    {
+      realtime: true,
+      realtimeState: 'UPDATED',
+      realtimeDeparture: 48796,
+      serviceDay: 1471467600,
+      scheduledDeparture: 48780,
+    },
+    {
+      realtime: false,
+      realtimeState: 'SCHEDULED',
+      realtimeDeparture: 49980,
+      serviceDay: 1471467600,
+      scheduledDeparture: 49980,
+    },
+  ],
+  gtfsId: 'HSL:1173101',
+  lat: 60.198185699999726,
+  lon: 24.940634400000118,
+  name: 'Asemapäällikönkatu',
+  desc: 'Ratamestarinkatu',
+  code: '0663',
+};
 
 class RouteStop extends React.PureComponent {
   static propTypes = {
@@ -27,38 +54,42 @@ class RouteStop extends React.PureComponent {
   };
 
   static description = () => (
-    <ComponentUsageExample description="basic">
-      <RouteStop
-        stop={{
-          stopTimesForPattern: [
-            {
-              realtime: true,
-              realtimeState: 'UPDATED',
-              realtimeDeparture: 48796,
-              serviceDay: 1471467600,
-              scheduledDeparture: 48780,
-            },
-            {
-              realtime: false,
-              realtimeState: 'SCHEDULED',
-              realtimeDeparture: 49980,
-              serviceDay: 1471467600,
-              scheduledDeparture: 49980,
-            },
-          ],
-          gtfsId: 'HSL:1173101',
-          lat: 60.198185699999726,
-          lon: 24.940634400000118,
-          name: 'Asemapäällikönkatu',
-          desc: 'Ratamestarinkatu',
-          code: '0663',
-        }}
-        mode="bus"
-        distance={200}
-        last={false}
-        currentTime={1471515614}
-      />
-    </ComponentUsageExample>
+    <React.Fragment>
+      <ComponentUsageExample description="basic">
+        <RouteStop
+          stop={{ ...exampleStop }}
+          mode="bus"
+          distance={200}
+          last={false}
+          currentTime={1471515614}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="with info">
+        <RouteStop
+          stop={{
+            ...exampleStop,
+            alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Info }],
+          }}
+          mode="bus"
+          distance={200}
+          last={false}
+          currentTime={1471515614}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="with caution">
+        <RouteStop
+          stop={{
+            ...exampleStop,
+            alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
+            stopTimesForPattern: [],
+          }}
+          mode="bus"
+          distance={200}
+          last={false}
+          currentTime={1471515614}
+        />
+      </ComponentUsageExample>
+    </React.Fragment>
   );
 
   render() {
@@ -124,6 +155,10 @@ class RouteStop extends React.PureComponent {
             <div className={` route-details_container ${mode}`}>
               <div>
                 <span>{stop.name}</span>
+                <ServiceAlertIcon
+                  alerts={stop.alerts}
+                  className="inline-icon"
+                />
                 {patternExists &&
                   stop.stopTimesForPattern[0].pickupType === 'NONE' &&
                   !last && (
