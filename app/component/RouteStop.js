@@ -13,7 +13,7 @@ import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
 import { PREFIX_STOPS } from '../util/path';
 import ComponentUsageExample from './ComponentUsageExample';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -82,6 +82,33 @@ class RouteStop extends React.PureComponent {
             ...exampleStop,
             alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
             stopTimesForPattern: [],
+          }}
+          mode="bus"
+          distance={200}
+          last={false}
+          currentTime={1471515614}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="with cancelation">
+        <RouteStop
+          stop={{
+            ...exampleStop,
+            stopTimesForPattern: [
+              {
+                realtime: false,
+                realtimeState: RealtimeStateType.Canceled,
+                realtimeDeparture: 48796,
+                serviceDay: 1471467600,
+                scheduledDeparture: 48780,
+              },
+              {
+                realtime: false,
+                realtimeState: RealtimeStateType.Canceled,
+                realtimeDeparture: 49980,
+                serviceDay: 1471467600,
+                scheduledDeparture: 49980,
+              },
+            ],
           }}
           mode="bus"
           distance={200}
