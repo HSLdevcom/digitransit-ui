@@ -194,13 +194,16 @@ export default Relay.createContainer(
           directionId
         }
         stoptimesForDate {
-          stop{
+          stop {
             gtfsId
             name
             desc
             code
             lat
             lon
+            alerts {
+              alertSeverityLevel
+            }
           }
           realtimeDeparture
           realtime
