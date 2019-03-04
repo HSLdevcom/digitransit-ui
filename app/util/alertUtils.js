@@ -170,22 +170,19 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
     locale,
   );
 
-/**
- * Retrieves OTP-style Service Alerts from the given route and
- * maps them to the format understood be the UI.
- *
- * @param {*} route the route object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertsForRoute = (route, locale = 'en') =>
-  Array.isArray(route.alerts)
-    ? route.alerts.map(alert => ({
+const getServiceAlerts = (
+  { alerts } = {},
+  { color, mode, shortName } = {},
+  locale = 'en',
+) =>
+  Array.isArray(alerts)
+    ? alerts.map(alert => ({
         description: getServiceAlertDescription(alert, locale),
         header: getServiceAlertHeader(alert, locale),
         route: {
-          color: route.color,
-          mode: route.mode,
-          shortName: route.shortName,
+          color,
+          mode,
+          shortName,
         },
         validityPeriod: {
           startTime: alert.effectiveStartDate * 1000,
@@ -193,6 +190,36 @@ export const getServiceAlertsForRoute = (route, locale = 'en') =>
         },
       }))
     : [];
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRoute = (route, locale = 'en') =>
+  getServiceAlerts(route, route, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route's
+ * pattern's stops and maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} patternId the pattern's id.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRouteStops = (
+  route,
+  patternId,
+  locale = 'en',
+) =>
+  route.patterns
+    .filter(pattern => patternId === pattern.code)
+    .map(pattern => pattern.stops)
+    .reduce((a, b) => a.concat(b), [])
+    .map(stop => getServiceAlerts(stop, route, locale))
+    .reduce((a, b) => a.concat(b), []);
 
 /**
  * Iterates through the alerts and returns the highest severity level found.
