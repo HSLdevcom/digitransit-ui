@@ -11,6 +11,7 @@ import Icon from './Icon';
 import {
   stoptimeHasCancelation,
   patternHasServiceAlert,
+  stopHasServiceAlert,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -54,13 +55,14 @@ function StopPageTabContainer({
     params.terminalId ? params.terminalId : params.stopId,
   )}`;
   const hasActiveAlert =
-    Array.isArray(stop.stoptimesForServiceDate) &&
-    stop.stoptimesForServiceDate.some(
-      st =>
-        patternHasServiceAlert(st.pattern) ||
-        (Array.isArray(st.stoptimes) &&
-          st.stoptimes.some(stoptimeHasCancelation)),
-    );
+    stopHasServiceAlert(stop) ||
+    (Array.isArray(stop.stoptimesForServiceDate) &&
+      stop.stoptimesForServiceDate.some(
+        st =>
+          patternHasServiceAlert(st.pattern) ||
+          (Array.isArray(st.stoptimes) &&
+            st.stoptimes.some(stoptimeHasCancelation)),
+      ));
 
   return (
     <div className="stop-page-content-wrapper">
@@ -184,6 +186,9 @@ const containerComponent = Relay.createContainer(
     fragments: {
       stop: () => Relay.QL`
         fragment on Stop {
+          alerts {
+            alertSeverityLevel
+          }
           stoptimesForServiceDate(date:$date, omitCanceled:false) {
             pattern {
               route {
