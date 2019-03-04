@@ -23,12 +23,19 @@ export const stopHasServiceAlert = stop => {
  * Checks if the route has any alerts.
  *
  * @param {*} route the route object to check.
+ * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasServiceAlert = route => {
+export const routeHasServiceAlert = (route, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return route.alerts.length > 0;
+  return patternId
+    ? route.alerts.some(
+        alert =>
+          !alert.trip ||
+          (alert.trip.pattern && alert.trip.pattern.code === patternId),
+      )
+    : route.alerts.length > 0;
 };
 
 /**

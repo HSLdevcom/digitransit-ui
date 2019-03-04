@@ -22,6 +22,53 @@ describe('alertUtils', () => {
     it('should return true if route has a non-empty alerts array', () => {
       expect(utils.routeHasServiceAlert({ alerts: [{}] })).to.equal(true);
     });
+
+    it('should optionally filter by the given patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {
+            pattern: {
+              code: patternId,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+      expect(utils.routeHasServiceAlert({ alerts }, 'bar')).to.equal(false);
+    });
+
+    it('should ignore missing trip information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: null,
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+    });
+
+    it('should not ignore missing pattern and code information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {},
+        },
+        {
+          trip: {
+            pattern: {},
+          },
+        },
+        {
+          trip: {
+            pattern: {
+              code: undefined,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(false);
+    });
   });
 
   describe('patternHasServiceAlert', () => {

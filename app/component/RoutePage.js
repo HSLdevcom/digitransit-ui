@@ -17,7 +17,11 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
-import { routeHasServiceAlert, routeHasCancelation } from '../util/alertUtils';
+import {
+  routeHasServiceAlert,
+  routeHasCancelation,
+  stopHasServiceAlert,
+} from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -124,16 +128,16 @@ class RoutePage extends React.Component {
     const activeTab = getActiveTab(this.props.location.pathname);
     const { patternId } = this.props.params;
     const hasActiveAlert =
-      (routeHasServiceAlert(route) &&
-        (route.alerts.some(alert => alert.trip)
-          ? route.alerts.some(
-              alert =>
-                alert.trip &&
-                alert.trip.pattern &&
-                alert.trip.pattern.code === patternId,
-            )
-          : true)) ||
-      routeHasCancelation(route, patternId);
+      routeHasServiceAlert(route, patternId) ||
+      routeHasCancelation(route, patternId) ||
+      (Array.isArray(route.patterns) &&
+        route.patterns
+          .filter(pattern => pattern.code === patternId)
+          .some(
+            pattern =>
+              Array.isArray(pattern.stops) &&
+              pattern.stops.some(stopHasServiceAlert),
+          ));
 
     return (
       <div>
@@ -249,6 +253,11 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         }
         patterns {
           code
+          stops {
+            alerts {
+              alertSeverityLevel
+            }
+          }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
               realtimeState
