@@ -9,9 +9,9 @@ import some from 'lodash/some';
 
 import Icon from './Icon';
 import {
-  stoptimeHasCancelation,
-  patternHasServiceAlert,
   stopHasServiceAlert,
+  stoptimeHasCancelation,
+  routeHasServiceAlert,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -56,12 +56,11 @@ function StopPageTabContainer({
   )}`;
   const hasActiveAlert =
     stopHasServiceAlert(stop) ||
-    (Array.isArray(stop.stoptimesForServiceDate) &&
-      stop.stoptimesForServiceDate.some(
+    (Array.isArray(stop.stoptimes) &&
+      stop.stoptimes.some(
         st =>
-          patternHasServiceAlert(st.pattern) ||
-          (Array.isArray(st.stoptimes) &&
-            st.stoptimes.some(stoptimeHasCancelation)),
+          stoptimeHasCancelation(st) ||
+          (st.trip && routeHasServiceAlert(st.trip.route)),
       ));
 
   return (
@@ -143,6 +142,10 @@ function StopPageTabContainer({
   );
 }
 
+const alertArrayShape = PropTypes.arrayOf(
+  PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
+);
+
 StopPageTabContainer.propTypes = {
   children: PropTypes.node.isRequired,
   breakpoint: PropTypes.string.isRequired,
@@ -159,18 +162,15 @@ StopPageTabContainer.propTypes = {
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   stop: PropTypes.shape({
-    stoptimesForServiceDate: PropTypes.arrayOf(
+    alerts: alertArrayShape,
+    stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        pattern: PropTypes.shape({
+        realtimeState: PropTypes.string,
+        trip: PropTypes.shape({
           route: PropTypes.shape({
-            alerts: PropTypes.array.isRequired,
-          }).isRequired,
-        }).isRequired,
-        stoptimes: PropTypes.arrayOf(
-          PropTypes.shape({
-            realtimeState: PropTypes.string.isRequired,
+            alerts: alertArrayShape,
           }),
-        ).isRequired,
+        }),
       }),
     ),
   }),
@@ -189,21 +189,27 @@ const containerComponent = Relay.createContainer(
           alerts {
             alertSeverityLevel
           }
-          stoptimesForServiceDate(date:$date, omitCanceled:false) {
-            pattern {
+          stoptimes: stoptimesWithoutPatterns(
+            startTime:$startTime,
+            timeRange:$timeRange,
+            numberOfDepartures:100,
+            omitCanceled:false
+          ) {
+            realtimeState
+            trip {
               route {
-                alerts
+                alerts {
+                  alertSeverityLevel
+                }
               }
-            }
-            stoptimes {
-              realtimeState
             }
           }
         }
       `,
     },
     initialVariables: {
-      date: moment().format('YYYYMMDD'),
+      startTime: moment().unix() - 60 * 5, // 5 mins in the past
+      timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
     },
   },
 );

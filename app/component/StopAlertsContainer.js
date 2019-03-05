@@ -8,53 +8,46 @@ import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
-  patternHasServiceAlert,
-  stoptimeHasCancelation,
   getServiceAlertsForRoute,
-  otpServiceAlertShape,
   getServiceAlertsForStop,
+  otpServiceAlertShape,
+  routeHasServiceAlert,
+  stoptimeHasCancelation,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
-  const cancelations = stop.stoptimesForServiceDate
-    .filter(st => Array.isArray(st.stoptimes))
-    .map(st => ({
-      pattern: st.pattern,
-      stoptimes: st.stoptimes.filter(stoptimeHasCancelation),
-    }))
-    .filter(st => st.stoptimes.length > 0)
-    .map(({ pattern, stoptimes }) => {
-      const { color, mode, shortName } = pattern.route;
-      return stoptimes.map(stoptime => {
-        const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-        return {
-          header: (
-            <DepartureCancelationInfo
-              firstStopName={pattern.stops[0].name}
-              headsign={stoptime.headsign}
-              routeMode={mode}
-              scheduledDepartureTime={departureTime}
-              shortName={shortName}
-            />
-          ),
-          route: {
-            color,
-            mode,
-            shortName,
-          },
-          severity: AlertSeverityLevelType.Warning,
-          validityPeriod: {
-            startTime: departureTime,
-          },
-        };
-      });
+  const cancelations = stop.stoptimes
+    .filter(stoptimeHasCancelation)
+    .map(stoptime => {
+      const { color, mode, shortName } = stoptime.trip.route;
+      const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+      return {
+        header: (
+          <DepartureCancelationInfo
+            firstStopName={stoptime.trip.stops[0].name}
+            headsign={stoptime.headsign}
+            routeMode={mode}
+            scheduledDepartureTime={departureTime}
+            shortName={shortName}
+          />
+        ),
+        route: {
+          color,
+          mode,
+          shortName,
+        },
+        severity: AlertSeverityLevelType.Warning,
+        validityPeriod: {
+          startTime: departureTime,
+        },
+      };
     })
     .reduce((a, b) => a.concat(b), []);
 
-  const serviceAlerts = stop.stoptimesForServiceDate
-    .map(st => st.pattern)
-    .filter(patternHasServiceAlert)
-    .map(pattern => getServiceAlertsForRoute(pattern.route, intl.locale))
+  const serviceAlerts = stop.stoptimes
+    .map(stoptime => stoptime.trip.route)
+    .filter(routeHasServiceAlert)
+    .map(route => getServiceAlertsForRoute(route, intl.locale))
     .reduce((a, b) => a.concat(b), [])
     .concat(getServiceAlertsForStop(stop, intl.locale));
 
@@ -65,9 +58,13 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
 
 StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
-    stoptimesForServiceDate: PropTypes.arrayOf(
+    stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        pattern: PropTypes.shape({
+        headsign: PropTypes.string.isRequired,
+        realtimeState: PropTypes.string,
+        scheduledDeparture: PropTypes.number,
+        serviceDay: PropTypes.number,
+        trip: PropTypes.shape({
           route: PropTypes.shape({
             alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
             color: PropTypes.string,
@@ -80,14 +77,6 @@ StopAlertsContainer.propTypes = {
             }),
           ).isRequired,
         }).isRequired,
-        stoptimes: PropTypes.arrayOf(
-          PropTypes.shape({
-            headsign: PropTypes.string.isRequired,
-            realtimeState: PropTypes.string,
-            scheduledDeparture: PropTypes.number,
-            serviceDay: PropTypes.number,
-          }),
-        ).isRequired,
       }),
     ).isRequired,
   }).isRequired,
@@ -116,8 +105,17 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
             text
           }
         }
-        stoptimesForServiceDate(date:$date, omitCanceled:false) {
-          pattern {
+        stoptimes: stoptimesWithoutPatterns(
+          startTime:$startTime,
+          timeRange:$timeRange,
+          numberOfDepartures:100,
+          omitCanceled:false
+        ) {
+          headsign
+          realtimeState
+          scheduledDeparture
+          serviceDay
+          trip {
             route {
               color
               mode
@@ -142,17 +140,13 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               name
             }
           }
-          stoptimes {
-            headsign
-            realtimeState
-            scheduledDeparture
-            serviceDay
-          }
         }
       }
     `,
   },
   initialVariables: {
+    startTime: moment().unix() - 60 * 5, // 5 mins in the past
+    timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
     date: moment().format(DATE_FORMAT),
   },
 });
