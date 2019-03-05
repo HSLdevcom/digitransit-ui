@@ -5,22 +5,25 @@ import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('mapIconUtils', () => {
   describe('drawRoundIcon', () => {
+    const tile = {
+      coords: {
+        z: 12,
+      },
+      ctx: {
+        arc: sinon.stub(),
+        beginPath: sinon.stub(),
+        fill: sinon.stub(),
+      },
+      ratio: 1,
+      scaleratio: 1,
+    };
+
+    const geometry = {
+      x: 1,
+      y: 1,
+    };
+
     it('should return the icon radius', () => {
-      const tile = {
-        coords: {
-          z: 12,
-        },
-        ctx: {
-          arc: sinon.stub(),
-          beginPath: sinon.stub(),
-          fill: sinon.stub(),
-        },
-        ratio: 1,
-      };
-      const geometry = {
-        x: 1,
-        y: 1,
-      };
       const { iconRadius } = utils.drawRoundIcon(
         tile,
         geometry,
@@ -29,6 +32,17 @@ describe('mapIconUtils', () => {
         undefined,
       );
       expect(iconRadius).to.equal(1);
+    });
+
+    it('should take the scaleratio into account', () => {
+      const { iconRadius } = utils.drawRoundIcon(
+        { ...tile, scaleratio: 2 },
+        geometry,
+        'BUS',
+        false,
+        undefined,
+      );
+      expect(iconRadius).to.equal(2);
     });
   });
 
