@@ -175,7 +175,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
   }
 
   return {
-    iconRadius: stopRadius,
+    iconRadius: stopRadius * tile.scaleratio,
   };
 }
 
