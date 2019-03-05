@@ -750,6 +750,7 @@ div.route-tabs {
 
   .route-option {
     background: $white;
+    font-weight: 500;
   }
 
   button.toggle-direction, button.toggle-direction:hover {
@@ -767,6 +768,13 @@ div.route-tabs {
       color: $link-color;
       position: static;
     }
+  }
+
+  .route-option option {
+    margin-top: 0.4em;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.75);
+    cursor: default;
   }
 
   select, .route-option {
@@ -803,6 +811,11 @@ div.route-tabs {
     padding: 10px 20px;
     @media print {
       padding-left: 0;
+    }
+
+    .route-option option {
+      font-size: 18px;
+      margin-top: 0.3em;
     }
 
     select, .route-option {

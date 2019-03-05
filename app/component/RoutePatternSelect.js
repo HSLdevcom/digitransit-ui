@@ -35,7 +35,6 @@ class RoutePatternSelect extends Component {
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
     this.state = {
       loading: false,
-      currentPattern: null,
     };
   }
 
@@ -97,11 +96,7 @@ class RoutePatternSelect extends Component {
           <React.Fragment>
             <Icon img="icon-icon_arrow-dropdown" />
             <select
-              onChange={() =>
-                this.props.onSelectChange(
-                  this.props.params && this.props.params.patternId,
-                )
-              }
+              onChange={e => this.props.onSelectChange(e.target.value)}
               value={this.props.params && this.props.params.patternId}
             >
               {options}
@@ -123,7 +118,7 @@ class RoutePatternSelect extends Component {
                   this.props.onSelectChange(
                     options.filter(
                       o => o.props.value !== this.props.params.patternId,
-                    )[0],
+                    )[0].props.value,
                   )
                 }
               >

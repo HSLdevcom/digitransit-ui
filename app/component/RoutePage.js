@@ -99,7 +99,7 @@ class RoutePage extends React.Component {
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname).replace(
         new RegExp(`${this.props.params.patternId}(.*)`),
-        newPattern.props.value,
+        newPattern,
       ),
     );
   };
