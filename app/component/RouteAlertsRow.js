@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import RouteNumber from './RouteNumber';
+
 import ComponentUsageExample from './ComponentUsageExample';
+import RouteNumber from './RouteNumber';
+import ServiceAlertIcon from './ServiceAlertIcon';
 
 export default function RouteAlertsRow({
   header,
@@ -11,16 +13,23 @@ export default function RouteAlertsRow({
   routeLine,
   expired,
   color,
+  severity,
 }) {
   return (
     <div className={cx('route-alert-row', { expired })}>
-      <RouteNumber
-        color={color}
-        hasDisruption
-        mode={routeMode}
-        text={routeLine}
-        vertical
-      />
+      {routeMode ? (
+        <RouteNumber
+          color={color}
+          hasDisruption
+          mode={routeMode}
+          text={routeLine}
+          vertical
+        />
+      ) : (
+        <div className="route-number">
+          <ServiceAlertIcon severity={severity} />
+        </div>
+      )}
       <div className="route-alert-contents">
         <div className={cx('route-alert-header', routeMode)}>{header}</div>
         <div className="route-alert-body">{description}</div>
@@ -32,10 +41,17 @@ export default function RouteAlertsRow({
 RouteAlertsRow.propTypes = {
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   description: PropTypes.string,
-  routeMode: PropTypes.string.isRequired,
-  routeLine: PropTypes.string.isRequired,
+  routeMode: PropTypes.string,
+  routeLine: PropTypes.string,
   expired: PropTypes.bool.isRequired,
   color: PropTypes.string,
+  severity: PropTypes.string,
+};
+
+RouteAlertsRow.defaultProps = {
+  routeLine: undefined,
+  routeMode: undefined,
+  severity: undefined,
 };
 
 RouteAlertsRow.description = () => (

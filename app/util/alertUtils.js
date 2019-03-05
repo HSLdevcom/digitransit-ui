@@ -191,6 +191,7 @@ const getServiceAlerts = (
           mode,
           shortName,
         },
+        ...(alert.alertSeverityLevel && { severity: alert.alertSeverityLevel }),
         validityPeriod: {
           startTime: alert.effectiveStartDate * 1000,
           endTime: alert.effectiveEndDate * 1000,
@@ -207,6 +208,16 @@ const getServiceAlerts = (
  */
 export const getServiceAlertsForRoute = (route, locale = 'en') =>
   getServiceAlerts(route, route, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given stop and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} stop the stop object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForStop = (stop, locale = 'en') =>
+  getServiceAlerts(stop, {}, locale);
 
 /**
  * Retrieves OTP-style Service Alerts from the given route's
@@ -301,6 +312,7 @@ export const otpServiceAlertShape = PropTypes.shape({
       text: PropTypes.string,
     }),
   ),
+  alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
 });

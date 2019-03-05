@@ -7,6 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
+import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -37,7 +38,10 @@ class StopCardHeader extends React.Component {
       <CardHeader
         className={className}
         headerIcon={
-          <ServiceAlertIcon alerts={stop.alerts} className="inline-icon" />
+          <ServiceAlertIcon
+            className="inline-icon"
+            severity={getMaximumAlertSeverityLevel(stop.alerts)}
+          />
         }
         headingStyle={headingStyle}
         name={stop.name}

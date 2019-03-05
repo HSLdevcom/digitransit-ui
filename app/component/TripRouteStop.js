@@ -17,6 +17,7 @@ import {
   realtimeDeparture as exampleRealtimeDeparture,
   vehicle as exampleVehicle,
 } from './ExampleData';
+import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
 
 const TripRouteStop = props => {
   const vehicles =
@@ -66,8 +67,8 @@ const TripRouteStop = props => {
             <div>
               <span>{props.stop.name}</span>
               <ServiceAlertIcon
-                alerts={props.stop.alerts}
                 className="inline-icon"
+                severity={getMaximumAlertSeverityLevel(props.stop.alerts)}
               />
             </div>
             <div>

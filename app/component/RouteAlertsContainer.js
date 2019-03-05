@@ -102,6 +102,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
         alerts {
           alertDescriptionText
           alertHeaderText
+          alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
           alertDescriptionTextTranslations {
@@ -119,6 +120,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
             alerts {
               alertDescriptionText
               alertHeaderText
+              alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
               alertDescriptionTextTranslations {

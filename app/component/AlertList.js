@@ -61,7 +61,8 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
             ({
               description,
               header,
-              route: { color, mode, shortName },
+              route: { color, mode, shortName } = {},
+              severity,
               validityPeriod,
             }) => (
               <RouteAlertsRow
@@ -71,7 +72,8 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
                 header={header}
                 key={uniqueId('alert-')}
                 routeLine={shortName}
-                routeMode={mode.toLowerCase()}
+                routeMode={mode && mode.toLowerCase()}
+                severity={severity}
               />
             ),
           )}
@@ -87,7 +89,8 @@ const alertShape = PropTypes.shape({
     color: PropTypes.string,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
+  severity: PropTypes.string,
   validityPeriod: PropTypes.shape({
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number,

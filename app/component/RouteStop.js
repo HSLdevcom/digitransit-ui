@@ -11,9 +11,10 @@ import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import { fromStopTime } from './DepartureTime';
-import { PREFIX_STOPS } from '../util/path';
 import ComponentUsageExample from './ComponentUsageExample';
 import { AlertSeverityLevelType, RealtimeStateType } from '../constants';
+import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
+import { PREFIX_STOPS } from '../util/path';
 
 const exampleStop = {
   stopTimesForPattern: [
@@ -183,8 +184,8 @@ class RouteStop extends React.PureComponent {
               <div>
                 <span>{stop.name}</span>
                 <ServiceAlertIcon
-                  alerts={stop.alerts}
                   className="inline-icon"
+                  severity={getMaximumAlertSeverityLevel(stop.alerts)}
                 />
                 {patternExists &&
                   stop.stopTimesForPattern[0].pickupType === 'NONE' &&
