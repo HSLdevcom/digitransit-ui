@@ -748,7 +748,28 @@ div.route-tabs {
   position: relative;
   min-height: 49px;
 
-  select {
+  .route-option {
+    background: $white;
+  }
+
+  button.toggle-direction, button.toggle-direction:hover {
+    background: $white;
+    padding: 0;
+    position: absolute;
+    top: 0.5em;
+    right: 1.3em;
+    display: block;
+    cursor: pointer;
+    pointer-events: all;
+    transform: rotate(90deg);
+    font-size: 1.5em;
+    .icon {
+      color: $link-color;
+      position: static;
+    }
+  }
+
+  select, .route-option {
     padding: 0 35px 0 10px;
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
@@ -784,7 +805,7 @@ div.route-tabs {
       padding-left: 0;
     }
 
-    select {
+    select, .route-option {
       height: 40px;
       font-size: 18px;
       padding: 0 48px 0 20px;

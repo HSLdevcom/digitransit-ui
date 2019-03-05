@@ -35,6 +35,7 @@ class RoutePatternSelect extends Component {
     this.props.relay.setVariables({ serviceDay: this.props.serviceDay });
     this.state = {
       loading: false,
+      currentPattern: null,
     };
   }
 
@@ -92,13 +93,45 @@ class RoutePatternSelect extends Component {
             ) === undefined && this.props.activeTab !== 'aikataulu',
         })}
       >
-        <Icon img="icon-icon_arrow-dropdown" />
-        <select
-          onChange={this.props.onSelectChange}
-          value={this.props.params && this.props.params.patternId}
-        >
-          {options}
-        </select>
+        {options.length > 2 ? (
+          <React.Fragment>
+            <Icon img="icon-icon_arrow-dropdown" />
+            <select
+              onChange={() =>
+                this.props.onSelectChange(
+                  this.props.params && this.props.params.patternId,
+                )
+              }
+              value={this.props.params && this.props.params.patternId}
+            >
+              {options}
+            </select>
+          </React.Fragment>
+        ) : (
+          <div className="route-patterns-toggle">
+            <div className="route-option">
+              {
+                options.filter(
+                  o => o.props.value === this.props.params.patternId,
+                )[0]
+              }
+
+              <button
+                type="button"
+                className="toggle-direction"
+                onClick={() =>
+                  this.props.onSelectChange(
+                    options.filter(
+                      o => o.props.value !== this.props.params.patternId,
+                    )[0],
+                  )
+                }
+              >
+                <Icon img="icon-icon_direction-b" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
