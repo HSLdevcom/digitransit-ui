@@ -185,6 +185,7 @@ const getServiceAlerts = (
   Array.isArray(alerts)
     ? alerts.map(alert => ({
         description: getServiceAlertDescription(alert, locale),
+        hash: alert.alertHash,
         header: getServiceAlertHeader(alert, locale),
         route: {
           color,
@@ -305,6 +306,7 @@ export const otpServiceAlertShape = PropTypes.shape({
       text: PropTypes.string,
     }),
   ),
+  alertHash: PropTypes.number,
   alertHeaderText: PropTypes.string,
   alertHeaderTextTranslations: PropTypes.arrayOf(
     PropTypes.shape({

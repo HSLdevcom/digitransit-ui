@@ -1,3 +1,4 @@
+import uniqBy from 'lodash/uniqBy';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -44,9 +45,12 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
     })
     .reduce((a, b) => a.concat(b), []);
 
-  const serviceAlerts = stop.stoptimes
-    .map(stoptime => stoptime.trip.route)
-    .filter(routeHasServiceAlert)
+  const serviceAlerts = uniqBy(
+    stop.stoptimes
+      .map(stoptime => stoptime.trip.route)
+      .filter(routeHasServiceAlert),
+    route => route.shortName,
+  )
     .map(route => getServiceAlertsForRoute(route, intl.locale))
     .reduce((a, b) => a.concat(b), [])
     .concat(getServiceAlertsForStop(stop, intl.locale));
@@ -58,9 +62,7 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
 
 StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({ alertSeverityLevel: PropTypes.string.isRequired }),
-    ),
+    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string.isRequired,
@@ -95,6 +97,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
       fragment Timetable on Stop {
         alerts {
           alertDescriptionText
+          alertHash,
           alertHeaderText
           alertSeverityLevel
           effectiveEndDate
@@ -125,6 +128,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               shortName
               alerts {
                 alertDescriptionText
+                alertHash
                 alertHeaderText
                 alertSeverityLevel
                 effectiveEndDate
