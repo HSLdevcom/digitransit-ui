@@ -433,6 +433,7 @@ describe('alertUtils', () => {
                   'Stop Rantatie (1007) is temporarily out of use due to a construction site',
               },
             ],
+            alertHash: 123456789,
             alertHeaderText:
               'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
             alertHeaderTextTranslations: [
@@ -457,6 +458,7 @@ describe('alertUtils', () => {
         {
           description:
             'Stop Rantatie (1007) is temporarily out of use due to a construction site',
+          hash: 123456789,
           header: 'Stop Rantatie (1007) is temporarily out of use',
           route: {
             color: 'pink',
