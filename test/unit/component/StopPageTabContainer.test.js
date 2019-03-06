@@ -59,18 +59,14 @@ describe('<StopPageTabContainer />', () => {
       },
       routes: [],
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            realtimeState: 'SCHEDULED',
+            trip: {
               route: {
                 alerts: [{}],
               },
             },
-            stoptimes: [
-              {
-                realtimeState: 'SCHEDULED',
-              },
-            ],
           },
         ],
       },
@@ -91,18 +87,14 @@ describe('<StopPageTabContainer />', () => {
       },
       routes: [],
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            realtimeState: 'CANCELED',
+            trip: {
               route: {
                 alerts: [],
               },
             },
-            stoptimes: [
-              {
-                realtimeState: 'CANCELED',
-              },
-            ],
           },
         ],
       },

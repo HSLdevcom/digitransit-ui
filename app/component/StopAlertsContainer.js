@@ -58,6 +58,9 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
 
 StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
+    alerts: PropTypes.arrayOf(
+      PropTypes.shape({ alertSeverityLevel: PropTypes.string.isRequired }),
+    ),
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string.isRequired,

@@ -11,9 +11,11 @@ describe('<StopAlertsContainer />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
     const props = {
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            headsign: 'Kamppi',
+            realtimeState: 'SCHEDULED',
+            trip: {
               route: {
                 alerts: [],
                 mode: 'BUS',
@@ -25,12 +27,6 @@ describe('<StopAlertsContainer />', () => {
                 },
               ],
             },
-            stoptimes: [
-              {
-                headsign: 'Kamppi',
-                realtimeState: 'SCHEDULED',
-              },
-            ],
           },
         ],
       },
@@ -45,9 +41,11 @@ describe('<StopAlertsContainer />', () => {
   it('should indicate that there is a service alert on a route', () => {
     const props = {
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            headsign: 'Kamppi',
+            realtimeState: 'SCHEDULED',
+            trip: {
               route: {
                 alerts: [{}],
                 mode: 'BUS',
@@ -59,12 +57,6 @@ describe('<StopAlertsContainer />', () => {
                 },
               ],
             },
-            stoptimes: [
-              {
-                headsign: 'Kamppi',
-                realtimeState: 'SCHEDULED',
-              },
-            ],
           },
         ],
       },
@@ -76,9 +68,11 @@ describe('<StopAlertsContainer />', () => {
   it('should indicate that there is a canceled stoptime on a route', () => {
     const props = {
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            headsign: 'Kamppi',
+            realtimeState: 'CANCELED',
+            trip: {
               route: {
                 alerts: [],
                 mode: 'BUS',
@@ -90,12 +84,6 @@ describe('<StopAlertsContainer />', () => {
                 },
               ],
             },
-            stoptimes: [
-              {
-                headsign: 'Kamppi',
-                realtimeState: 'CANCELED',
-              },
-            ],
           },
         ],
       },
@@ -112,7 +100,7 @@ describe('<StopAlertsContainer />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
           },
         ],
-        stoptimesForServiceDate: [],
+        stoptimes: [],
       },
     };
     const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
@@ -122,9 +110,13 @@ describe('<StopAlertsContainer />', () => {
   it('should use the stoptime as the startTime for validityPeriod', () => {
     const props = {
       stop: {
-        stoptimesForServiceDate: [
+        stoptimes: [
           {
-            pattern: {
+            headsign: 'Kamppi',
+            realtimeState: 'CANCELED',
+            serviceDay: 1,
+            scheduledDeparture: 2,
+            trip: {
               route: {
                 alerts: [],
                 mode: 'BUS',
@@ -136,14 +128,6 @@ describe('<StopAlertsContainer />', () => {
                 },
               ],
             },
-            stoptimes: [
-              {
-                headsign: 'Kamppi',
-                realtimeState: 'CANCELED',
-                serviceDay: 1,
-                scheduledDeparture: 2,
-              },
-            ],
           },
         ],
       },
