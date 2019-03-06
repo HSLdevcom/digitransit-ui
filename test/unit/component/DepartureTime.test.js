@@ -8,7 +8,7 @@ import { RealtimeStateType } from '../../../app/constants';
 
 describe('<DepartureTime />', () => {
   describe('fromStopTime', () => {
-    it('should generate a canceled DepartureTime', () => {
+    it('should generate a canceled DepartureTime with showCancelationIcon set to true', () => {
       const stoptime = {
         realtimeState: RealtimeStateType.Canceled,
       };
@@ -16,6 +16,16 @@ describe('<DepartureTime />', () => {
       const component = fromStopTime(stoptime, currentTime);
       expect(component.props.canceled).to.equal(true);
       expect(component.props.showCancelationIcon).to.equal(true);
+    });
+
+    it('should generate a canceled DepartureTime with showCancelationIcon set to false', () => {
+      const stoptime = {
+        realtimeState: RealtimeStateType.Canceled,
+      };
+      const currentTime = 0;
+      const component = fromStopTime(stoptime, currentTime, false);
+      expect(component.props.canceled).to.equal(true);
+      expect(component.props.showCancelationIcon).to.equal(false);
     });
   });
 
