@@ -59,7 +59,7 @@ export default {
   realTime: {
     /* sources per feed Id */
     HSL: {
-      mqtt: 'wss://cmqttdev.cinfra.fi',
+      mqtt: 'ws://cmqttdev.cinfra.fi',
       routeSelector: function selectRoute(routePageProps) {
         const route = routePageProps.route.gtfsId.split(':');
         return route[1];

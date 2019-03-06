@@ -3,6 +3,7 @@ import moment from 'moment';
 
 const modeTranslate = {
   train: 'rail',
+  metro: 'subway',
 };
 
 // getTopic
