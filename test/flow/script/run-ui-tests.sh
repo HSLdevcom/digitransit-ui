@@ -126,11 +126,14 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     NODE_PID=$!
     sleep 3
   else #smoke
-    echo npm run build
+    npm run build
   fi
 
+  echo "launching $BROWSERSTACK_LOCAL_BINARY $3"
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
+
+  ps u
 
  if [ "$1" == "browserstack" ] ; then
      env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
