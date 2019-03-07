@@ -1,13 +1,12 @@
 module.exports = {
   '@tags': ['smoke'],
-  'User should be able to click the alerts icon': browser => {
-    const alertIcon = '.navi-icons > a .icon';
+  'User should be able to use favourite tab': browser => {
     browser.url(browser.launch_url);
-    browser.waitForElementVisible(
-      alertIcon,
-      browser.globals.elementVisibleTimeout,
-    );
-    browser.click(alertIcon);
+
+    const myFavourites = browser.page.myFavourites();
+    myFavourites.clickFavourites();
+    myFavourites.addFavourite();
+
     browser.end();
   },
 };
