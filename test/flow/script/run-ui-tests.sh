@@ -100,7 +100,7 @@ if [ "$1" == "local" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm start &
+    yarn build; CONFIG=hsl PORT=8080 yarn start &
     NODE_PID=$!
     echo "Wait for the server to start"
     sleep 3
@@ -118,7 +118,7 @@ if [ "$1" == "local" ]; then
 elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   if [ "$#" -lt 3 ]; then
     echo "ERROR: You need to use BrowserStack Username and API key as parameters"
-    echo "usage: npm run test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY [noserver]"
+    echo "usage: yarn test-browserstack -- BROWSERSTACK_USERNAME BROWSERSTACK_KEY [noserver]"
     exit
   fi
 
@@ -128,11 +128,11 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   elif [ "$1" == "browserstack" ]; then
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm run start &
+    yarn build; CONFIG=hsl PORT=8080 yarn start &
     NODE_PID=$!
     sleep 3
   else #smoke
-    npm run build
+    yarn build  > /dev/null
   fi
 
   echo "launching $BROWSERSTACK_LOCAL_BINARY $3"
@@ -177,7 +177,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
 elif [ "$1" == "saucelabs" ]; then
   if [ "$#" -lt 3 ]; then
     echo "ERROR: You need to use SauceLabs Username and API key as parameters"
-    echo "usage: npm run test-saucelabs -- SAUCELABS_USER SAUCELABS_KEY [noserver]"
+    echo "usage: yarn test-saucelabs -- SAUCELABS_USER SAUCELABS_KEY [noserver]"
     exit
   fi
 
@@ -190,7 +190,7 @@ elif [ "$1" == "saucelabs" ]; then
   else
     echo "Starting local server."
     START_SERVER=1
-    npm run build; CONFIG=hsl PORT=8080 npm run start &
+    yarn build; CONFIG=hsl PORT=8080 yarn start &
     NODE_PID=$!
   fi
 
