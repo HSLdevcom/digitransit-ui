@@ -80,8 +80,6 @@ killtree() {
 
 checkDependencies
 
-java -version
-
 if [ "$1" == "smoke" ]; then
     # extract all configuration values
     mapfile -t configs < <( ls -1 app/configurations/config.*.js | rev | cut -d '/' -f1 | rev | sed -e "s/^config.//" -e "s/.js$//" )
