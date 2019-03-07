@@ -75,8 +75,14 @@ function checkDependencies {
 
 # Kills process tree
 killtree() {
-  kill -9 $1
+    local _pid=$1
+    kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
+    for _child in $(pgrep -P ${_pid}); do
+        killtree ${_child}
+    done
+    kill -TERM ${_pid}
 }
+
 
 checkDependencies
 
@@ -132,7 +138,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   echo "launching $BROWSERSTACK_LOCAL_BINARY $3"
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
-
+  sleep 10
   ps u
 
  if [ "$1" == "browserstack" ] ; then
