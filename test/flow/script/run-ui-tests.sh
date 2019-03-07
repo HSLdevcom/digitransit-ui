@@ -75,12 +75,7 @@ function checkDependencies {
 
 # Kills process tree
 killtree() {
-    local _pid=$1
-    kill -stop ${_pid} # needed to stop quickly forking parent from producing children between child killing and parent killing
-    for _child in $(pgrep -P ${_pid}); do
-        killtree ${_child}
-    done
-    kill -TERM ${_pid}
+  kill -9 $1
 }
 
 
@@ -89,7 +84,7 @@ checkDependencies
 if [ "$1" == "smoke" ]; then
     # extract all configuration values
     mapfile -t configs < <( ls -1 app/configurations/config.*.js | rev | cut -d '/' -f1 | rev | sed -e "s/^config.//" -e "s/.js$//" )
-    SMOKE=${SMOKE:-bs-ie,bs-chrome,bs-fx,bs-edge}
+    TARGETS=${TARGETS:-bs-ie,bs-chrome,bs-fx,bs-edge}
 fi
 
 
@@ -149,7 +144,18 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
      count=$((count-1))
      TOTALSTATUS=0
 
-     for i in $(seq 0 $count)
+     if [ "$SMOKE" == "1" ]; then
+         i1=0
+         i2=7
+     elif [ "$SMOKE" == "2" ]; then
+         i1=8
+         i2=$count
+     else
+         i1=0
+         i2=$count
+     fi
+
+     for i in $(seq $i1 $i2)
      do
          conf=${configs[$i]}
          echo ""
@@ -160,7 +166,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
          NODE_PID=$!
          echo "server runs as process $NODE_PID"
          sleep 3
-         env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $SMOKE --suiteRetries 3 test/flow/tests/smoke/smoke.js
+         env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
          TESTSTATUS=$?
          killtree $NODE_PID
          sleep 1

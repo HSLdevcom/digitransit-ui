@@ -31,6 +31,10 @@ jobs:
       node_js: '10'
       script: test/smoke.sh
     - stage: test
+      env: SMOKE=2
+      node_js: '10'
+      script: test/smoke.sh
+    - stage: test
       env: FLOW=1
       node_js: '10'
       script: test/flow.sh
