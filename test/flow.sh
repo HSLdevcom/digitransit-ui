@@ -17,7 +17,7 @@ sudo dpkg -i google-chrome*.deb
 yarn install
 
 CONFIG=hsl yarn dev &
-sleep 30 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
+sleep 3 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
 
 wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip

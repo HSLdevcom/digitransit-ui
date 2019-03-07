@@ -80,6 +80,7 @@ killtree() {
 
 checkDependencies
 
+java -version
 
 if [ "$1" == "smoke" ]; then
     # extract all configuration values
@@ -98,7 +99,7 @@ if [ "$1" == "local" ]; then
     npm run build; CONFIG=hsl PORT=8080 npm start &
     NODE_PID=$!
     echo "Wait for the server to start"
-    sleep 10
+    sleep 3
   fi
 
   echo "Run tests"
@@ -125,9 +126,9 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     START_SERVER=1
     npm run build; CONFIG=hsl PORT=8080 npm run start &
     NODE_PID=$!
-    sleep 10
+    sleep 3
   else #smoke
-    npm run build
+    echo npm run build
   fi
 
   $BROWSERSTACK_LOCAL_BINARY $3 &
@@ -148,7 +149,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
          CONFIG=$conf PORT=8080 NODE_ENV=production node server/server.js &
          NODE_PID=$!
          echo "server runs as process $NODE_PID"
-         sleep 10
+         sleep 3
          env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $SMOKE --suiteRetries 3 test/flow/tests/smoke/smoke.js
          TESTSTATUS=$?
          killtree $NODE_PID
@@ -187,7 +188,7 @@ elif [ "$1" == "saucelabs" ]; then
   fi
 
   # Wait for the server to start
-  sleep 10
+  sleep 3
   # Then run tests
   env SAUCELABS_USER=$2 SAUCELABS_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e sl-iphone --retries 3
   TESTSTATUS=$?
