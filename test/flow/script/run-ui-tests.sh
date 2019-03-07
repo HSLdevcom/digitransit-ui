@@ -135,11 +135,11 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     yarn build  > /dev/null
   fi
 
-  echo "launching $BROWSERSTACK_LOCAL_BINARY $3"
+  echo "launching $BROWSERSTACK_LOCAL_BINARY"
   $BROWSERSTACK_LOCAL_BINARY $3 &
   BROWSERSTACK_PID=$!
-  sleep 10
-  ps u
+  sleep 2
+
 
  if [ "$1" == "browserstack" ] ; then
      env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
@@ -152,7 +152,10 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
      for i in $(seq 0 $count)
      do
          conf=${configs[$i]}
-         echo "Smoke testing $conf"
+         echo ""
+         echo "============================="
+         echo "  Smoke testing $conf"
+         echo "============================="
          CONFIG=$conf PORT=8080 NODE_ENV=production node server/server.js &
          NODE_PID=$!
          echo "server runs as process $NODE_PID"
