@@ -9,9 +9,9 @@ import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT } from '../constants';
 import {
   getServiceAlertsForRoute,
-  tripHasCancelation,
-  otpServiceAlertShape,
   getServiceAlertsForRouteStops,
+  otpServiceAlertShape,
+  tripHasCancelation,
 } from '../util/alertUtils';
 
 function RouteAlertsContainer({ route, patternId }, { intl }) {
@@ -28,7 +28,7 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
         header: (
           <DepartureCancelationInfo
             firstStopName={first.stop.name}
-            headsign={first.headsign}
+            headsign={first.headsign || trip.tripHeadsign}
             routeMode={mode}
             scheduledDepartureTime={departureTime}
             shortName={shortName}
@@ -50,7 +50,11 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
   );
 
   return (
-    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
+    <AlertList
+      cancelations={cancelations}
+      serviceAlerts={serviceAlerts}
+      omitExpired
+    />
   );
 }
 
@@ -64,11 +68,17 @@ RouteAlertsContainer.propTypes = {
     patterns: PropTypes.arrayOf(
       PropTypes.shape({
         code: PropTypes.string,
+        stops: PropTypes.arrayOf(
+          PropTypes.shape({
+            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+          }),
+        ),
         trips: PropTypes.arrayOf(
           PropTypes.shape({
+            tripHeadsign: PropTypes.string,
             stoptimes: PropTypes.arrayOf(
               PropTypes.shape({
-                headsign: PropTypes.string.isRequired,
+                headsign: PropTypes.string,
                 realtimeState: PropTypes.string,
                 scheduledDeparture: PropTypes.number,
                 serviceDay: PropTypes.number,
@@ -134,6 +144,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
             }
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
+            tripHeadsign
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
               headsign
               realtimeState

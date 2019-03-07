@@ -40,6 +40,7 @@ describe('<RouteAlertsContainer />', () => {
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
+      omitExpired: true,
       serviceAlerts: [],
     });
   });
@@ -76,6 +77,7 @@ describe('<RouteAlertsContainer />', () => {
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
+      omitExpired: true,
       serviceAlerts: [],
     });
   });
@@ -208,5 +210,44 @@ describe('<RouteAlertsContainer />', () => {
       context: { ...mockContext },
     });
     expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+  });
+
+  it('should use the tripHeadsign if the stoptime does not have a headsign', () => {
+    const props = {
+      patternId: 'HSL:1063:0:01',
+      route: {
+        alerts: [],
+        mode: 'BUS',
+        patterns: [
+          {
+            code: 'HSL:1063:0:01',
+            trips: [
+              {
+                tripHeadsign: 'foobar',
+                stoptimes: [
+                  {
+                    headsign: null,
+                    realtimeState: 'CANCELED',
+                    scheduledArrival: 1,
+                    scheduledDeparture: 2,
+                    serviceDay: 3,
+                    stop: {
+                      name: 'Saramäentie 11',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        shortName: '63',
+      },
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(
+      wrapper.find(AlertList).prop('cancelations')[0].header.props.headsign,
+    ).to.equal('foobar');
   });
 });

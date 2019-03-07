@@ -55,7 +55,12 @@ export const alertCompare = (a, b) => {
   return b.validityPeriod.startTime - a.validityPeriod.startTime;
 };
 
-const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
+const AlertList = ({
+  cancelations,
+  currentTime,
+  omitExpired,
+  serviceAlerts,
+}) => {
   const currentUnixTime = Number.isInteger(currentTime)
     ? currentTime
     : currentTime.unix();
@@ -65,7 +70,8 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
     .map(alert => ({
       ...alert,
       expired: hasExpired(alert.validityPeriod, currentUnixTime),
-    }));
+    }))
+    .filter(alert => (omitExpired ? !alert.expired : true));
 
   if (alerts.length === 0) {
     return (
@@ -131,11 +137,13 @@ AlertList.propTypes = {
   ]).isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
   serviceAlerts: PropTypes.arrayOf(alertShape),
+  omitExpired: PropTypes.bool,
 };
 
 AlertList.defaultProps = {
   cancelations: [],
   serviceAlerts: [],
+  omitExpired: false,
 };
 
 AlertList.description = (

@@ -138,6 +138,27 @@ describe('<AlertList />', () => {
     expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(true);
   });
 
+  it('should omit expired alerts', () => {
+    const props = {
+      currentTime: moment.unix(1547465412),
+      cancelations: [
+        {
+          header: 'foo',
+          route: {
+            mode: 'BUS',
+            shortName: '63',
+          },
+          validityPeriod: {
+            startTime: 1547464412,
+            endTime: 1547464415,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} omitExpired />);
+    expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
+  });
+
   describe('hasExpired', () => {
     it('should mark an alert in the past as expired', () => {
       expect(hasExpired({ startTime: 1000, endTime: 2000 }, 2500)).to.equal(
