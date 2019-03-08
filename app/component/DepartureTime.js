@@ -163,11 +163,16 @@ export const mapStopTime = (stoptime, pattern) => ({
  * maps stoptime to DepartureTime component
  *  @param stoptime stoptime from graphql
  *  @param currentTime
+ *  @param showCancelationIcon whether an icon should be shown if the departure is canceled.
  */
-export const fromStopTime = (stoptime, currentTime) => (
+export const fromStopTime = (
+  stoptime,
+  currentTime,
+  showCancelationIcon = true,
+) => (
   <DepartureTime
     currentTime={currentTime}
     {...mapStopTime(stoptime)}
-    showCancelationIcon
+    showCancelationIcon={showCancelationIcon}
   />
 );
