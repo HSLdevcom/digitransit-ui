@@ -141,20 +141,26 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
      TESTSTATUS=$?
  else
      count=${#configs[@]}
-     count=$((count-1))
      TOTALSTATUS=0
 
      if [ "$SMOKE" == "1" ]; then
          i1=0
-         i2=7
+         i2=$((count / 4 - 1))
      elif [ "$SMOKE" == "2" ]; then
-         i1=8
-         i2=$count
+         i1=$((count / 4))
+         i2=$((count / 2 - 1))
+     elif [ "$SMOKE" == "3" ]; then
+         i1=$((count / 2))
+         i2=$((count * 3 / 4 - 1))
+     elif [ "$SMOKE" == "4" ]; then
+         i1=$((count * 3 / 4))
+         i2=$((count-1))
      else
          i1=0
-         i2=$count
+         i2=$((count-1))
      fi
 
+     echo "Test range $i1 - $i2"
      for i in $(seq $i1 $i2)
      do
          conf=${configs[$i]}
