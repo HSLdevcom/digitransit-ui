@@ -9,9 +9,10 @@ import some from 'lodash/some';
 
 import Icon from './Icon';
 import {
-  stopHasServiceAlert,
-  stoptimeHasCancelation,
-  routeHasServiceAlert,
+  getCancelationsForStop,
+  getServiceAlertsForStop,
+  getServiceAlertsForStopRoutes,
+  isAlertActive,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -54,14 +55,13 @@ function StopPageTabContainer({
   }/${encodeURIComponent(
     params.terminalId ? params.terminalId : params.stopId,
   )}`;
-  const hasActiveAlert =
-    stopHasServiceAlert(stop) ||
-    (Array.isArray(stop.stoptimes) &&
-      stop.stoptimes.some(
-        st =>
-          stoptimeHasCancelation(st) ||
-          (st.trip && routeHasServiceAlert(st.trip.route)),
-      ));
+
+  const currentTime = moment().unix();
+  const hasActiveAlert = isAlertActive(
+    getCancelationsForStop(stop),
+    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
+    currentTime,
+  );
 
   return (
     <div className="stop-page-content-wrapper">
@@ -127,7 +127,10 @@ function StopPageTabContainer({
           >
             <div className="stop-tab-singletab-container">
               <div>
-                <Icon className="stop-page-tab_icon" img="icon-icon_caution" />
+                <Icon
+                  className="stop-page-tab_icon"
+                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
+                />
               </div>
               <div>
                 <FormattedMessage id="disruptions" />
@@ -167,8 +170,16 @@ StopPageTabContainer.propTypes = {
       PropTypes.shape({
         realtimeState: PropTypes.string,
         trip: PropTypes.shape({
+          pattern: PropTypes.shape({
+            code: PropTypes.string,
+          }),
           route: PropTypes.shape({
             alerts: alertArrayShape,
+            trip: PropTypes.shape({
+              pattern: PropTypes.shape({
+                code: PropTypes.string,
+              }),
+            }),
           }),
         }),
       }),
@@ -197,9 +208,17 @@ const containerComponent = Relay.createContainer(
           ) {
             realtimeState
             trip {
+              pattern {
+                code
+              }
               route {
                 alerts {
                   alertSeverityLevel
+                  trip {
+                    pattern {
+                      code
+                    }
+                  }
                 }
               }
             }

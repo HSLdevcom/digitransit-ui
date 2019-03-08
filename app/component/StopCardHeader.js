@@ -40,7 +40,7 @@ class StopCardHeader extends React.Component {
         headerIcon={
           <ServiceAlertIcon
             className="inline-icon"
-            severity={getMaximumAlertSeverityLevel(stop.alerts)}
+            severityLevel={getMaximumAlertSeverityLevel(stop.alerts)}
           />
         }
         headingStyle={headingStyle}

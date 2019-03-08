@@ -16,6 +16,7 @@ import {
 
 function RouteAlertsContainer({ route, patternId }, { intl }) {
   const { color, mode, shortName } = route;
+
   const cancelations = route.patterns
     .filter(pattern => pattern.code === patternId)
     .map(pattern => pattern.trips.filter(tripHasCancelation))
@@ -45,16 +46,13 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
         },
       };
     });
-  const serviceAlerts = getServiceAlertsForRoute(route, intl.locale).concat(
-    getServiceAlertsForRouteStops(route, patternId, intl.locale),
-  );
+  const serviceAlerts = [
+    ...getServiceAlertsForRoute(route, patternId, intl.locale),
+    ...getServiceAlertsForRouteStops(route, patternId, intl.locale),
+  ];
 
   return (
-    <AlertList
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-      omitExpired
-    />
+    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 
@@ -122,6 +120,11 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
           alertHeaderTextTranslations {
             language
             text
+          }
+          trip {
+            pattern {
+              code
+            }
           }
         }
         patterns {

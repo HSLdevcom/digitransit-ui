@@ -1,4 +1,3 @@
-import uniqBy from 'lodash/uniqBy';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,51 +8,41 @@ import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
-  getServiceAlertsForRoute,
+  getCancelationsForStop,
   getServiceAlertsForStop,
   otpServiceAlertShape,
-  routeHasServiceAlert,
-  stoptimeHasCancelation,
+  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
-  const cancelations = stop.stoptimes
-    .filter(stoptimeHasCancelation)
-    .map(stoptime => {
-      const { color, mode, shortName } = stoptime.trip.route;
-      const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-      return {
-        header: (
-          <DepartureCancelationInfo
-            firstStopName={stoptime.trip.stops[0].name}
-            headsign={stoptime.headsign}
-            routeMode={mode}
-            scheduledDepartureTime={departureTime}
-            shortName={shortName}
-          />
-        ),
-        route: {
-          color,
-          mode,
-          shortName,
-        },
-        severity: AlertSeverityLevelType.Warning,
-        validityPeriod: {
-          startTime: departureTime,
-        },
-      };
-    })
-    .reduce((a, b) => a.concat(b), []);
-
-  const serviceAlerts = uniqBy(
-    stop.stoptimes
-      .map(stoptime => stoptime.trip.route)
-      .filter(routeHasServiceAlert),
-    route => route.shortName,
-  )
-    .map(route => getServiceAlertsForRoute(route, intl.locale))
-    .reduce((a, b) => a.concat(b), [])
-    .concat(getServiceAlertsForStop(stop, intl.locale));
+  const cancelations = getCancelationsForStop(stop).map(stoptime => {
+    const { color, mode, shortName } = stoptime.trip.route;
+    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+    return {
+      header: (
+        <DepartureCancelationInfo
+          firstStopName={stoptime.trip.stops[0].name}
+          headsign={stoptime.headsign}
+          routeMode={mode}
+          scheduledDepartureTime={departureTime}
+          shortName={shortName}
+        />
+      ),
+      route: {
+        color,
+        mode,
+        shortName,
+      },
+      severityLevel: AlertSeverityLevelType.Warning,
+      validityPeriod: {
+        startTime: departureTime,
+      },
+    };
+  });
+  const serviceAlerts = [
+    ...getServiceAlertsForStop(stop, intl.locale),
+    ...getServiceAlertsForStopRoutes(stop, intl.locale),
+  ];
 
   return (
     <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
@@ -70,6 +59,9 @@ StopAlertsContainer.propTypes = {
         scheduledDeparture: PropTypes.number,
         serviceDay: PropTypes.number,
         trip: PropTypes.shape({
+          pattern: PropTypes.shape({
+            code: PropTypes.string,
+          }),
           route: PropTypes.shape({
             alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
             color: PropTypes.string,
@@ -122,6 +114,9 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
           scheduledDeparture
           serviceDay
           trip {
+            pattern {
+              code
+            }
             route {
               color
               mode
@@ -140,6 +135,11 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
                 alertHeaderTextTranslations {
                   language
                   text
+                }
+                trip {
+                  pattern {
+                    code
+                  }
                 }
               }
             }

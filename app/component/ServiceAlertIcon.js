@@ -5,12 +5,12 @@ import React from 'react';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
 
-const ServiceAlertIcon = ({ className, severity }) => {
-  if (!severity) {
+const ServiceAlertIcon = ({ className, severityLevel }) => {
+  if (!severityLevel) {
     return null;
   }
 
-  return severity === AlertSeverityLevelType.Info ? (
+  return severityLevel === AlertSeverityLevelType.Info ? (
     <Icon className={cx('info', className)} img="icon-icon_info" />
   ) : (
     <Icon className={cx('caution', className)} img="icon-icon_caution" />
@@ -21,7 +21,7 @@ ServiceAlertIcon.displayName = 'ServiceAlertIcon';
 
 ServiceAlertIcon.propTypes = {
   className: PropTypes.string,
-  severity: PropTypes.oneOf([
+  severityLevel: PropTypes.oneOf([
     AlertSeverityLevelType.Info,
     AlertSeverityLevelType.Severe,
     AlertSeverityLevelType.Unknown,
@@ -31,7 +31,7 @@ ServiceAlertIcon.propTypes = {
 
 ServiceAlertIcon.defaultProps = {
   className: undefined,
-  severity: undefined,
+  severityLevel: undefined,
 };
 
 export default ServiceAlertIcon;

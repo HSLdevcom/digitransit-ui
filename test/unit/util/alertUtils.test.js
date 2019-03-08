@@ -446,6 +446,7 @@ describe('alertUtils', () => {
                 text: 'Stop Rantatie (1007) is temporarily out of use',
               },
             ],
+            alertSeverityLevel: 'foo',
             effectiveEndDate: 1577829548,
             effectiveStartDate: 1543183208,
           },
@@ -465,6 +466,7 @@ describe('alertUtils', () => {
             mode: 'BUS',
             shortName: 'foobar',
           },
+          severityLevel: 'foo',
           validityPeriod: {
             endTime: 1577829548000,
             startTime: 1543183208000,
@@ -606,6 +608,38 @@ describe('alertUtils', () => {
       expect(utils.getMaximumAlertEffect(alerts)).to.equal(
         AlertEffectType.Unknown,
       );
+    });
+  });
+
+  describe('alertHasExpired', () => {
+    it('should mark an alert in the past as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 2500),
+      ).to.equal(true);
+    });
+
+    it('should not mark a current alert as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 1500),
+      ).to.equal(false);
+    });
+
+    it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
+      expect(utils.alertHasExpired({ startTime: 1000 }, 1100, 200)).to.equal(
+        false,
+      );
+    });
+
+    it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
+      expect(utils.alertHasExpired({ startTime: 1000 }, 1300, 200)).to.equal(
+        true,
+      );
+    });
+
+    it('should not mark an alert in the future as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 500),
+      ).to.equal(false);
     });
   });
 });

@@ -40,7 +40,6 @@ describe('<RouteAlertsContainer />', () => {
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
-      omitExpired: true,
       serviceAlerts: [],
     });
   });
@@ -77,7 +76,6 @@ describe('<RouteAlertsContainer />', () => {
     });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
-      omitExpired: true,
       serviceAlerts: [],
     });
   });
