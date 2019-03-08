@@ -127,7 +127,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     NODE_PID=$!
     sleep 3
   else #smoke
-    echo yarn build  > /dev/null
+    yarn build  > /dev/null
   fi
 
   echo "launching $BROWSERSTACK_LOCAL_BINARY"
