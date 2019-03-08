@@ -196,6 +196,11 @@ export const getCancelationsForRoute = (route, patternId = undefined) => {
     .filter(stoptimeHasCancelation);
 };
 
+/**
+ * Retrieves canceled stoptimes for the given stop.
+ *
+ * @param {*} stop the stop to get cancelations for.
+ */
 export const getCancelationsForStop = stop => {
   if (!stop || !Array.isArray(stop.stoptimes)) {
     return [];
@@ -363,7 +368,7 @@ export const getMaximumAlertSeverityLevel = alerts => {
     return undefined;
   }
   const levels = alerts
-    .map(alert => alert.alertSeverityLevel)
+    .map(alert => alert.alertSeverityLevel || alert.severityLevel)
     .reduce((obj, level) => {
       if (level) {
         obj[level] = level; // eslint-disable-line no-param-reassign

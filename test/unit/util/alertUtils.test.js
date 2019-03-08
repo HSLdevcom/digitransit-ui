@@ -549,6 +549,16 @@ describe('alertUtils', () => {
         AlertSeverityLevelType.Info,
       );
     });
+
+    it('should fall back to field "severityLevel" if "alertSeverityLevel" is missing', () => {
+      const alerts = [
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: AlertSeverityLevelType.Warning },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
   });
 
   describe('getMaximumAlertEffect', () => {
@@ -639,6 +649,140 @@ describe('alertUtils', () => {
     it('should not mark an alert in the future as expired', () => {
       expect(
         utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 500),
+      ).to.equal(false);
+    });
+  });
+
+  describe('getCancelationsForRoute', () => {
+    it('should return an empty array if route is missing', () => {
+      expect(utils.getCancelationsForRoute(undefined)).to.deep.equal([]);
+    });
+
+    it('should return an empty array if route has no array "patterns"', () => {
+      expect(
+        utils.getCancelationsForRoute({ patterns: undefined }),
+      ).to.deep.equal([]);
+    });
+
+    it('should return stoptimes with cancelations', () => {
+      const route = {
+        patterns: [
+          {
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.getCancelationsForRoute(route)).to.have.lengthOf(1);
+    });
+
+    it('should filter by patternId', () => {
+      const route = {
+        patterns: [
+          {
+            code: 'foo',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'bar',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.getCancelationsForRoute(route, 'foo')).to.have.lengthOf(1);
+    });
+  });
+
+  describe('isAlertActive', () => {
+    it('should not crash even if cancelations or alerts is not defined', () => {
+      expect(utils.isAlertActive(undefined, [], 1)).to.equal(false);
+      expect(utils.isAlertActive([], undefined, 1)).to.equal(false);
+    });
+
+    it('should return true if there is an active cancelation', () => {
+      expect(
+        utils.isAlertActive(
+          [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+              scheduledDeparture: 1,
+              scheduledArrival: 100,
+              serviceDay: 0,
+            },
+          ],
+          [],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return true if there is an active alert with no severity level', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return true if there is an active alert with a severity level !== INFO', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              severityLevel: AlertSeverityLevelType.Warning,
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return false if there is an active alert with a severity level === INFO', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              severityLevel: AlertSeverityLevelType.Info,
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
       ).to.equal(false);
     });
   });
