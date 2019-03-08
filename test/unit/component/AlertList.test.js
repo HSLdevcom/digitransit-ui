@@ -4,10 +4,7 @@ import moment from 'moment';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import {
-  Component as AlertList,
-  hasExpired,
-} from '../../../app/component/AlertList';
+import { Component as AlertList } from '../../../app/component/AlertList';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 
 describe('<AlertList />', () => {
