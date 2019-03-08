@@ -1,3 +1,5 @@
+import safeJsonParse from '../util/safeJsonParser';
+
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
@@ -9,15 +11,6 @@ const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
-
-function safeJsonParse(jsonString) {
-  try {
-    return JSON.parse(jsonString);
-  } catch (e) {
-    return undefined;
-  }
-}
-
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
 export default {
