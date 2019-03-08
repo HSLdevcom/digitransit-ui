@@ -92,6 +92,7 @@ import SelectMapLayersDialog from './SelectMapLayersDialog';
 import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
+import { Component as AlertList } from './AlertList';
 
 const components = {
   Icon,
@@ -180,6 +181,7 @@ const components = {
   Error404,
   StopMarkerPopup,
   SelectStreetModeDialog,
+  AlertList,
 };
 
 const fullscreenComponents = {

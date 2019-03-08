@@ -140,6 +140,9 @@ export default Relay.createContainer(
             color
           }
           stops {
+            alerts {
+              alertSeverityLevel
+            }
             stopTimesForPattern(id: $patternId, startTime: $currentTime) {
               realtime
               realtimeState

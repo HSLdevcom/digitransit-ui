@@ -11,6 +11,7 @@ import {
   getServiceAlertsForRoute,
   tripHasCancelation,
   otpServiceAlertShape,
+  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 
 function RouteAlertsContainer({ route, patternId }, { intl }) {
@@ -44,12 +45,12 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
         },
       };
     });
+  const serviceAlerts = getServiceAlertsForRoute(route, intl.locale).concat(
+    getServiceAlertsForRouteStops(route, patternId, intl.locale),
+  );
 
   return (
-    <AlertList
-      cancelations={cancelations}
-      serviceAlerts={getServiceAlertsForRoute(route, intl.locale)}
-    />
+    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 
@@ -101,6 +102,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
         alerts {
           alertDescriptionText
           alertHeaderText
+          alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
           alertDescriptionTextTranslations {
@@ -114,6 +116,23 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
         }
         patterns {
           code
+          stops {
+            alerts {
+              alertDescriptionText
+              alertHeaderText
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+            }
+          }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
               headsign

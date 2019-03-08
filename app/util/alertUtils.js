@@ -23,12 +23,19 @@ export const stopHasServiceAlert = stop => {
  * Checks if the route has any alerts.
  *
  * @param {*} route the route object to check.
+ * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasServiceAlert = route => {
+export const routeHasServiceAlert = (route, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return route.alerts.length > 0;
+  return patternId
+    ? route.alerts.some(
+        alert =>
+          !alert.trip ||
+          (alert.trip.pattern && alert.trip.pattern.code === patternId),
+      )
+    : route.alerts.length > 0;
 };
 
 /**
@@ -170,29 +177,67 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
     locale,
   );
 
-/**
- * Retrieves OTP-style Service Alerts from the given route and
- * maps them to the format understood be the UI.
- *
- * @param {*} route the route object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertsForRoute = (route, locale = 'en') =>
-  Array.isArray(route.alerts)
-    ? route.alerts.map(alert => ({
+const getServiceAlerts = (
+  { alerts } = {},
+  { color, mode, shortName } = {},
+  locale = 'en',
+) =>
+  Array.isArray(alerts)
+    ? alerts.map(alert => ({
         description: getServiceAlertDescription(alert, locale),
         header: getServiceAlertHeader(alert, locale),
         route: {
-          color: route.color,
-          mode: route.mode,
-          shortName: route.shortName,
+          color,
+          mode,
+          shortName,
         },
+        ...(alert.alertSeverityLevel && { severity: alert.alertSeverityLevel }),
         validityPeriod: {
           startTime: alert.effectiveStartDate * 1000,
           endTime: alert.effectiveEndDate * 1000,
         },
       }))
     : [];
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRoute = (route, locale = 'en') =>
+  getServiceAlerts(route, route, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given stop and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} stop the stop object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForStop = (stop, locale = 'en') =>
+  getServiceAlerts(stop, {}, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route's
+ * pattern's stops and maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} patternId the pattern's id.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRouteStops = (
+  route,
+  patternId,
+  locale = 'en',
+) =>
+  route.patterns
+    .filter(pattern => patternId === pattern.code)
+    .map(pattern => pattern.stops)
+    .reduce((a, b) => a.concat(b), [])
+    .map(stop => getServiceAlerts(stop, route, locale))
+    .reduce((a, b) => a.concat(b), []);
 
 /**
  * Iterates through the alerts and returns the highest severity level found.
@@ -267,6 +312,7 @@ export const otpServiceAlertShape = PropTypes.shape({
       text: PropTypes.string,
     }),
   ),
+  alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
 });
