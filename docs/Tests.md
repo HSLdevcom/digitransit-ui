@@ -18,7 +18,7 @@ Selenium standalone implementation and BrowserStack tunneling software (automati
 
 Running the tests starts a local prod server with HSL config to port 8080 (iPhone 6+ on BrowserStack can only use a limited number of ports).
 
-Using local firefox
+Using local chrome
 ```
 npm run test-local
 ```
@@ -94,6 +94,14 @@ If things change, you need to update the images
 
 - run: `BS_USERNAME=user BS_ACCESS_KEY=key npm run test-visual-update`
 - then verify that changed test images are OK and commit the changes
+
+
+# Smoke tests
+
+These tests verify that UI opens and is functional with all configurations in ie11, chrome, firexox and edge.
+
+Run the tests as: `yarn test-smoke BS_USERNAME BS_ACCESS_KEY`
+
 
 # Unit tests
 
