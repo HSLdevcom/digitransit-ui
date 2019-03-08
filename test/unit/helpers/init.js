@@ -29,6 +29,9 @@ before('setting up enzyme and jsdom', () => {
     Object.defineProperties(target, props);
   };
 
+  // For Google Tag Manager
+  window.dataLayer = [];
+
   global.window = window;
   global.document = window.document;
   global.navigator = {
