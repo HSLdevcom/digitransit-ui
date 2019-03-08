@@ -5,21 +5,11 @@ import { boundWithMinimumAreaSimple } from './util/geo-utils';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
-const piwikMap = [];
 
 if (defaultConfig.themeMap) {
   Object.keys(defaultConfig.themeMap).forEach(theme => {
     themeMap[theme] = new RegExp(defaultConfig.themeMap[theme], 'i'); // str to regex
   });
-}
-
-if (defaultConfig.piwikMap) {
-  for (let i = 0; i < defaultConfig.piwikMap.length; i++) {
-    piwikMap.push({
-      id: defaultConfig.piwikMap[i].id,
-      expr: new RegExp(defaultConfig.piwikMap[i].expr, 'i'),
-    });
-  }
 }
 
 function addMetaData(config) {
@@ -72,10 +62,8 @@ function addMetaData(config) {
   });
 }
 
-export function getNamedConfiguration(configName, piwikId) {
-  const key = configName + (piwikId || '');
-
-  if (!configs[key]) {
+export function getNamedConfiguration(configName) {
+  if (!configs[configName]) {
     let additionalConfig;
 
     if (configName !== 'default') {
@@ -104,20 +92,25 @@ export function getNamedConfiguration(configName, piwikId) {
       config.modeBoundingBoxes[mode] = boundingBoxes;
     });
 
-    if (piwikId) {
-      config.PIWIK_ID = piwikId;
-    }
+    Object.keys(config.realTime).forEach(realTimeKey => {
+      if (config.realTimePatch[realTimeKey]) {
+        config.realTime[realTimeKey] = {
+          ...config.realTime[realTimeKey],
+          ...config.realTimePatch[realTimeKey],
+        };
+      }
+    });
+
     addMetaData(config); // add dynamic metadata content
 
-    configs[key] = config;
+    configs[configName] = config;
   }
-  return configs[key];
+  return configs[configName];
 }
 
 export function getConfiguration(req) {
   let configName = process.env.CONFIG || 'default';
   let host;
-  let piwikId;
 
   if (req) {
     host =
@@ -140,19 +133,5 @@ export function getConfiguration(req) {
     });
   }
 
-  if (
-    host &&
-    process.env.NODE_ENV !== 'development' &&
-    (!process.env.PIWIK_ID || process.env.PIWIK_ID === '')
-  ) {
-    // PIWIK_ID unset, map dynamically by hostname
-    for (let i = 0; i < piwikMap.length; i++) {
-      if (piwikMap[i].expr.test(host)) {
-        piwikId = piwikMap[i].id;
-        // console.log('###PIWIK', piwikId);
-        break;
-      }
-    }
-  }
-  return getNamedConfiguration(configName, piwikId);
+  return getNamedConfiguration(configName);
 }
