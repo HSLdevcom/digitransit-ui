@@ -142,6 +142,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
  else
      count=${#configs[@]}
      TOTALSTATUS=0
+     RETRY_SMOKE_COUNT=3
 
      if [ "$SMOKE" == "1" ]; then
          i1=0
@@ -172,8 +173,15 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
          NODE_PID=$!
          echo "server runs as process $NODE_PID"
          sleep 3
-         env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
-         TESTSTATUS=$?
+         for j in $(seq $0 $RETRY_SMOKE_COUNT)
+         do
+             env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
+             TESTSTATUS=$?
+             if [[ $TESTSTATUS == 0 ]]; then
+                 break
+             fi
+         done
+
          killtree $NODE_PID
          sleep 1
          if [[ $TESTSTATUS != 0 ]]; then TOTALSTATUS=$TESTSTATUS; fi
