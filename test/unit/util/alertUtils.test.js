@@ -786,4 +786,59 @@ describe('alertUtils', () => {
       ).to.equal(false);
     });
   });
+
+  describe('cancelationHasExpired', () => {
+    it('should return true for an expired cancelation', () => {
+      const cancelation = {
+        scheduledDeparture: 10,
+        scheduledArrival: 20,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
+    });
+
+    it('should return false for an active cancelation', () => {
+      const cancelation = {
+        scheduledDeparture: 10,
+        scheduledArrival: 20,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
+    });
+  });
+
+  describe('getCancelationsForStop', () => {
+    it('should return an empty array if stop is missing', () => {
+      expect(utils.getCancelationsForStop(undefined)).to.deep.equal([]);
+    });
+
+    it('should return an empty array if stop has no array "stoptimes"', () => {
+      expect(
+        utils.getCancelationsForStop({ stoptimes: undefined }),
+      ).to.deep.equal([]);
+    });
+
+    it('should return only canceled stoptimes', () => {
+      const stop = {
+        stoptimes: [
+          {
+            realtimeState: RealtimeStateType.Canceled,
+          },
+          {
+            realtimeState: RealtimeStateType.Scheduled,
+          },
+          {
+            realtimeState: RealtimeStateType.Updated,
+          },
+          {
+            realtimeState: RealtimeStateType.Modified,
+          },
+          {
+            realtimeState: undefined,
+          },
+        ],
+      };
+      expect(utils.getCancelationsForStop(stop)).to.have.lengthOf(1);
+    });
+  });
 });
