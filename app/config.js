@@ -104,6 +104,15 @@ export function getNamedConfiguration(configName, piwikId) {
       config.modeBoundingBoxes[mode] = boundingBoxes;
     });
 
+    Object.keys(config.realTime).forEach(realTimeKey => {
+      if (config.realTimePatch[realTimeKey]) {
+        config.realTime[realTimeKey] = {
+          ...config.realTime[realTimeKey],
+          ...config.realTimePatch[realTimeKey],
+        };
+      }
+    });
+
     if (piwikId) {
       config.PIWIK_ID = piwikId;
     }

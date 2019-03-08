@@ -10,6 +10,16 @@ const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
 
+function safeJsonParse(jsonString) {
+  try {
+    return JSON.parse(jsonString);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
+
 export default {
   PIWIK_ADDRESS,
   PIWIK_ID,
@@ -66,6 +76,7 @@ export default {
       },
     },
   },
+  realTimePatch: REALTIME_PATCH,
 
   /*
  * by default search endpoints from all but gtfs sources, correct gtfs source
