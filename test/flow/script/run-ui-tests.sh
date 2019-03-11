@@ -132,9 +132,9 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
 
   echo "launching $BROWSERSTACK_LOCAL_BINARY"
   export BROWSERSTACK_ID="$USER$(date +%s%N)"
-  $BROWSERSTACK_LOCAL_BINARY --key $3 --local-identifier $BROWSERSTACK_ID --verbose 3 &
+  $BROWSERSTACK_LOCAL_BINARY --key $3 &
   BROWSERSTACK_PID=$!
-  sleep 10
+  sleep 5
 
 
  if [ "$1" == "browserstack" ] ; then
