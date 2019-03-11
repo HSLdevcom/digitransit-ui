@@ -30,7 +30,19 @@ jobs:
         - yarn test-report
         - test/flow.sh
     - stage: test
-      env: _SMOKE=1
+      env: SMOKE=1
+      node_js: '10'
+      script: test/smoke.sh
+    - stage: test
+      env: SMOKE=2
+      node_js: '10'
+      script: test/smoke.sh
+    - stage: test
+      env: SMOKE=3
+      node_js: '10'
+      script: test/smoke.sh
+    - stage: test
+      env: SMOKE=4
       node_js: '10'
       script: test/smoke.sh
 
