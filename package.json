@@ -97,7 +97,7 @@
     "node-fetch": "2.3.0",
     "node-zopfli-es": "0.0.2",
     "offline-plugin": "5.0.6",
-    "pbf": "3.1.0",
+    "pbf": "3.2.0",
     "point-in-polygon": "1.0.1",
     "polyfill-library": "3.27.0",
     "polyline-encoded": "0.0.8",
