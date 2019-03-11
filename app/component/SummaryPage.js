@@ -28,6 +28,9 @@ import { defaultRoutingSettings } from '../util/planParamUtil';
 import { getIntermediatePlaces } from '../util/queryUtils';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
+import ComponentUsageExample from './ComponentUsageExample';
+import exampleData from './data/SummaryPage.ExampleData';
+import { isBrowser } from '../util/browser';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -384,7 +387,13 @@ class SummaryPage extends React.Component {
   }
 }
 
-export default Relay.createContainer(withBreakpoint(SummaryPage), {
+SummaryPage.description = (
+  <ComponentUsageExample isFullscreen>
+    {isBrowser && <SummaryPage {...exampleData} />}
+  </ComponentUsageExample>
+);
+
+const containerComponent = Relay.createContainer(withBreakpoint(SummaryPage), {
   fragments: {
     plan: () => Relay.QL`
       fragment on QueryType {
@@ -484,3 +493,5 @@ export default Relay.createContainer(withBreakpoint(SummaryPage), {
     ...defaultRoutingSettings,
   },
 });
+
+export { containerComponent as default, SummaryPage as Component };

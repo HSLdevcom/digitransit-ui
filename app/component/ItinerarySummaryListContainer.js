@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import inside from 'point-in-polygon';
@@ -11,168 +11,142 @@ import Icon from './Icon';
 import SummaryRow from './SummaryRow';
 import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
-import { checkForCanceledLegs, getZones } from '../util/legUtils';
+import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
+import { itineraryHasCancelation } from '../util/alertUtils';
 
-class ItinerarySummaryListContainer extends React.Component {
-  state = {
-    showCancelled: false,
-  };
+function ItinerarySummaryListContainer(
+  {
+    activeIndex,
+    children,
+    currentTime,
+    error,
+    from,
+    locationState,
+    intermediatePlaces,
+    itineraries,
+    open,
+    onSelect,
+    onSelectImmediately,
+    searchTime,
+    to,
+  },
+  { config },
+) {
+  const [showCancelled, setShowCancelled] = useState(false);
 
-  showCanceledItineraries = val => {
-    this.setState({
-      showCancelled: val,
-    });
-  };
+  if (!error && itineraries && itineraries.length > 0) {
+    const openedIndex = open && Number(open);
+    const summaries = itineraries.map((itinerary, i) => (
+      <SummaryRow
+        refTime={searchTime}
+        key={i} // eslint-disable-line react/no-array-index-key
+        hash={i}
+        data={itinerary}
+        passive={i !== activeIndex}
+        currentTime={currentTime}
+        onSelect={onSelect}
+        onSelectImmediately={onSelectImmediately}
+        intermediatePlaces={intermediatePlaces}
+        isCancelled={itineraryHasCancelation(itinerary)}
+        showCancelled={showCancelled}
+        zones={config.stopCard.header.showZone ? getZones(itinerary.legs) : []}
+      >
+        {i === openedIndex && children}
+      </SummaryRow>
+    ));
 
-  render() {
-    if (
-      !this.props.error &&
-      this.props.itineraries &&
-      this.props.itineraries.length > 0
-    ) {
-      const canceledItineraries = [];
-      this.props.itineraries.forEach(
-        itinerary =>
-          checkForCanceledLegs(itinerary) &&
-          canceledItineraries.push(itinerary),
-      );
-
-      const openedIndex = this.props.open && Number(this.props.open);
-      const summaries = this.props.itineraries.map((itinerary, i) => (
-        <SummaryRow
-          refTime={this.props.searchTime}
-          key={i} // eslint-disable-line react/no-array-index-key
-          hash={i}
-          data={itinerary}
-          passive={i !== this.props.activeIndex}
-          currentTime={this.props.currentTime}
-          onSelect={this.props.onSelect}
-          onSelectImmediately={this.props.onSelectImmediately}
-          intermediatePlaces={this.props.intermediatePlaces}
-          isCancelled={canceledItineraries.includes(itinerary)}
-          showCancelled={this.state.showCancelled}
-          zones={
-            this.context.config.stopCard.header.showZone
-              ? getZones(itinerary.legs)
-              : []
-          }
-        >
-          {i === openedIndex && this.props.children}
-        </SummaryRow>
-      ));
-
-      return (
-        <div className="summary-list-container">
-          {isBrowser && summaries}
-          {isBrowser &&
-            canceledItineraries.length > 0 && (
-              <CanceledItineraryToggler
-                showItineraries={this.state.showCancelled}
-                toggleShowCanceled={this.showCanceledItineraries}
-                canceledItinerariesAmount={canceledItineraries.length}
-              />
-            )}
-        </div>
-      );
-    }
-    if (
-      !this.props.error &&
-      (!this.props.from.lat ||
-        !this.props.from.lon ||
-        !this.props.to.lat ||
-        !this.props.to.lon)
-    ) {
-      return (
-        <div className="summary-list-container summary-no-route-found">
-          <FormattedMessage
-            id="no-route-start-end"
-            defaultMessage="Please select origin and destination."
-          />
-        </div>
-      );
-    }
-
-    let msgId;
-    let outside;
-    let iconType = 'caution';
-    let iconImg = 'icon-icon_caution';
-    // If error starts with "Error" it's not a message id, it's an error message
-    // from OTP
-    if (this.props.error && !startsWith(this.props.error, 'Error')) {
-      msgId = this.props.error;
-    } else if (
-      !inside(
-        [this.props.from.lon, this.props.from.lat],
-        this.context.config.areaPolygon,
-      )
-    ) {
-      msgId = 'origin-outside-service';
-      outside = true;
-    } else if (
-      !inside(
-        [this.props.to.lon, this.props.to.lat],
-        this.context.config.areaPolygon,
-      )
-    ) {
-      msgId = 'destination-outside-service';
-      outside = true;
-    } else if (
-      distance(this.props.from, this.props.to) <
-      this.context.config.minDistanceBetweenFromAndTo
-    ) {
-      iconType = 'info';
-      iconImg = 'icon-icon_info';
-      if (
-        this.props.locationState &&
-        this.props.locationState.hasLocation &&
-        ((this.props.from.lat === this.props.locationState.lat &&
-          this.props.from.lon === this.props.locationState.lon) ||
-          (this.props.to.lat === this.props.locationState.lat &&
-            this.props.to.lon === this.props.locationState.lon))
-      ) {
-        msgId = 'no-route-already-at-destination';
-      } else {
-        msgId = 'no-route-origin-near-destination';
-      }
-    } else {
-      msgId = 'no-route-msg';
-    }
-
-    let linkPart = null;
-    if (outside && this.context.config.nationalServiceLink) {
-      linkPart = (
-        <div>
-          <FormattedMessage
-            id="use-national-service"
-            defaultMessage="You can also try the national service available at"
-          />
-          <ExternalLink
-            className="external-no-route"
-            {...this.context.config.nationalServiceLink}
-          />
-        </div>
-      );
-    }
-
+    const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
+      .length;
     return (
-      <div className="summary-list-container summary-no-route-found">
-        <div className="flex-horizontal">
-          <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
-          <div>
-            <FormattedMessage
-              id={msgId}
-              defaultMessage={
-                'Unfortunately no routes were found for your journey. ' +
-                'Please change your origin or destination address.'
-              }
+      <div className="summary-list-container">
+        {isBrowser && summaries}
+        {isBrowser &&
+          canceledItinerariesCount > 0 && (
+            <CanceledItineraryToggler
+              showItineraries={showCancelled}
+              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+              canceledItinerariesAmount={canceledItinerariesCount}
             />
-            {linkPart}
-          </div>
-        </div>
+          )}
       </div>
     );
   }
+  if (!error && (!from.lat || !from.lon || !to.lat || !to.lon)) {
+    return (
+      <div className="summary-list-container summary-no-route-found">
+        <FormattedMessage
+          id="no-route-start-end"
+          defaultMessage="Please select origin and destination."
+        />
+      </div>
+    );
+  }
+
+  let msgId;
+  let outside;
+  let iconType = 'caution';
+  let iconImg = 'icon-icon_caution';
+  // If error starts with "Error" it's not a message id, it's an error message
+  // from OTP
+  if (error && !startsWith(error, 'Error')) {
+    msgId = error;
+  } else if (!inside([from.lon, from.lat], config.areaPolygon)) {
+    msgId = 'origin-outside-service';
+    outside = true;
+  } else if (!inside([to.lon, to.lat], config.areaPolygon)) {
+    msgId = 'destination-outside-service';
+    outside = true;
+  } else if (distance(from, to) < config.minDistanceBetweenFromAndTo) {
+    iconType = 'info';
+    iconImg = 'icon-icon_info';
+    if (
+      locationState &&
+      locationState.hasLocation &&
+      ((from.lat === locationState.lat && from.lon === locationState.lon) ||
+        (to.lat === locationState.lat && to.lon === locationState.lon))
+    ) {
+      msgId = 'no-route-already-at-destination';
+    } else {
+      msgId = 'no-route-origin-near-destination';
+    }
+  } else {
+    msgId = 'no-route-msg';
+  }
+
+  let linkPart = null;
+  if (outside && config.nationalServiceLink) {
+    linkPart = (
+      <div>
+        <FormattedMessage
+          id="use-national-service"
+          defaultMessage="You can also try the national service available at"
+        />
+        <ExternalLink
+          className="external-no-route"
+          {...config.nationalServiceLink}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="summary-list-container summary-no-route-found">
+      <div className="flex-horizontal">
+        <Icon className={cx('no-route-icon', iconType)} img={iconImg} />
+        <div>
+          <FormattedMessage
+            id={msgId}
+            defaultMessage={
+              'Unfortunately no routes were found for your journey. ' +
+              'Please change your origin or destination address.'
+            }
+          />
+          {linkPart}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const locationShape = PropTypes.shape({
@@ -219,6 +193,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
         endTime
         legs {
           realTime
+          realtimeState
           transitLeg
           startTime
           endTime
@@ -246,6 +221,7 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
               effectiveEndDate
             }
             stoptimes {
+              realtimeState
               stop {
                 gtfsId
               }
@@ -258,20 +234,6 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
             lon
             stop {
               gtfsId
-              stoptimes: stoptimesWithoutPatterns(omitCanceled: false) {
-                pickupType
-                realtimeState
-                trip {
-                  gtfsId
-                  route {
-                    shortName
-                    gtfsId
-                  }
-                }
-                stop {
-                  gtfsId
-                }
-              }
               zoneId
             }
             bikeRentalStation {
