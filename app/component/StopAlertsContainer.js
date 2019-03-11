@@ -6,12 +6,13 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT } from '../constants';
+import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
   patternHasServiceAlert,
   stoptimeHasCancelation,
   getServiceAlertsForRoute,
   otpServiceAlertShape,
+  getServiceAlertsForStop,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
@@ -41,6 +42,7 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
             mode,
             shortName,
           },
+          severity: AlertSeverityLevelType.Warning,
           validityPeriod: {
             startTime: departureTime,
           },
@@ -53,7 +55,8 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
     .map(st => st.pattern)
     .filter(patternHasServiceAlert)
     .map(pattern => getServiceAlertsForRoute(pattern.route, intl.locale))
-    .reduce((a, b) => a.concat(b), []);
+    .reduce((a, b) => a.concat(b), [])
+    .concat(getServiceAlertsForStop(stop, intl.locale));
 
   return (
     <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
@@ -98,6 +101,21 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
+        alerts {
+          alertDescriptionText
+          alertHeaderText
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+        }
         stoptimesForServiceDate(date:$date, omitCanceled:false) {
           pattern {
             route {
@@ -107,6 +125,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               alerts {
                 alertDescriptionText
                 alertHeaderText
+                alertSeverityLevel
                 effectiveEndDate
                 effectiveStartDate
                 alertDescriptionTextTranslations {

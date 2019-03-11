@@ -1,4 +1,8 @@
-import { AlertSeverityLevelType } from '../../../app/constants';
+import {
+  AlertEffectType,
+  AlertSeverityLevelType,
+  RealtimeStateType,
+} from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
@@ -17,6 +21,53 @@ describe('alertUtils', () => {
 
     it('should return true if route has a non-empty alerts array', () => {
       expect(utils.routeHasServiceAlert({ alerts: [{}] })).to.equal(true);
+    });
+
+    it('should optionally filter by the given patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {
+            pattern: {
+              code: patternId,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+      expect(utils.routeHasServiceAlert({ alerts }, 'bar')).to.equal(false);
+    });
+
+    it('should ignore missing trip information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: null,
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+    });
+
+    it('should not ignore missing pattern and code information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {},
+        },
+        {
+          trip: {
+            pattern: {},
+          },
+        },
+        {
+          trip: {
+            pattern: {
+              code: undefined,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(false);
     });
   });
 
@@ -80,6 +131,70 @@ describe('alertUtils', () => {
             { realtimeState: 'CANCELED' },
           ],
         }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('tripHasCancelationForStop', () => {
+    it('should return false if trip is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(undefined, { gtfsId: 'foo' }),
+      ).to.equal(false);
+    });
+
+    it('should return false if trip has no array "stoptimes"', () => {
+      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if stop is undefined', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          undefined,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return false if stop has no gtfsId', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {},
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true when there is a cancelation for the given stop', () => {
+      expect(
+        utils.tripHasCancelationForStop(
+          {
+            stoptimes: [
+              {
+                realtimeState: RealtimeStateType.Canceled,
+                stop: { gtfsId: 'foo' },
+              },
+            ],
+          },
+          {
+            gtfsId: 'foo',
+          },
+        ),
       ).to.equal(true);
     });
   });
@@ -160,6 +275,60 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('legHasCancelation', () => {
+    it('should return false if leg is falsy', () => {
+      expect(utils.legHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if the leg has not been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Scheduled }),
+      ).to.equal(false);
+    });
+
+    it('should return true if the leg has been canceled', () => {
+      expect(
+        utils.legHasCancelation({ realtimeState: RealtimeStateType.Canceled }),
+      ).to.equal(true);
+    });
+  });
+
+  describe('itineraryHasCancelation', () => {
+    it('should return false if itinerary is falsy', () => {
+      expect(utils.itineraryHasCancelation(undefined)).to.equal(false);
+    });
+
+    it('should return false if itinerary has no array "legs"', () => {
+      expect(utils.itineraryHasCancelation({ legs: undefined })).to.equal(
+        false,
+      );
+    });
+
+    it('should return false if none of the legs has a cancelation', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Added },
+            { realtimeState: RealtimeStateType.Modified },
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Updated },
+          ],
+        }),
+      ).to.equal(false);
+    });
+
+    it('should return true if at least one of the legs has been canceled', () => {
+      expect(
+        utils.itineraryHasCancelation({
+          legs: [
+            { realtimeState: RealtimeStateType.Scheduled },
+            { realtimeState: RealtimeStateType.Canceled },
+          ],
+        }),
+      ).to.equal(true);
+    });
+  });
+
   describe('getServiceAlertHeader', () => {
     it('should return an empty string if there are no translations and no alertHeaderText', () => {
       expect(utils.getServiceAlertHeader({})).to.equal('');
@@ -236,10 +405,70 @@ describe('alertUtils', () => {
   });
 
   describe('getServiceAlertsForRoute', () => {
+    it('should return an empty array if the route does not exist', () => {
+      expect(utils.getServiceAlertsForRoute(undefined)).to.deep.equal([]);
+    });
+
     it('should return an empty array if the route has no array "alerts"', () => {
       expect(
         utils.getServiceAlertsForRoute({ alerts: undefined }),
       ).to.deep.equal([]);
+    });
+
+    it('should return mapped alerts for the given route', () => {
+      const route = {
+        alerts: [
+          {
+            alertDescriptionText:
+              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
+            alertDescriptionTextTranslations: [
+              {
+                language: 'fi',
+                text:
+                  'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
+              },
+              {
+                language: 'en',
+                text:
+                  'Stop Rantatie (1007) is temporarily out of use due to a construction site',
+              },
+            ],
+            alertHeaderText:
+              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
+            alertHeaderTextTranslations: [
+              {
+                language: 'fi',
+                text: 'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
+              },
+              {
+                language: 'en',
+                text: 'Stop Rantatie (1007) is temporarily out of use',
+              },
+            ],
+            effectiveEndDate: 1577829548,
+            effectiveStartDate: 1543183208,
+          },
+        ],
+        color: 'pink',
+        mode: 'BUS',
+        shortName: 'foobar',
+      };
+      expect(utils.getServiceAlertsForRoute(route)).to.deep.equal([
+        {
+          description:
+            'Stop Rantatie (1007) is temporarily out of use due to a construction site',
+          header: 'Stop Rantatie (1007) is temporarily out of use',
+          route: {
+            color: 'pink',
+            mode: 'BUS',
+            shortName: 'foobar',
+          },
+          validityPeriod: {
+            endTime: 1577829548000,
+            startTime: 1543183208000,
+          },
+        },
+      ]);
     });
   });
 
@@ -314,6 +543,66 @@ describe('alertUtils', () => {
       ];
       expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
         AlertSeverityLevelType.Info,
+      );
+    });
+  });
+
+  describe('getMaximumAlertEffect', () => {
+    it('should return undefined if the alerts array is not an array', () => {
+      expect(utils.getMaximumAlertEffect(undefined)).to.equal(undefined);
+    });
+
+    it('should return undefined if the alerts array is empty', () => {
+      expect(utils.getMaximumAlertEffect([])).to.equal(undefined);
+    });
+
+    it('should return undefined if the effect cannot be determined', () => {
+      expect(utils.getMaximumAlertEffect([{ foo: 'bar' }])).to.equal(undefined);
+    });
+
+    it('should ignore alerts that are missing an effect', () => {
+      const alerts = [
+        { foo: 'bar' },
+        { alertEffect: AlertEffectType.NoService },
+        { foo: 'baz' },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.NoService,
+      );
+    });
+
+    it('should prioritize no service over everything else', () => {
+      const alerts = [
+        { alertEffect: AlertEffectType.AdditionalService },
+        { alertEffect: AlertEffectType.Detour },
+        { alertEffect: AlertEffectType.ModifiedService },
+        { alertEffect: AlertEffectType.NoEffect },
+        { alertEffect: AlertEffectType.NoService },
+        { alertEffect: AlertEffectType.OtherEffect },
+        { alertEffect: AlertEffectType.ReducedService },
+        { alertEffect: AlertEffectType.SignificantDelays },
+        { alertEffect: AlertEffectType.StopMoved },
+        { alertEffect: AlertEffectType.Unknown },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.NoService,
+      );
+    });
+
+    it('should return unknown if there are no alerts with the effect of no service', () => {
+      const alerts = [
+        { alertEffect: AlertEffectType.AdditionalService },
+        { alertEffect: AlertEffectType.Detour },
+        { alertEffect: AlertEffectType.ModifiedService },
+        { alertEffect: AlertEffectType.NoEffect },
+        { alertEffect: AlertEffectType.OtherEffect },
+        { alertEffect: AlertEffectType.ReducedService },
+        { alertEffect: AlertEffectType.SignificantDelays },
+        { alertEffect: AlertEffectType.StopMoved },
+        { alertEffect: AlertEffectType.Unknown },
+      ];
+      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
+        AlertEffectType.Unknown,
       );
     });
   });

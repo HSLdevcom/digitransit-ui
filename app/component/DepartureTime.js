@@ -52,20 +52,26 @@ function DepartureTime(props, context) {
     );
   }
   return (
-    <span
-      style={props.style}
-      className={cx(
-        'time',
-        {
-          realtime: props.realtime,
-          canceled: props.canceled,
-        },
-        props.className,
-      )}
-    >
-      {realtime}
-      {shownTime}
-    </span>
+    <React.Fragment>
+      <span
+        style={props.style}
+        className={cx(
+          'time',
+          {
+            realtime: props.realtime,
+            canceled: props.canceled,
+          },
+          props.className,
+        )}
+      >
+        {realtime}
+        {shownTime}
+      </span>
+      {props.canceled &&
+        props.showCancelationIcon && (
+          <Icon className="caution" img="icon-icon_caution" />
+        )}
+    </React.Fragment>
   );
 }
 
@@ -118,6 +124,11 @@ DepartureTime.propTypes = {
   realtime: PropTypes.bool,
   style: PropTypes.object,
   useUTC: PropTypes.bool,
+  showCancelationIcon: PropTypes.bool,
+};
+
+DepartureTime.defaultProps = {
+  showCancelationIcon: false,
 };
 
 DepartureTime.contextTypes = {
@@ -152,7 +163,16 @@ export const mapStopTime = (stoptime, pattern) => ({
  * maps stoptime to DepartureTime component
  *  @param stoptime stoptime from graphql
  *  @param currentTime
+ *  @param showCancelationIcon whether an icon should be shown if the departure is canceled.
  */
-export const fromStopTime = (stoptime, currentTime) => (
-  <DepartureTime currentTime={currentTime} {...mapStopTime(stoptime)} />
+export const fromStopTime = (
+  stoptime,
+  currentTime,
+  showCancelationIcon = true,
+) => (
+  <DepartureTime
+    currentTime={currentTime}
+    {...mapStopTime(stoptime)}
+    showCancelationIcon={showCancelationIcon}
+  />
 );

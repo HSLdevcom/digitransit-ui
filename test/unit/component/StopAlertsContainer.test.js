@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { AlertSeverityLevelType } from '../../../app/constants';
 import AlertList from '../../../app/component/AlertList';
 import { Component as StopAlertsContainer } from '../../../app/component/StopAlertsContainer';
 
@@ -101,6 +102,21 @@ describe('<StopAlertsContainer />', () => {
     };
     const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
     expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+  });
+
+  it('should indicate that the stop itself has a service alert', () => {
+    const props = {
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Warning,
+          },
+        ],
+        stoptimesForServiceDate: [],
+      },
+    };
+    const wrapper = shallowWithIntl(<StopAlertsContainer {...props} />);
+    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 
   it('should use the stoptime as the startTime for validityPeriod', () => {

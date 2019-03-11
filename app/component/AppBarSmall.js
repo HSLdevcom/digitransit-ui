@@ -7,6 +7,7 @@ import MainMenuContainer from './MainMenuContainer';
 import ComponentUsageExample from './ComponentUsageExample';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
+import CanceledLegsBar from './CanceledLegsBar';
 
 const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
   <React.Fragment>
@@ -19,6 +20,7 @@ const AppBarSmall = ({ disableBackButton, showLogo, title, homeUrl, logo }) => (
       <MainMenuContainer homeUrl={homeUrl} />
     </nav>
     <MessageBar />
+    <CanceledLegsBar />
   </React.Fragment>
 );
 

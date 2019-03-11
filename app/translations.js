@@ -686,6 +686,7 @@ const translations = {
       'Additional {itineraryAmount, plural, =1 {1 canceled itinerary} other {{itineraryAmount} canceled itineraries}}',
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
+    'canceled-legs': 'Canceled departures on the route',
     car: 'Car',
     'car-distance-duration': 'Drive {distance} ({duration})',
     car_park: 'park & ride',
@@ -743,6 +744,7 @@ const translations = {
     'favourite-target': 'Favorite location',
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
+    'fetch-new-route': 'Fetch a new route',
     'footer-faq': 'FAQ',
     'footer-feedback': 'Submit feedback',
     'footer-link-to-privacy-policy': 'Privacy policy',
@@ -1372,6 +1374,7 @@ const translations = {
       'Lisäksi {itineraryAmount, plural, =1 {1 peruttu reittiehdotus} other {{itineraryAmount} peruttua reittiehdotusta}}',
     'canceled-itineraries-amount-hide':
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
+    'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
     'car-distance-duration': 'Aja {distance} ({duration})',
     car_park: 'liityntäpysäköinti',
@@ -1432,6 +1435,7 @@ const translations = {
     'favourite-target': 'Suosikkikohde',
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
+    'fetch-new-route': 'Hae uusi reitti',
     'footer-faq': 'UKK',
     'footer-feedback': 'Anna palautetta',
     'footer-link-to-privacy-policy': 'Rekisteriseloste',
@@ -2362,6 +2366,7 @@ const translations = {
       'Ytterligare {itineraryAmount, plural, =1 {1 avställt avgång} other {{itineraryAmount} avställda avgångar}}',
     'canceled-itineraries-amount-hide':
       'Dölja inställda reseförslag ({itineraryAmount})',
+    'canceled-legs': 'Inställda avgångar på linjen',
     car: 'Bil',
     'car-distance-duration': 'Kör {distance} ({duration})',
     car_park: 'infartsparkering',
@@ -2421,6 +2426,7 @@ const translations = {
     'favourite-target': 'Favoritdestination',
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
+    'fetch-new-route': 'Sök en ny rutt',
     'footer-faq': 'Frågor och svar',
     'footer-feedback': 'Skicka respons',
     'footer-link-to-privacy-policy': 'Registerbeskrivning',

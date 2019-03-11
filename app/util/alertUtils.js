@@ -1,7 +1,11 @@
 import find from 'lodash/find';
 import PropTypes from 'prop-types';
 
-import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
+import {
+  RealtimeStateType,
+  AlertSeverityLevelType,
+  AlertEffectType,
+} from '../constants';
 
 /**
  * Checks if the stop has any alerts.
@@ -19,12 +23,19 @@ export const stopHasServiceAlert = stop => {
  * Checks if the route has any alerts.
  *
  * @param {*} route the route object to check.
+ * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasServiceAlert = route => {
+export const routeHasServiceAlert = (route, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return route.alerts.length > 0;
+  return patternId
+    ? route.alerts.some(
+        alert =>
+          !alert.trip ||
+          (alert.trip.pattern && alert.trip.pattern.code === patternId),
+      )
+    : route.alerts.length > 0;
 };
 
 /**
@@ -49,6 +60,21 @@ export const stoptimeHasCancelation = stoptime => {
     return false;
   }
   return stoptime.realtimeState === RealtimeStateType.Canceled;
+};
+
+/**
+ * Checks if the trip has a cancelation for the given stop.
+ *
+ * @param {*} trip the trip object to check.
+ * @param {*} stop the stop object to look a cancelation for.
+ */
+export const tripHasCancelationForStop = (trip, stop) => {
+  if (!trip || !Array.isArray(trip.stoptimes) || !stop || !stop.gtfsId) {
+    return false;
+  }
+  return trip.stoptimes
+    .filter(stoptimeHasCancelation)
+    .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
 };
 
 /**
@@ -90,6 +116,30 @@ export const routeHasCancelation = (route, patternId = undefined) => {
     .some(patternHasCancelation);
 };
 
+/**
+ * Checks if the leg has a cancelation.
+ *
+ * @param {*} leg the leg object to check.
+ */
+export const legHasCancelation = leg => {
+  if (!leg) {
+    return false;
+  }
+  return leg.realtimeState === RealtimeStateType.Canceled;
+};
+
+/**
+ * Checks if the itinerary has a cancelation.
+ *
+ * @param {*} itinerary the itinerary object to check.
+ */
+export const itineraryHasCancelation = itinerary => {
+  if (!itinerary || !Array.isArray(itinerary.legs)) {
+    return false;
+  }
+  return itinerary.legs.some(legHasCancelation);
+};
+
 const getTranslation = (translations, defaultValue, locale) => {
   if (!Array.isArray(translations)) {
     return defaultValue;
@@ -127,29 +177,67 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
     locale,
   );
 
-/**
- * Retrieves OTP-style Service Alerts from the given route and
- * maps them to the format understood be the UI.
- *
- * @param {*} route the route object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertsForRoute = (route, locale = 'en') =>
-  Array.isArray(route.alerts)
-    ? route.alerts.map(alert => ({
+const getServiceAlerts = (
+  { alerts } = {},
+  { color, mode, shortName } = {},
+  locale = 'en',
+) =>
+  Array.isArray(alerts)
+    ? alerts.map(alert => ({
         description: getServiceAlertDescription(alert, locale),
         header: getServiceAlertHeader(alert, locale),
         route: {
-          color: route.color,
-          mode: route.mode,
-          shortName: route.shortName,
+          color,
+          mode,
+          shortName,
         },
+        ...(alert.alertSeverityLevel && { severity: alert.alertSeverityLevel }),
         validityPeriod: {
           startTime: alert.effectiveStartDate * 1000,
           endTime: alert.effectiveEndDate * 1000,
         },
       }))
     : [];
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRoute = (route, locale = 'en') =>
+  getServiceAlerts(route, route, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given stop and
+ * maps them to the format understood by the UI.
+ *
+ * @param {*} stop the stop object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForStop = (stop, locale = 'en') =>
+  getServiceAlerts(stop, {}, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given route's
+ * pattern's stops and maps them to the format understood by the UI.
+ *
+ * @param {*} route the route object to retrieve alerts from.
+ * @param {*} patternId the pattern's id.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForRouteStops = (
+  route,
+  patternId,
+  locale = 'en',
+) =>
+  route.patterns
+    .filter(pattern => patternId === pattern.code)
+    .map(pattern => pattern.stops)
+    .reduce((a, b) => a.concat(b), [])
+    .map(stop => getServiceAlerts(stop, route, locale))
+    .reduce((a, b) => a.concat(b), []);
 
 /**
  * Iterates through the alerts and returns the highest severity level found.
@@ -180,6 +268,33 @@ export const getMaximumAlertSeverityLevel = alerts => {
 };
 
 /**
+ * Iterates through the alerts and returns 'NO_SERVICE' if that is found.
+ * Returns 'EFFECT_UNKNOWN' if there are alerts but none of them have an
+ * effect of 'NO_SERVICE'. Returns undefined if the effect cannot be
+ * determined.
+ *
+ * @param {*} alerts the alerts to check.
+ */
+export const getMaximumAlertEffect = alerts => {
+  if (!Array.isArray(alerts) || alerts.length === 0) {
+    return undefined;
+  }
+  const effects = alerts
+    .map(alert => alert.alertEffect)
+    .reduce((obj, effect) => {
+      if (effect) {
+        obj[effect] = effect; // eslint-disable-line no-param-reassign
+      }
+      return obj;
+    }, {});
+  return (
+    effects[AlertEffectType.NoService] ||
+    (Object.keys(effects).length > 0 && AlertEffectType.Unknown) ||
+    undefined
+  );
+};
+
+/**
  * Describes the type information for an OTP Service Alert object.
  */
 export const otpServiceAlertShape = PropTypes.shape({
@@ -197,6 +312,7 @@ export const otpServiceAlertShape = PropTypes.shape({
       text: PropTypes.string,
     }),
   ),
+  alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
 });
