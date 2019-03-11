@@ -8,6 +8,7 @@ import {
   getCustomizedSettings,
   getRoutingSettings,
 } from '../store/localStorage';
+import { isEmpty } from 'lodash';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -117,18 +118,25 @@ function getDisableRemainingWeightHeuristic(
   return disableRemainingWeightHeuristic;
 }
 
-function getPreferredorUnpreferredRoutes(queryRoutes, settingsRoutes) {
-  // queryRoutes is undefined if user has not touched settings
-  if (queryRoutes !== undefined) {
-    // queryRoutes is an empty string if user has removed all the routes
-    if (queryRoutes === '') {
-      return {};
-    }
+function getPreferredorUnpreferredRoutes(queryRoutes, isPreferred, settings, unpreferredPenalty) {
+  const preferenceObject = {};
+  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
+  if (queryRoutes !== undefined && queryRoutes !== '') {
     // queryRoutes contains routes found in query params
-    return { routes: queryRoutes };
+    preferenceObject.routes = queryRoutes;
+  } else {
+    // default or localstorage routes
+    if (isPreferred) {
+      preferenceObject.routes = settings.preferredRoutes
+    } else {
+      preferenceObject.routes = settings.unpreferredRoutes
+    }
   }
-  // default or localstorage routes
-  return { routes: settingsRoutes };
+  if (!isPreferred) {
+    // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
+    preferenceObject.useUnpreferredRoutesPenalty = unpreferredPenalty;
+  }
+  return preferenceObject;
 }
 
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
@@ -350,11 +358,15 @@ export const preparePlanParams = config => (
             : null,
         preferred: getPreferredorUnpreferredRoutes(
           preferredRoutes,
-          settings.preferredRoutes,
+          true,
+          settings,
+          config.useUnpreferredRoutesPenalty,
         ),
         unpreferred: getPreferredorUnpreferredRoutes(
           unpreferredRoutes,
-          settings.unpreferredRoutes,
+          false,
+          settings,
+          config.useUnpreferredRoutesPenalty,
         ),
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
