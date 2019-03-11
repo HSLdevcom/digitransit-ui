@@ -127,13 +127,14 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
     NODE_PID=$!
     sleep 3
   else #smoke
-    yarn build  > /dev/null
+    echo yarn build  > /dev/null
   fi
 
   echo "launching $BROWSERSTACK_LOCAL_BINARY"
-  $BROWSERSTACK_LOCAL_BINARY $3 &
+  export BROWSERSTACK_ID="$USER$(date +%s%N)"
+  $BROWSERSTACK_LOCAL_BINARY --key $3 --local-identifier $BROWSERSTACK_ID &
   BROWSERSTACK_PID=$!
-  sleep 2
+  sleep 10
 
 
  if [ "$1" == "browserstack" ] ; then
@@ -175,8 +176,7 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
          sleep 3
          for j in $(seq 0 $RETRY_SMOKE_COUNT)
          do
-             export BROWSERSTACK_BUILD="$USER$conf$(date +%s%N)"
-             echo "bsid = $BROWSERSTACK_BUILD"
+             export BROWSERSTACK_BUILD="$BROWSERSTACK_ID$conf"
              env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
              TESTSTATUS=$?
              if [[ $TESTSTATUS == 0 ]]; then

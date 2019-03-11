@@ -148,7 +148,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-chrome": {
@@ -168,7 +169,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-edge": {
@@ -190,7 +192,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-ie": {
@@ -212,7 +215,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-safari": {
@@ -233,7 +237,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-android": {
@@ -250,7 +255,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "bs-iphone": {
@@ -268,7 +274,8 @@
         "browserstack.user": "${BROWSERSTACK_USER}",
         "browserstack.key": "${BROWSERSTACK_KEY}",
         "browserstack.local": true,
-        "build": "${BROWSERSTACK_BUILD}"
+        "build": "${BROWSERSTACK_BUILD}",
+        "localIdentifier": "${BROWSERSTACK_ID}"
       }
     },
     "sl-iphone": {
