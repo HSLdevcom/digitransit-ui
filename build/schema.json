@@ -88,7 +88,7 @@
                     },
                     {
                         "name": "agency",
-                        "description": "Get a single agency based on agency ID",
+                        "description": "Get a single agency based on agency ID, i.e. value of field `gtfsId` (ID format is `FeedId:StopId`)",
                         "args": [
                             {
                                 "name": "id",
@@ -1849,7 +1849,7 @@
                     },
                     {
                         "name": "gtfsId",
-                        "description": "Agency id",
+                        "description": "Agency feed and id",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -7148,6 +7148,16 @@
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "useUnpreferredRoutesPenalty",
+                        "description": "Penalty added for using route that is unpreferred, i.e. number of seconds that we are willing to wait for route that is unpreferred.",
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
                             "ofType": null
                         },
                         "defaultValue": null
