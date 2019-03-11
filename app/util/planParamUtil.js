@@ -8,7 +8,6 @@ import {
   getCustomizedSettings,
   getRoutingSettings,
 } from '../store/localStorage';
-import { isEmpty } from 'lodash';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -118,19 +117,23 @@ function getDisableRemainingWeightHeuristic(
   return disableRemainingWeightHeuristic;
 }
 
-function getPreferredorUnpreferredRoutes(queryRoutes, isPreferred, settings, unpreferredPenalty) {
+function getPreferredorUnpreferredRoutes(
+  queryRoutes,
+  isPreferred,
+  settings,
+  unpreferredPenalty,
+) {
   const preferenceObject = {};
   // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
   if (queryRoutes !== undefined && queryRoutes !== '') {
     // queryRoutes contains routes found in query params
     preferenceObject.routes = queryRoutes;
+  } else if (isPreferred) {
+    // default or localstorage preferredRoutes
+    preferenceObject.routes = settings.preferredRoutes;
   } else {
-    // default or localstorage routes
-    if (isPreferred) {
-      preferenceObject.routes = settings.preferredRoutes
-    } else {
-      preferenceObject.routes = settings.unpreferredRoutes
-    }
+    // default or localstorage unpreferredRoutes
+    preferenceObject.routes = settings.unpreferredRoutes;
   }
   if (!isPreferred) {
     // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
