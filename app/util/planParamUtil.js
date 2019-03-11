@@ -117,6 +117,20 @@ function getDisableRemainingWeightHeuristic(
   return disableRemainingWeightHeuristic;
 }
 
+function getPreferredorUnpreferredRoutes(queryRoutes, settingsRoutes) {
+  // queryRoutes is undefined if user has not touched settings
+  if (queryRoutes !== undefined) {
+    // queryRoutes is an empty string if user has removed all the routes
+    if (queryRoutes === '') {
+      return {};
+    }
+    // queryRoutes contains routes found in query params
+    return { routes: queryRoutes };
+  }
+  // default or localstorage routes
+  return { routes: settingsRoutes };
+}
+
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 const getBooleanValueOrDefault = (value, defaultValue = undefined) =>
@@ -334,12 +348,14 @@ export const preparePlanParams = config => (
                 nullOrUndefined,
               )
             : null,
-        preferred: {
-          routes: preferredRoutes || settings.preferredRoutes,
-        },
-        unpreferred: {
-          routes: unpreferredRoutes || settings.unpreferredRoutes,
-        },
+        preferred: getPreferredorUnpreferredRoutes(
+          preferredRoutes,
+          settings.preferredRoutes,
+        ),
+        unpreferred: getPreferredorUnpreferredRoutes(
+          unpreferredRoutes,
+          settings.unpreferredRoutes,
+        ),
         disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
           modesOrDefault,
           settings,

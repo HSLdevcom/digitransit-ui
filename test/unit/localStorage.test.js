@@ -119,6 +119,32 @@ describe('localStorage', () => {
       expect(settings.slopeFactor).to.equal(undefined);
       expect(settings.timeFactor).to.equal(undefined);
     });
+
+    it('should remove unpreferredRoutes and preferredRoutes if there are none', () => {
+      const initialSettings = {
+        preferredRoutes: ['HSL__1050'],
+        unpreferredRoutes: ['HSL__4555'],
+      };
+      setCustomizedSettings(initialSettings);
+
+      let settings = getCustomizedSettings();
+      expect(settings.preferredRoutes).to.deep.equal(
+        initialSettings.preferredRoutes,
+      );
+      expect(settings.unpreferredRoutes).to.deep.equal(
+        initialSettings.unpreferredRoutes,
+      );
+
+      const updatedSettings = {
+        preferredRoutes: [],
+        unpreferredRoutes: [],
+      };
+      setCustomizedSettings(updatedSettings);
+
+      settings = getCustomizedSettings();
+      expect(settings.preferredRoutes.length).to.equal(0);
+      expect(settings.unpreferredRoutes.length).to.equal(0);
+    });
   });
 
   describe('getLocalStorage', () => {
