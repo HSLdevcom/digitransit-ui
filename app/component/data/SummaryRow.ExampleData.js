@@ -295,6 +295,7 @@ export const exampleDataCanceled = {
     {
       __dataID__: 'client:-6566221819',
       realTime: true,
+      realtimeState: 'CANCELED',
       transitLeg: true,
       startTime: 1551272277000,
       endTime: 1551273846000,
@@ -638,98 +639,6 @@ export const exampleDataCanceled = {
         stop: {
           __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
           gtfsId: 'HSL:1260180',
-          stoptimes: [
-            {
-              __dataID__: 'client:-656622181255',
-              pickupType: 'SCHEDULED',
-              realtimeState: 'UPDATED',
-              trip: {
-                __dataID__: 'VHJpcDpIU0w6MTA1NV8yMDE5MDIyNl9LZV8yXzE1NTM=',
-                gtfsId: 'HSL:1055_20190226_Ke_2_1553',
-                route: {
-                  __dataID__: 'Um91dGU6SFNMOjEwNTU=',
-                  shortName: '55',
-                  gtfsId: 'HSL:1055',
-                },
-              },
-              stop: {
-                __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
-                gtfsId: 'HSL:1260180',
-              },
-            },
-            {
-              __dataID__: 'client:-656622181256',
-              pickupType: 'SCHEDULED',
-              realtimeState: 'UPDATED',
-              trip: {
-                __dataID__: 'VHJpcDpIU0w6MTYwM18yMDE5MDIyNl9LZV8xXzE1MzU=',
-                gtfsId: 'HSL:1603_20190226_Ke_1_1535',
-                route: {
-                  __dataID__: 'Um91dGU6SFNMOjE2MDM=',
-                  shortName: '603',
-                  gtfsId: 'HSL:1603',
-                },
-              },
-              stop: {
-                __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
-                gtfsId: 'HSL:1260180',
-              },
-            },
-            {
-              __dataID__: 'client:-656622181257',
-              pickupType: 'SCHEDULED',
-              realtimeState: 'SCHEDULED',
-              trip: {
-                __dataID__: 'VHJpcDpIU0w6MTA1NV8yMDE5MDIyNl9LZV8yXzE2MDg=',
-                gtfsId: 'HSL:1055_20190226_Ke_2_1608',
-                route: {
-                  __dataID__: 'Um91dGU6SFNMOjEwNTU=',
-                  shortName: '55',
-                  gtfsId: 'HSL:1055',
-                },
-              },
-              stop: {
-                __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
-                gtfsId: 'HSL:1260180',
-              },
-            },
-            {
-              __dataID__: 'client:-656622181258',
-              pickupType: 'SCHEDULED',
-              realtimeState: 'SCHEDULED',
-              trip: {
-                __dataID__: 'VHJpcDpIU0w6MTA1NV8yMDE5MDIyNl9LZV8yXzE2MjM=',
-                gtfsId: 'HSL:1055_20190226_Ke_2_1623',
-                route: {
-                  __dataID__: 'Um91dGU6SFNMOjEwNTU=',
-                  shortName: '55',
-                  gtfsId: 'HSL:1055',
-                },
-              },
-              stop: {
-                __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
-                gtfsId: 'HSL:1260180',
-              },
-            },
-            {
-              __dataID__: 'client:-656622181259',
-              pickupType: 'SCHEDULED',
-              realtimeState: 'CANCELED',
-              trip: {
-                __dataID__: 'VHJpcDpIU0w6MTA1NV8yMDE5MDIyNl9LZV8yXzE2Mzk=',
-                gtfsId: 'HSL:1055_20190226_Ke_2_1639',
-                route: {
-                  __dataID__: 'Um91dGU6SFNMOjEwNTU=',
-                  shortName: '55',
-                  gtfsId: 'HSL:1055',
-                },
-              },
-              stop: {
-                __dataID__: 'U3RvcDpIU0w6MTI2MDE4MA==',
-                gtfsId: 'HSL:1260180',
-              },
-            },
-          ],
           zoneId: '01',
         },
         bikeRentalStation: null,

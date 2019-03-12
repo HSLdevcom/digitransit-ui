@@ -47,7 +47,7 @@
   position: relative;
 
   &.cancelled-itinerary {
-    .itinerary-start-time {
+    .itinerary-first-leg-start-time {
       text-decoration: line-through;
       color: $cancelation-red;
     }

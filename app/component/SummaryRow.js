@@ -10,6 +10,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
+import { legHasCancelation } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -89,12 +90,15 @@ export const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={hasActiveDisruption(
-          leg.startTime / 1000,
-          leg.endTime / 1000,
-          getTripAlerts(leg.trip),
-          // dummyalerts,
-        )}
+        hasDisruption={
+          legHasCancelation(leg) ||
+          hasActiveDisruption(
+            leg.startTime / 1000,
+            leg.endTime / 1000,
+            getTripAlerts(leg.trip),
+            // dummyalerts,
+          )
+        }
       />
     );
   }
