@@ -387,13 +387,15 @@ class SummaryPage extends React.Component {
   }
 }
 
-SummaryPage.description = (
+const SummaryPageWithBreakpoint = withBreakpoint(SummaryPage);
+
+SummaryPageWithBreakpoint.description = (
   <ComponentUsageExample isFullscreen>
-    {isBrowser && <SummaryPage {...exampleData} />}
+    {isBrowser && <SummaryPageWithBreakpoint {...exampleData} />}
   </ComponentUsageExample>
 );
 
-const containerComponent = Relay.createContainer(withBreakpoint(SummaryPage), {
+const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
   fragments: {
     plan: () => Relay.QL`
       fragment on QueryType {
@@ -494,4 +496,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(SummaryPage), {
   },
 });
 
-export { containerComponent as default, SummaryPage as Component };
+export {
+  containerComponent as default,
+  SummaryPageWithBreakpoint as Component,
+};

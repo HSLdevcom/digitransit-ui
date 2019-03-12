@@ -1,5 +1,4 @@
 export default {
-  breakpoint: 'large',
   from: {
     address: 'Opastinsilta 6, Helsinki',
     lat: 60.199087,
