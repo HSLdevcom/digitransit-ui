@@ -124,22 +124,24 @@ function getPreferredorUnpreferredRoutes(
   unpreferredPenalty,
 ) {
   const preferenceObject = {};
-  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
-  if (queryRoutes !== undefined && queryRoutes !== '') {
-    // queryRoutes contains routes found in query params
-    preferenceObject.routes = queryRoutes;
-  } else if (isPreferred) {
-    // default or localstorage preferredRoutes
-    preferenceObject.routes = settings.preferredRoutes;
-  } else {
-    // default or localstorage unpreferredRoutes
-    preferenceObject.routes = settings.unpreferredRoutes;
-  }
   if (!isPreferred) {
     // adds penalty weight to unpreferred routes, there might be default unpreferred routes even if user has not defined any
     preferenceObject.useUnpreferredRoutesPenalty = unpreferredPenalty;
   }
-  return preferenceObject;
+  // queryRoutes is undefined if query params dont contain routes and empty string if user has removed all routes
+  if (queryRoutes === '') {
+    return preferenceObject;
+  }
+  if (queryRoutes !== undefined && queryRoutes !== '') {
+    // queryRoutes contains routes found in query params
+    return { ...preferenceObject, routes: queryRoutes };
+  }
+  if (isPreferred) {
+    // default or localstorage preferredRoutes
+    return { ...preferenceObject, routes: settings.preferredRoutes };
+  }
+  // default or localstorage unpreferredRoutes
+  return { ...preferenceObject, routes: settings.unpreferredRoutes };
 }
 
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
