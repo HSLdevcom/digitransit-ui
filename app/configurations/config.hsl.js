@@ -430,8 +430,8 @@ export default {
           },
           {
             type: 'a',
-            content: 'Käyttöehdot',
-            href: 'https://www.hsl.fi/kayttoehdot',
+            content: 'Evästeet',
+            href: 'https://www.hsl.fi/asiakaspalvelu/hsln-tietosuoja/evasteet',
           },
           {
             type: 'a',
@@ -464,8 +464,9 @@ export default {
           },
           {
             type: 'a',
-            content: 'Användarvillkor',
-            href: 'https://www.hsl.fi/sv/anvandarvillkor',
+            content: 'Cookies',
+            href:
+              'https://www.hsl.fi/sv/information/hrt-dataskydd/kakor-cookies',
           },
           {
             type: 'a',
