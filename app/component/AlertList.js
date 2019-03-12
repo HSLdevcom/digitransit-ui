@@ -5,28 +5,9 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
+import { alertHasExpired } from '../util/alertUtils';
 import { routeNameCompare } from '../util/searchUtils';
 import { AlertSeverityLevelType } from '../constants';
-
-/**
- * The default validity period (5 minutes) for an alert without a set end time.
- */
-export const DEFAULT_VALIDITY = 5 * 60;
-
-/**
- * Checks if the given validity period has expired or not.
- *
- * @param {*} validityPeriod the validity period to check.
- * @param {number} currentUnixTime the current time in unix timestamp seconds.
- * @param {number} defaultValidity the default validity period length in seconds.
- */
-export const hasExpired = (
-  validityPeriod,
-  currentUnixTime,
-  defaultValidity = DEFAULT_VALIDITY,
-) =>
-  (validityPeriod.endTime || validityPeriod.startTime + defaultValidity) <
-  currentUnixTime;
 
 /**
  * Compares the given alerts in order to sort them.
@@ -55,7 +36,12 @@ export const alertCompare = (a, b) => {
   return b.validityPeriod.startTime - a.validityPeriod.startTime;
 };
 
-const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
+const AlertList = ({
+  cancelations,
+  currentTime,
+  showExpired,
+  serviceAlerts,
+}) => {
   const currentUnixTime = Number.isInteger(currentTime)
     ? currentTime
     : currentTime.unix();
@@ -64,8 +50,9 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
     .concat(Array.isArray(serviceAlerts) ? serviceAlerts : [])
     .map(alert => ({
       ...alert,
-      expired: hasExpired(alert.validityPeriod, currentUnixTime),
-    }));
+      expired: alertHasExpired(alert.validityPeriod, currentUnixTime),
+    }))
+    .filter(alert => (showExpired ? true : !alert.expired));
 
   if (alerts.length === 0) {
     return (
@@ -89,7 +76,7 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
               header,
               expired,
               route: { color, mode, shortName } = {},
-              severity,
+              severityLevel,
               validityPeriod: { startTime, endTime },
             }) => (
               <RouteAlertsRow
@@ -97,10 +84,10 @@ const AlertList = ({ cancelations, currentTime, serviceAlerts }) => {
                 description={description}
                 expired={expired}
                 header={header}
-                key={`alert-${startTime}-${endTime}-${shortName}-${severity}`}
+                key={`alert-${startTime}-${endTime}-${shortName}-${severityLevel}`}
                 routeLine={shortName}
                 routeMode={mode && mode.toLowerCase()}
-                severity={severity}
+                severityLevel={severityLevel}
               />
             ),
           )}
@@ -117,7 +104,7 @@ const alertShape = PropTypes.shape({
     mode: PropTypes.string,
     shortName: PropTypes.string,
   }),
-  severity: PropTypes.string,
+  severityLevel: PropTypes.string,
   validityPeriod: PropTypes.shape({
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number,
@@ -131,11 +118,13 @@ AlertList.propTypes = {
   ]).isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
   serviceAlerts: PropTypes.arrayOf(alertShape),
+  showExpired: PropTypes.bool,
 };
 
 AlertList.defaultProps = {
   cancelations: [],
   serviceAlerts: [],
+  showExpired: false,
 };
 
 AlertList.description = (
@@ -151,7 +140,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '3A',
             },
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 20, endTime: 30 },
           },
           {
@@ -161,7 +150,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '28B',
             },
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 10, endTime: 20 },
           },
           {
@@ -171,7 +160,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '28B',
             },
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 1, endTime: 11 },
           },
           {
@@ -180,7 +169,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '80',
             },
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 11, endTime: 21 },
           },
           {
@@ -189,7 +178,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '80',
             },
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 0, endTime: 10 },
           },
         ]}
@@ -199,7 +188,7 @@ AlertList.description = (
             description:
               'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
             route: {},
-            severity: AlertSeverityLevelType.Warning,
+            severityLevel: AlertSeverityLevelType.Warning,
             validityPeriod: { startTime: 10, endTime: 20 },
           },
           {
@@ -207,7 +196,7 @@ AlertList.description = (
             description:
               'Pysäkillä Rantatie (1007) on lisävuoroja yleisötapahtuman vuoksi.',
             route: {},
-            severity: AlertSeverityLevelType.Info,
+            severityLevel: AlertSeverityLevelType.Info,
             validityPeriod: { startTime: 0, endTime: 10 },
           },
         ]}

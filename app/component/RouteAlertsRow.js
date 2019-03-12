@@ -13,7 +13,7 @@ export default function RouteAlertsRow({
   routeLine,
   expired,
   color,
-  severity,
+  severityLevel,
 }) {
   return (
     <div className={cx('route-alert-row', { expired })}>
@@ -27,7 +27,7 @@ export default function RouteAlertsRow({
         />
       ) : (
         <div className="route-number">
-          <ServiceAlertIcon severity={severity} />
+          <ServiceAlertIcon severityLevel={severityLevel} />
         </div>
       )}
       <div className="route-alert-contents">
@@ -45,13 +45,13 @@ RouteAlertsRow.propTypes = {
   routeLine: PropTypes.string,
   expired: PropTypes.bool.isRequired,
   color: PropTypes.string,
-  severity: PropTypes.string,
+  severityLevel: PropTypes.string,
 };
 
 RouteAlertsRow.defaultProps = {
   routeLine: undefined,
   routeMode: undefined,
-  severity: undefined,
+  severityLevel: undefined,
 };
 
 RouteAlertsRow.description = () => (

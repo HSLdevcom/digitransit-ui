@@ -18,9 +18,10 @@ import {
   stopRealTimeClient,
 } from '../action/realTimeClientAction';
 import {
-  routeHasServiceAlert,
-  routeHasCancelation,
-  stopHasServiceAlert,
+  getCancelationsForRoute,
+  getServiceAlertsForRoute,
+  getServiceAlertsForRouteStops,
+  isAlertActive,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -116,28 +117,29 @@ class RoutePage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { route } = this.props;
+    const { breakpoint, location, params, route } = this.props;
+    const { patternId } = params;
+    const { config, router } = this.context;
+
     if (route == null) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      this.context.router.replace(`/${PREFIX_ROUTES}`);
+      router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
 
-    const activeTab = getActiveTab(this.props.location.pathname);
-    const { patternId } = this.props.params;
-    const hasActiveAlert =
-      routeHasServiceAlert(route, patternId) ||
-      routeHasCancelation(route, patternId) ||
-      (Array.isArray(route.patterns) &&
-        route.patterns
-          .filter(pattern => pattern.code === patternId)
-          .some(
-            pattern =>
-              Array.isArray(pattern.stops) &&
-              pattern.stops.some(stopHasServiceAlert),
-          ));
+    const activeTab = getActiveTab(location.pathname);
+
+    const currentTime = moment().unix();
+    const hasActiveAlert = isAlertActive(
+      getCancelationsForRoute(route, patternId),
+      [
+        ...getServiceAlertsForRoute(route, patternId),
+        ...getServiceAlertsForRouteStops(route, patternId),
+      ],
+      currentTime,
+    );
 
     return (
       <div>
@@ -145,7 +147,7 @@ class RoutePage extends React.Component {
           <h1>
             <FormattedMessage
               id="print-route-app-title"
-              defaultMessage={this.context.config.title}
+              defaultMessage={config.title}
             />
             {` - `}
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
@@ -155,10 +157,10 @@ class RoutePage extends React.Component {
         <div className="tabs route-tabs">
           <nav
             className={cx('tabs-navigation', {
-              'bp-large': this.props.breakpoint === 'large',
+              'bp-large': breakpoint === 'large',
             })}
           >
-            {this.props.breakpoint === 'large' && (
+            {breakpoint === 'large' && (
               <RouteNumber
                 color={route.color ? `#${route.color}` : null}
                 mode={route.mode}
@@ -197,7 +199,9 @@ class RoutePage extends React.Component {
               }}
             >
               <div>
-                <Icon img="icon-icon_caution" />
+                <Icon
+                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
+                />
                 <FormattedMessage
                   id="disruptions"
                   defaultMessage="Disruptions"
@@ -211,14 +215,12 @@ class RoutePage extends React.Component {
           </nav>
           {patternId && (
             <RoutePatternSelect
-              params={this.props.params}
+              params={params}
               route={route}
               onSelectChange={this.onPatternChange}
               gtfsId={route.gtfsId}
               activeTab={activeTab}
-              className={cx({
-                'bp-large': this.props.breakpoint === 'large',
-              })}
+              className={cx({ 'bp-large': breakpoint === 'large' })}
             />
           )}
           <RouteAgencyInfo route={route} />
@@ -242,6 +244,9 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
         alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
           trip {
             pattern {
               code
@@ -256,11 +261,16 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
           stops {
             alerts {
               alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
             }
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
               realtimeState
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
             }
           }
         }

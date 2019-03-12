@@ -68,7 +68,7 @@ const TripRouteStop = props => {
               <span>{props.stop.name}</span>
               <ServiceAlertIcon
                 className="inline-icon"
-                severity={getMaximumAlertSeverityLevel(props.stop.alerts)}
+                severityLevel={getMaximumAlertSeverityLevel(props.stop.alerts)}
               />
             </div>
             <div>
