@@ -9,12 +9,14 @@ import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT } from '../constants';
 import {
   getServiceAlertsForRoute,
-  tripHasCancelation,
+  getServiceAlertsForRouteStops,
   otpServiceAlertShape,
+  tripHasCancelation,
 } from '../util/alertUtils';
 
 function RouteAlertsContainer({ route, patternId }, { intl }) {
   const { color, mode, shortName } = route;
+
   const cancelations = route.patterns
     .filter(pattern => pattern.code === patternId)
     .map(pattern => pattern.trips.filter(tripHasCancelation))
@@ -27,7 +29,7 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
         header: (
           <DepartureCancelationInfo
             firstStopName={first.stop.name}
-            headsign={first.headsign}
+            headsign={first.headsign || trip.tripHeadsign}
             routeMode={mode}
             scheduledDepartureTime={departureTime}
             shortName={shortName}
@@ -44,12 +46,13 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
         },
       };
     });
+  const serviceAlerts = [
+    ...getServiceAlertsForRoute(route, patternId, intl.locale),
+    ...getServiceAlertsForRouteStops(route, patternId, intl.locale),
+  ];
 
   return (
-    <AlertList
-      cancelations={cancelations}
-      serviceAlerts={getServiceAlertsForRoute(route, intl.locale)}
-    />
+    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 
@@ -63,11 +66,17 @@ RouteAlertsContainer.propTypes = {
     patterns: PropTypes.arrayOf(
       PropTypes.shape({
         code: PropTypes.string,
+        stops: PropTypes.arrayOf(
+          PropTypes.shape({
+            alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+          }),
+        ),
         trips: PropTypes.arrayOf(
           PropTypes.shape({
+            tripHeadsign: PropTypes.string,
             stoptimes: PropTypes.arrayOf(
               PropTypes.shape({
-                headsign: PropTypes.string.isRequired,
+                headsign: PropTypes.string,
                 realtimeState: PropTypes.string,
                 scheduledDeparture: PropTypes.number,
                 serviceDay: PropTypes.number,
@@ -101,6 +110,7 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
         alerts {
           alertDescriptionText
           alertHeaderText
+          alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
           alertDescriptionTextTranslations {
@@ -111,10 +121,33 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
             language
             text
           }
+          trip {
+            pattern {
+              code
+            }
+          }
         }
         patterns {
           code
+          stops {
+            alerts {
+              alertDescriptionText
+              alertHeaderText
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              alertDescriptionTextTranslations {
+                language
+                text
+              }
+              alertHeaderTextTranslations {
+                language
+                text
+              }
+            }
+          }
           trips: tripsForDate(serviceDay: $serviceDay) {
+            tripHeadsign
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
               headsign
               realtimeState

@@ -6,54 +6,43 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT } from '../constants';
+import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
-  patternHasServiceAlert,
-  stoptimeHasCancelation,
-  getServiceAlertsForRoute,
+  getCancelationsForStop,
+  getServiceAlertsForStop,
   otpServiceAlertShape,
+  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 
 const StopAlertsContainer = ({ stop }, { intl }) => {
-  const cancelations = stop.stoptimesForServiceDate
-    .filter(st => Array.isArray(st.stoptimes))
-    .map(st => ({
-      pattern: st.pattern,
-      stoptimes: st.stoptimes.filter(stoptimeHasCancelation),
-    }))
-    .filter(st => st.stoptimes.length > 0)
-    .map(({ pattern, stoptimes }) => {
-      const { color, mode, shortName } = pattern.route;
-      return stoptimes.map(stoptime => {
-        const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-        return {
-          header: (
-            <DepartureCancelationInfo
-              firstStopName={pattern.stops[0].name}
-              headsign={stoptime.headsign}
-              routeMode={mode}
-              scheduledDepartureTime={departureTime}
-              shortName={shortName}
-            />
-          ),
-          route: {
-            color,
-            mode,
-            shortName,
-          },
-          validityPeriod: {
-            startTime: departureTime,
-          },
-        };
-      });
-    })
-    .reduce((a, b) => a.concat(b), []);
-
-  const serviceAlerts = stop.stoptimesForServiceDate
-    .map(st => st.pattern)
-    .filter(patternHasServiceAlert)
-    .map(pattern => getServiceAlertsForRoute(pattern.route, intl.locale))
-    .reduce((a, b) => a.concat(b), []);
+  const cancelations = getCancelationsForStop(stop).map(stoptime => {
+    const { color, mode, shortName } = stoptime.trip.route;
+    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+    return {
+      header: (
+        <DepartureCancelationInfo
+          firstStopName={stoptime.trip.stops[0].name}
+          headsign={stoptime.headsign}
+          routeMode={mode}
+          scheduledDepartureTime={departureTime}
+          shortName={shortName}
+        />
+      ),
+      route: {
+        color,
+        mode,
+        shortName,
+      },
+      severityLevel: AlertSeverityLevelType.Warning,
+      validityPeriod: {
+        startTime: departureTime,
+      },
+    };
+  });
+  const serviceAlerts = [
+    ...getServiceAlertsForStop(stop, intl.locale),
+    ...getServiceAlertsForStopRoutes(stop, intl.locale),
+  ];
 
   return (
     <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
@@ -62,9 +51,17 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
 
 StopAlertsContainer.propTypes = {
   stop: PropTypes.shape({
-    stoptimesForServiceDate: PropTypes.arrayOf(
+    alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
+    stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        pattern: PropTypes.shape({
+        headsign: PropTypes.string.isRequired,
+        realtimeState: PropTypes.string,
+        scheduledDeparture: PropTypes.number,
+        serviceDay: PropTypes.number,
+        trip: PropTypes.shape({
+          pattern: PropTypes.shape({
+            code: PropTypes.string,
+          }),
           route: PropTypes.shape({
             alerts: PropTypes.arrayOf(otpServiceAlertShape).isRequired,
             color: PropTypes.string,
@@ -77,14 +74,6 @@ StopAlertsContainer.propTypes = {
             }),
           ).isRequired,
         }).isRequired,
-        stoptimes: PropTypes.arrayOf(
-          PropTypes.shape({
-            headsign: PropTypes.string.isRequired,
-            realtimeState: PropTypes.string,
-            scheduledDeparture: PropTypes.number,
-            serviceDay: PropTypes.number,
-          }),
-        ).isRequired,
       }),
     ).isRequired,
   }).isRequired,
@@ -98,15 +87,45 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
-        stoptimesForServiceDate(date:$date, omitCanceled:false) {
-          pattern {
+        alerts {
+          alertDescriptionText
+          alertHash,
+          alertHeaderText
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+        }
+        stoptimes: stoptimesWithoutPatterns(
+          startTime:$startTime,
+          timeRange:$timeRange,
+          numberOfDepartures:100,
+          omitCanceled:false
+        ) {
+          headsign
+          realtimeState
+          scheduledDeparture
+          serviceDay
+          trip {
+            pattern {
+              code
+            }
             route {
               color
               mode
               shortName
               alerts {
                 alertDescriptionText
+                alertHash
                 alertHeaderText
+                alertSeverityLevel
                 effectiveEndDate
                 effectiveStartDate
                 alertDescriptionTextTranslations {
@@ -117,23 +136,24 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
                   language
                   text
                 }
+                trip {
+                  pattern {
+                    code
+                  }
+                }
               }
             }
             stops {
               name
             }
           }
-          stoptimes {
-            headsign
-            realtimeState
-            scheduledDeparture
-            serviceDay
-          }
         }
       }
     `,
   },
   initialVariables: {
+    startTime: moment().unix() - 60 * 5, // 5 mins in the past
+    timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
     date: moment().format(DATE_FORMAT),
   },
 });

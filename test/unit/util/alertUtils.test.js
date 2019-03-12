@@ -22,6 +22,53 @@ describe('alertUtils', () => {
     it('should return true if route has a non-empty alerts array', () => {
       expect(utils.routeHasServiceAlert({ alerts: [{}] })).to.equal(true);
     });
+
+    it('should optionally filter by the given patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {
+            pattern: {
+              code: patternId,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+      expect(utils.routeHasServiceAlert({ alerts }, 'bar')).to.equal(false);
+    });
+
+    it('should ignore missing trip information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: null,
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
+    });
+
+    it('should not ignore missing pattern and code information when filtering by patternId', () => {
+      const patternId = 'foo';
+      const alerts = [
+        {
+          trip: {},
+        },
+        {
+          trip: {
+            pattern: {},
+          },
+        },
+        {
+          trip: {
+            pattern: {
+              code: undefined,
+            },
+          },
+        },
+      ];
+      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(false);
+    });
   });
 
   describe('patternHasServiceAlert', () => {
@@ -358,10 +405,74 @@ describe('alertUtils', () => {
   });
 
   describe('getServiceAlertsForRoute', () => {
+    it('should return an empty array if the route does not exist', () => {
+      expect(utils.getServiceAlertsForRoute(undefined)).to.deep.equal([]);
+    });
+
     it('should return an empty array if the route has no array "alerts"', () => {
       expect(
         utils.getServiceAlertsForRoute({ alerts: undefined }),
       ).to.deep.equal([]);
+    });
+
+    it('should return mapped alerts for the given route', () => {
+      const route = {
+        alerts: [
+          {
+            alertDescriptionText:
+              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
+            alertDescriptionTextTranslations: [
+              {
+                language: 'fi',
+                text:
+                  'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
+              },
+              {
+                language: 'en',
+                text:
+                  'Stop Rantatie (1007) is temporarily out of use due to a construction site',
+              },
+            ],
+            alertHash: 123456789,
+            alertHeaderText:
+              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
+            alertHeaderTextTranslations: [
+              {
+                language: 'fi',
+                text: 'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
+              },
+              {
+                language: 'en',
+                text: 'Stop Rantatie (1007) is temporarily out of use',
+              },
+            ],
+            alertSeverityLevel: 'foo',
+            effectiveEndDate: 1577829548,
+            effectiveStartDate: 1543183208,
+          },
+        ],
+        color: 'pink',
+        mode: 'BUS',
+        shortName: 'foobar',
+      };
+      expect(utils.getServiceAlertsForRoute(route)).to.deep.equal([
+        {
+          description:
+            'Stop Rantatie (1007) is temporarily out of use due to a construction site',
+          hash: 123456789,
+          header: 'Stop Rantatie (1007) is temporarily out of use',
+          route: {
+            color: 'pink',
+            mode: 'BUS',
+            shortName: 'foobar',
+          },
+          severityLevel: 'foo',
+          validityPeriod: {
+            endTime: 1577829548000,
+            startTime: 1543183208000,
+          },
+        },
+      ]);
     });
   });
 
@@ -438,6 +549,16 @@ describe('alertUtils', () => {
         AlertSeverityLevelType.Info,
       );
     });
+
+    it('should fall back to field "severityLevel" if "alertSeverityLevel" is missing', () => {
+      const alerts = [
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { severityLevel: AlertSeverityLevelType.Warning },
+      ];
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+        AlertSeverityLevelType.Warning,
+      );
+    });
   });
 
   describe('getMaximumAlertEffect', () => {
@@ -497,6 +618,227 @@ describe('alertUtils', () => {
       expect(utils.getMaximumAlertEffect(alerts)).to.equal(
         AlertEffectType.Unknown,
       );
+    });
+  });
+
+  describe('alertHasExpired', () => {
+    it('should mark an alert in the past as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 2500),
+      ).to.equal(true);
+    });
+
+    it('should not mark a current alert as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 1500),
+      ).to.equal(false);
+    });
+
+    it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
+      expect(utils.alertHasExpired({ startTime: 1000 }, 1100, 200)).to.equal(
+        false,
+      );
+    });
+
+    it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
+      expect(utils.alertHasExpired({ startTime: 1000 }, 1300, 200)).to.equal(
+        true,
+      );
+    });
+
+    it('should not mark an alert in the future as expired', () => {
+      expect(
+        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 500),
+      ).to.equal(false);
+    });
+  });
+
+  describe('getCancelationsForRoute', () => {
+    it('should return an empty array if route is missing', () => {
+      expect(utils.getCancelationsForRoute(undefined)).to.deep.equal([]);
+    });
+
+    it('should return an empty array if route has no array "patterns"', () => {
+      expect(
+        utils.getCancelationsForRoute({ patterns: undefined }),
+      ).to.deep.equal([]);
+    });
+
+    it('should return stoptimes with cancelations', () => {
+      const route = {
+        patterns: [
+          {
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.getCancelationsForRoute(route)).to.have.lengthOf(1);
+    });
+
+    it('should filter by patternId', () => {
+      const route = {
+        patterns: [
+          {
+            code: 'foo',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            code: 'bar',
+            trips: [
+              {
+                stoptimes: [
+                  {
+                    realtimeState: RealtimeStateType.Canceled,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      expect(utils.getCancelationsForRoute(route, 'foo')).to.have.lengthOf(1);
+    });
+  });
+
+  describe('isAlertActive', () => {
+    it('should not crash even if cancelations or alerts is not defined', () => {
+      expect(utils.isAlertActive(undefined, [], 1)).to.equal(false);
+      expect(utils.isAlertActive([], undefined, 1)).to.equal(false);
+    });
+
+    it('should return true if there is an active cancelation', () => {
+      expect(
+        utils.isAlertActive(
+          [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+              scheduledDeparture: 1,
+              scheduledArrival: 100,
+              serviceDay: 0,
+            },
+          ],
+          [],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return true if there is an active alert with no severity level', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return true if there is an active alert with a severity level !== INFO', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              severityLevel: AlertSeverityLevelType.Warning,
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return false if there is an active alert with a severity level === INFO', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              severityLevel: AlertSeverityLevelType.Info,
+              startTime: 1,
+              endTime: 100,
+            },
+          ],
+          50,
+        ),
+      ).to.equal(false);
+    });
+  });
+
+  describe('cancelationHasExpired', () => {
+    it('should return true for an expired cancelation', () => {
+      const cancelation = {
+        scheduledDeparture: 10,
+        scheduledArrival: 20,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
+    });
+
+    it('should return false for an active cancelation', () => {
+      const cancelation = {
+        scheduledDeparture: 10,
+        scheduledArrival: 20,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
+    });
+  });
+
+  describe('getCancelationsForStop', () => {
+    it('should return an empty array if stop is missing', () => {
+      expect(utils.getCancelationsForStop(undefined)).to.deep.equal([]);
+    });
+
+    it('should return an empty array if stop has no array "stoptimes"', () => {
+      expect(
+        utils.getCancelationsForStop({ stoptimes: undefined }),
+      ).to.deep.equal([]);
+    });
+
+    it('should return only canceled stoptimes', () => {
+      const stop = {
+        stoptimes: [
+          {
+            realtimeState: RealtimeStateType.Canceled,
+          },
+          {
+            realtimeState: RealtimeStateType.Scheduled,
+          },
+          {
+            realtimeState: RealtimeStateType.Updated,
+          },
+          {
+            realtimeState: RealtimeStateType.Modified,
+          },
+          {
+            realtimeState: undefined,
+          },
+        ],
+      };
+      expect(utils.getCancelationsForStop(stop)).to.have.lengthOf(1);
     });
   });
 });

@@ -20,12 +20,6 @@ $border-radius-rounded: 30px;
 
     .card-header-wrapper {
       flex-grow: 1;
-
-      .header-icon {
-        margin-left: $padding-xsmall;
-        position: relative;
-        top: 0.125em;
-      }
     }
   }
 
@@ -152,6 +146,12 @@ $border-radius-rounded: 30px;
 
   &.info {
     color: $gray-blue;
+  }
+
+  &.inline-icon {
+    margin-left: $padding-xsmall;
+    position: relative;
+    top: 0.125em;
   }
 }
 

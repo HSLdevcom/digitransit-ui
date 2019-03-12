@@ -9,8 +9,10 @@ import some from 'lodash/some';
 
 import Icon from './Icon';
 import {
-  stoptimeHasCancelation,
-  patternHasServiceAlert,
+  getCancelationsForStop,
+  getServiceAlertsForStop,
+  getServiceAlertsForStopRoutes,
+  isAlertActive,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -53,14 +55,13 @@ function StopPageTabContainer({
   }/${encodeURIComponent(
     params.terminalId ? params.terminalId : params.stopId,
   )}`;
-  const hasActiveAlert =
-    Array.isArray(stop.stoptimesForServiceDate) &&
-    stop.stoptimesForServiceDate.some(
-      st =>
-        patternHasServiceAlert(st.pattern) ||
-        (Array.isArray(st.stoptimes) &&
-          st.stoptimes.some(stoptimeHasCancelation)),
-    );
+
+  const currentTime = moment().unix();
+  const hasActiveAlert = isAlertActive(
+    getCancelationsForStop(stop),
+    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
+    currentTime,
+  );
 
   return (
     <div className="stop-page-content-wrapper">
@@ -126,7 +127,10 @@ function StopPageTabContainer({
           >
             <div className="stop-tab-singletab-container">
               <div>
-                <Icon className="stop-page-tab_icon" img="icon-icon_caution" />
+                <Icon
+                  className="stop-page-tab_icon"
+                  img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
+                />
               </div>
               <div>
                 <FormattedMessage id="disruptions" />
@@ -140,6 +144,10 @@ function StopPageTabContainer({
     </div>
   );
 }
+
+const alertArrayShape = PropTypes.arrayOf(
+  PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
+);
 
 StopPageTabContainer.propTypes = {
   children: PropTypes.node.isRequired,
@@ -157,18 +165,23 @@ StopPageTabContainer.propTypes = {
     pathname: PropTypes.string.isRequired,
   }).isRequired,
   stop: PropTypes.shape({
-    stoptimesForServiceDate: PropTypes.arrayOf(
+    alerts: alertArrayShape,
+    stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        pattern: PropTypes.shape({
-          route: PropTypes.shape({
-            alerts: PropTypes.array.isRequired,
-          }).isRequired,
-        }).isRequired,
-        stoptimes: PropTypes.arrayOf(
-          PropTypes.shape({
-            realtimeState: PropTypes.string.isRequired,
+        realtimeState: PropTypes.string,
+        trip: PropTypes.shape({
+          pattern: PropTypes.shape({
+            code: PropTypes.string,
           }),
-        ).isRequired,
+          route: PropTypes.shape({
+            alerts: alertArrayShape,
+            trip: PropTypes.shape({
+              pattern: PropTypes.shape({
+                code: PropTypes.string,
+              }),
+            }),
+          }),
+        }),
       }),
     ),
   }),
@@ -184,21 +197,38 @@ const containerComponent = Relay.createContainer(
     fragments: {
       stop: () => Relay.QL`
         fragment on Stop {
-          stoptimesForServiceDate(date:$date, omitCanceled:false) {
-            pattern {
-              route {
-                alerts
+          alerts {
+            alertSeverityLevel
+          }
+          stoptimes: stoptimesWithoutPatterns(
+            startTime:$startTime,
+            timeRange:$timeRange,
+            numberOfDepartures:100,
+            omitCanceled:false
+          ) {
+            realtimeState
+            trip {
+              pattern {
+                code
               }
-            }
-            stoptimes {
-              realtimeState
+              route {
+                alerts {
+                  alertSeverityLevel
+                  trip {
+                    pattern {
+                      code
+                    }
+                  }
+                }
+              }
             }
           }
         }
       `,
     },
     initialVariables: {
-      date: moment().format('YYYYMMDD'),
+      startTime: moment().unix() - 60 * 5, // 5 mins in the past
+      timeRange: 60 * 15, // -5 + 15 = 10 mins in the future
     },
   },
 );

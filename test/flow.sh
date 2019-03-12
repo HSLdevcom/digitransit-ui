@@ -14,10 +14,10 @@ sudo apt-get install -y libappindicator1 fonts-liberation
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome*.deb
 
-yarn install
+#yarn install
 
 CONFIG=hsl yarn dev &
-sleep 30 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
+sleep 2 # Sleep so that server starts in time for tests even if available route timetables can't be loaded
 
 wget -N http://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip

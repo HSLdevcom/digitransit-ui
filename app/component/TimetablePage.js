@@ -30,7 +30,6 @@ class TimetablePage extends React.Component {
         stop={this.props.stop}
         date={this.props.relay.variables.date}
         propsForStopPageActionBar={{
-          printUrl: this.props.stop.url,
           startDate: initialDate,
           selectedDate: this.props.relay.variables.date,
           onDateChange: this.onDateChange,

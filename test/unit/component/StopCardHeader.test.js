@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { shallowWithIntl, mountWithIntl } from '../helpers/mock-intl-enzyme';
 import { AlertSeverityLevelType } from '../../../app/constants';
-import CardHeader from '../../../app/component/CardHeader';
 import ZoneIcon from '../../../app/component/ZoneIcon';
 
+import Icon from '../../../app/component/Icon';
 import StopCardHeader from '../../../app/component/StopCardHeader';
+import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 
 describe('<StopCardHeader />', () => {
   it('should not render the zone icon if zoneId is missing', () => {
@@ -94,12 +95,11 @@ describe('<StopCardHeader />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
+    const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
       context: { config: { stopCard: { header: {} } } },
     });
-    expect(wrapper.find(CardHeader).prop('headerIcon').props.img).to.equal(
-      'icon-icon_info',
-    );
+    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
+    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_info');
   });
 
   it('should use the caution icon when the stop has alerts and the alert level is not info', () => {
@@ -116,12 +116,11 @@ describe('<StopCardHeader />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
+    const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
       context: { config: { stopCard: { header: {} } } },
     });
-    expect(wrapper.find(CardHeader).prop('headerIcon').props.img).to.equal(
-      'icon-icon_caution',
-    );
+    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
+    expect(wrapper.find(Icon).prop('img')).to.equal('icon-icon_caution');
   });
 
   it('should not use a header icon when the stop has alerts but no severity level', () => {
@@ -141,6 +140,6 @@ describe('<StopCardHeader />', () => {
     const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
       context: { config: { stopCard: { header: {} } } },
     });
-    expect(wrapper.find(CardHeader).prop('headerIcon')).to.not.be.ok; // eslint-disable-line no-unused-expressions
+    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
 });
