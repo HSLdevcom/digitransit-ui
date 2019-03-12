@@ -770,6 +770,10 @@ div.route-tabs {
     }
   }
 
+  button.toggle-direction:hover .icon {
+    color: #0062a1;
+  }
+
   .route-option option {
     margin-top: 0.4em;
     font-weight: 500;
@@ -815,7 +819,7 @@ div.route-tabs {
 
     .route-option option {
       font-size: 18px;
-      margin-top: 0.3em;
+      margin-top: 0.5em;
     }
 
     select, .route-option {

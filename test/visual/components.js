@@ -161,6 +161,7 @@ testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
 testVariation('TicketInformation');
 testVariation('DateSelect');
+testVariation('RoutePatternSelect');
 testVariation('RouteScheduleHeader');
 testVariation('RouteScheduleStopSelect');
 testVariation('RouteScheduleTripRow');
