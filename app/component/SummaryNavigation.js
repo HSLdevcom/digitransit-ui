@@ -153,7 +153,7 @@ class SummaryNavigation extends React.Component {
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
-                ...(isOpen && { MozTransform: 'none' }), // needed to prevent showing an extra scrollbar in FF
+                transform: 'none', // needed to prevent showing an extra scrollbar on FF & Chrome
               }}
               width={getDrawerWidth(window)}
             >
