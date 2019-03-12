@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import moment from 'moment';
+import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import some from 'lodash/some';
@@ -31,12 +32,48 @@ import withBreakpoint from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser } from '../util/browser';
+import { itineraryHasCancelation } from '../util/alertUtils';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
-function getActiveIndex(state) {
-  return (state && state.summaryPageSelected) || 0;
-}
+/**
+ * Returns the actively selected itinerary's index. Attempts to look for
+ * the information in the location's state and pathname, respectively.
+ * Otherwise, pre-selects the first non-cancelled itinerary or, failing that,
+ * defaults to the index 0.
+ *
+ * @param {{ pathname: string, state: * }} location the current location object.
+ * @param {*} itineraries the itineraries retrieved from OTP.
+ * @param {number} defaultValue the default value, defaults to 0.
+ */
+export const getActiveIndex = (
+  { pathname, state } = {},
+  itineraries = [],
+  defaultValue = 0,
+) => {
+  if (state) {
+    return state.summaryPageSelected || defaultValue;
+  }
+
+  /*
+   * If state does not exist, for example when accessing the summary
+   * page by an external link, we check if an itinerary selection is
+   * supplied in URL and make that the active selection.
+   */
+  const lastURLSegment = pathname && pathname.split('/').pop();
+  if (!Number.isNaN(Number(lastURLSegment))) {
+    return Number(lastURLSegment);
+  }
+
+  /**
+   * Pre-select the first not-cancelled itinerary, if available.
+   */
+  const itineraryIndex = findIndex(
+    itineraries,
+    itinerary => !itineraryHasCancelation(itinerary),
+  );
+  return itineraryIndex > 0 ? itineraryIndex : defaultValue;
+};
 
 class SummaryPage extends React.Component {
   static contextTypes = {
@@ -136,15 +173,16 @@ class SummaryPage extends React.Component {
   renderMap() {
     const {
       plan: { plan },
-      location: { state, query },
+      location,
       from,
       to,
     } = this.props;
+    const { query } = location;
     const {
       config: { defaultEndpoint },
     } = this.context;
-    const activeIndex = getActiveIndex(state);
     const itineraries = (plan && plan.itineraries) || [];
+    const activeIndex = getActiveIndex(location, itineraries);
 
     const leafletObjs = sortBy(
       itineraries.map((itinerary, i) => (
@@ -182,9 +220,13 @@ class SummaryPage extends React.Component {
       );
     }
 
-    getIntermediatePlaces(query).forEach((location, i) => {
+    getIntermediatePlaces(query).forEach((intermediatePlace, i) => {
       leafletObjs.push(
-        <LocationMarker className="via" key={`via_${i}`} position={location} />,
+        <LocationMarker
+          className="via"
+          key={`via_${i}`}
+          position={intermediatePlace}
+        />,
       );
     });
 
@@ -225,6 +267,7 @@ class SummaryPage extends React.Component {
 
   render() {
     const {
+      location,
       queryAggregator: {
         readyState: { done, error },
       },
@@ -279,6 +322,7 @@ class SummaryPage extends React.Component {
       if (this.state.loading === false && (done || error !== null)) {
         content = (
           <SummaryPlanContainer
+            activeIndex={getActiveIndex(location, itineraries)}
             plan={this.props.plan.plan}
             serviceTimeRange={serviceTimeRange}
             itineraries={itineraries}
@@ -354,6 +398,7 @@ class SummaryPage extends React.Component {
     } else {
       content = (
         <SummaryPlanContainer
+          activeIndex={getActiveIndex(location, itineraries)}
           plan={this.props.plan.plan}
           serviceTimeRange={serviceTimeRange}
           itineraries={itineraries}
