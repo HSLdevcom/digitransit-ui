@@ -185,7 +185,7 @@ class RouteStop extends React.PureComponent {
                 <span>{stop.name}</span>
                 <ServiceAlertIcon
                   className="inline-icon"
-                  severity={getMaximumAlertSeverityLevel(stop.alerts)}
+                  severityLevel={getMaximumAlertSeverityLevel(stop.alerts)}
                 />
                 {patternExists &&
                   stop.stopTimesForPattern[0].pickupType === 'NONE' &&

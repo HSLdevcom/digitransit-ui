@@ -1422,7 +1422,7 @@ const translations = {
       'Ei tiedossa olevia häiriöitä tai poikkeuksia.',
     'disruption-info-route-no-alerts':
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
-    disruptions: 'Häiriöt',
+    disruptions: 'Poikkeukset',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'distance-total': 'Matkan pituus',
     'distance-under': 'Etäisyys alle {distance} m',
