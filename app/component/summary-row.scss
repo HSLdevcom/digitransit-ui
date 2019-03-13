@@ -413,53 +413,31 @@
   }
 }
 
-.additional-canceled-itineraries,
-.additional-canceled-itineraries:hover,
-.additional-canceled-itineraries:focus,
-.hide-cancelled-itineraries,
-.hide-cancelled-itineraries:hover,
-.hide-cancelled-itineraries:focus {
-  font-family: $font-family;
-  background: $white;
-  color: #222;
-  font-weight: $font-weight-medium;
+.additional-canceled-itineraries {
+  border-bottom: 1px solid $light-gray;
+  border-top: 1px solid $light-gray;
+  cursor: pointer;
   font-size: $font-size-xsmall;
-  line-height: 1.5;
-  display: block;
-  width: 100%;
   padding: 1em;
-  padding-bottom: 0;
-  margin: 0;
-  border-top: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
+
+  .canceled-itineraries-button {
+    color: $primary-color;
+  }
+
   .canceled-itineraries-container {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-  }
-  .canceled-itineraries-button {
-    button {
-      background: none;
-      padding: 0;
-      color: $primary-color;
-      font-family: $font-family;
-      font-weight: $font-weight-medium;
-      font-size: $font-size-xsmall;
-    }
-  }
 
-  .canceled-itineraries-icon svg {
-    fill: $cancelation-red;
-    color: $white;
-    font-size: 1.4em;
-  }
-
-  &.hide-cancelled-itineraries {
-    .canceled-itineraries-container {
+    &.centered {
       justify-content: center;
     }
-    .canceled-itineraries-button {
-      button {
-        margin-right: 1em;
+
+    .canceled-itineraries-icon-container {
+      margin-right: 1em;
+
+      .icon {
+        font-size: 1.4em;
       }
     }
   }

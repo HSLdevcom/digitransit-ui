@@ -1,73 +1,56 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
-const CanceledItineraryToggler = props => (
-  <React.Fragment>
-    {!props.showItineraries ? (
-      <button
-        type="button"
-        className="additional-canceled-itineraries"
-        onClick={() => props.toggleShowCanceled(true)}
-      >
-        <div className="canceled-itineraries-container">
-          <div className="canceled-itineraries-icon">
-            <Icon img="icon-icon_caution" />
-          </div>
-          <div className="canceled-itineraries-text">
-            <FormattedMessage
-              id="canceled-itineraries-amount"
-              defaultMessage={`Additional ${
-                props.canceledItinerariesAmount
-              } canceled itineraries`}
-              values={{
-                itineraryAmount: props.canceledItinerariesAmount,
-              }}
-            />
-          </div>
-          <div className="canceled-itineraries-button">
-            <button
-              type="button"
-              className="canceled-itineraries-show"
-              onClick={() => props.toggleShowCanceled(true)}
-            >
-              <FormattedMessage id="show" defaultMessage="Show" />
-            </button>
-          </div>
+const CanceledItineraryToggler = ({
+  canceledItinerariesAmount: itineraryAmount,
+  showItineraries,
+  toggleShowCanceled,
+}) => (
+  <div
+    className="additional-canceled-itineraries"
+    onClick={() => toggleShowCanceled()}
+    onKeyDown={e => isKeyboardSelectionEvent(e) && toggleShowCanceled()}
+    role="button"
+    tabIndex={0}
+  >
+    <div
+      className={cx('canceled-itineraries-container', {
+        centered: showItineraries,
+      })}
+    >
+      <div className="canceled-itineraries-icon-container">
+        {showItineraries ? (
+          '—'
+        ) : (
+          <Icon className="caution inline-icon" img="icon-icon_caution" />
+        )}
+      </div>
+      <div className="canceled-itineraries-text">
+        {showItineraries ? (
+          <FormattedMessage
+            id="canceled-itineraries-amount-hide"
+            defaultMessage={`Hide canceled itineraries (${itineraryAmount})`}
+            values={{ itineraryAmount }}
+          />
+        ) : (
+          <FormattedMessage
+            id="canceled-itineraries-amount"
+            defaultMessage={`Additional ${itineraryAmount} canceled itineraries`}
+            values={{ itineraryAmount }}
+          />
+        )}
+      </div>
+      {!showItineraries && (
+        <div className="canceled-itineraries-button">
+          <FormattedMessage id="show" defaultMessage="Show" />
         </div>
-      </button>
-    ) : (
-      <button
-        type="button"
-        className="additional-canceled-itineraries hide-cancelled-itineraries"
-        onClick={() => props.toggleShowCanceled(false)}
-      >
-        <div className="canceled-itineraries-container">
-          <div className="canceled-itineraries-button">
-            <button
-              type="button"
-              className="canceled-itineraries-show"
-              onClick={() => props.toggleShowCanceled(false)}
-            >
-              —
-            </button>
-          </div>
-          <div className="canceled-itineraries-text">
-            <FormattedMessage
-              id="canceled-itineraries-amount-hide"
-              defaultMessage={`Hide canceled itineraries (${
-                props.canceledItinerariesAmount
-              })`}
-              values={{
-                itineraryAmount: props.canceledItinerariesAmount,
-              }}
-            />
-          </div>
-        </div>
-      </button>
-    )}
-  </React.Fragment>
+      )}
+    </div>
+  </div>
 );
 
 CanceledItineraryToggler.propTypes = {
