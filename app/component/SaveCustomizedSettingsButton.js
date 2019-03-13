@@ -53,6 +53,9 @@ class SaveCustomizedSettingsButton extends React.Component {
       isEqual(currentSettings, defaultSettings)
     ) {
       this.props.noSettingsFound();
+      this.setState({
+        open: true,
+      });
     } else {
       setCustomizedSettings(querySettings);
       this.setState({
