@@ -97,7 +97,7 @@ describe('planParamUtil', () => {
       const { unpreferred } = params;
       expect(unpreferred).to.deep.equal({
         routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 600,
+        useUnpreferredRoutesPenalty: 1200,
       });
     });
 
@@ -114,7 +114,7 @@ describe('planParamUtil', () => {
       const { unpreferred } = params;
       expect(unpreferred).to.deep.equal({
         routes: 'HSL__7480',
-        useUnpreferredRoutesPenalty: 600,
+        useUnpreferredRoutesPenalty: 1200,
       });
     });
 
@@ -153,7 +153,7 @@ describe('planParamUtil', () => {
         },
       );
       const { unpreferred } = params;
-      expect(unpreferred).to.deep.equal({ useUnpreferredRoutesPenalty: 600 });
+      expect(unpreferred).to.deep.equal({ useUnpreferredRoutesPenalty: 1200 });
     });
 
     it('should use bikeSpeed from query', () => {

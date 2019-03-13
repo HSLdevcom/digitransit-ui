@@ -82,7 +82,13 @@ describe('localStorage', () => {
     it('should save all default settings', () => {
       const defaultSettings = { ...defaultConfig.defaultSettings };
       setCustomizedSettings(defaultSettings);
-      expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
+      // empty unpreferredRoutes and preferredRoutes should not be stored
+      const {
+        unpreferredRoutes,
+        preferredRoutes,
+        ...resultSettings
+      } = defaultSettings;
+      expect(getCustomizedSettings()).to.deep.equal(resultSettings);
     });
 
     it('should remove triangle factors if optimize is no longer "TRIANGLE"', () => {
@@ -142,8 +148,10 @@ describe('localStorage', () => {
       setCustomizedSettings(updatedSettings);
 
       settings = getCustomizedSettings();
-      expect(settings.preferredRoutes.length).to.equal(0);
-      expect(settings.unpreferredRoutes.length).to.equal(0);
+      // eslint-disable-next-line no-unused-expressions
+      expect(settings.preferredRoutes).to.be.undefined;
+      // eslint-disable-next-line no-unused-expressions
+      expect(settings.unpreferredRoutes).to.be.undefined;
     });
   });
 
