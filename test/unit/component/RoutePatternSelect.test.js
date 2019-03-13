@@ -31,6 +31,6 @@ describe('<RoutePatternSelect />', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...dt2887} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(4);
+    expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(3);
   });
 });
