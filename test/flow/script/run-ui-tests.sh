@@ -131,15 +131,15 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
   fi
 
   echo "launching $BROWSERSTACK_LOCAL_BINARY"
-  $BROWSERSTACK_LOCAL_BINARY $3 &
+  export BROWSERSTACK_ID="$USER$(($(date +%s%N) % 1000000))"
+  $BROWSERSTACK_LOCAL_BINARY --key $3 &
   BROWSERSTACK_PID=$!
-  sleep 2
+  sleep 5
 
-
- if [ "$1" == "browserstack" ] ; then
+  if [ "$1" == "browserstack" ] ; then
      env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e bs-fx,bs-chrome --suiteRetries 3
      TESTSTATUS=$?
- else
+  else
      count=${#configs[@]}
      TOTALSTATUS=0
      RETRY_SMOKE_COUNT=3
@@ -173,16 +173,9 @@ elif [ "$1" == "browserstack" ] || [ "$1" == "smoke" ]; then
          NODE_PID=$!
          echo "server runs as process $NODE_PID"
          sleep 3
-         for j in $(seq 0 $RETRY_SMOKE_COUNT)
-         do
-             export BROWSERSTACK_BUILD="$USER$conf$(date +%s%N)"
-             echo "bsid = $BROWSERSTACK_BUILD"
-             env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
-             TESTSTATUS=$?
-             if [[ $TESTSTATUS == 0 ]]; then
-                 break
-             fi
-         done
+         export BROWSERSTACK_BUILD="$BROWSERSTACK_ID$conf"
+         env BROWSERSTACK_USER=$2 BROWSERSTACK_KEY=$3 $NIGHTWATCH_BINARY -c ./test/flow/nightwatch.json -e $TARGETS --suiteRetries 3 test/flow/tests/smoke/smoke.js
+         TESTSTATUS=$?
 
          killtree $NODE_PID
          sleep 1
