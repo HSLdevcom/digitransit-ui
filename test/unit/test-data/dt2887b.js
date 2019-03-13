@@ -1,15 +1,15 @@
 export default {
   onSelectChange: () => {},
-  gtfsId: "HSL:1010",
-  activeTab: "pysakit",
-  className: "bp-large",
-  serviceDay: "20190306",
+  gtfsId: 'HSL:1010',
+  activeTab: 'pysakit',
+  className: 'bp-large',
+  serviceDay: '20190306',
   relay: {
-    setVariables: () => {}
+    setVariables: () => {},
   },
   params: {
-    routeId: "HSL:1010",
-    patternId: "HSL:1010:0:01"
+    routeId: 'HSL:1010',
+    patternId: 'HSL:1010:0:01',
   },
   route: {
     patterns: [
@@ -88,5 +88,5 @@ export default {
         ],
       },
     ],
-  }
-}
+  },
+};
