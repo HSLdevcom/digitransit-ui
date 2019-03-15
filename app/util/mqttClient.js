@@ -1,5 +1,6 @@
 import ceil from 'lodash/ceil';
 import moment from 'moment';
+import { parseFeedMQTT } from './gtfsRtParser';
 
 const modeTranslate = {
   train: 'rail',
@@ -8,7 +9,7 @@ const modeTranslate = {
 // getTopic
 // Returns MQTT topic to be subscribed
 // Input: options - route, direction, tripStartTime are used to generate the topic
-function getTopic(options) {
+function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
 
   const direction = options.direction
@@ -16,7 +17,7 @@ function getTopic(options) {
     : '+';
 
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
-  return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
+  return settings.mqttTopicResolver(route, direction, tripStartTime);
 }
 
 export function parseMessage(topic, message, agency) {
@@ -65,9 +66,29 @@ export function parseMessage(topic, message, agency) {
 }
 
 export default function startMqttClient(settings, actionContext) {
-  const topics = settings.options.map(option => getTopic(option));
+  const topics = settings.options.map(option => getTopic(option, settings));
+  const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
+    if (settings.gtfsrt) {
+      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
+        bindings => {
+          const feedReader = bindings.FeedMessage.read;
+          const client = mqtt.default.connect(settings.mqtt, {
+            username: 'user',
+            password: 'userpass123!',
+          });
+          client.on('connect', () => client.subscribe(topics));
+          client.on('message', (topic, message) => {
+            actionContext.dispatch(
+              'RealTimeClientMessage',
+              parseFeedMQTT(feedReader, message, topic, settings.agency, mode),
+            );
+          });
+          return { client, topics };
+        },
+      );
+    }
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>
