@@ -19,7 +19,6 @@ export default {
         return null;
       }
 
-      // eslint-disable-next-line prefer-template
       return baseURL + routePDFUrlName + '.pdf';
     },
     setAvailableRouteTimetables: function setAvailableRouteTimetables(
