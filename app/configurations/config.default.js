@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
+const HSLRealtime = require('./realtimeUtils').default.HSL;
+const TampereRealtime = require('./realtimeUtils').default.tampere;
 
 export default {
   SENTRY_DSN,
@@ -59,13 +61,8 @@ export default {
 
   realTime: {
     /* sources per feed Id */
-    HSL: {
-      mqtt: 'wss://mqtt.hsl.fi',
-      routeSelector: function selectRoute(routePageProps) {
-        const route = routePageProps.route.gtfsId.split(':');
-        return route[1];
-      },
-    },
+    HSL: HSLRealtime,
+    // tampere: TampereRealtime,
   },
 
   // Google Tag Manager id
