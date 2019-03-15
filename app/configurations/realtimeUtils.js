@@ -26,7 +26,7 @@ export default {
       return route[1];
     },
   },
-/*
+  /*
   tampere: {
     mqttTopicResolver: function mqttTopicResolver(
       route,

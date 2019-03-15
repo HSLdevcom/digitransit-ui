@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 export default {
   HSLRoutes: {
     // Gets updated when server starts with {routeName: timetableName}
