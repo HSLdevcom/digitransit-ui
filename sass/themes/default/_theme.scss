@@ -38,6 +38,8 @@ $disruption-color: $cancelation-red;
 $realtime-color: #3F8600;
 $visited-link-color: #8c4799;
 $current-location-color: $primary-color;
+$desktop-title-color: $primary-color;
+$desktop-title-arrow-icon-color: $secondary-color;
 
 /* Component palette */
 $title-color: $white;
@@ -50,6 +52,9 @@ $from-color: #64be14;
 $to-color: #f092cd;
 $slider-warning-color: #FC7C08;
 $slider-ok-color: #55B511;
+$selected-lang-background: rgba($white, 0.15);
+$caution-icon-color: $white;
+$caution-icon-font-color: $primary-color;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
