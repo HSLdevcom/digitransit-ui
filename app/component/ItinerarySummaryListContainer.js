@@ -184,9 +184,11 @@ ItinerarySummaryListContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default Relay.createContainer(ItinerarySummaryListContainer, {
-  fragments: {
-    itineraries: () => Relay.QL`
+const containerComponent = Relay.createContainer(
+  ItinerarySummaryListContainer,
+  {
+    fragments: {
+      itineraries: () => Relay.QL`
       fragment on Itinerary @relay(plural:true){
         walkDistance
         startTime
@@ -249,5 +251,11 @@ export default Relay.createContainer(ItinerarySummaryListContainer, {
         }
       }
     `,
+    },
   },
-});
+);
+
+export {
+  containerComponent as default,
+  ItinerarySummaryListContainer as Component,
+};
