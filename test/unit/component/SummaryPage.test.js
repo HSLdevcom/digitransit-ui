@@ -1,0 +1,72 @@
+import { getActiveIndex } from '../../../app/component/SummaryPage';
+import { RealtimeStateType } from '../../../app/constants';
+
+describe('<SummaryPage />', () => {
+  describe('getActiveIndex', () => {
+    it('should return the value from location state', () => {
+      const location = { state: { summaryPageSelected: 1 } };
+      expect(getActiveIndex(location)).to.equal(1);
+    });
+
+    it('should return the default value if location state exists but has no value', () => {
+      const location = { state: {} };
+      expect(getActiveIndex(location, undefined, 2)).to.equal(2);
+    });
+
+    it('should retrieve the value from location pathname', () => {
+      const location = { pathname: '/reitti/from/to/5' };
+      expect(getActiveIndex(location)).to.equal(5);
+    });
+
+    it('should use the first non-canceled itinerary', () => {
+      const itineraries = [
+        {
+          legs: [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+            },
+          ],
+        },
+        {
+          legs: [
+            {
+              realtimeState: RealtimeStateType.Scheduled,
+            },
+          ],
+        },
+        {
+          legs: [
+            {
+              realtimeState: RealtimeStateType.Scheduled,
+            },
+          ],
+        },
+      ];
+      expect(getActiveIndex({}, itineraries)).to.equal(1);
+    });
+
+    it('should return the default value if all the itineraries are canceled', () => {
+      const itineraries = [
+        {
+          legs: [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+            },
+          ],
+        },
+        {
+          legs: [
+            {
+              realtimeState: RealtimeStateType.Canceled,
+            },
+          ],
+        },
+      ];
+      expect(getActiveIndex({}, itineraries, 3)).to.equal(3);
+    });
+
+    it('should return the default value if location and itineraries do not exist', () => {
+      expect(getActiveIndex({}, [], 3)).to.equal(3);
+    });
+  });
+});

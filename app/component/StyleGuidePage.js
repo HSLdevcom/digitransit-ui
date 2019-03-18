@@ -93,6 +93,7 @@ import MainMenuContainer from './MainMenuContainer';
 import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
 import { Component as AlertList } from './AlertList';
+import { Component as SummaryPage } from './SummaryPage';
 
 const components = {
   Icon,
@@ -189,6 +190,7 @@ const fullscreenComponents = {
   MainMenuContainer,
   OriginDestinationBar,
   IndexPage,
+  SummaryPage,
 };
 
 function getColors() {

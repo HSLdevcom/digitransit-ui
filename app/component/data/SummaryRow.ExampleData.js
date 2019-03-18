@@ -254,3 +254,407 @@ export const examplePropsCityBike = breakpoint => ({
   onSelectImmediately: () => {},
   hash: 1,
 });
+
+export const exampleDataCanceled = {
+  walkDistance: 297.9158333249556,
+  startTime: 1551272133000,
+  endTime: 1551273985000,
+  legs: [
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1551272133000,
+      endTime: 1551272277000,
+      mode: 'WALK',
+      distance: 151.20499999999998,
+      duration: 144,
+      rentedBike: false,
+      intermediatePlace: false,
+      intermediatePlaces: [],
+      route: null,
+      trip: null,
+      from: {
+        name: 'Koskela, Helsinki',
+        lat: 60.218765,
+        lon: 24.968244,
+        stop: null,
+        bikeRentalStation: null,
+      },
+      to: {
+        stop: {
+          gtfsId: 'HSL:1260180',
+          zoneId: '01',
+        },
+      },
+    },
+    {
+      realTime: true,
+      realtimeState: 'CANCELED',
+      transitLeg: true,
+      startTime: 1551272277000,
+      endTime: 1551273846000,
+      mode: 'BUS',
+      distance: 7346.6573632057525,
+      duration: 1569,
+      rentedBike: false,
+      intermediatePlace: false,
+      intermediatePlaces: [
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+        {
+          stop: {
+            zoneId: '01',
+          },
+        },
+      ],
+      route: {
+        mode: 'BUS',
+        shortName: '55',
+        color: null,
+        agency: {
+          name: 'Helsingin seudun liikenne',
+        },
+      },
+      trip: {
+        alerts: [],
+        stoptimes: [
+          {
+            stop: {
+              gtfsId: 'HSL:1260108',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1260180',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1260104',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1270105',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1270102',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1230101',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1230103',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1230114',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1230112',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1240102',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1210163',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1210110',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1210114',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1210112',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1100119',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1100107',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1100122',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1100103',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1100149',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1111180',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1020106',
+            },
+            pickupType: 'SCHEDULED',
+          },
+          {
+            stop: {
+              gtfsId: 'HSL:1020201',
+            },
+            pickupType: 'NONE',
+          },
+        ],
+      },
+      from: {
+        name: 'Antti Korpin tie',
+        lat: 60.21839,
+        lon: 24.96627,
+        stop: {
+          gtfsId: 'HSL:1260180',
+          zoneId: '01',
+        },
+        bikeRentalStation: null,
+      },
+      to: {
+        stop: {
+          gtfsId: 'HSL:1020201',
+          zoneId: '01',
+        },
+      },
+    },
+    {
+      realTime: false,
+      transitLeg: false,
+      startTime: 1551273846000,
+      endTime: 1551273985000,
+      mode: 'WALK',
+      distance: 146.50000000000003,
+      duration: 139,
+      rentedBike: false,
+      intermediatePlace: false,
+      intermediatePlaces: [],
+      route: null,
+      trip: null,
+      from: {
+        name: 'Rautatientori',
+        lat: 60.17192,
+        lon: 24.94376,
+        stop: {
+          gtfsId: 'HSL:1020201',
+          stoptimes: [
+            {
+              pickupType: 'NONE',
+              realtimeState: 'UPDATED',
+              trip: {
+                gtfsId: 'HSL:1077_20190226_Ke_2_1512',
+                route: {
+                  shortName: '77',
+                  gtfsId: 'HSL:1077',
+                },
+              },
+              stop: {
+                gtfsId: 'HSL:1020201',
+              },
+            },
+            {
+              pickupType: 'NONE',
+              realtimeState: 'UPDATED',
+              trip: {
+                gtfsId: 'HSL:1064_20190226_Ke_2_1517',
+                route: {
+                  shortName: '64',
+                  gtfsId: 'HSL:1064',
+                },
+              },
+              stop: {
+                gtfsId: 'HSL:1020201',
+              },
+            },
+            {
+              pickupType: 'NONE',
+              realtimeState: 'UPDATED',
+              trip: {
+                gtfsId: 'HSL:1078_20190226_Ke_2_1517',
+                route: {
+                  shortName: '78',
+                  gtfsId: 'HSL:1078',
+                },
+              },
+              stop: {
+                gtfsId: 'HSL:1020201',
+              },
+            },
+            {
+              pickupType: 'NONE',
+              realtimeState: 'UPDATED',
+              trip: {
+                gtfsId: 'HSL:1023_20190226_Ke_2_1521',
+                route: {
+                  shortName: '23',
+                  gtfsId: 'HSL:1023',
+                },
+              },
+              stop: {
+                gtfsId: 'HSL:1020201',
+              },
+            },
+            {
+              pickupType: 'NONE',
+              realtimeState: 'UPDATED',
+              trip: {
+                gtfsId: 'HSL:1066_20190226_Ke_2_1522',
+                route: {
+                  shortName: '66',
+                  gtfsId: 'HSL:1066',
+                },
+              },
+              stop: {
+                gtfsId: 'HSL:1020201',
+              },
+            },
+          ],
+          zoneId: '01',
+        },
+        bikeRentalStation: null,
+      },
+      to: {
+        stop: null,
+      },
+    },
+  ],
+};
