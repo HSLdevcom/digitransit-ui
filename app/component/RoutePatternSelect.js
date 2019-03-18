@@ -108,7 +108,25 @@ class RoutePatternSelect extends Component {
           </React.Fragment>
         ) : (
           <div className="route-patterns-toggle">
-            <div className="route-option">
+            <div
+              className="route-option"
+              role="button"
+              tabIndex={0}
+              onKeyPress={() =>
+                this.props.onSelectChange(
+                  options.filter(
+                    o => o.props.value !== this.props.params.patternId,
+                  )[0].props.value,
+                )
+              }
+              onClick={() =>
+                this.props.onSelectChange(
+                  options.filter(
+                    o => o.props.value !== this.props.params.patternId,
+                  )[0].props.value,
+                )
+              }
+            >
               {
                 options.filter(
                   o => o.props.value === this.props.params.patternId,
