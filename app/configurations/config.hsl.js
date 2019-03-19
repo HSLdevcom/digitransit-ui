@@ -523,4 +523,36 @@ export default {
       },
     },
   },
+
+  // // zone-related configuration, to be enabled on or after 2019-04-27
+  // fares: [
+  //   'HSL:AB',
+  //   'HSL:BC',
+  //   'HSL:CD',
+  //   'HSL:D',
+  //   'HSL:ABC',
+  //   'HSL:BCD',
+  //   'HSL:ABCD',
+  // ],
+
+  // // zone-related configuration, to be enabled on or after 2019-04-27
+  // // mapping (string, lang) from OTP fare identifiers to human readable form
+  // // in the new HSL zone model, just strip off the prefix 'HSL:'
+  // fareMapping: function mapHslFareId(fareId) {
+  //   return fareId && fareId.substring
+  //     ? fareId.substring(fareId.indexOf(':') + 1)
+  //     : '';
+  // },
+
+  // // zone-related configuration, to be enabled on or after 2019-04-27
+  // itinerary: {
+  //   showZoneLimits: true,
+  // },
+
+  // // zone-related configuration, to be enabled on or after 2019-04-27
+  // stopCard: {
+  //   header: {
+  //     showZone: true,
+  //   },
+  // },
 };
