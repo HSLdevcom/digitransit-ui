@@ -46,6 +46,13 @@
   white-space: nowrap;
   position: relative;
 
+  &.cancelled-itinerary {
+    .itinerary-first-leg-start-time {
+      text-decoration: line-through;
+      color: $cancelation-red;
+    }
+  }
+
   &.passive {
     border-left-color: $background-color;
     background-color: $background-color;
@@ -403,6 +410,37 @@
   .call {
     //text color
     color: $black;
+  }
+}
+
+.additional-canceled-itineraries {
+  border-bottom: 1px solid $light-gray;
+  border-top: 1px solid $light-gray;
+  cursor: pointer;
+  font-size: $font-size-xsmall;
+  padding: 1em;
+
+  .canceled-itineraries-button {
+    color: $primary-color;
+  }
+
+  .canceled-itineraries-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    &.centered {
+      justify-content: center;
+    }
+
+    .canceled-itineraries-icon-container {
+      color: $primary-color;
+      margin-right: 1em;
+
+      .icon {
+        font-size: 1.4em;
+      }
+    }
   }
 }
 

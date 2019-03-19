@@ -682,6 +682,10 @@ const translations = {
     call: 'Call',
     cancel: 'Cancel',
     canceled: 'Canceled',
+    'canceled-itineraries-amount':
+      'Additional {itineraryAmount, plural, =1 {1 canceled itinerary} other {{itineraryAmount} canceled itineraries}}',
+    'canceled-itineraries-amount-hide':
+      'Hide canceled itineraries ({itineraryAmount})',
     'canceled-legs': 'Canceled departures on the route',
     car: 'Car',
     'car-distance-duration': 'Drive {distance} ({duration})',
@@ -941,6 +945,7 @@ const translations = {
     'settings-savebutton': 'Save settings',
     'settings-saved': 'Changes saved!',
     share: 'Share itinerary',
+    show: 'Show',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-routes': 'Choose routes',
@@ -1365,6 +1370,10 @@ const translations = {
     call: 'Soita',
     cancel: 'Peruuta',
     canceled: 'Peruttu',
+    'canceled-itineraries-amount':
+      'Lisäksi {itineraryAmount, plural, =1 {1 peruttu reittiehdotus} other {{itineraryAmount} peruttua reittiehdotusta}}',
+    'canceled-itineraries-amount-hide':
+      'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
     'car-distance-duration': 'Aja {distance} ({duration})',
@@ -1622,6 +1631,7 @@ const translations = {
     'settings-savebutton': 'Tallenna asetukset',
     'settings-saved': 'Asetukset tallennettu!',
     share: 'Jaa ohje',
+    show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-routes': 'Valitse linjat',
@@ -2352,6 +2362,10 @@ const translations = {
     call: 'Ring',
     cancel: 'Avbryt',
     canceled: 'Inställt',
+    'canceled-itineraries-amount':
+      'Ytterligare {itineraryAmount, plural, =1 {1 avställt avgång} other {{itineraryAmount} avställda avgångar}}',
+    'canceled-itineraries-amount-hide':
+      'Dölja inställda reseförslag ({itineraryAmount})',
     'canceled-legs': 'Inställda avgångar på linjen',
     car: 'Bil',
     'car-distance-duration': 'Kör {distance} ({duration})',
@@ -2611,6 +2625,7 @@ const translations = {
     'settings-savebutton': 'Spara inställningarna',
     'settings-saved': 'Inställningarna sparades!',
     share: 'Dela resan',
+    show: 'Visa',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa flera',
     'show-routes': 'Välja linjer',

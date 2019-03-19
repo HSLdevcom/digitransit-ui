@@ -21,6 +21,7 @@ import withBreakpoint from '../util/withBreakpoint';
 
 class SummaryPlanContainer extends React.Component {
   static propTypes = {
+    activeIndex: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     children: PropTypes.node,
     config: PropTypes.object.isRequired,
@@ -51,6 +52,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   static defaultProps = {
+    activeIndex: 0,
     error: undefined,
     itineraries: [],
   };
@@ -61,7 +63,7 @@ class SummaryPlanContainer extends React.Component {
   };
 
   onSelectActive = index => {
-    if (this.getActiveIndex() === index) {
+    if (this.props.activeIndex === index) {
       this.onSelectImmediately(index);
     } else {
       this.context.router.replace({
@@ -390,24 +392,10 @@ class SummaryPlanContainer extends React.Component {
       }
     }`;
 
-  getActiveIndex() {
-    if (this.context.location.state) {
-      return this.context.location.state.summaryPageSelected || 0;
-    }
-    /*
-     * If state does not exist, for example when accessing the summary
-     * page by an external link, we check if an itinerary selection is
-     * supplied in URL and make that the active selection.
-     */
-    const lastURLSegment = this.context.location.pathname.split('/').pop();
-    return Number.isNaN(Number(lastURLSegment)) ? 0 : Number(lastURLSegment);
-  }
-
   render() {
-    const activeIndex = this.getActiveIndex();
     const { location } = this.context;
     const { from, to } = this.props.params;
-    const { currentTime, locationState, itineraries } = this.props;
+    const { activeIndex, currentTime, locationState, itineraries } = this.props;
     const searchTime =
       this.props.plan.date ||
       (location.query &&
