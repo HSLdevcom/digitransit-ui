@@ -498,16 +498,16 @@ export default {
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
   geoJson: {
-    // layers: [
-    //   {
-    //     name: {
-    //       fi: 'Maksuvyöhykkeet',
-    //       sv: 'Resezoner',
-    //       en: 'Ticket zones',
-    //     },
-    //     url: '/hsl_zone_lines.json',
-    //   },
-    // ],
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/hsl_zone_lines.json',
+      },
+    ],
     zones: {
       url: '/hsl_zone_areas.json',
     },

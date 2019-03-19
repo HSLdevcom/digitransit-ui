@@ -134,6 +134,7 @@ class GeoJSON extends React.Component {
   styler = feature => {
     const { config } = this.context;
     const defaultLineStyle = {
+      className: 'cursor-grab',
       color: config.colors.primary,
       weight: 3,
       opacity: 0.8,
