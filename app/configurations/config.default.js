@@ -1,4 +1,6 @@
 /* eslint-disable prefer-template */
+import safeJsonParse from '../util/safeJsonParser';
+
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
@@ -12,6 +14,7 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current serv
 const YEAR = 1900 + new Date().getYear();
 const HSLRealtime = require('./realtimeUtils').default.HSL;
 // const TampereRealtime = require('./realtimeUtils').default.tampere;
+const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
 export default {
   SENTRY_DSN,
@@ -65,6 +68,7 @@ export default {
     HSL: HSLRealtime,
     // tampere: TampereRealtime,
   },
+  realTimePatch: REALTIME_PATCH,
 
   // Google Tag Manager id
   GTMid: 'GTM-PZV2S2V',
