@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import shouldUpdate from 'recompose/shouldUpdate';
+import isEqual from 'lodash/isEqual';
 
 import FavouriteRouteListContainer from './FavouriteRouteListContainer';
 import FavouriteLocationsContainer from './FavouriteLocationsContainer';
@@ -99,9 +100,9 @@ FavouritesPanel.propTypes = {
 const FilteredFavouritesPanel = shouldUpdate(
   (props, nextProps) =>
     nextProps.currentTime !== props.currentTime ||
-    nextProps.routes !== props.routes ||
-    nextProps.favouriteLocations !== props.favouriteLocations ||
-    nextProps.favouriteStops !== props.favouriteStops ||
+    !isEqual(nextProps.routes, props.routes) ||
+    !isEqual(nextProps.favouriteLocations, props.favouriteLocations) ||
+    !isEqual(nextProps.favouriteStops, props.favouriteStops) ||
     nextProps.origin.gps !== props.origin.gps ||
     (!nextProps.origin.gps &&
       (nextProps.origin.lat !== props.origin.lat ||
