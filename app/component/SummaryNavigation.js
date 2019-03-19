@@ -153,12 +153,11 @@ class SummaryNavigation extends React.Component {
               containerStyle={{
                 background: 'transparent',
                 boxShadow: 'none',
-                transform: 'none', // needed to prevent showing an extra scrollbar on FF & Chrome
+                overflow: 'visible',
               }}
               width={getDrawerWidth(window)}
             >
               <CustomizeSearch
-                isOpen={isOpen}
                 params={this.props.params}
                 onToggleClick={this.toggleCustomizeSearchOffcanvas}
               />
