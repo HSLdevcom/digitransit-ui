@@ -13,7 +13,7 @@
     "predev-win-national": "npm run win-static",
     "dev": "PID=$$; trap 'pkill -QUIT -P $PID > /dev/null' EXIT; NODE_ENV=development nodemon -e js,css,scss,html --watch ./server/ --watch ./app/ server/server.js & NODE_ENV=development webpack-dev-server",
     "dev-win-hsl": "cd win-launch-scripts&& hsl-win-launch-script.bat",
-    "dev-win-national": "cd win-launch-scripts&& set CONFIG=tampere&& national-win-launch-script.bat",
+    "dev-win-national": "cd win-launch-scripts&& set CONFIG=&& national-win-launch-script.bat",
     "dev-nowatch": "NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server",
     "test-local": "./test/flow/script/run-ui-tests.sh local",
     "test-browserstack": "./test/flow/script/run-ui-tests.sh browserstack",
