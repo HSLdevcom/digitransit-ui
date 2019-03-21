@@ -101,8 +101,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  useTicketIcons: false,
-
   transportModes: {
     airplane: {
       availableForSelection: false,
@@ -519,6 +517,10 @@ export default {
         Myyntipiste: 'salesPoint',
         'R-kioski': 'salesPoint',
       },
+    },
+    tooltip: {
+      fi:
+        'Uudet vyöhykkeet otetaan käyttöön 27.04.2019. Tutustu vyöhykkeisiin kartalla jo nyt. Voit piilottaa vyöhykerajat tästä.',
     },
   },
   cityBike: {
