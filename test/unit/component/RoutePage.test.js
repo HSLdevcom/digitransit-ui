@@ -113,6 +113,7 @@ describe('<RoutePage />', () => {
           tampere: {
             gtfsRt: 'foobar',
             routeSelector: () => '32',
+            active: true,
           },
         },
       },
@@ -125,6 +126,41 @@ describe('<RoutePage />', () => {
 
     expect(context.executeAction.callCount).to.equal(1);
     expect(context.executeAction.args[0][0]).to.equal(startRealTimeClient);
+  });
+
+  it('should not start the real time client after mounting if realtime is not active', () => {
+    const props = {
+      breakpoint: 'large',
+      location: {
+        pathname: '/linjat/tampere:32/pysakit/tampere:32:1:01',
+      },
+      params: {
+        patternId: 'tampere:32:1:01',
+      },
+      route: {
+        gtfsId: 'tampere:32',
+        mode: 'BUS',
+      },
+    };
+    const context = {
+      ...mockContext,
+      config: {
+        realTime: {
+          tampere: {
+            gtfsRt: 'foobar',
+            routeSelector: () => '32',
+            active: false,
+          },
+        },
+      },
+      executeAction: sinon.stub(),
+    };
+
+    shallowWithIntl(<RoutePage {...props} />, {
+      context,
+    });
+
+    expect(context.executeAction.callCount).to.equal(0);
   });
 
   it('should set the activeAlert class if there is a cancelation for today', () => {

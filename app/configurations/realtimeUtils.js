@@ -25,8 +25,9 @@ export default {
       const route = routePageProps.route.gtfsId.split(':');
       return route[1];
     },
+
+    active: true,
   },
-  /*
   tampere: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
@@ -52,6 +53,7 @@ export default {
       const route = routePageProps.route.gtfsId.split(':');
       return route[1];
     },
+
+    active: false,
   },
-*/
 };
