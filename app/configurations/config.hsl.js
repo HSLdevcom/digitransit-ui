@@ -102,8 +102,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  useTicketIcons: false,
-
   transportModes: {
     airplane: {
       availableForSelection: false,
@@ -522,6 +520,10 @@ export default {
         'R-kioski': 'salesPoint',
       },
     },
+    tooltip: {
+      fi:
+        'Uudet vyöhykkeet otetaan käyttöön 27.04.2019. Tutustu vyöhykkeisiin kartalla jo nyt. Voit piilottaa vyöhykerajat tästä.',
+    },
   },
 
   // // zone-related configuration, to be enabled on or after 2019-04-27
@@ -555,4 +557,7 @@ export default {
   //     showZone: true,
   //   },
   // },
+
+  // // zone-related configuration, to be enabled on or after 2019-04-27
+  // useTicketIcons: true,
 };

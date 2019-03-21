@@ -26,8 +26,12 @@ class BubbleDialog extends React.Component {
 
     this.dialogContentRef = React.createRef();
     this.toggleDialogRef = React.createRef();
+
+    const { showTooltip } = props;
+    const isDialogOpen = this.getDialogState(context);
     this.state = {
-      isOpen: this.getDialogState(context),
+      isOpen: isDialogOpen,
+      isTooltipOpen: showTooltip && !isDialogOpen,
     };
   }
 
@@ -56,6 +60,7 @@ class BubbleDialog extends React.Component {
   };
 
   openDialog = (applyFocus = false) => {
+    this.closeTooltip(applyFocus);
     this.setDialogState(true, () => {
       if (isFunction(this.props.onDialogOpen)) {
         this.props.onDialogOpen(applyFocus);
@@ -73,8 +78,49 @@ class BubbleDialog extends React.Component {
     });
   };
 
+  closeTooltip = (applyFocus = false) => {
+    const { showTooltip } = this.props;
+    if (!showTooltip) {
+      return;
+    }
+    this.setState({ isTooltipOpen: false }, () => {
+      if (applyFocus && this.toggleDialogRef.current) {
+        this.toggleDialogRef.current.focus();
+      }
+    });
+  };
+
   handleClickOutside() {
+    this.closeTooltip();
     this.closeDialog();
+  }
+
+  renderTooltip() {
+    const { tooltip } = this.props;
+    const { isTooltipOpen } = this.state;
+    if (!tooltip || !isTooltipOpen) {
+      return null;
+    }
+    return (
+      <div className="bubble-dialog-container">
+        <div className="bubble-dialog bubble-dialog--tooltip">
+          <div className="bubble-dialog-content">{tooltip}</div>
+          <button
+            className="bubble-dialog-close"
+            onClick={() => this.closeTooltip()}
+            onKeyDown={e =>
+              isKeyboardSelectionEvent(e) && this.closeTooltip(true)
+            }
+            type="button"
+          >
+            <Icon img="icon-icon_close" />
+          </button>
+        </div>
+        <div className="bubble-dialog-tip-container">
+          <div className="bubble-dialog-tip" />
+        </div>
+      </div>
+    );
   }
 
   renderContent(isFullscreen) {
@@ -116,6 +162,7 @@ class BubbleDialog extends React.Component {
               onKeyDown={e =>
                 isKeyboardSelectionEvent(e) && this.closeDialog(true)
               }
+              type="button"
             >
               <Icon img="icon-icon_close" />
             </button>
@@ -141,6 +188,7 @@ class BubbleDialog extends React.Component {
               onKeyDown={e =>
                 isKeyboardSelectionEvent(e) && this.closeDialog(true)
               }
+              type="button"
             >
               {intl.formatMessage({
                 id: 'dialog-return-to-map',
@@ -184,6 +232,7 @@ class BubbleDialog extends React.Component {
         ) : (
           isOpen && this.renderContent(false)
         )}
+        {this.renderTooltip()}
         <div
           className="bubble-dialog-toggle"
           onClick={() => (isOpen ? this.closeDialog() : this.openDialog())}
@@ -216,11 +265,13 @@ BubbleDialog.propTypes = {
   children: PropTypes.node,
   contentClassName: PropTypes.string,
   header: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   isFullscreenOnMobile: PropTypes.bool,
   isOpen: PropTypes.bool,
   onDialogOpen: PropTypes.func,
+  showTooltip: PropTypes.bool,
+  tooltip: PropTypes.string,
 };
 
 BubbleDialog.defaultProps = {
@@ -230,6 +281,8 @@ BubbleDialog.defaultProps = {
   isFullscreenOnMobile: false,
   isOpen: false,
   onDialogOpen: undefined,
+  showTooltip: false,
+  tooltip: undefined,
 };
 
 BubbleDialog.contextTypes = {

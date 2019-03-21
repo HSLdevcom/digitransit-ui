@@ -41,11 +41,32 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
         padding: 1em;
       }
 
+      &.bubble-dialog--tooltip {
+        display: flex;
+        flex-direction: row;
+        max-width: 450px;
+        width: calc(100vw - 36px - 2.5em);
+      }
+
+      .bubble-dialog-close {
+        align-self: start;
+        background-color: transparent;
+        color: $primary-color;
+        height: 1em;
+        margin: 0.25em;
+        padding: 0;
+        width: 1em;
+
+        &.bubble-dialog-close--fullscreen {
+          font-size: $bubble-dialog-font-size--fullscreen;
+        }
+      }
+
       .bubble-dialog-header-container {
         align-items: center;
         display: flex;
-        min-height: 2.5em;
         justify-content: space-between;
+        min-height: 2.5em;
 
         &.bubble-dialog-header-container--fullscreen {
           background-color: $background-color-lighter;
@@ -65,20 +86,6 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
             font-size: $bubble-dialog-font-size--fullscreen;
             font-weight: 500;
             text-transform: none;
-          }
-        }
-
-        .bubble-dialog-close {
-          align-self: start;
-          background-color: transparent;
-          color: $primary-color;
-          height: 1em;
-          margin: 0.25em 0.25em 0 0;
-          padding: 0;
-          width: 1em;
-
-          &.bubble-dialog-close--fullscreen {
-            font-size: $bubble-dialog-font-size--fullscreen;
           }
         }
       }
