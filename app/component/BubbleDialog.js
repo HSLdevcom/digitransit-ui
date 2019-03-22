@@ -8,6 +8,7 @@ import { routerShape } from 'react-router';
 
 import Icon from './Icon';
 import LazilyLoad, { importLazy } from './LazilyLoad';
+import { getDialogState, setDialogState } from '../store/localStorage';
 import {
   getDrawerWidth,
   getIsBrowser,
@@ -27,11 +28,11 @@ class BubbleDialog extends React.Component {
     this.dialogContentRef = React.createRef();
     this.toggleDialogRef = React.createRef();
 
-    const { showTooltip } = props;
+    const { id } = this.props;
     const isDialogOpen = this.getDialogState(context);
     this.state = {
       isOpen: isDialogOpen,
-      isTooltipOpen: showTooltip && !isDialogOpen,
+      isTooltipOpen: !isDialogOpen && !getDialogState(`${id}_tooltip`),
     };
   }
 
@@ -78,10 +79,10 @@ class BubbleDialog extends React.Component {
     });
   };
 
-  closeTooltip = (applyFocus = false) => {
-    const { showTooltip } = this.props;
-    if (!showTooltip) {
-      return;
+  closeTooltip = (applyFocus = false, persist = false) => {
+    if (persist) {
+      const { id } = this.props;
+      setDialogState(`${id}_tooltip`);
     }
     this.setState({ isTooltipOpen: false }, () => {
       if (applyFocus && this.toggleDialogRef.current) {
@@ -107,9 +108,9 @@ class BubbleDialog extends React.Component {
           <div className="bubble-dialog-content">{tooltip}</div>
           <button
             className="bubble-dialog-close"
-            onClick={() => this.closeTooltip()}
+            onClick={() => this.closeTooltip(false, true)}
             onKeyDown={e =>
-              isKeyboardSelectionEvent(e) && this.closeTooltip(true)
+              isKeyboardSelectionEvent(e) && this.closeTooltip(true, true)
             }
             type="button"
           >
@@ -270,7 +271,6 @@ BubbleDialog.propTypes = {
   isFullscreenOnMobile: PropTypes.bool,
   isOpen: PropTypes.bool,
   onDialogOpen: PropTypes.func,
-  showTooltip: PropTypes.bool,
   tooltip: PropTypes.string,
 };
 
@@ -281,7 +281,6 @@ BubbleDialog.defaultProps = {
   isFullscreenOnMobile: false,
   isOpen: false,
   onDialogOpen: undefined,
-  showTooltip: false,
   tooltip: undefined,
 };
 
