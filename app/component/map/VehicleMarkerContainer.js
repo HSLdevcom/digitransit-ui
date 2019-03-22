@@ -47,8 +47,8 @@ if (isBrowser) {
 // use only the updates for vehicles with matching startTime
 function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   return (
-    message.lat &&
-    message.long &&
+    !Number.isNaN(parseFloat(message.lat)) &&
+    !Number.isNaN(parseFloat(message.long)) &&
     pattern.substr(0, message.route.length) === message.route &&
     (message.headsign === undefined || headsign === message.headsign) &&
     (direction === undefined || message.direction === direction) &&
@@ -129,7 +129,7 @@ VehicleMarkerContainer.defaultProps = {
   direction: undefined,
 };
 
-export default connectToStores(
+const connectedComponent = connectToStores(
   VehicleMarkerContainer,
   ['RealTimeInformationStore'],
   (context, props) => ({
@@ -137,3 +137,9 @@ export default connectToStores(
     vehicles: context.getStore('RealTimeInformationStore').vehicles,
   }),
 );
+
+export {
+  connectedComponent as default,
+  VehicleMarkerContainer as Component,
+  shouldShowVehicle,
+};
