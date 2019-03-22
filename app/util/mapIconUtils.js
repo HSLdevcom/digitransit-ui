@@ -267,20 +267,16 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   );
 }
 
-export function drawCitybikeIcon(tile, geom, imageSize) {
-  return getImageFromSpriteCache(
-    'icon-icon_citybike',
-    imageSize,
-    imageSize,
-  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
+export function drawCitybikeIcon(iconName, tile, geom, imageSize) {
+  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
+    drawIconImage(image, tile, geom, imageSize, imageSize),
+  );
 }
 
-export function drawCitybikeOffIcon(tile, geom, imageSize) {
-  return getImageFromSpriteCache(
-    'icon-icon_citybike_off',
-    imageSize,
-    imageSize,
-  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
+export function drawCitybikeOffIcon(iconName, tile, geom, imageSize) {
+  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
+    drawIconImage(image, tile, geom, imageSize, imageSize),
+  );
 }
 
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {

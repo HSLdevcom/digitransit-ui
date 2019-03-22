@@ -17,6 +17,7 @@ import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
+  getCityBikeNetwork,
 } from '../../../util/citybikes';
 
 const getScale = glfun({
@@ -81,6 +82,7 @@ class CityBikes {
       bikeRentalStation(id: $id) {
         bikesAvailable
         spacesAvailable
+        networks
         state
       }
     }`,
@@ -107,6 +109,8 @@ class CityBikes {
             }
             return drawRoundIcon(this.tile, geom, mode);
           }
+          console.log(result.networks);
+          const iconName = getCityBikeNetwork(result.networks[0]);
 
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
@@ -115,6 +119,7 @@ class CityBikes {
 
           if (result.state === BIKESTATION_OFF) {
             return drawCitybikeOffIcon(
+              `${iconName}_off`,
               this.tile,
               geom,
               this.citybikeImageSize,
@@ -132,6 +137,7 @@ class CityBikes {
 
           if (result.state === BIKESTATION_ON) {
             return drawCitybikeIcon(
+              iconName,
               this.tile,
               geom,
               this.citybikeImageSize,

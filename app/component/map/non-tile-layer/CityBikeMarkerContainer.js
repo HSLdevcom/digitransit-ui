@@ -24,6 +24,7 @@ const CityBikeMarkerWrapper = Relay.createContainer(
         stations: bikeRentalStations {
           ${CityBikeMarker.getFragment('station')}
           stationId
+          networks
         }
       }
     `,
