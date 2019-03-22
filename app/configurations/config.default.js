@@ -15,6 +15,7 @@ const YEAR = 1900 + new Date().getYear();
 const HSLRealtime = require('./realtimeUtils').default.HSL;
 const tampereRealtime = require('./realtimeUtils').default.tampere;
 const LINKKIRealtime = require('./realtimeUtils').default.LINKKI;
+const LappeenrantaRealtime = require('./realtimeUtils').default.Lappeenranta;
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
@@ -70,6 +71,7 @@ export default {
     HSL: HSLRealtime,
     tampere: tampereRealtime,
     LINKKI: LINKKIRealtime,
+    Lappeenranta: LappeenrantaRealtime,
   },
   realTimePatch: REALTIME_PATCH,
 

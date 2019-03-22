@@ -91,4 +91,35 @@ export default {
 
     active: false,
   },
+  Lappeenranta: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+    ) {
+      return (
+        '/gtfsrt/vp/Lappeenranta/+/+/+/' +
+        route +
+        '/' +
+        direction +
+        '/' +
+        headsign +
+        '/+/' +
+        tripStartTime +
+        '/#'
+      );
+    },
+
+    mqtt: 'ws://51.144.32.81:8083/mqtt',
+
+    gtfsrt: true,
+
+    routeSelector: function selectRoute(routePageProps) {
+      const route = routePageProps.route.gtfsId.split(':');
+      return route[1];
+    },
+
+    active: false,
+  },
 };
