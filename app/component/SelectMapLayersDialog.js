@@ -208,6 +208,7 @@ class SelectMapLayersDialog extends React.Component {
       config.mapLayers &&
       config.mapLayers.tooltip &&
       config.mapLayers.tooltip[lang];
+
     return (
       <BubbleDialog
         contentClassName="select-map-layers-dialog-content"
