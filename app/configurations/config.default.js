@@ -16,6 +16,7 @@ const HSLRealtime = require('./realtimeUtils').default.HSL;
 const tampereRealtime = require('./realtimeUtils').default.tampere;
 const LINKKIRealtime = require('./realtimeUtils').default.LINKKI;
 const LappeenrantaRealtime = require('./realtimeUtils').default.Lappeenranta;
+const JoensuuRealtime = require('./realtimeUtils').default.Joensuu;
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
@@ -72,6 +73,7 @@ export default {
     tampere: tampereRealtime,
     LINKKI: LINKKIRealtime,
     Lappeenranta: LappeenrantaRealtime,
+    Joensuu: JoensuuRealtime,
   },
   realTimePatch: REALTIME_PATCH,
 
