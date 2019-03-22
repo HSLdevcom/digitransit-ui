@@ -153,4 +153,35 @@ export default {
 
     active: false,
   },
+  Kuopio: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+    ) {
+      return (
+        '/gtfsrt/vp/Kuopio/+/+/+/' +
+        route +
+        '/' +
+        direction +
+        '/' +
+        headsign +
+        '/+/' +
+        tripStartTime +
+        '/#'
+      );
+    },
+
+    mqtt: 'ws://51.144.32.81:8083/mqtt',
+
+    gtfsrt: true,
+
+    routeSelector: function selectRoute(routePageProps) {
+      const route = routePageProps.route.gtfsId.split(':');
+      return route[1];
+    },
+
+    active: false,
+  },
 };
