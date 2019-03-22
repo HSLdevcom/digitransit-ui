@@ -17,7 +17,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
     ,
     routeId,
     directionId,
-    ,
+    headsign,
     ,
     startTime,
     vehicleId,
@@ -41,6 +41,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
           heading: position.bearing ? Math.floor(position.bearing) : 0,
+          headsign,
         };
         messages.push(message);
       }

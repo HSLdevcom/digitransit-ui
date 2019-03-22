@@ -49,6 +49,7 @@ describe('gtfsRtParser', () => {
           lat: 61.49923,
           long: 23.77974,
           heading: 329,
+          headsign: 'Pyynikintori',
         },
       ]);
     });
@@ -75,6 +76,7 @@ describe('gtfsRtParser', () => {
           lat: 61.4505,
           long: 23.84967,
           heading: 0,
+          headsign: 'Tampella',
         },
       ]);
     });

@@ -104,6 +104,7 @@ describe('<RoutePage />', () => {
       route: {
         gtfsId: 'tampere:32',
         mode: 'BUS',
+        patterns: [{ code: 'tampere:32:1:01', headsign: 'Tampella' }],
       },
     };
     const context = {

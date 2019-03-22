@@ -5,6 +5,7 @@ export default {
       route,
       direction,
       tripStartTime,
+      headsign, // eslint-disable-line no-unused-vars
     ) {
       return (
         '/hfp/v1/journey/ongoing/+/+/+/' +
@@ -33,13 +34,47 @@ export default {
       route,
       direction,
       tripStartTime,
+      headsign,
     ) {
       return (
         '/gtfsrt/vp/tampere/+/+/+/' +
         route +
         '/' +
         direction +
-        '/+/+/' +
+        '/' +
+        headsign +
+        '/+/' +
+        tripStartTime +
+        '/#'
+      );
+    },
+
+    mqtt: 'ws://51.144.32.81:8083/mqtt',
+
+    gtfsrt: true,
+
+    routeSelector: function selectRoute(routePageProps) {
+      const route = routePageProps.route.gtfsId.split(':');
+      return route[1];
+    },
+
+    active: false,
+  },
+  LINKKI: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+    ) {
+      return (
+        '/gtfsrt/vp/LINKKI/+/+/+/' +
+        route +
+        '/' +
+        direction +
+        '/' +
+        headsign +
+        '/+/' +
         tripStartTime +
         '/#'
       );

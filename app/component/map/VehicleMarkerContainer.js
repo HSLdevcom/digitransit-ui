@@ -45,11 +45,12 @@ if (isBrowser) {
 
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
-function shouldShowVehicle(message, direction, tripStart, pattern) {
+function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   return (
     message.lat &&
     message.long &&
     pattern.substr(0, message.route.length) === message.route &&
+    (message.headsign === undefined || headsign === message.headsign) &&
     (direction === undefined || message.direction === direction) &&
     (tripStart === undefined || message.tripStartTime === tripStart)
   );
@@ -63,6 +64,7 @@ function VehicleMarkerContainer(props) {
         props.direction,
         props.tripStart,
         props.pattern,
+        props.headsign,
       ),
     )
     .map(([id, message]) => (
@@ -108,6 +110,7 @@ function VehicleMarkerContainer(props) {
 
 VehicleMarkerContainer.propTypes = {
   tripStart: PropTypes.string,
+  headsign: PropTypes.string,
   direction: PropTypes.number,
   vehicles: PropTypes.objectOf(
     PropTypes.shape({

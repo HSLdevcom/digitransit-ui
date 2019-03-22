@@ -100,6 +100,5 @@ export default {
       },
     ],
   },
-  staticMessagesUrl:
-    'https://beta.vayla.fi/joukkoliikenne/yleisviesti/',
+  staticMessagesUrl: 'https://beta.vayla.fi/joukkoliikenne/yleisviesti/',
 };

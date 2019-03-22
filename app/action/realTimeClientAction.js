@@ -1,4 +1,4 @@
-import startMqttClient from '../util/mqttClient';
+import { startMqttClient, changeTopics } from '../util/mqttClient';
 
 export function startRealTimeClient(actionContext, settings, done) {
   const startClient = startMqttClient;
@@ -12,5 +12,10 @@ export function startRealTimeClient(actionContext, settings, done) {
 export function stopRealTimeClient(actionContext, client, done) {
   client.end();
   actionContext.dispatch('RealTimeClientStopped');
+  done();
+}
+
+export function changeRealTimeClientTopics(actionContext, settings, done) {
+  changeTopics(settings, actionContext);
   done();
 }

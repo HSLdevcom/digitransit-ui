@@ -17,7 +17,13 @@ function getTopic(options, settings) {
     : '+';
 
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
-  return settings.mqttTopicResolver(route, direction, tripStartTime);
+  const topic = settings.mqttTopicResolver(
+    route,
+    direction,
+    tripStartTime,
+    options.headsign,
+  );
+  return topic;
 }
 
 export function parseMessage(topic, message, agency) {
@@ -62,10 +68,23 @@ export function parseMessage(topic, message, agency) {
     lat: parsedMessage.lat && ceil(parsedMessage.lat, 5),
     long: parsedMessage.long && ceil(parsedMessage.long, 5),
     heading: parsedMessage.hdg,
+    headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
   };
 }
 
-export default function startMqttClient(settings, actionContext) {
+export function changeTopics(settings, actionContext) {
+  const { client, oldTopics } = settings;
+
+  client.unsubscribe(oldTopics);
+  // remove existing vehicles/topics
+  actionContext.dispatch('RealTimeClientReset');
+  const topic = getTopic(settings.options, settings);
+  // set new topic to store
+  actionContext.dispatch('RealTimeClientNewTopics', topic);
+  client.subscribe(topic);
+}
+
+export function startMqttClient(settings, actionContext) {
   const topics = settings.options.map(option => getTopic(option, settings));
   const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
 
@@ -79,11 +98,17 @@ export default function startMqttClient(settings, actionContext) {
             password: 'userpass123!',
           });
           client.on('connect', () => client.subscribe(topics));
-          client.on('message', (topic, message) => {
-            actionContext.dispatch(
-              'RealTimeClientMessage',
-              parseFeedMQTT(feedReader, message, topic, settings.agency, mode),
+          client.on('message', (topic, messages) => {
+            const parsedMessages = parseFeedMQTT(
+              feedReader,
+              messages,
+              topic,
+              settings.agency,
+              mode,
             );
+            parsedMessages.forEach(message => {
+              actionContext.dispatch('RealTimeClientMessage', message);
+            });
           });
           return { client, topics };
         },

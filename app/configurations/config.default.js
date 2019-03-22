@@ -13,7 +13,9 @@ const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
 const HSLRealtime = require('./realtimeUtils').default.HSL;
-const TampereRealtime = require('./realtimeUtils').default.tampere;
+const tampereRealtime = require('./realtimeUtils').default.tampere;
+const LINKKIRealtime = require('./realtimeUtils').default.LINKKI;
+
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
 export default {
@@ -66,7 +68,8 @@ export default {
   realTime: {
     /* sources per feed Id */
     HSL: HSLRealtime,
-    tampere: TampereRealtime,
+    tampere: tampereRealtime,
+    LINKKI: LINKKIRealtime,
   },
   realTimePatch: REALTIME_PATCH,
 
