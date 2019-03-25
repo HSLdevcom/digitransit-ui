@@ -113,7 +113,7 @@ $content-background-color: $background-color;
     margin: 0px 2px;
     &.selected {
       border-radius: 3px;
-      background-color: $selected-lang-background;
+      background-color: hsla(0,0%,100%,.15);
     }
   }
 }
