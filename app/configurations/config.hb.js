@@ -5,6 +5,7 @@ const CONFIG = 'hb';
 const APP_TITLE = 'hbrouting';
 const APP_DESCRIPTION = '';
 
+const API_URL = process.env.API_URL;
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
@@ -23,7 +24,6 @@ export default configMerger(walttiConfig, {
     MAP: {
       default: MAP_URL,
     },
-    STOP_MAP: `${MAP_URL}/map/v1/hb-stop-map/`,
 
     PELIAS: `${GEOCODING_BASE_URL}/search?api_key=${LOCATIONIQ_API_KEY}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse?api_key=${LOCATIONIQ_API_KEY}`,
