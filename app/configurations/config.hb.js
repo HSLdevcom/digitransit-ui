@@ -4,7 +4,6 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hb';
 const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
-
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
@@ -67,7 +66,6 @@ export default configMerger(walttiConfig, {
   },
 
   feedIds: ['hb'],
-  
   searchSources: ['oa', 'osm'],
 
   searchParams: {
@@ -130,6 +128,23 @@ export default configMerger(walttiConfig, {
         header: 'Über diesen Dienst',
         paragraphs: [
           'This service is provided by Hb for route planning in Hb region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
+      },
+    ],
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Tämän palvelun tarjoaa Hb reittisuunnittelua varten Hb alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+        ],
+      },
+    ],
+
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: [
+          'Den här tjänsten erbjuds av Hb för reseplanering inom Hb region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
         ],
       },
     ],
