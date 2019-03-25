@@ -149,6 +149,18 @@ export function setCustomizedSettings(data) {
     delete newSettings.slopeFactor;
     delete newSettings.timeFactor;
   }
+  if (
+    newSettings.preferredRoutes !== undefined &&
+    newSettings.preferredRoutes.length === 0
+  ) {
+    delete newSettings.preferredRoutes;
+  }
+  if (
+    newSettings.unpreferredRoutes !== undefined &&
+    newSettings.unpreferredRoutes.length === 0
+  ) {
+    delete newSettings.unpreferredRoutes;
+  }
 
   setItem('customizedSettings', newSettings);
 }
