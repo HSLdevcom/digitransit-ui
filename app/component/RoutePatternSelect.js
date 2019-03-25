@@ -114,16 +114,16 @@ class RoutePatternSelect extends Component {
               tabIndex={0}
               onKeyPress={() =>
                 this.props.onSelectChange(
-                  options.filter(
+                  options.find(
                     o => o.props.value !== this.props.params.patternId,
-                  )[0].props.value,
+                  ).props.value,
                 )
               }
               onClick={() =>
                 this.props.onSelectChange(
-                  options.filter(
+                  options.find(
                     o => o.props.value !== this.props.params.patternId,
-                  )[0].props.value,
+                  ).props.value,
                 )
               }
             >
@@ -132,21 +132,21 @@ class RoutePatternSelect extends Component {
                   o => o.props.value === this.props.params.patternId,
                 )[0]
               }
-
-              <button
-                type="button"
-                className="toggle-direction"
-                onClick={() =>
-                  this.props.onSelectChange(
-                    options.filter(
-                      o => o.props.value !== this.props.params.patternId,
-                    )[0].props.value,
-                  )
-                }
-              >
-                <Icon img="icon-icon_direction-b" />
-              </button>
             </div>
+
+            <button
+              type="button"
+              className="toggle-direction"
+              onClick={() =>
+                this.props.onSelectChange(
+                  options.find(
+                    o => o.props.value !== this.props.params.patternId,
+                  ).props.value,
+                )
+              }
+            >
+              <Icon img="icon-icon_direction-b" />
+            </button>
           </div>
         )}
       </div>
