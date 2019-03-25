@@ -49,7 +49,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -82,7 +82,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -115,7 +115,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -148,7 +148,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -181,7 +181,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
