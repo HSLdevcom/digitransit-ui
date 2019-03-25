@@ -49,7 +49,9 @@ export default {
       );
     },
 
-    mqtt: 'ws://51.144.32.81:8083/mqtt',
+    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 
@@ -80,7 +82,9 @@ export default {
       );
     },
 
-    mqtt: 'ws://51.144.32.81:8083/mqtt',
+    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 
@@ -111,7 +115,9 @@ export default {
       );
     },
 
-    mqtt: 'ws://51.144.32.81:8083/mqtt',
+    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 
@@ -142,7 +148,9 @@ export default {
       );
     },
 
-    mqtt: 'ws://51.144.32.81:8083/mqtt',
+    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 
@@ -173,7 +181,9 @@ export default {
       );
     },
 
-    mqtt: 'ws://51.144.32.81:8083/mqtt',
+    mqtt: 'wss://lmj.mqtt.fi:8084/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 

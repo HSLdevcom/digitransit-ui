@@ -93,10 +93,9 @@ export function startMqttClient(settings, actionContext) {
       return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
         bindings => {
           const feedReader = bindings.FeedMessage.read;
-          const client = mqtt.default.connect(settings.mqtt, {
-            username: 'user',
-            password: 'userpass123!',
-          });
+          const credentials =
+            settings.credentials !== undefined ? settings.credentials : {};
+          const client = mqtt.default.connect(settings.mqtt, credentials);
           client.on('connect', () => client.subscribe(topics));
           client.on('message', (topic, messages) => {
             const parsedMessages = parseFeedMQTT(
