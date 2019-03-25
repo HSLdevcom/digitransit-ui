@@ -159,8 +159,8 @@ export const cancelationHasExpired = (
 ) =>
   alertHasExpired(
     {
-      startTime: serviceDay + scheduledDeparture,
-      endTime: serviceDay + scheduledArrival,
+      startTime: serviceDay + scheduledArrival,
+      endTime: serviceDay + scheduledDeparture,
     },
     currentTime,
   );

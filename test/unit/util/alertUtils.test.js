@@ -728,8 +728,8 @@ describe('alertUtils', () => {
           [
             {
               realtimeState: RealtimeStateType.Canceled,
-              scheduledDeparture: 1,
-              scheduledArrival: 100,
+              scheduledArrival: 1,
+              scheduledDeparture: 100,
               serviceDay: 0,
             },
           ],
@@ -790,8 +790,8 @@ describe('alertUtils', () => {
   describe('cancelationHasExpired', () => {
     it('should return true for an expired cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
@@ -799,8 +799,8 @@ describe('alertUtils', () => {
 
     it('should return false for an active cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);

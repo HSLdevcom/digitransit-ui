@@ -155,4 +155,35 @@ describe('<AlertList />', () => {
     const wrapper = shallowWithIntl(<AlertList {...props} />);
     expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
   });
+
+  it('should not show duplicate alerts', () => {
+    const props = {
+      currentTime: 1000,
+      cancelations: [],
+      serviceAlerts: [
+        {
+          description: 'foo',
+          header: 'bar',
+          routeLine: '10',
+          routeMode: 'BUS',
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+        {
+          description: 'foo',
+          header: 'bar',
+          routeLine: '10',
+          routeMode: 'BUS',
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
+  });
 });
