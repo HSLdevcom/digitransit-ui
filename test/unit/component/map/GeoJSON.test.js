@@ -79,7 +79,7 @@ describe('<GeoJSON />', () => {
       ];
 
       const icons = getIcons(features);
-      expect(icons.test.options.iconUrl).to.equal(
+      expect(icons.test).to.equal(
         'data:image/svg+xml;charset=utf-8,%23%3Cfoobar%3E%23',
       );
     });
