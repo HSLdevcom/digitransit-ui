@@ -69,7 +69,13 @@ const AlertList = ({
   return (
     <div className="momentum-scroll">
       <div className="route-alerts-list">
-        {uniqBy(alerts, alert => `${alert.header}_${alert.description}`)
+        {uniqBy(
+          alerts,
+          alert =>
+            `${alert.route && alert.route.shortName}_${alert.header}_${
+              alert.description
+            }`,
+        )
           .sort(alertCompare)
           .map(
             ({
