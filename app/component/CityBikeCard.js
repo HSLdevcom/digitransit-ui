@@ -5,7 +5,7 @@ import CardHeader from './CardHeader';
 import { station as exampleStation } from './ExampleData';
 import ComponentUsageExample from './ComponentUsageExample';
 import Card from './Card';
-import getCityBikeNetwork from '../util/citybikes';
+import { getCityBikeNetwork } from '../util/citybikes';
 
 const CityBikeCard = ({ station, children, className }, { config }) => {
   if (!station || !children || children.length === 0) {
