@@ -10,19 +10,14 @@ import {
   drawCitybikeOffIcon,
   drawAvailabilityBadge,
   drawAvailabilityValue,
+  getMapIconScale,
 } from '../../../util/mapIconUtils';
-import glfun from '../../../util/glfun';
 
 import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
 } from '../../../util/citybikes';
-
-const getScale = glfun({
-  base: 1,
-  stops: [[13, 0.8], [20, 1.6]],
-});
 
 const timeOfLastFetch = {};
 
@@ -33,9 +28,9 @@ class CityBikes {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
-      20 * this.scaleratio * getScale(this.tile.coords.z);
+      20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
-      14 * this.scaleratio * getScale(this.tile.coords.z);
+      14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
