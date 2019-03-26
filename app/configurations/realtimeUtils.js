@@ -43,7 +43,7 @@ export default {
         direction +
         '/' +
         headsign +
-        '/+/' +
+        '/+/+/' +
         tripStartTime +
         '/#'
       );
@@ -76,7 +76,7 @@ export default {
         direction +
         '/' +
         headsign +
-        '/+/' +
+        '/+/+/' +
         tripStartTime +
         '/#'
       );
@@ -109,7 +109,7 @@ export default {
         direction +
         '/' +
         headsign +
-        '/+/' +
+        '/+/+/' +
         tripStartTime +
         '/#'
       );
@@ -142,7 +142,7 @@ export default {
         direction +
         '/' +
         headsign +
-        '/+/' +
+        '/+/+/' +
         tripStartTime +
         '/#'
       );
@@ -175,7 +175,7 @@ export default {
         direction +
         '/' +
         headsign +
-        '/+/' +
+        '/+/+/' +
         tripStartTime +
         '/#'
       );

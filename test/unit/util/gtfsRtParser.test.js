@@ -8,9 +8,9 @@ import { parseFeedMQTT } from '../../../app/util/gtfsRtParser';
 const route2 = {
   // Real arraybuffer data that was encoded into base64
   arrayBuffer: converter.decode(
-    'Cg0KAzEuMBABGOm+ruQFEm8KBjEzMDA5MhAAImMKKwoKNTYyMzA4NDY0NxIIMTQ6Mzg6MDAaCDIwMTkwMzE1IAAqBTI2OTIxMAASFA02/3VCFec8vkEdy5KkQy37Jw8/KOi+ruQFMABCFgoGMTMwMDkyEgxQeXluaWtpbnRvcmk=',
+    'Cg0KAzEuMBABGMa+6OQFEmgKBjEzMDIxMBAAIlwKKwoKNTY0NTkzNDY0NhIIMTQ6MzU6MDAaCDIwMTkwMzI2IAAqBTg2OTIxMAESFA1OCHZCFc1OvUEdKWNcQi1TCXM9KMW+6OQFMABCDwoGMTMwMjEwEgVBdGFsYQ==',
   ),
-  topic: '/gtfsrt/vp/tampere////2/0/Pyynikintori//14:38/130092',
+  topic: '/gtfsrt/vp/tampere////8/1/Atala/5645934646//14:35/130210',
   agency: 'tampere',
   mode: 'bus',
 };
@@ -18,9 +18,9 @@ const route2 = {
 const route32 = {
   // Real arraybuffer data that was encoded into base64
   arrayBuffer: converter.decode(
-    'Cg0KAzEuMBABGMy/ruQFEmwKBlRLTF82MxAAImAKLAoKNTY2OTkwNDY0NxIIMTQ6MjA6MDAaCDIwMTkwMzE1IAAqBjMyNjkyMTAAEhQNT811QhUbzL5BHQAAAAAtAAAAACjMv67kBTAAQhIKBlRLTF82MxIIVGFtcGVsbGE=',
+    'Cg0KAzEuMBABGPa+6OQFEmsKBlRLTF8yMxAAIl8KLAoKNTY2MDM2NDY0NhIIMTQ6MzA6MDAaCDIwMTkwMzI2IAAqBjE1NjkyMTAAEhQN4Qd2QhVKU75BHQAAgEItAADgQCj0vujkBTAAQhEKBlRLTF8yMxIHUGV0c2Ftbw==',
   ),
-  topic: '/gtfsrt/vp/tampere////32/0/Tampella//14:20/TKL_63',
+  topic: '/gtfsrt/vp/tampere////15/0/Petsamo/5660364646//14:30/TKL_23',
   agency: 'tampere',
   mode: 'tram',
 };
@@ -38,18 +38,18 @@ describe('gtfsRtParser', () => {
 
       expect(result).to.deep.equal([
         {
-          id: 'tampere:130092',
-          route: 'tampere:2',
-          direction: 0,
-          tripStartTime: '1438',
-          operatingDay: '20190315',
+          id: 'tampere:130210',
+          route: 'tampere:8',
+          direction: 1,
+          tripStartTime: '1435',
+          operatingDay: '20190326',
           mode: 'bus',
           next_stop: undefined,
-          timestamp: 1552654184,
-          lat: 61.49923,
-          long: 23.77974,
-          heading: 329,
-          headsign: 'Pyynikintori',
+          timestamp: 1553604421,
+          lat: 61.50812,
+          long: 23.66348,
+          heading: 55,
+          headsign: 'Atala',
         },
       ]);
     });
@@ -65,18 +65,18 @@ describe('gtfsRtParser', () => {
 
       expect(result).to.deep.equal([
         {
-          id: 'tampere:TKL_63',
-          route: 'tampere:32',
+          id: 'tampere:TKL_23',
+          route: 'tampere:15',
           direction: 0,
-          tripStartTime: '1420',
-          operatingDay: '20190315',
+          tripStartTime: '1430',
+          operatingDay: '20190326',
           mode: 'tram',
           next_stop: undefined,
-          timestamp: 1552654284,
-          lat: 61.4505,
-          long: 23.84967,
-          heading: 0,
-          headsign: 'Tampella',
+          timestamp: 1553604468,
+          lat: 61.5077,
+          long: 23.79067,
+          heading: 64,
+          headsign: 'Petsamo',
         },
       ]);
     });

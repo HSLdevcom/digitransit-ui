@@ -1,12 +1,11 @@
 import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
-
 // eslint-disable-next-line import/prefer-default-export
 export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
   const pbf = new Pbf(data);
   const feed = feedParser(pbf);
 
-  // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<next_stop>/<start_time>/<vehicle_id>
+  // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>
   const [
     ,
     ,
@@ -18,6 +17,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
     routeId,
     directionId,
     headsign,
+    ,
     ,
     startTime,
     vehicleId,
