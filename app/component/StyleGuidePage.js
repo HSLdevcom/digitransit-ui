@@ -35,6 +35,7 @@ import SelectStopRow from './map/tile-layer/SelectStopRow';
 import SelectTerminalRow from './map/tile-layer/SelectTerminalRow';
 import TicketInformation from './TicketInformation';
 import DateSelect from './DateSelect';
+import { Component as RoutePatternSelect } from './RoutePatternSelect';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleStopSelect from './RouteScheduleStopSelect';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
@@ -132,6 +133,7 @@ const components = {
   SelectTerminalRow,
   TicketInformation,
   DateSelect,
+  RoutePatternSelect,
   RouteScheduleHeader,
   RouteScheduleStopSelect,
   RouteScheduleTripRow,
