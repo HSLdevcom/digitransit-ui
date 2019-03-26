@@ -752,6 +752,9 @@ div.route-tabs {
     background: $white;
     font-weight: 500;
   }
+  #select-route-pattern {
+    cursor: pointer;
+  }
 
   button.toggle-direction, button.toggle-direction:hover {
     background: $white;
