@@ -427,8 +427,12 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
     return true;
   }
 
+  if (alerts.length === 0) {
+    return false;
+  }
+
   const filteredAlerts = alerts.filter(
-    alert => !alertHasExpired(alert, currentTime),
+    alert => !alertHasExpired(alert.validityPeriod, currentTime),
   );
   const alertSeverityLevel = getMaximumAlertSeverityLevel(filteredAlerts);
   return alertSeverityLevel
