@@ -15,16 +15,17 @@ const getIconImg = type => {
   }
 };
 
-export default function LocationMarker({ position, className, type }) {
+export default function LocationMarker({ position, className, isLarge, type }) {
+  const sideLength = isLarge ? 30 : 24;
   return (
     <IconMarker
       position={position}
       className={className}
       icon={{
-        element: <Icon img={`icon-icon_${getIconImg(type)}`} />,
-        iconSize: [24, 24],
-        iconAnchor: [12, 24],
         className,
+        element: <Icon img={`icon-icon_${getIconImg(type)}`} />,
+        iconAnchor: [sideLength / 2, sideLength],
+        iconSize: [sideLength, sideLength],
       }}
     />
   );
@@ -33,9 +34,11 @@ export default function LocationMarker({ position, className, type }) {
 LocationMarker.propTypes = {
   position: IconMarker.propTypes.position, // eslint-disable-line react/no-typos
   className: PropTypes.string,
+  isLarge: PropTypes.bool,
   type: PropTypes.oneOf(['from', 'via', 'to']),
 };
 
 LocationMarker.defaultProps = {
+  isLarge: false,
   type: 'via',
 };

@@ -27,9 +27,9 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
 ]);
 
-const placeMarkerModules = {
-  PlaceMarker: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
+const locationMarkerModules = {
+  LocationMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 
 const jsonModules = {
@@ -221,8 +221,14 @@ class MapWithTrackingStateHandler extends React.Component {
 
     if (origin && origin.ready === true && origin.gps !== true) {
       leafletObjs.push(
-        <LazilyLoad modules={placeMarkerModules} key="from">
-          {({ PlaceMarker }) => <PlaceMarker position={this.props.origin} />}
+        <LazilyLoad modules={locationMarkerModules} key="from">
+          {({ LocationMarker }) => (
+            <LocationMarker
+              className="from"
+              position={this.props.origin}
+              type="from"
+            />
+          )}
         </LazilyLoad>,
       );
     }

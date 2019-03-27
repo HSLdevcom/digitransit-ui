@@ -181,6 +181,7 @@ export function TransferMap(props) {
       <LocationMarker
         className="to"
         key="toMarker"
+        isLarge
         position={props.legObj.to}
         type="to"
       />,

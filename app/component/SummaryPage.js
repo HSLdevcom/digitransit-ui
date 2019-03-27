@@ -213,6 +213,7 @@ class SummaryPage extends React.Component {
       leafletObjs.push(
         <LocationMarker
           className="to"
+          isLarge
           key="toMarker"
           position={to}
           type="to"

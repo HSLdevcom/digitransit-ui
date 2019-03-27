@@ -34,6 +34,7 @@ function ItineraryPageMap(
     />,
     <LocationMarker
       className="to"
+      isLarge
       key="toMarker"
       position={to || otpToLocation(params.to)}
       type="to"
