@@ -20,6 +20,13 @@ $border-radius-rounded: 30px;
 
     .card-header-wrapper {
       flex-grow: 1;
+      .network-header{
+        font-family: $font-family;
+        font-weight: $font-weight-book;
+        font-size: $font-size-small;
+        margin-right: 5px;
+        color: $gray;
+      }
     }
   }
 

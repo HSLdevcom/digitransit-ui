@@ -6,6 +6,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
+import { getCityBikeNetworkName } from '../util/citybikes';
 
 const CardHeader = ({
   className,
@@ -44,10 +45,12 @@ const CardHeader = ({
         </span>
         <div className="card-sub-header">
           {network && (
-            <FormattedMessage
-              id={`citybike-${network}`}
-              defaultMessage="Citybike Network"
-            />
+            <p className="network-header">
+              <FormattedMessage
+                id={`network-${getCityBikeNetworkName(network)}`}
+                defaultMessage="Citybike Network"
+              />
+            </p>
           )}
           {code != null ? <p className="card-code">{code}</p> : null}
           {description != null && description !== 'null' ? (
