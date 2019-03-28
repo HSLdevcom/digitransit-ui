@@ -22,6 +22,7 @@ function getTopic(options, settings) {
     direction,
     tripStartTime,
     options.headsign,
+    settings.agency,
   );
   return topic;
 }

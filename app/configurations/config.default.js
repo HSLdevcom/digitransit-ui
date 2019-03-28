@@ -12,12 +12,7 @@ const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
-const HSLRealtime = require('./realtimeUtils').default.HSL;
-const tampereRealtime = require('./realtimeUtils').default.tampere;
-const LINKKIRealtime = require('./realtimeUtils').default.LINKKI;
-const LappeenrantaRealtime = require('./realtimeUtils').default.Lappeenranta;
-const JoensuuRealtime = require('./realtimeUtils').default.Joensuu;
-const KuopioRealtime = require('./realtimeUtils').default.Kuopio;
+const realtime = require('./realtimeUtils').default;
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
@@ -68,15 +63,7 @@ export default {
   searchParams: {},
   feedIds: [],
 
-  realTime: {
-    /* sources per feed Id */
-    HSL: HSLRealtime,
-    tampere: tampereRealtime,
-    LINKKI: LINKKIRealtime,
-    Lappeenranta: LappeenrantaRealtime,
-    Joensuu: JoensuuRealtime,
-    Kuopio: KuopioRealtime,
-  },
+  realTime: realtime,
   realTimePatch: REALTIME_PATCH,
 
   // Google Tag Manager id

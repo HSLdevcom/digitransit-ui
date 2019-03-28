@@ -37,17 +37,6 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
-  realTime: {
-    /*
-    tampere: {
-      gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
-      routeSelector: function selectRoute(routePageProps) {
-        return routePageProps.route['shortName']
-      }
-    },
-    */
-  },
-
   showTicketInformation: true,
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 

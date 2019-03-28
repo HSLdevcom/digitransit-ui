@@ -1,4 +1,32 @@
 /* eslint-disable prefer-template */
+
+function defaultRouteSelector(routePageProps) {
+  const route = routePageProps.route.gtfsId.split(':');
+  return route[1];
+}
+
+function walttiTopicResolver(
+  route,
+  direction,
+  tripStartTime,
+  headsign,
+  feedId,
+) {
+  return (
+    '/gtfsrt/vp/' +
+    feedId +
+    '/+/+/+/' +
+    route +
+    '/' +
+    direction +
+    '/' +
+    headsign +
+    '/+/+/' +
+    tripStartTime +
+    '/#'
+  );
+}
+
 export default {
   HSL: {
     mqttTopicResolver: function mqttTopicResolver(
@@ -6,6 +34,7 @@ export default {
       direction,
       tripStartTime,
       headsign, // eslint-disable-line no-unused-vars
+      feedId, // eslint-disable-line no-unused-vars
     ) {
       return (
         '/hfp/v1/journey/ongoing/+/+/+/' +
@@ -22,32 +51,12 @@ export default {
 
     gtfsrt: false,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: true,
   },
   tampere: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-    ) {
-      return (
-        '/gtfsrt/vp/tampere/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/' +
-        headsign +
-        '/+/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
@@ -55,32 +64,12 @@ export default {
 
     gtfsrt: true,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: false,
   },
   LINKKI: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-    ) {
-      return (
-        '/gtfsrt/vp/LINKKI/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/' +
-        headsign +
-        '/+/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
@@ -88,32 +77,12 @@ export default {
 
     gtfsrt: true,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: false,
   },
   Lappeenranta: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-    ) {
-      return (
-        '/gtfsrt/vp/Lappeenranta/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/' +
-        headsign +
-        '/+/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
@@ -121,32 +90,12 @@ export default {
 
     gtfsrt: true,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: false,
   },
   Joensuu: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-    ) {
-      return (
-        '/gtfsrt/vp/Joensuu/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/' +
-        headsign +
-        '/+/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
@@ -154,32 +103,12 @@ export default {
 
     gtfsrt: true,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: false,
   },
   Kuopio: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-    ) {
-      return (
-        '/gtfsrt/vp/Kuopio/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/' +
-        headsign +
-        '/+/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
 
@@ -187,10 +116,7 @@ export default {
 
     gtfsrt: true,
 
-    routeSelector: function selectRoute(routePageProps) {
-      const route = routePageProps.route.gtfsId.split(':');
-      return route[1];
-    },
+    routeSelector: defaultRouteSelector,
 
     active: false,
   },
