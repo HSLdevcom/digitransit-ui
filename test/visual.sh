@@ -36,6 +36,8 @@ if [ $RESULT -ne 0 ]; then
     #rename older generations
     for ((i=GENERATIONS; i>=1; i--))
     do
+        # Delete oldest file first as move doesn't want to overwrite existing file
+        ./test/dropbox_uploader.sh delete "/${name}_$((i + 1)).tar.gz" &>/dev/null
         ./test/dropbox_uploader.sh move "/${name}_${i}.tar.gz" "/${name}_$((i + 1)).tar.gz" &>/dev/null
     done
     ./test/dropbox_uploader.sh move "/$gzname" "/${name}_1.tar.gz" &>/dev/null
