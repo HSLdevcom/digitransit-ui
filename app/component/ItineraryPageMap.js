@@ -27,13 +27,11 @@ function ItineraryPageMap(
 ) {
   const leafletObjs = [
     <LocationMarker
-      className="from"
       key="fromMarker"
       position={from || otpToLocation(params.from)}
       type="from"
     />,
     <LocationMarker
-      className="to"
       isLarge
       key="toMarker"
       position={to || otpToLocation(params.to)}
@@ -48,7 +46,6 @@ function ItineraryPageMap(
         .forEach((markerLocation, i) => {
           leafletObjs.push(
             <LocationMarker
-              className="via"
               key={`via_${i}`} // eslint-disable-line react/no-array-index-key
               position={markerLocation}
             />,
@@ -57,7 +54,6 @@ function ItineraryPageMap(
     } else {
       leafletObjs.push(
         <LocationMarker
-          className="via"
           key="via"
           position={otpToLocation(location.query.intermediatePlaces)}
         />,

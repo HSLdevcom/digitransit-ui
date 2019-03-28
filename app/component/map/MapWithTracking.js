@@ -223,11 +223,7 @@ class MapWithTrackingStateHandler extends React.Component {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="from">
           {({ LocationMarker }) => (
-            <LocationMarker
-              className="from"
-              position={this.props.origin}
-              type="from"
-            />
+            <LocationMarker position={origin} type="from" />
           )}
         </LazilyLoad>,
       );
@@ -255,7 +251,7 @@ class MapWithTrackingStateHandler extends React.Component {
         zoom={this.state.initialZoom}
         mapTracking={this.state.mapTracking}
         className="flex-grow"
-        origin={this.props.origin}
+        origin={origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onDragend: this.updateCurrentBounds,
@@ -269,7 +265,7 @@ class MapWithTrackingStateHandler extends React.Component {
         {children}
         <div className="map-with-tracking-buttons">
           {renderCustomButtons && renderCustomButtons()}
-          {this.props.position.hasLocation && (
+          {position.hasLocation && (
             <ToggleMapTracking
               key="toggleMapTracking"
               handleClick={

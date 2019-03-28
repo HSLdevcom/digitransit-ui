@@ -139,22 +139,23 @@ const getItineraryStops = sentLegObj => (
 );
 
 export function TransferMap(props) {
-  const bounds = [].concat(polyline.decode(props.legObj.legGeometry.points));
-  const nextLeg = props.originalLegs[props.index + 1];
-  const previousLeg = props.originalLegs[props.index - 1];
+  const { index, legObj, originalLegs } = props;
+  const bounds = [].concat(polyline.decode(legObj.legGeometry.points));
+  const nextLeg = originalLegs[index + 1];
+  const previousLeg = originalLegs[index - 1];
 
   let itineraryLine;
   if (
     ((!previousLeg && !nextLeg) || (nextLeg && nextLeg.intermediatePlace)) &&
-    props.originalLegs.length > 1
+    originalLegs.length > 1
   ) {
-    itineraryLine = [props.legObj];
-  } else if (props.originalLegs.length > 1 && !nextLeg) {
-    itineraryLine = [previousLeg, props.legObj];
-  } else if (props.originalLegs.length === 1) {
-    itineraryLine = [props.legObj];
+    itineraryLine = [legObj];
+  } else if (originalLegs.length > 1 && !nextLeg) {
+    itineraryLine = [previousLeg, legObj];
+  } else if (originalLegs.length === 1) {
+    itineraryLine = [legObj];
   } else {
-    itineraryLine = [props.legObj, nextLeg];
+    itineraryLine = [legObj, nextLeg];
   }
 
   const leafletObjs = [
@@ -165,42 +166,26 @@ export function TransferMap(props) {
       showIntermediateStops
     />,
   ];
-  if (props.index === 0) {
+  if (index === 0) {
     leafletObjs.push(
-      <LocationMarker
-        className="from"
-        key="fromMarker"
-        position={props.legObj.from}
-        type="from"
-      />,
+      <LocationMarker key="fromMarker" position={legObj.from} type="from" />,
     );
   }
 
   if (!nextLeg) {
     leafletObjs.push(
-      <LocationMarker
-        className="to"
-        key="toMarker"
-        isLarge
-        position={props.legObj.to}
-        type="to"
-      />,
+      <LocationMarker key="toMarker" isLarge position={legObj.to} type="to" />,
     );
   }
 
-  if (nextLeg) {
-    if (nextLeg.intermediatePlace === true) {
-      leafletObjs.push(
-        <LocationMarker className="via" key="via" position={props.legObj.to} />,
-      );
-    }
+  if (nextLeg && nextLeg.intermediatePlace === true) {
+    leafletObjs.push(<LocationMarker key="via" position={legObj.to} />);
   }
 
-  if (props.legObj.intermediatePlace === true) {
-    leafletObjs.push(
-      <LocationMarker className="via" key="via" position={props.legObj.from} />,
-    );
+  if (legObj.intermediatePlace === true) {
+    leafletObjs.push(<LocationMarker key="via" position={legObj.from} />);
   }
+
   return (
     <div className="transfermap-container">
       <MapContainer
