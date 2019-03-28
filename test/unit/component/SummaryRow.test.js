@@ -2,27 +2,33 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
+import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
+import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import {
   component as SummaryRow,
   ModeLeg,
   ViaLeg,
   RouteLeg,
-} from '../../app/component/SummaryRow';
+} from '../../../app/component/SummaryRow';
+import { AlertSeverityLevelType } from '../../../app/constants';
+import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
 
-import dcw12 from './test-data/dcw12';
-import dcw31 from './test-data/dcw31';
-import dt2830 from './test-data/dt2830';
-import { mockContext, mockChildContextTypes } from './helpers/mock-context';
+import dcw12 from '../test-data/dcw12';
+import dcw31 from '../test-data/dcw31';
+import dt2830 from '../test-data/dt2830';
+
+const defaultProps = {
+  breakpoint: 'large',
+  hash: 1,
+  onSelect: () => {},
+  onSelectImmediately: () => {},
+};
 
 describe('<SummaryRow />', () => {
   it('should not show walking distance in desktop view for biking-only itineraries', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw31.onlyBiking,
-      hash: 1,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       refTime: dcw31.onlyBiking.startTime,
     };
     const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
@@ -33,11 +39,9 @@ describe('<SummaryRow />', () => {
 
   it('should not show walking distance in mobile view for biking-only itineraries', () => {
     const props = {
+      ...defaultProps,
       breakpoint: 'small',
       data: dcw31.onlyBiking,
-      hash: 1,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       refTime: dcw31.onlyBiking.startTime,
     };
     const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
@@ -48,11 +52,8 @@ describe('<SummaryRow />', () => {
 
   it('should show biking distance before walking distance in desktop view', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw31.bikingAndWalking,
-      hash: 1,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       refTime: dcw31.bikingAndWalking.startTime,
     };
     const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
@@ -74,11 +75,9 @@ describe('<SummaryRow />', () => {
 
   it('should show biking distance instead of walking distance in mobile view for biking-only itineraries', () => {
     const props = {
+      ...defaultProps,
       breakpoint: 'small',
       data: dcw31.onlyBiking,
-      hash: 1,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       refTime: dcw31.onlyBiking.startTime,
     };
     const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
@@ -93,13 +92,10 @@ describe('<SummaryRow />', () => {
 
   it('should display both walking legs in the summary view', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.walkingRouteWithIntermediatePlace.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
@@ -114,13 +110,10 @@ describe('<SummaryRow />', () => {
 
   it('should display all city bike leg start stations in the summary view', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.cityBikeRouteWithIntermediatePlaces.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
@@ -138,13 +131,10 @@ describe('<SummaryRow />', () => {
 
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.bikingRouteWithIntermediatePlaces.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.bikingRouteWithIntermediatePlaces.refTime,
     };
@@ -165,13 +155,10 @@ describe('<SummaryRow />', () => {
 
   it('should ignore locationSlack when hiding short legs', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.shortRailRouteWithLongSlacktime.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.shortRailRouteWithLongSlacktime.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.shortRailRouteWithLongSlacktime.refTime,
     };
@@ -189,14 +176,11 @@ describe('<SummaryRow />', () => {
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.transitRouteWithWalkConnectingIntermediatePlaces
           .intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
     };
@@ -216,14 +200,11 @@ describe('<SummaryRow />', () => {
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace
           .intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
@@ -242,14 +223,11 @@ describe('<SummaryRow />', () => {
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace
           .intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
@@ -268,13 +246,10 @@ describe('<SummaryRow />', () => {
 
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.transitRouteWithIntermediatePlaceAtStop.refTime,
     };
@@ -292,13 +267,10 @@ describe('<SummaryRow />', () => {
 
   it('should show the really short first walking leg for a transit itinerary', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
-      hash: 1,
       intermediatePlaces:
         dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: dcw12.shortWalkingFirstLegWithMultipleViaPoints.refTime,
     };
@@ -320,11 +292,8 @@ describe('<SummaryRow />', () => {
 
   it('should indicate which itineraries are canceled', () => {
     const props = {
-      breakpoint: 'large',
+      ...defaultProps,
       data: dt2830,
-      hash: 1,
-      onSelect: () => {},
-      onSelectImmediately: () => {},
       passive: false,
       refTime: 1551272073000,
       zones: [],
@@ -338,5 +307,243 @@ describe('<SummaryRow />', () => {
     });
 
     expect(wrapper.find('.cancelled-itinerary')).to.have.lengthOf(1);
+  });
+
+  it('should not indicate that there is a disruption if the route has an alert for another trip', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            mode: 'RAIL',
+            route: {
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  effectiveEndDate: 1553778000,
+                  effectiveStartDate: 1553754595,
+                  trip: {
+                    pattern: {
+                      code: 'HSL:3001I:0:02',
+                    },
+                  },
+                },
+              ],
+              mode: 'RAIL',
+            },
+            trip: {
+              pattern: {
+                code: 'HSL:3001I:0:01',
+              },
+            },
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      false,
+    );
+  });
+
+  it('should indicate that there is a disruption due to a trip alert', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            mode: 'RAIL',
+            route: {
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  effectiveEndDate: 1553778000,
+                  effectiveStartDate: 1553754595,
+                  trip: {
+                    pattern: {
+                      code: 'HSL:3001I:0:01',
+                    },
+                  },
+                },
+              ],
+              mode: 'RAIL',
+            },
+            trip: {
+              pattern: {
+                code: 'HSL:3001I:0:01',
+              },
+            },
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      true,
+    );
+  });
+
+  it('should indicate that there is a disruption due to a route alert', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            mode: 'RAIL',
+            route: {
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  effectiveEndDate: 1553778000,
+                  effectiveStartDate: 1553754595,
+                  trip: null,
+                },
+              ],
+              mode: 'RAIL',
+            },
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      true,
+    );
+  });
+
+  it('should indicate that there is a disruption due to a stop alert at the "from" stop', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {
+              stop: {
+                alerts: [
+                  {
+                    alertSeverityLevel: AlertSeverityLevelType.Warning,
+                    effectiveEndDate: 1553778000,
+                    effectiveStartDate: 1553754595,
+                  },
+                ],
+              },
+            },
+            mode: 'RAIL',
+            route: {
+              alerts: [],
+              mode: 'RAIL',
+            },
+            to: {},
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      true,
+    );
+  });
+
+  it('should indicate that there is a disruption due to a stop alert at the "to" stop', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            mode: 'RAIL',
+            route: {
+              alerts: [],
+              mode: 'RAIL',
+            },
+            to: {
+              stop: {
+                alerts: [
+                  {
+                    alertSeverityLevel: AlertSeverityLevelType.Warning,
+                    effectiveEndDate: 1553778000,
+                    effectiveStartDate: 1553754595,
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      true,
+    );
+  });
+
+  it('should indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            intermediatePlaces: [
+              {
+                stop: {
+                  alerts: [],
+                },
+              },
+              {
+                stop: {
+                  alerts: [
+                    {
+                      alertSeverityLevel: AlertSeverityLevelType.Warning,
+                      effectiveEndDate: 1553778000,
+                      effectiveStartDate: 1553754595,
+                    },
+                  ],
+                },
+              },
+              {
+                stop: {},
+              },
+            ],
+            mode: 'RAIL',
+            route: {
+              alerts: [],
+              mode: 'RAIL',
+            },
+          },
+        ],
+      },
+      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      true,
+    );
   });
 });

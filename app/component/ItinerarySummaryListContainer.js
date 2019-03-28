@@ -207,6 +207,11 @@ const containerComponent = Relay.createContainer(
           intermediatePlaces {
             stop {
               zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
           }
           route {
@@ -216,11 +221,20 @@ const containerComponent = Relay.createContainer(
             agency {
               name
             }
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+              trip {
+                pattern {
+                  code
+                }
+              }
+            }
           }
           trip {
-            alerts {
-              effectiveStartDate
-              effectiveEndDate
+            pattern {
+              code
             }
             stoptimes {
               realtimeState
@@ -237,6 +251,11 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
             bikeRentalStation {
               bikesAvailable
@@ -246,6 +265,11 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
+              alerts {
+                alertSeverityLevel
+                effectiveEndDate
+                effectiveStartDate
+              }
             }
           }
         }

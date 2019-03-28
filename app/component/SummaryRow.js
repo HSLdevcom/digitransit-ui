@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import filter from 'lodash/filter';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -10,7 +9,12 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import { legHasCancelation } from '../util/alertUtils';
+import {
+  getServiceAlertsForRoute,
+  getServiceAlertsForStop,
+  isAlertActive,
+  legHasCancelation,
+} from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -34,19 +38,6 @@ import {
   exampleDataCanceled,
 } from './data/SummaryRow.ExampleData';
 
-/*
-const dummyalerts = [{
-  effectiveStartDate: new Date().getTime() - 9000000,
-  effectiveEndDate: new Date().getTime() + 9000000,
-}];
-*/
-
-const hasActiveDisruption = (t1, t2, alerts) =>
-  filter(
-    alerts,
-    alert => !(alert.effectiveStartDate > t2 || alert.effectiveEndDate < t1),
-  ).length > 0;
-
 const Leg = ({ routeNumber, leg, large }) => (
   <div className="leg">
     {large && (
@@ -65,9 +56,7 @@ Leg.propTypes = {
 };
 
 export const RouteLeg = ({ leg, large, intl }) => {
-  const getTripAlerts = trip => (trip && trip.alerts) || [];
   const isCallAgency = isCallAgencyPickupType(leg);
-
   let routeNumber;
   if (isCallAgency) {
     const message = intl.formatMessage({
@@ -84,21 +73,32 @@ export const RouteLeg = ({ leg, large, intl }) => {
       />
     );
   } else {
+    const hasDisruption =
+      legHasCancelation(leg) ||
+      isAlertActive(
+        [],
+        [
+          ...getServiceAlertsForRoute(
+            leg.route,
+            leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+          ),
+          ...getServiceAlertsForStop(leg.from && leg.from.stop),
+          ...getServiceAlertsForStop(leg.to && leg.to.stop),
+          ...(Array.isArray(leg.intermediatePlaces)
+            ? leg.intermediatePlaces
+                .map(place => getServiceAlertsForStop(place.stop))
+                .reduce((a, b) => a.concat(b), [])
+            : []),
+        ],
+        leg.startTime / 1000,
+      );
     routeNumber = (
       <RouteNumberContainer
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={
-          legHasCancelation(leg) ||
-          hasActiveDisruption(
-            leg.startTime / 1000,
-            leg.endTime / 1000,
-            getTripAlerts(leg.trip),
-            // dummyalerts,
-          )
-        }
+        hasDisruption={hasDisruption}
       />
     );
   }
