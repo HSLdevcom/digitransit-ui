@@ -18,7 +18,7 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Nysse', href: 'http://www.nysse.fi/' },
 
   colors: {
-    primary: '#008fff',
+    primary: '#1c57cf',
   },
 
   socialMedia: {

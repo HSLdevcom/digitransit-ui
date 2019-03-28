@@ -231,6 +231,7 @@ basic.stop.stoptimes[1].realtimeState = 'UPDATED';
 basic.stop.stoptimes[1].stop.platformCode = undefined;
 basic.stop.stoptimes[1].trip.pattern.route.mode = 'BUS';
 basic.stop.stoptimes[1].trip.pattern.route.shortName = '543B';
+basic.stop.stoptimes[2].realtimeState = 'CANCELED';
 basic.stop.stoptimes[4].serviceDay = 1524171600;
 
 export default {

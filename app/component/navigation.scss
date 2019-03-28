@@ -113,7 +113,7 @@ $content-background-color: $background-color;
     margin: 0px 2px;
     &.selected {
       border-radius: 3px;
-      background-color: rgba($white, 0.15);
+      background-color: hsla(0,0%,100%,.15);
     }
   }
 }
@@ -123,7 +123,7 @@ $content-background-color: $background-color;
   #lang-select {
     border-bottom: 0px;
     .lang.selected {
-      background: rgba(0, 0, 0, 0.15);
+      background: $selected-lang-background;
     }
   }
 }
@@ -137,6 +137,10 @@ $content-background-color: $background-color;
     font-size: 1.8em;
     color: $primary-color;
     fill: $top-navigation-icon-color;
+    &.caution-topbar {
+      fill: $caution-icon-color;
+      color: $caution-icon-font-color;
+    }
   }
   width: 50px;
 }
@@ -307,7 +311,7 @@ section.content {
 }
 
 .desktop-title {
-  background: $primary-color;
+  background: $desktop-title-color;
 
   a {
     color: $primary-font-color;
@@ -327,7 +331,7 @@ section.content {
   .arrow-icon {
     font-size: 0.6em;
     margin: 2px 1em;
-    color: $secondary-color;
+    color: $desktop-title-arrow-icon-color;
   }
 }
 
@@ -350,7 +354,9 @@ section.content {
     display: flex;
     max-height: 100%;
 
-    .message-bar-info {
+    .message-bar-content {
+      flex-basis: auto;
+      flex-grow: 1;
       width: 60%;
     }
   }

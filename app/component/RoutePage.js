@@ -104,8 +104,7 @@ class RoutePage extends React.Component {
     }
   }
 
-  onPatternChange = e => {
-    const newPatternId = e.target.value;
+  onPatternChange = newPattern => {
     const { client, topics } = this.context.getStore(
       'RealTimeInformationStore',
     );
@@ -116,7 +115,7 @@ class RoutePage extends React.Component {
       const agency = route[0];
       const source = realTime[agency];
       const { headsign } = this.props.route.patterns.find(
-        pattern => pattern.code === newPatternId,
+        pattern => pattern.code === newPattern,
       );
       const id = source.routeSelector(this.props);
       this.context.executeAction(changeRealTimeClientTopics, {
@@ -135,7 +134,7 @@ class RoutePage extends React.Component {
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname).replace(
         new RegExp(`${this.props.params.patternId}(.*)`),
-        newPatternId,
+        newPattern,
       ),
     );
   };

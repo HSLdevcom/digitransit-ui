@@ -728,8 +728,8 @@ describe('alertUtils', () => {
           [
             {
               realtimeState: RealtimeStateType.Canceled,
-              scheduledDeparture: 1,
-              scheduledArrival: 100,
+              scheduledArrival: 1,
+              scheduledDeparture: 100,
               serviceDay: 0,
             },
           ],
@@ -745,8 +745,10 @@ describe('alertUtils', () => {
           [],
           [
             {
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
@@ -761,8 +763,10 @@ describe('alertUtils', () => {
           [
             {
               severityLevel: AlertSeverityLevelType.Warning,
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
@@ -777,21 +781,54 @@ describe('alertUtils', () => {
           [
             {
               severityLevel: AlertSeverityLevelType.Info,
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
         ),
       ).to.equal(false);
     });
+
+    it('should return false if there is an expired service alert', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
+            },
+          ],
+          200,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true by default for service alerts that have no validityPeriod', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              validityPeriod: undefined,
+            },
+          ],
+          200,
+        ),
+      ).to.equal(true);
+    });
   });
 
   describe('cancelationHasExpired', () => {
     it('should return true for an expired cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
@@ -799,8 +836,8 @@ describe('alertUtils', () => {
 
     it('should return false for an active cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);

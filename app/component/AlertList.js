@@ -1,4 +1,5 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -68,7 +69,13 @@ const AlertList = ({
   return (
     <div className="momentum-scroll">
       <div className="route-alerts-list">
-        {alerts
+        {uniqBy(
+          alerts,
+          alert =>
+            `${alert.route && alert.route.shortName}_${alert.header}_${
+              alert.description
+            }`,
+        )
           .sort(alertCompare)
           .map(
             ({
