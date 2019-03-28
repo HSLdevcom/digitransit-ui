@@ -22,6 +22,7 @@ const defaultProps = {
   hash: 1,
   onSelect: () => {},
   onSelectImmediately: () => {},
+  refTime: 0,
 };
 
 describe('<SummaryRow />', () => {
@@ -332,6 +333,7 @@ describe('<SummaryRow />', () => {
               ],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
             trip: {
               pattern: {
                 code: 'HSL:3001I:0:01',
@@ -340,7 +342,39 @@ describe('<SummaryRow />', () => {
           },
         ],
       },
-      refTime: 1553760742000,
+    };
+    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(RouteNumberContainer).props().hasDisruption).to.equal(
+      false,
+    );
+  });
+
+  it('should not indicate that there is a disruption if the alert is not in effect', () => {
+    const alertEffectiveEndDate = 1553778000;
+    const props = {
+      ...defaultProps,
+      data: {
+        legs: [
+          {
+            from: {},
+            mode: 'RAIL',
+            route: {
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  effectiveEndDate: alertEffectiveEndDate,
+                  effectiveStartDate: 1553754595,
+                },
+              ],
+              mode: 'RAIL',
+            },
+            startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+          },
+        ],
+      },
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },
@@ -374,6 +408,7 @@ describe('<SummaryRow />', () => {
               ],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
             trip: {
               pattern: {
                 code: 'HSL:3001I:0:01',
@@ -382,7 +417,6 @@ describe('<SummaryRow />', () => {
           },
         ],
       },
-      refTime: 1553760742000,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },
@@ -412,10 +446,10 @@ describe('<SummaryRow />', () => {
               ],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
           },
         ],
       },
-      refTime: 1553760742000,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },
@@ -448,11 +482,11 @@ describe('<SummaryRow />', () => {
               alerts: [],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
             to: {},
           },
         ],
       },
-      refTime: 1553760742000,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },
@@ -475,6 +509,7 @@ describe('<SummaryRow />', () => {
               alerts: [],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
             to: {
               stop: {
                 alerts: [
@@ -489,7 +524,6 @@ describe('<SummaryRow />', () => {
           },
         ],
       },
-      refTime: 1553760742000,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },
@@ -533,10 +567,10 @@ describe('<SummaryRow />', () => {
               alerts: [],
               mode: 'RAIL',
             },
+            startTime: 1553769600000,
           },
         ],
       },
-      refTime: 1553760742000,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
       context: { ...mockContext },

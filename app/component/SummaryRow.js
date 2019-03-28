@@ -73,7 +73,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
       />
     );
   } else {
-    const hasDisruption =
+    const hasActiveAlert =
       legHasCancelation(leg) ||
       isAlertActive(
         [],
@@ -90,7 +90,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
                 .reduce((a, b) => a.concat(b), [])
             : []),
         ],
-        leg.startTime / 1000,
+        leg.startTime / 1000, // this field is in ms format
       );
     routeNumber = (
       <RouteNumberContainer
@@ -98,7 +98,7 @@ export const RouteLeg = ({ leg, large, intl }) => {
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={hasDisruption}
+        hasDisruption={hasActiveAlert}
       />
     );
   }
