@@ -99,36 +99,19 @@ div.current-location-marker > span > svg.icon {
   color: $current-location-color;
 }
 
-div.leaflet-marker-icon.place {
-  > span {
-    > svg.icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-}
-
 .tripMap div.leaflet-marker-icon.place,
 .summary-map div.leaflet-marker-icon.place {
   display: none;
 }
 
 div.leaflet-marker-icon.from,
+div.leaflet-marker-icon.place,
 div.leaflet-marker-icon.to,
 div.leaflet-marker-icon.via {
   > span {
-    &::before {
-      color: white;
-      position: absolute;
-      left: 6pt;
-      z-index: 1000;
-    }
-
     > svg.icon {
-      width: 24px;
-      height: 24px;
-      stroke: white;
-      stroke-width: 60px;
+      height: auto;
+      width: auto;
     }
   }
 }
