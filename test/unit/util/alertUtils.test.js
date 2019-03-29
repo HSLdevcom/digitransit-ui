@@ -468,8 +468,8 @@ describe('alertUtils', () => {
           },
           severityLevel: 'foo',
           validityPeriod: {
-            endTime: 1577829548000,
-            startTime: 1543183208000,
+            endTime: 1577829548,
+            startTime: 1543183208,
           },
         },
       ]);

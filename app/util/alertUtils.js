@@ -262,8 +262,8 @@ const getServiceAlerts = (
         },
         severityLevel: alert.alertSeverityLevel,
         validityPeriod: {
-          startTime: alert.effectiveStartDate * 1000,
-          endTime: alert.effectiveEndDate * 1000,
+          startTime: alert.effectiveStartDate,
+          endTime: alert.effectiveEndDate,
         },
       }))
     : [];
