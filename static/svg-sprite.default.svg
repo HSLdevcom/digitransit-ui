@@ -255,34 +255,16 @@
 	<path class="path1" d="M512-0.007c-212.979 0-385.635 172.656-385.635 385.635 0 167.295 237.941 486.861 340.016 616.257 23.272 29.5 67.966 29.5 91.237 0 102.078-129.396 340.016-448.962 340.016-616.257 0-212.982-172.656-385.635-385.635-385.635z"></path>
 </symbol>
 
-<linearGradient id="linearGradient_mapMarker-from" x1="50%" x2="50%" y1="0%" y2="50%">
-  <stop offset="0%" stop-color="#62D100"/>
-  <stop offset="100%" stop-color="#64BE14"/>
-</linearGradient>
-<symbol id="icon-icon_mapMarker-from" viewBox="0 0 70 94">
-  <g fill="none" fill-rule="evenodd" stroke-width="3" transform="translate(3 3)">
-    <path fill="url(#linearGradient_mapMarker-from)" stroke="#FFF" d="M32-1.5c18.471 0 33.496 15.207 33.5 33.892 0 4.861-.989 9.524-2.936 13.851-6.38 14.134-17.274 29.383-28.073 42.1A3.27 3.27 0 0 1 32 89.5c-.96 0-1.88-.429-2.49-1.156C18.744 75.678 7.815 60.378 1.43 46.24-.513 41.92-1.5 37.258-1.5 32.391-1.5 13.707 13.522-1.5 32-1.5z"/>
-    <circle cx="32.5" cy="32.5" r="14" fill="#FFF" stroke="#5EA51E"/>
-  </g>
+<symbol id="icon-icon_mapMarker-from" viewBox="0 0 16 24">
+  <path fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
 </symbol>
 
-<linearGradient id="linearGradient_mapMarker-via" x1="50%" x2="50%" y1="0%" y2="50%">
-  <stop offset="0%" stop-color="#4E4E51"/>
-  <stop offset="100%" stop-color="#262628"/>
-</linearGradient>
-<symbol id="icon-icon_mapMarker-via" viewBox="0 0 70 94">
-  <g fill="none" fill-rule="evenodd" stroke-width="3" transform="translate(3 3)">
-    <path fill="url(#linearGradient_mapMarker-via)" stroke="#FFF" d="M32-1.5c18.471 0 33.496 15.207 33.5 33.892 0 4.861-.989 9.524-2.936 13.851-6.38 14.134-17.274 29.383-28.073 42.1A3.27 3.27 0 0 1 32 89.5c-.96 0-1.88-.429-2.49-1.156C18.744 75.678 7.815 60.378 1.43 46.24-.513 41.92-1.5 37.258-1.5 32.391-1.5 13.707 13.522-1.5 32-1.5z"/>
-    <circle cx="32.5" cy="32.5" r="14" fill="#FFF" stroke="#131313"/>
-  </g>
+<symbol id="icon-icon_mapMarker-via" viewBox="0 0 16 24">
+  <path fill="#333" fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
 </symbol>
 
-<linearGradient id="linearGradient_mapMarker-to" x1="50%" x2="50%" y1="0%" y2="72.217%">
-  <stop offset="0%" stop-color="#FF6DD8"/>
-  <stop offset="100%" stop-color="#F653B9"/>
-</linearGradient>
-<symbol id="icon-icon_mapMarker-to" viewBox="0 0 70 94">
-  <path fill="url(#linearGradient_mapMarker-to)" fill-rule="evenodd" stroke="#FFF" stroke-width="3" d="M495.475 389.502c.193-.045.522-.128.941-.245a25.43 25.43 0 0 0 2.168-.705c.286-.109.555-.219.805-.33l2.111-.942v2.311c0 2.984-1.012 6.744-1.873 8.372-3.263 6.395-8.492 12.684-14.353 16.583-7.44 4.95-15.457 5.899-23.356 1.806-10.666-5.537-15.638-6.314-21.907-4.823a8.48 8.48 0 0 1-.287.063l-.061.013a6.52 6.52 0 0 0-.167.04c-.023.005-.653.186-.946.26-1.545.39-2.978.48-4.427.074a6.436 6.436 0 0 1-.712-.245l-.93-.382V368.58c0-4.1 3.41-8.043 7.772-8.907 5.086-1.007 10.294-.805 15.21 1.089 6.321 2.434 11.624 7.481 15.529 15.51 3.321 6.812 7.52 10.805 12.452 12.602 3.718 1.355 7.548 1.422 12.031.627zM429.001 357.5c1.752 0 3.167 1.443 3.167 3.2v73.192c0 1.757-1.415 3.2-3.167 3.2h-3.334c-1.752 0-3.167-1.443-3.167-3.2V360.7c0-1.757 1.415-3.2 3.167-3.2h3.334z" transform="translate(-421 -356)"/>
+<symbol id="icon-icon_mapMarker-to" viewBox="0 0 16 24">
+  <path fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
 </symbol>
 
 <symbol id="icon-icon_maximize" viewBox="0 0 1024 1024">

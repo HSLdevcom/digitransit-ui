@@ -64,7 +64,7 @@ class TileLayerContainer extends GridLayer {
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
-    onClose: this.onPopupclose,
+    onClose: () => this.setState(initialState),
     autoPan: false,
   };
 
@@ -148,8 +148,6 @@ class TileLayerContainer extends GridLayer {
       );
     /* eslint-enable no-underscore-dangle */
   };
-
-  onPopupclose = () => this.setState(initialState);
 
   createTile = (tileCoords, done) => {
     const tile = new TileContainer(
@@ -328,8 +326,10 @@ class TileLayerContainer extends GridLayer {
   }
 }
 
-export default withLeaflet(
+const connectedComponent = withLeaflet(
   connectToStores(TileLayerContainer, [MapLayerStore], context => ({
     mapLayers: context.getStore(MapLayerStore).getMapLayers(),
   })),
 );
+
+export { connectedComponent as default, TileLayerContainer as Component };

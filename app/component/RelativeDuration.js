@@ -5,25 +5,25 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 function RelativeDuration(props) {
   const duration = moment.duration(props.duration);
-
-  const hourShort = <FormattedMessage id="hour-short" defaultMessage="h" />;
-
-  const minuteShort = (
-    <FormattedMessage id="minute-short" defaultMessage="min" />
-  );
-
   if (duration.asHours() >= 1) {
     const hours = duration.hours() + duration.days() * 24;
     return (
-      <span>
-        {hours} {hourShort} {duration.minutes()} {minuteShort}
-      </span>
+      <FormattedMessage
+        id="travel-time-with-hours"
+        values={{
+          h: hours,
+          min: duration.minutes(),
+        }}
+      />
     );
   }
   return (
-    <span>
-      {duration.minutes()} {minuteShort}
-    </span>
+    <FormattedMessage
+      id="travel-time"
+      values={{
+        min: duration.minutes(),
+      }}
+    />
   );
 }
 

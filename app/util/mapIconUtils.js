@@ -31,6 +31,13 @@ export const getHubRadius = memoize(
   }),
 );
 
+export const getMapIconScale = memoize(
+  glfun({
+    base: 1,
+    stops: [[13, 0.8], [20, 1.6]],
+  }),
+);
+
 const getStyleOrDefault = (selector, defaultValue = {}) => {
   const cssRule = selector && getSelector(selector.toLowerCase());
   return (cssRule && cssRule.style) || defaultValue;

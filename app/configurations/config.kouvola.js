@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'kouvola';
@@ -47,7 +47,12 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': maxLon,
   },
 
-  areaPolygon: [[minLon, minLat], [minLon, maxLat], [maxLon, maxLat], [maxLon, minLat]],
+  areaPolygon: [
+    [minLon, minLat],
+    [minLon, maxLat],
+    [maxLon, maxLat],
+    [maxLon, minLat],
+  ],
 
   defaultEndpoint: {
     address: 'Matkakeskus, Kouvola',
@@ -56,7 +61,12 @@ export default configMerger(walttiConfig, {
   },
 
   defaultOrigins: [
-    { icon: 'icon-icon_bus', label: 'Matkakeskus, Kouvola', lat: 60.86625189966643, lon: 26.705328946745546 },
+    {
+      icon: 'icon-icon_bus',
+      label: 'Matkakeskus, Kouvola',
+      lat: 60.86625189966643,
+      lon: 26.705328946745546,
+    },
   ],
 
   footer: {
@@ -69,7 +79,12 @@ export default configMerger(walttiConfig, {
         href: 'http://www.palautekouvola.fi',
         icon: 'icon-icon_speech-bubble',
       },
-      { name: 'about-this-service', nameEn: 'About this service', route: '/tietoja-palvelusta', icon: 'icon-icon_info' },
+      {
+        name: 'about-this-service',
+        nameEn: 'About this service',
+        route: '/tietoja-palvelusta',
+        icon: 'icon-icon_info',
+      },
     ],
   },
 
@@ -78,7 +93,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tämän palvelun tarjoaa Kouvolan kaupungin joukkoliikenne reittisuunnittelua varten Kouvolan alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.'
+          'Tämän palvelun tarjoaa Kouvolan kaupungin joukkoliikenne reittisuunnittelua varten Kouvolan alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
         ],
       },
       {
@@ -99,7 +114,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Kouvola för reseplanering inom Kouvola region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.'
+          'Den här tjänsten erbjuds av Kouvola för reseplanering inom Kouvola region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
         ],
       },
       {
@@ -120,7 +135,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Kouvola city for local route planning in Kouvola region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.'
+          'This service is provided by Kouvola city for local route planning in Kouvola region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
         ],
       },
       {
@@ -137,5 +152,4 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
 });
