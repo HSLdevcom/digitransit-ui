@@ -9,12 +9,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import {
-  getServiceAlertsForRoute,
-  getServiceAlertsForStop,
-  isAlertActive,
-  legHasCancelation,
-} from '../util/alertUtils';
+import { legHasActiveAlert } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -73,32 +68,13 @@ export const RouteLeg = ({ leg, large, intl }) => {
       />
     );
   } else {
-    const hasActiveAlert =
-      legHasCancelation(leg) ||
-      isAlertActive(
-        [],
-        [
-          ...getServiceAlertsForRoute(
-            leg.route,
-            leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-          ),
-          ...getServiceAlertsForStop(leg.from && leg.from.stop),
-          ...getServiceAlertsForStop(leg.to && leg.to.stop),
-          ...(Array.isArray(leg.intermediatePlaces)
-            ? leg.intermediatePlaces
-                .map(place => getServiceAlertsForStop(place.stop))
-                .reduce((a, b) => a.concat(b), [])
-            : []),
-        ],
-        leg.startTime / 1000, // this field is in ms format
-      );
     routeNumber = (
       <RouteNumberContainer
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={hasActiveAlert}
+        hasDisruption={legHasActiveAlert(leg)}
       />
     );
   }

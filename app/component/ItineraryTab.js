@@ -17,6 +17,9 @@ import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import { getZones } from '../util/legUtils';
+import ComponentUsageExample from './ComponentUsageExample';
+
+import exampleData from './data/ItineraryTab.exampleData.json';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -140,6 +143,18 @@ class ItineraryTab extends React.Component {
   }
 }
 
+ItineraryTab.description = (
+  <ComponentUsageExample description="with disruption">
+    <div style={{ maxWidth: '528px' }}>
+      <ItineraryTab
+        focus={() => {}}
+        itinerary={{ ...exampleData.itinerary }}
+        searchTime={1553845502000}
+      />
+    </div>
+  </ComponentUsageExample>
+);
+
 const withRelay = Relay.createContainer(ItineraryTab, {
   fragments: {
     searchTime: () => Relay.QL`
@@ -253,4 +268,4 @@ const withRelay = Relay.createContainer(ItineraryTab, {
   },
 });
 
-export { ItineraryTab as component, withRelay as default };
+export { ItineraryTab as Component, withRelay as default };

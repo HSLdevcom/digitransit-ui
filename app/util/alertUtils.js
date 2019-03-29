@@ -441,6 +441,38 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
 };
 
 /**
+ * Checks whether the given leg has an active cancelation or an active
+ * service alert.
+ *
+ * @param {*} leg the itinerary leg to check.
+ */
+export const legHasActiveAlert = leg => {
+  if (!leg) {
+    return false;
+  }
+  return (
+    legHasCancelation(leg) ||
+    isAlertActive(
+      [],
+      [
+        ...getServiceAlertsForRoute(
+          leg.route,
+          leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+        ),
+        ...getServiceAlertsForStop(leg.from && leg.from.stop),
+        ...getServiceAlertsForStop(leg.to && leg.to.stop),
+        ...(Array.isArray(leg.intermediatePlaces)
+          ? leg.intermediatePlaces
+              .map(place => getServiceAlertsForStop(place.stop))
+              .reduce((a, b) => a.concat(b), [])
+          : []),
+      ],
+      leg.startTime / 1000, // this field is in ms format
+    )
+  );
+};
+
+/**
  * Describes the type information for an OTP Service Alert object.
  */
 export const otpServiceAlertShape = PropTypes.shape({
