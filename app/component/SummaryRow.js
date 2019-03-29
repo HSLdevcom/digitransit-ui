@@ -375,11 +375,6 @@ const SummaryRow = (
     },
   ]);
 
-  const itineraryLabel = formatMessage({
-    id: 'itinerary-page.title',
-    defaultMessage: 'Itinerary',
-  });
-
   const isDefaultPosition = breakpoint !== 'large' && !onlyBiking(data);
   const renderBikingDistance = itinerary =>
     containsBiking(itinerary) && (
@@ -397,6 +392,10 @@ const SummaryRow = (
       style={{
         display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
       }}
+      aria-label={formatMessage(
+        { id: 'summary-page.row-label' },
+        { number: props.hash + 1 },
+      )}
     >
       {props.open || props.children
         ? [
@@ -410,7 +409,9 @@ const SummaryRow = (
             <div
               tabIndex="0"
               role="button"
-              title={itineraryLabel}
+              title={formatMessage({
+                id: 'itinerary-page.hide-details',
+              })}
               key="arrow"
               className="action-arrow-click-area noborder flex-vertical"
               onClick={e => {
@@ -473,7 +474,9 @@ const SummaryRow = (
             <div
               tabIndex="0"
               role="button"
-              title={itineraryLabel}
+              title={formatMessage({
+                id: 'itinerary-page.show-details',
+              })}
               key="arrow"
               className="action-arrow-click-area flex-vertical noborder"
               onClick={e => {

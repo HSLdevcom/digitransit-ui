@@ -68,6 +68,7 @@ function RouteNumber(props, context) {
           id: mode,
           defaultMessage: 'Vehicle',
         })}
+        role="img"
       >
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
