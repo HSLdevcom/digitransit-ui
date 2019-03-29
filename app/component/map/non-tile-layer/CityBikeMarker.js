@@ -64,7 +64,7 @@ class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const iconName = getCityBikeNetworkIcon(station.networks[0]);
+    const iconName = getCityBikeNetworkIcon(station.networks);
 
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({

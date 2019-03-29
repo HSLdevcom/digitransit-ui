@@ -104,7 +104,7 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          const iconName = getCityBikeNetworkIcon(result.networks[0]);
+          const iconName = getCityBikeNetworkIcon(result.networks);
 
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
