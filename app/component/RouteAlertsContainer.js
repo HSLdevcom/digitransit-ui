@@ -8,6 +8,10 @@ import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT } from '../constants';
 import {
+  RouteAlertsWithContentQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
+import {
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
   otpServiceAlertShape,
@@ -107,44 +111,11 @@ const containerComponent = Relay.createContainer(RouteAlertsContainer, {
         color
         mode
         shortName
-        alerts {
-          alertDescriptionText
-          alertHeaderText
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
+        ${RouteAlertsWithContentQuery}
         patterns {
           code
           stops {
-            alerts {
-              alertDescriptionText
-              alertHeaderText
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-            }
+            ${StopAlertsWithContentQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             tripHeadsign

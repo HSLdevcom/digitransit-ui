@@ -15,8 +15,9 @@ import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
-import { BreakpointConsumer } from '../util/withBreakpoint';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { getZones } from '../util/legUtils';
+import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
@@ -195,6 +196,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           to {
@@ -210,6 +212,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           legGeometry {
@@ -226,6 +229,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           realTime
@@ -247,6 +251,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             agency {
               phone
             }
+            ${RouteAlertsQuery}
           }
           trip {
             gtfsId

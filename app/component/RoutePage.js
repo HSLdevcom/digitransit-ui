@@ -26,6 +26,7 @@ import {
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -273,16 +274,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         type
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
+        ${RouteAlertsQuery}
         agency {
           phone
         }
@@ -290,11 +282,7 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
           headsign
           code
           stops {
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
+            ${StopAlertsQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {
