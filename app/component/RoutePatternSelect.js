@@ -95,7 +95,7 @@ class RoutePatternSelect extends Component {
             ) === undefined && this.props.activeTab !== 'aikataulu',
         })}
       >
-        {options.length > 2 ? (
+        {options.length > 2 || options.length === 1 ? (
           <React.Fragment>
             <Icon img="icon-icon_arrow-dropdown" />
             <select
