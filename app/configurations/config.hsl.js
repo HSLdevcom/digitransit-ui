@@ -130,6 +130,24 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
+  // TODO: Change according to the real network names TBD later
+  citybikeModes: [
+    {
+      networkName: 'Smoove',
+      iconName: 'citybike',
+      messageId: 'network-citybike-helsinki',
+    },
+    {
+      networkName: 'samocat',
+      iconName: 'scooter',
+      messageId: 'network-scooter',
+    },
+    {
+      networkName: 'vantaa',
+      iconName: 'citybike-vantaa',
+      messageId: 'network-citybike-vantaa',
+    },
+  ],
 
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */

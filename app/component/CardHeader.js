@@ -8,19 +8,22 @@ import SplitBars from './SplitBars';
 import Favourite from './Favourite';
 import { getCityBikeNetworkName } from '../util/citybikes';
 
-const CardHeader = ({
-  className,
-  children,
-  headerIcon,
-  headingStyle,
-  name,
-  description,
-  code,
-  icon,
-  icons,
-  unlinked,
-  network,
-}) => (
+const CardHeader = (
+  {
+    className,
+    children,
+    headerIcon,
+    headingStyle,
+    name,
+    description,
+    code,
+    icon,
+    icons,
+    unlinked,
+    network,
+  },
+  { config },
+) => (
   <div className={cx('card-header', className)}>
     {children}
     <div className="card-header-content">
@@ -47,7 +50,7 @@ const CardHeader = ({
           {network && (
             <p className="network-header">
               <FormattedMessage
-                id={`network-${getCityBikeNetworkName(network)}`}
+                id={getCityBikeNetworkName(network, config).messageId}
                 defaultMessage="Citybike Network"
               />
             </p>
@@ -100,6 +103,10 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   unlinked: PropTypes.bool,
   network: PropTypes.string,
+};
+
+CardHeader.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 CardHeader.defaultProps = {

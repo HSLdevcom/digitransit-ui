@@ -17,7 +17,7 @@ import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
-  getCityBikeNetworkIcon,
+  getCityBikeNetworkName,
 } from '../../../util/citybikes';
 
 const getScale = glfun({
@@ -110,7 +110,9 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          const iconName = getCityBikeNetworkIcon(result.networks[0]);
+          const iconName = `icon-icon_${
+            getCityBikeNetworkName(result.networks[0], this.config).iconName
+          }`;
 
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
