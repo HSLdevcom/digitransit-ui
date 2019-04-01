@@ -11,6 +11,7 @@ import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
 import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
+import { getCityBikeNetworkIcon } from '../../../util/citybikes';
 
 let L;
 
@@ -63,6 +64,7 @@ class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
+    const iconName = getCityBikeNetworkIcon(station.networks);
 
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
@@ -73,7 +75,7 @@ class CityBikeMarker extends React.Component {
       : L.divIcon({
           html: showBikeAvailability
             ? Icon.asString(
-                'icon-icon_citybike',
+                iconName,
                 'city-bike-medium-size',
                 undefined,
                 getCityBikeAvailabilityIndicatorColor(
@@ -82,7 +84,7 @@ class CityBikeMarker extends React.Component {
                 ),
                 station.bikesAvailable,
               )
-            : Icon.asString('icon-icon_citybike', 'city-bike-medium-size'),
+            : Icon.asString(iconName, 'city-bike-medium-size'),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });
@@ -123,6 +125,7 @@ export default Relay.createContainer(CityBikeMarker, {
         lat
         lon
         stationId
+        networks
         bikesAvailable
       }
     `,
