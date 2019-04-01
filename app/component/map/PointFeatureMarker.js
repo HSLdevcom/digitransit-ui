@@ -13,6 +13,7 @@ import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
+  getMapIconScale,
 } from '../../util/mapIconUtils';
 
 /**
@@ -30,7 +31,12 @@ const isRoundIconVisible = zoom => getCaseRadius(zoom) >= ROUND_ICON_MIN_RADIUS;
 /**
  * The minimum zoom level at which a custom icon is visible.
  */
-const CUSTOM_ICON_MIN_ZOOM = 10;
+export const CUSTOM_ICON_MIN_ZOOM = 15;
+
+/**
+ * The custom icon's width and height (before scaling).
+ */
+export const CUSTOM_ICON_SIZE = 20;
 
 /**
  * Checks if the custom icon is visible.
@@ -61,6 +67,21 @@ export const getRoundIcon = zoom => {
     `,
     iconSize: [radius * 2, radius * 2],
     className: `cursor-pointer`,
+  });
+};
+
+/**
+ * Generates a custom icon at the given zoom level.
+ *
+ * @param {number} zoom the current zoom level.
+ * @param {string} iconUrl the url-encoded svg for the icon.
+ */
+export const getCustomIcon = (zoom, iconUrl) => {
+  const iconSize = CUSTOM_ICON_SIZE * getMapIconScale(zoom);
+  return L.icon({
+    iconAnchor: [1 / 2 * iconSize, 1 / 2 * iconSize],
+    iconSize: [iconSize, iconSize],
+    iconUrl,
   });
 };
 
@@ -104,13 +125,17 @@ const PointFeatureMarker = ({ feature, icons, language }) => {
 
   return (
     <GenericMarker
-      getIcon={zoom => (hasCustomIcon ? icons[icon.id] : getRoundIcon(zoom))}
+      getIcon={zoom =>
+        hasCustomIcon && isCustomIconVisible(zoom)
+          ? getCustomIcon(zoom, icons[icon.id])
+          : getRoundIcon(zoom)
+      }
       position={{
         lat,
         lon,
       }}
       shouldRender={zoom =>
-        hasCustomIcon ? isCustomIconVisible(zoom) : isRoundIconVisible(zoom)
+        isCustomIconVisible(zoom) || isRoundIconVisible(zoom)
       }
     >
       <Card>

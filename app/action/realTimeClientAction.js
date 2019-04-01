@@ -1,14 +1,7 @@
-import startMqttClient from '../util/mqttClient';
-import startGtfsRtHttpClient from '../util/gtfsRtHttpClient';
+import { startMqttClient, changeTopics } from '../util/mqttClient';
 
 export function startRealTimeClient(actionContext, settings, done) {
-  let startClient;
-
-  if (settings.mqtt) {
-    startClient = startMqttClient;
-  } else {
-    startClient = startGtfsRtHttpClient;
-  }
+  const startClient = startMqttClient;
 
   startClient(settings, actionContext).then(data => {
     actionContext.dispatch('RealTimeClientStarted', data);
@@ -19,5 +12,10 @@ export function startRealTimeClient(actionContext, settings, done) {
 export function stopRealTimeClient(actionContext, client, done) {
   client.end();
   actionContext.dispatch('RealTimeClientStopped');
+  done();
+}
+
+export function changeRealTimeClientTopics(actionContext, settings, done) {
+  changeTopics(settings, actionContext);
   done();
 }

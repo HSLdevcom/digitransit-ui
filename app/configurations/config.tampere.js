@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'tampere';
@@ -18,7 +18,7 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Nysse', href: 'http://www.nysse.fi/' },
 
   colors: {
-    primary: '#008fff',
+    primary: '#1c57cf',
   },
 
   socialMedia: {
@@ -36,17 +36,6 @@ export default configMerger(walttiConfig, {
   favicon: './sass/themes/tampere/favicon.png',
 
   feedIds: ['tampere'],
-
-  realTime: {
-    /*
-    tampere: {
-      gtfsRt: 'http://data.itsfactory.fi/journeys/api/1/gtfs-rt/vehicle-positions',
-      routeSelector: function selectRoute(routePageProps) {
-        return routePageProps.route['shortName']
-      }
-    },
-    */
-  },
 
   showTicketInformation: true,
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
@@ -91,7 +80,9 @@ export default configMerger(walttiConfig, {
       } else {
         zoneCount = 4;
       }
-      return ticketType[lang] + ', ' + count[lang][zoneCount] + ' ' +  zone[lang];
+      return (
+        ticketType[lang] + ', ' + count[lang][zoneCount] + ' ' + zone[lang]
+      );
     }
     return '';
   },

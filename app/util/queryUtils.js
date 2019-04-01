@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty, xor } from 'lodash';
 import isString from 'lodash/isString';
 import omit from 'lodash/omit';
 import trim from 'lodash/trim';
@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { otpToLocation } from './otpStrings';
 import { OptimizeType } from '../constants';
+import { getCustomizedSettings } from '../store/localStorage';
 
 /**
  * Removes selected itinerary index from url (pathname) and
@@ -134,15 +135,31 @@ const getArrayValueOrDefault = (value, defaultValue = []) => {
   return decoded ? decoded.split(',') : defaultValue;
 };
 
+/**
+ * Adds the given route as a preferred or unpreferred route in the routing request.
+ *
+ * @param {*} query query params
+ * @param {*} preferred If this valus is true, gets preferredRoutes, else gets unpreferredRoutes
+ */
 const getRoutes = (query, preferred) => {
-  if (!query) {
-    return [];
+  const routesType = preferred ? 'preferredRoutes' : 'unpreferredRoutes';
+  if (query && query[routesType]) {
+    return getArrayValueOrDefault(query[routesType]);
   }
-  return getArrayValueOrDefault(
-    preferred ? query.preferredRoutes : query.unpreferredRoutes,
-  );
+  const routes = getCustomizedSettings()[routesType];
+  if (Array.isArray(routes) && !isEmpty(routes)) {
+    return routes;
+  }
+  return [];
 };
 
+/**
+ * Adds the given route as a preferred or unpreferred route in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToAdd The route identifier to add
+ * @param {*} preferred If this valus is true, add to preferredRoutes, else add to unpreferredRoutes
+ */
 const addRoute = (router, routeToAdd, preferred) => {
   const { query } = router.getCurrentLocation();
   const routes = getRoutes(query, preferred);
@@ -156,18 +173,24 @@ const addRoute = (router, routeToAdd, preferred) => {
   });
 };
 
+/**
+ * Removes the given route from preferred or unpreferred routes in the routing request.
+ *
+ * @param {*} router The router
+ * @param {*} routeToRemove The route identifier to remove
+ * @param {*} preferred This value is true if removed from preferredRoutes, false if from unpreferredRoutes
+ */
 const removeRoute = (router, routeToRemove, preferred) => {
   const { query } = router.getCurrentLocation();
-  const routes = getRoutes(query, preferred);
-  if (!routes.includes(routeToRemove)) {
+  // routes will have existing routes - routeToRemove
+  const currentRoutes = getRoutes(query, preferred);
+  if (!currentRoutes.includes(routeToRemove)) {
     return;
   }
+  const routes = xor(currentRoutes, [routeToRemove]);
+  const routesType = `${preferred ? 'preferred' : 'unpreferred'}Routes`;
 
-  replaceQueryParams(router, {
-    [`${preferred ? 'preferred' : 'unpreferred'}Routes`]: routes.filter(
-      r => r !== routeToRemove,
-    ),
-  });
+  replaceQueryParams(router, { [routesType]: routes.join(',') });
 };
 
 /**

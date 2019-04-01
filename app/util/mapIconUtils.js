@@ -31,6 +31,13 @@ export const getHubRadius = memoize(
   }),
 );
 
+export const getMapIconScale = memoize(
+  glfun({
+    base: 1,
+    stops: [[13, 0.8], [20, 1.6]],
+  }),
+);
+
 const getStyleOrDefault = (selector, defaultValue = {}) => {
   const cssRule = selector && getSelector(selector.toLowerCase());
   return (cssRule && cssRule.style) || defaultValue;
@@ -267,18 +274,6 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   );
 }
 
-export function drawCitybikeIcon(iconName, tile, geom, imageSize) {
-  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
-    drawIconImage(image, tile, geom, imageSize, imageSize),
-  );
-}
-
-export function drawCitybikeOffIcon(iconName, tile, geom, imageSize) {
-  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
-    drawIconImage(image, tile, geom, imageSize, imageSize),
-  );
-}
-
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   return getImageFromSpriteCache(
     'icon-icon_not-in-use',
@@ -313,7 +308,7 @@ export function drawAvailabilityBadge(
 }
 
 export function drawIcon(icon, tile, geom, imageSize) {
-  getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
+  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
     drawIconImage(image, tile, geom, imageSize, imageSize);
   });
 }

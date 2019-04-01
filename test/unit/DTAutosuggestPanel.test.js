@@ -12,13 +12,13 @@ import { otpToLocation } from '../../app/util/otpStrings';
 
 describe('<DTAutosuggestPanel />', () => {
   const selectors = {
-    addViaPoint: '.itinerary-search-control > .addViaPoint',
+    addViaPoint: '.itinerary-search-control > .add-via-point',
     itinerarySearchControl: '.itinerary-search-control',
-    removeViaPoint: '.itinerary-search-control > .removeViaPoint',
+    removeViaPoint: '.itinerary-search-control > .remove-via-point',
     swap: '.itinerary-search-control > .switch',
-    toggleViaPointSlack: '.itinerary-search-control > .addViaPointSlack',
+    toggleViaPointSlack: '.itinerary-search-control > .add-via-point-slack',
     viaPointSlackContainer: '.input-viapoint-slack-container',
-    viaPointContainer: '.viapoint-container',
+    viaPointContainer: '.viapoints-container > .viapoint-container',
   };
 
   let context;

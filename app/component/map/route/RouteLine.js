@@ -22,7 +22,6 @@ function RouteLine(props) {
     // so we don't want many markers cluttering the map
     objs.push(
       <LocationMarker
-        className="from"
         key="from"
         position={props.pattern.stops[0]}
         type="from"
@@ -31,7 +30,6 @@ function RouteLine(props) {
 
     objs.push(
       <LocationMarker
-        className="to"
         key="to"
         position={props.pattern.stops[props.pattern.stops.length - 1]}
         type="to"

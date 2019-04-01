@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 class ItineraryTimePicker extends React.Component {
@@ -7,6 +8,10 @@ class ItineraryTimePicker extends React.Component {
     changeTime: PropTypes.func.isRequired,
     initHours: PropTypes.string.isRequired,
     initMin: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   static DELTAS = { 38: 1, 40: -1 };
@@ -146,8 +151,13 @@ class ItineraryTimePicker extends React.Component {
             onChange={this.onChangeHour}
             onClick={this.setSelectionRange}
             onKeyDown={this.handleKeyDownHour}
+            aria-label={this.context.intl.formatMessage({
+              id: 'time-selector-hours-label',
+            })}
           />
-          <div id="timeinput-digit-separator">:</div>
+          <div id="timeinput-digit-separator" aria-hidden="true">
+            :
+          </div>
           <input
             type="tel"
             ref={el => {
@@ -162,6 +172,9 @@ class ItineraryTimePicker extends React.Component {
             onChange={this.onChangeMinute}
             onClick={this.setSelectionRange}
             onKeyDown={this.handleKeyDownMinute}
+            aria-label={this.context.intl.formatMessage({
+              id: 'time-selector-minutes-label',
+            })}
           />
         </form>
       </div>
