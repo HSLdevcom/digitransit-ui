@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
-import { getCityBikeNetworkName } from '../util/citybikes';
 
 const CardHeader = ({
   className,
@@ -19,7 +17,6 @@ const CardHeader = ({
   icon,
   icons,
   unlinked,
-  network,
 }) => (
   <div className={cx('card-header', className)}>
     {children}
@@ -44,14 +41,6 @@ const CardHeader = ({
           {unlinked ? null : <span className="link-arrow"> ›</span>}
         </span>
         <div className="card-sub-header">
-          {network && (
-            <p className="network-header">
-              <FormattedMessage
-                id={`network-${getCityBikeNetworkName(network)}`}
-                defaultMessage="Citybike Network"
-              />
-            </p>
-          )}
           {code != null ? <p className="card-code">{code}</p> : null}
           {description != null && description !== 'null' ? (
             <p className="sub-header-h4">{description}</p>
@@ -99,7 +88,6 @@ CardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
-  network: PropTypes.string,
 };
 
 CardHeader.defaultProps = {
