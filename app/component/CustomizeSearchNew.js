@@ -18,6 +18,7 @@ import SelectOptionContainer from './customizesearch/SelectOptionContainer';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
+import CityBikeNetworkSelector from './CityBikeNetworkSelector';
 import { resetCustomizedSettings } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
@@ -148,6 +149,7 @@ class CustomizeSearch extends React.Component {
             }
           />
         )}
+        {<CityBikeNetworkSelector />}
         <PreferredRoutes
           onRouteSelected={this.onRouteSelected}
           preferredRoutes={currentSettings.preferredRoutes}
