@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Icon from './Icon';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -197,9 +198,7 @@ const containerComponent = Relay.createContainer(
     fragments: {
       stop: () => Relay.QL`
         fragment on Stop {
-          alerts {
-            alertSeverityLevel
-          }
+          ${StopAlertsQuery}
           stoptimes: stoptimesWithoutPatterns(
             startTime:$startTime,
             timeRange:$timeRange,
@@ -212,14 +211,7 @@ const containerComponent = Relay.createContainer(
                 code
               }
               route {
-                alerts {
-                  alertSeverityLevel
-                  trip {
-                    pattern {
-                      code
-                    }
-                  }
-                }
+                ${RouteAlertsQuery}
               }
             }
           }

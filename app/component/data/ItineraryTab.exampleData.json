@@ -1,0 +1,181 @@
+{
+  "itinerary": {
+    "startTime": 1553845506000,
+    "endTime": 1553845723000,
+    "legs": [
+      {
+        "transitLeg": false,
+        "legGeometry": { "points": "ubaoJwdowCBh@", "length": 2 },
+        "mode": "WALK",
+        "rentedBike": false,
+        "route": null,
+        "from": {
+          "lat": 60.30393,
+          "lon": 24.98653,
+          "name": "Kiitoradantie V5245, Vantaa",
+          "vertexType": "NORMAL",
+          "bikeRentalStation": null,
+          "stop": null
+        },
+        "to": {
+          "lat": 60.30393,
+          "lon": 24.98653,
+          "name": "Kiitoradantie",
+          "vertexType": "TRANSIT",
+          "bikeRentalStation": null,
+          "stop": {
+            "gtfsId": "HSL:4520245",
+            "code": "V5245",
+            "platformCode": null,
+            "zoneId": "04",
+            "alerts": []
+          }
+        },
+        "trip": null,
+        "intermediatePlaces": [],
+        "realTime": false,
+        "realtimeState": "SCHEDULED",
+        "startTime": 1553845506000,
+        "endTime": 1553845516000,
+        "distance": 11.433,
+        "duration": 10.0,
+        "intermediatePlace": false,
+        "agency": null
+      },
+      {
+        "transitLeg": true,
+        "legGeometry": {
+          "points": null,
+          "length": 58
+        },
+        "mode": "BUS",
+        "rentedBike": false,
+        "route": {
+          "shortName": "962",
+          "color": null,
+          "agency": {
+            "name": "Helsingin seudun liikenne",
+            "phone": "(09) 4766 4444"
+          },
+          "gtfsId": "HSL:9962",
+          "longName": "Vantaanportti-Aviapolis-Ruotsinkylä-Hyrylä-Kerava",
+          "desc": null,
+          "mode": "BUS",
+          "alerts": [
+            {
+              "alertSeverityLevel": "UNKNOWN_SEVERITY"
+            }
+          ]
+        },
+        "from": {
+          "lat": 60.30393,
+          "lon": 24.98653,
+          "name": "Kiitoradantie",
+          "vertexType": "TRANSIT",
+          "bikeRentalStation": null,
+          "stop": {
+            "gtfsId": "HSL:4520245",
+            "code": "V5245",
+            "platformCode": null,
+            "zoneId": "04",
+            "alerts": []
+          }
+        },
+        "to": {
+          "lat": 60.307879,
+          "lon": 24.960343,
+          "name": "Teknikontie",
+          "vertexType": "TRANSIT",
+          "bikeRentalStation": null,
+          "stop": {
+            "gtfsId": "HSL:4530221",
+            "code": "V5321",
+            "platformCode": null,
+            "zoneId": "04",
+            "alerts": []
+          }
+        },
+        "trip": {
+          "stoptimes": [],
+          "gtfsId": "HSL:9962_20190328_Pe_2_0908",
+          "tripHeadsign": "Vantaanportti",
+          "pattern": {
+            "code": "HSL:9962:1:01",
+            "directionId": 1,
+            "geometry": [],
+            "stops": [],
+            "route": {
+              "mode": "BUS",
+              "color": null
+            }
+          }
+        },
+        "intermediatePlaces": [
+          {
+            "arrivalTime": 1553845544000,
+            "stop": {
+              "gtfsId": "HSL:4520248",
+              "lat": 60.30245,
+              "lon": 24.98202,
+              "name": "Junkersintie",
+              "code": "V5248",
+              "platformCode": null,
+              "zoneId": "04",
+              "alerts": []
+            }
+          },
+          {
+            "arrivalTime": 1553845599000,
+            "stop": {
+              "gtfsId": "HSL:4530214",
+              "lat": 60.30521,
+              "lon": 24.97639,
+              "name": "Liikelentotie",
+              "code": "V5314",
+              "platformCode": null,
+              "zoneId": "04",
+              "alerts": []
+            }
+          },
+          {
+            "arrivalTime": 1553845636000,
+            "stop": {
+              "gtfsId": "HSL:4530203",
+              "lat": 60.30645,
+              "lon": 24.97014,
+              "name": "Sokkakuja",
+              "code": "V5303",
+              "platformCode": null,
+              "zoneId": "04",
+              "alerts": []
+            }
+          }
+        ],
+        "realTime": true,
+        "realtimeState": "UPDATED",
+        "startTime": 1553845516000,
+        "endTime": 1553845723000,
+        "distance": 1667.7034654527004,
+        "duration": 207.0,
+        "intermediatePlace": false,
+        "agency": {
+          "name": "Helsingin seudun liikenne",
+          "url": "http://www.hsl.fi/",
+          "fareUrl": null
+        }
+      }
+    ],
+    "walkDistance": 11.433,
+    "duration": 217,
+    "elevationGained": 0.0,
+    "elevationLost": 0.0,
+    "fares": [
+      {
+        "type": "regular",
+        "currency": "EUR",
+        "cents": 320,
+        "components": [{ "fareId": "HSL:van" }]
+      }
+    ]
+  }
+}

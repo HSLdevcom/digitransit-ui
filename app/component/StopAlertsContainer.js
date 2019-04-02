@@ -8,6 +8,10 @@ import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
 import {
+  RouteAlertsWithContentQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
+import {
   getCancelationsForStop,
   getServiceAlertsForStop,
   otpServiceAlertShape,
@@ -87,22 +91,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
-        alerts {
-          alertDescriptionText
-          alertHash,
-          alertHeaderText
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-        }
+        ${StopAlertsWithContentQuery}
         stoptimes: stoptimesWithoutPatterns(
           startTime:$startTime,
           timeRange:$timeRange,
@@ -121,27 +110,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               color
               mode
               shortName
-              alerts {
-                alertDescriptionText
-                alertHash
-                alertHeaderText
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-                alertDescriptionTextTranslations {
-                  language
-                  text
-                }
-                alertHeaderTextTranslations {
-                  language
-                  text
-                }
-                trip {
-                  pattern {
-                    code
-                  }
-                }
-              }
+              ${RouteAlertsWithContentQuery}
             }
             stops {
               name

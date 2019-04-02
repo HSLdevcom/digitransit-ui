@@ -29,10 +29,10 @@ jobs:
         - yarn test-coverage
         - yarn test-report
         - test/flow.sh
-    - stage: test
-      env: _SMOKE=1
-      node_js: '10'
-      script: test/smoke.sh
+    # - stage: test
+    #   env: _SMOKE=1
+    #   node_js: '10'
+    #   script: test/smoke.sh
 
     - stage: visual
       env: VISUAL=chrome

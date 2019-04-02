@@ -95,6 +95,7 @@ import OriginDestinationBar from './OriginDestinationBar';
 import { Component as IndexPage } from './IndexPage';
 import { Component as AlertList } from './AlertList';
 import { Component as SummaryPage } from './SummaryPage';
+import { Component as ItineraryTab } from './ItineraryTab';
 
 const components = {
   Icon,
@@ -185,6 +186,7 @@ const components = {
   StopMarkerPopup,
   SelectStreetModeDialog,
   AlertList,
+  ItineraryTab,
 };
 
 const fullscreenComponents = {

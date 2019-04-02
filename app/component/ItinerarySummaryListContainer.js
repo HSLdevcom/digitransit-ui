@@ -13,6 +13,7 @@ import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { itineraryHasCancelation } from '../util/alertUtils';
 
 function ItinerarySummaryListContainer(
@@ -207,11 +208,7 @@ const containerComponent = Relay.createContainer(
           intermediatePlaces {
             stop {
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
+              ${StopAlertsQuery}
             }
           }
           route {
@@ -221,16 +218,7 @@ const containerComponent = Relay.createContainer(
             agency {
               name
             }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
-            }
+            ${RouteAlertsQuery}
           }
           trip {
             pattern {
@@ -251,11 +239,7 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
+              ${StopAlertsQuery}
             }
             bikeRentalStation {
               bikesAvailable
@@ -265,11 +249,7 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
+              ${StopAlertsQuery}
             }
           }
         }

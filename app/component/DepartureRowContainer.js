@@ -8,6 +8,7 @@ import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import {
   getServiceAlertsForRoute,
   getServiceAlertsForStop,
@@ -203,15 +204,8 @@ export default Relay.createContainer(DepartureRow, {
             color
             alerts {
               id
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              trip {
-                pattern {
-                  code
-                }
-              }
             }
+            ${RouteAlertsQuery}
             agency {
               name
             }
@@ -232,11 +226,7 @@ export default Relay.createContainer(DepartureRow, {
           stop {
             code
             platformCode
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
+            ${StopAlertsQuery}
           }
           trip {
             gtfsId
