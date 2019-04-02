@@ -25,6 +25,7 @@ const CityBikeCard = ({ station, children, className }, { config }) => {
         description={config.cityBike.showStationId ? station.stationId : ''}
         icon={iconName}
         unlinked
+        network={station.networks[0]}
       />
       {children}
     </Card>
