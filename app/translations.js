@@ -833,6 +833,10 @@ const translations = {
     navigate: 'Navigate',
     'near-you': 'Near you',
     nearest: 'Nearest',
+    'network-citybike': 'City bikes',
+    'network-citybike-helsinki': 'Helsinki and Espoo',
+    'network-citybike-turku': 'Turku',
+    'network-citybike-vantaa': 'Vantaa',
     'network-error': 'Network error',
     next: 'Next',
     'no-bike-allowed-popup':
@@ -1532,6 +1536,10 @@ const translations = {
     navigate: 'Navigoi',
     'near-you': 'Lähelläsi',
     nearest: 'Lähimmät',
+    'network-citybike': 'Kaupunkipyörät',
+    'network-citybike-helsinki': 'Helsinki ja Espoo',
+    'network-citybike-turku': 'Turku',
+    'network-citybike-vantaa': 'Vantaa',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
     'no-bike-allowed-popup':
@@ -2540,6 +2548,10 @@ const translations = {
     navigate: 'Navigera',
     'near-you': 'Nära dig',
     nearest: 'Närmaste',
+    'network-citybike': 'Stadscyklar',
+    'network-citybike-helsinki': 'Helsingfors och Esbo',
+    'network-citybike-turku': 'Åbo',
+    'network-citybike-vantaa': 'Vanda',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
     'no-bike-allowed-popup':
