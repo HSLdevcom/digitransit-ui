@@ -104,8 +104,8 @@ describe('<DepartureRow />', () => {
               alerts: [
                 {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
-                  effectiveEndDate: currentTime - 2000,
-                  effectiveStartDate: currentTime + 2000,
+                  effectiveEndDate: currentTime + 2000,
+                  effectiveStartDate: currentTime - 2000,
                 },
               ],
               code: 'E2006',
@@ -152,8 +152,8 @@ describe('<DepartureRow />', () => {
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
-                effectiveEndDate: currentTime - 2000,
-                effectiveStartDate: currentTime + 2000,
+                effectiveEndDate: currentTime + 2000,
+                effectiveStartDate: currentTime - 2000,
                 trip: {
                   pattern: {
                     code: 'HSL:2550:0:01',

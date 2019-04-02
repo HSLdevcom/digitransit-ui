@@ -1,10 +1,27 @@
 import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
+// eslint-disable-next-line import/prefer-default-export
+export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
+  const pbf = new Pbf(data);
+  const feed = feedParser(pbf);
 
-export const parseFeed = (feed, agency, trackedRoutes) => {
-  if (trackedRoutes.length === 0) {
-    return null;
-  }
+  // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>
+  const [
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    routeId,
+    directionId,
+    headsign,
+    ,
+    ,
+    startTime,
+    vehicleId,
+  ] = topic.split('/');
 
   const messages = [];
   feed.entity.forEach(entity => {
@@ -12,40 +29,23 @@ export const parseFeed = (feed, agency, trackedRoutes) => {
     if (vehiclePos) {
       const { trip, position, vehicle } = vehiclePos;
       if (trip && position && vehicle) {
-        const trackedRoute = trackedRoutes.find(
-          item => item.route === trip.route_id,
-        );
-        if (trackedRoute) {
-          const message = {
-            id: `${agency}:${vehicle.id}`,
-            route: `${agency}:${trackedRoute.gtfsId}`,
-            direction: trip.direction_id || 0,
-            tripStartTime: trip.start_time.replace(/:/g, ''),
-            operatingDay: trip.start_date,
-            mode: trackedRoute.mode || 'bus',
-            next_stop: vehiclePos.stop_id,
-            timestamp: vehiclePos.timestamp || feed.header.timestamp,
-            lat: ceil(position.latitude, 5),
-            long: ceil(position.longitude, 5),
-            heading: position.bearing ? Math.floor(position.bearing) : 0,
-          };
-          messages.push(message);
-        }
+        const message = {
+          id: `${agency}:${vehicleId}`,
+          route: `${agency}:${routeId}`,
+          direction: parseInt(directionId, 10) || 0,
+          tripStartTime: startTime.replace(/:/g, ''),
+          operatingDay: trip.start_date,
+          mode: mode || 'bus',
+          next_stop: undefined,
+          timestamp: vehiclePos.timestamp || feed.header.timestamp,
+          lat: ceil(position.latitude, 5),
+          long: ceil(position.longitude, 5),
+          heading: position.bearing ? Math.floor(position.bearing) : 0,
+          headsign,
+        };
+        messages.push(message);
       }
     }
   });
   return messages.length > 0 ? messages : null;
 };
-
-export default class GtfsRtParser {
-  constructor(agency, bindings) {
-    this.agency = agency;
-    this.feedParser = bindings.FeedMessage.read;
-  }
-
-  parse(data, trackedRoutes) {
-    const pbf = new Pbf(data);
-    const feed = this.feedParser(pbf);
-    return parseFeed(feed, this.agency, trackedRoutes);
-  }
-}

@@ -3,22 +3,23 @@ export const BIKESTATION_OFF = 'Station off';
 export const BIKESTATION_CLOSED = 'Station closed';
 
 // TODO: Change according to the real network names TBD later
-const defaultNetwork = 'citybike';
-const scooterNetwork = 'samocat';
+const scooterNetwork = 'Samocat';
 const vantaaNetwork = 'vantaa';
 
-export const getCityBikeNetworkName = network => {
-  let name = defaultNetwork;
-  if (network === scooterNetwork) {
-    name = 'scooter';
-  } else if (network === vantaaNetwork) {
-    name = 'citybike-vantaa';
+export const getCityBikeNetworkIcon = networks => {
+  const iconTemplate = iconName => `icon-icon_${iconName}`;
+  const defaultIcon = iconTemplate('citybike');
+
+  if (!Array.isArray(networks) || networks.length === 0) {
+    return defaultIcon;
   }
-  return name;
-};
 
-export const getCityBikeNetworkIcon = network => {
-  const iconName = getCityBikeNetworkName(network);
-
-  return `icon-icon_${iconName}`;
+  switch (networks[0]) {
+    case scooterNetwork:
+      return iconTemplate('scooter');
+    case vantaaNetwork:
+      return iconTemplate('citybike-vantaa');
+    default:
+      return defaultIcon;
+  }
 };

@@ -1,5 +1,6 @@
 import ceil from 'lodash/ceil';
 import moment from 'moment';
+import { parseFeedMQTT } from './gtfsRtParser';
 
 const modeTranslate = {
   train: 'rail',
@@ -8,7 +9,7 @@ const modeTranslate = {
 // getTopic
 // Returns MQTT topic to be subscribed
 // Input: options - route, direction, tripStartTime are used to generate the topic
-function getTopic(options) {
+function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
 
   const direction = options.direction
@@ -16,7 +17,14 @@ function getTopic(options) {
     : '+';
 
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
-  return `/hfp/v1/journey/ongoing/+/+/+/${route}/${direction}/+/${tripStartTime}/#`;
+  const topic = settings.mqttTopicResolver(
+    route,
+    direction,
+    tripStartTime,
+    options.headsign,
+    settings.agency,
+  );
+  return topic;
 }
 
 export function parseMessage(topic, message, agency) {
@@ -61,13 +69,51 @@ export function parseMessage(topic, message, agency) {
     lat: parsedMessage.lat && ceil(parsedMessage.lat, 5),
     long: parsedMessage.long && ceil(parsedMessage.long, 5),
     heading: parsedMessage.hdg,
+    headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
   };
 }
 
-export default function startMqttClient(settings, actionContext) {
-  const topics = settings.options.map(option => getTopic(option));
+export function changeTopics(settings, actionContext) {
+  const { client, oldTopics } = settings;
+
+  client.unsubscribe(oldTopics);
+  // remove existing vehicles/topics
+  actionContext.dispatch('RealTimeClientReset');
+  const topic = getTopic(settings.options, settings);
+  // set new topic to store
+  actionContext.dispatch('RealTimeClientNewTopics', topic);
+  client.subscribe(topic);
+}
+
+export function startMqttClient(settings, actionContext) {
+  const topics = settings.options.map(option => getTopic(option, settings));
+  const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
+    if (settings.gtfsrt) {
+      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
+        bindings => {
+          const feedReader = bindings.FeedMessage.read;
+          const credentials =
+            settings.credentials !== undefined ? settings.credentials : {};
+          const client = mqtt.default.connect(settings.mqtt, credentials);
+          client.on('connect', () => client.subscribe(topics));
+          client.on('message', (topic, messages) => {
+            const parsedMessages = parseFeedMQTT(
+              feedReader,
+              messages,
+              topic,
+              settings.agency,
+              mode,
+            );
+            parsedMessages.forEach(message => {
+              actionContext.dispatch('RealTimeClientMessage', message);
+            });
+          });
+          return { client, topics };
+        },
+      );
+    }
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>

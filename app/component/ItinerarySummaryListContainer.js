@@ -13,6 +13,7 @@ import { isBrowser } from '../util/browser';
 import { distance } from '../util/geo-utils';
 import { getZones } from '../util/legUtils';
 import CanceledItineraryToggler from './CanceledItineraryToggler';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { itineraryHasCancelation } from '../util/alertUtils';
 
 function ItinerarySummaryListContainer(
@@ -207,6 +208,7 @@ const containerComponent = Relay.createContainer(
           intermediatePlaces {
             stop {
               zoneId
+              ${StopAlertsQuery}
             }
           }
           route {
@@ -216,11 +218,11 @@ const containerComponent = Relay.createContainer(
             agency {
               name
             }
+            ${RouteAlertsQuery}
           }
           trip {
-            alerts {
-              effectiveStartDate
-              effectiveEndDate
+            pattern {
+              code
             }
             stoptimes {
               realtimeState
@@ -237,6 +239,7 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
+              ${StopAlertsQuery}
             }
             bikeRentalStation {
               bikesAvailable
@@ -246,6 +249,7 @@ const containerComponent = Relay.createContainer(
             stop {
               gtfsId
               zoneId
+              ${StopAlertsQuery}
             }
           }
         }

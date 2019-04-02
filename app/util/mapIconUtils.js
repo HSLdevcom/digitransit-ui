@@ -274,18 +274,6 @@ export function drawParkAndRideIcon(tile, geom, width, height) {
   );
 }
 
-export function drawCitybikeIcon(iconName, tile, geom, imageSize) {
-  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
-    drawIconImage(image, tile, geom, imageSize, imageSize),
-  );
-}
-
-export function drawCitybikeOffIcon(iconName, tile, geom, imageSize) {
-  return getImageFromSpriteCache(iconName, imageSize, imageSize).then(image =>
-    drawIconImage(image, tile, geom, imageSize, imageSize),
-  );
-}
-
 export function drawCitybikeNotInUseIcon(tile, geom, imageSize) {
   return getImageFromSpriteCache(
     'icon-icon_not-in-use',
@@ -320,7 +308,7 @@ export function drawAvailabilityBadge(
 }
 
 export function drawIcon(icon, tile, geom, imageSize) {
-  getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
+  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
     drawIconImage(image, tile, geom, imageSize, imageSize);
   });
 }

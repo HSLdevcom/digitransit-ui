@@ -12,17 +12,12 @@ const CityBikeCard = ({ station, children, className }, { config }) => {
     return false;
   }
 
-  const iconName = station.networks
-    ? getCityBikeNetworkIcon(station.networks[0])
-    : 'icon-icon_citybike';
-
   return (
     <Card className={className}>
       <CardHeader
         name={station.name}
         description={config.cityBike.showStationId ? station.stationId : ''}
-        icon={`${iconName}`}
-        network={station.networks ? station.networks[0] : 'citybike'}
+        icon={getCityBikeNetworkIcon(station.networks)}
         unlinked
       />
       {children}

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 export default {
   HSLRoutes: {
     // Gets updated when server starts with {routeName: timetableName}
@@ -18,7 +19,6 @@ export default {
         return null;
       }
 
-      // eslint-disable-next-line prefer-template
       return baseURL + routePDFUrlName + '.pdf';
     },
     setAvailableRouteTimetables: function setAvailableRouteTimetables(

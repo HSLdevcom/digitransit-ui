@@ -5,11 +5,10 @@ import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
 import {
-  drawRoundIcon,
-  drawCitybikeIcon,
-  drawCitybikeOffIcon,
   drawAvailabilityBadge,
   drawAvailabilityValue,
+  drawIcon,
+  drawRoundIcon,
   getMapIconScale,
 } from '../../../util/mapIconUtils';
 
@@ -105,15 +104,20 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
-          const iconName = getCityBikeNetworkIcon(result.networks[0]);
+          const iconName = getCityBikeNetworkIcon(result.networks);
 
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
-            return drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
+            return drawIcon(
+              `${iconName}_off`,
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+            );
           }
 
           if (result.state === BIKESTATION_OFF) {
-            return drawCitybikeOffIcon(
+            return drawIcon(
               `${iconName}_off`,
               this.tile,
               geom,
@@ -131,7 +135,7 @@ class CityBikes {
           }
 
           if (result.state === BIKESTATION_ON) {
-            return drawCitybikeIcon(
+            return drawIcon(
               iconName,
               this.tile,
               geom,
