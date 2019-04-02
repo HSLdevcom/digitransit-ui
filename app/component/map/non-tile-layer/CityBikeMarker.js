@@ -11,7 +11,7 @@ import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
 import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
-import getCityBikeNetworkName from '../../../util/citybikes';
+import { getCityBikeNetworkName } from '../../../util/citybikes';
 
 let L;
 

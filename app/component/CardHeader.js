@@ -50,7 +50,11 @@ const CardHeader = (
           {network && (
             <p className="network-header">
               <FormattedMessage
-                id={getCityBikeNetworkName(network, config).messageId}
+                id={
+                  (getCityBikeNetworkName(network, config) &&
+                    getCityBikeNetworkName(network, config).messageId) ||
+                  'network-citybikes'
+                }
                 defaultMessage="Citybike Network"
               />
             </p>
