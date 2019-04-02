@@ -5,10 +5,7 @@ import CardHeader from './CardHeader';
 import { station as exampleStation } from './ExampleData';
 import ComponentUsageExample from './ComponentUsageExample';
 import Card from './Card';
-import {
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkName,
-} from '../util/citybikes';
+import { getCityBikeNetworkIcon } from '../util/citybikes';
 
 const CityBikeCard = ({ station, children, className }, { config }) => {
   if (!station || !children || children.length === 0) {
@@ -18,10 +15,9 @@ const CityBikeCard = ({ station, children, className }, { config }) => {
   return (
     <Card className={className}>
       <CardHeader
+        name={station.name}
         description={config.cityBike.showStationId ? station.stationId : ''}
         icon={getCityBikeNetworkIcon(station.networks)}
-        name={station.name}
-        network={getCityBikeNetworkName(station.networks)}
         unlinked
       />
       {children}

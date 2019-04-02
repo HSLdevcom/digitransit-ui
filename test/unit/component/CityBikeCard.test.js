@@ -19,20 +19,6 @@ describe('<CityBikeCard />', () => {
     expect(wrapper.find(CardHeader).props().icon).to.equal('icon-icon_scooter');
   });
 
-  it("should have the citybike network's name", () => {
-    const props = {
-      children: <div />,
-      station: {
-        name: 'Valimon asema',
-        networks: ['Samocat'],
-      },
-    };
-    const wrapper = shallowWithIntl(<CityBikeCard {...props} />, {
-      context: { config: { cityBike: {} } },
-    });
-    expect(wrapper.find(CardHeader).props().network).to.equal('scooter');
-  });
-
   it("should include the citybike station's id in the description", () => {
     const props = {
       children: <div />,
