@@ -6,20 +6,22 @@ export const BIKESTATION_CLOSED = 'Station closed';
 const scooterNetwork = 'Samocat';
 const vantaaNetwork = 'vantaa';
 
-export const getCityBikeNetworkIcon = networks => {
-  const iconTemplate = iconName => `icon-icon_${iconName}`;
-  const defaultIcon = iconTemplate('citybike');
+export const getCityBikeNetworkName = networks => {
+  const defaultName = 'citybike';
 
   if (!Array.isArray(networks) || networks.length === 0) {
-    return defaultIcon;
+    return defaultName;
   }
 
   switch (networks[0]) {
     case scooterNetwork:
-      return iconTemplate('scooter');
+      return 'scooter';
     case vantaaNetwork:
-      return iconTemplate('citybike-vantaa');
+      return 'citybike-vantaa';
     default:
-      return defaultIcon;
+      return defaultName;
   }
 };
+
+export const getCityBikeNetworkIcon = networks =>
+  `icon-icon_${getCityBikeNetworkName(networks)}`;
