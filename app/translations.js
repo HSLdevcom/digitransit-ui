@@ -833,7 +833,10 @@ const translations = {
     navigate: 'Navigate',
     'near-you': 'Near you',
     nearest: 'Nearest',
+    'network-citybike': 'Helsinki and Espoo',
+    'network-citybike-vantaa': 'Vantaa',
     'network-error': 'Network error',
+    'network-scooter': 'Vuosaari',
     next: 'Next',
     'no-bike-allowed-popup':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
@@ -1532,7 +1535,10 @@ const translations = {
     navigate: 'Navigoi',
     'near-you': 'Lähelläsi',
     nearest: 'Lähimmät',
+    'network-citybike': 'Helsinki ja Espoo',
+    'network-citybike-vantaa': 'Vantaa',
     'network-error': 'Verkkovirhe',
+    'network-scooter': 'Vuosaari',
     next: 'Seuraava',
     'no-bike-allowed-popup':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
@@ -2540,7 +2546,10 @@ const translations = {
     navigate: 'Navigera',
     'near-you': 'Nära dig',
     nearest: 'Närmaste',
+    'network-citybike': 'Helsingfors och Esbo',
+    'network-citybike-vantaa': 'Vanda',
     'network-error': 'Nätverksfel',
+    'network-scooter': 'Nordsjö',
     next: 'Nästa',
     'no-bike-allowed-popup':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
