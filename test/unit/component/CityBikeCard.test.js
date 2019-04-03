@@ -14,12 +14,20 @@ describe('<CityBikeCard />', () => {
       },
     };
     const wrapper = shallowWithIntl(<CityBikeCard {...props} />, {
-      context: { config: { cityBike: {} } },
+      context: {
+        config: {
+          cityBike: {
+            networks: {
+              samocat: { icon: 'scooter' },
+            },
+          },
+        },
+      },
     });
     expect(wrapper.find(CardHeader).props().icon).to.equal('icon-icon_scooter');
   });
 
-  it("should have the citybike network's name", () => {
+  it("should include the citybike network's name in the description", () => {
     const props = {
       children: <div />,
       station: {
@@ -28,9 +36,21 @@ describe('<CityBikeCard />', () => {
       },
     };
     const wrapper = shallowWithIntl(<CityBikeCard {...props} />, {
-      context: { config: { cityBike: {} } },
+      context: {
+        config: {
+          cityBike: {
+            networks: {
+              samocat: {
+                name: {
+                  en: 'Foobar',
+                },
+              },
+            },
+          },
+        },
+      },
     });
-    expect(wrapper.find(CardHeader).props().network).to.equal('scooter');
+    expect(wrapper.find(CardHeader).props().description).to.contain('Foobar');
   });
 
   it("should include the citybike station's id in the description", () => {

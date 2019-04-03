@@ -13,16 +13,6 @@ describe('<CardHeader />', () => {
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
     expect(wrapper.find('.header-icon')).to.have.lengthOf(1);
   });
-  it('should render the text for the network', () => {
-    const props = {
-      description: 'Ratapihantie',
-      headerIcon: <div className="header-icon" />,
-      name: 'Pasilan asema',
-      network: 'citybike',
-    };
-    const wrapper = shallowWithIntl(<CardHeader {...props} />);
-    expect(wrapper.find('.network-header').text());
-  });
   it('should render the station code', () => {
     const props = {
       description: 'Ratapihantie',
