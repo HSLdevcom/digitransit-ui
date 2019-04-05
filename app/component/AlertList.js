@@ -1,4 +1,5 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -47,15 +48,27 @@ const AlertList = ({
     ? currentTime
     : currentTime.unix();
 
-  const alerts = (Array.isArray(cancelations) ? cancelations : [])
-    .concat(Array.isArray(serviceAlerts) ? serviceAlerts : [])
+  const getRoute = alert => alert.route || {};
+  const getMode = alert => getRoute(alert).mode;
+  const getShortName = alert => getRoute(alert).shortName;
+  const getGroupKey = alert =>
+    `${getMode(alert)}${alert.header}${alert.description}`;
+  const getUniqueId = alert => `${getShortName(alert)}${getGroupKey(alert)}`;
+
+  const uniqueAlerts = uniqBy(
+    [
+      ...(Array.isArray(cancelations) ? cancelations : []),
+      ...(Array.isArray(serviceAlerts) ? serviceAlerts : []),
+    ],
+    getUniqueId,
+  )
     .map(alert => ({
       ...alert,
       expired: alertHasExpired(alert.validityPeriod, currentUnixTime),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 
-  if (alerts.length === 0) {
+  if (uniqueAlerts.length === 0) {
     return (
       <div className="stop-no-alerts-container">
         <FormattedMessage
@@ -66,16 +79,25 @@ const AlertList = ({
     );
   }
 
+  const alertGroups = groupBy(uniqueAlerts, getGroupKey);
+  const groupedAlerts = Object.keys(alertGroups).map(key => {
+    const alerts = alertGroups[key];
+    return {
+      ...alerts[0],
+      route: {
+        mode: getMode(alerts[0]),
+        shortName: alerts
+          .sort(alertCompare)
+          .map(getShortName)
+          .join(', '),
+      },
+    };
+  });
+
   return (
     <div className="momentum-scroll">
       <div className="route-alerts-list">
-        {uniqBy(
-          alerts,
-          alert =>
-            `${alert.route && alert.route.shortName}_${alert.header}_${
-              alert.description
-            }`,
-        )
+        {groupedAlerts
           .sort(alertCompare)
           .map(
             ({
@@ -205,6 +227,41 @@ AlertList.description = (
             route: {},
             severityLevel: AlertSeverityLevelType.Info,
             validityPeriod: { startTime: 0, endTime: 10 },
+          },
+        ]}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample>
+      <AlertList
+        currentTime={15}
+        serviceAlerts={[
+          {
+            description:
+              'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
+            route: { mode: 'BUS', shortName: '14' },
+            severityLevel: AlertSeverityLevelType.Warning,
+            validityPeriod: { startTime: 10, endTime: 20 },
+          },
+          {
+            description:
+              'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
+            route: { mode: 'BUS', shortName: '39B' },
+            severityLevel: AlertSeverityLevelType.Warning,
+            validityPeriod: { startTime: 10, endTime: 20 },
+          },
+          {
+            description:
+              'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
+            route: { mode: 'TRAM', shortName: '7' },
+            severityLevel: AlertSeverityLevelType.Warning,
+            validityPeriod: { startTime: 10, endTime: 20 },
+          },
+          {
+            description:
+              'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
+            route: { mode: 'TRAM', shortName: '9' },
+            severityLevel: AlertSeverityLevelType.Warning,
+            validityPeriod: { startTime: 10, endTime: 20 },
           },
         ]}
       />
