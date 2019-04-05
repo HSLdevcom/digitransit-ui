@@ -20,7 +20,41 @@ services:
 
 jobs:
   include:
-    
+    - stage: test
+      env: LINT,UNIT,FLOW
+      node_js: '10'
+      script:
+        - yarn install
+        - yarn lint
+        - yarn test-coverage
+        - yarn test-report
+        - test/flow.sh
+    - stage: test
+      env: _SMOKE=1
+      node_js: '10'
+      script: test/smoke.sh
+
+    - stage: visual
+      env: VISUAL=chrome
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=ie11
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=edge17
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=safari11
+      node_js: '10'
+      script: test/visual.sh
+    - stage: visual
+      env: VISUAL=firefox
+      node_js: '10'
+      script: test/visual.sh
+
     - stage: build and deploy container
       node_js: '10'
       script: test/deploy.sh
