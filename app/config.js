@@ -17,7 +17,7 @@ function addMetaData(config) {
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    stats = require(`../_static/iconstats-${config.CONFIG}`);
+    stats = require(`../_static/assets/iconstats-${config.CONFIG}`);
   } catch (error) {
     return;
   }
