@@ -6,6 +6,8 @@ module.exports = {
   sessionsPerBrowser: 1,
   suitesPerSession: 50,
   retry: 10,
+  tolerance: 10,
+  antialiasingTolerance: 10,
   compositeImage: true,
   system: {
     plugins: {
