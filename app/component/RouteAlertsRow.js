@@ -18,21 +18,16 @@ export default function RouteAlertsRow({
   return (
     <div className={cx('route-alert-row', { expired })}>
       {routeMode ? (
-        <RouteNumber
-          color={color}
-          hasDisruption
-          mode={routeMode}
-          text={routeLine}
-          vertical
-        />
+        <RouteNumber color={color} hasDisruption mode={routeMode} vertical />
       ) : (
         <div className="route-number">
           <ServiceAlertIcon severityLevel={severityLevel} />
         </div>
       )}
       <div className="route-alert-contents">
-        <div className={cx('route-alert-header', routeMode)}>{header}</div>
-        <div className="route-alert-body">{description}</div>
+        {routeLine && <div className={routeMode}>{routeLine}</div>}
+        {header && <div className="route-alert-header">{header}</div>}
+        {description && <div className="route-alert-body">{description}</div>}
       </div>
     </div>
   );

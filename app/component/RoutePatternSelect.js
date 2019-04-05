@@ -9,7 +9,10 @@ import moment from 'moment';
 
 import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-import { routePatterns as exampleRoutePatterns } from './ExampleData';
+import {
+  routePatterns as exampleRoutePatterns,
+  twoRoutePatterns as exampleTwoRoutePatterns,
+} from './ExampleData';
 import { PREFIX_ROUTES } from '../util/path';
 
 const DATE_FORMAT = 'YYYYMMDD';
@@ -92,31 +95,91 @@ class RoutePatternSelect extends Component {
             ) === undefined && this.props.activeTab !== 'aikataulu',
         })}
       >
-        <Icon img="icon-icon_arrow-dropdown" />
-        <select
-          onChange={this.props.onSelectChange}
-          value={this.props.params && this.props.params.patternId}
-        >
-          {options}
-        </select>
+        {options.length > 2 || options.length === 1 ? (
+          <React.Fragment>
+            <Icon img="icon-icon_arrow-dropdown" />
+            <select
+              id="select-route-pattern"
+              onChange={e => this.props.onSelectChange(e.target.value)}
+              value={this.props.params && this.props.params.patternId}
+            >
+              {options}
+            </select>
+          </React.Fragment>
+        ) : (
+          <div className="route-patterns-toggle">
+            <div
+              className="route-option"
+              role="button"
+              tabIndex={0}
+              onKeyPress={() =>
+                this.props.onSelectChange(
+                  options.find(
+                    o => o.props.value !== this.props.params.patternId,
+                  ).props.value,
+                )
+              }
+              onClick={() =>
+                this.props.onSelectChange(
+                  options.find(
+                    o => o.props.value !== this.props.params.patternId,
+                  ).props.value,
+                )
+              }
+            >
+              {
+                options.filter(
+                  o => o.props.value === this.props.params.patternId,
+                )[0]
+              }
+            </div>
+
+            <button
+              type="button"
+              className="toggle-direction"
+              onClick={() =>
+                this.props.onSelectChange(
+                  options.find(
+                    o => o.props.value !== this.props.params.patternId,
+                  ).props.value,
+                )
+              }
+            >
+              <Icon img="icon-icon_direction-b" />
+            </button>
+          </div>
+        )}
       </div>
     );
   }
 }
 
+const defaultProps = {
+  activeTab: 'pysakit',
+  className: 'bp-large',
+  serviceDay: '20190306',
+  relay: {
+    setVariables: () => {},
+  },
+  params: {
+    routeId: 'HSL:1010',
+    patternId: 'HSL:1010:0:01',
+  },
+};
+
 RoutePatternSelect.description = () => (
   <div>
     <p>Display a dropdown to select the pattern for a route</p>
     <ComponentUsageExample>
-      <RoutePatternSelect
-        pattern={exampleRoutePatterns}
-        onSelectChange={() => {}}
-      />
+      <RoutePatternSelect route={exampleRoutePatterns} {...defaultProps} />
+    </ComponentUsageExample>
+    <ComponentUsageExample>
+      <RoutePatternSelect route={exampleTwoRoutePatterns} {...defaultProps} />
     </ComponentUsageExample>
   </div>
 );
 
-export default connectToStores(
+const withStore = connectToStores(
   Relay.createContainer(RoutePatternSelect, {
     initialVariables: {
       serviceDay: moment().format(DATE_FORMAT),
@@ -154,3 +217,5 @@ export default connectToStores(
       .format(DATE_FORMAT),
   }),
 );
+
+export { withStore as default, RoutePatternSelect as Component };

@@ -16,6 +16,7 @@ import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
+  changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import {
   getCancelationsForRoute,
@@ -25,6 +26,7 @@ import {
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 
 const Tab = {
   Disruptions: 'hairiot',
@@ -65,6 +67,7 @@ class RoutePage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
   };
 
+  // gets called if pattern has not been visited before
   componentDidMount() {
     const { realTime } = this.context.config;
     if (!realTime || this.props.route == null) {
@@ -73,9 +76,11 @@ class RoutePage extends React.Component {
     const route = this.props.route.gtfsId.split(':');
     const agency = route[0];
     const source = realTime[agency];
-    if (source) {
+    if (source && source.active) {
+      const { headsign } = this.props.route.patterns.find(
+        pattern => pattern.code === this.props.params.patternId,
+      );
       const id = source.routeSelector(this.props);
-
       this.context.executeAction(startRealTimeClient, {
         ...source,
         agency,
@@ -86,6 +91,7 @@ class RoutePage extends React.Component {
             // to compensate potentially missing feed data
             mode: this.props.route.mode.toLowerCase(),
             gtfsId: route[1],
+            headsign,
           },
         ],
       });
@@ -94,17 +100,42 @@ class RoutePage extends React.Component {
 
   componentWillUnmount() {
     const { client } = this.context.getStore('RealTimeInformationStore');
-
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
     }
   }
 
-  onPatternChange = e => {
+  onPatternChange = newPattern => {
+    const { client, topics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+    // if config contains mqtt feed and old client has not been removed
+    if (client) {
+      const { realTime } = this.context.config;
+      const route = this.props.route.gtfsId.split(':');
+      const agency = route[0];
+      const source = realTime[agency];
+      const { headsign } = this.props.route.patterns.find(
+        pattern => pattern.code === newPattern,
+      );
+      const id = source.routeSelector(this.props);
+      this.context.executeAction(changeRealTimeClientTopics, {
+        ...source,
+        agency,
+        options: {
+          route: id,
+          mode: this.props.route.mode.toLowerCase(),
+          gtfsId: route[1],
+          headsign,
+        },
+        oldTopics: topics,
+        client,
+      });
+    }
     this.context.router.replace(
       decodeURIComponent(this.props.location.pathname).replace(
         new RegExp(`${this.props.params.patternId}(.*)`),
-        e.target.value,
+        newPattern,
       ),
     );
   };
@@ -243,27 +274,15 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
         type
         ${RouteAgencyInfo.getFragment('route')}
         ${RoutePatternSelect.getFragment('route')}
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
+        ${RouteAlertsQuery}
         agency {
           phone
         }
         patterns {
+          headsign
           code
           stops {
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
+            ${StopAlertsQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {
             stoptimes: stoptimesForDate(serviceDay: $serviceDay) {

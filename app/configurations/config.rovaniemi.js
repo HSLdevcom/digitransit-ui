@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'rovaniemi';
