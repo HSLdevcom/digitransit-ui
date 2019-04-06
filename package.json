@@ -140,7 +140,7 @@
     "compression-webpack-plugin": "2.0.0",
     "css-loader": "2.1.0",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.11.2",
+    "enzyme-adapter-react-16": "1.12.0",
     "eslint": "5.12.1",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "4.0.0",
