@@ -6,8 +6,7 @@ const MAP_URL =
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
-// route timetable data needs to be up-to-date before this is enabled
-// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
 export default {
   CONFIG,
@@ -325,8 +324,7 @@ export default {
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
   routeTimetables: {
-    // route timetable data needs to be up-to-date before this is enabled
-    //  HSL: HSLRouteTimetable,
+    HSL: HSLRouteTimetable,
   },
 
   aboutThisService: {
