@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import RouteAlertsRow, {
-  getTimePeriod,
-} from '../../../app/component/RouteAlertsRow';
+import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
