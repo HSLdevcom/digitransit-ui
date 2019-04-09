@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
+import { DATE_FORMAT } from '../constants';
 import {
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
@@ -37,7 +37,6 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
         mode,
         shortName,
       },
-      severityLevel: AlertSeverityLevelType.Warning,
       validityPeriod: {
         startTime: departureTime,
       },
