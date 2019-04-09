@@ -60,4 +60,15 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(1);
     expect(wrapper.find('.route-alert-time-period').text()).to.contain('at');
   });
+
+  it('should not show the time period', () => {
+    const props = {
+      severityLevel: AlertSeverityLevelType.Info,
+      currentTime: 15,
+      startTime: 20,
+      endTime: 30,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
+  });
 });
