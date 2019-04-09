@@ -45,13 +45,13 @@ const productionPlugins = [
       '**/*.br',
       'js/*_theme.*.js',
       'js/*_sprite.*.js',
-      'iconstats-*.json',
-      'icons-*/*',
+      'assets/iconstats-*.json',
+      'assets/icons-*/*',
     ],
     caches: {
       main: [':rest:'],
       additional: [],
-      optional: ['*.png', 'css/*.css', '*.svg', ':externals:'],
+      optional: ['*.png', 'css/*.css', 'assets/*.svg', ':externals:'],
     },
     // src for google fonts might change so https://fonts.gstatic.com addresses might require
     // some maintenance in this list to still keep them cached by service worker in the future.
@@ -211,7 +211,7 @@ module.exports = {
       {
         test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
         loader: isDevelopment ? 'file-loader' : 'url-loader',
-        options: { limit: 10000 },
+        options: { limit: 10000, outputPath: 'assets' },
       },
     ],
   },

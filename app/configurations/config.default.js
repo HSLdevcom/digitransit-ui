@@ -289,7 +289,7 @@ export default {
     primary: '#00AFFF',
   },
 
-  sprites: 'svg-sprite.default.svg',
+  sprites: 'assets/svg-sprite.default.svg',
 
   disruption: {
     showInfoButton: true,

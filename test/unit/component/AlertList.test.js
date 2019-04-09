@@ -191,7 +191,7 @@ describe('<AlertList />', () => {
     expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
   });
 
-  it('should show duplicate alerts if they are for different routes', () => {
+  it('should group duplicate alerts', () => {
     const props = {
       currentTime: 1000,
       cancelations: [],
@@ -220,9 +220,33 @@ describe('<AlertList />', () => {
             endTime: 1100,
           },
         },
+        {
+          description: 'foo',
+          header: 'bar',
+          route: {
+            mode: 'TRAM',
+            shortName: '7',
+          },
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
       ],
     };
     const wrapper = shallowWithIntl(<AlertList {...props} />);
     expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(2);
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(0)
+        .props().routeLine,
+    ).to.equal('7');
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(1)
+        .props().routeLine,
+    ).to.equal('10, 11');
   });
 });
