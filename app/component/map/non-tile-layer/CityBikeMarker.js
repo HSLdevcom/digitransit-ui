@@ -11,7 +11,11 @@ import CityBikeRoute from '../../../route/CityBikeRoute';
 import { isBrowser } from '../../../util/browser';
 import Loading from '../../Loading';
 import { getCityBikeAvailabilityIndicatorColor } from '../../../util/legUtils';
-import { getCityBikeNetworkIcon } from '../../../util/citybikes';
+import {
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkId,
+} from '../../../util/citybikes';
 
 let L;
 
@@ -53,6 +57,10 @@ class CityBikeMarker extends React.Component {
     transit: PropTypes.bool,
   };
 
+  static contextTypes = {
+    config: PropTypes.object.isRequired,
+  };
+
   static defaultProps = {
     showBikeAvailability: false,
   };
@@ -64,7 +72,10 @@ class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const iconName = getCityBikeNetworkIcon(station.networks);
+
+    const iconName = getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
+    );
 
     return !transit && zoom <= config.stopsSmallMaxZoom
       ? L.divIcon({
