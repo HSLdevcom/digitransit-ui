@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import toPairs from 'lodash/toPairs';
 import toString from 'lodash/toString';
+import { isBrowser } from '../util/browser';
 /*
   Renders the components given as children. In addition a string represenation
   of the given components and its props are given.
@@ -56,6 +57,10 @@ export default function ComponentUsageExample(
   { description, children, isFullscreen },
   { componentOnly },
 ) {
+  if (!isBrowser) {
+    return null;
+  }
+
   if (componentOnly) {
     const style = isFullscreen
       ? {

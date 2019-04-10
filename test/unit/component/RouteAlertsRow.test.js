@@ -4,6 +4,7 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
+import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<RouteAlertsRow />', () => {
   it('should not render a div for the routeLine if it is missing', () => {
@@ -46,5 +47,28 @@ describe('<RouteAlertsRow />', () => {
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find(ServiceAlertIcon)).to.have.lengthOf(1);
+  });
+
+  it('should show the time period', () => {
+    const props = {
+      severityLevel: AlertSeverityLevelType.Warning,
+      currentTime: 15,
+      startTime: 20,
+      endTime: 30,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(1);
+    expect(wrapper.find('.route-alert-time-period').text()).to.contain('at');
+  });
+
+  it('should not show the time period', () => {
+    const props = {
+      severityLevel: AlertSeverityLevelType.Info,
+      currentTime: 15,
+      startTime: 20,
+      endTime: 30,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
   });
 });

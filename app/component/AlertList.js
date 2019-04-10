@@ -44,9 +44,7 @@ const AlertList = ({
   showExpired,
   serviceAlerts,
 }) => {
-  const currentUnixTime = Number.isInteger(currentTime)
-    ? currentTime
-    : currentTime.unix();
+  const currentTimeUnix = currentTime.unix ? currentTime.unix() : currentTime;
 
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
@@ -64,7 +62,7 @@ const AlertList = ({
   )
     .map(alert => ({
       ...alert,
-      expired: alertHasExpired(alert.validityPeriod, currentUnixTime),
+      expired: alertHasExpired(alert.validityPeriod, currentTimeUnix),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 
@@ -100,23 +98,29 @@ const AlertList = ({
         {groupedAlerts
           .sort(alertCompare)
           .map(
-            ({
-              description,
-              header,
-              expired,
-              route: { color, mode, shortName } = {},
-              severityLevel,
-              validityPeriod: { startTime, endTime },
-            }) => (
+            (
+              {
+                description,
+                header,
+                expired,
+                route: { color, mode, shortName } = {},
+                severityLevel,
+                validityPeriod: { startTime, endTime },
+              },
+              i,
+            ) => (
               <RouteAlertsRow
                 color={color ? `#${color}` : null}
+                currentTime={currentTimeUnix}
                 description={description}
+                endTime={endTime}
                 expired={expired}
                 header={header}
-                key={`alert-${startTime}-${endTime}-${shortName}-${severityLevel}`}
+                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
                 routeLine={shortName}
                 routeMode={mode && mode.toLowerCase()}
                 severityLevel={severityLevel}
+                startTime={startTime}
               />
             ),
           )}
@@ -160,7 +164,7 @@ AlertList.description = (
   <React.Fragment>
     <ComponentUsageExample>
       <AlertList
-        currentTime={15}
+        currentTime={1554719400}
         cancelations={[
           {
             header:
@@ -169,8 +173,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '3A',
             },
-            severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 20, endTime: 30 },
+            validityPeriod: { startTime: 1554719400 },
           },
           {
             header:
@@ -179,8 +182,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '28B',
             },
-            severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1554719400 },
           },
           {
             header:
@@ -189,8 +191,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '28B',
             },
-            severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 1, endTime: 11 },
+            validityPeriod: { startTime: 1554719400 },
           },
           {
             header: 'Bussin 80 lähtö Moisio–Irjala kello 10:45 on peruttu',
@@ -198,8 +199,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '80',
             },
-            severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 11, endTime: 21 },
+            validityPeriod: { startTime: 1554719400 },
           },
           {
             header: 'Bussin 80 lähtö Moisio–Irjala kello 10:24 on peruttu',
@@ -207,8 +207,7 @@ AlertList.description = (
               mode: 'BUS',
               shortName: '80',
             },
-            severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 0, endTime: 10 },
+            validityPeriod: { startTime: 1554719400 },
           },
         ]}
         serviceAlerts={[
@@ -218,7 +217,7 @@ AlertList.description = (
               'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
             route: {},
             severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1554718400, endTime: 1554728400 },
           },
           {
             header: 'Pysäkillä Rantatie (1007) lisävuoroja',
@@ -226,42 +225,42 @@ AlertList.description = (
               'Pysäkillä Rantatie (1007) on lisävuoroja yleisötapahtuman vuoksi.',
             route: {},
             severityLevel: AlertSeverityLevelType.Info,
-            validityPeriod: { startTime: 0, endTime: 10 },
+            validityPeriod: { startTime: 1554718400, endTime: 1554728400 },
           },
         ]}
       />
     </ComponentUsageExample>
     <ComponentUsageExample>
       <AlertList
-        currentTime={15}
+        currentTime={1554718400}
         serviceAlerts={[
           {
             description:
               'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
             route: { mode: 'BUS', shortName: '14' },
             severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1564718400, endTime: 1568728400 },
           },
           {
             description:
               'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
             route: { mode: 'BUS', shortName: '39B' },
             severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1564718400, endTime: 1568728400 },
           },
           {
             description:
               'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
             route: { mode: 'TRAM', shortName: '7' },
             severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1564718400, endTime: 1568728400 },
           },
           {
             description:
               'Pasilansillan työmaa aiheuttaa viivästyksiä joukkoliikenteelle',
             route: { mode: 'TRAM', shortName: '9' },
             severityLevel: AlertSeverityLevelType.Warning,
-            validityPeriod: { startTime: 10, endTime: 20 },
+            validityPeriod: { startTime: 1564718400, endTime: 1568728400 },
           },
         ]}
       />
