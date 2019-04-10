@@ -2,34 +2,34 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
 import { routerShape } from 'react-router';
-import filter from 'lodash/filter';
 
 import RouteNumberContainer from './RouteNumberContainer';
 import Distance from './Distance';
 import RouteDestination from './RouteDestination';
 import DepartureTime from './DepartureTime';
 import ComponentUsageExample from './ComponentUsageExample';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
+import {
+  getServiceAlertsForRoute,
+  getServiceAlertsForStop,
+  isAlertActive,
+  stoptimeHasCancelation,
+} from '../util/alertUtils';
 import { isCallAgencyDeparture } from '../util/legUtils';
 import { PREFIX_ROUTES } from '../util/path';
 
-const hasActiveDisruption = (t, alerts) =>
-  filter(
-    alerts,
-    alert => alert.effectiveStartDate < t && t < alert.effectiveEndDate,
-  ).length > 0;
-
 const DepartureRow = ({ departure, currentTime, distance }, context) => {
   let departureTimes;
+  let stopAlerts = [];
   let headsign;
   if (departure.stoptimes) {
     departureTimes = departure.stoptimes.map(departureTime => {
+      stopAlerts = getServiceAlertsForStop(departureTime.stop);
       headsign = departureTime.stopHeadsign;
       const canceled = departureTime.realtimeState === 'CANCELED';
       const key = `${departure.pattern.route.gtfsId}:${
         departure.pattern.headsign
-      }:
-        ${departureTime.realtimeDeparture}`;
-
+      }:${departureTime.realtimeDeparture}`;
       return (
         <td key={`${key}-td`} className="td-departure-times">
           <DepartureTime
@@ -67,6 +67,17 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
         ]
       : departureTimes;
 
+  const hasActiveAlert = isAlertActive(
+    departure.stoptimes.filter(stoptimeHasCancelation),
+    [
+      ...getServiceAlertsForRoute(
+        departure.pattern.route,
+        departure.pattern.code,
+      ),
+      ...stopAlerts,
+    ],
+    currentTime,
+  );
   return (
     <tr
       className="next-departure-row-tr"
@@ -79,10 +90,7 @@ const DepartureRow = ({ departure, currentTime, distance }, context) => {
       <td className="td-route-number">
         <RouteNumberContainer
           route={departure.pattern.route}
-          hasDisruption={hasActiveDisruption(
-            currentTime,
-            departure.pattern.route.alerts,
-          )}
+          hasDisruption={hasActiveAlert}
           isCallAgency={isCallAgencyDeparture(departure.stoptimes[0])}
         />
       </td>
@@ -196,9 +204,8 @@ export default Relay.createContainer(DepartureRow, {
             color
             alerts {
               id
-              effectiveStartDate
-              effectiveEndDate
             }
+            ${RouteAlertsQuery}
             agency {
               name
             }
@@ -219,6 +226,7 @@ export default Relay.createContainer(DepartureRow, {
           stop {
             code
             platformCode
+            ${StopAlertsQuery}
           }
           trip {
             gtfsId

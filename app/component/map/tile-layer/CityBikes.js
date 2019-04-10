@@ -5,24 +5,21 @@ import pick from 'lodash/pick';
 
 import { isBrowser } from '../../../util/browser';
 import {
-  drawRoundIcon,
-  drawCitybikeIcon,
-  drawCitybikeOffIcon,
   drawAvailabilityBadge,
   drawAvailabilityValue,
+  drawIcon,
+  drawRoundIcon,
+  getMapIconScale,
 } from '../../../util/mapIconUtils';
-import glfun from '../../../util/glfun';
 
 import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkId,
 } from '../../../util/citybikes';
-
-const getScale = glfun({
-  base: 1,
-  stops: [[13, 0.8], [20, 1.6]],
-});
 
 const timeOfLastFetch = {};
 
@@ -33,9 +30,9 @@ class CityBikes {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.citybikeImageSize =
-      20 * this.scaleratio * getScale(this.tile.coords.z);
+      20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
-      14 * this.scaleratio * getScale(this.tile.coords.z);
+      14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
 
     this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
@@ -81,6 +78,7 @@ class CityBikes {
       bikeRentalStation(id: $id) {
         bikesAvailable
         spacesAvailable
+        networks
         state
       }
     }`,
@@ -108,13 +106,26 @@ class CityBikes {
             return drawRoundIcon(this.tile, geom, mode);
           }
 
+          const iconName = getCityBikeNetworkIcon(
+            getCityBikeNetworkConfig(
+              getCityBikeNetworkId(result.networks),
+              this.config,
+            ),
+          );
+
           if (result.state === BIKESTATION_CLOSED) {
             // Draw just plain grey base icon
-            return drawCitybikeOffIcon(this.tile, geom, this.citybikeImageSize);
+            return drawIcon(
+              `${iconName}_off`,
+              this.tile,
+              geom,
+              this.citybikeImageSize,
+            );
           }
 
           if (result.state === BIKESTATION_OFF) {
-            return drawCitybikeOffIcon(
+            return drawIcon(
+              `${iconName}_off`,
               this.tile,
               geom,
               this.citybikeImageSize,
@@ -131,7 +142,8 @@ class CityBikes {
           }
 
           if (result.state === BIKESTATION_ON) {
-            return drawCitybikeIcon(
+            return drawIcon(
+              iconName,
               this.tile,
               geom,
               this.citybikeImageSize,

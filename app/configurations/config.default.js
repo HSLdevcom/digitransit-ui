@@ -1,3 +1,6 @@
+/* eslint-disable prefer-template */
+import safeJsonParse from '../util/safeJsonParser';
+
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const GEOCODING_BASE_URL = `${API_URL}/geocoding/v1`;
@@ -9,6 +12,9 @@ const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 10000; // 10k is the current server default
 const YEAR = 1900 + new Date().getYear();
+const realtime = require('./realtimeUtils').default;
+
+const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
 export default {
   SENTRY_DSN,
@@ -26,7 +32,6 @@ export default {
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
-    ALERTS: process.env.ALERTS_URL || `${API_URL}/realtime/service-alerts/v1`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
@@ -57,16 +62,8 @@ export default {
   searchParams: {},
   feedIds: [],
 
-  realTime: {
-    /* sources per feed Id */
-    HSL: {
-      mqtt: 'wss://mqtt.hsl.fi',
-      routeSelector: function selectRoute(routePageProps) {
-        const route = routePageProps.route.gtfsId.split(':');
-        return route[1];
-      },
-    },
-  },
+  realTime: realtime,
+  realTimePatch: REALTIME_PATCH,
 
   // Google Tag Manager id
   GTMid: 'GTM-PZV2S2V',
@@ -159,6 +156,7 @@ export default {
   maxWalkDistance: 10000,
   maxBikingDistance: 100000,
   itineraryFiltering: 1.5, // drops 66% worse routes
+  useUnpreferredRoutesPenalty: 1200, // adds 10 minute (weight) penalty to routes that are unpreferred
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de'],
   defaultLanguage: 'en',
   // This timezone data will expire on 31.12.2020
@@ -266,7 +264,10 @@ export default {
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
+
+    networks: {},
   },
+
   // Lowest level for stops and terminals are rendered
   stopsMinZoom: 13,
   // Highest level when stops and terminals are still rendered as small markers
@@ -287,7 +288,7 @@ export default {
     primary: '#00AFFF',
   },
 
-  sprites: 'svg-sprite.default.svg',
+  sprites: 'assets/svg-sprite.default.svg',
 
   disruption: {
     showInfoButton: true,
@@ -373,7 +374,7 @@ export default {
     },
 
     citybike: {
-      availableForSelection: false, // TODO: Turn off in autumn
+      availableForSelection: true, // TODO: Turn off in autumn
       defaultValue: false, // always false
     },
   },

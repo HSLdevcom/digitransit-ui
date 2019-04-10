@@ -27,9 +27,9 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'children',
 ]);
 
-const placeMarkerModules = {
-  PlaceMarker: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './PlaceMarker')),
+const locationMarkerModules = {
+  LocationMarker: () =>
+    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 
 const jsonModules = {
@@ -221,8 +221,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
     if (origin && origin.ready === true && origin.gps !== true) {
       leafletObjs.push(
-        <LazilyLoad modules={placeMarkerModules} key="from">
-          {({ PlaceMarker }) => <PlaceMarker position={this.props.origin} />}
+        <LazilyLoad modules={locationMarkerModules} key="from">
+          {({ LocationMarker }) => (
+            <LocationMarker position={origin} type="from" />
+          )}
         </LazilyLoad>,
       );
     }
@@ -249,7 +251,7 @@ class MapWithTrackingStateHandler extends React.Component {
         zoom={this.state.initialZoom}
         mapTracking={this.state.mapTracking}
         className="flex-grow"
-        origin={this.props.origin}
+        origin={origin}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onDragend: this.updateCurrentBounds,
@@ -263,7 +265,7 @@ class MapWithTrackingStateHandler extends React.Component {
         {children}
         <div className="map-with-tracking-buttons">
           {renderCustomButtons && renderCustomButtons()}
-          {this.props.position.hasLocation && (
+          {position.hasLocation && (
             <ToggleMapTracking
               key="toggleMapTracking"
               handleClick={

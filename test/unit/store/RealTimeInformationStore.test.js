@@ -21,9 +21,11 @@ describe('RealtimeInformationStore', () => {
         client: {
           foo: 'bar',
         },
+        topics: ['/gtfsrt/vp/test/#'],
       };
       store.storeClient(data);
       expect(store.client).to.deep.equal(data.client);
+      expect(store.topics).to.deep.equal(data.topics);
     });
   });
 
@@ -33,9 +35,11 @@ describe('RealtimeInformationStore', () => {
         client: {
           foo: 'bar',
         },
+        topics: ['/gtfsrt/vp/test/#'],
       });
       store.clearClient();
       expect(store.client).to.equal(undefined);
+      expect(store.topics).to.equal(undefined);
       expect(store.vehicles).to.deep.equal({});
     });
   });
@@ -46,10 +50,12 @@ describe('RealtimeInformationStore', () => {
         client: {
           foo: 'bar',
         },
+        topics: ['/gtfsrt/vp/test/#'],
       });
       const { vehicles } = store;
       store.resetClient();
       expect(store.vehicles).to.not.equal(vehicles);
+      expect(store.topics).to.equal(undefined);
       expect(store.vehicles).to.deep.equal({});
     });
   });

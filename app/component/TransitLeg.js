@@ -15,6 +15,7 @@ import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES } from '../util/path';
 import {
+  legHasActiveAlert,
   legHasCancelation,
   tripHasCancelationForStop,
 } from '../util/alertUtils';
@@ -157,7 +158,6 @@ class TransitLeg extends React.Component {
       );
     };
 
-    const isCanceled = legHasCancelation(leg);
     return (
       <div key={index} className="row itinerary-row">
         <div className="small-2 columns itinerary-time-column">
@@ -171,7 +171,7 @@ class TransitLeg extends React.Component {
             }
           >
             <div className="itinerary-time-column-time">
-              <span className={cx({ canceled: isCanceled })}>
+              <span className={cx({ canceled: legHasCancelation(leg) })}>
                 {moment(leg.startTime).format('HH:mm')}
               </span>
               {originalTime}
@@ -179,7 +179,7 @@ class TransitLeg extends React.Component {
             <RouteNumber //  shouldn't this be a route number container instead???
               mode={mode.toLowerCase()}
               color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              hasDisruption={isCanceled}
+              hasDisruption={legHasActiveAlert(leg)}
               text={leg.route && leg.route.shortName}
               realtime={leg.realTime}
               vertical

@@ -159,8 +159,8 @@ export const cancelationHasExpired = (
 ) =>
   alertHasExpired(
     {
-      startTime: serviceDay + scheduledDeparture,
-      endTime: serviceDay + scheduledArrival,
+      startTime: serviceDay + scheduledArrival,
+      endTime: serviceDay + scheduledDeparture,
     },
     currentTime,
   );
@@ -262,8 +262,8 @@ const getServiceAlerts = (
         },
         severityLevel: alert.alertSeverityLevel,
         validityPeriod: {
-          startTime: alert.effectiveStartDate * 1000,
-          endTime: alert.effectiveEndDate * 1000,
+          startTime: alert.effectiveStartDate,
+          endTime: alert.effectiveEndDate,
         },
       }))
     : [];
@@ -427,13 +427,49 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
     return true;
   }
 
+  if (alerts.length === 0) {
+    return false;
+  }
+
   const filteredAlerts = alerts.filter(
-    alert => !alertHasExpired(alert, currentTime),
+    alert => !alertHasExpired(alert.validityPeriod, currentTime),
   );
   const alertSeverityLevel = getMaximumAlertSeverityLevel(filteredAlerts);
   return alertSeverityLevel
     ? alertSeverityLevel !== AlertSeverityLevelType.Info
     : filteredAlerts.length > 0;
+};
+
+/**
+ * Checks whether the given leg has an active cancelation or an active
+ * service alert.
+ *
+ * @param {*} leg the itinerary leg to check.
+ */
+export const legHasActiveAlert = leg => {
+  if (!leg) {
+    return false;
+  }
+  return (
+    legHasCancelation(leg) ||
+    isAlertActive(
+      [],
+      [
+        ...getServiceAlertsForRoute(
+          leg.route,
+          leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+        ),
+        ...getServiceAlertsForStop(leg.from && leg.from.stop),
+        ...getServiceAlertsForStop(leg.to && leg.to.stop),
+        ...(Array.isArray(leg.intermediatePlaces)
+          ? leg.intermediatePlaces
+              .map(place => getServiceAlertsForStop(place.stop))
+              .reduce((a, b) => a.concat(b), [])
+          : []),
+      ],
+      leg.startTime / 1000, // this field is in ms format
+    )
+  );
 };
 
 /**

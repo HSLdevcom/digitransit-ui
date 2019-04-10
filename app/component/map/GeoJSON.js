@@ -27,13 +27,6 @@ const getIcons = features => {
     return {};
   }
 
-  const CustomIcon = L.Icon.extend({
-    options: {
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-    },
-  });
-
   return features
     .filter(
       feature =>
@@ -51,7 +44,7 @@ const getIcons = features => {
       const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
         icon.svg,
       ).replace(/#/g, '%23')}`;
-      icons[icon.id] = new CustomIcon({ iconUrl: url }); // eslint-disable-line no-param-reassign
+      icons[icon.id] = url; // eslint-disable-line no-param-reassign
       return icons;
     }, {});
 };

@@ -3,6 +3,7 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 import Relay from 'react-relay/classic';
 
+import { StopAlertsQuery } from '../../../util/alertQueries';
 import { getMaximumAlertSeverityLevel } from '../../../util/alertUtils';
 import {
   drawRoundIcon,
@@ -84,9 +85,7 @@ class Stops {
       Relay.QL`
         query StopStatus($id: String!) {
           stop(id: $id) {
-            alerts {
-              alertSeverityLevel
-            }
+            ${StopAlertsQuery}
           }
         }
       `,

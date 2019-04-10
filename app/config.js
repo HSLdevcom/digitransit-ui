@@ -17,7 +17,7 @@ function addMetaData(config) {
 
   try {
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    stats = require(`../_static/iconstats-${config.CONFIG}`);
+    stats = require(`../_static/assets/iconstats-${config.CONFIG}`);
   } catch (error) {
     return;
   }
@@ -90,6 +90,12 @@ export function getNamedConfiguration(configName) {
       });
       config.modeBoundingBoxes = config.modeBoundingBoxes || {};
       config.modeBoundingBoxes[mode] = boundingBoxes;
+    });
+    Object.keys(config.realTimePatch).forEach(realTimeKey => {
+      config.realTime[realTimeKey] = {
+        ...(config.realTime[realTimeKey] || {}),
+        ...config.realTimePatch[realTimeKey],
+      };
     });
 
     addMetaData(config); // add dynamic metadata content

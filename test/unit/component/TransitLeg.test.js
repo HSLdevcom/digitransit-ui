@@ -5,7 +5,11 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import TransitLeg from '../../../app/component/TransitLeg';
 import IntermediateLeg from '../../../app/component/IntermediateLeg';
-import { RealtimeStateType } from '../../../app/constants';
+import {
+  RealtimeStateType,
+  AlertSeverityLevelType,
+} from '../../../app/constants';
+import RouteNumber from '../../../app/component/RouteNumber';
 
 describe('<TransitLeg />', () => {
   it('should show a zone change between from and the first intermediate place', () => {
@@ -357,5 +361,214 @@ describe('<TransitLeg />', () => {
     });
     wrapper.setState({ showIntermediateStops: true });
     expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
+  });
+
+  it('should apply hasDisruption due to a route alert', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        endTime: 1553856420000,
+        from: {
+          name: 'Testilahti',
+          stop: {},
+        },
+        intermediatePlaces: [],
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+            },
+          ],
+          gtfsId: 'A',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+  });
+
+  it('should apply hasDisruption due to a trip alert', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        endTime: 1553856420000,
+        from: {
+          name: 'Testilahti',
+          stop: {},
+        },
+        intermediatePlaces: [],
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              trip: {
+                pattern: {
+                  code: 'A',
+                },
+              },
+            },
+          ],
+          gtfsId: 'A',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+  });
+
+  it('should apply hasDisruption due to a stop alert at the "from" stop', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        endTime: 1553856420000,
+        from: {
+          name: 'Testilahti',
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Warning,
+              },
+            ],
+          },
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: 'A',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+  });
+
+  it('should apply hasDisruption due to a stop alert at the "to" stop', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        endTime: 1553856420000,
+        from: {
+          name: 'Testilahti',
+          stop: {},
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: 'A',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Warning,
+              },
+            ],
+          },
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+  });
+
+  it('should apply hasDisruption due to a stop alert at an intermediate stop', () => {
+    const props = {
+      children: <div />,
+      focusAction: () => {},
+      index: 0,
+      leg: {
+        endTime: 1553856420000,
+        from: {
+          name: 'Testilahti',
+          stop: {},
+        },
+        intermediatePlaces: [
+          {
+            arrivalTime: 1553856410,
+            stop: {
+              gtfsId: 'foobar',
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                },
+              ],
+            },
+          },
+        ],
+        route: {
+          gtfsId: 'A',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A12345',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
   });
 });

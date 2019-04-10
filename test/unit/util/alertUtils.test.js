@@ -468,8 +468,8 @@ describe('alertUtils', () => {
           },
           severityLevel: 'foo',
           validityPeriod: {
-            endTime: 1577829548000,
-            startTime: 1543183208000,
+            endTime: 1577829548,
+            startTime: 1543183208,
           },
         },
       ]);
@@ -728,8 +728,8 @@ describe('alertUtils', () => {
           [
             {
               realtimeState: RealtimeStateType.Canceled,
-              scheduledDeparture: 1,
-              scheduledArrival: 100,
+              scheduledArrival: 1,
+              scheduledDeparture: 100,
               serviceDay: 0,
             },
           ],
@@ -745,8 +745,10 @@ describe('alertUtils', () => {
           [],
           [
             {
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
@@ -761,8 +763,10 @@ describe('alertUtils', () => {
           [
             {
               severityLevel: AlertSeverityLevelType.Warning,
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
@@ -777,21 +781,54 @@ describe('alertUtils', () => {
           [
             {
               severityLevel: AlertSeverityLevelType.Info,
-              startTime: 1,
-              endTime: 100,
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
             },
           ],
           50,
         ),
       ).to.equal(false);
     });
+
+    it('should return false if there is an expired service alert', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              validityPeriod: {
+                startTime: 1,
+                endTime: 100,
+              },
+            },
+          ],
+          200,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true by default for service alerts that have no validityPeriod', () => {
+      expect(
+        utils.isAlertActive(
+          [],
+          [
+            {
+              validityPeriod: undefined,
+            },
+          ],
+          200,
+        ),
+      ).to.equal(true);
+    });
   });
 
   describe('cancelationHasExpired', () => {
     it('should return true for an expired cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
@@ -799,8 +836,8 @@ describe('alertUtils', () => {
 
     it('should return false for an active cancelation', () => {
       const cancelation = {
-        scheduledDeparture: 10,
-        scheduledArrival: 20,
+        scheduledArrival: 10,
+        scheduledDeparture: 20,
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
@@ -839,6 +876,159 @@ describe('alertUtils', () => {
         ],
       };
       expect(utils.getCancelationsForStop(stop)).to.have.lengthOf(1);
+    });
+  });
+
+  describe('legHasActiveAlert', () => {
+    it('should return false if the leg is falsy', () => {
+      expect(utils.legHasActiveAlert(undefined)).to.equal(false);
+    });
+
+    it('should return true if the leg is canceled', () => {
+      const leg = {
+        realtimeState: RealtimeStateType.Canceled,
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+
+    it('should return true if there is an active route alert', () => {
+      const leg = {
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: 1553778000,
+              effectiveStartDate: 1553754595,
+            },
+          ],
+        },
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+
+    it('should return false if there is an inactive route alert', () => {
+      const alertEffectiveEndDate = 1553778000;
+      const leg = {
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: alertEffectiveEndDate,
+              effectiveStartDate: 1553754595,
+            },
+          ],
+        },
+        startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(false);
+    });
+
+    it('should return true if there is an active trip alert', () => {
+      const leg = {
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: 1553778000,
+              effectiveStartDate: 1553754595,
+              trip: {
+                pattern: {
+                  code: 'HSL:3001I:0:01',
+                },
+              },
+            },
+          ],
+        },
+        startTime: 1553769600000,
+        trip: {
+          pattern: {
+            code: 'HSL:3001I:0:01',
+          },
+        },
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+
+    it('should return false if there is an active trip alert for another trip', () => {
+      const leg = {
+        route: {
+          alerts: [
+            {
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveEndDate: 1553778000,
+              effectiveStartDate: 1553754595,
+              trip: {
+                pattern: {
+                  code: 'HSL:3001I:0:02',
+                },
+              },
+            },
+          ],
+        },
+        startTime: 1553769600000,
+        trip: {
+          pattern: {
+            code: 'HSL:3001I:0:01',
+          },
+        },
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(false);
+    });
+
+    it('should return true if there is an active stop alert at the "from" stop', () => {
+      const leg = {
+        from: {
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Warning,
+                effectiveEndDate: 1553778000,
+                effectiveStartDate: 1553754595,
+              },
+            ],
+          },
+        },
+        startTime: 1553769600000,
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+
+    it('should return true if there is an active stop alert at the "to" stop', () => {
+      const leg = {
+        to: {
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Warning,
+                effectiveEndDate: 1553778000,
+                effectiveStartDate: 1553754595,
+              },
+            ],
+          },
+        },
+        startTime: 1553769600000,
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+
+    it('should return true if there is an active stop alert at an intermediate stop', () => {
+      const leg = {
+        intermediatePlaces: [
+          {
+            stop: {
+              alerts: [
+                {
+                  alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  effectiveEndDate: 1553778000,
+                  effectiveStartDate: 1553754595,
+                },
+              ],
+            },
+          },
+        ],
+        startTime: 1553769600000,
+      };
+      expect(utils.legHasActiveAlert(leg)).to.equal(true);
     });
   });
 });

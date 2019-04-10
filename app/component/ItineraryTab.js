@@ -15,8 +15,12 @@ import ItineraryLegs from './ItineraryLegs';
 import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
-import { BreakpointConsumer } from '../util/withBreakpoint';
+import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
 import { getZones } from '../util/legUtils';
+import { BreakpointConsumer } from '../util/withBreakpoint';
+import ComponentUsageExample from './ComponentUsageExample';
+
+import exampleData from './data/ItineraryTab.exampleData.json';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -140,6 +144,18 @@ class ItineraryTab extends React.Component {
   }
 }
 
+ItineraryTab.description = (
+  <ComponentUsageExample description="with disruption">
+    <div style={{ maxWidth: '528px' }}>
+      <ItineraryTab
+        focus={() => {}}
+        itinerary={{ ...exampleData.itinerary }}
+        searchTime={1553845502000}
+      />
+    </div>
+  </ComponentUsageExample>
+);
+
 const withRelay = Relay.createContainer(ItineraryTab, {
   fragments: {
     searchTime: () => Relay.QL`
@@ -180,6 +196,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           to {
@@ -195,6 +212,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           legGeometry {
@@ -211,6 +229,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               code
               platformCode
               zoneId
+              ${StopAlertsQuery}
             }
           }
           realTime
@@ -232,6 +251,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             agency {
               phone
             }
+            ${RouteAlertsQuery}
           }
           trip {
             gtfsId
@@ -253,4 +273,4 @@ const withRelay = Relay.createContainer(ItineraryTab, {
   },
 });
 
-export { ItineraryTab as component, withRelay as default };
+export { ItineraryTab as Component, withRelay as default };

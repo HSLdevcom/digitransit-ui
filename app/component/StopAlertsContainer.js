@@ -6,7 +6,11 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
-import { DATE_FORMAT, AlertSeverityLevelType } from '../constants';
+import { DATE_FORMAT } from '../constants';
+import {
+  RouteAlertsWithContentQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -33,7 +37,6 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
         mode,
         shortName,
       },
-      severityLevel: AlertSeverityLevelType.Warning,
       validityPeriod: {
         startTime: departureTime,
       },
@@ -87,22 +90,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
   fragments: {
     stop: () => Relay.QL`
       fragment Timetable on Stop {
-        alerts {
-          alertDescriptionText
-          alertHash,
-          alertHeaderText
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-        }
+        ${StopAlertsWithContentQuery}
         stoptimes: stoptimesWithoutPatterns(
           startTime:$startTime,
           timeRange:$timeRange,
@@ -121,27 +109,7 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               color
               mode
               shortName
-              alerts {
-                alertDescriptionText
-                alertHash
-                alertHeaderText
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-                alertDescriptionTextTranslations {
-                  language
-                  text
-                }
-                alertHeaderTextTranslations {
-                  language
-                  text
-                }
-                trip {
-                  pattern {
-                    code
-                  }
-                }
-              }
+              ${RouteAlertsWithContentQuery}
             }
             stops {
               name

@@ -20,6 +20,7 @@ export default function PlaceMarker({ position }) {
         className: 'place',
         element: <Icon img="icon-icon_mapMarker-from" />,
         iconAnchor: [12, 24],
+        iconSize: [24, 24],
       }}
       keyboard={false}
       position={position}
