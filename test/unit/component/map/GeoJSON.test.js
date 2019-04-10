@@ -103,7 +103,7 @@ describe('<GeoJSON />', () => {
       };
 
       const marker = getMarker(feature, latLng, icons);
-      expect(marker.options.icon).to.equal(icons.test);
+      expect(marker.options.icon.options.iconUrl).to.equal(icons.test);
       expect(marker.options.interactive).to.equal(false);
       expect(marker._radius).equal(undefined);
     });
