@@ -229,8 +229,8 @@ testVariation('StopMarkerPopup', 'basic', 2, [
   'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
 ]).then(skip('ie11'));
 
-testVariation('SelectStreetModeDialog');
-testVariation('SelectMapLayersDialog');
+testVariation('SelectStreetModeDialog').then(skip('ie11'));
+testVariation('SelectMapLayersDialog').then(skip('ie11'));
 testVariation('MainMenuContainer');
 
 testVariation('OriginDestinationBar', 'with-viapoint', 2);
