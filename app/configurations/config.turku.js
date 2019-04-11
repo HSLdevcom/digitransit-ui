@@ -165,14 +165,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  citybikeModes: [
-    {
-      networkName: 'smoove',
-      iconName: 'citybike',
-      messageId: 'network-citybike-turku',
-    },
-  ],
-
   staticMessages: [],
 
   geoJson: {

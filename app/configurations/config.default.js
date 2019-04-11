@@ -32,7 +32,6 @@ export default {
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
-    ALERTS: process.env.ALERTS_URL || `${API_URL}/realtime/service-alerts/v1`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
@@ -265,7 +264,10 @@ export default {
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
+
+    networks: {},
   },
+
   // Lowest level for stops and terminals are rendered
   stopsMinZoom: 13,
   // Highest level when stops and terminals are still rendered as small markers
@@ -286,7 +288,7 @@ export default {
     primary: '#00AFFF',
   },
 
-  sprites: 'svg-sprite.default.svg',
+  sprites: 'assets/svg-sprite.default.svg',
 
   disruption: {
     showInfoButton: true,
@@ -413,24 +415,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-  // TODO: Change according to the real network names TBD later
-  citybikeModes: [
-    {
-      networkName: 'smoove',
-      iconName: 'citybike',
-      messageId: 'network-citybike',
-    },
-    {
-      networkName: 'samocat',
-      iconName: 'scooter',
-      messageId: 'network-citybike-vuosaari',
-    },
-    {
-      networkName: 'vantaa',
-      iconName: 'citybike-vantaa',
-      messageId: 'network-citybike-vantaa',
-    },
-  ],
 
   accessibilityOptions: [
     {

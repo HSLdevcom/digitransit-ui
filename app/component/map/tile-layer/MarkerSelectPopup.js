@@ -34,7 +34,7 @@ function MarkerSelectPopup(props) {
       return (
         <SelectCityBikeRow
           {...option.feature.properties}
-          key={option.feature.properties.stationId}
+          key={`citybike:${option.feature.properties.id}`}
           selectRow={() => props.selectRow(option)}
         />
       );

@@ -111,6 +111,9 @@ div.leaflet-marker-icon.via {
   > span {
     > svg.icon {
       height: auto;
+      paint-order: stroke;
+      stroke: white;
+      stroke-width: 1;
       width: auto;
     }
   }

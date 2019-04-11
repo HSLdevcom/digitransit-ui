@@ -258,7 +258,6 @@ export const preparePlanParams = config => (
         walkBoardCost,
         walkReluctance,
         walkSpeed,
-        allowedBikeRentalNetworks,
       },
     },
   },

@@ -6,8 +6,7 @@ const MAP_URL =
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
-// route timetable data needs to be up-to-date before this is enabled
-// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
 
 export default {
   CONFIG,
@@ -72,7 +71,7 @@ export default {
     primary: '#007ac9',
   },
 
-  sprites: 'svg-sprite.hsl.svg',
+  sprites: 'assets/svg-sprite.hsl.svg',
 
   appBarLink: { name: 'HSL.fi', href: 'https://www.hsl.fi/' },
 
@@ -130,24 +129,6 @@ export default {
       icon: 'car_park-withoutBox',
     },
   },
-  // TODO: Change according to the real network names TBD later
-  citybikeModes: [
-    {
-      networkName: 'smoove',
-      iconName: 'citybike',
-      messageId: 'network-citybike-helsinki',
-    },
-    {
-      networkName: 'samocat',
-      iconName: 'scooter',
-      messageId: 'network-citybike-vuosaari',
-    },
-    {
-      networkName: 'vantaa',
-      iconName: 'citybike-vantaa',
-      messageId: 'network-citybike-vantaa',
-    },
-  ],
 
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
@@ -343,8 +324,7 @@ export default {
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
   routeTimetables: {
-    // route timetable data needs to be up-to-date before this is enabled
-    //  HSL: HSLRouteTimetable,
+    HSL: HSLRouteTimetable,
   },
 
   aboutThisService: {
@@ -538,6 +518,38 @@ export default {
         'HSL Automaatti KL': 'ticketMachine',
         Myyntipiste: 'salesPoint',
         'R-kioski': 'salesPoint',
+      },
+    },
+  },
+  cityBike: {
+    // TODO: Change according to the real network names TBD later
+    networks: {
+      samocat: {
+        icon: 'scooter',
+        name: {
+          fi: 'Vuosaari',
+          sv: 'Nordsjö',
+          en: 'Vuosaari',
+        },
+        type: 'scooter',
+      },
+      smoove: {
+        icon: 'citybike',
+        name: {
+          fi: 'Helsinki ja Espoo',
+          sv: 'Helsingfors och Esbo',
+          en: 'Helsinki and Espoo',
+        },
+        type: 'citybike',
+      },
+      vantaa: {
+        icon: 'citybike-secondary',
+        name: {
+          fi: 'Vantaa',
+          sv: 'Vanda',
+          en: 'Vantaa',
+        },
+        type: 'citybike',
       },
     },
   },
