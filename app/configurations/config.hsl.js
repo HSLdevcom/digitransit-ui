@@ -133,14 +133,14 @@ export default {
   // TODO: Change according to the real network names TBD later
   citybikeModes: [
     {
-      networkName: 'Smoove',
+      networkName: 'smoove',
       iconName: 'citybike',
       messageId: 'network-citybike-helsinki',
     },
     {
       networkName: 'samocat',
       iconName: 'scooter',
-      messageId: 'network-scooter',
+      messageId: 'network-citybike-vuosaari',
     },
     {
       networkName: 'vantaa',

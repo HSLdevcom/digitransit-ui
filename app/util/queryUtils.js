@@ -293,6 +293,11 @@ export const getQuerySettings = query => {
     ...(hasKey('walkSpeed') && {
       walkSpeed: getNumberValueOrDefault(query.walkSpeed),
     }),
+    ...(hasKey('allowedBikeRentalNetworks') && {
+      allowedBikeRentalNetworks: getArrayValueOrDefault(
+        query.allowedBikeRentalNetworks,
+      ),
+    }),
   };
 };
 

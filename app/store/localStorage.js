@@ -130,6 +130,10 @@ export function setCustomizedSettings(data) {
       oldSettings.walkReluctance,
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
+    allowedBikeRentalNetworks: getValueOrDefault(
+      data.allowedBikeRentalNetworks,
+      oldSettings.allowedBikeRentalNetworks,
+    ),
   };
   if (optimize === OptimizeType.Triangle) {
     newSettings.safetyFactor = getNumberValueOrDefault(
@@ -246,6 +250,9 @@ export function setRoutingSettings(data) {
     airplaneWeight: data.airplaneWeight
       ? data.airplaneWeight
       : oldSettings.airplaneWeight,
+    allowedBikeRentalNetworks: data.allowedBikeRentalNetworks
+      ? data.allowedBikeRentalNetworks
+      : oldSettings.allowedBikeRentalNetworks,
   };
   setItem('routingSettings', newSettings);
 }

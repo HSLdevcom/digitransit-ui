@@ -30,6 +30,7 @@ import {
   removeUnpreferredRoute,
   replaceQueryParams,
 } from '../util/queryUtils';
+import { updateCitybikeNetworks } from '../util/citybikes';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -149,7 +150,19 @@ class CustomizeSearch extends React.Component {
             }
           />
         )}
-        {<CityBikeNetworkSelector />}
+        {
+          <CityBikeNetworkSelector
+            headerText={intl.formatMessage({
+              id: 'citybike-network-headers',
+              defaultMessage: 'Citybikes and scooters',
+            })}
+            isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
+            currentOptions={currentSettings.allowedBikeRentalNetworks}
+            updateValue={value =>
+              updateCitybikeNetworks(currentSettings, value, config, router)
+            }
+          />
+        }
         <PreferredRoutes
           onRouteSelected={this.onRouteSelected}
           preferredRoutes={currentSettings.preferredRoutes}

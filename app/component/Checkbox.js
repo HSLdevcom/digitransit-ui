@@ -8,7 +8,16 @@ import Message from './Message';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const Checkbox = (
-  { checked, disabled, onChange, labelId, defaultMessage, showLabel, title },
+  {
+    checked,
+    disabled,
+    onChange,
+    labelId,
+    defaultMessage,
+    showLabel,
+    title,
+    name,
+  },
   { intl },
 ) => {
   const id = uniqueId('input-');
@@ -40,6 +49,7 @@ const Checkbox = (
             id={id}
             onChange={e => !disabled && onChange(e)}
             type="checkbox"
+            name={name}
           />
         </label>
       </div>
@@ -58,6 +68,7 @@ Checkbox.propTypes = {
   labelId: PropTypes.string,
   showLabel: PropTypes.bool,
   title: PropTypes.string,
+  name: PropTypes.string,
 };
 
 Checkbox.defaultProps = {

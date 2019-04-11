@@ -4,6 +4,7 @@ import moment from 'moment';
 import { filterModes, getDefaultModes, getModes } from './modeUtils';
 import { otpToLocation } from './otpStrings';
 import { getIntermediatePlaces, getQuerySettings } from './queryUtils';
+import { getDefaultNetworks } from './citybikes';
 import {
   getCustomizedSettings,
   getRoutingSettings,
@@ -18,7 +19,11 @@ export const getDefaultSettings = config => {
   if (!config) {
     return {};
   }
-  return { ...config.defaultSettings, modes: getDefaultModes(config) };
+  return {
+    ...config.defaultSettings,
+    modes: getDefaultModes(config),
+    allowedBikeRentalNetworks: getDefaultNetworks(config),
+  };
 };
 
 /**
@@ -225,6 +230,7 @@ export const getSettings = () => {
     airplaneWeight: getNumberValueOrDefault(routingSettings.airplaneWeight),
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
+    allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
   };
 };
 
@@ -252,6 +258,7 @@ export const preparePlanParams = config => (
         walkBoardCost,
         walkReluctance,
         walkSpeed,
+        allowedBikeRentalNetworks,
       },
     },
   },
@@ -387,5 +394,6 @@ export const preparePlanParams = config => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    allowedBikeRentalNetworks: settings.allowedBikeRentalNetworks,
   };
 };
