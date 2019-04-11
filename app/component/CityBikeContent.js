@@ -3,6 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import CityBikeAvailability from './CityBikeAvailability';
 import CityBikeUse from './CityBikeUse';
+import { getCityBikeUrl } from '../util/citybikes';
 import ComponentUsageExample from './ComponentUsageExample';
 import { station as exampleStation, lang as exampleLang } from './ExampleData';
 
@@ -22,9 +23,9 @@ const CityBikeContent = ({ station, lang }, { config }) => (
         fewAvailableCount={config.cityBike.fewAvailableCount}
       />
     )}
-    {config.cityBike.useUrl[lang] &&
-      config.transportModes.citybike.availableForSelection && (
-        <CityBikeUse lang={lang} />
+    {config.transportModes.citybike.availableForSelection &&
+      getCityBikeUrl(station.networks, lang, config) && (
+        <CityBikeUse url={getCityBikeUrl(station.networks, lang, config)} />
       )}
     {!config.transportModes.citybike.availableForSelection && (
       <div className="city-bike-use-container">

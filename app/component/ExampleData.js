@@ -799,3 +799,5 @@ export const twoRoutePatterns = {
     },
   ],
 };
+
+export const cityBikeUrl = 'https://www.hsl.fi/kaupunkipyorat';

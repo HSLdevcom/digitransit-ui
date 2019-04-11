@@ -4,9 +4,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import { lang as exampleLang } from './ExampleData';
+import { cityBikeUrl as exampleUrl } from './ExampleData';
 
-const CityBikeUse = ({ lang }, context) => (
+const CityBikeUse = ({ url }) => (
   <div className="city-bike-use-container">
     <p className="sub-header-h4 text-center">
       <FormattedMessage
@@ -14,7 +14,7 @@ const CityBikeUse = ({ lang }, context) => (
         defaultMessage="To use city bikes, you need to register"
       />
     </p>
-    <a href={context.config.cityBike.useUrl[lang]}>
+    <a href={url}>
       <button className="use-bike-button cursor-pointer">
         <FormattedMessage id="use-citybike" defaultMessage="Start using" />
       </button>
@@ -28,17 +28,13 @@ CityBikeUse.description = () => (
   <div>
     <p>Renders use citybike component</p>
     <ComponentUsageExample description="">
-      <CityBikeUse lang={exampleLang} />
+      <CityBikeUse url={exampleUrl} />
     </ComponentUsageExample>
   </div>
 );
 
 CityBikeUse.propTypes = {
-  lang: PropTypes.string.isRequired,
-};
-
-CityBikeUse.contextTypes = {
-  config: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default CityBikeUse;
