@@ -71,7 +71,7 @@ testVariation('RailLeg');
 testVariation('FerryLeg');
 testVariation('CarLeg');
 testVariation('ViaLeg');
-testVariation('CallAgencyLeg');
+testVariation('CallAgencyLeg').then(skip('edge17'));
 
 testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
@@ -159,7 +159,8 @@ testVariation('SelectStopRow');
 testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
-testVariation('TicketInformation');
+testVariation('TicketInformation').then(skip('edge17'));
+
 testVariation('DateSelect');
 testVariation('RoutePatternSelect');
 testVariation('RouteScheduleHeader');
@@ -227,7 +228,7 @@ testVariation('StopMarkerPopup', 'basic', 2, [
   'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
   'p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
   'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-]).then(skip('ie11'));
+]).then(skip(['ie11', 'edge17']));
 
 testVariation('SelectStreetModeDialog');
 testVariation('SelectMapLayersDialog');
