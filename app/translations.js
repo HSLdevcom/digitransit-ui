@@ -697,6 +697,7 @@ const translations = {
     'choose-stop': 'Select stop',
     citybike: 'City bike',
     'citybike-distance-duration': 'Bike {distance} ({duration})',
+    'citybike-network-headers': 'Citybikes and scooters',
     'citybike-off-season':
       'City bike stations will be opened again next spring',
     'citybike-register-required': 'To use city bikes, you need to register',
@@ -837,6 +838,7 @@ const translations = {
     'network-citybike-helsinki': 'Helsinki and Espoo',
     'network-citybike-turku': 'Turku',
     'network-citybike-vantaa': 'Vantaa',
+    'network-citybike-vuosaari': 'Vuosaari',
     'network-error': 'Network error',
     next: 'Next',
     'no-bike-allowed-popup':
@@ -1402,6 +1404,7 @@ const translations = {
     'choose-stop': 'Valitse pysäkki',
     citybike: 'Kaupunkipyörä',
     'citybike-distance-duration': 'Pyöräile {distance} ({duration})',
+    'citybike-network-headers': 'Kaupunkipyörät ja potkulaudat',
     'citybike-off-season': 'Kaupunkipyörät palaavat käyttöön ensi keväänä',
     'citybike-register-required':
       'Kaupunkipyörien käyttö vaatii rekisteröitymisen',
@@ -1540,6 +1543,7 @@ const translations = {
     'network-citybike-helsinki': 'Helsinki ja Espoo',
     'network-citybike-turku': 'Turku',
     'network-citybike-vantaa': 'Vantaa',
+    'network-citybike-vuosaari': 'Vuosaari',
     'network-error': 'Verkkovirhe',
     next: 'Seuraava',
     'no-bike-allowed-popup':
@@ -2412,6 +2416,7 @@ const translations = {
     'choose-stop': 'Välj hållplats',
     citybike: 'Stadscykel',
     'citybike-distance-duration': 'Cykla {distance} ({duration})',
+    'citybike-network-headers': 'Stadscyklarna och skotrar',
     'citybike-off-season': 'Stadscyklarna tas i bruk igen nästa vår',
     'citybike-register-required':
       'Det krävs registrering för att kunna använda stadscyklar',
@@ -2552,6 +2557,7 @@ const translations = {
     'network-citybike-helsinki': 'Helsingfors och Esbo',
     'network-citybike-turku': 'Åbo',
     'network-citybike-vantaa': 'Vanda',
+    'network-citybike-vuosaari': 'Nordsjö',
     'network-error': 'Nätverksfel',
     next: 'Nästa',
     'no-bike-allowed-popup':
