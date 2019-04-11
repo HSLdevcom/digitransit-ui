@@ -71,7 +71,7 @@ testVariation('RailLeg');
 testVariation('FerryLeg');
 testVariation('CarLeg');
 testVariation('ViaLeg');
-testVariation('CallAgencyLeg');
+testVariation('CallAgencyLeg').then(skip('edge17'));
 
 testVariation('Departure', 'added-padding', 2);
 testVariation('Departure', 'with-stop', 3);
