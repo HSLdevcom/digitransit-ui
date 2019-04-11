@@ -283,7 +283,7 @@ export default function(req, res, next) {
 
     // Write preload hints before doing anything else
     if (process.env.NODE_ENV !== 'development') {
-      if (!!config.GTMid) {
+      if (config.GTMid) {
         // Google Tag Manager script
         res.write(
           `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
