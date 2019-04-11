@@ -159,9 +159,7 @@ testVariation('SelectStopRow');
 testVariation('SelectTerminalRow');
 testVariation('SelectCityBikeRow');
 testVariation('SelectParkAndRideRow');
-testVariation('TicketInformation').then(
-  skip('edge17'),
-);
+testVariation('TicketInformation').then(skip('edge17'));
 
 testVariation('DateSelect');
 testVariation('RoutePatternSelect');
@@ -230,7 +228,7 @@ testVariation('StopMarkerPopup', 'basic', 2, [
   'div.departure-list > p:nth-child(2) > span.realtime svg.realtime',
   'p:nth-child(2) > span.route-destination > span > span.last-stop-icon',
   'p:nth-child(4) > span.route-destination > span > span.last-stop-icon',
-]).then(skip(['ie11','edge17']));
+]).then(skip(['ie11', 'edge17']));
 
 testVariation('SelectStreetModeDialog');
 testVariation('SelectMapLayersDialog');
