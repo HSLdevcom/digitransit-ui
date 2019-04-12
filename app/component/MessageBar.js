@@ -1,19 +1,70 @@
+import cx from 'classnames';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import uniqBy from 'lodash/uniqBy';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import SwipeableViews from 'react-swipeable-views';
-import { Tabs, Tab } from 'material-ui/Tabs';
 import { intlShape } from 'react-intl';
-import { markMessageAsRead } from '../action/MessageActions';
-import { isIe } from '../util/browser';
+import Relay from 'react-relay/classic';
+import SwipeableViews from 'react-swipeable-views';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
+import { markMessageAsRead } from '../action/MessageActions';
+import { AlertContentQuery } from '../util/alertQueries';
+import {
+  getServiceAlertDescription,
+  getServiceAlertHeader,
+} from '../util/alertUtils';
+import { isIe } from '../util/browser';
+import { tryGetRelayQuery } from '../util/searchUtils';
 
 /* Small version has constant height,
  * big version has max height of half but can be
  * less if the message is shorter.
  */
+
+const getServiceAlerts = async () => {
+  const query = Relay.createQuery(
+    Relay.QL`
+      query ServiceAlerts {
+        viewer {
+          alerts {
+            ${AlertContentQuery}
+          }
+        }
+      }
+    `,
+    {},
+  );
+
+  const defaultValue = [];
+  const result = await tryGetRelayQuery(query, defaultValue);
+  return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
+    ? result[0].alerts
+    : defaultValue;
+};
+
+const toMessage = alert => ({
+  content: {
+    en: [
+      { type: 'heading', content: getServiceAlertHeader(alert, 'en') },
+      { type: 'text', content: getServiceAlertDescription(alert, 'en') },
+    ],
+    fi: [
+      { type: 'heading', content: getServiceAlertHeader(alert, 'fi') },
+      { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
+    ],
+    sv: [
+      { type: 'heading', content: getServiceAlertHeader(alert, 'sv') },
+      { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
+    ],
+  },
+  icon: 'caution',
+  id: alert.id,
+  persistence: 'repeat',
+  type: 'disruption',
+});
 
 class MessageBar extends Component {
   static contextTypes = {
@@ -32,7 +83,12 @@ class MessageBar extends Component {
     maximized: false,
   };
 
-  componentDidMount = () => this.setState({ ready: true });
+  componentDidMount = async () => {
+    this.setState({
+      ready: true,
+      serviceAlerts: uniqBy(await getServiceAlerts(), alert => alert.alertHash),
+    });
+  };
 
   getTabContent = () =>
     this.validMessages().map(el => (
@@ -44,60 +100,72 @@ class MessageBar extends Component {
     ));
 
   // TODO: This is a hack to get around the hard-coded height in material-ui Tab component
-  getTabMarker = i => (
-    <span
-      style={{
-        color: i === this.state.slideIndex ? '#007ac9' : '#ddd',
-        height: '18px',
-        position: 'absolute',
-      }}
-      title={`${this.context.intl.formatMessage({
-        id: 'messagebar-label-page',
-        defaultMessage: 'Page',
-      })} ${i + 1}`}
-    >
-      •
-    </span>
-  );
-
-  getTabs = () => {
-    const messages = this.validMessages();
-    return messages.map((el, i) => (
-      <Tab
-        key={el.id}
-        selected={i === this.state.slideIndex}
-        icon={messages.length > 1 ? this.getTabMarker(i) : null}
-        value={i}
+  getTabMarker = (i, isSelected, isDisruption) => {
+    const colorSet = isDisruption ? ['inherit', 'white'] : ['#007ac9', '#ddd'];
+    return (
+      <span
         style={{
-          margin: '2px 0 0 0',
-        }}
-        buttonStyle={{
+          color: colorSet[isSelected ? 0 : 1],
           height: '18px',
+          position: 'absolute',
         }}
-      />
-    ));
+        title={`${this.context.intl.formatMessage({
+          id: 'messagebar-label-page',
+          defaultMessage: 'Page',
+        })} ${i + 1}`}
+      >
+        •
+      </span>
+    );
+  };
+
+  getTabs = (selectedIndex, isDisruption) => {
+    const messages = this.validMessages();
+    return messages.map((el, i) => {
+      const isSelected = i === selectedIndex;
+      return (
+        <Tab
+          key={el.id}
+          selected={isSelected}
+          icon={
+            messages.length > 1
+              ? this.getTabMarker(i, isSelected, isDisruption)
+              : null
+          }
+          value={i}
+          style={{
+            margin: '2px 0 0 0',
+            maxWidth: '30px',
+          }}
+          buttonStyle={{
+            height: '18px',
+          }}
+        />
+      );
+    });
   };
 
   maximize = () => {
     this.setState({ maximized: true });
   };
 
-  validMessages = () =>
-    this.props.messages.filter(el => {
+  validMessages = () => {
+    const { serviceAlerts } = this.state;
+    const { lang, messages } = this.props;
+    return [...serviceAlerts.map(toMessage), ...messages].filter(el => {
       if (
-        Array.isArray(el.content[this.props.lang]) &&
-        el.content[this.props.lang].length > 0 &&
-        el.content[this.props.lang][0].content
+        Array.isArray(el.content[lang]) &&
+        el.content[lang].length > 0 &&
+        el.content[lang][0].content
       ) {
         return true;
       }
       /* eslint-disable no-console */
-      console.error(
-        `Message ${el.id} has no translation for ${this.props.lang}`,
-      );
+      console.error(`Message ${el.id} has no translation for ${lang}`);
       /* eslint-enable no-console */
       return false;
     });
+  };
 
   handleChange = value => {
     this.setState({ slideIndex: value });
@@ -120,77 +188,84 @@ class MessageBar extends Component {
   };
 
   render() {
-    if (!this.state.ready) {
+    const { maximized, ready, slideIndex } = this.state;
+    if (!ready) {
       return null;
     }
-    const messages = this.validMessages();
-    if (messages.length > 0) {
-      const index = Math.min(this.state.slideIndex, messages.length - 1);
-      const msg = messages[index];
-      const type = msg.type || 'info';
-      const icon = msg.icon || 'info';
-      const iconName = `icon-icon_${icon}`;
 
-      return (
-        <section
-          id="messageBar"
-          role="banner"
-          className="message-bar flex-horizontal"
-        >
-          <div className="banner-container">
-            <Icon img={iconName} className="message-icon" />
-            <div className={`message-bar-content message-bar-${type}`}>
-              <SwipeableViews
-                index={index}
-                onChangeIndex={this.handleChange}
-                className={!this.state.maximized ? 'message-bar-fade' : ''}
-                containerStyle={{
-                  maxHeight: this.state.maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                }}
-                slideStyle={{
-                  maxHeight: this.state.maximized ? '400px' : '100px',
-                  transition: 'max-height 300ms',
-                  padding: '10px 10px 0px 10px',
-                  overflow: 'hidden',
-                  background: '#fff',
-                }}
-              >
-                {this.getTabContent()}
-              </SwipeableViews>
-              <Tabs
-                onChange={this.handleChange}
-                value={index}
-                tabItemContainerStyle={{
-                  backgroundColor: '#fff',
-                  height: '18px',
-                  width: '60px',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}
-                inkBarStyle={{ display: 'none' }}
-              >
-                {this.getTabs()}
-              </Tabs>
-            </div>
-            <div>
-              <button
-                id="close-message-bar"
-                title={this.context.intl.formatMessage({
-                  id: 'messagebar-label-close-message-bar',
-                  defaultMessage: 'Close banner',
-                })}
-                onClick={this.handleClose}
-                className="noborder close-button cursor-pointer"
-              >
-                <Icon img="icon-icon_close" className="close" />
-              </button>
-            </div>
-          </div>
-        </section>
-      );
+    const messages = this.validMessages();
+    if (messages.length === 0) {
+      return null;
     }
-    return null;
+
+    const index = Math.min(slideIndex, messages.length - 1);
+    const msg = messages[index];
+    const type = msg.type || 'info';
+    const icon = msg.icon || 'info';
+    const iconName = `icon-icon_${icon}`;
+    const isDisruption = msg.type === 'disruption';
+
+    return (
+      <section
+        id="messageBar"
+        role="banner"
+        className="message-bar flex-horizontal"
+      >
+        <div
+          className={cx('banner-container', {
+            'banner-disruption': isDisruption,
+          })}
+        >
+          <Icon img={iconName} className="message-icon" />
+          <div className={`message-bar-content message-bar-${type}`}>
+            <SwipeableViews
+              index={index}
+              onChangeIndex={this.handleChange}
+              className={!maximized ? 'message-bar-fade' : ''}
+              containerStyle={{
+                maxHeight: maximized ? '400px' : '100px',
+                transition: 'max-height 300ms',
+              }}
+              slideStyle={{
+                maxHeight: maximized ? '400px' : '100px',
+                transition: 'max-height 300ms',
+                padding: '10px 10px 0px 10px',
+                overflow: 'hidden',
+                background: isDisruption ? 'inherit' : '#fff',
+              }}
+            >
+              {this.getTabContent()}
+            </SwipeableViews>
+            <Tabs
+              onChange={this.handleChange}
+              value={index}
+              tabItemContainerStyle={{
+                backgroundColor: isDisruption ? 'inherit' : '#fff',
+                height: '18px',
+                justifyContent: 'center',
+              }}
+              inkBarStyle={{ display: 'none' }}
+            >
+              {this.getTabs(slideIndex, isDisruption)}
+            </Tabs>
+          </div>
+          <div>
+            <button
+              id="close-message-bar"
+              title={this.context.intl.formatMessage({
+                id: 'messagebar-label-close-message-bar',
+                defaultMessage: 'Close banner',
+              })}
+              onClick={this.handleClose}
+              className="noborder close-button cursor-pointer"
+              type="button"
+            >
+              <Icon img="icon-icon_close" className="close" />
+            </button>
+          </div>
+        </div>
+      </section>
+    );
   }
 }
 
