@@ -1,22 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Checkbox from './Checkbox';
+import {
+  mapDefaultNetworkProperties,
+  getCityBikeNetworkName,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 const CityBikeNetworkSelector = (
   { updateValue, headerText, currentOptions, isUsingCitybike },
-  { config },
+  { config, getStore },
 ) => {
-  const mappedCheckboxes = config.citybikeModes.map(network => (
+  const mappedCheckboxes = mapDefaultNetworkProperties(config).map(network => (
     <Checkbox
       checked={
         isUsingCitybike &&
-        currentOptions.find(
+        currentOptions.filter(
           option => option.toUpperCase() === network.networkName.toUpperCase(),
-        )
+        ).length > 0
       }
-      defaultMessage="Citybike"
-      key={`cb-${network.messageId}`}
-      labelId={network.messageId}
+      defaultMessage={getCityBikeNetworkName(
+        getCityBikeNetworkConfig(network.networkName, config),
+        getStore('PreferencesStore').getLanguage(),
+      )}
+      key={`cb-${network.networkName}`}
       onChange={e => {
         updateValue(e.target.name);
       }}
@@ -43,6 +50,7 @@ CityBikeNetworkSelector.propTypes = {
 
 CityBikeNetworkSelector.contextTypes = {
   config: PropTypes.object.isRequired,
+  getStore: PropTypes.func.isRequired,
 };
 
 export default CityBikeNetworkSelector;

@@ -46,7 +46,19 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
 };
 
 export const getDefaultNetworks = config => {
-  return config.citybikeModes.map(mode => mode.networkName.toUpperCase());
+  const mappedNetworks = [];
+  Object.keys(config.cityBike.networks).forEach(key =>
+    mappedNetworks.push(key.toUpperCase()),
+  );
+  return mappedNetworks;
+};
+
+export const mapDefaultNetworkProperties = config => {
+  const mappedNetworks = [];
+  Object.keys(config.cityBike.networks).forEach(key =>
+    mappedNetworks.push({ networkName: key, ...config.cityBike.networks[key] }),
+  );
+  return mappedNetworks;
 };
 
 /**
@@ -81,6 +93,7 @@ export const getCitybikeNetworks = (location, config) => {
  * @param newValue the network to be added/removed
  * @param config The configuration for the software installation
  * @param router the router
+ * @param isUsingCitybike if citybike is enabled
  */
 
 export const updateCitybikeNetworks = (
@@ -88,20 +101,21 @@ export const updateCitybikeNetworks = (
   newValue,
   config,
   router,
+  isUsingCitybike,
 ) => {
-  const mappedcurrentSettings = currentSettings.allowedBikeRentalNetworks.map(
-    o => o.toUpperCase(),
-  );
+  const mappedcurrentSettings = currentSettings.map(o => o.toUpperCase());
 
-  const chosenNetworks = mappedcurrentSettings.find(
-    o => o === newValue.toUpperCase(),
-  )
-    ? without(mappedcurrentSettings, newValue.toUpperCase())
-    : mappedcurrentSettings.concat([newValue.toUpperCase()]);
-  if (
-    chosenNetworks.length === 0 ||
-    (currentSettings.allowedBikeRentalNetworks.length === 0 && newValue)
-  ) {
+  let chosenNetworks;
+
+  if (isUsingCitybike) {
+    chosenNetworks = mappedcurrentSettings.find(o => o === newValue)
+      ? without(mappedcurrentSettings, newValue)
+      : mappedcurrentSettings.concat([newValue]);
+  } else {
+    chosenNetworks = [newValue];
+  }
+
+  if (chosenNetworks.length === 0 || !isUsingCitybike) {
     toggleTransportMode('citybike', config, router);
     if (chosenNetworks.length === 0) {
       replaceQueryParams(router, {
@@ -110,7 +124,8 @@ export const updateCitybikeNetworks = (
       return;
     }
   }
+
   replaceQueryParams(router, {
-    allowedBikeRentalNetworks: chosenNetworks.join(),
+    allowedBikeRentalNetworks: chosenNetworks.join(','),
   });
 };
