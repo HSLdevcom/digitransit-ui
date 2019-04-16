@@ -10,6 +10,10 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { getLegBadgeProps } from '../util/legUtils';
+import {
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 function BicycleLeg(props, context) {
   let stopsDescription;
@@ -61,6 +65,13 @@ function BicycleLeg(props, context) {
     }
   }
 
+  const networkIcon = getCityBikeNetworkIcon(
+    getCityBikeNetworkConfig(
+      props.leg.from.bikeRentalStation.networks[0],
+      context.config,
+    ),
+  );
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
@@ -71,6 +82,7 @@ function BicycleLeg(props, context) {
         <RouteNumber
           mode={mode}
           vertical
+          hasNetwork={networkIcon}
           {...getLegBadgeProps(props.leg, context.config)}
         />
       </div>
@@ -171,6 +183,7 @@ BicycleLeg.propTypes = {
       name: PropTypes.string.isRequired,
       bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
+        networks: PropTypes.array.isRequired,
       }),
     }).isRequired,
     mode: PropTypes.string.isRequired,

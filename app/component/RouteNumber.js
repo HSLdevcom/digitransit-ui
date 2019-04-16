@@ -19,7 +19,13 @@ function RouteNumber(props, context) {
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
 
-  const icon = (isCallAgency, hasDisruption, badgeFill, badgeText) => {
+  const icon = (
+    hasNetwork,
+    isCallAgency,
+    hasDisruption,
+    badgeFill,
+    badgeText,
+  ) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
@@ -36,7 +42,7 @@ function RouteNumber(props, context) {
         <IconWithBigCaution
           color={color}
           className={mode}
-          img={`icon-icon_${mode}`}
+          img={hasNetwork || `icon-icon_${mode}`}
         />
       );
     }
@@ -47,7 +53,7 @@ function RouteNumber(props, context) {
         badgeText={badgeText}
         color={color}
         className={mode}
-        img={`icon-icon_${mode}`}
+        img={hasNetwork || `icon-icon_${mode}`}
         subIcon=""
       />
     );
@@ -73,6 +79,7 @@ function RouteNumber(props, context) {
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
             {icon(
+              props.hasNetwork,
               props.isCallAgency,
               props.hasDisruption,
               props.badgeFill,
@@ -80,7 +87,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          icon(props.isCallAgency, props.hasDisruption)
+          icon(props.hasNetwork, props.isCallAgency, props.hasDisruption)
         )}
         {props.withBar && (
           <div className="bar-container">
@@ -192,6 +199,7 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  hasNetwork: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -204,6 +212,7 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
+  hasNetwork: undefined,
 };
 
 RouteNumber.contextTypes = {
