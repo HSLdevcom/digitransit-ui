@@ -520,7 +520,11 @@ export default {
     },
     tooltip: {
       fi:
-        'Uudet vyöhykkeet otetaan käyttöön 27.04.2019. Tutustu vyöhykkeisiin kartalla jo nyt. Voit piilottaa vyöhykerajat tästä.',
+        'Uudet vyöhykkeet otetaan käyttöön 27.4.2019. Tutustu vyöhykkeisiin kartalla jo nyt. Voit piilottaa vyöhykerajat tästä.',
+      sv:
+        'De nya zonerna tas i bruk 27.4.2019. Bekanta dig med resezonerna redan nu. Göm zongränserna här.',
+      en:
+        'New fare zones will be introduced on 27 April 2019. Check them out on the map already now. The zones can be hidden here.',
     },
   },
   cityBike: {
