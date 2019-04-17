@@ -33,22 +33,6 @@ jobs:
       env: VISUAL=chrome
       node_js: '10'
       script: test/visual.sh
-    - stage: visual
-      env: VISUAL=ie11
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=edge17
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=safari11
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=firefox
-      node_js: '10'
-      script: test/visual.sh
 
     - stage: build and deploy container
       node_js: '10'
