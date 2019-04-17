@@ -101,8 +101,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  useTicketIcons: false,
-
   transportModes: {
     airplane: {
       availableForSelection: false,
@@ -496,16 +494,16 @@ export default {
   ],
   staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
   geoJson: {
-    // layers: [
-    //   {
-    //     name: {
-    //       fi: 'Maksuvyöhykkeet',
-    //       sv: 'Resezoner',
-    //       en: 'Ticket zones',
-    //     },
-    //     url: '/hsl_zone_lines.json',
-    //   },
-    // ],
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/hsl_zone_lines.json',
+      },
+    ],
     zones: {
       url: '/hsl_zone_areas.json',
     },
@@ -519,6 +517,14 @@ export default {
         Myyntipiste: 'salesPoint',
         'R-kioski': 'salesPoint',
       },
+    },
+    tooltip: {
+      fi:
+        'Uudet vyöhykkeet otetaan käyttöön 27.4.2019. Tutustu vyöhykkeisiin kartalla jo nyt. Voit piilottaa vyöhykerajat tästä.',
+      sv:
+        'De nya zonerna tas i bruk 27.4.2019. Bekanta dig med resezonerna redan nu. Göm zongränserna här.',
+      en:
+        'New fare zones will be introduced on 27 April 2019. Check them out on the map already now. The zones can be hidden here.',
     },
   },
   cityBike: {
