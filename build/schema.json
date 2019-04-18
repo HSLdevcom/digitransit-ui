@@ -840,6 +840,139 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "cancelledTripTimes",
+                        "description": "Get cancelled TripTimes.",
+                        "args": [
+                            {
+                                "name": "feeds",
+                                "description": "Feed feedIds (e.g. [\"HSL\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "routes",
+                                "description": "Route gtfsIds (e.g. [\"HSL:1098\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "patterns",
+                                "description": "TripPattern codes (e.g. [\"HSL:1098:1:01\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "trips",
+                                "description": "Trip gtfsIds (e.g. [\"HSL:1098_20190405_Ma_2_1455\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minDate",
+                                "description": "Only cancelled trip times scheduled to run on minDate or after are returned. Format: \"2019-12-23\" or \"20191223\".",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxDate",
+                                "description": "Only cancelled trip times scheduled to run on maxDate or before are returned. Format: \"2019-12-23\" or \"20191223\".",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minDepartureTime",
+                                "description": "Only cancelled trip times that have first stop departure time at minDepartureTime or after are returned. Format: seconds since midnight of minDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxDepartureTime",
+                                "description": "Only cancelled trip times that have first stop departure time at maxDepartureTime or before are returned. Format: seconds since midnight of maxDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minArrivalTime",
+                                "description": "Only cancelled trip times that have last stop arrival time at minArrivalTime or after are returned. Format: seconds since midnight of minDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxArrivalTime",
+                                "description": "Only cancelled trip times that have last stop arrival time at maxArrivalTime or before are returned. Format: seconds since midnight of maxDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "patterns",
                         "description": "Get all patterns",
                         "args": [],
@@ -1647,6 +1780,20 @@
                                     "kind": "SCALAR",
                                     "name": "Boolean",
                                     "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "allowedBikeRentalNetworks",
+                                "description": "Which bike rental networks can be used. By default, all networks are allowed.",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
                                 },
                                 "defaultValue": null
                             }
