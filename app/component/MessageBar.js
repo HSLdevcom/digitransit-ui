@@ -17,14 +17,17 @@ import {
   getServiceAlertHeader,
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
+import hashCode from '../util/hashUtil';
 import { tryGetRelayQuery } from '../util/searchUtils';
+import { AlertSeverityLevelType } from '../constants';
+import { getReadMessageIds } from '../store/localStorage';
 
 /* Small version has constant height,
  * big version has max height of half but can be
  * less if the message is shorter.
  */
 
-const getServiceAlerts = async () => {
+const fetchServiceAlerts = async () => {
   const query = Relay.createQuery(
     Relay.QL`
       query ServiceAlerts {
@@ -41,9 +44,18 @@ const getServiceAlerts = async () => {
   const defaultValue = [];
   const result = await tryGetRelayQuery(query, defaultValue);
   return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
-    ? result[0].alerts
+    ? result[0].alerts.filter(
+        alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info,
+      )
     : defaultValue;
 };
+
+const getServiceAlertId = alert =>
+  hashCode(
+    `${alert.alertDescriptionText}-${alert.alertHeaderText}-${
+      alert.alertSeverityLevel
+    }-${alert.effectiveEndDate}-${alert.effectiveStartDate}`,
+  );
 
 const toMessage = alert => ({
   content: {
@@ -61,7 +73,7 @@ const toMessage = alert => ({
     ],
   },
   icon: 'caution',
-  id: alert.id,
+  id: getServiceAlertId(alert),
   persistence: 'repeat',
   type: 'disruption',
 });
@@ -74,8 +86,13 @@ class MessageBar extends Component {
   };
 
   static propTypes = {
+    getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
+  };
+
+  static defaultProps = {
+    getServiceAlertsAsync: fetchServiceAlerts,
   };
 
   state = {
@@ -84,9 +101,14 @@ class MessageBar extends Component {
   };
 
   componentDidMount = async () => {
+    const { getServiceAlertsAsync } = this.props;
+    const readMessageIds = getReadMessageIds();
+    const serviceAlerts = (await getServiceAlertsAsync()).filter(
+      alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
+    );
     this.setState({
       ready: true,
-      serviceAlerts: uniqBy(await getServiceAlerts(), alert => alert.alertHash),
+      serviceAlerts: uniqBy(serviceAlerts, alert => alert.alertHash),
     });
   };
 
@@ -269,7 +291,7 @@ class MessageBar extends Component {
   }
 }
 
-export default connectToStores(
+const connectedComponent = connectToStores(
   MessageBar,
   ['MessageStore', 'PreferencesStore'],
   context => ({
@@ -277,3 +299,5 @@ export default connectToStores(
     messages: context.getStore('MessageStore').getMessages(),
   }),
 );
+
+export { connectedComponent as default, MessageBar as Component };
