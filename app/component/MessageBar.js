@@ -50,7 +50,7 @@ const fetchServiceAlerts = async () => {
     : defaultValue;
 };
 
-const getServiceAlertId = alert =>
+export const getServiceAlertId = alert =>
   hashCode(
     `${alert.alertDescriptionText}
      ${alert.alertHeaderText}

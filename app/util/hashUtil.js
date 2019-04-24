@@ -1,3 +1,5 @@
+import isString from 'lodash/isString';
+
 /**
  * A simple Java-like hash function for strings.
  *
@@ -5,7 +7,7 @@
  * @param {string} str the string to hash.
  */
 const hashCode = str => {
-  if (!str || str.length === 0) {
+  if (!str || str.length === 0 || !isString(str)) {
     return 0;
   }
 
