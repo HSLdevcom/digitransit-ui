@@ -8,7 +8,6 @@ import {
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { setReadMessageIds } from '../../../app/store/localStorage';
-import hashCode from '../../../app/util/hashUtil';
 
 const defaultProps = {
   getServiceAlertsAsync: async () => [],
