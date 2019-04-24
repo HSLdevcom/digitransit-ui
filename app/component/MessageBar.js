@@ -52,9 +52,11 @@ const fetchServiceAlerts = async () => {
 
 const getServiceAlertId = alert =>
   hashCode(
-    `${alert.alertDescriptionText}-${alert.alertHeaderText}-${
-      alert.alertSeverityLevel
-    }-${alert.effectiveEndDate}-${alert.effectiveStartDate}`,
+    `${alert.alertDescriptionText}
+     ${alert.alertHeaderText}
+     ${alert.alertSeverityLevel}
+     ${alert.effectiveEndDate}
+     ${alert.effectiveStartDate}`,
   );
 
 const toMessage = alert => ({
@@ -102,13 +104,12 @@ class MessageBar extends Component {
 
   componentDidMount = async () => {
     const { getServiceAlertsAsync } = this.props;
-    const readMessageIds = getReadMessageIds();
-    const serviceAlerts = (await getServiceAlertsAsync()).filter(
-      alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
-    );
     this.setState({
       ready: true,
-      serviceAlerts: uniqBy(serviceAlerts, alert => alert.alertHash),
+      serviceAlerts: uniqBy(
+        await getServiceAlertsAsync(),
+        alert => alert.alertHash,
+      ),
     });
   };
 
@@ -173,8 +174,12 @@ class MessageBar extends Component {
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
+    const readMessageIds = getReadMessageIds();
+    const filteredServiceAlerts = serviceAlerts.filter(
+      alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
+    );
     const { lang, messages } = this.props;
-    return [...serviceAlerts.map(toMessage), ...messages].filter(el => {
+    return [...filteredServiceAlerts.map(toMessage), ...messages].filter(el => {
       if (
         Array.isArray(el.content[lang]) &&
         el.content[lang].length > 0 &&
