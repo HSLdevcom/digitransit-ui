@@ -10,7 +10,9 @@ import SwipeableViews from 'react-swipeable-views';
 
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
+import { AlertSeverityLevelType } from '../constants';
 import { markMessageAsRead } from '../action/MessageActions';
+import { getReadMessageIds } from '../store/localStorage';
 import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
@@ -19,8 +21,6 @@ import {
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
 import { tryGetRelayQuery } from '../util/searchUtils';
-import { AlertSeverityLevelType } from '../constants';
-import { getReadMessageIds } from '../store/localStorage';
 
 /* Small version has constant height,
  * big version has max height of half but can be
@@ -45,7 +45,7 @@ const fetchServiceAlerts = async () => {
   const result = await tryGetRelayQuery(query, defaultValue);
   return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
     ? result[0].alerts.filter(
-        alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info,
+        alert => alert.alertSeverityLevel === AlertSeverityLevelType.Severe,
       )
     : defaultValue;
 };
