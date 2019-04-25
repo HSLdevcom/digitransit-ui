@@ -62,3 +62,19 @@ export const getCityBikeUrl = (networks, lang, config) => {
   }
   return undefined;
 };
+
+// Returns network specific type if it exists. Defaults to citybike
+export const getCityBikeType = (networks, config) => {
+  const id = getCityBikeNetworkId(networks).toLowerCase();
+
+  if (
+    config &&
+    config.cityBike &&
+    config.cityBike.networks &&
+    config.cityBike.networks[id] &&
+    config.cityBike.networks[id].type
+  ) {
+    return config.cityBike.networks[id].type;
+  }
+  return defaultNetworkConfig.type;
+};

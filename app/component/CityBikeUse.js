@@ -6,11 +6,15 @@ import { FormattedMessage } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import { cityBikeUrl as exampleUrl } from './ExampleData';
 
-const CityBikeUse = ({ url }) => (
+const CityBikeUse = ({ url, type }) => (
   <div className="city-bike-use-container">
     <p className="sub-header-h4 text-center">
       <FormattedMessage
-        id="citybike-register-required"
+        id={
+          type === 'scooter'
+            ? 'scooter-register-required'
+            : 'citybike-register-required'
+        }
         defaultMessage="To use city bikes, you need to register"
       />
     </p>
@@ -28,13 +32,14 @@ CityBikeUse.description = () => (
   <div>
     <p>Renders use citybike component</p>
     <ComponentUsageExample description="">
-      <CityBikeUse url={exampleUrl} />
+      <CityBikeUse url={exampleUrl} type="citybike" />
     </ComponentUsageExample>
   </div>
 );
 
 CityBikeUse.propTypes = {
   url: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default CityBikeUse;

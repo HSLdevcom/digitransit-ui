@@ -929,6 +929,8 @@ const translations = {
     'routes-platforms': 'Routes, platforms',
     run: 'Run',
     save: 'Save',
+    'scooter-availability': 'Kick scooters available at the station right now',
+    'scooter-register-required': 'To use kick scooters, you need to register',
     search: 'Search',
     'search-button-label': 'Search',
     'search-destination': 'Search destination, route or stop',
@@ -1629,6 +1631,9 @@ const translations = {
     'routes-platforms': 'Linjat, laiturit',
     run: 'Juoksu',
     save: 'Tallenna',
+    'scooter-availability': 'Potkulautoja asemalla juuri nyt',
+    'scooter-register-required':
+      'Potkulautojen käyttö vaatii rekisteröitymisen',
     search: 'Etsi',
     'search-button-label': 'Hae',
     'search-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
@@ -2637,6 +2642,9 @@ const translations = {
     'routes-platforms': 'Linjer, plattformer',
     run: 'Springande',
     save: 'Spara',
+    'scooter-availability': 'Antal sparkcyklar just nu',
+    'scooter-register-required':
+      'Det krävs registrering för att kunna använda sparkcyklar',
     search: 'Sök',
     'search-button-label': 'Sök',
     'search-destination': 'Sök destination, linje eller hållplats',
