@@ -80,14 +80,10 @@ function getBikeNetworks(allowedBikeRentalNetworks) {
   if (allowedBikeRentalNetworks) {
     if (Array.isArray(allowedBikeRentalNetworks)) {
       return allowedBikeRentalNetworks;
-    } 
-      return allowedBikeRentalNetworks
-        .split(',')
-        .map(o => o.toLowerCase());
-    
-  } 
-    
-  
+    }
+    return allowedBikeRentalNetworks.split(',').map(o => o.toLowerCase());
+  }
+  return undefined;
 }
 
 function nullOrUndefined(val) {
