@@ -150,25 +150,26 @@ class CustomizeSearch extends React.Component {
             }
           />
         )}
-        {
-          <CityBikeNetworkSelector
-            headerText={intl.formatMessage({
-              id: 'citybike-network-headers',
-              defaultMessage: 'Citybikes and scooters',
-            })}
-            isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
-            currentOptions={getCitybikeNetworks(router.location, config)}
-            updateValue={value =>
-              updateCitybikeNetworks(
-                getCitybikeNetworks(router.location, config),
-                value.toUpperCase(),
-                config,
-                router,
-                currentSettings.modes.includes('CITYBIKE'),
-              )
-            }
-          />
-        }
+        {config.cityBike.networks &&
+          Object.keys(config.cityBike.networks).length > 1 && (
+            <CityBikeNetworkSelector
+              headerText={intl.formatMessage({
+                id: 'citybike-network-headers',
+                defaultMessage: 'Citybikes and scooters',
+              })}
+              isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
+              currentOptions={getCitybikeNetworks(router.location, config)}
+              updateValue={value =>
+                updateCitybikeNetworks(
+                  getCitybikeNetworks(router.location, config),
+                  value.toUpperCase(),
+                  config,
+                  router,
+                  currentSettings.modes.includes('CITYBIKE'),
+                )
+              }
+            />
+          )}
         <PreferredRoutes
           onRouteSelected={this.onRouteSelected}
           preferredRoutes={currentSettings.preferredRoutes}

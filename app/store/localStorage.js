@@ -250,9 +250,6 @@ export function setRoutingSettings(data) {
     airplaneWeight: data.airplaneWeight
       ? data.airplaneWeight
       : oldSettings.airplaneWeight,
-    allowedBikeRentalNetworks: data.allowedBikeRentalNetworks
-      ? data.allowedBikeRentalNetworks
-      : oldSettings.allowedBikeRentalNetworks,
   };
   setItem('routingSettings', newSettings);
 }
