@@ -134,7 +134,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-istanbul": "5.1.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.23",
-    "base64-arraybuffer": "0.1.5",
+    "base64-arraybuffer": "0.2.0",
     "chai": "4.2.0",
     "codecov": "3.3.0",
     "compression-webpack-plugin": "2.0.0",
