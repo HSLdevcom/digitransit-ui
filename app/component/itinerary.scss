@@ -980,6 +980,16 @@ div.itinerary-container-content {
   }
 }
 
+.route-number.hasNoShortName {
+  flex-direction: row;
+  display: flex;
+}
+
+.vehicle-number.hasNoShortName {
+  font-size: 0.4em;
+  word-wrap: break-word;
+}
+
 .print-itinerary-button-container {
   display: flex;
   padding: 0 $padding-medium;
