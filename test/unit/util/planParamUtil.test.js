@@ -37,6 +37,19 @@ describe('planParamUtil', () => {
           },
         },
         modePolygons: {},
+        cityBike: {
+          networks: {
+            smoove: {
+              icon: 'citybike',
+              name: {
+                fi: 'Helsinki ja Espoo',
+                sv: 'Helsingfors och Esbo',
+                en: 'Helsinki and Espoo',
+              },
+              type: 'citybike',
+            },
+          },
+        },
       };
       const params = utils.preparePlanParams(config)(...defaultProps);
       const { modes } = params;

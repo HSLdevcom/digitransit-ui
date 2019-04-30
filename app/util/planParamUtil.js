@@ -76,6 +76,16 @@ function getTicketTypes(ticketType, settingsTicketType, defaultTicketType) {
     : null;
 }
 
+function getBikeNetworks(allowedBikeRentalNetworks) {
+  if (allowedBikeRentalNetworks) {
+    if (Array.isArray(allowedBikeRentalNetworks)) {
+      return allowedBikeRentalNetworks;
+    }
+    return allowedBikeRentalNetworks.split(',').map(o => o.toLowerCase());
+  }
+  return undefined;
+}
+
 function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
@@ -258,6 +268,7 @@ export const preparePlanParams = config => (
         walkBoardCost,
         walkReluctance,
         walkSpeed,
+        allowedBikeRentalNetworks,
       },
     },
   },
@@ -276,6 +287,10 @@ export const preparePlanParams = config => (
     intermediatePlaceLocations,
   );
   const defaultSettings = { ...getDefaultSettings(config) };
+
+  const allowedBikeRentalNetworksMapped =
+    getBikeNetworks(allowedBikeRentalNetworks) ||
+    settings.allowedBikeRentalNetworks.map(o => o.toLowerCase());
 
   return {
     ...defaultSettings,
@@ -393,6 +408,6 @@ export const preparePlanParams = config => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
-    allowedBikeRentalNetworks: settings.allowedBikeRentalNetworks,
+    allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
   };
 };
