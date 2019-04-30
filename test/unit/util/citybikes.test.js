@@ -157,7 +157,7 @@ describe('citybikes', () => {
         },
       };
       const result = getCityBikeUrl(networks, language, config);
-      expect(result).to.equal(config.cityBike.useUrl['fi']);
+      expect(result).to.equal(config.cityBike.useUrl.fi);
     });
 
     it('should return network specific url if it exists', () => {
@@ -175,7 +175,7 @@ describe('citybikes', () => {
         },
       };
       const result = getCityBikeUrl(networks, language, config);
-      expect(result).to.equal(config.cityBike.networks.foobar.url['fi']);
+      expect(result).to.equal(config.cityBike.networks.foobar.url.fi);
     });
   });
 
