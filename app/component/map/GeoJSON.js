@@ -50,6 +50,16 @@ const getIcons = features => {
 };
 
 /**
+ * The icon template to use for drawing custom icons on the map.
+ */
+const MapIcon = L.Icon.extend({
+  options: {
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  },
+});
+
+/**
  * Generates a suitable leaflet marker with a tooltip and a popup attached (if applicable)
  * for the given feature.
  *
@@ -64,7 +74,7 @@ const getMarker = (feature, latlng, icons = {}) => {
 
   if (properties.icon) {
     marker = L.marker(latlng, {
-      icon: icons[properties.icon.id],
+      icon: new MapIcon({ iconUrl: icons[properties.icon.id] }),
       interactive,
     });
   } else if (properties.textOnly) {
@@ -127,6 +137,7 @@ class GeoJSON extends React.Component {
   styler = feature => {
     const { config } = this.context;
     const defaultLineStyle = {
+      className: 'cursor-grab',
       color: config.colors.primary,
       weight: 3,
       opacity: 0.8,

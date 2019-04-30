@@ -3,7 +3,7 @@ sudo: required
 branches:
   only:
     - master
-    - index-page
+    - next
     - /201[7-9][0-1][0-9][0-3][0-9]/
 
 cache: yarn
@@ -23,12 +23,7 @@ jobs:
     - stage: test
       env: LINT,UNIT,FLOW
       node_js: '10'
-      script:
-        - yarn install
-        - yarn lint
-        - yarn test-coverage
-        - yarn test-report
-        - test/flow.sh
+      script: yarn install && yarn lint && yarn test-coverage && yarn test-report && test/flow.sh
     - stage: test
       env: _SMOKE=1
       node_js: '10'
@@ -36,22 +31,6 @@ jobs:
 
     - stage: visual
       env: VISUAL=chrome
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=ie11
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=edge17
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=safari11
-      node_js: '10'
-      script: test/visual.sh
-    - stage: visual
-      env: VISUAL=firefox
       node_js: '10'
       script: test/visual.sh
 
