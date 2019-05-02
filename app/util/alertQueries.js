@@ -3,8 +3,9 @@ import Relay from 'react-relay/classic';
 /**
  * Query for retrieving the full textual content of an Alert.
  */
-const AlertContentQuery = Relay.QL`
+export const AlertContentQuery = Relay.QL`
   fragment on Alert {
+    id
     alertDescriptionText
     alertHash
     alertHeaderText
