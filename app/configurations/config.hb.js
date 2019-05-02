@@ -2,7 +2,7 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'hb';
-const APP_TITLE = 'hbrouting';
+const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
 
 const API_URL = process.env.API_URL;
@@ -93,6 +93,18 @@ export default configMerger(walttiConfig, {
       label: 'ZOB Herrenberg',
       lat: 48.5942066,
       lon: 8.8644041,
+    },
+    {
+      icon: 'icon-icon_star',
+      label: 'Krankenhaus',
+      lat: 48.59174,
+      lon: 8.87536,
+    },
+    {
+      icon: 'icon-icon_star',
+      label: 'Waldfriedhof / Schönbuchturm',
+      lat: 48.6020352, 
+      lon: 8.9036348,
     },
   ],
 
