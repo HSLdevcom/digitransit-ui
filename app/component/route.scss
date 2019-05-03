@@ -786,6 +786,7 @@ div.route-tabs {
 
   .route-option-togglable {
     margin-top: 0.4em;
+    max-height: 1.4em;
   }
 
   select, .route-option {
@@ -797,6 +798,10 @@ div.route-tabs {
     border-radius: 5px;
     border: 1px solid $light-gray;
     appearance: none;
+
+    option {
+      max-height: 1.4em;
+    }
 
     &:focus {
       outline: none;

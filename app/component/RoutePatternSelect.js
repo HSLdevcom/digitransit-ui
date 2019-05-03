@@ -67,7 +67,11 @@ class RoutePatternSelect extends Component {
             .map(pattern => {
               if (this.props.route.patterns.length > 2) {
                 return (
-                  <option key={pattern.code} value={pattern.code}>
+                  <option
+                    key={pattern.code}
+                    value={pattern.code}
+                    className="overflow-fade"
+                  >
                     {pattern.stops[0].name} ➔ {pattern.headsign}
                   </option>
                 );
@@ -76,7 +80,7 @@ class RoutePatternSelect extends Component {
                 <div
                   key={pattern.code}
                   value={pattern.code}
-                  className="route-option-togglable"
+                  className="route-option-togglable overflow-fade"
                 >
                   {pattern.stops[0].name} ➔ {pattern.headsign}
                 </div>
