@@ -4,6 +4,7 @@ import { parseFeedMQTT } from './gtfsRtParser';
 
 const modeTranslate = {
   train: 'rail',
+  metro: 'subway',
 };
 
 // getTopic

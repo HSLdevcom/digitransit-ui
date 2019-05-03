@@ -46,5 +46,19 @@ describe('mqttClient', () => {
       const message = parseMessage(testTopic, emptyMessage, 'HSL');
       expect(message.route).to.include('HSL:');
     });
+
+    it('translates train -> rail', () => {
+      const trainTopic =
+        '/hfp/v1/journey/ongoing/train/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
+      const message = parseMessage(trainTopic, emptyMessage, 'HSL');
+      expect(message.mode).to.equal('rail');
+    });
+
+    it('translates metro -> subway', () => {
+      const metroTopic =
+        '/hfp/v1/journey/ongoing/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
+      const message = parseMessage(metroTopic, emptyMessage, 'HSL');
+      expect(message.mode).to.equal('subway');
+    });
   });
 });
