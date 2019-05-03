@@ -67,11 +67,7 @@ class RoutePatternSelect extends Component {
             .map(pattern => {
               if (this.props.route.patterns.length > 2) {
                 return (
-                  <option
-                    key={pattern.code}
-                    value={pattern.code}
-                    className="overflow-fade"
-                  >
+                  <option key={pattern.code} value={pattern.code}>
                     {pattern.stops[0].name} ➔ {pattern.headsign}
                   </option>
                 );
@@ -80,7 +76,7 @@ class RoutePatternSelect extends Component {
                 <div
                   key={pattern.code}
                   value={pattern.code}
-                  className="route-option-togglable overflow-fade"
+                  className="route-option-togglable"
                 >
                   {pattern.stops[0].name} ➔ {pattern.headsign}
                 </div>
@@ -112,7 +108,7 @@ class RoutePatternSelect extends Component {
             ) === undefined && this.props.activeTab !== 'aikataulu',
         })}
       >
-        {options.length > 2 || options.length === 1 ? (
+        {options && (options.length > 2 || options.length === 1) ? (
           <React.Fragment>
             <Icon img="icon-icon_arrow-dropdown" />
             <select
@@ -144,11 +140,10 @@ class RoutePatternSelect extends Component {
                 )
               }
             >
-              {
+              {options &&
                 options.filter(
                   o => o.props.value === this.props.params.patternId,
-                )[0]
-              }
+                )[0]}
             </div>
 
             <button
