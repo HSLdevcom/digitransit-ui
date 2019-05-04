@@ -47,6 +47,12 @@ class TileContainer {
           return isEnabled;
         }
         if (
+          layerName === 'dynamicParkingLots' &&
+          this.coords.z >= config.dynamicParkingLots.dynamicParkingLotsMinZoom
+        ) {
+          return isEnabled;
+        }
+        if (
           layerName === 'parkAndRide' &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {

@@ -3,6 +3,7 @@ import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import CityBikes from './CityBikes';
+import DynamicParkingLots from './DynamicPaerkingLots';
 import Stops from './Stops';
 import ParkAndRide from './ParkAndRide';
 import TicketSales from './TicketSales';
@@ -23,6 +24,10 @@ export default function VectorTileLayerContainer(props, { config }) {
 
     if (config.ticketSales && config.ticketSales.showTicketSales) {
       layers.push(TicketSales);
+    }
+
+    if (config.dynamicParkingLots && config.dynamicParkingLots.showDynamicParkingLots) {
+      layers.push(DynamicParkingLots)
     }
   }
 

@@ -275,6 +275,14 @@ export function drawCitybikeIcon(tile, geom, imageSize) {
   ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
 }
 
+export function drawDynamicParkLotIcon(tile, geom, imageSize) {
+  return getImageFromSpriteCache(
+    'icon-icon_car', //TODO use parking place icon
+    imageSize,
+    imageSize,
+  ).then(image => drawIconImage(image, tile, geom, imageSize, imageSize));
+}
+
 export function drawCitybikeOffIcon(tile, geom, imageSize) {
   return getImageFromSpriteCache(
     'icon-icon_citybike_off',

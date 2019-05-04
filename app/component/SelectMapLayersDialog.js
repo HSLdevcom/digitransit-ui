@@ -64,7 +64,7 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   renderContents = (
-    { citybike, parkAndRide, stop, terminal, ticketSales, geoJson },
+    { citybike, parkAndRide, dynamicParkingLots, stop, terminal, ticketSales, geoJson },
     config,
     lang,
   ) => {
@@ -140,6 +140,17 @@ class SelectMapLayersDialog extends React.Component {
                 labelId="map-layer-citybike"
                 onChange={e =>
                   this.updateSetting({ citybike: e.target.checked })
+                }
+              />
+            )}
+          {config.dynamicParkingLots &&
+            config.dynamicParkingLots.showDynamicParkingLots && (
+              <Checkbox
+                checked={dynamicParkingLots}
+                defaultMessage="Dynamic parking lots"
+                labelId="map-layer-dynamicparkinglot"
+                onChange={e =>
+                  this.updateSetting({ dynamicParkingLots: e.target.checked })
                 }
               />
             )}
@@ -229,6 +240,9 @@ const transportModeConfigShape = PropTypes.shape({
 const mapLayersConfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     showCityBikes: PropTypes.bool,
+  }),
+  dynamicParkingLots: PropTypes.shape({
+    showDynamicParkingLots: PropTypes.bool,
   }),
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(
