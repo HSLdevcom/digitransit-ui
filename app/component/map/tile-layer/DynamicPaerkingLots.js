@@ -7,24 +7,14 @@ import { isBrowser } from '../../../util/browser';
 import {
   drawRoundIcon,
   drawDynamicParkLotIcon,
-  drawCitybikeOffIcon,
-  drawAvailabilityBadge,
   drawAvailabilityValue,
 } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
-
-import {
-  BIKESTATION_ON,
-  BIKESTATION_OFF,
-  BIKESTATION_CLOSED,
-} from '../../../util/citybikes';
 
 const getScale = glfun({
   base: 1,
   stops: [[13, 0.8], [20, 1.6]],
 });
-
-const timeOfLastFetch = {};
 
 class DynamicParkingLots {
   constructor(tile, config) {
@@ -42,8 +32,7 @@ class DynamicParkingLots {
 
   fetchWithAction = actionFn =>
     fetch(
-      //`${this.config.URL.CITYBIKE_MAP}` +
-      'http://localhost:3001/parken_hb/' + //TODO URL from config
+      `${this.config.URL.DYNAMICPARKINGLOTS_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
     ).then(res => {
