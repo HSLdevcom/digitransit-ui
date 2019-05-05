@@ -25,6 +25,7 @@ export default configMerger(walttiConfig, {
       default: MAP_URL,
     },
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
+    DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
 
     PELIAS: `${GEOCODING_BASE_URL}/search?api_key=${LOCATIONIQ_API_KEY}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse?api_key=${LOCATIONIQ_API_KEY}`,
@@ -47,6 +48,12 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+  },
+
+  dynamicParkingLots: {
+    showDynamicParkingLots: true,
+    dynamicParkingLotsSmallIconZoom: 16,
+    dynamicParkingLotsMinZoom: 14
   },
 
   title: APP_TITLE,

@@ -46,13 +46,13 @@ class DynamicParkingLots {
 
           this.features = [];
 
-          if (vt.layers.map11geojson != null) { //TODO Layername
+          if (vt.layers.parking != null) {
             for (
-              let i = 0, ref = vt.layers.map11geojson.length - 1;
+              let i = 0, ref = vt.layers.parking.length - 1;
               i <= ref;
               i++
             ) {
-              const feature = vt.layers.map11geojson.feature(i);
+              const feature = vt.layers.parking.feature(i);
               [[feature.geom]] = feature.loadGeometry();
               this.features.push(pick(feature, ['geom', 'properties']));
             }
