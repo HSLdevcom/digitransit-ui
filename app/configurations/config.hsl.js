@@ -505,6 +505,11 @@ export default {
           en: 'Vuosaari',
         },
         type: 'scooter',
+        url: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat',
+          sv: 'https://www.hsl.fi/sv/stadscyklar',
+          en: 'https://www.hsl.fi/en/citybikes',
+        },
       },
       smoove: {
         icon: 'citybike',
@@ -514,6 +519,11 @@ export default {
           en: 'Helsinki and Espoo',
         },
         type: 'citybike',
+        url: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat',
+          sv: 'https://www.hsl.fi/sv/stadscyklar',
+          en: 'https://www.hsl.fi/en/citybikes',
+        },
       },
       vantaa: {
         icon: 'citybike-secondary',
@@ -523,6 +533,11 @@ export default {
           en: 'Vantaa',
         },
         type: 'citybike',
+        url: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat',
+          sv: 'https://www.hsl.fi/sv/stadscyklar',
+          en: 'https://www.hsl.fi/en/citybikes',
+        },
       },
     },
   },
