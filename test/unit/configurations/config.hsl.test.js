@@ -4,36 +4,9 @@ import { describe, it } from 'mocha';
 import config from '../../../app/configurations/config.hsl';
 
 const fareZones = {
-  fi: [
-    'Espoo ja Kauniainen',
-    'Helsinki',
-    'Kerava-Sipoo-Tuusula',
-    'Kirkkonummi-Siuntio',
-    'Lähiseutu 3',
-    'Lähiseutu 2',
-    'Seutulippu',
-    'Vantaa',
-  ],
-  en: [
-    'Espoo and Kauniainen',
-    'Helsinki',
-    'Kerava-Sipoo-Tuusula',
-    'Kirkkonummi-Siuntio',
-    'Region three zone',
-    'Region two zone',
-    'Regional ticket',
-    'Vantaa',
-  ],
-  sv: [
-    'Esbo och Grankulla',
-    'Helsingfors',
-    'Kervo-Sibbo-Tusby',
-    'Kyrkslätt-Sjundeå',
-    'Närregion 3',
-    'Närregion 2',
-    'Regionbiljett',
-    'Vanda',
-  ],
+  fi: ['AB', 'BC', 'CD', 'D', 'ABC', 'BCD', 'ABCD'],
+  en: ['AB', 'BC', 'CD', 'D', 'ABC', 'BCD', 'ABCD'],
+  sv: ['AB', 'BC', 'CD', 'D', 'ABC', 'BCD', 'ABCD'],
 };
 
 describe('HSL Configuration', () => {

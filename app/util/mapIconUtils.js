@@ -329,7 +329,8 @@ export function drawAvailabilityValue(
     calculateIconBadgePosition(geom.y, tile, imageSize, radius, scaleratio) + 1;
 
   tile.ctx.beginPath();
-  tile.ctx.fillStyle = value > 3 ? '#4EA700' : '#FF6319';
+  tile.ctx.fillStyle =
+    (value > 3 && '#4EA700') || (value > 0 && '#FF6319') || '#DC0451';
   tile.ctx.arc(x, y, radius, 0, FULL_CIRCLE);
   tile.ctx.fill();
 

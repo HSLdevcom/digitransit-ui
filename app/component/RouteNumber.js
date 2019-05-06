@@ -18,6 +18,10 @@ function RouteNumber(props, context) {
   }
 
   const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
+  // Checks if route only has letters without identifying numbers and
+  // length doesn't fit in the tab view
+  const hasNoShortName =
+    new RegExp(/^([^0-9]*)$/).test(props.text) && props.text.length > 3;
 
   const icon = (isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
@@ -60,6 +64,7 @@ function RouteNumber(props, context) {
       className={cx('route-number', {
         'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
+        hasNoShortName: hasNoShortName && longText,
       })}
     >
       <span
@@ -102,6 +107,7 @@ function RouteNumber(props, context) {
             className={cx('vehicle-number', mode, {
               'overflow-fade': longText && props.fadeLong,
               long: longText,
+              hasNoShortName: hasNoShortName && longText,
             })}
           >
             {props.text}
@@ -113,6 +119,7 @@ function RouteNumber(props, context) {
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
+                hasNoShortName: hasNoShortName && longText,
               })}
             >
               {props.text}
