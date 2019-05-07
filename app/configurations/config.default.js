@@ -256,7 +256,7 @@ export default {
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
-    networks: [],
+    networks: {},
   },
 
   // Lowest level for stops and terminals are rendered
