@@ -1,5 +1,5 @@
 import { isEmpty, without } from 'lodash';
-import { toggleTransportMode } from './modeUtils';
+import { toggleCitybikesAndNetworks } from './modeUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { replaceQueryParams } from './queryUtils';
 
@@ -116,13 +116,22 @@ export const updateCitybikeNetworks = (
   }
 
   if (chosenNetworks.length === 0 || !isUsingCitybike) {
-    toggleTransportMode('citybike', config, router);
     if (chosenNetworks.length === 0) {
-      replaceQueryParams(router, {
-        allowedBikeRentalNetworks: getDefaultNetworks(config).join(),
-      });
+      toggleCitybikesAndNetworks(
+        'citybike',
+        config,
+        router,
+        getDefaultNetworks(config).join(),
+      );
       return;
     }
+    toggleCitybikesAndNetworks(
+      'citybike',
+      config,
+      router,
+      chosenNetworks.join(','),
+    );
+    return;
   }
 
   replaceQueryParams(router, {
