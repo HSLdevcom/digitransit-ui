@@ -495,7 +495,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    // TODO: Change according to the real network names TBD later
+    showCityBikes: true,
     networks: {
       samocat: {
         icon: 'scooter',
@@ -506,9 +506,9 @@ export default {
         },
         type: 'scooter',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://www.hsl.fi/potkulaudat',
+          sv: 'https://www.hsl.fi/sv/stadssparkcyklar',
+          en: 'https://www.hsl.fi/en/cityscooters',
         },
       },
       smoove: {
@@ -525,6 +525,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
+      /*
       vantaa: {
         icon: 'citybike-secondary',
         name: {
@@ -539,6 +540,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
+      */
     },
   },
 };
