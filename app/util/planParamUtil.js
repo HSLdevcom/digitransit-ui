@@ -292,7 +292,7 @@ export const preparePlanParams = config => (
     (allowedBikeRentalNetworks &&
       (getBikeNetworks(allowedBikeRentalNetworks) ||
         settings.allowedBikeRentalNetworks.map(o => o.toLowerCase()))) ||
-    defaultSettings.allowedBikeRentalNetworks;
+    defaultSettings.allowedBikeRentalNetworks.map(o => o.toLowerCase());
 
   return {
     ...defaultSettings,
