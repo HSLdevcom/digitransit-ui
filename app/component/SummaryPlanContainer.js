@@ -179,6 +179,7 @@ class SummaryPlanContainer extends React.Component {
       };
 
       const query = Relay.createQuery(this.getQuery(), tunedParams);
+      console.log(query);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
@@ -260,6 +261,7 @@ class SummaryPlanContainer extends React.Component {
       };
 
       const query = Relay.createQuery(this.getQuery(), tunedParams);
+      console.log(query);
 
       Relay.Store.primeCache({ query }, status => {
         if (status.ready === true) {
