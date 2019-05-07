@@ -4,6 +4,8 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkName,
   getCityBikeNetworkConfig,
+  getCityBikeUrl,
+  getCityBikeType,
 } from '../../../app/util/citybikes';
 
 describe('citybikes', () => {
@@ -114,6 +116,90 @@ describe('citybikes', () => {
       const language = 'fi';
       const result = getCityBikeNetworkName(networkConfig, language);
       expect(result).to.equal('Testi');
+    });
+  });
+
+  describe('getCityBikeUrl', () => {
+    it('should return undefined if cityBike config does not exist', () => {
+      const networks = ['foo', 'bar'];
+      const language = 'en';
+      const config = {};
+      const result = getCityBikeUrl(networks, language, config);
+      expect(result).to.equal(undefined);
+    });
+
+    it('should return undefined if no matching language term exists', () => {
+      const networks = ['foobar', 'foo'];
+      const language = 'en';
+      const config = {
+        cityBike: {
+          networks: {
+            foobar: {
+              url: {
+                fi: 'https://www.url.fi/',
+              },
+            },
+          },
+        },
+      };
+      const result = getCityBikeUrl(networks, language, config);
+      expect(result).to.equal(undefined);
+    });
+
+    it('should return cityBike.useUrl if network specific url does not exist', () => {
+      const networks = ['foo', 'bar'];
+      const language = 'fi';
+      const config = {
+        cityBike: {
+          useUrl: {
+            fi: 'https://www.url.fi/',
+          },
+        },
+      };
+      const result = getCityBikeUrl(networks, language, config);
+      expect(result).to.equal(config.cityBike.useUrl.fi);
+    });
+
+    it('should return network specific url if it exists', () => {
+      const networks = ['foobar', 'bar'];
+      const language = 'fi';
+      const config = {
+        cityBike: {
+          networks: {
+            foobar: {
+              url: {
+                fi: 'https://www.url.fi/',
+              },
+            },
+          },
+        },
+      };
+      const result = getCityBikeUrl(networks, language, config);
+      expect(result).to.equal(config.cityBike.networks.foobar.url.fi);
+    });
+  });
+
+  describe('getCityBikeType', () => {
+    it('should return citybike if type config for network does not exist', () => {
+      const networks = ['foo', 'bar'];
+      const config = {};
+      const result = getCityBikeType(networks, config);
+      expect(result).to.equal('citybike');
+    });
+
+    it('should return correct citybike type if it is configured', () => {
+      const networks = ['foobar', 'foo'];
+      const config = {
+        cityBike: {
+          networks: {
+            foobar: {
+              type: 'scooter',
+            },
+          },
+        },
+      };
+      const result = getCityBikeType(networks, config);
+      expect(result).to.equal('scooter');
     });
   });
 });

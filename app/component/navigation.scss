@@ -113,7 +113,7 @@ $content-background-color: $background-color;
     margin: 0px 2px;
     &.selected {
       border-radius: 3px;
-      background-color: hsla(0,0%,100%,.15);
+      background-color: hsla(0, 0%, 100%, 0.15);
     }
   }
 }
@@ -358,6 +358,20 @@ section.content {
       flex-basis: auto;
       flex-grow: 1;
       width: 60%;
+    }
+
+    &.banner-disruption {
+      background: $disruption-color;
+
+      .icon {
+        color: $disruption-color;
+        fill: white;
+      }
+
+      .message-bar-content,
+      h2 {
+        color: white;
+      }
     }
   }
 

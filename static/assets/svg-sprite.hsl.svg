@@ -289,13 +289,25 @@
 <symbol id="icon-icon_mapMarker-from" viewBox="0 0 16 24">
   <path fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
 </symbol>
+<symbol id="icon-icon_mapMarker-from-map" viewBox="0 0 20 29">
+  <path stroke="#FFF" stroke-width="1.5" d="M9.383 26.426C3.96 18.577 1.25 13.155 1.25 10a8.75 8.75 0 0 1 17.5 0c0 3.155-2.711 8.577-8.133 16.426L10 27.32l-.617-.894z"/>
+  <path fill="#FFF" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5z"/>
+</symbol>
 
 <symbol id="icon-icon_mapMarker-via" viewBox="0 0 16 24">
   <path fill="#333" fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
 </symbol>
+<symbol id="icon-icon_mapMarker-via-map" viewBox="0 0 20 29">
+  <path fill="#333" stroke="#FFF" stroke-width="1.5" d="M9.383 26.426C3.96 18.577 1.25 13.155 1.25 10a8.75 8.75 0 0 1 17.5 0c0 3.155-2.711 8.577-8.133 16.426L10 27.32l-.617-.894z"/>
+  <path fill="#FFF" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5z"/>
+</symbol>
 
 <symbol id="icon-icon_mapMarker-to" viewBox="0 0 16 24">
   <path fill-rule="evenodd" d="M4.5 8c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5S4.5 9.93 4.5 8zM8 24c5.333-7.721 8-13.054 8-16A8 8 0 1 0 0 8c0 2.946 2.667 8.279 8 16z"/>
+</symbol>
+<symbol id="icon-icon_mapMarker-to-map" viewBox="0 0 20 29">
+  <path stroke="#FFF" stroke-width="1.5" d="M9.383 26.426C3.96 18.577 1.25 13.155 1.25 10a8.75 8.75 0 0 1 17.5 0c0 3.155-2.711 8.577-8.133 16.426L10 27.32l-.617-.894z"/>
+  <path fill="#FFF" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5z"/>
 </symbol>
 
 <symbol id="icon-icon_place" viewBox="0 0 1024 1024">

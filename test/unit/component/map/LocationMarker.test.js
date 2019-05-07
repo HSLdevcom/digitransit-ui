@@ -58,7 +58,7 @@ describe('<LocationMarker />', () => {
     };
     const wrapper = shallowWithIntl(<LocationMarker {...props} />);
     expect(wrapper.props().icon.element.props.img).to.equal(
-      'icon-icon_mapMarker-to',
+      'icon-icon_mapMarker-to-map',
     );
   });
 });

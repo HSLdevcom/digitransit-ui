@@ -148,25 +148,14 @@ class CityBikes {
               geom,
               this.citybikeImageSize,
             ).then(() => {
-              if (result.bikesAvailable === 0) {
-                drawAvailabilityBadge(
-                  'no',
-                  this.tile,
-                  geom,
-                  this.citybikeImageSize,
-                  this.availabilityImageSize,
-                  this.scaleratio,
-                );
-              } else {
-                drawAvailabilityValue(
-                  this.tile,
-                  geom,
-                  result.bikesAvailable,
-                  this.citybikeImageSize,
-                  this.availabilityImageSize,
-                  this.scaleratio,
-                );
-              }
+              drawAvailabilityValue(
+                this.tile,
+                geom,
+                result.bikesAvailable,
+                this.citybikeImageSize,
+                this.availabilityImageSize,
+                this.scaleratio,
+              );
             });
           }
         }
