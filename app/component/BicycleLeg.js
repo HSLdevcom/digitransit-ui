@@ -65,12 +65,14 @@ function BicycleLeg(props, context) {
     }
   }
 
-  const networkIcon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(
-      props.leg.from.bikeRentalStation.networks[0],
-      context.config,
-    ),
-  );
+  const networkIcon =
+    props.leg.from.bikeRentalStation &&
+    getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(
+        props.leg.from.bikeRentalStation.networks[0],
+        context.config,
+      ),
+    );
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (

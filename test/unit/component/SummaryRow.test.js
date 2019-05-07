@@ -119,7 +119,10 @@ describe('<SummaryRow />', () => {
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
     const wrapper = mountWithIntl(<SummaryRow {...props} />, {
-      context: { ...mockContext },
+      context: {
+        ...mockContext,
+        config: { cityBike: { fewAvailableCount: 3 } },
+      },
       childContextTypes: { ...mockChildContextTypes },
     });
 
