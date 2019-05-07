@@ -251,21 +251,11 @@ export default {
   cityBike: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
-    showCityBikes: true,
     showStationId: true,
-
-    useUrl: {
-      fi: 'https://www.hsl.fi/kaupunkipyorat',
-      sv: 'https://www.hsl.fi/sv/stadscyklar',
-      en: 'https://www.hsl.fi/en/citybikes',
-    },
-
     cityBikeMinZoom: 14,
     cityBikeSmallIconZoom: 14,
     // When should bikeshare availability be rendered in orange rather than green
     fewAvailableCount: 3,
-
-    networks: {},
   },
 
   // Lowest level for stops and terminals are rendered
