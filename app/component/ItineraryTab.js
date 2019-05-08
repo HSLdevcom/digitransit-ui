@@ -72,6 +72,18 @@ class ItineraryTab extends React.Component {
       pathname: printPath,
     });
   };
+  ShareUrl = e => {
+    e.stopPropagation();
+    if (navigator.share) {
+  navigator.share({
+      url: this.props.location.pathname,
+  })
+    .then(() => console.log('Successful share'))
+    .catch((error) => console.log('Error sharing', error));
+}
+
+
+  };
 
   render() {
     const { itinerary, searchTime } = this.props;
@@ -127,6 +139,17 @@ class ItineraryTab extends React.Component {
                   buttonClickAction={e => this.printItinerary(e)}
                   buttonIcon="icon-icon_print"
                 />
+                {navigator.share && (
+                  <SecondaryButton
+                    ariaLabel="share"
+                    buttonName="share"
+                    buttonClickAction={e => this.ShareUrl(e)}
+                      buttonIcon="icon-icon_share"
+                  />
+                )
+
+                }
+
               </div>
               {config.showDisclaimer && (
                 <div className="itinerary-disclaimer">
