@@ -208,6 +208,7 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             name
             vertexType
             bikeRentalStation {
+              networks
               bikesAvailable
               ${CityBikeMarker.getFragment('station')}
             }
