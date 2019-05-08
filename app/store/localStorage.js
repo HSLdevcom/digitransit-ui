@@ -130,6 +130,10 @@ export function setCustomizedSettings(data) {
       oldSettings.walkReluctance,
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
+    allowedBikeRentalNetworks: getValueOrDefault(
+      data.allowedBikeRentalNetworks,
+      oldSettings.allowedBikeRentalNetworks,
+    ),
   };
   if (optimize === OptimizeType.Triangle) {
     newSettings.safetyFactor = getNumberValueOrDefault(

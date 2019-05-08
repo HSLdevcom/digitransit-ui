@@ -207,10 +207,14 @@ export default {
         [24.825623, 60.150484],
         [24.847359, 60.14129],
         [24.878784, 60.135211],
-        [24.917694, 60.135829],
-        [24.946839, 60.144845],
-        [24.970082, 60.153435],
-        [24.981806, 60.168956],
+        [24.925075, 60.144717],
+        [24.932484, 60.151908],
+        [24.951109, 60.154663],
+        [24.957653, 60.152834],
+        [24.965618, 60.155976],
+        [24.959649, 60.161454],
+        [24.968876, 60.162671],
+        [24.981462, 60.167184],
         [24.975605, 60.175104],
         [24.981962, 60.177926],
         [24.993498, 60.17687],
@@ -495,7 +499,7 @@ export default {
   useTicketIcons: true,
 
   cityBike: {
-    // TODO: Change according to the real network names TBD later
+    showCityBikes: true,
     networks: {
       samocat: {
         icon: 'scooter',
@@ -506,9 +510,9 @@ export default {
         },
         type: 'scooter',
         url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat',
-          sv: 'https://www.hsl.fi/sv/stadscyklar',
-          en: 'https://www.hsl.fi/en/citybikes',
+          fi: 'https://www.hsl.fi/potkulaudat',
+          sv: 'https://www.hsl.fi/sv/stadssparkcyklar',
+          en: 'https://www.hsl.fi/en/cityscooters',
         },
       },
       smoove: {
@@ -525,6 +529,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
+      /*
       vantaa: {
         icon: 'citybike-secondary',
         name: {
@@ -539,6 +544,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
+      */
     },
   },
 };

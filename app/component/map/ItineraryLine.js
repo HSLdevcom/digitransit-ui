@@ -208,6 +208,7 @@ export default Relay.createContainer(ItineraryLine, {
           vertexType
           bikeRentalStation {
             ${CityBikeMarker.getFragment('station')}
+            stationId
           }
           stop {
             gtfsId

@@ -18,6 +18,7 @@ import SelectOptionContainer from './customizesearch/SelectOptionContainer';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
+import CityBikeNetworkSelector from './CityBikeNetworkSelector';
 import { resetCustomizedSettings } from '../store/localStorage';
 import * as ModeUtils from '../util/modeUtils';
 import { getDefaultSettings, getCurrentSettings } from '../util/planParamUtil';
@@ -29,6 +30,7 @@ import {
   removeUnpreferredRoute,
   replaceQueryParams,
 } from '../util/queryUtils';
+import { updateCitybikeNetworks, getCitybikeNetworks } from '../util/citybikes';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -148,6 +150,26 @@ class CustomizeSearch extends React.Component {
             }
           />
         )}
+        {config.cityBike.networks &&
+          Object.keys(config.cityBike.networks).length > 1 && (
+            <CityBikeNetworkSelector
+              headerText={intl.formatMessage({
+                id: 'citybike-network-headers',
+                defaultMessage: 'Citybikes and scooters',
+              })}
+              isUsingCitybike={currentSettings.modes.includes('CITYBIKE')}
+              currentOptions={getCitybikeNetworks(router.location, config)}
+              updateValue={value =>
+                updateCitybikeNetworks(
+                  getCitybikeNetworks(router.location, config),
+                  value.toUpperCase(),
+                  config,
+                  router,
+                  currentSettings.modes.includes('CITYBIKE'),
+                )
+              }
+            />
+          )}
         <PreferredRoutes
           onRouteSelected={this.onRouteSelected}
           preferredRoutes={currentSettings.preferredRoutes}

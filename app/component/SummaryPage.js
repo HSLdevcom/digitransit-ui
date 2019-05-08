@@ -466,7 +466,9 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
           itineraryFiltering: $itineraryFiltering,
           modeWeight: $modeWeight
           preferred: $preferred,
-          unpreferred: $unpreferred),
+          unpreferred: $unpreferred,
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks,
+          ),
         {
           ${SummaryPlanContainer.getFragment('plan')}
           ${ItineraryTab.getFragment('searchTime')}
@@ -522,6 +524,7 @@ const containerComponent = Relay.createContainer(SummaryPageWithBreakpoint, {
       walkReluctance: null,
       walkSpeed: null,
       wheelchair: null,
+      allowedBikeRentalNetworks: null,
     },
     ...defaultRoutingSettings,
   },
