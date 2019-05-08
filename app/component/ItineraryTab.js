@@ -124,8 +124,9 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   small={breakpoint !== 'large'}
                 />
-                {!navigator.share && (
+                {navigator.share && (
                   <SecondaryButton
+                    className="share-button"
                     ariaLabel="share"
                     buttonName="share"
                     buttonClickAction={e => this.ShareUrl(e)}
