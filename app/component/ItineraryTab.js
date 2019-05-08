@@ -124,6 +124,14 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   small={breakpoint !== 'large'}
                 />
+                {!navigator.share && (
+                  <SecondaryButton
+                    ariaLabel="share"
+                    buttonName="share"
+                    buttonClickAction={e => this.ShareUrl(e)}
+                    buttonIcon="icon-icon_share"
+                  />
+                )}
                 {config.showTicketInformation && (
                   <TicketInformation
                     fares={itinerary.fares}
@@ -139,14 +147,7 @@ class ItineraryTab extends React.Component {
                   buttonClickAction={e => this.printItinerary(e)}
                   buttonIcon="icon-icon_print"
                 />
-                {navigator.share && (
-                  <SecondaryButton
-                    ariaLabel="share"
-                    buttonName="share"
-                    buttonClickAction={e => this.ShareUrl(e)}
-                    buttonIcon="icon-icon_share"
-                  />
-                )}
+
               </div>
               {config.showDisclaimer && (
                 <div className="itinerary-disclaimer">
