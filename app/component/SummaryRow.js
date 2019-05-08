@@ -22,6 +22,10 @@ import {
 import { sameDay, dateOrEmpty } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import {
+  getCityBikeNetworkIcon,
+  getCityBikeNetworkConfig,
+} from '../util/citybikes';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import {
@@ -89,6 +93,12 @@ RouteLeg.propTypes = {
 };
 
 export const ModeLeg = ({ leg, mode, large }, { config }) => {
+  const networkIcon =
+    leg.from.bikeRentalStation &&
+    getCityBikeNetworkIcon(
+      getCityBikeNetworkConfig(leg.from.bikeRentalStation.networks[0], config),
+    );
+
   const routeNumber = (
     <RouteNumber
       mode={mode}
@@ -96,6 +106,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
+      hasNetwork={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );

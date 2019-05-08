@@ -243,6 +243,7 @@ const containerComponent = Relay.createContainer(
             }
             bikeRentalStation {
               bikesAvailable
+              networks
             }
           }
           to {
