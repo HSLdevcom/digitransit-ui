@@ -14,6 +14,8 @@ const zopfli = require('node-zopfli-es');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const StatsPlugin = require('stats-webpack-plugin');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 const {
   languages,
   themeEntries,
@@ -136,6 +138,15 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: iltorb.compress,
   }),
+  new CopyWebpackPlugin([
+    {
+      from: path.join(__dirname, 'static/assets/geojson'),
+      transform: function minify(content) {
+        return JSON.stringify(JSON.parse(content.toString()));
+      },
+      to: path.join(__dirname, '_static/assets/geojson'),
+    },
+  ]),
   new StatsPlugin('../stats.json', { chunkModules: true }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
