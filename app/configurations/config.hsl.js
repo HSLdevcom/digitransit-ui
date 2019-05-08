@@ -445,11 +445,11 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/hsl_zone_lines.json',
+        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
     zones: {
-      url: '/hsl_zone_areas.json',
+      url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
     },
   },
   mapLayers: {
