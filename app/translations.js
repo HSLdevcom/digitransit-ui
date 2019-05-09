@@ -932,6 +932,7 @@ const translations = {
     run: 'Run',
     save: 'Save',
     'scooter-availability': 'Kick scooters available at the station right now',
+    'scooter-availability-short': 'Kick scooters',
     'scooter-register-required': 'To use kick scooters, you need to register',
     search: 'Search',
     'search-button-label': 'Search',
@@ -1636,6 +1637,7 @@ const translations = {
     run: 'Juoksu',
     save: 'Tallenna',
     'scooter-availability': 'Potkulautoja asemalla juuri nyt',
+    'scooter-availability-short': 'Potkulautoja',
     'scooter-register-required':
       'Potkulautojen käyttö vaatii rekisteröitymisen',
     search: 'Etsi',
@@ -2649,6 +2651,7 @@ const translations = {
     run: 'Springande',
     save: 'Spara',
     'scooter-availability': 'Antal sparkcyklar just nu',
+    'scooter-availability-short': 'Sparkcyklar',
     'scooter-register-required':
       'Det krävs registrering för att kunna använda sparkcyklar',
     search: 'Sök',

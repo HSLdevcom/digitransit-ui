@@ -7,10 +7,20 @@ export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';
 export const BIKESTATION_CLOSED = 'Station closed';
 
+/**
+ * CityBikeNetworkType depicts different types of citybike networks.
+ */
+export const CityBikeNetworkType = {
+  /** The network uses bikes. */
+  CityBike: 'citybike',
+  /** The network uses scooters. */
+  Scooter: 'scooter',
+};
+
 export const defaultNetworkConfig = {
   icon: 'citybike',
   name: {},
-  type: 'citybike',
+  type: CityBikeNetworkType.CityBike,
 };
 
 export const getCityBikeNetworkName = (

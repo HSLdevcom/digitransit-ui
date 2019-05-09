@@ -84,7 +84,7 @@ function BicycleLeg(props, context) {
         <RouteNumber
           mode={mode}
           vertical
-          hasNetwork={networkIcon}
+          icon={networkIcon}
           {...getLegBadgeProps(props.leg, context.config)}
         />
       </div>

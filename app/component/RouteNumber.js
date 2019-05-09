@@ -23,19 +23,13 @@ function RouteNumber(props, context) {
   const hasNoShortName =
     new RegExp(/^([^0-9]*)$/).test(props.text) && props.text.length > 3;
 
-  const icon = (
-    hasNetwork,
-    isCallAgency,
-    hasDisruption,
-    badgeFill,
-    badgeText,
-  ) => {
+  const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
       return (
         <IconWithIcon
           color={color}
           className={`${mode} call`}
-          img={`icon-icon_${mode}`}
+          img={icon || `icon-icon_${mode}`}
           subIcon="icon-icon_call"
         />
       );
@@ -46,7 +40,7 @@ function RouteNumber(props, context) {
         <IconWithBigCaution
           color={color}
           className={mode}
-          img={hasNetwork || `icon-icon_${mode}`}
+          img={icon || `icon-icon_${mode}`}
         />
       );
     }
@@ -57,7 +51,7 @@ function RouteNumber(props, context) {
         badgeText={badgeText}
         color={color}
         className={mode}
-        img={hasNetwork || `icon-icon_${mode}`}
+        img={icon || `icon-icon_${mode}`}
         subIcon=""
       />
     );
@@ -83,8 +77,8 @@ function RouteNumber(props, context) {
       >
         {props.vertical === true ? (
           <div className={`special-icon ${mode}`}>
-            {icon(
-              props.hasNetwork,
+            {getIcon(
+              props.icon,
               props.isCallAgency,
               props.hasDisruption,
               props.badgeFill,
@@ -92,7 +86,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         ) : (
-          icon(props.hasNetwork, props.isCallAgency, props.hasDisruption)
+          getIcon(props.icon, props.isCallAgency, props.hasDisruption)
         )}
         {props.withBar && (
           <div className="bar-container">
@@ -206,7 +200,7 @@ RouteNumber.propTypes = {
   isCallAgency: PropTypes.bool,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  hasNetwork: PropTypes.string,
+  icon: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
@@ -219,7 +213,7 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
-  hasNetwork: undefined,
+  icon: undefined,
 };
 
 RouteNumber.contextTypes = {
