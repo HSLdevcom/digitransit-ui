@@ -35,6 +35,7 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
     config,
   );
   const networkIcon = getCityBikeNetworkIcon(networkConfig);
+  const isOff = station.state !== BIKESTATION_ON;
 
   return (
     <tr className="next-departure-row-tr">
@@ -43,12 +44,8 @@ const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
       </td>
       <td className="td-route-number">
         <RouteNumber
-          icon={
-            station.state === BIKESTATION_ON
-              ? networkIcon
-              : `${networkIcon}_off`
-          }
-          mode="citybike"
+          icon={isOff ? `${networkIcon}_off` : networkIcon}
+          mode={isOff ? 'citybike_off' : 'citybike'}
           text={station.stationId}
           hasDisruption={false}
         />
