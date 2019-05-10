@@ -107,4 +107,148 @@ describe('<BicycleLeg />', () => {
         .prop('id'),
     ).to.equal('rent-scooter-at');
   });
+
+  it('should guide the user to ride a bike', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(1)
+        .prop('id'),
+    ).to.equal('cycle-distance-duration');
+  });
+
+  it('should guide the user to ride a scooter', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(1)
+        .prop('id'),
+    ).to.equal('scooter-distance-duration');
+  });
+
+  it('should guide the user to walk a bike', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'WALK',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(1)
+        .prop('id'),
+    ).to.equal('cyclewalk-distance-duration');
+  });
+
+  it('should guide the user to walk a scooter', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'WALK',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(1)
+        .prop('id'),
+    ).to.equal('scooterwalk-distance-duration');
+  });
 });

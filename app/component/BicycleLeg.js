@@ -26,11 +26,25 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
+  const networkConfig =
+    leg.rentedBike &&
+    leg.from.bikeRentalStation &&
+    getCityBikeNetworkConfig(
+      getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
+      config,
+    );
+  const isScooter =
+    networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
-        id="cyclewalk-distance-duration"
+        id={
+          isScooter
+            ? 'scooterwalk-distance-duration'
+            : 'cyclewalk-distance-duration'
+        }
         values={{ distance, duration }}
         defaultMessage="Walk your bike {distance} ({duration})"
       />
@@ -38,7 +52,7 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   } else {
     stopsDescription = (
       <FormattedMessage
-        id="cycle-distance-duration"
+        id={isScooter ? 'scooter-distance-duration' : 'cycle-distance-duration'}
         values={{ distance, duration }}
         defaultMessage="Cycle {distance} ({duration})"
       />
@@ -48,23 +62,12 @@ function BicycleLeg({ focusAction, index, leg }, { config }) {
   let networkIcon;
 
   if (leg.rentedBike === true) {
-    const networkConfig =
-      leg.from.bikeRentalStation &&
-      getCityBikeNetworkConfig(
-        getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
-        config,
-      );
     networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
-    const networkType = networkConfig && networkConfig.type;
 
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id={
-          networkType === CityBikeNetworkType.Scooter
-            ? 'rent-scooter-at'
-            : 'rent-cycle-at'
-        }
+        id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
         values={{ station: leg.from.name }}
         defaultMessage="Rent a bike at {station} station"
       />
@@ -144,6 +147,30 @@ const exampleLegCitybikeWalkingBike = t1 => ({
   rentedBike: true,
 });
 
+const exampleLegScooter = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: {
+    name: 'Ilmattarentie',
+    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
+  },
+  mode: 'BICYCLE',
+  rentedBike: true,
+});
+
+const exampleLegScooterWalkingScooter = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: {
+    name: 'Ilmattarentie',
+    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
+  },
+  mode: 'WALK',
+  rentedBike: true,
+});
+
 BicycleLeg.description = () => {
   const today = moment()
     .hour(12)
@@ -173,6 +200,20 @@ BicycleLeg.description = () => {
       <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
         <BicycleLeg
           leg={exampleLegCitybikeWalkingBike(today)}
+          index={1}
+          focusAction={() => {}}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-scooter">
+        <BicycleLeg
+          leg={exampleLegScooter(today)}
+          index={0}
+          focusAction={() => {}}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-scooter-walking-scooter">
+        <BicycleLeg
+          leg={exampleLegScooterWalkingScooter(today)}
           index={1}
           focusAction={() => {}}
         />

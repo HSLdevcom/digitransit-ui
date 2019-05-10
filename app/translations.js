@@ -935,7 +935,11 @@ const translations = {
     save: 'Save',
     'scooter-availability': 'Kick scooters available at the station right now',
     'scooter-availability-short': 'Kick scooters',
+    'scooter-distance-duration':
+      'Ride the kick scooter {distance} ({duration})',
     'scooter-register-required': 'To use kick scooters, you need to register',
+    'scooterwalk-distance-duration':
+      'Walk the kick scooter {distance} ({duration})',
     search: 'Search',
     'search-button-label': 'Search',
     'search-destination': 'Search destination, route or stop',
@@ -1642,8 +1646,11 @@ const translations = {
     save: 'Tallenna',
     'scooter-availability': 'Potkulautoja asemalla juuri nyt',
     'scooter-availability-short': 'Potkulautoja',
+    'scooter-distance-duration': 'Potkulautaile {distance} ({duration})',
     'scooter-register-required':
       'Potkulautojen käyttö vaatii rekisteröitymisen',
+    'scooterwalk-distance-duration':
+      'Taluta potkulautaa {distance} ({duration})',
     search: 'Etsi',
     'search-button-label': 'Hae',
     'search-destination': 'Hae määränpäätä, linjaa tai pysäkkiä',
@@ -2658,8 +2665,10 @@ const translations = {
     save: 'Spara',
     'scooter-availability': 'Antal sparkcyklar just nu',
     'scooter-availability-short': 'Sparkcyklar',
+    'scooter-distance-duration': 'Sparkcykla {distance} ({duration})',
     'scooter-register-required':
       'Det krävs registrering för att kunna använda sparkcyklar',
+    'scooterwalk-distance-duration': 'Led sparkcykeln {distance} ({duration})',
     search: 'Sök',
     'search-button-label': 'Sök',
     'search-destination': 'Sök destination, linje eller hållplats',
