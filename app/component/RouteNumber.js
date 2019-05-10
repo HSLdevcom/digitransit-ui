@@ -70,7 +70,7 @@ function RouteNumber(props, context) {
       className={cx('route-number', {
         'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
-        hasNoShortName: hasNoShortName && longText,
+        hasNoShortName: hasNoShortName && longText && !props.vertical,
       })}
     >
       <span
@@ -126,7 +126,6 @@ function RouteNumber(props, context) {
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
-                hasNoShortName: hasNoShortName && longText,
               })}
             >
               {props.text}
