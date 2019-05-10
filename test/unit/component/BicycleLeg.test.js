@@ -1,0 +1,110 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import BicycleLeg from '../../../app/component/BicycleLeg';
+import RouteNumber from '../../../app/component/RouteNumber';
+import { CityBikeNetworkType } from '../../../app/util/citybikes';
+
+describe('<BicycleLeg />', () => {
+  it('should use the scooter icon', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: { cityBike: { networks: { foobar: { icon: 'scooter' } } } },
+      },
+    });
+    expect(wrapper.find(RouteNumber).prop('icon')).to.equal(
+      'icon-icon_scooter',
+    );
+  });
+
+  it('should guide the user to rent a citybike', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(0)
+        .prop('id'),
+    ).to.equal('rent-cycle-at');
+  });
+
+  it('should guide the user to rent a scooter', () => {
+    const props = {
+      focusAction: () => {},
+      index: 1,
+      leg: {
+        distance: 0,
+        duration: 0,
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 0,
+        from: {
+          name: 'Hertanmäenkatu',
+          bikeRentalStation: {
+            bikesAvailable: 0,
+            networks: ['foobar'],
+          },
+        },
+      },
+    };
+    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+          },
+        },
+      },
+    });
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(0)
+        .prop('id'),
+    ).to.equal('rent-scooter-at');
+  });
+});

@@ -13,22 +13,21 @@ import { getLegBadgeProps } from '../util/legUtils';
 import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+  CityBikeNetworkType,
 } from '../util/citybikes';
 
-function BicycleLeg(props, context) {
+function BicycleLeg({ focusAction, index, leg }, { config }) {
   let stopsDescription;
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    context.config,
-  );
-  const duration = durationToString(props.leg.duration * 1000);
-  let { mode } = props.leg;
-  let legDescription = <span>{props.leg.from.name}</span>;
-  const firstLegClassName = props.index === 0 ? 'start' : '';
+  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const duration = durationToString(leg.duration * 1000);
+  let { mode } = leg;
+  let legDescription = <span>{leg.from.name}</span>;
+  const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
-  if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
-    modeClassName = props.leg.mode.toLowerCase();
+  if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
+    modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
         id="cyclewalk-distance-duration"
@@ -46,51 +45,57 @@ function BicycleLeg(props, context) {
     );
   }
 
-  if (props.leg.rentedBike === true) {
+  let networkIcon;
+
+  if (leg.rentedBike === true) {
+    const networkConfig =
+      leg.from.bikeRentalStation &&
+      getCityBikeNetworkConfig(
+        getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
+        config,
+      );
+    networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
+    const networkType = networkConfig && networkConfig.type;
+
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id="rent-cycle-at"
-        values={{ station: props.leg.from.name }}
+        id={
+          networkType === CityBikeNetworkType.Scooter
+            ? 'rent-scooter-at'
+            : 'rent-cycle-at'
+        }
+        values={{ station: leg.from.name }}
         defaultMessage="Rent a bike at {station} station"
       />
     );
 
-    if (props.leg.mode === 'BICYCLE') {
+    if (leg.mode === 'BICYCLE') {
       mode = 'CITYBIKE';
     }
 
-    if (props.leg.mode === 'WALK') {
+    if (leg.mode === 'WALK') {
       mode = 'CITYBIKE_WALK';
     }
   }
 
-  const networkIcon =
-    props.leg.from.bikeRentalStation &&
-    getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(
-        props.leg.from.bikeRentalStation.networks[0],
-        context.config,
-      ),
-    );
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber
           mode={mode}
           vertical
           icon={networkIcon}
-          {...getLegBadgeProps(props.leg, context.config)}
+          {...getLegBadgeProps(leg, config)}
         />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
+        onClick={focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
