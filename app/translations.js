@@ -936,10 +936,10 @@ const translations = {
     'scooter-availability': 'Kick scooters available at the station right now',
     'scooter-availability-short': 'Kick scooters',
     'scooter-distance-duration':
-      'Ride the kick scooter {distance} ({duration})',
+      'Ride your kick scooter {distance} ({duration})',
     'scooter-register-required': 'To use kick scooters, you need to register',
     'scooterwalk-distance-duration':
-      'Walk the kick scooter {distance} ({duration})',
+      'Walk your kick scooter {distance} ({duration})',
     search: 'Search',
     'search-button-label': 'Search',
     'search-destination': 'Search destination, route or stop',
