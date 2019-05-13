@@ -106,7 +106,7 @@ export const ModeLeg = ({ leg, mode, large }, { config }) => {
       className={cx('line', mode.toLowerCase())}
       vertical
       withBar
-      hasNetwork={networkIcon}
+      icon={networkIcon}
       {...getLegBadgeProps(leg, config)}
     />
   );

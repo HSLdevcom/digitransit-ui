@@ -9,43 +9,60 @@ import ComponentUsageExample from './ComponentUsageExample';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import {
+  getCityBikeNetworkId,
+  getCityBikeNetworkConfig,
+  CityBikeNetworkType,
+} from '../util/citybikes';
 
-function WalkLeg(props, context) {
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    context.config,
-  );
-  const duration = durationToString(props.leg.duration * 1000);
+function WalkLeg(
+  { children, focusAction, index, leg, previousLeg },
+  { config },
+) {
+  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const duration = durationToString(leg.duration * 1000);
   const modeClassName = 'walk';
 
-  const { previousLeg } = props;
+  const networkType = getCityBikeNetworkConfig(
+    getCityBikeNetworkId(
+      previousLeg &&
+        previousLeg.rentedBike &&
+        previousLeg.from.bikeRentalStation &&
+        previousLeg.from.bikeRentalStation.networks,
+    ),
+    config,
+  ).type;
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(leg.startTime).format('HH:mm')}
         </div>
-        <RouteNumber mode={props.leg.mode.toLowerCase()} vertical />
+        <RouteNumber mode={leg.mode.toLowerCase()} vertical />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
-        className={`small-9 columns itinerary-instruction-column ${props.leg.mode.toLowerCase()}`}
+        onClick={focusAction}
+        className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
           <div>
             {previousLeg && previousLeg.rentedBike ? (
               <FormattedMessage
-                id="return-cycle-to"
-                values={{ station: props.leg.from.name }}
+                id={
+                  networkType === CityBikeNetworkType.Scooter
+                    ? 'return-scooter-to'
+                    : 'return-cycle-to'
+                }
+                values={{ station: leg.from.name }}
                 defaultMessage="Return the bike to {station} station"
               />
             ) : (
-              props.leg.from.name
+              leg.from.name
             )}
-            {props.children}
+            {children}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />
         </div>
