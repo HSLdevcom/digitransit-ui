@@ -58,7 +58,7 @@ export default {
   tampere: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -71,7 +71,7 @@ export default {
   LINKKI: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -84,7 +84,7 @@ export default {
   Lappeenranta: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -97,7 +97,7 @@ export default {
   Joensuu: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
@@ -110,7 +110,7 @@ export default {
   Kuopio: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.lmj.fi:8084/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 

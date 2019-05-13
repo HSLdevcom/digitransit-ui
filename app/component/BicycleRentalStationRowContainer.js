@@ -11,59 +11,67 @@ import {
   BIKESTATION_ON,
   BIKESTATION_OFF,
   BIKESTATION_CLOSED,
+  getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+  getCityBikeNetworkIcon,
+  CityBikeNetworkType,
 } from '../util/citybikes';
 
-const BicycleRentalStationRow = (props, context) => {
+const BicycleRentalStationRow = ({ distance, station }, { config, intl }) => {
   let availabilityIcon = null;
 
-  if (props.station.state !== BIKESTATION_ON) {
+  if (station.state !== BIKESTATION_ON) {
     availabilityIcon = <Icon img="icon-icon_not-in-use" />;
-  } else if (
-    props.station.bikesAvailable > context.config.cityBike.fewAvailableCount
-  ) {
+  } else if (station.bikesAvailable > config.cityBike.fewAvailableCount) {
     availabilityIcon = <Icon img="icon-icon_good-availability" />;
-  } else if (props.station.bikesAvailable > 0) {
+  } else if (station.bikesAvailable > 0) {
     availabilityIcon = <Icon img="icon-icon_poor-availability" />;
   } else {
     availabilityIcon = <Icon img="icon-icon_no-availability" />;
   }
 
-  // TODO implement disruption checking
-  // VM: is that needed? new state attribute tells if station is off
-
-  const mode =
-    props.station.state === BIKESTATION_ON ? 'citybike' : 'citybike_off';
+  const networkConfig = getCityBikeNetworkConfig(
+    getCityBikeNetworkId(station.networks),
+    config,
+  );
+  const networkIcon = getCityBikeNetworkIcon(networkConfig);
+  const isOff = station.state !== BIKESTATION_ON;
 
   return (
     <tr className="next-departure-row-tr">
       <td className="td-distance">
-        <Distance distance={props.distance} />
+        <Distance distance={distance} />
       </td>
       <td className="td-route-number">
         <RouteNumber
-          mode={mode}
-          text={props.station.stationId}
+          icon={isOff ? `${networkIcon}_off` : networkIcon}
+          mode={isOff ? 'citybike_off' : 'citybike'}
+          text={station.stationId}
           hasDisruption={false}
         />
       </td>
       <td className="td-bikestation" colSpan="1">
         <span className="city-bike-station-name overflow-fade">
-          {props.station.name}
+          {station.name}
         </span>
       </td>
       <td className="td-available-bikes" colSpan="2">
         <span className="city-bike-station-availability">
           <span className="bikes-label">
-            {context.intl.formatMessage({
-              id: 'bike-availability-short',
+            {intl.formatMessage({
+              id: `${
+                networkConfig.type === CityBikeNetworkType.CityBike
+                  ? 'bike'
+                  : 'scooter'
+              }-availability-short`,
               defaultMessage: 'Bikes',
             })}
           </span>
         </span>
-        <span className="bikes-available">{props.station.bikesAvailable}</span>
+        <span className="bikes-available">{station.bikesAvailable}</span>
         /
         <span className="bikes-total">
-          {props.station.bikesAvailable + props.station.spacesAvailable}
+          {station.bikesAvailable + station.spacesAvailable}
         </span>
         {availabilityIcon}
       </td>
@@ -174,6 +182,7 @@ export default Relay.createContainer(BicycleRentalStationRow, {
         bikesAvailable
         spacesAvailable
         state
+        networks
       }
     `,
   },

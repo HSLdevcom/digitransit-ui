@@ -13,25 +13,38 @@ import { getLegBadgeProps } from '../util/legUtils';
 import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkConfig,
+  getCityBikeNetworkId,
+  CityBikeNetworkType,
 } from '../util/citybikes';
 
-function BicycleLeg(props, context) {
+function BicycleLeg({ focusAction, index, leg }, { config }) {
   let stopsDescription;
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    context.config,
-  );
-  const duration = durationToString(props.leg.duration * 1000);
-  let { mode } = props.leg;
-  let legDescription = <span>{props.leg.from.name}</span>;
-  const firstLegClassName = props.index === 0 ? 'start' : '';
+  const distance = displayDistance(parseInt(leg.distance, 10), config);
+  const duration = durationToString(leg.duration * 1000);
+  let { mode } = leg;
+  let legDescription = <span>{leg.from.name}</span>;
+  const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
 
-  if (props.leg.mode === 'WALK' || props.leg.mode === 'BICYCLE_WALK') {
-    modeClassName = props.leg.mode.toLowerCase();
+  const networkConfig =
+    leg.rentedBike &&
+    leg.from.bikeRentalStation &&
+    getCityBikeNetworkConfig(
+      getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
+      config,
+    );
+  const isScooter =
+    networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+
+  if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
+    modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
-        id="cyclewalk-distance-duration"
+        id={
+          isScooter
+            ? 'scooterwalk-distance-duration'
+            : 'cyclewalk-distance-duration'
+        }
         values={{ distance, duration }}
         defaultMessage="Walk your bike {distance} ({duration})"
       />
@@ -39,58 +52,53 @@ function BicycleLeg(props, context) {
   } else {
     stopsDescription = (
       <FormattedMessage
-        id="cycle-distance-duration"
+        id={isScooter ? 'scooter-distance-duration' : 'cycle-distance-duration'}
         values={{ distance, duration }}
         defaultMessage="Cycle {distance} ({duration})"
       />
     );
   }
 
-  if (props.leg.rentedBike === true) {
+  let networkIcon;
+
+  if (leg.rentedBike === true) {
+    networkIcon = networkConfig && getCityBikeNetworkIcon(networkConfig);
+
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id="rent-cycle-at"
-        values={{ station: props.leg.from.name }}
+        id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        values={{ station: leg.from.name }}
         defaultMessage="Rent a bike at {station} station"
       />
     );
 
-    if (props.leg.mode === 'BICYCLE') {
+    if (leg.mode === 'BICYCLE') {
       mode = 'CITYBIKE';
     }
 
-    if (props.leg.mode === 'WALK') {
+    if (leg.mode === 'WALK') {
       mode = 'CITYBIKE_WALK';
     }
   }
 
-  const networkIcon =
-    props.leg.from.bikeRentalStation &&
-    getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(
-        props.leg.from.bikeRentalStation.networks[0],
-        context.config,
-      ),
-    );
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(leg.startTime).format('HH:mm')}
         </div>
         <RouteNumber
           mode={mode}
           vertical
-          hasNetwork={networkIcon}
-          {...getLegBadgeProps(props.leg, context.config)}
+          icon={networkIcon}
+          {...getLegBadgeProps(leg, config)}
         />
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
+        onClick={focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
         <div className="itinerary-leg-first-row">
@@ -139,6 +147,30 @@ const exampleLegCitybikeWalkingBike = t1 => ({
   rentedBike: true,
 });
 
+const exampleLegScooter = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: {
+    name: 'Ilmattarentie',
+    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
+  },
+  mode: 'BICYCLE',
+  rentedBike: true,
+});
+
+const exampleLegScooterWalkingScooter = t1 => ({
+  duration: 120,
+  startTime: t1 + 20000,
+  distance: 586.4621425755712,
+  from: {
+    name: 'Ilmattarentie',
+    bikeRentalStation: { bikesAvailable: 5, networks: ['samocat'] },
+  },
+  mode: 'WALK',
+  rentedBike: true,
+});
+
 BicycleLeg.description = () => {
   const today = moment()
     .hour(12)
@@ -168,6 +200,20 @@ BicycleLeg.description = () => {
       <ComponentUsageExample description="bicycle-leg-citybike-walking-bike">
         <BicycleLeg
           leg={exampleLegCitybikeWalkingBike(today)}
+          index={1}
+          focusAction={() => {}}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-scooter">
+        <BicycleLeg
+          leg={exampleLegScooter(today)}
+          index={0}
+          focusAction={() => {}}
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="bicycle-leg-scooter-walking-scooter">
+        <BicycleLeg
+          leg={exampleLegScooterWalkingScooter(today)}
           index={1}
           focusAction={() => {}}
         />

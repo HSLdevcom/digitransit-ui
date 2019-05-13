@@ -1,10 +1,9 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { FormattedMessage } from 'react-intl';
 
-import { mockContext, mockChildContextTypes } from './helpers/mock-context';
-import { mountWithIntl } from './helpers/mock-intl-enzyme';
+import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/WalkLeg';
+import { CityBikeNetworkType } from '../../app/util/citybikes';
 
 describe('<WalkLeg />', () => {
   it('should show the leg starting point name', () => {
@@ -24,12 +23,10 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = mountWithIntl(<WalkLeg {...props} />, {
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        ...mockContext,
         config: {},
       },
-      childContextTypes: mockChildContextTypes,
     });
 
     expect(wrapper.find('.itinerary-leg-first-row>div').text()).to.equal(
@@ -65,16 +62,66 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = mountWithIntl(<WalkLeg {...props} />, {
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        ...mockContext,
         config: {},
       },
-      childContextTypes: mockChildContextTypes,
     });
 
-    expect(wrapper.find('.itinerary-leg-first-row>div').text()).to.equal(
-      'Return the bike to Veturitori station',
-    );
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(0)
+        .prop('id'),
+    ).to.equal('return-cycle-to');
+  });
+
+  it('should tell the user to return a rented kick scooter to the starting point station', () => {
+    const props = {
+      focusAction: () => {},
+      index: 2,
+      leg: {
+        distance: 284.787,
+        duration: 289,
+        from: {
+          name: 'Veturitori',
+          stop: null,
+        },
+        mode: 'WALK',
+        rentedBike: false,
+        startTime: 1529589709000,
+      },
+      previousLeg: {
+        distance: 3297.017000000001,
+        duration: 904,
+        from: {
+          bikeRentalStation: {
+            networks: ['foobar'],
+          },
+          name: 'Kaisaniemenpuisto',
+          stop: null,
+        },
+        mode: 'BICYCLE',
+        rentedBike: true,
+        startTime: 1529588805000,
+      },
+    };
+
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
+      context: {
+        config: {
+          cityBike: {
+            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+          },
+        },
+      },
+    });
+
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(0)
+        .prop('id'),
+    ).to.equal('return-scooter-to');
   });
 });

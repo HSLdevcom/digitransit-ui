@@ -25,7 +25,7 @@ import { itineraryHasCancelation } from '../util/alertUtils';
 import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 import ComponentUsageExample from './ComponentUsageExample';
-import { exampleData } from './data/ItineraryLegs.ExampleData';
+import { exampleData, scooterData } from './data/ItineraryLegs.ExampleData';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -274,6 +274,14 @@ ItineraryLegs.description = () => (
       <ItineraryLegs
         focusMap={() => {}}
         itinerary={exampleData}
+        toggleCanceledLegsBanner={() => {}}
+        waitThreshold={180}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="Itinerary with a kick scooter leg">
+      <ItineraryLegs
+        focusMap={() => {}}
+        itinerary={scooterData}
         toggleCanceledLegsBanner={() => {}}
         waitThreshold={180}
       />
