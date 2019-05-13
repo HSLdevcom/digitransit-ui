@@ -48,6 +48,7 @@ class GeopositionSelector extends React.Component {
         destination,
         context: '/',
         router: this.context.router,
+        base: this.context.router.location,
         tab: this.props.tab,
       });
     }
