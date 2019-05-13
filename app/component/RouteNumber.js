@@ -21,7 +21,9 @@ function RouteNumber(props, context) {
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    new RegExp(/^([^0-9]*)$/).test(props.text) && props.text.length > 3;
+    props.text &&
+    new RegExp(/^([^0-9]*)$/).test(props.text) &&
+    props.text.length > 3;
 
   const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {

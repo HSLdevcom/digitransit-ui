@@ -263,3 +263,18 @@ export const getZones = legs => {
   }
   return Object.keys(zones).sort();
 };
+
+export const getAgencies = legs => {
+  if (!Array.isArray(legs)) {
+    return [];
+  }
+
+  const agencies = {};
+  legs.forEach(leg => {
+    if (leg.route && leg.route.agency) {
+      const { agency } = leg.route;
+      agencies[agency.id] = { ...agency };
+    }
+  });
+  return agencies;
+};

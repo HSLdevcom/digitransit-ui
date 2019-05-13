@@ -16,7 +16,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
-import { getZones } from '../util/legUtils';
+import { getAgencies, getZones } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
@@ -114,6 +114,7 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showTicketInformation && (
                   <TicketInformation
+                    agencies={getAgencies(itinerary.legs)}
                     fares={itinerary.fares}
                     zones={getZones(itinerary.legs)}
                   />
@@ -172,12 +173,17 @@ const withRelay = Relay.createContainer(ItineraryTab, {
         elevationGained
         elevationLost
         fares {
-          type
-          currency
           cents
           components {
+            cents
             fareId
+            routes {
+              agency {
+                id
+              }
+            }
           }
+          type
         }
         legs {
           mode
@@ -250,6 +256,9 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             longName
             desc
             agency {
+              id
+              fareUrl
+              name
               phone
             }
             ${RouteAlertsQuery}

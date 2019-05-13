@@ -268,36 +268,25 @@ $itinerary-tab-switch-height: 48px;
 .itinerary-ticket-information {
   display: flex;
   color: $gray;
+  flex-direction: column;
   font-weight: $font-weight-book;
-  font-size: $font-size-xxsmall;
+  font-size: $font-size-small;
   margin: 0;
   border: 0px;
   border-top: 1px solid #ddd;
   padding: $padding-medium;
-  .itinerary-ticket-layout-left {
-    display: inline-block;
-    font-size: 2.4em;
-    padding-right: 10px;
-  }
-
-  .itinerary-ticket-layout-right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0;
-  }
 
   .itinerary-ticket-external-link {
+    align-self: flex-end;
     flex-shrink: 0;
-    .external-link-container {
-      margin-top: 0;
-      margin-right: 0;
-    }
+    margin-top: $padding-medium;
+
     a {
       color: $link-color;
       text-decoration: none;
       @include font-medium;
     }
+
     .external-link-icon-outer {
       color: white;
     }
@@ -308,29 +297,23 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-ticket-type {
-    display: inline;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     flex-shrink: 1;
-    margin-left: 0.3em;
-    padding-right: 1em;
     white-space: normal;
 
-    .ticket-type-title {
-      color: $black;
-      font-weight: $font-weight-medium;
-    }
-
-    .ticket-type-group,
     .ticket-type-zone {
       @include font-book;
+      align-items: center;
       color: $gray;
+      display: flex;
+      justify-content: space-between;
+      margin-top: $padding-small;
 
-      &.multi-component {
-        display: list-item;
-        margin-left: 1.5em;
-
-        & + .multi-component {
-          margin-top: $padding-xsmall;
-        }
+      &.multi-component + .multi-component {
+        border-top: 1px solid $light-gray;
+        padding-top: $padding-medium;
       }
 
       .zone-ticket-multiple-options {
@@ -339,17 +322,21 @@ $itinerary-tab-switch-height: 48px;
         span + span {
           margin-left: $padding-xsmall;
         }
+
+        .zone-ticket-icon {
+          position: relative;
+          top: 0.125em;
+        }
       }
 
       .zone-ticket-icon {
         display: block;
         font-size: 1.25em;
       }
-    }
 
-    .ticket-type-fare {
-      color: $black;
-      font-weight: $font-weight-bold;
+      .ticket-type-agency-link {
+        flex-grow: 0;
+      }
     }
   }
 }

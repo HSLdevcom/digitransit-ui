@@ -1,88 +1,123 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
-import { plan as examplePlan } from './ExampleData';
 import ExternalLink from './ExternalLink';
-import Icon from './Icon';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 import mapFares from '../util/fareUtils';
 
-export default function TicketInformation({ fares, zones }, { config, intl }) {
-  const currency = '€';
+const getAgency = (routes, agencies) => {
+  const agencyId =
+    Array.isArray(routes) &&
+    routes.length > 0 &&
+    routes[0].agency &&
+    routes[0].agency.id;
+  if (!agencyId) {
+    return undefined;
+  }
+  return (agencies && agencies[agencyId]) || undefined;
+};
+
+export default function TicketInformation(
+  { agencies, fares, zones },
+  { config, intl },
+) {
   const mappedFares = mapFares(fares, config, intl.locale);
   if (!mappedFares) {
     return null;
   }
-  const [regularFare] = fares.filter(fare => fare.type === 'regular');
+
   const isMultiComponent = mappedFares.length > 1;
   const isOnlyZoneB = isWithinZoneB(zones, mappedFares);
 
   return (
     <div className="row itinerary-ticket-information">
-      <div className="itinerary-ticket-layout-left">
-        <Icon img="icon-icon_ticket" />
-      </div>
-      <div className="itinerary-ticket-layout-right">
-        <div className="itinerary-ticket-type">
-          {isMultiComponent && (
-            <div className="ticket-type-title">
-              <FormattedMessage
-                id="itinerary-tickets.title"
-                defaultMessage="Required tickets"
-              />
-            </div>
-          )}
-          {mappedFares.map((component, i) => (
+      <div className="itinerary-ticket-type">
+        <div className="ticket-type-title">
+          Reitillä tarvittavat liput:
+          {/* <FormattedMessage
+              id="itinerary-tickets.title"
+              defaultMessage="Required tickets"
+            /> */}
+        </div>
+        {mappedFares
+          .map(component => ({
+            ...component,
+            agency: getAgency(component.routes, agencies),
+          }))
+          .map((component, i) => (
             <div
               className={cx('ticket-type-zone', {
                 'multi-component': isMultiComponent,
               })}
               key={i} // eslint-disable-line react/no-array-index-key
             >
-              {config.useTicketIcons ? (
-                renderZoneTicketIcon(component, isOnlyZoneB)
-              ) : (
-                <span>{component}</span>
+              <div>
+                {config.useTicketIcons ? (
+                  renderZoneTicketIcon(component.ticketName, isOnlyZoneB)
+                ) : (
+                  <span>{component.ticketName}</span>
+                )}
+                <span>
+                  {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
+                    component.cents / 100
+                  ).toFixed(2)} €`}
+                </span>
+              </div>
+              {component.agency && (
+                <div className="ticket-type-agency-link">
+                  <ExternalLink
+                    className="itinerary-ticket-external-link"
+                    href={component.agency.fareUrl}
+                  >
+                    {intl.formatMessage({ id: 'extra-info' })}
+                  </ExternalLink>
+                </div>
               )}
             </div>
           ))}
-          <div>
-            <span className="ticket-type-group">
-              <FormattedMessage
-                id="ticket-single-adult"
-                defaultMessage="Adult"
-              />,&nbsp;
-            </span>
-            <span className="ticket-type-fare">
-              {`${(regularFare.cents / 100).toFixed(2)} ${currency}`}
-            </span>
-          </div>
-        </div>
-        {config.ticketLink && (
-          <ExternalLink
-            className="itinerary-ticket-external-link"
-            href={config.ticketLink}
-          >
-            <FormattedMessage
-              id="buy-ticket"
-              defaultMessage="How to buy a ticket"
-            />
-          </ExternalLink>
-        )}
       </div>
+      {config.ticketLink && (
+        <ExternalLink
+          className="itinerary-ticket-external-link"
+          href={config.ticketLink}
+        >
+          {intl.formatMessage({ id: 'buy-ticket' })}
+        </ExternalLink>
+      )}
     </div>
   );
 }
 
 TicketInformation.propTypes = {
-  fares: PropTypes.array,
+  agencies: PropTypes.object,
+  fares: PropTypes.arrayOf(
+    PropTypes.shape({
+      cents: PropTypes.number.isRequired,
+      components: PropTypes.arrayOf(
+        PropTypes.shape({
+          cents: PropTypes.number.isRequired,
+          fareId: PropTypes.string.isRequired,
+          routes: PropTypes.arrayOf(
+            PropTypes.shape({
+              agency: PropTypes.shape({
+                id: PropTypes.string.isRequired,
+              }).isRequired,
+            }),
+          ),
+        }),
+      ),
+      type: PropTypes.string.isRequired,
+    }),
+  ),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
 TicketInformation.defaultProps = {
+  agencies: {},
+  fares: [],
   zones: [],
 };
 
@@ -96,8 +131,77 @@ TicketInformation.displayName = 'TicketInformation';
 TicketInformation.description = () => (
   <div>
     <p>Information about the required ticket for the itinerary.</p>
-    <ComponentUsageExample>
-      <TicketInformation fares={examplePlan.itineraries[0].fares} />
+    <ComponentUsageExample description="single fare">
+      <TicketInformation
+        fares={[
+          {
+            type: 'regular',
+            cents: 280,
+            components: [{ fareId: 'HSL:AB', cents: 280 }],
+          },
+        ]}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="single fare, with agency fare url">
+      <TicketInformation
+        agencies={{
+          foo: { id: 'foo', fareUrl: 'https://www.hsl.fi/liput-ja-hinnat' },
+        }}
+        fares={[
+          {
+            type: 'regular',
+            cents: 280,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+                routes: [
+                  {
+                    agency: { id: 'foo' },
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="single fare, multiple options">
+      <TicketInformation
+        fares={[
+          {
+            type: 'regular',
+            cents: 280,
+            components: [{ fareId: 'HSL:AB', cents: 280 }],
+          },
+        ]}
+        zones={['B']}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="multiple fares">
+      <TicketInformation
+        fares={[
+          {
+            type: 'regular',
+            cents: 560,
+            components: [
+              { fareId: 'HSL:AB', cents: 280 },
+              { fareId: 'HSL:BC', cents: 280 },
+            ],
+          },
+        ]}
+      />
+    </ComponentUsageExample>
+    <ComponentUsageExample description="unknown fare">
+      <TicketInformation
+        fares={[
+          {
+            type: 'regular',
+            cents: -1,
+            components: [{ fareId: 'HSL:ABC', cents: 460 }],
+          },
+        ]}
+      />
     </ComponentUsageExample>
   </div>
 );
