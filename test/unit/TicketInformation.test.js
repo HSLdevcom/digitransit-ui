@@ -1,12 +1,11 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { FormattedMessage } from 'react-intl';
 
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
+
+import ExternalLink from '../../app/component/ExternalLink';
 import TicketInformation from '../../app/component/TicketInformation';
 import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
-
-import data from './test-data/dt2639';
 
 describe('<TicketInformation />', () => {
   const config = {
@@ -15,12 +14,30 @@ describe('<TicketInformation />', () => {
   };
 
   it('should show multiple ticket components (DT-2639)', () => {
-    const wrapper = mountWithIntl(<TicketInformation {...data} />, {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          cents: 870,
+          components: [
+            {
+              cents: 320,
+              fareId: 'HSL:esp',
+            },
+            {
+              cents: 550,
+              fareId: 'HSL:seu',
+            },
+          ],
+        },
+      ],
+    };
+    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: { config },
     });
 
     expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      data.fares[0].components.length,
+      props.fares[0].components.length,
     );
   });
 
@@ -29,13 +46,14 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 870,
           components: [
             {
+              cents: 320,
               fareId: 'HSL:esp',
             },
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
@@ -46,7 +64,12 @@ describe('<TicketInformation />', () => {
       context: { config },
     });
 
-    expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(1);
+    expect(
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
+    ).to.equal('itinerary-tickets.title');
   });
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
@@ -54,10 +77,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
@@ -68,11 +91,12 @@ describe('<TicketInformation />', () => {
       context: { config },
     });
 
-    expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(1);
-    expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      0,
-    );
+    expect(
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
+    ).to.equal('itinerary-ticket.title');
   });
 
   it('should not show any ticket information if components are missing', () => {
@@ -80,7 +104,6 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [],
         },
@@ -100,10 +123,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
@@ -114,7 +137,7 @@ describe('<TicketInformation />', () => {
       context: { config },
     });
 
-    expect(wrapper.find('.ticket-type-fare').text()).to.equal('5.50 €');
+    expect(wrapper.find('.ticket-type-zone').text()).to.contain('5.50 €');
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -122,10 +145,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 280,
           components: [
             {
+              cents: 280,
               fareId: 'HSL:ABCD',
             },
           ],
@@ -149,10 +172,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 280,
           components: [
             {
+              cents: 280,
               fareId: 'HSL:ABCD',
             },
           ],
@@ -168,7 +191,7 @@ describe('<TicketInformation />', () => {
         },
       },
     });
-    expect(wrapper.find('.ticket-type-zone').text()).to.equal(
+    expect(wrapper.find('.ticket-identifier').text()).to.equal(
       'foo_HSL:ABCD_bar',
     );
   });
@@ -178,10 +201,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 280,
           components: [
             {
+              cents: 280,
               fareId: 'HSL:ABCD',
             },
           ],
@@ -205,9 +228,9 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           cents: 280,
-          currency: 'EUR',
           components: [
             {
+              cents: 280,
               fareId: 'HSL:AB',
             },
           ],
@@ -239,5 +262,36 @@ describe('<TicketInformation />', () => {
         .at(1)
         .props().ticketType,
     ).to.equal('BC');
+  });
+
+  it('should show a fare url link for the agency', () => {
+    const props = {
+      fares: [
+        {
+          cents: 280,
+          components: [
+            {
+              cents: 280,
+              fareId: 'HSL:AB',
+              routes: [
+                {
+                  agency: {
+                    fareUrl: 'foobar',
+                    gtfsId: 'HSL:HSL',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+            },
+          ],
+          type: 'regular',
+        },
+      ],
+      zones: ['B'],
+    };
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: { config },
+    });
+    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
   });
 });

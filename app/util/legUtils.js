@@ -264,17 +264,26 @@ export const getZones = legs => {
   return Object.keys(zones).sort();
 };
 
-export const getAgencies = legs => {
+export const getRoutes = legs => {
   if (!Array.isArray(legs)) {
     return [];
   }
 
-  const agencies = {};
+  const routes = {};
   legs.forEach(leg => {
     if (leg.route && leg.route.agency) {
-      const { agency } = leg.route;
-      agencies[agency.id] = { ...agency };
+      const { route } = leg;
+      const { agency } = route;
+      routes[route.gtfsId] = {
+        agency: {
+          fareUrl: agency.fareUrl,
+          gtfsId: agency.gtfsId,
+          name: agency.name,
+        },
+        gtfsId: route.gtfsId,
+        longName: route.longName,
+      };
     }
   });
-  return agencies;
+  return Object.keys(routes).map(key => ({ ...routes[key] }));
 };

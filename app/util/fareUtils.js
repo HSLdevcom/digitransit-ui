@@ -16,6 +16,11 @@ export default function mapFares(fares, config, lang) {
 
   return components.map(fare => ({
     ...fare,
+    agency:
+      (Array.isArray(fare.routes) &&
+        fare.routes.length > 0 &&
+        fare.routes[0].agency) ||
+      undefined,
     ticketName: config.fareMapping(fare.fareId, lang),
   }));
 }

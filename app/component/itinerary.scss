@@ -329,6 +329,11 @@ $itinerary-tab-switch-height: 48px;
         }
       }
 
+      .ticket-identifier {
+        @include font-medium;
+        color: $black;
+      }
+
       .zone-ticket-icon {
         display: block;
         font-size: 1.25em;

@@ -122,12 +122,48 @@ describe('fareUtils', () => {
       };
       expect(mapFares(fares, config, 'fi')).to.deep.equal([
         {
+          agency: undefined,
           cents: 280,
           fareId: 'HSL:AB',
           routes: [{ gtfsId: 'HSL:1003' }],
           ticketName: 'AB',
         },
       ]);
+    });
+
+    it("should map the fareComponent's routes' agency", () => {
+      const fares = [
+        {
+          cents: 280,
+          currency: 'EUR',
+          components: [
+            {
+              cents: 280,
+              routes: [
+                {
+                  agency: {
+                    name: 'foo',
+                    fareUrl: 'https://www.hsl.fi',
+                    gtfsId: 'bar',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+              fareId: 'HSL:AB',
+            },
+          ],
+          type: 'regular',
+        },
+      ];
+      const config = {
+        ...defaultConfig,
+        fareMapping: fareId => fareId.replace('HSL:', ''),
+      };
+      expect(mapFares(fares, config, 'fi')[0].agency).to.deep.equal({
+        name: 'foo',
+        fareUrl: 'https://www.hsl.fi',
+        gtfsId: 'bar',
+      });
     });
   });
 });

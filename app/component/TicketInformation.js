@@ -1,83 +1,95 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
+import uniq from 'lodash/uniq';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 import mapFares from '../util/fareUtils';
 
-const getAgency = (routes, agencies) => {
-  const agencyId =
-    Array.isArray(routes) &&
-    routes.length > 0 &&
-    routes[0].agency &&
-    routes[0].agency.id;
-  if (!agencyId) {
-    return undefined;
-  }
-  return (agencies && agencies[agencyId]) || undefined;
-};
-
 export default function TicketInformation(
-  { agencies, fares, zones },
+  { fares, routes, zones },
   { config, intl },
 ) {
-  const mappedFares = mapFares(fares, config, intl.locale);
-  if (!mappedFares) {
+  const knownFares = mapFares(fares, config, intl.locale);
+  if (!knownFares) {
     return null;
   }
 
-  const isMultiComponent = mappedFares.length > 1;
-  const isOnlyZoneB = isWithinZoneB(zones, mappedFares);
+  const routesWithFares = uniq(
+    knownFares
+      .map(fare => (Array.isArray(fare.routes) && fare.routes) || [])
+      .reduce((a, b) => a.concat(b), [])
+      .map(route => route.gtfsId),
+  );
+
+  const unknownFares = ((Array.isArray(routes) && routes) || [])
+    .filter(route => !routesWithFares.includes(route.gtfsId))
+    .map(route => ({
+      agency: {
+        fareUrl: route.agency.fareUrl,
+        name: route.agency.name,
+      },
+      isUnknown: true,
+      routeName: route.longName,
+    }));
+
+  const isMultiComponent = knownFares.length + unknownFares.length > 1;
+  const isOnlyZoneB = isWithinZoneB(zones, knownFares);
 
   return (
     <div className="row itinerary-ticket-information">
       <div className="itinerary-ticket-type">
         <div className="ticket-type-title">
-          Reitillä tarvittavat liput:
-          {/* <FormattedMessage
-              id="itinerary-tickets.title"
-              defaultMessage="Required tickets"
-            /> */}
+          <FormattedMessage
+            id={
+              isMultiComponent
+                ? 'itinerary-tickets.title'
+                : 'itinerary-ticket.title'
+            }
+            defaultMessage="Required tickets"
+          />
         </div>
-        {mappedFares
-          .map(component => ({
-            ...component,
-            agency: getAgency(component.routes, agencies),
-          }))
-          .map((component, i) => (
-            <div
-              className={cx('ticket-type-zone', {
-                'multi-component': isMultiComponent,
-              })}
-              key={i} // eslint-disable-line react/no-array-index-key
-            >
+        {knownFares.concat(unknownFares).map((fare, i) => (
+          <div
+            className={cx('ticket-type-zone', {
+              'multi-component': isMultiComponent,
+            })}
+            key={i} // eslint-disable-line react/no-array-index-key
+          >
+            {fare.isUnknown ? (
+              <div>
+                <div className="ticket-identifier">{fare.routeName}</div>
+                <div>{fare.agency.name}</div>
+              </div>
+            ) : (
               <div>
                 {config.useTicketIcons ? (
-                  renderZoneTicketIcon(component.ticketName, isOnlyZoneB)
+                  renderZoneTicketIcon(fare.ticketName, isOnlyZoneB)
                 ) : (
-                  <span>{component.ticketName}</span>
+                  <div className="ticket-identifier">{fare.ticketName}</div>
                 )}
-                <span>
+                <div>
                   {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
-                    component.cents / 100
+                    fare.cents / 100
                   ).toFixed(2)} €`}
-                </span>
-              </div>
-              {component.agency && (
-                <div className="ticket-type-agency-link">
-                  <ExternalLink
-                    className="itinerary-ticket-external-link"
-                    href={component.agency.fareUrl}
-                  >
-                    {intl.formatMessage({ id: 'extra-info' })}
-                  </ExternalLink>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            )}
+            {fare.agency && (
+              <div className="ticket-type-agency-link">
+                <ExternalLink
+                  className="itinerary-ticket-external-link"
+                  href={fare.agency.fareUrl}
+                >
+                  {intl.formatMessage({ id: 'extra-info' })}
+                </ExternalLink>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
       {config.ticketLink && (
         <ExternalLink
@@ -92,7 +104,6 @@ export default function TicketInformation(
 }
 
 TicketInformation.propTypes = {
-  agencies: PropTypes.object,
   fares: PropTypes.arrayOf(
     PropTypes.shape({
       cents: PropTypes.number.isRequired,
@@ -103,8 +114,11 @@ TicketInformation.propTypes = {
           routes: PropTypes.arrayOf(
             PropTypes.shape({
               agency: PropTypes.shape({
-                id: PropTypes.string.isRequired,
+                fareUrl: PropTypes.string,
+                gtfsId: PropTypes.string.isRequired,
+                name: PropTypes.string,
               }).isRequired,
+              gtfsId: PropTypes.string.isRequired,
             }),
           ),
         }),
@@ -112,12 +126,23 @@ TicketInformation.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      agency: PropTypes.shape({
+        fareUrl: PropTypes.string,
+        gtfsId: PropTypes.string.isRequired,
+        name: PropTypes.string,
+      }).isRequired,
+      gtfsId: PropTypes.string.isRequired,
+      longName: PropTypes.string.isRequired,
+    }),
+  ),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
 TicketInformation.defaultProps = {
-  agencies: {},
   fares: [],
+  routes: [],
   zones: [],
 };
 
