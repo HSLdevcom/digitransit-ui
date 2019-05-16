@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -67,6 +68,9 @@ class PrintableItineraryHeader extends React.Component {
             </div>
             <div className="subheader">
               <span>{itinerary.legs[0].from.name}</span>
+              {itinerary.legs
+                .filter(leg => leg.intermediatePlace)
+                .map((leg, i) => <span key={i}>{` — ${leg.from.name}`}</span>)}
               {` — `}
               <span>{itinerary.legs[itinerary.legs.length - 1].to.name}</span>
               {` | `}
@@ -107,14 +111,14 @@ class PrintableItineraryHeader extends React.Component {
               name: 'ticket',
               textId: fares.length > 1 ? 'tickets' : 'ticket',
               contentDetails: fares.map(
-                fare =>
-                  config.useTicketIcons ? (
-                    <React.Fragment key={fare}>
-                      {renderZoneTicketIcon(fare, isOnlyZoneB)}
+                ({ ticketName }, i) =>
+                  !config.useTicketIcons ? (
+                    <React.Fragment key={i}>
+                      {renderZoneTicketIcon(ticketName, isOnlyZoneB)}
                     </React.Fragment>
                   ) : (
-                    <div key={fare} className="fare-details">
-                      <span>{fare}</span>
+                    <div key={i} className="fare-details">
+                      <span>{ticketName}</span>
                     </div>
                   ),
               ),

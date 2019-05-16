@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 
 import dt2772a from './test-data/dt2772a';
