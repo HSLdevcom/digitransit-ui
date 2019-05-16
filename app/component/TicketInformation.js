@@ -85,7 +85,19 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
 }
 
 TicketInformation.propTypes = {
-  fares: PropTypes.array,
+  fares: PropTypes.arrayOf(
+    PropTypes.shape({
+      agency: PropTypes.shape({
+        fareUrl: PropTypes.string,
+        name: PropTypes.string,
+      }),
+      fareId: PropTypes.string,
+      cents: PropTypes.number,
+      isUnknown: PropTypes.bool,
+      routeName: PropTypes.string,
+      ticketName: PropTypes.string,
+    }),
+  ),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
@@ -106,72 +118,43 @@ TicketInformation.description = () => (
     <p>Information about the required ticket for the itinerary.</p>
     <ComponentUsageExample description="single fare">
       <TicketInformation
-        fares={[
-          {
-            type: 'regular',
-            cents: 280,
-            components: [{ fareId: 'HSL:AB', cents: 280 }],
-          },
-        ]}
+        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="single fare, with agency fare url">
       <TicketInformation
-        agencies={{
-          foo: { id: 'foo', fareUrl: 'https://www.hsl.fi/liput-ja-hinnat' },
-        }}
         fares={[
           {
-            type: 'regular',
+            agency: { fareUrl: 'foo' },
             cents: 280,
-            components: [
-              {
-                cents: 280,
-                fareId: 'HSL:AB',
-                routes: [
-                  {
-                    agency: { id: 'foo' },
-                  },
-                ],
-              },
-            ],
+            fareId: 'HSL:AB',
+            ticketName: 'AB',
           },
         ]}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="single fare, multiple options">
       <TicketInformation
-        fares={[
-          {
-            type: 'regular',
-            cents: 280,
-            components: [{ fareId: 'HSL:AB', cents: 280 }],
-          },
-        ]}
+        fares={[{ fareId: 'HSL:AB', cents: 280, ticketName: 'AB' }]}
         zones={['B']}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="multiple fares">
       <TicketInformation
         fares={[
-          {
-            type: 'regular',
-            cents: 560,
-            components: [
-              { fareId: 'HSL:AB', cents: 280 },
-              { fareId: 'HSL:BC', cents: 280 },
-            ],
-          },
+          { fareId: 'HSL:AB', cents: 280, ticketName: 'AB' },
+          { fareId: 'HSL:BC', cents: 280, ticketName: 'BC' },
         ]}
       />
     </ComponentUsageExample>
     <ComponentUsageExample description="unknown fare">
       <TicketInformation
         fares={[
+          { fareId: 'HSL:ABC', cents: 460, ticketName: 'ABC' },
           {
-            type: 'regular',
-            cents: -1,
-            components: [{ fareId: 'HSL:ABC', cents: 460 }],
+            agency: { fareUrl: 'foo', name: 'Ferry operator' },
+            isUnknown: true,
+            routeName: 'Ferry line',
           },
         ]}
       />
