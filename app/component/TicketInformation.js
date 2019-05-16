@@ -2,42 +2,26 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import uniq from 'lodash/uniq';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
-import mapFares from '../util/fareUtils';
+import { getFares } from '../util/fareUtils';
 
 export default function TicketInformation(
-  { fares, routes, zones },
+  { fares: ticketFares, routes, zones },
   { config, intl },
 ) {
-  const knownFares = mapFares(fares, config, intl.locale);
-  if (!knownFares) {
+  const fares = getFares(ticketFares, routes, config, intl.locale);
+  if (fares.length === 0) {
     return null;
   }
 
-  const routesWithFares = uniq(
-    knownFares
-      .map(fare => (Array.isArray(fare.routes) && fare.routes) || [])
-      .reduce((a, b) => a.concat(b), [])
-      .map(route => route.gtfsId),
+  const isMultiComponent = fares.length > 1;
+  const isOnlyZoneB = isWithinZoneB(
+    zones,
+    fares.filter(fare => !fare.isUnknown),
   );
-
-  const unknownFares = ((Array.isArray(routes) && routes) || [])
-    .filter(route => !routesWithFares.includes(route.gtfsId))
-    .map(route => ({
-      agency: {
-        fareUrl: route.agency.fareUrl,
-        name: route.agency.name,
-      },
-      isUnknown: true,
-      routeName: route.longName,
-    }));
-
-  const isMultiComponent = knownFares.length + unknownFares.length > 1;
-  const isOnlyZoneB = isWithinZoneB(zones, knownFares);
 
   return (
     <div className="row itinerary-ticket-information">
@@ -52,7 +36,7 @@ export default function TicketInformation(
             defaultMessage="Required tickets"
           />
         </div>
-        {knownFares.concat(unknownFares).map((fare, i) => (
+        {fares.map((fare, i) => (
           <div
             className={cx('ticket-type-zone', {
               'multi-component': isMultiComponent,

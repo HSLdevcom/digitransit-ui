@@ -1,7 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
-import mapFares from '../../../app/util/fareUtils';
+import { mapFares } from '../../../app/util/fareUtils';
 
 const defaultConfig = {
   showTicketInformation: true,

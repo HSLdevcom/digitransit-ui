@@ -9,9 +9,9 @@ import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 import PreferencesStore from '../store/PreferencesStore';
-import mapFares from '../util/fareUtils';
+import { getFares } from '../util/fareUtils';
 import { displayDistance } from '../util/geo-utils';
-import { getTotalWalkingDistance, getZones } from '../util/legUtils';
+import { getTotalWalkingDistance, getZones, getRoutes } from '../util/legUtils';
 
 class PrintableItineraryHeader extends React.Component {
   createHeaderBlock = obj => (
@@ -41,8 +41,17 @@ class PrintableItineraryHeader extends React.Component {
   render() {
     const { config, intl } = this.context;
     const { itinerary, language } = this.props;
-    const fares = mapFares(itinerary.fares, config, language);
-    const isOnlyZoneB = isWithinZoneB(getZones(itinerary.legs), fares);
+
+    const fares = getFares(
+      itinerary.fares,
+      getRoutes(itinerary.legs),
+      config,
+      language,
+    );
+    const isOnlyZoneB = isWithinZoneB(
+      getZones(itinerary.legs),
+      fares.filter(fare => !fare.isUnknown),
+    );
     const duration = moment(itinerary.endTime).diff(
       moment(itinerary.startTime),
     );
@@ -106,12 +115,17 @@ class PrintableItineraryHeader extends React.Component {
               name: 'ticket',
               textId: fares.length > 1 ? 'tickets' : 'ticket',
               contentDetails: fares.map(
-                ({ ticketName }, i) =>
-                  config.useTicketIcons ? (
+                ({ isUnknown, routeName, ticketName }, i) =>
+                  (isUnknown && (
+                    <div key={i} className="fare-details">
+                      <span>{routeName}</span>
+                    </div>
+                  )) ||
+                  (config.useTicketIcons && (
                     <React.Fragment key={i}>
                       {renderZoneTicketIcon(ticketName, isOnlyZoneB)}
                     </React.Fragment>
-                  ) : (
+                  )) || (
                     <div key={i} className="fare-details">
                       <span>{ticketName}</span>
                     </div>

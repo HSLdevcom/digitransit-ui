@@ -271,7 +271,7 @@ export const getRoutes = legs => {
 
   const routes = {};
   legs.forEach(leg => {
-    if (leg.route && leg.route.agency) {
+    if (leg.route && leg.route.agency && leg.transitLeg) {
       const { route } = leg;
       const { agency } = route;
       routes[route.gtfsId] = {

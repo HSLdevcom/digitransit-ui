@@ -464,12 +464,20 @@ export default Relay.createContainer(PrintableItinerary, {
         startTime
         endTime
         fares {
-          type
-          currency
           cents
           components {
+            cents
             fareId
+            routes {
+              agency {
+                fareUrl
+                gtfsId
+                name
+              }
+              gtfsId
+            }
           }
+          type
         }
         legs {
           mode
@@ -535,6 +543,9 @@ export default Relay.createContainer(PrintableItinerary, {
             gtfsId
             longName
             agency {
+              gtfsId
+              fareUrl
+              name
               phone
             }
           }
