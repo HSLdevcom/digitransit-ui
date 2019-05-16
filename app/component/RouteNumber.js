@@ -21,7 +21,9 @@ function RouteNumber(props, context) {
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    new RegExp(/^([^0-9]*)$/).test(props.text) && props.text.length > 3;
+    props.text &&
+    new RegExp(/^([^0-9]*)$/).test(props.text) &&
+    props.text.length > 3;
 
   const getIcon = (icon, isCallAgency, hasDisruption, badgeFill, badgeText) => {
     if (isCallAgency) {
@@ -64,7 +66,7 @@ function RouteNumber(props, context) {
       className={cx('route-number', {
         'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
-        hasNoShortName: hasNoShortName && longText,
+        hasNoShortName: hasNoShortName && longText && !props.vertical,
       })}
     >
       <span
@@ -108,7 +110,7 @@ function RouteNumber(props, context) {
             className={cx('vehicle-number', mode, {
               'overflow-fade': longText && props.fadeLong,
               long: longText,
-              hasNoShortName: hasNoShortName && longText,
+              hasNoShortName: hasNoShortName && longText && props.isRouteView,
             })}
           >
             {props.text}
@@ -120,7 +122,6 @@ function RouteNumber(props, context) {
               className={cx('vehicle-number', mode, {
                 'overflow-fade': longText && props.fadeLong,
                 long: longText,
-                hasNoShortName: hasNoShortName && longText,
               })}
             >
               {props.text}
@@ -201,6 +202,7 @@ RouteNumber.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
+  isRouteView: PropTypes.bool,
 };
 
 RouteNumber.defaultProps = {
@@ -213,6 +215,7 @@ RouteNumber.defaultProps = {
   text: '',
   withBar: false,
   isCallAgency: false,
+  isRouteView: false,
   icon: undefined,
 };
 
