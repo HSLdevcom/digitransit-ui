@@ -111,7 +111,7 @@ class ItineraryTab extends React.Component {
                 })}
               >
                 {fares.some(fare => fare.isUnknown) && (
-                  <div className="itinerary-unknown-fare-disclaimer">
+                  <div className="disclaimer-container unknown-fare-disclaimer__top">
                     <div className="icon-container">
                       <Icon className="info" img="icon-icon_info" />
                     </div>

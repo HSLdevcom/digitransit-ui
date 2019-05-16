@@ -2,7 +2,7 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'react-router';
 
 import RouteNumber from './RouteNumber';
@@ -19,6 +19,7 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
 } from '../util/alertUtils';
+import ExternalLink from './ExternalLink';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -103,9 +104,11 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const { children, focusAction, index, leg, mode } = this.props;
+    const { config, intl } = this.context;
+
     const originalTime = leg.realTime &&
       leg.departureDelay &&
-      leg.departureDelay >= this.context.config.itinerary.delayThreshold && [
+      leg.departureDelay >= config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
           {moment(leg.startTime)
@@ -222,6 +225,22 @@ class TransitLeg extends React.Component {
               stops={leg.intermediatePlaces}
             />
           </div>
+          <div className="disclaimer-container unknown-fare-disclaimer__leg">
+            <div className="description-container">
+              <span className="accent">
+                {`${intl.formatMessage({ id: 'pay-attention' })} `}
+              </span>
+              Tälle matkan osuudelle tarvitaan erillinen lippu.
+            </div>
+            <div className="agency-info">
+              <div className="accent">Korkeasaaren lautta</div>
+              <div>Suomen saaristokuljetus</div>
+
+              <ExternalLink className="agency-link" href={'https://www.hsl.fi'}>
+                {intl.formatMessage({ id: 'extra-info' })}
+              </ExternalLink>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -293,6 +312,7 @@ TransitLeg.contextTypes = {
       showZoneLimits: PropTypes.bool,
     }).isRequired,
   }).isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default TransitLeg;
