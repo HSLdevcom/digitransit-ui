@@ -110,6 +110,33 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 0;
   }
 
+  .itinerary-unknown-fare-disclaimer {
+    @include font-medium;
+    background-color: rgba(254, 209, 0, 0.1);
+    border: 1px solid #fed100;
+    border-radius: 3px;
+    display: flex;
+    font-size: $font-size-xsmall;
+    margin-bottom: $padding-large;
+    margin-top: $padding-small;
+    padding: $padding-medium;
+
+    .icon-container {
+      flex: 0;
+      font-size: 20px;
+
+      .icon {
+        color: $primary-color;
+      }
+    }
+
+    .description-container {
+      flex: 1;
+      margin-left: $padding-medium;
+      white-space: normal;
+    }
+  }
+
   div.itinerary-ticket-information {
     flex-grow: 0;
     flex-shrink: 0;
@@ -215,7 +242,6 @@ $itinerary-tab-switch-height: 48px;
   @mixin itineraryTableIcons() {
     margin: 0 auto;
     font-size: $font-size-normal;
-    //font-size: $font-size-large;
     width: 20px;
     height: 20px;
     margin-left: -0.1em;

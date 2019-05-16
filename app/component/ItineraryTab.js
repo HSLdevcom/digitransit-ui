@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 
+import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItineraryProfile from './ItineraryProfile';
@@ -77,6 +78,7 @@ class ItineraryTab extends React.Component {
   render() {
     const { itinerary, searchTime } = this.props;
     const { config, intl } = this.context;
+
     const fares = getFares(
       itinerary.fares,
       getRoutes(itinerary.legs),
@@ -108,6 +110,17 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
+                {fares.some(fare => fare.isUnknown) && (
+                  <div className="itinerary-unknown-fare-disclaimer">
+                    <div className="icon-container">
+                      <Icon className="info" img="icon-icon_info" />
+                    </div>
+                    <div className="description-container">
+                      Matka sisältää yhden tai useamman osuuden, jonka lippujen
+                      myynnistä HSL ei vastaa.
+                    </div>
+                  </div>
+                )}
                 <ItineraryLegs
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
