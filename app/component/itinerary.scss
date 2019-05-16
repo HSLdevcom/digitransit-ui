@@ -625,6 +625,10 @@ $itinerary-tab-switch-height: 48px;
       color: $gray;
     }
 
+    .itinerary-transit-leg-route span {
+      white-space: initial;
+    }
+
     .itinerary-transit-leg-route,
     .itinerary-via-leg-duration {
       @extend .itinerary-leg-text-gray;
