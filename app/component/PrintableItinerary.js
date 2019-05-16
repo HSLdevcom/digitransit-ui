@@ -127,11 +127,11 @@ const getItineraryStops = sentLegObj => (
         {` (${durationToString(sentLegObj.duration * 1000)})`}
       </span>
     </div>
-    {sentLegObj.intermediatePlaces.map(o2 => (
-      <div key={o2.gtfsId} className="intermediate-stop-single">
-        <span className="print-itinerary-stop-shortname">{o2.stop.name}</span>
+    {sentLegObj.intermediatePlaces.map(({ stop }) => (
+      <div key={stop.gtfsId} className="intermediate-stop-single">
+        <span className="print-itinerary-stop-shortname">{stop.name}</span>
         <span className="print-itinerary-stop-code">
-          {o2.stop.code !== null ? ` [${o2.stop.code}]` : ``}
+          {stop.code !== null ? ` [${stop.code}]` : ``}
         </span>
       </div>
     ))}
@@ -192,7 +192,7 @@ export function TransferMap(props) {
         bounds={bounds}
         leafletObjs={leafletObjs}
         className="print-itinerary-map"
-        fitBounds={bounds}
+        fitBounds
         zoom={17}
         showScaleBar={false}
         showStops
