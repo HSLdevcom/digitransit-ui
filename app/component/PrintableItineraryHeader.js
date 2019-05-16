@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
@@ -39,7 +39,7 @@ class PrintableItineraryHeader extends React.Component {
   );
 
   render() {
-    const { config } = this.context;
+    const { config, intl } = this.context;
     const { itinerary, language } = this.props;
     const fares = mapFares(itinerary.fares, config, language);
     const isOnlyZoneB = isWithinZoneB(getZones(itinerary.legs), fares);
@@ -56,15 +56,10 @@ class PrintableItineraryHeader extends React.Component {
         <div className="print-itinerary-header-top">
           <div className="headers-container">
             <div className="header">
-              <FormattedMessage
-                id="print-itinerary-app-title"
-                defaultMessage={config.title}
-              />
-              {` - `}
-              <FormattedMessage
-                id="itinerary-page.title"
-                defaultMessage="Itinerary"
-              />
+              {`${config.title} - ${intl.formatMessage({
+                id: 'itinerary-page.title',
+                defaultMessage: 'Itinerary',
+              })}`}
             </div>
             <div className="subheader">
               <span>{itinerary.legs[0].from.name}</span>
@@ -112,7 +107,7 @@ class PrintableItineraryHeader extends React.Component {
               textId: fares.length > 1 ? 'tickets' : 'ticket',
               contentDetails: fares.map(
                 ({ ticketName }, i) =>
-                  !config.useTicketIcons ? (
+                  config.useTicketIcons ? (
                     <React.Fragment key={i}>
                       {renderZoneTicketIcon(ticketName, isOnlyZoneB)}
                     </React.Fragment>
@@ -136,6 +131,7 @@ PrintableItineraryHeader.propTypes = {
 
 PrintableItineraryHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const connectedComponent = connectToStores(
