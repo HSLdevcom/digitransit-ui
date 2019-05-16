@@ -137,7 +137,7 @@ describe('<TicketInformation />', () => {
       context: { config },
     });
 
-    expect(wrapper.find('.ticket-type-zone').text()).to.contain('5.50 €');
+    expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -287,11 +287,66 @@ describe('<TicketInformation />', () => {
           type: 'regular',
         },
       ],
-      zones: ['B'],
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config },
     });
     expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
+  });
+
+  it('should include unknown fares to the listing', () => {
+    const props = {
+      fares: [
+        {
+          cents: -1,
+          components: [
+            {
+              cents: 280,
+              fareId: 'HSL:AB',
+              routes: [
+                {
+                  agency: {
+                    gtfsId: 'HSL:HSL',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+            },
+          ],
+          type: 'regular',
+        },
+      ],
+      routes: [
+        {
+          agency: {
+            gtfsId: 'HSL:HSL',
+          },
+          gtfsId: 'HSL:1003',
+          longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
+        },
+        {
+          agency: {
+            fareUrl: 'foobaz',
+            gtfsId: 'FOO:BAR',
+            name: 'Merisataman lauttaliikenne',
+          },
+          gtfsId: 'FOO:1234',
+          longName: 'Merisataman lautta',
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: { config },
+    });
+    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
+
+    const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
+    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
+      'Merisataman lautta',
+    );
+    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
+      'Merisataman lauttaliikenne',
+    );
+    expect(ticketWrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
   });
 });

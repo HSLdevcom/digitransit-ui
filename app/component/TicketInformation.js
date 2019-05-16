@@ -62,16 +62,16 @@ export default function TicketInformation(
             {fare.isUnknown ? (
               <div>
                 <div className="ticket-identifier">{fare.routeName}</div>
-                <div>{fare.agency.name}</div>
+                <div className="ticket-description">{fare.agency.name}</div>
               </div>
             ) : (
               <div>
-                {config.useTicketIcons ? (
-                  renderZoneTicketIcon(fare.ticketName, isOnlyZoneB)
-                ) : (
-                  <div className="ticket-identifier">{fare.ticketName}</div>
-                )}
-                <div>
+                <div className="ticket-identifier">
+                  {config.useTicketIcons
+                    ? renderZoneTicketIcon(fare.ticketName, isOnlyZoneB)
+                    : fare.ticketName}
+                </div>
+                <div className="ticket-description">
                   {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
                     fare.cents / 100
                   ).toFixed(2)} €`}
