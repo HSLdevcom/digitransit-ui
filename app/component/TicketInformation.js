@@ -6,13 +6,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
-import { getFares } from '../util/fareUtils';
 
-export default function TicketInformation(
-  { fares: ticketFares, routes, zones },
-  { config, intl },
-) {
-  const fares = getFares(ticketFares, routes, config, intl.locale);
+export default function TicketInformation({ fares, zones }, { config, intl }) {
   if (fares.length === 0) {
     return null;
   }
@@ -34,7 +29,7 @@ export default function TicketInformation(
                 : 'itinerary-ticket.title'
             }
             defaultMessage="Required tickets"
-          />
+          />:
         </div>
         {fares.map((fare, i) => (
           <div
@@ -46,7 +41,9 @@ export default function TicketInformation(
             {fare.isUnknown ? (
               <div>
                 <div className="ticket-identifier">{fare.routeName}</div>
-                <div className="ticket-description">{fare.agency.name}</div>
+                {fare.agency && (
+                  <div className="ticket-description">{fare.agency.name}</div>
+                )}
               </div>
             ) : (
               <div>
@@ -88,45 +85,12 @@ export default function TicketInformation(
 }
 
 TicketInformation.propTypes = {
-  fares: PropTypes.arrayOf(
-    PropTypes.shape({
-      cents: PropTypes.number.isRequired,
-      components: PropTypes.arrayOf(
-        PropTypes.shape({
-          cents: PropTypes.number.isRequired,
-          fareId: PropTypes.string.isRequired,
-          routes: PropTypes.arrayOf(
-            PropTypes.shape({
-              agency: PropTypes.shape({
-                fareUrl: PropTypes.string,
-                gtfsId: PropTypes.string.isRequired,
-                name: PropTypes.string,
-              }).isRequired,
-              gtfsId: PropTypes.string.isRequired,
-            }),
-          ),
-        }),
-      ),
-      type: PropTypes.string.isRequired,
-    }),
-  ),
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      agency: PropTypes.shape({
-        fareUrl: PropTypes.string,
-        gtfsId: PropTypes.string.isRequired,
-        name: PropTypes.string,
-      }).isRequired,
-      gtfsId: PropTypes.string.isRequired,
-      longName: PropTypes.string.isRequired,
-    }),
-  ),
+  fares: PropTypes.array,
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
 TicketInformation.defaultProps = {
   fares: [],
-  routes: [],
   zones: [],
 };
 

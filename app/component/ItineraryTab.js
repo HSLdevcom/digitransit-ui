@@ -21,6 +21,7 @@ import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
+import { getFares } from '../util/fareUtils';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -75,9 +76,12 @@ class ItineraryTab extends React.Component {
 
   render() {
     const { itinerary, searchTime } = this.props;
-    const { config } = this.context;
-    const routeInformation = config.showRouteInformation && (
-      <RouteInformation />
+    const { config, intl } = this.context;
+    const fares = getFares(
+      itinerary.fares,
+      getRoutes(itinerary.legs),
+      config,
+      intl.locale,
     );
 
     return (
@@ -114,13 +118,11 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showTicketInformation && (
                   <TicketInformation
-                    // agencies={getAgencies(itinerary.legs)}
-                    fares={itinerary.fares}
-                    routes={getRoutes(itinerary.legs)}
+                    fares={fares}
                     zones={getZones(itinerary.legs)}
                   />
                 )}
-                {routeInformation}
+                {config.showRouteInformation && <RouteInformation />}
               </div>
               <div className="row print-itinerary-button-container">
                 <SecondaryButton

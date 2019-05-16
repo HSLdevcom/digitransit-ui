@@ -6,16 +6,20 @@ import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 import ExternalLink from '../../app/component/ExternalLink';
 import TicketInformation from '../../app/component/TicketInformation';
 import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
+import { getFares } from '../../app/util/fareUtils';
+
+const defaultConfig = {
+  showTicketInformation: true,
+  fareMapping: fareId => fareId.replace('HSL:', ''),
+};
+
+const proxyFares = (fares, routes = [], config = defaultConfig) =>
+  getFares(fares, routes, config, 'en');
 
 describe('<TicketInformation />', () => {
-  const config = {
-    showTicketInformation: true,
-    fareMapping: v => v,
-  };
-
   it('should show multiple ticket components (DT-2639)', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
           cents: 870,
@@ -30,20 +34,20 @@ describe('<TicketInformation />', () => {
             },
           ],
         },
-      ],
+      ]),
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      props.fares[0].components.length,
+      2,
     );
   });
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
           cents: 870,
@@ -58,10 +62,10 @@ describe('<TicketInformation />', () => {
             },
           ],
         },
-      ],
+      ]),
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(
@@ -88,7 +92,7 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(
@@ -101,16 +105,16 @@ describe('<TicketInformation />', () => {
 
   it('should not show any ticket information if components are missing', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
           cents: 550,
           components: [],
         },
-      ],
+      ]),
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
@@ -134,7 +138,7 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
@@ -142,7 +146,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
           cents: 280,
@@ -153,13 +157,13 @@ describe('<TicketInformation />', () => {
             },
           ],
         },
-      ],
+      ]),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -168,28 +172,31 @@ describe('<TicketInformation />', () => {
   });
 
   it('should use the mapped name for the ticket', () => {
+    const config = {
+      ...defaultConfig,
+      fareMapping: fareId => `foo_${fareId}_bar`,
+    };
     const props = {
-      fares: [
-        {
-          type: 'regular',
-          cents: 280,
-          components: [
-            {
-              cents: 280,
-              fareId: 'HSL:ABCD',
-            },
-          ],
-        },
-      ],
+      fares: proxyFares(
+        [
+          {
+            type: 'regular',
+            cents: 280,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:ABCD',
+              },
+            ],
+          },
+        ],
+        [],
+        config,
+      ),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          ...config,
-          fareMapping: fareId => `foo_${fareId}_bar`,
-        },
-      },
+      context: { config },
     });
     expect(wrapper.find('.ticket-identifier').text()).to.equal(
       'foo_HSL:ABCD_bar',
@@ -198,7 +205,7 @@ describe('<TicketInformation />', () => {
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
           cents: 280,
@@ -209,13 +216,13 @@ describe('<TicketInformation />', () => {
             },
           ],
         },
-      ],
+      ]),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -225,7 +232,7 @@ describe('<TicketInformation />', () => {
 
   it('should show AB and BC tickets for a trip within B zone', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           cents: 280,
           components: [
@@ -236,14 +243,13 @@ describe('<TicketInformation />', () => {
           ],
           type: 'regular',
         },
-      ],
+      ]),
       zones: ['B'],
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
-          fareMapping: fareId => fareId.replace('HSL:', ''),
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -266,7 +272,7 @@ describe('<TicketInformation />', () => {
 
   it('should show a fare url link for the agency', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           cents: 280,
           components: [
@@ -286,57 +292,59 @@ describe('<TicketInformation />', () => {
           ],
           type: 'regular',
         },
-      ],
+      ]),
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
     expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
   });
 
   it('should include unknown fares to the listing', () => {
     const props = {
-      fares: [
-        {
-          cents: -1,
-          components: [
-            {
-              cents: 280,
-              fareId: 'HSL:AB',
-              routes: [
-                {
-                  agency: {
-                    gtfsId: 'HSL:HSL',
+      fares: proxyFares(
+        [
+          {
+            cents: -1,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+                routes: [
+                  {
+                    agency: {
+                      gtfsId: 'HSL:HSL',
+                    },
+                    gtfsId: 'HSL:1003',
                   },
-                  gtfsId: 'HSL:1003',
-                },
-              ],
+                ],
+              },
+            ],
+            type: 'regular',
+          },
+        ],
+        [
+          {
+            agency: {
+              gtfsId: 'HSL:HSL',
             },
-          ],
-          type: 'regular',
-        },
-      ],
-      routes: [
-        {
-          agency: {
-            gtfsId: 'HSL:HSL',
+            gtfsId: 'HSL:1003',
+            longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
           },
-          gtfsId: 'HSL:1003',
-          longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
-        },
-        {
-          agency: {
-            fareUrl: 'foobaz',
-            gtfsId: 'FOO:BAR',
-            name: 'Merisataman lauttaliikenne',
+          {
+            agency: {
+              fareUrl: 'foobaz',
+              gtfsId: 'FOO:BAR',
+              name: 'Merisataman lauttaliikenne',
+            },
+            gtfsId: 'FOO:1234',
+            longName: 'Merisataman lautta',
           },
-          gtfsId: 'FOO:1234',
-          longName: 'Merisataman lautta',
-        },
-      ],
+        ],
+      ),
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
     expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
 
