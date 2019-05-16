@@ -37,6 +37,32 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/tre_zone_lines_20190516.geojson',
+      },
+    ],
+    zones: {
+      url: '/assets/geojson/tre_zone_areas_20190516.geojson',
+    },
+  },
+
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
+
   showTicketInformation: true,
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
