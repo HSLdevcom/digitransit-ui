@@ -1668,7 +1668,7 @@ const translations = {
     'separate-ticket-required':
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
-      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä HSL ei vastaa.',
+      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',

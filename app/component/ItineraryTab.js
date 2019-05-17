@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -110,16 +111,25 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {fares.some(fare => fare.isUnknown) && (
-                  <div className="disclaimer-container unknown-fare-disclaimer__top">
-                    <div className="icon-container">
-                      <Icon className="info" img="icon-icon_info" />
+                {config.showTicketInformation &&
+                  fares.some(fare => fare.isUnknown) && (
+                    <div className="disclaimer-container unknown-fare-disclaimer__top">
+                      <div className="icon-container">
+                        <Icon className="info" img="icon-icon_info" />
+                      </div>
+                      <div className="description-container">
+                        <FormattedMessage
+                          id="separate-ticket-required-disclaimer"
+                          values={{
+                            agencyName: get(
+                              config,
+                              'ticketInformation.primaryAgencyName',
+                            ),
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="description-container">
-                      <FormattedMessage id="separate-ticket-required-disclaimer" />
-                    </div>
-                  </div>
-                )}
+                  )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}

@@ -313,6 +313,28 @@ export default {
 
   // Ticket information feature toggle
   showTicketInformation: false,
+
+  ticketInformation: {
+    // This is the name of the primary agency operating in the area.
+    // It is used when a ticket price cannot be shown to the user, indicating
+    // that the primary agency is not responsible for ticketing.
+    /*
+    primaryAgencyName: ...,
+    */
+    // UTM parameters (per agency) that should be appended to the agency's
+    // fareUrl when the fareUrl link is shown in the UI.
+    /*
+    trackingParameters: {
+      "agencyGtfsId": {
+        utm_campaign: ...,
+        utm_content: ...,
+        utm_medium: ...,
+        utm_source: ...,
+      }
+    },
+    */
+  },
+
   useTicketIcons: false,
   showRouteInformation: false,
 

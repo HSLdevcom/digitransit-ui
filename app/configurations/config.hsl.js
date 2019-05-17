@@ -377,8 +377,19 @@ export default {
   },
 
   showTicketInformation: true,
-  ticketLink:
-    'https://www.hsl.fi/liput-ja-hinnat?utm_campaign=omat-palvelut&utm_source=reittiopas&utm_medium=referral&utm_content=nain-ostat-lipun',
+
+  ticketInformation: {
+    primaryAgencyName: 'HSL',
+    trackingParameters: {
+      'HSL:HSL': {
+        utm_campaign: 'omat-palvelut',
+        utm_content: 'nain-ostat-lipun',
+        utm_medium: 'referral',
+        utm_source: 'reittiopas',
+      },
+    },
+  },
+
   showTicketSelector: true,
 
   staticMessages: [
