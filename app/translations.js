@@ -1670,9 +1670,9 @@ const translations = {
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
     'separate-ticket-required':
-      'Denna etapp av resan kräver en separat biljett.',
+      'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
-      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
@@ -2692,9 +2692,9 @@ const translations = {
     'select-position': 'Välj din position bland tidigare sökningar',
     send: 'Skicka',
     'separate-ticket-required':
-      'sv: Tälle matkan osuudelle tarvitaan erillinen lippu.',
+      'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
-      'sv: Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
+      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',
