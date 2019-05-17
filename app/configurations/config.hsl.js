@@ -377,7 +377,6 @@ export default {
   },
 
   showTicketInformation: true,
-
   ticketInformation: {
     primaryAgencyName: 'HSL',
     trackingParameters: {

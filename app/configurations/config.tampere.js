@@ -38,6 +38,9 @@ export default configMerger(walttiConfig, {
   feedIds: ['tampere'],
 
   showTicketInformation: true,
+  ticketInformation: {
+    primaryAgencyName: 'Tampereen seudun joukkoliikenne',
+  },
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
   // mapping (string, lang) from OTP fare identifiers to human readable form

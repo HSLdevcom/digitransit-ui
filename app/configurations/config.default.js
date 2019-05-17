@@ -313,7 +313,6 @@ export default {
 
   // Ticket information feature toggle
   showTicketInformation: false,
-
   ticketInformation: {
     // This is the name of the primary agency operating in the area.
     // It is used when a ticket price cannot be shown to the user, indicating
