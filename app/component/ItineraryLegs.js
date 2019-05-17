@@ -35,8 +35,13 @@ class ItineraryLegs extends React.Component {
   static propTypes = {
     focusMap: PropTypes.func,
     itinerary: PropTypes.object,
+    fares: PropTypes.array,
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
+  };
+
+  static defaultProps = {
+    fares: [],
   };
 
   getChildContext() {
@@ -63,15 +68,23 @@ class ItineraryLegs extends React.Component {
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
   render() {
-    let previousLeg;
-    let nextLeg;
-    const legs = [];
-    const compressedLegs = compressLegs(this.props.itinerary.legs);
+    const { itinerary, fares, waitThreshold } = this.props;
+
+    const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
+      ...leg,
+      fare:
+        (leg.route &&
+          fares.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
+        undefined,
+    }));
     const numberOfLegs = compressedLegs.length;
     if (numberOfLegs === 0) {
       return null;
     }
 
+    let previousLeg;
+    let nextLeg;
+    const legs = [];
     compressedLegs.forEach((leg, j) => {
       if (j + 1 < compressedLegs.length) {
         nextLeg = compressedLegs[j + 1];
@@ -210,11 +223,11 @@ class ItineraryLegs extends React.Component {
       }
 
       if (nextLeg) {
-        const waitThreshold = this.props.waitThreshold * 1000;
+        const waitThresholdInMs = waitThreshold * 1000;
         const waitTime = nextLeg.startTime - leg.endTime;
 
         if (
-          waitTime > waitThreshold &&
+          waitTime > waitThresholdInMs &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
           !nextLeg.intermediatePlace
@@ -239,7 +252,7 @@ class ItineraryLegs extends React.Component {
       <EndLeg
         key={numberOfLegs}
         index={numberOfLegs}
-        endTime={this.props.itinerary.endTime}
+        endTime={itinerary.endTime}
         focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to.name}
       />,

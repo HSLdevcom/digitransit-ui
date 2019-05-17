@@ -225,22 +225,33 @@ class TransitLeg extends React.Component {
               stops={leg.intermediatePlaces}
             />
           </div>
-          <div className="disclaimer-container unknown-fare-disclaimer__leg">
-            <div className="description-container">
-              <span className="accent">
-                {`${intl.formatMessage({ id: 'pay-attention' })} `}
-              </span>
-              Tälle matkan osuudelle tarvitaan erillinen lippu.
-            </div>
-            <div className="agency-info">
-              <div className="accent">Korkeasaaren lautta</div>
-              <div>Suomen saaristokuljetus</div>
-
-              <ExternalLink className="agency-link" href={'https://www.hsl.fi'}>
-                {intl.formatMessage({ id: 'extra-info' })}
-              </ExternalLink>
-            </div>
-          </div>
+          {leg.fare &&
+            leg.fare.isUnknown && (
+              <div className="disclaimer-container unknown-fare-disclaimer__leg">
+                <div className="description-container">
+                  <span className="accent">
+                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                  </span>
+                  {intl.formatMessage({ id: 'separate-ticket-required' })}
+                </div>
+                <div className="ticket-info">
+                  <div className="accent">{leg.fare.routeName}</div>
+                  {leg.fare.agency && (
+                    <React.Fragment>
+                      <div>{leg.fare.agency.name}</div>
+                      {leg.fare.agency.fareUrl && (
+                        <ExternalLink
+                          className="agency-link"
+                          href={leg.fare.agency.fareUrl}
+                        >
+                          {intl.formatMessage({ id: 'extra-info' })}
+                        </ExternalLink>
+                      )}
+                    </React.Fragment>
+                  )}
+                </div>
+              </div>
+            )}
         </div>
       </div>
     );

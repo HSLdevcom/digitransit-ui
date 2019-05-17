@@ -116,12 +116,12 @@ class ItineraryTab extends React.Component {
                       <Icon className="info" img="icon-icon_info" />
                     </div>
                     <div className="description-container">
-                      Matka sisältää yhden tai useamman osuuden, jonka lippujen
-                      myynnistä HSL ei vastaa.
+                      <FormattedMessage id="separate-ticket-required-disclaimer" />
                     </div>
                   </div>
                 )}
                 <ItineraryLegs
+                  fares={fares}
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
                 />

@@ -1665,6 +1665,10 @@ const translations = {
     'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
+    'separate-ticket-required':
+      'Tälle matkan osuudelle tarvitaan erillinen lippu.',
+    'separate-ticket-required-disclaimer':
+      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä HSL ei vastaa.',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',

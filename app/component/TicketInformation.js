@@ -59,16 +59,17 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
                 </div>
               </div>
             )}
-            {fare.agency && (
-              <div className="ticket-type-agency-link">
-                <ExternalLink
-                  className="itinerary-ticket-external-link"
-                  href={fare.agency.fareUrl}
-                >
-                  {intl.formatMessage({ id: 'extra-info' })}
-                </ExternalLink>
-              </div>
-            )}
+            {fare.agency &&
+              fare.agency.fareUrl && (
+                <div className="ticket-type-agency-link">
+                  <ExternalLink
+                    className="itinerary-ticket-external-link"
+                    href={fare.agency.fareUrl}
+                  >
+                    {intl.formatMessage({ id: 'extra-info' })}
+                  </ExternalLink>
+                </div>
+              )}
           </div>
         ))}
       </div>

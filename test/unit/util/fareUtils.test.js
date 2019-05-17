@@ -1,4 +1,4 @@
-import { mapFares } from '../../../app/util/fareUtils';
+import { getFares, mapFares } from '../../../app/util/fareUtils';
 
 const defaultConfig = {
   showTicketInformation: true,
@@ -161,6 +161,62 @@ describe('fareUtils', () => {
         fareUrl: 'https://www.hsl.fi',
         gtfsId: 'bar',
       });
+    });
+  });
+
+  describe('getFares', () => {
+    it('should map route and agency props for unknown fares', () => {
+      const fares = [
+        {
+          cents: -1,
+          components: [
+            {
+              cents: 280,
+              fareId: 'HSL:AB',
+              routes: [
+                {
+                  agency: {
+                    gtfsId: 'HSL:HSL',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+            },
+          ],
+          type: 'regular',
+        },
+      ];
+      const routes = [
+        {
+          agency: {
+            gtfsId: 'HSL:HSL',
+          },
+          gtfsId: 'HSL:1003',
+          longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
+        },
+        {
+          agency: {
+            fareUrl: 'foobaz',
+            gtfsId: 'FOO:BAR',
+            name: 'Merisataman lauttaliikenne',
+          },
+          gtfsId: 'FOO:1234',
+          longName: 'Merisataman lautta',
+        },
+      ];
+
+      const result = getFares(fares, routes, defaultConfig, 'en');
+      expect(result).to.have.lengthOf(2);
+      expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(1);
+
+      const unknown = result.find(fare => fare.isUnknown);
+      expect(unknown.agency).to.deep.equal({
+        fareUrl: 'foobaz',
+        gtfsId: 'FOO:BAR',
+        name: 'Merisataman lauttaliikenne',
+      });
+      expect(unknown.routeGtfsId).to.equal('FOO:1234');
+      expect(unknown.routeName).to.equal('Merisataman lautta');
     });
   });
 });

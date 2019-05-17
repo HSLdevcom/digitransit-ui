@@ -42,9 +42,11 @@ export const getFares = (fares, routes, config, lang) => {
     .map(route => ({
       agency: {
         fareUrl: route.agency.fareUrl,
+        gtfsId: route.agency.gtfsId,
         name: route.agency.name,
       },
       isUnknown: true,
+      routeGtfsId: route.gtfsId,
       routeName: route.longName,
     }));
 
