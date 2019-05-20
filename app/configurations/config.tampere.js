@@ -46,6 +46,7 @@ export default configMerger(walttiConfig, {
           en: 'Zones',
         },
         url: '/assets/geojson/tre_zone_lines_20190516.geojson',
+        isOffByDefault: true,
       },
     ],
     zones: {
