@@ -404,6 +404,32 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('getServiceAlertUrl', () => {
+    it('should return an empty string if there are no translations and no alertUrl', () => {
+      const alert = {};
+      expect(utils.getServiceAlertUrl(alert)).to.equal('');
+    });
+
+    it('should return alertUrl if there are no translations', () => {
+      const alert = {
+        alertUrl: 'foo',
+      };
+      expect(utils.getServiceAlertUrl(alert)).to.equal('foo');
+    });
+
+    it('should return the localized alertUrl', () => {
+      const alert = {
+        alertUrlTranslations: [
+          {
+            text: 'bar',
+            language: 'en',
+          },
+        ],
+      };
+      expect(utils.getServiceAlertUrl(alert)).to.equal('bar');
+    });
+  });
+
   describe('getServiceAlertsForRoute', () => {
     it('should return an empty array if the route does not exist', () => {
       expect(utils.getServiceAlertsForRoute(undefined)).to.deep.equal([]);
@@ -447,6 +473,17 @@ describe('alertUtils', () => {
               },
             ],
             alertSeverityLevel: 'foo',
+            alertUrl: 'https://www.hsl.fi',
+            alertUrlTranslations: [
+              {
+                language: 'fi',
+                text: 'https://www.hsl.fi',
+              },
+              {
+                language: 'en',
+                text: 'https://www.hsl.fi/en',
+              },
+            ],
             effectiveEndDate: 1577829548,
             effectiveStartDate: 1543183208,
           },
@@ -467,6 +504,7 @@ describe('alertUtils', () => {
             shortName: 'foobar',
           },
           severityLevel: 'foo',
+          url: 'https://www.hsl.fi/en',
           validityPeriod: {
             endTime: 1577829548,
             startTime: 1543183208,

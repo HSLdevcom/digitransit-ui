@@ -245,6 +245,15 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
     locale,
   );
 
+/**
+ * Attempts to find alert's url in the given language.
+ *
+ * @param {*} alert the alert object to look into.
+ * @param {*} locale the locale to use, default to 'en'.
+ */
+export const getServiceAlertUrl = (alert, locale = 'en') =>
+  getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);
+
 const getServiceAlerts = (
   { alerts } = {},
   { color, mode, shortName } = {},
@@ -261,6 +270,7 @@ const getServiceAlerts = (
           shortName,
         },
         severityLevel: alert.alertSeverityLevel,
+        url: getServiceAlertUrl(alert, locale),
         validityPeriod: {
           startTime: alert.effectiveStartDate,
           endTime: alert.effectiveEndDate,
