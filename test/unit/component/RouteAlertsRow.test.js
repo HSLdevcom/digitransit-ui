@@ -71,4 +71,20 @@ describe('<RouteAlertsRow />', () => {
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
   });
+
+  it('should render the routeLine', () => {
+    const props = {
+      routeLine: '97N',
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-top-row').text()).to.equal('97N');
+  });
+
+  it('should render the url', () => {
+    const props = {
+      url: 'https://www.hsl.fi',
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-url')).to.have.lengthOf(1);
+  });
 });
