@@ -42,6 +42,34 @@ describe('<PrintableItineraryHeader />', () => {
     expect(wrapper.find('.fare-details')).to.have.lengthOf(2);
   });
 
+  it('should not render any fares if ticket information is disabled', () => {
+    const props = {
+      itinerary: {
+        fares: [
+          {
+            type: 'regular',
+            cents: 280,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+              },
+            ],
+          },
+        ],
+        legs: [{ from: {}, to: {} }],
+      },
+      language: 'en',
+    };
+
+    const wrapper = shallowWithIntl(<PrintableItineraryHeader {...props} />, {
+      context: {
+        config: { ...config, showTicketInformation: false },
+      },
+    });
+    expect(wrapper.find('.fare-details')).to.have.lengthOf(0);
+  });
+
   it('should render unknown tickets when the total cost is unknown', () => {
     const props = {
       itinerary: {

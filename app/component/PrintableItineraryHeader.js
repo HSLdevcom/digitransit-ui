@@ -111,6 +111,7 @@ class PrintableItineraryHeader extends React.Component {
             ),
           })}
           {fares &&
+            config.showTicketInformation &&
             this.createHeaderBlock({
               name: 'ticket',
               textId: fares.length > 1 ? 'tickets' : 'ticket',
