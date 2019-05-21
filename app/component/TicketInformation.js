@@ -8,7 +8,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 
-const getUtmParameters = (agency, config) => {
+export const getUtmParameters = (agency, config) => {
   const gtfsId = get(agency, 'gtfsId');
   if (!gtfsId) {
     return '';
