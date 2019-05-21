@@ -70,11 +70,13 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
                     ? renderZoneTicketIcon(fare.ticketName, isOnlyZoneB)
                     : fare.ticketName}
                 </div>
-                <div className="ticket-description">
-                  {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
-                    fare.cents / 100
-                  ).toFixed(2)} €`}
-                </div>
+                {config.showTicketPrice && (
+                  <div className="ticket-description">
+                    {`${intl.formatMessage({ id: 'ticket-single-adult' })}, ${(
+                      fare.cents / 100
+                    ).toFixed(2)} €`}
+                  </div>
+                )}
               </div>
             )}
             {fare.agency &&

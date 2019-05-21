@@ -496,6 +496,8 @@ export default {
       : '';
   },
 
+  showTicketPrice: true,
+
   itinerary: {
     showZoneLimits: true,
   },

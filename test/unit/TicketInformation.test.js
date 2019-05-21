@@ -12,6 +12,7 @@ import { getFares } from '../../app/util/fareUtils';
 
 const defaultConfig = {
   showTicketInformation: true,
+  showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),
 };
 
@@ -124,7 +125,7 @@ describe('<TicketInformation />', () => {
     expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
   });
 
-  it('should convert and show the total fare', () => {
+  it('should convert and show the total fare when showTicketPrice is true', () => {
     const props = {
       fares: [
         {
@@ -144,6 +145,28 @@ describe('<TicketInformation />', () => {
     });
 
     expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
+  });
+
+  it('should not show the total fare when showTicketPrice is false', () => {
+    const props = {
+      fares: [
+        {
+          type: 'regular',
+          cents: 550,
+          components: [
+            {
+              cents: 550,
+              fareId: 'HSL:seu',
+            },
+          ],
+        },
+      ],
+    };
+    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
+      context: { config: { ...defaultConfig, showTicketPrice: false } },
+    });
+
+    expect(wrapper.find('.ticket-description')).to.have.lengthOf(0);
   });
 
   it('should use a zone ticket icon if configured', () => {
