@@ -73,7 +73,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  showTicketInformation: true,
+  showTicketInformation: false,
   ticketInformation: {
     primaryAgencyName: 'Kuopion seudun joukkoliikenne',
   },
