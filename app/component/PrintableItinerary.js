@@ -103,7 +103,7 @@ const getHeadSignDetails = sentLegObj => {
   }
 
   return (
-    <div>
+    <div key="headsign">
       <span>{transitMode}</span>
       <span>{headSignDetails}</span>
     </div>
@@ -111,7 +111,7 @@ const getHeadSignDetails = sentLegObj => {
 };
 
 const getItineraryStops = sentLegObj => (
-  <div className="intermediate-stops">
+  <div key="intermediate-stops" className="intermediate-stops">
     <div className="intermediate-stops-count">
       <FormattedMessage
         id="number-of-intermediate-stops"
@@ -127,11 +127,11 @@ const getItineraryStops = sentLegObj => (
         {` (${durationToString(sentLegObj.duration * 1000)})`}
       </span>
     </div>
-    {sentLegObj.intermediatePlaces.map(o2 => (
-      <div key={o2.gtfsId} className="intermediate-stop-single">
-        <span className="print-itinerary-stop-shortname">{o2.stop.name}</span>
+    {sentLegObj.intermediatePlaces.map(({ stop }) => (
+      <div key={stop.gtfsId} className="intermediate-stop-single">
+        <span className="print-itinerary-stop-shortname">{stop.name}</span>
         <span className="print-itinerary-stop-code">
-          {o2.stop.code !== null ? ` [${o2.stop.code}]` : ``}
+          {stop.code !== null ? ` [${stop.code}]` : ``}
         </span>
       </div>
     ))}
@@ -192,7 +192,7 @@ export function TransferMap(props) {
         bounds={bounds}
         leafletObjs={leafletObjs}
         className="print-itinerary-map"
-        fitBounds={bounds}
+        fitBounds
         zoom={17}
         showScaleBar={false}
         showStops
@@ -340,7 +340,8 @@ class PrintableItinerary extends React.Component {
   }
 
   render() {
-    const originalLegs = this.props.itinerary.legs;
+    const { itinerary } = this.props;
+    const originalLegs = itinerary.legs;
     const compressedLegs = compressLegs(originalLegs);
     const legs = compressedLegs.map((o, i) => {
       if (o.mode !== 'AIRPLANE') {
@@ -356,10 +357,8 @@ class PrintableItinerary extends React.Component {
         cloneObj.mode = specialMode === false ? cloneObj.mode : specialMode;
         return (
           <div
-            key={o.client}
-            className={`print-itinerary-leg
-                ${o.mode.toLowerCase()}
-                `}
+            key={o.startTime}
+            className={`print-itinerary-leg ${o.mode.toLowerCase()}`}
           >
             <PrintableLeg
               legObj={cloneObj}
@@ -394,10 +393,8 @@ class PrintableItinerary extends React.Component {
       luggage.isLuggage = true;
       return (
         <div
-          key={o.client}
-          className={`print-itinerary-leg
-        ${o.mode.toLowerCase()}
-        `}
+          key={o.startTime}
+          className={`print-itinerary-leg ${o.mode.toLowerCase()}`}
         >
           <PrintableLeg
             legObj={checkin}
@@ -421,7 +418,7 @@ class PrintableItinerary extends React.Component {
       );
     });
     legs.push(
-      <div className="print-itinerary-leg end">
+      <div key="end" className="print-itinerary-leg end">
         <div className="print-itinerary-leg-container">
           <div className="itinerary-left">
             <div className="itinerary-timestamp">
@@ -437,10 +434,7 @@ class PrintableItinerary extends React.Component {
           </div>
           <div className="itinerary-center end">
             <div className="itinerary-leg-stopname">
-              {
-                this.props.itinerary.legs[this.props.itinerary.legs.length - 1]
-                  .to.name
-              }
+              {itinerary.legs[itinerary.legs.length - 1].to.name}
             </div>
           </div>
         </div>
@@ -448,7 +442,7 @@ class PrintableItinerary extends React.Component {
     );
     return (
       <div className="print-itinerary-container">
-        <PrintableItineraryHeader itinerary={this.props.itinerary} />
+        <PrintableItineraryHeader itinerary={itinerary} />
         <div className="print-itinerary-allLegs">{legs}</div>
       </div>
     );
@@ -470,12 +464,20 @@ export default Relay.createContainer(PrintableItinerary, {
         startTime
         endTime
         fares {
-          type
-          currency
           cents
           components {
+            cents
             fareId
+            routes {
+              agency {
+                fareUrl
+                gtfsId
+                name
+              }
+              gtfsId
+            }
           }
+          type
         }
         legs {
           mode
@@ -541,6 +543,9 @@ export default Relay.createContainer(PrintableItinerary, {
             gtfsId
             longName
             agency {
+              gtfsId
+              fareUrl
+              name
               phone
             }
           }

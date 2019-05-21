@@ -92,6 +92,10 @@ $content-background-color: $background-color;
 
 #skip-to-content-link {
   height: 0px;
+
+  @media print {
+    display: none;
+  }
 }
 
 .flex-horizontal {

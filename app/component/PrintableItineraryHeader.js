@@ -1,16 +1,17 @@
+/* eslint-disable react/no-array-index-key */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
 import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
 import PreferencesStore from '../store/PreferencesStore';
-import mapFares from '../util/fareUtils';
+import { getFares } from '../util/fareUtils';
 import { displayDistance } from '../util/geo-utils';
-import { getTotalWalkingDistance, getZones } from '../util/legUtils';
+import { getTotalWalkingDistance, getZones, getRoutes } from '../util/legUtils';
 
 class PrintableItineraryHeader extends React.Component {
   createHeaderBlock = obj => (
@@ -38,10 +39,19 @@ class PrintableItineraryHeader extends React.Component {
   );
 
   render() {
-    const { config } = this.context;
+    const { config, intl } = this.context;
     const { itinerary, language } = this.props;
-    const fares = mapFares(itinerary.fares, config, language);
-    const isOnlyZoneB = isWithinZoneB(getZones(itinerary.legs), fares);
+
+    const fares = getFares(
+      itinerary.fares,
+      getRoutes(itinerary.legs),
+      config,
+      language,
+    );
+    const isOnlyZoneB = isWithinZoneB(
+      getZones(itinerary.legs),
+      fares.filter(fare => !fare.isUnknown),
+    );
     const duration = moment(itinerary.endTime).diff(
       moment(itinerary.startTime),
     );
@@ -55,18 +65,16 @@ class PrintableItineraryHeader extends React.Component {
         <div className="print-itinerary-header-top">
           <div className="headers-container">
             <div className="header">
-              <FormattedMessage
-                id="print-itinerary-app-title"
-                defaultMessage={config.title}
-              />
-              {` - `}
-              <FormattedMessage
-                id="itinerary-page.title"
-                defaultMessage="Itinerary"
-              />
+              {`${config.title} - ${intl.formatMessage({
+                id: 'itinerary-page.title',
+                defaultMessage: 'Itinerary',
+              })}`}
             </div>
             <div className="subheader">
               <span>{itinerary.legs[0].from.name}</span>
+              {itinerary.legs
+                .filter(leg => leg.intermediatePlace)
+                .map((leg, i) => <span key={i}>{` — ${leg.from.name}`}</span>)}
               {` — `}
               <span>{itinerary.legs[itinerary.legs.length - 1].to.name}</span>
               {` | `}
@@ -102,19 +110,25 @@ class PrintableItineraryHeader extends React.Component {
               config,
             ),
           })}
-          {fares &&
+          {fares.length > 0 &&
+            config.showTicketInformation &&
             this.createHeaderBlock({
               name: 'ticket',
               textId: fares.length > 1 ? 'tickets' : 'ticket',
               contentDetails: fares.map(
-                fare =>
-                  config.useTicketIcons ? (
-                    <React.Fragment key={fare}>
-                      {renderZoneTicketIcon(fare, isOnlyZoneB)}
+                ({ isUnknown, routeName, ticketName }, i) =>
+                  (isUnknown && (
+                    <div key={i} className="fare-details">
+                      <span>{routeName}</span>
+                    </div>
+                  )) ||
+                  (config.useTicketIcons && (
+                    <React.Fragment key={i}>
+                      {renderZoneTicketIcon(ticketName, isOnlyZoneB)}
                     </React.Fragment>
-                  ) : (
-                    <div key={fare} className="fare-details">
-                      <span>{fare}</span>
+                  )) || (
+                    <div key={i} className="fare-details">
+                      <span>{ticketName}</span>
                     </div>
                   ),
               ),
@@ -132,6 +146,7 @@ PrintableItineraryHeader.propTypes = {
 
 PrintableItineraryHeader.contextTypes = {
   config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 const connectedComponent = connectToStores(
