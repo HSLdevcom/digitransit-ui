@@ -29,6 +29,7 @@ import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 
 const initialState = {
   selectableTargets: undefined,
+  showPopup: false,
   coords: undefined,
   showSpinner: true,
 };
@@ -162,18 +163,25 @@ class TileLayerContainer extends GridLayer {
         this.props.disableMapTracking(); // disable now that popup opens
       }
 
-      this.setState({
-        selectableTargets: selectableTargets.filter(target =>
-          isFeatureLayerEnabled(
-            target.feature,
-            target.layer,
-            this.props.mapLayers,
-            this.context.config,
+      if (this.state.showPopup) {
+        this.setState({
+          selectableTargets: selectableTargets.filter(target =>
+            isFeatureLayerEnabled(
+              target.feature,
+              target.layer,
+              this.props.mapLayers,
+              this.context.config,
+            ),
           ),
-        ),
-        coords,
-        showSpinner: true,
-      });
+          coords,
+          showSpinner: true,
+          showPopup: false,
+        });
+      } else {
+        this.setState({
+          showPopup: true,
+        });
+      }
     };
 
     return tile.el;
