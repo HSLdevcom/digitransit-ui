@@ -226,7 +226,8 @@ class TransitLeg extends React.Component {
             />
           </div>
           {leg.fare &&
-            leg.fare.isUnknown && (
+            leg.fare.isUnknown &&
+            config.showTicketInformation && (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   <span className="accent">
@@ -322,6 +323,7 @@ TransitLeg.contextTypes = {
       delayThreshold: PropTypes.number,
       showZoneLimits: PropTypes.bool,
     }).isRequired,
+    showTicketInformation: PropTypes.bool,
   }).isRequired,
   intl: intlShape.isRequired,
 };
