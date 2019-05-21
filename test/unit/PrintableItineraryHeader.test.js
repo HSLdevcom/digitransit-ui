@@ -70,6 +70,23 @@ describe('<PrintableItineraryHeader />', () => {
     expect(wrapper.find('.fare-details')).to.have.lengthOf(0);
   });
 
+  it('should not render the fare container if there are no fares available', () => {
+    const props = {
+      itinerary: {
+        fares: undefined,
+        legs: [{ from: {}, to: {} }],
+      },
+      language: 'en',
+    };
+
+    const wrapper = shallowWithIntl(<PrintableItineraryHeader {...props} />, {
+      context: {
+        config,
+      },
+    });
+    expect(wrapper.find('.itinerary-ticket')).to.have.lengthOf(0);
+  });
+
   it('should render unknown tickets when the total cost is unknown', () => {
     const props = {
       itinerary: {
