@@ -37,7 +37,7 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
-  showTicketInformation: true,
+  showTicketInformation: false,
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
