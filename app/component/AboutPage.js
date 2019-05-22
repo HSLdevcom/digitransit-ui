@@ -20,7 +20,14 @@ const AboutPage = ({ currentLanguage }, context) => {
                   section.paragraphs.map((p, j) => (
                     <p key={`about-section-${i}-p-${j}`}>{p}</p>
                   ))}
-                {section.link && <Link to={section.link}>{section.link}</Link>}
+                {section.link && (
+                  <a href={section.link}>
+                    <FormattedMessage
+                      id="extra-info"
+                      defaultMessage="More information"
+                    />
+                  </a>
+                )}
               </div>
             ) : (
               false
