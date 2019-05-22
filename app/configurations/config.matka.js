@@ -57,8 +57,7 @@ export default {
       {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
-        href:
-          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
+        href: 'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
         icon: 'icon-icon_speech-bubble',
       },
       {
