@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-const AboutPage = ({ currentLanguage }, context) => {
-  const about = context.config.aboutThisService[currentLanguage];
+const AboutPage = ({ currentLanguage }, { config }) => {
+  const about = config.aboutThisService[currentLanguage];
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
@@ -54,6 +54,12 @@ AboutPage.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default connectToStores(AboutPage, ['PreferencesStore'], context => ({
-  currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-}));
+const connectedComponent = connectToStores(
+  AboutPage,
+  ['PreferencesStore'],
+  context => ({
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, AboutPage as Component };
