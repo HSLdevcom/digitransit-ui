@@ -954,6 +954,10 @@ const translations = {
     'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
     send: 'Send',
+    'separate-ticket-required':
+      'A separate ticket is required for this part of the itinerary.',
+    'separate-ticket-required-disclaimer':
+      'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     settings: 'Settings',
     'settings-label-change': 'Change settings',
     'settings-loadbutton': 'Load settings',
@@ -1665,6 +1669,10 @@ const translations = {
     'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
+    'separate-ticket-required':
+      'Tälle matkan osuudelle tarvitaan erillinen lippu.',
+    'separate-ticket-required-disclaimer':
+      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
@@ -2683,6 +2691,10 @@ const translations = {
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
     send: 'Skicka',
+    'separate-ticket-required':
+      'Denna etapp av resan kräver en separat biljett.',
+    'separate-ticket-required-disclaimer':
+      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',

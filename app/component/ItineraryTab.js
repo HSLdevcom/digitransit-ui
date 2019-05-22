@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Relay from 'react-relay/classic';
@@ -5,6 +6,7 @@ import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage, intlShape } from 'react-intl';
 
+import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItineraryProfile from './ItineraryProfile';
@@ -16,11 +18,12 @@ import LegAgencyInfo from './LegAgencyInfo';
 import CityBikeMarker from './map/non-tile-layer/CityBikeMarker';
 import SecondaryButton from './SecondaryButton';
 import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
-import { getZones } from '../util/legUtils';
+import { getRoutes, getZones } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 import ComponentUsageExample from './ComponentUsageExample';
 
 import exampleData from './data/ItineraryTab.exampleData.json';
+import { getFares } from '../util/fareUtils';
 
 class ItineraryTab extends React.Component {
   static propTypes = {
@@ -75,9 +78,13 @@ class ItineraryTab extends React.Component {
 
   render() {
     const { itinerary, searchTime } = this.props;
-    const { config } = this.context;
-    const routeInformation = config.showRouteInformation && (
-      <RouteInformation />
+    const { config, intl } = this.context;
+
+    const fares = getFares(
+      itinerary.fares,
+      getRoutes(itinerary.legs),
+      config,
+      intl.locale,
     );
 
     return (
@@ -104,7 +111,27 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
+                {config.showTicketInformation &&
+                  fares.some(fare => fare.isUnknown) && (
+                    <div className="disclaimer-container unknown-fare-disclaimer__top">
+                      <div className="icon-container">
+                        <Icon className="info" img="icon-icon_info" />
+                      </div>
+                      <div className="description-container">
+                        <FormattedMessage
+                          id="separate-ticket-required-disclaimer"
+                          values={{
+                            agencyName: get(
+                              config,
+                              'ticketInformation.primaryAgencyName',
+                            ),
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 <ItineraryLegs
+                  fares={fares}
                   itinerary={itinerary}
                   focusMap={this.handleFocus}
                 />
@@ -114,11 +141,11 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showTicketInformation && (
                   <TicketInformation
-                    fares={itinerary.fares}
+                    fares={fares}
                     zones={getZones(itinerary.legs)}
                   />
                 )}
-                {routeInformation}
+                {config.showRouteInformation && <RouteInformation />}
               </div>
               <div className="row print-itinerary-button-container">
                 <SecondaryButton
@@ -172,12 +199,20 @@ const withRelay = Relay.createContainer(ItineraryTab, {
         elevationGained
         elevationLost
         fares {
-          type
-          currency
           cents
           components {
+            cents
             fareId
+            routes {
+              agency {
+                gtfsId
+                fareUrl
+                name
+              }
+              gtfsId
+            }
           }
+          type
         }
         legs {
           mode
@@ -250,6 +285,9 @@ const withRelay = Relay.createContainer(ItineraryTab, {
             longName
             desc
             agency {
+              gtfsId
+              fareUrl
+              name
               phone
             }
             ${RouteAlertsQuery}

@@ -11,12 +11,16 @@ import {
 } from '../../../app/constants';
 import RouteNumber from '../../../app/component/RouteNumber';
 
+const defaultProps = {
+  children: <div />,
+  focusAction: () => {},
+  index: 0,
+};
+
 describe('<TransitLeg />', () => {
   it('should show a zone change between from and the first intermediate place', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -72,9 +76,7 @@ describe('<TransitLeg />', () => {
 
   it('should show a zone change between intermediate places', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -142,9 +144,7 @@ describe('<TransitLeg />', () => {
 
   it('should show a zone change between the last intermediate place and to', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -200,9 +200,7 @@ describe('<TransitLeg />', () => {
 
   it('should not show any zone changes if the feature is disabled', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -254,9 +252,7 @@ describe('<TransitLeg />', () => {
 
   it('should toggle showIntermediateStops', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -311,9 +307,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply isCanceled to an intermediate leg', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         from: {
           name: 'Huopalahti',
@@ -365,9 +359,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply hasDisruption due to a route alert', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         endTime: 1553856420000,
         from: {
@@ -404,9 +396,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply hasDisruption due to a trip alert', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         endTime: 1553856420000,
         from: {
@@ -448,9 +438,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply hasDisruption due to a stop alert at the "from" stop', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         endTime: 1553856420000,
         from: {
@@ -488,9 +476,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply hasDisruption due to a stop alert at the "to" stop', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         endTime: 1553856420000,
         from: {
@@ -528,9 +514,7 @@ describe('<TransitLeg />', () => {
 
   it('should apply hasDisruption due to a stop alert at an intermediate stop', () => {
     const props = {
-      children: <div />,
-      focusAction: () => {},
-      index: 0,
+      ...defaultProps,
       leg: {
         endTime: 1553856420000,
         from: {
@@ -570,5 +554,50 @@ describe('<TransitLeg />', () => {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
     expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+  });
+
+  it('should show a disclaimer with relevant information for an unknown ticket', () => {
+    const props = {
+      ...defaultProps,
+      leg: {
+        fare: {
+          isUnknown: true,
+          agency: {
+            name: 'foogency',
+            fareUrl: 'https://www.hsl.fi',
+          },
+        },
+        from: {
+          name: 'Test',
+          stop: {},
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: '1234',
+        },
+        startTime: 1553856180000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A1234',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: {
+        config: {
+          itinerary: {},
+          showTicketInformation: true,
+        },
+        focusFunction: () => {},
+      },
+    });
+    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
+    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
   });
 });
