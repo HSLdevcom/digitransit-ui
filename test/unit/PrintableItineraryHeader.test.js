@@ -1,11 +1,6 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-
-import dt2772a from './test-data/dt2772a';
-import dt2772b from './test-data/dt2772b';
-
 import { Component as PrintableItineraryHeader } from '../../app/component/PrintableItineraryHeader';
 import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
 
@@ -17,7 +12,25 @@ describe('<PrintableItineraryHeader />', () => {
 
   it('should render as many fares as present in the itinerary', () => {
     const props = {
-      itinerary: { ...dt2772b },
+      itinerary: {
+        fares: [
+          {
+            type: 'regular',
+            cents: 870,
+            components: [
+              {
+                cents: 320,
+                fareId: 'HSL:esp',
+              },
+              {
+                cents: 550,
+                fareId: 'HSL:seu',
+              },
+            ],
+          },
+        ],
+        legs: [{ from: {}, to: {} }],
+      },
       language: 'en',
     };
 
@@ -26,23 +39,115 @@ describe('<PrintableItineraryHeader />', () => {
         config,
       },
     });
-    expect(wrapper.find('.fare-details')).to.have.lengthOf(
-      props.itinerary.fares[0].components.length,
-    );
+    expect(wrapper.find('.fare-details')).to.have.lengthOf(2);
   });
 
-  it('should not render any tickets if total cost is unknown', () => {
+  it('should not render any fares if ticket information is disabled', () => {
     const props = {
-      itinerary: { ...dt2772a },
+      itinerary: {
+        fares: [
+          {
+            type: 'regular',
+            cents: 280,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+              },
+            ],
+          },
+        ],
+        legs: [{ from: {}, to: {} }],
+      },
       language: 'en',
     };
 
     const wrapper = shallowWithIntl(<PrintableItineraryHeader {...props} />, {
       context: {
-        config,
+        config: { ...config, showTicketInformation: false },
       },
     });
     expect(wrapper.find('.fare-details')).to.have.lengthOf(0);
+  });
+
+  it('should not render the fare container if there are no fares available', () => {
+    const props = {
+      itinerary: {
+        fares: undefined,
+        legs: [{ from: {}, to: {} }],
+      },
+      language: 'en',
+    };
+
+    const wrapper = shallowWithIntl(<PrintableItineraryHeader {...props} />, {
+      context: {
+        config,
+      },
+    });
+    expect(wrapper.find('.itinerary-ticket')).to.have.lengthOf(0);
+  });
+
+  it('should render unknown tickets when the total cost is unknown', () => {
+    const props = {
+      itinerary: {
+        fares: [
+          {
+            cents: -1,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+                routes: [
+                  {
+                    agency: {
+                      gtfsId: 'HSL:HSL',
+                    },
+                    gtfsId: 'HSL:1003',
+                  },
+                ],
+              },
+            ],
+            type: 'regular',
+          },
+        ],
+        legs: [
+          {
+            from: {},
+            to: {},
+            route: {
+              agency: {
+                gtfsId: 'HSL:HSL',
+              },
+              gtfsId: 'HSL:1003',
+              longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
+            },
+            transitLeg: true,
+          },
+          {
+            from: {},
+            to: {},
+            route: {
+              agency: {
+                fareUrl: 'foobaz',
+                gtfsId: 'FOO:BAR',
+                name: 'Merisataman lauttaliikenne',
+              },
+              gtfsId: 'FOO:1234',
+              longName: 'Merisataman lautta',
+            },
+            transitLeg: true,
+          },
+        ],
+      },
+      language: 'en',
+    };
+
+    const wrapper = shallowWithIntl(<PrintableItineraryHeader {...props} />, {
+      context: {
+        config,
+      },
+    });
+    expect(wrapper.find('.fare-details')).to.have.lengthOf(2);
   });
 
   it('should use ticket icons if configured', () => {
