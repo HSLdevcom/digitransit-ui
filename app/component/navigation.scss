@@ -369,6 +369,7 @@ section.content {
       }
 
       .message-bar-content,
+      a,
       h2 {
         color: white;
       }
@@ -395,6 +396,12 @@ section.content {
   a {
     @include font-medium;
     padding: 0 4px;
+  }
+
+  svg.message-bar-link-icon {
+    margin: 0 0 0 $padding-small;
+    position: relative;
+    top: 0.125em;
   }
 }
 

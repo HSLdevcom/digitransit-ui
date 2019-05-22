@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Icon from './Icon';
 
 const heading = (e, key) => {
   if (e.type === 'heading') {
@@ -17,10 +18,11 @@ const span = (e, key) => {
 };
 
 const a = (e, key) => {
-  if (e.type === 'a') {
+  if (e.type === 'a' && e.href) {
     return (
       <a key={`${key}-link`} href={e.href}>
         {e.content}
+        <Icon className="message-bar-link-icon" img="icon-icon_external_link" />
       </a>
     );
   }
