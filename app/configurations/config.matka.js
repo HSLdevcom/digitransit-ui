@@ -58,7 +58,7 @@ export default {
         name: 'footer-feedback',
         nameEn: 'Submit feedback',
         href:
-          'http://www.liikennevirasto.fi/liikennejarjestelma/henkiloliikenne/joukkoliikenteen-palvelut/informaatiopalvelut/liikkujan-infopalvelut/matka.fi-palautesivu',
+          'https://www.traficom.fi/fi/asioi-kanssamme/reittiopas',
         icon: 'icon-icon_speech-bubble',
       },
       {
