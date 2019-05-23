@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import isInteger from 'lodash/isInteger';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 
@@ -135,27 +136,28 @@ export const legHasCancelation = leg => {
 export const DEFAULT_VALIDITY = 5 * 60;
 
 /**
- * Checks if the given validity period has expired or not.
+ * Checks if the given validity period is valid or not.
  *
  * @param {{ startTime: number, endTime: number }} validityPeriod the validity period to check.
- * @param {number} currentUnixTime the current time in unix timestamp seconds.
+ * @param {number} referenceUnixTime the reference unix time stamp (in seconds).
  * @param {number} defaultValidity the default validity period length in seconds.
  */
-export const alertHasExpired = (
+export const isAlertValid = (
   { validityPeriod } = {},
-  currentUnixTime,
+  referenceUnixTime,
   defaultValidity = DEFAULT_VALIDITY,
 ) => {
-  if (!validityPeriod) {
-    return false;
+  if (!validityPeriod || !isInteger(referenceUnixTime)) {
+    return true;
   }
   const { startTime, endTime } = validityPeriod;
   if (!startTime && !endTime) {
-    return false;
+    return true;
   }
+
   return (
-    currentUnixTime < startTime ||
-    (endTime || startTime + defaultValidity) < currentUnixTime
+    startTime <= referenceUnixTime &&
+    referenceUnixTime <= (endTime || startTime + defaultValidity)
   );
 };
 
@@ -163,20 +165,20 @@ export const alertHasExpired = (
  * Checks if the given (canceled) stoptime has expired or not.
  *
  * @param {*} stoptime the stoptime to check.
- * @param {*} currentTime the current time in unix timestamp seconds.
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
 export const cancelationHasExpired = (
   { scheduledArrival, scheduledDeparture, serviceDay } = {},
-  currentTime,
+  referenceUnixTime,
 ) =>
-  alertHasExpired(
+  !isAlertValid(
     {
       validityPeriod: {
         startTime: serviceDay + scheduledArrival,
         endTime: serviceDay + scheduledDeparture,
       },
     },
-    currentTime,
+    referenceUnixTime,
   );
 
 /**
@@ -426,16 +428,16 @@ export const getMaximumAlertSeverityLevel = alerts => {
  * returns its severity level.
  *
  * @param {*} alerts the alerts to check.
- * @param {*} referenceTime the reference unix time stamp (in seconds).
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
-export const getActiveAlertSeverityLevel = (alerts, referenceTime) => {
+export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
   if (!isValidArray(alerts)) {
     return undefined;
   }
   return getMaximumAlertSeverityLevel(
     alerts
       .map(getServiceAlertMetadata)
-      .filter(alert => !alertHasExpired(alert, referenceTime)),
+      .filter(alert => isAlertValid(alert, referenceUnixTime)),
   );
 };
 
@@ -471,12 +473,16 @@ export const getMaximumAlertEffect = alerts => {
  *
  * @param {*} cancelations the cancelations to check.
  * @param {*} alerts the alerts to check.
- * @param {*} currentTime the current unix timestamp seconds.
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
-export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
+export const isAlertActive = (
+  cancelations = [],
+  alerts = [],
+  referenceUnixTime,
+) => {
   if (
     cancelations.some(
-      cancelation => !cancelationHasExpired(cancelation, currentTime),
+      cancelation => !cancelationHasExpired(cancelation, referenceUnixTime),
     )
   ) {
     return true;
@@ -486,8 +492,8 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
     return false;
   }
 
-  const filteredAlerts = alerts.filter(
-    alert => !alertHasExpired(alert, currentTime),
+  const filteredAlerts = alerts.filter(alert =>
+    isAlertValid(alert, referenceUnixTime),
   );
   const alertSeverityLevel = getMaximumAlertSeverityLevel(filteredAlerts);
   return alertSeverityLevel

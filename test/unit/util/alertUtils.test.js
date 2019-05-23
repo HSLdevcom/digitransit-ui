@@ -659,65 +659,66 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('alertHasExpired', () => {
-    it('should not mark an alert missing its validity period as expired', () => {
-      expect(utils.alertHasExpired({ validityPeriod: undefined }, 1)).to.equal(
-        false,
+  describe('isAlertValid', () => {
+    it('should mark an alert missing its validity period as valid', () => {
+      expect(utils.isAlertValid({ validityPeriod: undefined }, 1)).to.equal(
+        true,
       );
     });
 
-    it('should not mark an alert missing its validity start and end times as expired', () => {
+    it('should mark an alert missing its validity start and end times as valid', () => {
       expect(
-        utils.alertHasExpired(
+        utils.isAlertValid(
           { validityPeriod: { startTime: null, endTime: null } },
           1000,
         ),
-      ).to.equal(false);
+      ).to.equal(true);
     });
 
-    it('should mark an alert in the past as expired', () => {
+    it('should mark an alert in the past as invalid', () => {
       expect(
-        utils.alertHasExpired(
+        utils.isAlertValid(
           { validityPeriod: { startTime: 1000, endTime: 2000 } },
           2500,
         ),
-      ).to.equal(true);
+      ).to.equal(false);
     });
 
-    it('should not mark a current alert as expired', () => {
+    it('should mark a current alert as valid', () => {
       expect(
-        utils.alertHasExpired(
+        utils.isAlertValid(
           { validityPeriod: { startTime: 1000, endTime: 2000 } },
           1500,
         ),
-      ).to.equal(false);
-    });
-
-    it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
-      expect(
-        utils.alertHasExpired(
-          { validityPeriod: { startTime: 1000 } },
-          1100,
-          200,
-        ),
-      ).to.equal(false);
-    });
-
-    it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
-      expect(
-        utils.alertHasExpired(
-          { validityPeriod: { startTime: 1000 } },
-          1300,
-          200,
-        ),
       ).to.equal(true);
     });
 
-    it('should mark an alert in the future as expired', () => {
+    it('should mark a current alert within DEFAULT_VALIDITY period as valid', () => {
       expect(
-        utils.alertHasExpired(
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1100, 200),
+      ).to.equal(true);
+    });
+
+    it('should mark an alert after the DEFAULT_VALIDITY period as invalid', () => {
+      expect(
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1300, 200),
+      ).to.equal(false);
+    });
+
+    it('should mark an alert in the future as invalid', () => {
+      expect(
+        utils.isAlertValid(
           { validityPeriod: { startTime: 1000, endTime: 2000 } },
           500,
+        ),
+      ).to.equal(false);
+    });
+
+    it('should mark an alert as valid if the given reference time is not an integer', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 0, endTime: 1000 } },
+          undefined,
         ),
       ).to.equal(true);
     });
@@ -962,16 +963,18 @@ describe('alertUtils', () => {
     });
 
     it('should return true if there is an active route alert', () => {
+      const alertEffectiveStartDate = 1553754595;
       const leg = {
         route: {
           alerts: [
             {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               effectiveEndDate: 1553778000,
-              effectiveStartDate: 1553754595,
+              effectiveStartDate: alertEffectiveStartDate,
             },
           ],
         },
+        startTime: (alertEffectiveStartDate + 1) * 1000, // * 1000 due to ms format
       };
       expect(utils.legHasActiveAlert(leg)).to.equal(true);
     });
