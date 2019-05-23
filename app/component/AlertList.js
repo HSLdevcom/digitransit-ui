@@ -62,7 +62,7 @@ const AlertList = ({
   )
     .map(alert => ({
       ...alert,
-      expired: alertHasExpired(alert.validityPeriod, currentTimeUnix),
+      expired: alertHasExpired(alert, currentTimeUnix),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 

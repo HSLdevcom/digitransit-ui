@@ -660,34 +660,66 @@ describe('alertUtils', () => {
   });
 
   describe('alertHasExpired', () => {
+    it('should not mark an alert missing its validity period as expired', () => {
+      expect(utils.alertHasExpired({ validityPeriod: undefined }, 1)).to.equal(
+        false,
+      );
+    });
+
+    it('should not mark an alert missing its validity start and end times as expired', () => {
+      expect(
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: null, endTime: null } },
+          1000,
+        ),
+      ).to.equal(false);
+    });
+
     it('should mark an alert in the past as expired', () => {
       expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 2500),
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          2500,
+        ),
       ).to.equal(true);
     });
 
     it('should not mark a current alert as expired', () => {
       expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 1500),
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          1500,
+        ),
       ).to.equal(false);
     });
 
     it('should not mark a current alert within DEFAULT_VALIDITY period as expired', () => {
-      expect(utils.alertHasExpired({ startTime: 1000 }, 1100, 200)).to.equal(
-        false,
-      );
+      expect(
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: 1000 } },
+          1100,
+          200,
+        ),
+      ).to.equal(false);
     });
 
     it('should mark an alert after the DEFAULT_VALIDITY period as expired', () => {
-      expect(utils.alertHasExpired({ startTime: 1000 }, 1300, 200)).to.equal(
-        true,
-      );
+      expect(
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: 1000 } },
+          1300,
+          200,
+        ),
+      ).to.equal(true);
     });
 
-    it('should not mark an alert in the future as expired', () => {
+    it('should mark an alert in the future as expired', () => {
       expect(
-        utils.alertHasExpired({ startTime: 1000, endTime: 2000 }, 500),
-      ).to.equal(false);
+        utils.alertHasExpired(
+          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          500,
+        ),
+      ).to.equal(true);
     });
   });
 
@@ -1067,6 +1099,36 @@ describe('alertUtils', () => {
         startTime: 1553769600000,
       };
       expect(utils.legHasActiveAlert(leg)).to.equal(true);
+    });
+  });
+
+  describe('getActiveAlertSeverityLevel', () => {
+    it('should return undefined if there are no current alerts', () => {
+      const alerts = [
+        {
+          alertSeverityLevel: AlertSeverityLevelType.Info,
+          effectiveEndDate: 1559941140,
+          effectiveStartDate: 1558904400,
+        },
+      ];
+      const currentTime = 1558599526;
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        undefined,
+      );
+    });
+
+    it('should return the severity level if there are no effective dates available', () => {
+      const alerts = [
+        {
+          alertSeverityLevel: AlertSeverityLevelType.Info,
+          effectiveEndDate: null,
+          effectiveStartDate: null,
+        },
+      ];
+      const currentTime = 1558599526;
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
     });
   });
 });

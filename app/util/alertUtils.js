@@ -142,10 +142,22 @@ export const DEFAULT_VALIDITY = 5 * 60;
  * @param {number} defaultValidity the default validity period length in seconds.
  */
 export const alertHasExpired = (
-  { startTime, endTime } = {},
+  { validityPeriod } = {},
   currentUnixTime,
   defaultValidity = DEFAULT_VALIDITY,
-) => (endTime || startTime + defaultValidity) < currentUnixTime;
+) => {
+  if (!validityPeriod) {
+    return false;
+  }
+  const { startTime, endTime } = validityPeriod;
+  if (!startTime && !endTime) {
+    return false;
+  }
+  return (
+    currentUnixTime < startTime ||
+    (endTime || startTime + defaultValidity) < currentUnixTime
+  );
+};
 
 /**
  * Checks if the given (canceled) stoptime has expired or not.
@@ -159,8 +171,10 @@ export const cancelationHasExpired = (
 ) =>
   alertHasExpired(
     {
-      startTime: serviceDay + scheduledArrival,
-      endTime: serviceDay + scheduledDeparture,
+      validityPeriod: {
+        startTime: serviceDay + scheduledArrival,
+        endTime: serviceDay + scheduledDeparture,
+      },
     },
     currentTime,
   );
@@ -254,6 +268,22 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
 export const getServiceAlertUrl = (alert, locale = 'en') =>
   getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);
 
+/**
+ * Maps the OTP-style Service Alert's properties that
+ * are most relevant to deciding whether the alert should be
+ * shown to the user.
+ *
+ * @param {*} alert the Service Alert to map.
+ */
+export const getServiceAlertMetadata = (alert = {}) => ({
+  hash: alert.alertHash,
+  severityLevel: alert.alertSeverityLevel,
+  validityPeriod: {
+    startTime: alert.effectiveStartDate,
+    endTime: alert.effectiveEndDate,
+  },
+});
+
 const getServiceAlerts = (
   { alerts } = {},
   { color, mode, shortName } = {},
@@ -261,20 +291,15 @@ const getServiceAlerts = (
 ) =>
   Array.isArray(alerts)
     ? alerts.map(alert => ({
+        ...getServiceAlertMetadata(alert),
         description: getServiceAlertDescription(alert, locale),
-        hash: alert.alertHash,
         header: getServiceAlertHeader(alert, locale),
         route: {
           color,
           mode,
           shortName,
         },
-        severityLevel: alert.alertSeverityLevel,
         url: getServiceAlertUrl(alert, locale),
-        validityPeriod: {
-          startTime: alert.effectiveStartDate,
-          endTime: alert.effectiveEndDate,
-        },
       }))
     : [];
 
@@ -366,6 +391,8 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
     .reduce((a, b) => a.concat(b), []);
 };
 
+const isValidArray = array => Array.isArray(array) && array.length > 0;
+
 /**
  * Iterates through the alerts and returns the highest severity level found.
  * Order of severity (in descending order): Severe, Warning, Info, Unknown.
@@ -374,7 +401,7 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
  * @param {*} alerts the alerts to check.
  */
 export const getMaximumAlertSeverityLevel = alerts => {
-  if (!Array.isArray(alerts) || alerts.length === 0) {
+  if (!isValidArray(alerts)) {
     return undefined;
   }
   const levels = alerts
@@ -395,6 +422,24 @@ export const getMaximumAlertSeverityLevel = alerts => {
 };
 
 /**
+ * Checks if any of the alerts is active at the given time and
+ * returns its severity level.
+ *
+ * @param {*} alerts the alerts to check.
+ * @param {*} referenceTime the reference unix time stamp (in seconds).
+ */
+export const getActiveAlertSeverityLevel = (alerts, referenceTime) => {
+  if (!isValidArray(alerts)) {
+    return undefined;
+  }
+  return getMaximumAlertSeverityLevel(
+    alerts
+      .map(getServiceAlertMetadata)
+      .filter(alert => !alertHasExpired(alert, referenceTime)),
+  );
+};
+
+/**
  * Iterates through the alerts and returns 'NO_SERVICE' if that is found.
  * Returns 'EFFECT_UNKNOWN' if there are alerts but none of them have an
  * effect of 'NO_SERVICE'. Returns undefined if the effect cannot be
@@ -403,7 +448,7 @@ export const getMaximumAlertSeverityLevel = alerts => {
  * @param {*} alerts the alerts to check.
  */
 export const getMaximumAlertEffect = alerts => {
-  if (!Array.isArray(alerts) || alerts.length === 0) {
+  if (!isValidArray(alerts)) {
     return undefined;
   }
   const effects = alerts
@@ -442,7 +487,7 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
   }
 
   const filteredAlerts = alerts.filter(
-    alert => !alertHasExpired(alert.validityPeriod, currentTime),
+    alert => !alertHasExpired(alert, currentTime),
   );
   const alertSeverityLevel = getMaximumAlertSeverityLevel(filteredAlerts);
   return alertSeverityLevel
