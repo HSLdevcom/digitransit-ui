@@ -184,7 +184,7 @@ function setUpAvailableTickets() {
   return new Promise(resolve => {
     const options = {
       method: 'POST',
-      body: '{ ticketTypes { price fareId zones currency } }',
+      body: '{ ticketTypes { price fareId zones } }',
       headers: { 'Content-Type': 'application/graphql' },
     };
     // try to fetch available ticketTypes every four seconds with 4 retries
