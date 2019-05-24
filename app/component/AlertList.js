@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
-import { alertHasExpired } from '../util/alertUtils';
+import { isAlertValid } from '../util/alertUtils';
 import { routeNameCompare } from '../util/searchUtils';
 import { AlertSeverityLevelType } from '../constants';
 
@@ -62,7 +62,7 @@ const AlertList = ({
   )
     .map(alert => ({
       ...alert,
-      expired: alertHasExpired(alert.validityPeriod, currentTimeUnix),
+      expired: !isAlertValid(alert, currentTimeUnix),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 
