@@ -23,9 +23,7 @@ describe('tampere configuration', () => {
     });
 
     it('should return just the ticket name without feedId', () => {
-      expect(tampereConfig.fareMapping('tampere:ABCDEFG')).to.equal(
-        'ABCDEFG',
-      );
+      expect(tampereConfig.fareMapping('tampere:ABCDEFG')).to.equal('ABCDEFG');
     });
   });
 });

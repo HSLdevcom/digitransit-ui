@@ -93,7 +93,7 @@ describe('fareUtils', () => {
       ];
       const config = {
         ...defaultConfig,
-        fareMapping: (fareId) => `${fareId}`,
+        fareMapping: fareId => `${fareId}`,
       };
       expect(mapFares(fares, config)[0].ticketName).to.equal('HSL:BC');
     });
