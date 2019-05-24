@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { shallowWithIntl, mountWithIntl } from '../../helpers/mock-intl-enzyme';
-import IconMarker from '../../../../app/component/map/IconMarker';
 import {
   Component as VehicleMarkerContainer,
   shouldShowVehicle,
