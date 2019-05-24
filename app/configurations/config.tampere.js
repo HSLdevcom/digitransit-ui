@@ -43,7 +43,7 @@ export default configMerger(walttiConfig, {
   },
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
-  // mapping (string, lang) from OTP fare identifiers to human readable form
+  // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
     return fareId && fareId.substring
       ? fareId.substring(fareId.indexOf(':') + 1)

@@ -488,7 +488,7 @@ export default {
     'HSL:ABCD',
   ],
 
-  // mapping (string, lang) from OTP fare identifiers to human readable form
+  // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
   fareMapping: function mapHslFareId(fareId) {
     return fareId && fareId.substring
