@@ -1,5 +1,5 @@
 import find from 'lodash/find';
-import isInteger from 'lodash/isInteger';
+import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 
@@ -147,7 +147,7 @@ export const isAlertValid = (
   referenceUnixTime,
   defaultValidity = DEFAULT_VALIDITY,
 ) => {
-  if (!validityPeriod || !isInteger(referenceUnixTime)) {
+  if (!validityPeriod || !isNumber(referenceUnixTime)) {
     return true;
   }
   const { startTime, endTime } = validityPeriod;

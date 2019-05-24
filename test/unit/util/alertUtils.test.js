@@ -714,13 +714,27 @@ describe('alertUtils', () => {
       ).to.equal(false);
     });
 
-    it('should mark an alert as valid if the given reference time is not an integer', () => {
+    it('should mark an alert as valid if the given reference time is not a number', () => {
       expect(
         utils.isAlertValid(
           { validityPeriod: { startTime: 0, endTime: 1000 } },
           undefined,
         ),
       ).to.equal(true);
+    });
+
+    it('should accept non-integer numbers', () => {
+      expect(
+        utils.isAlertValid(
+          {
+            validityPeriod: {
+              endTime: 1559941140,
+              startTime: 1558904400,
+            },
+          },
+          1558678507424 / 1000,
+        ),
+      ).to.equal(false);
     });
   });
 
