@@ -193,7 +193,8 @@ function setUpAvailableTickets() {
       .then(res => res.json())
       .then(
         result => {
-          if (result.data.ticketTypes) {
+          const resultData = result.data;
+          if (resultData && resultData.ticketTypes) {
             config.availableTickets = result.data.ticketTypes;
             console.log('availableTickets loaded');
           } else {
@@ -216,7 +217,8 @@ function setUpAvailableTickets() {
             .then(res => res.json())
             .then(
               result => {
-                if (result.data.ticketTypes) {
+                const resultData = result.data;
+                if (resultData && resultData.ticketTypes) {
                   config.availableTickets = result.data.ticketTypes;
                   console.log('availableTickets loaded after retry');
                 } else {
