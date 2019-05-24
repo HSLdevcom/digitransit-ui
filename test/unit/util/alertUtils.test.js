@@ -736,6 +736,10 @@ describe('alertUtils', () => {
         ),
       ).to.equal(false);
     });
+
+    it('should return false if the alert itself is falsy', () => {
+      expect(utils.isAlertValid(undefined, 0)).to.equal(false);
+    });
   });
 
   describe('getCancelationsForRoute', () => {

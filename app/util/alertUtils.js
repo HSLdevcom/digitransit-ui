@@ -143,10 +143,14 @@ export const DEFAULT_VALIDITY = 5 * 60;
  * @param {number} defaultValidity the default validity period length in seconds.
  */
 export const isAlertValid = (
-  { validityPeriod } = {},
+  alert,
   referenceUnixTime,
   defaultValidity = DEFAULT_VALIDITY,
 ) => {
+  if (!alert) {
+    return false;
+  }
+  const { validityPeriod } = alert;
   if (!validityPeriod || !isNumber(referenceUnixTime)) {
     return true;
   }
