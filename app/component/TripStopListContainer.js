@@ -8,6 +8,7 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 
 import TripRouteStop from './TripRouteStop';
+import { StopAlertsQuery } from '../util/alertQueries';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -202,9 +203,7 @@ const connectedComponent = Relay.createContainer(
             code
             lat
             lon
-            alerts {
-              alertSeverityLevel
-            }
+            ${StopAlertsQuery}
           }
           realtimeDeparture
           realtime

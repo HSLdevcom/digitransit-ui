@@ -142,4 +142,26 @@ describe('<StopCardHeader />', () => {
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });
+
+  it('should not use a header icon when the stop has alerts but the alerts are not active', () => {
+    const props = {
+      currentTime: 500,
+      stop: {
+        code: '1270',
+        desc: 'Hietaniemenkatu',
+        gtfsId: 'HSL:1130181',
+        name: 'Hietaniemi',
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Info,
+            effectiveStartDate: 501,
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<StopCardHeader {...props} />, {
+      context: { config: { stopCard: { header: {} } } },
+    });
+    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
+  });
 });

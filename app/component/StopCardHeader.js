@@ -7,7 +7,7 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
-import { getMaximumAlertSeverityLevel } from '../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -29,7 +29,7 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    const { className, headingStyle, icons, stop } = this.props;
+    const { className, currentTime, headingStyle, icons, stop } = this.props;
     if (!stop) {
       return false;
     }
@@ -40,7 +40,10 @@ class StopCardHeader extends React.Component {
         headerIcon={
           <ServiceAlertIcon
             className="inline-icon"
-            severityLevel={getMaximumAlertSeverityLevel(stop.alerts)}
+            severityLevel={getActiveAlertSeverityLevel(
+              stop.alerts,
+              currentTime,
+            )}
           />
         }
         headingStyle={headingStyle}
@@ -57,6 +60,7 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
+  currentTime: PropTypes.number,
   stop: PropTypes.shape({
     gtfsId: PropTypes.string,
     name: PropTypes.string,
@@ -64,7 +68,11 @@ StopCardHeader.propTypes = {
     desc: PropTypes.string,
     zoneId: PropTypes.string,
     alerts: PropTypes.arrayOf(
-      PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
+      PropTypes.shape({
+        alertSeverityLevel: PropTypes.string,
+        effectiveEndDate: PropTypes.number,
+        effectiveStartDate: PropTypes.number,
+      }),
     ),
   }),
   distance: PropTypes.number,

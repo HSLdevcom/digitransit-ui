@@ -17,6 +17,8 @@ import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
+  getServiceAlertUrl,
+  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import { isIe } from '../util/browser';
 import hashCode from '../util/hashUtil';
@@ -44,9 +46,7 @@ const fetchServiceAlerts = async () => {
   const defaultValue = [];
   const result = await tryGetRelayQuery(query, defaultValue);
   return Array.isArray(result) && result[0] && Array.isArray(result[0].alerts)
-    ? result[0].alerts.filter(
-        alert => alert.alertSeverityLevel === AlertSeverityLevelType.Severe,
-      )
+    ? result[0].alerts
     : defaultValue;
 };
 
@@ -59,19 +59,34 @@ export const getServiceAlertId = alert =>
      ${alert.effectiveStartDate}`,
   );
 
-const toMessage = alert => ({
+const toMessage = (alert, intl) => ({
   content: {
     en: [
       { type: 'heading', content: getServiceAlertHeader(alert, 'en') },
       { type: 'text', content: getServiceAlertDescription(alert, 'en') },
+      {
+        type: 'a',
+        content: intl.formatMessage({ id: 'extra-info' }),
+        href: getServiceAlertUrl(alert, 'en'),
+      },
     ],
     fi: [
       { type: 'heading', content: getServiceAlertHeader(alert, 'fi') },
       { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
+      {
+        type: 'a',
+        content: intl.formatMessage({ id: 'extra-info' }),
+        href: getServiceAlertUrl(alert, 'fi'),
+      },
     ],
     sv: [
       { type: 'heading', content: getServiceAlertHeader(alert, 'sv') },
       { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
+      {
+        type: 'a',
+        content: intl.formatMessage({ id: 'extra-info' }),
+        href: getServiceAlertUrl(alert, 'sv'),
+      },
     ],
   },
   icon: 'caution',
@@ -88,6 +103,7 @@ class MessageBar extends Component {
   };
 
   static propTypes = {
+    currentTime: PropTypes.number.isRequired,
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
@@ -103,11 +119,15 @@ class MessageBar extends Component {
   };
 
   componentDidMount = async () => {
-    const { getServiceAlertsAsync } = this.props;
+    const { currentTime, getServiceAlertsAsync } = this.props;
     this.setState({
       ready: true,
       serviceAlerts: uniqBy(
-        await getServiceAlertsAsync(),
+        (await getServiceAlertsAsync()).filter(
+          alert =>
+            getActiveAlertSeverityLevel([alert], currentTime) ===
+            AlertSeverityLevelType.Severe,
+        ),
         alert => alert.alertHash,
       ),
     });
@@ -174,12 +194,17 @@ class MessageBar extends Component {
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
+    const { intl } = this.context;
+
     const readMessageIds = getReadMessageIds();
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
     const { lang, messages } = this.props;
-    return [...filteredServiceAlerts.map(toMessage), ...messages].filter(el => {
+    return [
+      ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
+      ...messages,
+    ].filter(el => {
       if (
         Array.isArray(el.content[lang]) &&
         el.content[lang].length > 0 &&
@@ -298,10 +323,14 @@ class MessageBar extends Component {
 
 const connectedComponent = connectToStores(
   MessageBar,
-  ['MessageStore', 'PreferencesStore'],
+  ['MessageStore', 'PreferencesStore', 'TimeStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   }),
 );
 

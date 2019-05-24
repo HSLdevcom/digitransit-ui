@@ -20,7 +20,7 @@ describe('<AlertList />', () => {
 
   it('should order the cancelations and service alerts by route shortName', () => {
     const props = {
-      currentTime: 1547464412,
+      currentTime: 1547464414,
       cancelations: [
         {
           header: 'second',
@@ -95,7 +95,7 @@ describe('<AlertList />', () => {
 
   it('should indicate that an alert has not expired', () => {
     const props = {
-      currentTime: moment.unix(1547464412),
+      currentTime: moment.unix(1547464413),
       cancelations: [
         {
           header: 'foo',
