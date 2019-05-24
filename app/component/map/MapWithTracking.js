@@ -94,8 +94,9 @@ class MapWithTrackingStateHandler extends React.Component {
     }
 
     const json = await Promise.all(
-      layers.map(async ({ url, name, metadata }) => ({
+      layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
         url,
+        isOffByDefault,
         data: await getGeoJsonData(url, name, metadata),
       })),
     );
@@ -103,8 +104,8 @@ class MapWithTrackingStateHandler extends React.Component {
       return;
     }
     const { geoJson } = this.state;
-    json.forEach(({ url, data }) => {
-      geoJson[url] = data;
+    json.forEach(({ url, data, isOffByDefault }) => {
+      geoJson[url] = { ...data, isOffByDefault };
     });
     this.setState(geoJson);
   }
@@ -232,7 +233,12 @@ class MapWithTrackingStateHandler extends React.Component {
     if (geoJson) {
       const { bounds } = this.state;
       Object.keys(geoJson)
-        .filter(key => mapLayers.geoJson[key] !== false)
+        .filter(
+          key =>
+            mapLayers.geoJson[key] !== false &&
+            (mapLayers.geoJson[key] === true ||
+              geoJson[key].isOffByDefault !== true),
+        )
         .forEach(key => {
           leafletObjs.push(
             <LazilyLoad modules={jsonModules} key={key}>

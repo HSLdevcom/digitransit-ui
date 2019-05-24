@@ -52,6 +52,7 @@ describe('<MapWithTracking />', () => {
                 en: 'Test',
               },
               url: layerUrl,
+              isOffByDefault: false,
             },
           ],
         },
@@ -65,6 +66,7 @@ describe('<MapWithTracking />', () => {
     expect(wrapper.state().geoJson).to.deep.equal({
       [layerUrl]: {
         type: 'FeatureCollection',
+        isOffByDefault: false,
         features: [],
       },
     });
@@ -105,6 +107,7 @@ describe('<MapWithTracking />', () => {
     expect(wrapper.state().geoJson).to.deep.equal({
       [layerUrl]: {
         type: 'FeatureCollection',
+        isOffByDefault: undefined,
         features: [],
       },
     });

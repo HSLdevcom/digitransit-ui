@@ -37,10 +37,39 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/tre_zone_lines_20190516.geojson',
+        isOffByDefault: true,
+      },
+    ],
+    zones: {
+      url: '/assets/geojson/tre_zone_areas_20190516.geojson',
+    },
+  },
+
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
+
   showTicketInformation: false,
+
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
+
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
   // mapping (string, lang) from OTP fare identifiers to human readable form
