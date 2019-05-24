@@ -17,7 +17,7 @@ const defaultConfig = {
 };
 
 const proxyFares = (fares, routes = [], config = defaultConfig) =>
-  getFares(fares, routes, config, 'en');
+  getFares(fares, routes, config);
 
 describe('<TicketInformation />', () => {
   it('should show multiple ticket components (DT-2639)', () => {

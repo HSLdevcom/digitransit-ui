@@ -46,7 +46,6 @@ class PrintableItineraryHeader extends React.Component {
       itinerary.fares,
       getRoutes(itinerary.legs),
       config,
-      language,
     );
     const isOnlyZoneB = isWithinZoneB(
       getZones(itinerary.legs),

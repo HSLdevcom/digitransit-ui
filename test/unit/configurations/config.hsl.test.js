@@ -24,14 +24,14 @@ describe('HSL Configuration', () => {
 
     it('should map the fares in English', () => {
       const mapped = config.fares
-        .map(fareId => config.fareMapping(fareId, 'en'))
+        .map(fareId => config.fareMapping(fareId))
         .sort();
       expect(mapped).to.deep.equal(fareZones.en.sort());
     });
 
     it('should map the fares in Swedish', () => {
       const mapped = config.fares
-        .map(fareId => config.fareMapping(fareId, 'sv'))
+        .map(fareId => config.fareMapping(fareId))
         .sort();
       expect(mapped).to.deep.equal(fareZones.sv.sort());
     });

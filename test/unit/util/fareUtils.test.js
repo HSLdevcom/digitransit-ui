@@ -8,12 +8,12 @@ const defaultConfig = {
 describe('fareUtils', () => {
   describe('mapFares', () => {
     it('should return null for missing fares', () => {
-      expect(mapFares(null, defaultConfig, 'en')).to.equal(null);
-      expect(mapFares({}, defaultConfig, 'en')).to.equal(null);
+      expect(mapFares(null, defaultConfig)).to.equal(null);
+      expect(mapFares({}, defaultConfig)).to.equal(null);
     });
 
     it('should return null if showTicketInformation is falsey', () => {
-      expect(mapFares([], {}, 'en')).to.equal(null);
+      expect(mapFares([], {})).to.equal(null);
     });
 
     it('should return null if no regular fares exist', () => {
@@ -29,7 +29,7 @@ describe('fareUtils', () => {
           type: 'foobar',
         },
       ];
-      expect(mapFares(fares, defaultConfig, 'en')).to.equal(null);
+      expect(mapFares(fares, defaultConfig)).to.equal(null);
     });
 
     it('should return individual tickets even if the total cost is equal to -1', () => {
@@ -46,7 +46,7 @@ describe('fareUtils', () => {
           type: 'regular',
         },
       ];
-      expect(mapFares(fares, defaultConfig, 'en')).to.have.lengthOf(1);
+      expect(mapFares(fares, defaultConfig)).to.have.lengthOf(1);
     });
 
     it('should return null if there are no components', () => {
@@ -58,7 +58,7 @@ describe('fareUtils', () => {
           type: 'regular',
         },
       ];
-      expect(mapFares(fares, defaultConfig, 'en')).to.equal(null);
+      expect(mapFares(fares, defaultConfig)).to.equal(null);
     });
 
     it('should return an array containing a single fare', () => {
@@ -74,7 +74,7 @@ describe('fareUtils', () => {
           type: 'regular',
         },
       ];
-      const result = mapFares(fares, defaultConfig, 'en');
+      const result = mapFares(fares, defaultConfig);
       expect(result).to.have.lengthOf(1);
     });
 
@@ -93,9 +93,9 @@ describe('fareUtils', () => {
       ];
       const config = {
         ...defaultConfig,
-        fareMapping: (fareId, lang) => `${fareId}_${lang}`,
+        fareMapping: (fareId) => `${fareId}`,
       };
-      expect(mapFares(fares, config, 'fi')[0].ticketName).to.equal('HSL:BC_fi');
+      expect(mapFares(fares, config)[0].ticketName).to.equal('HSL:BC');
     });
 
     it("should preserve the fareComponent's properties", () => {
@@ -117,7 +117,7 @@ describe('fareUtils', () => {
         ...defaultConfig,
         fareMapping: fareId => fareId.replace('HSL:', ''),
       };
-      expect(mapFares(fares, config, 'fi')).to.deep.equal([
+      expect(mapFares(fares, config)).to.deep.equal([
         {
           agency: undefined,
           cents: 280,
@@ -156,7 +156,7 @@ describe('fareUtils', () => {
         ...defaultConfig,
         fareMapping: fareId => fareId.replace('HSL:', ''),
       };
-      expect(mapFares(fares, config, 'fi')[0].agency).to.deep.equal({
+      expect(mapFares(fares, config)[0].agency).to.deep.equal({
         name: 'foo',
         fareUrl: 'https://www.hsl.fi',
         gtfsId: 'bar',
@@ -205,7 +205,7 @@ describe('fareUtils', () => {
         },
       ];
 
-      const result = getFares(fares, routes, defaultConfig, 'en');
+      const result = getFares(fares, routes, defaultConfig);
       expect(result).to.have.lengthOf(2);
       expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(1);
 

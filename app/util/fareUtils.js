@@ -1,7 +1,7 @@
 import uniq from 'lodash/uniq';
 
-// returns null or non-empty array of localized ticket names
-export function mapFares(fares, config, lang) {
+// returns null or non-empty array of ticket names
+export function mapFares(fares, config) {
   if (!Array.isArray(fares) || !config.showTicketInformation) {
     return null;
   }
@@ -23,12 +23,12 @@ export function mapFares(fares, config, lang) {
         fare.routes.length > 0 &&
         fare.routes[0].agency) ||
       undefined,
-    ticketName: config.fareMapping(fare.fareId, lang),
+    ticketName: config.fareMapping(fare.fareId),
   }));
 }
 
-export const getFares = (fares, routes, config, lang) => {
-  const knownFares = mapFares(fares, config, lang) || [];
+export const getFares = (fares, routes, config) => {
+  const knownFares = mapFares(fares, config) || [];
 
   const routesWithFares = uniq(
     knownFares
