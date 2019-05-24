@@ -10,6 +10,7 @@ export const AlertContentQuery = Relay.QL`
     alertHash
     alertHeaderText
     alertSeverityLevel
+    alertUrl
     effectiveEndDate
     effectiveStartDate
     alertDescriptionTextTranslations {
@@ -17,6 +18,10 @@ export const AlertContentQuery = Relay.QL`
       text
     }
     alertHeaderTextTranslations {
+      language
+      text
+    }
+    alertUrlTranslations {
       language
       text
     }

@@ -4,25 +4,30 @@ import mergeWith from 'lodash/mergeWith';
 // matching src values overwrite objvalues
 function aboutMerger(objValue, srcValue) {
   if (Array.isArray(srcValue) && Array.isArray(objValue)) {
-    const merged = [];
-    for (let i = 0; i < objValue.length; i++) {
-      merged[i] = { header: objValue[i].header };
-      for (let j = 0; j < srcValue.length; j++) {
-        if (srcValue[j].header === objValue[i].header) {
-          merged[i].paragraphs = srcValue[j].paragraphs;
-          break;
-        }
-      }
-      if (!merged[i].paragraphs) {
-        // not found from srcValue
-        merged[i].paragraphs = objValue[i].paragraphs;
-      }
-    }
-    // copy additional fields
-    for (let i = objValue.length; i < srcValue.length; i++) {
-      merged[i] = srcValue[i];
-    }
-    return merged;
+    const objByHdr = {};
+    const srcByHdr = {};
+
+    objValue.filter(val => val.header).forEach(val => {
+      objByHdr[val.header] = val;
+    });
+    srcValue.filter(val => val.header).forEach(val => {
+      srcByHdr[val.header] = val;
+    });
+
+    return objValue
+      .map(
+        val =>
+          srcByHdr[val.header]
+            ? {
+                ...val,
+                ...srcByHdr[val.header],
+              }
+            : val,
+      )
+      .concat(
+        // insert unmatching items from src
+        srcValue.filter(val => !objByHdr[val.header]),
+      );
   }
   return undefined; // Otherwise use default customizer
 }

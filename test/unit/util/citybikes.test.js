@@ -19,6 +19,11 @@ describe('citybikes', () => {
       const networks = ['Samocat', 'Smoove'];
       expect(getCityBikeNetworkId(networks)).to.equal('Samocat');
     });
+
+    it('should also accept an input string', () => {
+      const networks = 'Samocat';
+      expect(getCityBikeNetworkId(networks)).to.equal('Samocat');
+    });
   });
 
   describe('getCityBikeNetworkConfig', () => {

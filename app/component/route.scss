@@ -756,7 +756,8 @@ div.route-tabs {
     cursor: pointer;
   }
 
-  button.toggle-direction, button.toggle-direction:hover {
+  button.toggle-direction,
+  button.toggle-direction:hover {
     background: $white;
     padding: 0;
     position: absolute;
@@ -790,7 +791,8 @@ div.route-tabs {
     overflow: hidden;
   }
 
-  select, .route-option {
+  select,
+  .route-option {
     padding: 0 35px 0 10px;
     -webkit-padding-end: 35px;
     -webkit-padding-start: 10px;
@@ -836,7 +838,8 @@ div.route-tabs {
       margin-top: 0.5em;
     }
 
-    select, .route-option {
+    select,
+    .route-option {
       height: 40px;
       font-size: 18px;
       padding: 0 48px 0 20px;
@@ -870,6 +873,19 @@ div.route-tabs {
 
     .route-alert-contents {
       vertical-align: bottom;
+
+      .route-alert-top-row {
+        display: flex;
+
+        .route-alert-url {
+          color: $primary-color;
+          margin-left: auto;
+
+          .external-link {
+            color: $primary-color;
+          }
+        }
+      }
     }
 
     .route-number {

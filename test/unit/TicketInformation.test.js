@@ -1,52 +1,81 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { FormattedMessage } from 'react-intl';
 
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
-import TicketInformation from '../../app/component/TicketInformation';
-import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
 
-import data from './test-data/dt2639';
+import ExternalLink from '../../app/component/ExternalLink';
+import TicketInformation, {
+  getUtmParameters,
+} from '../../app/component/TicketInformation';
+import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
+import { getFares } from '../../app/util/fareUtils';
+
+const defaultConfig = {
+  showTicketInformation: true,
+  fareMapping: fareId => fareId.replace('HSL:', ''),
+};
+
+const proxyFares = (fares, routes = [], config = defaultConfig) =>
+  getFares(fares, routes, config, 'en');
 
 describe('<TicketInformation />', () => {
-  const config = {
-    showTicketInformation: true,
-    fareMapping: v => v,
-  };
-
   it('should show multiple ticket components (DT-2639)', () => {
-    const wrapper = mountWithIntl(<TicketInformation {...data} />, {
-      context: { config },
+    const props = {
+      fares: proxyFares([
+        {
+          type: 'regular',
+          cents: 870,
+          components: [
+            {
+              cents: 320,
+              fareId: 'HSL:esp',
+            },
+            {
+              cents: 550,
+              fareId: 'HSL:seu',
+            },
+          ],
+        },
+      ]),
+    };
+    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
+      context: { config: defaultConfig },
     });
 
     expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      data.fares[0].components.length,
+      2,
     );
   });
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 870,
           components: [
             {
+              cents: 320,
               fareId: 'HSL:esp',
             },
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
         },
-      ],
+      ]),
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(1);
+    expect(
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
+    ).to.equal('itinerary-tickets.title');
   });
 
   it('should not show a multiple tickets required title when there is only a single component', () => {
@@ -54,10 +83,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
@@ -65,29 +94,29 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(1);
-    expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      0,
-    );
+    expect(
+      wrapper
+        .find('.ticket-type-title')
+        .find(FormattedMessage)
+        .prop('id'),
+    ).to.equal('itinerary-ticket.title');
   });
 
   it('should not show any ticket information if components are missing', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [],
         },
-      ],
+      ]),
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
@@ -100,10 +129,10 @@ describe('<TicketInformation />', () => {
       fares: [
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 550,
           components: [
             {
+              cents: 550,
               fareId: 'HSL:seu',
             },
           ],
@@ -111,32 +140,32 @@ describe('<TicketInformation />', () => {
       ],
     };
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config },
+      context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-fare').text()).to.equal('5.50 €');
+    expect(wrapper.find('.ticket-description').text()).to.contain('5.50 €');
   });
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 280,
           components: [
             {
+              cents: 280,
               fareId: 'HSL:ABCD',
             },
           ],
         },
-      ],
+      ]),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -145,54 +174,57 @@ describe('<TicketInformation />', () => {
   });
 
   it('should use the mapped name for the ticket', () => {
+    const config = {
+      ...defaultConfig,
+      fareMapping: fareId => `foo_${fareId}_bar`,
+    };
     const props = {
-      fares: [
-        {
-          type: 'regular',
-          currency: 'EUR',
-          cents: 280,
-          components: [
-            {
-              fareId: 'HSL:ABCD',
-            },
-          ],
-        },
-      ],
+      fares: proxyFares(
+        [
+          {
+            type: 'regular',
+            cents: 280,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:ABCD',
+              },
+            ],
+          },
+        ],
+        [],
+        config,
+      ),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          ...config,
-          fareMapping: fareId => `foo_${fareId}_bar`,
-        },
-      },
+      context: { config },
     });
-    expect(wrapper.find('.ticket-type-zone').text()).to.equal(
+    expect(wrapper.find('.ticket-identifier').text()).to.equal(
       'foo_HSL:ABCD_bar',
     );
   });
 
   it('should use a zone ticket icon if configured', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           type: 'regular',
-          currency: 'EUR',
           cents: 280,
           components: [
             {
+              cents: 280,
               fareId: 'HSL:ABCD',
             },
           ],
         },
-      ],
+      ]),
     };
 
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -202,25 +234,24 @@ describe('<TicketInformation />', () => {
 
   it('should show AB and BC tickets for a trip within B zone', () => {
     const props = {
-      fares: [
+      fares: proxyFares([
         {
           cents: 280,
-          currency: 'EUR',
           components: [
             {
+              cents: 280,
               fareId: 'HSL:AB',
             },
           ],
           type: 'regular',
         },
-      ],
+      ]),
       zones: ['B'],
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: {
         config: {
-          ...config,
-          fareMapping: fareId => fareId.replace('HSL:', ''),
+          ...defaultConfig,
           useTicketIcons: true,
         },
       },
@@ -239,5 +270,139 @@ describe('<TicketInformation />', () => {
         .at(1)
         .props().ticketType,
     ).to.equal('BC');
+  });
+
+  it('should show a fare url link for the agency', () => {
+    const props = {
+      fares: proxyFares([
+        {
+          cents: 280,
+          components: [
+            {
+              cents: 280,
+              fareId: 'HSL:AB',
+              routes: [
+                {
+                  agency: {
+                    fareUrl: 'foobar',
+                    gtfsId: 'HSL:HSL',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+            },
+          ],
+          type: 'regular',
+        },
+      ]),
+    };
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: { config: defaultConfig },
+    });
+    expect(wrapper.find(ExternalLink).prop('href')).to.equal('foobar');
+  });
+
+  it('should include unknown fares to the listing', () => {
+    const props = {
+      fares: proxyFares(
+        [
+          {
+            cents: -1,
+            components: [
+              {
+                cents: 280,
+                fareId: 'HSL:AB',
+                routes: [
+                  {
+                    agency: {
+                      gtfsId: 'HSL:HSL',
+                    },
+                    gtfsId: 'HSL:1003',
+                  },
+                ],
+              },
+            ],
+            type: 'regular',
+          },
+        ],
+        [
+          {
+            agency: {
+              gtfsId: 'HSL:HSL',
+            },
+            gtfsId: 'HSL:1003',
+            longName: 'Olympiaterminaali - Eira - Kallio - Meilahti',
+          },
+          {
+            agency: {
+              fareUrl: 'foobaz',
+              gtfsId: 'FOO:BAR',
+              name: 'Merisataman lauttaliikenne',
+            },
+            gtfsId: 'FOO:1234',
+            longName: 'Merisataman lautta',
+          },
+        ],
+      ),
+    };
+    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
+      context: { config: defaultConfig },
+    });
+    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
+
+    const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
+    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
+      'Merisataman lautta',
+    );
+    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
+      'Merisataman lauttaliikenne',
+    );
+    expect(ticketWrapper.find(ExternalLink).prop('href')).to.equal('foobaz');
+  });
+
+  describe('getUtmParameters', () => {
+    const agency = {
+      gtfsId: 'foobar',
+    };
+
+    const config = {
+      ticketInformation: {
+        trackingParameters: {
+          foobar: {
+            utm_campaign: 'test campaign',
+            utm_content: 'content',
+            utm_source: 'source',
+          },
+        },
+      },
+    };
+
+    it('should return an empty string if the agency is missing', () => {
+      expect(getUtmParameters(undefined, config)).to.equal('');
+      expect(getUtmParameters({}, config)).to.equal('');
+      expect(getUtmParameters({ gtfsId: undefined }, config)).to.equal('');
+    });
+
+    it('should return an empty string if the parameters are missing from configuration', () => {
+      expect(getUtmParameters(agency, undefined)).to.equal('');
+      expect(getUtmParameters(agency, {})).to.equal('');
+      expect(getUtmParameters(agency, { ticketInformation: {} })).to.equal('');
+      expect(
+        getUtmParameters(agency, {
+          ticketInformation: { trackingParameters: {} },
+        }),
+      ).to.equal('');
+      expect(
+        getUtmParameters(agency, {
+          ticketInformation: { trackingParameters: { foobar: undefined } },
+        }),
+      ).to.equal('');
+    });
+
+    it('should return a url-encoded query string composed of the configured parameters', () => {
+      expect(getUtmParameters(agency, config)).to.equal(
+        '?utm_campaign=test%20campaign&utm_content=content&utm_source=source',
+      );
+    });
   });
 });

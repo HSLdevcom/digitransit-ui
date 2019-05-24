@@ -1,4 +1,6 @@
-import { isEmpty, without } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isString from 'lodash/isString';
+import without from 'lodash/without';
 import { toggleCitybikesAndNetworks } from './modeUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { replaceQueryParams } from './queryUtils';
@@ -32,6 +34,9 @@ export const getCityBikeNetworkIcon = (networkConfig = defaultNetworkConfig) =>
   `icon-icon_${networkConfig.icon || 'citybike'}`;
 
 export const getCityBikeNetworkId = networks => {
+  if (isString(networks) && networks.length > 0) {
+    return networks;
+  }
   if (!Array.isArray(networks) || networks.length === 0) {
     return undefined;
   }

@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
-import { alertHasExpired } from '../util/alertUtils';
+import { isAlertValid } from '../util/alertUtils';
 import { routeNameCompare } from '../util/searchUtils';
 import { AlertSeverityLevelType } from '../constants';
 
@@ -62,7 +62,7 @@ const AlertList = ({
   )
     .map(alert => ({
       ...alert,
-      expired: alertHasExpired(alert.validityPeriod, currentTimeUnix),
+      expired: !isAlertValid(alert, currentTimeUnix),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 
@@ -105,6 +105,7 @@ const AlertList = ({
                 expired,
                 route: { color, mode, shortName } = {},
                 severityLevel,
+                url,
                 validityPeriod: { startTime, endTime },
               },
               i,
@@ -121,6 +122,7 @@ const AlertList = ({
                 routeMode={mode && mode.toLowerCase()}
                 severityLevel={severityLevel}
                 startTime={startTime}
+                url={url}
               />
             ),
           )}
@@ -138,6 +140,7 @@ const alertShape = PropTypes.shape({
     shortName: PropTypes.string,
   }),
   severityLevel: PropTypes.string,
+  url: PropTypes.string,
   validityPeriod: PropTypes.shape({
     startTime: PropTypes.number.isRequired,
     endTime: PropTypes.number,

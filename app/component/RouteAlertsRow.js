@@ -6,6 +6,7 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
+import ExternalLink from './ExternalLink';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
@@ -44,6 +45,7 @@ export default function RouteAlertsRow(
     startTime,
     endTime,
     currentTime,
+    url,
   },
   { intl },
 ) {
@@ -63,7 +65,16 @@ export default function RouteAlertsRow(
         </div>
       )}
       <div className="route-alert-contents">
-        {routeLine && <div className={routeMode}>{routeLine}</div>}
+        {(routeLine || url) && (
+          <div className="route-alert-top-row">
+            {routeLine && <div className={routeMode}>{routeLine}</div>}
+            {url && (
+              <ExternalLink className="route-alert-url" href={url}>
+                {intl.formatMessage({ id: 'extra-info' })}
+              </ExternalLink>
+            )}
+          </div>
+        )}
         {showTime && (
           <div className="route-alert-time-period">
             {getTimePeriod({
@@ -92,6 +103,7 @@ RouteAlertsRow.propTypes = {
   startTime: PropTypes.number,
   endTime: PropTypes.number,
   currentTime: PropTypes.number,
+  url: PropTypes.string,
 };
 
 RouteAlertsRow.contextTypes = {
@@ -209,6 +221,16 @@ RouteAlertsRow.description = () => (
           routeLine="Y, S, U, L, E, A"
           routeMode="rail"
           severityLevel="WARNING"
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="with alert url">
+        <RouteAlertsRow
+          header="Pysäkki H4461 siirtyy"
+          description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
+          routeLine="97N"
+          routeMode="bus"
+          severityLevel="INFO"
+          url="https://www.hsl.fi"
         />
       </ComponentUsageExample>
     </div>

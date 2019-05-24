@@ -3,11 +3,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-export const isWithinZoneB = (zones, mappedFares) =>
+export const isWithinZoneB = (zones, fares) =>
   zones.length === 1 &&
   zones[0] === 'B' &&
-  mappedFares.length === 1 &&
-  (mappedFares[0] === 'AB' || mappedFares[0] === 'BC');
+  fares.length === 1 &&
+  (fares[0].fareId === 'HSL:AB' || fares[0].fareId === 'HSL:BC');
 
 export const renderZoneTicketIcon = (zoneId, isOnlyZoneB) => {
   if (!isOnlyZoneB) {
