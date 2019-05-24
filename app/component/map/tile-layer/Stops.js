@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import Relay from 'react-relay/classic';
 
 import { StopAlertsQuery } from '../../../util/alertQueries';
-import { getMaximumAlertSeverityLevel } from '../../../util/alertUtils';
+import { getActiveAlertSeverityLevel } from '../../../util/alertUtils';
 import {
   drawRoundIcon,
   drawTerminalIcon,
@@ -102,7 +102,10 @@ class Stops {
         return;
       }
       cache[gtfsId] = currentTime;
-      this.drawStop(stopFeature, getMaximumAlertSeverityLevel(result.alerts));
+      this.drawStop(
+        stopFeature,
+        getActiveAlertSeverityLevel(result.alerts, currentTime / 1000),
+      );
     };
 
     const latestFetchTime = cache[gtfsId];
