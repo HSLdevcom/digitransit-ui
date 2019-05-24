@@ -36,6 +36,7 @@ const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { retryFetch } = require('../app/util/fetchUtils');
+const relay = require('react-relay/classic');
 const config = require('../app/config').getConfiguration();
 
 /* ********* Global ********* */
@@ -180,6 +181,57 @@ function setUpAvailableRouteTimetables() {
   });
 }
 
+function setUpAvailableTickets() {
+  return new Promise(resolve => {
+    const options = {
+      method: 'POST',
+      body: '{ ticketTypes { price fareId zones currency } }',
+      headers: {'Content-Type': 'application/graphql'},
+    }
+    // try to fetch available ticketTypes every four seconds with 4 retries
+    retryFetch(`${config.URL.OTP}index/graphql`, options, 4, 4000)
+      .then(res => res.json())
+      .then(
+        result => {
+          if (result.data.ticketTypes) {
+            config.availableTickets = result.data.ticketTypes;
+            console.log('availableTickets loaded');
+          } else {
+            console.log('availableTickets loader failed, result was invalid');
+          }
+          resolve();
+        },
+        err => {
+          console.log(err);
+          // If after 5 tries no available ticketTypes are found, start server anyway
+          resolve();
+          console.log('availableTickets loader failed');
+          // Continue attempts to fetch available ticketTypes in the background for one day once every minute
+          retryFetch(
+            `${config.URL.OTP}index/graphql`,
+            options,
+            1440,
+            60000,
+          )
+            .then(res => res.json())
+            .then(
+              result => {
+                if (result.data.ticketTypes) {
+                  config.availableTickets = result.data.ticketTypes;
+                  console.log('availableTickets loaded after retry');
+                } else {
+                  console.log('availableTickets loader failed, result was invalid');
+                }
+              },
+              error => {
+                console.log(error);
+              },
+            );
+        },
+      );
+  });
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -192,5 +244,5 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-setUpAvailableRouteTimetables().then(() => startServer());
+Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(() => startServer());
 module.exports.app = app;
