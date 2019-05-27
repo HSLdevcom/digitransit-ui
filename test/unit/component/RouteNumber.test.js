@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { AlertSeverityLevelType } from '../../../app/constants';
 import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
 import IconWithIcon from '../../../app/component/IconWithIcon';
 import RouteNumber from '../../../app/component/RouteNumber';
@@ -49,5 +50,23 @@ describe('<RouteNumber />', () => {
     expect(wrapper.find(IconWithIcon).prop('img')).to.equal(
       'icon-icon_scooter',
     );
+  });
+
+  it('should have a caution icon when hasDisruption is true', () => {
+    const props = {
+      hasDisruption: true,
+      mode: 'BUS',
+    };
+    const wrapper = mountWithIntl(<RouteNumber {...props} />);
+    expect(wrapper.find(IconWithBigCaution)).to.have.lengthOf(1);
+  });
+
+  it('should have a caution icon when alertSeverityLevel has been defined', () => {
+    const props = {
+      alertSeverityLevel: AlertSeverityLevelType.Info,
+      mode: 'BUS',
+    };
+    const wrapper = mountWithIntl(<RouteNumber {...props} />);
+    expect(wrapper.find(IconWithBigCaution)).to.have.lengthOf(1);
   });
 });
