@@ -171,7 +171,7 @@ class DepartureListContainer extends Component {
   }
 }
 
-export default Relay.createContainer(DepartureListContainer, {
+const containerComponent = Relay.createContainer(DepartureListContainer, {
   fragments: {
     stoptimes: () => Relay.QL`
       fragment on Stoptime @relay(plural:true) {
@@ -214,3 +214,9 @@ export default Relay.createContainer(DepartureListContainer, {
     `,
   },
 });
+
+export {
+  containerComponent as default,
+  DepartureListContainer as Component,
+  asDepartures,
+};
