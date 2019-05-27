@@ -10,7 +10,7 @@ import { RouteAlertsQuery } from '../util/alertQueries';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 
-const alertReducer = mapProps(({ routes, currentTime, ...rest }) => {
+export const alertSeverityLevelMapper = ({ routes, currentTime, ...rest }) => {
   const alertSeverityLevel = getActiveAlertSeverityLevel(
     Array.isArray(routes) &&
       routes
@@ -22,17 +22,17 @@ const alertReducer = mapProps(({ routes, currentTime, ...rest }) => {
     alertSeverityLevel,
     ...rest,
   };
-});
+};
 
 const FavouritesTabLabelRelayConnector = Relay.createContainer(
-  alertReducer(FavouritesTabLabel),
+  mapProps(alertSeverityLevelMapper)(FavouritesTabLabel),
   {
     fragments: {
       routes: () => Relay.QL`
         fragment on Route @relay(plural:true) {
           ${RouteAlertsQuery}
         }
-    `,
+      `,
     },
   },
 );
