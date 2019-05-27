@@ -443,7 +443,10 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
   }
   return getMaximumAlertSeverityLevel(
     alerts
-      .map(getServiceAlertMetadata)
+      .map(
+        alert =>
+          alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
+      )
       .filter(alert => isAlertValid(alert, referenceUnixTime)),
   );
 };
@@ -514,29 +517,30 @@ export const isAlertActive = (
  *
  * @param {*} leg the itinerary leg to check.
  */
-export const legHasActiveAlert = leg => {
+export const getActiveLegAlertSeverityLevel = leg => {
   if (!leg) {
-    return false;
+    return undefined;
   }
-  return (
-    legHasCancelation(leg) ||
-    isAlertActive(
-      [],
-      [
-        ...getServiceAlertsForRoute(
-          leg.route,
-          leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-        ),
-        ...getServiceAlertsForStop(leg.from && leg.from.stop),
-        ...getServiceAlertsForStop(leg.to && leg.to.stop),
-        ...(Array.isArray(leg.intermediatePlaces)
-          ? leg.intermediatePlaces
-              .map(place => getServiceAlertsForStop(place.stop))
-              .reduce((a, b) => a.concat(b), [])
-          : []),
-      ],
-      leg.startTime / 1000, // this field is in ms format
-    )
+  if (legHasCancelation(leg)) {
+    return AlertSeverityLevelType.Warning;
+  }
+
+  const serviceAlerts = [
+    ...getServiceAlertsForRoute(
+      leg.route,
+      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+    ),
+    ...getServiceAlertsForStop(leg.from && leg.from.stop),
+    ...getServiceAlertsForStop(leg.to && leg.to.stop),
+    ...(Array.isArray(leg.intermediatePlaces)
+      ? leg.intermediatePlaces
+          .map(place => getServiceAlertsForStop(place.stop))
+          .reduce((a, b) => a.concat(b), [])
+      : []),
+  ];
+  return getActiveAlertSeverityLevel(
+    serviceAlerts,
+    leg.startTime / 1000, // this field is in ms format
   );
 };
 

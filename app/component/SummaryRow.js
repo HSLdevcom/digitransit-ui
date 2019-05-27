@@ -9,7 +9,7 @@ import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
-import { legHasActiveAlert } from '../util/alertUtils';
+import { getActiveLegAlertSeverityLevel } from '../util/alertUtils';
 import { displayDistance } from '../util/geo-utils';
 import {
   containsBiking,
@@ -74,11 +74,11 @@ export const RouteLeg = ({ leg, large, intl }) => {
   } else {
     routeNumber = (
       <RouteNumberContainer
+        alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
         className={cx('line', leg.mode.toLowerCase())}
         vertical
         withBar
-        hasDisruption={legHasActiveAlert(leg)}
       />
     );
   }
