@@ -1,4 +1,5 @@
 import find from 'lodash/find';
+import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
@@ -8,6 +9,18 @@ import {
   AlertSeverityLevelType,
   AlertEffectType,
 } from '../constants';
+
+/**
+ * Checks if the alert is for the given pattern.
+ *
+ * @param {*} alert the alert object to check.
+ * @param {*} patternId the pattern's id, optional.
+ */
+export const patternIdPredicate = (alert, patternId = undefined) =>
+  patternId
+    ? (alert && !alert.trip) ||
+      get(alert, 'trip.pattern.code', undefined) === patternId
+    : true;
 
 /**
  * Checks if the stop has any alerts.
@@ -31,13 +44,7 @@ export const routeHasServiceAlert = (route, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return patternId
-    ? route.alerts.some(
-        alert =>
-          !alert.trip ||
-          (alert.trip.pattern && alert.trip.pattern.code === patternId),
-      )
-    : route.alerts.length > 0;
+  return route.alerts.some(alert => patternIdPredicate(alert, patternId));
 };
 
 /**
@@ -327,13 +334,9 @@ export const getServiceAlertsForRoute = (
   }
   return getServiceAlerts(
     {
-      alerts: patternId
-        ? route.alerts.filter(
-            alert =>
-              !alert.trip ||
-              (alert.trip.pattern && alert.trip.pattern.code === patternId),
-          )
-        : route.alerts,
+      alerts: route.alerts.filter(alert =>
+        patternIdPredicate(alert, patternId),
+      ),
     },
     route,
     locale,

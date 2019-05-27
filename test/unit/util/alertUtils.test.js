@@ -1152,4 +1152,38 @@ describe('alertUtils', () => {
       );
     });
   });
+
+  describe('patternIdPredicate', () => {
+    it('should return true if alert exists but patternId does not', () => {
+      expect(utils.patternIdPredicate({}, undefined)).to.equal(true);
+    });
+
+    it('should return false if patternId exists but alert does not', () => {
+      expect(utils.patternIdPredicate(undefined, 'foobar')).to.equal(false);
+    });
+
+    it('should return true if the path alert.trip.pattern.code matches the given patternId', () => {
+      expect(
+        utils.patternIdPredicate(
+          { trip: { pattern: { code: 'foobar' } } },
+          'foobar',
+        ),
+      ).to.equal(true);
+    });
+
+    it('should return false if the path alert.trip.pattern.code does not match the given patternId', () => {
+      expect(
+        utils.patternIdPredicate(
+          { trip: { pattern: { code: 'foobaz' } } },
+          'foobar',
+        ),
+      ).to.equal(false);
+    });
+
+    it('should return true if trip information is not available', () => {
+      expect(utils.patternIdPredicate({ trip: undefined }, 'foobar')).to.equal(
+        true,
+      );
+    });
+  });
 });

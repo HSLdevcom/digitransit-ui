@@ -3,7 +3,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import NextDeparturesList from './NextDeparturesList';
 import { RouteAlertsQuery } from '../util/alertQueries';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import {
+  getActiveAlertSeverityLevel,
+  patternIdPredicate,
+} from '../util/alertUtils';
 import { getDistanceToNearestStop } from '../util/geo-utils';
 
 export const getNextDepartures = (routes, lat, lon, currentTime) => {
@@ -15,12 +18,14 @@ export const getNextDepartures = (routes, lat, lon, currentTime) => {
       return;
     }
 
-    const alertSeverityLevel = getActiveAlertSeverityLevel(
-      route.alerts,
-      currentTime,
-    );
-
     route.patterns.forEach(pattern => {
+      const patternAlerts =
+        Array.isArray(route.alerts) &&
+        route.alerts.filter(alert => patternIdPredicate(alert, pattern.code));
+      const alertSeverityLevel = getActiveAlertSeverityLevel(
+        patternAlerts || [],
+        currentTime,
+      );
       const closest = getDistanceToNearestStop(lat, lon, pattern.stops);
       closest.stop.stoptimes
         .filter(stoptime => {
@@ -102,10 +107,6 @@ export default Relay.createContainer(FavouriteRouteListContainer, {
                 scheduledDeparture
                 realtime
                 serviceDay
-              }
-              pattern {
-                headsign
-                route { gtfsId }
               }
             }
           }
