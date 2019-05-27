@@ -58,7 +58,12 @@ export default function RouteAlertsRow(
   return (
     <div className={cx('route-alert-row', { expired })}>
       {routeMode ? (
-        <RouteNumber color={color} hasDisruption mode={routeMode} vertical />
+        <RouteNumber
+          alertSeverityLevel={severityLevel}
+          color={color}
+          mode={routeMode}
+          vertical
+        />
       ) : (
         <div className="route-number">
           <ServiceAlertIcon severityLevel={severityLevel} />

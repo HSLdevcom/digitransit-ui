@@ -87,4 +87,15 @@ describe('<RouteAlertsRow />', () => {
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-url')).to.have.lengthOf(1);
   });
+
+  it('should render a RouteNumber with a specified alertSeverityLevel', () => {
+    const props = {
+      routeMode: 'BUS',
+      severityLevel: AlertSeverityLevelType.Warning,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
+  });
 });
