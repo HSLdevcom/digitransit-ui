@@ -92,7 +92,7 @@
     "material-ui": "0.20.2",
     "moment": "2.24.0",
     "moment-timezone": "0.5.23",
-    "mqtt": "2.18.8",
+    "mqtt": "3.0.0",
     "name-all-modules-plugin": "1.0.1",
     "node-fetch": "2.3.0",
     "node-zopfli-es": "0.0.2",
