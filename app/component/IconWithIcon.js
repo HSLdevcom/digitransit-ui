@@ -14,14 +14,15 @@ const subIconTemplate = {
 
 const IconWithIcon = (
   {
-    id,
+    badgeFill,
+    badgeText,
     className,
+    color,
+    id,
     img,
     subIcon,
     subIconClassName,
-    color,
-    badgeFill,
-    badgeText,
+    subIconShape,
   },
   { intl },
 ) => (
@@ -40,7 +41,7 @@ const IconWithIcon = (
         style={subIconTemplate}
         title={intl.formatMessage({ id: 'disruption' })}
       >
-        <Icon img={subIcon} />
+        <Icon backgroundShape={subIconShape} img={subIcon} />
       </span>
     )}
   </span>
@@ -82,14 +83,15 @@ IconWithIcon.description = () => (
 IconWithIcon.displayName = 'IconWithIcon';
 
 IconWithIcon.propTypes = {
-  id: PropTypes.string,
+  badgeFill: PropTypes.string,
+  badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   className: PropTypes.string,
+  color: PropTypes.string,
+  id: PropTypes.string,
   img: PropTypes.string.isRequired,
   subIcon: PropTypes.string,
   subIconClassName: PropTypes.string,
-  color: PropTypes.string,
-  badgeFill: PropTypes.string,
-  badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  subIconShape: PropTypes.string,
 };
 
 IconWithIcon.contextTypes = {
@@ -97,12 +99,13 @@ IconWithIcon.contextTypes = {
 };
 
 IconWithIcon.defaultProps = {
-  id: '',
-  subIcon: '',
-  className: '',
-  subIconClassName: '',
   badgeFill: undefined,
   badgeText: undefined,
+  className: '',
+  id: '',
+  subIcon: '',
+  subIconClassName: '',
+  subIconShape: undefined,
 };
 
 export default IconWithIcon;

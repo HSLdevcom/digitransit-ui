@@ -14,6 +14,7 @@ const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
       img={img}
       subIcon={`icon-icon_${iconType}`}
       subIconClassName={`subicon-${iconType}`}
+      subIconShape={(iconType === 'info' && 'circle') || undefined}
     />
   );
 };
