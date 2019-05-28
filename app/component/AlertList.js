@@ -44,8 +44,6 @@ const AlertList = ({
   showExpired,
   serviceAlerts,
 }) => {
-  const currentTimeUnix = currentTime.unix ? currentTime.unix() : currentTime;
-
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
@@ -55,14 +53,19 @@ const AlertList = ({
 
   const uniqueAlerts = uniqBy(
     [
-      ...(Array.isArray(cancelations) ? cancelations : []),
+      ...(Array.isArray(cancelations)
+        ? cancelations.map(cancelation => ({
+            ...cancelation,
+            severityLevel: AlertSeverityLevelType.Warning,
+          }))
+        : []),
       ...(Array.isArray(serviceAlerts) ? serviceAlerts : []),
     ],
     getUniqueId,
   )
     .map(alert => ({
       ...alert,
-      expired: !isAlertValid(alert, currentTimeUnix),
+      expired: !isAlertValid(alert, currentTime),
     }))
     .filter(alert => (showExpired ? true : !alert.expired));
 
@@ -112,7 +115,7 @@ const AlertList = ({
             ) => (
               <RouteAlertsRow
                 color={color ? `#${color}` : null}
-                currentTime={currentTimeUnix}
+                currentTime={currentTime}
                 description={description}
                 endTime={endTime}
                 expired={expired}
@@ -148,10 +151,7 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  currentTime: PropTypes.oneOfType([
-    PropTypes.shape({ unix: PropTypes.func.isRequired }),
-    PropTypes.number,
-  ]).isRequired,
+  currentTime: PropTypes.PropTypes.number.isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
@@ -275,7 +275,10 @@ const connectedComponent = connectToStores(
   AlertList,
   ['TimeStore'],
   context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   }),
 );
 

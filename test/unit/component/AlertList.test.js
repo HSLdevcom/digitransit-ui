@@ -1,11 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import moment from 'moment';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as AlertList } from '../../../app/component/AlertList';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
+import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<AlertList />', () => {
   it('should show a "no alerts" message', () => {
@@ -95,7 +93,7 @@ describe('<AlertList />', () => {
 
   it('should indicate that an alert has not expired', () => {
     const props = {
-      currentTime: moment.unix(1547464413),
+      currentTime: 1547464413,
       cancelations: [
         {
           header: 'foo',
@@ -116,7 +114,7 @@ describe('<AlertList />', () => {
 
   it('should indicate that an alert has expired', () => {
     const props = {
-      currentTime: moment.unix(1547465412),
+      currentTime: 1547465412,
       cancelations: [
         {
           header: 'foo',
@@ -137,7 +135,7 @@ describe('<AlertList />', () => {
 
   it('should omit expired alerts', () => {
     const props = {
-      currentTime: moment.unix(1547465412),
+      currentTime: 1547465412,
       cancelations: [
         {
           header: 'foo',
@@ -248,5 +246,23 @@ describe('<AlertList />', () => {
         .at(1)
         .props().routeLine,
     ).to.equal('10, 11');
+  });
+
+  it('should mark cancelations with severity level "WARNING"', () => {
+    const props = {
+      currentTime: 1000,
+      cancelations: [
+        {
+          validityPeriod: {
+            startTime: 900,
+            endTime: 1100,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow).prop('severityLevel')).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 });
