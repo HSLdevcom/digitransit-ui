@@ -91,9 +91,9 @@ describe('<AlertList />', () => {
     ).to.equal('fourth');
   });
 
-  it('should indicate that an alert has not expired', () => {
+  it('should indicate that a cancelation has expired', () => {
     const props = {
-      currentTime: 1547464413,
+      currentTime: 100,
       cancelations: [
         {
           header: 'foo',
@@ -102,29 +102,8 @@ describe('<AlertList />', () => {
             shortName: '63',
           },
           validityPeriod: {
-            startTime: 1547464413,
-            endTime: 1547464415,
-          },
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(false);
-  });
-
-  it('should indicate that an alert has expired', () => {
-    const props = {
-      currentTime: 1547465412,
-      cancelations: [
-        {
-          header: 'foo',
-          route: {
-            mode: 'BUS',
-            shortName: '63',
-          },
-          validityPeriod: {
-            startTime: 1547464412,
-            endTime: 1547464415,
+            startTime: 1,
+            endTime: 99,
           },
         },
       ],
@@ -133,10 +112,10 @@ describe('<AlertList />', () => {
     expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(true);
   });
 
-  it('should omit expired alerts', () => {
+  it('should indicate that a service alert has expired', () => {
     const props = {
-      currentTime: 1547465412,
-      cancelations: [
+      currentTime: 100,
+      serviceAlerts: [
         {
           header: 'foo',
           route: {
@@ -144,8 +123,90 @@ describe('<AlertList />', () => {
             shortName: '63',
           },
           validityPeriod: {
-            startTime: 1547464412,
-            endTime: 1547464415,
+            startTime: 1,
+            endTime: 99,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} showExpired />);
+    expect(wrapper.find(RouteAlertsRow).prop('expired')).to.equal(true);
+  });
+
+  it('should not display past cancelations or service alerts', () => {
+    const props = {
+      currentTime: 100,
+      cancelations: [
+        {
+          validityPeriod: {
+            startTime: 1,
+            endTime: 99,
+          },
+        },
+      ],
+      serviceAlerts: [
+        {
+          validityPeriod: {
+            startTime: 1,
+            endTime: 99,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
+  });
+
+  it('should display current cancelations and service alerts', () => {
+    const props = {
+      currentTime: 100,
+      cancelations: [
+        {
+          header: 'cancelation',
+          validityPeriod: {
+            startTime: 100,
+            endTime: 100,
+          },
+        },
+      ],
+      serviceAlerts: [
+        {
+          header: 'servicealert',
+          validityPeriod: {
+            startTime: 100,
+            endTime: 100,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(2);
+  });
+
+  it('should display future cancelations', () => {
+    const props = {
+      currentTime: 100,
+      cancelations: [
+        {
+          validityPeriod: {
+            startTime: 101,
+            endTime: 200,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
+  });
+
+  it('should not display future service alerts', () => {
+    const props = {
+      currentTime: 100,
+      serviceAlerts: [
+        {
+          validityPeriod: {
+            startTime: 101,
+            endTime: 200,
           },
         },
       ],

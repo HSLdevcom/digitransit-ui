@@ -695,13 +695,17 @@ describe('alertUtils', () => {
 
     it('should mark a current alert within DEFAULT_VALIDITY period as valid', () => {
       expect(
-        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1100, 200),
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1100, {
+          defaultValidity: 200,
+        }),
       ).to.equal(true);
     });
 
     it('should mark an alert after the DEFAULT_VALIDITY period as invalid', () => {
       expect(
-        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1300, 200),
+        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1300, {
+          defaultValidity: 200,
+        }),
       ).to.equal(false);
     });
 
@@ -739,6 +743,16 @@ describe('alertUtils', () => {
 
     it('should return false if the alert itself is falsy', () => {
       expect(utils.isAlertValid(undefined, 0)).to.equal(false);
+    });
+
+    it('should return true if the alert is in the future when configured', () => {
+      expect(
+        utils.isAlertValid(
+          { validityPeriod: { startTime: 100, endTime: 100 } },
+          99,
+          { isFutureValid: true },
+        ),
+      ).to.equal(true);
     });
   });
 
@@ -930,6 +944,15 @@ describe('alertUtils', () => {
         serviceDay: 0,
       };
       expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
+    });
+
+    it('should return false for a future cancelation', () => {
+      const cancelation = {
+        scheduledArrival: 10,
+        scheduledDeparture: 10,
+        serviceDay: 0,
+      };
+      expect(utils.cancelationHasExpired(cancelation, 5)).to.equal(false);
     });
   });
 

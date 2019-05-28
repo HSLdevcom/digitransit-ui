@@ -152,7 +152,7 @@ export const DEFAULT_VALIDITY = 5 * 60;
 export const isAlertValid = (
   alert,
   referenceUnixTime,
-  defaultValidity = DEFAULT_VALIDITY,
+  { defaultValidity = DEFAULT_VALIDITY, isFutureValid = false } = {},
 ) => {
   if (!alert) {
     return false;
@@ -163,6 +163,9 @@ export const isAlertValid = (
   }
   const { startTime, endTime } = validityPeriod;
   if (!startTime && !endTime) {
+    return true;
+  }
+  if (isFutureValid && referenceUnixTime < startTime) {
     return true;
   }
 
@@ -190,6 +193,7 @@ export const cancelationHasExpired = (
       },
     },
     referenceUnixTime,
+    { isFutureValid: true },
   );
 
 /**

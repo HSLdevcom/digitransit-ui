@@ -57,17 +57,20 @@ const AlertList = ({
         ? cancelations.map(cancelation => ({
             ...cancelation,
             severityLevel: AlertSeverityLevelType.Warning,
+            expired: !isAlertValid(cancelation, currentTime, {
+              isFutureValid: true,
+            }),
           }))
         : []),
-      ...(Array.isArray(serviceAlerts) ? serviceAlerts : []),
+      ...(Array.isArray(serviceAlerts)
+        ? serviceAlerts.map(alert => ({
+            ...alert,
+            expired: !isAlertValid(alert, currentTime),
+          }))
+        : []),
     ],
     getUniqueId,
-  )
-    .map(alert => ({
-      ...alert,
-      expired: !isAlertValid(alert, currentTime),
-    }))
-    .filter(alert => (showExpired ? true : !alert.expired));
+  ).filter(alert => (showExpired ? true : !alert.expired));
 
   if (uniqueAlerts.length === 0) {
     return (
