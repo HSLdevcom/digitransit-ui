@@ -288,8 +288,7 @@ export const getServiceAlertUrl = (alert, locale = 'en') =>
  *
  * @param {*} alert the Service Alert to map.
  */
-export const getServiceAlertMetadata = (alert = {}) => ({
-  hash: alert.alertHash,
+const getServiceAlertMetadata = (alert = {}) => ({
   severityLevel: alert.alertSeverityLevel,
   validityPeriod: {
     startTime: alert.effectiveStartDate,
@@ -306,6 +305,7 @@ const getServiceAlerts = (
     ? alerts.map(alert => ({
         ...getServiceAlertMetadata(alert),
         description: getServiceAlertDescription(alert, locale),
+        hash: alert.alertHash,
         header: getServiceAlertHeader(alert, locale),
         route: {
           color,
@@ -443,6 +443,7 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
   }
   return getMaximumAlertSeverityLevel(
     alerts
+      .filter(alert => !!alert)
       .map(
         alert =>
           alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),

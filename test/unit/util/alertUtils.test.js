@@ -1199,6 +1199,23 @@ describe('alertUtils', () => {
         AlertSeverityLevelType.Info,
       );
     });
+
+    it('should ignore falsy alerts', () => {
+      const currentTime = 1000;
+      const alerts = [
+        undefined,
+        {
+          severityLevel: AlertSeverityLevelType.Info,
+          validityPeriod: {
+            endTime: currentTime + 100,
+            startTime: currentTime - 100,
+          },
+        },
+      ];
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+        AlertSeverityLevelType.Info,
+      );
+    });
   });
 
   describe('patternIdPredicate', () => {
