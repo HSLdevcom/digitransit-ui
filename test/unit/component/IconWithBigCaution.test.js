@@ -7,7 +7,7 @@ import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<IconWithBigCaution />', () => {
   it('should have a caution sub icon by default', () => {
-    it('should have a caution sub icon when alertSeverityLevel is high enough', () => {
+    it('should have a caution sub icon when alertSeverityLevel is not defined', () => {
       const props = {
         img: 'foobar',
       };
