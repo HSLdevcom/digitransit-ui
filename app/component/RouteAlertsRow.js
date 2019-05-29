@@ -38,13 +38,13 @@ export default function RouteAlertsRow(
   {
     color,
     currentTime,
-    endTime,
-    expired,
     description,
-    header,
+    endTime,
     entityIdentifier,
     entityMode,
     entityType,
+    expired,
+    header,
     severityLevel,
     startTime,
     url,
@@ -115,11 +115,11 @@ RouteAlertsRow.propTypes = {
   currentTime: PropTypes.number,
   description: PropTypes.string,
   endTime: PropTypes.number,
-  expired: PropTypes.bool,
-  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   entityIdentifier: PropTypes.string,
   entityMode: PropTypes.string,
   entityType: PropTypes.oneOf(['route', 'stop']),
+  expired: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,
@@ -249,6 +249,17 @@ RouteAlertsRow.description = () => (
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
           entityIdentifier="97N"
           entityMode="bus"
+          severityLevel="INFO"
+          url="https://www.hsl.fi"
+        />
+      </ComponentUsageExample>
+      <ComponentUsageExample description="service alert for a stop">
+        <RouteAlertsRow
+          header="Pysäkki H4461 siirtyy"
+          description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
+          entityIdentifier="4461"
+          entityMode="bus"
+          entityType="stop"
           severityLevel="INFO"
           url="https://www.hsl.fi"
         />

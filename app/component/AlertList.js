@@ -133,7 +133,6 @@ const AlertList = ({
                 key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
                 severityLevel={severityLevel}
                 startTime={startTime}
-                stopCode={code}
                 url={url}
               />
             ),
