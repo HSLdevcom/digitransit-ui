@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
+import { shallowWithIntl, mountWithIntl } from '../../helpers/mock-intl-enzyme';
 import {
   Component as VehicleMarkerContainer,
   shouldShowVehicle,
+  getVehicleIcon,
 } from '../../../../app/component/map/VehicleMarkerContainer';
 
 const defaultProps = {
@@ -184,6 +185,22 @@ describe('<VehicleMarkerContainer />', () => {
         'Pyynikintori',
       );
       expect(shouldShow).to.equal(true);
+    });
+  });
+
+  describe('getVehicleIcon', () => {
+    it('should use an appropriate icon for the given mode', () => {
+      const icon = getVehicleIcon('subway', 180);
+      const wrapper = mountWithIntl(icon.element);
+      expect(wrapper.prop('img')).to.equal('icon-icon_subway-live');
+      expect(icon.className).to.contain('subway');
+    });
+
+    it('should use a bus icon for an unknown mode', () => {
+      const icon = getVehicleIcon('foobar', 180);
+      const wrapper = mountWithIntl(icon.element);
+      expect(wrapper.prop('img')).to.equal('icon-icon_bus-live');
+      expect(icon.className).to.contain('bus');
     });
   });
 });

@@ -15,7 +15,7 @@ import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES } from '../util/path';
 import {
-  legHasActiveAlert,
+  getActiveLegAlertSeverityLevel,
   legHasCancelation,
   tripHasCancelationForStop,
 } from '../util/alertUtils';
@@ -180,9 +180,9 @@ class TransitLeg extends React.Component {
               {originalTime}
             </div>
             <RouteNumber //  shouldn't this be a route number container instead???
+              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
               mode={mode.toLowerCase()}
               color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              hasDisruption={legHasActiveAlert(leg)}
               text={leg.route && leg.route.shortName}
               realtime={leg.realTime}
               vertical

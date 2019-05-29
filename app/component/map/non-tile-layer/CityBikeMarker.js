@@ -85,17 +85,19 @@ class CityBikeMarker extends React.Component {
         })
       : L.divIcon({
           html: showBikeAvailability
-            ? Icon.asString(
-                iconName,
-                'city-bike-medium-size',
-                undefined,
-                getCityBikeAvailabilityIndicatorColor(
+            ? Icon.asString({
+                img: iconName,
+                className: 'city-bike-medium-size',
+                badgeFill: getCityBikeAvailabilityIndicatorColor(
                   station.bikesAvailable,
                   config,
                 ),
-                station.bikesAvailable,
-              )
-            : Icon.asString(iconName, 'city-bike-medium-size'),
+                badgeText: station.bikesAvailable,
+              })
+            : Icon.asString({
+                img: iconName,
+                className: 'city-bike-medium-size',
+              }),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });

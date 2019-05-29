@@ -5,15 +5,16 @@ import Icon from './Icon';
 import IconWithCaution from './IconWithCaution';
 
 export default function FavouritesTabLabel({
-  hasDisruption,
+  alertSeverityLevel,
   classes,
   onClick,
 }) {
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role, jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events
     <li className={classes} onClick={onClick} role="button">
-      {hasDisruption ? (
+      {alertSeverityLevel ? (
         <IconWithCaution
+          alertSeverityLevel={alertSeverityLevel}
           className="prefix-icon favourites-icon"
           img="icon-icon_star"
         />
@@ -26,7 +27,11 @@ export default function FavouritesTabLabel({
 }
 
 FavouritesTabLabel.propTypes = {
-  hasDisruption: PropTypes.bool,
+  alertSeverityLevel: PropTypes.string,
   classes: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+};
+
+FavouritesTabLabel.defaultProps = {
+  alertSeverityLevel: undefined,
 };

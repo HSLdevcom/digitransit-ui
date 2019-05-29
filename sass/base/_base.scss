@@ -86,20 +86,20 @@ h1,
   font-size: $font-size-xlarge;
   padding: 0.4em 0 0.2em;
   margin: 0;
-  color:$black;
+  color: $black;
 }
 h2,
 .h2 {
   font-family: $font-family;
   font-weight: $font-weight-bold;
   font-size: $font-size-large;
-  color:$black;
-  text-transform:none;
+  color: $black;
+  text-transform: none;
 }
 
 h3,
 .h3 {
-  color:$black;
+  color: $black;
   font-family: $font-family;
   font-weight: $font-weight-medium;
   font-size: $font-size-normal;
@@ -108,7 +108,7 @@ h3,
   text-transform: none;
 }
 h4,
-.h4  {
+.h4 {
   font-family: $font-family;
   font-weight: $font-weight-bold;
   font-size: $font-size-xsmall;
@@ -133,7 +133,7 @@ h1 a {
   margin: 0 !important;
   color: $gray;
 }
-.sub-header-h5  {
+.sub-header-h5 {
   font-family: $font-family;
   font-weight: $font-weight-book;
   font-size: $font-size-xsmall;
@@ -151,14 +151,14 @@ h1 a {
 }
 
 .transparent {
-  background:rgba(0,0,0, $transparency) !important;
+  background: rgba(0, 0, 0, $transparency) !important;
   color: $transparent-color !important;
 }
 
 div.spinner-loader {
   position: absolute;
   left: 50%;
-  margin: $spinner-size*0.25 0 0 $spinner-size*-0.5;
+  margin: $spinner-size * 0.25 0 0 $spinner-size * -0.5;
   width: $spinner-size;
   height: $spinner-size;
   background-image: $spinner-image;
@@ -167,13 +167,15 @@ div.spinner-loader {
 }
 
 @keyframes spin {
-  100% { transform:rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-hr  {
-  clear:both;
+hr {
+  clear: both;
 }
 
-body select  {
+body select {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 1024 1024'><path stroke='#{rgba($primary-font-color, 1)}' fill='#{rgba($primary-font-color, 1)}' class='path1' d='M845.224 212.621l-333.221 333.235-333.224-333.235c-40.901-40.901-107.212-40.901-148.113 0v0c-40.901 40.901-40.897 107.212 0 148.109l481.333 481.326 481.333-481.326c40.901-40.901 40.901-107.212 0-148.109v0c-40.897-40.904-107.212-40.901-148.109 0z'></path></svg>");
   background-position: right 10px top 50%;
   margin-bottom: 0;
@@ -194,29 +196,48 @@ body select  {
   padding: 0 10px;
 }
 .color-code {
-    display: inline-block;
-    padding-bottom: 20px;
+  display: inline-block;
+  padding-bottom: 20px;
 }
-.color-palette  {
-  margin-bottom:-20px;
+.color-palette {
+  margin-bottom: -20px;
 }
 .sub-header {
-    font-weight: bold;
-    font-size: 20px;
-    text-transform: uppercase;
-    padding: 10px 0;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
+  padding: 10px 0;
 }
 .leaflet-container a {
   color: currentColor;
 }
 
-.subicon-caution {
+.subicon-caution,
+.subicon-info {
   .icon {
-    fill: #dc0451;
-    color: white;
     display: block;
     overflow: visible;
-    width: 13px;
+  }
+}
+
+.subicon-caution {
+  .icon {
+    color: white;
+    fill: $disruption-color;
     height: 13px;
+    width: 13px;
+  }
+}
+
+.subicon-info {
+  .icon {
+    fill: $gray;
+    height: 11px;
+    width: 11px;
+  }
+
+  .icon-circle {
+    stroke: white;
+    stroke-width: 12;
   }
 }

@@ -357,7 +357,7 @@ describe('<TransitLeg />', () => {
     expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
   });
 
-  it('should apply hasDisruption due to a route alert', () => {
+  it('should apply alertSeverityLevel due to a route alert', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -391,10 +391,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a trip alert', () => {
+  it('should apply alertSeverityLevel due to a trip alert', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -433,10 +435,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at the "from" stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at the "from" stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -471,10 +475,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at the "to" stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at the "to" stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -509,10 +515,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at an intermediate stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -553,7 +561,9 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should show a disclaimer with relevant information for an unknown ticket', () => {

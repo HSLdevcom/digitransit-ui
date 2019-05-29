@@ -54,27 +54,43 @@ IconBadge.asString = (badgeFill, badgeText) => {
   </svg>`;
 };
 
-function Icon(props) {
+function Icon({
+  backgroundShape,
+  badgeFill,
+  badgeText,
+  className,
+  color,
+  height,
+  id,
+  img,
+  omitViewBox,
+  viewBox,
+  width,
+}) {
   return (
     <span aria-hidden className="icon-container">
       <svg
-        id={props.id}
+        id={id}
         style={{
-          fill: props.color ? props.color : null,
-          height: props.height ? `${props.height}em` : null,
-          width: props.width ? `${props.width}em` : null,
+          fill: color || null,
+          height: height ? `${height}em` : null,
+          width: width ? `${width}em` : null,
         }}
-        viewBox={!props.omitViewBox ? props.viewBox : null}
-        className={cx('icon', props.className)}
+        viewBox={!omitViewBox ? viewBox : null}
+        className={cx('icon', className)}
       >
-        <use xlinkHref={`#${props.img}`} />
+        {backgroundShape === 'circle' && (
+          <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />
+        )}
+        <use xlinkHref={`#${img}`} />
       </svg>
-      <IconBadge badgeFill={props.badgeFill} badgeText={props.badgeText} />
+      <IconBadge badgeFill={badgeFill} badgeText={badgeText} />
     </span>
   );
 }
 
 Icon.propTypes = {
+  backgroundShape: PropTypes.oneOf(['circle']),
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   className: PropTypes.string,
@@ -88,6 +104,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
+  backgroundShape: undefined,
   badgeFill: undefined,
   badgeText: undefined,
   className: undefined,
@@ -99,19 +116,25 @@ Icon.defaultProps = {
   width: undefined,
 };
 
-Icon.asString = (
+Icon.asString = ({
   img,
   className,
   id,
   badgeFill = undefined,
   badgeText = undefined,
-) => `
+  backgroundShape = undefined,
+}) => `
   <span class="icon-container">
     <svg
       ${id ? ` id=${id}` : ''}
       viewBox="0 0 40 40"
       class="${cx('icon', className)}"
     >
+      ${
+        backgroundShape === 'circle'
+          ? '<circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />'
+          : ''
+      }
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
     </svg>
     ${IconBadge.asString(badgeFill, badgeText)}
