@@ -1,10 +1,31 @@
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import Relay from 'react-relay/classic';
-import moment from 'moment';
+import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import find from 'lodash/find';
-import DisruptionRow from './DisruptionRow';
+import Relay from 'react-relay/classic';
+
+import AlertList from './AlertList';
+import Icon from './Icon';
+import { AlertContentQuery } from '../util/alertQueries';
+import {
+  getServiceAlertDescription,
+  getServiceAlertHeader,
+  getServiceAlertUrl,
+} from '../util/alertUtils';
+import { isKeyboardSelectionEvent } from '../util/browser';
+
+const mapAlert = (alert, locale) => ({
+  description: getServiceAlertDescription(alert, locale),
+  header: getServiceAlertHeader(alert, locale),
+  route: { ...alert.route },
+  severityLevel: alert.alertSeverityLevel,
+  stop: { ...alert.stop },
+  url: getServiceAlertUrl(alert, locale),
+  validityPeriod: {
+    endTime: alert.effectiveEndDate,
+    startTime: alert.effectiveStartDate,
+  },
+});
 
 function DisruptionListContainer({ root }, { intl }) {
   if (!root || !root.alerts || root.alerts.length === 0) {
@@ -16,34 +37,61 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   }
 
-  const alertElements = root.alerts.map(alert => {
-    const { id } = alert;
-    const startTime = moment(alert.effectiveStartDate * 1000);
-    const endTime = moment(alert.effectiveEndDate * 1000);
-    const cause = 'because';
-    const routes = [alert.route];
-    const translation = find(alert.alertDescriptionTextTranslations, [
-      'language',
-      intl.locale,
-    ]);
+  const [showRoutes, setShowRoutes] = useState(true);
 
-    const description = translation
-      ? translation.text
-      : alert.alertDescriptionText;
-
-    return (
-      <DisruptionRow
-        key={id}
-        description={description}
-        startTime={startTime}
-        endTime={endTime}
-        cause={cause}
-        routes={routes}
-      />
-    );
+  const routeAlerts = [];
+  const stopAlerts = [];
+  root.alerts.forEach(alert => {
+    if (alert.route) {
+      routeAlerts.push(mapAlert(alert, intl.locale));
+    } else if (alert.stop) {
+      stopAlerts.push(mapAlert(alert, intl.locale));
+    }
   });
 
-  return <div>{alertElements}</div>;
+  return (
+    <React.Fragment>
+      <div className="stop-tab-container">
+        <div
+          className={cx('stop-tab-singletab', { active: showRoutes })}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(true)}
+          onClick={() => setShowRoutes(true)}
+          role="button"
+          tabIndex="0"
+        >
+          <div className="stop-tab-singletab-container">
+            <div>
+              <Icon
+                className="stop-page-tab_icon"
+                img="icon-icon_bus-withoutBox"
+              />
+            </div>
+            <div>
+              <FormattedMessage id="routes" />
+            </div>
+          </div>
+        </div>
+        <div
+          className={cx('stop-tab-singletab', { active: !showRoutes })}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(false)}
+          onClick={() => setShowRoutes(false)}
+          role="button"
+          tabIndex="0"
+        >
+          <div className="stop-tab-singletab-container">
+            <div>
+              <Icon className="stop-page-tab_icon" img="icon-icon_bus-stop" />
+            </div>
+            <div>
+              <FormattedMessage id="stops" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="stop-tabs-fillerline" />
+      <AlertList serviceAlerts={showRoutes ? routeAlerts : stopAlerts} />
+    </React.Fragment>
+  );
 }
 
 DisruptionListContainer.contextTypes = {
@@ -61,23 +109,15 @@ export default Relay.createContainer(DisruptionListContainer, {
     root: () => Relay.QL`
       fragment on QueryType {
         alerts(feeds:$feedIds) {
-          id
-          feed
-          alertHeaderText
-          alertHeaderTextTranslations {
-            text
-            language
-          }
-          alertDescriptionText
-          alertDescriptionTextTranslations {
-            text
-            language
-          }
-          effectiveStartDate
-          effectiveEndDate
+          ${AlertContentQuery}
           route {
-            shortName
+            color
             mode
+            shortName
+          }
+          stop {
+            code
+            vehicleMode
           }
         }
       }

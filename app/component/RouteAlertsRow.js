@@ -7,6 +7,7 @@ import { intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
+import IconWithBigCaution from './IconWithBigCaution';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
@@ -35,16 +36,17 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
 
 export default function RouteAlertsRow(
   {
-    header,
-    description,
-    routeMode,
-    routeLine,
-    expired,
     color,
+    currentTime,
+    endTime,
+    expired,
+    description,
+    header,
+    entityIdentifier,
+    entityMode,
+    entityType,
     severityLevel,
     startTime,
-    endTime,
-    currentTime,
     url,
   },
   { intl },
@@ -57,22 +59,33 @@ export default function RouteAlertsRow(
     currentTime;
   return (
     <div className={cx('route-alert-row', { expired })}>
-      {routeMode ? (
-        <RouteNumber
-          alertSeverityLevel={severityLevel}
-          color={color}
-          mode={routeMode}
-          vertical
-        />
-      ) : (
-        <div className="route-number">
-          <ServiceAlertIcon severityLevel={severityLevel} />
-        </div>
-      )}
+      {(entityType === 'route' &&
+        entityMode && (
+          <RouteNumber
+            alertSeverityLevel={severityLevel}
+            color={color}
+            mode={entityMode}
+            vertical
+          />
+        )) ||
+        (entityType === 'stop' && (
+          <div className="route-number">
+            <IconWithBigCaution
+              alertSeverityLevel={severityLevel}
+              img="icon-icon_bus-stop"
+            />
+          </div>
+        )) || (
+          <div className="route-number">
+            <ServiceAlertIcon severityLevel={severityLevel} />
+          </div>
+        )}
       <div className="route-alert-contents">
-        {(routeLine || url) && (
+        {(entityIdentifier || url) && (
           <div className="route-alert-top-row">
-            {routeLine && <div className={routeMode}>{routeLine}</div>}
+            {entityIdentifier && (
+              <div className={entityMode}>{entityIdentifier}</div>
+            )}
             {url && (
               <ExternalLink className="route-alert-url" href={url}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -98,16 +111,17 @@ export default function RouteAlertsRow(
 }
 
 RouteAlertsRow.propTypes = {
-  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  description: PropTypes.string,
-  routeMode: PropTypes.string,
-  routeLine: PropTypes.string,
-  expired: PropTypes.bool,
   color: PropTypes.string,
+  currentTime: PropTypes.number,
+  description: PropTypes.string,
+  endTime: PropTypes.number,
+  expired: PropTypes.bool,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  entityIdentifier: PropTypes.string,
+  entityMode: PropTypes.string,
+  entityType: PropTypes.oneOf(['route', 'stop']),
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
-  endTime: PropTypes.number,
-  currentTime: PropTypes.number,
   url: PropTypes.string,
 };
 
@@ -119,8 +133,9 @@ RouteAlertsRow.defaultProps = {
   currentTime: moment().unix(),
   endTime: undefined,
   expired: false,
-  routeLine: undefined,
-  routeMode: undefined,
+  entityIdentifier: undefined,
+  entityMode: undefined,
+  entityType: 'route',
   severityLevel: undefined,
   startTime: undefined,
 };
@@ -137,8 +152,8 @@ RouteAlertsRow.description = () => (
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
             'Arvioitu kesto: 14:29 - 15:20.'
           }
-          routeMode="tram"
-          routeLine="2"
+          entityMode="tram"
+          entityIdentifier="2"
           expired={false}
         />
       </ComponentUsageExample>
@@ -150,8 +165,8 @@ RouteAlertsRow.description = () => (
             'suuntaan, myöhästyy. Syy: tekninen vika. Paikka: Kauppatori, Hakaniemi. ' +
             'Arvioitu kesto: 14:29 - 15:20.'
           }
-          routeMode="tram"
-          routeLine="2"
+          entityMode="tram"
+          entityIdentifier="2"
           expired
         />
       </ComponentUsageExample>
@@ -168,8 +183,8 @@ RouteAlertsRow.description = () => (
             .unix()}
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          routeLine="Y, S, U, L, E, A"
-          routeMode="rail"
+          entityIdentifier="Y, S, U, L, E, A"
+          entityMode="rail"
           severityLevel="WARNING"
           expired
         />
@@ -185,8 +200,8 @@ RouteAlertsRow.description = () => (
             .unix()}
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          routeLine="Y, S, U, L, E, A"
-          routeMode="rail"
+          entityIdentifier="Y, S, U, L, E, A"
+          entityMode="rail"
           severityLevel="WARNING"
         />
       </ComponentUsageExample>
@@ -203,8 +218,8 @@ RouteAlertsRow.description = () => (
             .unix()}
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          routeLine="Y, S, U, L, E, A"
-          routeMode="rail"
+          entityIdentifier="Y, S, U, L, E, A"
+          entityMode="rail"
           severityLevel="WARNING"
         />
       </ComponentUsageExample>
@@ -223,8 +238,8 @@ RouteAlertsRow.description = () => (
             .unix()}
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
-          routeLine="Y, S, U, L, E, A"
-          routeMode="rail"
+          entityIdentifier="Y, S, U, L, E, A"
+          entityMode="rail"
           severityLevel="WARNING"
         />
       </ComponentUsageExample>
@@ -232,8 +247,8 @@ RouteAlertsRow.description = () => (
         <RouteAlertsRow
           header="Pysäkki H4461 siirtyy"
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
-          routeLine="97N"
-          routeMode="bus"
+          entityIdentifier="97N"
+          entityMode="bus"
           severityLevel="INFO"
           url="https://www.hsl.fi"
         />

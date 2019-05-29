@@ -107,10 +107,11 @@ const AlertList = ({
             (
               {
                 description,
-                header,
                 expired,
+                header,
                 route: { color, mode, shortName } = {},
                 severityLevel,
+                stop: { code, vehicleMode } = {},
                 url,
                 validityPeriod: { startTime, endTime },
               },
@@ -121,13 +122,18 @@ const AlertList = ({
                 currentTime={currentTime}
                 description={description}
                 endTime={endTime}
+                entityIdentifier={shortName || code}
+                entityMode={
+                  (mode && mode.toLowerCase()) ||
+                  (vehicleMode && vehicleMode.toLowerCase())
+                }
+                entityType={(shortName && 'route') || (code && 'stop')}
                 expired={expired}
                 header={header}
                 key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-                routeLine={shortName}
-                routeMode={mode && mode.toLowerCase()}
                 severityLevel={severityLevel}
                 startTime={startTime}
+                stopCode={code}
                 url={url}
               />
             ),
