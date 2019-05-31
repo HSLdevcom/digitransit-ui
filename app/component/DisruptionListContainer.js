@@ -88,7 +88,6 @@ function DisruptionListContainer({ root }, { intl }) {
           </div>
         </div>
       </div>
-      <div className="stop-tabs-fillerline" />
       <AlertList serviceAlerts={showRoutes ? routeAlerts : stopAlerts} />
     </React.Fragment>
   );
