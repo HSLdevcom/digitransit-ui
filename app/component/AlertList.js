@@ -25,6 +25,10 @@ export const alertCompare = (a, b) => {
 
   // sort by missing route information (for stop level alerts)
   if (!a.route || !a.route.shortName) {
+    // sort by stop information if it exists
+    if (a.stop && b.stop) {
+      return `${a.stop.code}`.localeCompare(`${b.stop.code}`);
+    }
     return -1;
   }
 
@@ -151,6 +155,10 @@ const alertShape = PropTypes.shape({
     shortName: PropTypes.string,
   }),
   severityLevel: PropTypes.string,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    vehicleMode: PropTypes.string,
+  }),
   url: PropTypes.string,
   validityPeriod: PropTypes.shape({
     startTime: PropTypes.number.isRequired,
