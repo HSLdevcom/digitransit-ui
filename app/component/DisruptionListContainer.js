@@ -54,8 +54,8 @@ function DisruptionListContainer({ root }, { intl }) {
       <div className="stop-tab-container">
         <div
           className={cx('stop-tab-singletab', { active: showRoutes })}
-          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(true)}
           onClick={() => setShowRoutes(true)}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(true)}
           role="button"
           tabIndex="0"
         >
@@ -73,8 +73,8 @@ function DisruptionListContainer({ root }, { intl }) {
         </div>
         <div
           className={cx('stop-tab-singletab', { active: !showRoutes })}
-          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(false)}
           onClick={() => setShowRoutes(false)}
+          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(false)}
           role="button"
           tabIndex="0"
         >

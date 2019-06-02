@@ -81,7 +81,6 @@ $border-radius-rounded: 30px;
 /* Modal */
 #app .modal {
   border-radius: $border-radius;
-  padding: 10px 22px;
   max-height: 85%;
   cursor: auto;
 
@@ -101,25 +100,7 @@ $border-radius-rounded: 30px;
   .modal-top-nav {
     padding-top: 10px;
   }
-  .disruption-header {
-    .line {
-      margin: 0 5px 0 10px;
-    }
-    .time {
-      &:before {
-        content: ' – ';
-      }
-    }
-  }
-  .disruption-details {
-    span {
-      display: block;
-    }
-    b {
-      float: left;
-      padding-right: 5px;
-    }
-  }
+
   .icon.center {
     display: block;
     float: left;
