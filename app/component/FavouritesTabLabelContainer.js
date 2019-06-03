@@ -14,7 +14,10 @@ export const alertSeverityLevelMapper = ({ routes, currentTime, ...rest }) => {
   const alertSeverityLevel = getActiveAlertSeverityLevel(
     Array.isArray(routes) &&
       routes
-        .map(route => (Array.isArray(route.alerts) && route.alerts) || [])
+        .map(
+          route =>
+            (route && (Array.isArray(route.alerts) && route.alerts)) || [],
+        )
         .reduce((a, b) => a.concat(b), []),
     currentTime,
   );
