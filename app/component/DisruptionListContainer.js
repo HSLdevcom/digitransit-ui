@@ -50,7 +50,7 @@ function DisruptionListContainer({ root }, { intl }) {
   });
 
   return (
-    <React.Fragment>
+    <div className="disruption-list-container">
       <div className="stop-tab-container">
         <div
           className={cx('stop-tab-singletab', { active: showRoutes })}
@@ -89,7 +89,7 @@ function DisruptionListContainer({ root }, { intl }) {
         </div>
       </div>
       <AlertList serviceAlerts={showRoutes ? routeAlerts : stopAlerts} />
-    </React.Fragment>
+    </div>
   );
 }
 

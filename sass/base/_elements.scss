@@ -83,33 +83,40 @@ $border-radius-rounded: 30px;
   border-radius: $border-radius;
   max-height: 85%;
   cursor: auto;
+  padding: 0.5em 1em;
 
-  p {
-    margin: 10px 0;
+  &.modal-small {
+    padding: 0;
+
+    .modal-top-nav {
+      padding: 0.5em;
+
+      h2 {
+        margin: $padding-small 0;
+      }
+    }
+
+    .route-number {
+      min-width: 48px;
+    }
   }
+
   .modal-wrapper {
     height: 100%;
   }
+
   .modal-content {
-    max-height: 64vh;
+    max-height: 75vh;
     overflow-y: auto;
-    section {
-      padding-bottom: 20px;
-    }
-  }
-  .modal-top-nav {
-    padding-top: 10px;
   }
 
-  .icon.center {
-    display: block;
-    float: left;
-    margin-top: 3px;
-  }
-  .line,
-  .time {
-    padding: 0;
-    @include font-narrow-medium;
+  .modal-top-nav {
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      margin: $padding-medium 0;
+    }
   }
 }
 
