@@ -246,4 +246,5 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  showAllBusses: true,
 });

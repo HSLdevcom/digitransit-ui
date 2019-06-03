@@ -11,7 +11,7 @@ import Loading from '../Loading';
 
 import { isBrowser } from '../../util/browser';
 
-const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry'];
+const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry', '+'];
 
 let Popup;
 
@@ -19,18 +19,25 @@ function getVehicleIcon(mode, heading, useSmallIcon = false) {
   if (!isBrowser) {
     return null;
   }
-
-  if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
+  if (MODES_WITH_ICONS.indexOf(mode) === MODES_WITH_ICONS.length - 1) {
+    return {
+      element: <IconWithTail img="#icon-icon_all-vehicles-small" rotate={heading} allVehicles={true} />,
+      className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+    };
+  }
+  // if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
     return {
       element: <IconWithTail img={`icon-icon_${mode}-live`} rotate={heading} />,
       className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
       iconSize: [20, 20],
       iconAnchor: [10, 10],
     };
-  }
+  // }
 
   return {
-    element: <iconAsString img="icon-icon_bus-live" rotate={heading} />,
+    element: <iconAsString img="icon-icon_all-vehicles-small" rotate={heading} />,
     className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
@@ -56,10 +63,17 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
+function shouldShowAllVehicles(message, direction, tripStart, pattern, headsign) {
+  return (
+    !Number.isNaN(parseFloat(message.lat)) &&
+    !Number.isNaN(parseFloat(message.long))
+  );
+}
+
 function VehicleMarkerContainer(props) {
   return Object.entries(props.vehicles)
     .filter(([, message]) =>
-      shouldShowVehicle(
+      shouldShowAllVehicles(
         message,
         props.direction,
         props.tripStart,

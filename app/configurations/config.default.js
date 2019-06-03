@@ -680,6 +680,7 @@ export default {
   imperialEnabled: false,
   // this flag when true enables imperial measurements  'feet/miles system'
 
+  showAllBusses: false,
   mapLayers: {
     featureMapping: {
       ticketSales: {},

@@ -11,6 +11,7 @@ const IconWithTail = ({
   children,
   desaturate = false,
   scrollIntoView = false,
+  allVehicles = false,
 }) => (
   <span>
     <svg
@@ -19,7 +20,15 @@ const IconWithTail = ({
       className={cx('icon', 'tail-icon', className)}
       ref={el => scrollIntoView && el && el.scrollIntoView()}
     >
-      {rotate !== undefined && (
+      
+      {rotate !== undefined && allVehicles ? (
+        <use
+          filter={desaturate ? 'url(#desaturate)' : undefined}
+          xlinkHref="#icon-icon_all-vehicles-small"
+          transform={`rotate(${rotate} 40 40)`}
+        />)
+        :
+        (
         <use
           filter={desaturate ? 'url(#desaturate)' : undefined}
           xlinkHref="#icon-icon_vehicle-live-shadow"

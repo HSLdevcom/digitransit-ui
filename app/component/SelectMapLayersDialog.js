@@ -64,7 +64,7 @@ class SelectMapLayersDialog extends React.Component {
   };
 
   renderContents = (
-    { citybike, parkAndRide, stop, terminal, ticketSales, geoJson },
+    { citybike, parkAndRide, stop, terminal, ticketSales, geoJson, showAllBusses },
     config,
     lang,
   ) => {
@@ -73,6 +73,18 @@ class SelectMapLayersDialog extends React.Component {
     const transportModes = config.transportModes || {};
     return (
       <React.Fragment>
+        <div className="checkbox-grouping">
+          {config.showAllBusses && (
+            <Checkbox
+              checked={showAllBusses}
+              defaultMessage="Moving vehicles"
+              labelId="map-layer-vehicles"
+              onChange={e =>
+                this.updateSetting({ showAllBusses: e.target.checked })
+              }
+          />
+          )} 
+          </div>
         <div className="checkbox-grouping">
           {isTransportModeEnabled(transportModes.bus) && (
             <React.Fragment>
@@ -200,7 +212,7 @@ class SelectMapLayersDialog extends React.Component {
                 />
               ))}
             </div>
-          )}
+          )} 
       </React.Fragment>
     );
   };
@@ -269,6 +281,7 @@ const mapLayersConfigShape = PropTypes.shape({
       sv: PropTypes.string,
     }),
   }),
+  showAllBusses: PropTypes.bool,
 });
 
 SelectMapLayersDialog.propTypes = {
@@ -313,6 +326,7 @@ SelectMapLayersDialog.description = (
               availableForSelection: true,
             },
           },
+
         }}
         isOpen
         mapLayers={{

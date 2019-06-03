@@ -12,6 +12,9 @@ import { isBrowser } from '../../util/browser';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import PositionStore from '../../store/PositionStore';
 import GeoJsonStore from '../../store/GeoJsonStore';
+import RealTimeInformationStore from '../../store/RealTimeInformationStore';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { startRealTimeClient, stopRealTimeClient } from '../../action/realTimeClientAction';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -56,6 +59,7 @@ class MapWithTrackingStateHandler extends React.Component {
     children: PropTypes.array,
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
+    vehicles: PropTypes.array,
   };
 
   static defaultProps = {
@@ -108,6 +112,9 @@ class MapWithTrackingStateHandler extends React.Component {
       geoJson[url] = { ...data, isOffByDefault };
     });
     this.setState(geoJson);
+    if (config.showAllBusses) {
+      this.getAllBusses();
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -134,6 +141,11 @@ class MapWithTrackingStateHandler extends React.Component {
 
   componentWillUnmount() {
     this.isCancelled = true;
+    const { client, topics } = this.props.getStore('RealTimeInformationStore');
+    if (client) {
+      client.unsubscribe(topics);
+      this.props.executeAction(stopRealTimeClient, client);
+    }
   }
 
   updateCurrentBounds = () => {
@@ -155,6 +167,37 @@ class MapWithTrackingStateHandler extends React.Component {
       this.mapElement = element;
     }
   };
+
+  getAllBusses() {
+    const { realTime } = this.props.config;
+    const context = getContext(this.props.config);
+    const agency = 'tampere';
+    const source = realTime[agency];
+    if (source && source.active) {
+
+      this.props.executeAction(startRealTimeClient, {
+        ...source,
+        agency,
+        options: [
+          {
+            // route: '+',
+            // add some information from the context
+            // to compensate potentially missing feed data
+            mode: '+',
+            gtfsId: '+',
+            headsign: '+',
+          },
+        ],
+      });
+    }
+  }
+
+  removeAllBusses() {
+    const { client } = this.props.getStore('RealTimeInformationStore');
+    if (client) {
+      this.props.executeAction(stopRealTimeClient, client);
+    }
+  }
 
   enableMapTracking = () => {
     this.setState({
@@ -217,18 +260,29 @@ class MapWithTrackingStateHandler extends React.Component {
     } else if (this.state.shouldShowDefaultLocation) {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
-
     const leafletObjs = [];
 
-    if (origin && origin.ready === true && origin.gps !== true) {
+    if (mapLayers.showAllBusses) {
       leafletObjs.push(
-        <LazilyLoad modules={locationMarkerModules} key="from">
-          {({ LocationMarker }) => (
-            <LocationMarker position={origin} type="from" />
-          )}
-        </LazilyLoad>,
+        <VehicleMarkerContainer
+          key="vehicles"
+          direction={1}
+          pattern="+"
+          headsign="+"
+          tripStart="+"
+        />
       );
     }
+
+    // if (origin && origin.ready === true && origin.gps !== true) {
+    //   leafletObjs.push(
+    //     <LazilyLoad modules={locationMarkerModules} key="from">
+    //       {({ LocationMarker }) => (
+    //         <LocationMarker position={origin} type="from" />
+    //       )}
+    //     </LazilyLoad>,
+    //   );
+    // }
 
     if (geoJson) {
       const { bounds } = this.state;
@@ -249,7 +303,7 @@ class MapWithTrackingStateHandler extends React.Component {
           );
         });
     }
-
+    
     return (
       <Component
         lat={location ? location.lat : null}
@@ -296,12 +350,15 @@ const MapWithTracking = connectToStores(
     config: PropTypes.shape({
       defaultMapCenter: dtLocationShape,
     }),
+    executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired,
   })(MapWithTrackingStateHandler),
   [PositionStore, MapLayerStore, GeoJsonStore],
   ({ getStore }) => {
     const position = getStore(PositionStore).getLocationState();
     const mapLayers = getStore(MapLayerStore).getMapLayers();
     const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
+    const { vehicles } = getStore(RealTimeInformationStore);
     return { position, mapLayers, getGeoJsonConfig, getGeoJsonData };
   },
 );

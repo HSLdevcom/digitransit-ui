@@ -12,7 +12,6 @@ const modeTranslate = {
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
-
   const direction = options.direction
     ? parseInt(options.direction, 10) + 1
     : '+';
@@ -87,7 +86,13 @@ export function changeTopics(settings, actionContext) {
 }
 
 export function startMqttClient(settings, actionContext) {
-  const topics = settings.options.map(option => getTopic(option, settings));
+  let topics = settings.options.map(option => getTopic(option, settings));
+  // if (actionContext.config.showAllBusses) {
+  //   topics = settings.options.map(option => getTopics(option, settings));
+  // } else {
+  //   topics = settings.options.map(option => getTopic(option, settings));
+
+  // }
   const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
@@ -111,6 +116,7 @@ export function startMqttClient(settings, actionContext) {
               actionContext.dispatch('RealTimeClientMessage', message);
             });
           });
+          
           return { client, topics };
         },
       );
