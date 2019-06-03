@@ -28,5 +28,9 @@
     .route-alert-row + .route-alert-row {
       border-top: none;
     }
+
+    .route-number {
+      min-width: 48px;
+    }
   }
 }

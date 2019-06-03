@@ -267,7 +267,7 @@ export const getServiceAlertHeader = (alert, locale = 'en') =>
  * Attempts to find the alert's description in the given language.
  *
  * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, default to 'en'.
+ * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertDescription = (alert, locale = 'en') =>
   getTranslation(
@@ -280,7 +280,7 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
  * Attempts to find alert's url in the given language.
  *
  * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, default to 'en'.
+ * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertUrl = (alert, locale = 'en') =>
   getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);

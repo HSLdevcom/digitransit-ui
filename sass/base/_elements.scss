@@ -84,35 +84,20 @@ $border-radius-rounded: 30px;
   cursor: auto;
   height: 85%;
   max-height: 85%;
-  padding: 0.5em 1em;
-
-  &.modal-small {
-    padding: 0;
-
-    .modal-top-nav {
-      padding: 0.5em;
-
-      h2 {
-        margin: $padding-xsmall 0;
-      }
-    }
-
-    .route-number {
-      min-width: 48px;
-    }
-  }
+  padding: 0;
 
   .modal-content {
     height: 100%;
-    max-height: calc(100% - 60px);
+    max-height: calc(100% - 5em);
   }
 
   .modal-top-nav {
     display: flex;
     justify-content: space-between;
+    padding: 0.5em;
 
     h2 {
-      margin: $padding-medium 0;
+      margin: $padding-xsmall 0;
     }
   }
 }

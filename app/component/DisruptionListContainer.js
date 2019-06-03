@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -6,18 +7,19 @@ import Relay from 'react-relay/classic';
 
 import AlertList from './AlertList';
 import Icon from './Icon';
+import { AlertSeverityLevelType } from '../constants';
 import { AlertContentQuery } from '../util/alertQueries';
 import {
   getServiceAlertDescription,
   getServiceAlertHeader,
   getServiceAlertUrl,
+  isAlertValid,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { AlertSeverityLevelType } from '../constants';
 
-const isDisruptive = alert =>
+const isDisruption = alert =>
   alert && alert.severityLevel !== AlertSeverityLevelType.Info;
-const isInformational = alert => !isDisruptive(alert);
+const isInfo = alert => !isDisruption(alert);
 
 const mapAlert = (alert, locale) => ({
   description: getServiceAlertDescription(alert, locale),
@@ -32,33 +34,62 @@ const mapAlert = (alert, locale) => ({
   },
 });
 
-function DisruptionListContainer({ root }, { intl }) {
+function DisruptionListContainer({ currentTime, root }, { intl }) {
   if (!root || !root.alerts || root.alerts.length === 0) {
     return (
-      <FormattedMessage
-        id="disruption-info-no-alerts"
-        defaultMessage="No known disruptions or diversions."
-      />
+      <div className="stop-no-alerts-container">
+        <FormattedMessage
+          id="disruption-info-no-alerts"
+          defaultMessage="No known disruptions or diversions."
+        />
+      </div>
     );
   }
 
-  const [showDisruptions, setShowDisruptions] = useState(true);
+  let disruptionCount = 0;
+  let infoCount = 0;
 
   const routeAlerts = [];
   const stopAlerts = [];
+
   root.alerts.forEach(alert => {
+    const mappedAlert = mapAlert(alert, intl.locale);
+    if (!isAlertValid(mappedAlert, currentTime)) {
+      return;
+    }
+
+    if (isDisruption(mappedAlert)) {
+      disruptionCount += 1;
+    } else {
+      infoCount += 1;
+    }
+
     if (alert.route) {
-      routeAlerts.push(mapAlert(alert, intl.locale));
+      routeAlerts.push(mappedAlert);
     } else if (alert.stop) {
-      stopAlerts.push(mapAlert(alert, intl.locale));
+      stopAlerts.push(mappedAlert);
     }
   });
 
+  const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
+  const routeAlertsToShow = routeAlerts.filter(
+    showDisruptions ? isDisruption : isInfo,
+  );
+  const stopAlertsToShow = stopAlerts.filter(
+    showDisruptions ? isDisruption : isInfo,
+  );
+
   return (
     <div className="disruption-list-container">
-      <div className="stop-tab-container">
+      <div
+        className={cx('stop-tab-container', {
+          collapsed: !disruptionCount || !infoCount,
+        })}
+      >
         <div
-          className={cx('stop-tab-singletab', { active: showDisruptions })}
+          className={cx('stop-tab-singletab', {
+            active: showDisruptions,
+          })}
           onClick={() => setShowDisruptions(true)}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) && setShowDisruptions(true)
@@ -74,12 +105,16 @@ function DisruptionListContainer({ root }, { intl }) {
               />
             </div>
             <div>
-              <FormattedMessage id="disruptions" />
+              {`${intl.formatMessage({
+                id: 'disruptions',
+              })} (${disruptionCount})`}
             </div>
           </div>
         </div>
         <div
-          className={cx('stop-tab-singletab', { active: !showDisruptions })}
+          className={cx('stop-tab-singletab', {
+            active: !showDisruptions,
+          })}
           onClick={() => setShowDisruptions(false)}
           onKeyDown={e =>
             isKeyboardSelectionEvent(e) && setShowDisruptions(false)
@@ -92,30 +127,30 @@ function DisruptionListContainer({ root }, { intl }) {
               <Icon className="stop-page-tab_icon info" img="icon-icon_info" />
             </div>
             <div>
-              <FormattedMessage id="notifications" />
+              {`${intl.formatMessage({
+                id: 'releases',
+              })} (${infoCount})`}
             </div>
           </div>
         </div>
       </div>
       <div className="disruption-list-content momentum-scroll">
-        <div>
-          <FormattedMessage id="routes" tagName="h2" />
-        </div>
-        <AlertList
-          disableScrolling
-          serviceAlerts={routeAlerts.filter(
-            showDisruptions ? isDisruptive : isInformational,
-          )}
-        />
-        <div>
-          <FormattedMessage id="stops" tagName="h2" />
-        </div>
-        <AlertList
-          disableScrolling
-          serviceAlerts={stopAlerts.filter(
-            showDisruptions ? isDisruptive : isInformational,
-          )}
-        />
+        {routeAlertsToShow.length > 0 && (
+          <React.Fragment>
+            <div>
+              <FormattedMessage id="routes" tagName="h2" />
+            </div>
+            <AlertList disableScrolling serviceAlerts={routeAlertsToShow} />
+          </React.Fragment>
+        )}
+        {stopAlertsToShow.length > 0 && (
+          <React.Fragment>
+            <div>
+              <FormattedMessage id="stops" tagName="h2" />
+            </div>
+            <AlertList disableScrolling serviceAlerts={stopAlertsToShow} />
+          </React.Fragment>
+        )}
       </div>
     </div>
   );
@@ -126,14 +161,22 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
+  currentTime: PropTypes.number.isRequired,
   root: PropTypes.shape({
     alerts: PropTypes.array,
   }).isRequired,
 };
 
-export default Relay.createContainer(DisruptionListContainer, {
-  fragments: {
-    root: () => Relay.QL`
+export default Relay.createContainer(
+  connectToStores(DisruptionListContainer, ['TimeStore'], context => ({
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
+  })),
+  {
+    fragments: {
+      root: () => Relay.QL`
       fragment on QueryType {
         alerts(feeds:$feedIds) {
           ${AlertContentQuery}
@@ -149,6 +192,7 @@ export default Relay.createContainer(DisruptionListContainer, {
         }
       }
     `,
+    },
+    initialVariables: { feedIds: null },
   },
-  initialVariables: { feedIds: null },
-});
+);

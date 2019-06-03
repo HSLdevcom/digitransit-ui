@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
@@ -34,7 +35,7 @@ export const alertCompare = (a, b) => {
   }
 
   // sort by route information
-  const routeOrder = routeNameCompare(a.route, b.route);
+  const routeOrder = routeNameCompare(a.route || {}, b.route || {});
   if (routeOrder !== 0) {
     return routeOrder;
   }
@@ -42,6 +43,9 @@ export const alertCompare = (a, b) => {
   // sort by alert validity period
   return b.validityPeriod.startTime - a.validityPeriod.startTime;
 };
+
+const hasRoute = alert => alert && !isEmpty(alert.route);
+const hasStop = alert => alert && !isEmpty(alert.stop);
 
 const AlertList = ({
   cancelations,
@@ -53,9 +57,18 @@ const AlertList = ({
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
+
+  const getStop = alert => alert.stop || {};
+  const getVehicleMode = alert => getStop(alert).vehicleMode;
+  const getCode = alert => getStop(alert).code;
+
   const getGroupKey = alert =>
-    `${getMode(alert)}${alert.header}${alert.description}`;
-  const getUniqueId = alert => `${getShortName(alert)}${getGroupKey(alert)}`;
+    `${(hasRoute(alert) && `route_${getMode(alert)}`) ||
+      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)}${alert.header}${
+      alert.description
+    }`;
+  const getUniqueId = alert =>
+    `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
 
   const uniqueAlerts = uniqBy(
     [
@@ -92,15 +105,27 @@ const AlertList = ({
   const alertGroups = groupBy(uniqueAlerts, getGroupKey);
   const groupedAlerts = Object.keys(alertGroups).map(key => {
     const alerts = alertGroups[key];
+    const alert = alerts[0];
     return {
-      ...alerts[0],
-      route: {
-        mode: getMode(alerts[0]),
-        shortName: alerts
-          .sort(alertCompare)
-          .map(getShortName)
-          .join(', '),
-      },
+      ...alert,
+      route:
+        (hasRoute(alert) && {
+          mode: getMode(alert),
+          shortName: alerts
+            .sort(alertCompare)
+            .map(getShortName)
+            .join(', '),
+        }) ||
+        undefined,
+      stop:
+        (hasStop(alert) && {
+          code: alerts
+            .sort(alertCompare)
+            .map(getCode)
+            .join(', '),
+          vehicleMode: getVehicleMode(alert),
+        }) ||
+        undefined,
     };
   });
 
