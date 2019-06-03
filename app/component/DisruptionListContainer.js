@@ -13,6 +13,11 @@ import {
   getServiceAlertUrl,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { AlertSeverityLevelType } from '../constants';
+
+const isDisruptive = alert =>
+  alert && alert.severityLevel !== AlertSeverityLevelType.Info;
+const isInformational = alert => !isDisruptive(alert);
 
 const mapAlert = (alert, locale) => ({
   description: getServiceAlertDescription(alert, locale),
@@ -37,7 +42,7 @@ function DisruptionListContainer({ root }, { intl }) {
     );
   }
 
-  const [showRoutes, setShowRoutes] = useState(true);
+  const [showDisruptions, setShowDisruptions] = useState(true);
 
   const routeAlerts = [];
   const stopAlerts = [];
@@ -53,42 +58,65 @@ function DisruptionListContainer({ root }, { intl }) {
     <div className="disruption-list-container">
       <div className="stop-tab-container">
         <div
-          className={cx('stop-tab-singletab', { active: showRoutes })}
-          onClick={() => setShowRoutes(true)}
-          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(true)}
+          className={cx('stop-tab-singletab', { active: showDisruptions })}
+          onClick={() => setShowDisruptions(true)}
+          onKeyDown={e =>
+            isKeyboardSelectionEvent(e) && setShowDisruptions(true)
+          }
           role="button"
           tabIndex="0"
         >
           <div className="stop-tab-singletab-container">
             <div>
               <Icon
-                className="stop-page-tab_icon"
-                img="icon-icon_bus-withoutBox"
+                className="stop-page-tab_icon caution"
+                img="icon-icon_caution"
               />
             </div>
             <div>
-              <FormattedMessage id="routes" />
+              <FormattedMessage id="disruptions" />
             </div>
           </div>
         </div>
         <div
-          className={cx('stop-tab-singletab', { active: !showRoutes })}
-          onClick={() => setShowRoutes(false)}
-          onKeyDown={e => isKeyboardSelectionEvent(e) && setShowRoutes(false)}
+          className={cx('stop-tab-singletab', { active: !showDisruptions })}
+          onClick={() => setShowDisruptions(false)}
+          onKeyDown={e =>
+            isKeyboardSelectionEvent(e) && setShowDisruptions(false)
+          }
           role="button"
           tabIndex="0"
         >
           <div className="stop-tab-singletab-container">
             <div>
-              <Icon className="stop-page-tab_icon" img="icon-icon_bus-stop" />
+              <Icon className="stop-page-tab_icon info" img="icon-icon_info" />
             </div>
             <div>
-              <FormattedMessage id="stops" />
+              <FormattedMessage id="notifications" />
             </div>
           </div>
         </div>
       </div>
-      <AlertList serviceAlerts={showRoutes ? routeAlerts : stopAlerts} />
+      <div className="disruption-list-content momentum-scroll">
+        <div>
+          <FormattedMessage id="routes" tagName="h2" />
+        </div>
+        <AlertList
+          disableScrolling
+          serviceAlerts={routeAlerts.filter(
+            showDisruptions ? isDisruptive : isInformational,
+          )}
+        />
+        <div>
+          <FormattedMessage id="stops" tagName="h2" />
+        </div>
+        <AlertList
+          disableScrolling
+          serviceAlerts={stopAlerts.filter(
+            showDisruptions ? isDisruptive : isInformational,
+          )}
+        />
+      </div>
     </div>
   );
 }

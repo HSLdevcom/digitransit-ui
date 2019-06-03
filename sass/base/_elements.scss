@@ -81,8 +81,9 @@ $border-radius-rounded: 30px;
 /* Modal */
 #app .modal {
   border-radius: $border-radius;
-  max-height: 85%;
   cursor: auto;
+  height: 85%;
+  max-height: 85%;
   padding: 0.5em 1em;
 
   &.modal-small {
@@ -92,7 +93,7 @@ $border-radius-rounded: 30px;
       padding: 0.5em;
 
       h2 {
-        margin: $padding-small 0;
+        margin: $padding-xsmall 0;
       }
     }
 
@@ -101,13 +102,9 @@ $border-radius-rounded: 30px;
     }
   }
 
-  .modal-wrapper {
-    height: 100%;
-  }
-
   .modal-content {
-    max-height: 75vh;
-    overflow-y: auto;
+    height: 100%;
+    max-height: calc(100% - 60px);
   }
 
   .modal-top-nav {

@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
@@ -45,6 +46,7 @@ export const alertCompare = (a, b) => {
 const AlertList = ({
   cancelations,
   currentTime,
+  disableScrolling,
   showExpired,
   serviceAlerts,
 }) => {
@@ -103,7 +105,7 @@ const AlertList = ({
   });
 
   return (
-    <div className="momentum-scroll">
+    <div className={cx({ 'momentum-scroll': !disableScrolling })}>
       <div className="route-alerts-list">
         {groupedAlerts
           .sort(alertCompare)
@@ -167,14 +169,16 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  currentTime: PropTypes.PropTypes.number.isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
+  currentTime: PropTypes.PropTypes.number.isRequired,
+  disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
 };
 
 AlertList.defaultProps = {
   cancelations: [],
+  disableScrolling: false,
   serviceAlerts: [],
   showExpired: false,
 };

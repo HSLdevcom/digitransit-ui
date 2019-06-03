@@ -11,9 +11,15 @@ class Modal extends React.Component {
     allowClicks: PropTypes.bool,
     breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
     children: PropTypes.node,
+    disableScrolling: PropTypes.bool,
     open: PropTypes.bool,
     title: PropTypes.node,
     toggleVisibility: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    breakpoint: 'small',
+    disableScrolling: false,
   };
 
   stopClickPropagation = e => {
@@ -24,7 +30,14 @@ class Modal extends React.Component {
   };
 
   render() {
-    const { breakpoint, children, open, toggleVisibility, title } = this.props;
+    const {
+      breakpoint,
+      children,
+      disableScrolling,
+      open,
+      toggleVisibility,
+      title,
+    } = this.props;
     const isActive = {
       'is-active': open,
     };
@@ -70,8 +83,12 @@ class Modal extends React.Component {
               </div>
             </div>
           </div>
-          <div className="modal-wrapper">
-            <div className="modal-content momentum-scroll">{children}</div>
+          <div
+            className={cx('modal-content', {
+              'momentum-scroll': !disableScrolling,
+            })}
+          >
+            {children}
           </div>
         </div>
       </div>
