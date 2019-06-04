@@ -49,47 +49,38 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const options =
-      this.props.route.patterns.find(
-        o => o.tripsForDate && o.tripsForDate.length > 0,
-      ) !== undefined ||
-      (this.props.route.patterns.find(
-        o => o.tripsForDate && o.tripsForDate.length > 0,
-      ) === undefined &&
-        this.props.activeTab === 'aikataulu')
-        ? sortBy(this.props.route.patterns, 'code')
-            .filter(
-              o =>
-                this.props.activeTab !== 'aikataulu'
-                  ? o.tripsForDate && o.tripsForDate.length > 0
-                  : o,
-            )
-            .map(pattern => {
-              if (this.props.route.patterns.length > 2) {
-                return (
-                  <option key={pattern.code} value={pattern.code}>
-                    {pattern.stops[0].name} ➔ {pattern.headsign}
-                  </option>
-                );
-              }
-              return (
-                <div
-                  key={pattern.code}
-                  value={pattern.code}
-                  className="route-option-togglable"
-                >
-                  {pattern.stops[0].name} ➔ {pattern.headsign}
-                </div>
-              );
-            })
-        : null;
-    const patternDepartures =
-      options && options.filter(o => o.key === this.props.params.patternId);
-    if (patternDepartures && patternDepartures.length === 0) {
-      this.context.router.replace(
-        `/${PREFIX_ROUTES}/${this.props.gtfsId}/pysakit/${options[0].key}`,
+    const { activeTab, gtfsId, params, route } = this.props;
+    const { router } = this.context;
+
+    const patterns =
+      activeTab === 'aikataulu'
+        ? route.patterns
+        : route.patterns.filter(
+            p => Array.isArray(p.tripsForDate) && p.tripsForDate.length > 0,
+          );
+
+    const options = sortBy(patterns, 'code').map(pattern => {
+      if (patterns.length > 2) {
+        return (
+          <option key={pattern.code} value={pattern.code}>
+            {pattern.stops[0].name} ➔ {pattern.headsign}
+          </option>
+        );
+      }
+      return (
+        <div
+          key={pattern.code}
+          value={pattern.code}
+          className="route-option-togglable"
+        >
+          {pattern.stops[0].name} ➔ {pattern.headsign}
+        </div>
       );
-    } else if (options !== null && this.state.loading === true) {
+    });
+
+    if (options.every(o => o.key !== params.patternId)) {
+      router.replace(`/${PREFIX_ROUTES}/${gtfsId}/pysakit/${options[0].key}`);
+    } else if (options.length > 0 && this.state.loading === true) {
       this.setState({ loading: false });
     }
     return options;

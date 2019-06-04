@@ -56,23 +56,27 @@ const AlertList = ({
   const uniqueAlerts = uniqBy(
     [
       ...(Array.isArray(cancelations)
-        ? cancelations.map(cancelation => ({
-            ...cancelation,
-            severityLevel: AlertSeverityLevelType.Warning,
-            expired: !isAlertValid(cancelation, currentTime, {
-              isFutureValid: true,
-            }),
-          }))
+        ? cancelations
+            .map(cancelation => ({
+              ...cancelation,
+              severityLevel: AlertSeverityLevelType.Warning,
+              expired: !isAlertValid(cancelation, currentTime, {
+                isFutureValid: true,
+              }),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
         : []),
       ...(Array.isArray(serviceAlerts)
-        ? serviceAlerts.map(alert => ({
-            ...alert,
-            expired: !isAlertValid(alert, currentTime),
-          }))
+        ? serviceAlerts
+            .map(alert => ({
+              ...alert,
+              expired: !isAlertValid(alert, currentTime),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
         : []),
     ],
     getUniqueId,
-  ).filter(alert => (showExpired ? true : !alert.expired));
+  );
 
   if (uniqueAlerts.length === 0) {
     return (
