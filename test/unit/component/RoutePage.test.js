@@ -268,4 +268,69 @@ describe('<RoutePage />', () => {
     });
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
+
+  describe('componentDidMount', () => {
+    it('should ignore a missing pattern', () => {
+      const props = {
+        breakpoint: 'large',
+        location: {
+          pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:02',
+        },
+        params: {
+          routeId: 'HSL:1063',
+          patternId: 'HSL:1063:0:02',
+        },
+        route: {
+          gtfsId: 'HSL:1063',
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:1063:0:01',
+            },
+          ],
+        },
+      };
+      const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+        context: {
+          ...mockContext,
+          config: { realTime: { HSL: { active: true } } },
+        },
+      });
+      wrapper.instance().componentDidMount();
+    });
+  });
+
+  describe('onPatternChange', () => {
+    it('should ignore a missing pattern', () => {
+      const props = {
+        breakpoint: 'large',
+        location: {
+          pathname: '/linjat/HSL:1063/pysakit/HSL:1063:0:02',
+        },
+        params: {
+          routeId: 'HSL:1063',
+          patternId: 'HSL:1063:0:01',
+        },
+        route: {
+          gtfsId: 'HSL:1063',
+          mode: 'BUS',
+          patterns: [
+            {
+              code: 'HSL:1063:0:01',
+            },
+          ],
+        },
+      };
+      const wrapper = shallowWithIntl(<RoutePage {...props} />, {
+        context: {
+          ...mockContext,
+          config: {
+            realTime: { HSL: { active: true, routeSelector: () => '63' } },
+          },
+          getStore: () => ({ client: {} }),
+        },
+      });
+      wrapper.instance().onPatternChange('foobar');
+    });
+  });
 });
