@@ -16,6 +16,7 @@ import {
   isAlertValid,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import withBreakpoint from '../util/withBreakpoint';
 
 const isDisruption = alert =>
   alert && alert.severityLevel !== AlertSeverityLevelType.Info;
@@ -34,7 +35,7 @@ const mapAlert = (alert, locale) => ({
   },
 });
 
-function DisruptionListContainer({ currentTime, root }, { intl }) {
+function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
   if (!root || !root.alerts || root.alerts.length === 0) {
     return (
       <div className="stop-no-alerts-container">
@@ -134,7 +135,11 @@ function DisruptionListContainer({ currentTime, root }, { intl }) {
           </div>
         </div>
       </div>
-      <div className="disruption-list-content momentum-scroll">
+      <div
+        className={cx('disruption-list-content momentum-scroll', {
+          'disruption-list-content__large': breakpoint === 'large',
+        })}
+      >
         {routeAlertsToShow.length > 0 && (
           <React.Fragment>
             <div>
@@ -161,19 +166,28 @@ DisruptionListContainer.contextTypes = {
 };
 
 DisruptionListContainer.propTypes = {
+  breakpoint: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   root: PropTypes.shape({
     alerts: PropTypes.array,
   }).isRequired,
 };
 
+DisruptionListContainer.defaultProps = {
+  breakpoint: 'small',
+};
+
 export default Relay.createContainer(
-  connectToStores(DisruptionListContainer, ['TimeStore'], context => ({
-    currentTime: context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix(),
-  })),
+  connectToStores(
+    withBreakpoint(DisruptionListContainer),
+    ['TimeStore'],
+    context => ({
+      currentTime: context
+        .getStore('TimeStore')
+        .getCurrentTime()
+        .unix(),
+    }),
+  ),
   {
     fragments: {
       root: () => Relay.QL`

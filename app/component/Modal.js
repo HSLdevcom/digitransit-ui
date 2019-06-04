@@ -4,12 +4,10 @@ import React from 'react';
 
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import withBreakpoint from '../util/withBreakpoint';
 
 class Modal extends React.Component {
   static propTypes = {
     allowClicks: PropTypes.bool,
-    breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
     children: PropTypes.node,
     disableScrolling: PropTypes.bool,
     open: PropTypes.bool,
@@ -18,7 +16,6 @@ class Modal extends React.Component {
   };
 
   static defaultProps = {
-    breakpoint: 'small',
     disableScrolling: false,
   };
 
@@ -31,7 +28,6 @@ class Modal extends React.Component {
 
   render() {
     const {
-      breakpoint,
       children,
       disableScrolling,
       open,
@@ -57,9 +53,7 @@ class Modal extends React.Component {
       >
         <div
           data-closable
-          className={cx('modal', isActive, {
-            'modal-small': breakpoint === 'small',
-          })}
+          className={cx('modal', isActive)}
           onClick={this.stopClickPropagation}
           onKeyPress={e =>
             isKeyboardSelectionEvent(e) && this.stopClickPropagation(e)
@@ -96,4 +90,4 @@ class Modal extends React.Component {
   }
 }
 
-export default withBreakpoint(Modal);
+export default Modal;

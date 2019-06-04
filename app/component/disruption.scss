@@ -21,6 +21,10 @@
   .disruption-list-content {
     flex: 1;
 
+    &.disruption-list-content__large {
+      padding: 0 1em;
+    }
+
     h2 {
       margin: $padding-medium $padding-small $padding-small $padding-small;
     }
