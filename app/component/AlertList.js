@@ -48,7 +48,9 @@ const AlertList = ({
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
   const getGroupKey = alert =>
-    `${getMode(alert)}${alert.header}${alert.description}`;
+    `${alert.severityLevel}${getMode(alert)}${alert.header}${
+      alert.description
+    }`;
   const getUniqueId = alert => `${getShortName(alert)}${getGroupKey(alert)}`;
 
   const uniqueAlerts = uniqBy(
