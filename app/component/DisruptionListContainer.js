@@ -177,7 +177,7 @@ DisruptionListContainer.defaultProps = {
   breakpoint: 'small',
 };
 
-export default Relay.createContainer(
+const containerComponent = Relay.createContainer(
   connectToStores(
     withBreakpoint(DisruptionListContainer),
     ['TimeStore'],
@@ -210,3 +210,5 @@ export default Relay.createContainer(
     initialVariables: { feedIds: null },
   },
 );
+
+export { containerComponent as default, DisruptionListContainer as Component };
