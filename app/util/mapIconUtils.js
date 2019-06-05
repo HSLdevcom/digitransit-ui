@@ -166,7 +166,7 @@ export function drawRoundIcon(tile, geom, type, large, platformNumber) {
 
       // The text requires 14 pixels in width, so we draw if the hub radius is at least half of that
       if (platformNumber && hubRadius > 7) {
-        tile.ctx.font = `${1.2 *
+        tile.ctx.font = `${1.6 *
           hubRadius *
           tile.scaleratio}px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Arial, sans-serif`;
         tile.ctx.fillStyle = '#333';
