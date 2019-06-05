@@ -326,4 +326,52 @@ describe('<AlertList />', () => {
       AlertSeverityLevelType.Warning,
     );
   });
+
+  it('should not remove a valid service alert due to duplicates', () => {
+    const props = {
+      cancelations: [],
+      serviceAlerts: [
+        {
+          severityLevel: 'WARNING',
+          validityPeriod: {
+            startTime: 1559919600,
+            endTime: 1560130200,
+          },
+          description:
+            'Bussit ajavat poikkeusreittejä Suutarilassa perjantaista 7.6. klo 18 alkaen maanantaiaamuun saakka. Revontulentiellä ja Kiertotähdentiellä ei ole liikennettä ja pysäkeissä on muutoksia. Info: hsl.fi',
+          hash: 460136547,
+          header: 'Bussit poikkeusreitillä Suutarilassa viikonloppuna 7.–9.6.',
+          route: {
+            color: null,
+            mode: 'BUS',
+            shortName: '79',
+          },
+          url:
+            'https://www.hsl.fi/liikennetiedotteet/2019/bussit-poikkeusreitilla-suutarilassa-viikonloppuna-7-96-17505',
+        },
+        {
+          severityLevel: 'INFO',
+          validityPeriod: {
+            startTime: 1559621580,
+            endTime: 1559919600,
+          },
+          description:
+            'Bussit ajavat poikkeusreittejä Suutarilassa perjantaista 7.6. klo 18 alkaen maanantaiaamuun saakka. Revontulentiellä ja Kiertotähdentiellä ei ole liikennettä ja pysäkeissä on muutoksia. Info: hsl.fi',
+          hash: 654282542,
+          header: 'Bussit poikkeusreitillä Suutarilassa viikonloppuna 7.–9.6.',
+          route: {
+            color: null,
+            mode: 'BUS',
+            shortName: '79',
+          },
+          url:
+            'https://www.hsl.fi/liikennetiedotteet/2019/bussit-poikkeusreitilla-suutarilassa-viikonloppuna-7-96-17505',
+        },
+      ],
+      currentTime: 1559654135,
+      showExpired: false,
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
+  });
 });
