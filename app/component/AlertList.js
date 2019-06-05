@@ -1,4 +1,6 @@
+import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
@@ -25,11 +27,15 @@ export const alertCompare = (a, b) => {
 
   // sort by missing route information (for stop level alerts)
   if (!a.route || !a.route.shortName) {
+    // sort by stop information if it exists
+    if (a.stop && b.stop) {
+      return `${a.stop.code}`.localeCompare(`${b.stop.code}`);
+    }
     return -1;
   }
 
   // sort by route information
-  const routeOrder = routeNameCompare(a.route, b.route);
+  const routeOrder = routeNameCompare(a.route || {}, b.route || {});
   if (routeOrder !== 0) {
     return routeOrder;
   }
@@ -38,20 +44,31 @@ export const alertCompare = (a, b) => {
   return b.validityPeriod.startTime - a.validityPeriod.startTime;
 };
 
+const hasRoute = alert => alert && !isEmpty(alert.route);
+const hasStop = alert => alert && !isEmpty(alert.stop);
+
 const AlertList = ({
   cancelations,
   currentTime,
+  disableScrolling,
   showExpired,
   serviceAlerts,
 }) => {
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
+
+  const getStop = alert => alert.stop || {};
+  const getVehicleMode = alert => getStop(alert).vehicleMode;
+  const getCode = alert => getStop(alert).code;
+
   const getGroupKey = alert =>
-    `${alert.severityLevel}${getMode(alert)}${alert.header}${
+    `${alert.severityLevel}${(hasRoute(alert) && `route_${getMode(alert)}`) ||
+      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)}${alert.header}${
       alert.description
     }`;
-  const getUniqueId = alert => `${getShortName(alert)}${getGroupKey(alert)}`;
+  const getUniqueId = alert =>
+    `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
 
   const uniqueAlerts = uniqBy(
     [
@@ -92,20 +109,32 @@ const AlertList = ({
   const alertGroups = groupBy(uniqueAlerts, getGroupKey);
   const groupedAlerts = Object.keys(alertGroups).map(key => {
     const alerts = alertGroups[key];
+    const alert = alerts[0];
     return {
-      ...alerts[0],
-      route: {
-        mode: getMode(alerts[0]),
-        shortName: alerts
-          .sort(alertCompare)
-          .map(getShortName)
-          .join(', '),
-      },
+      ...alert,
+      route:
+        (hasRoute(alert) && {
+          mode: getMode(alert),
+          shortName: alerts
+            .sort(alertCompare)
+            .map(getShortName)
+            .join(', '),
+        }) ||
+        undefined,
+      stop:
+        (hasStop(alert) && {
+          code: alerts
+            .sort(alertCompare)
+            .map(getCode)
+            .join(', '),
+          vehicleMode: getVehicleMode(alert),
+        }) ||
+        undefined,
     };
   });
 
   return (
-    <div className="momentum-scroll">
+    <div className={cx({ 'momentum-scroll': !disableScrolling })}>
       <div className="route-alerts-list">
         {groupedAlerts
           .sort(alertCompare)
@@ -113,10 +142,11 @@ const AlertList = ({
             (
               {
                 description,
-                header,
                 expired,
+                header,
                 route: { color, mode, shortName } = {},
                 severityLevel,
+                stop: { code, vehicleMode } = {},
                 url,
                 validityPeriod: { startTime, endTime },
               },
@@ -127,11 +157,15 @@ const AlertList = ({
                 currentTime={currentTime}
                 description={description}
                 endTime={endTime}
+                entityIdentifier={shortName || code}
+                entityMode={
+                  (mode && mode.toLowerCase()) ||
+                  (vehicleMode && vehicleMode.toLowerCase())
+                }
+                entityType={(shortName && 'route') || (code && 'stop')}
                 expired={expired}
                 header={header}
                 key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-                routeLine={shortName}
-                routeMode={mode && mode.toLowerCase()}
                 severityLevel={severityLevel}
                 startTime={startTime}
                 url={url}
@@ -152,6 +186,10 @@ const alertShape = PropTypes.shape({
     shortName: PropTypes.string,
   }),
   severityLevel: PropTypes.string,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    vehicleMode: PropTypes.string,
+  }),
   url: PropTypes.string,
   validityPeriod: PropTypes.shape({
     startTime: PropTypes.number.isRequired,
@@ -160,14 +198,16 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  currentTime: PropTypes.PropTypes.number.isRequired,
   cancelations: PropTypes.arrayOf(alertShape),
+  currentTime: PropTypes.PropTypes.number.isRequired,
+  disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
 };
 
 AlertList.defaultProps = {
   cancelations: [],
+  disableScrolling: false,
   serviceAlerts: [],
   showExpired: false,
 };

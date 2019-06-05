@@ -250,7 +250,7 @@ describe('<AlertList />', () => {
     expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(1);
   });
 
-  it('should group duplicate alerts', () => {
+  it('should group duplicate route alerts', () => {
     const props = {
       currentTime: 1000,
       cancelations: [],
@@ -299,14 +299,85 @@ describe('<AlertList />', () => {
       wrapper
         .find(RouteAlertsRow)
         .at(0)
-        .props().routeLine,
+        .props().entityIdentifier,
     ).to.equal('7');
     expect(
       wrapper
         .find(RouteAlertsRow)
         .at(1)
-        .props().routeLine,
+        .props().entityIdentifier,
     ).to.equal('10, 11');
+  });
+
+  it('should group duplicate stop alerts', () => {
+    const props = {
+      currentTime: 1000,
+      cancelations: [],
+      serviceAlerts: [
+        {
+          description: 'foo',
+          header: 'bar',
+          route: {
+            mode: 'BUS',
+            shortName: '1234',
+          },
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+        {
+          description: 'foo',
+          header: 'bar',
+          stop: {
+            code: '2020',
+            vehicleMode: 'BUS',
+          },
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+        {
+          description: 'foo',
+          header: 'bar',
+          stop: {
+            code: '2222',
+            vehicleMode: 'BUS',
+          },
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+        {
+          description: 'foo',
+          header: 'bar',
+          stop: {
+            code: '1010',
+            vehicleMode: 'TRAM',
+          },
+          validityPeriod: {
+            startTime: 1000,
+            endTime: 1100,
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    expect(wrapper.find(RouteAlertsRow)).to.have.lengthOf(3);
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(0)
+        .props().entityIdentifier,
+    ).to.equal('1010');
+    expect(
+      wrapper
+        .find(RouteAlertsRow)
+        .at(1)
+        .props().entityIdentifier,
+    ).to.equal('2020, 2222');
   });
 
   it('should mark cancelations with severity level "WARNING"', () => {

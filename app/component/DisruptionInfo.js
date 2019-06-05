@@ -37,6 +37,7 @@ function DisruptionInfo(props, context) {
 
   return (
     <Modal
+      disableScrolling
       open
       title={
         <FormattedMessage
