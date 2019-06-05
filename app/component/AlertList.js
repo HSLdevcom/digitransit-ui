@@ -63,7 +63,7 @@ const AlertList = ({
   const getCode = alert => getStop(alert).code;
 
   const getGroupKey = alert =>
-    `${(hasRoute(alert) && `route_${getMode(alert)}`) ||
+    `${alert.severityLevel}${(hasRoute(alert) && `route_${getMode(alert)}`) ||
       (hasStop(alert) && `stop_${getVehicleMode(alert)}`)}${alert.header}${
       alert.description
     }`;
@@ -73,23 +73,27 @@ const AlertList = ({
   const uniqueAlerts = uniqBy(
     [
       ...(Array.isArray(cancelations)
-        ? cancelations.map(cancelation => ({
-            ...cancelation,
-            severityLevel: AlertSeverityLevelType.Warning,
-            expired: !isAlertValid(cancelation, currentTime, {
-              isFutureValid: true,
-            }),
-          }))
+        ? cancelations
+            .map(cancelation => ({
+              ...cancelation,
+              severityLevel: AlertSeverityLevelType.Warning,
+              expired: !isAlertValid(cancelation, currentTime, {
+                isFutureValid: true,
+              }),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
         : []),
       ...(Array.isArray(serviceAlerts)
-        ? serviceAlerts.map(alert => ({
-            ...alert,
-            expired: !isAlertValid(alert, currentTime),
-          }))
+        ? serviceAlerts
+            .map(alert => ({
+              ...alert,
+              expired: !isAlertValid(alert, currentTime),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
         : []),
     ],
     getUniqueId,
-  ).filter(alert => (showExpired ? true : !alert.expired));
+  );
 
   if (uniqueAlerts.length === 0) {
     return (
