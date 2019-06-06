@@ -54,6 +54,14 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  mapLayers: {
+    tooltip: {
+      fi: 'Uutta! Saat nyt vyöhykkeet kartalle asetuksista.',
+      en: 'New! You can now get zones on the map from the settings.',
+      sv: 'Ny! Från inställningar, kan du hämta zoner på kartan.',
+    },
+  },
+
   itinerary: {
     showZoneLimits: true,
   },
