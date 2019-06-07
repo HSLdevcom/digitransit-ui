@@ -10,6 +10,7 @@ import {
   AlertSeverityLevelType,
 } from '../../../app/constants';
 import RouteNumber from '../../../app/component/RouteNumber';
+import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 
 const defaultProps = {
   children: <div />,
@@ -609,5 +610,47 @@ describe('<TransitLeg />', () => {
     });
     expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
     expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+  });
+
+  it('should show a service alert icon if there is one at the "from" stop', () => {
+    const startTime = 123456789;
+    const props = {
+      ...defaultProps,
+      leg: {
+        from: {
+          name: 'Test',
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Info,
+                effectiveEndDate: startTime + 1,
+                effectiveStartDate: startTime - 1,
+              },
+            ],
+          },
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: 'A1234',
+        },
+        startTime: startTime * 1000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A1234:01',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
+      AlertSeverityLevelType.Info,
+    );
   });
 });
