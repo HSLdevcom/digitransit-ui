@@ -5,19 +5,23 @@ import ComponentUsageExample from './ComponentUsageExample';
 import Icon from './Icon';
 import SplitBars from './SplitBars';
 import Favourite from './Favourite';
+import updatePopupClosedStoreState from '../action/PopupClosedActions';
 
-const CardHeader = ({
-  className,
-  children,
-  headerIcon,
-  headingStyle,
-  name,
-  description,
-  code,
-  icon,
-  icons,
-  unlinked,
-}) => (
+const CardHeader = (
+  {
+    className,
+    children,
+    headerIcon,
+    headingStyle,
+    name,
+    description,
+    code,
+    icon,
+    icons,
+    unlinked,
+  },
+  context,
+) => (
   <div className={cx('card-header', className)}>
     {children}
     <div className="card-header-content">
@@ -49,6 +53,15 @@ const CardHeader = ({
       </div>
       {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
     </div>
+    {className !== 'stop-page header' && (
+      <button
+        className="leaflet-popup-close-button-mock"
+        type="button"
+        onClick={() => context.executeAction(updatePopupClosedStoreState, true)}
+      >
+        ×
+      </button>
+    )}
   </div>
 );
 
@@ -92,6 +105,10 @@ CardHeader.propTypes = {
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
+};
+
+CardHeader.contextTypes = {
+  executeAction: PropTypes.func,
 };
 
 export default CardHeader;

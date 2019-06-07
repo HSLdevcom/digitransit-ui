@@ -26,10 +26,10 @@ import TileContainer from './TileContainer';
 import Loading from '../../Loading';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
+import updatePopupClosedStoreState from '../../../action/PopupClosedActions';
 
 const initialState = {
   selectableTargets: undefined,
-  showPopup: false,
   coords: undefined,
   showSpinner: true,
 };
@@ -43,6 +43,7 @@ class TileLayerContainer extends GridLayer {
     zoomOffset: PropTypes.number.isRequired,
     disableMapTracking: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
+    isPopupClosed: PropTypes.bool,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         addLayer: PropTypes.func.isRequired,
@@ -56,6 +57,7 @@ class TileLayerContainer extends GridLayer {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
+    executeAction: PropTypes.func,
   };
 
   PopupOptions = {
@@ -65,7 +67,10 @@ class TileLayerContainer extends GridLayer {
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
-    onClose: () => this.setState(initialState),
+    closeButton: false,
+    onClose: () => {
+      this.setState(initialState);
+    },
     autoPan: false,
   };
 
@@ -150,6 +155,26 @@ class TileLayerContainer extends GridLayer {
     /* eslint-enable no-underscore-dangle */
   };
 
+  setPopupState = (selectableTargets, coords) => {
+    this.setState(previousState => {
+      return {
+        selectableTargets: selectableTargets.filter(target =>
+          isFeatureLayerEnabled(
+            target.feature,
+            target.layer,
+            this.props.mapLayers,
+            this.context.config,
+          ),
+        ),
+        coords,
+        showSpinner: true,
+        isLocationPopup:
+          typeof previousState.selectableTargets === 'undefined' ||
+          selectableTargets.length === 0,
+      };
+    });
+  };
+
   createTile = (tileCoords, done) => {
     const tile = new TileContainer(
       tileCoords,
@@ -163,23 +188,24 @@ class TileLayerContainer extends GridLayer {
         this.props.disableMapTracking(); // disable now that popup opens
       }
 
-      if (this.state.showPopup) {
-        this.setState({
-          selectableTargets: selectableTargets.filter(target =>
-            isFeatureLayerEnabled(
-              target.feature,
-              target.layer,
-              this.props.mapLayers,
-              this.context.config,
-            ),
-          ),
-          coords,
-          showSpinner: true,
-          showPopup: false,
-        });
+      if (this.props.isPopupClosed) {
+        this.context.executeAction(updatePopupClosedStoreState, false);
+        this.setPopupState(selectableTargets, coords);
+      } else if (
+        !this.props.isPopupClosed &&
+        this.state.isLocationPopup &&
+        selectableTargets.length > 0
+      ) {
+        this.context.executeAction(updatePopupClosedStoreState, false);
+        this.setPopupState(selectableTargets, coords);
       } else {
-        this.setState({
-          showPopup: true,
+        this.context.executeAction(updatePopupClosedStoreState, true);
+        this.setState(previousState => {
+          return {
+            isLocationPopup:
+              typeof previousState.selectableTargets === 'undefined' ||
+              selectableTargets.length === 0,
+          };
         });
       }
     };
@@ -329,15 +355,23 @@ class TileLayerContainer extends GridLayer {
         );
       }
     }
+    if (this.props.isPopupClosed) {
+      popup = null;
+    }
 
     return popup;
   }
 }
 
 const connectedComponent = withLeaflet(
-  connectToStores(TileLayerContainer, [MapLayerStore], context => ({
-    mapLayers: context.getStore(MapLayerStore).getMapLayers(),
-  })),
+  connectToStores(
+    TileLayerContainer,
+    [MapLayerStore, 'PopupClosedStore'],
+    context => ({
+      mapLayers: context.getStore(MapLayerStore).getMapLayers(),
+      isPopupClosed: context.getStore('PopupClosedStore').getPopupClosedStore(),
+    }),
+  ),
 );
 
 export { connectedComponent as default, TileLayerContainer as Component };
