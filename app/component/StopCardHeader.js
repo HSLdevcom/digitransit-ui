@@ -8,6 +8,7 @@ import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import ExternalLink from './ExternalLink';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -28,12 +29,21 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
+  getExternalLink(code, className) {
+    // Check for classname, should the external link be visible
+    if(!code || className !== 'stop-page header') {
+      return null;
+    }
+    const url = this.headerConfig.virtualMonitorBaseUrl+""+code
+   return this.headerConfig.virtualMonitorBaseUrl ?  <ExternalLink
+       className="external-stop-link" href={url}> {'Virtuaalimonitori'} </ExternalLink> : null
+  }
+
   render() {
     const { className, currentTime, headingStyle, icons, stop } = this.props;
     if (!stop) {
       return false;
     }
-
     return (
       <CardHeader
         className={className}
@@ -50,6 +60,7 @@ class StopCardHeader extends React.Component {
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
+        externalLink={this.getExternalLink(stop.code,className)}
         icons={icons}
       >
         {this.headerConfig.showZone &&

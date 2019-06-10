@@ -61,6 +61,7 @@ export default configMerger(walttiConfig, {
   stopCard: {
     header: {
       showZone: true,
+      virtualMonitorBaseUrl: "http://tampere-virtualmonitor.westeurope.cloudapp.azure.com/stop/tampere:",
     },
   },
 

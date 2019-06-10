@@ -240,6 +240,7 @@ export default {
       showStopCode: true,
       showDistance: true,
       showZone: false,
+      virtualMonitorBaseUrl: '',
     },
   },
 
