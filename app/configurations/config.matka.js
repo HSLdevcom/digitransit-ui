@@ -102,7 +102,6 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
-      /*
       vantaa: {
         icon: 'citybike-secondary',
         name: {
@@ -117,7 +116,6 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
-      */
     },
   },
 
