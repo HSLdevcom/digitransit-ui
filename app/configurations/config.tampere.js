@@ -37,7 +37,47 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['tampere'],
 
-  showTicketInformation: true,
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/tre_zone_lines_20190603.geojson',
+        isOffByDefault: true,
+      },
+    ],
+    zones: {
+      url: '/assets/geojson/tre_zone_areas_20190603.geojson',
+    },
+  },
+
+  mapLayers: {
+    tooltip: {
+      fi: 'Uutta! Saat nyt vyöhykkeet kartalle asetuksista.',
+      en: 'New! You can now get zones on the map from the settings.',
+      sv: 'Ny! Från inställningar, kan du hämta zoner på kartan.',
+    },
+  },
+
+  itinerary: {
+    showZoneLimits: true,
+  },
+
+  stopCard: {
+    header: {
+      showZone: true,
+    },
+  },
+
+  showTicketInformation: false,
+
+  ticketInformation: {
+    primaryAgencyName: 'Tampereen seudun joukkoliikenne',
+  },
+
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
   // mapping (string, lang) from OTP fare identifiers to human readable form
@@ -155,6 +195,8 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'Tervetuloa reittioppaaseen! Tämän palvelun tarjoaa Tampereen seudun joukkoliikenne (Nysse) reittisuunnittelua varten Tampereen kaupunkiseudun alueella (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Palvelu perustuu Digitransit-palvelualustaan.',
         ],
+        link:
+          'http://joukkoliikenne.tampere.fi/ohjeita-ja-tietoa/digipalvelut/ohje-repa-reittiopas.html',
       },
       {
         header: 'Digitransit-palvelualusta',

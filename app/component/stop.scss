@@ -146,7 +146,6 @@
   border-top: 4px solid $background-color;
   color: $primary-color;
   transition: 0.1s all ease-in;
-  border-right: 1px solid $light-gray;
   border-bottom: 1px solid $light-gray;
   padding-bottom: 0.8em;
   padding-top: 0;
@@ -155,6 +154,10 @@
   padding-right: 0.8em;
   height: 5.8em;
   text-decoration: none;
+
+  + .stop-tab-singletab {
+    border-left: 1px solid $light-gray;
+  }
 
   svg {
     stroke: $primary-color;

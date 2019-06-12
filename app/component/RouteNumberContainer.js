@@ -16,15 +16,15 @@ const getText = (route, config) => {
 };
 
 const RouteNumberContainer = (
-  { className, route, isCallAgency, ...props },
+  { alertSeverityLevel, className, route, isCallAgency, ...props },
   { config },
 ) =>
   route && (
     <RouteNumber
+      alertSeverityLevel={alertSeverityLevel}
       className={className}
       isCallAgency={isCallAgency || route.type === 715}
       color={route.color ? `#${route.color}` : null}
-      hasDisruption={props.hasDisruption}
       mode={route.mode}
       text={getText(route, config)}
       {...props}
@@ -32,14 +32,15 @@ const RouteNumberContainer = (
   );
 
 RouteNumberContainer.propTypes = {
+  alertSeverityLevel: PropTypes.string,
   route: PropTypes.object.isRequired,
   vertical: PropTypes.bool,
   className: PropTypes.string,
-  hasDisruption: PropTypes.bool,
   fadeLong: PropTypes.bool,
 };
 
 RouteNumberContainer.defaultProps = {
+  alertSeverityLevel: undefined,
   className: '',
 };
 

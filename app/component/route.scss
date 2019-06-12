@@ -861,10 +861,13 @@ div.route-tabs {
   background: $white;
 
   .route-alert-row {
-    border-bottom: 1px solid $light-gray;
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+
+    + .route-alert-row {
+      border-top: 1px solid $light-gray;
+    }
 
     .subicon-caution {
       stroke: $white;
@@ -872,6 +875,7 @@ div.route-tabs {
     }
 
     .route-alert-contents {
+      flex-grow: 1;
       vertical-align: bottom;
 
       .route-alert-top-row {

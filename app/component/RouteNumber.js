@@ -11,7 +11,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   let mode = props.mode.toLowerCase();
-  const { color } = props;
+  const { alertSeverityLevel, color } = props;
 
   if (mode === 'bicycle' || mode === 'car') {
     mode += '-withoutBox';
@@ -37,9 +37,10 @@ function RouteNumber(props, context) {
       );
     }
 
-    if (hasDisruption) {
+    if (hasDisruption || !!alertSeverityLevel) {
       return (
         <IconWithBigCaution
+          alertSeverityLevel={alertSeverityLevel}
           color={color}
           className={mode}
           img={icon || `icon-icon_${mode}`}
@@ -190,6 +191,7 @@ RouteNumber.description = () => (
 );
 
 RouteNumber.propTypes = {
+  alertSeverityLevel: PropTypes.string,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   text: PropTypes.node,
@@ -206,6 +208,7 @@ RouteNumber.propTypes = {
 };
 
 RouteNumber.defaultProps = {
+  alertSeverityLevel: undefined,
   badgeFill: undefined,
   badgeText: undefined,
   className: '',
@@ -220,7 +223,7 @@ RouteNumber.defaultProps = {
 };
 
 RouteNumber.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
+  intl: intlShape.isRequired,
 };
 
 RouteNumber.displayName = 'RouteNumber';

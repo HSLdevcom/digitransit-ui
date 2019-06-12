@@ -91,7 +91,6 @@ class SummaryPage extends React.Component {
   };
 
   static propTypes = {
-    printPage: PropTypes.object,
     location: PropTypes.shape({
       state: PropTypes.object,
     }).isRequired,
@@ -116,7 +115,7 @@ class SummaryPage extends React.Component {
     routes: PropTypes.arrayOf(
       PropTypes.shape({
         fullscreenMap: PropTypes.bool,
-        printPage: PropTypes.object,
+        printPage: PropTypes.bool,
       }).isRequired,
     ).isRequired,
     breakpoint: PropTypes.string.isRequired,

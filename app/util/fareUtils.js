@@ -1,11 +1,13 @@
+import uniq from 'lodash/uniq';
+
 // returns null or non-empty array of localized ticket names
-export default function mapFares(fares, config, lang) {
-  if (!fares || !config.showTicketInformation) {
+export function mapFares(fares, config, lang) {
+  if (!Array.isArray(fares) || !config.showTicketInformation) {
     return null;
   }
 
   const [regularFare] = fares.filter(fare => fare.type === 'regular');
-  if (!regularFare || regularFare.cents === -1) {
+  if (!regularFare) {
     return null;
   }
 
@@ -14,5 +16,39 @@ export default function mapFares(fares, config, lang) {
     return null;
   }
 
-  return components.map(fare => config.fareMapping(fare.fareId, lang));
+  return components.map(fare => ({
+    ...fare,
+    agency:
+      (Array.isArray(fare.routes) &&
+        fare.routes.length > 0 &&
+        fare.routes[0].agency) ||
+      undefined,
+    ticketName: config.fareMapping(fare.fareId, lang),
+  }));
 }
+
+export const getFares = (fares, routes, config, lang) => {
+  const knownFares = mapFares(fares, config, lang) || [];
+
+  const routesWithFares = uniq(
+    knownFares
+      .map(fare => (Array.isArray(fare.routes) && fare.routes) || [])
+      .reduce((a, b) => a.concat(b), [])
+      .map(route => route.gtfsId),
+  );
+
+  const unknownFares = ((Array.isArray(routes) && routes) || [])
+    .filter(route => !routesWithFares.includes(route.gtfsId))
+    .map(route => ({
+      agency: {
+        fareUrl: route.agency.fareUrl,
+        gtfsId: route.agency.gtfsId,
+        name: route.agency.name,
+      },
+      isUnknown: true,
+      routeGtfsId: route.gtfsId,
+      routeName: route.longName,
+    }));
+
+  return [...knownFares, ...unknownFares];
+};

@@ -33,4 +33,91 @@ describe('<RoutePatternSelect />', () => {
     });
     expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(3);
   });
+
+  it('should render a toggle element with divs if there are only 2 patterns with trips', () => {
+    const props = {
+      activeTab: 'pysakit',
+      gtfsId: 'HSL:3002U',
+      onSelectChange: () => {},
+      params: {
+        patternId: 'HSL:3002U:0:02',
+      },
+      relay: {
+        setVariables: () => {},
+      },
+      route: {
+        patterns: [
+          {
+            code: 'HSL:3002U:0:01',
+            headsign: 'Kauklahti',
+            stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
+            tripsForDate: [{}],
+          },
+          {
+            code: 'HSL:3002U:0:02',
+            headsign: 'Kirkkonummi',
+            stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
+            tripsForDate: [{}],
+          },
+          {
+            code: 'HSL:3002U:0:03',
+            stops: [{ name: 'Helsinki' }, { name: 'Siuntio' }],
+            tripsForDate: [],
+          },
+        ],
+      },
+      serviceDay: '20190604',
+    };
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find('option')).to.have.lengthOf(0);
+    expect(wrapper.find('div.route-option-togglable')).to.have.lengthOf(1);
+  });
+
+  it('should redirect to the first existing pattern if there is no matching pattern available', () => {
+    const props = {
+      activeTab: 'pysakit',
+      gtfsId: 'HSL:3002U',
+      onSelectChange: () => {},
+      params: {
+        patternId: 'foobar',
+      },
+      relay: {
+        setVariables: () => {},
+      },
+      route: {
+        patterns: [
+          {
+            code: 'HSL:3002U:0:01',
+            headsign: 'Kauklahti',
+            stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
+            tripsForDate: [{}],
+          },
+          {
+            code: 'HSL:3002U:0:02',
+            headsign: 'Kirkkonummi',
+            stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
+            tripsForDate: [{}],
+          },
+        ],
+      },
+      serviceDay: '20190604',
+    };
+
+    let url;
+    shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: {
+        ...mockContext,
+        router: {
+          ...mockContext.router,
+          replace: args => {
+            url = args;
+          },
+        },
+      },
+    });
+    expect(url).to.contain(props.gtfsId);
+    expect(url).to.contain(props.route.patterns[0].code);
+  });
 });

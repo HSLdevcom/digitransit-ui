@@ -1,4 +1,6 @@
 import find from 'lodash/find';
+import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 
@@ -7,6 +9,18 @@ import {
   AlertSeverityLevelType,
   AlertEffectType,
 } from '../constants';
+
+/**
+ * Checks if the alert is for the given pattern.
+ *
+ * @param {*} alert the alert object to check.
+ * @param {*} patternId the pattern's id, optional.
+ */
+export const patternIdPredicate = (alert, patternId = undefined) =>
+  patternId
+    ? (alert && !alert.trip) ||
+      get(alert, 'trip.pattern.code', undefined) === patternId
+    : true;
 
 /**
  * Checks if the stop has any alerts.
@@ -30,13 +44,7 @@ export const routeHasServiceAlert = (route, patternId = undefined) => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return patternId
-    ? route.alerts.some(
-        alert =>
-          !alert.trip ||
-          (alert.trip.pattern && alert.trip.pattern.code === patternId),
-      )
-    : route.alerts.length > 0;
+  return route.alerts.some(alert => patternIdPredicate(alert, patternId));
 };
 
 /**
@@ -135,34 +143,57 @@ export const legHasCancelation = leg => {
 export const DEFAULT_VALIDITY = 5 * 60;
 
 /**
- * Checks if the given validity period has expired or not.
+ * Checks if the given validity period is valid or not.
  *
  * @param {{ startTime: number, endTime: number }} validityPeriod the validity period to check.
- * @param {number} currentUnixTime the current time in unix timestamp seconds.
+ * @param {number} referenceUnixTime the reference unix time stamp (in seconds).
  * @param {number} defaultValidity the default validity period length in seconds.
  */
-export const alertHasExpired = (
-  { startTime, endTime } = {},
-  currentUnixTime,
-  defaultValidity = DEFAULT_VALIDITY,
-) => (endTime || startTime + defaultValidity) < currentUnixTime;
+export const isAlertValid = (
+  alert,
+  referenceUnixTime,
+  { defaultValidity = DEFAULT_VALIDITY, isFutureValid = false } = {},
+) => {
+  if (!alert) {
+    return false;
+  }
+  const { validityPeriod } = alert;
+  if (!validityPeriod || !isNumber(referenceUnixTime)) {
+    return true;
+  }
+  const { startTime, endTime } = validityPeriod;
+  if (!startTime && !endTime) {
+    return true;
+  }
+  if (isFutureValid && referenceUnixTime < startTime) {
+    return true;
+  }
+
+  return (
+    startTime <= referenceUnixTime &&
+    referenceUnixTime <= (endTime || startTime + defaultValidity)
+  );
+};
 
 /**
  * Checks if the given (canceled) stoptime has expired or not.
  *
  * @param {*} stoptime the stoptime to check.
- * @param {*} currentTime the current time in unix timestamp seconds.
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
 export const cancelationHasExpired = (
   { scheduledArrival, scheduledDeparture, serviceDay } = {},
-  currentTime,
+  referenceUnixTime,
 ) =>
-  alertHasExpired(
+  !isAlertValid(
     {
-      startTime: serviceDay + scheduledArrival,
-      endTime: serviceDay + scheduledDeparture,
+      validityPeriod: {
+        startTime: serviceDay + scheduledArrival,
+        endTime: serviceDay + scheduledDeparture,
+      },
     },
-    currentTime,
+    referenceUnixTime,
+    { isFutureValid: true },
   );
 
 /**
@@ -236,7 +267,7 @@ export const getServiceAlertHeader = (alert, locale = 'en') =>
  * Attempts to find the alert's description in the given language.
  *
  * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, default to 'en'.
+ * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertDescription = (alert, locale = 'en') =>
   getTranslation(
@@ -249,10 +280,25 @@ export const getServiceAlertDescription = (alert, locale = 'en') =>
  * Attempts to find alert's url in the given language.
  *
  * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, default to 'en'.
+ * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertUrl = (alert, locale = 'en') =>
   getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);
+
+/**
+ * Maps the OTP-style Service Alert's properties that
+ * are most relevant to deciding whether the alert should be
+ * shown to the user.
+ *
+ * @param {*} alert the Service Alert to map.
+ */
+const getServiceAlertMetadata = (alert = {}) => ({
+  severityLevel: alert.alertSeverityLevel,
+  validityPeriod: {
+    startTime: alert.effectiveStartDate,
+    endTime: alert.effectiveEndDate,
+  },
+});
 
 const getServiceAlerts = (
   { alerts } = {},
@@ -261,6 +307,7 @@ const getServiceAlerts = (
 ) =>
   Array.isArray(alerts)
     ? alerts.map(alert => ({
+        ...getServiceAlertMetadata(alert),
         description: getServiceAlertDescription(alert, locale),
         hash: alert.alertHash,
         header: getServiceAlertHeader(alert, locale),
@@ -269,12 +316,7 @@ const getServiceAlerts = (
           mode,
           shortName,
         },
-        severityLevel: alert.alertSeverityLevel,
         url: getServiceAlertUrl(alert, locale),
-        validityPeriod: {
-          startTime: alert.effectiveStartDate,
-          endTime: alert.effectiveEndDate,
-        },
       }))
     : [];
 
@@ -296,13 +338,9 @@ export const getServiceAlertsForRoute = (
   }
   return getServiceAlerts(
     {
-      alerts: patternId
-        ? route.alerts.filter(
-            alert =>
-              !alert.trip ||
-              (alert.trip.pattern && alert.trip.pattern.code === patternId),
-          )
-        : route.alerts,
+      alerts: route.alerts.filter(alert =>
+        patternIdPredicate(alert, patternId),
+      ),
     },
     route,
     locale,
@@ -366,6 +404,8 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
     .reduce((a, b) => a.concat(b), []);
 };
 
+const isValidArray = array => Array.isArray(array) && array.length > 0;
+
 /**
  * Iterates through the alerts and returns the highest severity level found.
  * Order of severity (in descending order): Severe, Warning, Info, Unknown.
@@ -374,7 +414,7 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
  * @param {*} alerts the alerts to check.
  */
 export const getMaximumAlertSeverityLevel = alerts => {
-  if (!Array.isArray(alerts) || alerts.length === 0) {
+  if (!isValidArray(alerts)) {
     return undefined;
   }
   const levels = alerts
@@ -395,6 +435,28 @@ export const getMaximumAlertSeverityLevel = alerts => {
 };
 
 /**
+ * Checks if any of the alerts is active at the given time and
+ * returns its severity level.
+ *
+ * @param {*} alerts the alerts to check.
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
+ */
+export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
+  if (!isValidArray(alerts)) {
+    return undefined;
+  }
+  return getMaximumAlertSeverityLevel(
+    alerts
+      .filter(alert => !!alert)
+      .map(
+        alert =>
+          alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
+      )
+      .filter(alert => isAlertValid(alert, referenceUnixTime)),
+  );
+};
+
+/**
  * Iterates through the alerts and returns 'NO_SERVICE' if that is found.
  * Returns 'EFFECT_UNKNOWN' if there are alerts but none of them have an
  * effect of 'NO_SERVICE'. Returns undefined if the effect cannot be
@@ -403,7 +465,7 @@ export const getMaximumAlertSeverityLevel = alerts => {
  * @param {*} alerts the alerts to check.
  */
 export const getMaximumAlertEffect = alerts => {
-  if (!Array.isArray(alerts) || alerts.length === 0) {
+  if (!isValidArray(alerts)) {
     return undefined;
   }
   const effects = alerts
@@ -426,12 +488,16 @@ export const getMaximumAlertEffect = alerts => {
  *
  * @param {*} cancelations the cancelations to check.
  * @param {*} alerts the alerts to check.
- * @param {*} currentTime the current unix timestamp seconds.
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
-export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
+export const isAlertActive = (
+  cancelations = [],
+  alerts = [],
+  referenceUnixTime,
+) => {
   if (
     cancelations.some(
-      cancelation => !cancelationHasExpired(cancelation, currentTime),
+      cancelation => !cancelationHasExpired(cancelation, referenceUnixTime),
     )
   ) {
     return true;
@@ -441,8 +507,8 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
     return false;
   }
 
-  const filteredAlerts = alerts.filter(
-    alert => !alertHasExpired(alert.validityPeriod, currentTime),
+  const filteredAlerts = alerts.filter(alert =>
+    isAlertValid(alert, referenceUnixTime),
   );
   const alertSeverityLevel = getMaximumAlertSeverityLevel(filteredAlerts);
   return alertSeverityLevel
@@ -456,29 +522,30 @@ export const isAlertActive = (cancelations = [], alerts = [], currentTime) => {
  *
  * @param {*} leg the itinerary leg to check.
  */
-export const legHasActiveAlert = leg => {
+export const getActiveLegAlertSeverityLevel = leg => {
   if (!leg) {
-    return false;
+    return undefined;
   }
-  return (
-    legHasCancelation(leg) ||
-    isAlertActive(
-      [],
-      [
-        ...getServiceAlertsForRoute(
-          leg.route,
-          leg.trip && leg.trip.pattern && leg.trip.pattern.code,
-        ),
-        ...getServiceAlertsForStop(leg.from && leg.from.stop),
-        ...getServiceAlertsForStop(leg.to && leg.to.stop),
-        ...(Array.isArray(leg.intermediatePlaces)
-          ? leg.intermediatePlaces
-              .map(place => getServiceAlertsForStop(place.stop))
-              .reduce((a, b) => a.concat(b), [])
-          : []),
-      ],
-      leg.startTime / 1000, // this field is in ms format
-    )
+  if (legHasCancelation(leg)) {
+    return AlertSeverityLevelType.Warning;
+  }
+
+  const serviceAlerts = [
+    ...getServiceAlertsForRoute(
+      leg.route,
+      leg.trip && leg.trip.pattern && leg.trip.pattern.code,
+    ),
+    ...getServiceAlertsForStop(leg.from && leg.from.stop),
+    ...getServiceAlertsForStop(leg.to && leg.to.stop),
+    ...(Array.isArray(leg.intermediatePlaces)
+      ? leg.intermediatePlaces
+          .map(place => getServiceAlertsForStop(place.stop))
+          .reduce((a, b) => a.concat(b), [])
+      : []),
+  ];
+  return getActiveAlertSeverityLevel(
+    serviceAlerts,
+    leg.startTime / 1000, // this field is in ms format
   );
 };
 

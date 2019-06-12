@@ -1,19 +1,21 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
-import Icon from './Icon';
 import ComponentUsageExample from './ComponentUsageExample';
-import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import Icon from './Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import RouteNumber from './RouteNumber';
+import ServiceAlertIcon from './ServiceAlertIcon';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import {
+  CityBikeNetworkType,
   getCityBikeNetworkId,
   getCityBikeNetworkConfig,
-  CityBikeNetworkType,
 } from '../util/citybikes';
+import { displayDistance } from '../util/geo-utils';
+import { durationToString } from '../util/timeUtils';
 
 function WalkLeg(
   { children, focusAction, index, leg, previousLeg },
@@ -62,6 +64,13 @@ function WalkLeg(
             ) : (
               leg.from.name
             )}
+            <ServiceAlertIcon
+              className="inline-icon"
+              severityLevel={getActiveAlertSeverityLevel(
+                leg.from.stop && leg.from.stop.alerts,
+                leg.startTime / 1000,
+              )}
+            />
             {children}
           </div>
           <Icon img="icon-icon_search-plus" className="itinerary-search-icon" />

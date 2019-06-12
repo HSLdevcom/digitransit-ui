@@ -896,6 +896,7 @@ const translations = {
     'rail-with-route-number': 'Train {routeNumber} {headSign}',
     realtime: 'Real-time',
     'realtime-matching': 'Real-time integration',
+    releases: 'Releases',
     'remove-via-button-label': 'Remove via point',
     'rent-cycle-at': 'Rent a bike at {station} station',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
@@ -954,6 +955,10 @@ const translations = {
     'select-map-layers-header': 'What should be shown on the map?',
     'select-position': 'Select your location from your previous searches',
     send: 'Send',
+    'separate-ticket-required':
+      'A separate ticket is required for this part of the itinerary.',
+    'separate-ticket-required-disclaimer':
+      'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     settings: 'Settings',
     'settings-label-change': 'Change settings',
     'settings-loadbutton': 'Load settings',
@@ -1607,6 +1612,7 @@ const translations = {
     'rail-with-route-number': 'Juna {routeNumber} {headSign}',
     realtime: 'Reaaliaika',
     'realtime-matching': 'Realiajan integraatio',
+    releases: 'Tiedotteet',
     'remove-via-button-label': 'Poista välipiste',
     'rent-cycle-at': 'Vuokraa pyörä asemalta {station}',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
@@ -1665,6 +1671,10 @@ const translations = {
     'select-map-layers-header': 'Mitä haluat näyttää kartalla?',
     'select-position': 'Valitse sijaintisi edellisistä hauistasi',
     send: 'Lähetä',
+    'separate-ticket-required':
+      'Tälle matkan osuudelle tarvitaan erillinen lippu.',
+    'separate-ticket-required-disclaimer':
+      'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     settings: 'Asetukset',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-loadbutton': 'Lataa asetukset',
@@ -2626,6 +2636,7 @@ const translations = {
     'rail-with-route-number': 'Tåg {routeNumber} {headSign}',
     realtime: 'Realtid',
     'realtime-matching': 'Realtidsintegration',
+    releases: 'Meddelanden',
     'remove-via-button-label': 'Ta bort viapunkt',
     'rent-cycle-at': 'Hyr en cykel från stationen {station}',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
@@ -2683,6 +2694,10 @@ const translations = {
     'select-map-layers-header': 'Vad vill du visa på kartan?',
     'select-position': 'Välj din position bland tidigare sökningar',
     send: 'Skicka',
+    'separate-ticket-required':
+      'Denna etapp av resan kräver en separat biljett.',
+    'separate-ticket-required-disclaimer':
+      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     settings: 'Anpassa',
     'settings-label-change': 'Anpassa sökning',
     'settings-loadbutton': 'Ladda inställningarna',

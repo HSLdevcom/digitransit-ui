@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/WalkLeg';
 import { CityBikeNetworkType } from '../../app/util/citybikes';
+import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
+import { AlertSeverityLevelType } from '../../app/constants';
 
 describe('<WalkLeg />', () => {
   it('should show the leg starting point name', () => {
@@ -29,7 +31,7 @@ describe('<WalkLeg />', () => {
       },
     });
 
-    expect(wrapper.find('.itinerary-leg-first-row>div').text()).to.equal(
+    expect(wrapper.find('.itinerary-leg-first-row>div').text()).to.contain(
       'Veturitori',
     );
   });
@@ -123,5 +125,40 @@ describe('<WalkLeg />', () => {
         .at(0)
         .prop('id'),
     ).to.equal('return-scooter-to');
+  });
+
+  it('should show a service alert icon if there is one at the "from" stop', () => {
+    const startTime = 1529589709000;
+    const props = {
+      focusAction: () => {},
+      index: 2,
+      leg: {
+        distance: 284.787,
+        duration: 289,
+        from: {
+          name: 'Veturitori',
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Info,
+                effectiveEndDate: startTime / 1000 + 1,
+                effectiveStartDate: startTime / 1000 - 1,
+              },
+            ],
+          },
+        },
+        mode: 'WALK',
+        rentedBike: false,
+        startTime,
+      },
+    };
+
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
+      context: { config: {} },
+    });
+
+    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
+      AlertSeverityLevelType.Info,
+    );
   });
 });
