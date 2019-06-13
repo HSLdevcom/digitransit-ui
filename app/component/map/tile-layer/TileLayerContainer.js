@@ -30,6 +30,7 @@ import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 const initialState = {
   selectableTargets: undefined,
   coords: undefined,
+  isPopupOpen: false,
   showSpinner: true,
 };
 
@@ -64,7 +65,7 @@ class TileLayerContainer extends GridLayer {
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
-    onClose: () => this.setState(initialState),
+    onClose: () => this.resetState(),
     autoPan: false,
   };
 
@@ -107,6 +108,8 @@ class TileLayerContainer extends GridLayer {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
     this.leafletElement.off('click contextmenu', this.onClick);
   }
+
+  resetState = () => this.setState({ ...initialState });
 
   onTimeChange = e => {
     let activeTiles;
@@ -157,7 +160,18 @@ class TileLayerContainer extends GridLayer {
       this.context.config,
     );
 
-    tile.onSelectableTargetClicked = (selectableTargets, coords) => {
+    tile.onSelectableTargetClicked = (
+      selectableTargets,
+      coords,
+      forceOpen = false,
+    ) => {
+      const { coords: prevCoords, isPopupOpen } = this.state;
+
+      if (isPopupOpen && (coords.equals(prevCoords) || !forceOpen)) {
+        this.resetState();
+        return;
+      }
+
       if (selectableTargets && this.props.disableMapTracking) {
         this.props.disableMapTracking(); // disable now that popup opens
       }
@@ -172,6 +186,7 @@ class TileLayerContainer extends GridLayer {
           ),
         ),
         coords,
+        isPopupOpen: true,
         showSpinner: true,
       });
     };
