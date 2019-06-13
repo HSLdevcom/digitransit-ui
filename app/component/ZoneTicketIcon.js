@@ -3,23 +3,27 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-export const isWithinZoneB = (zones, fares) =>
-  zones.length === 1 &&
-  zones[0] === 'B' &&
-  fares.length === 1 &&
-  (fares[0].fareId === 'HSL:AB' || fares[0].fareId === 'HSL:BC');
+/**
+ * Returns a zone ticket icon or icons, if there are alternativeFares, to render.
+ *
+ * @param {*} fareId the fareId (without feedId, for example AB)
+ * @param {*} alternativeFares fares that should be shown in addition to the one given by OpenTripPlanner.
+ */
+export const renderZoneTicketIcon = (fareId, alternativeFares) => {
+  if (Array.isArray(alternativeFares) && alternativeFares.length > 0) {
+    const options = [<ZoneTicketIcon ticketType={fareId} />]
+    for (let i = 0; i < alternativeFares.length; i++) {
+      options.push(<FormattedMessage id="or" />);
+      options.push(<ZoneTicketIcon ticketType={alternativeFares[i]} />);
+    }
 
-export const renderZoneTicketIcon = (zoneId, isOnlyZoneB) => {
-  if (!isOnlyZoneB) {
-    return <ZoneTicketIcon ticketType={zoneId} />;
+    return (
+      <div className="zone-ticket-multiple-options">
+        {options}
+      </div>
+    );
   }
-  return (
-    <div className="zone-ticket-multiple-options">
-      <ZoneTicketIcon ticketType="AB" />
-      <FormattedMessage id="or" />
-      <ZoneTicketIcon ticketType="BC" />
-    </div>
-  );
+  return <ZoneTicketIcon ticketType={fareId} />;
 };
 
 const ZoneTicketIcon = ({ ticketType }) =>

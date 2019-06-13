@@ -6,7 +6,8 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
-import { renderZoneTicketIcon, isWithinZoneB } from './ZoneTicketIcon';
+import { renderZoneTicketIcon } from './ZoneTicketIcon';
+import { getAlternativeFares } from '../util/fareUtils';
 
 export const getUtmParameters = (agency, config) => {
   const gtfsId = get(agency, 'gtfsId');
@@ -29,11 +30,11 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
   if (fares.length === 0) {
     return null;
   }
-
   const isMultiComponent = fares.length > 1;
-  const isOnlyZoneB = isWithinZoneB(
+  const alternativeFares = getAlternativeFares(
     zones,
     fares.filter(fare => !fare.isUnknown),
+    config.availableTickets,
   );
 
   return (
@@ -67,7 +68,7 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
               <div>
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicketIcon(fare.ticketName, isOnlyZoneB)
+                    ? renderZoneTicketIcon(fare.ticketName, alternativeFares)
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (

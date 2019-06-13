@@ -52,3 +52,28 @@ export const getFares = (fares, routes, config) => {
 
   return [...knownFares, ...unknownFares];
 };
+
+/**
+ * Returns alternative fares that cost as much as the one given by OpenTripPlanner
+ *
+ * @param {*} zones zones that are visited.
+ * @param {*} currentFares fare given by OpenTripPlanner.
+ * @param {*} allFares all fare options.
+ */
+export const getAlternativeFares = (zones, currentFares, allFares) => {
+  const alternativeFares = [];
+  if (zones.length === 1 && currentFares.length === 1) {
+    const fareId = currentFares[0].fareId;
+    const ticketFeed = fareId.split(':')[0];
+    const faresForFeed = allFares[ticketFeed];
+    if (faresForFeed && faresForFeed[fareId]) {
+      const ticketPrice = faresForFeed[fareId].price;
+      for (let [key, value] of Object.entries(faresForFeed)) {
+        if (key !== fareId && value.zones.includes(zones[0]) && value.price === ticketPrice) {
+          alternativeFares.push(key.split(':')[1]);
+        }
+      }
+    }
+  }
+  return alternativeFares;
+}

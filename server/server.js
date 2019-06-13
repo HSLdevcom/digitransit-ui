@@ -180,6 +180,23 @@ function setUpAvailableRouteTimetables() {
   });
 }
 
+function processTicketTypeResult(result) {
+  const resultData = result.data;
+  if (resultData && Array.isArray(resultData.ticketTypes)) {
+    config.availableTickets = {};
+    resultData.ticketTypes.forEach(ticket => {
+      const ticketFeed = ticket.fareId.split(':')[0];
+      if (config.availableTickets[ticketFeed] === undefined) {
+        config.availableTickets[ticketFeed] = {};
+      }
+      config.availableTickets[ticketFeed][ticket.fareId] = { price: ticket.price, zones: ticket.zones };
+    });
+    console.log('availableTickets loaded');
+  } else {
+    console.log('could not load availableTickets, result was invalid');
+  }
+}
+
 function setUpAvailableTickets() {
   return new Promise(resolve => {
     const options = {
@@ -192,34 +209,20 @@ function setUpAvailableTickets() {
       .then(res => res.json())
       .then(
         result => {
-          const resultData = result.data;
-          if (resultData && resultData.ticketTypes) {
-            config.availableTickets = result.data.ticketTypes;
-            console.log('availableTickets loaded');
-          } else {
-            console.log('availableTickets loader failed, result was invalid');
-          }
+          processTicketTypeResult(result);
           resolve();
         },
         err => {
           console.log(err);
           // If after 5 tries no available ticketTypes are found, start server anyway
           resolve();
-          console.log('availableTickets loader failed');
+          console.log('failed to load availableTickets at launch, retrying');
           // Continue attempts to fetch available ticketTypes in the background for one day once every minute
           retryFetch(`${config.URL.OTP}index/graphql`, options, 1440, 60000)
             .then(res => res.json())
             .then(
               result => {
-                const resultData = result.data;
-                if (resultData && resultData.ticketTypes) {
-                  config.availableTickets = result.data.ticketTypes;
-                  console.log('availableTickets loaded after retry');
-                } else {
-                  console.log(
-                    'availableTickets loader failed, result was invalid',
-                  );
-                }
+                processTicketTypeResult(result);
               },
               error => {
                 console.log(error);
