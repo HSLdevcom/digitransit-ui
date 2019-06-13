@@ -63,17 +63,22 @@ export const getFares = (fares, routes, config) => {
 export const getAlternativeFares = (zones, currentFares, allFares) => {
   const alternativeFares = [];
   if (zones.length === 1 && currentFares.length === 1 && allFares) {
-    const fareId = currentFares[0].fareId;
+    const { fareId } = currentFares[0];
     const ticketFeed = fareId.split(':')[0];
     const faresForFeed = allFares[ticketFeed];
     if (faresForFeed && faresForFeed[fareId]) {
       const ticketPrice = faresForFeed[fareId].price;
-      for (let [key, value] of Object.entries(faresForFeed)) {
-        if (key !== fareId && value.zones.includes(zones[0]) && value.price === ticketPrice) {
+      Object.keys(faresForFeed).forEach(key => {
+        const fareInfo = faresForFeed[key];
+        if (
+          key !== fareId &&
+          fareInfo.zones.includes(zones[0]) &&
+          fareInfo.price === ticketPrice
+        ) {
           alternativeFares.push(key.split(':')[1]);
         }
-      }
+      });
     }
   }
   return alternativeFares;
-}
+};

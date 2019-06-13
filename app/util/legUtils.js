@@ -232,15 +232,21 @@ export const getLegBadgeProps = (leg, config) => {
   };
 };
 
-export const getNewMinMaxCharCodes = (newCharCode, minCharCode, maxCharCode) => {
-  if (minCharCode === undefined || minCharCode > newCharCode) {
-    minCharCode = newCharCode;
+export const getNewMinMaxCharCodes = (
+  newCharCode,
+  minCharCode,
+  maxCharCode,
+) => {
+  let newMin = minCharCode;
+  let newMax = maxCharCode;
+  if (newMin === undefined || newMin > newCharCode) {
+    newMin = newCharCode;
   }
-  if (maxCharCode === undefined || maxCharCode < newCharCode) {
-    maxCharCode = newCharCode;
+  if (newMax === undefined || newMax < newCharCode) {
+    newMax = newCharCode;
   }
-  return [minCharCode, maxCharCode];
-}
+  return [newMin, newMax];
+};
 
 /**
  * Retrieves all zones from the legs (from & to points) and the legs' stops.
@@ -254,22 +260,35 @@ export const getZones = legs => {
     return [];
   }
 
-  let minCharCode, maxCharCode;
+  let minCharCode;
+  let maxCharCode;
   legs.forEach(leg => {
     if (leg.from && leg.from.stop && leg.from.stop.zoneId) {
       const zoneCharCode = leg.from.stop.zoneId.charCodeAt(0);
-      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(zoneCharCode, minCharCode, maxCharCode);
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+        zoneCharCode,
+        minCharCode,
+        maxCharCode,
+      );
     }
     if (leg.to && leg.to.stop && leg.to.stop.zoneId) {
       const zoneCharCode = leg.to.stop.zoneId.charCodeAt(0);
-      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(zoneCharCode, minCharCode, maxCharCode);
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+        zoneCharCode,
+        minCharCode,
+        maxCharCode,
+      );
     }
     if (Array.isArray(leg.intermediatePlaces)) {
       leg.intermediatePlaces
         .filter(place => place.stop && place.stop.zoneId)
         .forEach(place => {
-          const zoneCharCode= place.stop.zoneId.charCodeAt(0);
-          [minCharCode, maxCharCode] = getNewMinMaxCharCodes(zoneCharCode, minCharCode, maxCharCode);
+          const zoneCharCode = place.stop.zoneId.charCodeAt(0);
+          [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+            zoneCharCode,
+            minCharCode,
+            maxCharCode,
+          );
         });
     }
   });
@@ -278,7 +297,7 @@ export const getZones = legs => {
   // This way zones, that are between other zones but never stopped at, will be also added.
   const zones = {};
   if (minCharCode !== undefined) {
-    for (let charCode = minCharCode; charCode <= maxCharCode; charCode++ ) {
+    for (let charCode = minCharCode; charCode <= maxCharCode; charCode++) {
       zones[String.fromCharCode(charCode)] = true;
     }
   }

@@ -10,27 +10,26 @@ import { FormattedMessage } from 'react-intl';
  */
 export const renderZoneTicket = (fareId, alternativeFares) => {
   if (Array.isArray(alternativeFares) && alternativeFares.length > 0) {
-    const options = [<ZoneTicket key={fareId} ticketType={fareId} />]
+    const options = [<ZoneTicket key={fareId} ticketType={fareId} />];
     for (let i = 0; i < alternativeFares.length; i++) {
-      options.push(<FormattedMessage key={`${alternativeFares[i]}-or`} id="or" />);
-      options.push(<ZoneTicket key={alternativeFares[i]} ticketType={alternativeFares[i]} />);
+      options.push(
+        <FormattedMessage key={`${alternativeFares[i]}-or`} id="or" />,
+      );
+      options.push(
+        <ZoneTicket
+          key={alternativeFares[i]}
+          ticketType={alternativeFares[i]}
+        />,
+      );
     }
 
-    return (
-      <div className="zone-ticket-multiple-options">
-        {options}
-      </div>
-    );
+    return <div className="zone-ticket-multiple-options">{options}</div>;
   }
   return <ZoneTicket ticketType={fareId} />;
 };
 
 const ZoneTicket = ({ ticketType }) =>
-  ticketType ? (
-    <span
-      className="zone-ticket"
-    >{ticketType}</span>
-  ) : null;
+  ticketType ? <span className="zone-ticket">{ticketType}</span> : null;
 
 ZoneTicket.propTypes = {
   ticketType: PropTypes.string.isRequired,

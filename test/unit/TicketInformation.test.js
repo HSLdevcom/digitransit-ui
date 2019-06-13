@@ -276,7 +276,12 @@ describe('<TicketInformation />', () => {
         config: {
           ...defaultConfig,
           useTicketIcons: true,
-          availableTickets: {HSL: {"HSL:AB": { price: 2.8, zones: ["A", "B"] }, "HSL:BC": { price: 2.8, zones: ["B", "C"] }}},
+          availableTickets: {
+            HSL: {
+              'HSL:AB': { price: 2.8, zones: ['A', 'B'] },
+              'HSL:BC': { price: 2.8, zones: ['B', 'C'] },
+            },
+          },
         },
       },
     });

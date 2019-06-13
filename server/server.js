@@ -189,7 +189,10 @@ function processTicketTypeResult(result) {
       if (config.availableTickets[ticketFeed] === undefined) {
         config.availableTickets[ticketFeed] = {};
       }
-      config.availableTickets[ticketFeed][ticket.fareId] = { price: ticket.price, zones: ticket.zones };
+      config.availableTickets[ticketFeed][ticket.fareId] = {
+        price: ticket.price,
+        zones: ticket.zones,
+      };
     });
     console.log('availableTickets loaded');
   } else {
