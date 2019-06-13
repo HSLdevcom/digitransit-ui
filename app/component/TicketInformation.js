@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
-import { renderZoneTicketIcon } from './ZoneTicketIcon';
+import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 
 export const getUtmParameters = (agency, config) => {
@@ -68,7 +68,7 @@ export default function TicketInformation({ fares, zones }, { config, intl }) {
               <div>
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicketIcon(fare.ticketName, alternativeFares)
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (

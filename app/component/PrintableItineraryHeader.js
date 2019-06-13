@@ -7,7 +7,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import RelativeDuration from './RelativeDuration';
-import { renderZoneTicketIcon } from './ZoneTicketIcon';
+import { renderZoneTicket } from './ZoneTicket';
 import PreferencesStore from '../store/PreferencesStore';
 import { getFares, getAlternativeFares } from '../util/fareUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -120,7 +120,7 @@ class PrintableItineraryHeader extends React.Component {
                   )) ||
                   (config.useTicketIcons && (
                     <React.Fragment key={i}>
-                      {renderZoneTicketIcon(ticketName, alternativeFares)}
+                      {renderZoneTicket(ticketName, alternativeFares)}
                     </React.Fragment>
                   )) || (
                     <div key={i} className="fare-details">

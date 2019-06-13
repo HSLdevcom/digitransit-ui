@@ -62,7 +62,7 @@ export const getFares = (fares, routes, config) => {
  */
 export const getAlternativeFares = (zones, currentFares, allFares) => {
   const alternativeFares = [];
-  if (zones.length === 1 && currentFares.length === 1) {
+  if (zones.length === 1 && currentFares.length === 1 && allFares) {
     const fareId = currentFares[0].fareId;
     const ticketFeed = fareId.split(':')[0];
     const faresForFeed = allFares[ticketFeed];

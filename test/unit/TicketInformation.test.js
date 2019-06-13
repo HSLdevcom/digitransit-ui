@@ -7,7 +7,7 @@ import ExternalLink from '../../app/component/ExternalLink';
 import TicketInformation, {
   getUtmParameters,
 } from '../../app/component/TicketInformation';
-import ZoneTicketIcon from '../../app/component/ZoneTicketIcon';
+import ZoneTicket from '../../app/component/ZoneTicket';
 import { getFares } from '../../app/util/fareUtils';
 
 const defaultConfig = {
@@ -193,7 +193,7 @@ describe('<TicketInformation />', () => {
         },
       },
     });
-    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(1);
+    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
   });
 
   it('should use the mapped name for the ticket', () => {
@@ -252,7 +252,7 @@ describe('<TicketInformation />', () => {
         },
       },
     });
-    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(1);
+    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
   });
 
   it('should show AB and BC tickets for a trip within B zone', () => {
@@ -276,20 +276,21 @@ describe('<TicketInformation />', () => {
         config: {
           ...defaultConfig,
           useTicketIcons: true,
+          availableTickets: {HSL: {"HSL:AB": { price: 2.8, zones: ["A", "B"] }, "HSL:BC": { price: 2.8, zones: ["B", "C"] }}},
         },
       },
     });
 
-    expect(wrapper.find(ZoneTicketIcon)).to.have.lengthOf(2);
+    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(2);
     expect(
       wrapper
-        .find(ZoneTicketIcon)
+        .find(ZoneTicket)
         .at(0)
         .props().ticketType,
     ).to.equal('AB');
     expect(
       wrapper
-        .find(ZoneTicketIcon)
+        .find(ZoneTicket)
         .at(1)
         .props().ticketType,
     ).to.equal('BC');

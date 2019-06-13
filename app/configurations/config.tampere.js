@@ -66,6 +66,8 @@ export default configMerger(walttiConfig, {
 
   showTicketInformation: true,
 
+  useTicketIcons: true,
+
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },

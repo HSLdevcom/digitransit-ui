@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
 
 /**
  * Returns a zone ticket icon or icons, if there are alternativeFares, to render.
@@ -9,12 +8,12 @@ import Icon from './Icon';
  * @param {*} fareId the fareId (without feedId, for example AB)
  * @param {*} alternativeFares fares that should be shown in addition to the one given by OpenTripPlanner.
  */
-export const renderZoneTicketIcon = (fareId, alternativeFares) => {
+export const renderZoneTicket = (fareId, alternativeFares) => {
   if (Array.isArray(alternativeFares) && alternativeFares.length > 0) {
-    const options = [<ZoneTicketIcon ticketType={fareId} />]
+    const options = [<ZoneTicket key={fareId} ticketType={fareId} />]
     for (let i = 0; i < alternativeFares.length; i++) {
-      options.push(<FormattedMessage id="or" />);
-      options.push(<ZoneTicketIcon ticketType={alternativeFares[i]} />);
+      options.push(<FormattedMessage key={`${alternativeFares[i]}-or`} id="or" />);
+      options.push(<ZoneTicket key={alternativeFares[i]} ticketType={alternativeFares[i]} />);
     }
 
     return (
@@ -23,22 +22,18 @@ export const renderZoneTicketIcon = (fareId, alternativeFares) => {
       </div>
     );
   }
-  return <ZoneTicketIcon ticketType={fareId} />;
+  return <ZoneTicket ticketType={fareId} />;
 };
 
-const ZoneTicketIcon = ({ ticketType }) =>
+const ZoneTicket = ({ ticketType }) =>
   ticketType ? (
-    <Icon
-      className="zone-ticket-icon"
-      height={1}
-      img={`icon-icon_zone-ticket-${ticketType.toLowerCase()}`}
-      omitViewBox
-      width={ticketType.length + 0.35}
-    />
+    <span
+      className="zone-ticket"
+    >{ticketType}</span>
   ) : null;
 
-ZoneTicketIcon.propTypes = {
+ZoneTicket.propTypes = {
   ticketType: PropTypes.string.isRequired,
 };
 
-export default ZoneTicketIcon;
+export default ZoneTicket;
