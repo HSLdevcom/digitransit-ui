@@ -82,7 +82,7 @@ class CustomizeSearch extends React.Component {
     const currentSettings = getCurrentSettings(config, query);
     const isUsingBicycle = currentSettings.modes.includes(StreetMode.Bicycle);
     let ticketOptions = [];
-    if (config.availableTickets) {
+    if (config.showTicketSelector && config.availableTickets) {
       Object.keys(config.availableTickets).forEach(key => {
         if (config.feedIds.indexOf(key) > -1) {
           ticketOptions = ticketOptions.concat(
@@ -90,12 +90,12 @@ class CustomizeSearch extends React.Component {
           );
         }
       });
-    }
 
-    // TODO this needs refactoring if new configurations use ticket selector
-    ticketOptions.sort((a, b) => {
-      return b.length - a.length > 1 ? -1 : 1;
-    });
+      // TODO this needs refactoring if new configurations use ticket selector
+      ticketOptions.sort((a, b) => {
+        return b.length - a.length > 1 ? -1 : 1;
+      });
+    }
 
     return (
       <div className="customize-search">
