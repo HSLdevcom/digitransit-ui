@@ -29,9 +29,9 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
-  getExternalLink(code, className) {
-    // Check for classname, should the external link be visible
-    if(!code || className !== 'stop-page header') {
+  getExternalLink(code, isPopUp) {
+    // Check for popup from stopMarkerPopup, should the external link be visible
+    if(!code || isPopUp) {
       return null;
     }
     const url = this.headerConfig.virtualMonitorBaseUrl+""+code
@@ -40,7 +40,7 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    const { className, currentTime, headingStyle, icons, stop } = this.props;
+    const { className, currentTime, headingStyle, icons, stop, isPopUp } = this.props;
     if (!stop) {
       return false;
     }
@@ -60,7 +60,7 @@ class StopCardHeader extends React.Component {
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        externalLink={this.getExternalLink(stop.code,className)}
+        externalLink={this.getExternalLink(stop.code,isPopUp)}
         icons={icons}
       >
         {this.headerConfig.showZone &&
@@ -77,6 +77,7 @@ StopCardHeader.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
     desc: PropTypes.string,
+    isPopUp: PropTypes.bool,
     zoneId: PropTypes.string,
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
