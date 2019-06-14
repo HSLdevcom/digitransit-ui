@@ -164,7 +164,7 @@
     "mini-css-extract-plugin": "0.5.0",
     "mocha": "5.2.0",
     "mock-local-storage": "1.1.8",
-    "mockdate": "2.0.2",
+    "mockdate": "2.0.3",
     "nightwatch": "0.9.20",
     "node-sass": "4.11.0",
     "nodemon": "1.18.10",
