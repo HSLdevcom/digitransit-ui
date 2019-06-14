@@ -15,29 +15,58 @@ const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry', '+'];
 
 let Popup;
 
-function getVehicleIcon(mode, heading, useSmallIcon = false) {
+function getVehicleIcon(
+  mode,
+  heading,
+  vehicleNumber,
+  useSmallIcon = false,
+  useLargeIcon = false,
+) {
   if (!isBrowser) {
     return null;
   }
   if (MODES_WITH_ICONS.indexOf(mode) === MODES_WITH_ICONS.length - 1) {
-    return {
-      element: <IconWithTail img="#icon-icon_all-vehicles-small" rotate={heading} allVehicles={true} />,
-      className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-    };
+    return useLargeIcon
+      ? {
+          element: (
+            <IconWithTail
+              img="#icon-icon_all-vehicles-small"
+              rotate={heading}
+              allVehicles
+              vehicleNumber={vehicleNumber}
+              useLargeIcon={useLargeIcon}
+            />
+          ),
+          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+        }
+      : {
+          element: (
+            <IconWithTail
+              img="#icon-icon_all-vehicles-small"
+              rotate={heading}
+              allVehicles
+            />
+          ),
+          className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+        };
   }
   // if (MODES_WITH_ICONS.indexOf(mode) !== -1) {
-    return {
-      element: <IconWithTail img={`icon-icon_${mode}-live`} rotate={heading} />,
-      className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-    };
+  return {
+    element: <IconWithTail img={`icon-icon_${mode}-live`} rotate={heading} />,
+    className: `vehicle-icon ${mode} ${useSmallIcon ? 'small-map-icon' : ''}`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  };
   // }
 
   return {
-    element: <iconAsString img="icon-icon_all-vehicles-small" rotate={heading} />,
+    element: (
+      <iconAsString img="icon-icon_all-vehicles-small" rotate={heading} />
+    ),
     className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
@@ -53,17 +82,16 @@ if (isBrowser) {
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
-  return (
-    !Number.isNaN(parseFloat(message.lat)) &&
-    !Number.isNaN(parseFloat(message.long)) &&
-    pattern.substr(0, message.route.length) === message.route &&
-    (message.headsign === undefined || headsign === message.headsign) &&
-    (direction === undefined || message.direction === direction) &&
-    (tripStart === undefined || message.tripStartTime === tripStart)
-  );
-}
-
-function shouldShowAllVehicles(message, direction, tripStart, pattern, headsign) {
+  if (message.mode !== '+') {
+    return (
+      !Number.isNaN(parseFloat(message.lat)) &&
+      !Number.isNaN(parseFloat(message.long)) &&
+      pattern.substr(0, message.route.length) === message.route &&
+      (message.headsign === undefined || headsign === message.headsign) &&
+      (direction === undefined || message.direction === direction) &&
+      (tripStart === undefined || message.tripStartTime === tripStart)
+    );
+  }
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long))
@@ -73,7 +101,7 @@ function shouldShowAllVehicles(message, direction, tripStart, pattern, headsign)
 function VehicleMarkerContainer(props) {
   return Object.entries(props.vehicles)
     .filter(([, message]) =>
-      shouldShowAllVehicles(
+      shouldShowVehicle(
         message,
         props.direction,
         props.tripStart,
@@ -88,7 +116,13 @@ function VehicleMarkerContainer(props) {
           lat: message.lat,
           lon: message.long,
         }}
-        icon={getVehicleIcon(message.mode, message.heading, false)}
+        icon={getVehicleIcon(
+          message.mode,
+          message.heading,
+          message.route.split(':')[1],
+          false,
+          props.useLargeIcon,
+        )}
       >
         <Popup
           offset={[106, 16]}

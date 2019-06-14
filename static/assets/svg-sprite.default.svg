@@ -489,6 +489,10 @@
 	<stop offset="0" stop-color="#999" stop-opacity="1"/>
 	<stop offset="1" stop-color="#999" stop-opacity="0"/>
 </linearGradient>
+<linearGradient x1="50%" y1="0%" x2="50%" y2="97.856%" id="all-busses">
+		<stop offset="0" stop-color="#007AC9" stop-opacity="1"/>
+		<stop offset="1" stop-color="#007AC9" stop-opacity="0"/>
+</linearGradient>
 <mask id="fadeMask" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
 	<rect x="0" y="0" width="1" height="1" fill="url(#fadeGrad)"/>
 </mask>
@@ -966,9 +970,23 @@
   <circle fill="#1c57cf" cx="11" cy="11" r="11" />
   <path fill="#FFF" d="M11.034 17.532c-3.942 0-6.534-2.808-6.534-6.48v-.036C4.5 7.488 7.2 4.5 10.998 4.5c1.89 0 3.15.45 4.302 1.278.216.162.45.468.45.9 0 .594-.486 1.098-1.098 1.098-.288 0-.504-.126-.684-.252-.81-.594-1.692-.99-3.06-.99-2.322 0-4.086 2.034-4.086 4.446v.036c0 2.592 1.71 4.5 4.284 4.5 1.188 0 2.268-.378 3.042-.954v-2.358h-2.484c-.54 0-.99-.414-.99-.954s.45-.972.99-.972h3.51c.63 0 1.116.486 1.116 1.116v3.366c0 .63-.252 1.08-.774 1.404a8.024 8.024 0 0 1-4.482 1.368z"/>
 </symbol>
-<symbol id="icon-icon_all-vehicles-small" width="8px" height="20px" viewBox="0 0 8 20">
-	<path d="M4.8446037,20.8093943 C7.0537427,20.8093943 8.8446037,18.8195487 8.8446037,16.3649498 C8.8446037,13.9103509 7.0537427,0.809394273 4.8446037,0.809394273 C2.6354647,0.809394273 0.844603695,13.9103509 0.844603695,16.3649498 C0.844603695,18.8195487 2.6354647,20.8093943 4.8446037,20.8093943 Z" id="tail" fill="url(#linearGradient-1)" fill-rule="nonzero" opacity="0.5"></path>
-	<circle id="Oval" stroke="#FFFFFF" fill="#007AC9" cx="4.8446037" cy="16.8093943" r="3.5"></circle>
+<symbol id="icon-icon_all-vehicles-small" width="9px" height="20px" viewBox="0 0 9 20" stroke="none" stroke-width="1">
+	<g id="Vehicles" transform="translate(-48.000000, -41.000000)">
+		<g transform="translate(48.000000, 40.000000)">
+			<path d="M4.845 20.81c2.209 0 4-1.99 4-4.445S7.054.809 4.845.809c-2.21 0-4 13.101-4 15.556 0 2.455 1.79 4.444 4 4.444z" fill="url(#all-busses)" fill-rule="nonzero" opacity=".5"/>
+			<circle stroke="#FFF" fill="#007AC9" cx="4.845" cy="16.809" r="3.5"/>
+		</g>
+	</g>
+</symbol>
+<symbol id="icon-icon_all-vehicles-shadow" viewBox="0 0 1024 1024">
+	<path fill="url(#all-busses)" opacity="0.7" class="path1" d="M693.568 516.62c0-97.725-79.222-176.948-176.948-176.948s-176.948 79.222-176.948 176.948c0 0.509 0.036 1.012 0.040 1.521-0.004 0.47-0.040 0.936-0.040 1.405 0 90.208 79.222 509.074 176.948 509.074s176.948-418.862 176.948-509.074c0-0.47-0.036-0.936-0.036-1.405 0-0.509 0.036-1.012 0.036-1.521z"></path>
+</symbol>
+<symbol id="icon-icon_all-vehicles-large" width="9px" height="20px" viewBox="0 0 9 20">
+	<g fill="none" fill-rule="evenodd">
+		<g transform="translate(0 -1)" fill="none" fill-rule="evenodd">
+			<circle stroke-opacity=".2" stroke="#000" fill="#007AC9" cx="4.5" cy="11.206" r="3.5"/>
+		</g>
+	</g>
 </symbol>
 </defs>
 </svg>

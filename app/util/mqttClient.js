@@ -15,7 +15,7 @@ function getTopic(options, settings) {
   const direction = options.direction
     ? parseInt(options.direction, 10) + 1
     : '+';
-
+  const tripId = options.tripId ? options.tripId : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,
@@ -23,6 +23,7 @@ function getTopic(options, settings) {
     tripStartTime,
     options.headsign,
     settings.agency,
+    tripId,
   );
   return topic;
 }
@@ -43,6 +44,7 @@ export function parseMessage(topic, message, agency) {
     headsign, // eslint-disable-line no-unused-vars
     startTime,
     nextStop,
+    tripId, // eslint-disable-line no-unused-vars
     ...geohash // eslint-disable-line no-unused-vars
   ] = topic.split('/');
 
@@ -79,20 +81,14 @@ export function changeTopics(settings, actionContext) {
   client.unsubscribe(oldTopics);
   // remove existing vehicles/topics
   actionContext.dispatch('RealTimeClientReset');
-  const topic = getTopic(settings.options, settings);
+  const topics = settings.options.map(option => getTopic(option, settings));
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', topic);
-  client.subscribe(topic);
+  actionContext.dispatch('RealTimeClientNewTopics', topics);
+  client.subscribe(topics);
 }
 
 export function startMqttClient(settings, actionContext) {
-  let topics = settings.options.map(option => getTopic(option, settings));
-  // if (actionContext.config.showAllBusses) {
-  //   topics = settings.options.map(option => getTopics(option, settings));
-  // } else {
-  //   topics = settings.options.map(option => getTopic(option, settings));
-
-  // }
+  const topics = settings.options.map(option => getTopic(option, settings));
   const mode = settings.options.length !== 0 ? settings.options[0].mode : 'bus';
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
@@ -116,7 +112,7 @@ export function startMqttClient(settings, actionContext) {
               actionContext.dispatch('RealTimeClientMessage', message);
             });
           });
-          
+
           return { client, topics };
         },
       );

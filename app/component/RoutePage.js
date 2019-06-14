@@ -122,12 +122,14 @@ class RoutePage extends React.Component {
       this.context.executeAction(changeRealTimeClientTopics, {
         ...source,
         agency,
-        options: {
-          route: id,
-          mode: this.props.route.mode.toLowerCase(),
-          gtfsId: route[1],
-          headsign,
-        },
+        options: [
+          {
+            route: id,
+            mode: this.props.route.mode.toLowerCase(),
+            gtfsId: route[1],
+            headsign,
+          },
+        ],
         oldTopics: topics,
         client,
       });
