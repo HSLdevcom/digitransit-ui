@@ -35,7 +35,6 @@ const IconWithTail = ({
             <use
               filter={desaturate ? 'url(#desaturate)' : undefined}
               xlinkHref="#icon-icon_all-vehicles-large"
-              transform="transform(40 40)"
             />
             <text
               textAnchor="middle"

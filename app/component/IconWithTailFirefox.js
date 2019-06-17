@@ -91,7 +91,7 @@ const getFontSize = length => {
     case 2:
       return '15px';
     case 3:
-      return '13px';
+      return '12px';
     case 4:
       return '11px';
     case 5:
