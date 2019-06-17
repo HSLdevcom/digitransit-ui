@@ -17,6 +17,7 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
   stopRealTimeClient,
+  changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
 
 const DEFAULT_ZOOM = 12;
@@ -115,7 +116,13 @@ class MapWithTrackingStateHandler extends React.Component {
     });
     this.setState(geoJson);
     if (config.showAllBusses && mapLayers.showAllBusses) {
-      this.getAllBusses();
+      this.startClient();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.origin.lat != this.state.origin.lat || prevProps.origin.lon != this.state.origin.lon) {
+      this.updateClient();
     }
   }
 
@@ -143,13 +150,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
   componentWillUnmount() {
     this.isCancelled = true;
-    this.removeAllBusses();
-    // const { client, topics } = await this.context.getStore('RealTimeInformationStore');
-    // if (client) {
-    //   client.unsubscribe(topics);
-    //   await this.context.executeAction(stopRealTimeClient, client);
-    //   console.log('unmount')
-    // }
+    this.removeClient();
   }
 
   updateCurrentBounds = () => {
@@ -172,29 +173,70 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   };
 
-  getAllBusses() {
-    const { realTime } = this.context.config;
+  startClient() {
+    const { realTime, defaultEndpoint } = this.context.config;
     const agency = this.context.config.feedIds[0];
     const source = realTime[agency];
+    const lat = this.props.origin.set ? this.props.origin.lat.toString() : defaultEndpoint.lat.toString();
+    const lon = this.props.origin.set ? this.props.origin.lon.toString() : defaultEndpoint.lon.toString();
+    const geoHash = [
+      lat.substring(0,2) + ';' + lon.substring(0,2),
+      lat.substring(3,4) + lon.substring(3,4),
+      '+',
+      '+'
+    ];
     if (source && source.active) {
       this.context.executeAction(startRealTimeClient, {
         ...source,
         agency,
         options: [
           {
-            // route: '+',
-            // add some information from the context
-            // to compensate potentially missing feed data
             mode: '+',
             gtfsId: '+',
             headsign: '+',
+            geoHash: geoHash,
           },
         ],
       });
     }
   }
 
-  removeAllBusses() {
+  updateClient() {
+    const { client, topics } = this.context.getStore(
+      'RealTimeInformationStore',
+    );
+    if (client) {
+      const { realTime, defaultEndpoint } = this.context.config;
+      const agency = this.context.config.feedIds[0];
+      const source = realTime[agency];
+      const lat = this.props.origin.set ? this.props.origin.lat.toString() : defaultEndpoint.lat.toString();
+      const lon = this.props.origin.set ? this.props.origin.lon.toString() : defaultEndpoint.lon.toString();
+      const geoHash = [
+        lat.substring(0,2) + ';' + lon.substring(0,2),
+        lat.substring(3,4) + lon.substring(3,4),
+        '+',
+        '+'
+      ];
+      if (source && source.active) {
+        this.context.executeAction(changeRealTimeClientTopics, {
+          ...source,
+          agency,
+          options: [
+            {
+              mode: '+',
+              gtfsId: '+',
+              headsign: '+',
+              geoHash: geoHash,
+            },
+          ],
+          client,
+          oldTopics: topics,
+        });
+      }
+    }
+  }
+
+  removeClient() {
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);

@@ -101,7 +101,7 @@ class DepartureListContainer extends Component {
     }
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
     if (this.context.config.showAllBusses && this.props.isStopPage) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
@@ -121,9 +121,6 @@ class DepartureListContainer extends Component {
       )
       .map(departure => ({
         route: departure.trip.pattern.route.gtfsId.split(':')[1],
-        // direction: (departure.trip.directionId),
-        // tripStartTime: getStartTime(departure.trip.departureStoptime.scheduledDeparture),
-        // agencyId: departure.trip.pattern.route.gtfsId.split(':')[0],
         headsign: '+',
         gtfsId: departure.trip.pattern.route.gtfsId,
         mode: '+',

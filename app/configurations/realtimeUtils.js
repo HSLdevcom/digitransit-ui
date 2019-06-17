@@ -4,7 +4,6 @@ function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
   return route[1];
 }
-// /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>
 function walttiTopicResolver(
   route,
   direction,
@@ -12,6 +11,7 @@ function walttiTopicResolver(
   headsign,
   feedId,
   tripId,
+  geoHash,
 ) {
   return (
     '/gtfsrt/vp/' +
@@ -26,6 +26,14 @@ function walttiTopicResolver(
     tripId +
     '/+/' +
     tripStartTime +
+    '/+/' +
+    geoHash[0] +
+    '/' +
+    geoHash[1] +
+    '/' +
+    geoHash[2] +
+    '/' +
+    geoHash[3] +
     '/#'
   );
 }
@@ -39,6 +47,7 @@ export default {
       headsign, // eslint-disable-line no-unused-vars
       feedId, // eslint-disable-line no-unused-vars
       tripId, // eslint-disable-line no-unused-vars
+      geoHash, // eslint-disable-line no-unused-vars
     ) {
       return (
         '/hfp/v1/journey/ongoing/+/+/+/' +
@@ -70,7 +79,7 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
   LINKKI: {
     mqttTopicResolver: walttiTopicResolver,

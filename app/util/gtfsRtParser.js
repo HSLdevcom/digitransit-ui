@@ -4,7 +4,7 @@ import Pbf from 'pbf';
 export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
   const pbf = new Pbf(data);
   const feed = feedParser(pbf);
-
+ 
   // /gtfsrt/vp/<feed_Id>/<agency_id>/<agency_name>/<mode>/<route_id>/<direction_id>/<trip_headsign>/<trip_id>/<next_stop>/<start_time>/<vehicle_id>
   const [
     ,
@@ -21,6 +21,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
     ,
     startTime,
     vehicleId,
+    geoHash,
   ] = topic.split('/');
 
   const messages = [];
@@ -43,6 +44,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           heading: position.bearing ? Math.floor(position.bearing) : 0,
           headsign,
           tripId,
+          geoHash,
         };
         messages.push(message);
       }

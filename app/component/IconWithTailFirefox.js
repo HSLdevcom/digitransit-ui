@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
-const IconWithTail = ({
+const IconWithTailFirefox = ({
   className,
   id,
   img,
@@ -35,7 +35,7 @@ const IconWithTail = ({
             <use
               filter={desaturate ? 'url(#desaturate)' : undefined}
               xlinkHref="#icon-icon_all-vehicles-large"
-              transform="transform(40 40)"
+              transform="translate(24 0) scale(3.8)"
             />
             <text
               textAnchor="middle"
@@ -44,7 +44,7 @@ const IconWithTail = ({
               fontWeight="bold"
               fill="#FFF"
             >
-              <tspan x="40" y="45.5">
+              <tspan x="41" y="44.5">
                 {vehicleNumber}
               </tspan>
             </text>
@@ -54,7 +54,7 @@ const IconWithTail = ({
           <use
             filter={desaturate ? 'url(#desaturate)' : undefined}
             xlinkHref="#icon-icon_all-vehicles-small"
-            transform={`rotate(${180 + rotate} 40 40)`}
+            transform={`rotate(${180 + rotate} 40 40) scale(3.5)`}
           />
         )}
         {children}
@@ -101,27 +101,27 @@ const getFontSize = length => {
   }
 };
 
-IconWithTail.displayName = 'IconWithTail';
+IconWithTailFirefox.displayName = 'IconWithTailFirefox';
 
-IconWithTail.description = () => (
+IconWithTailFirefox.description = () => (
   <div>
     <p>Shows an icon from the SVG sprite and adds blue &lsquo;tail&rsquo;.</p>
     <ComponentUsageExample description="Rotate 0">
-      <IconWithTail img="icon-icon_bus-live" rotate={0} />
+      <IconWithTailFirefox img="icon-icon_bus-live" rotate={0} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Rotate 90">
-      <IconWithTail img="icon-icon_bus-live" rotate={90} />
+      <IconWithTailFirefox img="icon-icon_bus-live" rotate={90} />
     </ComponentUsageExample>
     <ComponentUsageExample description="Rotate 90, desaturated">
-      <IconWithTail desaturate img="icon-icon_bus-live" rotate={90} />
+      <IconWithTailFirefox desaturate img="icon-icon_bus-live" rotate={90} />
     </ComponentUsageExample>
     <ComponentUsageExample description="no tail">
-      <IconWithTail desaturate img="icon-icon_bus-live" />
+      <IconWithTailFirefox desaturate img="icon-icon_bus-live" />
     </ComponentUsageExample>
   </div>
 );
 
-IconWithTail.propTypes = {
+IconWithTailFirefox.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
@@ -131,4 +131,4 @@ IconWithTail.propTypes = {
   scrollIntoView: PropTypes.bool,
 };
 
-export default IconWithTail;
+export default IconWithTailFirefox;
