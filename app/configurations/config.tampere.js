@@ -72,7 +72,9 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showTicketInformation: false,
+  showTicketInformation: true,
+
+  useTicketIcons: true,
 
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
@@ -80,51 +82,11 @@ export default configMerger(walttiConfig, {
 
   ticketLink: 'http://joukkoliikenne.tampere.fi/liput-ja-hinnat.html',
 
-  // mapping (string, lang) from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId, lang) {
-    const count = {
-      fi: ['kaksi', 'kolme', 'neljä', 'viisi', 'kuusi'],
-      en: ['two', 'three', 'four', 'five', 'six'],
-      sv: ['två', 'tre', 'fyra', 'fem', 'sex'],
-    };
-
-    const zone = {
-      fi: 'vyöhykettä',
-      en: 'zones',
-      sv: 'zoner',
-    };
-
-    const ticketType = {
-      fi: 'Kertalippu',
-      en: 'Single ticket',
-      sv: 'Enkelbiljett',
-    };
-
-    if (fareId && fareId.substring) {
-      const index = Number.parseInt(
-        fareId.substring(fareId.indexOf(':F') + 2),
-        10,
-      );
-      if (Number.isNaN(index)) {
-        return '';
-      }
-      let zoneCount;
-      if (index < 6) {
-        zoneCount = 0;
-      } else if (index < 10) {
-        zoneCount = 1;
-      } else if (index < 13) {
-        zoneCount = 2;
-      } else if (index < 15) {
-        zoneCount = 3;
-      } else {
-        zoneCount = 4;
-      }
-      return (
-        ticketType[lang] + ', ' + count[lang][zoneCount] + ' ' + zone[lang]
-      );
-    }
-    return '';
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   searchParams: {

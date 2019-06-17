@@ -4,7 +4,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import cx from 'classnames';
 import { routerShape, locationShape } from 'react-router';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
@@ -37,7 +37,6 @@ class ItineraryTab extends React.Component {
     config: PropTypes.object.isRequired,
     router: routerShape.isRequired,
     location: locationShape.isRequired,
-    intl: intlShape.isRequired,
   };
 
   state = {
@@ -78,14 +77,9 @@ class ItineraryTab extends React.Component {
 
   render() {
     const { itinerary, searchTime } = this.props;
-    const { config, intl } = this.context;
+    const { config } = this.context;
 
-    const fares = getFares(
-      itinerary.fares,
-      getRoutes(itinerary.legs),
-      config,
-      intl.locale,
-    );
+    const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
 
     return (
       <div className="itinerary-tab">
