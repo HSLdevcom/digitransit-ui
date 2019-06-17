@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
+import updatePopupClosedStoreState from '../../action/PopupClosedActions';
 
 import {
   PREFIX_ROUTES,
@@ -20,17 +21,13 @@ class MarkerPopupBottom extends React.Component {
 
   static propTypes = {
     location: dtLocationShape.isRequired,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        closePopup: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
   };
 
   static contextTypes = {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func,
   };
 
   routeFrom = () => {
@@ -55,7 +52,7 @@ class MarkerPopupBottom extends React.Component {
       const [, , destinationString] = pathName.split('/');
       destination = parseLocation(destinationString);
     }
-    this.props.leaflet.map.closePopup();
+    
     navigateTo({
       origin: { ...this.props.location, ready: true },
       destination,
@@ -64,6 +61,8 @@ class MarkerPopupBottom extends React.Component {
       base: locationWithTime,
       resetIndex: true,
     });
+
+    this.context.executeAction(updatePopupClosedStoreState, true);
   };
 
   routeTo = () => {
@@ -88,7 +87,7 @@ class MarkerPopupBottom extends React.Component {
       const [, originString] = pathName.split('/');
       origin = parseLocation(originString);
     }
-    this.props.leaflet.map.closePopup();
+    
     navigateTo({
       origin,
       destination: { ...this.props.location, ready: true },
@@ -97,6 +96,8 @@ class MarkerPopupBottom extends React.Component {
       base: locationWithTime,
       resetIndex: true,
     });
+
+    this.context.executeAction(updatePopupClosedStoreState, true);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
