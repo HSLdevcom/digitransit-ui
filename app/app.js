@@ -15,7 +15,6 @@ import FavouriteCityBikeStationStore from './store/FavouriteCityBikeStationStore
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import CanceledLegsBarStore from './store/CanceledLegsBarStore';
-import PopupClosedStore from './store/PopupClosedStore';
 
 export default config => {
   const app = new Fluxible({
@@ -36,7 +35,6 @@ export default config => {
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(CanceledLegsBarStore);
-  app.registerStore(PopupClosedStore);
 
   app.plug({
     name: 'extra-context-plugin',

@@ -13,25 +13,6 @@ $border-radius-rounded: 30px;
   background-color: $white;
   padding: 0.4em 0 0.5em;
 
-  .leaflet-popup-close-button-mock {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 4px 4px 0 0;
-    border: none;
-    text-align: center;
-    width: 18px;
-    height: 14px;
-    font: 16px/14px Tahoma,Verdana,sans-serif;
-    color: #c3c3c3;
-    text-decoration: none;
-    font-weight: 700;
-    background: transparent;
-    &:hover {
-      color: #999;
-    }
-  }
-
   .card-header-content {
     display: flex;
     flex-direction: row;
@@ -41,9 +22,6 @@ $border-radius-rounded: 30px;
       flex-grow: 1;
     }
 
-    .leaflet-popup-close-button {
-      display: none;
-    }
   }
 
   .zone-icon-container {
