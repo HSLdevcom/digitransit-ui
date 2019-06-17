@@ -30,7 +30,6 @@ import MapLayerStore, { mapLayerShape } from '../../../store/MapLayerStore';
 const initialState = {
   selectableTargets: undefined,
   coords: undefined,
-  isPopupOpen: false,
   showSpinner: true,
 };
 
@@ -48,6 +47,7 @@ class TileLayerContainer extends GridLayer {
       map: PropTypes.shape({
         addLayer: PropTypes.func.isRequired,
         addEventParent: PropTypes.func.isRequired,
+        closePopup: PropTypes.func.isRequired,
         removeEventParent: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
@@ -67,7 +67,7 @@ class TileLayerContainer extends GridLayer {
     autoPanPaddingTopLeft: [5, 125],
     className: 'popup',
     ref: 'popup',
-    onClose: () => this.resetState(),
+    onClose: () => this.setState({ ...initialState }),
     autoPan: false,
   };
 
@@ -110,8 +110,6 @@ class TileLayerContainer extends GridLayer {
     this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
     this.leafletElement.off('click contextmenu', this.onClick);
   }
-
-  resetState = () => this.setState({ ...initialState });
 
   onTimeChange = e => {
     let activeTiles;
@@ -187,15 +185,25 @@ class TileLayerContainer extends GridLayer {
       coords,
       forceOpen = false,
     ) => {
-      const { coords: prevCoords, isPopupOpen } = this.state;
+      const {
+        disableMapTracking,
+        leaflet: { map },
+        mapLayers,
+      } = this.props;
+      const { coords: prevCoords } = this.state;
+      const popup = map._popup; // eslint-disable-line no-underscore-dangle
 
-      if (isPopupOpen && (coords.equals(prevCoords) || !forceOpen)) {
-        this.resetState();
+      if (
+        popup &&
+        popup.isOpen() &&
+        (!forceOpen || (coords && coords.equals(prevCoords)))
+      ) {
+        map.closePopup();
         return;
       }
 
-      if (selectableTargets && this.props.disableMapTracking) {
-        this.props.disableMapTracking(); // disable now that popup opens
+      if (selectableTargets && disableMapTracking) {
+        disableMapTracking(); // disable now that popup opens
       }
 
       this.setState({
@@ -203,12 +211,11 @@ class TileLayerContainer extends GridLayer {
           isFeatureLayerEnabled(
             target.feature,
             target.layer,
-            this.props.mapLayers,
+            mapLayers,
             this.context.config,
           ),
         ),
         coords,
-        isPopupOpen: true,
         showSpinner: true,
       });
     };
