@@ -43,6 +43,7 @@ class MapWithTrackingStateHandler extends React.Component {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
+    destination: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
@@ -196,6 +197,7 @@ class MapWithTrackingStateHandler extends React.Component {
     const {
       position,
       origin,
+      destination,
       config,
       children,
       renderCustomButtons,
@@ -225,6 +227,15 @@ class MapWithTrackingStateHandler extends React.Component {
         <LazilyLoad modules={locationMarkerModules} key="from">
           {({ LocationMarker }) => (
             <LocationMarker position={origin} type="from" />
+          )}
+        </LazilyLoad>,
+      );
+    }
+    if (destination && destination.ready === true) {
+      leafletObjs.push(
+        <LazilyLoad modules={locationMarkerModules} key="to">
+          {({ LocationMarker }) => (
+            <LocationMarker position={destination} type="to" />
           )}
         </LazilyLoad>,
       );
