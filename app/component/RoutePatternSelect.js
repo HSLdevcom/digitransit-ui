@@ -59,6 +59,10 @@ class RoutePatternSelect extends Component {
             p => Array.isArray(p.tripsForDate) && p.tripsForDate.length > 0,
           );
 
+    if (patterns.length === 0) {
+      return null;
+    }
+
     const options = sortBy(patterns, 'code').map(pattern => {
       if (patterns.length > 2) {
         return (
