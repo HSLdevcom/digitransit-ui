@@ -289,6 +289,12 @@ class DepartureListContainer extends Component {
   }
 }
 
+DepartureListContainer.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
+  config: PropTypes.object.isRequired,
+};
+
 const containerComponent = Relay.createContainer(DepartureListContainer, {
   fragments: {
     stoptimes: () => Relay.QL`
