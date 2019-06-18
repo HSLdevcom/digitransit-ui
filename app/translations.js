@@ -986,6 +986,7 @@ const translations = {
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.title': 'Stop {name} - {code}',
     'stop-page.title-short': 'Stop',
+    'stop-virtual-monitor': 'Virtual monitor',
     stops: 'Stops',
     'street-mode-bicycle': 'Bicycle',
     'street-mode-car': 'Car',
