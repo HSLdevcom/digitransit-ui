@@ -35,6 +35,7 @@ StopCard.propTypes = {
   }),
   icons: PropTypes.arrayOf(PropTypes.node),
   distance: PropTypes.number,
+  isPopUp: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node,
   isTerminal: PropTypes.bool,

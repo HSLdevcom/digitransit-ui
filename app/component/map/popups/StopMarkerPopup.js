@@ -56,7 +56,6 @@ StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
   terminal: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
-  isPopUp: PropTypes.bool,
   relay: PropTypes.shape({
     variables: PropTypes.shape({
       currentTime: PropTypes.number.isRequired,

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import CardHeader from '../../../app/component/CardHeader';
-import StopCardHeader from '../../../app/component/StopCardHeader';
 import ExternalLink from '../../../app/component/ExternalLink';
 
 describe('<CardHeader />', () => {

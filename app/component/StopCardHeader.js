@@ -108,6 +108,7 @@ StopCardHeader.propTypes = {
   className: PropTypes.string,
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
+  isPopUp: PropTypes.bool,
 };
 
 StopCardHeader.defaultProps = {
