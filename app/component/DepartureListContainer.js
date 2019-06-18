@@ -81,6 +81,7 @@ class DepartureListContainer extends Component {
     super(props);
     this.startClient = this.startClient.bind(this);
     this.updateClient = this.updateClient.bind(this);
+    this.state = { routes: [] };
   }
 
   componentDidMount() {
@@ -92,21 +93,32 @@ class DepartureListContainer extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.context.config.showAllBusses && this.props.isStopPage) {
+      const departures = asDepartures(this.props.stoptimes)
+        .filter(departure => !(this.props.isTerminal && departure.isArrival))
+        .filter(departure => this.props.currentTime < departure.stoptime)
+        .filter(departure => departure.realtime);
+
+      const currentRoutes = departures.map(
+        departure => departure.trip.pattern.route.gtfsId.split(':')[1],
+      );
+      // Update client if realtimevehicles have changed
+      if (
+        JSON.stringify(currentRoutes.sort()) !==
+        JSON.stringify(this.state.routes)
+      ) {
+        this.updateClient(departures);
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (this.context.config.showAllBusses && this.props.isStopPage) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
       }
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.context.config.showAllBusses && this.props.isStopPage) {
-      const departures = asDepartures(this.props.stoptimes)
-        .filter(departure => !(this.props.isTerminal && departure.isArrival))
-        .filter(departure => this.props.currentTime < departure.stoptime);
-      this.updateClient(departures);
     }
   }
 
@@ -126,6 +138,8 @@ class DepartureListContainer extends Component {
         mode: '+',
         tripId: departure.trip.gtfsId.split(':')[1],
       }));
+
+    this.setState({ routes: trips.map(e => e.route).sort() });
     const { realTime } = this.context.config;
     const agency = this.context.config.feedIds[0];
     const source = realTime[agency];
@@ -153,14 +167,13 @@ class DepartureListContainer extends Component {
         )
         .map(departure => ({
           route: departure.trip.pattern.route.gtfsId.split(':')[1],
-          // direction: departure.trip.directionId,
-          // tripStartTime: getStartTime(departure.trip.departureStoptime.scheduledDeparture),
-          // agencyId: departure.trip.pattern.route.gtfsId.split(':')[0],
           headsign: '+',
           gtfsId: departure.trip.pattern.route.gtfsId,
           mode: '+',
           tripId: departure.trip.gtfsId.split(':')[1],
         }));
+
+      this.setState({ routes: trips.map(e => e.route).sort() });
       const { realTime } = this.context.config;
       const agency = this.context.config.feedIds[0];
       const source = realTime[agency];

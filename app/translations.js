@@ -2565,7 +2565,7 @@ const translations = {
     'map-layer-terminal-subway': 'Metrostation',
     'map-layer-ticket-sales-machine': 'Biljettautomat',
     'map-layer-ticket-sales-point': 'Laddningsplats för resekort',
-    'map-layer-vehicles': 'Flyttande fordon',
+    'map-layer-vehicles': 'Fordon i trafik',
     'messagebar-label-close-message-bar': 'Stäng banner',
     'messagebar-label-page': 'Sidan',
     'minute-short': 'min',

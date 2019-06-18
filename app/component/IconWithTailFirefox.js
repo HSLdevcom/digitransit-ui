@@ -3,6 +3,23 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
+const getFontSize = length => {
+  switch (length) {
+    case 1:
+      return '15px';
+    case 2:
+      return '15px';
+    case 3:
+      return '12px';
+    case 4:
+      return '11px';
+    case 5:
+      return '9px';
+    default:
+      return '11px';
+  }
+};
+
 const IconWithTailFirefox = ({
   className,
   id,
@@ -20,7 +37,11 @@ const IconWithTailFirefox = ({
       <svg
         id={id}
         viewBox="0 0 80 80"
-        className={cx('allVehicles',`${useLargeIcon ? 'large-icon' : ''}`,className,)}
+        className={cx(
+          'allVehicles',
+          `${useLargeIcon ? 'large-icon' : ''}`,
+          className,
+        )}
         ref={el => scrollIntoView && el && el.scrollIntoView()}
       >
         {useLargeIcon && (
@@ -84,23 +105,6 @@ const IconWithTailFirefox = ({
   </span>
 );
 
-const getFontSize = length => {
-  switch (length) {
-    case 1:
-      return '15px';
-    case 2:
-      return '15px';
-    case 3:
-      return '12px';
-    case 4:
-      return '11px';
-    case 5:
-      return '9px';
-    default:
-      return '11px';
-  }
-};
-
 IconWithTailFirefox.displayName = 'IconWithTailFirefox';
 
 IconWithTailFirefox.description = () => (
@@ -129,6 +133,9 @@ IconWithTailFirefox.propTypes = {
   children: PropTypes.element,
   desaturate: PropTypes.bool,
   scrollIntoView: PropTypes.bool,
+  allVehicles: PropTypes.bool,
+  vehicleNumber: PropTypes.string,
+  useLargeIcon: PropTypes.bool,
 };
 
 export default IconWithTailFirefox;

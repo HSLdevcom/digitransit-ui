@@ -29,17 +29,15 @@ function getVehicleIcon(
   if (MODES_WITH_ICONS.indexOf(mode) === MODES_WITH_ICONS.length - 1) {
     return useLargeIcon
       ? {
-          element: (
-            isFirefox
-            ?
-              <IconWithTailFirefox
-                img="#icon-icon_all-vehicles-small"
-                rotate={heading}
-                allVehicles
-                vehicleNumber={vehicleNumber}
-                useLargeIcon={useLargeIcon}
-              />
-            :
+          element: isFirefox ? (
+            <IconWithTailFirefox
+              img="#icon-icon_all-vehicles-small"
+              rotate={heading}
+              allVehicles
+              vehicleNumber={vehicleNumber}
+              useLargeIcon={useLargeIcon}
+            />
+          ) : (
             <IconWithTail
               img="#icon-icon_all-vehicles-small"
               rotate={heading}
@@ -53,15 +51,13 @@ function getVehicleIcon(
           iconAnchor: [10, 10],
         }
       : {
-          element: (
-            isFirefox 
-            ?
+          element: isFirefox ? (
             <IconWithTailFirefox
               img="#icon-icon_all-vehicles-small"
               rotate={heading}
               allVehicles
             />
-            :
+          ) : (
             <IconWithTail
               img="#icon-icon_all-vehicles-small"
               rotate={heading}

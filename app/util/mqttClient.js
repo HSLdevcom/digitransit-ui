@@ -15,7 +15,7 @@ function getTopic(options, settings) {
   const direction = options.direction
     ? parseInt(options.direction, 10) + 1
     : '+';
-  const geoHash = options.geoHash ? options.geoHash : ['+','+','+','+'];
+  const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
   const tripId = options.tripId ? options.tripId : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
@@ -46,8 +46,6 @@ export function parseMessage(topic, message, agency) {
     headsign, // eslint-disable-line no-unused-vars
     startTime,
     nextStop,
-    tripId, // eslint-disable-line no-unused-vars
-    geohash, 
     ...rest // eslint-disable-line no-unused-vars
   ] = topic.split('/');
 
@@ -75,7 +73,6 @@ export function parseMessage(topic, message, agency) {
     long: parsedMessage.long && ceil(parsedMessage.long, 5),
     heading: parsedMessage.hdg,
     headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
-    geoHash: geoHash,
   };
 }
 

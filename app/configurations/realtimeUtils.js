@@ -66,7 +66,7 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
   tampere: {
     mqttTopicResolver: walttiTopicResolver,
