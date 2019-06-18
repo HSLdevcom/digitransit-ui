@@ -7,7 +7,7 @@ import ZoneIcon from '../../../app/component/ZoneIcon';
 import Icon from '../../../app/component/Icon';
 import StopCardHeader from '../../../app/component/StopCardHeader';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
-import ExternalLink from "../../../app/component/ExternalLink";
+import ExternalLink from '../../../app/component/ExternalLink';
 
 describe('<StopCardHeader />', () => {
   it('should not render the zone icon if zoneId is missing', () => {
@@ -61,7 +61,6 @@ describe('<StopCardHeader />', () => {
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
   });
 
-
   it('should not render the zone icon if so configured', () => {
     const props = {
       stop: {
@@ -85,7 +84,7 @@ describe('<StopCardHeader />', () => {
     });
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
-  
+
   it('should render the zone icon', () => {
     const props = {
       stop: {

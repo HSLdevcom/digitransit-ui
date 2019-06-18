@@ -2,8 +2,8 @@ import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import CardHeader from '../../../app/component/CardHeader';
-import StopCardHeader from "../../../app/component/StopCardHeader";
-import ExternalLink from "../../../app/component/ExternalLink";
+import StopCardHeader from '../../../app/component/StopCardHeader';
+import ExternalLink from '../../../app/component/ExternalLink';
 
 describe('<CardHeader />', () => {
   it('should render the header icon', () => {
@@ -33,7 +33,7 @@ describe('<CardHeader />', () => {
       name: 'Pasilan asema',
       code: '7528',
       network: 'citybike',
-      externalLink: <ExternalLink url={'test'} />
+      externalLink: <ExternalLink url="test" />,
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />, {
       context: {
@@ -57,7 +57,7 @@ describe('<CardHeader />', () => {
       name: 'Pasilan asema',
       code: '7528',
       network: 'citybike',
-      externalLink: null
+      externalLink: null,
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />, {
       context: {

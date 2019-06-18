@@ -31,17 +31,32 @@ class StopCardHeader extends React.Component {
 
   getExternalLink(code, isPopUp) {
     // Check for popup from stopMarkerPopup, should the external link be visible
-    if(!code || isPopUp) {
+    if (!code || isPopUp) {
       return null;
     }
-    const url = this.headerConfig.virtualMonitorBaseUrl+""+code
-   return this.headerConfig.virtualMonitorBaseUrl ?  <ExternalLink
-       className="external-stop-link" href={url}> {  <FormattedMessage id="stop-virtual-monitor"
-                                                     defaultMessage="Virtual monitor" />} </ExternalLink> : null
+    const url = `${this.headerConfig.virtualMonitorBaseUrl}${code}`;
+    return this.headerConfig.virtualMonitorBaseUrl ? (
+      <ExternalLink className="external-stop-link" href={url}>
+        {' '}
+        {
+          <FormattedMessage
+            id="stop-virtual-monitor"
+            defaultMessage="Virtual monitor"
+          />
+        }{' '}
+      </ExternalLink>
+    ) : null;
   }
 
   render() {
-    const { className, currentTime, headingStyle, icons, stop, isPopUp } = this.props;
+    const {
+      className,
+      currentTime,
+      headingStyle,
+      icons,
+      stop,
+      isPopUp,
+    } = this.props;
     if (!stop) {
       return false;
     }
@@ -62,7 +77,7 @@ class StopCardHeader extends React.Component {
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        externalLink={this.getExternalLink(stop.code,isPopUp)}
+        externalLink={this.getExternalLink(stop.code, isPopUp)}
         icons={icons}
       >
         {this.headerConfig.showZone &&
