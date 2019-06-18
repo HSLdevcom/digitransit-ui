@@ -57,6 +57,7 @@ describe('<StopCardHeader />', () => {
         },
       },
     });
+    
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
   });
 

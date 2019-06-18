@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -9,7 +9,6 @@ import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import ExternalLink from './ExternalLink';
-import {Link} from "react-router";
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -46,6 +45,7 @@ class StopCardHeader extends React.Component {
     if (!stop) {
       return false;
     }
+
     return (
       <CardHeader
         className={className}

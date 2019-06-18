@@ -9,6 +9,7 @@ function StopCard(props) {
     return false;
   }
   const prefix = props.isTerminal ? 'terminaalit' : 'pysakit';
+
   return (
     <Link
       to={`/${prefix}/${encodeURIComponent(props.stop.gtfsId)}`}

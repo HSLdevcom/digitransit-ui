@@ -10,7 +10,7 @@ const ExternalLink = ({ name, children, href, className}) =>
       <span className="external-link-container">
         <a
           onClick={e => e.stopPropagation()}
-          className="external-link "
+          className="external-link"
           href={href}
         >
           {name || children}
