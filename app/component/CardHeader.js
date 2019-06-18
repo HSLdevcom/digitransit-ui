@@ -14,6 +14,7 @@ const CardHeader = ({
   name,
   description,
   code,
+  externalLink,
   icon,
   icons,
   unlinked,
@@ -37,6 +38,7 @@ const CardHeader = ({
       <div className="card-header-wrapper">
         <span className={headingStyle || 'h4'}>
           {name}
+          {externalLink ? externalLink : null}
           {headerIcon}
           {unlinked ? null : <span className="link-arrow"> ›</span>}
         </span>
@@ -84,6 +86,7 @@ CardHeader.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
+  externalLink: PropTypes.object,
   icon: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,

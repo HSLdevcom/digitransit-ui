@@ -7,6 +7,7 @@ import ZoneIcon from '../../../app/component/ZoneIcon';
 import Icon from '../../../app/component/Icon';
 import StopCardHeader from '../../../app/component/StopCardHeader';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
+import ExternalLink from "../../../app/component/ExternalLink";
 
 describe('<StopCardHeader />', () => {
   it('should not render the zone icon if zoneId is missing', () => {
@@ -33,6 +34,34 @@ describe('<StopCardHeader />', () => {
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
 
+  it('should not render the virtual monitor if so configured', () => {
+    const props = {
+      stop: {
+        code: '1270',
+        desc: 'Hietaniemenkatu',
+        gtfsId: 'HSL:1130181',
+        name: 'Hietaniemi',
+        zoneId: 'A',
+      },
+      className: 'stop-page header',
+    };
+    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
+      context: {
+        config: {
+          stopCard: {
+            header: {
+              showZone: false,
+              virtualMonitorBaseUrl: '',
+            },
+          },
+        },
+      },
+    });
+
+    expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
+  });
+
+
   it('should not render the zone icon if so configured', () => {
     const props = {
       stop: {
@@ -56,7 +85,7 @@ describe('<StopCardHeader />', () => {
     });
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
-
+  
   it('should render the zone icon', () => {
     const props = {
       stop: {

@@ -37,6 +37,7 @@ class StopMarkerPopup extends React.PureComponent {
           isTerminal={isTerminal}
           timeRange={isTerminal ? TERMINAL_TIME_RANGE : STOP_TIME_RANGE}
           limit={NUMBER_OF_DEPARTURES}
+          isPopUp={true}
           className="padding-small cursor-pointer"
         />
         <MarkerPopupBottom
@@ -55,6 +56,7 @@ StopMarkerPopup.propTypes = {
   stop: PropTypes.object,
   terminal: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
+    isPopUp: PropTypes.bool,
   relay: PropTypes.shape({
     variables: PropTypes.shape({
       currentTime: PropTypes.number.isRequired,

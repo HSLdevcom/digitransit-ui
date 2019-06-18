@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 
 import CardHeader from './CardHeader';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -8,6 +8,7 @@ import Icon from './Icon';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import ZoneIcon from './ZoneIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
+import ExternalLink from './ExternalLink';
 
 class StopCardHeader extends React.Component {
   get headerConfig() {
@@ -28,8 +29,19 @@ class StopCardHeader extends React.Component {
     return description;
   }
 
+  getExternalLink(code, isPopUp) {
+    // Check for popup from stopMarkerPopup, should the external link be visible
+    if(!code || isPopUp) {
+      return null;
+    }
+    const url = this.headerConfig.virtualMonitorBaseUrl+""+code
+   return this.headerConfig.virtualMonitorBaseUrl ?  <ExternalLink
+       className="external-stop-link" href={url}> {  <FormattedMessage id="stop-virtual-monitor"
+                                                     defaultMessage="Virtual monitor" />} </ExternalLink> : null
+  }
+
   render() {
-    const { className, currentTime, headingStyle, icons, stop } = this.props;
+    const { className, currentTime, headingStyle, icons, stop, isPopUp } = this.props;
     if (!stop) {
       return false;
     }
@@ -50,6 +62,7 @@ class StopCardHeader extends React.Component {
         name={stop.name}
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
+        externalLink={this.getExternalLink(stop.code,isPopUp)}
         icons={icons}
       >
         {this.headerConfig.showZone &&
@@ -66,6 +79,7 @@ StopCardHeader.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
     desc: PropTypes.string,
+    isPopUp: PropTypes.bool,
     zoneId: PropTypes.string,
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
@@ -93,6 +107,7 @@ StopCardHeader.contextTypes = {
         showDistance: PropTypes.bool,
         showStopCode: PropTypes.bool,
         showZone: PropTypes.bool,
+        virtualMonitorBaseUrl: PropTypes.string,
       }).isRequired,
     }).isRequired,
   }).isRequired,

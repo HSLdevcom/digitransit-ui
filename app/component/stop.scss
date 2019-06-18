@@ -295,6 +295,31 @@
     color: $gray-blue;
   }
 }
+.external-stop-link {
+  float:right;
+
+  a {
+    color: $link-color !important;
+    text-decoration: none;
+    @include font-medium;
+  }
+
+  .external-link-icon-outer {
+    color: white;
+  }
+
+  .external-link-icon {
+    color: $primary-color;
+  }
+}
+
+.external-stop-link-font {
+  display: inline-block;
+  vertical-align: text-top;
+  color: blue;
+  font-size: $font-size-xxsmall;
+  text-decoration: none;
+}
 
 hr.action-bar {
   margin: 0;
