@@ -71,7 +71,7 @@ export default {
   tampere: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://dev-mqtt.lmj.fi/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
