@@ -57,7 +57,7 @@ describe('<StopCardHeader />', () => {
         },
       },
     });
-    
+
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
   });
 
@@ -85,6 +85,7 @@ describe('<StopCardHeader />', () => {
     });
     expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
   });
+  
   it('should render the zone icon', () => {
     const props = {
       stop: {
