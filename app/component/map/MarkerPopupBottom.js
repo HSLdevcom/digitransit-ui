@@ -25,6 +25,11 @@ class MarkerPopupBottom extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
+    leaflet: PropTypes.shape({
+      map: PropTypes.shape({
+        closePopup: PropTypes.func.isRequired,
+      }).isRequired,
+    }).isRequired,
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func,
   };
@@ -51,7 +56,7 @@ class MarkerPopupBottom extends React.Component {
       const [, , destinationString] = pathName.split('/');
       destination = parseLocation(destinationString);
     }
-
+    this.props.leaflet.map.closePopup();
     navigateTo({
       origin: { ...this.props.location, ready: true },
       destination,
@@ -84,7 +89,7 @@ class MarkerPopupBottom extends React.Component {
       const [, originString] = pathName.split('/');
       origin = parseLocation(originString);
     }
-
+    this.props.leaflet.map.closePopup();
     navigateTo({
       origin,
       destination: { ...this.props.location, ready: true },
