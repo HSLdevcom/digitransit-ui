@@ -5,21 +5,23 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'react-router';
 
-import RouteNumber from './RouteNumber';
-import Icon from './Icon';
-import { durationToString } from '../util/timeUtils';
-import StopCode from './StopCode';
+import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
+import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
-import PlatformNumber from './PlatformNumber';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { PREFIX_ROUTES } from '../util/path';
+import PlatformNumber from './PlatformNumber';
+import RouteNumber from './RouteNumber';
+import ServiceAlertIcon from './ServiceAlertIcon';
+import StopCode from './StopCode';
 import {
-  legHasActiveAlert,
+  getActiveAlertSeverityLevel,
+  getActiveLegAlertSeverityLevel,
   legHasCancelation,
   tripHasCancelationForStop,
 } from '../util/alertUtils';
-import ExternalLink from './ExternalLink';
+import { PREFIX_ROUTES } from '../util/path';
+import { durationToString } from '../util/timeUtils';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -180,9 +182,9 @@ class TransitLeg extends React.Component {
               {originalTime}
             </div>
             <RouteNumber //  shouldn't this be a route number container instead???
+              alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
               mode={mode.toLowerCase()}
               color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-              hasDisruption={legHasActiveAlert(leg)}
               text={leg.route && leg.route.shortName}
               realtime={leg.realTime}
               vertical
@@ -205,6 +207,13 @@ class TransitLeg extends React.Component {
           <div className="itinerary-leg-first-row">
             <div>
               {leg.from.name}
+              <ServiceAlertIcon
+                className="inline-icon"
+                severityLevel={getActiveAlertSeverityLevel(
+                  leg.from.stop && leg.from.stop.alerts,
+                  leg.startTime / 1000,
+                )}
+              />
               {this.stopCode(leg.from.stop && leg.from.stop.code)}
               <PlatformNumber
                 number={leg.from.stop.platformCode}

@@ -180,6 +180,62 @@ function setUpAvailableRouteTimetables() {
   });
 }
 
+function processTicketTypeResult(result) {
+  const resultData = result.data;
+  if (resultData && Array.isArray(resultData.ticketTypes)) {
+    config.availableTickets = {};
+    resultData.ticketTypes.forEach(ticket => {
+      const ticketFeed = ticket.fareId.split(':')[0];
+      if (config.availableTickets[ticketFeed] === undefined) {
+        config.availableTickets[ticketFeed] = {};
+      }
+      config.availableTickets[ticketFeed][ticket.fareId] = {
+        price: ticket.price,
+        zones: ticket.zones,
+      };
+    });
+    console.log('availableTickets loaded');
+  } else {
+    console.log('could not load availableTickets, result was invalid');
+  }
+}
+
+function setUpAvailableTickets() {
+  return new Promise(resolve => {
+    const options = {
+      method: 'POST',
+      body: '{ ticketTypes { price fareId zones } }',
+      headers: { 'Content-Type': 'application/graphql' },
+    };
+    // try to fetch available ticketTypes every four seconds with 4 retries
+    retryFetch(`${config.URL.OTP}index/graphql`, options, 4, 4000)
+      .then(res => res.json())
+      .then(
+        result => {
+          processTicketTypeResult(result);
+          resolve();
+        },
+        err => {
+          console.log(err);
+          // If after 5 tries no available ticketTypes are found, start server anyway
+          resolve();
+          console.log('failed to load availableTickets at launch, retrying');
+          // Continue attempts to fetch available ticketTypes in the background for one day once every minute
+          retryFetch(`${config.URL.OTP}index/graphql`, options, 1440, 60000)
+            .then(res => res.json())
+            .then(
+              result => {
+                processTicketTypeResult(result);
+              },
+              error => {
+                console.log(error);
+              },
+            );
+        },
+      );
+  });
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -192,5 +248,7 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-setUpAvailableRouteTimetables().then(() => startServer());
+Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
+  () => startServer(),
+);
 module.exports.app = app;

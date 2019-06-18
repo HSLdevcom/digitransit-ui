@@ -81,9 +81,7 @@ function getVehicleIcon(
   }
 
   return {
-    element: (
-      <iconAsString img="icon-icon_all-vehicles-small" rotate={heading} />
-    ),
+    element: <IconWithTail img="icon-icon_bus-live" rotate={heading} />,
     className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
@@ -207,4 +205,5 @@ export {
   connectedComponent as default,
   VehicleMarkerContainer as Component,
   shouldShowVehicle,
+  getVehicleIcon,
 };

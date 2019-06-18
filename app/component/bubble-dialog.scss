@@ -44,8 +44,8 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       &.bubble-dialog--tooltip {
         display: flex;
         flex-direction: row;
-        max-width: 450px;
-        width: calc(100vw - 5.5em);
+        width: 23em;
+        max-width: calc(100vw - 5.5em);
       }
 
       .bubble-dialog-close {

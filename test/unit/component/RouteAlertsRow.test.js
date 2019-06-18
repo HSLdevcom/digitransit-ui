@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
 import RouteAlertsRow from '../../../app/component/RouteAlertsRow';
 import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
@@ -32,16 +33,26 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find('.route-alert-body')).to.have.lengthOf(0);
   });
 
-  it('should render a RouteNumber if a routeMode is provided', () => {
+  it('should render a RouteNumber if a mode is provided and the type is route', () => {
     const props = {
+      entityMode: 'BUS',
       expired: false,
-      routeMode: 'BUS',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
   });
 
-  it('should render a ServiceAlertIcon if a routeMode is not provided', () => {
+  it('should render an IconWithBigCaution if a mode is provided and the type is stop', () => {
+    const props = {
+      entityMode: 'BUS',
+      entityType: 'stop',
+      expired: false,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find(IconWithBigCaution)).to.have.lengthOf(1);
+  });
+
+  it('should render a ServiceAlertIcon if a mode is not provided', () => {
     const props = {
       expired: false,
     };
@@ -72,9 +83,9 @@ describe('<RouteAlertsRow />', () => {
     expect(wrapper.find('.route-alert-time-period')).to.have.lengthOf(0);
   });
 
-  it('should render the routeLine', () => {
+  it('should render the identifier', () => {
     const props = {
-      routeLine: '97N',
+      entityIdentifier: '97N',
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-top-row').text()).to.equal('97N');
@@ -86,5 +97,16 @@ describe('<RouteAlertsRow />', () => {
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.route-alert-url')).to.have.lengthOf(1);
+  });
+
+  it('should render a RouteNumber with a specified alertSeverityLevel', () => {
+    const props = {
+      entityMode: 'BUS',
+      severityLevel: AlertSeverityLevelType.Warning,
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 });

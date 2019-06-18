@@ -10,6 +10,7 @@ import {
   AlertSeverityLevelType,
 } from '../../../app/constants';
 import RouteNumber from '../../../app/component/RouteNumber';
+import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 
 const defaultProps = {
   children: <div />,
@@ -357,7 +358,7 @@ describe('<TransitLeg />', () => {
     expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
   });
 
-  it('should apply hasDisruption due to a route alert', () => {
+  it('should apply alertSeverityLevel due to a route alert', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -391,10 +392,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a trip alert', () => {
+  it('should apply alertSeverityLevel due to a trip alert', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -433,10 +436,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at the "from" stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at the "from" stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -471,10 +476,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at the "to" stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at the "to" stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -509,10 +516,12 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
-  it('should apply hasDisruption due to a stop alert at an intermediate stop', () => {
+  it('should apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
     const props = {
       ...defaultProps,
       leg: {
@@ -553,7 +562,9 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { config: { itinerary: {} }, focusFunction: () => {} },
     });
-    expect(wrapper.find(RouteNumber).props().hasDisruption).to.equal(true);
+    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should show a disclaimer with relevant information for an unknown ticket', () => {
@@ -599,5 +610,47 @@ describe('<TransitLeg />', () => {
     });
     expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
     expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+  });
+
+  it('should show a service alert icon if there is one at the "from" stop', () => {
+    const startTime = 123456789;
+    const props = {
+      ...defaultProps,
+      leg: {
+        from: {
+          name: 'Test',
+          stop: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Info,
+                effectiveEndDate: startTime + 1,
+                effectiveStartDate: startTime - 1,
+              },
+            ],
+          },
+        },
+        intermediatePlaces: [],
+        route: {
+          gtfsId: 'A1234',
+        },
+        startTime: startTime * 1000,
+        to: {
+          stop: {},
+        },
+        trip: {
+          gtfsId: 'A1234:01',
+          pattern: {
+            code: 'A',
+          },
+        },
+      },
+      mode: 'BUS',
+    };
+    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
+      context: { config: { itinerary: {} }, focusFunction: () => {} },
+    });
+    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
+      AlertSeverityLevelType.Info,
+    );
   });
 });

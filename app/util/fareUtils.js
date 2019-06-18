@@ -1,7 +1,7 @@
 import uniq from 'lodash/uniq';
 
-// returns null or non-empty array of localized ticket names
-export function mapFares(fares, config, lang) {
+// returns null or non-empty array of ticket names
+export function mapFares(fares, config) {
   if (!Array.isArray(fares) || !config.showTicketInformation) {
     return null;
   }
@@ -23,12 +23,12 @@ export function mapFares(fares, config, lang) {
         fare.routes.length > 0 &&
         fare.routes[0].agency) ||
       undefined,
-    ticketName: config.fareMapping(fare.fareId, lang),
+    ticketName: config.fareMapping(fare.fareId),
   }));
 }
 
-export const getFares = (fares, routes, config, lang) => {
-  const knownFares = mapFares(fares, config, lang) || [];
+export const getFares = (fares, routes, config) => {
+  const knownFares = mapFares(fares, config) || [];
 
   const routesWithFares = uniq(
     knownFares
@@ -51,4 +51,34 @@ export const getFares = (fares, routes, config, lang) => {
     }));
 
   return [...knownFares, ...unknownFares];
+};
+
+/**
+ * Returns alternative fares that cost as much as the one given by OpenTripPlanner
+ *
+ * @param {*} zones zones that are visited.
+ * @param {*} currentFares fare given by OpenTripPlanner.
+ * @param {*} allFares all fare options.
+ */
+export const getAlternativeFares = (zones, currentFares, allFares) => {
+  const alternativeFares = [];
+  if (zones.length === 1 && currentFares.length === 1 && allFares) {
+    const { fareId } = currentFares[0];
+    const ticketFeed = fareId.split(':')[0];
+    const faresForFeed = allFares[ticketFeed];
+    if (faresForFeed && faresForFeed[fareId]) {
+      const ticketPrice = faresForFeed[fareId].price;
+      Object.keys(faresForFeed).forEach(key => {
+        const fareInfo = faresForFeed[key];
+        if (
+          key !== fareId &&
+          fareInfo.zones.includes(zones[0]) &&
+          fareInfo.price === ticketPrice
+        ) {
+          alternativeFares.push(key.split(':')[1]);
+        }
+      });
+    }
+  }
+  return alternativeFares;
 };

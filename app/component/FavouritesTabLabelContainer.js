@@ -3,31 +3,39 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import mapProps from 'recompose/mapProps';
-import some from 'lodash/some';
-import flatten from 'lodash/flatten';
-import RoutesRoute from '../route/RoutesRoute';
+
 import FavouritesTabLabel from './FavouritesTabLabel';
+import RoutesRoute from '../route/RoutesRoute';
+import { RouteAlertsQuery } from '../util/alertQueries';
+import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { isBrowser } from '../util/browser';
 
-const hasDisruption = routes =>
-  some(flatten(routes.map(route => route && route.alerts.length > 0)));
-
-const alertReducer = mapProps(({ routes, ...rest }) => ({
-  hasDisruption: hasDisruption(routes),
-  ...rest,
-}));
+export const alertSeverityLevelMapper = ({ routes, currentTime, ...rest }) => {
+  const alertSeverityLevel = getActiveAlertSeverityLevel(
+    Array.isArray(routes) &&
+      routes
+        .map(
+          route =>
+            (route && (Array.isArray(route.alerts) && route.alerts)) || [],
+        )
+        .reduce((a, b) => a.concat(b), []),
+    currentTime,
+  );
+  return {
+    alertSeverityLevel,
+    ...rest,
+  };
+};
 
 const FavouritesTabLabelRelayConnector = Relay.createContainer(
-  alertReducer(FavouritesTabLabel),
+  mapProps(alertSeverityLevelMapper)(FavouritesTabLabel),
   {
     fragments: {
       routes: () => Relay.QL`
-    fragment on Route @relay(plural:true) {
-      alerts {
-        id
-      }
-    }
- `,
+        fragment on Route @relay(plural:true) {
+          ${RouteAlertsQuery}
+        }
+      `,
     },
   },
 );
@@ -54,12 +62,17 @@ function FavouritesTabLabelContainer({ routes, ...rest }) {
 
 FavouritesTabLabelContainer.propTypes = {
   routes: PropTypes.array.isRequired,
+  currentTime: PropTypes.number.isRequired,
 };
 
 export default connectToStores(
   FavouritesTabLabelContainer,
-  ['FavouriteRoutesStore'],
+  ['FavouriteRoutesStore', 'TimeStore'],
   context => ({
     routes: context.getStore('FavouriteRoutesStore').getRoutes(),
+    currentTime: context
+      .getStore('TimeStore')
+      .getCurrentTime()
+      .unix(),
   }),
 );
