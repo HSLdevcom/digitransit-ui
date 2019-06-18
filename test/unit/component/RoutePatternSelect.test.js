@@ -120,4 +120,40 @@ describe('<RoutePatternSelect />', () => {
     expect(url).to.contain(props.gtfsId);
     expect(url).to.contain(props.route.patterns[0].code);
   });
+
+  it('should not crash if there are no patterns with trips available for the current date', () => {
+    const props = {
+      activeTab: 'pysakit',
+      gtfsId: 'HSL:3002U',
+      onSelectChange: () => {},
+      params: {
+        patternId: 'HSL:3002U:0:01',
+      },
+      relay: {
+        setVariables: () => {},
+      },
+      route: {
+        patterns: [
+          {
+            code: 'HSL:3002U:0:01',
+            headsign: 'Kauklahti',
+            stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
+            tripsForDate: [],
+          },
+          {
+            code: 'HSL:3002U:0:02',
+            headsign: 'Kirkkonummi',
+            stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
+            tripsForDate: [],
+          },
+        ],
+      },
+      serviceDay: '20190604',
+    };
+
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.isEmptyRender()).to.equal(false);
+  });
 });

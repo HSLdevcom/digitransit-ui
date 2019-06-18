@@ -478,23 +478,15 @@ export default {
     },
   },
 
-  fares: [
-    'HSL:AB',
-    'HSL:BC',
-    'HSL:CD',
-    'HSL:D',
-    'HSL:ABC',
-    'HSL:BCD',
-    'HSL:ABCD',
-  ],
-
-  // mapping (string, lang) from OTP fare identifiers to human readable form
+  // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
   fareMapping: function mapHslFareId(fareId) {
     return fareId && fareId.substring
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
+
+  showTicketPrice: true,
 
   itinerary: {
     showZoneLimits: true,

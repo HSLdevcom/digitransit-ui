@@ -420,12 +420,12 @@ describe('legUtils', () => {
         {
           to: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A']);
     });
 
     it('should ignore a missing "to" field', () => {
@@ -433,12 +433,12 @@ describe('legUtils', () => {
         {
           from: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A']);
     });
 
     it('should retrieve the zone from "from"', () => {
@@ -446,7 +446,7 @@ describe('legUtils', () => {
         {
           from: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
           to: {
@@ -456,7 +456,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A']);
     });
 
     it('should retrieve the zone from "to"', () => {
@@ -469,12 +469,12 @@ describe('legUtils', () => {
           },
           to: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A']);
     });
 
     it('should retrieve the zone from "intermediatePlaces"', () => {
@@ -491,13 +491,13 @@ describe('legUtils', () => {
             },
             {
               stop: {
-                zoneId: 'Foo',
+                zoneId: 'A',
               },
             },
           ],
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A']);
     });
 
     it('should add zone "B" if zones "A" and "C" already exist', () => {
@@ -527,47 +527,47 @@ describe('legUtils', () => {
           intermediatePlaces: [
             {
               stop: {
-                zoneId: 'Bar',
+                zoneId: 'B',
               },
             },
             {
               stop: {
-                zoneId: 'Foo',
+                zoneId: 'A',
               },
             },
           ],
           to: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
         },
         {
           from: {
             stop: {
-              zoneId: 'Foo',
+              zoneId: 'A',
             },
           },
           to: {
             stop: {
-              zoneId: 'Bar',
+              zoneId: 'B',
             },
           },
         },
         {
           from: {
             stop: {
-              zoneId: 'Baz',
+              zoneId: 'C',
             },
           },
           to: {
             stop: {
-              zoneId: 'Bar',
+              zoneId: 'B',
             },
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['Bar', 'Baz', 'Foo']);
+      expect(utils.getZones(legs)).to.deep.equal(['A', 'B', 'C']);
     });
   });
 });

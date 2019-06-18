@@ -372,27 +372,9 @@ $itinerary-tab-switch-height: 48px;
         padding-top: $padding-medium;
       }
 
-      .zone-ticket-multiple-options {
-        display: flex;
-
-        span + span {
-          margin-left: $padding-xsmall;
-        }
-
-        .zone-ticket-icon {
-          position: relative;
-          top: 0.125em;
-        }
-      }
-
       .ticket-identifier {
         @include font-medium;
         color: $black;
-      }
-
-      .zone-ticket-icon {
-        display: block;
-        font-size: 1.25em;
       }
 
       .ticket-type-agency-link {
@@ -400,6 +382,24 @@ $itinerary-tab-switch-height: 48px;
       }
     }
   }
+}
+
+.zone-ticket-multiple-options {
+
+  span + span {
+    margin-left: $padding-xsmall;
+  }
+}
+
+.zone-ticket {
+  /* !important is needed because of print page */
+  background: $primary-color !important;
+  border-radius: 25px;
+  color: #fff;
+  letter-spacing: 9px;
+  padding: 1px 0px 1px 7px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .desktop {
