@@ -79,7 +79,9 @@ export function parseMessage(topic, message, agency) {
 export function changeTopics(settings, actionContext) {
   const { client, oldTopics } = settings;
 
-  client.unsubscribe(oldTopics);
+  if (Array.isArray(oldTopics) && oldTopics.length > 0) {
+    client.unsubscribe(oldTopics);
+  }
   // remove existing vehicles/topics
   actionContext.dispatch('RealTimeClientReset');
   const topics = settings.options.map(option => getTopic(option, settings));
