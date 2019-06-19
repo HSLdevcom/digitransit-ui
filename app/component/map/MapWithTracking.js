@@ -421,9 +421,7 @@ MapWithTrackingStateHandler.contextTypes = {
 const MapWithTracking = connectToStores(
   getContext({
     config: PropTypes.shape({
-      defaultMapCenter: {
-        ...dtLocationShape,
-      },
+      defaultMapCenter: dtLocationShape,
     }),
   })(MapWithTrackingStateHandler),
   [PositionStore, MapLayerStore, GeoJsonStore],

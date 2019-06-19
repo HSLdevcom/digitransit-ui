@@ -237,7 +237,7 @@ class SelectMapLayersDialog extends React.Component {
         contentClassName="select-map-layers-dialog-content"
         header="select-map-layers-header"
         icon="map-layers"
-        id="mapLayerSelector"
+        id="mapLayerSelectorV2"
         isFullscreenOnMobile
         isOpen={isOpen}
         tooltip={tooltip}
