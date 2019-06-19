@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
         'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
       en:
         'New! You can now get zones and nearby busses on the map from the settings.',
-      sv: 'Ny! Från inställningar, kan du hämta zoner på kartan.',
+      sv: 'Nytt! Du kan nu välja att se resezonera och närliggande bussar på kartan i inställningarna.',
     },
   },
 
