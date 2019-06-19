@@ -48,7 +48,6 @@ class StopPageContent extends React.Component {
         </div>
       );
     }
-
     return (
       <React.Fragment>
         <DepartureListHeader />
@@ -63,6 +62,7 @@ class StopPageContent extends React.Component {
             rowClasses="padding-normal border-bottom"
             currentTime={this.props.currentTime}
             showPlatformCodes
+            isStopPage
           />
         </div>
       </React.Fragment>

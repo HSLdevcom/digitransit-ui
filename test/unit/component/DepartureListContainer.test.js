@@ -7,6 +7,7 @@ import {
 } from '../../../app/component/DepartureListContainer';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { AlertSeverityLevelType } from '../../../app/constants';
+import { mockContext } from '../helpers/mock-context';
 
 describe('<DepartureListContainer />', () => {
   it("should include the alerts' severity levels", () => {
@@ -49,7 +50,9 @@ describe('<DepartureListContainer />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<DepartureListContainer {...props} />);
+    const wrapper = shallowWithIntl(<DepartureListContainer {...props} />, {
+      context: { ...mockContext },
+    });
     expect(wrapper.find(Departure).prop('alertSeverityLevel')).to.equal(
       AlertSeverityLevelType.Severe,
     );

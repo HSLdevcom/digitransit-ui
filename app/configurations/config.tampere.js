@@ -56,9 +56,12 @@ export default configMerger(walttiConfig, {
 
   mapLayers: {
     tooltip: {
-      fi: 'Uutta! Saat nyt vyöhykkeet kartalle asetuksista.',
-      en: 'New! You can now get zones on the map from the settings.',
-      sv: 'Ny! Från inställningar, kan du hämta zoner på kartan.',
+      fi:
+        'Uutta! Saat nyt vyöhykkeet ja lähellä olevat bussit kartalle asetuksista.',
+      en:
+        'New! You can now get zones and nearby busses on the map from the settings.',
+      sv:
+        'Nytt! I inställningarna kan du nu välja att se zoner och närliggande bussar på kartan.',
     },
   },
 
@@ -217,4 +220,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  showAllBusses: true,
+  showVehiclesOnStopPage: true,
 });
