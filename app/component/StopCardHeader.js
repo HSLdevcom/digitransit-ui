@@ -31,11 +31,11 @@ class StopCardHeader extends React.Component {
 
   getExternalLink(code, isPopUp) {
     // Check for popup from stopMarkerPopup, should the external link be visible
-    if (!code || isPopUp) {
+    if (!code || isPopUp || !this.headerConfig.virtualMonitorBaseUrl) {
       return null;
     }
     const url = `${this.headerConfig.virtualMonitorBaseUrl}${code}`;
-    return this.headerConfig.virtualMonitorBaseUrl ? (
+    return (
       <ExternalLink className="external-stop-link" href={url}>
         {' '}
         {
@@ -45,7 +45,7 @@ class StopCardHeader extends React.Component {
           />
         }{' '}
       </ExternalLink>
-    ) : null;
+    );
   }
 
   render() {

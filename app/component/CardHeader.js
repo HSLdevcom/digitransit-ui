@@ -86,7 +86,7 @@ CardHeader.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
-  externalLink: PropTypes.object,
+  externalLink: PropTypes.node,
   icon: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
