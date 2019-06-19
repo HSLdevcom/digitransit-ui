@@ -22,7 +22,7 @@ class MapLayerStore extends Store {
       servicePoint: true,
       ticketMachine: true,
     },
-    showAllBusses: true,
+    showAllBusses: false,
     geoJson: {},
   };
 

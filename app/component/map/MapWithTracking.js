@@ -87,7 +87,7 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   async componentDidMount() {
-    const { config, getGeoJsonData, getGeoJsonConfig, mapLayers } = this.props;
+    const { config, getGeoJsonData, getGeoJsonConfig } = this.props;
     if (
       !isBrowser ||
       !config.geoJson ||
@@ -118,7 +118,7 @@ class MapWithTrackingStateHandler extends React.Component {
       geoJson[url] = { ...data, isOffByDefault };
     });
     this.setState(geoJson);
-    if (config.showAllBusses && mapLayers.showAllBusses) {
+    if (config.showAllBusses) {
       this.startClient();
     }
   }
@@ -196,34 +196,45 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
+  createGeoHashBoundingBox = location => {
+    const geoHashes = [];
+    for (let i = -3; i <= 3; i++) {
+      const lon = (location.lon + i * 0.01).toString();
+      for (let j = -1; j <= 1; j++) {
+        const lat = (location.lat + j * 0.01).toString();
+        geoHashes.push([
+          `${lat.substring(0, 2)};${lon.substring(0, 2)}`,
+          lat.substring(3, 4) + lon.substring(3, 4),
+          lat.substring(4, 5) + lon.substring(4, 5),
+          '+',
+        ]);
+      }
+    }
+    return geoHashes;
+  };
+
   startClient() {
     const { realTime, defaultEndpoint } = this.props.config;
     const agency = this.props.config.feedIds[0];
     const source = realTime[agency];
-    const lat = this.props.origin.set
-      ? this.props.origin.lat.toString()
-      : defaultEndpoint.lat.toString();
-    const lon = this.props.origin.set
-      ? this.props.origin.lon.toString()
-      : defaultEndpoint.lon.toString();
-    const geoHash = [
-      `${lat.substring(0, 2)};${lon.substring(0, 2)}`,
-      lat.substring(3, 4) + lon.substring(3, 4),
-      '+',
-      '+',
-    ];
+    const location = this.props.origin.set
+      ? this.props.origin
+      : defaultEndpoint;
+    const options = [];
+    const geoHashes = this.createGeoHashBoundingBox(location);
+    geoHashes.forEach(geoHash => {
+      options.push({
+        mode: '+',
+        gtfsId: '+',
+        headsign: '+',
+        geoHash,
+      });
+    });
     if (source && source.active) {
       this.context.executeAction(startRealTimeClient, {
         ...source,
         agency,
-        options: [
-          {
-            mode: '+',
-            gtfsId: '+',
-            headsign: '+',
-            geoHash,
-          },
-        ],
+        options,
       });
     }
   }
@@ -236,30 +247,24 @@ class MapWithTrackingStateHandler extends React.Component {
       const { realTime, defaultEndpoint } = this.props.config;
       const agency = this.props.config.feedIds[0];
       const source = realTime[agency];
-      const lat = this.props.origin.set
-        ? this.props.origin.lat.toString()
-        : defaultEndpoint.lat.toString();
-      const lon = this.props.origin.set
-        ? this.props.origin.lon.toString()
-        : defaultEndpoint.lon.toString();
-      const geoHash = [
-        `${lat.substring(0, 2)};${lon.substring(0, 2)}`,
-        lat.substring(3, 4) + lon.substring(3, 4),
-        '+',
-        '+',
-      ];
+      const location = this.props.origin.set
+        ? this.props.origin
+        : defaultEndpoint;
+      const options = [];
+      const geoHashes = this.createGeoHashBoundingBox(location);
+      geoHashes.forEach(geoHash => {
+        options.push({
+          mode: '+',
+          gtfsId: '+',
+          headsign: '+',
+          geoHash,
+        });
+      });
       if (source && source.active) {
         this.context.executeAction(changeRealTimeClientTopics, {
           ...source,
           agency,
-          options: [
-            {
-              mode: '+',
-              gtfsId: '+',
-              headsign: '+',
-              geoHash,
-            },
-          ],
+          options,
           client,
           oldTopics: topics,
         });
