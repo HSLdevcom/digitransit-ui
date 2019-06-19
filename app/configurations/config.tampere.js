@@ -69,6 +69,7 @@ export default configMerger(walttiConfig, {
   stopCard: {
     header: {
       showZone: true,
+      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/tampere:',
     },
   },
 
