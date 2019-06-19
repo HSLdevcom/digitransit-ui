@@ -81,8 +81,8 @@ class SelectMapLayersDialog extends React.Component {
     const transportModes = config.transportModes || {};
     return (
       <React.Fragment>
-        <div className="checkbox-grouping">
-          {config.showAllBusses && (
+        {config.showAllBusses && (
+          <div className="checkbox-grouping">
             <Checkbox
               checked={showAllBusses}
               defaultMessage="Moving vehicles"
@@ -91,8 +91,8 @@ class SelectMapLayersDialog extends React.Component {
                 this.updateSetting({ showAllBusses: e.target.checked })
               }
             />
-          )}
-        </div>
+          </div>
+        )}
         <div className="checkbox-grouping">
           {isTransportModeEnabled(transportModes.bus) && (
             <React.Fragment>
