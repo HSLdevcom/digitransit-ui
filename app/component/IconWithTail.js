@@ -101,6 +101,7 @@ const IconWithTail = ({
           xlinkHref={`#${img}`}
           transform="translate(26 26) scale(0.35)"
         />
+        {children}
       </svg>
     )}
   </span>

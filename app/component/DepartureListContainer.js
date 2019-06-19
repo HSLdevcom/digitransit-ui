@@ -162,7 +162,6 @@ class DepartureListContainer extends Component {
           tripId: departure.trip.gtfsId.split(':')[1],
         }));
 
-      // this.setState({ routes: trips.map(e => e.route) });
       const { realTime } = this.context.config;
       const agency = this.context.config.feedIds[0];
       const source = realTime[agency];
