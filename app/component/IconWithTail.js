@@ -8,11 +8,11 @@ const getFontSize = length => {
     case 1:
       return '15px';
     case 2:
-      return '15px';
+      return '14px';
     case 3:
-      return '13px';
+      return '12px';
     case 4:
-      return '11px';
+      return '10px';
     case 5:
       return '9px';
     default:
@@ -36,7 +36,7 @@ const IconWithTail = ({
     {allVehicles && (
       <svg
         id={id}
-        viewBox="0 0 80 80"
+        viewBox="0 0 24 24"
         className={cx(
           'allVehicles',
           `${useLargeIcon ? 'large-icon' : ''}`,
@@ -50,12 +50,13 @@ const IconWithTail = ({
               <use
                 filter={desaturate ? 'url(#desaturate)' : undefined}
                 xlinkHref="#icon-icon_all-vehicles-shadow"
-                transform={`rotate(${rotate} 40 40)`}
+                transform={`rotate(${rotate} 12 12)`}
               />
             )}
             <use
               filter={desaturate ? 'url(#desaturate)' : undefined}
-              xlinkHref="#icon-icon_all-vehicles-large"
+              xlinkHref={`#${img}`}
+              transform="scale(1.2)"
             />
             <text
               textAnchor="middle"
@@ -63,8 +64,9 @@ const IconWithTail = ({
               fontStyle="condensed"
               fontWeight="bold"
               fill="#FFF"
+              transform="scale(0.34)"
             >
-              <tspan x="40" y="45.5">
+              <tspan x="35" y="41">
                 {vehicleNumber}
               </tspan>
             </text>
@@ -73,8 +75,8 @@ const IconWithTail = ({
         {!useLargeIcon && (
           <use
             filter={desaturate ? 'url(#desaturate)' : undefined}
-            xlinkHref="#icon-icon_all-vehicles-small"
-            transform={`rotate(${180 + rotate} 40 40)`}
+            xlinkHref={`#${img}`}
+            transform={`rotate(${180 + rotate} 12 12)`}
           />
         )}
         {children}

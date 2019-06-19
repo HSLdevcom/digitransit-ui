@@ -17,6 +17,9 @@ const defaultProps = {
   },
   config: {
     defaultEndpoint: {},
+    realTime: {},
+    feedIds: [],
+    stopsMinZoom: 0,
     showAllBusses: false,
   },
   mapLayers: {

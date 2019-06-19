@@ -92,7 +92,7 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
   Lappeenranta: {
     mqttTopicResolver: walttiTopicResolver,
@@ -105,7 +105,7 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
   Joensuu: {
     mqttTopicResolver: walttiTopicResolver,
@@ -118,7 +118,7 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
   Kuopio: {
     mqttTopicResolver: walttiTopicResolver,
@@ -131,6 +131,6 @@ export default {
 
     routeSelector: defaultRouteSelector,
 
-    active: false,
+    active: true,
   },
 };

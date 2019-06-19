@@ -5,12 +5,11 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 import RouteMarkerPopup from './route/RouteMarkerPopup';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
-import IconWithTailFirefox from '../IconWithTailFirefox';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
 import Loading from '../Loading';
 
-import { isBrowser, isFirefox } from '../../util/browser';
+import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = ['bus', 'tram', 'rail', 'subway', 'ferry', '+'];
 
@@ -29,17 +28,9 @@ function getVehicleIcon(
   if (MODES_WITH_ICONS.indexOf(mode) === MODES_WITH_ICONS.length - 1) {
     return useLargeIcon
       ? {
-          element: isFirefox ? (
-            <IconWithTailFirefox
-              img="#icon-icon_all-vehicles-small"
-              rotate={heading}
-              allVehicles
-              vehicleNumber={vehicleNumber}
-              useLargeIcon={useLargeIcon}
-            />
-          ) : (
+          element: (
             <IconWithTail
-              img="#icon-icon_all-vehicles-small"
+              img="icon-icon_all-vehicles-large"
               rotate={heading}
               allVehicles
               vehicleNumber={vehicleNumber}
@@ -51,19 +42,11 @@ function getVehicleIcon(
           iconAnchor: [10, 10],
         }
       : {
-          element: isFirefox ? (
-            <IconWithTailFirefox
-              img="#icon-icon_all-vehicles-small"
-              rotate={heading}
-              allVehicles
-            />
-          ) : (
+          element: (
             <IconWithTail
-              img="#icon-icon_all-vehicles-small"
+              img="icon-icon_all-vehicles-small"
               rotate={heading}
               allVehicles
-              vehicleNumber={vehicleNumber}
-              useLargeIcon={useLargeIcon}
             />
           ),
           className: `vehicle-icon bus ${useSmallIcon ? 'small-map-icon' : ''}`,
