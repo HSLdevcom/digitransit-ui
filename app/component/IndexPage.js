@@ -237,6 +237,7 @@ class IndexPage extends React.Component {
           showStops
           showScaleBar
           origin={origin}
+          destination={destination}
           renderCustomButtons={() => (
             <React.Fragment>
               {this.renderStreetModeSelector(config, router)}
@@ -270,6 +271,7 @@ class IndexPage extends React.Component {
             breakpoint={breakpoint}
             showStops
             origin={origin}
+            destination={destination}
             renderCustomButtons={() => (
               <React.Fragment>
                 {this.renderStreetModeSelector(config, router)}
