@@ -43,7 +43,7 @@ class MapWithTrackingStateHandler extends React.Component {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
-    destination: dtLocationShape.isRequired,
+    destination: dtLocationShape,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
@@ -61,6 +61,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
   static defaultProps = {
     renderCustomButtons: undefined,
+    destination: {},
   };
 
   constructor(props) {
