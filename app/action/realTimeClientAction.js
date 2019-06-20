@@ -2,7 +2,6 @@ import { startMqttClient, changeTopics } from '../util/mqttClient';
 
 export function startRealTimeClient(actionContext, settings, done) {
   const startClient = startMqttClient;
-
   startClient(settings, actionContext).then(data => {
     actionContext.dispatch('RealTimeClientStarted', data);
     done();

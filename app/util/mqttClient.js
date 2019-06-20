@@ -12,11 +12,11 @@ const modeTranslate = {
 // Input: options - route, direction, tripStartTime are used to generate the topic
 function getTopic(options, settings) {
   const route = options.route ? options.route : '+';
-
   const direction = options.direction
     ? parseInt(options.direction, 10) + 1
     : '+';
-
+  const geoHash = options.geoHash ? options.geoHash : ['+', '+', '+', '+'];
+  const tripId = options.tripId ? options.tripId : '+';
   const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
   const topic = settings.mqttTopicResolver(
     route,
@@ -24,6 +24,8 @@ function getTopic(options, settings) {
     tripStartTime,
     options.headsign,
     settings.agency,
+    tripId,
+    geoHash,
   );
   return topic;
 }
@@ -44,7 +46,7 @@ export function parseMessage(topic, message, agency) {
     headsign, // eslint-disable-line no-unused-vars
     startTime,
     nextStop,
-    ...geohash // eslint-disable-line no-unused-vars
+    ...rest // eslint-disable-line no-unused-vars
   ] = topic.split('/');
 
   const vehid = `${agency}_${id}`;
@@ -77,13 +79,15 @@ export function parseMessage(topic, message, agency) {
 export function changeTopics(settings, actionContext) {
   const { client, oldTopics } = settings;
 
-  client.unsubscribe(oldTopics);
+  if (Array.isArray(oldTopics) && oldTopics.length > 0) {
+    client.unsubscribe(oldTopics);
+  }
   // remove existing vehicles/topics
   actionContext.dispatch('RealTimeClientReset');
-  const topic = getTopic(settings.options, settings);
+  const topics = settings.options.map(option => getTopic(option, settings));
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', topic);
-  client.subscribe(topic);
+  actionContext.dispatch('RealTimeClientNewTopics', topics);
+  client.subscribe(topics);
 }
 
 export function startMqttClient(settings, actionContext) {
@@ -111,6 +115,7 @@ export function startMqttClient(settings, actionContext) {
               actionContext.dispatch('RealTimeClientMessage', message);
             });
           });
+
           return { client, topics };
         },
       );

@@ -3,6 +3,23 @@ import React from 'react';
 import cx from 'classnames';
 import ComponentUsageExample from './ComponentUsageExample';
 
+const getFontSize = length => {
+  switch (length) {
+    case 1:
+      return '15px';
+    case 2:
+      return '14px';
+    case 3:
+      return '12px';
+    case 4:
+      return '10px';
+    case 5:
+      return '9px';
+    default:
+      return '11px';
+  }
+};
+
 const IconWithTail = ({
   className,
   id,
@@ -11,28 +28,82 @@ const IconWithTail = ({
   children,
   desaturate = false,
   scrollIntoView = false,
+  allVehicles = false,
+  vehicleNumber,
+  useLargeIcon = false,
 }) => (
   <span>
-    <svg
-      id={id}
-      viewBox="0 0 80 80"
-      className={cx('icon', 'tail-icon', className)}
-      ref={el => scrollIntoView && el && el.scrollIntoView()}
-    >
-      {rotate !== undefined && (
+    {allVehicles && (
+      <svg
+        id={id}
+        viewBox="0 0 24 24"
+        className={cx(
+          'allVehicles',
+          `${useLargeIcon ? 'large-icon' : ''}`,
+          className,
+        )}
+        ref={el => scrollIntoView && el && el.scrollIntoView()}
+      >
+        {useLargeIcon && (
+          <React.Fragment>
+            {rotate !== undefined && (
+              <use
+                filter={desaturate ? 'url(#desaturate)' : undefined}
+                xlinkHref="#icon-icon_all-vehicles-shadow"
+                transform={`rotate(${rotate} 12 12)`}
+              />
+            )}
+            <use
+              filter={desaturate ? 'url(#desaturate)' : undefined}
+              xlinkHref={`#${img}`}
+              transform="scale(1.2)"
+            />
+            <text
+              textAnchor="middle"
+              fontSize={getFontSize(vehicleNumber.length)}
+              fontStyle="condensed"
+              fontWeight="bold"
+              fill="#FFF"
+              transform="scale(0.34)"
+            >
+              <tspan x="35" y="41">
+                {vehicleNumber}
+              </tspan>
+            </text>
+          </React.Fragment>
+        )}
+        {!useLargeIcon && (
+          <use
+            filter={desaturate ? 'url(#desaturate)' : undefined}
+            xlinkHref={`#${img}`}
+            transform={`rotate(${180 + rotate} 12 12)`}
+          />
+        )}
+        {children}
+      </svg>
+    )}
+    {!allVehicles && (
+      <svg
+        id={id}
+        viewBox="0 0 80 80"
+        className={cx('icon', 'tail-icon', className)}
+        ref={el => scrollIntoView && el && el.scrollIntoView()}
+      >
+        {rotate !== undefined && (
+          <use
+            filter={desaturate ? 'url(#desaturate)' : undefined}
+            xlinkHref="#icon-icon_vehicle-live-shadow"
+            transform={`rotate(${rotate} 40 40)`}
+          />
+        )}
         <use
           filter={desaturate ? 'url(#desaturate)' : undefined}
-          xlinkHref="#icon-icon_vehicle-live-shadow"
-          transform={`rotate(${rotate} 40 40)`}
+          xlinkHref={`#${img}`}
+          transform="translate(26 26) scale(0.35)"
         />
-      )}
-      <use
-        filter={desaturate ? 'url(#desaturate)' : undefined}
-        xlinkHref={`#${img}`}
-        transform="translate(26 26) scale(0.35)  "
-      />
-      {children}
-    </svg>
+        {children}
+      </svg>
+    )}
   </span>
 );
 
@@ -64,6 +135,9 @@ IconWithTail.propTypes = {
   children: PropTypes.element,
   desaturate: PropTypes.bool,
   scrollIntoView: PropTypes.bool,
+  allVehicles: PropTypes.bool,
+  vehicleNumber: PropTypes.string,
+  useLargeIcon: PropTypes.bool,
 };
 
 export default IconWithTail;

@@ -9,6 +9,7 @@ import SelectedStopPopup from './map/popups/SelectedStopPopup';
 import SelectedStopPopupContent from './SelectedStopPopupContent';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
+import VehicleMarkerContainer from './map/VehicleMarkerContainer';
 
 const getFullscreenTogglePath = (fullscreenMap, params) =>
   `/${params.stopId ? 'pysakit' : 'terminaalit'}/${
@@ -62,6 +63,16 @@ const StopPageMap = ({ stop, routes, params, breakpoint }, { router }) => {
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
+
+  leafletObjs.push(
+    <VehicleMarkerContainer
+      key="vehicles"
+      pattern="+"
+      headsign="+"
+      tripStart="+"
+      useLargeIcon
+    />,
+  );
 
   if (breakpoint === 'large') {
     leafletObjs.push(
