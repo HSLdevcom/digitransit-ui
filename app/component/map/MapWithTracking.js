@@ -400,16 +400,6 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
-    if (destination && destination.ready === true && destination.gps !== true) {
-      leafletObjs.push(
-        <LazilyLoad modules={locationMarkerModules} key="to">
-          {({ LocationMarker }) => (
-            <LocationMarker position={destination} type="to" />
-          )}
-        </LazilyLoad>,
-      );
-    }
-
     if (geoJson) {
       const { bounds } = this.state;
       Object.keys(geoJson)
