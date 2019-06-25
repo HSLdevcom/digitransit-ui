@@ -1543,7 +1543,7 @@ const translations = {
     'map-layer-terminal-subway': 'Metroasemat',
     'map-layer-ticket-sales-machine': 'Lippuautomaatit',
     'map-layer-ticket-sales-point': 'Matkakortin latauspisteet',
-    'map-layer-vehicles': 'Liikkuvat kulkuvälineet',
+    'map-layer-vehicles': 'Liikennevälineet',
     'messagebar-label-close-message-bar': 'Sulje banneri',
     'messagebar-label-page': 'Sivu',
     'minute-short': 'min',

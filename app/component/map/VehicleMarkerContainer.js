@@ -123,7 +123,7 @@ function VehicleMarkerContainer(props) {
         )}
       >
         <Popup
-          offset={[106, 16]}
+          offset={[106, 0]}
           maxWidth={250}
           minWidth={250}
           className="popup"
