@@ -703,7 +703,7 @@ div.route-tabs {
       }
     }
     .tab-route-disruption {
-      &:hover .icon, &:hover span {
+      &:hover span {
         fill: lighten($black, 20%);
         color: lighten($black, 20%);
       }

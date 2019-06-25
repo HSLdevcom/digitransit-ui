@@ -2,13 +2,18 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import some from 'lodash/some';
 
 import Icon from './Icon';
-import { RouteAlertsQuery, StopAlertsQuery } from '../util/alertQueries';
+import {
+  RouteAlertsQuery,
+  StopAlertsQuery,
+  RouteAlertsWithContentQuery,
+  StopAlertsWithContentQuery,
+} from '../util/alertQueries';
 import {
   getCancelationsForStop,
   getServiceAlertsForStop,
@@ -37,14 +42,10 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabContainer({
-  children,
-  params,
-  routes,
-  breakpoint,
-  location: { pathname },
-  stop,
-}) {
+function StopPageTabContainer(
+  { children, params, routes, breakpoint, location: { pathname }, stop },
+  { intl },
+) {
   if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
     return null;
   }
@@ -201,6 +202,10 @@ StopPageTabContainer.defaultProps = {
   stop: undefined,
 };
 
+StopPageTabContainer.contextTypes = {
+  intl: intlShape.isRequired,
+};
+
 const containerComponent = Relay.createContainer(
   withBreakpoint(StopPageTabContainer),
   {
@@ -208,6 +213,7 @@ const containerComponent = Relay.createContainer(
       stop: () => Relay.QL`
         fragment on Stop {
           ${StopAlertsQuery}
+          ${StopAlertsWithContentQuery}
           stoptimes: stoptimesWithoutPatterns(
             startTime:$startTime,
             timeRange:$timeRange,
@@ -221,6 +227,7 @@ const containerComponent = Relay.createContainer(
               }
               route {
                 ${RouteAlertsQuery}
+                ${RouteAlertsWithContentQuery}
               }
             }
           }
