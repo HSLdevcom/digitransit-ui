@@ -676,12 +676,12 @@ div.route-tabs {
       }
 
       .no-alerts span {
-        color: #78909c;
+        color:rgb(183, 183, 183);
       }
 
       .route-page-tab_icon {
         &.no-alerts.icon {
-          fill: #78909c;
+          fill: rgb(183, 183, 183);
         }
         &.active-disruption-alert.icon {
           fill: $cancelation-red;

@@ -196,10 +196,10 @@
   }
 
   .no-alerts span {
-    color: #78909c;
+    color: rgb(183, 183, 183);
   }
   .no-alerts.icon {
-    fill: #78909c;
+    fill: rgb(183, 183, 183);
   }
   .active-disruption-alert.icon {
     fill: $cancelation-red
