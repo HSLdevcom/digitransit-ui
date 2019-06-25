@@ -64,6 +64,13 @@ function StopPageTabContainer({
     currentTime,
   );
 
+  const hasActiveServiceAlerts =
+    getServiceAlertsForStop(stop).length > 0 ||
+    getServiceAlertsForStopRoutes(stop).length > 0;
+  const disruptionClassName =
+    (hasActiveAlert && 'active-disruption-alert') ||
+    (hasActiveServiceAlerts && 'active-service-alert');
+
   return (
     <div className="stop-page-content-wrapper">
       <div>
@@ -124,16 +131,18 @@ function StopPageTabContainer({
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
               'alert-active': hasActiveAlert,
+              'service-alert-active': hasActiveServiceAlerts,
             })}
           >
             <div className="stop-tab-singletab-container">
               <div>
                 <Icon
-                  className="stop-page-tab_icon"
+                  className={`stop-page-tab_icon ${disruptionClassName ||
+                    `no-alerts`}`}
                   img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
                 />
               </div>
-              <div>
+              <div className={`${disruptionClassName || `no-alerts`}`}>
                 <FormattedMessage id="disruptions" />
               </div>
             </div>

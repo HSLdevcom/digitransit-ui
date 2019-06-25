@@ -675,6 +675,40 @@ div.route-tabs {
         display: none;
       }
 
+      .no-alerts span {
+        color: #78909c;
+      }
+
+      .route-page-tab_icon {
+        &.no-alerts.icon {
+          fill: #78909c;
+        }
+        &.active-disruption-alert.icon {
+          fill: $cancelation-red;
+        }
+        &.active-service-alert {
+          &.icon {
+            stroke: $primary-color;
+            fill: $primary-color;
+          }
+      }
+    }
+
+      .active-service-alert {
+        &:hover {
+          .icon {
+          stroke: lighten($black, 20%);
+          fill: lighten($black, 20%);
+        }
+      }
+    }
+    .tab-route-disruption {
+      &:hover .icon, &:hover span {
+        fill: lighten($black, 20%);
+        color: lighten($black, 20%);
+      }
+    }
+
       &.activeAlert,
       &.activeAlert.is-active,
       &.activeAlert:hover {
@@ -689,6 +723,31 @@ div.route-tabs {
 
         .icon {
           fill: $black;
+        }
+        .no-alerts span {
+          color: $black;
+        }
+        .route-page-tab_icon {
+          &.no-alerts.icon {
+            fill: $black;
+          }
+          &.active-disruption-alert.icon {
+            fill: $black;
+          }
+          &.active-service-alert {
+            &.icon {
+            stroke: $black;
+            fill: $black;
+            }
+        }
+      }
+        .active-service-alert {
+            &:hover {
+              .icon {
+              stroke: lighten($black, 20%);
+              fill: lighten($black, 20%);
+            }
+          }
         }
       }
 

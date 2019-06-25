@@ -186,6 +186,13 @@ class RoutePage extends React.Component {
       currentTime,
     );
 
+    const hasActiveServiceAlerts =
+      getServiceAlertsForRoute(route, patternId).length > 0;
+
+    const disruptionClassName =
+      (hasActiveAlert && 'active-disruption-alert') ||
+      (hasActiveServiceAlerts && 'active-service-alert');
+
     return (
       <div>
         <div className="header-for-printing">
@@ -244,8 +251,13 @@ class RoutePage extends React.Component {
                 this.changeTab(Tab.Disruptions);
               }}
             >
-              <div>
+              <div
+                className={`tab-route-disruption ${disruptionClassName ||
+                  `no-alerts`}`}
+              >
                 <Icon
+                  className={`route-page-tab_icon ${disruptionClassName ||
+                    `no-alerts`}`}
                   img={hasActiveAlert ? 'icon-icon_caution' : 'icon-icon_info'}
                 />
                 <FormattedMessage
