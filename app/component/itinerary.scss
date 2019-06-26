@@ -372,11 +372,13 @@ $itinerary-tab-switch-height: 48px;
         padding-top: $padding-medium;
       }
 
-      .ticket-identifier {
-        @include font-medium;
-        color: $black;
+      div {
+        flex-shrink: 1;
+        .ticket-identifier {
+          @include font-medium;
+          color: $black;
+        }
       }
-
       .ticket-type-agency-link {
         flex-grow: 0;
       }
