@@ -300,6 +300,15 @@ const withRelay = Relay.createContainer(ItineraryTab, {
               }
             }
           }
+          steps {
+            distance
+            lat
+            lon
+            elevationProfile {
+              distance
+              elevation
+            }
+          }
         }
       }
     `,

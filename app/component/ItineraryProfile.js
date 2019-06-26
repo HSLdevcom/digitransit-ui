@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 
+import ElevationProfile from './ElevationProfile';
 import { displayDistance } from '../util/geo-utils';
 import { getTotalDistance, containsBiking } from '../util/legUtils';
 
@@ -15,6 +16,7 @@ const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
         Number.isFinite(elevationGained) &&
         Number.isFinite(elevationLost) && (
           <React.Fragment>
+            <ElevationProfile itinerary={itinerary} />
             <div className="itinerary-profile-item">
               <div className="itinerary-profile-item-title">
                 {`${intl.formatMessage({
