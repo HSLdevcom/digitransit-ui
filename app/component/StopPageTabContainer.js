@@ -66,8 +66,10 @@ function StopPageTabContainer(
   );
 
   const hasActiveServiceAlerts =
-    getServiceAlertsForStop(stop).length > 0 ||
-    getServiceAlertsForStopRoutes(stop).length > 0;
+    (isAlertActive(getServiceAlertsForStop(stop, intl)) &&
+      getServiceAlertsForStop(stop, intl).length > 0) ||
+    (isAlertActive(getServiceAlertsForStopRoutes(stop, intl)) &&
+      getServiceAlertsForStopRoutes(stop, intl).length > 0);
   const disruptionClassName =
     (hasActiveAlert && 'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');

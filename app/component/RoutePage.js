@@ -187,6 +187,7 @@ class RoutePage extends React.Component {
     );
 
     const hasActiveServiceAlerts =
+      isAlertActive(getServiceAlertsForRoute(route, patternId)) &&
       getServiceAlertsForRoute(route, patternId).length > 0;
 
     const disruptionClassName =
