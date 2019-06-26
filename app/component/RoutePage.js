@@ -23,6 +23,7 @@ import {
   getServiceAlertsForRoute,
   getServiceAlertsForRouteStops,
   isAlertActive,
+  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -185,10 +186,10 @@ class RoutePage extends React.Component {
       ],
       currentTime,
     );
-
-    const hasActiveServiceAlerts =
-      isAlertActive(getServiceAlertsForRoute(route, patternId)) &&
-      getServiceAlertsForRoute(route, patternId).length > 0;
+    const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+      getServiceAlertsForRoute(route, patternId),
+      currentTime,
+    );
 
     const disruptionClassName =
       (hasActiveAlert && 'active-disruption-alert') ||

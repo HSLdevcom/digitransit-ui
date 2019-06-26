@@ -19,6 +19,7 @@ import {
   getServiceAlertsForStop,
   getServiceAlertsForStopRoutes,
   isAlertActive,
+  getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -66,10 +67,15 @@ function StopPageTabContainer(
   );
 
   const hasActiveServiceAlerts =
-    (isAlertActive(getServiceAlertsForStop(stop, intl)) &&
-      getServiceAlertsForStop(stop, intl).length > 0) ||
-    (isAlertActive(getServiceAlertsForStopRoutes(stop, intl)) &&
-      getServiceAlertsForStopRoutes(stop, intl).length > 0);
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStop(stop, intl),
+      currentTime,
+    ) ||
+    getActiveAlertSeverityLevel(
+      getServiceAlertsForStopRoutes(stop, intl),
+      currentTime,
+    );
+
   const disruptionClassName =
     (hasActiveAlert && 'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
