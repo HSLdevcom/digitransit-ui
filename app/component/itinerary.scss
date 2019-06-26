@@ -107,7 +107,7 @@ $itinerary-tab-switch-height: 48px;
 
   div {
     flex-grow: 1;
-    flex-shrink: 1;
+    flex-shrink: 0;
   }
 
   .disclaimer-container {
@@ -372,11 +372,13 @@ $itinerary-tab-switch-height: 48px;
         padding-top: $padding-medium;
       }
 
-      .ticket-identifier {
-        @include font-medium;
-        color: $black;
+      div {
+        flex-shrink: 1;
+        .ticket-identifier {
+          @include font-medium;
+          color: $black;
+        }
       }
-
       .ticket-type-agency-link {
         flex-grow: 0;
       }
