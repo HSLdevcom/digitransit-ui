@@ -126,7 +126,7 @@ function VehicleMarkerContainer(props) {
           offset={[106, 0]}
           maxWidth={250}
           minWidth={250}
-          className="popup"
+          className="route-popup"
         >
           <Relay.RootContainer
             Component={RouteMarkerPopup}
