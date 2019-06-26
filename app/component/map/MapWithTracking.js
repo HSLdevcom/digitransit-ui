@@ -139,6 +139,16 @@ class MapWithTrackingStateHandler extends React.Component {
     ) {
       this.usePosition(newProps.origin);
     } else if (
+      // "current position selected"
+      newProps.destination.lat !== null &&
+      newProps.destination.lon !== null &&
+      newProps.destination.gps === true &&
+      ((this.state.destination.ready === false &&
+        newProps.destination.ready === true) ||
+        !this.state.destination.gps) // current position selected
+    ) {
+      this.usePosition(newProps.destination);
+    } else if (
       // "poi selected"
       !newProps.origin.gps &&
       (newProps.origin.lat !== this.state.origin.lat ||
