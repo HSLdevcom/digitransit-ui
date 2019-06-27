@@ -9,6 +9,7 @@ const defaultProps = {
   getGeoJsonConfig: () => {},
   getGeoJsonData: () => {},
   origin: {},
+  destination: {},
   position: {
     hasLocation: false,
     isLocationingInProgress: false,
