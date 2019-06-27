@@ -1,4 +1,5 @@
 import ceil from 'lodash/ceil';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Scatter } from 'react-chartjs-2';
 
@@ -47,7 +48,7 @@ const ElevationProfile = ({ config, itinerary }) => {
   }
 
   return (
-    <React.Fragment>
+    <div style={{ marginBottom: '1em', marginTop: '2em' }}>
       <Scatter
         data={{ datasets: [{ data, pointRadius: 0, showLine: true }] }}
         options={{
@@ -75,8 +76,8 @@ const ElevationProfile = ({ config, itinerary }) => {
                 ticks: {
                   callback: value => `${value} m`,
                   fontFamily: FONT_FAMILY,
-                  maxTicksLimit: 5,
-                  stepSize: 1,
+                  maxTicksLimit: 4,
+                  stepSize: 5,
                 },
                 type: 'linear',
               },
@@ -86,21 +87,27 @@ const ElevationProfile = ({ config, itinerary }) => {
             bodyFontFamily: FONT_FAMILY,
             callbacks: {
               label: ({ xLabel, yLabel }) =>
-                `${ceil(yLabel, 1)} m, ${
+                `${ceil(yLabel, 1)} m (${
                   xLabel < 1000
                     ? `${Math.round(xLabel / 10) * 10} m`
                     : displayDistance(xLabel, config)
-                }`,
+                })`,
             },
+            displayColors: false,
             intersect: false,
             mode: 'index',
           },
         }}
         height={1}
-        width={4}
+        width={3}
       />
-    </React.Fragment>
+    </div>
   );
+};
+
+ElevationProfile.propTypes = {
+  config: PropTypes.object.isRequired,
+  itinerary: PropTypes.object.isRequired,
 };
 
 export default ElevationProfile;
