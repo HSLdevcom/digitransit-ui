@@ -23,11 +23,13 @@ const ElevationProfile = ({ config, itinerary }) => {
     .map((step, i, stepsArray) => {
       cumulativeStepDistance +=
         (stepsArray[i - 1] && stepsArray[i - 1].distance) || 0;
-      return step.elevationProfile.map(ep => ({
-        elevation: ceil(ep.elevation, 1),
-        distance: ep.distance,
-        stepDistance: cumulativeStepDistance,
-      }));
+      return step.elevationProfile
+        .filter(ep => ep.distance <= step.distance)
+        .map(ep => ({
+          elevation: ceil(ep.elevation, 1),
+          distance: ep.distance,
+          stepDistance: cumulativeStepDistance,
+        }));
     })
     .reduce((a, b) => [...a, ...b], [])
     .map(point => ({
@@ -35,7 +37,7 @@ const ElevationProfile = ({ config, itinerary }) => {
       y: point.elevation,
     }));
 
-  const firstElement = data[0] && data[0];
+  const firstElement = data[0];
   if (firstElement && firstElement.x !== 0) {
     data.unshift({ x: 0, y: firstElement.y });
   }
