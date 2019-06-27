@@ -16,7 +16,7 @@ const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
         Number.isFinite(elevationGained) &&
         Number.isFinite(elevationLost) && (
           <React.Fragment>
-            <ElevationProfile itinerary={itinerary} />
+            <ElevationProfile config={config} itinerary={itinerary} />
             <div className="itinerary-profile-item">
               <div className="itinerary-profile-item-title">
                 {`${intl.formatMessage({

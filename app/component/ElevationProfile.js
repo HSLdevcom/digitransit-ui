@@ -2,7 +2,12 @@ import ceil from 'lodash/ceil';
 import React from 'react';
 import { Scatter } from 'react-chartjs-2';
 
-const ElevationProfile = ({ itinerary }) => {
+import { displayDistance } from '../util/geo-utils';
+
+const FONT_FAMILY =
+  '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif';
+
+const ElevationProfile = ({ config, itinerary }) => {
   if (
     !itinerary ||
     !Array.isArray(itinerary.legs) ||
@@ -16,7 +21,8 @@ const ElevationProfile = ({ itinerary }) => {
     .map(leg => leg.steps)
     .reduce((a, b) => [...a, ...b], [])
     .map((step, i, stepsArray) => {
-      cumulativeStepDistance += (i > 0 && stepsArray[i - 1].distance) || 0;
+      cumulativeStepDistance +=
+        (stepsArray[i - 1] && stepsArray[i - 1].distance) || 0;
       return step.elevationProfile.map(ep => ({
         elevation: ceil(ep.elevation, 1),
         distance: ep.distance,
@@ -28,6 +34,11 @@ const ElevationProfile = ({ itinerary }) => {
       x: ceil(point.stepDistance + point.distance, 1),
       y: point.elevation,
     }));
+
+  const firstElement = data[0] && data[0];
+  if (firstElement && firstElement.x !== 0) {
+    data.unshift({ x: 0, y: firstElement.y });
+  }
 
   return (
     <React.Fragment>
@@ -44,6 +55,7 @@ const ElevationProfile = ({ itinerary }) => {
                 ticks: {
                   beginAtZero: true,
                   callback: value => `${ceil(value / 1000, 1)} km`,
+                  fontFamily: FONT_FAMILY,
                   max: data[data.length - 1].x,
                   maxTicksLimit: 9,
                   stepSize: 1000,
@@ -56,6 +68,7 @@ const ElevationProfile = ({ itinerary }) => {
                 gridLines: { display: false },
                 ticks: {
                   callback: value => `${value} m`,
+                  fontFamily: FONT_FAMILY,
                   maxTicksLimit: 5,
                   stepSize: 1,
                 },
@@ -64,9 +77,14 @@ const ElevationProfile = ({ itinerary }) => {
             ],
           },
           tooltips: {
+            bodyFontFamily: FONT_FAMILY,
             callbacks: {
               label: ({ xLabel, yLabel }) =>
-                `${ceil(yLabel, 1)} m, ${ceil(xLabel / 1000, 1)} km`,
+                `${ceil(yLabel, 1)} m, ${
+                  xLabel < 1000
+                    ? `${Math.round(xLabel / 10) * 10} m`
+                    : displayDistance(xLabel, config)
+                }`,
             },
             intersect: false,
             mode: 'index',
