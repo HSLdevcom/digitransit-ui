@@ -37,6 +37,10 @@ const ElevationProfile = ({ config, itinerary }) => {
       y: point.elevation,
     }));
 
+  if (data.length === 0) {
+    return null;
+  }
+
   const firstElement = data[0];
   if (firstElement && firstElement.x !== 0) {
     data.unshift({ x: 0, y: firstElement.y });
