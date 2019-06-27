@@ -27,6 +27,26 @@ describe('mqttClient', () => {
       expect(message.long).to.equal(123.12346);
     });
 
+    it('should return undefined if long is null or undefined', () => {
+      const rawMessage = {
+        VP: {
+          lat: 123.123456,
+        },
+      };
+      const message = parseMessage(testTopic, rawMessage, 'HSL');
+      expect(message).to.equal(undefined);
+    });
+
+    it('should return undefined if lat is null or undefined', () => {
+      const rawMessage = {
+        VP: {
+          long: 123.123456,
+        },
+      };
+      const message = parseMessage(testTopic, rawMessage, 'HSL');
+      expect(message).to.equal(undefined);
+    });
+
     it('maps hfp directions 1 and 2 to 0 and 1', () => {
       const message = parseMessage(testTopic, testMessage, 'HSL');
       expect(message.direction).to.equal(0);
