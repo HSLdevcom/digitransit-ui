@@ -26,14 +26,16 @@ class RealTimeInformationStore extends Store {
   }
 
   handleMessage(message) {
-    if (Array.isArray(message)) {
-      message.forEach(msg => {
-        this.vehicles[msg.id] = msg;
-      });
-    } else {
-      this.vehicles[message.id] = message;
+    if (message) {
+      if (Array.isArray(message)) {
+        message.forEach(msg => {
+          this.vehicles[msg.id] = msg;
+        });
+      } else {
+        this.vehicles[message.id] = message;
+      }
+      this.emitChange();
     }
-    this.emitChange();
   }
 
   setTopics(topics) {

@@ -38,6 +38,7 @@ export function parseMessage(topic, message, agency) {
     ,
     ,
     ,
+    ,
     mode,
     ,
     id,
@@ -50,11 +51,14 @@ export function parseMessage(topic, message, agency) {
   ] = topic.split('/');
 
   const vehid = `${agency}_${id}`;
-
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
   } else {
     parsedMessage = message.VP;
+  }
+
+  if (parsedMessage === undefined) {
+    return undefined;
   }
 
   return {
