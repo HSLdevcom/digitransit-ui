@@ -3,22 +3,34 @@ import React from 'react';
 import { Scatter } from 'react-chartjs-2';
 
 const ElevationProfile = ({ itinerary }) => {
-  let pointDistance = 0;
+  if (
+    !itinerary ||
+    !Array.isArray(itinerary.legs) ||
+    itinerary.legs.some(leg => leg.transitLeg)
+  ) {
+    return null;
+  }
+
+  let cumulativeStepDistance = 0;
   const data = itinerary.legs
     .map(leg => leg.steps)
     .reduce((a, b) => [...a, ...b], [])
-    .map(step => step.elevationProfile)
+    .map((step, i, stepsArray) => {
+      cumulativeStepDistance += (i > 0 && stepsArray[i - 1].distance) || 0;
+      return step.elevationProfile.map(ep => ({
+        elevation: ceil(ep.elevation, 1),
+        distance: ep.distance,
+        stepDistance: cumulativeStepDistance,
+      }));
+    })
     .reduce((a, b) => [...a, ...b], [])
-    .map(point => {
-      pointDistance += point.distance || 0;
-      return {
-        x: ceil(pointDistance, 1),
-        y: ceil(point.elevation, 1),
-      };
-    });
+    .map(point => ({
+      x: ceil(point.stepDistance + point.distance, 1),
+      y: point.elevation,
+    }));
+
   return (
     <React.Fragment>
-      <h2>Korkeusprofiili</h2>
       <Scatter
         data={{ datasets: [{ data, pointRadius: 0, showLine: true }] }}
         options={{
@@ -31,7 +43,10 @@ const ElevationProfile = ({ itinerary }) => {
                 gridLines: { display: false },
                 ticks: {
                   beginAtZero: true,
-                  callback: value => `${ceil(value / 100000, 1)} km`,
+                  callback: value => `${ceil(value / 1000, 1)} km`,
+                  max: data[data.length - 1].x,
+                  maxTicksLimit: 9,
+                  stepSize: 1000,
                 },
                 type: 'linear',
               },
@@ -41,6 +56,8 @@ const ElevationProfile = ({ itinerary }) => {
                 gridLines: { display: false },
                 ticks: {
                   callback: value => `${value} m`,
+                  maxTicksLimit: 5,
+                  stepSize: 1,
                 },
                 type: 'linear',
               },
@@ -48,11 +65,15 @@ const ElevationProfile = ({ itinerary }) => {
           },
           tooltips: {
             callbacks: {
-              label: ({ yLabel }) => `${ceil(yLabel, 1)} m`,
+              label: ({ xLabel, yLabel }) =>
+                `${ceil(yLabel, 1)} m, ${ceil(xLabel / 1000, 1)} km`,
             },
             intersect: false,
+            mode: 'index',
           },
         }}
+        height={1}
+        width={4}
       />
     </React.Fragment>
   );
