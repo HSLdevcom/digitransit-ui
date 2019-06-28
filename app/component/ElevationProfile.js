@@ -4,6 +4,8 @@ import React from 'react';
 import { Scatter } from 'react-chartjs-2';
 
 import { displayDistance } from '../util/geo-utils';
+import { containsBiking, LegMode } from '../util/legUtils';
+import { getModeColor } from '../util/mapIconUtils';
 
 const FONT_COLOR = '#666';
 const FONT_FAMILY =
@@ -13,6 +15,7 @@ const ElevationProfile = ({ config, itinerary }) => {
   if (
     !itinerary ||
     !Array.isArray(itinerary.legs) ||
+    itinerary.legs.length === 0 ||
     itinerary.legs.some(leg => leg.transitLeg)
   ) {
     return null;
@@ -54,6 +57,9 @@ const ElevationProfile = ({ config, itinerary }) => {
         data={{
           datasets: [
             {
+              borderColor: containsBiking(itinerary)
+                ? getModeColor(LegMode.Bicycle)
+                : getModeColor(LegMode.Walk),
               data,
               lineTension: 0,
               pointRadius: 0,
@@ -75,7 +81,7 @@ const ElevationProfile = ({ config, itinerary }) => {
                   fontColor: FONT_COLOR,
                   fontFamily: FONT_FAMILY,
                   max: data[data.length - 1].x,
-                  maxTicksLimit: 9,
+                  maxTicksLimit: 7,
                   stepSize: 1000,
                 },
                 type: 'linear',
@@ -105,6 +111,7 @@ const ElevationProfile = ({ config, itinerary }) => {
                     : displayDistance(xLabel, config)
                 })`,
             },
+            cornerRadius: 4,
             displayColors: false,
             intersect: false,
             mode: 'index',

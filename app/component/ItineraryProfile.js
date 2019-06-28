@@ -6,13 +6,17 @@ import { intlShape } from 'react-intl';
 
 import ElevationProfile from './ElevationProfile';
 import { displayDistance } from '../util/geo-utils';
-import { getTotalDistance, containsBiking } from '../util/legUtils';
+import {
+  containsBiking,
+  getTotalDistance,
+  onlyWalking,
+} from '../util/legUtils';
 
 const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
   const { elevationGained, elevationLost } = itinerary;
   return (
     <div className={cx('itinerary-profile-container', { small })}>
-      {containsBiking(itinerary) &&
+      {(containsBiking(itinerary) || onlyWalking(itinerary)) &&
         Number.isFinite(elevationGained) &&
         Number.isFinite(elevationLost) && (
           <React.Fragment>

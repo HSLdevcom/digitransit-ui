@@ -166,6 +166,16 @@ const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 
 /**
+ * Checks if the itinerary consists of only walking.
+ *
+ * @param {*} itinerary the itinerary to check the legs for.
+ */
+export const onlyWalking = itinerary =>
+  itinerary &&
+  Array.isArray(itinerary.legs) &&
+  itinerary.legs.every(isWalkingLeg);
+
+/**
  * Checks if the itinerary consists of a single biking leg.
  *
  * @param {*} itinerary the itinerary to check the legs for
