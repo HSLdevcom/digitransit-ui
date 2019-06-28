@@ -57,7 +57,7 @@ class MapWithTrackingStateHandler extends React.Component {
       lon: PropTypes.number.isRequired,
     }).isRequired,
     config: PropTypes.shape({
-      defaultMapCenter: dtLocationShape,
+      defaultM2Center: dtLocationShape,
       defaultEndpoint: dtLocationShape.isRequired,
       realTime: PropTypes.object.isRequired,
       feedIds: PropTypes.array.isRequired,
@@ -346,7 +346,7 @@ class MapWithTrackingStateHandler extends React.Component {
       );
     }
 
-    if (origin && origin.ready === true && origin.gps !== true) {
+    if (origin && origin.ready === true) {
       leafletObjs.push(
         <LazilyLoad modules={locationMarkerModules} key="from">
           {({ LocationMarker }) => (
