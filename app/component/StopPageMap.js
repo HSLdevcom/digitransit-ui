@@ -55,7 +55,10 @@ const fullscreenMapToggle = (fullscreenMap, params, router) => (
 );
 /* eslint-enable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
-const StopPageMap = ({ stop, routes, params, breakpoint }, { router }) => {
+const StopPageMap = (
+  { stop, routes, params, breakpoint },
+  { router, config },
+) => {
   if (!stop) {
     return false;
   }
@@ -63,16 +66,17 @@ const StopPageMap = ({ stop, routes, params, breakpoint }, { router }) => {
   const fullscreenMap = some(routes, 'fullscreenMap');
   const leafletObjs = [];
   const children = [];
-
-  leafletObjs.push(
-    <VehicleMarkerContainer
-      key="vehicles"
-      pattern="+"
-      headsign="+"
-      tripStart="+"
-      useLargeIcon
-    />,
-  );
+  if (config.showVehiclesOnStopPage) {
+    leafletObjs.push(
+      <VehicleMarkerContainer
+        key="vehicles"
+        pattern="+"
+        headsign="+"
+        tripStart="+"
+        useLargeIcon
+      />,
+    );
+  }
 
   if (breakpoint === 'large') {
     leafletObjs.push(
@@ -105,6 +109,7 @@ const StopPageMap = ({ stop, routes, params, breakpoint }, { router }) => {
 
 StopPageMap.contextTypes = {
   router: routerShape.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 StopPageMap.propTypes = {
