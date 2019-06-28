@@ -5,6 +5,7 @@ import { Scatter } from 'react-chartjs-2';
 
 import { displayDistance } from '../util/geo-utils';
 
+const FONT_COLOR = '#666';
 const FONT_FAMILY =
   '"Gotham Rounded SSm A", "Gotham Rounded SSm B", Arial, Georgia, Serif';
 
@@ -48,7 +49,7 @@ const ElevationProfile = ({ config, itinerary }) => {
   }
 
   return (
-    <div style={{ marginBottom: '1em', marginTop: '2em' }}>
+    <div style={{ margin: '1em 0' }}>
       <Scatter
         data={{ datasets: [{ data, pointRadius: 0, showLine: true }] }}
         options={{
@@ -58,10 +59,11 @@ const ElevationProfile = ({ config, itinerary }) => {
           scales: {
             xAxes: [
               {
-                gridLines: { display: false },
+                gridLines: { display: false, drawBorder: false },
                 ticks: {
                   beginAtZero: true,
                   callback: value => `${ceil(value / 1000, 1)} km`,
+                  fontColor: FONT_COLOR,
                   fontFamily: FONT_FAMILY,
                   max: data[data.length - 1].x,
                   maxTicksLimit: 9,
@@ -72,9 +74,10 @@ const ElevationProfile = ({ config, itinerary }) => {
             ],
             yAxes: [
               {
-                gridLines: { display: false },
+                gridLines: { display: false, drawBorder: false },
                 ticks: {
                   callback: value => `${value} m`,
+                  fontColor: FONT_COLOR,
                   fontFamily: FONT_FAMILY,
                   maxTicksLimit: 4,
                   stepSize: 5,
