@@ -120,7 +120,7 @@
     "react-router-relay": "0.14.0",
     "react-swipeable-views": "0.13.1",
     "react-swipeable-views-utils": "0.13.1",
-    "react-transition-group": "1.2.1",
+    "react-transition-group": "4.2.0",
     "recompose": "0.30.0",
     "serialize-javascript": "1.6.1",
     "zurb-foundation-5": "5.4.7"
