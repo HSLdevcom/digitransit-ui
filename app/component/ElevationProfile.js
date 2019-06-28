@@ -51,7 +51,16 @@ const ElevationProfile = ({ config, itinerary }) => {
   return (
     <div style={{ margin: '1em 0' }}>
       <Scatter
-        data={{ datasets: [{ data, pointRadius: 0, showLine: true }] }}
+        data={{
+          datasets: [
+            {
+              data,
+              lineTension: 0,
+              pointRadius: 0,
+              showLine: true,
+            },
+          ],
+        }}
         options={{
           legend: {
             display: false,
