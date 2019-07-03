@@ -27,4 +27,11 @@ export default {
       this.availableRouteTimetables = timetables;
     },
   },
+  tampereRoutes: {
+    timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
+      const routeIdSplitted = route.gtfsId.split(':');
+      const routeId = routeIdSplitted[1];
+      return `${baseURL}linja${routeId}.pdf`;
+    },
+  }
 };
