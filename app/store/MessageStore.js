@@ -1,9 +1,22 @@
 import Store from 'fluxible/addons/BaseStore';
-import { getIsBrowser } from '../util/browser';
+import { getIsBrowser, isIeOrOldVersion } from '../util/browser';
 import { setReadMessageIds, getReadMessageIds } from './localStorage';
 
 export const processStaticMessages = (root, callback) => {
-  const { staticMessages } = root;
+  const { staticMessages, staticIEMessage } = root;
+  if (Array.isArray(staticIEMessage) && isIeOrOldVersion()) {
+    staticIEMessage
+      .filter(
+        msg =>
+          msg.content &&
+          Object.keys(msg.content).some(
+            key =>
+              Array.isArray(msg.content[key]) && msg.content[key].length > 0,
+          ),
+      )
+      .forEach(callback);
+  }
+
   if (Array.isArray(staticMessages)) {
     staticMessages
       .filter(
@@ -93,7 +106,8 @@ class MessageStore extends Store {
     let changed;
     const readIds = getReadMessageIds();
     ids.forEach(id => {
-      if (readIds.indexOf(id) === -1) {
+      // Don't add staticIEMessage's id to readIds
+      if (readIds.indexOf(id) === -1 && id !== '3') {
         readIds.push(id);
         changed = true;
       }
