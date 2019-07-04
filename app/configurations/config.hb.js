@@ -153,4 +153,16 @@ export default configMerger(walttiConfig, {
   themeMap: {
     hb: 'hb',
   },
+
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    }
+  },
 });
