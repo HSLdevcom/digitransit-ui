@@ -1,6 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import { getIsBrowser, isIeOrOldVersion } from '../util/browser';
 import { setReadMessageIds, getReadMessageIds } from './localStorage';
+import { setSessionMessageIds, getSessionMessageIds } from './sessionStorage';
 
 export const processStaticMessages = (root, callback) => {
   const { staticMessages, staticIEMessage } = root;
@@ -63,6 +64,7 @@ class MessageStore extends Store {
 
   addMessage = msg => {
     const readIds = getReadMessageIds();
+    const sessionReadIds = getSessionMessageIds();
     const message = { ...msg };
 
     if (!message.id) {
@@ -73,7 +75,10 @@ class MessageStore extends Store {
       return;
     }
 
-    if (msg.persistence !== 'repeat' && readIds.indexOf(msg.id) !== -1) {
+    if (
+      (msg.persistence !== 'repeat' && readIds.indexOf(msg.id) !== -1) ||
+      sessionReadIds.indexOf(msg.id) !== -1
+    ) {
       return;
     }
 
@@ -104,12 +109,17 @@ class MessageStore extends Store {
     }
 
     let changed;
+    let sessionChanged;
     const readIds = getReadMessageIds();
+    const sessionReadIds = getSessionMessageIds();
     ids.forEach(id => {
-      // Don't add staticIEMessage's id to readIds
+      // Add staticIEMessage's id to sessionStorage (id 3)
       if (readIds.indexOf(id) === -1 && id !== '3') {
         readIds.push(id);
         changed = true;
+      } else if (sessionReadIds.indexOf(id) === -1 && id === '3') {
+        sessionReadIds.push(id);
+        sessionChanged = true;
       }
       if (this.messages.has(id)) {
         this.messages.delete(id);
@@ -118,6 +128,10 @@ class MessageStore extends Store {
     });
     if (changed) {
       setReadMessageIds(readIds);
+      this.emitChange();
+    }
+    if (sessionChanged) {
+      setSessionMessageIds(sessionReadIds);
       this.emitChange();
     }
   };
