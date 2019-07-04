@@ -666,7 +666,7 @@ export default {
           {
             type: 'text',
             content:
-              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.\n',
+              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.',
           },
           {
             type: 'a',
