@@ -10,7 +10,7 @@ function handleSecurityError(error, logMessage) {
   }
 }
 
-export const getSessionStorage = (
+const getSessionStorage = (
   runningInBrowser,
   errorHandler = handleSecurityError,
 ) => {
@@ -68,17 +68,6 @@ function getItemAsJson(key, defaultValue) {
   }
 
   return JSON.parse(item);
-}
-
-export function removeItem(k) {
-  const sessionStorage = getSessionStorage(isBrowser);
-  if (sessionStorage) {
-    try {
-      sessionStorage.removeItem(k);
-    } catch (error) {
-      handleSecurityError(error);
-    }
-  }
 }
 
 export function setSessionMessageIds(data) {
