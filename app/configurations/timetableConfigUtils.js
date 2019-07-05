@@ -31,7 +31,7 @@ export default {
     timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
       const routeIdSplitted = route.gtfsId.split(':');
       const routeId = routeIdSplitted[1].replace(/[^\d]/g, '');
-      return `${baseURL}linja${routeId}.pdf`;
+      return baseURL + 'linja' + routeId + '.pdf';
     },
   },
 };
