@@ -39,6 +39,7 @@ export default {
       GEOCODING_BASE_URL}/reverse`,
     ROUTE_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
+      tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
     },
   },
 

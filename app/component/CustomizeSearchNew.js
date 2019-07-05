@@ -91,9 +91,8 @@ class CustomizeSearch extends React.Component {
         }
       });
 
-      // TODO this needs refactoring if new configurations use ticket selector
       ticketOptions.sort((a, b) => {
-        return b.length - a.length > 1 ? -1 : 1;
+        return a.split('').reverse() > b.split('').reverse() ? 1 : -1;
       });
     }
 

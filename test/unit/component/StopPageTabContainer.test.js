@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
+import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { Component as StopPageTabContainer } from '../../../app/component/StopPageTabContainer';
@@ -142,5 +143,75 @@ describe('<StopPageTabContainer />', () => {
     };
     const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
     expect(wrapper.isEmptyRender()).to.equal(true);
+  });
+
+  it('should render "Routes, tracks" when vehicleMode is rail', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        stopId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        vehicleMode: 'RAIL',
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(2)
+        .props().id,
+    ).to.equal('routes-tracks');
+  });
+
+  it('should render "Routes, tracks" when vehicleMode is subway', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        stopId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {
+        vehicleMode: 'SUBWAY',
+      },
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(2)
+        .props().id,
+    ).to.equal('routes-tracks');
+  });
+
+  it('should render "Routes, platforms" when vehicleMode is not rail or subway', () => {
+    const props = {
+      breakpoint: 'large',
+      children: <div />,
+      location: {
+        pathname: 'foobar',
+      },
+      params: {
+        stopId: 'HSL:2211275',
+      },
+      routes: [],
+      stop: {},
+    };
+    const wrapper = shallowWithIntl(<StopPageTabContainer {...props} />);
+    expect(
+      wrapper
+        .find(FormattedMessage)
+        .at(2)
+        .props().id,
+    ).to.equal('routes-platforms');
   });
 });

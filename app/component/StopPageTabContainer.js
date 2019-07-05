@@ -50,7 +50,6 @@ function StopPageTabContainer(
   if (!stop || (some(routes, 'fullscreenMap') && breakpoint !== 'large')) {
     return null;
   }
-
   const activeTab = getActiveTab(pathname);
   const isTerminal = params.terminalId != null;
   const urlBase = `/${
@@ -129,8 +128,16 @@ function StopPageTabContainer(
               </div>
               <div>
                 <FormattedMessage
-                  id="routes-platforms"
-                  defaultMessage="routes-platforms"
+                  id={
+                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                      ? 'routes-tracks'
+                      : 'routes-platforms'
+                  }
+                  defaultMessage={
+                    stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+                      ? 'routes-tracks'
+                      : 'routes-platforms'
+                  }
                 />
               </div>
             </div>
@@ -185,6 +192,7 @@ StopPageTabContainer.propTypes = {
   }).isRequired,
   stop: PropTypes.shape({
     alerts: alertArrayShape,
+    vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         realtimeState: PropTypes.string,
@@ -222,6 +230,7 @@ const containerComponent = Relay.createContainer(
         fragment on Stop {
           ${StopAlertsQuery}
           ${StopAlertsWithContentQuery}
+          vehicleMode
           stoptimes: stoptimesWithoutPatterns(
             startTime:$startTime,
             timeRange:$timeRange,

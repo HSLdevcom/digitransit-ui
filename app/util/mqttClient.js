@@ -38,6 +38,7 @@ export function parseMessage(topic, message, agency) {
     ,
     ,
     ,
+    ,
     mode,
     ,
     id,
@@ -50,30 +51,32 @@ export function parseMessage(topic, message, agency) {
   ] = topic.split('/');
 
   const vehid = `${agency}_${id}`;
-
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
   } else {
     parsedMessage = message.VP;
   }
 
-  return {
-    id: vehid,
-    route: `${agency}:${line}`,
-    direction: parseInt(dir, 10) - 1,
-    tripStartTime: startTime.replace(/:/g, ''),
-    operatingDay:
-      parsedMessage.oday && parsedMessage.oday !== 'XXX'
-        ? parsedMessage.oday
-        : moment().format('YYYY-MM-DD'),
-    mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
-    next_stop: nextStop,
-    timestamp: parsedMessage.tsi,
-    lat: parsedMessage.lat && ceil(parsedMessage.lat, 5),
-    long: parsedMessage.long && ceil(parsedMessage.long, 5),
-    heading: parsedMessage.hdg,
-    headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
-  };
+  if (parsedMessage && parsedMessage.lat && parsedMessage.long) {
+    return {
+      id: vehid,
+      route: `${agency}:${line}`,
+      direction: parseInt(dir, 10) - 1,
+      tripStartTime: startTime.replace(/:/g, ''),
+      operatingDay:
+        parsedMessage.oday && parsedMessage.oday !== 'XXX'
+          ? parsedMessage.oday
+          : moment().format('YYYY-MM-DD'),
+      mode: modeTranslate[mode] ? modeTranslate[mode] : mode,
+      next_stop: nextStop,
+      timestamp: parsedMessage.tsi,
+      lat: ceil(parsedMessage.lat, 5),
+      long: ceil(parsedMessage.long, 5),
+      heading: parsedMessage.hdg,
+      headsign: undefined, // in HSL data headsign from realtime data does not always match gtfs data
+    };
+  }
+  return undefined;
 }
 
 export function changeTopics(settings, actionContext) {
