@@ -10,7 +10,7 @@ function handleSecurityError(error, logMessage) {
   }
 }
 
-const getSessionStorage = (
+export const getSessionStorage = (
   runningInBrowser,
   errorHandler = handleSecurityError,
 ) => {
