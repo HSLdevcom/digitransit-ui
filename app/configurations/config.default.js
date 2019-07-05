@@ -666,7 +666,7 @@ export default {
           {
             type: 'text',
             content:
-              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.',
+              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.\n',
           },
           {
             type: 'a',
@@ -688,7 +688,7 @@ export default {
           {
             type: 'text',
             content:
-              'The service does not support the browser you are using. Update your browser or download a new browser using the links below.',
+              'The service does not support the browser you are using. Update your browser or download a new browser using the links below.\n',
           },
           {
             type: 'a',
@@ -710,7 +710,7 @@ export default {
           {
             type: 'text',
             content:
-              'Tjänsten stöder inte den webbläsare som du har i bruk. Uppdatera din webbläsare eller ladda ner en ny webbläsare via nedanstående länk',
+              'Tjänsten stöder inte den webbläsare som du har i bruk. Uppdatera din webbläsare eller ladda ner en ny webbläsare via nedanstående länk.\n',
           },
           {
             type: 'a',

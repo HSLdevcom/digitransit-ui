@@ -12,6 +12,21 @@ const heading = (e, key) => {
 // eslint-disable-next-line no-unused-vars
 const span = (e, key) => {
   if (e.type === 'text') {
+    if (e.content.includes('\n')) {
+      const result = e.content
+        .split('\n')
+        .filter(item => item !== '')
+        .map(item => {
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <span>
+              {item}
+              <br />
+            </span>
+          );
+        });
+      return result;
+    }
     return e.content;
   }
   return null;
