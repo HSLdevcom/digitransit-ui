@@ -34,7 +34,7 @@ export default class ParkAndRidePopup extends React.Component {
   render() {
     return (
       <div className="card">
-        <Card className="padding-small">
+        <Card className="card-padding">
           <CardHeader
             name={this.context.intl.formatMessage({
               id: 'park-and-ride',

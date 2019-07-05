@@ -27,7 +27,7 @@ export function getIcon(type) {
 function TicketSalesPopup(props) {
   return (
     <div className="card">
-      <Card className="padding-small">
+      <Card className="card-padding">
         <CardHeader
           name={props.NIMI}
           description={props.OSOITE}

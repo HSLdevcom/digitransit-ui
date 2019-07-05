@@ -36,6 +36,20 @@ describe('<OriginDestinationBar />', () => {
       const comp = mountWithIntl(<OriginDestinationBar {...props} />, {
         context: {
           ...mockContext,
+          getStore: () => ({
+            getViaPoints: () => {},
+            getLocationState: () => {
+              return {
+                lat: 0,
+                lon: 0,
+                status: 'no-location',
+                hasLocation: false,
+                isLocationingInProgress: false,
+                locationingFailed: false,
+              };
+            },
+            on: () => {},
+          }),
           router,
         },
         childContextTypes: mockChildContextTypes,

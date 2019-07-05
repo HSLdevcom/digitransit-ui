@@ -201,7 +201,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
   }
   .leaflet-popup-content {
     margin: 0;
-    width: 18rem !important;
+    width: 20rem !important;
     &.leaflet-popup-scrolled {
       overflow: inherit;
     }
@@ -229,7 +229,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
   .bottom {
     @include font-medium;
-    font-size: $font-size-small;
+    font-size: $font-size-xsmall;
     line-height: $line-height-normal;
     color: $link-color;
     display: flex;
@@ -238,19 +238,20 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     margin: 0;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    background: $background-color;
+    background: $white;
     border-top: solid 1px #ddd;
 
     div,
     a {
       display: block;
-      padding: 0.5em 12px;
+      padding: 1em;
       flex-grow: 1;
       text-align: center;
       text-decoration: none;
+      border-left: 1px solid $light-gray;
 
       &:first-child {
-        border-right: 1px solid $light-gray;
+        border-right: none;
       }
     }
   }
