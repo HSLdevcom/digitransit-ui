@@ -16,10 +16,10 @@ const span = (e, key) => {
       const result = e.content
         .split('\n')
         .filter(item => item !== '')
-        .map(item => {
+        .map((item, i) => {
           return (
-            // eslint-disable-next-line react/jsx-key
-            <span>
+            // eslint-disable-next-line react/no-array-index-key
+            <span key={i}>
               {item}
               <br />
             </span>
