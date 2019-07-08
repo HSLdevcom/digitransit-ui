@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 export default {
-  HSLRoutes: {
+  HSL: {
     // Gets updated when server starts with {routeName: timetableName}
     // where routeName and timetableNames are route gtfsId values without "<feedname>:"
     availableRouteTimetables: {},
@@ -26,12 +26,20 @@ export default {
     ) {
       this.availableRouteTimetables = timetables;
     },
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop) {
+      const stopIdSplitted = stop.gtfsId.split(':');
+      return baseURL + stopIdSplitted[1] + '.pdf';
+    },
   },
-  tampereRoutes: {
+  tampere: {
     timetableUrlResolver: function timetableUrlResolver(baseURL, route) {
       const routeIdSplitted = route.gtfsId.split(':');
       const routeId = routeIdSplitted[1].replace(/[^\d]/g, '');
       return baseURL + 'linja' + routeId + '.pdf';
+    },
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop) {
+      const stopIdSplitted = stop.gtfsId.split(':');
+      return baseURL + stopIdSplitted[1] + '.pdf';
     },
   },
 };
