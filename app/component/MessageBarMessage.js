@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import uuid from 'uuidv4';
 import Icon from './Icon';
 
 const heading = (e, key) => {
@@ -16,10 +17,9 @@ const span = (e, key) => {
       const result = e.content
         .split('\n')
         .filter(item => item !== '')
-        .map((item, i) => {
+        .map(item => {
           return (
-            // eslint-disable-next-line react/no-array-index-key
-            <span key={i}>
+            <span key={uuid()}>
               {item}
               <br />
             </span>
