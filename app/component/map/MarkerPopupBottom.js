@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
+import { withCurrentTime } from '../../util/searchUtils';
 
 import {
   PREFIX_ROUTES,
@@ -12,7 +13,6 @@ import {
   parseLocation,
   navigateTo,
 } from '../../util/path';
-import { withCurrentTime } from '../../util/searchUtils';
 import { dtLocationShape } from '../../util/shapes';
 
 class MarkerPopupBottom extends React.Component {
