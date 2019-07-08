@@ -44,7 +44,7 @@ export const isIeOrOldVersion = () => {
     );
   if (
     isIe ||
-    (isChrome && parseInt(browser[browser.length - 1], 10) < 80) || // Chrome version < 60
+    (isChrome && parseInt(browser[browser.length - 1], 10) < 60) || // Chrome version < 60
     (isFirefox && parseInt(browser[browser.length - 1], 10) < 50) // Firefox version < 50
   ) {
     return true;
