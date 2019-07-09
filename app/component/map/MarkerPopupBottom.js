@@ -142,8 +142,8 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {getIntermediatePlaces(this.context.location.query).length < 5 &&
-          this.context.location.pathname.startsWith('/reitti/') && (
+        {this.context.location.pathname.startsWith('/reitti/') &&
+          getIntermediatePlaces(this.context.location.query).length < 5 && (
             <div
               onClick={() => this.routeAddViaPoint()}
               className="route cursor-pointer"
