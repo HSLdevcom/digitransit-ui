@@ -123,15 +123,13 @@ class MarkerPopupBottom extends React.Component {
   };
 
   routeAddViaPoint = () => {
-    if (getIntermediatePlaces(this.context.location.query).length < 5) {
-      const viaPoints = getIntermediatePlaces(this.context.location.query)
-        .concat([this.props.location])
-        .map(locationToOtp);
-      this.props.leaflet.map.closePopup();
+    const viaPoints = getIntermediatePlaces(this.context.location.query)
+      .concat([this.props.location])
+      .map(locationToOtp);
+    this.props.leaflet.map.closePopup();
 
-      setIntermediatePlaces(this.context.router, viaPoints);
-      this.context.executeAction(updateViaPointsFromMap, true);
-    }
+    setIntermediatePlaces(this.context.router, viaPoints);
+    this.context.executeAction(updateViaPointsFromMap, true);
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -144,17 +142,18 @@ class MarkerPopupBottom extends React.Component {
             defaultMessage="Route from here"
           />
         </div>
-        {this.context.location.pathname.startsWith('/reitti/') && (
-          <div
-            onClick={() => this.routeAddViaPoint()}
-            className="route cursor-pointer"
-          >
-            <FormattedMessage
-              id="route-add-viapoint"
-              defaultMessage="Via point"
-            />
-          </div>
-        )}
+        {getIntermediatePlaces(this.context.location.query).length < 5 &&
+          this.context.location.pathname.startsWith('/reitti/') && (
+            <div
+              onClick={() => this.routeAddViaPoint()}
+              className="route cursor-pointer"
+            >
+              <FormattedMessage
+                id="route-add-viapoint"
+                defaultMessage="Via point"
+              />
+            </div>
+          )}
         <div onClick={() => this.routeTo()} className="route cursor-pointer">
           <FormattedMessage id="route-here" defaultMessage="Route here" />
         </div>
