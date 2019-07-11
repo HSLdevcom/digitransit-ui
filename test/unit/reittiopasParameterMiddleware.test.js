@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { validateParams } from '../../server/reittiopasParameterMiddleware';
+import {
+  validateParams,
+  langParamParser,
+} from '../../server/reittiopasParameterMiddleware';
 
 import config from '../../app/configurations/config.default';
 
@@ -39,6 +42,22 @@ describe('reittiopasParameterMiddleware', () => {
       req.query.modes = 'test1,test2';
       validateParams(req, config);
       expect(req.query.modes).to.be.an('undefined');
+    });
+  });
+  describe('langParamParser', () => {
+    it('should return empty path', () => {
+      const path = '/en/';
+      const newPath = langParamParser(path);
+      expect(newPath).to.equal('/');
+    });
+
+    it('should return path without language parameter', () => {
+      const path =
+        '/sv/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973';
+      const newPath = langParamParser(path);
+      expect(newPath).to.equal(
+        '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973',
+      );
     });
   });
 });
