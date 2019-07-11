@@ -120,7 +120,7 @@ class LocationPopup extends React.Component {
     const { zoneId } = this.state.location;
     return (
       <Card>
-        <div className="padding-small">
+        <div className="card-padding">
           <CardHeader
             name={this.state.location.address}
             description={this.props.name}

@@ -49,7 +49,7 @@ CityBikeCard.description = () => (
   <div>
     <p>Renders a citybike card with header and child props as content</p>
     <ComponentUsageExample description="Basic">
-      <CityBikeCard className="padding-small" station={exampleStation}>
+      <CityBikeCard className="card-padding" station={exampleStation}>
         Im content of the citybike card
       </CityBikeCard>
     </ComponentUsageExample>
