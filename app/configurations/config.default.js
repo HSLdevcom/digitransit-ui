@@ -658,6 +658,80 @@ export default {
 
   staticMessages: [],
 
+  staticIEMessage: [
+    {
+      id: '3',
+      priority: -1,
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.\n',
+          },
+          {
+            type: 'a',
+            content: 'Google Chrome',
+            href: 'https://www.google.com/chrome/',
+          },
+          {
+            type: 'a',
+            content: 'Firefox',
+            href: 'https://www.mozilla.org/fi/firefox/new/',
+          },
+          {
+            type: 'a',
+            content: 'Microsoft Edge',
+            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'The service does not support the browser you are using. Update your browser or download a new browser using the links below.\n',
+          },
+          {
+            type: 'a',
+            content: 'Google Chrome',
+            href: 'https://www.google.com/chrome/',
+          },
+          {
+            type: 'a',
+            content: 'Firefox',
+            href: 'https://www.mozilla.org/fi/firefox/new/',
+          },
+          {
+            type: 'a',
+            content: 'Microsoft Edge',
+            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Tjänsten stöder inte den webbläsare som du har i bruk. Uppdatera din webbläsare eller ladda ner en ny webbläsare via nedanstående länk.\n',
+          },
+          {
+            type: 'a',
+            content: 'Google Chrome',
+            href: 'https://www.google.com/chrome/',
+          },
+          {
+            type: 'a',
+            content: 'Firefox',
+            href: 'https://www.mozilla.org/sv-SE/firefox/new/',
+          },
+          {
+            type: 'a',
+            content: 'Microsoft Edge',
+            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
+          },
+        ],
+      },
+    },
+  ],
   themeMap: {
     hsl: 'reittiopas',
     turku: '(turku|foli)',
