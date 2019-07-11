@@ -174,12 +174,39 @@
       stroke: $black;
       fill: $black;
     }
+    .no-alerts span {
+      color: $black;
+    }
+    .no-alerts.icon {
+      fill: $black;
+    }
+    .active-disruption-alert.icon {
+      fill: $black;
+    }
+    .active-service-alert.icon {
+      stroke: $black;
+      fill: $black;
+    }
   }
 
   &.alert-active {
     .icon {
       fill: $cancelation-red;
     }
+  }
+
+  .no-alerts span {
+    color: rgb(183, 183, 183);
+  }
+  .no-alerts.icon {
+    fill: rgb(183, 183, 183);
+  }
+  .active-disruption-alert.icon {
+    fill: $cancelation-red
+  }
+  .active-service-alert.icon {
+    stroke: $primary-color;
+    fill: $primary-color;
   }
 
   @media print {

@@ -5,7 +5,7 @@ import { routerShape, locationShape } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import updateViaPointsFromMap from '../../action/ViaPointsActions';
-
+import { withCurrentTime } from '../../util/searchUtils';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
@@ -17,7 +17,6 @@ import {
   getIntermediatePlaces,
   setIntermediatePlaces,
 } from '../../util/queryUtils';
-import { withCurrentTime } from '../../util/searchUtils';
 import { dtLocationShape } from '../../util/shapes';
 
 const locationToOtp = location =>

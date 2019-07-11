@@ -6,6 +6,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import ComponentUsageExample from './ComponentUsageExample';
 import { realtimeDeparture as exampleRealtimeDeparture } from './ExampleData';
+import { isMobile } from '../util/browser';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
@@ -64,6 +65,7 @@ function RouteNumber(props, context) {
   // props.vertical is TRUE in itinerary view
   return (
     <span
+      style={{ display: longText && isMobile ? 'block' : null }}
       className={cx('route-number', {
         'overflow-fade': longText && props.fadeLong,
         vertical: props.vertical,
@@ -107,7 +109,10 @@ function RouteNumber(props, context) {
       {props.text &&
         (props.vertical === false ? (
           <span
-            style={{ color: props.color ? props.color : null }}
+            style={{
+              color: props.color ? props.color : null,
+              fontSize: longText && isMobile ? '17px' : null,
+            }}
             className={cx('vehicle-number', mode, {
               'overflow-fade': longText && props.fadeLong,
               long: longText,

@@ -64,21 +64,22 @@ class RoutePatternSelect extends Component {
     }
 
     const options = sortBy(patterns, 'code').map(pattern => {
-      if (patterns.length > 2) {
+      if (patterns.length === 2) {
         return (
-          <option key={pattern.code} value={pattern.code}>
+          <div
+            key={pattern.code}
+            value={pattern.code}
+            className="route-option-togglable"
+          >
             {pattern.stops[0].name} ➔ {pattern.headsign}
-          </option>
+          </div>
         );
       }
+
       return (
-        <div
-          key={pattern.code}
-          value={pattern.code}
-          className="route-option-togglable"
-        >
+        <option key={pattern.code} value={pattern.code}>
           {pattern.stops[0].name} ➔ {pattern.headsign}
-        </div>
+        </option>
       );
     });
 

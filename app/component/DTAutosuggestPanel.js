@@ -14,6 +14,7 @@ import { getIntermediatePlaces } from '../util/queryUtils';
 import updateViaPointsFromMap from '../action/ViaPointsActions';
 import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+import { withCurrentTime } from '../util/searchUtils';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -60,6 +61,7 @@ class DTAutosuggestPanel extends React.Component {
     router: routerShape.isRequired,
     location: locationShape.isRequired,
     intl: intlShape.isRequired,
+    getStore: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -279,6 +281,10 @@ class DTAutosuggestPanel extends React.Component {
     const { breakpoint, isItinerary, origin } = this.props;
     const { activeSlackInputs, isDraggingOverIndex, viaPoints } = this.state;
     const slackTime = this.getSlackTimeOptions();
+    const locationWithTime = withCurrentTime(
+      this.context.getStore,
+      this.context.location,
+    );
 
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
@@ -333,7 +339,7 @@ class DTAutosuggestPanel extends React.Component {
               }
 
               navigateTo({
-                base: this.context.location,
+                base: locationWithTime,
                 origin: newOrigin,
                 destination,
                 context: this.props.isItinerary ? PREFIX_ITINERARY_SUMMARY : '',
@@ -494,7 +500,7 @@ class DTAutosuggestPanel extends React.Component {
                 }
 
                 navigateTo({
-                  base: this.context.location,
+                  base: locationWithTime,
                   origin: updatedOrigin,
                   destination,
                   context: isItinerary ? PREFIX_ITINERARY_SUMMARY : '',

@@ -65,7 +65,8 @@ after('resetting the environment', () => {
   console.warn.restore();
 });
 
-// make sure the local storage stays clear for each test
+// make sure the local and session storage stays clear for each test
 afterEach(() => {
   window.localStorage.clear();
+  window.sessionStorage.clear();
 });

@@ -218,6 +218,9 @@ class TransitLeg extends React.Component {
               <PlatformNumber
                 number={leg.from.stop.platformCode}
                 short={false}
+                isRailOrSubway={
+                  modeClassName === 'rail' || modeClassName === 'subway'
+                }
               />
             </div>
             <Icon

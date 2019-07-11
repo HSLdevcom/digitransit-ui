@@ -49,7 +49,7 @@ class MapWithTrackingStateHandler extends React.Component {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     origin: dtLocationShape.isRequired,
-    destination: dtLocationShape,
+    destination: dtLocationShape.isRequired,
     position: PropTypes.shape({
       hasLocation: PropTypes.bool.isRequired,
       isLocationingInProgress: PropTypes.bool.isRequired,
@@ -71,19 +71,22 @@ class MapWithTrackingStateHandler extends React.Component {
 
   static defaultProps = {
     renderCustomButtons: undefined,
-    destination: {},
   };
 
   constructor(props) {
     super(props);
     const hasOriginorPosition =
-      props.origin.ready || props.position.hasLocation;
+      props.origin.ready ||
+      props.position.hasLocation ||
+      props.destination.ready;
     this.state = {
       geoJson: {},
       initialZoom: hasOriginorPosition ? FOCUS_ZOOM : DEFAULT_ZOOM,
       mapTracking: props.origin.gps && props.position.hasLocation,
       focusOnOrigin: props.origin.ready,
+      focusOnDestination: !props.origin.ready && props.destination.ready,
       origin: props.origin,
+      destination: props.destination,
       shouldShowDefaultLocation: !hasOriginorPosition,
     };
   }
@@ -136,6 +139,16 @@ class MapWithTrackingStateHandler extends React.Component {
     ) {
       this.usePosition(newProps.origin);
     } else if (
+      // "current position selected"
+      newProps.destination.lat !== null &&
+      newProps.destination.lon !== null &&
+      newProps.destination.gps === true &&
+      ((this.state.destination.ready === false &&
+        newProps.destination.ready === true) ||
+        !this.state.destination.gps) // current position selected
+    ) {
+      this.usePosition(newProps.destination);
+    } else if (
       // "poi selected"
       !newProps.origin.gps &&
       (newProps.origin.lat !== this.state.origin.lat ||
@@ -144,6 +157,15 @@ class MapWithTrackingStateHandler extends React.Component {
       newProps.origin.lon != null
     ) {
       this.useOrigin(newProps.origin);
+    } else if (
+      // destination selected without poi
+      !newProps.destination.gps &&
+      (newProps.destination.lat !== this.state.destination.lat ||
+        newProps.destination.lon !== this.state.destination.lon) &&
+      newProps.destination.lat != null &&
+      newProps.destination.lon != null
+    ) {
+      this.useDestination(newProps.destination);
     }
   }
 
@@ -188,6 +210,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       mapTracking: false,
       focusOnOrigin: false,
+      focusOnDestination: false,
     });
   };
 
@@ -195,6 +218,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.setState({
       mapTracking: true,
       focusOnOrigin: false,
+      focusOnDestination: false,
     });
   };
 
@@ -286,6 +310,7 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: true,
       focusOnOrigin: false,
+      focusOnDestination: false,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
@@ -297,6 +322,19 @@ class MapWithTrackingStateHandler extends React.Component {
       origin,
       mapTracking: false,
       focusOnOrigin: true,
+      focusOnDestination: false,
+      initialZoom:
+        prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
+      shouldShowDefaultLocation: false,
+    }));
+  }
+
+  useDestination(destination) {
+    this.setState(prevState => ({
+      destination,
+      mapTracking: false,
+      focusOnOrigin: false,
+      focusOnDestination: true,
       initialZoom:
         prevState.initialZoom === DEFAULT_ZOOM ? FOCUS_ZOOM : undefined,
       shouldShowDefaultLocation: false,
@@ -325,6 +363,13 @@ class MapWithTrackingStateHandler extends React.Component {
       location = this.state.origin;
     } else if (this.state.mapTracking && position.hasLocation) {
       location = position;
+    } else if (
+      this.state.focusOnDestination &&
+      !this.state.destination.gps &&
+      this.state.destination.lat != null &&
+      this.state.destination.lon != null
+    ) {
+      location = this.state.destination;
     } else if (this.state.shouldShowDefaultLocation) {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
@@ -392,6 +437,7 @@ class MapWithTrackingStateHandler extends React.Component {
         mapTracking={this.state.mapTracking}
         className="flex-grow"
         origin={origin}
+        destination={destination}
         leafletEvents={{
           onDragstart: this.disableMapTracking,
           onDragend: this.updateCurrentBounds,

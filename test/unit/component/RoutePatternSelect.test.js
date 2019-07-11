@@ -156,4 +156,55 @@ describe('<RoutePatternSelect />', () => {
     });
     expect(wrapper.isEmptyRender()).to.equal(false);
   });
+
+  it('should not display a single pattern as a div inside a select element', () => {
+    const props = {
+      activeTab: 'pysakit',
+      gtfsId: 'LINKKI:9422',
+      onSelectChange: () => {},
+      params: {
+        patternId: 'LINKKI:9422:1:01',
+      },
+      relay: {
+        setVariables: () => {},
+      },
+      route: {
+        id: 'Um91dGU6TElOS0tJOjk0MjI=',
+        gtfsId: 'LINKKI:9422',
+        color: '00662B',
+        shortName: '42',
+        longName: 'JYVÄSKYLÄ-LIEVESTUORE',
+        mode: 'BUS',
+        type: 3,
+        agency: {
+          phone: null,
+          id: 'QWdlbmN5OjY3MTQ=',
+          name: 'Jyväskylän Liikenne Oy',
+          url: 'http://www.jyvaskylanliikenne.fi',
+          fareUrl: null,
+        },
+        patterns: [
+          {
+            headsign: 'LIEVESTUORE',
+            code: 'LINKKI:9422:1:01',
+            stops: [
+              {
+                name: 'Keskussairaala 1',
+              },
+              {
+                name: 'Liepeentie E',
+              },
+            ],
+            tripsForDate: [{}],
+          },
+        ],
+      },
+      serviceDay: '20190626',
+    };
+
+    const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find('select > div')).to.have.lengthOf(0);
+  });
 });

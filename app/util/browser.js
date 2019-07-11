@@ -35,6 +35,22 @@ export const isImperial = config => {
   return false;
 };
 
+// Returns true if user is using unsupported browser
+export const isIeOrOldVersion = () => {
+  const browser =
+    isBrowser &&
+    navigator.userAgent.match(
+      /(MSIE|Trident|(?!Gecko.+)Firefox|(?!AppleWebKit.+Chrome.+)Safari(?!.+Edge)|(?!AppleWebKit.+)Chrom(e|ium)(?!.+Edge)|(?!AppleWebKit.+Chrome.+Safari.+)Edge|AppleWebKit(?!.+Chrome|.+Safari)|Gecko(?!.+Firefox))(?: |\/)([0-9]+)./,
+    );
+  if (
+    isIe ||
+    (isChrome && parseInt(browser[browser.length - 1], 10) < 60) || // Chrome version < 60
+    (isFirefox && parseInt(browser[browser.length - 1], 10) < 50) // Firefox version < 50
+  ) {
+    return true;
+  }
+  return false;
+};
 export const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
   const enter = [32, 'Enter'];
