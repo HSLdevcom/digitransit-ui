@@ -146,7 +146,7 @@ class MarkerPopupBottom extends React.Component {
           getIntermediatePlaces(this.context.location.query).length < 5 && (
             <div
               onClick={() => this.routeAddViaPoint()}
-              className="route cursor-pointer"
+              className="route cursor-pointer route-add-viapoint"
             >
               <FormattedMessage
                 id="route-add-viapoint"
@@ -162,4 +162,9 @@ class MarkerPopupBottom extends React.Component {
   }
 }
 
-export default withLeaflet(MarkerPopupBottom);
+const markerPopupBottomWithLeaflet = withLeaflet(MarkerPopupBottom);
+
+export {
+  markerPopupBottomWithLeaflet as default,
+  MarkerPopupBottom as Component,
+};
