@@ -55,9 +55,18 @@ export function validateParams(req, config) {
   return url;
 }
 
+export const langParamParser = path => {
+  if (path.includes('/slangi/')) {
+    const newPath = path.replace('/slangi/', '/');
+    return newPath;
+  }
+  const lang = path.substring(0, 4);
+  const newPath = path.replace(lang, '/');
+  return newPath;
+};
+
 export default function reittiopasParameterMiddleware(req, res, next) {
   const config = getConfiguration(req);
-  console.log(res);
   const newUrl = validateParams(req, config);
   if (newUrl) {
     res.redirect(newUrl);
@@ -71,7 +80,6 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         path: '/',
       });
     }
-    const path = req.path;
     if (
       req.query.from ||
       req.query.to ||
@@ -80,14 +88,12 @@ export default function reittiopasParameterMiddleware(req, res, next) {
     ) {
       oldParamParser(req.query, config).then(url => res.redirect(url));
     } else if (
-      ['/fi/', '/en/', '/sv/', '/ru/'].some(lang => path.includes(lang))
+      ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].some(param =>
+        req.path.includes(param),
+      )
     ) {
-      const lang = path.substring(0,4);
-      const newPath = path.replace(lang, '/');
-      res.redirect(newPath);
-    } else if (path.includes('/slangi/')) {
-      const newPath = path.replace('/slangi/', '/');
-      res.redirect(newPath);
+      const redirectPath = langParamParser(req.path);
+      res.redirect(redirectPath);
     } else {
       next();
     }
