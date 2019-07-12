@@ -14,11 +14,13 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { getLabel } from '../../../util/suggestionUtils';
 import { getJson } from '../../../util/xhrPromise';
 import { findFeatures } from '../../../util/geo-utils';
+import { addMessage } from '../../../action/MessageActions';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
+    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -59,9 +61,12 @@ class LocationPopup extends React.Component {
     if (config.geoJson && config.geoJson.zones) {
       promises.push(this.props.getGeoJsonData(config.geoJson.zones.url));
     }
+    if (config.geoJson && config.geoJson.espoo) {
+      promises.push(this.props.getGeoJsonData(config.geoJson.espoo.url));
+    }
 
     Promise.all(promises).then(
-      ([data, zoneData]) => {
+      ([data, zoneData, espooData]) => {
         const zones = findFeatures(
           {
             lat,
@@ -69,8 +74,11 @@ class LocationPopup extends React.Component {
           },
           (zoneData && zoneData.data && zoneData.data.features) || [],
         );
+        const espoo = findFeatures(
+          { lat, lon },
+          (espooData && espooData.data && espooData.data.features) || [],
+        );
         const zoneId = zones.length > 0 ? zones[0].Zone : undefined;
-
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
           this.setState(prevState => ({
@@ -93,6 +101,33 @@ class LocationPopup extends React.Component {
               zoneId,
             },
           }));
+        }
+        if (espoo.length > 0) {
+          const msg = {
+            id: 'espoo',
+            priority: -1,
+            content: {
+              fi: [
+                {
+                  type: 'text',
+                  content: 'Espoo fi',
+                },
+              ],
+              en: [
+                {
+                  type: 'text',
+                  content: 'Espoo en',
+                },
+              ],
+              sv: [
+                {
+                  type: 'text',
+                  content: 'Espoo sv',
+                },
+              ],
+            },
+          };
+          this.context.executeAction(addMessage, msg);
         }
       },
       () => {

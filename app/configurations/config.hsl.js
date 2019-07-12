@@ -265,7 +265,6 @@ export default {
       ],
     ],
   },
-
   footer: {
     content: [
       { label: `© HSL ${YEAR}` },
@@ -464,6 +463,9 @@ export default {
     ],
     zones: {
       url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
+    },
+    espoo: {
+      url: '/assets/geojson/hsl_zone_espoo.geojson',
     },
   },
   mapLayers: {
