@@ -38,7 +38,26 @@ export default {
 
   favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
 
-  feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
+  feedIds: [
+    'MATKA',
+    'HSL',
+    'tampere',
+    'LINKKI',
+    'lautta',
+    'OULU',
+    'MatkahuoltoKainuu',
+    'MatkahuoltoSavo',
+    'MatkahuoltoKanta',
+    'MatkahuoltoKarjala',
+    'MatkahuoltoKeski',
+    'MatkahuoltoKyme',
+    'MatkahuoltoLappi',
+    'MatkahuoltoPohjanmaa',
+    'MatkahuoltoSatakunta',
+    'MatkahuoltoVakka',
+    'MatkahuoltoVantaa',
+    'MatkahuoltoVarsinais',
+  ],
 
   meta: {
     description: APP_DESCRIPTION,
