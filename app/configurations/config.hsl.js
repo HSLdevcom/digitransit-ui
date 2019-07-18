@@ -449,7 +449,7 @@ export default {
       },
     },
   ],
-  staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
+  staticMessagesUrl: 'http://localhost:8090/',
   geoJson: {
     layers: [
       {
@@ -465,7 +465,7 @@ export default {
       url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
     },
     espoo: {
-      url: '/assets/geojson/hsl_zone_espoo.geojson',
+      url: '/assets/geojson/espoo_on_demand.geojson',
     },
   },
   mapLayers: {

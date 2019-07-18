@@ -133,12 +133,14 @@ class MessageBar extends Component {
     });
   };
 
-  getTabContent = () =>
+  getTabContent = (textColor, fontStyle) =>
     this.validMessages().map(el => (
       <MessageBarMessage
         key={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang] || el.content.fi}
+        textColor={textColor}
+        fontStyle={fontStyle}
       />
     ));
 
@@ -256,19 +258,23 @@ class MessageBar extends Component {
     const icon = msg.icon || 'info';
     const iconName = `icon-icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
-
+    const backgroundColor = msg.backgroundColor || '#fff';
+    const iconColor = msg.iconColor || null;
+    const textColor = msg.textColor || '#000';
+    const fontStyle = msg.fontStyle || null;
     return (
       <section
         id="messageBar"
         role="banner"
         className="message-bar flex-horizontal"
+        style={{ background: backgroundColor }}
       >
         <div
           className={cx('banner-container', {
             'banner-disruption': isDisruption,
           })}
         >
-          <Icon img={iconName} className="message-icon" />
+          <Icon img={iconName} color={iconColor} className="message-icon" />
           <div className={`message-bar-content message-bar-${type}`}>
             <SwipeableViews
               index={index}
@@ -283,16 +289,16 @@ class MessageBar extends Component {
                 transition: 'max-height 300ms',
                 padding: '10px 10px 0px 10px',
                 overflow: 'hidden',
-                background: isDisruption ? 'inherit' : '#fff',
+                background: isDisruption ? 'inherit' : backgroundColor,
               }}
             >
-              {this.getTabContent()}
+              {this.getTabContent(textColor,fontStyle)}
             </SwipeableViews>
             <Tabs
               onChange={this.handleChange}
               value={index}
               tabItemContainerStyle={{
-                backgroundColor: isDisruption ? 'inherit' : '#fff',
+                backgroundColor: isDisruption ? 'inherit' : backgroundColor,
                 height: '18px',
                 justifyContent: 'center',
               }}
@@ -312,7 +318,7 @@ class MessageBar extends Component {
               className="noborder close-button cursor-pointer"
               type="button"
             >
-              <Icon img="icon-icon_close" className="close" />
+              <Icon img="icon-icon_close" color={iconColor} className="close" />
             </button>
           </div>
         </div>
