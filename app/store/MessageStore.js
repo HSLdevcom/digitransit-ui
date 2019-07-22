@@ -37,6 +37,7 @@ class MessageStore extends Store {
 
   static handlers = {
     AddMessage: 'addMessage',
+    UpdateMessage: 'updateMessage',
     MarkMessageAsRead: 'markMessageAsRead',
   };
 
@@ -82,7 +83,17 @@ class MessageStore extends Store {
       return;
     }
 
+    if (message.geoJson) {
+      message.shouldTrigger = false;
+    } else {
+      message.shouldTrigger = true;
+    }
     this.messages.set(message.id, message);
+    this.emitChange();
+  };
+
+  updateMessage = msg => {
+    this.messages.set(msg.id, msg);
     this.emitChange();
   };
 

@@ -133,14 +133,13 @@ class MessageBar extends Component {
     });
   };
 
-  getTabContent = (textColor, fontStyle) =>
+  getTabContent = textColor =>
     this.validMessages().map(el => (
       <MessageBarMessage
         key={el.id}
         onMaximize={this.maximize}
         content={el.content[this.props.lang] || el.content.fi}
         textColor={textColor}
-        fontStyle={fontStyle}
       />
     ));
 
@@ -202,7 +201,8 @@ class MessageBar extends Component {
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
-    const { lang, messages } = this.props;
+    const { lang } = this.props;
+    const messages = this.props.messages.filter(msg => msg.shouldTrigger);
     return [
       ...filteredServiceAlerts.map(alert => toMessage(alert, intl)),
       ...messages,
@@ -259,9 +259,8 @@ class MessageBar extends Component {
     const iconName = `icon-icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
     const backgroundColor = msg.backgroundColor || '#fff';
-    const iconColor = msg.iconColor || null;
-    const textColor = msg.textColor || '#000';
-    const fontStyle = msg.fontStyle || null;
+    const textColor = msg.textColor || '#000';
+    const dataURI = msg.dataURI || null;
     return (
       <section
         id="messageBar"
@@ -274,7 +273,7 @@ class MessageBar extends Component {
             'banner-disruption': isDisruption,
           })}
         >
-          <Icon img={iconName} color={iconColor} className="message-icon" />
+          <Icon img={iconName} dataURI={dataURI} className="message-icon" />
           <div className={`message-bar-content message-bar-${type}`}>
             <SwipeableViews
               index={index}
@@ -292,7 +291,7 @@ class MessageBar extends Component {
                 background: isDisruption ? 'inherit' : backgroundColor,
               }}
             >
-              {this.getTabContent(textColor,fontStyle)}
+              {this.getTabContent(textColor)}
             </SwipeableViews>
             <Tabs
               onChange={this.handleChange}
@@ -318,7 +317,7 @@ class MessageBar extends Component {
               className="noborder close-button cursor-pointer"
               type="button"
             >
-              <Icon img="icon-icon_close" color={iconColor} className="close" />
+              <Icon img="icon-icon_close" className="close" />
             </button>
           </div>
         </div>

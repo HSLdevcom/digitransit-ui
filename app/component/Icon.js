@@ -66,6 +66,7 @@ function Icon({
   omitViewBox,
   viewBox,
   width,
+  dataURI,
 }) {
   return (
     <span aria-hidden className="icon-container">
@@ -82,7 +83,10 @@ function Icon({
         {backgroundShape === 'circle' && (
           <circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />
         )}
-        <use xlinkHref={`#${img}`} />
+        {!dataURI && <use xlinkHref={`#${img}`} />}
+        {dataURI && (
+          <image href={dataURI} x={0} y={0} width="100%" height="100%" />
+        )}
       </svg>
       <IconBadge badgeFill={badgeFill} badgeText={badgeText} />
     </span>
@@ -101,6 +105,7 @@ Icon.propTypes = {
   omitViewBox: PropTypes.bool,
   viewBox: PropTypes.string,
   width: PropTypes.number,
+  dataURI: PropTypes.string,
 };
 
 Icon.defaultProps = {
