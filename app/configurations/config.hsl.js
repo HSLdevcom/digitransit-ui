@@ -465,9 +465,6 @@ export default {
     zones: {
       url: '/assets/geojson/hsl_zone_areas_20190508.geojson',
     },
-    espoo: {
-      url: '/assets/geojson/espoo_on_demand.geojson',
-    },
   },
   mapLayers: {
     featureMapping: {
