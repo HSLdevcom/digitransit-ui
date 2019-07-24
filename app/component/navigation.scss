@@ -398,7 +398,7 @@ section.content {
 
   a {
     @include font-medium;
-    margin-right: 4px;
+    padding: 0px 4px;
   }
 
   svg.message-bar-link-icon {

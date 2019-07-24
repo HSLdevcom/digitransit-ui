@@ -259,7 +259,7 @@ class MessageBar extends Component {
     const iconName = `icon-icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
     const backgroundColor = msg.backgroundColor || '#fff';
-    const textColor = msg.textColor || '#000';
+    const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
     const dataURI = msg.dataURI || null;
     return (
       <section
