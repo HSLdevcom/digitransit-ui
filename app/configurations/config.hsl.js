@@ -450,7 +450,7 @@ export default {
       },
     },
   ],
-  staticMessagesUrl: 'http://localhost:8090/',
+  staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
   geoJson: {
     layers: [
       {
