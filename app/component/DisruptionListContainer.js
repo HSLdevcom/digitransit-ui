@@ -198,10 +198,12 @@ const containerComponent = Relay.createContainer(
             color
             mode
             shortName
+            gtfsId
           }
           stop {
             code
             vehicleMode
+            gtfsId
           }
         }
       }

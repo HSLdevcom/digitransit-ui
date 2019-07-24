@@ -57,10 +57,12 @@ const AlertList = ({
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
   const getShortName = alert => getRoute(alert).shortName;
+  const getRouteGtfsId = alert => getRoute(alert).gtfsId;
 
   const getStop = alert => alert.stop || {};
   const getVehicleMode = alert => getStop(alert).vehicleMode;
   const getCode = alert => getStop(alert).code;
+  const getStopGtfsId = alert => getStop(alert).gtfsId;
 
   const getGroupKey = alert =>
     `${alert.severityLevel}${(hasRoute(alert) && `route_${getMode(alert)}`) ||
@@ -115,6 +117,10 @@ const AlertList = ({
       route:
         (hasRoute(alert) && {
           mode: getMode(alert),
+          routeGtfsId: alerts
+            .sort(alertCompare)
+            .map(getRouteGtfsId)
+            .join(','),
           shortName: alerts
             .sort(alertCompare)
             .map(getShortName)
@@ -123,6 +129,10 @@ const AlertList = ({
         undefined,
       stop:
         (hasStop(alert) && {
+          stopGtfsId: alerts
+            .sort(alertCompare)
+            .map(getStopGtfsId)
+            .join(','),
           code: alerts
             .sort(alertCompare)
             .map(getCode)
@@ -132,7 +142,6 @@ const AlertList = ({
         undefined,
     };
   });
-
   return (
     <div className={cx({ 'momentum-scroll': !disableScrolling })}>
       <div className="route-alerts-list">
@@ -144,9 +153,9 @@ const AlertList = ({
                 description,
                 expired,
                 header,
-                route: { color, mode, shortName } = {},
+                route: { color, mode, shortName, routeGtfsId } = {},
                 severityLevel,
-                stop: { code, vehicleMode } = {},
+                stop: { code, vehicleMode, stopGtfsId } = {},
                 url,
                 validityPeriod: { startTime, endTime },
               },
@@ -169,6 +178,7 @@ const AlertList = ({
                 severityLevel={severityLevel}
                 startTime={startTime}
                 url={url}
+                gtfsIds={routeGtfsId || stopGtfsId}
               />
             ),
           )}

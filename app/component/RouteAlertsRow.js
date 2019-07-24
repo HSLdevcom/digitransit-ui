@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { Link } from 'react-router';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
@@ -11,6 +12,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
@@ -48,6 +50,7 @@ export default function RouteAlertsRow(
     severityLevel,
     startTime,
     url,
+    gtfsIds,
   },
   { intl },
 ) {
@@ -57,6 +60,32 @@ export default function RouteAlertsRow(
     startTime &&
     endTime &&
     currentTime;
+  const gtfsIdList = gtfsIds.split(',');
+  const routeLinks =
+    entityType === 'route' &&
+    entityIdentifier.split(',').map((identifier, i) => (
+      <Link
+        key={gtfsIdList[i]}
+        to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
+        className="route-alert-row-link"
+      >
+        {' '}
+        {identifier}{' '}
+      </Link>
+    ));
+
+  const stopLinks =
+    entityType === 'stop' &&
+    entityIdentifier.split(',').map((identifier, i) => (
+      <Link
+        key={gtfsIdList[i]}
+        to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
+        className="route-now-link-content"
+      >
+        {' '}
+        {identifier}{' '}
+      </Link>
+    ));
   return (
     <div className={cx('route-alert-row', { expired })}>
       {(entityType === 'route' &&
@@ -83,9 +112,13 @@ export default function RouteAlertsRow(
       <div className="route-alert-contents">
         {(entityIdentifier || url) && (
           <div className="route-alert-top-row">
-            {entityIdentifier && (
-              <div className={entityMode}>{entityIdentifier}</div>
-            )}
+            {entityIdentifier &&
+              ((entityType === 'route' && (
+                <div className={entityMode}>{routeLinks }</div>
+              )) ||
+                (entityType === 'stop' && (
+                  <div className={entityMode}>{stopLinks} </div>
+                )))}
             {url && (
               <ExternalLink className="route-alert-url" href={url}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -123,6 +156,7 @@ RouteAlertsRow.propTypes = {
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,
+  gtfsIds: PropTypes.string,
 };
 
 RouteAlertsRow.contextTypes = {
