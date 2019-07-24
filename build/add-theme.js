@@ -51,9 +51,9 @@ let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
   const imageDir = 'app/configurations/images/' + theme;
-    if(!fs.existsSync(imageDir)) {
-      fs.mkdirSync(imageDir);
-    }
+  if(!fs.existsSync(imageDir)) {
+    fs.mkdirSync(imageDir);
+  }
   // copy logo
   fs.createReadStream(logoPath).pipe(fs.createWriteStream(imageDir + '/' + logo));
 
