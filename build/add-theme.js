@@ -16,13 +16,9 @@ if (!theme || theme === '?') {
 
 const sassDir = 'sass/themes/' + theme;
 const name = theme.charAt(0).toUpperCase() + theme.slice(1); // with uppecase initial
-const faviconPath = 'sass/themes/default/favicon.png';
-const favicon = path.basename(faviconPath);
-const faviconSrc = fs.createReadStream(faviconPath);
 if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
 }
-faviconSrc.pipe(fs.createWriteStream(sassDir + '/' + favicon));
 
 fs.writeFileSync(sassDir + '/main.scss',
 `@import 'theme';
@@ -50,15 +46,14 @@ $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
 `;
 
-const imageDir = 'app/configurations/images/' + theme;
-if(!fs.existsSync(imageDir)) {
-  fs.mkdirSync(imageDir);
-}
-faviconSrc.pipe(fs.createWriteStream(imageDir + '/' + favicon));
 let textLogo;
 let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
+  const imageDir = 'app/configurations/images/' + theme;
+    if(!fs.existsSync(imageDir)) {
+      fs.mkdirSync(imageDir);
+    }
   // copy logo
   fs.createReadStream(logoPath).pipe(fs.createWriteStream(imageDir + '/' + logo));
 
