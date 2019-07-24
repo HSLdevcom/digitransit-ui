@@ -662,6 +662,7 @@ export default {
     {
       id: '3',
       priority: -1,
+      shouldTrigger: true,
       content: {
         fi: [
           {

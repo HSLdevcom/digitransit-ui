@@ -19,4 +19,11 @@ describe('<Icon />', () => {
     const result = Icon.asString({ backgroundShape, className, id, img });
     expect(result).to.contain('<circle');
   });
+
+  it('should render <image /> if dataURI is defined', () => {
+    const dataURI = 'data:image/svg+xml;base64,PDKROJASD';
+    const props = { className, id, img, dataURI };
+    const wrapper = shallowWithIntl(<Icon {...props} />);
+    expect(wrapper.find('image')).to.have.lengthOf(1);
+  });
 });

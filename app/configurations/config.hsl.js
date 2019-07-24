@@ -265,7 +265,6 @@ export default {
       ],
     ],
   },
-
   footer: {
     content: [
       { label: `© HSL ${YEAR}` },
@@ -395,6 +394,7 @@ export default {
     {
       id: '2',
       priority: -1,
+      shouldTrigger: true,
       content: {
         fi: [
           {

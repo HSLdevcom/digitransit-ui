@@ -349,7 +349,6 @@ section.content {
   display: block;
   @include font-book;
   font-size: $font-size-small;
-  background: $white;
   color: $black;
   text-align: left;
   cursor: pointer;
@@ -399,7 +398,7 @@ section.content {
 
   a {
     @include font-medium;
-    padding: 0 4px;
+    padding: 0px 4px;
   }
 
   svg.message-bar-link-icon {

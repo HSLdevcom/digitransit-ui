@@ -70,7 +70,6 @@ class LocationPopup extends React.Component {
           (zoneData && zoneData.data && zoneData.data.features) || [],
         );
         const zoneId = zones.length > 0 ? zones[0].Zone : undefined;
-
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
           this.setState(prevState => ({
