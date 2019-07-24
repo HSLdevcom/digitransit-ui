@@ -93,8 +93,8 @@ class MessageStore extends Store {
     this.emitChange();
   };
 
-  updateMessage = (id, msg) => {
-    this.messages.set(id, msg);
+  updateMessage = msg => {
+    this.messages.set(msg.id, msg);
     this.emitChange();
   };
 

@@ -259,7 +259,7 @@ class MapWithTrackingStateHandler extends React.Component {
 
   triggerMessage = (lat, lon) => {
     const messages = this.props.messages.filter(
-      msg => !msg.shouldTrigger && msg.content,
+      msg => !msg.shouldTrigger && msg.content && msg.geoJson,
     );
     messages.forEach(msg => {
       return new Promise(resolve => {
@@ -271,7 +271,7 @@ class MapWithTrackingStateHandler extends React.Component {
         );
         if (data.length > 0) {
           msg.shouldTrigger = true; // eslint-disable-line no-param-reassign
-          this.context.executeAction(updateMessage, msg.id, msg);
+          this.context.executeAction(updateMessage, msg);
         }
       });
     });

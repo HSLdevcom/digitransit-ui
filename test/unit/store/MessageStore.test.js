@@ -213,7 +213,7 @@ describe('MessageStore', () => {
       await store.addConfigMessages(config);
       const msg = config.staticMessages[0];
       msg.shouldTrigger = true;
-      await store.updateMessage(msg.id, msg);
+      await store.updateMessage(msg);
       expect(store.getMessages()[0].shouldTrigger).to.equal(true);
     });
   });
