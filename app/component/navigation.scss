@@ -348,8 +348,7 @@ section.content {
   width: 100%;
   display: block;
   @include font-book;
-  // font-size: $font-size-small;
-  // background: $white;
+  font-size: $font-size-small;
   color: $black;
   text-align: left;
   cursor: pointer;
@@ -399,7 +398,7 @@ section.content {
 
   a {
     @include font-medium;
-    // padding: 0 4px;
+    margin-right: 4px;
   }
 
   svg.message-bar-link-icon {

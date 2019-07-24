@@ -1,5 +1,6 @@
-import Tab from 'material-ui/Tabs/Tab';
 import React from 'react';
+import { Tabs, Tab } from 'material-ui';
+import SwipeableViews from 'react-swipeable-views';
 
 import {
   Component as MessageBar,
@@ -97,5 +98,80 @@ describe('<MessageBar />', () => {
 
     await wrapper.instance().componentDidMount();
     expect(wrapper.find(Tab)).to.have.lengthOf(0);
+  });
+
+  it('should render one message when there are two messages but one of them has shouldTrigger: false ', async () => {
+    const props = {
+      ...defaultProps,
+      messages: [
+        {
+          id: '23072019_135154_87',
+          shouldTrigger: true,
+          content: {
+            fi: [
+              {
+                type: 'text',
+                content: 'Test message',
+              },
+            ],
+          },
+        },
+        {
+          id: '23072019_135154_88',
+          shouldTrigger: false,
+          content: {
+            fi: [
+              {
+                type: 'text',
+                content: 'Test message',
+              },
+            ],
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<MessageBar {...props} />, {
+      context: mockContext,
+    });
+
+    await wrapper.instance().componentDidMount();
+    expect(wrapper.find(Tab)).to.have.lengthOf(1);
+  });
+
+  it('should have correct background color', async () => {
+    const props = {
+      ...defaultProps,
+      messages: [
+        {
+          id: '23072019_135154_87',
+          shouldTrigger: true,
+          backgroundColor: '#000000',
+          content: {
+            fi: [
+              {
+                type: 'text',
+                content: 'Test message',
+              },
+            ],
+          },
+        },
+      ],
+    };
+    const wrapper = shallowWithIntl(<MessageBar {...props} />, {
+      context: mockContext,
+    });
+    await wrapper.instance().componentDidMount();
+    expect(wrapper.find('section').get(0).props.style).to.have.property(
+      'background',
+      '#000000',
+    );
+    expect(wrapper.find(SwipeableViews).props().slideStyle).to.have.property(
+      'background',
+      '#000000',
+    );
+    expect(wrapper.find(Tabs).props().tabItemContainerStyle).to.have.property(
+      'backgroundColor',
+      '#000000',
+    );
   });
 });

@@ -83,6 +83,7 @@ class MessageStore extends Store {
       return;
     }
 
+    // If message has geojson, it should be triggered when user's origin or destination is in the correct area
     if (message.geoJson) {
       message.shouldTrigger = false;
     } else {
@@ -92,8 +93,8 @@ class MessageStore extends Store {
     this.emitChange();
   };
 
-  updateMessage = msg => {
-    this.messages.set(msg.id, msg);
+  updateMessage = (id, msg) => {
+    this.messages.set(id, msg);
     this.emitChange();
   };
 

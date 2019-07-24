@@ -138,7 +138,7 @@ class MapWithTrackingStateHandler extends React.Component {
       const lon = this.state.focusOnDestination
         ? this.state.destination.lon
         : this.state.origin.lon;
-      this.triggerMessage(lat, lon);
+      await this.triggerMessage(lat, lon);
     }
   }
 
@@ -271,7 +271,7 @@ class MapWithTrackingStateHandler extends React.Component {
         );
         if (data.length > 0) {
           msg.shouldTrigger = true; // eslint-disable-line no-param-reassign
-          this.context.executeAction(updateMessage, msg);
+          this.context.executeAction(updateMessage, msg.id, msg);
         }
       });
     });
