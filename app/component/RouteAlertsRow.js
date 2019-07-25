@@ -60,32 +60,35 @@ export default function RouteAlertsRow(
     startTime &&
     endTime &&
     currentTime;
-  const gtfsIdList = gtfsIds.split(',');
+  const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
   const routeLinks =
-    entityType === 'route' &&
-    entityIdentifier.split(',').map((identifier, i) => (
-      <Link
-        key={gtfsIdList[i]}
-        to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
-        className="route-alert-row-link"
-      >
-        {' '}
-        {identifier}{' '}
-      </Link>
-    ));
+    entityType === 'route' && entityIdentifier && gtfsIds
+      ? entityIdentifier.split(',').map((identifier, i) => (
+          <Link
+            key={gtfsIdList[i]}
+            to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
+            className="route-alert-row-link"
+          >
+            {' '}
+            {identifier}{' '}
+          </Link>
+        ))
+      : [];
 
   const stopLinks =
-    entityType === 'stop' &&
-    entityIdentifier.split(',').map((identifier, i) => (
-      <Link
-        key={gtfsIdList[i]}
-        to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-        className="route-now-link-content"
-      >
-        {' '}
-        {identifier}{' '}
-      </Link>
-    ));
+    entityType === 'stop' && entityIdentifier && gtfsIds
+      ? entityIdentifier.split(',').map((identifier, i) => (
+          <Link
+            key={gtfsIdList[i]}
+            to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
+            className="route-alert-row-link"
+          >
+            {' '}
+            {identifier}{' '}
+          </Link>
+        ))
+      : [];
+
   return (
     <div className={cx('route-alert-row', { expired })}>
       {(entityType === 'route' &&
@@ -113,12 +116,14 @@ export default function RouteAlertsRow(
         {(entityIdentifier || url) && (
           <div className="route-alert-top-row">
             {entityIdentifier &&
-              ((entityType === 'route' && (
-                <div className={entityMode}>{routeLinks }</div>
-              )) ||
-                (entityType === 'stop' && (
-                  <div className={entityMode}>{stopLinks} </div>
-                )))}
+              ((entityType === 'route' &&
+                routeLinks.length > 0 && (
+                  <div className={entityMode}>{routeLinks}</div>
+                )) ||
+                (entityType === 'stop' &&
+                  stopLinks.length > 0 && (
+                    <div className={entityMode}>{stopLinks} </div>
+                  )))}
             {url && (
               <ExternalLink className="route-alert-url" href={url}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -188,6 +193,7 @@ RouteAlertsRow.description = () => (
           }
           entityMode="tram"
           entityIdentifier="2"
+          gtfsIds="HSL:1002"
           expired={false}
         />
       </ComponentUsageExample>
@@ -201,6 +207,7 @@ RouteAlertsRow.description = () => (
           }
           entityMode="tram"
           entityIdentifier="2"
+          gtfsIds="HSL:1002"
           expired
         />
       </ComponentUsageExample>
@@ -218,6 +225,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
           expired
@@ -235,6 +243,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -253,6 +262,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -273,6 +283,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -282,6 +293,7 @@ RouteAlertsRow.description = () => (
           header="Pysäkki H4461 siirtyy"
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
           entityIdentifier="97N"
+          gtfsIds="HSL:1097N"
           entityMode="bus"
           severityLevel="INFO"
           url="https://www.hsl.fi"
@@ -292,6 +304,7 @@ RouteAlertsRow.description = () => (
           header="Pysäkki H4461 siirtyy"
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
           entityIdentifier="4461"
+          gtfsIds="HSL%3A1471151"
           entityMode="bus"
           entityType="stop"
           severityLevel="INFO"
