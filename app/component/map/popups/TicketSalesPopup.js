@@ -19,6 +19,7 @@ export function getIcon(type) {
     case 'R-kioski':
       return 'icon-icon_ticket-sales-point';
     default:
+      // eslint-disable-next-line no-console
       console.log(`Unknown ticket sales type: ${type}`);
       return 'icon-icon_ticket-sales-point';
   }

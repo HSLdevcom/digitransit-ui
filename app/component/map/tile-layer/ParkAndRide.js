@@ -124,7 +124,7 @@ export default class ParkAndRide {
             }
           }
         },
-        err => console.log(err),
+        err => console.log(err), // eslint-disable-line no-console
       );
     });
   }

@@ -12,7 +12,7 @@ module.exports = {
     'lines-between-class-members': 'warn',
     'no-else-return': 'warn',
     'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
-
+    'no-console': 'error',
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'warn',

@@ -1,5 +1,5 @@
 /* global gemini */
-
+/* eslint-disable no-console */
 /**
  * Customizable test function
  * @componentName the component name to test

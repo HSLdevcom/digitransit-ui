@@ -379,6 +379,7 @@ export default function(req, res, next) {
         return [content, relayData];
       })
       .catch(err => {
+        // eslint-disable-next-line no-console
         console.log(err);
         return ['', undefined];
       });
