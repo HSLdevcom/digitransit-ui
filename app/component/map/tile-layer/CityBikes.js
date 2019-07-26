@@ -67,7 +67,7 @@ class CityBikes {
 
           this.features.forEach(actionFn);
         },
-        err => console.log(err),
+        err => console.log(err), // eslint-disable-line no-console
       );
     });
 

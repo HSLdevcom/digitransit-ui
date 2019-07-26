@@ -33,6 +33,7 @@ function setItem(key, value) {
       sessionStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
+        // eslint-disable-next-line no-console
         console.log(
           '[sessionStorage]' + // eslint-disable-line no-console
             ' Unable to save state; sessionStorage is not available in Safari private mode',

@@ -214,9 +214,8 @@ class MessageBar extends Component {
       ) {
         return true;
       }
-      /* eslint-disable no-console */
+      // eslint-disable-next-line no-console
       console.error(`Message ${el.id} has no translation for ${lang}`);
-      /* eslint-enable no-console */
       return false;
     });
   };
