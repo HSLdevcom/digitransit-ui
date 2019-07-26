@@ -933,7 +933,10 @@ div.route-tabs {
     display: flex;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
-
+    .route-alert-row-link {
+       padding-right: 1px;
+       padding-left: 1px;
+    }
     + .route-alert-row {
       border-top: 1px solid $light-gray;
     }
