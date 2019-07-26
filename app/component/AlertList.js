@@ -53,6 +53,7 @@ const AlertList = ({
   disableScrolling,
   showExpired,
   serviceAlerts,
+  showRouteNameLink,
 }) => {
   const getRoute = alert => alert.route || {};
   const getMode = alert => getRoute(alert).mode;
@@ -179,6 +180,7 @@ const AlertList = ({
                 startTime={startTime}
                 url={url}
                 gtfsIds={routeGtfsId || stopGtfsId}
+                showRouteNameLink={showRouteNameLink}
               />
             ),
           )}
@@ -213,6 +215,7 @@ AlertList.propTypes = {
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showExpired: PropTypes.bool,
+  showRouteNameLink: PropTypes.bool,
 };
 
 AlertList.defaultProps = {

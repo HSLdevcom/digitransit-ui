@@ -79,7 +79,6 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
   const stopAlertsToShow = stopAlerts.filter(
     showDisruptions ? isDisruption : isInfo,
   );
-
   return (
     <div className="disruption-list-container">
       <div
@@ -145,7 +144,11 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
             <div>
               <FormattedMessage id="routes" tagName="h2" />
             </div>
-            <AlertList disableScrolling serviceAlerts={routeAlertsToShow} />
+            <AlertList
+              disableScrolling
+              showRouteNameLink
+              serviceAlerts={routeAlertsToShow}
+            />
           </React.Fragment>
         )}
         {stopAlertsToShow.length > 0 && (
@@ -153,7 +156,11 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
             <div>
               <FormattedMessage id="stops" tagName="h2" />
             </div>
-            <AlertList disableScrolling serviceAlerts={stopAlertsToShow} />
+            <AlertList
+              disableScrolling
+              showRouteNameLink
+              serviceAlerts={stopAlertsToShow}
+            />
           </React.Fragment>
         )}
       </div>

@@ -48,7 +48,11 @@ const StopAlertsContainer = ({ stop }, { intl }) => {
   ];
 
   return (
-    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
+    <AlertList
+      showRouteNameLink={false}
+      cancelations={cancelations}
+      serviceAlerts={serviceAlerts}
+    />
   );
 };
 

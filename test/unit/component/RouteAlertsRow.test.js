@@ -101,6 +101,7 @@ describe('<RouteAlertsRow />', () => {
       entityType: 'route',
       entityMode: 'bus',
       entityIdentifier: '97N',
+      showRouteNameLink: true,
     };
     const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
     expect(wrapper.find('.bus')).to.have.lengthOf(0);

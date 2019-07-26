@@ -51,6 +51,7 @@ export default function RouteAlertsRow(
     startTime,
     url,
     gtfsIds,
+    showRouteNameLink,
   },
   { intl },
 ) {
@@ -117,13 +118,21 @@ export default function RouteAlertsRow(
           <div className="route-alert-top-row">
             {entityIdentifier &&
               ((entityType === 'route' &&
+                showRouteNameLink &&
                 routeLinks.length > 0 && (
                   <div className={entityMode}>{routeLinks}</div>
                 )) ||
-                (entityType === 'stop' &&
+                (!showRouteNameLink && (
+                  <div className={entityMode}>{entityIdentifier} </div>
+                )) ||
+                ((entityType === 'stop' &&
+                  showRouteNameLink &&
                   stopLinks.length > 0 && (
-                    <div className={entityMode}>{stopLinks} </div>
-                  )))}
+                    <div className={entityMode}>{stopLinks}</div>
+                  )) ||
+                  (!showRouteNameLink && (
+                    <div className={entityMode}>{entityIdentifier}</div>
+                  ))))}
             {url && (
               <ExternalLink className="route-alert-url" href={url}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -162,6 +171,7 @@ RouteAlertsRow.propTypes = {
   startTime: PropTypes.number,
   url: PropTypes.string,
   gtfsIds: PropTypes.string,
+  showRouteNameLink: PropTypes.bool,
 };
 
 RouteAlertsRow.contextTypes = {
