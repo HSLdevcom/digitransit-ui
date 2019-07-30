@@ -135,6 +135,34 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes',
         },
       },
+      turku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Turku',
+          sv: 'Åbo',
+          en: 'Turku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.foli.fi/kaupunkipyorat',
+          sv: 'https://www.foli.fi/sv/stadscyklar',
+          en: 'https://www.foli.fi/en/citybikes',
+        },
+      },
+      oulu: {
+        icon: 'citybike',
+        name: {
+          fi: 'Oulu',
+          sv: 'Uleåborg',
+          en: 'Oulu',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.ouka.fi/',
+          sv: 'https://kaupunkipyorat.ouka.fi/home',
+          en: 'https://kaupunkipyorat.ouka.fi/home',
+        },
+      },
     },
   },
 
