@@ -31,7 +31,7 @@ export default {
       sv: `${MAP_URL}/map/v1/hsl-map-sv/`,
     },
     STOP_MAP: `${MAP_URL}/map/v1/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/v1/finland-citybike-map/`,
     FONT:
       'https://fonts.googleapis.com/css?family=Lato:300,400,900%7CPT+Sans+Narrow:400,700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
