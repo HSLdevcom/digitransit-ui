@@ -19,8 +19,6 @@ ENV \
   GEOCODING_BASE_URL='' \
   APP_PATH='' \
   CONFIG='' \
-  PIWIK_ADDRESS='' \
-  PIWIK_ID='' \
   NODE_ENV='' \
   NODE_OPTS='' \
   RELAY_FETCH_TIMEOUT='' \
