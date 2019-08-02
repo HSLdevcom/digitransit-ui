@@ -40,7 +40,7 @@ class AdminPage extends React.Component {
           });
         },
         err => {
-          console.log(err);
+          console.log(err); // eslint-disable-line no-console
           this.setState({ loading: false });
         },
       );

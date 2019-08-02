@@ -52,7 +52,7 @@ export default configMerger(walttiConfig, {
       en: 'https://www.foli.fi/en/citybikes',
     },
     networks: {
-      smoove: {
+      turku: {
         icon: 'citybike',
         name: {
           fi: 'Turku',

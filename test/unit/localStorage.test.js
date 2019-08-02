@@ -10,6 +10,8 @@ import {
   setRoutingSettings,
   getCustomizedSettings,
   setCustomizedSettings,
+  getReadMessageIds,
+  setReadMessageIds,
 } from '../../app/store/localStorage';
 import defaultConfig from '../../app/configurations/config.default';
 
@@ -183,6 +185,26 @@ describe('localStorage', () => {
     it('should return global.localStorage if not in browser', () => {
       const result = getLocalStorage(false);
       expect(result).to.equal(global.localStorage);
+    });
+  });
+  describe('getReadMessageIds', () => {
+    it('result should be empty array', () => {
+      const result = getReadMessageIds();
+      // eslint-disable-next-line no-unused-expressions
+      expect(result).to.be.empty;
+    });
+    it('result should be "1"', () => {
+      window.localStorage.setItem('readMessages', JSON.stringify(1));
+      const result = getReadMessageIds();
+      expect(result).to.equal(JSON.parse('1'));
+    });
+  });
+
+  describe('setReadMessageIds', () => {
+    it('result should be ["1"]', () => {
+      setReadMessageIds(['1']);
+      const result = window.localStorage.getItem('readMessages');
+      expect(result).to.equal('["1"]');
     });
   });
 });

@@ -38,7 +38,26 @@ export default {
 
   favicon: './app/configurations/images/hsl/icon_favicon-matkafi.svg',
 
-  feedIds: ['MATKA', 'HSL', 'tampere', 'LINKKI', 'lautta', 'OULU'],
+  feedIds: [
+    'MATKA',
+    'HSL',
+    'tampere',
+    'LINKKI',
+    'lautta',
+    'OULU',
+    'MatkahuoltoKainuu',
+    'MatkahuoltoSavo',
+    'MatkahuoltoKanta',
+    'MatkahuoltoKarjala',
+    'MatkahuoltoKeski',
+    'MatkahuoltoKyme',
+    'MatkahuoltoLappi',
+    'MatkahuoltoPohjanmaa',
+    'MatkahuoltoSatakunta',
+    'MatkahuoltoVakka',
+    'MatkahuoltoVantaa',
+    'MatkahuoltoVarsinais',
+  ],
 
   meta: {
     description: APP_DESCRIPTION,
@@ -114,6 +133,34 @@ export default {
           fi: 'https://www.hsl.fi/kaupunkipyorat',
           sv: 'https://www.hsl.fi/sv/stadscyklar',
           en: 'https://www.hsl.fi/en/citybikes',
+        },
+      },
+      turku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Turku',
+          sv: 'Åbo',
+          en: 'Turku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.foli.fi/kaupunkipyorat',
+          sv: 'https://www.foli.fi/sv/stadscyklar',
+          en: 'https://www.foli.fi/en/citybikes',
+        },
+      },
+      oulu: {
+        icon: 'citybike',
+        name: {
+          fi: 'Oulu',
+          sv: 'Uleåborg',
+          en: 'Oulu',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.ouka.fi/',
+          sv: 'https://kaupunkipyorat.ouka.fi/home',
+          en: 'https://kaupunkipyorat.ouka.fi/home',
         },
       },
     },

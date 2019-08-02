@@ -18,6 +18,7 @@ export default {
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
     STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
+    CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
   },
 
   contactName: {
@@ -265,7 +266,6 @@ export default {
       ],
     ],
   },
-
   footer: {
     content: [
       { label: `© HSL ${YEAR}` },
@@ -395,6 +395,7 @@ export default {
     {
       id: '2',
       priority: -1,
+      shouldTrigger: true,
       content: {
         fi: [
           {

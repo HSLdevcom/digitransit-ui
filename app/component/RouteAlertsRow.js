@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { Link } from 'react-router';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import ExternalLink from './ExternalLink';
@@ -11,6 +12,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
@@ -48,6 +50,8 @@ export default function RouteAlertsRow(
     severityLevel,
     startTime,
     url,
+    gtfsIds,
+    showRouteNameLink,
   },
   { intl },
 ) {
@@ -57,6 +61,35 @@ export default function RouteAlertsRow(
     startTime &&
     endTime &&
     currentTime;
+  const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
+  const routeLinks =
+    entityType === 'route' && entityIdentifier && gtfsIds
+      ? entityIdentifier.split(',').map((identifier, i) => (
+          <Link
+            key={gtfsIdList[i]}
+            to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/pysakit/${gtfsIdList[i]}/`}
+            className="route-alert-row-link"
+          >
+            {' '}
+            {identifier}{' '}
+          </Link>
+        ))
+      : [];
+
+  const stopLinks =
+    entityType === 'stop' && entityIdentifier && gtfsIds
+      ? entityIdentifier.split(',').map((identifier, i) => (
+          <Link
+            key={gtfsIdList[i]}
+            to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
+            className="route-alert-row-link"
+          >
+            {' '}
+            {identifier}{' '}
+          </Link>
+        ))
+      : [];
+
   return (
     <div className={cx('route-alert-row', { expired })}>
       {(entityType === 'route' &&
@@ -83,9 +116,23 @@ export default function RouteAlertsRow(
       <div className="route-alert-contents">
         {(entityIdentifier || url) && (
           <div className="route-alert-top-row">
-            {entityIdentifier && (
-              <div className={entityMode}>{entityIdentifier}</div>
-            )}
+            {entityIdentifier &&
+              ((entityType === 'route' &&
+                showRouteNameLink &&
+                routeLinks.length > 0 && (
+                  <div className={entityMode}>{routeLinks}</div>
+                )) ||
+                (!showRouteNameLink && (
+                  <div className={entityMode}>{entityIdentifier} </div>
+                )) ||
+                ((entityType === 'stop' &&
+                  showRouteNameLink &&
+                  stopLinks.length > 0 && (
+                    <div className={entityMode}>{stopLinks}</div>
+                  )) ||
+                  (!showRouteNameLink && (
+                    <div className={entityMode}>{entityIdentifier}</div>
+                  ))))}
             {url && (
               <ExternalLink className="route-alert-url" href={url}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -123,6 +170,8 @@ RouteAlertsRow.propTypes = {
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,
+  gtfsIds: PropTypes.string,
+  showRouteNameLink: PropTypes.bool,
 };
 
 RouteAlertsRow.contextTypes = {
@@ -154,6 +203,7 @@ RouteAlertsRow.description = () => (
           }
           entityMode="tram"
           entityIdentifier="2"
+          gtfsIds="HSL:1002"
           expired={false}
         />
       </ComponentUsageExample>
@@ -167,6 +217,7 @@ RouteAlertsRow.description = () => (
           }
           entityMode="tram"
           entityIdentifier="2"
+          gtfsIds="HSL:1002"
           expired
         />
       </ComponentUsageExample>
@@ -184,6 +235,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
           expired
@@ -201,6 +253,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -219,6 +272,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -239,6 +293,7 @@ RouteAlertsRow.description = () => (
           header="Lähijunat välillä Pasila-Leppävaara peruttu"
           description="Suurin osa lähijunista välillä Pasila-Leppävaara on peruttu asetinlaitevian vuoksi"
           entityIdentifier="Y, S, U, L, E, A"
+          gtfsIds="HSL:3002Y, HSL:3002S, HSL:3002U, HSL:3002L, HSL:3002E, HSL:3002A"
           entityMode="rail"
           severityLevel="WARNING"
         />
@@ -248,6 +303,7 @@ RouteAlertsRow.description = () => (
           header="Pysäkki H4461 siirtyy"
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
           entityIdentifier="97N"
+          gtfsIds="HSL:1097N"
           entityMode="bus"
           severityLevel="INFO"
           url="https://www.hsl.fi"
@@ -258,6 +314,7 @@ RouteAlertsRow.description = () => (
           header="Pysäkki H4461 siirtyy"
           description="Leikkikujan pysäkki H4461 siirtyy tilapäisesti kulkusuunnassa 100 metriä taaksepäin."
           entityIdentifier="4461"
+          gtfsIds="HSL%3A1471151"
           entityMode="bus"
           entityType="stop"
           severityLevel="INFO"

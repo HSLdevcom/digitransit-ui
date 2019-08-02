@@ -36,6 +36,7 @@ describe('<StopAlertsContainer />', () => {
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
+      showRouteNameLink: false,
     });
   });
 

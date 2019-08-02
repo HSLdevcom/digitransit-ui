@@ -24,7 +24,6 @@ class RoutePatternSelect extends Component {
     route: PropTypes.object,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
-    activeTab: PropTypes.string.isRequired,
     relay: PropTypes.object.isRequired,
     gtfsId: PropTypes.string.isRequired,
   };
@@ -49,15 +48,10 @@ class RoutePatternSelect extends Component {
   };
 
   getOptions = () => {
-    const { activeTab, gtfsId, params, route } = this.props;
+    const { gtfsId, params, route } = this.props;
     const { router } = this.context;
 
-    const patterns =
-      activeTab === 'aikataulu'
-        ? route.patterns
-        : route.patterns.filter(
-            p => Array.isArray(p.tripsForDate) && p.tripsForDate.length > 0,
-          );
+    const { patterns } = route;
 
     if (patterns.length === 0) {
       return null;
@@ -96,14 +90,7 @@ class RoutePatternSelect extends Component {
     return this.state.loading === true ? (
       <div className={cx('route-pattern-select', this.props.className)} />
     ) : (
-      <div
-        className={cx('route-pattern-select', this.props.className, {
-          hidden:
-            this.props.route.patterns.find(
-              o => o.tripsForDate && o.tripsForDate.length > 0,
-            ) === undefined && this.props.activeTab !== 'aikataulu',
-        })}
-      >
+      <div className={cx('route-pattern-select', this.props.className)}>
         {options && (options.length > 2 || options.length === 1) ? (
           <React.Fragment>
             <Icon img="icon-icon_arrow-dropdown" />
@@ -163,7 +150,6 @@ class RoutePatternSelect extends Component {
 }
 
 const defaultProps = {
-  activeTab: 'pysakit',
   className: 'bp-large',
   serviceDay: '20190306',
   relay: {

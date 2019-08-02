@@ -34,7 +34,7 @@ describe('<RoutePatternSelect />', () => {
     expect(wrapper.find('#select-route-pattern > option')).to.have.lengthOf(3);
   });
 
-  it('should render a toggle element with divs if there are only 2 patterns with trips', () => {
+  it('should render a toggle element with divs if there are no patterns with trips', () => {
     const props = {
       activeTab: 'pysakit',
       gtfsId: 'HSL:3002U',
@@ -51,13 +51,13 @@ describe('<RoutePatternSelect />', () => {
             code: 'HSL:3002U:0:01',
             headsign: 'Kauklahti',
             stops: [{ name: 'Helsinki' }, { name: 'Kauklahti' }],
-            tripsForDate: [{}],
+            tripsForDate: [],
           },
           {
             code: 'HSL:3002U:0:02',
             headsign: 'Kirkkonummi',
             stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
-            tripsForDate: [{}],
+            tripsForDate: [],
           },
           {
             code: 'HSL:3002U:0:03',
@@ -71,8 +71,8 @@ describe('<RoutePatternSelect />', () => {
     const wrapper = shallowWithIntl(<RoutePatternSelect {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find('option')).to.have.lengthOf(0);
-    expect(wrapper.find('div.route-option-togglable')).to.have.lengthOf(1);
+    expect(wrapper.find('option')).to.have.lengthOf(3);
+    expect(wrapper.find('div.route-option-togglable')).to.have.lengthOf(0);
   });
 
   it('should redirect to the first existing pattern if there is no matching pattern available', () => {

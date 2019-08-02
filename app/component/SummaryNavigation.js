@@ -91,7 +91,6 @@ class SummaryNavigation extends React.Component {
       action: 'ExtraSettingsPanelClick',
       name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
-
     if (newState) {
       this.context.router.push({
         ...this.context.location,

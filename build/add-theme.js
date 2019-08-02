@@ -16,7 +16,6 @@ if (!theme || theme === '?') {
 
 const sassDir = 'sass/themes/' + theme;
 const name = theme.charAt(0).toUpperCase() + theme.slice(1); // with uppecase initial
-
 if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
 }
@@ -42,6 +41,9 @@ $current-location-color: $primary-color;
 $standalone-btn-color: $primary-color;
 $link-color: $primary-color;
 
+/* Component palette */
+$desktop-title-color: $primary-color;
+$desktop-title-arrow-icon-color: $secondary-color;
 `;
 
 let textLogo;

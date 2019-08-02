@@ -23,6 +23,7 @@ describe('MessageStore', () => {
                 },
               ],
             },
+            shouldTrigger: true,
           },
         ],
       });
@@ -40,6 +41,7 @@ describe('MessageStore', () => {
                 },
               ],
             },
+            shouldTrigger: true,
             priority: -1,
           },
         ],
@@ -54,6 +56,7 @@ describe('MessageStore', () => {
             en: [{ type: 'text', content: 'foo' }],
           },
           id: '2',
+          shouldTrigger: true,
         },
         {
           content: {
@@ -61,6 +64,7 @@ describe('MessageStore', () => {
           },
           id: '1',
           priority: -1,
+          shouldTrigger: true,
         },
       ]);
 
@@ -162,6 +166,55 @@ describe('MessageStore', () => {
       const callback = sinon.spy();
       processStaticMessages({ staticMessages }, callback);
       expect(callback.called).to.equal(true);
+    });
+  });
+
+  describe('addMessage', () => {
+    it('should add message', async () => {
+      const store = new MessageStore();
+      const message = {
+        id: '1',
+        content: {
+          en: [
+            {
+              type: 'text',
+              content: 'bar',
+            },
+          ],
+        },
+        shouldTrigger: false,
+        priority: -1,
+      };
+      await store.addMessage(message);
+      expect(store.getMessages().length).to.equal(1);
+    });
+  });
+  describe('updateMessage', () => {
+    it('should update message', async () => {
+      const store = new MessageStore();
+      const config = {
+        staticMessages: [
+          {
+            id: '1',
+            content: {
+              en: [
+                {
+                  type: 'text',
+                  content: 'bar',
+                },
+              ],
+            },
+            shouldTrigger: false,
+            priority: -1,
+          },
+        ],
+      };
+
+      await store.addConfigMessages(config);
+      const msg = config.staticMessages[0];
+      msg.shouldTrigger = true;
+      await store.updateMessage(msg);
+      expect(store.getMessages()[0].shouldTrigger).to.equal(true);
     });
   });
 });

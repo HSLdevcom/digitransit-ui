@@ -56,7 +56,11 @@ function RouteAlertsContainer({ route, patternId }, { intl }) {
   ];
 
   return (
-    <AlertList cancelations={cancelations} serviceAlerts={serviceAlerts} />
+    <AlertList
+      showRouteNameLink={false}
+      cancelations={cancelations}
+      serviceAlerts={serviceAlerts}
+    />
   );
 }
 
