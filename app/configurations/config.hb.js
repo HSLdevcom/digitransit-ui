@@ -74,6 +74,8 @@ export default configMerger(walttiConfig, {
   },
 
   feedIds: ['hb'],
+  
+  searchSources: ['oa', 'osm'],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
