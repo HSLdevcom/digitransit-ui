@@ -28,8 +28,6 @@ You must use following additional variables:
 - `-e SENTRY_DSN=<..>`
 - `-e SENTRY_SECRET_DSN=<..>`
 - `-e CONFIG=<..>`
-- `-e PIWIK_ADDRESS=<..>`
-- `-e PIWIK_ID=<..>`
 - `-e NODE_ENV=production`
 
 There are also optional variables:
