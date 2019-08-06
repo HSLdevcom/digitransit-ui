@@ -92,7 +92,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
         req.path.includes(param),
       )
     ) {
-      const redirectPath = langParamParser(req.path);
+      const redirectPath = langParamParser(req.url);
       res.redirect(redirectPath);
     } else {
       next();
