@@ -9,20 +9,13 @@ const FILE = UI_PATH + '/app/translations.js';
 
 console.log("Using path: " + UI_PATH + " to file: " + FILE);
 
-//import translations from './app/translations';
 fs = require('fs');
 const file = fs.readFileSync(FILE, 'utf8');
 const start = file.indexOf("const translations = {") + 21;
 const end = file.lastIndexOf("};") + 1;
 
-const json_string = file.substring(start, end) // json string
-      .replace(/[`']/g, '"')                       // use valid "
-      .replace(/[\s\+]/g, '')                      // remove all extra newlines and + signs
-      .replace(/\",/g, '\",\n')                    // add newline where missing
-      .replace(/:\".*\",/g, ': "NONE",')           // remove all values
-      .replace(/,\n?\}/g, '\}');                   // remove additional comma before curly bracket
+const translations = eval('(' + file.substring(start, end) + ')');
 
-const translations = JSON.parse(json_string);
 const lang_from = translations[lang1];
 const lang_to = translations[lang2];
 if (!lang_from) {
