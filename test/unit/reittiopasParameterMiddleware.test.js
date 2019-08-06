@@ -59,5 +59,14 @@ describe('reittiopasParameterMiddleware', () => {
         '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973',
       );
     });
+
+    it('should not ignore URL parameters', () => {
+      const path =
+        '/en/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral';
+      const newPath = langParamParser(path);
+      expect(newPath).to.equal(
+        '/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
+      );
+    });
   });
 });
