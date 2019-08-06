@@ -348,22 +348,6 @@ export const getServiceAlertsForRoute = (
 };
 
 /**
- * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
- * maps them to the format understood by the UI.
- *
- * @param {boolean} isTerminal Check that this stop is indeed terminal.
- * @param {string} stop the stop object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertsForTerminalStops = (isTerminal, stop, locale = 'en') => {
-  if (isTerminal) {
-    console.log('Terminaalin pysäkit: ', stop.stops)
-  }
-  return (isTerminal ? stop.stops.map(terminalStop => getServiceAlerts(terminalStop, {}, locale))
-      .filter(arr => arr.length > 0 ) : []);
-};
-
-/**
  * Retrieves OTP-style Service Alerts from the given stop and
  * maps them to the format understood by the UI.
  *
@@ -372,6 +356,27 @@ export const getServiceAlertsForTerminalStops = (isTerminal, stop, locale = 'en'
  */
 export const getServiceAlertsForStop = (stop, locale = 'en') =>
   getServiceAlerts(stop, {}, locale);
+
+/**
+ * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
+ * maps them to the format understood by the UI. Filter out empty arrays from alerts.
+ *
+ * @param {boolean} isTerminal Check that this stop is indeed terminal.
+ * @param {string} stop the stop object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForTerminalStops = (
+  isTerminal,
+  stop,
+  locale = 'en',
+) => {
+  const alerts = isTerminal
+    ? stop.stops
+        .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
+        .filter(arr => arr.length > 0)
+    : [];
+  return alerts.reduce((a, b) => a.concat(b), []);
+};
 
 /**
  * Retrieves OTP-style Service Alerts from the given route's
