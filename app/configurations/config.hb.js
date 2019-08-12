@@ -7,7 +7,7 @@ const APP_DESCRIPTION = '';
 
 const API_URL = process.env.API_URL;
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
-const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
+const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
 
 const walttiConfig = require('./waltti').default;
@@ -27,8 +27,8 @@ export default configMerger(walttiConfig, {
     STOP_MAP: `${API_URL}/map/v1/stop-map/`,
     DYNAMICPARKINGLOTS_MAP: `${API_URL}/map/v1/hb-parking-map/`,
 
-    PELIAS: `${GEOCODING_BASE_URL}/search?api_key=${LOCATIONIQ_API_KEY}`,
-    PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse?api_key=${LOCATIONIQ_API_KEY}`,
+    PELIAS: `${GEOCODING_BASE_URL}/search${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
+    PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse${LOCATIONIQ_API_KEY ? '?api_key=' + LOCATIONIQ_API_KEY : ''}`,
   },
 
   availableLanguages: ['de', 'en'],
