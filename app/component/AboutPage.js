@@ -8,6 +8,7 @@ import SanitizedHTML from 'react-sanitized-html';
 
 const AboutPage = ({ currentLanguage }, context) => {
   const about = context.config.aboutThisService[currentLanguage];
+  const allowedTags = ['a', 'b', 'i', 'strong', 'em', 'img', 'br'];
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
@@ -19,7 +20,7 @@ const AboutPage = ({ currentLanguage }, context) => {
                 <h1 className="about-header">{section.header}</h1>
                 {section.paragraphs &&
                   section.paragraphs.map((p, j) => (
-                    <p key={`about-section-${i}-p-${j}`}><SanitizedHTML html={ p } /></p>
+                    <p key={`about-section-${i}-p-${j}`}><SanitizedHTML allowedTags={ allowedTags } html={ p } /></p>
                   ))}
                 {section.link && <Link to={section.link}>{section.link}</Link>}
               </div>
