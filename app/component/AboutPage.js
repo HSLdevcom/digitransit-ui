@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import SanitizedHTML from 'react-sanitized-html';
 
 const AboutPage = ({ currentLanguage }, context) => {
   const about = context.config.aboutThisService[currentLanguage];
@@ -18,7 +19,7 @@ const AboutPage = ({ currentLanguage }, context) => {
                 <h1 className="about-header">{section.header}</h1>
                 {section.paragraphs &&
                   section.paragraphs.map((p, j) => (
-                    <p key={`about-section-${i}-p-${j}`}>{p}</p>
+                    <p key={`about-section-${i}-p-${j}`}><SanitizedHTML html={ p } /></p>
                   ))}
                 {section.link && <Link to={section.link}>{section.link}</Link>}
               </div>
