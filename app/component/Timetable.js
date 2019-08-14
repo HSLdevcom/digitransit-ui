@@ -237,7 +237,6 @@ class Timetable extends React.Component {
     const stopTimetableHandler =
       this.context.config.timetables &&
       this.context.config.timetables[stopIdSplitted[0]];
-
     const stopPDFURL =
       stopTimetableHandler &&
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
@@ -247,7 +246,6 @@ class Timetable extends React.Component {
             this.props.stop,
           )
         : null;
-
     return (
       <div className="timetable">
         {this.state.showFilterModal === true ? (

@@ -6,6 +6,7 @@ import Timetable from '../../../app/component/Timetable';
 import TimetableRow from '../../../app/component/TimetableRow';
 import StopPageActionBar from '../../../app/component/StopPageActionBar';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import * as timetables from '../../../app/configurations/timetableConfigUtils';
 
 const stopIdNumber = '1140199';
 
@@ -67,7 +68,8 @@ describe('<Timetable />', () => {
     const wrapper = shallowWithIntl(<Timetable {...props} />, {
       context: {
         config: {
-          URL: { STOP_TIMETABLES: baseTimetableURL },
+          URL: { STOP_TIMETABLES:  {HSL: baseTimetableURL }, },
+          timetables: { HSL: timetables.default.HSL },
         },
       },
     });

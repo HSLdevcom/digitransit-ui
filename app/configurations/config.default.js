@@ -43,8 +43,7 @@ export default {
     },
     STOP_TIMETABLES: {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
-      tampere:
-        'https://treaikataulut.navici.com/tre_timetables_tool/write/pdf_timetables/k20190603/pysakkiaikataulut/',
+      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
     },
   },
 
