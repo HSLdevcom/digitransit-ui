@@ -68,7 +68,7 @@ describe('<Timetable />', () => {
     const wrapper = shallowWithIntl(<Timetable {...props} />, {
       context: {
         config: {
-          URL: { STOP_TIMETABLES:  {HSL: baseTimetableURL }, },
+          URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
           timetables: { HSL: timetables.default.HSL },
         },
       },
