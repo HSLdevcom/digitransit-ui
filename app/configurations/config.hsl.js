@@ -451,7 +451,7 @@ export default {
       },
     },
   ],
-  staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
+  staticMessagesUrl: 'https://yleisviesti.hsl.fi/',
   geoJson: {
     layers: [
       {
