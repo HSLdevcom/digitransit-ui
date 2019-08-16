@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
+import uniqBy from 'lodash/uniqBy';
 
 import AlertList from './AlertList';
 import Icon from './Icon';
@@ -14,6 +15,7 @@ import {
   getServiceAlertHeader,
   getServiceAlertUrl,
   isAlertValid,
+  createUniqueAlertList,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
@@ -47,9 +49,6 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
     );
   }
 
-  let disruptionCount = 0;
-  let infoCount = 0;
-
   const routeAlerts = [];
   const stopAlerts = [];
 
@@ -59,12 +58,6 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
       return;
     }
 
-    if (isDisruption(mappedAlert)) {
-      disruptionCount += 1;
-    } else {
-      infoCount += 1;
-    }
-
     if (alert.route) {
       routeAlerts.push(mappedAlert);
     } else if (alert.stop) {
@@ -72,13 +65,51 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
     }
   });
 
+  const mappedDisruptions = root.alerts
+    .map(alert => {
+      const mappedAlert = mapAlert(alert, intl.locale);
+      if (isAlertValid(mappedAlert, currentTime)) {
+        if (isDisruption(mappedAlert)) {
+          return mappedAlert;
+        }
+      }
+      return null;
+    })
+    .filter(o => o !== null);
+
+  const mappedServiceAlerts = root.alerts
+    .map(alert => {
+      const mappedAlert = mapAlert(alert, intl.locale);
+      if (isAlertValid(mappedAlert, currentTime)) {
+        if (!isDisruption(mappedAlert)) {
+          return mappedAlert;
+        }
+      }
+      return null;
+    })
+    .filter(o => o !== null);
+
+  const disruptionCount = createUniqueAlertList(
+    mappedDisruptions,
+    false,
+    currentTime,
+    true,
+  ).length;
+  const infoCount = createUniqueAlertList(
+    mappedServiceAlerts,
+    false,
+    currentTime,
+    true,
+  ).length;
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
+
   const routeAlertsToShow = routeAlerts.filter(
     showDisruptions ? isDisruption : isInfo,
   );
   const stopAlertsToShow = stopAlerts.filter(
     showDisruptions ? isDisruption : isInfo,
   );
+
   return (
     <div className="disruption-list-container">
       <div
