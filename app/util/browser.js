@@ -23,7 +23,10 @@ export const isEdge = isBrowser && navigator.userAgent.match(/Edge/) != null;
 export const isChrome =
   isBrowser && !isEdge && navigator.userAgent.match(/Chrome/) != null;
 export const isSafari =
-  isBrowser && !isChrome && !isEdge && navigator.userAgent.match(/Safari/) != null;
+  isBrowser &&
+  !isChrome &&
+  !isEdge &&
+  navigator.userAgent.match(/Safari/) != null;
 export const isSamsungBrowser =
   isBrowser && navigator.userAgent.match(/SamsungBrowser/) != null;
 export const isIe = isBrowser && navigator.userAgent.match(/Trident/) != null;
