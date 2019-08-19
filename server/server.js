@@ -136,13 +136,13 @@ function setUpAvailableRouteTimetables() {
     // All routes don't have available pdf and some have their timetable inside other route
     // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
     // route that contains timetables
-    if (config.routeTimetables.HSL) {
+    if (config.timetables.HSL) {
       // try to fetch available route timetables every four seconds with 4 retries
       retryFetch(`${config.URL.ROUTE_TIMETABLES.HSL}routes.json`, {}, 4, 4000)
         .then(res => res.json())
         .then(
           result => {
-            config.routeTimetables.HSL.setAvailableRouteTimetables(result);
+            config.timetables.HSL.setAvailableRouteTimetables(result);
             console.log('availableRouteTimetables.HSL loaded');
             resolve();
           },
@@ -161,9 +161,7 @@ function setUpAvailableRouteTimetables() {
               .then(res => res.json())
               .then(
                 result => {
-                  config.routeTimetables.HSL.setAvailableRouteTimetables(
-                    result,
-                  );
+                  config.timetables.HSL.setAvailableRouteTimetables(result);
                   console.log(
                     'availableRouteTimetables.HSL loaded after retry',
                   );
