@@ -37,7 +37,12 @@ export const getFares = (fares, routes, config) => {
       .map(route => route.gtfsId),
   );
 
-  const unknownFares = ((Array.isArray(routes) && routes) || [])
+  const unknownTotalFare =
+    fares && fares[0] && fares[0].type === 'regular' && fares[0].cents === -1;
+  const unknownFares = (
+    (unknownTotalFare && Array.isArray(routes) && routes) ||
+    []
+  )
     .filter(route => !routesWithFares.includes(route.gtfsId))
     .map(route => ({
       agency: {

@@ -134,4 +134,13 @@ describe('<RouteAlertsRow />', () => {
       AlertSeverityLevelType.Warning,
     );
   });
+  it("should add the http prefix to the url if it's missing", () => {
+    const props = {
+      url: 'www.hsl.fi',
+    };
+    const wrapper = shallowWithIntl(<RouteAlertsRow {...props} />);
+    expect(wrapper.find('.route-alert-url').prop('href')).to.equal(
+      'http://www.hsl.fi',
+    );
+  });
 });
