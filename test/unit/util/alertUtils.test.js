@@ -3,6 +3,7 @@ import {
   AlertSeverityLevelType,
   RealtimeStateType,
 } from '../../../app/constants';
+import { disruptions, serviceAlerts } from '../test-data/dt3138';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
@@ -1272,6 +1273,20 @@ describe('alertUtils', () => {
       expect(utils.patternIdPredicate({ trip: undefined }, 'foobar')).to.equal(
         true,
       );
+    });
+  });
+  describe('createUniqueAlertList', () => {
+    it('should group disruptions under unique headers', () => {
+      expect(
+        utils.createUniqueAlertList(disruptions, false, 1566199501, true)
+          .length,
+      ).to.equal(1);
+    });
+    it('should group service alerts under unique headers', () => {
+      expect(
+        utils.createUniqueAlertList(serviceAlerts, false, 1566199501, true)
+          .length,
+      ).to.equal(11);
     });
   });
 });

@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import ComponentUsageExample from './ComponentUsageExample';
 import RouteAlertsRow from './RouteAlertsRow';
-import { alertCompare, createUniqueAlertList } from '../util/alertUtils';
+import { createUniqueAlertList } from '../util/alertUtils';
 import { AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
@@ -35,47 +35,46 @@ const AlertList = ({
       </div>
     );
   }
+
   return (
     <div className={cx({ 'momentum-scroll': !disableScrolling })}>
       <div className="route-alerts-list">
-        {groupedAlerts
-          .sort(alertCompare)
-          .map(
-            (
-              {
-                description,
-                expired,
-                header,
-                route: { color, mode, shortName, routeGtfsId } = {},
-                severityLevel,
-                stop: { code, vehicleMode, stopGtfsId } = {},
-                url,
-                validityPeriod: { startTime, endTime },
-              },
-              i,
-            ) => (
-              <RouteAlertsRow
-                color={color ? `#${color}` : null}
-                currentTime={currentTime}
-                description={description}
-                endTime={endTime}
-                entityIdentifier={shortName || code}
-                entityMode={
-                  (mode && mode.toLowerCase()) ||
-                  (vehicleMode && vehicleMode.toLowerCase())
-                }
-                entityType={(shortName && 'route') || (code && 'stop')}
-                expired={expired}
-                header={header}
-                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-                severityLevel={severityLevel}
-                startTime={startTime}
-                url={url}
-                gtfsIds={routeGtfsId || stopGtfsId}
-                showRouteNameLink={showRouteNameLink}
-              />
-            ),
-          )}
+        {groupedAlerts.map(
+          (
+            {
+              description,
+              expired,
+              header,
+              route: { color, mode, shortName, routeGtfsId } = {},
+              severityLevel,
+              stop: { code, vehicleMode, stopGtfsId } = {},
+              url,
+              validityPeriod: { startTime, endTime },
+            },
+            i,
+          ) => (
+            <RouteAlertsRow
+              color={color ? `#${color}` : null}
+              currentTime={currentTime}
+              description={description}
+              endTime={endTime}
+              entityIdentifier={shortName || code}
+              entityMode={
+                (mode && mode.toLowerCase()) ||
+                (vehicleMode && vehicleMode.toLowerCase())
+              }
+              entityType={(shortName && 'route') || (code && 'stop')}
+              expired={expired}
+              header={header}
+              key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
+              severityLevel={severityLevel}
+              startTime={startTime}
+              url={url}
+              gtfsIds={routeGtfsId || stopGtfsId}
+              showRouteNameLink={showRouteNameLink}
+            />
+          ),
+        )}
       </div>
     </div>
   );

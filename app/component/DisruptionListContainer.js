@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
-import uniqBy from 'lodash/uniqBy';
-
 import AlertList from './AlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
@@ -51,11 +49,27 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
 
   const routeAlerts = [];
   const stopAlerts = [];
+  const mappedRouteDisruptions = [];
+  const mappedRouteServiceAlerts = [];
+
+  const mappedStopDisruptions = [];
+  const mappedStopServiceAlerts = [];
 
   root.alerts.forEach(alert => {
     const mappedAlert = mapAlert(alert, intl.locale);
     if (!isAlertValid(mappedAlert, currentTime)) {
       return;
+    }
+    if (!isDisruption(mappedAlert)) {
+      if (alert.route) {
+        mappedRouteServiceAlerts.push(mappedAlert);
+      } else if (alert.stop) {
+        mappedStopServiceAlerts.push(mappedAlert);
+      }
+    } else if (alert.route) {
+      mappedRouteDisruptions.push(mappedAlert);
+    } else if (alert.stop) {
+      mappedStopDisruptions.push(mappedAlert);
     }
 
     if (alert.route) {
@@ -65,42 +79,17 @@ function DisruptionListContainer({ breakpoint, currentTime, root }, { intl }) {
     }
   });
 
-  const mappedDisruptions = root.alerts
-    .map(alert => {
-      const mappedAlert = mapAlert(alert, intl.locale);
-      if (isAlertValid(mappedAlert, currentTime)) {
-        if (isDisruption(mappedAlert)) {
-          return mappedAlert;
-        }
-      }
-      return null;
-    })
-    .filter(o => o !== null);
+  const disruptionCount =
+    createUniqueAlertList(mappedRouteDisruptions, false, currentTime, true)
+      .length +
+    createUniqueAlertList(mappedStopDisruptions, false, currentTime, true)
+      .length;
+  const infoCount =
+    createUniqueAlertList(mappedRouteServiceAlerts, false, currentTime, true)
+      .length +
+    createUniqueAlertList(mappedStopServiceAlerts, false, currentTime, true)
+      .length;
 
-  const mappedServiceAlerts = root.alerts
-    .map(alert => {
-      const mappedAlert = mapAlert(alert, intl.locale);
-      if (isAlertValid(mappedAlert, currentTime)) {
-        if (!isDisruption(mappedAlert)) {
-          return mappedAlert;
-        }
-      }
-      return null;
-    })
-    .filter(o => o !== null);
-
-  const disruptionCount = createUniqueAlertList(
-    mappedDisruptions,
-    false,
-    currentTime,
-    true,
-  ).length;
-  const infoCount = createUniqueAlertList(
-    mappedServiceAlerts,
-    false,
-    currentTime,
-    true,
-  ).length;
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
 
   const routeAlertsToShow = routeAlerts.filter(

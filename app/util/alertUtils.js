@@ -699,7 +699,7 @@ export const createUniqueAlertList = (
     };
   });
 
-  return groupedAlerts;
+  return groupedAlerts.sort(alertCompare);
 };
 
 /**
