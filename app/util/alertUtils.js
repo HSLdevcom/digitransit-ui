@@ -2,6 +2,8 @@ import find from 'lodash/find';
 import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
+import isEmpty from 'lodash/isEmpty';
+import groupBy from 'lodash/groupBy';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,6 +11,7 @@ import {
   AlertSeverityLevelType,
   AlertEffectType,
 } from '../constants';
+import { routeNameCompare } from './searchUtils';
 
 /**
  * Checks if the alert is for the given pattern.
@@ -568,6 +571,135 @@ export const getActiveLegAlertSeverityLevel = leg => {
     serviceAlerts,
     leg.startTime / 1000, // this field is in ms format
   );
+};
+
+/**
+ * Compares the given alerts in order to sort them.
+ *
+ * @param {*} a the first alert to compare.
+ * @param {*} b the second alert to compare.
+ */
+export const alertCompare = (a, b) => {
+  // sort by expiration status
+  if (a.expired !== b.expired) {
+    return a.expired ? 1 : -1;
+  }
+
+  // sort by missing route information (for stop level alerts)
+  if (!a.route || !a.route.shortName) {
+    // sort by stop information if it exists
+    if (a.stop && b.stop) {
+      return `${a.stop.code}`.localeCompare(`${b.stop.code}`);
+    }
+    return -1;
+  }
+
+  // sort by route information
+  const routeOrder = routeNameCompare(a.route || {}, b.route || {});
+  if (routeOrder !== 0) {
+    return routeOrder;
+  }
+
+  // sort by alert validity period
+  return b.validityPeriod.startTime - a.validityPeriod.startTime;
+};
+
+/**
+ * Creates a list of unique alerts grouped under one header
+ *@param {*} serviceAlerts The list of Service alerts to be mapped and filtered,
+  @param {*} cancelations The list of Cancelations to be mapped and filtered,
+  @param {*} currentTime The current time to check for alert validity,
+  @param {*} showExpired If the expired alerts need to be shown,
+ */
+export const createUniqueAlertList = (
+  serviceAlerts,
+  cancelations,
+  currentTime,
+  showExpired,
+) => {
+  const hasRoute = alert => alert && !isEmpty(alert.route);
+  const hasStop = alert => alert && !isEmpty(alert.stop);
+
+  const getRoute = alert => alert.route || {};
+  const getMode = alert => getRoute(alert).mode;
+  const getShortName = alert => getRoute(alert).shortName;
+  const getRouteGtfsId = alert => getRoute(alert).gtfsId;
+
+  const getStop = alert => alert.stop || {};
+  const getVehicleMode = alert => getStop(alert).vehicleMode;
+  const getCode = alert => getStop(alert).code;
+  const getStopGtfsId = alert => getStop(alert).gtfsId;
+
+  const getGroupKey = alert =>
+    `${alert.severityLevel}${(hasRoute(alert) && `route_${getMode(alert)}`) ||
+      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)}${alert.header}${
+      alert.description
+    }`;
+  const getUniqueId = alert =>
+    `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
+
+  const uniqueAlerts = uniqBy(
+    [
+      ...(Array.isArray(cancelations)
+        ? cancelations
+            .map(cancelation => ({
+              ...cancelation,
+              severityLevel: AlertSeverityLevelType.Warning,
+              expired: !isAlertValid(cancelation, currentTime, {
+                isFutureValid: true,
+              }),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
+        : []),
+      ...(Array.isArray(serviceAlerts)
+        ? serviceAlerts
+            .map(alert => ({
+              ...alert,
+              expired: !isAlertValid(alert, currentTime),
+            }))
+            .filter(alert => (showExpired ? true : !alert.expired))
+        : []),
+    ],
+    getUniqueId,
+  );
+
+  const alertGroups = groupBy(uniqueAlerts, getGroupKey);
+
+  const groupedAlerts = Object.keys(alertGroups).map(key => {
+    const alerts = alertGroups[key];
+    const alert = alerts[0];
+    return {
+      ...alert,
+      route:
+        (hasRoute(alert) && {
+          mode: getMode(alert),
+          routeGtfsId: alerts
+            .sort(alertCompare)
+            .map(getRouteGtfsId)
+            .join(','),
+          shortName: alerts
+            .sort(alertCompare)
+            .map(getShortName)
+            .join(', '),
+        }) ||
+        undefined,
+      stop:
+        (hasStop(alert) && {
+          stopGtfsId: alerts
+            .sort(alertCompare)
+            .map(getStopGtfsId)
+            .join(','),
+          code: alerts
+            .sort(alertCompare)
+            .map(getCode)
+            .join(', '),
+          vehicleMode: getVehicleMode(alert),
+        }) ||
+        undefined,
+    };
+  });
+
+  return groupedAlerts.sort(alertCompare);
 };
 
 /**
