@@ -33,6 +33,8 @@ import ComponentUsageExample from './ComponentUsageExample';
 import exampleData from './data/SummaryPage.ExampleData';
 import { isBrowser } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
+import triggerMessage from '../util/messageUtils';
+import MessageStore from '../store/MessageStore';
 
 export const ITINERARYFILTERING_DEFAULT = 1.5;
 
@@ -88,6 +90,7 @@ class SummaryPage extends React.Component {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
+    getStore: PropTypes.func,
   };
 
   static propTypes = {
@@ -182,6 +185,19 @@ class SummaryPage extends React.Component {
     } = this.context;
     const itineraries = (plan && plan.itineraries) || [];
     const activeIndex = getActiveIndex(location, itineraries);
+    triggerMessage(
+      from.lat,
+      from.lon,
+      this.context,
+      this.context.getStore(MessageStore).getMessages(),
+    );
+
+    triggerMessage(
+      to.lat,
+      to.lon,
+      this.context,
+      this.context.getStore(MessageStore).getMessages(),
+    );
 
     const leafletObjs = sortBy(
       itineraries.map((itinerary, i) => (
