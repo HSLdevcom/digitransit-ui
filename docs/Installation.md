@@ -61,7 +61,7 @@ By default digitransit-ui uses services from https://dev-api.digitransit.fi but 
 - `yarn run build`
 - `API_URL=https://api.digitransit.fi yarn run start`
 
-If you want to specify different URL (not just base URL) for individual services, you can define variables OTP_URL, ALERTS_URL, VEHICLE_URL and/or GEOCODING_BASE_URL (URL path before /search or /reverse).
+If you want to specify different URL (not just base URL) for individual services, you can define variables OTP_URL, MAP_URL and/or GEOCODING_BASE_URL (URL path before /search or /reverse).
 - `yarn run build`
 - `GEOCODING_BASE_URL=https://api.digitransit.fi/geocoding/v1 OTP_URL=https://api.digitransit.fi/routing/v1/routers/finland/ yarn run start`
 
@@ -69,3 +69,6 @@ If you want to specify different URL (not just base URL) for individual services
 Sentry can be configured like so:
 - `yarn run build`
 - `SENTRY_DSN=https://xxxxx@app.getsentry.com/zzzzz SENTRY_SECRET_DSN=https://xxxx:yyyy@app.getsentry.com/zzzzz yarn run start`
+
+### Configuring static message URL with env variable
+- `STATIC_MESSAGE_URL=https://dev-yleisviesti.digitransit.fi yarn run start`

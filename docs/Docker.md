@@ -34,7 +34,9 @@ There are also optional variables:
 - `-e API_URL=<..>`
 - `-e MAP_URL=<..>`
 - `-e OTP_URL=<..>`
+- `-e GEOCODING_BASE_URL=<..>`
 - `-e ASSET_URL=<..>`
+- `-e STATIC_MESSAGE_URL=<..>`
 - `-e RELAY_FETCH_TIMEOUT=<..>`
 - `-e NODE_OPTS=<..>`
 

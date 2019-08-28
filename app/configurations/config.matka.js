@@ -3,6 +3,9 @@ const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
+const STATIC_MESSAGE_URL =
+  process.env.STATIC_MESSAGE_URL ||
+  'https://beta.vayla.fi/joukkoliikenne/yleisviesti/';
 
 // route timetable data needs to be up-to-date before this is enabled
 // const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
@@ -194,5 +197,5 @@ export default {
       },
     ],
   },
-  staticMessagesUrl: 'https://beta.vayla.fi/joukkoliikenne/yleisviesti/',
+  staticMessagesUrl: STATIC_MESSAGE_URL,
 };
