@@ -60,7 +60,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://cmqttdev.cinfra.fi',
+    mqtt: 'wss://mqtt.hsl.fi',
 
     gtfsrt: false,
 
