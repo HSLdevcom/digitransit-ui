@@ -19,8 +19,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
-import { findFeatures } from '../../util/geo-utils';
-import { updateMessage } from '../../action/MessageActions';
+import triggerMessage from '../../util/messageUtils';
 
 const DEFAULT_ZOOM = 12;
 const FOCUS_ZOOM = 16;
@@ -138,7 +137,7 @@ class MapWithTrackingStateHandler extends React.Component {
       const lon = this.state.focusOnDestination
         ? this.state.destination.lon
         : this.state.origin.lon;
-      await this.triggerMessage(lat, lon);
+      await triggerMessage(lat, lon, this.context, this.props.messages);
     }
   }
 
@@ -152,7 +151,12 @@ class MapWithTrackingStateHandler extends React.Component {
         !this.state.origin.gps) // current position selected
     ) {
       this.usePosition(newProps.origin);
-      this.triggerMessage(newProps.origin.lat, newProps.origin.lon);
+      triggerMessage(
+        newProps.origin.lat,
+        newProps.origin.lon,
+        this.context,
+        this.props.messages,
+      );
     } else if (
       // "current position selected"
       newProps.destination.lat !== null &&
@@ -163,7 +167,12 @@ class MapWithTrackingStateHandler extends React.Component {
         !this.state.destination.gps) // current position selected
     ) {
       this.usePosition(newProps.destination);
-      this.triggerMessage(newProps.destination.lat, newProps.destination.lon);
+      triggerMessage(
+        newProps.destination.lat,
+        newProps.destination.lon,
+        this.context,
+        this.props.messages,
+      );
     } else if (
       // "poi selected"
       !newProps.origin.gps &&
@@ -173,7 +182,12 @@ class MapWithTrackingStateHandler extends React.Component {
       newProps.origin.lon != null
     ) {
       this.useOrigin(newProps.origin);
-      this.triggerMessage(newProps.origin.lat, newProps.origin.lon);
+      triggerMessage(
+        newProps.origin.lat,
+        newProps.origin.lon,
+        this.context,
+        this.props.messages,
+      );
     } else if (
       // destination selected without poi
       !newProps.destination.gps &&
@@ -183,7 +197,12 @@ class MapWithTrackingStateHandler extends React.Component {
       newProps.destination.lon != null
     ) {
       this.useDestination(newProps.destination);
-      this.triggerMessage(newProps.destination.lat, newProps.destination.lon);
+      triggerMessage(
+        newProps.destination.lat,
+        newProps.destination.lon,
+        this.context,
+        this.props.messages,
+      );
     }
   }
 
@@ -255,26 +274,6 @@ class MapWithTrackingStateHandler extends React.Component {
       }
     }
     return geoHashes;
-  };
-
-  triggerMessage = (lat, lon) => {
-    const messages = this.props.messages.filter(
-      msg => !msg.shouldTrigger && msg.content && msg.geoJson,
-    );
-    messages.forEach(msg => {
-      return new Promise(resolve => {
-        resolve(this.props.getGeoJsonData(msg.geoJson));
-      }).then(value => {
-        const data = findFeatures(
-          { lat, lon },
-          (value && value.data && value.data.features) || [],
-        );
-        if (data.length > 0) {
-          msg.shouldTrigger = true; // eslint-disable-line no-param-reassign
-          this.context.executeAction(updateMessage, msg);
-        }
-      });
-    });
   };
 
   startClient() {

@@ -89,6 +89,7 @@ class MessageStore extends Store {
     } else {
       message.shouldTrigger = true;
     }
+
     this.messages.set(message.id, message);
     this.emitChange();
   };
