@@ -74,6 +74,12 @@ export default configMerger(walttiConfig, {
       { label: `© Salo ${walttiConfig.YEAR}` },
       {},
       {
+        name: 'footer-feedback',
+        nameEn: 'Submit feedback',
+        href: 'https://www.salo.fi/kaupunkijahallinto/osallistu/palaute/?sub=liikennepalvelut',
+        icon: 'icon-icon_speech-bubble',
+      },
+      {
         name: 'about-this-service',
         nameEn: 'About this service',
         route: '/tietoja-palvelusta',
