@@ -226,12 +226,4 @@ export default configMerger(walttiConfig, {
   timetables: {
     tampere: tampereTimetables,
   },
-
-  // enable train routing for tampere
-  transportModes: {
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-  },
 });
