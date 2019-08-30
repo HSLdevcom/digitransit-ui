@@ -11,6 +11,7 @@ describe('<StopAlertsContainer />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
     const props = {
       stop: {
+        code: '321',
         alerts: [],
         stoptimes: [
           {
@@ -43,6 +44,7 @@ describe('<StopAlertsContainer />', () => {
   it('should indicate that there is a service alert on a route', () => {
     const props = {
       stop: {
+        code: '321',
         alerts: [],
         stoptimes: [
           {
@@ -71,6 +73,7 @@ describe('<StopAlertsContainer />', () => {
   it('should indicate that there is a canceled stoptime on a route', () => {
     const props = {
       stop: {
+        code: '431',
         alerts: [],
         stoptimes: [
           {
@@ -99,6 +102,7 @@ describe('<StopAlertsContainer />', () => {
   it('should indicate that the stop itself has a service alert', () => {
     const props = {
       stop: {
+        code: '321',
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
@@ -114,6 +118,7 @@ describe('<StopAlertsContainer />', () => {
   it('should use the stoptime as the startTime for validityPeriod', () => {
     const props = {
       stop: {
+        code: '321',
         alerts: [],
         stoptimes: [
           {
@@ -146,6 +151,7 @@ describe('<StopAlertsContainer />', () => {
   it('should omit duplicate route alerts', () => {
     const props = {
       stop: {
+        code: '321',
         alerts: [],
         stoptimes: [
           {

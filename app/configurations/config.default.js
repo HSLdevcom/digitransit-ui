@@ -41,6 +41,10 @@ export default {
       HSL: `${API_URL}/timetables/v1/hsl/routes/`,
       tampere: 'http://joukkoliikenne.tampere.fi/media/aikataulut/',
     },
+    STOP_TIMETABLES: {
+      HSL: `${API_URL}/timetables/v1/hsl/stops/`,
+      tampere: 'https://www.tampere.fi/ekstrat/ptdata/pdf/',
+    },
   },
 
   APP_PATH: `${APP_PATH}`,
@@ -764,5 +768,5 @@ export default {
     },
   },
 
-  routeTimetables: {},
+  timetables: {},
 };

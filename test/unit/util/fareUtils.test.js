@@ -218,5 +218,48 @@ describe('fareUtils', () => {
       expect(unknown.routeGtfsId).to.equal('FOO:1234');
       expect(unknown.routeName).to.equal('Merisataman lautta');
     });
+
+    it('should not suggest unknown tickets if the total fare is known', () => {
+      const fares = [
+        {
+          cents: 280,
+          components: [
+            {
+              cents: 280,
+              fareId: 'HSL:AB',
+              routes: [
+                {
+                  agency: {
+                    gtfsId: 'HSL:HSL',
+                  },
+                  gtfsId: 'HSL:1003',
+                },
+              ],
+            },
+          ],
+          type: 'regular',
+        },
+      ];
+      const routes = [
+        {
+          agency: {
+            gtfsId: 'HSL:HSL',
+          },
+          gtfsId: 'HSL:foo',
+          longName: 'route with a certain block id',
+        },
+        {
+          agency: {
+            gtfsId: 'HSL:HSL',
+          },
+          gtfsId: 'HSL:bar',
+          longName: 'this has the same block id',
+        },
+      ];
+
+      const result = getFares(fares, routes, defaultConfig);
+      expect(result).to.have.lengthOf(1);
+      expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(0);
+    });
   });
 });

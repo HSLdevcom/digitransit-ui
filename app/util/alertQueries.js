@@ -80,6 +80,16 @@ export const StopAlertsQuery = Relay.QL`
  */
 export const StopAlertsWithContentQuery = Relay.QL`
   fragment on Stop {
+    id
+    gtfsId
+    code
+    stops {
+      id
+      gtfsId
+      alerts {
+      ${AlertContentQuery}
+      }
+    }
     alerts {
       ${AlertContentQuery}
     }

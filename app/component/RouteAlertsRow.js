@@ -90,6 +90,9 @@ export default function RouteAlertsRow(
         ))
       : [];
 
+  const checkedUrl =
+    url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
+
   return (
     <div className={cx('route-alert-row', { expired })}>
       {(entityType === 'route' &&
@@ -134,7 +137,7 @@ export default function RouteAlertsRow(
                     <div className={entityMode}>{entityIdentifier}</div>
                   ))))}
             {url && (
-              <ExternalLink className="route-alert-url" href={url}>
+              <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
               </ExternalLink>
             )}

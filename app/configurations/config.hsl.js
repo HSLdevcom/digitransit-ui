@@ -3,10 +3,12 @@ const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const STATIC_MESSAGE_URL =
+  process.env.STATIC_MESSAGE_URL || 'https://dev-yleisviesti.digitransit.fi';
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 const YEAR = 1900 + new Date().getYear();
 
-const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 
 export default {
   CONFIG,
@@ -17,7 +19,6 @@ export default {
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/v1/hsl-parkandride-map/`,
     TICKET_SALES_MAP: `${MAP_URL}/map/v1/hsl-ticket-sales-map/`,
     FONT: 'https://cloud.typography.com/6364294/7572592/css/fonts.css',
-    STOP_TIMETABLES: `${API_URL}/timetables/v1/hsl/stops/`,
     CITYBIKE_MAP: `${MAP_URL}/map/v1/hsl-citybike-map/`,
   },
 
@@ -325,8 +326,8 @@ export default {
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
-  routeTimetables: {
-    HSL: HSLRouteTimetable,
+  timetables: {
+    HSL: HSLTimetables,
   },
 
   aboutThisService: {
@@ -451,7 +452,7 @@ export default {
       },
     },
   ],
-  staticMessagesUrl: 'https://yleisviesti.hsldev.com/',
+  staticMessagesUrl: STATIC_MESSAGE_URL,
   geoJson: {
     layers: [
       {
