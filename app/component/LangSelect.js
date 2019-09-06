@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import moment from 'moment';
 import ComponentUsageExample from './ComponentUsageExample';
 import { setLanguage } from '../action/userPreferencesActions';
 import { isBrowser } from '../util/browser';
 
-const selectLanguage = (executeAction, lang) => () =>
+const selectLanguage = (executeAction, lang) => () => {
   executeAction(setLanguage, lang);
+  moment.locale(lang);
+};
 
 const language = (lang, currentLanguage, highlight, executeAction) => (
   <button
