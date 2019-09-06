@@ -37,7 +37,7 @@ function DateSelect(props, context) {
         value={date.add(1, 'd').format(props.dateFormat)}
         key={date.format(props.dateFormat)}
       >
-        {date.format('dd D.M')}
+        {date.format('dd D.M.')}
       </option>,
     );
   }

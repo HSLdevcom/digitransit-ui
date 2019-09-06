@@ -55,7 +55,7 @@ class TimeSelectorContainer extends Component {
           defaultMessage: 'Tomorrow',
         });
       } else {
-        label = day.format('dd D.M');
+        label = day.format('dd D.M.');
       }
       dates.push(
         <option value={value} key={value}>
