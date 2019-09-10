@@ -114,6 +114,8 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
   now: context.getStore('TimeStore').getCurrentTime(),
 }));
 
-export default getContext({
+const connectedContainer = getContext({
   location: locationShape.isRequired,
 })(withNow);
+
+export { connectedContainer as default, TimeSelectorContainer as Component };
