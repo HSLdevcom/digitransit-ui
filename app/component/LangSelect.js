@@ -8,6 +8,10 @@ import { isBrowser } from '../util/browser';
 
 const selectLanguage = (executeAction, lang) => () => {
   executeAction(setLanguage, lang);
+  if (lang !== 'en') {
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    require(`moment/locale/${lang}`);
+  }
   moment.locale(lang);
 };
 
@@ -70,4 +74,4 @@ const connected = connectToStores(
   }),
 );
 
-export { connected as default, LangSelect as Component };
+export { connected as default, LangSelect as Component, selectLanguage };
