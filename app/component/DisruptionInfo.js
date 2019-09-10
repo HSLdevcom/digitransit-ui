@@ -37,7 +37,6 @@ function DisruptionInfo(props, context) {
   };
 
   const disruptionModalModules = {
-    Drawer: () => importLazy(import('material-ui/Drawer')),
     CustomizeSearch: () => importLazy(import('./Modal')),
   };
 
