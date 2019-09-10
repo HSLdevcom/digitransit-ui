@@ -3,6 +3,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
+import LazilyLoad, { importLazy } from './LazilyLoad';
 
 import Modal from './Modal';
 import Loading from './Loading';
@@ -35,7 +36,12 @@ function DisruptionInfo(props, context) {
     }
   };
 
-  return (
+  const disruptionModalModules = {
+    Drawer: () => importLazy(import('material-ui/Drawer')),
+    CustomizeSearch: () => importLazy(import('./Modal')),
+  };
+
+  const renderContent = (
     <Modal
       disableScrolling
       open
@@ -54,18 +60,26 @@ function DisruptionInfo(props, context) {
           name: 'ViewerRoute',
           queries: {
             root: (Component, { feedIds }) => Relay.QL`
-                query {
-                  viewer {
-                    ${Component.getFragment('root', { feedIds })}
-                  }
-                }
-             `,
+      query {
+        viewer {
+          ${Component.getFragment('root', { feedIds })}
+        }
+      }
+   `,
           },
           params: { feedIds: context.config.feedIds },
         }}
         renderLoading={() => <Loading />}
       />
     </Modal>
+  );
+
+  return (
+    <React.Fragment>
+      <LazilyLoad modules={disruptionModalModules}>
+        {() => renderContent}
+      </LazilyLoad>
+    </React.Fragment>
   );
 }
 
