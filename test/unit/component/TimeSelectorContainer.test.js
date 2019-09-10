@@ -21,6 +21,11 @@ describe('<TimeSelectorContainer />', () => {
   const startUnix = moment.unix(defaultProps.serviceTimeRange.start);
   const endUnix = moment.unix(defaultProps.serviceTimeRange.end);
 
+  after(() => {
+    moment.locale('en');
+    moment.tz.setDefault();
+  });
+
   it('should render as many options as there are days between start and end including start but excluding end', () => {
     const wrapper = mountWithIntl(<TimeSelectorContainer {...defaultProps} />, {
       context: { ...mockContext },

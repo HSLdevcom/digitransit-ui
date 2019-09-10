@@ -12,6 +12,11 @@ import {
 } from '../../../app/component/LangSelect';
 
 describe('LangSelect', () => {
+  after(() => {
+    moment.locale('en');
+    moment.tz.setDefault();
+  });
+
   describe('<LangSelect />', () => {
     it('should render', () => {
       const wrapper = shallowWithIntl(<LangSelect currentLanguage="en" />, {

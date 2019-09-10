@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import moment from 'moment';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import configureMoment from '../../../app/util/configure-moment';
@@ -13,6 +14,11 @@ describe('<DateSelect />', () => {
     dateFormat: 'YYYYMMDD',
     onDateChange: event => event.target.value,
   };
+
+  after(() => {
+    moment.locale('en');
+    moment.tz.setDefault();
+  });
 
   it('should render 30 options', () => {
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
