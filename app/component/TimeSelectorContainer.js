@@ -55,7 +55,7 @@ class TimeSelectorContainer extends Component {
           defaultMessage: 'Tomorrow',
         });
       } else {
-        label = day.format('dd D.M');
+        label = day.format('dd D.M.');
       }
       dates.push(
         <option value={value} key={value}>
@@ -114,6 +114,8 @@ const withNow = connectToStores(TSCWithProps, ['TimeStore'], context => ({
   now: context.getStore('TimeStore').getCurrentTime(),
 }));
 
-export default getContext({
+const connectedContainer = getContext({
   location: locationShape.isRequired,
 })(withNow);
+
+export { connectedContainer as default, TimeSelectorContainer as Component };
