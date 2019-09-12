@@ -166,7 +166,7 @@ export default {
       );
     },
 
-    mqtt: 'ws://dev-mqtt.lmj.fi/mqtt',
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
 
     credentials: { username: 'user', password: 'userpass' },
 
