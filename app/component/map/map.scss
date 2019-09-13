@@ -189,7 +189,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
 .vehicle-popup {
   left: -19px !important;
-  
+
   .route-header {
     height: auto;
     border: none;
@@ -267,7 +267,6 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
 
 .popup {
   left: -21px !important;
-  
   .route-header {
     height: auto;
     border: none;
@@ -283,6 +282,7 @@ div.leaflet-marker-icon.vehicle-icon.small-map-icon {
     width: 20rem !important;
     &.leaflet-popup-scrolled {
       overflow: inherit;
+      height: auto !important;
     }
   }
   .card {

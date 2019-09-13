@@ -36,6 +36,10 @@ describe('<MarkerSelectPopup />', () => {
         },
       ],
       selectRow: () => {},
+      location: {
+        lat: 60.169525626502484,
+        lng: 24.933235645294193,
+      },
     };
     const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />);
     expect(wrapper.isEmptyRender()).to.equal(false);

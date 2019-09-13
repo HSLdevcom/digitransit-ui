@@ -8,6 +8,7 @@ import SelectCityBikeRow from './SelectCityBikeRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectTicketSalesRow from './SelectTicketSalesRow';
 import ComponentUsageExample from '../../ComponentUsageExample';
+import MarkerPopupBottom from '../MarkerPopupBottom';
 import { options } from '../../ExampleData';
 
 function MarkerSelectPopup(props) {
@@ -67,6 +68,15 @@ function MarkerSelectPopup(props) {
       </h3>
       <hr className="no-margin gray" />
       <div className="scrollable momentum-scroll card-row">{rows}</div>
+      <div>
+        <MarkerPopupBottom
+          location={{
+            address: props.options[0].feature.properties.name,
+            lat: props.location.lat,
+            lon: props.location.lng,
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -85,6 +95,7 @@ MarkerSelectPopup.description = (
 MarkerSelectPopup.propTypes = {
   options: PropTypes.array.isRequired,
   selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+  location: PropTypes.object.isRequired,
 };
 
 export default MarkerSelectPopup;
