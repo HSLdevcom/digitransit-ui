@@ -58,6 +58,35 @@ describe('gtfsRtParser', () => {
       ]);
     });
 
+    it('GTFS RT vehicle position data for a bus route without headsign should be parsed correctly', () => {
+      const result = parseFeedMQTT(
+        bindings.FeedMessage.read,
+        route2.arrayBuffer,
+        '/gtfsrt/vp/tampere////8/1//5645934646//14:35/130210/61;23/47/62/47/',
+        route2.agency,
+        route2.mode,
+      );
+
+      expect(result).to.deep.equal([
+        {
+          id: 'tampere:130210',
+          route: 'tampere:8',
+          direction: 1,
+          tripStartTime: '1435',
+          operatingDay: '20190326',
+          mode: 'bus',
+          next_stop: undefined,
+          timestamp: 1553604421,
+          lat: 61.50812,
+          long: 23.66348,
+          heading: 55,
+          headsign: undefined,
+          tripId: '5645934646',
+          geoHash: ['61;23', '47', '62', '47'],
+        },
+      ]);
+    });
+
     it('GTFS RT vehicle position data for a tram route should be parsed correctly', () => {
       const result = parseFeedMQTT(
         bindings.FeedMessage.read,

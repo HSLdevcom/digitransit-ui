@@ -43,9 +43,9 @@ export const parseFeedMQTT = (feedParser, data, topic, agency, mode) => {
           timestamp: vehiclePos.timestamp || feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
-          heading: position.bearing ? Math.floor(position.bearing) : 0,
-          headsign,
-          tripId,
+          heading: position.bearing ? Math.floor(position.bearing) : undefined,
+          headsign: headsign === '' ? undefined : headsign,
+          tripId: tripId === '' ? undefined : tripId,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],
         };
         messages.push(message);

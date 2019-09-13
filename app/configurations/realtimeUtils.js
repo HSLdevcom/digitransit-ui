@@ -133,4 +133,47 @@ export default {
 
     active: true,
   },
+  FOLI: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign, // eslint-disable-line no-unused-vars
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        route +
+        '/' +
+        direction +
+        '/+/' +
+        tripId +
+        '/+/' +
+        tripStartTime +
+        '/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
+    },
+
+    mqtt: 'wss://mqtt.lmj.fi/mqtt',
+
+    credentials: { username: 'user', password: 'userpass' },
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
