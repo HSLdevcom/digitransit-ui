@@ -84,10 +84,18 @@ function MarkerSelectPopup(props) {
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
 
 MarkerSelectPopup.description = (
-  <div>
+  <div className="popup">
     <p>Renders a marker select popup</p>
     <ComponentUsageExample description="">
-      <MarkerSelectPopup options={options} selectRow={() => {}} />
+      <MarkerSelectPopup
+        options={options}
+        selectRow={() => {}}
+        location={{
+          lat: 60.169522909062366,
+          lng: 24.933385848999027,
+          address: 'Kamppi (kaukoliikenneterminaali)',
+        }}
+      />
     </ComponentUsageExample>
   </div>
 );
