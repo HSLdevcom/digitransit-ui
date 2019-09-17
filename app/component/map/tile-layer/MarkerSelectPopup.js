@@ -61,8 +61,6 @@ function MarkerSelectPopup(props) {
     return null;
   });
 
-  console.log(props.options);
-
   return (
     <div className="card marker-select-popup">
       <h3 className="padding-normal gray">
