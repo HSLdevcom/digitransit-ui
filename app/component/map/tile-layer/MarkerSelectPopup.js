@@ -61,6 +61,8 @@ function MarkerSelectPopup(props) {
     return null;
   });
 
+  console.log(props.options);
+
   return (
     <div className="card marker-select-popup">
       <h3 className="padding-normal gray">
@@ -71,7 +73,9 @@ function MarkerSelectPopup(props) {
       <div>
         <MarkerPopupBottom
           location={{
-            address: props.options[0].feature.properties.name,
+            address:
+              props.options[0].feature.properties.name ||
+              props.options[0].feature.properties.NIMI,
             lat: props.location.lat,
             lon: props.location.lng,
           }}
