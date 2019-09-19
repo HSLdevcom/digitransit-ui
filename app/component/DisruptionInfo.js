@@ -4,8 +4,6 @@ import Relay from 'react-relay/classic';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, locationShape } from 'react-router';
 import LazilyLoad, { importLazy } from './LazilyLoad';
-
-import Modal from './Modal';
 import Loading from './Loading';
 import DisruptionListContainer from './DisruptionListContainer';
 import ComponentUsageExample from './ComponentUsageExample';
@@ -37,10 +35,10 @@ function DisruptionInfo(props, context) {
   };
 
   const disruptionModalModules = {
-    CustomizeSearch: () => importLazy(import('./Modal')),
+    Modal: () => importLazy(import('./Modal')),
   };
 
-  const renderContent = (
+  const renderContent = Modal => (
     <Modal
       disableScrolling
       open
@@ -76,7 +74,7 @@ function DisruptionInfo(props, context) {
   return (
     <React.Fragment>
       <LazilyLoad modules={disruptionModalModules}>
-        {() => renderContent}
+        {({ Modal }) => renderContent(Modal)}
       </LazilyLoad>
     </React.Fragment>
   );
