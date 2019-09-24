@@ -20,6 +20,8 @@ import {
   getServiceAlertsForStopRoutes,
   isAlertActive,
   getActiveAlertSeverityLevel,
+  routeHasServiceAlert,
+  routeHasCancelation,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -75,9 +77,23 @@ function StopPageTabContainer(
       currentTime,
     );
 
+  const routesHaveServiceAlerts = [];
+  const routesHaveDisruptions = [];
+
+  if (stop.routes) {
+    routesHaveServiceAlerts.concat(
+      ...stop.routes.filter(o => routeHasServiceAlert(o)),
+    );
+    routesHaveDisruptions.concat(
+      ...stop.routes.filter(o => routeHasCancelation(o)),
+    );
+  }
+
   const disruptionClassName =
-    (hasActiveAlert && 'active-disruption-alert') ||
-    (hasActiveServiceAlerts && 'active-service-alert');
+    ((hasActiveAlert || routesHaveDisruptions.length > 0) &&
+      'active-disruption-alert') ||
+    ((hasActiveServiceAlerts || routesHaveServiceAlerts.length > 0) &&
+      'active-service-alert');
 
   return (
     <div className="stop-page-content-wrapper">
@@ -146,8 +162,10 @@ function StopPageTabContainer(
             to={`${urlBase}/${Tab.Disruptions}`}
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
-              'alert-active': hasActiveAlert,
-              'service-alert-active': hasActiveServiceAlerts,
+              'alert-active':
+                hasActiveAlert || routesHaveDisruptions.length > 0,
+              'service-alert-active':
+                hasActiveServiceAlerts || routesHaveServiceAlerts.length > 0,
             })}
           >
             <div className="stop-tab-singletab-container">
@@ -243,10 +261,24 @@ const containerComponent = Relay.createContainer(
                 code
               }
               route {
+                gtfsId
+                shortName
+                longName
+                mode
+                color
                 ${RouteAlertsQuery}
                 ${RouteAlertsWithContentQuery}
               }
             }
+          }
+          routes {
+            gtfsId
+            shortName
+            longName
+            mode
+            color
+            ${RouteAlertsQuery}
+            ${RouteAlertsWithContentQuery}
           }
         }
       `,
