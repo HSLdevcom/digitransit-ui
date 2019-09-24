@@ -241,6 +241,7 @@ export const getSettings = () => {
     preferredRoutes: custSettings.preferredRoutes,
     unpreferredRoutes: custSettings.unpreferredRoutes,
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
+    locale: custSettings.locale,
   };
 };
 
@@ -269,6 +270,7 @@ export const preparePlanParams = config => (
         walkReluctance,
         walkSpeed,
         allowedBikeRentalNetworks,
+        locale,
       },
     },
   },
@@ -401,6 +403,7 @@ export const preparePlanParams = config => (
           settings,
           intermediatePlaceLocations,
         ),
+        locale,
       },
       nullOrUndefined,
     ),
