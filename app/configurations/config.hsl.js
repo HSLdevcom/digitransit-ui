@@ -188,7 +188,6 @@ export default {
     [25.2242, 60.5016],
     [25.3661, 60.4118],
     [25.3652, 60.3756],
-    [25.5345, 60.2592],
   ],
 
   // If certain mode(s) only exist in limited number of areas, that are unwanted or unlikely places for transfers,
@@ -263,7 +262,6 @@ export default {
         [25.547057, 60.126195],
         [25.516869, 59.979617],
         [24.637799, 59.885142],
-        [24.63006, 60.074576],
       ],
     ],
   },
