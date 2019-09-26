@@ -26,12 +26,12 @@ import {
   getActiveAlertSeverityLevel,
   getServiceAlertsForStop,
   getCancelationsForStop,
+  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   RouteAlertsQuery,
-  StopAlertsQuery,
   StopAlertsWithContentQuery,
 } from '../util/alertQueries';
 
@@ -201,9 +201,14 @@ class RoutePage extends React.Component {
           pattern.stops &&
           pattern.stops.forEach(
             stop =>
-              stop.alerts &&
-              (routePatternStopAlerts.push(...getServiceAlertsForStop(stop)) &&
-                routePatternStopAlerts.push(...getCancelationsForStop(stop))),
+              isAlertActive(
+                getCancelationsForStop(stop),
+                [
+                  ...getServiceAlertsForStop(stop),
+                  ...getServiceAlertsForStopRoutes(stop),
+                ],
+                currentTime,
+              ) && routePatternStopAlerts.push(...stop.alerts),
           ),
       );
     }
@@ -339,7 +344,6 @@ const containerComponent = Relay.createContainer(withBreakpoint(RoutePage), {
           headsign
           code
           stops {
-            ${StopAlertsQuery}
             ${StopAlertsWithContentQuery}
           }
           trips: tripsForDate(serviceDay: $serviceDay) {

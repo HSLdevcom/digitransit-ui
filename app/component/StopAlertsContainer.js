@@ -10,7 +10,6 @@ import { DATE_FORMAT } from '../constants';
 import {
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
-  RouteAlertsQuery,
 } from '../util/alertQueries';
 import {
   getCancelationsForStop,
@@ -129,7 +128,6 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
           longName
           mode
           color
-          ${RouteAlertsQuery}
           ${RouteAlertsWithContentQuery}
         }
         ${StopAlertsWithContentQuery}
@@ -152,7 +150,6 @@ const containerComponent = Relay.createContainer(StopAlertsContainer, {
               mode
               shortName
               gtfsId
-              ${RouteAlertsQuery}
               ${RouteAlertsWithContentQuery}
             }
             stops {
