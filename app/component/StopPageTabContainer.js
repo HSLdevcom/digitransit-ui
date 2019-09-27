@@ -246,7 +246,6 @@ const containerComponent = Relay.createContainer(
     fragments: {
       stop: () => Relay.QL`
         fragment on Stop {
-          ${StopAlertsQuery}
           ${StopAlertsWithContentQuery}
           vehicleMode
           stoptimes: stoptimesWithoutPatterns(
@@ -266,7 +265,6 @@ const containerComponent = Relay.createContainer(
                 longName
                 mode
                 color
-                ${RouteAlertsQuery}
                 ${RouteAlertsWithContentQuery}
               }
             }
@@ -277,7 +275,6 @@ const containerComponent = Relay.createContainer(
             longName
             mode
             color
-            ${RouteAlertsQuery}
             ${RouteAlertsWithContentQuery}
           }
         }

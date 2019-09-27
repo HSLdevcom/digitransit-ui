@@ -199,17 +199,18 @@ class RoutePage extends React.Component {
       route.patterns.forEach(
         pattern =>
           pattern.stops &&
-          pattern.stops.forEach(
-            stop =>
-              isAlertActive(
-                getCancelationsForStop(stop),
+          pattern.stops.forEach(stop => {
+            return (
+              getActiveAlertSeverityLevel(
                 [
+                  ...getCancelationsForStop(stop),
                   ...getServiceAlertsForStop(stop),
                   ...getServiceAlertsForStopRoutes(stop),
                 ],
                 currentTime,
-              ) && routePatternStopAlerts.push(...stop.alerts),
-          ),
+              ) && routePatternStopAlerts.push(...stop.alerts)
+            );
+          }),
       );
     }
 
@@ -217,6 +218,7 @@ class RoutePage extends React.Component {
       getServiceAlertsForRoute(route, patternId),
       currentTime,
     );
+
     const disruptionClassName =
       ((hasActiveAlert ||
         routePatternStopAlerts.find(
