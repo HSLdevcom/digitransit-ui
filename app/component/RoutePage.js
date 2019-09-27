@@ -222,12 +222,16 @@ class RoutePage extends React.Component {
     const disruptionClassName =
       ((hasActiveAlert ||
         routePatternStopAlerts.find(
-          alert => alert.severityLevel === AlertSeverityLevelType.Severe,
+          alert =>
+            alert.severityLevel ===
+            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
         )) &&
         'active-disruption-alert') ||
       ((hasActiveServiceAlerts ||
         routePatternStopAlerts.find(
-          alert => alert.severityLevel !== AlertSeverityLevelType.Severe,
+          alert =>
+            alert.severityLevel !==
+            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
         )) &&
         'active-service-alert');
 

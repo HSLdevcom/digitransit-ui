@@ -6,11 +6,9 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Relay from 'react-relay/classic';
 import { Link } from 'react-router';
 import some from 'lodash/some';
-
+import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
 import {
-  RouteAlertsQuery,
-  StopAlertsQuery,
   RouteAlertsWithContentQuery,
   StopAlertsWithContentQuery,
 } from '../util/alertQueries';
@@ -20,8 +18,9 @@ import {
   getServiceAlertsForStopRoutes,
   isAlertActive,
   getActiveAlertSeverityLevel,
-  routeHasServiceAlert,
-  routeHasCancelation,
+  getCancelationsForRoute,
+  getServiceAlertsForRoute,
+  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
@@ -77,22 +76,37 @@ function StopPageTabContainer(
       currentTime,
     );
 
-  const routesHaveServiceAlerts = [];
-  const routesHaveDisruptions = [];
+  const stopRoutesWithAlerts = [];
 
-  if (stop.routes) {
-    routesHaveServiceAlerts.concat(
-      ...stop.routes.filter(o => routeHasServiceAlert(o)),
-    );
-    routesHaveDisruptions.concat(
-      ...stop.routes.filter(o => routeHasCancelation(o)),
-    );
+  if (stop.routes && stop.routes.length > 0) {
+    stop.routes.forEach(route => {
+      return (
+        isAlertActive(
+          getCancelationsForRoute(route),
+          [
+            ...getServiceAlertsForRoute(route),
+            ...getServiceAlertsForRouteStops(route),
+          ],
+          currentTime,
+        ) && stopRoutesWithAlerts.push(...route.alerts)
+      );
+    });
   }
 
   const disruptionClassName =
-    ((hasActiveAlert || routesHaveDisruptions.length > 0) &&
+    ((hasActiveAlert ||
+      stopRoutesWithAlerts.find(
+        alert =>
+          alert.severityLevel ===
+          (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+      )) &&
       'active-disruption-alert') ||
-    ((hasActiveServiceAlerts || routesHaveServiceAlerts.length > 0) &&
+    ((hasActiveServiceAlerts ||
+      stopRoutesWithAlerts.find(
+        alert =>
+          alert.severityLevel !==
+          (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
+      )) &&
       'active-service-alert');
 
   return (
@@ -162,10 +176,9 @@ function StopPageTabContainer(
             to={`${urlBase}/${Tab.Disruptions}`}
             className={cx('stop-tab-singletab', {
               active: activeTab === Tab.Disruptions,
-              'alert-active':
-                hasActiveAlert || routesHaveDisruptions.length > 0,
+              'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
               'service-alert-active':
-                hasActiveServiceAlerts || routesHaveServiceAlerts.length > 0,
+                hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
             })}
           >
             <div className="stop-tab-singletab-container">
