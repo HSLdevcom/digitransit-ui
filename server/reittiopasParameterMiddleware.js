@@ -3,16 +3,25 @@ import isFinite from 'lodash/isFinite';
 import oldParamParser from '../app/util/oldParamParser';
 import { getConfiguration } from '../app/config';
 
+function formatQuery(query) {
+  const params = Object.keys(query)
+    .map(k => `${k}=${query[k]}`)
+    .join('&');
+
+  return `?${params}`;
+}
+
+function formatUrl(req) {
+  const query = formatQuery(req.query);
+  return `${req.path}?${query}`;
+}
+
 function removeUrlParam(req, param) {
   if (req.query[param]) {
     delete req.query[param];
   }
-  const params = Object.keys(req.query)
-    .map(k => `${k}=${req.query[k]}`)
-    .join('&');
-  const url = `${req.path}?${params}`;
 
-  return url;
+  return formatUrl(req);
 }
 
 export function validateParams(req, config) {
@@ -55,14 +64,12 @@ export function validateParams(req, config) {
   return url;
 }
 
-export const langParamParser = path => {
-  if (path.includes('/slangi/')) {
-    const newPath = path.replace('/slangi/', '/');
-    return newPath;
-  }
-  const lang = path.substring(0, 4);
-  const newPath = path.replace(lang, '/');
-  return newPath;
+export const dropLanguageAndRedirect = (req, res, lang) => {
+  const { path, query } = req;
+  // override locale query param with the selected language
+  query.locale = lang === 'slangi' ? 'fi' : lang;
+  const trimmedPath = path.replace(`/${lang}/`, '/') + formatQuery(query);
+  res.redirect(trimmedPath);
 };
 
 export default function reittiopasParameterMiddleware(req, res, next) {
@@ -87,13 +94,8 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       req.query.to_in
     ) {
       oldParamParser(req.query, config).then(url => res.redirect(url));
-    } else if (
-      ['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].some(param =>
-        req.path.includes(param),
-      )
-    ) {
-      const redirectPath = langParamParser(req.url);
-      res.redirect(redirectPath);
+    } else if (['fi', 'en', 'sv', 'ru', 'slangi'].includes(lang)) {
+      dropLanguageAndRedirect(req, res, lang);
     } else {
       next();
     }
