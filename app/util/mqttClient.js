@@ -57,7 +57,12 @@ export function parseMessage(topic, message, agency) {
     parsedMessage = message.VP;
   }
 
-  if (parsedMessage && parsedMessage.lat && parsedMessage.long) {
+  if (
+    parsedMessage &&
+    parsedMessage.lat &&
+    parsedMessage.long &&
+    (parsedMessage.seq === undefined || parsedMessage.seq === 1) // seq is used for hsl metro carriage sequence
+  ) {
     return {
       id: vehid,
       route: `${agency}:${line}`,
