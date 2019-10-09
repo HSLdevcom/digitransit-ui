@@ -41,13 +41,10 @@ export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
  */
 export const RANGE_PAST = 7;
 
-/**
- * The default number of days to include to the service time range from the future.
- */
-export const RANGE_FUTURE = 30;
-
-export const validateServiceTimeRange = (serviceTimeRange, now) => {
+// added itineraryFutureDays parameter (DT-3175)
+export const validateServiceTimeRange = (itineraryFutureDays, serviceTimeRange, now) => {
   const NOW = now ? moment.unix(now) : moment();
+  const RANGE_FUTURE = itineraryFutureDays ? itineraryFutureDays : 30;
   const START = NOW.clone()
     .subtract(RANGE_PAST, 'd')
     .unix();

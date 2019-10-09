@@ -226,4 +226,7 @@ export default configMerger(walttiConfig, {
   timetables: {
     tampere: tampereTimetables,
   },
+
+  // Number of days to include to the service time range from the future (DT-3175)
+  itineraryFutureDays: 60,
 });
