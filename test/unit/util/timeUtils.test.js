@@ -54,13 +54,9 @@ describe('timeUtils', () => {
       };
       const validated = validateServiceTimeRange(range, now);
       test(validated);
-      expect(
-        moment
-          .duration(
-            moment.unix(validated.end).diff(moment.unix(validated.start)),
-          )
-          .asDays(),
-      ).to.be.at.most(RANGE_FUTURE + RANGE_PAST + 1); // +1 for today
+      expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
+        RANGE_FUTURE + RANGE_PAST + 1,
+      ); // +1 for today
     });
   });
 });
