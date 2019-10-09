@@ -42,9 +42,13 @@ export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 export const RANGE_PAST = 7;
 
 // added itineraryFutureDays parameter (DT-3175)
-export const validateServiceTimeRange = (itineraryFutureDays, serviceTimeRange, now) => {
+export const validateServiceTimeRange = (
+  itineraryFutureDays,
+  serviceTimeRange,
+  now,
+) => {
   const NOW = now ? moment.unix(now) : moment();
-  const RANGE_FUTURE = itineraryFutureDays ? itineraryFutureDays : 30;
+  const RANGE_FUTURE = !itineraryFutureDays ? 30 : itineraryFutureDays;
   const START = NOW.clone()
     .subtract(RANGE_PAST, 'd')
     .unix();

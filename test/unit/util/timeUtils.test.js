@@ -20,7 +20,7 @@ describe('timeUtils', () => {
   describe('validateServiceTimeRange', () => {
     it('should return valid default time range from undefined input', () => {
       const range = null;
-      const futureDays = null; //DT-3175
+      const futureDays = null; // DT-3175
       test(validateServiceTimeRange(futureDays, range, now));
     });
 
@@ -29,7 +29,7 @@ describe('timeUtils', () => {
         start: now + 3600, // future
         end: now - 3600, // past
       };
-      const futureDays = null; //DT-3175
+      const futureDays = null; // DT-3175
       test(validateServiceTimeRange(futureDays, range, now));
     });
 
@@ -38,7 +38,7 @@ describe('timeUtils', () => {
         start: now - 3600 * 24, // yesterday
         end: now + 3600 * 24 * 7, // next week
       };
-      const futureDays = null; //DT-3175
+      const futureDays = null; // DT-3175
       const validated = validateServiceTimeRange(futureDays, range, now);
       test(validated);
       expect(moment.unix(validated.start).dayOfYear()).to.equal(
@@ -54,7 +54,7 @@ describe('timeUtils', () => {
         start: now - 3600 * 24 * 365 * 2, // 2 years in the past
         end: now + 3600 * 24 * 365 * 2,
       };
-      const RANGE_FUTURE = 30; //DT-3175
+      const RANGE_FUTURE = 30; // DT-3175
       const validated = validateServiceTimeRange(RANGE_FUTURE, range, now);
       test(validated);
       expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
