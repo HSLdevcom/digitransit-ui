@@ -74,5 +74,33 @@ describe('mqttClient', () => {
       const message = parseMessage(metroTopic, testMessage, 'HSL');
       expect(message.mode).to.equal('subway');
     });
+
+    it('should return message when message.seq is 1', () => {
+      const metroTopic =
+        '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
+      const seqOneMessage = {
+        VP: {
+          lat: 123.123456,
+          long: 123.123456,
+          seq: 1,
+        },
+      };
+      const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
+      expect(message).to.not.equal(undefined);
+    });
+
+    it('should return undefined when message.seq is 2', () => {
+      const metroTopic =
+        '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
+      const seqOneMessage = {
+        VP: {
+          lat: 123.123456,
+          long: 123.123456,
+          seq: 2,
+        },
+      };
+      const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
+      expect(message).to.equal(undefined);
+    });
   });
 });
