@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 
-import FuzzyTripRoute from './FuzzyTripRoute';
+import FuzzyTripRoute from '../route/FuzzyTripRoute';
 import TripLink from './TripLink';
 import WalkDistance from './WalkDistance';
 import ServiceAlertIcon from './ServiceAlertIcon';
