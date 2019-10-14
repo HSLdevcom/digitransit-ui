@@ -123,8 +123,8 @@ function drawIconImageBadge(
 }
 
 /* eslint-disable no-param-reassign */
-export function drawRoundIcon(tile, geom, type, large, platformNumber) {
-  const scale = large ? 2 : 1;
+export function drawRoundIcon(tile, geom, type, customScale, platformNumber) {
+  const scale = customScale || 1;
   const caseRadius = getCaseRadius(tile.coords.z) * scale;
   const stopRadius = getStopRadius(tile.coords.z) * scale;
   const hubRadius = getHubRadius(tile.coords.z) * scale;
