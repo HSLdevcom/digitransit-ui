@@ -95,37 +95,36 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   async componentDidMount() {
+    if (!isBrowser) {
+      return;
+    }
     const { config, getGeoJsonData, getGeoJsonConfig } = this.props;
     if (
-      !isBrowser ||
-      !config.geoJson ||
-      (!Array.isArray(config.geoJson.layers) && !config.geoJson.layerConfigUrl)
+      config.geoJson &&
+      (Array.isArray(config.geoJson.layers) || config.geoJson.layerConfigUrl)
     ) {
-      return;
+      const layers = config.geoJson.layerConfigUrl
+        ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
+        : config.geoJson.layers;
+      if (Array.isArray(layers) && layers.length > 0) {
+        const json = await Promise.all(
+          layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
+            url,
+            isOffByDefault,
+            data: await getGeoJsonData(url, name, metadata),
+          })),
+        );
+        if (this.isCancelled) {
+          return;
+        }
+        const { geoJson } = this.state;
+        json.forEach(({ url, data, isOffByDefault }) => {
+          geoJson[url] = { ...data, isOffByDefault };
+        });
+        this.setState(geoJson);
+      }
     }
 
-    const layers = config.geoJson.layerConfigUrl
-      ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
-      : config.geoJson.layers;
-    if (!Array.isArray(layers) || layers.length === 0) {
-      return;
-    }
-
-    const json = await Promise.all(
-      layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
-        url,
-        isOffByDefault,
-        data: await getGeoJsonData(url, name, metadata),
-      })),
-    );
-    if (this.isCancelled) {
-      return;
-    }
-    const { geoJson } = this.state;
-    json.forEach(({ url, data, isOffByDefault }) => {
-      geoJson[url] = { ...data, isOffByDefault };
-    });
-    this.setState(geoJson);
     if (config.showAllBusses) {
       this.startClient();
     }
