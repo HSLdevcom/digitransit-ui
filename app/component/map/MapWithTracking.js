@@ -277,22 +277,30 @@ class MapWithTrackingStateHandler extends React.Component {
 
   startClient() {
     const { realTime, defaultEndpoint } = this.props.config;
-    const agency = this.props.config.feedIds[0];
-    const source = realTime[agency];
-    const location = this.props.origin.set
-      ? this.props.origin
-      : defaultEndpoint;
-    const options = [];
-    const geoHashes = this.createGeoHashBoundingBox(location);
-    geoHashes.forEach(geoHash => {
-      options.push({
-        mode: '+',
-        gtfsId: '+',
-        headsign: '+',
-        geoHash,
-      });
+    let agency;
+
+    /* handle multiple feedid case */
+    this.props.config.feedIds.forEach(ag => {
+      if (!agency && realTime[ag]) {
+        agency = ag;
+      }
     });
+    const source = agency && realTime[agency];
     if (source && source.active) {
+      const location = this.props.origin.set
+        ? this.props.origin
+        : defaultEndpoint;
+      const options = [];
+      const geoHashes = this.createGeoHashBoundingBox(location);
+      geoHashes.forEach(geoHash => {
+        options.push({
+          mode: '+',
+          gtfsId: '+',
+          headsign: '+',
+          geoHash,
+        });
+      });
+
       this.context.executeAction(startRealTimeClient, {
         ...source,
         agency,
