@@ -1,0 +1,657 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fahrrad Kaiser",
+        "name_en": "Fahrrad Kaiser",
+        "name_de": "Fahrrad Kaiser",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 09:00-16:00;Telefon: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 09:00-16:00;Phone: +49 7031 43589 0, <a href=\"https://www.fahrrad-kaiser.de/\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon",
+          "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"24\"   height=\"24\"   fill-rule=\"evenodd\"   clip-rule=\"evenodd\"   version=\"1.1\"   id=\"svg5254\"   sodipodi:docname=\"bikeshop2.svg\"   inkscape:version=\"0.92.1 r15371\">  <metadata     id=\"metadata5260\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />        <dc:title />      </cc:Work>    </rdf:RDF>  </metadata>  <defs     id=\"defs5258\" />  <sodipodi:namedview     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1\"     objecttolerance=\"10\"     gridtolerance=\"10\"     guidetolerance=\"10\"     inkscape:pageopacity=\"0\"     inkscape:pageshadow=\"2\"     inkscape:window-width=\"1920\"     inkscape:window-height=\"1051\"     id=\"namedview5256\"     showgrid=\"false\"     inkscape:zoom=\"9.8333333\"     inkscape:cx=\"11.460281\"     inkscape:cy=\"20.780456\"     inkscape:window-x=\"1366\"     inkscape:window-y=\"0\"     inkscape:window-maximized=\"1\"     inkscape:current-layer=\"svg5254\" />  <path     d=\"m 17.76839,14.293746 c 0.454,-0.136 0.937,-0.209 1.435,-0.209 2.759,0 5,2.24 5,5 0,2.76 -2.241,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-1.906 1.068,-3.564 2.639,-4.408 l -0.429,-1.039 -4.494,5.947 h -1.741 c -0.2510002,2.525 -2.3850002,4.5 -4.9750002,4.5 -2.76,0 -4.99999997,-2.24 -4.99999997,-5 0,-2.76 2.23999997,-5 4.99999997,-5 0.635,0 1.244,0.119 1.803,0.336 l 1.181,-2.331 -0.462,-1.005 h -1.022 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.239 0.189,-0.5 0.5,-0.5 h 2.491 c 0.239,0 0.5,0.189 0.5,0.5 0,0.311 -0.26,0.5 -0.5,0.5 h -0.368 l 0.47,1 H 15.78039 l -0.421,-1 h -1.656 c -0.277,0 -0.5,-0.224 -0.5,-0.5 0,-0.311 0.259,-0.5 0.5,-0.5 h 2.33 z m -11.2170002,1.024 c -0.421,-0.151 -0.875,-0.233 -1.348,-0.233 -2.208,0 -4,1.792 -4,4 0,2.208 1.792,4 4,4 2.038,0 3.722,-1.528 3.969,-3.5 h -3.103 c -0.174,0.299 -0.497,0.5 -0.866,0.5 -0.552,0 -1,-0.448 -1,-1 0,-0.533 0.419,-0.97 0.945,-0.998 z m 10.6750002,0.289 c -1.208,0.689 -2.023,1.989 -2.023,3.478 0,2.208 1.792,4 4,4 2.208,0 4,-1.792 4,-4 0,-2.208 -1.792,-4 -4,-4 -0.364,0 -0.716,0.049 -1.051,0.14 l 1.182,2.869 c 0.491,0.064 0.869,0.484 0.869,0.991 0,0.552 -0.449,1 -1,1 -0.552,0 -1,-0.448 -1,-1 0,-0.229 0.077,-0.44 0.207,-0.609 z m -9.7830002,0.165 -1.403,2.766 0.029,0.047 h 3.103 c -0.147,-1.169 -0.798,-2.183 -1.729,-2.813 m 0.454,-0.898 c 1.254,0.804 2.1260002,2.152 2.2810002,3.711 h 0.997 l -2.4540002,-5.336 z m 7.6830002,-1.789 H 9.7413898 l 2.2120002,4.797 z\"     id=\"path5252\"     inkscape:connector-curvature=\"0\" />  <text     xml:space=\"preserve\"     style=\"font-style:normal;font-weight:normal;font-size:9.17953587px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2294884\"     x=\"0.26886508\"     y=\"7.5521984\"     id=\"text5807\"     transform=\"scale(0.88096664,1.1351168)\"><tspan       sodipodi:role=\"line\"       id=\"tspan5805\"       x=\"0.26886508\"       y=\"7.5521984\"       style=\"stroke-width:0.2294884\">SHOP</tspan></text></svg>"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9753788,
+          48.6790423
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radzentrum Nagold",
+        "name_en": "Radzentrum Nagold",
+        "name_de": "Radzentrum Nagold",
+        "address": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja, ",
+        "address_de": "\u00d6ffnungszeiten: Mo 13:00-18:30;Di-Fr 09:30-18:30;So 09:00-16:00, Barrierefrei: ja, ",
+        "address_en": "Opening hours: Mo 13:00-18:30;Tu-Fr 09:30-18:30;Sa 09:00-16:00, Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7273707,
+          48.5481846
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radsport Kimmerle",
+        "name_en": "Radsport Kimmerle",
+        "name_de": "Radsport Kimmerle",
+        "address": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_de": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_en": "<a href=\"https://www.radsportkimmerle.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9063887,
+          48.6415201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Doctor Cycle",
+        "name_en": "Doctor Cycle",
+        "name_de": "Doctor Cycle",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5407599,
+          48.7219921
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holczer Radsport Specialized concept store",
+        "name_en": "Holczer Radsport Specialized concept store",
+        "name_de": "Holczer Radsport Specialized concept store",
+        "address": "Barrierefrei: ja, ",
+        "address_de": "Barrierefrei: ja, ",
+        "address_en": "Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8806763,
+          48.5761582
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "bikeshop2000",
+        "name_en": "bikeshop2000",
+        "name_de": "bikeshop2000",
+        "address": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Webseite</a>",
+        "address_de": "\u00d6ffnungszeiten: Di-Fr 14:00-18:00; So 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Webseite</a>",
+        "address_en": "Opening hours: Tu-Fr 14:00-18:00; Sa 10:00-14:00;<a href=\"http://bikeshop2000.de/\" target=\"_blank\">Website</a>",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9187053,
+          48.7138691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radhof Schill",
+        "name_en": "Radhof Schill",
+        "name_de": "Radhof Schill",
+        "address": "Barrierefrei: ja, ",
+        "address_de": "Barrierefrei: ja, ",
+        "address_en": "Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8949821,
+          48.6320993
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radhaus",
+        "name_en": "Radhaus",
+        "name_de": "Radhaus",
+        "address": "Barrierefrei: nein, ",
+        "address_de": "Barrierefrei: nein, ",
+        "address_en": "Wheelchair: no, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8694057,
+          48.6011103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "name_en": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "name_de": "Dirty Stuff - Downhill, Freeride, Enduro, Dirt/Street",
+        "address": "Telefon: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Webseite</a>",
+        "address_de": "Telefon: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Webseite</a>",
+        "address_en": "Phone: +49 1515 6944213, <a href=\"http://www.dirty-stuff.de\" target=\"_blank\">Website</a>",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8202057,
+          48.6967208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radsport Holczer",
+        "name_en": "Radsport Holczer",
+        "name_de": "Radsport Holczer",
+        "address": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "\u00d6ffnungszeiten: Mo-Di,Fr 09:00-18:30; Do 09:00-20:00; So 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_en": "Opening hours: Mo-Tu,Fr 09:00-18:30; Th 09:00-20:00; Sa 09:00-14:00, <a href=\"http://www.holczer-radsport.de/\" target=\"_blank\">Website</a>,  Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8648539,
+          48.5893128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sportivo",
+        "name_en": "Sportivo",
+        "name_de": "Sportivo",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja, ",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, Barrierefrei: ja, ",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0342345,
+          48.7061365
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle shop",
+        "name_de": "Fahrradgesch\u00e4ft",
+        "name": "Fahrradgesch\u00e4ft",
+        "address": "Barrierefrei: begrenzt, ",
+        "address_de": "Barrierefrei: begrenzt, ",
+        "address_en": "Wheelchair: limited, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8228715,
+          48.5528668
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "D\u00fcll",
+        "name_en": "D\u00fcll",
+        "name_de": "D\u00fcll",
+        "address": "Barrierefrei: ja, ",
+        "address_de": "Barrierefrei: ja, ",
+        "address_en": "Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0123814,
+          48.6364793
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radax",
+        "name_en": "Radax",
+        "name_de": "Radax",
+        "address": "<a href=\"https://www.radax.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_de": "<a href=\"https://www.radax.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_en": "<a href=\"https://www.radax.de\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7634639,
+          48.7076716
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "H\u00f6lze Fahrradreperatur/Landmaschinen",
+        "name_en": "H\u00f6lze Fahrradreperatur/Landmaschinen",
+        "name_de": "H\u00f6lze Fahrradreperatur/Landmaschinen",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7645161,
+          48.6975967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zweirad Ohngemach",
+        "name_en": "Zweirad Ohngemach",
+        "name_de": "Zweirad Ohngemach",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.721794,
+          48.7133973
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "HAICO",
+        "name_en": "HAICO",
+        "name_de": "HAICO",
+        "address": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein, ",
+        "address_de": "Telefon: +49 7073 852520, \u00d6ffnungszeiten: Mo-Di 17:00-20:00, Do-Fr 17:00-20:00, So 10:00-14:00;Barrierefrei: nein, ",
+        "address_en": "Phone: +49 7073 852520, Opening hours: Mo-Tu 17:00-20:00, Th-Fr 17:00-20:00, Sa 10:00-14:00;Wheelchair: no, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9664704,
+          48.551309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "name_en": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "name_de": "Bruderhausdiakonie T\u00fcbingen Werkst\u00e4tten Radstall",
+        "address": "Barrierefrei: ja, ",
+        "address_de": "Barrierefrei: ja, ",
+        "address_en": "Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0332409,
+          48.5214005
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "name_en": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "name_de": "Bikemaster - Richies Radsportgesch\u00e4ft",
+        "address": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_de": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_en": "<a href=\"http://www.bikemaster-nagold.de\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7237611,
+          48.5500334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Weigl GmbH Zweiradzentrale",
+        "name_en": "Weigl GmbH Zweiradzentrale",
+        "name_de": "Weigl GmbH Zweiradzentrale",
+        "address": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922, ",
+        "address_de": "\u00d6ffnungszeiten: Mo-So 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Telefon: +49 7031 700922, ",
+        "address_en": "Opening hours: Mo-Sa 08:30-13:00; Mo 14:00-18:30, Tue 14:00-18:30, Thu 14:00-18:30, Fr 14:00-18:30, Phone: +49 7031 700922, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9970392,
+          48.7136436
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ZEG Pfrommer",
+        "name_en": "ZEG Pfrommer",
+        "name_de": "ZEG Pfrommer",
+        "address": "Barrierefrei: ja, ",
+        "address_de": "Barrierefrei: ja, ",
+        "address_en": "Wheelchair: yes, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7147957,
+          48.7167796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Die RADgeber",
+        "name_en": "Die RADgeber",
+        "name_de": "Die RADgeber",
+        "address": "Telefon: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
+        "address_de": "Telefon: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Fr 10:00-12:30,14:30-18:30; Mi 10:00-12:30; So 09:00-13:00;Barrierefrei: ja",
+        "address_en": "Phone: +49 7034 652345, <a href=\"http://www.die-rad-geber.de/\" target=\"_blank\">Website</a>,  Opening hours: Mo-Fr 10:00-12:30,14:30-18:30; We 10:00-12:30; Sa 09:00-13:00;Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9422257,
+          48.6601434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_en": "Bicycle shop",
+        "name_de": "Fahrradgesch\u00e4ft",
+        "name": "Fahrradgesch\u00e4ft",
+        "address": "Barrierefrei: nein, ",
+        "address_de": "Barrierefrei: nein, ",
+        "address_en": "Wheelchair: no, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7957385,
+          48.7235997
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Landhandel Thomas",
+        "name_en": "Landhandel Thomas",
+        "name_de": "Landhandel Thomas",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.702761,
+          48.6657751
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radhof Schill",
+        "name_en": "Radhof Schill",
+        "name_de": "Radhof Schill",
+        "address": "Barrierefrei: begrenzt, ",
+        "address_de": "Barrierefrei: begrenzt, ",
+        "address_en": "Wheelchair: limited, ",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8943964,
+          48.6308655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sportshop Haiterbach",
+        "name_en": "Sportshop Haiterbach",
+        "name_de": "Sportshop Haiterbach",
+        "address": "Telefon: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_de": "Telefon: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_en": "Phone: +49 7456 915312, <a href=\"http://sportshop-haiterbach.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.650701,
+          48.5248381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radwelt Ehningen",
+        "name_en": "Radwelt Ehningen",
+        "name_de": "Radwelt Ehningen",
+        "address": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_de": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Webseite</a>,  Barrierefrei: ja",
+        "address_en": "<a href=\"http://www.radwelt-ehningen.de/service.html\" target=\"_blank\">Website</a>,  Wheelchair: yes",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.9390408,
+          48.6593011
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bikemax",
+        "name_en": "Bikemax",
+        "name_de": "Bikemax",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-19:00; So 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Webseite</a>,  Barrierefrei: nein",
+        "address_en": "Opening hours: Mo-Fr 10:00-19:00; Sa 10:00-18:00, <a href=\"https://www.boc24.de/\" target=\"_blank\">Website</a>,  Wheelchair: no",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0040911,
+          48.7023148
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "eZee Elektrorad",
+        "name_en": "eZee Elektrorad",
+        "name_de": "eZee Elektrorad",
+        "address": "\u00d6ffnungszeiten: Mo-Fr 10:00-13:00,14:00-18:30; So 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_de": "\u00d6ffnungszeiten: Mo-Fr 10:00-13:00,14:00-18:30; So 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Webseite</a>,  Barrierefrei: begrenzt",
+        "address_en": "Opening hours: Mo-Fr 10:00-13:00,14:00-18:30; Sa 10:00-16:00, <a href=\"http://www.ezee-elektrorad.de\" target=\"_blank\">Website</a>,  Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.0093091,
+          48.6792453
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radlager",
+        "name_en": "Radlager",
+        "name_de": "Radlager",
+        "address": "Telefon: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
+        "address_de": "Telefon: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Webseite</a>,  \u00d6ffnungszeiten: Mo-Di 09:15-12:30, 14:30-18:30; Do-Fr 09:15-12:30, 14:30-18:30; So 09:15-13:00, Barrierefrei: begrenzt",
+        "address_en": "Phone: +49 7032 795792, <a href=\"http://www.radlager-herrenberg.de\" target=\"_blank\">Website</a>,  Opening hours: Mo-Tu 09:15-12:30, 14:30-18:30; Th-Fr 09:15-12:30, 14:30-18:30; Sa 09:15-13:00, Wheelchair: limited",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8717233,
+          48.5949675
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ohngemach",
+        "name_en": "Ohngemach",
+        "name_de": "Ohngemach",
+        "address": "",
+        "address_de": "",
+        "address_en": "",
+        "icon": {
+          "id": "bikeShopIcon"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.7212214,
+          48.7139107
+        ]
+      }
+    }
+  ]
+}
