@@ -201,7 +201,8 @@ class Stops {
                 this.config.mergeStopsByCode &&
                 f.properties.code &&
                 featureByCode[f.properties.code] !== f &&
-                f.properties.type !== featureByCode[f.properties.code].properties.type;
+                f.properties.type !==
+                  featureByCode[f.properties.code].properties.type;
               this.fetchStatusAndDrawStop(f, large);
             });
           }
