@@ -35,6 +35,9 @@ table.nearby-departures-table {
           flex-grow: 1;
           flex-basis: 4em;
         }
+        &.th-to-stop {
+          margin-right: 8px;
+        }
       }
     }
   }
