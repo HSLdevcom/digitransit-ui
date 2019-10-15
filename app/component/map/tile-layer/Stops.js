@@ -203,8 +203,8 @@ class Stops {
                 featureByCode[f.properties.code] !== f &&
                 featureByCode[f.properties.code].properties.type !==
                   f.properties.type &&
-                  f.geom.x === featureByCode[f.properties.code].geom.x &&
-                  f.geom.y === featureByCode[f.properties.code].geom.y;
+                f.geom.x === featureByCode[f.properties.code].geom.x &&
+                f.geom.y === featureByCode[f.properties.code].geom.y;
               this.fetchStatusAndDrawStop(f, large);
             });
           }
