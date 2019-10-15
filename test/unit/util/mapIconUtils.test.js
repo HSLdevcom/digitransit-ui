@@ -13,6 +13,7 @@ describe('mapIconUtils', () => {
         arc: sinon.stub(),
         beginPath: sinon.stub(),
         fill: sinon.stub(),
+        fillText: sinon.stub(),
       },
       ratio: 1,
       scaleratio: 1,
@@ -43,6 +44,27 @@ describe('mapIconUtils', () => {
         undefined,
       );
       expect(iconRadius).to.equal(2);
+    });
+
+    it('should use different font sizes depending on the platformNumber length', () => {
+      const getFontSize = font => Number(font.split('px')[0]);
+      const platformTile = {
+        ...tile,
+        coords: {
+          z: 18,
+        },
+      };
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', false, '12');
+      const large = getFontSize(platformTile.ctx.font);
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', false, '123');
+      const medium = getFontSize(platformTile.ctx.font);
+
+      utils.drawRoundIcon(platformTile, geometry, 'BUS', false, '1234');
+      const small = getFontSize(platformTile.ctx.font);
+
+      expect(large > medium && medium > small).to.equal(true);
     });
   });
 

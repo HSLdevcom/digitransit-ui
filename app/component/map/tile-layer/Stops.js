@@ -3,7 +3,8 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 import Relay from 'react-relay/classic';
 
-import { getMaximumAlertSeverityLevel } from '../../../util/alertUtils';
+import { StopAlertsQuery } from '../../../util/alertQueries';
+import { getActiveAlertSeverityLevel } from '../../../util/alertUtils';
 import {
   drawRoundIcon,
   drawTerminalIcon,
@@ -84,9 +85,7 @@ class Stops {
       Relay.QL`
         query StopStatus($id: String!) {
           stop(id: $id) {
-            alerts {
-              alertSeverityLevel
-            }
+            ${StopAlertsQuery}
           }
         }
       `,
@@ -103,7 +102,10 @@ class Stops {
         return;
       }
       cache[gtfsId] = currentTime;
-      this.drawStop(stopFeature, getMaximumAlertSeverityLevel(result.alerts));
+      this.drawStop(
+        stopFeature,
+        getActiveAlertSeverityLevel(result.alerts, currentTime / 1000),
+      );
     };
 
     const latestFetchTime = cache[gtfsId];
@@ -183,7 +185,7 @@ class Stops {
             }
           }
         },
-        err => console.log(err),
+        err => console.log(err), // eslint-disable-line no-console
       );
     });
   }

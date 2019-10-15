@@ -27,7 +27,7 @@ function TripLink(props) {
       </Link>
     );
   }
-
+  // eslint-disable-next-line no-console
   console.warn('Unable to match trip', props);
   return <span className="route-now-content">{icon}</span>;
 }

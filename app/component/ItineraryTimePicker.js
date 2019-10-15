@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { intlShape } from 'react-intl';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 class ItineraryTimePicker extends React.Component {
@@ -7,6 +8,10 @@ class ItineraryTimePicker extends React.Component {
     changeTime: PropTypes.func.isRequired,
     initHours: PropTypes.string.isRequired,
     initMin: PropTypes.string.isRequired,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
   };
 
   static DELTAS = { 38: 1, 40: -1 };
@@ -19,15 +24,19 @@ class ItineraryTimePicker extends React.Component {
     };
   }
 
-  componentWillReceiveProps({ initHours, initMin }) {
-    this.setState({
-      hour: this.padDigits(initHours),
-      minute: this.padDigits(initMin),
-    });
+  componentWillReceiveProps({ initHours: nextHours, initMin: nextMin }) {
+    const { initHours, initMin } = this.props;
+    if (initHours !== nextHours || initMin !== nextMin) {
+      this.setState({
+        hour: this.padDigits(nextHours),
+        minute: this.padDigits(nextMin),
+      });
+    }
   }
 
   onChangeHour = e => {
     let val = e.target.value;
+
     // allow clearing
     if (val === '') {
       this.setState({ hour: val });
@@ -146,8 +155,13 @@ class ItineraryTimePicker extends React.Component {
             onChange={this.onChangeHour}
             onClick={this.setSelectionRange}
             onKeyDown={this.handleKeyDownHour}
+            aria-label={this.context.intl.formatMessage({
+              id: 'time-selector-hours-label',
+            })}
           />
-          <div id="timeinput-digit-separator">:</div>
+          <div id="timeinput-digit-separator" aria-hidden="true">
+            :
+          </div>
           <input
             type="tel"
             ref={el => {
@@ -162,6 +176,9 @@ class ItineraryTimePicker extends React.Component {
             onChange={this.onChangeMinute}
             onClick={this.setSelectionRange}
             onKeyDown={this.handleKeyDownMinute}
+            aria-label={this.context.intl.formatMessage({
+              id: 'time-selector-minutes-label',
+            })}
           />
         </form>
       </div>
@@ -169,4 +186,7 @@ class ItineraryTimePicker extends React.Component {
   }
 }
 
-export default onlyUpdateForKeys(['initMin', 'initHours'])(ItineraryTimePicker);
+const recomposed = onlyUpdateForKeys(['initMin', 'initHours'])(
+  ItineraryTimePicker,
+);
+export { recomposed as default, ItineraryTimePicker as Component };

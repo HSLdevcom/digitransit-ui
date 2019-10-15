@@ -268,7 +268,9 @@ describe('queryUtils', () => {
       const router = createMemoryHistory();
       utils.addPreferredRoute(router, 'HSL__1052');
       utils.removePreferredRoute(router, 'HSL__1052');
-      expect(router.getCurrentLocation().query).to.deep.equal({});
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        preferredRoutes: '',
+      });
     });
 
     it('should ignore a missing preferred route', () => {
@@ -286,7 +288,9 @@ describe('queryUtils', () => {
       const router = createMemoryHistory();
       utils.addUnpreferredRoute(router, 'HSL__1052');
       utils.removeUnpreferredRoute(router, 'HSL__1052');
-      expect(router.getCurrentLocation().query).to.deep.equal({});
+      expect(router.getCurrentLocation().query).to.deep.equal({
+        unpreferredRoutes: '',
+      });
     });
 
     it('should ignore a missing Unpreferred route', () => {

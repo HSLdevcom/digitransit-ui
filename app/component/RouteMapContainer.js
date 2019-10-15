@@ -87,6 +87,7 @@ class RouteMapContainer extends React.PureComponent {
         key="vehicles"
         direction={pattern.directionId}
         pattern={pattern.code}
+        headsign={pattern.headsign}
         tripStart={tripStart}
       />,
     ];
@@ -143,6 +144,7 @@ export const RouteMapFragments = {
     fragment on Pattern {
       code
       directionId
+      headsign
       geometry {
         lat
         lon

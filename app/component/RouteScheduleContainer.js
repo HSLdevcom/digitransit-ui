@@ -176,8 +176,8 @@ class RouteScheduleContainer extends Component {
     const routeIdSplitted = this.props.pattern.route.gtfsId.split(':');
 
     const routeTimetableHandler =
-      this.context.config.routeTimetables &&
-      this.context.config.routeTimetables[routeIdSplitted[0]];
+      this.context.config.timetables &&
+      this.context.config.timetables[routeIdSplitted[0]];
 
     const routeTimetableUrl =
       routeTimetableHandler &&

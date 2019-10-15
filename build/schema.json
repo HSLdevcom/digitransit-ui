@@ -88,7 +88,7 @@
                     },
                     {
                         "name": "agency",
-                        "description": "Get a single agency based on agency ID",
+                        "description": "Get a single agency based on agency ID, i.e. value of field `gtfsId` (ID format is `FeedId:StopId`)",
                         "args": [
                             {
                                 "name": "id",
@@ -835,6 +835,139 @@
                             "kind": "OBJECT",
                             "name": "Trip",
                             "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "cancelledTripTimes",
+                        "description": "Get cancelled TripTimes.",
+                        "args": [
+                            {
+                                "name": "feeds",
+                                "description": "Feed feedIds (e.g. [\"HSL\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "routes",
+                                "description": "Route gtfsIds (e.g. [\"HSL:1098\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "patterns",
+                                "description": "TripPattern codes (e.g. [\"HSL:1098:1:01\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "trips",
+                                "description": "Trip gtfsIds (e.g. [\"HSL:1098_20190405_Ma_2_1455\"]).",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minDate",
+                                "description": "Only cancelled trip times scheduled to run on minDate or after are returned. Format: \"2019-12-23\" or \"20191223\".",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxDate",
+                                "description": "Only cancelled trip times scheduled to run on maxDate or before are returned. Format: \"2019-12-23\" or \"20191223\".",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minDepartureTime",
+                                "description": "Only cancelled trip times that have first stop departure time at minDepartureTime or after are returned. Format: seconds since midnight of minDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxDepartureTime",
+                                "description": "Only cancelled trip times that have first stop departure time at maxDepartureTime or before are returned. Format: seconds since midnight of maxDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "minArrivalTime",
+                                "description": "Only cancelled trip times that have last stop arrival time at minArrivalTime or after are returned. Format: seconds since midnight of minDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "maxArrivalTime",
+                                "description": "Only cancelled trip times that have last stop arrival time at maxArrivalTime or before are returned. Format: seconds since midnight of maxDate.",
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "Int",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Stoptime",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -1649,6 +1782,20 @@
                                     "ofType": null
                                 },
                                 "defaultValue": null
+                            },
+                            {
+                                "name": "allowedBikeRentalNetworks",
+                                "description": "Which bike rental networks can be used. By default, all networks are allowed.",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
                             }
                         ],
                         "type": {
@@ -1849,7 +1996,7 @@
                     },
                     {
                         "name": "gtfsId",
-                        "description": "Agency id",
+                        "description": "Agency feed and id",
                         "args": [],
                         "type": {
                             "kind": "NON_NULL",
@@ -4090,6 +4237,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "alertUrlTranslations",
+                        "description": "Url with more information in all different available languages",
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "TranslatedString",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "alertEffect",
                         "description": "Alert effect",
                         "args": [],
@@ -4360,25 +4531,25 @@
                 "enumValues": [
                     {
                         "name": "UNKNOWN_SEVERITY",
-                        "description": "UNKNOWN_SEVERITY",
+                        "description": "Severity of alert is unknown",
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
                         "name": "INFO",
-                        "description": "INFO",
+                        "description": "Info alerts are used for informational messages that should not have a significant effect on user's journey, for example: A single entrance to a metro station is temporarily closed.",
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
                         "name": "WARNING",
-                        "description": "WARNING",
+                        "description": "Warning alerts are used when a single stop or route has a disruption that can affect user's journey, for example: All trams on a specific route are running with irregular schedules.",
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
                         "name": "SEVERE",
-                        "description": "SEVERE",
+                        "description": "Severe alerts are used when a significant part of public transport services is affected, for example: All train services are cancelled due to technical problems.",
                         "isDeprecated": false,
                         "deprecationReason": null
                     }
@@ -7148,6 +7319,16 @@
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "useUnpreferredRoutesPenalty",
+                        "description": "Penalty added for using route that is unpreferred, i.e. number of seconds that we are willing to wait for route that is unpreferred.",
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Int",
                             "ofType": null
                         },
                         "defaultValue": null

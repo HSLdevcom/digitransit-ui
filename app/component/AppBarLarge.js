@@ -56,7 +56,7 @@ const AppBarLarge = (
               defaultMessage: 'Disruptions',
             })}
           >
-            <Icon img="icon-icon_caution" />
+            <Icon img="icon-icon_caution" className="caution-topbar" />
           </a>
         </div>
         <div className="padding-horizontal-large navi-margin">

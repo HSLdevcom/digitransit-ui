@@ -53,6 +53,9 @@ class SaveCustomizedSettingsButton extends React.Component {
       isEqual(currentSettings, defaultSettings)
     ) {
       this.props.noSettingsFound();
+      this.setState({
+        open: true,
+      });
     } else {
       setCustomizedSettings(querySettings);
       this.setState({
@@ -94,7 +97,12 @@ class SaveCustomizedSettingsButton extends React.Component {
           }
           autoHideDuration={this.state.autoHideDuration}
           onRequestClose={this.handleRequestClose}
-          style={{ width: drawerWidth }}
+          style={{
+            width: drawerWidth,
+            transform: 'none',
+            left: 'auto',
+            right: '0px',
+          }}
           bodyStyle={{
             backgroundColor: '#585a5b',
             color: '#fff',

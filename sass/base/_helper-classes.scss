@@ -116,6 +116,11 @@
 .padding-small {
   padding: 0.45em 1em;
 }
+
+.card-padding {
+  padding: 1em 1em 0.5em 1.5em;
+}
+
 .padding-normal {
   padding: 0.7em 1em;
 }
@@ -138,6 +143,9 @@
   margin: 0 !important;
 }
 /* Appearance */
+.cursor-grab {
+  cursor: grab !important;
+}
 .cursor-pointer {
   cursor: pointer;
 }

@@ -16,7 +16,7 @@ const AppBarContainer = ({ router, location, homeUrl, logo, ...args }) => (
       mobile={() => (
         <AppBarSmall
           {...args}
-          showLogo={location.pathname.indexOf(homeUrl) === 0}
+          showLogo={location.pathname === homeUrl}
           logo={logo}
           homeUrl={homeUrl}
         />

@@ -406,6 +406,19 @@ div.map {
   }
 }
 
+.via-point-button-container {
+  display: flex;
+
+  & > div:nth-child(1) {
+    order: 2;
+    border-left: 1px solid rgba(151, 151, 151, 0.2);
+  }
+  & > div:nth-child(2) {
+    order: 1;
+    border-left: none;
+  }
+}
+
 .itinerary-search-control {
   align-items: center;
   color: $link-color;
@@ -428,7 +441,7 @@ div.map {
     }
   }
 
-  .addViaPointSlack {
+  .add-via-point-slack {
     & > span:nth-child(2) {
       display: inline;
       position: relative;
@@ -475,6 +488,14 @@ div.map {
   height: 1.45em;
   margin-top: 0.6em;
   margin-left: 0.5em;
+
+  &.destination {
+    color: $to-color;
+  }
+
+  &.origin {
+    color: $from-color;
+  }
 
   .icon {
     width: 100%;

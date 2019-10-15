@@ -19,7 +19,7 @@ const OriginSelector = (
       destination,
       context: '/',
       router,
-      base: {},
+      base: router.location,
       tab,
     });
   };
@@ -131,7 +131,7 @@ OriginSelector.contextTypes = {
   router: routerShape.isRequired,
 };
 
-export default connectToStores(
+const connectedComponent = connectToStores(
   OriginSelector,
   ['FavouriteLocationStore', 'FavouriteStopsStore', 'OldSearchesStore'],
   context => ({
@@ -144,3 +144,5 @@ export default connectToStores(
       .getOldSearches('endpoint'),
   }),
 );
+
+export { connectedComponent as default, OriginSelector as Component };

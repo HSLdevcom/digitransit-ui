@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'oulu';
@@ -33,11 +34,42 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
 
+  cityBike: {
+    showCityBikes: true,
+    useUrl: {
+      fi: 'https://kaupunkipyorat.ouka.fi/',
+      sv: 'https://kaupunkipyorat.ouka.fi/home',
+      en: 'https://kaupunkipyorat.ouka.fi/home',
+    },
+    networks: {
+      oulu: {
+        icon: 'citybike',
+        name: {
+          fi: 'Oulu',
+          sv: 'Uleåborg',
+          en: 'Oulu',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.ouka.fi/',
+          sv: 'https://kaupunkipyorat.ouka.fi/home',
+          en: 'https://kaupunkipyorat.ouka.fi/home',
+        },
+      },
+    },
+  },
+
   searchParams: {
     'boundary.rect.min_lat': 64.71,
     'boundary.rect.max_lat': 65.38,
     'boundary.rect.min_lon': 24.37,
     'boundary.rect.max_lon': 26.61,
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
   },
 
   areaPolygon: [[24.37, 64.71], [24.37, 65.38], [26.61, 65.38], [26.61, 64.71]],

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'turku';
@@ -49,6 +50,22 @@ export default configMerger(walttiConfig, {
       fi: 'https://www.foli.fi/kaupunkipyorat',
       sv: 'https://www.foli.fi/sv/stadscyklar',
       en: 'https://www.foli.fi/en/citybikes',
+    },
+    networks: {
+      turku: {
+        icon: 'citybike',
+        name: {
+          fi: 'Turku',
+          sv: 'Åbo',
+          en: 'Turku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://www.foli.fi/kaupunkipyorat',
+          sv: 'https://www.foli.fi/sv/stadscyklar',
+          en: 'https://www.foli.fi/en/citybikes',
+        },
+      },
     },
   },
 
