@@ -141,7 +141,7 @@ function VehicleMarkerContainer(props) {
                 ? new TripRoute({ route: message.route, id: message.tripId })
                 : new FuzzyTripRoute({
                     route: message.route,
-                    direction: message.direction || props.direction,
+                    direction: message.direction,
                     date: message.operatingDay,
                     time:
                       message.tripStartTime.substring(0, 2) * 60 * 60 +

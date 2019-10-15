@@ -94,9 +94,11 @@ class TripStopListContainer extends React.PureComponent {
       vehicle => vehicle.direction,
     );
 
+    const feedId = stops[0].gtfsId.split(':')[0];
+
     const vehicleStops = groupBy(
       vehicles[trip.pattern.directionId],
-      vehicle => `${stops[0].gtfsId.split(':')[0]}:${vehicle.next_stop}`,
+      vehicle => `${feedId}:${vehicle.next_stop}`,
     );
 
     const vehiclesWithCorrectStartTime = Object.keys(propVehicles)
@@ -108,8 +110,7 @@ class TripStopListContainer extends React.PureComponent {
     const vehicle =
       vehiclesWithCorrectStartTime.length > 0 &&
       vehiclesWithCorrectStartTime[0];
-    const nextStop =
-      vehicle && `${stops[0].gtfsId.split(':')[0]}:${vehicle.next_stop}`;
+    const nextStop = vehicle && `${feedId}:${vehicle.next_stop}`;
 
     let stopPassed = true;
 
