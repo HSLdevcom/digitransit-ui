@@ -5,7 +5,7 @@ const CONFIG = 'hb';
 const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
 const LOCATIONIQ_API_KEY = process.env.LOCATIONIQ_API_KEY;
