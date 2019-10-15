@@ -195,14 +195,16 @@ class Stops {
               });
             }
             this.features.forEach(f => {
-              /* Note: HSL rail stops at separate locations may share the same code.
-                 Don't expand those, because they do not overlap. */
+              /* Note: don't expand separate stops sharing the same code,
+                 unless type is different and location actually overlaps. */
               const large =
                 this.config.mergeStopsByCode &&
                 f.properties.code &&
                 featureByCode[f.properties.code] !== f &&
-                f.properties.type !==
-                  featureByCode[f.properties.code].properties.type;
+                featureByCode[f.properties.code].properties.type !==
+                  f.properties.type &&
+                  f.geom.x === featureByCode[f.properties.code].geom.x &&
+                  f.geom.y === featureByCode[f.properties.code].geom.y;
               this.fetchStatusAndDrawStop(f, large);
             });
           }
