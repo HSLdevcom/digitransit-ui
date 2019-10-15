@@ -56,21 +56,11 @@ class RouteStopListContainer extends React.PureComponent {
     const mode = this.props.pattern.route.mode.toLowerCase();
 
     const vehicles = groupBy(
-      values(this.props.vehicles)
-        .filter(
-          vehicle =>
-            this.props.currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
-        )
-        .filter(
-          vehicle =>
-            vehicle.tripStartTime && vehicle.tripStartTime !== 'undefined',
-        ),
-      vehicle => vehicle.direction,
-    );
-
-    const vehicleStops = groupBy(
-      vehicles[this.props.pattern.directionId],
-      vehicle => `HSL:${vehicle.next_stop}`,
+      values(this.props.vehicles).filter(
+        vehicle =>
+          this.props.currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+      ),
+      vehicle => vehicle.next_stop,
     );
 
     const rowClassName = `bp-${this.props.breakpoint}`;
@@ -81,6 +71,8 @@ class RouteStopListContainer extends React.PureComponent {
           nearest.distance <
             this.context.config.nearestStopDistance.maxShownDistance &&
           nearest.stop.gtfsId) === stop.gtfsId;
+
+      const stopWithoutFeedId = stop.gtfsId.split(':')[1];
 
       return (
         <RouteStop
@@ -93,7 +85,7 @@ class RouteStopListContainer extends React.PureComponent {
           stop={stop}
           mode={mode}
           vehicle={
-            vehicleStops[stop.gtfsId] ? vehicleStops[stop.gtfsId][0] : null
+            vehicles[stopWithoutFeedId] ? vehicles[stopWithoutFeedId][0] : null
           }
           distance={isNearest ? nearest.distance : null}
           ref={isNearest ? this.setNearestStop : null}

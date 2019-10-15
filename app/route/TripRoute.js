@@ -2,9 +2,15 @@ import Relay, { Route } from 'react-relay/classic';
 
 export default class TripRoute extends Route {
   static queries = {
-    pattern: () => Relay.QL`query {
-        trip(id: $id)
-    }`,
+    trip: (Component, variables) => Relay.QL`
+      query {
+        viewer {
+          ${Component.getFragment('trip', {
+            id: variables.id,
+          })}
+        }
+      }
+    `,
   };
 
   static paramDefinitions = {

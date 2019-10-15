@@ -10,7 +10,7 @@ import RouteHeader from '../../RouteHeader';
 
 import { addFavouriteRoute } from '../../../action/FavouriteActions';
 
-function RouteMarkerPopup(props) {
+function FuzzyTripMarkerPopup(props) {
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/pysakit`;
   let tripPath = patternPath;
 
@@ -44,7 +44,7 @@ function RouteMarkerPopup(props) {
   );
 }
 
-RouteMarkerPopup.propTypes = {
+FuzzyTripMarkerPopup.propTypes = {
   trip: PropTypes.shape({
     route: PropTypes.shape({
       gtfsId: PropTypes.string.isRequired,
@@ -64,8 +64,8 @@ RouteMarkerPopup.propTypes = {
   }).isRequired,
 };
 
-const RouteMarkerPopupWithFavourite = connectToStores(
-  RouteMarkerPopup,
+const FuzzyTripMarkerPopupWithFavourite = connectToStores(
+  FuzzyTripMarkerPopup,
   ['FavouriteRoutesStore'],
   (context, props) => ({
     favourite: context
@@ -78,7 +78,7 @@ const RouteMarkerPopupWithFavourite = connectToStores(
   }),
 );
 
-export default Relay.createContainer(RouteMarkerPopupWithFavourite, {
+export default Relay.createContainer(FuzzyTripMarkerPopupWithFavourite, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {

@@ -6,7 +6,7 @@ import cx from 'classnames';
 import IconWithTail from './IconWithTail';
 import { PREFIX_ROUTES } from '../util/path';
 
-function TripLink(props) {
+function FuzzyTripLink(props) {
   const icon = (
     <IconWithTail
       className={cx(props.mode, 'tail-icon')}
@@ -32,16 +32,16 @@ function TripLink(props) {
   return <span className="route-now-content">{icon}</span>;
 }
 
-TripLink.propTypes = {
+FuzzyTripLink.propTypes = {
   trip: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired,
 };
 
-export default Relay.createContainer(TripLink, {
+export default Relay.createContainer(FuzzyTripLink, {
   fragments: {
     trip: () => Relay.QL`
       fragment on QueryType {
-        trip: trip(id: $id) {
+        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
           gtfsId
           pattern {
             code
@@ -54,6 +54,9 @@ export default Relay.createContainer(TripLink, {
     `,
   },
   initialVariables: {
-    id: null,
+    route: null,
+    direction: null,
+    date: null,
+    time: null,
   },
 });

@@ -3,7 +3,9 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import RouteMarkerPopup from './route/RouteMarkerPopup';
+import TripMarkerPopup from './route/TripMarkerPopup';
+import FuzzyTripMarkerPopup from './route/FuzzyTripMarkerPopup';
+import TripRoute from '../../route/TripRoute';
 import FuzzyTripRoute from '../../route/FuzzyTripRoute';
 import IconWithTail from '../IconWithTail';
 import IconMarker from './IconMarker';
@@ -86,8 +88,12 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       !Number.isNaN(parseFloat(message.long)) &&
       pattern.substr(0, message.route.length) === message.route &&
       (message.headsign === undefined || headsign === message.headsign) &&
-      (direction === undefined || message.direction === direction) &&
-      (tripStart === undefined || message.tripStartTime === tripStart)
+      (direction === undefined ||
+        message.direction === undefined ||
+        message.direction === direction) &&
+      (tripStart === undefined ||
+        message.tripStartTime === undefined ||
+        message.tripStartTime === tripStart)
     );
   }
   return (
@@ -129,25 +135,31 @@ function VehicleMarkerContainer(props) {
           className="vehicle-popup"
         >
           <Relay.RootContainer
-            Component={RouteMarkerPopup}
+            Component={message.tripId ? TripMarkerPopup : FuzzyTripMarkerPopup}
             route={
-              new FuzzyTripRoute({
-                route: message.route,
-                direction: message.direction,
-                date: message.operatingDay,
-                time:
-                  message.tripStartTime.substring(0, 2) * 60 * 60 +
-                  message.tripStartTime.substring(2, 4) * 60,
-              })
+              message.tripId
+                ? new TripRoute({ route: message.route, id: message.tripId })
+                : new FuzzyTripRoute({
+                    route: message.route,
+                    direction: message.direction || props.direction,
+                    date: message.operatingDay,
+                    time:
+                      message.tripStartTime.substring(0, 2) * 60 * 60 +
+                      message.tripStartTime.substring(2, 4) * 60,
+                  })
             }
             renderLoading={() => (
               <div className="card" style={{ height: '12rem' }}>
                 <Loading />
               </div>
             )}
-            renderFetched={data => (
-              <RouteMarkerPopup {...data} message={message} />
-            )}
+            renderFetched={data =>
+              message.tripId ? (
+                <TripMarkerPopup {...data} message={message} />
+              ) : (
+                <FuzzyTripMarkerPopup {...data} message={message} />
+              )
+            }
           />
         </Popup>
       </IconMarker>
@@ -160,8 +172,8 @@ VehicleMarkerContainer.propTypes = {
   direction: PropTypes.number,
   vehicles: PropTypes.objectOf(
     PropTypes.shape({
-      direction: PropTypes.number.isRequired,
-      tripStartTime: PropTypes.string.isRequired,
+      direction: PropTypes.number,
+      tripStartTime: PropTypes.string,
       mode: PropTypes.string.isRequired,
       heading: PropTypes.number,
       lat: PropTypes.number.isRequired,
