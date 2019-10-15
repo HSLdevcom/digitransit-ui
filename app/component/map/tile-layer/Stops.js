@@ -76,6 +76,9 @@ class Stops {
       feature.geom,
       feature.properties.type,
       scale,
+      feature.properties.platform !== 'null'
+        ? feature.properties.platform
+        : false,
     );
 
     if (alertSeverityLevel) {
@@ -184,14 +187,21 @@ class Stops {
                 if (f2.properties.type > f1.properties.type) {
                   return 1;
                 }
+                if (f1.properties.platform) {
+                  /* favor stops with platform code over those without it */
+                  return 1;
+                }
                 return 0;
               });
             }
             this.features.forEach(f => {
+              /* Note: HSL rail stops at separate locations may share the same code.
+                 Don't expand those, because they do not overlap. */
               const large =
                 this.config.mergeStopsByCode &&
                 f.properties.code &&
-                featureByCode[f.properties.code] !== f;
+                featureByCode[f.properties.code] !== f &&
+                f.properties.type !== featureByCode[f.properties.code].properties.type;
               this.fetchStatusAndDrawStop(f, large);
             });
           }
