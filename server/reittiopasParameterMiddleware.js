@@ -64,12 +64,24 @@ export function validateParams(req, config) {
   return url;
 }
 
-export const dropLanguageAndRedirect = (req, res, lang) => {
-  const { path, query } = req;
+const fixLocaleParam = (req, lang) => {
   // override locale query param with the selected language
-  query.locale = lang === 'slangi' ? 'fi' : lang;
-  const trimmedPath = path.replace(`/${lang}/`, '/') + formatQuery(query);
-  res.redirect(trimmedPath);
+  req.query.locale = lang === 'slangi' ? 'fi' : lang;
+  return formatQuery(req.query);
+};
+
+export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
+  return req.path.replace(`/${lang}/`, '/') + fixLocaleParam(req, lang);
+};
+
+const dropPathLanguageAndRedirect = (req, res, lang) => {
+  const trimmedUrl = dropPathLanguageAndFixLocaleParam(req, lang);
+  res.redirect(trimmedUrl);
+};
+
+const fixLocaleParamAndRedirect = (req, res, lang) => {
+  const fixedUrl = req.path + fixLocaleParam(req, lang);
+  res.redirect(fixedUrl);
 };
 
 export default function reittiopasParameterMiddleware(req, res, next) {
@@ -95,9 +107,16 @@ export default function reittiopasParameterMiddleware(req, res, next) {
     ) {
       oldParamParser(req.query, config).then(url => res.redirect(url));
     } else if (['fi', 'en', 'sv', 'ru', 'slangi'].includes(lang)) {
-      dropLanguageAndRedirect(req, res, lang);
+      dropPathLanguageAndRedirect(req, res, lang);
     } else {
-      next();
+      const { locale } = req.query;
+      const cookieLang = req.cookies.lang;
+
+      if (cookieLang && locale && cookieLang !== locale) {
+        fixLocaleParamAndRedirect(req, res, cookieLang);
+      } else {
+        next();
+      }
     }
   } else {
     next();
