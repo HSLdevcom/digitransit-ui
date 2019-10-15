@@ -61,7 +61,7 @@ describe('Stops', () => {
       });
 
       const layer = new Stops(tile, config, []);
-      layer.drawStop = (stopFeature, alertSeverityLevel) => {
+      layer.drawStop = (stopFeature, large, alertSeverityLevel) => {
         expect(stopFeature.properties.gtfsId).to.equal(gtfsId);
         expect(alertSeverityLevel).to.equal(AlertSeverityLevelType.Info);
         done();
@@ -88,6 +88,7 @@ describe('Stops', () => {
             type: 'BUS',
           },
         },
+        false,
         AlertSeverityLevelType.Warning,
       );
 

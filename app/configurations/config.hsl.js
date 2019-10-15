@@ -68,6 +68,7 @@ export default {
   showDisclaimer: true,
 
   stopsMinZoom: 14,
+  mergeStopsByCode: true,
 
   colors: {
     primary: '#007ac9',
