@@ -2,27 +2,27 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import {
   validateParams,
-  langParamParser,
+  dropPathLanguageAndFixLocaleParam,
 } from '../../server/reittiopasParameterMiddleware';
 
 import config from '../../app/configurations/config.default';
-
-const req = {
-  query: {
-    minTransferTime: '60',
-    modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE',
-    transferPenalty: '0',
-    walkBoardCost: '540',
-    walkReluctance: '1.5',
-    walkSpeed: '1.5',
-  },
-};
 
 // validateParams returns an url if it is modified and it removes invalid
 // parameteres from req.query => two ways to check if it did what it should
 
 describe('reittiopasParameterMiddleware', () => {
   describe('validateParams', () => {
+    const req = {
+      query: {
+        minTransferTime: '60',
+        modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE',
+        transferPenalty: '0',
+        walkBoardCost: '540',
+        walkReluctance: '1.5',
+        walkSpeed: '1.5',
+      },
+    };
+
     it('should not modify valid url', () => {
       const url = validateParams(req, config);
       expect(url).to.be.a('undefined');
@@ -44,28 +44,44 @@ describe('reittiopasParameterMiddleware', () => {
       expect(req.query.modes).to.be.an('undefined');
     });
   });
-  describe('langParamParser', () => {
-    it('should return empty path', () => {
-      const path = '/en/';
-      const newPath = langParamParser(path);
-      expect(newPath).to.equal('/');
+
+  describe('dropLanguageAndSetLocaleParam', () => {
+    const req = {
+      path: '/en/',
+      query: {
+        locale: 'fi',
+      },
+    };
+
+    it('should return empty path with "locale" query param', () => {
+      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
+      expect(relativeUrl).to.equal('/?locale=en');
     });
 
-    it('should return path without language parameter', () => {
-      const path =
+    it('should return path without language', () => {
+      req.path =
         '/sv/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973';
-      const newPath = langParamParser(path);
-      expect(newPath).to.equal(
-        '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973',
+      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'sv');
+      expect(relativeUrl).to.equal(
+        '/reitti/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973?locale=sv',
       );
     });
 
     it('should not ignore URL parameters', () => {
-      const path =
-        '/en/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral';
-      const newPath = langParamParser(path);
-      expect(newPath).to.equal(
-        '/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral',
+      req.path =
+        '/en/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846';
+      req.query = {
+        time: 1565074800,
+        arriveBy: false,
+        utm_campaign: 'hsl.fi',
+        utm_source: 'etusivu-reittihaku',
+        utm_medium: 'referral',
+        locale: 'fi',
+      };
+
+      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
+      expect(relativeUrl).to.equal(
+        '/reitti/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&utm_campaign=hsl.fi&utm_source=etusivu-reittihaku&utm_medium=referral&locale=en',
       );
     });
   });
