@@ -4,6 +4,7 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'hb';
 const APP_TITLE = 'Mobil in Herrenberg';
 const APP_DESCRIPTION = '';
+
 const API_URL = process.env.API_URL || 'https://api.mobil-in-herrenberg.de';
 const MAP_URL = process.env.MAP_URL || 'https://maps.wikimedia.org/osm-intl/';
 const GEOCODING_BASE_URL = `https://pelias.locationiq.org/v1`;
@@ -23,8 +24,8 @@ export default configMerger(walttiConfig, {
     MAP: {
       default: MAP_URL,
     },
+    STOP_MAP: `${API_URL}/map/v1/stop-map/`,
 
-    STOP_MAP: `${MAP_URL}/map/v1/hb-stop-map/`,
     PELIAS: `${GEOCODING_BASE_URL}/search?api_key=${LOCATIONIQ_API_KEY}`,
     PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse?api_key=${LOCATIONIQ_API_KEY}`,
   },
@@ -55,6 +56,7 @@ export default configMerger(walttiConfig, {
   },
 
   textLogo: true,
+  GTMid: '',
 
   timezoneData: 'Europe/Berlin|CET CEST CEMT|-10 -20 -30|01010101010101210101210101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-2aFe0 11d0 1iO0 11A0 1o00 11A0 Qrc0 6i00 WM0 1fA0 1cM0 1cM0 1cM0 kL0 Nc0 m10 WM0 1ao0 1cp0 dX0 jz0 Dd0 1io0 17c0 1fA0 1a00 1ehA0 1a00 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o 00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|41e5',
 
@@ -65,7 +67,7 @@ export default configMerger(walttiConfig, {
   },
 
   feedIds: ['hb'],
-
+  
   searchSources: ['oa', 'osm'],
 
   searchParams: {
@@ -95,6 +97,18 @@ export default configMerger(walttiConfig, {
       lat: 48.5942066,
       lon: 8.8644041,
     },
+    {
+      icon: 'icon-icon_star',
+      label: 'Krankenhaus',
+      lat: 48.59174,
+      lon: 8.87536,
+    },
+    {
+      icon: 'icon-icon_star',
+      label: 'Waldfriedhof / Schönbuchturm',
+      lat: 48.6020352, 
+      lon: 8.9036348,
+    },
   ],
 
   footer: {
@@ -119,25 +133,6 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
-
-    fi: [
-      {
-        header: 'Tietoja palvelusta',
-        paragraphs: [
-          'Tämän palvelun tarjoaa Hb reittisuunnittelua varten Hb alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
-        ],
-      },
-    ],
-
-    sv: [
-      {
-        header: 'Om tjänsten',
-        paragraphs: [
-          'Den här tjänsten erbjuds av Hb för reseplanering inom Hb region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-        ],
-      },
-    ],
-
     en: [
       {
         header: 'About this service',
