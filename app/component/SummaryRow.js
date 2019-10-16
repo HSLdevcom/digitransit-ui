@@ -217,20 +217,21 @@ const SummaryRow = (
   { data, breakpoint, intermediatePlaces, zones, ...props },
   { intl, intl: { formatMessage }, config },
 ) => {
-  const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
+  // const isTransitLeg = leg => leg.transitLeg || leg.rentedBike;
   const refTime = moment(props.refTime);
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
   const slackDuration = getTotalSlackDuration(intermediatePlaces);
   const legs = [];
-  let noTransitLegs = true;
-
+  const noTransitLegs = true;
+  /*
   data.legs.forEach(leg => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
     }
   });
+  */
 
   let lastLegRented = false;
   let firstLegStartTime = null;
