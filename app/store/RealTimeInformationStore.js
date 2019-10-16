@@ -1,5 +1,4 @@
 import Store from 'fluxible/addons/BaseStore';
-import debounce from 'lodash/debounce';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -7,9 +6,31 @@ class RealTimeInformationStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.vehicles = {};
-    this.debounceEmit = debounce(this.emitChange, 1000, {
-      leading: true,
-    });
+    this.allowUpdates = true;
+  }
+
+  checkEmit() {
+    if(this.pendingEmit) {
+      this.pendingEmit = false;
+      this.emitChange();
+    }
+  }
+
+  conditionalEmit() {
+    if (this.allowUpdates) {
+      setInterval(
+        () => {
+          this.allowUpdates=true;
+          this.checkEmit();
+        },
+        1000
+      );
+      this.allowUpdates = false;
+      this.pendingEmit = false;
+      this.emitChange();
+    } else {
+      this.pendingEmit = true;
+    }
   }
 
   storeClient(data) {
@@ -38,7 +59,7 @@ class RealTimeInformationStore extends Store {
       } else {
         this.vehicles[message.id] = message;
       }
-      this.debounceEmit();
+      this.conditionalEmit();
     }
   }
 
