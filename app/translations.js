@@ -514,6 +514,7 @@ const translations = {
     'return-cycle-to': 'Fahrrad an Station {station} zurückgeben',
     'right-now': 'Jetzt',
     route: 'Linie',
+    'route-add-viapoint': 'Zwischenstopp',
     'route-custom-settings': 'Eigene Einstellungen',
     'route-default': 'Voreinstellungen',
     'route-destination-arrives': 'Nur Ausstieg',
