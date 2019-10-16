@@ -46,6 +46,9 @@ const jsonModules = {
 
 const Component = onlyUpdateCoordChanges(MapContainer);
 
+/* stop yet another eslint madness */
+/* eslint-disable react/sort-comp */
+
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
     getGeoJsonConfig: PropTypes.func.isRequired,
@@ -125,7 +128,7 @@ class MapWithTrackingStateHandler extends React.Component {
       }
     }
 
-    if (config.showAllBusses) {
+    if (this.props.mapLayers.showAllBusses) {
       this.startClient();
     }
 
@@ -141,6 +144,14 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if (newProps.mapLayers.showAllBusses) {
+      if (!this.state.realtimeClientStarted) {
+        this.startClient();
+      }
+    } else if (this.state.realtimeClientStarted) {
+      this.removeClient();
+    }
+
     if (
       // "current position selected"
       newProps.origin.lat !== null &&
@@ -206,56 +217,27 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.config.showAllBusses &&
-      (prevProps.origin.lat !== this.state.origin.lat ||
-        prevProps.origin.lon !== this.state.origin.lon)
-    ) {
-      this.updateClient();
+    if (this.state.realtimeClientStarted) {
+      if (
+        prevProps.origin.lat !== this.state.origin.lat ||
+        prevProps.origin.lon !== this.state.origin.lon
+      ) {
+        this.updateClient();
+      }
     }
   }
 
   componentWillUnmount() {
     this.isCancelled = true;
-    if (this.props.config.showAllBusses) {
+    if (this.state.realtimeClientStarted) {
       this.removeClient();
     }
   }
-
-  updateCurrentBounds = () => {
-    if (!this.mapElement || !this.mapElement.leafletElement) {
-      return;
-    }
-    const newBounds = this.mapElement.leafletElement.getBounds();
-    const { bounds } = this.state;
-    if (bounds && bounds.equals(newBounds)) {
-      return;
-    }
-    this.setState({
-      bounds: newBounds,
-    });
-  };
 
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
     }
-  };
-
-  disableMapTracking = () => {
-    this.setState({
-      mapTracking: false,
-      focusOnOrigin: false,
-      focusOnDestination: false,
-    });
-  };
-
-  enableMapTracking = () => {
-    this.setState({
-      mapTracking: true,
-      focusOnOrigin: false,
-      focusOnDestination: false,
-    });
   };
 
   createGeoHashBoundingBox = location => {
@@ -275,7 +257,7 @@ class MapWithTrackingStateHandler extends React.Component {
     return geoHashes;
   };
 
-  startClient() {
+  getClientConfig() {
     const { realTime, defaultEndpoint } = this.props.config;
     let agency;
 
@@ -300,12 +282,50 @@ class MapWithTrackingStateHandler extends React.Component {
           geoHash,
         });
       });
-
-      this.context.executeAction(startRealTimeClient, {
+      return {
         ...source,
         agency,
         options,
-      });
+      };
+    }
+    return null;
+  }
+
+  enableMapTracking = () => {
+    this.setState({
+      mapTracking: true,
+      focusOnOrigin: false,
+      focusOnDestination: false,
+    });
+  };
+
+  disableMapTracking = () => {
+    this.setState({
+      mapTracking: false,
+      focusOnOrigin: false,
+      focusOnDestination: false,
+    });
+  };
+
+  updateCurrentBounds = () => {
+    if (!this.mapElement || !this.mapElement.leafletElement) {
+      return;
+    }
+    const newBounds = this.mapElement.leafletElement.getBounds();
+    const { bounds } = this.state;
+    if (bounds && bounds.equals(newBounds)) {
+      return;
+    }
+    this.setState({
+      bounds: newBounds,
+    });
+  };
+
+  startClient() {
+    this.setState({ realtimeClientStarted: true });
+    const conf = this.getClientConfig();
+    if (conf) {
+      this.context.executeAction(startRealTimeClient, conf);
     }
   }
 
@@ -314,27 +334,10 @@ class MapWithTrackingStateHandler extends React.Component {
       'RealTimeInformationStore',
     );
     if (client) {
-      const { realTime, defaultEndpoint } = this.props.config;
-      const agency = this.props.config.feedIds[0];
-      const source = realTime[agency];
-      const location = this.props.origin.set
-        ? this.props.origin
-        : defaultEndpoint;
-      const options = [];
-      const geoHashes = this.createGeoHashBoundingBox(location);
-      geoHashes.forEach(geoHash => {
-        options.push({
-          mode: '+',
-          gtfsId: '+',
-          headsign: '+',
-          geoHash,
-        });
-      });
-      if (source && source.active) {
+      const conf = this.getClientConfig();
+      if (conf) {
         this.context.executeAction(changeRealTimeClientTopics, {
-          ...source,
-          agency,
-          options,
+          ...conf,
           client,
           oldTopics: topics,
         });
@@ -343,6 +346,7 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 
   removeClient() {
+    this.setState({ realtimeClientStarted: false });
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
@@ -418,7 +422,7 @@ class MapWithTrackingStateHandler extends React.Component {
       location = config.defaultMapCenter || config.defaultEndpoint;
     }
     const leafletObjs = [];
-    if (mapLayers.showAllBusses) {
+    if (this.state.realtimeClientStarted) {
       const currentZoom =
         this.mapElement && this.mapElement.leafletElement
           ? this.mapElement.leafletElement._zoom // eslint-disable-line no-underscore-dangle
