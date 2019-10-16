@@ -63,28 +63,7 @@ const FavouritesPanel = ({
 }) =>
   isBrowser && (
     <div className="frontpage-panel">
-      <FavouriteLocationsContainer
-        origin={origin}
-        currentTime={currentTime}
-        favourites={[...favouriteLocations, ...favouriteStops]}
-      />
-      <div
-        className={`nearby-table-container ${breakpoint !== 'large' &&
-          `mobile`}`}
-      >
-        {routes.length > 0 ? (
-          <table className="nearby-departures-table">
-            <thead>
-              <NextDeparturesListHeader />
-            </thead>
-            <tbody>
-              <FavouriteRoutes routes={routes} origin={origin} />
-            </tbody>
-          </table>
-        ) : (
-          <NoFavouritesPanel />
-        )}
-      </div>
+
     </div>
   );
 
@@ -111,10 +90,7 @@ const FilteredFavouritesPanel = shouldUpdate(
 
 export default connectToStores(
   ctx => (
-    <PanelOrSelectLocation
-      panel={FilteredFavouritesPanel}
-      panelctx={{ ...ctx, tab: TAB_FAVOURITES }}
-    />
+    null
   ),
   [
     'FavouriteRoutesStore',
